@@ -43,6 +43,11 @@ namespace Marvel {
 		{
 			ImGui::BeginTooltip();
 
+			_state.lastFrameUpdate = GContext->frame;
+			_state.visible = true;
+			_state.contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
+			_state.rectSize = { ImGui::GetWindowSize().x, ImGui::GetWindowSize().y };
+
 			for (auto& item : _children[1])
 				item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 

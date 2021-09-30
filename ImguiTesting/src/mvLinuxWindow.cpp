@@ -4,10 +4,8 @@
 
 #include "mvLinuxWindow.h"
 #include <implot.h>
-
 #include <GL/gl3w.h>
 #include <GLFW/glfw3.h>
-
 #include "implot.h"
 #include "imgui.h"
 #include "imgui_impl_glfw.h"

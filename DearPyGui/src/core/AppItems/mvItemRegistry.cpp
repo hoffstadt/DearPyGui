@@ -1105,11 +1105,20 @@ namespace Marvel {
             auto item = GetItem(registry, uuid);
             if (item)
             {
-                if (slot < 4)
+                if (slot > -1 && slot < 4)
                 {
                     item->_children[slot].clear();
                     item->_children[slot].shrink_to_fit();
                 }
+                else
+                {
+                    for(size_t i = 0; i < 4; i++)
+                    {
+                        item->_children[i].clear();
+                        item->_children[i].shrink_to_fit();
+                    }
+                }
+                
                 item->onChildrenRemoved();
                 MV_ITEM_REGISTRY_INFO("Item found and it's children deleted.");
                 return true;

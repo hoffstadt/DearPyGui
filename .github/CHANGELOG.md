@@ -49,6 +49,7 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 * item:    added `add_table_cell(...)`
 * item:    added `add_spacer(...)`
 * item:    added `add_theme_component(...)`
+* command: added `toggle_viewport_fullscreen(...)`
 * command: added `show_item_debug(...)`
 * command: added `bind_theme(...)`
 * command: added `highlight_table_column(...)`
@@ -78,7 +79,8 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 * callbacks will now send alias through the `sender` argument if alias is used.
 * columns can now be programmatically hidden
 * table "value" is now a string, which acts as a filter using the row filter keys
-
+* texture id can be updated with `configure_item(...)` for texture based widgets
+        
 ### Deprecated
 * command: `cleanup_dearpygui(...)` is deprecated. Use `destroy_context(...)`
 * command: `staging_container(...)` is deprecated. Use `stage(...)`
@@ -109,6 +111,7 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 * command: `set_staging_mode(...)` is deprecated. No longer needed.
 * command: `add_spacing(...)` is deprecated. Use 'add_spacer(...)`
 * command: `add_dummy(...)` is deprecated. Use 'add_spacer(...)`
+* command: `add_child(...)` is deprecated. Use 'add_child_window(...)`
 
 ### Fixes
 * fixed `get_item_configuration(...)` memory leak #1179
@@ -116,3 +119,11 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 * fixed window info not registering as container #1188
 * fixed min/max clamping issue with input widgets #1229
 * fixed using aliases for set/get value
+* fixed issue with `get_selected_nodes(...)` #1263
+* fixed listbox default value empty #1219
+* fixed ellipse thickness keyword not working #1213
+* fixed return type hints for callbacks #1208
+* fixed modal xpos creep #1171
+* fixed plot context/configuration sync issues
+* fixed plot axis context/configuration sync issues
+* fixed plot legend context/configuration sync issues

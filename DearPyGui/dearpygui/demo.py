@@ -212,7 +212,7 @@ def show_demo():
                     dpg.add_menu_item(label="Option 2", check=True, callback=_log, user_data=logger)
                     dpg.add_menu_item(label="Option 3", check=True, default_value=True, callback=_log, user_data=logger)
 
-                    with dpg.child(height=60, autosize_x=True, delay_search=True):
+                    with dpg.child_window(height=60, autosize_x=True, delay_search=True):
                         for i in range(0, 10):
                             dpg.add_text(f"Scolling Text{i}")
 
@@ -834,27 +834,27 @@ def show_demo():
                         dpg.add_checkbox(label="no_scrollbar", callback=_config, user_data=demo_layout_child)
                         dpg.add_checkbox(label="horizontal_scrollbar", callback=_config, user_data=demo_layout_child)
                         dpg.add_checkbox(label="border", default_value=True, callback=_config, user_data=demo_layout_child)
-                    with dpg.child(tag=demo_layout_child, width=200, height=200):
+                    with dpg.child_window(tag=demo_layout_child, width=200, height=200):
                         with dpg.menu_bar():
                             with dpg.menu(label="Menu"):
                                 pass
                         for i in range(0, 20):
                             dpg.add_text(default_value="A pretty long sentence if you really think about it. It's also pointless. we need this to be even longer")
-                    with dpg.child(autosize_x=True, height=130, menubar=True):
+                    with dpg.child_window(autosize_x=True, height=130, menubar=True):
                         with dpg.menu_bar():
                             dpg.add_menu(label="Menu Options")
                         dpg.add_button(label="Button 1")
                         dpg.add_button(label="Button 2")
                         dpg.add_button(label="Button 3")
                     with dpg.group(horizontal=True):
-                        with dpg.child(width=100, height=150, horizontal_scrollbar=True):
+                        with dpg.child_window(width=100, height=150, horizontal_scrollbar=True):
                             dpg.add_button(label="Button 1")
                             dpg.add_button(label="Button 2")
                             dpg.add_button(label="Button 3")
                             dpg.add_button(label="Button 4", width=150)
                             dpg.add_button(label="Button 5")
                             dpg.add_button(label="Button 6")
-                        with dpg.child(width=100, height=110):
+                        with dpg.child_window(width=100, height=110):
                             dpg.add_button(label="Button 1")
                             dpg.add_button(label="Button 2")
                             dpg.add_button(label="Button 3")
@@ -920,28 +920,28 @@ def show_demo():
 
             with dpg.tree_node(label="Simple Layouts"):
                 dpg.add_text("Containers can be nested for advanced layout options")
-                with dpg.child(width=500, height=320):
+                with dpg.child_window(width=500, height=320):
                     with dpg.menu_bar():
                         dpg.add_menu(label="Menu Options")
-                    with dpg.child(autosize_x=True, height=95):
+                    with dpg.child_window(autosize_x=True, height=95):
                         with dpg.group(horizontal=True):
                             dpg.add_button(label="Header 1", width=75, height=75)
                             dpg.add_button(label="Header 2", width=75, height=75)
                             dpg.add_button(label="Header 3", width=75, height=75)
-                    with dpg.child(autosize_x=True, height=175):
+                    with dpg.child_window(autosize_x=True, height=175):
                         with dpg.group(horizontal=True, width=0):
-                            with dpg.child(width=102, height=150):
+                            with dpg.child_window(width=102, height=150):
                                 with dpg.tree_node(label="Nav 1"):
                                     dpg.add_button(label="Button 1")
                                 with dpg.tree_node(label="Nav 2"):
                                     dpg.add_button(label="Button 2")
                                 with dpg.tree_node(label="Nav 3"):
                                     dpg.add_button(label="Button 3")
-                            with dpg.child(width=300, height=150):
+                            with dpg.child_window(width=300, height=150):
                                 dpg.add_button(label="Button 1")
                                 dpg.add_button(label="Button 2")
                                 dpg.add_button(label="Button 3")
-                            with dpg.child(width=50, height=150):
+                            with dpg.child_window(width=50, height=150):
                                 dpg.add_button(label="B1", width=25, height=25)
                                 dpg.add_button(label="B2", width=25, height=25)
                                 dpg.add_button(label="B3", width=25, height=25)
@@ -982,7 +982,7 @@ def show_demo():
                         for i in range(5):
                             with dpg.table_cell():
                                 dpg.add_text(text_items[i])
-                                with dpg.child(height=200, delay_search=True) as _child_id:
+                                with dpg.child_window(height=200, delay_search=True) as _child_id:
                                     for j in range(0, 25):
                                         if j == 13:
                                             dpg.add_text("Item " + str(j), color=(255, 255, 0), tracked=True, track_offset=track_items[i])
@@ -997,7 +997,7 @@ def show_demo():
                 for i in range(0, 5):
                     dpg.add_text(text_items[i])
                     with dpg.group(horizontal=True):
-                        with dpg.child(height=50, horizontal_scrollbar=True, width=-200, delay_search=True) as _child_id:
+                        with dpg.child_window(height=50, horizontal_scrollbar=True, width=-200, delay_search=True) as _child_id:
                             with dpg.group(horizontal=True):
                                 for j in range(0, 25):
                                     if j == 13:
@@ -1009,7 +1009,7 @@ def show_demo():
                             dpg.add_item_visible_handler(user_data=[_text_id, _child_id], callback=_update_xscroll_info)
                         dpg.bind_item_handler_registry(_text_id, dpg.last_container())
 
-                with dpg.child(height=50, horizontal_scrollbar=True, width=-200) as _child_id:
+                with dpg.child_window(height=50, horizontal_scrollbar=True, width=-200) as _child_id:
                     with dpg.group(horizontal=True):
                         for j in range(0, 25):
                             dpg.add_text("Item " + str(j))
@@ -2497,7 +2497,7 @@ def show_demo():
                     dpg.add_button(label="Staged Button 3")
 
                 ub1 = dpg.add_button(label="Unstage buttons", callback=_unstage_items)
-                child_id = dpg.add_child(height=200, width=200)
+                child_id = dpg.add_child_window(height=200, width=200)
                 dpg.set_item_user_data(ub1, [sc1, child_id])
 
             with dpg.tree_node(label="Manual Mutex Control"):
@@ -2533,7 +2533,7 @@ def show_demo():
                     b1 = dpg.add_button(label="Add 100 items")
                     b2 = dpg.add_button(label="Add 100 items (mutex)")
                     b3 = dpg.add_button(label="Delete Items", callback=lambda s, a, u: dpg.delete_item(u, children_only=True))
-                dpg.add_child(height=500, width=-1)
+                dpg.add_child_window(height=500, width=-1)
                 dpg.configure_item(b1, user_data=dpg.last_item(), callback=_callback_auto_mutex)
                 dpg.configure_item(b2, user_data=dpg.last_item(), callback=_callback_manual_mutex)
                 dpg.configure_item(b3, user_data=dpg.last_item())

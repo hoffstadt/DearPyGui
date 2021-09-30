@@ -77,7 +77,6 @@ def start_dearpygui():
 
     while(internal_dpg.is_dearpygui_running()):
         internal_dpg.render_dearpygui_frame()   
-    internal_dpg.destroy_context()
 
 
 @contextmanager
@@ -190,6 +189,7 @@ def get_item_slot(item: Union[int, str]) -> Union[int, None]:
     """
     return internal_dpg.get_item_info(item)["target"]
 
+
 def is_item_container(item: Union[int, str]) -> Union[bool, None]:
     """Checks if item is a container.
 
@@ -208,7 +208,7 @@ def get_item_parent(item: Union[int, str]) -> Union[int, None]:
     return internal_dpg.get_item_info(item)["parent"]
 
 
-def get_item_children(item: Union[int, str] , slot: int = -1) -> Union[List[int], None]:
+def get_item_children(item: Union[int, str] , slot: int = -1) -> Union[dict, List[int], None]:
     """Provides access to the item's children slots.
 
     Returns:
@@ -570,29 +570,29 @@ def get_item_height(item: Union[int, str]) -> Union[int, None]:
     return internal_dpg.get_item_configuration(item)["height"]
 
 
-def get_item_callback(item: Union[int, str]) -> Union[str, None]:
+def get_item_callback(item: Union[int, str]) -> Union[Callable, None]:
     """Gets the item's callback.
 
     Returns:
-        callback as a string or None
+        callback as a callable or None
     """
     return internal_dpg.get_item_configuration(item)["callback"]
 
 
-def get_item_drag_callback(item: Union[int, str]) -> Union[str, None]:
+def get_item_drag_callback(item: Union[int, str]) -> Union[Callable, None]:
     """Gets the item's drag callback.
 
     Returns:
-        callback as a string or None
+        callback as a callable or None
     """
     return internal_dpg.get_item_configuration(item)["drag_callback"]
 
 
-def get_item_drop_callback(item: Union[int, str]) -> Union[str, None]:
+def get_item_drop_callback(item: Union[int, str]) -> Union[Callable, None]:
     """Gets the item's drop callback.
 
     Returns:
-        callback as a string or None
+        callback as a callable or None
     """
     return internal_dpg.get_item_configuration(item)["drop_callback"]
 
@@ -1311,11 +1311,43 @@ def add_dummy(*, label: str =None, user_data: Any =None, use_internal_label: boo
 def cleanup_dearpygui() -> None:
 	return internal_dpg.destroy_context()
 
-##########################################################
-# Container Context Managers
-##########################################################
+
+@deprecated("Use: `add_child_window()`")
+def add_child(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, border: bool =True, autosize_x: bool =False, autosize_y: bool =False, no_scrollbar: bool =False, horizontal_scrollbar: bool =False, menubar: bool =False) -> Union[int, str]:
+	"""	Adds an embedded child window. Will show scrollbars when items do not fit.
+
+	Args:
+		label (str, optional): Overrides 'name' as label.
+		user_data (Any, optional): User data for callbacks
+		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
+		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		width (int, optional): Width of the item.
+		height (int, optional): Height of the item.
+		indent (int, optional): Offsets the widget to the right the specified number multiplied by the indent style.
+		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
+		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
+		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		show (bool, optional): Attempt to render widget.
+		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		filter_key (str, optional): Used by filter widget.
+		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
+		tracked (bool, optional): Scroll tracking
+		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
+		border (bool, optional): Shows/Hides the border around the sides.
+		autosize_x (bool, optional): Autosize the window to fit it's items in the x.
+		autosize_y (bool, optional): Autosize the window to fit it's items in the y.
+		no_scrollbar (bool, optional):  Disable scrollbars (window can still scroll with mouse or programmatically).
+		horizontal_scrollbar (bool, optional): Allow horizontal scrollbar to appear (off by default).
+		menubar (bool, optional): Shows/Hides the menubar at the top.
+	Returns:
+		Union[int, str]
+	"""
+
+	return internal_dpg.add_child_window(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, border=border, autosize_x=autosize_x, autosize_y=autosize_y, no_scrollbar=no_scrollbar, horizontal_scrollbar=horizontal_scrollbar, menubar=menubar)
 
 
+@deprecated("Use: `child_window()`")
 @contextmanager
 def child(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, border: bool =True, autosize_x: bool =False, autosize_y: bool =False, no_scrollbar: bool =False, horizontal_scrollbar: bool =False, menubar: bool =False) -> Union[int, str]:
 	"""	Adds an embedded child window. Will show scrollbars when items do not fit.
@@ -1348,7 +1380,51 @@ def child(*, label: str =None, user_data: Any =None, use_internal_label: bool =T
 		Union[int, str]
 	"""
 	try:
-		widget = internal_dpg.add_child(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, border=border, autosize_x=autosize_x, autosize_y=autosize_y, no_scrollbar=no_scrollbar, horizontal_scrollbar=horizontal_scrollbar, menubar=menubar)
+		widget = internal_dpg.add_child_window(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, border=border, autosize_x=autosize_x, autosize_y=autosize_y, no_scrollbar=no_scrollbar, horizontal_scrollbar=horizontal_scrollbar, menubar=menubar)
+		internal_dpg.push_container_stack(widget)
+		yield widget
+	finally:
+		internal_dpg.pop_container_stack()
+
+
+##########################################################
+# Container Context Managers
+##########################################################
+
+
+@contextmanager
+def child_window(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, border: bool =True, autosize_x: bool =False, autosize_y: bool =False, no_scrollbar: bool =False, horizontal_scrollbar: bool =False, menubar: bool =False) -> Union[int, str]:
+	"""	Adds an embedded child window. Will show scrollbars when items do not fit.
+
+	Args:
+		label (str, optional): Overrides 'name' as label.
+		user_data (Any, optional): User data for callbacks
+		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
+		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		width (int, optional): Width of the item.
+		height (int, optional): Height of the item.
+		indent (int, optional): Offsets the widget to the right the specified number multiplied by the indent style.
+		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
+		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
+		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		show (bool, optional): Attempt to render widget.
+		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		filter_key (str, optional): Used by filter widget.
+		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
+		tracked (bool, optional): Scroll tracking
+		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
+		border (bool, optional): Shows/Hides the border around the sides.
+		autosize_x (bool, optional): Autosize the window to fit it's items in the x.
+		autosize_y (bool, optional): Autosize the window to fit it's items in the y.
+		no_scrollbar (bool, optional):  Disable scrollbars (window can still scroll with mouse or programmatically).
+		horizontal_scrollbar (bool, optional): Allow horizontal scrollbar to appear (off by default).
+		menubar (bool, optional): Shows/Hides the menubar at the top.
+	Yields:
+		Union[int, str]
+	"""
+	try:
+		widget = internal_dpg.add_child_window(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, border=border, autosize_x=autosize_x, autosize_y=autosize_y, no_scrollbar=no_scrollbar, horizontal_scrollbar=horizontal_scrollbar, menubar=menubar)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
@@ -2681,7 +2757,7 @@ def add_checkbox(*, label: str =None, user_data: Any =None, use_internal_label: 
 
 	return internal_dpg.add_checkbox(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value)
 
-def add_child(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, border: bool =True, autosize_x: bool =False, autosize_y: bool =False, no_scrollbar: bool =False, horizontal_scrollbar: bool =False, menubar: bool =False) -> Union[int, str]:
+def add_child_window(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, border: bool =True, autosize_x: bool =False, autosize_y: bool =False, no_scrollbar: bool =False, horizontal_scrollbar: bool =False, menubar: bool =False) -> Union[int, str]:
 	"""	Adds an embedded child window. Will show scrollbars when items do not fit.
 
 	Args:
@@ -2712,7 +2788,7 @@ def add_child(*, label: str =None, user_data: Any =None, use_internal_label: boo
 		Union[int, str]
 	"""
 
-	return internal_dpg.add_child(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, border=border, autosize_x=autosize_x, autosize_y=autosize_y, no_scrollbar=no_scrollbar, horizontal_scrollbar=horizontal_scrollbar, menubar=menubar)
+	return internal_dpg.add_child_window(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, border=border, autosize_x=autosize_x, autosize_y=autosize_y, no_scrollbar=no_scrollbar, horizontal_scrollbar=horizontal_scrollbar, menubar=menubar)
 
 def add_clipper(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, delay_search: bool =False) -> Union[int, str]:
 	"""	Helper to manually clip large list of items. Increases performance by not searching or drawing widgets outside of the clipped region.
@@ -7777,7 +7853,7 @@ mvMenuBar=internal_dpg.mvMenuBar
 mvViewportMenuBar=internal_dpg.mvViewportMenuBar
 mvMenu=internal_dpg.mvMenu
 mvMenuItem=internal_dpg.mvMenuItem
-mvChild=internal_dpg.mvChild
+mvChildWindow=internal_dpg.mvChildWindow
 mvGroup=internal_dpg.mvGroup
 mvSliderFloat=internal_dpg.mvSliderFloat
 mvSliderInt=internal_dpg.mvSliderInt

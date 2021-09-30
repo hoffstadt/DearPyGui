@@ -53,7 +53,7 @@ namespace Marvel {
     {
         None = -1, All, mvInputText, mvButton,
         mvRadioButton, mvTabBar, mvTab, mvImage, mvMenuBar, mvViewportMenuBar,
-        mvMenu, mvMenuItem, mvChild, mvGroup,
+        mvMenu, mvMenuItem, mvChildWindow, mvGroup,
         mvSliderFloat, mvSliderInt, mvFilterSet,
         mvDragFloat, mvDragInt, mvInputFloat,
         mvInputInt, mvColorEdit, mvClipper,

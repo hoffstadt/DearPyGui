@@ -9,298 +9,310 @@
 
 namespace Marvel {
 
-	void mvListbox::InsertParser(std::map<std::string, mvPythonParser>* parsers)
-	{
-		std::vector<mvPythonDataElement> args;
+    void mvListbox::InsertParser(std::map<std::string, mvPythonParser>* parsers)
+    {
+        std::vector<mvPythonDataElement> args;
 
-		AddCommonArgs(args,(CommonParserArgs)(
-			MV_PARSER_ARG_ID |
-			MV_PARSER_ARG_WIDTH |
-			MV_PARSER_ARG_INDENT |
-			MV_PARSER_ARG_PARENT |
-			MV_PARSER_ARG_BEFORE |
-			MV_PARSER_ARG_SOURCE |
-			MV_PARSER_ARG_CALLBACK |
-			MV_PARSER_ARG_SHOW |
-			MV_PARSER_ARG_ENABLED |
-			MV_PARSER_ARG_FILTER |
-			MV_PARSER_ARG_DROP_CALLBACK |
-			MV_PARSER_ARG_DRAG_CALLBACK |
-			MV_PARSER_ARG_PAYLOAD_TYPE |
-			MV_PARSER_ARG_TRACKED |
-			MV_PARSER_ARG_POS)
-		);
+        AddCommonArgs(args,(CommonParserArgs)(
+            MV_PARSER_ARG_ID |
+            MV_PARSER_ARG_WIDTH |
+            MV_PARSER_ARG_INDENT |
+            MV_PARSER_ARG_PARENT |
+            MV_PARSER_ARG_BEFORE |
+            MV_PARSER_ARG_SOURCE |
+            MV_PARSER_ARG_CALLBACK |
+            MV_PARSER_ARG_SHOW |
+            MV_PARSER_ARG_ENABLED |
+            MV_PARSER_ARG_FILTER |
+            MV_PARSER_ARG_DROP_CALLBACK |
+            MV_PARSER_ARG_DRAG_CALLBACK |
+            MV_PARSER_ARG_PAYLOAD_TYPE |
+            MV_PARSER_ARG_TRACKED |
+            MV_PARSER_ARG_POS)
+        );
 
-		args.push_back({ mvPyDataType::StringList, "items", mvArgType::POSITIONAL_ARG, "()", "A tuple of items to be shown in the listbox. Can consist of any combination of types." });
-		args.push_back({ mvPyDataType::String, "default_value", mvArgType::KEYWORD_ARG, "''" });
-		args.push_back({ mvPyDataType::Integer, "num_items", mvArgType::KEYWORD_ARG, "3", "Expands the height of the listbox to show specified number of items." });
+        args.push_back({ mvPyDataType::StringList, "items", mvArgType::POSITIONAL_ARG, "()", "A tuple of items to be shown in the listbox. Can consist of any combination of types." });
+        args.push_back({ mvPyDataType::String, "default_value", mvArgType::KEYWORD_ARG, "''" });
+        args.push_back({ mvPyDataType::Integer, "num_items", mvArgType::KEYWORD_ARG, "3", "Expands the height of the listbox to show specified number of items." });
 
-		mvPythonParserSetup setup;
-		setup.about = "Adds a listbox. If height is not large enought to show all items a scroll bar will appear.";
-		setup.category = { "Widgets" };
-		setup.returnType = mvPyDataType::UUID;
+        mvPythonParserSetup setup;
+        setup.about = "Adds a listbox. If height is not large enought to show all items a scroll bar will appear.";
+        setup.category = { "Widgets" };
+        setup.returnType = mvPyDataType::UUID;
 
-		mvPythonParser parser = FinalizeParser(setup, args);
+        mvPythonParser parser = FinalizeParser(setup, args);
 
-		parsers->insert({ s_command, parser });
-	}
+        parsers->insert({ s_command, parser });
+    }
 
-	mvListbox::mvListbox(mvUUID uuid)
-		: mvAppItem(uuid)
-	{
-	}
+    mvListbox::mvListbox(mvUUID uuid)
+        : mvAppItem(uuid)
+    {
+    }
 
-	void mvListbox::applySpecificTemplate(mvAppItem* item)
-	{
-		auto titem = static_cast<mvListbox*>(item);
-		if (_source != 0) _value = titem->_value;
-		_disabled_value = titem->_disabled_value;
-		_names = titem->_names;
-		_itemsHeight = titem->_itemsHeight;
-		_charNames = titem->_charNames;
-		_index = titem->_index;
-		_disabledindex = titem->_disabledindex;
-	}
+    void mvListbox::applySpecificTemplate(mvAppItem* item)
+    {
+        auto titem = static_cast<mvListbox*>(item);
+        if (_source != 0) _value = titem->_value;
+        _disabled_value = titem->_disabled_value;
+        _names = titem->_names;
+        _itemsHeight = titem->_itemsHeight;
+        _charNames = titem->_charNames;
+        _index = titem->_index;
+        _disabledindex = titem->_disabledindex;
+    }
 
-	void mvListbox::setPyValue(PyObject* value)
-	{
-		*_value = ToString(value);
-		updateIndex();
-	}
-	
-	PyObject* mvListbox::getPyValue()
-	{
-		return ToPyString(*_value);
-	}
+    void mvListbox::setPyValue(PyObject* value)
+    {
+        *_value = ToString(value);
+        updateIndex();
+    }
+    
+    PyObject* mvListbox::getPyValue()
+    {
+        return ToPyString(*_value);
+    }
 
-	void mvListbox::setDataSource(mvUUID dataSource)
-	{
-		if (dataSource == _source) return;
-		_source = dataSource;
+    void mvListbox::setDataSource(mvUUID dataSource)
+    {
+        if (dataSource == _source) return;
+        _source = dataSource;
 
-		mvAppItem* item = GetItem((*GContext->itemRegistry), dataSource);
-		if (!item)
-		{
-			mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
-				"Source item not found: " + std::to_string(dataSource), this);
-			return;
-		}
-		if (item->getValueType() != getValueType())
-		{
-			mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
-				"Values types do not match: " + std::to_string(dataSource), this);
-			return;
-		}
-		_value = *static_cast<std::shared_ptr<std::string>*>(item->getValue());
-	}
+        mvAppItem* item = GetItem((*GContext->itemRegistry), dataSource);
+        if (!item)
+        {
+            mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
+                "Source item not found: " + std::to_string(dataSource), this);
+            return;
+        }
+        if (item->getValueType() != getValueType())
+        {
+            mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
+                "Values types do not match: " + std::to_string(dataSource), this);
+            return;
+        }
+        _value = *static_cast<std::shared_ptr<std::string>*>(item->getValue());
+    }
 
-	void mvListbox::updateIndex()
-	{
-		_index = 0;
-		_disabledindex = 0;
+    void mvListbox::updateIndex()
+    {
+        _index = 0;
+        _disabledindex = 0;
 
-		int index = 0;
-		for (const auto& name : _names)
-		{
-			if (name == *_value)
-			{
-				_index = index;
-				_disabledindex = index;
-				break;
-			}
-			index++;
-		}
-	}
+        int index = 0;
+        for (const auto& name : _names)
+        {
+            if (name == *_value)
+            {
+                _index = index;
+                _disabledindex = index;
+                break;
+            }
+            index++;
+        }
+    }
 
-	void mvListbox::draw(ImDrawList* drawlist, float x, float y)
-	{
+    void mvListbox::draw(ImDrawList* drawlist, float x, float y)
+    {
 
 
-		//-----------------------------------------------------------------------------
-		// pre draw
-		//-----------------------------------------------------------------------------
+        //-----------------------------------------------------------------------------
+        // pre draw
+        //-----------------------------------------------------------------------------
 
-		// show/hide
-		if (!_show)
-			return;
+        // show/hide
+        if (!_show)
+            return;
 
-		// focusing
-		if (_focusNextFrame)
-		{
-			ImGui::SetKeyboardFocusHere();
-			_focusNextFrame = false;
-		}
+        // focusing
+        if (_focusNextFrame)
+        {
+            ImGui::SetKeyboardFocusHere();
+            _focusNextFrame = false;
+        }
 
-		// cache old cursor position
-		ImVec2 previousCursorPos = ImGui::GetCursorPos();
+        // cache old cursor position
+        ImVec2 previousCursorPos = ImGui::GetCursorPos();
 
-		// set cursor position if user set
-		if (_dirtyPos)
-			ImGui::SetCursorPos(_state.pos);
+        // set cursor position if user set
+        if (_dirtyPos)
+            ImGui::SetCursorPos(_state.pos);
 
-		// update widget's position state
-		_state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
+        // update widget's position state
+        _state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
 
-		// set item width
-		if (_width != 0)
-			ImGui::SetNextItemWidth((float)_width);
+        // set item width
+        if (_width != 0)
+            ImGui::SetNextItemWidth((float)_width);
 
-		// set indent
-		if (_indent > 0.0f)
-			ImGui::Indent(_indent);
+        // set indent
+        if (_indent > 0.0f)
+            ImGui::Indent(_indent);
 
-		// push font if a font object is attached
-		if (_font)
-		{
-			ImFont* fontptr = static_cast<mvFont*>(_font.get())->getFontPtr();
-			ImGui::PushFont(fontptr);
-		}
+        // push font if a font object is attached
+        if (_font)
+        {
+            ImFont* fontptr = static_cast<mvFont*>(_font.get())->getFontPtr();
+            ImGui::PushFont(fontptr);
+        }
 
-		// themes
-		if (auto classTheme = getClassThemeComponent())
-			static_cast<mvThemeComponent*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
+        // themes
+        if (auto classTheme = getClassThemeComponent())
+            static_cast<mvThemeComponent*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
 
-		if (_theme)
-		{
-			static_cast<mvTheme*>(_theme.get())->setSpecificEnabled(_enabled);
-			static_cast<mvTheme*>(_theme.get())->setSpecificType((int)getType());
-			static_cast<mvTheme*>(_theme.get())->draw(nullptr, 0.0f, 0.0f);
-		}
+        if (_theme)
+        {
+            static_cast<mvTheme*>(_theme.get())->setSpecificEnabled(_enabled);
+            static_cast<mvTheme*>(_theme.get())->setSpecificType((int)getType());
+            static_cast<mvTheme*>(_theme.get())->draw(nullptr, 0.0f, 0.0f);
+        }
 
-		//-----------------------------------------------------------------------------
-		// draw
-		//-----------------------------------------------------------------------------
-		{
+        //-----------------------------------------------------------------------------
+        // draw
+        //-----------------------------------------------------------------------------
+        {
 
-			ScopedID id(_uuid);
+            ScopedID id(_uuid);
 
-			if (!_enabled)
-			{
-				_disabled_value = *_value;
-				_disabledindex = _index;
-			}
+            if (!_enabled)
+            {
+                _disabled_value = *_value;
+                _disabledindex = _index;
+            }
 
-			if (ImGui::ListBox(_internalLabel.c_str(), _enabled ? &_index : &_disabledindex, _charNames.data(), (int)_names.size(), _itemsHeight))
-			{
-				*_value = _names[_index];
-				_disabled_value = _names[_index];
-				auto value = *_value;
+            // remap Header to FrameBgActive
+            ImGuiStyle* style = &ImGui::GetStyle();
+            ImGui::PushStyleColor(ImGuiCol_Header, style->Colors[ImGuiCol_FrameBgActive]);
 
-				if(_alias.empty())
-					GContext->callbackRegistry->submitCallback([=]() {
-						GContext->callbackRegistry->addCallback(getCallback(false), _uuid, ToPyString(value), _user_data);
-						});
-				else
-					GContext->callbackRegistry->submitCallback([=]() {
-					GContext->callbackRegistry->addCallback(getCallback(false), _alias, ToPyString(value), _user_data);
-						});
-			}
-		}
+            if (ImGui::ListBox(_internalLabel.c_str(), _enabled ? &_index : &_disabledindex, _charNames.data(), (int)_names.size(), _itemsHeight))
+            {
+                *_value = _names[_index];
+                _disabled_value = _names[_index];
+                auto value = *_value;
 
-		//-----------------------------------------------------------------------------
-		// update state
-		//-----------------------------------------------------------------------------
-		UpdateAppItemState(_state);
+                if(_alias.empty())
+                    GContext->callbackRegistry->submitCallback([=]() {
+                        GContext->callbackRegistry->addCallback(getCallback(false), _uuid, ToPyString(value), _user_data);
+                        });
+                else
+                    GContext->callbackRegistry->submitCallback([=]() {
+                    GContext->callbackRegistry->addCallback(getCallback(false), _alias, ToPyString(value), _user_data);
+                        });
+            }
 
-		//-----------------------------------------------------------------------------
-		// post draw
-		//-----------------------------------------------------------------------------
+            ImGui::PopStyleColor();
+        }
 
-		// set cursor position to cached position
-		if (_dirtyPos)
-			ImGui::SetCursorPos(previousCursorPos);
+        //-----------------------------------------------------------------------------
+        // update state
+        //-----------------------------------------------------------------------------
+        UpdateAppItemState(_state);
 
-		if (_indent > 0.0f)
-			ImGui::Unindent(_indent);
+        //-----------------------------------------------------------------------------
+        // post draw
+        //-----------------------------------------------------------------------------
 
-		// pop font off stack
-		if (_font)
-			ImGui::PopFont();
+        // set cursor position to cached position
+        if (_dirtyPos)
+            ImGui::SetCursorPos(previousCursorPos);
 
-		// handle popping themes
-		if (auto classTheme = getClassThemeComponent())
-			static_cast<mvThemeComponent*>(classTheme.get())->customAction();
+        if (_indent > 0.0f)
+            ImGui::Unindent(_indent);
 
-		if (_theme)
-		{
-			static_cast<mvTheme*>(_theme.get())->setSpecificEnabled(_enabled);
-			static_cast<mvTheme*>(_theme.get())->setSpecificType((int)getType());
-			static_cast<mvTheme*>(_theme.get())->customAction();
-		}
+        // pop font off stack
+        if (_font)
+            ImGui::PopFont();
 
-		if (_handlerRegistry)
-			_handlerRegistry->customAction(&_state);
+        // handle popping themes
+        if (auto classTheme = getClassThemeComponent())
+            static_cast<mvThemeComponent*>(classTheme.get())->customAction();
 
-		// handle drag & drop payloads
-		for (auto& item : _children[3])
-			item->draw(nullptr, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
+        if (_theme)
+        {
+            static_cast<mvTheme*>(_theme.get())->setSpecificEnabled(_enabled);
+            static_cast<mvTheme*>(_theme.get())->setSpecificType((int)getType());
+            static_cast<mvTheme*>(_theme.get())->customAction();
+        }
 
-		// handle drag & drop if used
-		if (_dropCallback)
-		{
-			ScopedID id(_uuid);
-			if (ImGui::BeginDragDropTarget())
-			{
-				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(_payloadType.c_str()))
-				{
-					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
-					if (_alias.empty())
-						GContext->callbackRegistry->addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
-					else
-						GContext->callbackRegistry->addCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
-				}
+        if (_handlerRegistry)
+            _handlerRegistry->customAction(&_state);
 
-				ImGui::EndDragDropTarget();
-			}
-		}
-	}
+        // handle drag & drop payloads
+        for (auto& item : _children[3])
+            item->draw(nullptr, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 
-	void mvListbox::handleSpecificPositionalArgs(PyObject* dict)
-	{
-		if (!VerifyPositionalArguments(GetParsers()[s_command], dict))
-			return;
+        // handle drag & drop if used
+        if (_dropCallback)
+        {
+            ScopedID id(_uuid);
+            if (ImGui::BeginDragDropTarget())
+            {
+                if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(_payloadType.c_str()))
+                {
+                    auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
+                    if (_alias.empty())
+                        GContext->callbackRegistry->addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
+                    else
+                        GContext->callbackRegistry->addCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
+                }
 
-		for (int i = 0; i < PyTuple_Size(dict); i++)
-		{
-			PyObject* item = PyTuple_GetItem(dict, i);
-			switch (i)
-			{
-			case 0:
-				_names = ToStringVect(item);
-				_charNames.clear();
-				for (const std::string& item : _names)
-					_charNames.emplace_back(item.c_str());
-				break;
+                ImGui::EndDragDropTarget();
+            }
+        }
+    }
 
-			default:
-				break;
-			}
-		}
-	}
+    void mvListbox::handleSpecificPositionalArgs(PyObject* dict)
+    {
+        if (!VerifyPositionalArguments(GetParsers()[s_command], dict))
+            return;
 
-	void mvListbox::handleSpecificKeywordArgs(PyObject* dict)
-	{
-		if (dict == nullptr)
-			return;
-		 
-		if (PyObject* item = PyDict_GetItemString(dict, "num_items")) _itemsHeight = ToInt(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "items"))
-		{
-			_names = ToStringVect(item);
-			_charNames.clear();
-			for (const std::string& item : _names)
-				_charNames.emplace_back(item.c_str());
-			updateIndex();
-		}
-	}
+        for (int i = 0; i < PyTuple_Size(dict); i++)
+        {
+            PyObject* item = PyTuple_GetItem(dict, i);
+            switch (i)
+            {
+            case 0:
+                _names = ToStringVect(item);
+                _charNames.clear();
+                for (const std::string& item : _names)
+                    _charNames.emplace_back(item.c_str());
+                break;
 
-	void mvListbox::getSpecificConfiguration(PyObject* dict)
-	{
-		if (dict == nullptr)
-			return;
-		 
-		PyDict_SetItemString(dict, "items", mvPyObject(ToPyList(_names)));
-		PyDict_SetItemString(dict, "num_items", mvPyObject(ToPyInt(_itemsHeight)));
-	}
+            default:
+                break;
+            }
+        }
+    }
+
+    void mvListbox::handleSpecificKeywordArgs(PyObject* dict)
+    {
+        if (dict == nullptr)
+            return;
+         
+        if (PyObject* item = PyDict_GetItemString(dict, "num_items")) _itemsHeight = ToInt(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "items"))
+        {
+            _names = ToStringVect(item);
+            _charNames.clear();
+            for (const std::string& item : _names)
+                _charNames.emplace_back(item.c_str());
+            updateIndex();
+        }
+
+        if(_value->empty())
+        {
+            if(!_names.empty())
+                *_value = _names[0];
+        }
+    }
+
+    void mvListbox::getSpecificConfiguration(PyObject* dict)
+    {
+        if (dict == nullptr)
+            return;
+         
+        PyDict_SetItemString(dict, "items", mvPyObject(ToPyList(_names)));
+        PyDict_SetItemString(dict, "num_items", mvPyObject(ToPyInt(_itemsHeight)));
+    }
 
 }

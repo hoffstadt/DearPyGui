@@ -61,7 +61,6 @@ def start_dearpygui():
 
     while(internal_dpg.is_dearpygui_running()):
         internal_dpg.render_dearpygui_frame()   
-    internal_dpg.destroy_context()
 
 
 @contextmanager
@@ -174,6 +173,7 @@ def get_item_slot(item: Union[int, str]) -> Union[int, None]:
     """
     return internal_dpg.get_item_info(item)["target"]
 
+
 def is_item_container(item: Union[int, str]) -> Union[bool, None]:
     """Checks if item is a container.
 
@@ -192,7 +192,7 @@ def get_item_parent(item: Union[int, str]) -> Union[int, None]:
     return internal_dpg.get_item_info(item)["parent"]
 
 
-def get_item_children(item: Union[int, str] , slot: int = -1) -> Union[List[int], None]:
+def get_item_children(item: Union[int, str] , slot: int = -1) -> Union[dict, List[int], None]:
     """Provides access to the item's children slots.
 
     Returns:
@@ -554,29 +554,29 @@ def get_item_height(item: Union[int, str]) -> Union[int, None]:
     return internal_dpg.get_item_configuration(item)["height"]
 
 
-def get_item_callback(item: Union[int, str]) -> Union[str, None]:
+def get_item_callback(item: Union[int, str]) -> Union[Callable, None]:
     """Gets the item's callback.
 
     Returns:
-        callback as a string or None
+        callback as a callable or None
     """
     return internal_dpg.get_item_configuration(item)["callback"]
 
 
-def get_item_drag_callback(item: Union[int, str]) -> Union[str, None]:
+def get_item_drag_callback(item: Union[int, str]) -> Union[Callable, None]:
     """Gets the item's drag callback.
 
     Returns:
-        callback as a string or None
+        callback as a callable or None
     """
     return internal_dpg.get_item_configuration(item)["drag_callback"]
 
 
-def get_item_drop_callback(item: Union[int, str]) -> Union[str, None]:
+def get_item_drop_callback(item: Union[int, str]) -> Union[Callable, None]:
     """Gets the item's drop callback.
 
     Returns:
-        callback as a string or None
+        callback as a callable or None
     """
     return internal_dpg.get_item_configuration(item)["drop_callback"]
 

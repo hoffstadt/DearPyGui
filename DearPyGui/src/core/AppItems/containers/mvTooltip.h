@@ -40,8 +40,11 @@ namespace Marvel {
         MV_DEFAULT_CHILDREN
         MV_NO_CONSTANTS
 
-        // TODO: apply appropriate states
-        MV_SET_STATES(MV_STATE_NONE);
+        MV_SET_STATES(
+            MV_STATE_VISIBLE |
+            MV_STATE_RECT_SIZE |
+            MV_STATE_CONT_AVAIL
+        );
 
     public:
 

@@ -130,10 +130,10 @@ namespace Marvel {
     }
 
     bool UnloadTexture(const std::string& filename)
-	{
-		// TODO : decide if cleanup is necessary
-		return true;
-	}
+    {
+        // TODO : decide if cleanup is necessary
+        return true;
+    }
 
     void FreeTexture(void* texture)
     {
