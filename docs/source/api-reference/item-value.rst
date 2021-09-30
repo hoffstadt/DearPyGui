@@ -43,15 +43,15 @@ Basic usage can be found below:
     import dearpygui.dearpygui as dpg
 
     with dpg.value_registry():
-        dpg.add_bool_value(default_value=True, id="bool_value")
-        dpg.add_string_value(default_value="Default string", id="string_value")
+        bool_value = dpg.add_bool_value(default_value=True)
+        string_value = dpg.add_string_value(default_value="Default string")
 
     with dpg.window(label="Tutorial"):
+        dpg.get_value("string_value")
+        dpg.add_checkbox(label="Radio Button1", source=bool_value)
+        dpg.add_checkbox(label="Radio Button2", source=bool_value)
 
-        dpg.add_checkbox(label="Radio Button1", source="bool_value")
-        dpg.add_checkbox(label="Radio Button2", source="bool_value")
-
-        dpg.add_input_text(label="Text Input 1", source="string_value")
-        dpg.add_input_text(label="Text Input 2", source="string_value", password=True)
+        dpg.add_input_text(label="Text Input 1", source=string_value)
+        dpg.add_input_text(label="Text Input 2", source=string_value, password=True)
 
     dpg.start_dearpygui()

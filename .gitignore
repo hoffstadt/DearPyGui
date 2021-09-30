@@ -7,3 +7,4 @@ cmake-build-local/
 Output/
 dist/
 .DS_Store
+/venv/

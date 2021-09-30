@@ -1,0 +1,13 @@
+LICENSE
+README.md
+setup.py
+dearpygui/__init__.py
+dearpygui/_dearpygui.py
+dearpygui/dearpygui.py
+dearpygui/demo.py
+dearpygui/logger.py
+dearpygui/themes.py
+dearpygui.egg-info/PKG-INFO
+dearpygui.egg-info/SOURCES.txt
+dearpygui.egg-info/dependency_links.txt
+dearpygui.egg-info/top_level.txt

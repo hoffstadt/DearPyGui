@@ -58,10 +58,10 @@ by specifying the parent
     with dpg.window(label="Tutorial"):
         dpg.add_button(label="Button 1")
         dpg.add_button(label="Button 2")
-        with container():
+        with dpg.group():
             dpg.add_button(label="Button 3")
             dpg.add_button(label="Button 4")
-            with group() as group1:
+            with dpg.group() as group1:
                 pass
     dpg.add_button(label="Button 6", parent=group1)
     dpg.add_button(label="Button 5", parent=group1)

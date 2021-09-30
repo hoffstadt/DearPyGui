@@ -50,7 +50,7 @@ The render loop is responsible for displaying widgets,
 partially maintaining state and handling item callbacks.
 
 The render loop is completely handled
-by the :py:func:`start_dearpygui <dearpygui.dearpygui.start_dearpygui>` command.
+by the :py:func:`start_dearpygui <dearpygui.start_dearpygui>` command.
 
 In some cases it's necessary to explicitly create
 the render loop for calling python commands that may need to run every frame.
