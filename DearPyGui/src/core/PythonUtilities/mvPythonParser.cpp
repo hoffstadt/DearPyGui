@@ -420,12 +420,12 @@ namespace Marvel {
 		return check;
 	}
 
-	void GenerateStubFile(const std::string& file)
+	void GenerateStubFile(const std::string& directory)
 	{
 		const auto& commands = mvModule_DearPyGui::GetModuleParsers();
 
 		std::ofstream stub;
-		stub.open(file + "/_dearpygui.pyi");
+		stub.open(directory + "/_dearpygui.pyi");
 
 		stub << "from typing import List, Any, Callable, Union, Tuple\n";
 		stub << "from dearpygui._dearpygui import *\n\n";
@@ -716,10 +716,220 @@ namespace Marvel {
 
 	}
 
-	void GenerateDearPyGuiFile(const std::string& file)
+	void GenerateCoreFileRTD(std::ofstream& stream)
+	{
+		const auto& commands = mvModule_DearPyGui::GetModuleParsers();
+
+		// current date/time based on current system
+		time_t now = time(0);
+
+		// convert now to string form
+		char* dt = ctime(&now);
+
+		for (const auto& parser : commands)
+		{
+			if (parser.second.internal)
+				continue;
+
+			stream << "def " << parser.first << "(";
+
+			bool first_arg = true;
+			for (const auto& args : parser.second.required_elements)
+			{
+				if (first_arg)
+					first_arg = false;
+				else
+					stream << ", ";
+				stream << args.name;
+			}
+
+			for (const auto& args : parser.second.optional_elements)
+			{
+				if (first_arg)
+					first_arg = false;
+				else
+					stream << ", ";
+				stream << args.name << "=" << args.default_value;
+			}
+
+			if (parser.second.keyword_elements.empty())
+				stream << "):";
+			else
+			{
+				if(parser.second.required_elements.empty() && parser.second.optional_elements.empty())
+					stream << "**kwargs):";
+				else
+					stream << ", **kwargs):";
+			}
+
+			stream << "\n\t\"\"\"\t" << parser.second.about.c_str();
+
+			stream << "\n\n\tArgs:";
+			for (const auto& args : parser.second.required_elements)
+			{
+				stream << "\n\t\t" << args.name << " (" << PythonDataTypeActual(args.type) << "): " << args.description;
+			}
+
+			for (const auto& args : parser.second.optional_elements)
+			{
+				stream << "\n\t\t" << args.name << " (" << PythonDataTypeActual(args.type) << ", optional): " << args.description;
+			}
+
+			for (const auto& args : parser.second.keyword_elements)
+			{
+				stream << "\n\t\t" << args.name << " (" << PythonDataTypeActual(args.type) << ", optional): " << args.description;
+			}
+
+			stream << "\n\tReturns:";
+			stream << "\n\t\t" << PythonDataTypeActual(parser.second.returnType);
+			stream << "\n\t\"\"\"";
+
+			stream << "\n\n\treturn internal_dpg." << parser.first << "(";
+
+			first_arg = true;
+			for (const auto& args : parser.second.required_elements)
+			{
+				if (first_arg)
+					first_arg = false;
+				else
+					stream << ", ";
+				stream << args.name;
+			}
+
+			for (const auto& args : parser.second.optional_elements)
+			{
+				if (first_arg)
+					first_arg = false;
+				else
+					stream << ", ";
+				stream << args.name;
+			}
+
+			if (!parser.second.keyword_elements.empty())
+			{
+				if (parser.second.required_elements.empty() && parser.second.optional_elements.empty())
+					stream << "**kwargs";
+				else
+					stream << ", **kwargs";
+			}
+
+			stream << ")\n\n";
+		}
+	}
+
+	void GenerateContextsFileRTD(std::ofstream& stream)
+	{
+		const auto& commands = mvModule_DearPyGui::GetModuleParsers();
+
+		// current date/time based on current system
+		time_t now = time(0);
+
+		// convert now to string form
+		char* dt = ctime(&now);
+
+		for (const auto& parser : commands)
+		{
+			if (!parser.second.createContextManager)
+				continue;
+
+			stream << "\n@contextmanager\n";
+			stream << "def " << parser.first.substr(4) << "(";
+
+			bool first_arg = true;
+			for (const auto& args : parser.second.required_elements)
+			{
+				if (first_arg)
+					first_arg = false;
+				else
+					stream << ", ";
+				stream << args.name;
+			}
+
+			for (const auto& args : parser.second.optional_elements)
+			{
+				if (first_arg)
+					first_arg = false;
+				else
+					stream << ", ";
+				stream << args.name << "=" << args.default_value;
+			}
+
+			if (parser.second.keyword_elements.empty())
+				stream << "):";
+			else
+			{
+				if (parser.second.required_elements.empty() && parser.second.optional_elements.empty())
+					stream << "**kwargs):";
+				else
+					stream << ", **kwargs):";
+			}
+
+			stream << "\n\t\"\"\"\t" << parser.second.about.c_str();
+
+			stream << "\n\n\tArgs:";
+			for (const auto& args : parser.second.required_elements)
+			{
+				stream << "\n\t\t" << args.name << " (" << PythonDataTypeActual(args.type) << "): " << args.description;
+			}
+
+			for (const auto& args : parser.second.optional_elements)
+			{
+				stream << "\n\t\t" << args.name << " (" << PythonDataTypeActual(args.type) << ", optional): " << args.description;
+			}
+
+			for (const auto& args : parser.second.keyword_elements)
+			{
+				stream << "\n\t\t" << args.name << " (" << PythonDataTypeActual(args.type) << ", optional): " << args.description;
+			}
+
+			stream << "\n\tYields:";
+			stream << "\n\t\t" << PythonDataTypeActual(parser.second.returnType);
+			stream << "\n\t\"\"\"";
+
+			stream << "\n\ttry:";
+			stream << "\n\t\twidget = internal_dpg." << parser.first << "(";
+
+			first_arg = true;
+			for (const auto& args : parser.second.required_elements)
+			{
+				if (first_arg)
+					first_arg = false;
+				else
+					stream << ", ";
+				stream << args.name;
+			}
+
+			for (const auto& args : parser.second.optional_elements)
+			{
+				if (first_arg)
+					first_arg = false;
+				else
+					stream << ", ";
+				stream << args.name;
+			}
+
+			if (!parser.second.keyword_elements.empty())
+			{
+				if (parser.second.required_elements.empty() && parser.second.optional_elements.empty())
+					stream << "**kwargs";
+				else
+					stream << ", **kwargs";
+			}
+
+			stream << ")\n";
+			stream << "\t\tinternal_dpg.push_container_stack(widget)\n";
+			stream << "\t\tyield widget\n";
+			stream << "\tfinally:\n";
+			stream << "\t\tinternal_dpg.pop_container_stack()\n";
+
+		}
+
+	}
+
+	void GenerateDearPyGuiFile(const std::string& directory)
 	{
 		std::ofstream stub;
-		stub.open(file + "/dearpygui.py");
+		stub.open(directory + "/dearpygui.py");
 
 		stub << "\n##########################################################\n";
 		stub << "# Dear PyGui User Interface\n";
@@ -735,7 +945,7 @@ namespace Marvel {
 		stub << "#     * Discussions: https://github.com/hoffstadt/DearPyGui/discussions\n";
 		stub << "##########################################################\n\n";
 
-		std::ifstream inputStream0(file + "/_header.py");
+		std::ifstream inputStream0(directory + "/_header.py");
 
 		for (std::string line; std::getline(inputStream0, line);)
 			stub << line << "\n";
@@ -744,7 +954,7 @@ namespace Marvel {
 		stub << "# Deprecated Commands\n";
 		stub << "##########################################################\n";
 
-		std::ifstream inputStream1(file + "/_deprecated.py");
+		std::ifstream inputStream1(directory + "/_deprecated.py");
 
 		for (std::string line; std::getline(inputStream1, line);)
 			stub << line << "\n";
@@ -773,7 +983,69 @@ namespace Marvel {
 		stub.close();
 
 		std::ofstream redirect;
-		redirect.open(file + "/_dearpygui.py");
+		redirect.open(directory + "/_dearpygui.py");
+		redirect << "from _dearpygui import *\n";
+		redirect.close();
+	}
+
+	void GenerateDearPyGuiFileRTD(const std::string& directory)
+	{
+		std::ofstream stub;
+		stub.open(directory + "/_dearpygui_RTD.py");
+
+		stub << "\n##########################################################\n";
+		stub << "# Dear PyGui User Interface (MODIFIED FOR READTHEDOCS)\n";
+		stub << "#   ~ Version: " << GetVersion() << "\n";
+		stub << "#\n";
+		stub << "#   Notes:\n";
+		stub << "#     * This file is automatically generated.\n#\n";
+		stub << "#   Resources:\n";
+		stub << "#     * FAQ:         https://github.com/hoffstadt/DearPyGui/discussions/categories/frequently-asked-questions-faq \n";
+		stub << "#     * Homepage:    https://github.com/hoffstadt/DearPyGui \n";
+		stub << "#     * Wiki:        https://github.com/hoffstadt/DearPyGui/wiki \n";
+		stub << "#     * Issues:      https://github.com/hoffstadt/DearPyGui/issues\n";
+		stub << "#     * Discussions: https://github.com/hoffstadt/DearPyGui/discussions\n";
+		stub << "##########################################################\n\n";
+
+		std::ifstream inputStream0(directory + "/_header.py");
+
+		for (std::string line; std::getline(inputStream0, line);)
+			stub << line << "\n";
+
+		stub << "\n##########################################################\n";
+		stub << "# Deprecated Commands\n";
+		stub << "##########################################################\n";
+
+		std::ifstream inputStream1(directory + "/_deprecated.py");
+
+		for (std::string line; std::getline(inputStream1, line);)
+			stub << line << "\n";
+
+		stub << "\n##########################################################\n";
+		stub << "# Container Context Managers\n";
+		stub << "##########################################################\n\n";
+
+		GenerateContextsFileRTD(stub);
+
+		stub << "\n##########################################################\n";
+		stub << "# Core Wrappings\n";
+		stub << "##########################################################\n\n";
+
+		GenerateCoreFileRTD(stub);
+
+		stub << "\n##########################################################\n";
+		stub << "# Constants #\n";
+		stub << "##########################################################\n\n";
+
+		auto& constants = mvModule_DearPyGui::GetSubModuleConstants();
+
+		for (auto& item : constants)
+			stub << item.first << "=internal_dpg." << item.first << "\n";
+
+		stub.close();
+
+		std::ofstream redirect;
+		redirect.open(directory + "/_dearpygui.py");
 		redirect << "from _dearpygui import *\n";
 		redirect.close();
 	}

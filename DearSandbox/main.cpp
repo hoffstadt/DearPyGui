@@ -32,6 +32,7 @@ int main(int argc, char* argv[])
 
 	GenerateStubFile("../../DearPyGui/dearpygui");
 	GenerateDearPyGuiFile("../../DearPyGui/dearpygui");
+	GenerateDearPyGuiFileRTD("../../DearPyGui/dearpygui");
 
 #ifdef MV_RELEASE
 	HWND hWnd = GetConsoleWindow();

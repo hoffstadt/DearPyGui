@@ -43,23 +43,23 @@ def deprecated(reason):
 		return new_func2
 
 @deprecated("Use 'configure_app(docking=True, docking_space=dock_space)'.")
-def enable_docking(dock_space: bool = False) -> None:
+def enable_docking(dock_space=False):
     internal_dpg.configure_app(docking=True, docking_space=dock_space)
 
 @deprecated("Use 'get_app_configuration()['version']'.")
-def get_dearpygui_version() -> str:
+def get_dearpygui_version():
     return internal_dpg.get_app_configuration()["version"]
 
 @deprecated("Use 'configure_app(init_file=file)'.")
-def set_init_file(file: str = "dpg.ini") -> None:
+def set_init_file(file="dpg.ini"):
     internal_dpg.configure_app(init_file=file)
 
 @deprecated("Use 'configure_app(init_file=file, load_init_file=True)'.")
-def load_init_file(file: str) -> None:
+def load_init_file(file):
     internal_dpg.configure_app(init_file=file, load_init_file=True)
 
 @deprecated("Use: `is_viewport_ok(...)`")
-def is_viewport_created() -> bool:
+def is_viewport_created():
     return internal_dpg.is_viewport_ok()
 
 @deprecated("Use: \ncreate_viewport()\nsetup_dearpygui()\nshow_viewport()")
@@ -69,88 +69,88 @@ def setup_viewport():
     internal_dpg.show_viewport()
 
 @deprecated("Use: `bind_item_theme(...)`")
-def set_item_theme(item : Union[int, str], theme : Union[int, str]) -> None:
+def set_item_theme(item, theme):
 	return internal_dpg.bind_item_theme(item, theme)
 
 @deprecated("Use: `bind_item_type_disabled_theme(...)`")
-def set_item_type_disabled_theme(item : int, theme : Union[int, str]) -> None:
+def set_item_type_disabled_theme(item, theme):
 	return internal_dpg.bind_item_type_disabled_theme(item, theme)
 
 @deprecated("Use: `bind_item_type_theme(...)`")
-def set_item_type_theme(item : int, theme : Union[int, str]) -> None:
+def set_item_type_theme(item, theme):
 	return internal_dpg.bind_item_type_theme(item, theme)
 
 @deprecated("Use: `bind_item_font(...)`")
-def set_item_font(item : Union[int, str], font : Union[int, str]) -> None:
+def set_item_font(item, font):
 	return internal_dpg.bind_item_font(item, font)
 
 @deprecated("Use: `add_item_activated_handler(...)`")
-def add_activated_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
-	return internal_dpg.add_item_activated_handler(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, callback=callback, show=show)
+def add_activated_handler(parent, **kwargs):
+	return internal_dpg.add_item_activated_handler(parent, **kwargs)
 
 @deprecated("Use: `add_item_active_handler(...)`")
-def add_active_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
-	return internal_dpg.add_item_active_handler(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, callback=callback, show=show)
+def add_active_handler(parent, **kwargs):
+	return internal_dpg.add_item_active_handler(parent, **kwargs)
 
 @deprecated("Use: `add_item_clicked_handler(...)`")
-def add_clicked_handler(parent : Union[int, str], button : int =-1, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
-	return internal_dpg.add_item_clicked_handler(parent, button, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, callback=callback, show=show)
+def add_clicked_handler(parent, button=-1, **kwargs):
+	return internal_dpg.add_item_clicked_handler(parent, button, **kwargs)
 
 @deprecated("Use: `add_item_deactived_after_edit_handler(...)`")
-def add_deactivated_after_edit_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
-	return internal_dpg.add_item_deactivated_after_edit_handler(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, callback=callback, show=show)
+def add_deactivated_after_edit_handler(parent, **kwargs):
+	return internal_dpg.add_item_deactivated_after_edit_handler(parent, **kwargs)
 
 @deprecated("Use: `add_item_deactivated_handler(...)`")
-def add_deactivated_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
-	return internal_dpg.add_item_deactivated_handler(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, callback=callback, show=show)
+def add_deactivated_handler(parent, **kwargs):
+	return internal_dpg.add_item_deactivated_handler(parent, **kwargs)
 
 @deprecated("Use: `add_item_edited_handler(...)`")
-def add_edited_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
-	return internal_dpg.add_item_edited_handler(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, callback=callback, show=show)
+def add_edited_handler(parent, **kwargs):
+	return internal_dpg.add_item_edited_handler(parent, **kwargs)
 
 @deprecated("Use: `add_item_focus_handler(...)`")
-def add_focus_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
-	return internal_dpg.add_item_focus_handler(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, callback=callback, show=show)
+def add_focus_handler(parent, **kwargs):
+	return internal_dpg.add_item_focus_handler(parent, **kwargs)
 
 @deprecated("Use: `add_item_hover_handler(...)`")
-def add_hover_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
-	return internal_dpg.add_item_hover_handler(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, callback=callback, show=show)
+def add_hover_handler(parent, **kwargs):
+	return internal_dpg.add_item_hover_handler(parent, **kwargs)
 
 @deprecated("Use: `add_item_resize_handler(...)`")
-def add_resize_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
-	return internal_dpg.add_item_resize_handler(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, callback=callback, show=show)
+def add_resize_handler(parent, **kwargs):
+	return internal_dpg.add_item_resize_handler(parent, **kwargs)
 
 @deprecated("Use: `add_item_toggled_open_handler(...)`")
-def add_toggled_open_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
-	return internal_dpg.add_item_toggled_open_handler(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, callback=callback, show=show)
+def add_toggled_open_handler(parent, **kwargs):
+	return internal_dpg.add_item_toggled_open_handler(parent, **kwargs)
 
 @deprecated("Use: `add_item_visible_handler(...)`")
-def add_visible_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
-	return internal_dpg.add_item_visible_handler(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, callback=callback, show=show)
+def add_visible_handler(parent, **kwargs):
+	return internal_dpg.add_item_visible_handler(parent, **kwargs)
 
 @deprecated("Use: `bind_colormap(...)`")
-def set_colormap(item : Union[int, str], source : Union[int, str]) -> None:
+def set_colormap(item, source):
 	return internal_dpg.bind_colormap(item, source)
 
 @deprecated("Use: `bind_theme(0)`")
-def reset_default_theme(item : Union[int, str], source : Union[int, str]) -> None:
+def reset_default_theme(item, source):
 	return internal_dpg.bind_theme(item, source)
 
 @deprecated
-def set_staging_mode(mode : bool) -> None:
+def set_staging_mode(mode):
 	pass
 
 @deprecated
-def add_table_next_column(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True) -> Union[int, str]:
+def add_table_next_column(**kwargs):
 	pass
 
 @deprecated("Use: add_stage")
-def add_staging_container(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0) -> Union[int, str]:
-	return internal_dpg.add_stage(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id)
+def add_staging_container(**kwargs):
+	return internal_dpg.add_stage(**kwargs)
 
 @deprecated("Use: stage")
 @contextmanager
-def staging_container(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0) -> Union[int, str]:
+def staging_container(**kwargs):
 	"""
 	Undocumented function
 	Args:
@@ -163,15 +163,14 @@ def staging_container(*, label: str =None, user_data: Any =None, use_internal_la
 	"""
 	try:
 		warnings.warn("'staging_container' is deprecated and was changed to 'stage'", DeprecationWarning, 2)
-		widget = internal_dpg.add_stage_container(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id)
+		widget = internal_dpg.add_stage_container(**kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 
 @deprecated("Use: add_spacer(...)")
-def add_spacing(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, indent: int =-1,
-                parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, pos: Union[List[int], Tuple[int]] =[], count: int =1) -> Union[int, str]:
+def add_spacing(**kwargs):
 	"""	Adds vertical spacing.
 
 	Args:
@@ -189,13 +188,19 @@ def add_spacing(*, label: str =None, user_data: Any =None, use_internal_label: b
 		Union[int, str]
 	"""
 
-	with internal_dpg.group(tag=tag) as result_id:
-		for i in range(count):
-			internal_dpg.add_spacer(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, indent=indent, parent=parent, before=before, show=show, pos=pos, count=count)
+	if "tag" in kwargs.keys():
+		with internal_dpg.group(tag=kwargs["tag"]) as result_id:
+			kwargs.pop("tag", None)
+			for i in range(count):
+				internal_dpg.add_spacer(**kwargs)
+	else:
+		with internal_dpg.group() as result_id:
+			for i in range(count):
+				internal_dpg.add_spacer(**kwargs)
 	return result_id
 
 @deprecated("Use: add_spacer(...)")
-def add_dummy(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, pos: Union[List[int], Tuple[int]] =[]) -> Union[int, str]:
+def add_dummy(**kwargs):
 	"""	Adds a spacer or 'dummy' object.
 
 	Args:
@@ -214,15 +219,15 @@ def add_dummy(*, label: str =None, user_data: Any =None, use_internal_label: boo
 		Union[int, str]
 	"""
 
-	return internal_dpg.add_spacer(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, show=show, pos=pos)
+	return internal_dpg.add_spacer(**kwargs)
 
 @deprecated("Use: `destroy_context()`")
-def cleanup_dearpygui() -> None:
+def cleanup_dearpygui():
 	return internal_dpg.destroy_context()
 
 
 @deprecated("Use: `add_child_window()`")
-def add_child(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, border: bool =True, autosize_x: bool =False, autosize_y: bool =False, no_scrollbar: bool =False, horizontal_scrollbar: bool =False, menubar: bool =False) -> Union[int, str]:
+def add_child(**kwargs):
 	"""	Adds an embedded child window. Will show scrollbars when items do not fit.
 
 	Args:
@@ -253,12 +258,12 @@ def add_child(*, label: str =None, user_data: Any =None, use_internal_label: boo
 		Union[int, str]
 	"""
 
-	return internal_dpg.add_child_window(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, border=border, autosize_x=autosize_x, autosize_y=autosize_y, no_scrollbar=no_scrollbar, horizontal_scrollbar=horizontal_scrollbar, menubar=menubar)
+	return internal_dpg.add_child_window(**kwargs)
 
 
 @deprecated("Use: `child_window()`")
 @contextmanager
-def child(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, border: bool =True, autosize_x: bool =False, autosize_y: bool =False, no_scrollbar: bool =False, horizontal_scrollbar: bool =False, menubar: bool =False) -> Union[int, str]:
+def child(**kwargs):
 	"""	Adds an embedded child window. Will show scrollbars when items do not fit.
 
 	Args:
@@ -289,7 +294,7 @@ def child(*, label: str =None, user_data: Any =None, use_internal_label: bool =T
 		Union[int, str]
 	"""
 	try:
-		widget = internal_dpg.add_child_window(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, border=border, autosize_x=autosize_x, autosize_y=autosize_y, no_scrollbar=no_scrollbar, horizontal_scrollbar=horizontal_scrollbar, menubar=menubar)
+		widget = internal_dpg.add_child_window(**kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:

@@ -27,6 +27,7 @@ int main(int argc, char* argv[])
 
 	GenerateStubFile("../../DearPyGui/dearpygui");
 	GenerateDearPyGuiFile("../../DearPyGui/dearpygui");
+	GenerateDearPyGuiFileRTD("../../DearPyGui/dearpygui");
 
 	// initialize python
 	// add our custom module
