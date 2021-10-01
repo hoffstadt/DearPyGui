@@ -6,16 +6,21 @@ Most UI items have a callback which is submitted to a
 
 Callbacks are used to give functionality to items. Callbacks 
 can either be assigned to the item upon creation or after creation 
-using :py:func:`set_item_callback <dearpygui.dearpygui.set_item_callback>` as shown in the code below.
+using :py:func:`set_item_callback <dearpygui.dearpygui.set_item_callback>` 
+as shown in the code below.
 
 Callbacks in DPG take **sender**, **app_data**, **user_data** arguments.
+
+.. note:: Because they are optional positional arguments you 
+    must use the *sender* and *app_data* if you want to use *user_data*
+    standard keyword arguments:
 
 Sender, App_data
 ----------------
 
 sender:
     argument is used by DPG to inform the
-    callback which item triggered the callback by sending the id.
+    callback which item triggered the callback by sending the tag.
 
 app_data:
     argument is used DPG to send information
@@ -24,16 +29,21 @@ app_data:
 .. code-block:: python
 
     import dearpygui.dearpygui as dpg
-    
+
+    dpg.create_context()
+
     def button_callback(sender, app_data):
         print(f"sender is: {sender}")
         print(f"app_data is: {app_data}")
-    
+
     with dpg.window(label="Tutorial"):
-    
         dpg.add_button(label="Apply", callback=button_callback)
-    
+
+    dpg.create_viewport(title='Custom Title', width=800, height=600)
+    dpg.setup_dearpygui()
+    dpg.show_viewport()
     dpg.start_dearpygui()
+    dpg.destroy_context()
 
 User Data
 ---------
@@ -51,20 +61,27 @@ User data can be any python object.
 .. code-block:: python
 
     import dearpygui.dearpygui as dpg
-    
+
+    dpg.create_context()
+
+
     def button_callback(sender, app_data, user_data):
         print(f"sender is: {sender}")
         print(f"app_data is: {app_data}")
         print(f"user_data is: {user_data}")
-    
-    with dpg.window(label="Tutorial"):
 
-        #user data set when button is created
+
+    with dpg.window(label="Tutorial"):
+        # user data set when button is created
         dpg.add_button(label="Apply", callback=button_callback, user_data="Some Data")
 
-        #user data and callback set any time after button has been created
-        btn = dpg.add_button(label="Apply 2", )
-        dpg.set_item_callback(btn, button_callback)
-        dpg.set_item_user_data(btn, "Some Extra User Data")
+        # user data and callback set any time after button has been created
+        dpg.add_button(label="Apply 2", tag="btn")
+        dpg.set_item_callback("btn", button_callback)
+        dpg.set_item_user_data("btn", "Some Extra User Data")
 
+    dpg.create_viewport(title='Custom Title', width=800, height=600)
+    dpg.setup_dearpygui()
+    dpg.show_viewport()
     dpg.start_dearpygui()
+    dpg.destroy_context()
