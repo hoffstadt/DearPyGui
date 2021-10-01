@@ -94,6 +94,8 @@ namespace Marvel {
         bool                                    showImPlotDebug = false;
         mvRef<mvAppItem>                        boundedTemplateRegistry;
         std::vector<mvRef<mvAppItem>>           debugWindows;
+        mvRef<mvAppItem>                        capturedItem = nullptr;
+        PyObject*                               captureCallback = nullptr;
 
         // roots
         std::vector<mvRef<mvAppItem>> colormapRoots;
@@ -129,6 +131,7 @@ namespace Marvel {
 
     void InsertParser_mvItemRegistry(std::map<std::string, mvPythonParser>* parsers);
 
+    MV_CREATE_FREE_COMMAND(capture_next_item);
     MV_CREATE_FREE_COMMAND(move_item);
     MV_CREATE_FREE_COMMAND(delete_item);
     MV_CREATE_FREE_COMMAND(does_item_exist);
@@ -203,7 +206,6 @@ namespace Marvel {
         MV_ADD_COMMAND(show_implot_demo);
         MV_ADD_COMMAND(show_item_debug);
         MV_ADD_COMMAND(get_item_info);
-
         MV_ADD_COMMAND(set_item_alias);
         MV_ADD_COMMAND(get_item_alias);
         MV_ADD_COMMAND(get_item_types);
@@ -218,6 +220,7 @@ namespace Marvel {
         MV_ADD_COMMAND(bind_item_handler_registry);
         MV_ADD_COMMAND(bind_item_font);
         MV_ADD_COMMAND(bind_item_theme);
+        MV_ADD_COMMAND(capture_next_item);
     MV_END_COMMANDS
 
 }

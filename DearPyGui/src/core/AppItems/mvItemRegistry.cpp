@@ -10,6 +10,7 @@
 #include "mvToolManager.h"
 #include "mvFontManager.h"
 #include "mvPythonTypeChecker.h"
+#include "mvGlobalIntepreterLock.h"
 
 namespace Marvel {
 
@@ -30,6 +31,19 @@ namespace Marvel {
             parsers->insert({ "add_alias", parser });
         }
 
+        {
+            std::vector<mvPythonDataElement> args;
+            args.push_back({ mvPyDataType::Callable, "callback" });
+
+            mvPythonParserSetup setup;
+            setup.about = "Captures the next item.";
+            setup.category = { "Item Registry" };
+
+            mvPythonParser parser = FinalizeParser(setup, args);
+            parsers->insert({ "capture_next_item", parser });
+        }
+
+        
         {
             std::vector<mvPythonDataElement> args;
             args.push_back({ mvPyDataType::String, "alias" });
@@ -703,6 +717,7 @@ namespace Marvel {
     mv_internal bool
     MoveRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid, mvRef<mvAppItem>& item)
     {
+        
         for (auto& window : roots)
         {
             item = window->stealChild(uuid);
@@ -1197,24 +1212,39 @@ namespace Marvel {
 
         MV_ITEM_REGISTRY_TRACE("Attempting to move: " + std::to_string(uuid));
 
+
         mvRef<mvAppItem> child = nullptr;
 
         bool movedItem = false;
 
-        if (MoveRoot(registry.colormapRoots, uuid, child)) movedItem = true;
-        else if (MoveRoot(registry.filedialogRoots, uuid, child)) movedItem = true;
-        else if (MoveRoot(registry.stagingRoots, uuid, child)) movedItem = true;
-        else if (MoveRoot(registry.viewportMenubarRoots, uuid, child)) movedItem = true;
-        else if (MoveRoot(registry.fontRegistryRoots, uuid, child)) movedItem = true;
-        else if (MoveRoot(registry.handlerRegistryRoots, uuid, child)) movedItem = true;
-        else if (MoveRoot(registry.textureRegistryRoots, uuid, child)) movedItem = true;
-        else if (MoveRoot(registry.valueRegistryRoots, uuid, child)) movedItem = true;
-        else if (MoveRoot(registry.windowRoots, uuid, child)) movedItem = true;
-        else if (MoveRoot(registry.themeRegistryRoots, uuid, child)) movedItem = true;
-        else if (MoveRoot(registry.itemPoolRoots, uuid, child)) movedItem = true;
-        else if (MoveRoot(registry.itemTemplatesRoots, uuid, child)) movedItem = true;
-        else if (MoveRoot(registry.itemHandlerRegistryRoots, uuid, child)) movedItem = true;
+        if(registry.capturedItem)
+        {
+            if(registry.capturedItem->_uuid == uuid)
+            {
+                child = registry.capturedItem;
+                movedItem = true;
+                registry.capturedItem = nullptr;
+            }
+                
+        }
 
+        if(!movedItem)
+        {
+            if (MoveRoot(registry.colormapRoots, uuid, child)) movedItem = true;
+            else if (MoveRoot(registry.filedialogRoots, uuid, child)) movedItem = true;
+            else if (MoveRoot(registry.stagingRoots, uuid, child)) movedItem = true;
+            else if (MoveRoot(registry.viewportMenubarRoots, uuid, child)) movedItem = true;
+            else if (MoveRoot(registry.fontRegistryRoots, uuid, child)) movedItem = true;
+            else if (MoveRoot(registry.handlerRegistryRoots, uuid, child)) movedItem = true;
+            else if (MoveRoot(registry.textureRegistryRoots, uuid, child)) movedItem = true;
+            else if (MoveRoot(registry.valueRegistryRoots, uuid, child)) movedItem = true;
+            else if (MoveRoot(registry.windowRoots, uuid, child)) movedItem = true;
+            else if (MoveRoot(registry.themeRegistryRoots, uuid, child)) movedItem = true;
+            else if (MoveRoot(registry.itemPoolRoots, uuid, child)) movedItem = true;
+            else if (MoveRoot(registry.itemTemplatesRoots, uuid, child)) movedItem = true;
+            else if (MoveRoot(registry.itemHandlerRegistryRoots, uuid, child)) movedItem = true;
+        }
+        
         if (child == nullptr)
         {
             mvThrowPythonError(mvErrorCode::mvItemNotFound, "move_item",
@@ -1481,7 +1511,14 @@ namespace Marvel {
     GetItem(mvItemRegistry& registry, mvUUID uuid)
     {
 
-        // check cache first
+        // check captured
+        if(registry.capturedItem)
+        {
+            if(registry.capturedItem->_uuid == uuid)
+                return registry.capturedItem.get();
+        }
+
+        // check cache
         for (int i = 0; i < registry.CachedContainerCount; i++)
         {
             if (registry.cachedContainersID[i] == uuid)
@@ -1525,6 +1562,13 @@ namespace Marvel {
     GetRefItem(mvItemRegistry& registry, mvUUID uuid)
     {
 
+        // check captured
+        if(registry.capturedItem)
+        {
+            if(registry.capturedItem->_uuid == uuid)
+                return registry.capturedItem;
+        }
+        
         if (auto foundItem = GetRefItemRoot(registry.colormapRoots, uuid)) return foundItem;
         else if (auto foundItem = GetRefItemRoot(registry.filedialogRoots, uuid)) return foundItem;
         else if (auto foundItem = GetRefItemRoot(registry.stagingRoots, uuid)) return foundItem;
@@ -1601,7 +1645,22 @@ namespace Marvel {
     bool 
     AddItemWithRuntimeChecks(mvItemRegistry& registry, mvRef<mvAppItem> item, mvUUID parent, mvUUID before)
     {
-        //MV_ITEM_REGISTRY_TRACE("Adding runtime item: " + item->_name);
+
+        if(registry.captureCallback)
+        {
+    
+            registry.capturedItem = item;
+            
+            GContext->callbackRegistry->submit([&]()
+            {
+                if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+                GContext->callbackRegistry->runCallback(registry.captureCallback, registry.capturedItem->_uuid, nullptr, nullptr);
+                Py_XDECREF(registry.captureCallback);
+                registry.captureCallback = nullptr;
+            });
+
+            return true;
+        }
 
         if (item->getDescFlags() & MV_ITEM_DESC_HANDLER && parent == 0)
             parent = item->_parent;
@@ -2965,6 +3024,29 @@ namespace Marvel {
         auto appitem = GetItem((*GContext->itemRegistry), item);
         if (appitem)
             return ToPyString(appitem->_alias);
+        return GetPyNone();
+    }
+
+    mv_python_function
+    capture_next_item(PyObject* self, PyObject* args, PyObject* kwargs)
+    {
+        PyObject* callable;
+
+        if (!Parse((GetParsers())["capture_next_item"], args, kwargs, __FUNCTION__,
+            &callable))
+            return GetPyNone();
+
+        if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+
+        if(GContext->itemRegistry->captureCallback)
+            Py_XDECREF(GContext->itemRegistry->captureCallback);
+        
+        Py_XINCREF(callable);
+        if(callable == Py_None)
+            GContext->itemRegistry->captureCallback = nullptr;
+        else
+            GContext->itemRegistry->captureCallback = callable;
+        
         return GetPyNone();
     }
 }
