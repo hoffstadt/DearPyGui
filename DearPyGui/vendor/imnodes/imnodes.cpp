@@ -2101,6 +2101,11 @@ namespace imnodes
         return editor.panning;
     }
 
+    ImRect mvEditorGetSize()
+    {
+        return g->canvas_rect_screen_space;
+    }
+
     void EditorContextResetPanning(const ImVec2& pos)
     {
         EditorContext& editor = editor_context_get();
