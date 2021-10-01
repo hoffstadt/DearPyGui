@@ -49,7 +49,7 @@ namespace Marvel {
 
 	void mvFileExtension::draw(ImDrawList* drawlist, float x, float y)
 	{
-		IGFD::FileExtentionInfosStruct info;
+		IGFD::FileExtentionInfos info;
 		info.icon = _customText;
 		if (_color.r >= 0)
 			info.color = _color.toVec4();

@@ -440,7 +440,7 @@ namespace Marvel {
             setup.category = { "Fonts", "App Item Operations" };
 
             mvPythonParser parser = FinalizeParser(setup, args);
-            parsers->insert({ "set_item_font", parser });
+            parsers->insert({ "bind_item_font", parser });
         }
 
         {

@@ -92,7 +92,7 @@ namespace Marvel {
 			for (auto& item : _children[0])
 			{
 				item->draw(drawlist, x, y);
-				_filters.append(static_cast<mvFileExtension*>(item.get())->_filter);
+				_filters.append(static_cast<mvFileExtension*>(item.get())->_extension);
 				_filters.append(",");
 			}
 
@@ -210,7 +210,7 @@ namespace Marvel {
 
 		PyDict_SetItemString(dict, "file_path_name", mvPyObject(ToPyString(_instance.GetFilePathName())));
 		PyDict_SetItemString(dict, "file_name", mvPyObject(ToPyString(_instance.GetCurrentFileName())));
-		PyDict_SetItemString(dict, "file_name_buffer", mvPyObject(ToPyString(_instance.FileNameBuffer)));
+		//PyDict_SetItemString(dict, "file_name_buffer", mvPyObject(ToPyString(_instance.FileNameBuffer)));
 		PyDict_SetItemString(dict, "current_path", mvPyObject(ToPyString(_instance.GetCurrentPath())));
 		PyDict_SetItemString(dict, "current_filter", mvPyObject(ToPyString(_instance.GetCurrentFilter())));
 

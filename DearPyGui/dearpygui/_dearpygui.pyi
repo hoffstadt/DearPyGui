@@ -598,6 +598,10 @@ def bind_font(font : Union[int, str]) -> Union[int, str]:
 	"""Binds a global font."""
 	...
 
+def bind_item_font(item : Union[int, str], font : Union[int, str]) -> None:
+	"""Sets an item's font."""
+	...
+
 def bind_item_handler_registry(item : Union[int, str], handler_registry : Union[int, str]) -> None:
 	"""Binds an item handler registry to an item."""
 	...
@@ -1032,10 +1036,6 @@ def set_item_alias(item : Union[int, str], alias : str) -> None:
 
 def set_item_children(item : Union[int, str], source : Union[int, str], slot : int) -> None:
 	"""Sets an item's children."""
-	...
-
-def set_item_font(item : Union[int, str], font : Union[int, str]) -> None:
-	"""Sets an item's font."""
 	...
 
 def set_primary_window(window : Union[int, str], value : bool) -> None:
