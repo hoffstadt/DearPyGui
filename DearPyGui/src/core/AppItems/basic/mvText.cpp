@@ -130,11 +130,11 @@ namespace Marvel {
 			ImGui::TextUnformatted(_value->c_str()); // this doesn't have a buffer size limit
 
 			_state.lastFrameUpdate = GContext->frame;
-			if (ImGui::IsItemVisible())_state.visible = true;
-			if (ImGui::IsItemHovered())_state.hovered = true;
-			if (ImGui::IsItemClicked(0))_state.leftclicked = true;
-			if (ImGui::IsItemClicked(1))_state.rightclicked = true;
-			if (ImGui::IsItemClicked(2)) _state.middleclicked = true;
+			_state.visible = ImGui::IsItemVisible();
+			_state.hovered = ImGui::IsItemHovered();
+			_state.leftclicked = ImGui::IsItemClicked(0);
+			_state.rightclicked = ImGui::IsItemClicked(1);
+			 _state.middleclicked = ImGui::IsItemClicked(2);
 
 			if (_wrap >= 0)
 				ImGui::PopTextWrapPos();
@@ -148,11 +148,11 @@ namespace Marvel {
 				ImGui::SetCursorPos({ valueEndX + style.ItemInnerSpacing.x, textVertCenter });
 				ImGui::TextUnformatted(_specifiedLabel.c_str());
 
-				if (ImGui::IsItemVisible())_state.visible = true;
-				if (ImGui::IsItemHovered())_state.hovered = true;
-				if (ImGui::IsItemClicked(0))_state.leftclicked = true;
-				if (ImGui::IsItemClicked(1))_state.rightclicked = true;
-				if (ImGui::IsItemClicked(2)) _state.middleclicked = true;
+				_state.visible = ImGui::IsItemVisible();
+				_state.hovered = ImGui::IsItemHovered();
+				_state.leftclicked = ImGui::IsItemClicked(0);
+				_state.rightclicked = ImGui::IsItemClicked(1);
+				_state.middleclicked = ImGui::IsItemClicked(2);
 			}
 		}
 
