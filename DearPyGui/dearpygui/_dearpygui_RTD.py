@@ -1343,6 +1343,15 @@ def cleanup_dearpygui():
     """ deprecated function """
     return internal_dpg.destroy_context()
 
+@deprecated("Use: group(horizontal=True)")
+def add_same_line(**kwargs):
+    """ deprecated function """
+
+    last_item = internal_dpg.last_item()
+    group = internal_dpg.add_group(horizontal=True, **kwargs)
+    internal_dpg.move_item(last_item, parent=group)
+    internal_dpg.capture_next_item(lambda s: internal_dpg.move_item(s, parent=group))
+
 
 @deprecated("Use: `add_child_window()`")
 def add_child(**kwargs):
@@ -6323,6 +6332,17 @@ def bind_theme(theme):
 	"""
 
 	return internal_dpg.bind_theme(theme)
+
+def capture_next_item(callback):
+	"""	 Captures the next item.
+
+	Args:
+		callback (Callable): 
+	Returns:
+		None
+	"""
+
+	return internal_dpg.capture_next_item(callback)
 
 def clear_selected_links(node_editor):
 	"""	 Undocumented

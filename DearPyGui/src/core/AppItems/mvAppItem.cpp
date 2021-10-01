@@ -665,6 +665,7 @@ namespace Marvel {
             if (_callback)
                 Py_XDECREF(_callback);
 
+            // TODO: investigate if PyNone should be increffed
             Py_XINCREF(item);
             if (item == Py_None)
                 _callback = nullptr;

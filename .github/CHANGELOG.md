@@ -27,7 +27,6 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 * changed dragPayload `drag_data` is submitted to the targets `drag_callback` rather than `drop_callback`
 * moved logger and themes to `Dear PyGui Extensions`
 * table rows now required
-* removed `add_same_line(...)`
 * removed `bind_item_disabled_theme(...)`
 * removed `bind_item_type_disabled_theme(...)`
 * removed `bind_item_type_theme(...)`
@@ -112,6 +111,7 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 * command: `add_spacing(...)` is deprecated. Use 'add_spacer(...)`
 * command: `add_dummy(...)` is deprecated. Use 'add_spacer(...)`
 * command: `add_child(...)` is deprecated. Use 'add_child_window(...)`
+* command: `add_same_line(...)` is deprecated. Use `add_group(horizontal=True)`
 
 ### Fixes
 * fixed `get_item_configuration(...)` memory leak #1179
