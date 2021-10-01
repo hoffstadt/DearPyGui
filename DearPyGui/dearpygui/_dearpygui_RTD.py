@@ -6288,6 +6288,18 @@ def bind_font(font):
 
 	return internal_dpg.bind_font(font)
 
+def bind_item_font(item, font):
+	"""	 Sets an item's font.
+
+	Args:
+		item (Union[int, str]): 
+		font (Union[int, str]): 
+	Returns:
+		None
+	"""
+
+	return internal_dpg.bind_item_font(item, font)
+
 def bind_item_handler_registry(item, handler_registry):
 	"""	 Binds an item handler registry to an item.
 
@@ -7658,18 +7670,6 @@ def set_item_children(item, source, slot):
 	"""
 
 	return internal_dpg.set_item_children(item, source, slot)
-
-def set_item_font(item, font):
-	"""	 Sets an item's font.
-
-	Args:
-		item (Union[int, str]): 
-		font (Union[int, str]): 
-	Returns:
-		None
-	"""
-
-	return internal_dpg.set_item_font(item, font)
 
 def set_primary_window(window, value):
 	"""	 Sets the primary window.
