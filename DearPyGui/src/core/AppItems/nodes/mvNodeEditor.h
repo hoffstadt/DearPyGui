@@ -27,8 +27,7 @@ namespace Marvel {
         MV_SET_STATES(
             MV_STATE_HOVER |
             MV_STATE_VISIBLE |
-            MV_STATE_RECT_SIZE |
-            MV_STATE_CONT_AVAIL
+            MV_STATE_RECT_SIZE
         );
 
         MV_START_COMMANDS

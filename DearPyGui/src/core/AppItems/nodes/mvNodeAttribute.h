@@ -36,8 +36,9 @@ namespace Marvel {
         MV_CREATE_CONSTANT(mvNode_Attr_Output, 1L);
         MV_CREATE_CONSTANT(mvNode_Attr_Static, 2L);
 
-        // TODO: apply appropriately
-        MV_SET_STATES(MV_STATE_NONE);
+        MV_SET_STATES(
+            MV_STATE_HOVER
+        );
 
         MV_START_PARENTS
             MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),

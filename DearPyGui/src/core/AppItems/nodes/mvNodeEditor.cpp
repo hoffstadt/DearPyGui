@@ -221,7 +221,7 @@ namespace Marvel {
         ScopedID id(_uuid);
         imnodes::EditorContextSet(_context);
 
-        ImGui::BeginChild(_internalLabel.c_str(), ImVec2((float)_width, (float)_height), false, _windowflags);
+        bool ret = ImGui::BeginChild(_internalLabel.c_str(), ImVec2((float)_width, (float)_height), false, _windowflags);
 
         for (auto& item : _children[1])
         {
@@ -276,6 +276,8 @@ namespace Marvel {
 
         _state.lastFrameUpdate = GContext->frame;
         _state.hovered = imnodes::IsEditorHovered();
+        _state.visible = ret;
+        _state.rectSize = { imnodes::mvEditorGetSize().Max.x - imnodes::mvEditorGetSize().Min.x, imnodes::mvEditorGetSize().Max.y - imnodes::mvEditorGetSize().Min.y };
         imnodes::EndNodeEditor();
         imnodes::PopAttributeFlag();
 
@@ -283,14 +285,47 @@ namespace Marvel {
         for (auto& item : _children[0])
             item->customAction();
 
+        int nodeHovered = -1;
+        int linkHovered = -1;
+        int pinHovered = -1;
+        int attrActive = -1;
+
+        bool anyNodeHovered = imnodes::IsNodeHovered(&nodeHovered);
+        bool anyLinkHovered = imnodes::IsLinkHovered(&linkHovered);
+        bool anyPinHovered = imnodes::IsPinHovered(&pinHovered);
+        bool anyAttrActive = imnodes::IsAnyAttributeActive(&attrActive);
+
+        for (auto& child : _children[0])
+        {
+            child->_state.lastFrameUpdate = GContext->frame;
+            child->_state.hovered = false;
+
+            if (anyLinkHovered && linkHovered == static_cast<mvNodeLink*>(child.get())->getId())
+                child->_state.hovered = true;
+
+        }
+
         for (auto& child : _children[1])
         {
+            child->_state.lastFrameUpdate = GContext->frame;
             child->_state.hovered = false;
 
             ImVec2 size = imnodes::GetNodeDimensions(static_cast<mvNode*>(child.get())->getId());
             child->_state.rectSize = { size.x, size.y };
-            child->_state.rectMin = { size.x, size.y };
-            child->_state.rectMax = { size.x, size.y };
+
+            if (anyNodeHovered && nodeHovered == static_cast<mvNode*>(child.get())->getId())
+                child->_state.hovered = true;
+
+            for (auto& grandchild : child->_children[1])
+            {
+                grandchild->_state.lastFrameUpdate = GContext->frame;
+                grandchild->_state.hovered = false;
+
+                if (anyPinHovered && pinHovered == static_cast<mvNodeAttribute*>(grandchild.get())->getId())
+                    grandchild->_state.hovered = true;
+                if (anyAttrActive && attrActive == static_cast<mvNodeAttribute*>(grandchild.get())->getId())
+                    grandchild->_state.active = true;
+            }
         }
         
         _selectedNodes.clear();
@@ -386,8 +421,6 @@ namespace Marvel {
         }
 
         ImGui::EndChild();
-
-        _state.lastFrameUpdate = GContext->frame;
 
         if (_handlerRegistry)
             _handlerRegistry->customAction(&_state);

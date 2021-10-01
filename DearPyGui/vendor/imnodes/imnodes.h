@@ -4,6 +4,7 @@
 
 struct ImGuiContext;
 struct ImVec2;
+struct ImRect;
 
 namespace imnodes
 {
@@ -178,9 +179,10 @@ namespace imnodes
     EditorContext* EditorContextCreate();
     void EditorContextFree(EditorContext*);
     void EditorContextSet(EditorContext*);
-    ImVec2 EditorContextGetPanning();
+    ImRect mvEditorGetSize();
     void EditorContextResetPanning(const ImVec2& pos);
     void EditorContextMoveToNode(const int node_id);
+    ImVec2 mvEditorGetSize(EditorContext*);
 
     IO& GetIO();
 

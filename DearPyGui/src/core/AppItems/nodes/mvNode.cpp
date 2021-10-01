@@ -141,6 +141,12 @@ namespace Marvel {
 			ImGui::TextUnformatted(_specifiedLabel.c_str());
 			imnodes::EndNodeTitleBar();
 
+			_state.lastFrameUpdate = GContext->frame;
+			_state.leftclicked = ImGui::IsItemClicked();
+			_state.rightclicked = ImGui::IsItemClicked(1);
+			_state.middleclicked = ImGui::IsItemClicked(2);
+			_state.visible = ImGui::IsItemVisible();
+
 			for (auto& item : _children[1])
 			{
 				// skip item if it's not shown
@@ -152,9 +158,6 @@ namespace Marvel {
 					ImGui::SetNextItemWidth((float)item->_width);
 
 				item->draw(drawlist, x, y);
-
-				auto& state = item->_state;
-				state.active = imnodes::IsAttributeActive();
 
 			}
 
@@ -170,13 +173,7 @@ namespace Marvel {
 		//   * only update if applicable
 		//-----------------------------------------------------------------------------
 		ImVec2 pos = imnodes::GetNodeGridSpacePos((int)_id);
-		_state.lastFrameUpdate = GContext->frame;
-		_state.hovered = ImGui::IsItemHovered();
-		_state.leftclicked = ImGui::IsItemClicked();
-		_state.rightclicked = ImGui::IsItemClicked(1);
-		_state.middleclicked = ImGui::IsItemClicked(2);
-		_state.visible = ImGui::IsItemVisible();
-		_state.active = imnodes::IsAnyAttributeActive();
+
 		_state.pos = { pos.x , pos.y };
 
 		// undo indents

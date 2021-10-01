@@ -21,8 +21,12 @@ namespace Marvel {
         MV_NO_COMMANDS
         MV_NO_CONSTANTS
 
-        // TODO: apply appropriately
-        MV_SET_STATES(MV_STATE_NONE);
+        MV_SET_STATES(
+            MV_STATE_HOVER |
+            MV_STATE_CLICKED |
+            MV_STATE_VISIBLE |
+            MV_STATE_RECT_SIZE
+        );
 
         MV_START_PARENTS
             MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
