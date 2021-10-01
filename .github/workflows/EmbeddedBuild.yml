@@ -98,7 +98,7 @@ jobs:
     
     runs-on: ubuntu-18.04
     env:
-      CXX: g++-9.4.0
+      CXX: g++-9
     if: ${{! contains(github.event.head_commit.message, '[individual]') || contains(github.event.head_commit.message, '[linux]')}}
 
     steps:
