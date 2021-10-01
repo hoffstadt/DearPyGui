@@ -18,7 +18,7 @@ used to refer to the item after it has been created.
 All items return their tag's when they are created.
 
 .. warning::
-    Item tags's should be unique if specified using the *tag* keyword.
+    Item tags's shall be unique if specified using the *tag* keyword.
     Integers 0-10 are reserved for DPG internal items.
 
 .. code-block:: python
@@ -42,7 +42,7 @@ All items return their tag's when they are created.
     dpg.start_dearpygui()
     dpg.destroy_context()
 
-.. note:: Items can be created delete at runtime see :doc:`../documentation/item-creation`
+.. note:: Items can be created and delete at runtime see :doc:`../documentation/item-creation#Runtime Adding and Deleting`
 
 .. seealso::
     | For more information on the creating items:
