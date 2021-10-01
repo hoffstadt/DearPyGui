@@ -18,7 +18,7 @@ used to refer to the item after it has been created.
 All items return their tag's when they are created.
 
 .. warning::
-    Item tags's should be unique if specified using the *tag* keyword.
+    Item tags's shall be unique if specified using the *tag* keyword.
     Integers 0-10 are reserved for DPG internal items.
 
 .. code-block:: python
@@ -42,7 +42,7 @@ All items return their tag's when they are created.
     dpg.start_dearpygui()
     dpg.destroy_context()
 
-.. note:: Items can be created delete at runtime see :doc:`../documentation/item-creation`
+.. note:: Items can be created and delete at runtime see :doc:`../documentation/item-creation#Runtime Adding and Deleting`
 
 .. seealso::
     | For more information on the creating items:
@@ -60,18 +60,24 @@ by specifying the parent
 
     import dearpygui.dearpygui as dpg
 
+    dpg.create_context()
+
     with dpg.window(label="Tutorial"):
         dpg.add_button(label="Button 1")
         dpg.add_button(label="Button 2")
-        with container():
+        with dpg.group():
             dpg.add_button(label="Button 3")
             dpg.add_button(label="Button 4")
-            with group() as group1:
+            with dpg.group() as group1:
                 pass
     dpg.add_button(label="Button 6", parent=group1)
     dpg.add_button(label="Button 5", parent=group1)
 
+    dpg.create_viewport(title='Custom Title', width=600, height=400)
+    dpg.setup_dearpygui()
+    dpg.show_viewport()
     dpg.start_dearpygui()
+    dpg.destroy_context()
 
 .. seealso::
     | For more information on containers:
@@ -85,7 +91,7 @@ Configuration, State, Info
 
 DPG items consist of configuration, state and info. (AND value but we will cover that separate)
 
-Each of these can be accessed by its corresponding function
+Each of these can be accessed by their corresponding function
 
 :py:func:`get_item_configuration <dearpygui.dearpygui.get_item_configuration>`
     keywords that control its appearance and behavior (label, callback, width, height)
@@ -106,7 +112,7 @@ Each of these can be accessed by its corresponding function
     | :py:func:`is_item_hovered <dearpygui.dearpygui.is_item_hovered>`
     | :py:func:`get_item_children <dearpygui.dearpygui.get_item_children>`
 
-Below we will show the ways to configure the items and we can check their state
+Below we will show the ways to configure the items and how to check their state
 by viewing them through the item registry tool.
 
 **Code:**
@@ -115,19 +121,25 @@ by viewing them through the item registry tool.
 
     import dearpygui.dearpygui as dpg
 
-    with dpg.window(label="Tutorial"):
+    dpg.create_context()
 
-        #configuration set when button is created
+
+    with dpg.window(label="Tutorial"):
+        # configuration set when button is created
         dpg.add_button(label="Apply", width=300)
 
-        #user data and callback set any time after button has been created
+        # user data and callback set any time after button has been created
         btn = dpg.add_button(label="Apply 2")
         dpg.set_item_label(btn, "Button 57")
         dpg.set_item_width(btn, 200)
 
     dpg.show_item_registry()
 
+    dpg.create_viewport(title='Custom Title', width=800, height=600)
+    dpg.setup_dearpygui()
+    dpg.show_viewport()
     dpg.start_dearpygui()
+    dpg.destroy_context()
 
 .. seealso::
     | For more information on the these topics:
@@ -137,15 +149,18 @@ by viewing them through the item registry tool.
 Callbacks
 ---------
 
-Callbacks give UI items functionality and almost all UI Items
-in DPG can run callbacks.
+Callbacks give UI items functionality by assigning a function to run when they are activated
+and almost all UI Items in DPG can run callbacks.
 
 Functions or methods are assigned as UI item callbacks when
-an item is created or at a later time using
+an item is created or at a later runtime using
 :py:func:`set_item_callback <dearpygui.dearpygui.set_item_callback>`
 
-Callbacks may have up to 3
-standard keyword arguments:
+Callbacks may have up to 3 in the following order.
+
+.. note:: Because they are optional positional arguments you 
+    must use the *sender* and *app_data* if you want to use *user_data*
+    standard keyword arguments:
 
 sender:
    the *id* of the UI item that submitted the callback
@@ -162,22 +177,28 @@ user_data:
 
     import dearpygui.dearpygui as dpg
 
+    dpg.create_context()
+
     def button_callback(sender, app_data, user_data):
         print(f"sender is: {sender}")
         print(f"app_data is: {app_data}")
         print(f"user_data is: {user_data}")
 
-    with dpg.window(label="Tutorial"):
 
-        #user data and callback set when button is created
+    with dpg.window(label="Tutorial"):
+        # user data and callback set when button is created
         dpg.add_button(label="Apply", callback=button_callback, user_data="Some Data")
 
-        #user data and callback set any time after button has been created
+        # user data and callback set any time after button has been created
         btn = dpg.add_button(label="Apply 2", )
         dpg.set_item_callback(btn, button_callback)
         dpg.set_item_user_data(btn, "Some Extra User Data")
 
+    dpg.create_viewport(title='Custom Title', width=800, height=600)
+    dpg.setup_dearpygui()
+    dpg.show_viewport()
     dpg.start_dearpygui()
+    dpg.destroy_context()
 
 .. seealso::
     For more information on the item callbacks :doc:`../documentation/item-callbacks`
@@ -185,22 +206,26 @@ user_data:
 Values
 ------
 
-Most UI items have a value which can be accessed or set.
+Almost all UI items have a *value* which can be accessed or set.
 
-All UI items that have a value also have the *default_value* parameter
+All UI items that have a *value* also have the *default_value* parameter
 which will set the items' initial starting value.
 
 Values can be accessed using :py:func:`get_value <dearpygui.dearpygui.get_value>`
 
-Below is an example of two setting the *default_value* for different items
+Below is an example of setting the *default_value* for two different items,
 setting a callback to the items and printing their values.
 
 .. code-block:: python
 
     import dearpygui.dearpygui as dpg
 
+    dpg.create_context()
+
+
     def print_value(sender):
         print(dpg.get_value(sender))
+
 
     with dpg.window(width=300):
         input_txt1 = dpg.add_input_text()
@@ -209,7 +234,7 @@ setting a callback to the items and printing their values.
         input_txt2 = dpg.add_input_text(
             label="InputTxt2",
             default_value="This is a default value!",
-            callback = print_value
+            callback=print_value
         )
 
         slider_float1 = dpg.add_slider_float()
@@ -229,12 +254,16 @@ setting a callback to the items and printing their values.
         print(dpg.get_value(slider_float1))
         print(dpg.get_value(slider_float2))
 
+    dpg.create_viewport(title='Custom Title', width=800, height=600)
+    dpg.setup_dearpygui()
+    dpg.show_viewport()
     dpg.start_dearpygui()
+    dpg.destroy_context()
 
 .. image:: https://raw.githubusercontent.com/Atlamillias/DearPyGui-Stuff/main/wiki%20images/dpg_using_widgets_ex1.png
 
 An input item's value is changed by interacting with it.
-In the above example, moving slider_float1 slider to 30.55 sets its value to 30.55.
+In the above example, moving slider_float1 slider to 30.55 sets its' value to 30.55.
 
 We can set the position of the slider by changing items' value at runtime using
 :py:func:`set_value <dearpygui.dearpygui.set_value>`.
@@ -243,17 +272,22 @@ We can set the position of the slider by changing items' value at runtime using
 
     import dearpygui.dearpygui as dpg
 
+    dpg.create_context()
 
     with dpg.window(width=300):
         # Creating a slider_int widget and setting the
         # default value to 15.
-        dpg.add_slider_int(default_value=15, id="slider_int")
+        dpg.add_slider_int(default_value=15, tag="slider_int")
 
     # On second thought, we're gonna set the value to 40
     # instead - for no reason in particular...
     dpg.set_value("slider_int", 40)
 
+    dpg.create_viewport(title='Custom Title', width=800, height=600)
+    dpg.setup_dearpygui()
+    dpg.show_viewport()
     dpg.start_dearpygui()
+    dpg.destroy_context()
 
 .. image:: https://raw.githubusercontent.com/Atlamillias/DearPyGui-Stuff/main/wiki%20images/dpg_using_widgets_ex2.png
 
@@ -272,14 +306,22 @@ UI item handlers listen for events (changes in state) related to a UI item then 
 
     import dearpygui.dearpygui as dpg
 
+    dpg.create_context()
+
     def change_text(sender, app_data):
-        dpg.set_value("text_item", f"Mouse Button ID: {app_data}")
+        dpg.set_value("text item", f"Mouse Button ID: {app_data}")
 
     with dpg.window(width=500, height=300):
-        dpg.add_text("Click me with any mouse button", id="text_item")
-        dpg.add_clicked_handler(text_widget, callback=change_text)
+        dpg.add_text("Click me with any mouse button", tag="text item")
+        with dpg.item_handler_registry(tag="widget handler") as handler:
+            dpg.add_item_clicked_handler(callback=change_text)
+        dpg.bind_item_handler_registry("text item", "widget handler")
 
+    dpg.create_viewport(title='Custom Title', width=800, height=600)
+    dpg.setup_dearpygui()
+    dpg.show_viewport()
     dpg.start_dearpygui()
+    dpg.destroy_context()
 
 .. seealso::
     For more information on item handlers :doc:`../documentation/io-handlers-state`
