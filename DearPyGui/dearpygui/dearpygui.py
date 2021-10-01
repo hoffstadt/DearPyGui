@@ -7066,6 +7066,18 @@ def bind_font(font : Union[int, str], **kwargs) -> Union[int, str]:
 
 	return internal_dpg.bind_font(font, **kwargs)
 
+def bind_item_font(item : Union[int, str], font : Union[int, str], **kwargs) -> None:
+	"""	 Sets an item's font.
+
+	Args:
+		item (Union[int, str]): 
+		font (Union[int, str]): 
+	Returns:
+		None
+	"""
+
+	return internal_dpg.bind_item_font(item, font, **kwargs)
+
 def bind_item_handler_registry(item : Union[int, str], handler_registry : Union[int, str], **kwargs) -> None:
 	"""	 Binds an item handler registry to an item.
 
@@ -8488,18 +8500,6 @@ def set_item_children(item : Union[int, str], source : Union[int, str], slot : i
 	"""
 
 	return internal_dpg.set_item_children(item, source, slot, **kwargs)
-
-def set_item_font(item : Union[int, str], font : Union[int, str], **kwargs) -> None:
-	"""	 Sets an item's font.
-
-	Args:
-		item (Union[int, str]): 
-		font (Union[int, str]): 
-	Returns:
-		None
-	"""
-
-	return internal_dpg.set_item_font(item, font, **kwargs)
 
 def set_primary_window(window : Union[int, str], value : bool, **kwargs) -> None:
 	"""	 Sets the primary window.

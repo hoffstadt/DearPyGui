@@ -120,6 +120,8 @@ jobs:
   build-linux-wheels:
 
     runs-on: ubuntu-18.04
+    env:
+      CXX: g++-9
     strategy:
       matrix:
         python-version: [ 3.6, 3.7, 3.8, 3.9 ]

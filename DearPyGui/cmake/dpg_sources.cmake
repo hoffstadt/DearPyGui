@@ -221,7 +221,7 @@ set(MARVEL_SOURCES
 	"vendor/implot/implot_demo.cpp"
 
 	# ImGuiFileDialog
-	"../Dependencies/ImGuiFileDialog/ImGuiFileDialog/ImGuiFileDialog.cpp"
+	"vendor/ImGuiFileDialog/ImGuiFileDialog.cpp"
 
 	# imgui
 	"../Dependencies/imgui/misc/cpp/imgui_stdlib.cpp"
@@ -243,9 +243,11 @@ set(MARVEL_SOURCES
 
 set(MARVEL_INCLUDE_DIR
 
+	"vendor"
 	"vendor/implot"
 	"vendor/stb"
 	"vendor/imnodes"
+	"vendor/ImGuiFileDialog"
 	"src/"
 	"src/core"
 	"src/core/CustomImGuiWidgets"
@@ -254,9 +256,6 @@ set(MARVEL_INCLUDE_DIR
 	"src/core/PythonUtilities"
 	"src/core/Theming"
 	"src/core/Tooling"
-	"$<$<PLATFORM_ID:Windows>:${CMAKE_SOURCE_DIR}/DearPyGui/vendor/dirent/>"
-	"../Dependencies/ImGuiFileDialog/ImGuiFileDialog/"
-	"../Dependencies/ImGuiFileDialog/"
 	"../Dependencies/glfw/include/"
 	"../Dependencies/glfw/deps/"
 	"../Dependencies/imgui/"
