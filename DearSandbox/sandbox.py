@@ -28,7 +28,7 @@ datagrid = mvDataGrid(columns, datagrid_data)
 
 with dpg.window(label="tutorial", width=500, height=500):
     dpg.add_button(label="Press me", callback=lambda:dpg.toggle_viewport_fullscreen())
-    datagrid.submit()
+    #datagrid.submit()
 
 # main loop
 dpg.show_viewport()

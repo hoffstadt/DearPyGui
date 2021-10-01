@@ -38,7 +38,7 @@ namespace Marvel {
 
         const std::string& getFilter() { return _extension; }
 
-    private:
+    public:
 
         std::string _extension;
         std::string _customText;
