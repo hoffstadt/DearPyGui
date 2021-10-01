@@ -1,6 +1,6 @@
 
 ##########################################################
-# Dear PyGui User Interface
+# Dear PyGui User Interface (MODIFIED FOR READTHEDOCS)
 #   ~ Version: master
 #
 #   Notes:
@@ -1425,7 +1425,7 @@ def child(**kwargs):
 
 
 @contextmanager
-def child_window(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, border: bool =True, autosize_x: bool =False, autosize_y: bool =False, no_scrollbar: bool =False, horizontal_scrollbar: bool =False, menubar: bool =False, **kwargs) -> Union[int, str]:
+def child_window(**kwargs):
 	"""	 Adds an embedded child window. Will show scrollbars when items do not fit.
 
 	Args:
@@ -1452,23 +1452,19 @@ def child_window(*, label: str =None, user_data: Any =None, use_internal_label: 
 		no_scrollbar (bool, optional):  Disable scrollbars (window can still scroll with mouse or programmatically).
 		horizontal_scrollbar (bool, optional): Allow horizontal scrollbar to appear (off by default).
 		menubar (bool, optional): Shows/Hides the menubar at the top.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
 	try:
-
-		if 'id' in kwargs.keys():
-			warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-			tag=kwargs['id']
-		widget = internal_dpg.add_child_window(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, border=border, autosize_x=autosize_x, autosize_y=autosize_y, no_scrollbar=no_scrollbar, horizontal_scrollbar=horizontal_scrollbar, menubar=menubar, **kwargs)
+		widget = internal_dpg.add_child_window(**kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def clipper(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, delay_search: bool =False, **kwargs) -> Union[int, str]:
+def clipper(**kwargs):
 	"""	 Helper to manually clip large list of items. Increases performance by not searching or drawing widgets outside of the clipped region.
 
 	Args:
@@ -1482,23 +1478,19 @@ def clipper(*, label: str =None, user_data: Any =None, use_internal_label: bool 
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
 	try:
-
-		if 'id' in kwargs.keys():
-			warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-			tag=kwargs['id']
-		widget = internal_dpg.add_clipper(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, indent=indent, parent=parent, before=before, show=show, delay_search=delay_search, **kwargs)
+		widget = internal_dpg.add_clipper(**kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def collapsing_header(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, closable: bool =False, default_open: bool =False, open_on_double_click: bool =False, open_on_arrow: bool =False, leaf: bool =False, bullet: bool =False, **kwargs) -> Union[int, str]:
+def collapsing_header(**kwargs):
 	"""	 Adds a collapsing header to add items to. Must be closed with the end command.
 
 	Args:
@@ -1524,23 +1516,19 @@ def collapsing_header(*, label: str =None, user_data: Any =None, use_internal_la
 		open_on_arrow (bool, optional): Only open when clicking on the arrow part.
 		leaf (bool, optional): No collapsing, no arrow (use as a convenience for leaf nodes).
 		bullet (bool, optional): Display a bullet instead of arrow.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
 	try:
-
-		if 'id' in kwargs.keys():
-			warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-			tag=kwargs['id']
-		widget = internal_dpg.add_collapsing_header(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, indent=indent, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, closable=closable, default_open=default_open, open_on_double_click=open_on_double_click, open_on_arrow=open_on_arrow, leaf=leaf, bullet=bullet, **kwargs)
+		widget = internal_dpg.add_collapsing_header(**kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def colormap_registry(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, show: bool =False, **kwargs) -> Union[int, str]:
+def colormap_registry(**kwargs):
 	"""	 Adds a colormap registry.
 
 	Args:
@@ -1549,23 +1537,19 @@ def colormap_registry(*, label: str =None, user_data: Any =None, use_internal_la
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		show (bool, optional): Attempt to render widget.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
 	try:
-
-		if 'id' in kwargs.keys():
-			warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-			tag=kwargs['id']
-		widget = internal_dpg.add_colormap_registry(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, show=show, **kwargs)
+		widget = internal_dpg.add_colormap_registry(**kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def drag_payload(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, show: bool =True, drag_data: Any =None, drop_data: Any =None, payload_type: str ='$$DPG_PAYLOAD', **kwargs) -> Union[int, str]:
+def drag_payload(**kwargs):
 	"""	 User data payload for drag and drop operations.
 
 	Args:
@@ -1578,23 +1562,19 @@ def drag_payload(*, label: str =None, user_data: Any =None, use_internal_label: 
 		drag_data (Any, optional): Drag data
 		drop_data (Any, optional): Drop data
 		payload_type (str, optional): 
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
 	try:
-
-		if 'id' in kwargs.keys():
-			warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-			tag=kwargs['id']
-		widget = internal_dpg.add_drag_payload(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, show=show, drag_data=drag_data, drop_data=drop_data, payload_type=payload_type, **kwargs)
+		widget = internal_dpg.add_drag_payload(**kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def draw_layer(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, **kwargs) -> Union[int, str]:
+def draw_layer(**kwargs):
 	"""	 Creates a layer useful for grouping drawlist items.
 
 	Args:
@@ -1605,23 +1585,19 @@ def draw_layer(*, label: str =None, user_data: Any =None, use_internal_label: bo
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
 	try:
-
-		if 'id' in kwargs.keys():
-			warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-			tag=kwargs['id']
-		widget = internal_dpg.add_draw_layer(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, show=show, **kwargs)
+		widget = internal_dpg.add_draw_layer(**kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def drawlist(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, parent: Union[int, str] =0, before: Union[int, str] =0, callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, **kwargs) -> Union[int, str]:
+def drawlist(**kwargs):
 	"""	 Adds a drawing canvas.
 
 	Args:
@@ -1640,23 +1616,19 @@ def drawlist(*, label: str =None, user_data: Any =None, use_internal_label: bool
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
 	try:
-
-		if 'id' in kwargs.keys():
-			warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-			tag=kwargs['id']
-		widget = internal_dpg.add_drawlist(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, parent=parent, before=before, callback=callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, **kwargs)
+		widget = internal_dpg.add_drawlist(**kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def file_dialog(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, callback: Callable =None, show: bool =True, default_path: str ='', default_filename: str ='.', file_count: int =0, modal: bool =False, directory_selector: bool =False, **kwargs) -> Union[int, str]:
+def file_dialog(**kwargs):
 	"""	 Displays a file or directory selector depending on keywords. Displays a file dialog by default.
 
 	Args:
@@ -1673,23 +1645,19 @@ def file_dialog(*, label: str =None, user_data: Any =None, use_internal_label: b
 		file_count (int, optional): Number of visible files in the dialog.
 		modal (bool, optional): Forces user interaction with the file selector.
 		directory_selector (bool, optional): Shows only directory/paths as options. Allows selection of directory/paths only.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
 	try:
-
-		if 'id' in kwargs.keys():
-			warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-			tag=kwargs['id']
-		widget = internal_dpg.add_file_dialog(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, callback=callback, show=show, default_path=default_path, default_filename=default_filename, file_count=file_count, modal=modal, directory_selector=directory_selector, **kwargs)
+		widget = internal_dpg.add_file_dialog(**kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def filter_set(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, delay_search: bool =False, **kwargs) -> Union[int, str]:
+def filter_set(**kwargs):
 	"""	 Helper to parse and apply text filters (e.g. aaaaa[, bbbbb][, ccccc])
 
 	Args:
@@ -1703,23 +1671,19 @@ def filter_set(*, label: str =None, user_data: Any =None, use_internal_label: bo
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
 	try:
-
-		if 'id' in kwargs.keys():
-			warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-			tag=kwargs['id']
-		widget = internal_dpg.add_filter_set(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, indent=indent, parent=parent, before=before, show=show, delay_search=delay_search, **kwargs)
+		widget = internal_dpg.add_filter_set(**kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def font(file : str, size : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =internal_dpg.mvReservedUUID_0, **kwargs) -> Union[int, str]:
+def font(file, size, **kwargs):
 	"""	 Undocumented
 
 	Args:
@@ -1730,28 +1694,20 @@ def font(file : str, size : int, *, label: str =None, user_data: Any =None, use_
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		id (Union[int, str], optional): (deprecated) 
-		default_font (bool, optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
+		default_font (bool, optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
 	try:
-
-		if 'id' in kwargs.keys():
-			warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-			tag=kwargs['id']
-
-		if 'default_font' in kwargs.keys():
-			warnings.warn('default_font keyword removed', DeprecationWarning, 2)
-			kwargs.pop('default_font', None)
-		widget = internal_dpg.add_font(file, size, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, **kwargs)
+		widget = internal_dpg.add_font(file, size, **kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def font_registry(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, show: bool =True, **kwargs) -> Union[int, str]:
+def font_registry(**kwargs):
 	"""	 Undocumented
 
 	Args:
@@ -1760,23 +1716,19 @@ def font_registry(*, label: str =None, user_data: Any =None, use_internal_label:
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		show (bool, optional): Attempt to render widget.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
 	try:
-
-		if 'id' in kwargs.keys():
-			warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-			tag=kwargs['id']
-		widget = internal_dpg.add_font_registry(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, show=show, **kwargs)
+		widget = internal_dpg.add_font_registry(**kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def group(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, horizontal: bool =False, horizontal_spacing: float =-1, xoffset: float =0.0, **kwargs) -> Union[int, str]:
+def group(**kwargs):
 	"""	 Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members.
 
 	Args:
@@ -1800,23 +1752,19 @@ def group(*, label: str =None, user_data: Any =None, use_internal_label: bool =T
 		horizontal (bool, optional): Forces child widgets to be added in a horizontal layout.
 		horizontal_spacing (float, optional): Spacing for the horizontal layout.
 		xoffset (float, optional): Offset from containing window x item location within group.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
 	try:
-
-		if 'id' in kwargs.keys():
-			warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-			tag=kwargs['id']
-		widget = internal_dpg.add_group(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, indent=indent, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, horizontal=horizontal, horizontal_spacing=horizontal_spacing, xoffset=xoffset, **kwargs)
+		widget = internal_dpg.add_group(**kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def handler_registry(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, show: bool =True, **kwargs) -> Union[int, str]:
+def handler_registry(**kwargs):
 	"""	 Adds a handler registry.
 
 	Args:
@@ -1825,23 +1773,19 @@ def handler_registry(*, label: str =None, user_data: Any =None, use_internal_lab
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		show (bool, optional): Attempt to render widget.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
 	try:
-
-		if 'id' in kwargs.keys():
-			warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-			tag=kwargs['id']
-		widget = internal_dpg.add_handler_registry(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, show=show, **kwargs)
+		widget = internal_dpg.add_handler_registry(**kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def item_handler_registry(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, show: bool =True, **kwargs) -> Union[int, str]:
+def item_handler_registry(**kwargs):
 	"""	 Adds an item handler registry.
 
 	Args:
@@ -1850,23 +1794,19 @@ def item_handler_registry(*, label: str =None, user_data: Any =None, use_interna
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		show (bool, optional): Attempt to render widget.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
 	try:
-
-		if 'id' in kwargs.keys():
-			warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-			tag=kwargs['id']
-		widget = internal_dpg.add_item_handler_registry(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, show=show, **kwargs)
+		widget = internal_dpg.add_item_handler_registry(**kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def item_pool(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, **kwargs) -> Union[int, str]:
+def item_pool(**kwargs):
 	"""	 Adds an item pool.
 
 	Args:
@@ -1874,23 +1814,19 @@ def item_pool(*, label: str =None, user_data: Any =None, use_internal_label: boo
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
 	try:
-
-		if 'id' in kwargs.keys():
-			warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-			tag=kwargs['id']
-		widget = internal_dpg.add_item_pool(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, **kwargs)
+		widget = internal_dpg.add_item_pool(**kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def item_set(type : int, count : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, **kwargs) -> Union[int, str]:
+def item_set(type, count, **kwargs):
 	"""	 Adds an item set to an item pool.
 
 	Args:
@@ -1900,23 +1836,19 @@ def item_set(type : int, count : int, *, label: str =None, user_data: Any =None,
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
 	try:
-
-		if 'id' in kwargs.keys():
-			warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-			tag=kwargs['id']
-		widget = internal_dpg.add_item_set(type, count, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, **kwargs)
+		widget = internal_dpg.add_item_set(type, count, **kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def menu(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drop_callback: Callable =None, show: bool =True, enabled: bool =True, filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, **kwargs) -> Union[int, str]:
+def menu(**kwargs):
 	"""	 Adds a menu to an existing menu bar.
 
 	Args:
@@ -1935,23 +1867,19 @@ def menu(*, label: str =None, user_data: Any =None, use_internal_label: bool =Tr
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
 	try:
-
-		if 'id' in kwargs.keys():
-			warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-			tag=kwargs['id']
-		widget = internal_dpg.add_menu(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, indent=indent, parent=parent, before=before, payload_type=payload_type, drop_callback=drop_callback, show=show, enabled=enabled, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, **kwargs)
+		widget = internal_dpg.add_menu(**kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def menu_bar(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, indent: int =-1, parent: Union[int, str] =0, show: bool =True, delay_search: bool =False, **kwargs) -> Union[int, str]:
+def menu_bar(**kwargs):
 	"""	 Adds a menu bar to a window.
 
 	Args:
@@ -1963,23 +1891,19 @@ def menu_bar(*, label: str =None, user_data: Any =None, use_internal_label: bool
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		show (bool, optional): Attempt to render widget.
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
 	try:
-
-		if 'id' in kwargs.keys():
-			warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-			tag=kwargs['id']
-		widget = internal_dpg.add_menu_bar(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, indent=indent, parent=parent, show=show, delay_search=delay_search, **kwargs)
+		widget = internal_dpg.add_menu_bar(**kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def node(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, draggable: bool =True, **kwargs) -> Union[int, str]:
+def node(**kwargs):
 	"""	 Adds a node to a node editor.
 
 	Args:
@@ -1999,23 +1923,19 @@ def node(*, label: str =None, user_data: Any =None, use_internal_label: bool =Tr
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		draggable (bool, optional): Allow node to be draggable.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
 	try:
-
-		if 'id' in kwargs.keys():
-			warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-			tag=kwargs['id']
-		widget = internal_dpg.add_node(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, draggable=draggable, **kwargs)
+		widget = internal_dpg.add_node(**kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def node_attribute(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, filter_key: str ='', tracked: bool =False, track_offset: float =0.5, attribute_type: int =0, shape: int =1, category: str ='general', **kwargs) -> Union[int, str]:
+def node_attribute(**kwargs):
 	"""	 Adds a node attribute to a node.
 
 	Args:
@@ -2033,23 +1953,19 @@ def node_attribute(*, label: str =None, user_data: Any =None, use_internal_label
 		attribute_type (int, optional): mvNode_Attr_Input, mvNode_Attr_Output, or mvNode_Attr_Static.
 		shape (int, optional): Pin shape.
 		category (str, optional): Category
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
 	try:
-
-		if 'id' in kwargs.keys():
-			warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-			tag=kwargs['id']
-		widget = internal_dpg.add_node_attribute(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, indent=indent, parent=parent, before=before, show=show, filter_key=filter_key, tracked=tracked, track_offset=track_offset, attribute_type=attribute_type, shape=shape, category=category, **kwargs)
+		widget = internal_dpg.add_node_attribute(**kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def node_editor(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, parent: Union[int, str] =0, before: Union[int, str] =0, callback: Callable =None, show: bool =True, filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, delink_callback: Callable =None, menubar: bool =False, **kwargs) -> Union[int, str]:
+def node_editor(**kwargs):
 	"""	 Adds a node editor.
 
 	Args:
@@ -2069,23 +1985,19 @@ def node_editor(*, label: str =None, user_data: Any =None, use_internal_label: b
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		delink_callback (Callable, optional): Callback ran when a link is detached.
 		menubar (bool, optional): Shows or hides the menubar.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
 	try:
-
-		if 'id' in kwargs.keys():
-			warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-			tag=kwargs['id']
-		widget = internal_dpg.add_node_editor(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, parent=parent, before=before, callback=callback, show=show, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, delink_callback=delink_callback, menubar=menubar, **kwargs)
+		widget = internal_dpg.add_node_editor(**kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def plot(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, no_title: bool =False, no_menus: bool =False, no_box_select: bool =False, no_mouse_pos: bool =False, no_highlight: bool =False, no_child: bool =False, query: bool =False, crosshairs: bool =False, anti_aliased: bool =False, equal_aspects: bool =False, pan_button: int =internal_dpg.mvMouseButton_Left, pan_mod: int =-1, fit_button: int =internal_dpg.mvMouseButton_Left, context_menu_button: int =internal_dpg.mvMouseButton_Right, box_select_button: int =internal_dpg.mvMouseButton_Right, box_select_mod: int =-1, box_select_cancel_button: int =internal_dpg.mvMouseButton_Left, query_button: int =internal_dpg.mvMouseButton_Middle, query_mod: int =-1, query_toggle_mod: int =internal_dpg.mvKey_Control, horizontal_mod: int =internal_dpg.mvKey_Alt, vertical_mod: int =internal_dpg.mvKey_Shift, **kwargs) -> Union[int, str]:
+def plot(**kwargs):
 	"""	 Adds a plot which is used to hold series, and can be drawn to with draw commands.
 
 	Args:
@@ -2130,23 +2042,19 @@ def plot(*, label: str =None, user_data: Any =None, use_internal_label: bool =Tr
 		query_toggle_mod (int, optional): when held, active box selections turn into queries
 		horizontal_mod (int, optional): expands active box selection/query horizontally to plot edge when held
 		vertical_mod (int, optional): expands active box selection/query vertically to plot edge when held
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
 	try:
-
-		if 'id' in kwargs.keys():
-			warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-			tag=kwargs['id']
-		widget = internal_dpg.add_plot(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, no_title=no_title, no_menus=no_menus, no_box_select=no_box_select, no_mouse_pos=no_mouse_pos, no_highlight=no_highlight, no_child=no_child, query=query, crosshairs=crosshairs, anti_aliased=anti_aliased, equal_aspects=equal_aspects, pan_button=pan_button, pan_mod=pan_mod, fit_button=fit_button, context_menu_button=context_menu_button, box_select_button=box_select_button, box_select_mod=box_select_mod, box_select_cancel_button=box_select_cancel_button, query_button=query_button, query_mod=query_mod, query_toggle_mod=query_toggle_mod, horizontal_mod=horizontal_mod, vertical_mod=vertical_mod, **kwargs)
+		widget = internal_dpg.add_plot(**kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def plot_axis(axis : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drop_callback: Callable =None, show: bool =True, no_gridlines: bool =False, no_tick_marks: bool =False, no_tick_labels: bool =False, log_scale: bool =False, invert: bool =False, lock_min: bool =False, lock_max: bool =False, time: bool =False, **kwargs) -> Union[int, str]:
+def plot_axis(axis, **kwargs):
 	"""	 Adds an axis to a plot.
 
 	Args:
@@ -2167,23 +2075,19 @@ def plot_axis(axis : int, *, label: str =None, user_data: Any =None, use_interna
 		lock_min (bool, optional): 
 		lock_max (bool, optional): 
 		time (bool, optional): 
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
 	try:
-
-		if 'id' in kwargs.keys():
-			warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-			tag=kwargs['id']
-		widget = internal_dpg.add_plot_axis(axis, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, payload_type=payload_type, drop_callback=drop_callback, show=show, no_gridlines=no_gridlines, no_tick_marks=no_tick_marks, no_tick_labels=no_tick_labels, log_scale=log_scale, invert=invert, lock_min=lock_min, lock_max=lock_max, time=time, **kwargs)
+		widget = internal_dpg.add_plot_axis(axis, **kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def stage(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, **kwargs) -> Union[int, str]:
+def stage(**kwargs):
 	"""	 Adds a stage.
 
 	Args:
@@ -2191,23 +2095,19 @@ def stage(*, label: str =None, user_data: Any =None, use_internal_label: bool =T
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
 	try:
-
-		if 'id' in kwargs.keys():
-			warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-			tag=kwargs['id']
-		widget = internal_dpg.add_stage(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, **kwargs)
+		widget = internal_dpg.add_stage(**kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def subplots(rows : int, columns : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, row_ratios: Union[List[float], Tuple[float]] =[], column_ratios: Union[List[float], Tuple[float]] =[], no_title: bool =False, no_menus: bool =False, no_resize: bool =False, no_align: bool =False, link_rows: bool =False, link_columns: bool =False, link_all_x: bool =False, link_all_y: bool =False, column_major: bool =False, **kwargs) -> Union[int, str]:
+def subplots(rows, columns, **kwargs):
 	"""	 Adds a collection of plots.
 
 	Args:
@@ -2240,23 +2140,19 @@ def subplots(rows : int, columns : int, *, label: str =None, user_data: Any =Non
 		link_all_x (bool, optional): link the x-axis limits in every plot in the subplot
 		link_all_y (bool, optional): link the y-axis limits in every plot in the subplot (does not apply to auxiliary y-axes)
 		column_major (bool, optional): subplots are added in column major order instead of the default row major order
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
 	try:
-
-		if 'id' in kwargs.keys():
-			warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-			tag=kwargs['id']
-		widget = internal_dpg.add_subplots(rows, columns, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, callback=callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, row_ratios=row_ratios, column_ratios=column_ratios, no_title=no_title, no_menus=no_menus, no_resize=no_resize, no_align=no_align, link_rows=link_rows, link_columns=link_columns, link_all_x=link_all_x, link_all_y=link_all_y, column_major=column_major, **kwargs)
+		widget = internal_dpg.add_subplots(rows, columns, **kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def tab(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drop_callback: Callable =None, show: bool =True, filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, closable: bool =False, no_tooltip: bool =False, order_mode: bool =0, **kwargs) -> Union[int, str]:
+def tab(**kwargs):
 	"""	 Adds a tab to a tab bar.
 
 	Args:
@@ -2277,23 +2173,19 @@ def tab(*, label: str =None, user_data: Any =None, use_internal_label: bool =Tru
 		closable (bool, optional): Creates a button on the tab that can hide the tab.
 		no_tooltip (bool, optional): Disable tooltip for the given tab.
 		order_mode (bool, optional): set using a constant: mvTabOrder_Reorderable: allows reordering, mvTabOrder_Fixed: fixed ordering, mvTabOrder_Leading: adds tab to front, mvTabOrder_Trailing: adds tab to back
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
 	try:
-
-		if 'id' in kwargs.keys():
-			warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-			tag=kwargs['id']
-		widget = internal_dpg.add_tab(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, indent=indent, parent=parent, before=before, payload_type=payload_type, drop_callback=drop_callback, show=show, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, closable=closable, no_tooltip=no_tooltip, order_mode=order_mode, **kwargs)
+		widget = internal_dpg.add_tab(**kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def tab_bar(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, reorderable: bool =False, **kwargs) -> Union[int, str]:
+def tab_bar(**kwargs):
 	"""	 Adds a tab bar.
 
 	Args:
@@ -2312,23 +2204,19 @@ def tab_bar(*, label: str =None, user_data: Any =None, use_internal_label: bool 
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		reorderable (bool, optional): Allows for the user to change the order of the tabs.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
 	try:
-
-		if 'id' in kwargs.keys():
-			warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-			tag=kwargs['id']
-		widget = internal_dpg.add_tab_bar(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, indent=indent, parent=parent, before=before, callback=callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, reorderable=reorderable, **kwargs)
+		widget = internal_dpg.add_tab_bar(**kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def table(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', delay_search: bool =False, header_row: bool =True, clipper: bool =False, inner_width: int =0, policy: int =0, freeze_rows: int =0, freeze_columns: int =0, sort_multi: bool =False, sort_tristate: bool =False, resizable: bool =False, reorderable: bool =False, hideable: bool =False, sortable: bool =False, context_menu_in_body: bool =False, row_background: bool =False, borders_innerH: bool =False, borders_outerH: bool =False, borders_innerV: bool =False, borders_outerV: bool =False, no_host_extendX: bool =False, no_host_extendY: bool =False, no_keep_columns_visible: bool =False, precise_widths: bool =False, no_clip: bool =False, pad_outerX: bool =False, no_pad_outerX: bool =False, no_pad_innerX: bool =False, scrollX: bool =False, scrollY: bool =False, no_saved_settings: bool =False, **kwargs) -> Union[int, str]:
+def table(**kwargs):
 	"""	 Adds a table.
 
 	Args:
@@ -2376,23 +2264,19 @@ def table(*, label: str =None, user_data: Any =None, use_internal_label: bool =T
 		scrollX (bool, optional): Enable horizontal scrolling. Require 'outer_size' parameter of BeginTable() to specify the container size. Changes default sizing policy. Because this create a child window, ScrollY is currently generally recommended when using ScrollX.
 		scrollY (bool, optional): Enable vertical scrolling.
 		no_saved_settings (bool, optional): Never load/save settings in .ini file.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
 	try:
-
-		if 'id' in kwargs.keys():
-			warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-			tag=kwargs['id']
-		widget = internal_dpg.add_table(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, source=source, callback=callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, header_row=header_row, clipper=clipper, inner_width=inner_width, policy=policy, freeze_rows=freeze_rows, freeze_columns=freeze_columns, sort_multi=sort_multi, sort_tristate=sort_tristate, resizable=resizable, reorderable=reorderable, hideable=hideable, sortable=sortable, context_menu_in_body=context_menu_in_body, row_background=row_background, borders_innerH=borders_innerH, borders_outerH=borders_outerH, borders_innerV=borders_innerV, borders_outerV=borders_outerV, no_host_extendX=no_host_extendX, no_host_extendY=no_host_extendY, no_keep_columns_visible=no_keep_columns_visible, precise_widths=precise_widths, no_clip=no_clip, pad_outerX=pad_outerX, no_pad_outerX=no_pad_outerX, no_pad_innerX=no_pad_innerX, scrollX=scrollX, scrollY=scrollY, no_saved_settings=no_saved_settings, **kwargs)
+		widget = internal_dpg.add_table(**kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def table_cell(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, height: int =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, filter_key: str ='', **kwargs) -> Union[int, str]:
+def table_cell(**kwargs):
 	"""	 Adds a table.
 
 	Args:
@@ -2405,23 +2289,19 @@ def table_cell(*, label: str =None, user_data: Any =None, use_internal_label: bo
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
 		filter_key (str, optional): Used by filter widget.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
 	try:
-
-		if 'id' in kwargs.keys():
-			warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-			tag=kwargs['id']
-		widget = internal_dpg.add_table_cell(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, height=height, parent=parent, before=before, show=show, filter_key=filter_key, **kwargs)
+		widget = internal_dpg.add_table_cell(**kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def table_row(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, height: int =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, filter_key: str ='', **kwargs) -> Union[int, str]:
+def table_row(**kwargs):
 	"""	 Adds a table row.
 
 	Args:
@@ -2434,23 +2314,19 @@ def table_row(*, label: str =None, user_data: Any =None, use_internal_label: boo
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
 		filter_key (str, optional): Used by filter widget.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
 	try:
-
-		if 'id' in kwargs.keys():
-			warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-			tag=kwargs['id']
-		widget = internal_dpg.add_table_row(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, height=height, parent=parent, before=before, show=show, filter_key=filter_key, **kwargs)
+		widget = internal_dpg.add_table_row(**kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def template_registry(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, **kwargs) -> Union[int, str]:
+def template_registry(**kwargs):
 	"""	 Adds a template registry.
 
 	Args:
@@ -2458,23 +2334,19 @@ def template_registry(*, label: str =None, user_data: Any =None, use_internal_la
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
 	try:
-
-		if 'id' in kwargs.keys():
-			warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-			tag=kwargs['id']
-		widget = internal_dpg.add_template_registry(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, **kwargs)
+		widget = internal_dpg.add_template_registry(**kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def texture_registry(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, show: bool =False, **kwargs) -> Union[int, str]:
+def texture_registry(**kwargs):
 	"""	 Adds a dynamic texture.
 
 	Args:
@@ -2483,23 +2355,19 @@ def texture_registry(*, label: str =None, user_data: Any =None, use_internal_lab
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		show (bool, optional): Attempt to render widget.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
 	try:
-
-		if 'id' in kwargs.keys():
-			warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-			tag=kwargs['id']
-		widget = internal_dpg.add_texture_registry(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, show=show, **kwargs)
+		widget = internal_dpg.add_texture_registry(**kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def theme(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, **kwargs) -> Union[int, str]:
+def theme(**kwargs):
 	"""	 Adds a theme.
 
 	Args:
@@ -2507,28 +2375,20 @@ def theme(*, label: str =None, user_data: Any =None, use_internal_label: bool =T
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		id (Union[int, str], optional): (deprecated) 
-		default_theme (bool, optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
+		default_theme (bool, optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
 	try:
-
-		if 'id' in kwargs.keys():
-			warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-			tag=kwargs['id']
-
-		if 'default_theme' in kwargs.keys():
-			warnings.warn('default_theme keyword removed', DeprecationWarning, 2)
-			kwargs.pop('default_theme', None)
-		widget = internal_dpg.add_theme(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, **kwargs)
+		widget = internal_dpg.add_theme(**kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def theme_component(item_type : int =0, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, enabled_state: bool =True, **kwargs) -> Union[int, str]:
+def theme_component(item_type=0, **kwargs):
 	"""	 Adds a theme component.
 
 	Args:
@@ -2540,23 +2400,19 @@ def theme_component(item_type : int =0, *, label: str =None, user_data: Any =Non
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		enabled_state (bool, optional): 
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
 	try:
-
-		if 'id' in kwargs.keys():
-			warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-			tag=kwargs['id']
-		widget = internal_dpg.add_theme_component(item_type, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, enabled_state=enabled_state, **kwargs)
+		widget = internal_dpg.add_theme_component(item_type, **kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def tooltip(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, show: bool =True, **kwargs) -> Union[int, str]:
+def tooltip(parent, **kwargs):
 	"""	 Adds a tooltip window.
 
 	Args:
@@ -2566,23 +2422,19 @@ def tooltip(parent : Union[int, str], *, label: str =None, user_data: Any =None,
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		show (bool, optional): Attempt to render widget.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
 	try:
-
-		if 'id' in kwargs.keys():
-			warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-			tag=kwargs['id']
-		widget = internal_dpg.add_tooltip(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, show=show, **kwargs)
+		widget = internal_dpg.add_tooltip(parent, **kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def tree_node(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, default_open: bool =False, open_on_double_click: bool =False, open_on_arrow: bool =False, leaf: bool =False, bullet: bool =False, selectable: bool =False, **kwargs) -> Union[int, str]:
+def tree_node(**kwargs):
 	"""	 Adds a tree node to add items to.
 
 	Args:
@@ -2608,23 +2460,19 @@ def tree_node(*, label: str =None, user_data: Any =None, use_internal_label: boo
 		leaf (bool, optional): No collapsing, no arrow (use as a convenience for leaf nodes).
 		bullet (bool, optional): Display a bullet instead of arrow.
 		selectable (bool, optional): Makes the tree selectable.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
 	try:
-
-		if 'id' in kwargs.keys():
-			warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-			tag=kwargs['id']
-		widget = internal_dpg.add_tree_node(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, indent=indent, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, default_open=default_open, open_on_double_click=open_on_double_click, open_on_arrow=open_on_arrow, leaf=leaf, bullet=bullet, selectable=selectable, **kwargs)
+		widget = internal_dpg.add_tree_node(**kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def value_registry(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, **kwargs) -> Union[int, str]:
+def value_registry(**kwargs):
 	"""	 Adds a value registry.
 
 	Args:
@@ -2632,23 +2480,19 @@ def value_registry(*, label: str =None, user_data: Any =None, use_internal_label
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
 	try:
-
-		if 'id' in kwargs.keys():
-			warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-			tag=kwargs['id']
-		widget = internal_dpg.add_value_registry(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, **kwargs)
+		widget = internal_dpg.add_value_registry(**kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def viewport_drawlist(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, show: bool =True, filter_key: str ='', delay_search: bool =False, front: bool =True, **kwargs) -> Union[int, str]:
+def viewport_drawlist(**kwargs):
 	"""	 A container that is used to present draw items or layers directly to the viewport. By default this will draw to the back of the viewport. Layers and draw items should be added to this widget as children.
 
 	Args:
@@ -2660,23 +2504,19 @@ def viewport_drawlist(*, label: str =None, user_data: Any =None, use_internal_la
 		filter_key (str, optional): Used by filter widget.
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		front (bool, optional): Draws to the front of the view port instead of the back.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
 	try:
-
-		if 'id' in kwargs.keys():
-			warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-			tag=kwargs['id']
-		widget = internal_dpg.add_viewport_drawlist(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, show=show, filter_key=filter_key, delay_search=delay_search, front=front, **kwargs)
+		widget = internal_dpg.add_viewport_drawlist(**kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def viewport_menu_bar(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, indent: int =-1, parent: Union[int, str] =0, show: bool =True, delay_search: bool =False, **kwargs) -> Union[int, str]:
+def viewport_menu_bar(**kwargs):
 	"""	 Adds a menubar to the viewport.
 
 	Args:
@@ -2688,23 +2528,19 @@ def viewport_menu_bar(*, label: str =None, user_data: Any =None, use_internal_la
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		show (bool, optional): Attempt to render widget.
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
 	try:
-
-		if 'id' in kwargs.keys():
-			warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-			tag=kwargs['id']
-		widget = internal_dpg.add_viewport_menu_bar(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, indent=indent, parent=parent, show=show, delay_search=delay_search, **kwargs)
+		widget = internal_dpg.add_viewport_menu_bar(**kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def window(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, show: bool =True, pos: Union[List[int], Tuple[int]] =[], delay_search: bool =False, min_size: Union[List[int], Tuple[int]] =[100, 100], max_size: Union[List[int], Tuple[int]] =[30000, 30000], menubar: bool =False, collapsed: bool =False, autosize: bool =False, no_resize: bool =False, no_title_bar: bool =False, no_move: bool =False, no_scrollbar: bool =False, no_collapse: bool =False, horizontal_scrollbar: bool =False, no_focus_on_appearing: bool =False, no_bring_to_front_on_focus: bool =False, no_close: bool =False, no_background: bool =False, modal: bool =False, popup: bool =False, no_saved_settings: bool =False, on_close: Callable =None, **kwargs) -> Union[int, str]:
+def window(**kwargs):
 	"""	 Creates a new window for following items to be added to.
 
 	Args:
@@ -2737,16 +2573,12 @@ def window(*, label: str =None, user_data: Any =None, use_internal_label: bool =
 		popup (bool, optional): Fills area behind window according to the theme, removes title bar, collapse and close. Window can be closed by selecting area in the background behind the window.
 		no_saved_settings (bool, optional): Never load/save settings in .ini file.
 		on_close (Callable, optional): Callback ran when window is closed.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
 	try:
-
-		if 'id' in kwargs.keys():
-			warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-			tag=kwargs['id']
-		widget = internal_dpg.add_window(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, show=show, pos=pos, delay_search=delay_search, min_size=min_size, max_size=max_size, menubar=menubar, collapsed=collapsed, autosize=autosize, no_resize=no_resize, no_title_bar=no_title_bar, no_move=no_move, no_scrollbar=no_scrollbar, no_collapse=no_collapse, horizontal_scrollbar=horizontal_scrollbar, no_focus_on_appearing=no_focus_on_appearing, no_bring_to_front_on_focus=no_bring_to_front_on_focus, no_close=no_close, no_background=no_background, modal=modal, popup=popup, no_saved_settings=no_saved_settings, on_close=on_close, **kwargs)
+		widget = internal_dpg.add_window(**kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
@@ -2756,7 +2588,7 @@ def window(*, label: str =None, user_data: Any =None, use_internal_label: bool =
 # Core Wrappings
 ##########################################################
 
-def add_2d_histogram_series(x : Union[List[float], Tuple[float]], y : Union[List[float], Tuple[float]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, show: bool =True, xbins: int =-1, ybins: int =-1, xmin_range: float =0.0, xmax_range: float =1.0, ymin_range: float =0.0, ymax_range: float =1.0, density: bool =False, outliers: bool =True, **kwargs) -> Union[int, str]:
+def add_2d_histogram_series(x, y, **kwargs):
 	"""	 Undocumented
 
 	Args:
@@ -2778,18 +2610,14 @@ def add_2d_histogram_series(x : Union[List[float], Tuple[float]], y : Union[List
 		ymax_range (float, optional): 
 		density (bool, optional): 
 		outliers (bool, optional): 
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_2d_histogram_series(x, y, **kwargs)
 
-	return internal_dpg.add_2d_histogram_series(x, y, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, source=source, show=show, xbins=xbins, ybins=ybins, xmin_range=xmin_range, xmax_range=xmax_range, ymin_range=ymin_range, ymax_range=ymax_range, density=density, outliers=outliers, **kwargs)
-
-def add_3d_slider(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: Union[List[float], Tuple[float]] =(0.0, 0.0, 0.0, 0.0), max_x: float =100.0, max_y: float =100.0, max_z: float =100.0, min_x: float =0.0, min_y: float =0.0, min_z: float =0.0, scale: float =1.0, **kwargs) -> Union[int, str]:
+def add_3d_slider(**kwargs):
 	"""	 Adds a 3D box slider.
 
 	Args:
@@ -2820,18 +2648,14 @@ def add_3d_slider(*, label: str =None, user_data: Any =None, use_internal_label:
 		min_y (float, optional): Applies lower limit to slider.
 		min_z (float, optional): Applies lower limit to slider.
 		scale (float, optional): Size of the widget.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_3d_slider(**kwargs)
 
-	return internal_dpg.add_3d_slider(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, max_x=max_x, max_y=max_y, max_z=max_z, min_x=min_x, min_y=min_y, min_z=min_z, scale=scale, **kwargs)
-
-def add_alias(alias : str, item : Union[int, str], **kwargs) -> None:
+def add_alias(alias, item):
 	"""	 Adds an alias.
 
 	Args:
@@ -2841,9 +2665,9 @@ def add_alias(alias : str, item : Union[int, str], **kwargs) -> None:
 		None
 	"""
 
-	return internal_dpg.add_alias(alias, item, **kwargs)
+	return internal_dpg.add_alias(alias, item)
 
-def add_area_series(x : Union[List[float], Tuple[float]], y : Union[List[float], Tuple[float]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, show: bool =True, fill: Union[List[int], Tuple[int]] =(0, 0, 0, -255), contribute_to_bounds: bool =True, **kwargs) -> Union[int, str]:
+def add_area_series(x, y, **kwargs):
 	"""	 Adds an area series to a plot.
 
 	Args:
@@ -2859,18 +2683,14 @@ def add_area_series(x : Union[List[float], Tuple[float]], y : Union[List[float],
 		show (bool, optional): Attempt to render widget.
 		fill (Union[List[int], Tuple[int]], optional): 
 		contribute_to_bounds (bool, optional): 
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_area_series(x, y, **kwargs)
 
-	return internal_dpg.add_area_series(x, y, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, source=source, show=show, fill=fill, contribute_to_bounds=contribute_to_bounds, **kwargs)
-
-def add_bar_series(x : Union[List[float], Tuple[float]], y : Union[List[float], Tuple[float]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, show: bool =True, weight: float =1.0, horizontal: bool =False, **kwargs) -> Union[int, str]:
+def add_bar_series(x, y, **kwargs):
 	"""	 Adds a bar series to a plot.
 
 	Args:
@@ -2886,18 +2706,14 @@ def add_bar_series(x : Union[List[float], Tuple[float]], y : Union[List[float], 
 		show (bool, optional): Attempt to render widget.
 		weight (float, optional): 
 		horizontal (bool, optional): 
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_bar_series(x, y, **kwargs)
 
-	return internal_dpg.add_bar_series(x, y, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, source=source, show=show, weight=weight, horizontal=horizontal, **kwargs)
-
-def add_bool_value(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, source: Union[int, str] =0, default_value: bool =False, parent: Union[int, str] =internal_dpg.mvReservedUUID_3, **kwargs) -> Union[int, str]:
+def add_bool_value(**kwargs):
 	"""	 Adds a bool value.
 
 	Args:
@@ -2908,18 +2724,14 @@ def add_bool_value(*, label: str =None, user_data: Any =None, use_internal_label
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		default_value (bool, optional): 
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_bool_value(**kwargs)
 
-	return internal_dpg.add_bool_value(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, source=source, default_value=default_value, parent=parent, **kwargs)
-
-def add_button(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, small: bool =False, arrow: bool =False, direction: int =0, **kwargs) -> Union[int, str]:
+def add_button(**kwargs):
 	"""	 Adds a button.
 
 	Args:
@@ -2945,18 +2757,14 @@ def add_button(*, label: str =None, user_data: Any =None, use_internal_label: bo
 		small (bool, optional): Small button, useful for embedding in text.
 		arrow (bool, optional): Arrow button, requires the direction keyword.
 		direction (int, optional): A cardinal direction for arrow.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_button(**kwargs)
 
-	return internal_dpg.add_button(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, small=small, arrow=arrow, direction=direction, **kwargs)
-
-def add_candle_series(dates : Union[List[float], Tuple[float]], opens : Union[List[float], Tuple[float]], closes : Union[List[float], Tuple[float]], lows : Union[List[float], Tuple[float]], highs : Union[List[float], Tuple[float]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, show: bool =True, bull_color: Union[List[int], Tuple[int]] =(0, 255, 113, 255), bear_color: Union[List[int], Tuple[int]] =(218, 13, 79, 255), weight: int =0.25, tooltip: bool =True, **kwargs) -> Union[int, str]:
+def add_candle_series(dates, opens, closes, lows, highs, **kwargs):
 	"""	 Adds a candle series to a plot.
 
 	Args:
@@ -2977,18 +2785,14 @@ def add_candle_series(dates : Union[List[float], Tuple[float]], opens : Union[Li
 		bear_color (Union[List[int], Tuple[int]], optional): 
 		weight (int, optional): 
 		tooltip (bool, optional): 
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_candle_series(dates, opens, closes, lows, highs, **kwargs)
 
-	return internal_dpg.add_candle_series(dates, opens, closes, lows, highs, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, source=source, show=show, bull_color=bull_color, bear_color=bear_color, weight=weight, tooltip=tooltip, **kwargs)
-
-def add_char_remap(source : int, target : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, **kwargs) -> Union[int, str]:
+def add_char_remap(source, target, **kwargs):
 	"""	 Undocumented
 
 	Args:
@@ -2999,18 +2803,14 @@ def add_char_remap(source : int, target : int, *, label: str =None, user_data: A
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_char_remap(source, target, **kwargs)
 
-	return internal_dpg.add_char_remap(source, target, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, **kwargs)
-
-def add_checkbox(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: bool =False, **kwargs) -> Union[int, str]:
+def add_checkbox(**kwargs):
 	"""	 Adds a checkbox.
 
 	Args:
@@ -3033,18 +2833,14 @@ def add_checkbox(*, label: str =None, user_data: Any =None, use_internal_label: 
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		default_value (bool, optional): 
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_checkbox(**kwargs)
 
-	return internal_dpg.add_checkbox(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, **kwargs)
-
-def add_child_window(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, border: bool =True, autosize_x: bool =False, autosize_y: bool =False, no_scrollbar: bool =False, horizontal_scrollbar: bool =False, menubar: bool =False, **kwargs) -> Union[int, str]:
+def add_child_window(**kwargs):
 	"""	 Adds an embedded child window. Will show scrollbars when items do not fit.
 
 	Args:
@@ -3071,18 +2867,14 @@ def add_child_window(*, label: str =None, user_data: Any =None, use_internal_lab
 		no_scrollbar (bool, optional):  Disable scrollbars (window can still scroll with mouse or programmatically).
 		horizontal_scrollbar (bool, optional): Allow horizontal scrollbar to appear (off by default).
 		menubar (bool, optional): Shows/Hides the menubar at the top.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_child_window(**kwargs)
 
-	return internal_dpg.add_child_window(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, border=border, autosize_x=autosize_x, autosize_y=autosize_y, no_scrollbar=no_scrollbar, horizontal_scrollbar=horizontal_scrollbar, menubar=menubar, **kwargs)
-
-def add_clipper(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, delay_search: bool =False, **kwargs) -> Union[int, str]:
+def add_clipper(**kwargs):
 	"""	 Helper to manually clip large list of items. Increases performance by not searching or drawing widgets outside of the clipped region.
 
 	Args:
@@ -3096,18 +2888,14 @@ def add_clipper(*, label: str =None, user_data: Any =None, use_internal_label: b
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_clipper(**kwargs)
 
-	return internal_dpg.add_clipper(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, indent=indent, parent=parent, before=before, show=show, delay_search=delay_search, **kwargs)
-
-def add_collapsing_header(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, closable: bool =False, default_open: bool =False, open_on_double_click: bool =False, open_on_arrow: bool =False, leaf: bool =False, bullet: bool =False, **kwargs) -> Union[int, str]:
+def add_collapsing_header(**kwargs):
 	"""	 Adds a collapsing header to add items to. Must be closed with the end command.
 
 	Args:
@@ -3133,18 +2921,14 @@ def add_collapsing_header(*, label: str =None, user_data: Any =None, use_interna
 		open_on_arrow (bool, optional): Only open when clicking on the arrow part.
 		leaf (bool, optional): No collapsing, no arrow (use as a convenience for leaf nodes).
 		bullet (bool, optional): Display a bullet instead of arrow.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_collapsing_header(**kwargs)
 
-	return internal_dpg.add_collapsing_header(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, indent=indent, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, closable=closable, default_open=default_open, open_on_double_click=open_on_double_click, open_on_arrow=open_on_arrow, leaf=leaf, bullet=bullet, **kwargs)
-
-def add_color_button(default_value : Union[List[int], Tuple[int]] =(0, 0, 0, 255), *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, no_alpha: bool =False, no_border: bool =False, no_drag_drop: bool =False, **kwargs) -> Union[int, str]:
+def add_color_button(default_value=(0, 0, 0, 255), **kwargs):
 	"""	 Adds a color button.
 
 	Args:
@@ -3171,18 +2955,14 @@ def add_color_button(default_value : Union[List[int], Tuple[int]] =(0, 0, 0, 255
 		no_alpha (bool, optional): Ignore Alpha component.
 		no_border (bool, optional): Disable border around the image.
 		no_drag_drop (bool, optional): Disable display of inline text label.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_color_button(default_value, **kwargs)
 
-	return internal_dpg.add_color_button(default_value, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, no_alpha=no_alpha, no_border=no_border, no_drag_drop=no_drag_drop, **kwargs)
-
-def add_color_edit(default_value : Union[List[int], Tuple[int]] =(0, 0, 0, 255), *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, no_alpha: bool =False, no_picker: bool =False, no_options: bool =False, no_small_preview: bool =False, no_inputs: bool =False, no_tooltip: bool =False, no_label: bool =False, no_drag_drop: bool =False, alpha_bar: bool =False, alpha_preview: int =0, display_mode: int =1048576, display_type: int =8388608, input_mode: int =134217728, **kwargs) -> Union[int, str]:
+def add_color_edit(default_value=(0, 0, 0, 255), **kwargs):
 	"""	 Adds an RGBA color editor. Click the small color preview will provide a color picker. Click and draging the small color preview will copy the color to be applied on any other color widget.
 
 	Args:
@@ -3220,18 +3000,14 @@ def add_color_edit(default_value : Union[List[int], Tuple[int]] =(0, 0, 0, 255),
 		display_mode (int, optional): mvColorEdit_rgb, mvColorEdit_hsv, or mvColorEdit_hex
 		display_type (int, optional): mvColorEdit_uint8 or mvColorEdit_float
 		input_mode (int, optional): mvColorEdit_input_rgb or mvColorEdit_input_hsv
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_color_edit(default_value, **kwargs)
 
-	return internal_dpg.add_color_edit(default_value, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, no_alpha=no_alpha, no_picker=no_picker, no_options=no_options, no_small_preview=no_small_preview, no_inputs=no_inputs, no_tooltip=no_tooltip, no_label=no_label, no_drag_drop=no_drag_drop, alpha_bar=alpha_bar, alpha_preview=alpha_preview, display_mode=display_mode, display_type=display_type, input_mode=input_mode, **kwargs)
-
-def add_color_picker(default_value : Union[List[int], Tuple[int]] =(0, 0, 0, 255), *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, no_alpha: bool =False, no_side_preview: bool =False, no_small_preview: bool =False, no_inputs: bool =False, no_tooltip: bool =False, no_label: bool =False, alpha_bar: bool =False, display_rgb: bool =False, display_hsv: bool =False, display_hex: bool =False, picker_mode: int =33554432, alpha_preview: int =0, display_type: int =8388608, input_mode: int =134217728, **kwargs) -> Union[int, str]:
+def add_color_picker(default_value=(0, 0, 0, 255), **kwargs):
 	"""	 Adds an RGB color picker. Right click the color picker for options. Click and drag the color preview to copy the color and drop on any other color widget to apply. Right Click allows the style of the color picker to be changed.
 
 	Args:
@@ -3270,18 +3046,14 @@ def add_color_picker(default_value : Union[List[int], Tuple[int]] =(0, 0, 0, 255
 		alpha_preview (int, optional): mvColorEdit_AlphaPreviewNone, mvColorEdit_AlphaPreview, or mvColorEdit_AlphaPreviewHalf
 		display_type (int, optional): mvColorEdit_uint8 or mvColorEdit_float
 		input_mode (int, optional): mvColorEdit_input_rgb or mvColorEdit_input_hsv
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_color_picker(default_value, **kwargs)
 
-	return internal_dpg.add_color_picker(default_value, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, no_alpha=no_alpha, no_side_preview=no_side_preview, no_small_preview=no_small_preview, no_inputs=no_inputs, no_tooltip=no_tooltip, no_label=no_label, alpha_bar=alpha_bar, display_rgb=display_rgb, display_hsv=display_hsv, display_hex=display_hex, picker_mode=picker_mode, alpha_preview=alpha_preview, display_type=display_type, input_mode=input_mode, **kwargs)
-
-def add_color_value(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, source: Union[int, str] =0, default_value: Union[List[float], Tuple[float]] =(0.0, 0.0, 0.0, 0.0), parent: Union[int, str] =internal_dpg.mvReservedUUID_3, **kwargs) -> Union[int, str]:
+def add_color_value(**kwargs):
 	"""	 Adds a color value.
 
 	Args:
@@ -3292,18 +3064,14 @@ def add_color_value(*, label: str =None, user_data: Any =None, use_internal_labe
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		default_value (Union[List[float], Tuple[float]], optional): 
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_color_value(**kwargs)
 
-	return internal_dpg.add_color_value(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, source=source, default_value=default_value, parent=parent, **kwargs)
-
-def add_colormap(colors : List[List[int]], qualitative : bool, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, show: bool =True, parent: Union[int, str] =internal_dpg.mvReservedUUID_4, **kwargs) -> Union[int, str]:
+def add_colormap(colors, qualitative, **kwargs):
 	"""	 Adds a legend that pairs values with colors. This is typically used with a heat series.
 
 	Args:
@@ -3315,18 +3083,14 @@ def add_colormap(colors : List[List[int]], qualitative : bool, *, label: str =No
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		show (bool, optional): Attempt to render widget.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_colormap(colors, qualitative, **kwargs)
 
-	return internal_dpg.add_colormap(colors, qualitative, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, show=show, parent=parent, **kwargs)
-
-def add_colormap_button(default_value : Union[List[int], Tuple[int]] =(0, 0, 0, 255), *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, no_alpha: bool =False, no_border: bool =False, no_drag_drop: bool =False, **kwargs) -> Union[int, str]:
+def add_colormap_button(default_value=(0, 0, 0, 255), **kwargs):
 	"""	 Adds a color button.
 
 	Args:
@@ -3353,18 +3117,14 @@ def add_colormap_button(default_value : Union[List[int], Tuple[int]] =(0, 0, 0, 
 		no_alpha (bool, optional): Ignore Alpha component.
 		no_border (bool, optional): Disable border around the image.
 		no_drag_drop (bool, optional): Disable display of inline text label.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_colormap_button(default_value, **kwargs)
 
-	return internal_dpg.add_colormap_button(default_value, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, no_alpha=no_alpha, no_border=no_border, no_drag_drop=no_drag_drop, **kwargs)
-
-def add_colormap_registry(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, show: bool =False, **kwargs) -> Union[int, str]:
+def add_colormap_registry(**kwargs):
 	"""	 Adds a colormap registry.
 
 	Args:
@@ -3373,18 +3133,14 @@ def add_colormap_registry(*, label: str =None, user_data: Any =None, use_interna
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		show (bool, optional): Attempt to render widget.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_colormap_registry(**kwargs)
 
-	return internal_dpg.add_colormap_registry(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, show=show, **kwargs)
-
-def add_colormap_scale(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int]] =[], colormap: Union[int, str] =0, min_scale: float =0.0, max_scale: float =1.0, **kwargs) -> Union[int, str]:
+def add_colormap_scale(**kwargs):
 	"""	 Adds a legend that pairs values with colors. This is typically used with a heat series. 
 
 	Args:
@@ -3405,25 +3161,15 @@ def add_colormap_scale(*, label: str =None, user_data: Any =None, use_internal_l
 		colormap (Union[int, str], optional): mvPlotColormap_* constants or mvColorMap uuid
 		min_scale (float, optional): Sets the min number of the color scale. Typically is the same as the min scale from the heat series.
 		max_scale (float, optional): Sets the max number of the color scale. Typically is the same as the max scale from the heat series.
-		id (Union[int, str], optional): (deprecated) 
-		drag_callback (Callable, optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
+		drag_callback (Callable, optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_colormap_scale(**kwargs)
 
-	if 'drag_callback' in kwargs.keys():
-
-		warnings.warn('drag_callback keyword removed', DeprecationWarning, 2)
-
-		kwargs.pop('drag_callback', None)
-
-	return internal_dpg.add_colormap_scale(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, drop_callback=drop_callback, show=show, pos=pos, colormap=colormap, min_scale=min_scale, max_scale=max_scale, **kwargs)
-
-def add_colormap_slider(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: float =0.0, **kwargs) -> Union[int, str]:
+def add_colormap_slider(**kwargs):
 	"""	 Adds a color button.
 
 	Args:
@@ -3445,25 +3191,15 @@ def add_colormap_slider(*, label: str =None, user_data: Any =None, use_internal_
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		default_value (float, optional): 
-		id (Union[int, str], optional): (deprecated) 
-		drag_callback (Callable, optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
+		drag_callback (Callable, optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_colormap_slider(**kwargs)
 
-	if 'drag_callback' in kwargs.keys():
-
-		warnings.warn('drag_callback keyword removed', DeprecationWarning, 2)
-
-		kwargs.pop('drag_callback', None)
-
-	return internal_dpg.add_colormap_slider(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, **kwargs)
-
-def add_combo(items : Union[List[str], Tuple[str]] =(), *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: str ='', popup_align_left: bool =False, no_arrow_button: bool =False, no_preview: bool =False, height_mode: int =1, **kwargs) -> Union[int, str]:
+def add_combo(items=(), **kwargs):
 	"""	 Adds a combo dropdown that allows a user to select a single option from a drop down window.
 
 	Args:
@@ -3492,18 +3228,14 @@ def add_combo(items : Union[List[str], Tuple[str]] =(), *, label: str =None, use
 		no_arrow_button (bool, optional): Display the preview box without the square arrow button.
 		no_preview (bool, optional): Display only the square arrow button.
 		height_mode (int, optional): mvComboHeight_Small, _Regular, _Large, _Largest
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_combo(items, **kwargs)
 
-	return internal_dpg.add_combo(items, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, popup_align_left=popup_align_left, no_arrow_button=no_arrow_button, no_preview=no_preview, height_mode=height_mode, **kwargs)
-
-def add_date_picker(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: dict ={'month_day': 14, 'year':20, 'month':5}, level: int =0, **kwargs) -> Union[int, str]:
+def add_date_picker(**kwargs):
 	"""	 Adds a data picker.
 
 	Args:
@@ -3525,18 +3257,14 @@ def add_date_picker(*, label: str =None, user_data: Any =None, use_internal_labe
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		default_value (dict, optional): 
 		level (int, optional): Use avaliable constants. mvDatePickerLevel_Day, mvDatePickerLevel_Month, mvDatePickerLevel_Year
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_date_picker(**kwargs)
 
-	return internal_dpg.add_date_picker(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, level=level, **kwargs)
-
-def add_double4_value(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, source: Union[int, str] =0, default_value: Any =(0.0, 0.0, 0.0, 0.0), parent: Union[int, str] =internal_dpg.mvReservedUUID_3, **kwargs) -> Union[int, str]:
+def add_double4_value(**kwargs):
 	"""	 Adds a double value.
 
 	Args:
@@ -3547,18 +3275,14 @@ def add_double4_value(*, label: str =None, user_data: Any =None, use_internal_la
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		default_value (Any, optional): 
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_double4_value(**kwargs)
 
-	return internal_dpg.add_double4_value(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, source=source, default_value=default_value, parent=parent, **kwargs)
-
-def add_double_value(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, source: Union[int, str] =0, default_value: float =0.0, parent: Union[int, str] =internal_dpg.mvReservedUUID_3, **kwargs) -> Union[int, str]:
+def add_double_value(**kwargs):
 	"""	 Adds a double value.
 
 	Args:
@@ -3569,18 +3293,14 @@ def add_double_value(*, label: str =None, user_data: Any =None, use_internal_lab
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		default_value (float, optional): 
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_double_value(**kwargs)
 
-	return internal_dpg.add_double_value(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, source=source, default_value=default_value, parent=parent, **kwargs)
-
-def add_drag_float(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: float =0.0, format: str ='%0.3f', speed: float =1.0, min_value: float =0.0, max_value: float =100.0, no_input: bool =False, clamped: bool =False, **kwargs) -> Union[int, str]:
+def add_drag_float(**kwargs):
 	"""	 Adds drag for a single float value. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the drag. Use clamped keyword to also apply limits to the direct entry modes.
 
 	Args:
@@ -3610,18 +3330,14 @@ def add_drag_float(*, label: str =None, user_data: Any =None, use_internal_label
 		max_value (float, optional): Applies a limit only to draging entry only.
 		no_input (bool, optional): Disable direct entry methods or Enter key allowing to input text directly into the widget.
 		clamped (bool, optional): Applies the min and max limits to direct entry methods also such as double click and CTRL+Click.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_drag_float(**kwargs)
 
-	return internal_dpg.add_drag_float(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, format=format, speed=speed, min_value=min_value, max_value=max_value, no_input=no_input, clamped=clamped, **kwargs)
-
-def add_drag_floatx(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: Union[List[float], Tuple[float]] =(0.0, 0.0, 0.0, 0.0), size: int =4, format: str ='%0.3f', speed: float =1.0, min_value: float =0.0, max_value: float =100.0, no_input: bool =False, clamped: bool =False, **kwargs) -> Union[int, str]:
+def add_drag_floatx(**kwargs):
 	"""	 Adds drag input for a set of float values up to 4. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the drag. Use clamped keyword to also apply limits to the direct entry modes.
 
 	Args:
@@ -3652,18 +3368,14 @@ def add_drag_floatx(*, label: str =None, user_data: Any =None, use_internal_labe
 		max_value (float, optional): Applies a limit only to draging entry only.
 		no_input (bool, optional): Disable direct entry methods or Enter key allowing to input text directly into the widget.
 		clamped (bool, optional): Applies the min and max limits to direct entry methods also such as double click and CTRL+Click.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_drag_floatx(**kwargs)
 
-	return internal_dpg.add_drag_floatx(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, size=size, format=format, speed=speed, min_value=min_value, max_value=max_value, no_input=no_input, clamped=clamped, **kwargs)
-
-def add_drag_int(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: int =0, format: str ='%d', speed: float =1.0, min_value: int =0, max_value: int =100, no_input: bool =False, clamped: bool =False, **kwargs) -> Union[int, str]:
+def add_drag_int(**kwargs):
 	"""	 Adds drag for a single int value. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the drag. Use clamped keyword to also apply limits to the direct entry modes.
 
 	Args:
@@ -3693,18 +3405,14 @@ def add_drag_int(*, label: str =None, user_data: Any =None, use_internal_label: 
 		max_value (int, optional): Applies a limit only to draging entry only.
 		no_input (bool, optional): Disable direct entry methods or Enter key allowing to input text directly into the widget.
 		clamped (bool, optional): Applies the min and max limits to direct entry methods also such as double click and CTRL+Click.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_drag_int(**kwargs)
 
-	return internal_dpg.add_drag_int(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, format=format, speed=speed, min_value=min_value, max_value=max_value, no_input=no_input, clamped=clamped, **kwargs)
-
-def add_drag_intx(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: Union[List[int], Tuple[int]] =(0, 0, 0, 0), size: int =4, format: str ='%d', speed: float =1.0, min_value: int =0, max_value: int =100, no_input: bool =False, clamped: bool =False, **kwargs) -> Union[int, str]:
+def add_drag_intx(**kwargs):
 	"""	 Adds drag input for a set of int values up to 4. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the drag. Use clamped keyword to also apply limits to the direct entry modes.
 
 	Args:
@@ -3735,18 +3443,14 @@ def add_drag_intx(*, label: str =None, user_data: Any =None, use_internal_label:
 		max_value (int, optional): Applies a limit only to draging entry only.
 		no_input (bool, optional): Disable direct entry methods or Enter key allowing to input text directly into the widget.
 		clamped (bool, optional): Applies the min and max limits to direct entry methods also such as double click and CTRL+Click.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_drag_intx(**kwargs)
 
-	return internal_dpg.add_drag_intx(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, size=size, format=format, speed=speed, min_value=min_value, max_value=max_value, no_input=no_input, clamped=clamped, **kwargs)
-
-def add_drag_line(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, callback: Callable =None, show: bool =True, default_value: Any =0.0, color: Union[List[int], Tuple[int]] =(0, 0, 0, -255), thickness: float =1.0, show_label: bool =True, vertical: bool =True, **kwargs) -> Union[int, str]:
+def add_drag_line(**kwargs):
 	"""	 Adds a drag line to a plot.
 
 	Args:
@@ -3764,18 +3468,14 @@ def add_drag_line(*, label: str =None, user_data: Any =None, use_internal_label:
 		thickness (float, optional): 
 		show_label (bool, optional): 
 		vertical (bool, optional): 
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_drag_line(**kwargs)
 
-	return internal_dpg.add_drag_line(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, source=source, callback=callback, show=show, default_value=default_value, color=color, thickness=thickness, show_label=show_label, vertical=vertical, **kwargs)
-
-def add_drag_payload(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, show: bool =True, drag_data: Any =None, drop_data: Any =None, payload_type: str ='$$DPG_PAYLOAD', **kwargs) -> Union[int, str]:
+def add_drag_payload(**kwargs):
 	"""	 User data payload for drag and drop operations.
 
 	Args:
@@ -3788,18 +3488,14 @@ def add_drag_payload(*, label: str =None, user_data: Any =None, use_internal_lab
 		drag_data (Any, optional): Drag data
 		drop_data (Any, optional): Drop data
 		payload_type (str, optional): 
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_drag_payload(**kwargs)
 
-	return internal_dpg.add_drag_payload(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, show=show, drag_data=drag_data, drop_data=drop_data, payload_type=payload_type, **kwargs)
-
-def add_drag_point(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, callback: Callable =None, show: bool =True, default_value: Any =(0.0, 0.0), color: Union[List[int], Tuple[int]] =(0, 0, 0, -255), thickness: float =1.0, show_label: bool =True, **kwargs) -> Union[int, str]:
+def add_drag_point(**kwargs):
 	"""	 Adds a drag point to a plot.
 
 	Args:
@@ -3816,18 +3512,14 @@ def add_drag_point(*, label: str =None, user_data: Any =None, use_internal_label
 		color (Union[List[int], Tuple[int]], optional): 
 		thickness (float, optional): 
 		show_label (bool, optional): 
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_drag_point(**kwargs)
 
-	return internal_dpg.add_drag_point(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, source=source, callback=callback, show=show, default_value=default_value, color=color, thickness=thickness, show_label=show_label, **kwargs)
-
-def add_draw_layer(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, **kwargs) -> Union[int, str]:
+def add_draw_layer(**kwargs):
 	"""	 Creates a layer useful for grouping drawlist items.
 
 	Args:
@@ -3838,18 +3530,14 @@ def add_draw_layer(*, label: str =None, user_data: Any =None, use_internal_label
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_draw_layer(**kwargs)
 
-	return internal_dpg.add_draw_layer(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, show=show, **kwargs)
-
-def add_drawlist(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, parent: Union[int, str] =0, before: Union[int, str] =0, callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, **kwargs) -> Union[int, str]:
+def add_drawlist(**kwargs):
 	"""	 Adds a drawing canvas.
 
 	Args:
@@ -3868,18 +3556,14 @@ def add_drawlist(*, label: str =None, user_data: Any =None, use_internal_label: 
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_drawlist(**kwargs)
 
-	return internal_dpg.add_drawlist(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, parent=parent, before=before, callback=callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, **kwargs)
-
-def add_dynamic_texture(width : int, height : int, default_value : Union[List[float], Tuple[float]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =internal_dpg.mvReservedUUID_2, **kwargs) -> Union[int, str]:
+def add_dynamic_texture(width, height, default_value, **kwargs):
 	"""	 Adds a dynamic texture.
 
 	Args:
@@ -3891,18 +3575,14 @@ def add_dynamic_texture(width : int, height : int, default_value : Union[List[fl
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_dynamic_texture(width, height, default_value, **kwargs)
 
-	return internal_dpg.add_dynamic_texture(width, height, default_value, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, **kwargs)
-
-def add_error_series(x : Union[List[float], Tuple[float]], y : Union[List[float], Tuple[float]], negative : Union[List[float], Tuple[float]], positive : Union[List[float], Tuple[float]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, show: bool =True, contribute_to_bounds: bool =True, horizontal: bool =False, **kwargs) -> Union[int, str]:
+def add_error_series(x, y, negative, positive, **kwargs):
 	"""	 Adds an error series to a plot.
 
 	Args:
@@ -3920,18 +3600,14 @@ def add_error_series(x : Union[List[float], Tuple[float]], y : Union[List[float]
 		show (bool, optional): Attempt to render widget.
 		contribute_to_bounds (bool, optional): 
 		horizontal (bool, optional): 
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_error_series(x, y, negative, positive, **kwargs)
 
-	return internal_dpg.add_error_series(x, y, negative, positive, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, source=source, show=show, contribute_to_bounds=contribute_to_bounds, horizontal=horizontal, **kwargs)
-
-def add_file_dialog(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, callback: Callable =None, show: bool =True, default_path: str ='', default_filename: str ='.', file_count: int =0, modal: bool =False, directory_selector: bool =False, **kwargs) -> Union[int, str]:
+def add_file_dialog(**kwargs):
 	"""	 Displays a file or directory selector depending on keywords. Displays a file dialog by default.
 
 	Args:
@@ -3948,18 +3624,14 @@ def add_file_dialog(*, label: str =None, user_data: Any =None, use_internal_labe
 		file_count (int, optional): Number of visible files in the dialog.
 		modal (bool, optional): Forces user interaction with the file selector.
 		directory_selector (bool, optional): Shows only directory/paths as options. Allows selection of directory/paths only.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_file_dialog(**kwargs)
 
-	return internal_dpg.add_file_dialog(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, callback=callback, show=show, default_path=default_path, default_filename=default_filename, file_count=file_count, modal=modal, directory_selector=directory_selector, **kwargs)
-
-def add_file_extension(extension : str, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, parent: Union[int, str] =0, before: Union[int, str] =0, custom_text: str ='', color: Union[List[float], Tuple[float]] =(-255, 0, 0, 255), **kwargs) -> Union[int, str]:
+def add_file_extension(extension, **kwargs):
 	"""	 Creates a file extension filter option in the file dialog.
 
 	Args:
@@ -3974,18 +3646,14 @@ def add_file_extension(extension : str, *, label: str =None, user_data: Any =Non
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		custom_text (str, optional): Replaces the displayed text in the drop down for this extension.
 		color (Union[List[float], Tuple[float]], optional): 
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_file_extension(extension, **kwargs)
 
-	return internal_dpg.add_file_extension(extension, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, parent=parent, before=before, custom_text=custom_text, color=color, **kwargs)
-
-def add_filter_set(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, delay_search: bool =False, **kwargs) -> Union[int, str]:
+def add_filter_set(**kwargs):
 	"""	 Helper to parse and apply text filters (e.g. aaaaa[, bbbbb][, ccccc])
 
 	Args:
@@ -3999,18 +3667,14 @@ def add_filter_set(*, label: str =None, user_data: Any =None, use_internal_label
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_filter_set(**kwargs)
 
-	return internal_dpg.add_filter_set(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, indent=indent, parent=parent, before=before, show=show, delay_search=delay_search, **kwargs)
-
-def add_float4_value(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, source: Union[int, str] =0, default_value: Union[List[float], Tuple[float]] =(0.0, 0.0, 0.0, 0.0), parent: Union[int, str] =internal_dpg.mvReservedUUID_3, **kwargs) -> Union[int, str]:
+def add_float4_value(**kwargs):
 	"""	 Adds a float4 value.
 
 	Args:
@@ -4021,18 +3685,14 @@ def add_float4_value(*, label: str =None, user_data: Any =None, use_internal_lab
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		default_value (Union[List[float], Tuple[float]], optional): 
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_float4_value(**kwargs)
 
-	return internal_dpg.add_float4_value(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, source=source, default_value=default_value, parent=parent, **kwargs)
-
-def add_float_value(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, source: Union[int, str] =0, default_value: float =0.0, parent: Union[int, str] =internal_dpg.mvReservedUUID_3, **kwargs) -> Union[int, str]:
+def add_float_value(**kwargs):
 	"""	 Adds a float value.
 
 	Args:
@@ -4043,18 +3703,14 @@ def add_float_value(*, label: str =None, user_data: Any =None, use_internal_labe
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		default_value (float, optional): 
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_float_value(**kwargs)
 
-	return internal_dpg.add_float_value(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, source=source, default_value=default_value, parent=parent, **kwargs)
-
-def add_float_vect_value(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, source: Union[int, str] =0, default_value: Union[List[float], Tuple[float]] =(), parent: Union[int, str] =internal_dpg.mvReservedUUID_3, **kwargs) -> Union[int, str]:
+def add_float_vect_value(**kwargs):
 	"""	 Adds a float vect value.
 
 	Args:
@@ -4065,18 +3721,14 @@ def add_float_vect_value(*, label: str =None, user_data: Any =None, use_internal
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		default_value (Union[List[float], Tuple[float]], optional): 
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_float_vect_value(**kwargs)
 
-	return internal_dpg.add_float_vect_value(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, source=source, default_value=default_value, parent=parent, **kwargs)
-
-def add_font(file : str, size : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =internal_dpg.mvReservedUUID_0, **kwargs) -> Union[int, str]:
+def add_font(file, size, **kwargs):
 	"""	 Undocumented
 
 	Args:
@@ -4087,25 +3739,15 @@ def add_font(file : str, size : int, *, label: str =None, user_data: Any =None, 
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		id (Union[int, str], optional): (deprecated) 
-		default_font (bool, optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
+		default_font (bool, optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_font(file, size, **kwargs)
 
-	if 'default_font' in kwargs.keys():
-
-		warnings.warn('default_font keyword removed', DeprecationWarning, 2)
-
-		kwargs.pop('default_font', None)
-
-	return internal_dpg.add_font(file, size, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, **kwargs)
-
-def add_font_chars(chars : Union[List[int], Tuple[int]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, **kwargs) -> Union[int, str]:
+def add_font_chars(chars, **kwargs):
 	"""	 Undocumented
 
 	Args:
@@ -4115,18 +3757,14 @@ def add_font_chars(chars : Union[List[int], Tuple[int]], *, label: str =None, us
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_font_chars(chars, **kwargs)
 
-	return internal_dpg.add_font_chars(chars, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, **kwargs)
-
-def add_font_range(first_char : int, last_char : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, **kwargs) -> Union[int, str]:
+def add_font_range(first_char, last_char, **kwargs):
 	"""	 Undocumented
 
 	Args:
@@ -4137,18 +3775,14 @@ def add_font_range(first_char : int, last_char : int, *, label: str =None, user_
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_font_range(first_char, last_char, **kwargs)
 
-	return internal_dpg.add_font_range(first_char, last_char, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, **kwargs)
-
-def add_font_range_hint(hint : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, **kwargs) -> Union[int, str]:
+def add_font_range_hint(hint, **kwargs):
 	"""	 Undocumented
 
 	Args:
@@ -4158,18 +3792,14 @@ def add_font_range_hint(hint : int, *, label: str =None, user_data: Any =None, u
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_font_range_hint(hint, **kwargs)
 
-	return internal_dpg.add_font_range_hint(hint, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, **kwargs)
-
-def add_font_registry(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, show: bool =True, **kwargs) -> Union[int, str]:
+def add_font_registry(**kwargs):
 	"""	 Undocumented
 
 	Args:
@@ -4178,18 +3808,14 @@ def add_font_registry(*, label: str =None, user_data: Any =None, use_internal_la
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		show (bool, optional): Attempt to render widget.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_font_registry(**kwargs)
 
-	return internal_dpg.add_font_registry(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, show=show, **kwargs)
-
-def add_group(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, horizontal: bool =False, horizontal_spacing: float =-1, xoffset: float =0.0, **kwargs) -> Union[int, str]:
+def add_group(**kwargs):
 	"""	 Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members.
 
 	Args:
@@ -4213,18 +3839,14 @@ def add_group(*, label: str =None, user_data: Any =None, use_internal_label: boo
 		horizontal (bool, optional): Forces child widgets to be added in a horizontal layout.
 		horizontal_spacing (float, optional): Spacing for the horizontal layout.
 		xoffset (float, optional): Offset from containing window x item location within group.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_group(**kwargs)
 
-	return internal_dpg.add_group(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, indent=indent, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, horizontal=horizontal, horizontal_spacing=horizontal_spacing, xoffset=xoffset, **kwargs)
-
-def add_handler_registry(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, show: bool =True, **kwargs) -> Union[int, str]:
+def add_handler_registry(**kwargs):
 	"""	 Adds a handler registry.
 
 	Args:
@@ -4233,18 +3855,14 @@ def add_handler_registry(*, label: str =None, user_data: Any =None, use_internal
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		show (bool, optional): Attempt to render widget.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_handler_registry(**kwargs)
 
-	return internal_dpg.add_handler_registry(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, show=show, **kwargs)
-
-def add_heat_series(x : Union[List[float], Tuple[float]], rows : int, cols : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, show: bool =True, scale_min: float =0.0, scale_max: float =1.0, bounds_min: Any =(0.0, 0.0), bounds_max: Any =(1.0, 1.0), format: str ='%0.1f', contribute_to_bounds: bool =True, **kwargs) -> Union[int, str]:
+def add_heat_series(x, rows, cols, **kwargs):
 	"""	 Adds a heat series to a plot.
 
 	Args:
@@ -4265,18 +3883,14 @@ def add_heat_series(x : Union[List[float], Tuple[float]], rows : int, cols : int
 		bounds_max (Any, optional): 
 		format (str, optional): 
 		contribute_to_bounds (bool, optional): 
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_heat_series(x, rows, cols, **kwargs)
 
-	return internal_dpg.add_heat_series(x, rows, cols, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, source=source, show=show, scale_min=scale_min, scale_max=scale_max, bounds_min=bounds_min, bounds_max=bounds_max, format=format, contribute_to_bounds=contribute_to_bounds, **kwargs)
-
-def add_histogram_series(x : Union[List[float], Tuple[float]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, show: bool =True, bins: int =-1, bar_scale: float =1.0, min_range: float =0.0, max_range: float =1.0, cumlative: bool =False, density: bool =False, outliers: bool =True, contribute_to_bounds: bool =True, **kwargs) -> Union[int, str]:
+def add_histogram_series(x, **kwargs):
 	"""	 Adds a histogram series to a plot.
 
 	Args:
@@ -4297,18 +3911,14 @@ def add_histogram_series(x : Union[List[float], Tuple[float]], *, label: str =No
 		density (bool, optional): 
 		outliers (bool, optional): 
 		contribute_to_bounds (bool, optional): 
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_histogram_series(x, **kwargs)
 
-	return internal_dpg.add_histogram_series(x, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, source=source, show=show, bins=bins, bar_scale=bar_scale, min_range=min_range, max_range=max_range, cumlative=cumlative, density=density, outliers=outliers, contribute_to_bounds=contribute_to_bounds, **kwargs)
-
-def add_hline_series(x : Union[List[float], Tuple[float]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, show: bool =True, **kwargs) -> Union[int, str]:
+def add_hline_series(x, **kwargs):
 	"""	 Adds an infinite horizontal line series to a plot.
 
 	Args:
@@ -4321,18 +3931,14 @@ def add_hline_series(x : Union[List[float], Tuple[float]], *, label: str =None, 
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		show (bool, optional): Attempt to render widget.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_hline_series(x, **kwargs)
 
-	return internal_dpg.add_hline_series(x, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, source=source, show=show, **kwargs)
-
-def add_image(texture_id : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, tint_color: Union[List[float], Tuple[float]] =(255, 255, 255, 255), border_color: Union[List[float], Tuple[float]] =(0, 0, 0, 0), uv_min: Union[List[float], Tuple[float]] =(0.0, 0.0), uv_max: Union[List[float], Tuple[float]] =(1.0, 1.0), **kwargs) -> Union[int, str]:
+def add_image(texture_id, **kwargs):
 	"""	 Adds an image from a specified texture. uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown. Using range (0.0,0.0)->(1.0,1.0) for texture coordinates will generally display the entire texture.
 
 	Args:
@@ -4359,18 +3965,14 @@ def add_image(texture_id : Union[int, str], *, label: str =None, user_data: Any 
 		border_color (Union[List[float], Tuple[float]], optional): Displays a border of the specified color around the texture.
 		uv_min (Union[List[float], Tuple[float]], optional): Normalized texture coordinates min point.
 		uv_max (Union[List[float], Tuple[float]], optional): Normalized texture coordinates max point.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_image(texture_id, **kwargs)
 
-	return internal_dpg.add_image(texture_id, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, tint_color=tint_color, border_color=border_color, uv_min=uv_min, uv_max=uv_max, **kwargs)
-
-def add_image_button(texture_id : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, frame_padding: int =-1, tint_color: Union[List[float], Tuple[float]] =(255, 255, 255, 255), background_color: Union[List[float], Tuple[float]] =(0, 0, 0, 0), uv_min: Union[List[float], Tuple[float]] =(0.0, 0.0), uv_max: Union[List[float], Tuple[float]] =(1.0, 1.0), **kwargs) -> Union[int, str]:
+def add_image_button(texture_id, **kwargs):
 	"""	 Adds an button with a texture. uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown. Using range (0.0,0.0)->(1.0,1.0) texture coordinates will generally display the entire texture
 
 	Args:
@@ -4400,18 +4002,14 @@ def add_image_button(texture_id : Union[int, str], *, label: str =None, user_dat
 		background_color (Union[List[float], Tuple[float]], optional): Displays a border of the specified color around the texture.
 		uv_min (Union[List[float], Tuple[float]], optional): Normalized texture coordinates min point.
 		uv_max (Union[List[float], Tuple[float]], optional): Normalized texture coordinates max point.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_image_button(texture_id, **kwargs)
 
-	return internal_dpg.add_image_button(texture_id, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, frame_padding=frame_padding, tint_color=tint_color, background_color=background_color, uv_min=uv_min, uv_max=uv_max, **kwargs)
-
-def add_image_series(texture_id : Union[int, str], bounds_min : Union[List[float], Tuple[float]], bounds_max : Union[List[float], Tuple[float]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, show: bool =True, uv_min: Union[List[float], Tuple[float]] =(0.0, 0.0), uv_max: Union[List[float], Tuple[float]] =(1.0, 1.0), tint_color: Union[List[int], Tuple[int]] =(255, 255, 255, 255), **kwargs) -> Union[int, str]:
+def add_image_series(texture_id, bounds_min, bounds_max, **kwargs):
 	"""	 Adds an image series to a plot.
 
 	Args:
@@ -4429,18 +4027,14 @@ def add_image_series(texture_id : Union[int, str], bounds_min : Union[List[float
 		uv_min (Union[List[float], Tuple[float]], optional): normalized texture coordinates
 		uv_max (Union[List[float], Tuple[float]], optional): normalized texture coordinates
 		tint_color (Union[List[int], Tuple[int]], optional): 
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_image_series(texture_id, bounds_min, bounds_max, **kwargs)
 
-	return internal_dpg.add_image_series(texture_id, bounds_min, bounds_max, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, source=source, show=show, uv_min=uv_min, uv_max=uv_max, tint_color=tint_color, **kwargs)
-
-def add_input_float(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: float =0.0, format: str ='%.3f', min_value: float =0.0, max_value: float =100.0, step: float =0.1, step_fast: float =1.0, min_clamped: bool =False, max_clamped: bool =False, on_enter: bool =False, readonly: bool =False, **kwargs) -> Union[int, str]:
+def add_input_float(**kwargs):
 	"""	 Adds input for an float.
 
 	Args:
@@ -4473,18 +4067,14 @@ def add_input_float(*, label: str =None, user_data: Any =None, use_internal_labe
 		max_clamped (bool, optional): Activates and deactivates max_value.
 		on_enter (bool, optional): Only runs callback on enter key press.
 		readonly (bool, optional): Activates a read only mode for the input.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_input_float(**kwargs)
 
-	return internal_dpg.add_input_float(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, format=format, min_value=min_value, max_value=max_value, step=step, step_fast=step_fast, min_clamped=min_clamped, max_clamped=max_clamped, on_enter=on_enter, readonly=readonly, **kwargs)
-
-def add_input_floatx(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: Union[List[float], Tuple[float]] =(0.0, 0.0, 0.0, 0.0), format: str ='%.3f', min_value: float =0.0, max_value: float =100.0, size: int =4, min_clamped: bool =False, max_clamped: bool =False, on_enter: bool =False, readonly: bool =False, **kwargs) -> Union[int, str]:
+def add_input_floatx(**kwargs):
 	"""	 Adds multi float input for up to 4 float values.
 
 	Args:
@@ -4516,18 +4106,14 @@ def add_input_floatx(*, label: str =None, user_data: Any =None, use_internal_lab
 		max_clamped (bool, optional): Activates and deactivates max_value.
 		on_enter (bool, optional): Only runs callback on enter key press.
 		readonly (bool, optional): Activates a read only mode for the inputs.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_input_floatx(**kwargs)
 
-	return internal_dpg.add_input_floatx(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, format=format, min_value=min_value, max_value=max_value, size=size, min_clamped=min_clamped, max_clamped=max_clamped, on_enter=on_enter, readonly=readonly, **kwargs)
-
-def add_input_int(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: int =0, min_value: int =0, max_value: int =100, step: int =1, step_fast: int =100, min_clamped: bool =False, max_clamped: bool =False, on_enter: bool =False, readonly: bool =False, **kwargs) -> Union[int, str]:
+def add_input_int(**kwargs):
 	"""	 Adds input for an int.
 
 	Args:
@@ -4559,18 +4145,14 @@ def add_input_int(*, label: str =None, user_data: Any =None, use_internal_label:
 		max_clamped (bool, optional): Activates and deactivates max_value.
 		on_enter (bool, optional): Only runs callback on enter key press.
 		readonly (bool, optional): Activates a read only mode for the input.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_input_int(**kwargs)
 
-	return internal_dpg.add_input_int(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, min_value=min_value, max_value=max_value, step=step, step_fast=step_fast, min_clamped=min_clamped, max_clamped=max_clamped, on_enter=on_enter, readonly=readonly, **kwargs)
-
-def add_input_intx(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: Union[List[int], Tuple[int]] =(0, 0, 0, 0), min_value: int =0, max_value: int =100, size: int =4, min_clamped: bool =False, max_clamped: bool =False, on_enter: bool =False, readonly: bool =False, **kwargs) -> Union[int, str]:
+def add_input_intx(**kwargs):
 	"""	 Adds multi int input for up to 4 integer values.
 
 	Args:
@@ -4601,18 +4183,14 @@ def add_input_intx(*, label: str =None, user_data: Any =None, use_internal_label
 		max_clamped (bool, optional): Activates and deactivates max_value.
 		on_enter (bool, optional): Only runs callback on enter.
 		readonly (bool, optional): Activates a read only mode for the inputs.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_input_intx(**kwargs)
 
-	return internal_dpg.add_input_intx(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, min_value=min_value, max_value=max_value, size=size, min_clamped=min_clamped, max_clamped=max_clamped, on_enter=on_enter, readonly=readonly, **kwargs)
-
-def add_input_text(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: str ='', hint: str ='', multiline: bool =False, no_spaces: bool =False, uppercase: bool =False, tab_input: bool =False, decimal: bool =False, hexadecimal: bool =False, readonly: bool =False, password: bool =False, scientific: bool =False, on_enter: bool =False, **kwargs) -> Union[int, str]:
+def add_input_text(**kwargs):
 	"""	 Adds input for text.
 
 	Args:
@@ -4648,18 +4226,14 @@ def add_input_text(*, label: str =None, user_data: Any =None, use_internal_label
 		password (bool, optional): Password mode, display all characters as '*'.
 		scientific (bool, optional): Only allow 0123456789.+-*/eE (Scientific notation input)
 		on_enter (bool, optional): Only runs callback on enter key press.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_input_text(**kwargs)
 
-	return internal_dpg.add_input_text(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, hint=hint, multiline=multiline, no_spaces=no_spaces, uppercase=uppercase, tab_input=tab_input, decimal=decimal, hexadecimal=hexadecimal, readonly=readonly, password=password, scientific=scientific, on_enter=on_enter, **kwargs)
-
-def add_int4_value(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, source: Union[int, str] =0, default_value: Union[List[int], Tuple[int]] =(0, 0, 0, 0), parent: Union[int, str] =internal_dpg.mvReservedUUID_3, **kwargs) -> Union[int, str]:
+def add_int4_value(**kwargs):
 	"""	 Adds a int4 value.
 
 	Args:
@@ -4670,18 +4244,14 @@ def add_int4_value(*, label: str =None, user_data: Any =None, use_internal_label
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		default_value (Union[List[int], Tuple[int]], optional): 
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_int4_value(**kwargs)
 
-	return internal_dpg.add_int4_value(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, source=source, default_value=default_value, parent=parent, **kwargs)
-
-def add_int_value(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, source: Union[int, str] =0, default_value: int =0, parent: Union[int, str] =internal_dpg.mvReservedUUID_3, **kwargs) -> Union[int, str]:
+def add_int_value(**kwargs):
 	"""	 Adds a int value.
 
 	Args:
@@ -4692,18 +4262,14 @@ def add_int_value(*, label: str =None, user_data: Any =None, use_internal_label:
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		default_value (int, optional): 
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_int_value(**kwargs)
 
-	return internal_dpg.add_int_value(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, source=source, default_value=default_value, parent=parent, **kwargs)
-
-def add_item_activated_handler(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, callback: Callable =None, show: bool =True, **kwargs) -> Union[int, str]:
+def add_item_activated_handler(**kwargs):
 	"""	 Adds a activated handler.
 
 	Args:
@@ -4714,18 +4280,14 @@ def add_item_activated_handler(*, label: str =None, user_data: Any =None, use_in
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_item_activated_handler(**kwargs)
 
-	return internal_dpg.add_item_activated_handler(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, callback=callback, show=show, **kwargs)
-
-def add_item_active_handler(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, callback: Callable =None, show: bool =True, **kwargs) -> Union[int, str]:
+def add_item_active_handler(**kwargs):
 	"""	 Adds a active handler.
 
 	Args:
@@ -4736,18 +4298,14 @@ def add_item_active_handler(*, label: str =None, user_data: Any =None, use_inter
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_item_active_handler(**kwargs)
 
-	return internal_dpg.add_item_active_handler(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, callback=callback, show=show, **kwargs)
-
-def add_item_clicked_handler(button : int =-1, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, callback: Callable =None, show: bool =True, **kwargs) -> Union[int, str]:
+def add_item_clicked_handler(button=-1, **kwargs):
 	"""	 Adds a clicked handler.
 
 	Args:
@@ -4759,18 +4317,14 @@ def add_item_clicked_handler(button : int =-1, *, label: str =None, user_data: A
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_item_clicked_handler(button, **kwargs)
 
-	return internal_dpg.add_item_clicked_handler(button, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, callback=callback, show=show, **kwargs)
-
-def add_item_deactivated_after_edit_handler(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, callback: Callable =None, show: bool =True, **kwargs) -> Union[int, str]:
+def add_item_deactivated_after_edit_handler(**kwargs):
 	"""	 Adds a deactivated after edit handler.
 
 	Args:
@@ -4781,18 +4335,14 @@ def add_item_deactivated_after_edit_handler(*, label: str =None, user_data: Any 
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_item_deactivated_after_edit_handler(**kwargs)
 
-	return internal_dpg.add_item_deactivated_after_edit_handler(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, callback=callback, show=show, **kwargs)
-
-def add_item_deactivated_handler(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, callback: Callable =None, show: bool =True, **kwargs) -> Union[int, str]:
+def add_item_deactivated_handler(**kwargs):
 	"""	 Adds a deactivated handler.
 
 	Args:
@@ -4803,18 +4353,14 @@ def add_item_deactivated_handler(*, label: str =None, user_data: Any =None, use_
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_item_deactivated_handler(**kwargs)
 
-	return internal_dpg.add_item_deactivated_handler(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, callback=callback, show=show, **kwargs)
-
-def add_item_edited_handler(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, callback: Callable =None, show: bool =True, **kwargs) -> Union[int, str]:
+def add_item_edited_handler(**kwargs):
 	"""	 Adds an edited handler.
 
 	Args:
@@ -4825,18 +4371,14 @@ def add_item_edited_handler(*, label: str =None, user_data: Any =None, use_inter
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_item_edited_handler(**kwargs)
 
-	return internal_dpg.add_item_edited_handler(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, callback=callback, show=show, **kwargs)
-
-def add_item_focus_handler(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, callback: Callable =None, show: bool =True, **kwargs) -> Union[int, str]:
+def add_item_focus_handler(**kwargs):
 	"""	 Adds a focus handler.
 
 	Args:
@@ -4847,18 +4389,14 @@ def add_item_focus_handler(*, label: str =None, user_data: Any =None, use_intern
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_item_focus_handler(**kwargs)
 
-	return internal_dpg.add_item_focus_handler(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, callback=callback, show=show, **kwargs)
-
-def add_item_handler_registry(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, show: bool =True, **kwargs) -> Union[int, str]:
+def add_item_handler_registry(**kwargs):
 	"""	 Adds an item handler registry.
 
 	Args:
@@ -4867,18 +4405,14 @@ def add_item_handler_registry(*, label: str =None, user_data: Any =None, use_int
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		show (bool, optional): Attempt to render widget.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_item_handler_registry(**kwargs)
 
-	return internal_dpg.add_item_handler_registry(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, show=show, **kwargs)
-
-def add_item_hover_handler(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, callback: Callable =None, show: bool =True, **kwargs) -> Union[int, str]:
+def add_item_hover_handler(**kwargs):
 	"""	 Adds a hover handler.
 
 	Args:
@@ -4889,18 +4423,14 @@ def add_item_hover_handler(*, label: str =None, user_data: Any =None, use_intern
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_item_hover_handler(**kwargs)
 
-	return internal_dpg.add_item_hover_handler(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, callback=callback, show=show, **kwargs)
-
-def add_item_pool(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, **kwargs) -> Union[int, str]:
+def add_item_pool(**kwargs):
 	"""	 Adds an item pool.
 
 	Args:
@@ -4908,18 +4438,14 @@ def add_item_pool(*, label: str =None, user_data: Any =None, use_internal_label:
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_item_pool(**kwargs)
 
-	return internal_dpg.add_item_pool(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, **kwargs)
-
-def add_item_resize_handler(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, callback: Callable =None, show: bool =True, **kwargs) -> Union[int, str]:
+def add_item_resize_handler(**kwargs):
 	"""	 Adds a resize handler.
 
 	Args:
@@ -4930,18 +4456,14 @@ def add_item_resize_handler(*, label: str =None, user_data: Any =None, use_inter
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_item_resize_handler(**kwargs)
 
-	return internal_dpg.add_item_resize_handler(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, callback=callback, show=show, **kwargs)
-
-def add_item_set(type : int, count : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, **kwargs) -> Union[int, str]:
+def add_item_set(type, count, **kwargs):
 	"""	 Adds an item set to an item pool.
 
 	Args:
@@ -4951,18 +4473,14 @@ def add_item_set(type : int, count : int, *, label: str =None, user_data: Any =N
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_item_set(type, count, **kwargs)
 
-	return internal_dpg.add_item_set(type, count, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, **kwargs)
-
-def add_item_toggled_open_handler(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, callback: Callable =None, show: bool =True, **kwargs) -> Union[int, str]:
+def add_item_toggled_open_handler(**kwargs):
 	"""	 Adds a togged open handler.
 
 	Args:
@@ -4973,18 +4491,14 @@ def add_item_toggled_open_handler(*, label: str =None, user_data: Any =None, use
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_item_toggled_open_handler(**kwargs)
 
-	return internal_dpg.add_item_toggled_open_handler(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, callback=callback, show=show, **kwargs)
-
-def add_item_visible_handler(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, callback: Callable =None, show: bool =True, **kwargs) -> Union[int, str]:
+def add_item_visible_handler(**kwargs):
 	"""	 Adds a visible handler.
 
 	Args:
@@ -4995,18 +4509,14 @@ def add_item_visible_handler(*, label: str =None, user_data: Any =None, use_inte
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_item_visible_handler(**kwargs)
 
-	return internal_dpg.add_item_visible_handler(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, callback=callback, show=show, **kwargs)
-
-def add_key_down_handler(key : int =-1, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, callback: Callable =None, show: bool =True, parent: Union[int, str] =internal_dpg.mvReservedUUID_1, **kwargs) -> Union[int, str]:
+def add_key_down_handler(key=-1, **kwargs):
 	"""	 Adds a key down handler.
 
 	Args:
@@ -5018,18 +4528,14 @@ def add_key_down_handler(key : int =-1, *, label: str =None, user_data: Any =Non
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_key_down_handler(key, **kwargs)
 
-	return internal_dpg.add_key_down_handler(key, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, callback=callback, show=show, parent=parent, **kwargs)
-
-def add_key_press_handler(key : int =-1, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, callback: Callable =None, show: bool =True, parent: Union[int, str] =internal_dpg.mvReservedUUID_1, **kwargs) -> Union[int, str]:
+def add_key_press_handler(key=-1, **kwargs):
 	"""	 Adds a key press handler.
 
 	Args:
@@ -5041,18 +4547,14 @@ def add_key_press_handler(key : int =-1, *, label: str =None, user_data: Any =No
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_key_press_handler(key, **kwargs)
 
-	return internal_dpg.add_key_press_handler(key, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, callback=callback, show=show, parent=parent, **kwargs)
-
-def add_key_release_handler(key : int =-1, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, callback: Callable =None, show: bool =True, parent: Union[int, str] =internal_dpg.mvReservedUUID_1, **kwargs) -> Union[int, str]:
+def add_key_release_handler(key=-1, **kwargs):
 	"""	 Adds a key release handler.
 
 	Args:
@@ -5064,18 +4566,14 @@ def add_key_release_handler(key : int =-1, *, label: str =None, user_data: Any =
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_key_release_handler(key, **kwargs)
 
-	return internal_dpg.add_key_release_handler(key, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, callback=callback, show=show, parent=parent, **kwargs)
-
-def add_knob_float(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: float =0.0, min_value: float =0.0, max_value: float =100.0, **kwargs) -> Union[int, str]:
+def add_knob_float(**kwargs):
 	"""	 Adds a knob that rotates based on change in x mouse position.
 
 	Args:
@@ -5101,18 +4599,14 @@ def add_knob_float(*, label: str =None, user_data: Any =None, use_internal_label
 		default_value (float, optional): 
 		min_value (float, optional): Applies lower limit to value.
 		max_value (float, optional): Applies upper limit to value.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_knob_float(**kwargs)
 
-	return internal_dpg.add_knob_float(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, min_value=min_value, max_value=max_value, **kwargs)
-
-def add_line_series(x : Union[List[float], Tuple[float]], y : Union[List[float], Tuple[float]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, show: bool =True, **kwargs) -> Union[int, str]:
+def add_line_series(x, y, **kwargs):
 	"""	 Adds a line series to a plot.
 
 	Args:
@@ -5126,18 +4620,14 @@ def add_line_series(x : Union[List[float], Tuple[float]], y : Union[List[float],
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		show (bool, optional): Attempt to render widget.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_line_series(x, y, **kwargs)
 
-	return internal_dpg.add_line_series(x, y, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, source=source, show=show, **kwargs)
-
-def add_listbox(items : Union[List[str], Tuple[str]] =(), *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: str ='', num_items: int =3, **kwargs) -> Union[int, str]:
+def add_listbox(items=(), **kwargs):
 	"""	 Adds a listbox. If height is not large enought to show all items a scroll bar will appear.
 
 	Args:
@@ -5163,18 +4653,14 @@ def add_listbox(items : Union[List[str], Tuple[str]] =(), *, label: str =None, u
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		default_value (str, optional): 
 		num_items (int, optional): Expands the height of the listbox to show specified number of items.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_listbox(items, **kwargs)
 
-	return internal_dpg.add_listbox(items, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, num_items=num_items, **kwargs)
-
-def add_loading_indicator(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int]] =[], style: int =0, circle_count: int =8, speed: float =1.0, radius: float =3.0, thickness: float =1.0, color: Union[List[int], Tuple[int]] =(51, 51, 55, 255), secondary_color: Union[List[int], Tuple[int]] =(29, 151, 236, 103), **kwargs) -> Union[int, str]:
+def add_loading_indicator(**kwargs):
 	"""	 Adds a rotating animated loading symbol.
 
 	Args:
@@ -5198,18 +4684,14 @@ def add_loading_indicator(*, label: str =None, user_data: Any =None, use_interna
 		thickness (float, optional): Thickness of the circles or line.
 		color (Union[List[int], Tuple[int]], optional): Color of the growing center circle.
 		secondary_color (Union[List[int], Tuple[int]], optional): Background of the dots in dot mode.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_loading_indicator(**kwargs)
 
-	return internal_dpg.add_loading_indicator(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, drop_callback=drop_callback, show=show, pos=pos, style=style, circle_count=circle_count, speed=speed, radius=radius, thickness=thickness, color=color, secondary_color=secondary_color, **kwargs)
-
-def add_menu(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drop_callback: Callable =None, show: bool =True, enabled: bool =True, filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, **kwargs) -> Union[int, str]:
+def add_menu(**kwargs):
 	"""	 Adds a menu to an existing menu bar.
 
 	Args:
@@ -5228,18 +4710,14 @@ def add_menu(*, label: str =None, user_data: Any =None, use_internal_label: bool
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_menu(**kwargs)
 
-	return internal_dpg.add_menu(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, indent=indent, parent=parent, before=before, payload_type=payload_type, drop_callback=drop_callback, show=show, enabled=enabled, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, **kwargs)
-
-def add_menu_bar(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, indent: int =-1, parent: Union[int, str] =0, show: bool =True, delay_search: bool =False, **kwargs) -> Union[int, str]:
+def add_menu_bar(**kwargs):
 	"""	 Adds a menu bar to a window.
 
 	Args:
@@ -5251,18 +4729,14 @@ def add_menu_bar(*, label: str =None, user_data: Any =None, use_internal_label: 
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		show (bool, optional): Attempt to render widget.
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_menu_bar(**kwargs)
 
-	return internal_dpg.add_menu_bar(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, indent=indent, parent=parent, show=show, delay_search=delay_search, **kwargs)
-
-def add_menu_item(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: bool =False, shortcut: str ='', check: bool =False, **kwargs) -> Union[int, str]:
+def add_menu_item(**kwargs):
 	"""	 Adds a menu item to an existing menu. Menu items act similar to selectables.
 
 	Args:
@@ -5284,25 +4758,15 @@ def add_menu_item(*, label: str =None, user_data: Any =None, use_internal_label:
 		default_value (bool, optional): 
 		shortcut (str, optional): Displays text on the menu item. Typically used to show a shortcut key command.
 		check (bool, optional): Displays a checkmark on the menu item when it is selected.
-		id (Union[int, str], optional): (deprecated) 
-		drag_callback (Callable, optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
+		drag_callback (Callable, optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_menu_item(**kwargs)
 
-	if 'drag_callback' in kwargs.keys():
-
-		warnings.warn('drag_callback keyword removed', DeprecationWarning, 2)
-
-		kwargs.pop('drag_callback', None)
-
-	return internal_dpg.add_menu_item(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drop_callback=drop_callback, show=show, enabled=enabled, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, shortcut=shortcut, check=check, **kwargs)
-
-def add_mouse_click_handler(button : int =-1, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, callback: Callable =None, show: bool =True, parent: Union[int, str] =internal_dpg.mvReservedUUID_1, **kwargs) -> Union[int, str]:
+def add_mouse_click_handler(button=-1, **kwargs):
 	"""	 Adds a mouse click handler.
 
 	Args:
@@ -5314,18 +4778,14 @@ def add_mouse_click_handler(button : int =-1, *, label: str =None, user_data: An
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_mouse_click_handler(button, **kwargs)
 
-	return internal_dpg.add_mouse_click_handler(button, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, callback=callback, show=show, parent=parent, **kwargs)
-
-def add_mouse_double_click_handler(button : int =-1, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, callback: Callable =None, show: bool =True, parent: Union[int, str] =internal_dpg.mvReservedUUID_1, **kwargs) -> Union[int, str]:
+def add_mouse_double_click_handler(button=-1, **kwargs):
 	"""	 Adds a mouse double click handler.
 
 	Args:
@@ -5337,18 +4797,14 @@ def add_mouse_double_click_handler(button : int =-1, *, label: str =None, user_d
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_mouse_double_click_handler(button, **kwargs)
 
-	return internal_dpg.add_mouse_double_click_handler(button, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, callback=callback, show=show, parent=parent, **kwargs)
-
-def add_mouse_down_handler(button : int =-1, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, callback: Callable =None, show: bool =True, parent: Union[int, str] =internal_dpg.mvReservedUUID_1, **kwargs) -> Union[int, str]:
+def add_mouse_down_handler(button=-1, **kwargs):
 	"""	 Adds a mouse down handler.
 
 	Args:
@@ -5360,18 +4816,14 @@ def add_mouse_down_handler(button : int =-1, *, label: str =None, user_data: Any
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_mouse_down_handler(button, **kwargs)
 
-	return internal_dpg.add_mouse_down_handler(button, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, callback=callback, show=show, parent=parent, **kwargs)
-
-def add_mouse_drag_handler(button : int =-1, threshold : float =10.0, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, callback: Callable =None, show: bool =True, parent: Union[int, str] =internal_dpg.mvReservedUUID_1, **kwargs) -> Union[int, str]:
+def add_mouse_drag_handler(button=-1, threshold=10.0, **kwargs):
 	"""	 Adds a mouse drag handler.
 
 	Args:
@@ -5384,18 +4836,14 @@ def add_mouse_drag_handler(button : int =-1, threshold : float =10.0, *, label: 
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_mouse_drag_handler(button, threshold, **kwargs)
 
-	return internal_dpg.add_mouse_drag_handler(button, threshold, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, callback=callback, show=show, parent=parent, **kwargs)
-
-def add_mouse_move_handler(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, callback: Callable =None, show: bool =True, parent: Union[int, str] =internal_dpg.mvReservedUUID_1, **kwargs) -> Union[int, str]:
+def add_mouse_move_handler(**kwargs):
 	"""	 Adds a mouse move handler.
 
 	Args:
@@ -5406,18 +4854,14 @@ def add_mouse_move_handler(*, label: str =None, user_data: Any =None, use_intern
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_mouse_move_handler(**kwargs)
 
-	return internal_dpg.add_mouse_move_handler(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, callback=callback, show=show, parent=parent, **kwargs)
-
-def add_mouse_release_handler(button : int =-1, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, callback: Callable =None, show: bool =True, parent: Union[int, str] =internal_dpg.mvReservedUUID_1, **kwargs) -> Union[int, str]:
+def add_mouse_release_handler(button=-1, **kwargs):
 	"""	 Adds a mouse release handler.
 
 	Args:
@@ -5429,18 +4873,14 @@ def add_mouse_release_handler(button : int =-1, *, label: str =None, user_data: 
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_mouse_release_handler(button, **kwargs)
 
-	return internal_dpg.add_mouse_release_handler(button, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, callback=callback, show=show, parent=parent, **kwargs)
-
-def add_mouse_wheel_handler(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, callback: Callable =None, show: bool =True, parent: Union[int, str] =internal_dpg.mvReservedUUID_1, **kwargs) -> Union[int, str]:
+def add_mouse_wheel_handler(**kwargs):
 	"""	 Adds a mouse wheel handler.
 
 	Args:
@@ -5451,18 +4891,14 @@ def add_mouse_wheel_handler(*, label: str =None, user_data: Any =None, use_inter
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_mouse_wheel_handler(**kwargs)
 
-	return internal_dpg.add_mouse_wheel_handler(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, callback=callback, show=show, parent=parent, **kwargs)
-
-def add_node(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, draggable: bool =True, **kwargs) -> Union[int, str]:
+def add_node(**kwargs):
 	"""	 Adds a node to a node editor.
 
 	Args:
@@ -5482,18 +4918,14 @@ def add_node(*, label: str =None, user_data: Any =None, use_internal_label: bool
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		draggable (bool, optional): Allow node to be draggable.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_node(**kwargs)
 
-	return internal_dpg.add_node(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, draggable=draggable, **kwargs)
-
-def add_node_attribute(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, filter_key: str ='', tracked: bool =False, track_offset: float =0.5, attribute_type: int =0, shape: int =1, category: str ='general', **kwargs) -> Union[int, str]:
+def add_node_attribute(**kwargs):
 	"""	 Adds a node attribute to a node.
 
 	Args:
@@ -5511,18 +4943,14 @@ def add_node_attribute(*, label: str =None, user_data: Any =None, use_internal_l
 		attribute_type (int, optional): mvNode_Attr_Input, mvNode_Attr_Output, or mvNode_Attr_Static.
 		shape (int, optional): Pin shape.
 		category (str, optional): Category
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_node_attribute(**kwargs)
 
-	return internal_dpg.add_node_attribute(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, indent=indent, parent=parent, before=before, show=show, filter_key=filter_key, tracked=tracked, track_offset=track_offset, attribute_type=attribute_type, shape=shape, category=category, **kwargs)
-
-def add_node_editor(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, parent: Union[int, str] =0, before: Union[int, str] =0, callback: Callable =None, show: bool =True, filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, delink_callback: Callable =None, menubar: bool =False, **kwargs) -> Union[int, str]:
+def add_node_editor(**kwargs):
 	"""	 Adds a node editor.
 
 	Args:
@@ -5542,18 +4970,14 @@ def add_node_editor(*, label: str =None, user_data: Any =None, use_internal_labe
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		delink_callback (Callable, optional): Callback ran when a link is detached.
 		menubar (bool, optional): Shows or hides the menubar.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_node_editor(**kwargs)
 
-	return internal_dpg.add_node_editor(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, parent=parent, before=before, callback=callback, show=show, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, delink_callback=delink_callback, menubar=menubar, **kwargs)
-
-def add_node_link(attr_1 : Union[int, str], attr_2 : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, show: bool =True, **kwargs) -> Union[int, str]:
+def add_node_link(attr_1, attr_2, **kwargs):
 	"""	 Undocumented
 
 	Args:
@@ -5565,18 +4989,14 @@ def add_node_link(attr_1 : Union[int, str], attr_2 : Union[int, str], *, label: 
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		show (bool, optional): Attempt to render widget.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_node_link(attr_1, attr_2, **kwargs)
 
-	return internal_dpg.add_node_link(attr_1, attr_2, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, show=show, **kwargs)
-
-def add_pie_series(x : float, y : float, radius : float, values : Union[List[float], Tuple[float]], labels : Union[List[str], Tuple[str]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, show: bool =True, format: str ='%0.2f', angle: float =90.0, normalize: bool =False, **kwargs) -> Union[int, str]:
+def add_pie_series(x, y, radius, values, labels, **kwargs):
 	"""	 Adds an pie series to a plot.
 
 	Args:
@@ -5596,18 +5016,14 @@ def add_pie_series(x : float, y : float, radius : float, values : Union[List[flo
 		format (str, optional): 
 		angle (float, optional): 
 		normalize (bool, optional): 
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_pie_series(x, y, radius, values, labels, **kwargs)
 
-	return internal_dpg.add_pie_series(x, y, radius, values, labels, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, source=source, show=show, format=format, angle=angle, normalize=normalize, **kwargs)
-
-def add_plot(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, no_title: bool =False, no_menus: bool =False, no_box_select: bool =False, no_mouse_pos: bool =False, no_highlight: bool =False, no_child: bool =False, query: bool =False, crosshairs: bool =False, anti_aliased: bool =False, equal_aspects: bool =False, pan_button: int =internal_dpg.mvMouseButton_Left, pan_mod: int =-1, fit_button: int =internal_dpg.mvMouseButton_Left, context_menu_button: int =internal_dpg.mvMouseButton_Right, box_select_button: int =internal_dpg.mvMouseButton_Right, box_select_mod: int =-1, box_select_cancel_button: int =internal_dpg.mvMouseButton_Left, query_button: int =internal_dpg.mvMouseButton_Middle, query_mod: int =-1, query_toggle_mod: int =internal_dpg.mvKey_Control, horizontal_mod: int =internal_dpg.mvKey_Alt, vertical_mod: int =internal_dpg.mvKey_Shift, **kwargs) -> Union[int, str]:
+def add_plot(**kwargs):
 	"""	 Adds a plot which is used to hold series, and can be drawn to with draw commands.
 
 	Args:
@@ -5652,18 +5068,14 @@ def add_plot(*, label: str =None, user_data: Any =None, use_internal_label: bool
 		query_toggle_mod (int, optional): when held, active box selections turn into queries
 		horizontal_mod (int, optional): expands active box selection/query horizontally to plot edge when held
 		vertical_mod (int, optional): expands active box selection/query vertically to plot edge when held
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_plot(**kwargs)
 
-	return internal_dpg.add_plot(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, no_title=no_title, no_menus=no_menus, no_box_select=no_box_select, no_mouse_pos=no_mouse_pos, no_highlight=no_highlight, no_child=no_child, query=query, crosshairs=crosshairs, anti_aliased=anti_aliased, equal_aspects=equal_aspects, pan_button=pan_button, pan_mod=pan_mod, fit_button=fit_button, context_menu_button=context_menu_button, box_select_button=box_select_button, box_select_mod=box_select_mod, box_select_cancel_button=box_select_cancel_button, query_button=query_button, query_mod=query_mod, query_toggle_mod=query_toggle_mod, horizontal_mod=horizontal_mod, vertical_mod=vertical_mod, **kwargs)
-
-def add_plot_annotation(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, show: bool =True, default_value: Any =(0.0, 0.0), offset: Union[List[float], Tuple[float]] =(0.0, 0.0), color: Union[List[int], Tuple[int]] =(0, 0, 0, -255), clamped: bool =True, **kwargs) -> Union[int, str]:
+def add_plot_annotation(**kwargs):
 	"""	 Adds an annotation to a plot.
 
 	Args:
@@ -5679,18 +5091,14 @@ def add_plot_annotation(*, label: str =None, user_data: Any =None, use_internal_
 		offset (Union[List[float], Tuple[float]], optional): 
 		color (Union[List[int], Tuple[int]], optional): 
 		clamped (bool, optional): 
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_plot_annotation(**kwargs)
 
-	return internal_dpg.add_plot_annotation(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, source=source, show=show, default_value=default_value, offset=offset, color=color, clamped=clamped, **kwargs)
-
-def add_plot_axis(axis : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drop_callback: Callable =None, show: bool =True, no_gridlines: bool =False, no_tick_marks: bool =False, no_tick_labels: bool =False, log_scale: bool =False, invert: bool =False, lock_min: bool =False, lock_max: bool =False, time: bool =False, **kwargs) -> Union[int, str]:
+def add_plot_axis(axis, **kwargs):
 	"""	 Adds an axis to a plot.
 
 	Args:
@@ -5711,18 +5119,14 @@ def add_plot_axis(axis : int, *, label: str =None, user_data: Any =None, use_int
 		lock_min (bool, optional): 
 		lock_max (bool, optional): 
 		time (bool, optional): 
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_plot_axis(axis, **kwargs)
 
-	return internal_dpg.add_plot_axis(axis, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, payload_type=payload_type, drop_callback=drop_callback, show=show, no_gridlines=no_gridlines, no_tick_marks=no_tick_marks, no_tick_labels=no_tick_labels, log_scale=log_scale, invert=invert, lock_min=lock_min, lock_max=lock_max, time=time, **kwargs)
-
-def add_plot_legend(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drop_callback: Callable =None, show: bool =True, location: int =5, horizontal: bool =False, outside: bool =False, **kwargs) -> Union[int, str]:
+def add_plot_legend(**kwargs):
 	"""	 Adds a plot legend to a plot.
 
 	Args:
@@ -5737,18 +5141,14 @@ def add_plot_legend(*, label: str =None, user_data: Any =None, use_internal_labe
 		location (int, optional): location, mvPlot_Location_*
 		horizontal (bool, optional): 
 		outside (bool, optional): 
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_plot_legend(**kwargs)
 
-	return internal_dpg.add_plot_legend(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, payload_type=payload_type, drop_callback=drop_callback, show=show, location=location, horizontal=horizontal, outside=outside, **kwargs)
-
-def add_progress_bar(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, overlay: str ='', default_value: float =0.0, **kwargs) -> Union[int, str]:
+def add_progress_bar(**kwargs):
 	"""	 Adds a progress bar.
 
 	Args:
@@ -5772,18 +5172,14 @@ def add_progress_bar(*, label: str =None, user_data: Any =None, use_internal_lab
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		overlay (str, optional): Overlayed text.
 		default_value (float, optional): Normalized value to fill the bar from 0.0 to 1.0.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_progress_bar(**kwargs)
 
-	return internal_dpg.add_progress_bar(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, overlay=overlay, default_value=default_value, **kwargs)
-
-def add_radio_button(items : Union[List[str], Tuple[str]] =(), *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: str ='', horizontal: bool =False, **kwargs) -> Union[int, str]:
+def add_radio_button(items=(), **kwargs):
 	"""	 Adds a set of radio buttons. If items keyword is empty, nothing will be shown.
 
 	Args:
@@ -5808,18 +5204,14 @@ def add_radio_button(items : Union[List[str], Tuple[str]] =(), *, label: str =No
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		default_value (str, optional): 
 		horizontal (bool, optional): Displays the radio options horizontally.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_radio_button(items, **kwargs)
 
-	return internal_dpg.add_radio_button(items, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, horizontal=horizontal, **kwargs)
-
-def add_raw_texture(width : int, height : int, default_value : Union[List[float], Tuple[float]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, format: int =internal_dpg.mvFormat_Float_rgba, parent: Union[int, str] =internal_dpg.mvReservedUUID_2, **kwargs) -> Union[int, str]:
+def add_raw_texture(width, height, default_value, **kwargs):
 	"""	 Adds a raw texture.
 
 	Args:
@@ -5832,18 +5224,14 @@ def add_raw_texture(width : int, height : int, default_value : Union[List[float]
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		format (int, optional): Data format.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_raw_texture(width, height, default_value, **kwargs)
 
-	return internal_dpg.add_raw_texture(width, height, default_value, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, format=format, parent=parent, **kwargs)
-
-def add_scatter_series(x : Union[List[float], Tuple[float]], y : Union[List[float], Tuple[float]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, show: bool =True, **kwargs) -> Union[int, str]:
+def add_scatter_series(x, y, **kwargs):
 	"""	 Adds a scatter series to a plot.
 
 	Args:
@@ -5857,18 +5245,14 @@ def add_scatter_series(x : Union[List[float], Tuple[float]], y : Union[List[floa
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		show (bool, optional): Attempt to render widget.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_scatter_series(x, y, **kwargs)
 
-	return internal_dpg.add_scatter_series(x, y, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, source=source, show=show, **kwargs)
-
-def add_selectable(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: bool =False, span_columns: bool =False, **kwargs) -> Union[int, str]:
+def add_selectable(**kwargs):
 	"""	 Adds a selectable.
 
 	Args:
@@ -5894,18 +5278,14 @@ def add_selectable(*, label: str =None, user_data: Any =None, use_internal_label
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		default_value (bool, optional): 
 		span_columns (bool, optional): Span the width of all columns if placed in a table.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_selectable(**kwargs)
 
-	return internal_dpg.add_selectable(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, span_columns=span_columns, **kwargs)
-
-def add_separator(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, pos: Union[List[int], Tuple[int]] =[], **kwargs) -> Union[int, str]:
+def add_separator(**kwargs):
 	"""	 Adds a horizontal separator.
 
 	Args:
@@ -5918,18 +5298,14 @@ def add_separator(*, label: str =None, user_data: Any =None, use_internal_label:
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_separator(**kwargs)
 
-	return internal_dpg.add_separator(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, indent=indent, parent=parent, before=before, show=show, pos=pos, **kwargs)
-
-def add_series_value(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, source: Union[int, str] =0, default_value: Any =(), parent: Union[int, str] =internal_dpg.mvReservedUUID_3, **kwargs) -> Union[int, str]:
+def add_series_value(**kwargs):
 	"""	 Adds a plot series value.
 
 	Args:
@@ -5940,18 +5316,14 @@ def add_series_value(*, label: str =None, user_data: Any =None, use_internal_lab
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		default_value (Any, optional): 
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_series_value(**kwargs)
 
-	return internal_dpg.add_series_value(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, source=source, default_value=default_value, parent=parent, **kwargs)
-
-def add_shade_series(x : Union[List[float], Tuple[float]], y1 : Union[List[float], Tuple[float]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, show: bool =True, y2: Any =[], **kwargs) -> Union[int, str]:
+def add_shade_series(x, y1, **kwargs):
 	"""	 Adds a shade series to a plot.
 
 	Args:
@@ -5966,18 +5338,14 @@ def add_shade_series(x : Union[List[float], Tuple[float]], y1 : Union[List[float
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		show (bool, optional): Attempt to render widget.
 		y2 (Any, optional): 
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_shade_series(x, y1, **kwargs)
 
-	return internal_dpg.add_shade_series(x, y1, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, source=source, show=show, y2=y2, **kwargs)
-
-def add_simple_plot(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: Union[List[float], Tuple[float]] =(), overlay: str ='', histogram: bool =False, autosize: bool =True, min_scale: float =0.0, max_scale: float =0.0, **kwargs) -> Union[int, str]:
+def add_simple_plot(**kwargs):
 	"""	 Adds a simple plot for visualization of a 1 dimensional set of values.
 
 	Args:
@@ -6004,18 +5372,14 @@ def add_simple_plot(*, label: str =None, user_data: Any =None, use_internal_labe
 		autosize (bool, optional): 
 		min_scale (float, optional): 
 		max_scale (float, optional): 
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_simple_plot(**kwargs)
 
-	return internal_dpg.add_simple_plot(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, overlay=overlay, histogram=histogram, autosize=autosize, min_scale=min_scale, max_scale=max_scale, **kwargs)
-
-def add_slider_float(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: float =0.0, vertical: bool =False, no_input: bool =False, clamped: bool =False, min_value: float =0.0, max_value: float =100.0, format: str ='%.3f', **kwargs) -> Union[int, str]:
+def add_slider_float(**kwargs):
 	"""	 Adds slider for a single float value. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the slider. Use clamped keyword to also apply limits to the direct entry modes.
 
 	Args:
@@ -6046,18 +5410,14 @@ def add_slider_float(*, label: str =None, user_data: Any =None, use_internal_lab
 		min_value (float, optional): Applies a limit only to sliding entry only.
 		max_value (float, optional): Applies a limit only to sliding entry only.
 		format (str, optional): 
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_slider_float(**kwargs)
 
-	return internal_dpg.add_slider_float(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, vertical=vertical, no_input=no_input, clamped=clamped, min_value=min_value, max_value=max_value, format=format, **kwargs)
-
-def add_slider_floatx(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: Union[List[float], Tuple[float]] =(0.0, 0.0, 0.0, 0.0), size: int =4, no_input: bool =False, clamped: bool =False, min_value: float =0.0, max_value: float =100.0, format: str ='%.3f', **kwargs) -> Union[int, str]:
+def add_slider_floatx(**kwargs):
 	"""	 Adds multi slider for up to 4 float values. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the slider. Use clamped keyword to also apply limits to the direct entry modes.
 
 	Args:
@@ -6087,18 +5447,14 @@ def add_slider_floatx(*, label: str =None, user_data: Any =None, use_internal_la
 		min_value (float, optional): Applies a limit only to sliding entry only.
 		max_value (float, optional): Applies a limit only to sliding entry only.
 		format (str, optional): 
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_slider_floatx(**kwargs)
 
-	return internal_dpg.add_slider_floatx(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, size=size, no_input=no_input, clamped=clamped, min_value=min_value, max_value=max_value, format=format, **kwargs)
-
-def add_slider_int(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: int =0, vertical: bool =False, no_input: bool =False, clamped: bool =False, min_value: int =0, max_value: int =100, format: str ='%d', **kwargs) -> Union[int, str]:
+def add_slider_int(**kwargs):
 	"""	 Adds slider for a single int value. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the slider. Use clamped keyword to also apply limits to the direct entry modes.
 
 	Args:
@@ -6129,18 +5485,14 @@ def add_slider_int(*, label: str =None, user_data: Any =None, use_internal_label
 		min_value (int, optional): Applies a limit only to sliding entry only.
 		max_value (int, optional): Applies a limit only to sliding entry only.
 		format (str, optional): 
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_slider_int(**kwargs)
 
-	return internal_dpg.add_slider_int(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, vertical=vertical, no_input=no_input, clamped=clamped, min_value=min_value, max_value=max_value, format=format, **kwargs)
-
-def add_slider_intx(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: Union[List[int], Tuple[int]] =(0, 0, 0, 0), size: int =4, no_input: bool =False, clamped: bool =False, min_value: int =0, max_value: int =100, format: str ='%d', **kwargs) -> Union[int, str]:
+def add_slider_intx(**kwargs):
 	"""	 Adds multi slider for up to 4 int values. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the slider. Use clamped keyword to also apply limits to the direct entry modes.
 
 	Args:
@@ -6170,18 +5522,14 @@ def add_slider_intx(*, label: str =None, user_data: Any =None, use_internal_labe
 		min_value (int, optional): Applies a limit only to sliding entry only.
 		max_value (int, optional): Applies a limit only to sliding entry only.
 		format (str, optional): 
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_slider_intx(**kwargs)
 
-	return internal_dpg.add_slider_intx(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, size=size, no_input=no_input, clamped=clamped, min_value=min_value, max_value=max_value, format=format, **kwargs)
-
-def add_spacer(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, pos: Union[List[int], Tuple[int]] =[], **kwargs) -> Union[int, str]:
+def add_spacer(**kwargs):
 	"""	 Adds a spacer.
 
 	Args:
@@ -6196,18 +5544,14 @@ def add_spacer(*, label: str =None, user_data: Any =None, use_internal_label: bo
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_spacer(**kwargs)
 
-	return internal_dpg.add_spacer(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, show=show, pos=pos, **kwargs)
-
-def add_stage(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, **kwargs) -> Union[int, str]:
+def add_stage(**kwargs):
 	"""	 Adds a stage.
 
 	Args:
@@ -6215,18 +5559,14 @@ def add_stage(*, label: str =None, user_data: Any =None, use_internal_label: boo
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_stage(**kwargs)
 
-	return internal_dpg.add_stage(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, **kwargs)
-
-def add_stair_series(x : Union[List[float], Tuple[float]], y : Union[List[float], Tuple[float]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, show: bool =True, **kwargs) -> Union[int, str]:
+def add_stair_series(x, y, **kwargs):
 	"""	 Adds a stair series to a plot.
 
 	Args:
@@ -6240,18 +5580,14 @@ def add_stair_series(x : Union[List[float], Tuple[float]], y : Union[List[float]
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		show (bool, optional): Attempt to render widget.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_stair_series(x, y, **kwargs)
 
-	return internal_dpg.add_stair_series(x, y, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, source=source, show=show, **kwargs)
-
-def add_static_texture(width : int, height : int, default_value : Union[List[float], Tuple[float]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =internal_dpg.mvReservedUUID_2, **kwargs) -> Union[int, str]:
+def add_static_texture(width, height, default_value, **kwargs):
 	"""	 Adds a static texture.
 
 	Args:
@@ -6263,18 +5599,14 @@ def add_static_texture(width : int, height : int, default_value : Union[List[flo
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_static_texture(width, height, default_value, **kwargs)
 
-	return internal_dpg.add_static_texture(width, height, default_value, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, **kwargs)
-
-def add_stem_series(x : Union[List[float], Tuple[float]], y : Union[List[float], Tuple[float]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, show: bool =True, **kwargs) -> Union[int, str]:
+def add_stem_series(x, y, **kwargs):
 	"""	 Adds a stem series to a plot.
 
 	Args:
@@ -6289,18 +5621,14 @@ def add_stem_series(x : Union[List[float], Tuple[float]], y : Union[List[float],
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		show (bool, optional): Attempt to render widget.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_stem_series(x, y, **kwargs)
 
-	return internal_dpg.add_stem_series(x, y, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, indent=indent, parent=parent, before=before, source=source, show=show, **kwargs)
-
-def add_string_value(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, source: Union[int, str] =0, default_value: str ='', parent: Union[int, str] =internal_dpg.mvReservedUUID_3, **kwargs) -> Union[int, str]:
+def add_string_value(**kwargs):
 	"""	 Adds a string value.
 
 	Args:
@@ -6311,18 +5639,14 @@ def add_string_value(*, label: str =None, user_data: Any =None, use_internal_lab
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		default_value (str, optional): 
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_string_value(**kwargs)
 
-	return internal_dpg.add_string_value(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, source=source, default_value=default_value, parent=parent, **kwargs)
-
-def add_subplots(rows : int, columns : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, row_ratios: Union[List[float], Tuple[float]] =[], column_ratios: Union[List[float], Tuple[float]] =[], no_title: bool =False, no_menus: bool =False, no_resize: bool =False, no_align: bool =False, link_rows: bool =False, link_columns: bool =False, link_all_x: bool =False, link_all_y: bool =False, column_major: bool =False, **kwargs) -> Union[int, str]:
+def add_subplots(rows, columns, **kwargs):
 	"""	 Adds a collection of plots.
 
 	Args:
@@ -6355,18 +5679,14 @@ def add_subplots(rows : int, columns : int, *, label: str =None, user_data: Any 
 		link_all_x (bool, optional): link the x-axis limits in every plot in the subplot
 		link_all_y (bool, optional): link the y-axis limits in every plot in the subplot (does not apply to auxiliary y-axes)
 		column_major (bool, optional): subplots are added in column major order instead of the default row major order
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_subplots(rows, columns, **kwargs)
 
-	return internal_dpg.add_subplots(rows, columns, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, callback=callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, row_ratios=row_ratios, column_ratios=column_ratios, no_title=no_title, no_menus=no_menus, no_resize=no_resize, no_align=no_align, link_rows=link_rows, link_columns=link_columns, link_all_x=link_all_x, link_all_y=link_all_y, column_major=column_major, **kwargs)
-
-def add_tab(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drop_callback: Callable =None, show: bool =True, filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, closable: bool =False, no_tooltip: bool =False, order_mode: bool =0, **kwargs) -> Union[int, str]:
+def add_tab(**kwargs):
 	"""	 Adds a tab to a tab bar.
 
 	Args:
@@ -6387,18 +5707,14 @@ def add_tab(*, label: str =None, user_data: Any =None, use_internal_label: bool 
 		closable (bool, optional): Creates a button on the tab that can hide the tab.
 		no_tooltip (bool, optional): Disable tooltip for the given tab.
 		order_mode (bool, optional): set using a constant: mvTabOrder_Reorderable: allows reordering, mvTabOrder_Fixed: fixed ordering, mvTabOrder_Leading: adds tab to front, mvTabOrder_Trailing: adds tab to back
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_tab(**kwargs)
 
-	return internal_dpg.add_tab(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, indent=indent, parent=parent, before=before, payload_type=payload_type, drop_callback=drop_callback, show=show, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, closable=closable, no_tooltip=no_tooltip, order_mode=order_mode, **kwargs)
-
-def add_tab_bar(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, reorderable: bool =False, **kwargs) -> Union[int, str]:
+def add_tab_bar(**kwargs):
 	"""	 Adds a tab bar.
 
 	Args:
@@ -6417,18 +5733,14 @@ def add_tab_bar(*, label: str =None, user_data: Any =None, use_internal_label: b
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		reorderable (bool, optional): Allows for the user to change the order of the tabs.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_tab_bar(**kwargs)
 
-	return internal_dpg.add_tab_bar(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, indent=indent, parent=parent, before=before, callback=callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, reorderable=reorderable, **kwargs)
-
-def add_tab_button(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', tracked: bool =False, track_offset: float =0.5, no_reorder: bool =False, leading: bool =False, trailing: bool =False, no_tooltip: bool =False, **kwargs) -> Union[int, str]:
+def add_tab_button(**kwargs):
 	"""	 Adds a tab button to a tab bar.
 
 	Args:
@@ -6451,18 +5763,14 @@ def add_tab_button(*, label: str =None, user_data: Any =None, use_internal_label
 		leading (bool, optional): Enforce the tab position to the left of the tab bar (after the tab list popup button).
 		trailing (bool, optional): Enforce the tab position to the right of the tab bar (before the scrolling buttons).
 		no_tooltip (bool, optional): Disable tooltip for the given tab.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_tab_button(**kwargs)
 
-	return internal_dpg.add_tab_button(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, filter_key=filter_key, tracked=tracked, track_offset=track_offset, no_reorder=no_reorder, leading=leading, trailing=trailing, no_tooltip=no_tooltip, **kwargs)
-
-def add_table(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', delay_search: bool =False, header_row: bool =True, clipper: bool =False, inner_width: int =0, policy: int =0, freeze_rows: int =0, freeze_columns: int =0, sort_multi: bool =False, sort_tristate: bool =False, resizable: bool =False, reorderable: bool =False, hideable: bool =False, sortable: bool =False, context_menu_in_body: bool =False, row_background: bool =False, borders_innerH: bool =False, borders_outerH: bool =False, borders_innerV: bool =False, borders_outerV: bool =False, no_host_extendX: bool =False, no_host_extendY: bool =False, no_keep_columns_visible: bool =False, precise_widths: bool =False, no_clip: bool =False, pad_outerX: bool =False, no_pad_outerX: bool =False, no_pad_innerX: bool =False, scrollX: bool =False, scrollY: bool =False, no_saved_settings: bool =False, **kwargs) -> Union[int, str]:
+def add_table(**kwargs):
 	"""	 Adds a table.
 
 	Args:
@@ -6510,18 +5818,14 @@ def add_table(*, label: str =None, user_data: Any =None, use_internal_label: boo
 		scrollX (bool, optional): Enable horizontal scrolling. Require 'outer_size' parameter of BeginTable() to specify the container size. Changes default sizing policy. Because this create a child window, ScrollY is currently generally recommended when using ScrollX.
 		scrollY (bool, optional): Enable vertical scrolling.
 		no_saved_settings (bool, optional): Never load/save settings in .ini file.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_table(**kwargs)
 
-	return internal_dpg.add_table(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, source=source, callback=callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, header_row=header_row, clipper=clipper, inner_width=inner_width, policy=policy, freeze_rows=freeze_rows, freeze_columns=freeze_columns, sort_multi=sort_multi, sort_tristate=sort_tristate, resizable=resizable, reorderable=reorderable, hideable=hideable, sortable=sortable, context_menu_in_body=context_menu_in_body, row_background=row_background, borders_innerH=borders_innerH, borders_outerH=borders_outerH, borders_innerV=borders_innerV, borders_outerV=borders_outerV, no_host_extendX=no_host_extendX, no_host_extendY=no_host_extendY, no_keep_columns_visible=no_keep_columns_visible, precise_widths=precise_widths, no_clip=no_clip, pad_outerX=pad_outerX, no_pad_outerX=no_pad_outerX, no_pad_innerX=no_pad_innerX, scrollX=scrollX, scrollY=scrollY, no_saved_settings=no_saved_settings, **kwargs)
-
-def add_table_cell(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, height: int =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, filter_key: str ='', **kwargs) -> Union[int, str]:
+def add_table_cell(**kwargs):
 	"""	 Adds a table.
 
 	Args:
@@ -6534,18 +5838,14 @@ def add_table_cell(*, label: str =None, user_data: Any =None, use_internal_label
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
 		filter_key (str, optional): Used by filter widget.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_table_cell(**kwargs)
 
-	return internal_dpg.add_table_cell(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, height=height, parent=parent, before=before, show=show, filter_key=filter_key, **kwargs)
-
-def add_table_column(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, enabled: bool =True, init_width_or_weight: float =0.0, default_hide: bool =False, default_sort: bool =False, width_stretch: bool =False, width_fixed: bool =False, no_resize: bool =False, no_reorder: bool =False, no_hide: bool =False, no_clip: bool =False, no_sort: bool =False, no_sort_ascending: bool =False, no_sort_descending: bool =False, no_header_width: bool =False, prefer_sort_ascending: bool =True, prefer_sort_descending: bool =False, indent_enable: bool =False, indent_disable: bool =False, **kwargs) -> Union[int, str]:
+def add_table_column(**kwargs):
 	"""	 Adds a table column.
 
 	Args:
@@ -6575,18 +5875,14 @@ def add_table_column(*, label: str =None, user_data: Any =None, use_internal_lab
 		prefer_sort_descending (bool, optional): Make the initial sort direction Descending when first sorting on this column.
 		indent_enable (bool, optional): Use current Indent value when entering cell (default for column 0).
 		indent_disable (bool, optional): Ignore current Indent value when entering cell (default for columns > 0). Indentation changes _within_ the cell will still be honored.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_table_column(**kwargs)
 
-	return internal_dpg.add_table_column(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, parent=parent, before=before, show=show, enabled=enabled, init_width_or_weight=init_width_or_weight, default_hide=default_hide, default_sort=default_sort, width_stretch=width_stretch, width_fixed=width_fixed, no_resize=no_resize, no_reorder=no_reorder, no_hide=no_hide, no_clip=no_clip, no_sort=no_sort, no_sort_ascending=no_sort_ascending, no_sort_descending=no_sort_descending, no_header_width=no_header_width, prefer_sort_ascending=prefer_sort_ascending, prefer_sort_descending=prefer_sort_descending, indent_enable=indent_enable, indent_disable=indent_disable, **kwargs)
-
-def add_table_row(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, height: int =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, filter_key: str ='', **kwargs) -> Union[int, str]:
+def add_table_row(**kwargs):
 	"""	 Adds a table row.
 
 	Args:
@@ -6599,18 +5895,14 @@ def add_table_row(*, label: str =None, user_data: Any =None, use_internal_label:
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
 		filter_key (str, optional): Used by filter widget.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_table_row(**kwargs)
 
-	return internal_dpg.add_table_row(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, height=height, parent=parent, before=before, show=show, filter_key=filter_key, **kwargs)
-
-def add_template_registry(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, **kwargs) -> Union[int, str]:
+def add_template_registry(**kwargs):
 	"""	 Adds a template registry.
 
 	Args:
@@ -6618,18 +5910,14 @@ def add_template_registry(*, label: str =None, user_data: Any =None, use_interna
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_template_registry(**kwargs)
 
-	return internal_dpg.add_template_registry(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, **kwargs)
-
-def add_text(default_value : str ='', *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, wrap: int =-1, bullet: bool =False, color: Union[List[float], Tuple[float]] =(-1, -1, -1, -1), show_label: bool =False, **kwargs) -> Union[int, str]:
+def add_text(default_value='', **kwargs):
 	"""	 Adds text. Text can have an optional label that will display to the right of the text.
 
 	Args:
@@ -6654,18 +5942,14 @@ def add_text(default_value : str ='', *, label: str =None, user_data: Any =None,
 		bullet (bool, optional): Makes the text bulleted.
 		color (Union[List[float], Tuple[float]], optional): Color of the text (rgba).
 		show_label (bool, optional): Displays the label.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_text(default_value, **kwargs)
 
-	return internal_dpg.add_text(default_value, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, wrap=wrap, bullet=bullet, color=color, show_label=show_label, **kwargs)
-
-def add_text_point(x : float, y : float, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, show: bool =True, x_offset: int =..., y_offset: int =..., vertical: bool =False, **kwargs) -> Union[int, str]:
+def add_text_point(x, y, **kwargs):
 	"""	 Adds a label series to a plot.
 
 	Args:
@@ -6682,18 +5966,14 @@ def add_text_point(x : float, y : float, *, label: str =None, user_data: Any =No
 		x_offset (int, optional): 
 		y_offset (int, optional): 
 		vertical (bool, optional): 
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_text_point(x, y, **kwargs)
 
-	return internal_dpg.add_text_point(x, y, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, source=source, show=show, x_offset=x_offset, y_offset=y_offset, vertical=vertical, **kwargs)
-
-def add_texture_registry(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, show: bool =False, **kwargs) -> Union[int, str]:
+def add_texture_registry(**kwargs):
 	"""	 Adds a dynamic texture.
 
 	Args:
@@ -6702,18 +5982,14 @@ def add_texture_registry(*, label: str =None, user_data: Any =None, use_internal
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		show (bool, optional): Attempt to render widget.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_texture_registry(**kwargs)
 
-	return internal_dpg.add_texture_registry(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, show=show, **kwargs)
-
-def add_theme(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, **kwargs) -> Union[int, str]:
+def add_theme(**kwargs):
 	"""	 Adds a theme.
 
 	Args:
@@ -6721,25 +5997,15 @@ def add_theme(*, label: str =None, user_data: Any =None, use_internal_label: boo
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		id (Union[int, str], optional): (deprecated) 
-		default_theme (bool, optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
+		default_theme (bool, optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_theme(**kwargs)
 
-	if 'default_theme' in kwargs.keys():
-
-		warnings.warn('default_theme keyword removed', DeprecationWarning, 2)
-
-		kwargs.pop('default_theme', None)
-
-	return internal_dpg.add_theme(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, **kwargs)
-
-def add_theme_color(target : int =0, value : Union[List[int], Tuple[int]] =(0, 0, 0, 255), *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, category: int =0, **kwargs) -> Union[int, str]:
+def add_theme_color(target=0, value=(0, 0, 0, 255), **kwargs):
 	"""	 Adds a theme color.
 
 	Args:
@@ -6751,18 +6017,14 @@ def add_theme_color(target : int =0, value : Union[List[int], Tuple[int]] =(0, 0
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		category (int, optional): Options include mvThemeCat_Core, mvThemeCat_Plots, mvThemeCat_Nodes.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_theme_color(target, value, **kwargs)
 
-	return internal_dpg.add_theme_color(target, value, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, category=category, **kwargs)
-
-def add_theme_component(item_type : int =0, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, enabled_state: bool =True, **kwargs) -> Union[int, str]:
+def add_theme_component(item_type=0, **kwargs):
 	"""	 Adds a theme component.
 
 	Args:
@@ -6774,18 +6036,14 @@ def add_theme_component(item_type : int =0, *, label: str =None, user_data: Any 
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		enabled_state (bool, optional): 
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_theme_component(item_type, **kwargs)
 
-	return internal_dpg.add_theme_component(item_type, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, enabled_state=enabled_state, **kwargs)
-
-def add_theme_style(target : int =0, x : float =1.0, y : float =-1.0, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, category: int =0, **kwargs) -> Union[int, str]:
+def add_theme_style(target=0, x=1.0, y=-1.0, **kwargs):
 	"""	 Adds a theme style.
 
 	Args:
@@ -6798,18 +6056,14 @@ def add_theme_style(target : int =0, x : float =1.0, y : float =-1.0, *, label: 
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		category (int, optional): Options include mvThemeCat_Core, mvThemeCat_Plots, mvThemeCat_Nodes.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_theme_style(target, x, y, **kwargs)
 
-	return internal_dpg.add_theme_style(target, x, y, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, category=category, **kwargs)
-
-def add_time_picker(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: dict ={'hour': 14, 'min': 32, 'sec': 23}, hour24: bool =False, **kwargs) -> Union[int, str]:
+def add_time_picker(**kwargs):
 	"""	 Adds a time picker.
 
 	Args:
@@ -6831,18 +6085,14 @@ def add_time_picker(*, label: str =None, user_data: Any =None, use_internal_labe
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		default_value (dict, optional): 
 		hour24 (bool, optional): Show 24 hour clock instead of 12 hour.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_time_picker(**kwargs)
 
-	return internal_dpg.add_time_picker(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, hour24=hour24, **kwargs)
-
-def add_tooltip(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, show: bool =True, **kwargs) -> Union[int, str]:
+def add_tooltip(parent, **kwargs):
 	"""	 Adds a tooltip window.
 
 	Args:
@@ -6852,18 +6102,14 @@ def add_tooltip(parent : Union[int, str], *, label: str =None, user_data: Any =N
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		show (bool, optional): Attempt to render widget.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_tooltip(parent, **kwargs)
 
-	return internal_dpg.add_tooltip(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, show=show, **kwargs)
-
-def add_tree_node(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, default_open: bool =False, open_on_double_click: bool =False, open_on_arrow: bool =False, leaf: bool =False, bullet: bool =False, selectable: bool =False, **kwargs) -> Union[int, str]:
+def add_tree_node(**kwargs):
 	"""	 Adds a tree node to add items to.
 
 	Args:
@@ -6889,18 +6135,14 @@ def add_tree_node(*, label: str =None, user_data: Any =None, use_internal_label:
 		leaf (bool, optional): No collapsing, no arrow (use as a convenience for leaf nodes).
 		bullet (bool, optional): Display a bullet instead of arrow.
 		selectable (bool, optional): Makes the tree selectable.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_tree_node(**kwargs)
 
-	return internal_dpg.add_tree_node(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, indent=indent, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, default_open=default_open, open_on_double_click=open_on_double_click, open_on_arrow=open_on_arrow, leaf=leaf, bullet=bullet, selectable=selectable, **kwargs)
-
-def add_value_registry(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, **kwargs) -> Union[int, str]:
+def add_value_registry(**kwargs):
 	"""	 Adds a value registry.
 
 	Args:
@@ -6908,18 +6150,14 @@ def add_value_registry(*, label: str =None, user_data: Any =None, use_internal_l
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_value_registry(**kwargs)
 
-	return internal_dpg.add_value_registry(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, **kwargs)
-
-def add_viewport_drawlist(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, show: bool =True, filter_key: str ='', delay_search: bool =False, front: bool =True, **kwargs) -> Union[int, str]:
+def add_viewport_drawlist(**kwargs):
 	"""	 A container that is used to present draw items or layers directly to the viewport. By default this will draw to the back of the viewport. Layers and draw items should be added to this widget as children.
 
 	Args:
@@ -6931,18 +6169,14 @@ def add_viewport_drawlist(*, label: str =None, user_data: Any =None, use_interna
 		filter_key (str, optional): Used by filter widget.
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		front (bool, optional): Draws to the front of the view port instead of the back.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_viewport_drawlist(**kwargs)
 
-	return internal_dpg.add_viewport_drawlist(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, show=show, filter_key=filter_key, delay_search=delay_search, front=front, **kwargs)
-
-def add_viewport_menu_bar(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, indent: int =-1, parent: Union[int, str] =0, show: bool =True, delay_search: bool =False, **kwargs) -> Union[int, str]:
+def add_viewport_menu_bar(**kwargs):
 	"""	 Adds a menubar to the viewport.
 
 	Args:
@@ -6954,18 +6188,14 @@ def add_viewport_menu_bar(*, label: str =None, user_data: Any =None, use_interna
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		show (bool, optional): Attempt to render widget.
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_viewport_menu_bar(**kwargs)
 
-	return internal_dpg.add_viewport_menu_bar(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, indent=indent, parent=parent, show=show, delay_search=delay_search, **kwargs)
-
-def add_vline_series(x : Union[List[float], Tuple[float]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, show: bool =True, **kwargs) -> Union[int, str]:
+def add_vline_series(x, **kwargs):
 	"""	 Adds an infinite vertical line series to a plot.
 
 	Args:
@@ -6978,18 +6208,14 @@ def add_vline_series(x : Union[List[float], Tuple[float]], *, label: str =None, 
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		show (bool, optional): Attempt to render widget.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_vline_series(x, **kwargs)
 
-	return internal_dpg.add_vline_series(x, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, source=source, show=show, **kwargs)
-
-def add_window(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, show: bool =True, pos: Union[List[int], Tuple[int]] =[], delay_search: bool =False, min_size: Union[List[int], Tuple[int]] =[100, 100], max_size: Union[List[int], Tuple[int]] =[30000, 30000], menubar: bool =False, collapsed: bool =False, autosize: bool =False, no_resize: bool =False, no_title_bar: bool =False, no_move: bool =False, no_scrollbar: bool =False, no_collapse: bool =False, horizontal_scrollbar: bool =False, no_focus_on_appearing: bool =False, no_bring_to_front_on_focus: bool =False, no_close: bool =False, no_background: bool =False, modal: bool =False, popup: bool =False, no_saved_settings: bool =False, on_close: Callable =None, **kwargs) -> Union[int, str]:
+def add_window(**kwargs):
 	"""	 Creates a new window for following items to be added to.
 
 	Args:
@@ -7022,18 +6248,14 @@ def add_window(*, label: str =None, user_data: Any =None, use_internal_label: bo
 		popup (bool, optional): Fills area behind window according to the theme, removes title bar, collapse and close. Window can be closed by selecting area in the background behind the window.
 		no_saved_settings (bool, optional): Never load/save settings in .ini file.
 		on_close (Callable, optional): Callback ran when window is closed.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.add_window(**kwargs)
 
-	return internal_dpg.add_window(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, show=show, pos=pos, delay_search=delay_search, min_size=min_size, max_size=max_size, menubar=menubar, collapsed=collapsed, autosize=autosize, no_resize=no_resize, no_title_bar=no_title_bar, no_move=no_move, no_scrollbar=no_scrollbar, no_collapse=no_collapse, horizontal_scrollbar=horizontal_scrollbar, no_focus_on_appearing=no_focus_on_appearing, no_bring_to_front_on_focus=no_bring_to_front_on_focus, no_close=no_close, no_background=no_background, modal=modal, popup=popup, no_saved_settings=no_saved_settings, on_close=on_close, **kwargs)
-
-def bind_colormap(item : Union[int, str], source : Union[int, str], **kwargs) -> None:
+def bind_colormap(item, source):
 	"""	 Sets the color map for widgets that accept it.
 
 	Args:
@@ -7043,9 +6265,9 @@ def bind_colormap(item : Union[int, str], source : Union[int, str], **kwargs) ->
 		None
 	"""
 
-	return internal_dpg.bind_colormap(item, source, **kwargs)
+	return internal_dpg.bind_colormap(item, source)
 
-def bind_font(font : Union[int, str], **kwargs) -> Union[int, str]:
+def bind_font(font):
 	"""	 Binds a global font.
 
 	Args:
@@ -7054,9 +6276,9 @@ def bind_font(font : Union[int, str], **kwargs) -> Union[int, str]:
 		Union[int, str]
 	"""
 
-	return internal_dpg.bind_font(font, **kwargs)
+	return internal_dpg.bind_font(font)
 
-def bind_item_handler_registry(item : Union[int, str], handler_registry : Union[int, str], **kwargs) -> None:
+def bind_item_handler_registry(item, handler_registry):
 	"""	 Binds an item handler registry to an item.
 
 	Args:
@@ -7066,9 +6288,9 @@ def bind_item_handler_registry(item : Union[int, str], handler_registry : Union[
 		None
 	"""
 
-	return internal_dpg.bind_item_handler_registry(item, handler_registry, **kwargs)
+	return internal_dpg.bind_item_handler_registry(item, handler_registry)
 
-def bind_item_theme(item : Union[int, str], theme : Union[int, str], **kwargs) -> None:
+def bind_item_theme(item, theme):
 	"""	 Binds a theme to an item.
 
 	Args:
@@ -7078,9 +6300,9 @@ def bind_item_theme(item : Union[int, str], theme : Union[int, str], **kwargs) -
 		None
 	"""
 
-	return internal_dpg.bind_item_theme(item, theme, **kwargs)
+	return internal_dpg.bind_item_theme(item, theme)
 
-def bind_template_registry(template_registry : Union[int, str], **kwargs) -> None:
+def bind_template_registry(template_registry):
 	"""	 Binds a global template registry.
 
 	Args:
@@ -7089,9 +6311,9 @@ def bind_template_registry(template_registry : Union[int, str], **kwargs) -> Non
 		None
 	"""
 
-	return internal_dpg.bind_template_registry(template_registry, **kwargs)
+	return internal_dpg.bind_template_registry(template_registry)
 
-def bind_theme(theme : Union[int, str], **kwargs) -> None:
+def bind_theme(theme):
 	"""	 Binds a global theme.
 
 	Args:
@@ -7100,9 +6322,9 @@ def bind_theme(theme : Union[int, str], **kwargs) -> None:
 		None
 	"""
 
-	return internal_dpg.bind_theme(theme, **kwargs)
+	return internal_dpg.bind_theme(theme)
 
-def clear_selected_links(node_editor : Union[int, str], **kwargs) -> None:
+def clear_selected_links(node_editor):
 	"""	 Undocumented
 
 	Args:
@@ -7111,9 +6333,9 @@ def clear_selected_links(node_editor : Union[int, str], **kwargs) -> None:
 		None
 	"""
 
-	return internal_dpg.clear_selected_links(node_editor, **kwargs)
+	return internal_dpg.clear_selected_links(node_editor)
 
-def clear_selected_nodes(node_editor : Union[int, str], **kwargs) -> None:
+def clear_selected_nodes(node_editor):
 	"""	 Undocumented
 
 	Args:
@@ -7122,9 +6344,9 @@ def clear_selected_nodes(node_editor : Union[int, str], **kwargs) -> None:
 		None
 	"""
 
-	return internal_dpg.clear_selected_nodes(node_editor, **kwargs)
+	return internal_dpg.clear_selected_nodes(node_editor)
 
-def configure_app(*, docking: bool =False, docking_space: bool =False, load_init_file: str ='', init_file: str ='', device: int =-1, auto_device: bool =False, allow_alias_overwrites: bool =False, manual_alias_management: bool =False, skip_required_args: bool =False, skip_positional_args: bool =False, skip_keyword_args: bool =False, **kwargs) -> None:
+def configure_app(**kwargs):
 	"""	 Configures app.
 
 	Args:
@@ -7143,9 +6365,9 @@ def configure_app(*, docking: bool =False, docking_space: bool =False, load_init
 		None
 	"""
 
-	return internal_dpg.configure_app(docking=docking, docking_space=docking_space, load_init_file=load_init_file, init_file=init_file, device=device, auto_device=auto_device, allow_alias_overwrites=allow_alias_overwrites, manual_alias_management=manual_alias_management, skip_required_args=skip_required_args, skip_positional_args=skip_positional_args, skip_keyword_args=skip_keyword_args, **kwargs)
+	return internal_dpg.configure_app(**kwargs)
 
-def create_context(**kwargs) -> None:
+def create_context():
 	"""	 Creates the Dear PyGui context.
 
 	Args:
@@ -7153,9 +6375,9 @@ def create_context(**kwargs) -> None:
 		None
 	"""
 
-	return internal_dpg.create_context(**kwargs)
+	return internal_dpg.create_context()
 
-def create_viewport(*, title: str ='Dear PyGui', small_icon: str ='', large_icon: str ='', width: int =1280, height: int =800, x_pos: int =100, y_pos: int =100, min_width: int =250, max_width: int =10000, min_height: int =250, max_height: int =10000, resizable: bool =True, vsync: bool =True, always_on_top: bool =False, decorated: bool =True, clear_color: Union[List[float], Tuple[float]] =(0, 0, 0, 255), **kwargs) -> None:
+def create_viewport(**kwargs):
 	"""	 Creates a viewport.
 
 	Args:
@@ -7179,9 +6401,9 @@ def create_viewport(*, title: str ='Dear PyGui', small_icon: str ='', large_icon
 		None
 	"""
 
-	return internal_dpg.create_viewport(title=title, small_icon=small_icon, large_icon=large_icon, width=width, height=height, x_pos=x_pos, y_pos=y_pos, min_width=min_width, max_width=max_width, min_height=min_height, max_height=max_height, resizable=resizable, vsync=vsync, always_on_top=always_on_top, decorated=decorated, clear_color=clear_color, **kwargs)
+	return internal_dpg.create_viewport(**kwargs)
 
-def delete_item(item : Union[int, str], *, children_only: bool =False, slot: int =-1, **kwargs) -> None:
+def delete_item(item, **kwargs):
 	"""	 Deletes an item..
 
 	Args:
@@ -7192,9 +6414,9 @@ def delete_item(item : Union[int, str], *, children_only: bool =False, slot: int
 		None
 	"""
 
-	return internal_dpg.delete_item(item, children_only=children_only, slot=slot, **kwargs)
+	return internal_dpg.delete_item(item, **kwargs)
 
-def destroy_context(**kwargs) -> None:
+def destroy_context():
 	"""	 Destroys the Dear PyGui context.
 
 	Args:
@@ -7202,9 +6424,9 @@ def destroy_context(**kwargs) -> None:
 		None
 	"""
 
-	return internal_dpg.destroy_context(**kwargs)
+	return internal_dpg.destroy_context()
 
-def does_alias_exist(alias : str, **kwargs) -> bool:
+def does_alias_exist(alias):
 	"""	 Checks if an alias exist.
 
 	Args:
@@ -7213,9 +6435,9 @@ def does_alias_exist(alias : str, **kwargs) -> bool:
 		bool
 	"""
 
-	return internal_dpg.does_alias_exist(alias, **kwargs)
+	return internal_dpg.does_alias_exist(alias)
 
-def does_item_exist(item : Union[int, str], **kwargs) -> bool:
+def does_item_exist(item):
 	"""	 Checks if an item exist..
 
 	Args:
@@ -7224,9 +6446,9 @@ def does_item_exist(item : Union[int, str], **kwargs) -> bool:
 		bool
 	"""
 
-	return internal_dpg.does_item_exist(item, **kwargs)
+	return internal_dpg.does_item_exist(item)
 
-def draw_arrow(p1 : Union[List[float], Tuple[float]], p2 : Union[List[float], Tuple[float]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, color: Union[List[int], Tuple[int]] =(255, 255, 255, 255), thickness: float =1.0, size: int =4, **kwargs) -> Union[int, str]:
+def draw_arrow(p1, p2, **kwargs):
 	"""	 Adds an arrow.
 
 	Args:
@@ -7242,18 +6464,14 @@ def draw_arrow(p1 : Union[List[float], Tuple[float]], p2 : Union[List[float], Tu
 		color (Union[List[int], Tuple[int]], optional): 
 		thickness (float, optional): 
 		size (int, optional): 
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.draw_arrow(p1, p2, **kwargs)
 
-	return internal_dpg.draw_arrow(p1, p2, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, show=show, color=color, thickness=thickness, size=size, **kwargs)
-
-def draw_bezier_cubic(p1 : Union[List[float], Tuple[float]], p2 : Union[List[float], Tuple[float]], p3 : Union[List[float], Tuple[float]], p4 : Union[List[float], Tuple[float]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, color: Union[List[int], Tuple[int]] =(255, 255, 255, 255), thickness: float =1.0, segments: int =0, **kwargs) -> Union[int, str]:
+def draw_bezier_cubic(p1, p2, p3, p4, **kwargs):
 	"""	 Adds a cubic bezier curve.
 
 	Args:
@@ -7271,18 +6489,14 @@ def draw_bezier_cubic(p1 : Union[List[float], Tuple[float]], p2 : Union[List[flo
 		color (Union[List[int], Tuple[int]], optional): 
 		thickness (float, optional): 
 		segments (int, optional): Number of segments to approximate bezier curve.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.draw_bezier_cubic(p1, p2, p3, p4, **kwargs)
 
-	return internal_dpg.draw_bezier_cubic(p1, p2, p3, p4, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, show=show, color=color, thickness=thickness, segments=segments, **kwargs)
-
-def draw_bezier_quadratic(p1 : Union[List[float], Tuple[float]], p2 : Union[List[float], Tuple[float]], p3 : Union[List[float], Tuple[float]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, color: Union[List[int], Tuple[int]] =(255, 255, 255, 255), thickness: float =1.0, segments: int =0, **kwargs) -> Union[int, str]:
+def draw_bezier_quadratic(p1, p2, p3, **kwargs):
 	"""	 Adds a quadratic bezier curve.
 
 	Args:
@@ -7299,18 +6513,14 @@ def draw_bezier_quadratic(p1 : Union[List[float], Tuple[float]], p2 : Union[List
 		color (Union[List[int], Tuple[int]], optional): 
 		thickness (float, optional): 
 		segments (int, optional): Number of segments to approximate bezier curve.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.draw_bezier_quadratic(p1, p2, p3, **kwargs)
 
-	return internal_dpg.draw_bezier_quadratic(p1, p2, p3, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, show=show, color=color, thickness=thickness, segments=segments, **kwargs)
-
-def draw_circle(center : Union[List[float], Tuple[float]], radius : float, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, color: Union[List[int], Tuple[int]] =(255, 255, 255, 255), fill: Union[List[int], Tuple[int]] =(0, 0, 0, -255), thickness: float =1.0, segments: int =0, **kwargs) -> Union[int, str]:
+def draw_circle(center, radius, **kwargs):
 	"""	 Adds a circle
 
 	Args:
@@ -7327,18 +6537,14 @@ def draw_circle(center : Union[List[float], Tuple[float]], radius : float, *, la
 		fill (Union[List[int], Tuple[int]], optional): 
 		thickness (float, optional): 
 		segments (int, optional): Number of segments to approximate circle.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.draw_circle(center, radius, **kwargs)
 
-	return internal_dpg.draw_circle(center, radius, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, show=show, color=color, fill=fill, thickness=thickness, segments=segments, **kwargs)
-
-def draw_ellipse(pmin : Union[List[float], Tuple[float]], pmax : Union[List[float], Tuple[float]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, color: Union[List[int], Tuple[int]] =(255, 255, 255, 255), fill: Union[List[int], Tuple[int]] =(0, 0, 0, -255), thickness: float =1.0, segments: int =32, **kwargs) -> Union[int, str]:
+def draw_ellipse(pmin, pmax, **kwargs):
 	"""	 Adds an ellipse.
 
 	Args:
@@ -7355,18 +6561,14 @@ def draw_ellipse(pmin : Union[List[float], Tuple[float]], pmax : Union[List[floa
 		fill (Union[List[int], Tuple[int]], optional): 
 		thickness (float, optional): 
 		segments (int, optional): Number of segments to approximate bezier curve.
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.draw_ellipse(pmin, pmax, **kwargs)
 
-	return internal_dpg.draw_ellipse(pmin, pmax, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, show=show, color=color, fill=fill, thickness=thickness, segments=segments, **kwargs)
-
-def draw_image(texture_id : Union[int, str], pmin : Union[List[float], Tuple[float]], pmax : Union[List[float], Tuple[float]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, uv_min: Union[List[float], Tuple[float]] =(0.0, 0.0), uv_max: Union[List[float], Tuple[float]] =(1.0, 1.0), color: Union[List[int], Tuple[int]] =(255, 255, 255, 255), **kwargs) -> Union[int, str]:
+def draw_image(texture_id, pmin, pmax, **kwargs):
 	"""	 Adds an image (for a drawing).
 
 	Args:
@@ -7383,18 +6585,14 @@ def draw_image(texture_id : Union[int, str], pmin : Union[List[float], Tuple[flo
 		uv_min (Union[List[float], Tuple[float]], optional): Normalized coordinates on texture that will be drawn.
 		uv_max (Union[List[float], Tuple[float]], optional): Normalized coordinates on texture that will be drawn.
 		color (Union[List[int], Tuple[int]], optional): 
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.draw_image(texture_id, pmin, pmax, **kwargs)
 
-	return internal_dpg.draw_image(texture_id, pmin, pmax, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, show=show, uv_min=uv_min, uv_max=uv_max, color=color, **kwargs)
-
-def draw_line(p1 : Union[List[float], Tuple[float]], p2 : Union[List[float], Tuple[float]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, color: Union[List[int], Tuple[int]] =(255, 255, 255, 255), thickness: float =1.0, **kwargs) -> Union[int, str]:
+def draw_line(p1, p2, **kwargs):
 	"""	 Adds a line.
 
 	Args:
@@ -7409,18 +6607,14 @@ def draw_line(p1 : Union[List[float], Tuple[float]], p2 : Union[List[float], Tup
 		show (bool, optional): Attempt to render widget.
 		color (Union[List[int], Tuple[int]], optional): 
 		thickness (float, optional): 
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.draw_line(p1, p2, **kwargs)
 
-	return internal_dpg.draw_line(p1, p2, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, show=show, color=color, thickness=thickness, **kwargs)
-
-def draw_polygon(points : List[List[float]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, color: Union[List[int], Tuple[int]] =(255, 255, 255, 255), fill: Union[List[int], Tuple[int]] =(0, 0, 0, -255), thickness: float =1.0, **kwargs) -> Union[int, str]:
+def draw_polygon(points, **kwargs):
 	"""	 Adds a polygon.
 
 	Args:
@@ -7435,18 +6629,14 @@ def draw_polygon(points : List[List[float]], *, label: str =None, user_data: Any
 		color (Union[List[int], Tuple[int]], optional): 
 		fill (Union[List[int], Tuple[int]], optional): 
 		thickness (float, optional): 
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.draw_polygon(points, **kwargs)
 
-	return internal_dpg.draw_polygon(points, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, show=show, color=color, fill=fill, thickness=thickness, **kwargs)
-
-def draw_polyline(points : List[List[float]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, closed: bool =False, color: Union[List[int], Tuple[int]] =(255, 255, 255, 255), thickness: float =1.0, **kwargs) -> Union[int, str]:
+def draw_polyline(points, **kwargs):
 	"""	 Adds a polyline.
 
 	Args:
@@ -7461,18 +6651,14 @@ def draw_polyline(points : List[List[float]], *, label: str =None, user_data: An
 		closed (bool, optional): Will close the polyline by returning to the first point.
 		color (Union[List[int], Tuple[int]], optional): 
 		thickness (float, optional): 
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.draw_polyline(points, **kwargs)
 
-	return internal_dpg.draw_polyline(points, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, show=show, closed=closed, color=color, thickness=thickness, **kwargs)
-
-def draw_quad(p1 : Union[List[float], Tuple[float]], p2 : Union[List[float], Tuple[float]], p3 : Union[List[float], Tuple[float]], p4 : Union[List[float], Tuple[float]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, color: Union[List[int], Tuple[int]] =(255, 255, 255, 255), fill: Union[List[int], Tuple[int]] =(0, 0, 0, -255), thickness: float =1.0, **kwargs) -> Union[int, str]:
+def draw_quad(p1, p2, p3, p4, **kwargs):
 	"""	 Adds a quad.
 
 	Args:
@@ -7490,18 +6676,14 @@ def draw_quad(p1 : Union[List[float], Tuple[float]], p2 : Union[List[float], Tup
 		color (Union[List[int], Tuple[int]], optional): 
 		fill (Union[List[int], Tuple[int]], optional): 
 		thickness (float, optional): 
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.draw_quad(p1, p2, p3, p4, **kwargs)
 
-	return internal_dpg.draw_quad(p1, p2, p3, p4, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, show=show, color=color, fill=fill, thickness=thickness, **kwargs)
-
-def draw_rectangle(pmin : Union[List[float], Tuple[float]], pmax : Union[List[float], Tuple[float]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, color: Union[List[int], Tuple[int]] =(255, 255, 255, 255), color_upper_left: Union[List[int], Tuple[int]] =(255, 255, 255, 255), color_upper_right: Union[List[int], Tuple[int]] =(255, 255, 255, 255), color_bottom_right: Union[List[int], Tuple[int]] =(255, 255, 255, 255), color_bottom_left: Union[List[int], Tuple[int]] =(255, 255, 255, 255), fill: Union[List[int], Tuple[int]] =(0, 0, 0, -255), multicolor: bool =False, rounding: float =0.0, thickness: float =1.0, **kwargs) -> Union[int, str]:
+def draw_rectangle(pmin, pmax, **kwargs):
 	"""	 Adds a rectangle.
 
 	Args:
@@ -7523,18 +6705,14 @@ def draw_rectangle(pmin : Union[List[float], Tuple[float]], pmax : Union[List[fl
 		multicolor (bool, optional): 
 		rounding (float, optional): Number of pixels of the radius that will round the corners of the rectangle. Note: doesn't work with multicolor
 		thickness (float, optional): 
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.draw_rectangle(pmin, pmax, **kwargs)
 
-	return internal_dpg.draw_rectangle(pmin, pmax, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, show=show, color=color, color_upper_left=color_upper_left, color_upper_right=color_upper_right, color_bottom_right=color_bottom_right, color_bottom_left=color_bottom_left, fill=fill, multicolor=multicolor, rounding=rounding, thickness=thickness, **kwargs)
-
-def draw_text(pos : Union[List[float], Tuple[float]], text : str, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, color: Union[List[int], Tuple[int]] =(255, 255, 255, 255), size: float =10.0, **kwargs) -> Union[int, str]:
+def draw_text(pos, text, **kwargs):
 	"""	 Adds text (drawlist).
 
 	Args:
@@ -7549,18 +6727,14 @@ def draw_text(pos : Union[List[float], Tuple[float]], text : str, *, label: str 
 		show (bool, optional): Attempt to render widget.
 		color (Union[List[int], Tuple[int]], optional): 
 		size (float, optional): 
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.draw_text(pos, text, **kwargs)
 
-	return internal_dpg.draw_text(pos, text, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, show=show, color=color, size=size, **kwargs)
-
-def draw_triangle(p1 : Union[List[float], Tuple[float]], p2 : Union[List[float], Tuple[float]], p3 : Union[List[float], Tuple[float]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, color: Union[List[int], Tuple[int]] =(255, 255, 255, 255), fill: Union[List[int], Tuple[int]] =(0, 0, 0, -255), thickness: float =1.0, **kwargs) -> Union[int, str]:
+def draw_triangle(p1, p2, p3, **kwargs):
 	"""	 Adds a triangle.
 
 	Args:
@@ -7577,18 +6751,14 @@ def draw_triangle(p1 : Union[List[float], Tuple[float]], p2 : Union[List[float],
 		color (Union[List[int], Tuple[int]], optional): 
 		fill (Union[List[int], Tuple[int]], optional): 
 		thickness (float, optional): 
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
-	if 'id' in kwargs.keys():
-		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
-		tag=kwargs['id']
+	return internal_dpg.draw_triangle(p1, p2, p3, **kwargs)
 
-	return internal_dpg.draw_triangle(p1, p2, p3, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, show=show, color=color, fill=fill, thickness=thickness, **kwargs)
-
-def empty_container_stack(**kwargs) -> None:
+def empty_container_stack():
 	"""	 Emptyes the container stack.
 
 	Args:
@@ -7596,9 +6766,9 @@ def empty_container_stack(**kwargs) -> None:
 		None
 	"""
 
-	return internal_dpg.empty_container_stack(**kwargs)
+	return internal_dpg.empty_container_stack()
 
-def fit_axis_data(axis : Union[int, str], **kwargs) -> None:
+def fit_axis_data(axis):
 	"""	 Sets the axis boundaries max/min in the data series currently on the plot.
 
 	Args:
@@ -7607,9 +6777,9 @@ def fit_axis_data(axis : Union[int, str], **kwargs) -> None:
 		None
 	"""
 
-	return internal_dpg.fit_axis_data(axis, **kwargs)
+	return internal_dpg.fit_axis_data(axis)
 
-def focus_item(item : Union[int, str], **kwargs) -> None:
+def focus_item(item):
 	"""	 Focuses an item.
 
 	Args:
@@ -7618,9 +6788,9 @@ def focus_item(item : Union[int, str], **kwargs) -> None:
 		None
 	"""
 
-	return internal_dpg.focus_item(item, **kwargs)
+	return internal_dpg.focus_item(item)
 
-def generate_uuid(**kwargs) -> Union[int, str]:
+def generate_uuid():
 	"""	 Generate a new UUID.
 
 	Args:
@@ -7628,9 +6798,9 @@ def generate_uuid(**kwargs) -> Union[int, str]:
 		Union[int, str]
 	"""
 
-	return internal_dpg.generate_uuid(**kwargs)
+	return internal_dpg.generate_uuid()
 
-def get_active_window(**kwargs) -> Union[int, str]:
+def get_active_window():
 	"""	 Returns the active window.
 
 	Args:
@@ -7638,9 +6808,9 @@ def get_active_window(**kwargs) -> Union[int, str]:
 		Union[int, str]
 	"""
 
-	return internal_dpg.get_active_window(**kwargs)
+	return internal_dpg.get_active_window()
 
-def get_alias_id(alias : str, **kwargs) -> Union[int, str]:
+def get_alias_id(alias):
 	"""	 Returns the ID associated with an alias.
 
 	Args:
@@ -7649,9 +6819,9 @@ def get_alias_id(alias : str, **kwargs) -> Union[int, str]:
 		Union[int, str]
 	"""
 
-	return internal_dpg.get_alias_id(alias, **kwargs)
+	return internal_dpg.get_alias_id(alias)
 
-def get_aliases(**kwargs) -> Union[List[str], Tuple[str]]:
+def get_aliases():
 	"""	 Returns all aliases.
 
 	Args:
@@ -7659,9 +6829,9 @@ def get_aliases(**kwargs) -> Union[List[str], Tuple[str]]:
 		Union[List[str], Tuple[str]]
 	"""
 
-	return internal_dpg.get_aliases(**kwargs)
+	return internal_dpg.get_aliases()
 
-def get_all_items(**kwargs) -> Union[List[int], Tuple[int]]:
+def get_all_items():
 	"""	 Returns all items.
 
 	Args:
@@ -7669,9 +6839,9 @@ def get_all_items(**kwargs) -> Union[List[int], Tuple[int]]:
 		Union[List[int], Tuple[int]]
 	"""
 
-	return internal_dpg.get_all_items(**kwargs)
+	return internal_dpg.get_all_items()
 
-def get_app_configuration(**kwargs) -> dict:
+def get_app_configuration():
 	"""	 Returns app configuration.
 
 	Args:
@@ -7679,9 +6849,9 @@ def get_app_configuration(**kwargs) -> dict:
 		dict
 	"""
 
-	return internal_dpg.get_app_configuration(**kwargs)
+	return internal_dpg.get_app_configuration()
 
-def get_axis_limits(axis : Union[int, str], **kwargs) -> Union[List[float], Tuple[float]]:
+def get_axis_limits(axis):
 	"""	 Get the specified axis limits.
 
 	Args:
@@ -7690,9 +6860,9 @@ def get_axis_limits(axis : Union[int, str], **kwargs) -> Union[List[float], Tupl
 		Union[List[float], Tuple[float]]
 	"""
 
-	return internal_dpg.get_axis_limits(axis, **kwargs)
+	return internal_dpg.get_axis_limits(axis)
 
-def get_colormap_color(colormap : Union[int, str], index : int, **kwargs) -> Union[List[int], Tuple[int]]:
+def get_colormap_color(colormap, index):
 	"""	 Returns a color from a colormap given an index >= 0 (modulo will be performed). This command can only be ran once the app is started.
 
 	Args:
@@ -7702,9 +6872,9 @@ def get_colormap_color(colormap : Union[int, str], index : int, **kwargs) -> Uni
 		Union[List[int], Tuple[int]]
 	"""
 
-	return internal_dpg.get_colormap_color(colormap, index, **kwargs)
+	return internal_dpg.get_colormap_color(colormap, index)
 
-def get_delta_time(**kwargs) -> float:
+def get_delta_time():
 	"""	 Returns time since last frame.
 
 	Args:
@@ -7712,9 +6882,9 @@ def get_delta_time(**kwargs) -> float:
 		float
 	"""
 
-	return internal_dpg.get_delta_time(**kwargs)
+	return internal_dpg.get_delta_time()
 
-def get_drawing_mouse_pos(**kwargs) -> Union[List[int], Tuple[int]]:
+def get_drawing_mouse_pos():
 	"""	 Returns mouse position in drawing.
 
 	Args:
@@ -7722,9 +6892,9 @@ def get_drawing_mouse_pos(**kwargs) -> Union[List[int], Tuple[int]]:
 		Union[List[int], Tuple[int]]
 	"""
 
-	return internal_dpg.get_drawing_mouse_pos(**kwargs)
+	return internal_dpg.get_drawing_mouse_pos()
 
-def get_file_dialog_info(file_dialog : Union[int, str], **kwargs) -> Union[int, str]:
+def get_file_dialog_info(file_dialog):
 	"""	 Undocumented function
 
 	Args:
@@ -7733,9 +6903,9 @@ def get_file_dialog_info(file_dialog : Union[int, str], **kwargs) -> Union[int, 
 		Union[int, str]
 	"""
 
-	return internal_dpg.get_file_dialog_info(file_dialog, **kwargs)
+	return internal_dpg.get_file_dialog_info(file_dialog)
 
-def get_frame_count(**kwargs) -> int:
+def get_frame_count():
 	"""	 Returns frame count.
 
 	Args:
@@ -7743,9 +6913,9 @@ def get_frame_count(**kwargs) -> int:
 		int
 	"""
 
-	return internal_dpg.get_frame_count(**kwargs)
+	return internal_dpg.get_frame_count()
 
-def get_frame_rate(**kwargs) -> float:
+def get_frame_rate():
 	"""	 Returns the average frame rate across 120 frames.
 
 	Args:
@@ -7753,9 +6923,9 @@ def get_frame_rate(**kwargs) -> float:
 		float
 	"""
 
-	return internal_dpg.get_frame_rate(**kwargs)
+	return internal_dpg.get_frame_rate()
 
-def get_global_font_scale(**kwargs) -> float:
+def get_global_font_scale():
 	"""	 Returns global font scale.
 
 	Args:
@@ -7763,9 +6933,9 @@ def get_global_font_scale(**kwargs) -> float:
 		float
 	"""
 
-	return internal_dpg.get_global_font_scale(**kwargs)
+	return internal_dpg.get_global_font_scale()
 
-def get_item_alias(item : Union[int, str], **kwargs) -> str:
+def get_item_alias(item):
 	"""	 Returns an item's alias.
 
 	Args:
@@ -7774,9 +6944,9 @@ def get_item_alias(item : Union[int, str], **kwargs) -> str:
 		str
 	"""
 
-	return internal_dpg.get_item_alias(item, **kwargs)
+	return internal_dpg.get_item_alias(item)
 
-def get_item_configuration(item : Union[int, str], **kwargs) -> dict:
+def get_item_configuration(item):
 	"""	 Returns an item's configuration.
 
 	Args:
@@ -7785,9 +6955,9 @@ def get_item_configuration(item : Union[int, str], **kwargs) -> dict:
 		dict
 	"""
 
-	return internal_dpg.get_item_configuration(item, **kwargs)
+	return internal_dpg.get_item_configuration(item)
 
-def get_item_info(item : Union[int, str], **kwargs) -> dict:
+def get_item_info(item):
 	"""	 Returns an item's information.
 
 	Args:
@@ -7796,9 +6966,9 @@ def get_item_info(item : Union[int, str], **kwargs) -> dict:
 		dict
 	"""
 
-	return internal_dpg.get_item_info(item, **kwargs)
+	return internal_dpg.get_item_info(item)
 
-def get_item_state(item : Union[int, str], **kwargs) -> dict:
+def get_item_state(item):
 	"""	 Returns an item's state.
 
 	Args:
@@ -7807,9 +6977,9 @@ def get_item_state(item : Union[int, str], **kwargs) -> dict:
 		dict
 	"""
 
-	return internal_dpg.get_item_state(item, **kwargs)
+	return internal_dpg.get_item_state(item)
 
-def get_item_types(**kwargs) -> dict:
+def get_item_types():
 	"""	 Returns an item types.
 
 	Args:
@@ -7817,9 +6987,9 @@ def get_item_types(**kwargs) -> dict:
 		dict
 	"""
 
-	return internal_dpg.get_item_types(**kwargs)
+	return internal_dpg.get_item_types()
 
-def get_mouse_drag_delta(**kwargs) -> float:
+def get_mouse_drag_delta():
 	"""	 Returns mouse drag delta.
 
 	Args:
@@ -7827,9 +6997,9 @@ def get_mouse_drag_delta(**kwargs) -> float:
 		float
 	"""
 
-	return internal_dpg.get_mouse_drag_delta(**kwargs)
+	return internal_dpg.get_mouse_drag_delta()
 
-def get_mouse_pos(*, local: bool =True, **kwargs) -> Union[List[int], Tuple[int]]:
+def get_mouse_pos(**kwargs):
 	"""	 Returns mouse position.
 
 	Args:
@@ -7838,9 +7008,9 @@ def get_mouse_pos(*, local: bool =True, **kwargs) -> Union[List[int], Tuple[int]
 		Union[List[int], Tuple[int]]
 	"""
 
-	return internal_dpg.get_mouse_pos(local=local, **kwargs)
+	return internal_dpg.get_mouse_pos(**kwargs)
 
-def get_plot_mouse_pos(**kwargs) -> Union[List[int], Tuple[int]]:
+def get_plot_mouse_pos():
 	"""	 Returns mouse position in plot.
 
 	Args:
@@ -7848,9 +7018,9 @@ def get_plot_mouse_pos(**kwargs) -> Union[List[int], Tuple[int]]:
 		Union[List[int], Tuple[int]]
 	"""
 
-	return internal_dpg.get_plot_mouse_pos(**kwargs)
+	return internal_dpg.get_plot_mouse_pos()
 
-def get_plot_query_area(plot : Union[int, str], **kwargs) -> Union[List[float], Tuple[float]]:
+def get_plot_query_area(plot):
 	"""	 Returns the last/current query area of the plot. (Requires plot 'query' kwarg to be enabled)
 
 	Args:
@@ -7859,9 +7029,9 @@ def get_plot_query_area(plot : Union[int, str], **kwargs) -> Union[List[float], 
 		Union[List[float], Tuple[float]]
 	"""
 
-	return internal_dpg.get_plot_query_area(plot, **kwargs)
+	return internal_dpg.get_plot_query_area(plot)
 
-def get_selected_links(node_editor : Union[int, str], **kwargs) -> List[List[str]]:
+def get_selected_links(node_editor):
 	"""	 Undocumented
 
 	Args:
@@ -7870,9 +7040,9 @@ def get_selected_links(node_editor : Union[int, str], **kwargs) -> List[List[str
 		List[List[str]]
 	"""
 
-	return internal_dpg.get_selected_links(node_editor, **kwargs)
+	return internal_dpg.get_selected_links(node_editor)
 
-def get_selected_nodes(node_editor : Union[int, str], **kwargs) -> Union[List[int], Tuple[int]]:
+def get_selected_nodes(node_editor):
 	"""	 Undocumented
 
 	Args:
@@ -7881,9 +7051,9 @@ def get_selected_nodes(node_editor : Union[int, str], **kwargs) -> Union[List[in
 		Union[List[int], Tuple[int]]
 	"""
 
-	return internal_dpg.get_selected_nodes(node_editor, **kwargs)
+	return internal_dpg.get_selected_nodes(node_editor)
 
-def get_total_time(**kwargs) -> float:
+def get_total_time():
 	"""	 Returns total time since Dear PyGui has started.
 
 	Args:
@@ -7891,9 +7061,9 @@ def get_total_time(**kwargs) -> float:
 		float
 	"""
 
-	return internal_dpg.get_total_time(**kwargs)
+	return internal_dpg.get_total_time()
 
-def get_value(item : Union[int, str], **kwargs) -> Any:
+def get_value(item):
 	"""	 Returns an item's value.
 
 	Args:
@@ -7902,9 +7072,9 @@ def get_value(item : Union[int, str], **kwargs) -> Any:
 		Any
 	"""
 
-	return internal_dpg.get_value(item, **kwargs)
+	return internal_dpg.get_value(item)
 
-def get_values(items : Union[List[int], Tuple[int]], **kwargs) -> Any:
+def get_values(items):
 	"""	 Returns values of a list of items.
 
 	Args:
@@ -7913,9 +7083,9 @@ def get_values(items : Union[List[int], Tuple[int]], **kwargs) -> Any:
 		Any
 	"""
 
-	return internal_dpg.get_values(items, **kwargs)
+	return internal_dpg.get_values(items)
 
-def get_viewport_configuration(item : Union[int, str], **kwargs) -> dict:
+def get_viewport_configuration(item):
 	"""	 Returns a viewport's configuration.
 
 	Args:
@@ -7924,9 +7094,9 @@ def get_viewport_configuration(item : Union[int, str], **kwargs) -> dict:
 		dict
 	"""
 
-	return internal_dpg.get_viewport_configuration(item, **kwargs)
+	return internal_dpg.get_viewport_configuration(item)
 
-def get_windows(**kwargs) -> Union[List[int], Tuple[int]]:
+def get_windows():
 	"""	 Returns all windows.
 
 	Args:
@@ -7934,9 +7104,9 @@ def get_windows(**kwargs) -> Union[List[int], Tuple[int]]:
 		Union[List[int], Tuple[int]]
 	"""
 
-	return internal_dpg.get_windows(**kwargs)
+	return internal_dpg.get_windows()
 
-def get_x_scroll(item : Union[int, str], **kwargs) -> float:
+def get_x_scroll(item):
 	"""	 Undocumented
 
 	Args:
@@ -7945,9 +7115,9 @@ def get_x_scroll(item : Union[int, str], **kwargs) -> float:
 		float
 	"""
 
-	return internal_dpg.get_x_scroll(item, **kwargs)
+	return internal_dpg.get_x_scroll(item)
 
-def get_x_scroll_max(item : Union[int, str], **kwargs) -> float:
+def get_x_scroll_max(item):
 	"""	 Undocumented
 
 	Args:
@@ -7956,9 +7126,9 @@ def get_x_scroll_max(item : Union[int, str], **kwargs) -> float:
 		float
 	"""
 
-	return internal_dpg.get_x_scroll_max(item, **kwargs)
+	return internal_dpg.get_x_scroll_max(item)
 
-def get_y_scroll(item : Union[int, str], **kwargs) -> float:
+def get_y_scroll(item):
 	"""	 Undocumented
 
 	Args:
@@ -7967,9 +7137,9 @@ def get_y_scroll(item : Union[int, str], **kwargs) -> float:
 		float
 	"""
 
-	return internal_dpg.get_y_scroll(item, **kwargs)
+	return internal_dpg.get_y_scroll(item)
 
-def get_y_scroll_max(item : Union[int, str], **kwargs) -> float:
+def get_y_scroll_max(item):
 	"""	 Undocumented
 
 	Args:
@@ -7978,9 +7148,9 @@ def get_y_scroll_max(item : Union[int, str], **kwargs) -> float:
 		float
 	"""
 
-	return internal_dpg.get_y_scroll_max(item, **kwargs)
+	return internal_dpg.get_y_scroll_max(item)
 
-def highlight_table_cell(table : Union[int, str], row : int, column : int, color : Union[List[int], Tuple[int]], **kwargs) -> None:
+def highlight_table_cell(table, row, column, color):
 	"""	 Highlight specified table cell.
 
 	Args:
@@ -7992,9 +7162,9 @@ def highlight_table_cell(table : Union[int, str], row : int, column : int, color
 		None
 	"""
 
-	return internal_dpg.highlight_table_cell(table, row, column, color, **kwargs)
+	return internal_dpg.highlight_table_cell(table, row, column, color)
 
-def highlight_table_column(table : Union[int, str], column : int, color : Union[List[int], Tuple[int]], **kwargs) -> None:
+def highlight_table_column(table, column, color):
 	"""	 Highlight specified table column.
 
 	Args:
@@ -8005,9 +7175,9 @@ def highlight_table_column(table : Union[int, str], column : int, color : Union[
 		None
 	"""
 
-	return internal_dpg.highlight_table_column(table, column, color, **kwargs)
+	return internal_dpg.highlight_table_column(table, column, color)
 
-def highlight_table_row(table : Union[int, str], row : int, color : Union[List[int], Tuple[int]], **kwargs) -> None:
+def highlight_table_row(table, row, color):
 	"""	 Highlight specified table row.
 
 	Args:
@@ -8018,9 +7188,9 @@ def highlight_table_row(table : Union[int, str], row : int, color : Union[List[i
 		None
 	"""
 
-	return internal_dpg.highlight_table_row(table, row, color, **kwargs)
+	return internal_dpg.highlight_table_row(table, row, color)
 
-def is_dearpygui_running(**kwargs) -> bool:
+def is_dearpygui_running():
 	"""	 Checks if Dear PyGui is running
 
 	Args:
@@ -8028,9 +7198,9 @@ def is_dearpygui_running(**kwargs) -> bool:
 		bool
 	"""
 
-	return internal_dpg.is_dearpygui_running(**kwargs)
+	return internal_dpg.is_dearpygui_running()
 
-def is_key_down(key : int, **kwargs) -> bool:
+def is_key_down(key):
 	"""	 Checks if key is down.
 
 	Args:
@@ -8039,9 +7209,9 @@ def is_key_down(key : int, **kwargs) -> bool:
 		bool
 	"""
 
-	return internal_dpg.is_key_down(key, **kwargs)
+	return internal_dpg.is_key_down(key)
 
-def is_key_pressed(key : int, **kwargs) -> bool:
+def is_key_pressed(key):
 	"""	 Checks if key is pressed.
 
 	Args:
@@ -8050,9 +7220,9 @@ def is_key_pressed(key : int, **kwargs) -> bool:
 		bool
 	"""
 
-	return internal_dpg.is_key_pressed(key, **kwargs)
+	return internal_dpg.is_key_pressed(key)
 
-def is_key_released(key : int, **kwargs) -> bool:
+def is_key_released(key):
 	"""	 Checks if key is released.
 
 	Args:
@@ -8061,9 +7231,9 @@ def is_key_released(key : int, **kwargs) -> bool:
 		bool
 	"""
 
-	return internal_dpg.is_key_released(key, **kwargs)
+	return internal_dpg.is_key_released(key)
 
-def is_mouse_button_clicked(button : int, **kwargs) -> bool:
+def is_mouse_button_clicked(button):
 	"""	 Checks if mouse button is clicked.
 
 	Args:
@@ -8072,9 +7242,9 @@ def is_mouse_button_clicked(button : int, **kwargs) -> bool:
 		bool
 	"""
 
-	return internal_dpg.is_mouse_button_clicked(button, **kwargs)
+	return internal_dpg.is_mouse_button_clicked(button)
 
-def is_mouse_button_double_clicked(button : int, **kwargs) -> bool:
+def is_mouse_button_double_clicked(button):
 	"""	 Checks if mouse button is double clicked.
 
 	Args:
@@ -8083,9 +7253,9 @@ def is_mouse_button_double_clicked(button : int, **kwargs) -> bool:
 		bool
 	"""
 
-	return internal_dpg.is_mouse_button_double_clicked(button, **kwargs)
+	return internal_dpg.is_mouse_button_double_clicked(button)
 
-def is_mouse_button_down(button : int, **kwargs) -> bool:
+def is_mouse_button_down(button):
 	"""	 Checks if mouse button is down.
 
 	Args:
@@ -8094,9 +7264,9 @@ def is_mouse_button_down(button : int, **kwargs) -> bool:
 		bool
 	"""
 
-	return internal_dpg.is_mouse_button_down(button, **kwargs)
+	return internal_dpg.is_mouse_button_down(button)
 
-def is_mouse_button_dragging(button : int, threshold : float, **kwargs) -> bool:
+def is_mouse_button_dragging(button, threshold):
 	"""	 Checks if mouse button is down and dragging.
 
 	Args:
@@ -8106,9 +7276,9 @@ def is_mouse_button_dragging(button : int, threshold : float, **kwargs) -> bool:
 		bool
 	"""
 
-	return internal_dpg.is_mouse_button_dragging(button, threshold, **kwargs)
+	return internal_dpg.is_mouse_button_dragging(button, threshold)
 
-def is_mouse_button_released(button : int, **kwargs) -> bool:
+def is_mouse_button_released(button):
 	"""	 Checks if mouse button is released.
 
 	Args:
@@ -8117,9 +7287,9 @@ def is_mouse_button_released(button : int, **kwargs) -> bool:
 		bool
 	"""
 
-	return internal_dpg.is_mouse_button_released(button, **kwargs)
+	return internal_dpg.is_mouse_button_released(button)
 
-def is_plot_queried(plot : Union[int, str], **kwargs) -> bool:
+def is_plot_queried(plot):
 	"""	 Returns true if the plot is currently being queried. (Requires plot 'query' kwarg to be enabled)
 
 	Args:
@@ -8128,9 +7298,9 @@ def is_plot_queried(plot : Union[int, str], **kwargs) -> bool:
 		bool
 	"""
 
-	return internal_dpg.is_plot_queried(plot, **kwargs)
+	return internal_dpg.is_plot_queried(plot)
 
-def is_table_cell_highlight(table : Union[int, str], row : int, column : int, **kwargs) -> bool:
+def is_table_cell_highlight(table, row, column):
 	"""	 Checks if a table cell is highlighted.
 
 	Args:
@@ -8141,9 +7311,9 @@ def is_table_cell_highlight(table : Union[int, str], row : int, column : int, **
 		bool
 	"""
 
-	return internal_dpg.is_table_cell_highlight(table, row, column, **kwargs)
+	return internal_dpg.is_table_cell_highlight(table, row, column)
 
-def is_table_column_highlight(table : Union[int, str], column : int, **kwargs) -> bool:
+def is_table_column_highlight(table, column):
 	"""	 Checks if a table column is highlighted.
 
 	Args:
@@ -8153,9 +7323,9 @@ def is_table_column_highlight(table : Union[int, str], column : int, **kwargs) -
 		bool
 	"""
 
-	return internal_dpg.is_table_column_highlight(table, column, **kwargs)
+	return internal_dpg.is_table_column_highlight(table, column)
 
-def is_table_row_highlight(table : Union[int, str], row : int, **kwargs) -> bool:
+def is_table_row_highlight(table, row):
 	"""	 Checks if a table row is highlighted.
 
 	Args:
@@ -8165,9 +7335,9 @@ def is_table_row_highlight(table : Union[int, str], row : int, **kwargs) -> bool
 		bool
 	"""
 
-	return internal_dpg.is_table_row_highlight(table, row, **kwargs)
+	return internal_dpg.is_table_row_highlight(table, row)
 
-def is_viewport_ok(**kwargs) -> bool:
+def is_viewport_ok():
 	"""	 Checks if a viewport has been created and shown.
 
 	Args:
@@ -8175,9 +7345,9 @@ def is_viewport_ok(**kwargs) -> bool:
 		bool
 	"""
 
-	return internal_dpg.is_viewport_ok(**kwargs)
+	return internal_dpg.is_viewport_ok()
 
-def last_container(**kwargs) -> Union[int, str]:
+def last_container():
 	"""	 Returns the last container item added.
 
 	Args:
@@ -8185,9 +7355,9 @@ def last_container(**kwargs) -> Union[int, str]:
 		Union[int, str]
 	"""
 
-	return internal_dpg.last_container(**kwargs)
+	return internal_dpg.last_container()
 
-def last_item(**kwargs) -> Union[int, str]:
+def last_item():
 	"""	 Returns the last item added.
 
 	Args:
@@ -8195,9 +7365,9 @@ def last_item(**kwargs) -> Union[int, str]:
 		Union[int, str]
 	"""
 
-	return internal_dpg.last_item(**kwargs)
+	return internal_dpg.last_item()
 
-def last_root(**kwargs) -> Union[int, str]:
+def last_root():
 	"""	 Returns the last root added (registry or window).
 
 	Args:
@@ -8205,9 +7375,9 @@ def last_root(**kwargs) -> Union[int, str]:
 		Union[int, str]
 	"""
 
-	return internal_dpg.last_root(**kwargs)
+	return internal_dpg.last_root()
 
-def load_image(file : str, *, gamma: float =1.0, gamma_scale_factor: float =1.0, **kwargs) -> Any:
+def load_image(file, **kwargs):
 	"""	 Loads an image. Returns width, height, channels, mvBuffer
 
 	Args:
@@ -8218,9 +7388,9 @@ def load_image(file : str, *, gamma: float =1.0, gamma_scale_factor: float =1.0,
 		Any
 	"""
 
-	return internal_dpg.load_image(file, gamma=gamma, gamma_scale_factor=gamma_scale_factor, **kwargs)
+	return internal_dpg.load_image(file, **kwargs)
 
-def lock_mutex(**kwargs) -> None:
+def lock_mutex():
 	"""	 Locks render thread mutex.
 
 	Args:
@@ -8228,9 +7398,9 @@ def lock_mutex(**kwargs) -> None:
 		None
 	"""
 
-	return internal_dpg.lock_mutex(**kwargs)
+	return internal_dpg.lock_mutex()
 
-def maximize_viewport(**kwargs) -> None:
+def maximize_viewport():
 	"""	 Maximizes the viewport.
 
 	Args:
@@ -8238,9 +7408,9 @@ def maximize_viewport(**kwargs) -> None:
 		None
 	"""
 
-	return internal_dpg.maximize_viewport(**kwargs)
+	return internal_dpg.maximize_viewport()
 
-def minimize_viewport(**kwargs) -> None:
+def minimize_viewport():
 	"""	 Minimizes a viewport.
 
 	Args:
@@ -8248,9 +7418,9 @@ def minimize_viewport(**kwargs) -> None:
 		None
 	"""
 
-	return internal_dpg.minimize_viewport(**kwargs)
+	return internal_dpg.minimize_viewport()
 
-def move_item(item : Union[int, str], *, parent: Union[int, str] =0, before: Union[int, str] =0, **kwargs) -> None:
+def move_item(item, **kwargs):
 	"""	 Moves an item to a new location.
 
 	Args:
@@ -8261,9 +7431,9 @@ def move_item(item : Union[int, str], *, parent: Union[int, str] =0, before: Uni
 		None
 	"""
 
-	return internal_dpg.move_item(item, parent=parent, before=before, **kwargs)
+	return internal_dpg.move_item(item, **kwargs)
 
-def move_item_down(item : Union[int, str], **kwargs) -> None:
+def move_item_down(item):
 	"""	 Moves an item down.
 
 	Args:
@@ -8272,9 +7442,9 @@ def move_item_down(item : Union[int, str], **kwargs) -> None:
 		None
 	"""
 
-	return internal_dpg.move_item_down(item, **kwargs)
+	return internal_dpg.move_item_down(item)
 
-def move_item_up(item : Union[int, str], **kwargs) -> None:
+def move_item_up(item):
 	"""	 Moves an item up.
 
 	Args:
@@ -8283,9 +7453,9 @@ def move_item_up(item : Union[int, str], **kwargs) -> None:
 		None
 	"""
 
-	return internal_dpg.move_item_up(item, **kwargs)
+	return internal_dpg.move_item_up(item)
 
-def pop_container_stack(**kwargs) -> Union[int, str]:
+def pop_container_stack():
 	"""	 Pops the top item off the parent stack and return its ID.
 
 	Args:
@@ -8293,9 +7463,9 @@ def pop_container_stack(**kwargs) -> Union[int, str]:
 		Union[int, str]
 	"""
 
-	return internal_dpg.pop_container_stack(**kwargs)
+	return internal_dpg.pop_container_stack()
 
-def push_container_stack(item : Union[int, str], **kwargs) -> bool:
+def push_container_stack(item):
 	"""	 Pushes an item onto the container stack.
 
 	Args:
@@ -8304,9 +7474,9 @@ def push_container_stack(item : Union[int, str], **kwargs) -> bool:
 		bool
 	"""
 
-	return internal_dpg.push_container_stack(item, **kwargs)
+	return internal_dpg.push_container_stack(item)
 
-def remove_alias(alias : str, **kwargs) -> None:
+def remove_alias(alias):
 	"""	 Removes an alias.
 
 	Args:
@@ -8315,9 +7485,9 @@ def remove_alias(alias : str, **kwargs) -> None:
 		None
 	"""
 
-	return internal_dpg.remove_alias(alias, **kwargs)
+	return internal_dpg.remove_alias(alias)
 
-def render_dearpygui_frame(**kwargs) -> None:
+def render_dearpygui_frame():
 	"""	 Render a single Dear PyGui frame.
 
 	Args:
@@ -8325,9 +7495,9 @@ def render_dearpygui_frame(**kwargs) -> None:
 		None
 	"""
 
-	return internal_dpg.render_dearpygui_frame(**kwargs)
+	return internal_dpg.render_dearpygui_frame()
 
-def reorder_items(container : Union[int, str], slot : int, new_order : Union[List[int], Tuple[int]], **kwargs) -> None:
+def reorder_items(container, slot, new_order):
 	"""	 Reorders an item's children.
 
 	Args:
@@ -8338,9 +7508,9 @@ def reorder_items(container : Union[int, str], slot : int, new_order : Union[Lis
 		None
 	"""
 
-	return internal_dpg.reorder_items(container, slot, new_order, **kwargs)
+	return internal_dpg.reorder_items(container, slot, new_order)
 
-def reset_axis_ticks(axis : Union[int, str], **kwargs) -> None:
+def reset_axis_ticks(axis):
 	"""	 Removes the manually set axis ticks and applies the default axis ticks
 
 	Args:
@@ -8349,9 +7519,9 @@ def reset_axis_ticks(axis : Union[int, str], **kwargs) -> None:
 		None
 	"""
 
-	return internal_dpg.reset_axis_ticks(axis, **kwargs)
+	return internal_dpg.reset_axis_ticks(axis)
 
-def reset_pos(item : Union[int, str], **kwargs) -> None:
+def reset_pos(item):
 	"""	 Resets an item's position after using 'set_item_pos'.
 
 	Args:
@@ -8360,9 +7530,9 @@ def reset_pos(item : Union[int, str], **kwargs) -> None:
 		None
 	"""
 
-	return internal_dpg.reset_pos(item, **kwargs)
+	return internal_dpg.reset_pos(item)
 
-def sample_colormap(colormap : Union[int, str], t : float, **kwargs) -> Union[List[int], Tuple[int]]:
+def sample_colormap(colormap, t):
 	"""	 Returns a color from a colormap given t between 0 and 1. This command can only be ran once the app is started.
 
 	Args:
@@ -8372,9 +7542,9 @@ def sample_colormap(colormap : Union[int, str], t : float, **kwargs) -> Union[Li
 		Union[List[int], Tuple[int]]
 	"""
 
-	return internal_dpg.sample_colormap(colormap, t, **kwargs)
+	return internal_dpg.sample_colormap(colormap, t)
 
-def save_init_file(file : str, **kwargs) -> None:
+def save_init_file(file):
 	"""	 Save dpg.ini file.
 
 	Args:
@@ -8383,9 +7553,9 @@ def save_init_file(file : str, **kwargs) -> None:
 		None
 	"""
 
-	return internal_dpg.save_init_file(file, **kwargs)
+	return internal_dpg.save_init_file(file)
 
-def set_axis_limits(axis : Union[int, str], ymin : float, ymax : float, **kwargs) -> None:
+def set_axis_limits(axis, ymin, ymax):
 	"""	 Sets limits on the axis for pan and zoom.
 
 	Args:
@@ -8396,9 +7566,9 @@ def set_axis_limits(axis : Union[int, str], ymin : float, ymax : float, **kwargs
 		None
 	"""
 
-	return internal_dpg.set_axis_limits(axis, ymin, ymax, **kwargs)
+	return internal_dpg.set_axis_limits(axis, ymin, ymax)
 
-def set_axis_limits_auto(axis : Union[int, str], **kwargs) -> None:
+def set_axis_limits_auto(axis):
 	"""	 Removes all limits on specified axis.
 
 	Args:
@@ -8407,9 +7577,9 @@ def set_axis_limits_auto(axis : Union[int, str], **kwargs) -> None:
 		None
 	"""
 
-	return internal_dpg.set_axis_limits_auto(axis, **kwargs)
+	return internal_dpg.set_axis_limits_auto(axis)
 
-def set_axis_ticks(axis : Union[int, str], label_pairs : Any, **kwargs) -> None:
+def set_axis_ticks(axis, label_pairs):
 	"""	 Replaces axis ticks with 'label_pairs' argument.
 
 	Args:
@@ -8419,9 +7589,9 @@ def set_axis_ticks(axis : Union[int, str], label_pairs : Any, **kwargs) -> None:
 		None
 	"""
 
-	return internal_dpg.set_axis_ticks(axis, label_pairs, **kwargs)
+	return internal_dpg.set_axis_ticks(axis, label_pairs)
 
-def set_exit_callback(callback : Callable, **kwargs) -> str:
+def set_exit_callback(callback):
 	"""	 Sets a callback to run on last frame.
 
 	Args:
@@ -8430,9 +7600,9 @@ def set_exit_callback(callback : Callable, **kwargs) -> str:
 		str
 	"""
 
-	return internal_dpg.set_exit_callback(callback, **kwargs)
+	return internal_dpg.set_exit_callback(callback)
 
-def set_global_font_scale(scale : float, **kwargs) -> None:
+def set_global_font_scale(scale):
 	"""	 Sets global font scale.
 
 	Args:
@@ -8441,9 +7611,9 @@ def set_global_font_scale(scale : float, **kwargs) -> None:
 		None
 	"""
 
-	return internal_dpg.set_global_font_scale(scale, **kwargs)
+	return internal_dpg.set_global_font_scale(scale)
 
-def set_item_alias(item : Union[int, str], alias : str, **kwargs) -> None:
+def set_item_alias(item, alias):
 	"""	 Sets an item's alias.
 
 	Args:
@@ -8453,9 +7623,9 @@ def set_item_alias(item : Union[int, str], alias : str, **kwargs) -> None:
 		None
 	"""
 
-	return internal_dpg.set_item_alias(item, alias, **kwargs)
+	return internal_dpg.set_item_alias(item, alias)
 
-def set_item_children(item : Union[int, str], source : Union[int, str], slot : int, **kwargs) -> None:
+def set_item_children(item, source, slot):
 	"""	 Sets an item's children.
 
 	Args:
@@ -8466,9 +7636,9 @@ def set_item_children(item : Union[int, str], source : Union[int, str], slot : i
 		None
 	"""
 
-	return internal_dpg.set_item_children(item, source, slot, **kwargs)
+	return internal_dpg.set_item_children(item, source, slot)
 
-def set_item_font(item : Union[int, str], font : Union[int, str], **kwargs) -> None:
+def set_item_font(item, font):
 	"""	 Sets an item's font.
 
 	Args:
@@ -8478,9 +7648,9 @@ def set_item_font(item : Union[int, str], font : Union[int, str], **kwargs) -> N
 		None
 	"""
 
-	return internal_dpg.set_item_font(item, font, **kwargs)
+	return internal_dpg.set_item_font(item, font)
 
-def set_primary_window(window : Union[int, str], value : bool, **kwargs) -> None:
+def set_primary_window(window, value):
 	"""	 Sets the primary window.
 
 	Args:
@@ -8490,9 +7660,9 @@ def set_primary_window(window : Union[int, str], value : bool, **kwargs) -> None
 		None
 	"""
 
-	return internal_dpg.set_primary_window(window, value, **kwargs)
+	return internal_dpg.set_primary_window(window, value)
 
-def set_start_callback(callback : Callable, **kwargs) -> str:
+def set_start_callback(callback):
 	"""	 Sets a callback to run on first frame.
 
 	Args:
@@ -8501,9 +7671,9 @@ def set_start_callback(callback : Callable, **kwargs) -> str:
 		str
 	"""
 
-	return internal_dpg.set_start_callback(callback, **kwargs)
+	return internal_dpg.set_start_callback(callback)
 
-def set_table_row_color(table : Union[int, str], row : int, color : Union[List[int], Tuple[int]], **kwargs) -> None:
+def set_table_row_color(table, row, color):
 	"""	 Set table row color.
 
 	Args:
@@ -8514,9 +7684,9 @@ def set_table_row_color(table : Union[int, str], row : int, color : Union[List[i
 		None
 	"""
 
-	return internal_dpg.set_table_row_color(table, row, color, **kwargs)
+	return internal_dpg.set_table_row_color(table, row, color)
 
-def set_value(item : Union[int, str], value : Any, **kwargs) -> None:
+def set_value(item, value):
 	"""	 Set's an item's value.
 
 	Args:
@@ -8526,9 +7696,9 @@ def set_value(item : Union[int, str], value : Any, **kwargs) -> None:
 		None
 	"""
 
-	return internal_dpg.set_value(item, value, **kwargs)
+	return internal_dpg.set_value(item, value)
 
-def set_viewport_resize_callback(callback : Callable, **kwargs) -> str:
+def set_viewport_resize_callback(callback):
 	"""	 Sets a callback to run on viewport resize.
 
 	Args:
@@ -8537,9 +7707,9 @@ def set_viewport_resize_callback(callback : Callable, **kwargs) -> str:
 		str
 	"""
 
-	return internal_dpg.set_viewport_resize_callback(callback, **kwargs)
+	return internal_dpg.set_viewport_resize_callback(callback)
 
-def set_x_scroll(item : Union[int, str], value : float, **kwargs) -> None:
+def set_x_scroll(item, value):
 	"""	 Undocumented
 
 	Args:
@@ -8549,9 +7719,9 @@ def set_x_scroll(item : Union[int, str], value : float, **kwargs) -> None:
 		None
 	"""
 
-	return internal_dpg.set_x_scroll(item, value, **kwargs)
+	return internal_dpg.set_x_scroll(item, value)
 
-def set_y_scroll(item : Union[int, str], value : float, **kwargs) -> None:
+def set_y_scroll(item, value):
 	"""	 Undocumented
 
 	Args:
@@ -8561,26 +7731,20 @@ def set_y_scroll(item : Union[int, str], value : float, **kwargs) -> None:
 		None
 	"""
 
-	return internal_dpg.set_y_scroll(item, value, **kwargs)
+	return internal_dpg.set_y_scroll(item, value)
 
-def setup_dearpygui(**kwargs) -> None:
+def setup_dearpygui():
 	"""	 Sets up Dear PyGui
 
 	Args:
-		viewport (Union[int, str], optional): (deprecated) 
+		viewport (Union[int, str], optional): (deprecated)
 	Returns:
 		None
 	"""
 
-	if 'viewport' in kwargs.keys():
+	return internal_dpg.setup_dearpygui()
 
-		warnings.warn('viewport keyword removed', DeprecationWarning, 2)
-
-		kwargs.pop('viewport', None)
-
-	return internal_dpg.setup_dearpygui(**kwargs)
-
-def show_imgui_demo(**kwargs) -> None:
+def show_imgui_demo():
 	"""	 Shows the imgui demo.
 
 	Args:
@@ -8588,9 +7752,9 @@ def show_imgui_demo(**kwargs) -> None:
 		None
 	"""
 
-	return internal_dpg.show_imgui_demo(**kwargs)
+	return internal_dpg.show_imgui_demo()
 
-def show_implot_demo(**kwargs) -> None:
+def show_implot_demo():
 	"""	 Shows the implot demo.
 
 	Args:
@@ -8598,9 +7762,9 @@ def show_implot_demo(**kwargs) -> None:
 		None
 	"""
 
-	return internal_dpg.show_implot_demo(**kwargs)
+	return internal_dpg.show_implot_demo()
 
-def show_item_debug(item : Union[int, str], **kwargs) -> None:
+def show_item_debug(item):
 	"""	 Shows an item's debug window
 
 	Args:
@@ -8609,9 +7773,9 @@ def show_item_debug(item : Union[int, str], **kwargs) -> None:
 		None
 	"""
 
-	return internal_dpg.show_item_debug(item, **kwargs)
+	return internal_dpg.show_item_debug(item)
 
-def show_tool(tool : Union[int, str], **kwargs) -> str:
+def show_tool(tool):
 	"""	 Shows a built in tool.
 
 	Args:
@@ -8620,28 +7784,22 @@ def show_tool(tool : Union[int, str], **kwargs) -> str:
 		str
 	"""
 
-	return internal_dpg.show_tool(tool, **kwargs)
+	return internal_dpg.show_tool(tool)
 
-def show_viewport(*, minimized: bool =False, maximized: bool =False, **kwargs) -> None:
+def show_viewport(**kwargs):
 	"""	 Shows the main viewport.
 
 	Args:
 		minimized (bool, optional): 
 		maximized (bool, optional): 
-		viewport (Union[int, str], optional): (deprecated) 
+		viewport (Union[int, str], optional): (deprecated)
 	Returns:
 		None
 	"""
 
-	if 'viewport' in kwargs.keys():
+	return internal_dpg.show_viewport(**kwargs)
 
-		warnings.warn('viewport keyword removed', DeprecationWarning, 2)
-
-		kwargs.pop('viewport', None)
-
-	return internal_dpg.show_viewport(minimized=minimized, maximized=maximized, **kwargs)
-
-def split_frame(*, delay: int =32, **kwargs) -> None:
+def split_frame(**kwargs):
 	"""	 Waits one frame.
 
 	Args:
@@ -8650,9 +7808,9 @@ def split_frame(*, delay: int =32, **kwargs) -> None:
 		None
 	"""
 
-	return internal_dpg.split_frame(delay=delay, **kwargs)
+	return internal_dpg.split_frame(**kwargs)
 
-def stop_dearpygui(**kwargs) -> None:
+def stop_dearpygui():
 	"""	 Stops Dear PyGui
 
 	Args:
@@ -8660,9 +7818,9 @@ def stop_dearpygui(**kwargs) -> None:
 		None
 	"""
 
-	return internal_dpg.stop_dearpygui(**kwargs)
+	return internal_dpg.stop_dearpygui()
 
-def toggle_viewport_fullscreen(**kwargs) -> None:
+def toggle_viewport_fullscreen():
 	"""	 Toggle viewport fullscreen mode..
 
 	Args:
@@ -8670,9 +7828,9 @@ def toggle_viewport_fullscreen(**kwargs) -> None:
 		None
 	"""
 
-	return internal_dpg.toggle_viewport_fullscreen(**kwargs)
+	return internal_dpg.toggle_viewport_fullscreen()
 
-def top_container_stack(**kwargs) -> Union[int, str]:
+def top_container_stack():
 	"""	 Returns the item on the top of the container stack.
 
 	Args:
@@ -8680,9 +7838,9 @@ def top_container_stack(**kwargs) -> Union[int, str]:
 		Union[int, str]
 	"""
 
-	return internal_dpg.top_container_stack(**kwargs)
+	return internal_dpg.top_container_stack()
 
-def unhighlight_table_cell(table : Union[int, str], row : int, column : int, **kwargs) -> None:
+def unhighlight_table_cell(table, row, column):
 	"""	 Unhighlight specified table cell.
 
 	Args:
@@ -8693,9 +7851,9 @@ def unhighlight_table_cell(table : Union[int, str], row : int, column : int, **k
 		None
 	"""
 
-	return internal_dpg.unhighlight_table_cell(table, row, column, **kwargs)
+	return internal_dpg.unhighlight_table_cell(table, row, column)
 
-def unhighlight_table_column(table : Union[int, str], column : int, **kwargs) -> None:
+def unhighlight_table_column(table, column):
 	"""	 Unhighlight specified table column.
 
 	Args:
@@ -8705,9 +7863,9 @@ def unhighlight_table_column(table : Union[int, str], column : int, **kwargs) ->
 		None
 	"""
 
-	return internal_dpg.unhighlight_table_column(table, column, **kwargs)
+	return internal_dpg.unhighlight_table_column(table, column)
 
-def unhighlight_table_row(table : Union[int, str], row : int, **kwargs) -> None:
+def unhighlight_table_row(table, row):
 	"""	 Unhighlight specified table row.
 
 	Args:
@@ -8717,9 +7875,9 @@ def unhighlight_table_row(table : Union[int, str], row : int, **kwargs) -> None:
 		None
 	"""
 
-	return internal_dpg.unhighlight_table_row(table, row, **kwargs)
+	return internal_dpg.unhighlight_table_row(table, row)
 
-def unlock_mutex(**kwargs) -> None:
+def unlock_mutex():
 	"""	 Unlocks render thread mutex
 
 	Args:
@@ -8727,9 +7885,9 @@ def unlock_mutex(**kwargs) -> None:
 		None
 	"""
 
-	return internal_dpg.unlock_mutex(**kwargs)
+	return internal_dpg.unlock_mutex()
 
-def unset_table_row_color(table : Union[int, str], row : int, **kwargs) -> None:
+def unset_table_row_color(table, row):
 	"""	 Remove user set table row color.
 
 	Args:
@@ -8739,9 +7897,9 @@ def unset_table_row_color(table : Union[int, str], row : int, **kwargs) -> None:
 		None
 	"""
 
-	return internal_dpg.unset_table_row_color(table, row, **kwargs)
+	return internal_dpg.unset_table_row_color(table, row)
 
-def unstage(item : Union[int, str], **kwargs) -> None:
+def unstage(item):
 	"""	 Unstages an item.
 
 	Args:
@@ -8750,7 +7908,7 @@ def unstage(item : Union[int, str], **kwargs) -> None:
 		None
 	"""
 
-	return internal_dpg.unstage(item, **kwargs)
+	return internal_dpg.unstage(item)
 
 
 ##########################################################

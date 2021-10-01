@@ -10,10 +10,11 @@
 
 namespace Marvel {
 
-	PyMethodDef* mvModule_DearPyGui::GetSubMethods()
+	mv_internal PyMethodDef* 
+	GetMethods()
 	{
 
-		static std::vector<PyMethodDef> methods;
+		mv_local_persist std::vector<PyMethodDef> methods;
 		methods.clear();
 
 		constexpr_for<1, (int)mvAppItemType::ItemTypeCount, 1>(
@@ -36,10 +37,11 @@ namespace Marvel {
 		return methods.data();
 	}
 
-	const std::map<std::string, mvPythonParser>& mvModule_DearPyGui::GetSubModuleParsers()
+	const std::map<std::string, mvPythonParser>& 
+	GetModuleParsers()
 	{
 
-		static auto parsers = std::map<std::string, mvPythonParser>();
+		mv_local_persist auto parsers = std::map<std::string, mvPythonParser>();
 
 		if (parsers.empty())
 		{
@@ -60,10 +62,11 @@ namespace Marvel {
 		return parsers;
 	}
 
-	const std::vector<std::pair<std::string, long>>& mvModule_DearPyGui::GetSubModuleConstants()
+	const std::vector<std::pair<std::string, long>>&
+	GetModuleConstants()
 	{
-		static bool First_Run = true;
-		static std::vector<std::pair<std::string, long>> ModuleConstants;
+		mv_local_persist bool First_Run = true;
+		mv_local_persist std::vector<std::pair<std::string, long>> ModuleConstants;
 
 		if (First_Run)
 		{
@@ -93,10 +96,11 @@ namespace Marvel {
 		return ModuleConstants;
 	}
 
-	PyMODINIT_FUNC PyInit__dearpygui(void)
+	PyMODINIT_FUNC
+	PyInit__dearpygui(void)
 	{
-		static PyModuleDef dearpyguiModule = {
-			PyModuleDef_HEAD_INIT, "_dearpygui", NULL, -1, mvModule_DearPyGui::GetMethods(),
+		mv_local_persist PyModuleDef dearpyguiModule = {
+			PyModuleDef_HEAD_INIT, "_dearpygui", NULL, -1, GetMethods(),
 			NULL, NULL, NULL, NULL
 		};
 
@@ -109,7 +113,7 @@ namespace Marvel {
 		if (m == NULL)
 			return NULL;
 
-		const auto& constants = mvModule_DearPyGui::GetModuleConstants();
+		const auto& constants = GetModuleConstants();
 
 		// handled in the stub file
 		for (auto& item : constants)

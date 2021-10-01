@@ -9,7 +9,8 @@
 
 namespace Marvel {
 
-    void UpdatePyIntList(PyObject* pyvalue, const std::vector<int>& value)
+    void 
+    UpdatePyIntList(PyObject* pyvalue, const std::vector<int>& value)
     {
         if (pyvalue == nullptr)
             return;
@@ -30,7 +31,8 @@ namespace Marvel {
         }
     }
 
-    void UpdatePyFloatList(PyObject* pyvalue, const std::vector<float>& value)
+    void 
+    UpdatePyFloatList(PyObject* pyvalue, const std::vector<float>& value)
     {
         if (pyvalue == nullptr)
             return;
@@ -51,7 +53,8 @@ namespace Marvel {
         }
     }
 
-    void UpdatePyStringStringList(PyObject* pyvalue, const std::vector<std::vector<std::string>>& value)
+    void 
+    UpdatePyStringStringList(PyObject* pyvalue, const std::vector<std::vector<std::string>>& value)
     {
         if (pyvalue == nullptr)
             return;
@@ -78,37 +81,43 @@ namespace Marvel {
         }
     }
 
-    PyObject* GetPyNone()
+    PyObject* 
+    GetPyNone()
     {
          
         Py_RETURN_NONE;
     }
 
-    PyObject* ToPyString(const std::string& value)
+    PyObject* 
+    ToPyString(const std::string& value)
     {
          
         return PyUnicode_FromString(value.c_str());
     }
 
-    PyObject* ToPyFloat(float value)
+    PyObject* 
+    ToPyFloat(float value)
     {
          
         return PyFloat_FromDouble(value);
     }
 
-    PyObject* ToPyDouble(double value)
+    PyObject* 
+    ToPyDouble(double value)
     {
 
         return PyFloat_FromDouble(value);
     }
 
-    PyObject* ToPyInt(int value)
+    PyObject* 
+    ToPyInt(int value)
     {
          
         return PyLong_FromLong(value);
     }
 
-    PyObject* ToPyUUID(mvUUID value)
+    PyObject* 
+    ToPyUUID(mvUUID value)
     {
         mvAppItem* item = GetItem(*GContext->itemRegistry, value);
         if (item)
@@ -119,55 +128,64 @@ namespace Marvel {
         return Py_BuildValue("K", value);
     }
 
-    PyObject* ToPyLong(long value)
+    PyObject* 
+    ToPyLong(long value)
     {
 
         return Py_BuildValue("K", value);
     }
 
-    PyObject* ToPyBool(bool value)
+    PyObject* 
+    ToPyBool(bool value)
     {
          
         return PyBool_FromLong(value);
     }
 
-    PyObject* ToPyMPair(int x, float y)
+    PyObject* 
+    ToPyMPair(int x, float y)
     {
          
         return Py_BuildValue("[if]", x, y);
     }
 
-    PyObject* ToPyMTrip(int i, float x, float y)
+    PyObject* 
+    ToPyMTrip(int i, float x, float y)
     {
          
         return Py_BuildValue("[iff]", i, x, y);
     }
 
-    PyObject* ToPyPair(float x, float y)
+    PyObject* 
+    ToPyPair(float x, float y)
     {
          
         return Py_BuildValue("[ff]", x, y);
     }
 
-    PyObject* ToPyPairII(int x, int y)
+    PyObject* 
+    ToPyPairII(int x, int y)
     {
          
         return Py_BuildValue("[ii]", x, y);
     }
 
-    PyObject* ToPyPair(double x, double y)
+    PyObject* 
+    ToPyPair(double x, double y)
     {
 
         return Py_BuildValue("[dd]", x, y);
     }
 
-    PyObject* ToPyPair(const std::string& x, const std::string& y)
+    PyObject* 
+    ToPyPair(const std::string& x, const std::string& y)
     {
          
         return Py_BuildValue("[ss]", x.c_str(), y.c_str());
     }
 
-    PyObject* ToPyList(const std::vector<int>& value)
+    PyObject* 
+    ToPyList(const std::vector<int>& value)
     {
          
         
@@ -179,7 +197,8 @@ namespace Marvel {
         return result;
     }
 
-    PyObject* ToPyList(const std::vector<mvUUID>& value)
+    PyObject* 
+    ToPyList(const std::vector<mvUUID>& value)
     {
 
 
@@ -191,7 +210,8 @@ namespace Marvel {
         return result;
     }
 
-    PyObject* ToPyList(const std::vector<mvVec2>& value)
+    PyObject* 
+    ToPyList(const std::vector<mvVec2>& value)
     {
          
 
@@ -208,7 +228,8 @@ namespace Marvel {
         return result;
     }
 
-    PyObject* ToPyList(const std::vector<float>& value)
+    PyObject* 
+    ToPyList(const std::vector<float>& value)
     {
          
         PyObject* result = PyList_New(value.size());
@@ -219,7 +240,8 @@ namespace Marvel {
         return result;
     }
 
-    PyObject* ToPyList(const std::vector<double>& value)
+    PyObject* 
+    ToPyList(const std::vector<double>& value)
     {
 
         PyObject* result = PyList_New(value.size());
@@ -230,7 +252,8 @@ namespace Marvel {
         return result;
     }
 
-    PyObject* ToPyList(const std::vector<std::vector<float>>& value)
+    PyObject* 
+    ToPyList(const std::vector<std::vector<float>>& value)
     {
         PyObject* result = PyList_New(value.size());
 
@@ -240,7 +263,8 @@ namespace Marvel {
         return result;
     }
 
-    PyObject* ToPyList(const std::vector<std::vector<double>>& value)
+    PyObject* 
+    ToPyList(const std::vector<std::vector<double>>& value)
     {
         PyObject* result = PyList_New(value.size());
 
@@ -250,7 +274,8 @@ namespace Marvel {
         return result;
     }
 
-    PyObject* ToPyList(const std::vector<std::string>& value)
+    PyObject* 
+    ToPyList(const std::vector<std::string>& value)
     {
          
 
@@ -262,7 +287,8 @@ namespace Marvel {
         return result;
     }
 
-    PyObject* ToPyList(const std::vector<std::vector<std::string>>& value)
+    PyObject* 
+    ToPyList(const std::vector<std::vector<std::string>>& value)
     {
          
 
@@ -274,7 +300,8 @@ namespace Marvel {
         return result;
     }
 
-    PyObject* ToPyList(const std::vector<std::pair<int, int>>& value)
+    PyObject* 
+    ToPyList(const std::vector<std::pair<int, int>>& value)
     {
         PyObject* result = PyList_New(value.size());
 
@@ -284,7 +311,8 @@ namespace Marvel {
         return result;
     }
 
-    PyObject* ToPyList(const std::vector<std::pair<std::string, std::string>>& value)
+    PyObject* 
+    ToPyList(const std::vector<std::pair<std::string, std::string>>& value)
     {
         PyObject* result = PyList_New(value.size());
 
@@ -294,7 +322,8 @@ namespace Marvel {
         return result;
     }
 
-    PyObject* ToPyColor(const mvColor& color)
+    PyObject* 
+    ToPyColor(const mvColor& color)
     {
          
 
@@ -308,7 +337,8 @@ namespace Marvel {
         return result;
     }
 
-    PyObject* ToPyTime(const tm& time)
+    PyObject* 
+    ToPyTime(const tm& time)
     {
          
         PyObject* dict = PyDict_New();
@@ -324,7 +354,8 @@ namespace Marvel {
         return dict;
     }
 
-    PyObject* ToPyIntList(const int* value, int count)
+    PyObject* 
+    ToPyIntList(const int* value, int count)
     {
          
 
@@ -336,7 +367,8 @@ namespace Marvel {
         return result;
     }
 
-    PyObject* ToPyFloatList(const float* value, int count)
+    PyObject* 
+    ToPyFloatList(const float* value, int count)
     {
          
 
@@ -348,7 +380,8 @@ namespace Marvel {
         return result;
     }
 
-    PyObject* ToPyFloatList(const double* value, int count)
+    PyObject* 
+    ToPyFloatList(const double* value, int count)
     {
 
 
@@ -360,7 +393,8 @@ namespace Marvel {
         return result;
     }
 
-    tm ToTime(PyObject* value, const std::string& message)
+    tm 
+    ToTime(PyObject* value, const std::string& message)
     {
         tm result = {};
         if (value == nullptr)
@@ -387,7 +421,8 @@ namespace Marvel {
         return result;
     }
 
-    int ToInt(PyObject* value, const std::string& message)
+    int 
+    ToInt(PyObject* value, const std::string& message)
     {
         if (value == nullptr)
             return 0;
@@ -403,7 +438,8 @@ namespace Marvel {
         return 0;
     }
 
-    mvUUID ToUUID(PyObject* value, const std::string& message)
+    mvUUID 
+    ToUUID(PyObject* value, const std::string& message)
     {
         if (value == nullptr)
             return 0;
@@ -429,7 +465,8 @@ namespace Marvel {
         return PyLong_AsUnsignedLongLong(value);
     }
 
-    float ToFloat(PyObject* value, const std::string& message)
+    float 
+    ToFloat(PyObject* value, const std::string& message)
     {
         if (value == nullptr)
             return 0.0f;
@@ -449,7 +486,8 @@ namespace Marvel {
         return (float)PyFloat_AsDouble(value);
     }
 
-    double ToDouble(PyObject* value, const std::string& message)
+    double 
+    ToDouble(PyObject* value, const std::string& message)
     {
         if (value == nullptr)
             return 0.0;
@@ -464,7 +502,8 @@ namespace Marvel {
         return PyFloat_AsDouble(value);
     }
 
-    bool ToBool(PyObject* value, const std::string& message)
+    bool 
+    ToBool(PyObject* value, const std::string& message)
     {
         if (value == nullptr)
             return false;
@@ -479,7 +518,8 @@ namespace Marvel {
         return PyLong_AsLong(value);
     }
 
-    std::string ToString(PyObject* value, const std::string& message)
+    std::string 
+    ToString(PyObject* value, const std::string& message)
     {
         std::string result;
         if (value == nullptr)
@@ -505,7 +545,8 @@ namespace Marvel {
 
     }
 
-    std::function<float(Py_buffer&, Py_ssize_t index)> BufferViewFunctionsFloat(Py_buffer& bufferView)
+    mv_internal std::function<float(Py_buffer&, Py_ssize_t index)> 
+    BufferViewFunctionsFloat(Py_buffer& bufferView)
     {
         if (strcmp(bufferView.format, "f") == 0)
             return [](Py_buffer& bufferView, Py_ssize_t index) {return *((float*)bufferView.buf + index); };
@@ -548,7 +589,8 @@ namespace Marvel {
         }
     }
 
-    std::function<int(Py_buffer&, Py_ssize_t index)> BufferViewFunctionsInt(Py_buffer& bufferView)
+    mv_internal std::function<int(Py_buffer&, Py_ssize_t index)> 
+    BufferViewFunctionsInt(Py_buffer& bufferView)
     {
         if (strcmp(bufferView.format, "f") == 0)
             return [](Py_buffer& bufferView, Py_ssize_t index) {return (int)*((float*)bufferView.buf + index); };
@@ -591,7 +633,8 @@ namespace Marvel {
         }
     }
 
-    std::vector<int> ToIntVect(PyObject* value, const std::string& message)
+    std::vector<int> 
+    ToIntVect(PyObject* value, const std::string& message)
     {
 
         std::vector<int> items;
@@ -644,7 +687,8 @@ namespace Marvel {
         return items;
     }
 
-    std::vector<mvUUID> ToUUIDVect(PyObject* value, const std::string& message)
+    std::vector<mvUUID> 
+    ToUUIDVect(PyObject* value, const std::string& message)
     {
 
         std::vector<mvUUID> items;
@@ -685,7 +729,8 @@ namespace Marvel {
         return items;
     }
 
-    std::vector<float> ToFloatVect(PyObject* value, const std::string& message)
+    std::vector<float> 
+    ToFloatVect(PyObject* value, const std::string& message)
     {
 
         std::vector<float> items;
@@ -735,7 +780,8 @@ namespace Marvel {
         return items;
     }
 
-    std::vector<double> ToDoubleVect(PyObject* value, const std::string& message)
+    std::vector<double> 
+    ToDoubleVect(PyObject* value, const std::string& message)
     {
 
         std::vector<double> items;
@@ -784,7 +830,8 @@ namespace Marvel {
         return items;
     }
 
-    std::vector<std::string> ToStringVect(PyObject* value, const std::string& message)
+    std::vector<std::string> 
+    ToStringVect(PyObject* value, const std::string& message)
     {
 
         std::vector<std::string> items;
@@ -831,7 +878,8 @@ namespace Marvel {
         return items;
     }
 
-    mvColor ToColor(PyObject* value, const std::string& message)
+    mvColor 
+    ToColor(PyObject* value, const std::string& message)
     {
         float color[4] = { -1.0f, 0.0f, 0.0f, 1.0f };
 
@@ -865,7 +913,8 @@ namespace Marvel {
         return mvColor{ color[0], color[1], color[2], color[3] };
     }
 
-    mvPlotPoint ToPoint(PyObject* value, const std::string& message)
+    mvPlotPoint 
+    ToPoint(PyObject* value, const std::string& message)
     {
         if (value == nullptr)
             return { 0.0, 0.0 };
@@ -880,7 +929,8 @@ namespace Marvel {
             return { 0.0, 0.0 };
     }
 
-    mvVec2 ToVec2(PyObject* value, const std::string& message)
+    mvVec2 
+    ToVec2(PyObject* value, const std::string& message)
     {
         if (value == nullptr)
             return { 0.0f, 0.0f };
@@ -895,7 +945,8 @@ namespace Marvel {
             return { 0.0f, 0.0f };
     }
 
-    mvVec4 ToVec4(PyObject* value, const std::string& message)
+    mvVec4 
+    ToVec4(PyObject* value, const std::string& message)
     {
         if (value == nullptr)
             return { 0.0f, 0.0f, 0.0f, 0.0f };
@@ -914,7 +965,8 @@ namespace Marvel {
             return { 0.0f, 0.0f, 0.0f, 0.0f };
     }
 
-    std::vector<std::pair<std::string, std::string>> ToVectPairString(PyObject* value, const std::string& message)
+    std::vector<std::pair<std::string, std::string>>
+    ToVectPairString(PyObject* value, const std::string& message)
     {
         std::vector<std::pair<std::string, std::string>> items;
         if (value == nullptr)
@@ -949,7 +1001,8 @@ namespace Marvel {
         return items;
     }
 
-    std::vector<mvVec2> ToVectVec2(PyObject* value, const std::string& message)
+    std::vector<mvVec2>
+    ToVectVec2(PyObject* value, const std::string& message)
     {
         std::vector<mvVec2> items;
         if (value == nullptr)
@@ -973,7 +1026,8 @@ namespace Marvel {
         return items;
     }
 
-    std::pair<std::vector<float>, std::vector<float>> ToPairVec(PyObject* value, const std::string& message)
+    std::pair<std::vector<float>, std::vector<float>>
+    ToPairVec(PyObject* value, const std::string& message)
     {
         std::pair<std::vector<float>, std::vector<float>> items;
         if (value == nullptr)
@@ -999,7 +1053,8 @@ namespace Marvel {
         return items;
     }
 
-    std::vector<mvVec4> ToVectVec4(PyObject* value, const std::string& message)
+    std::vector<mvVec4>
+    ToVectVec4(PyObject* value, const std::string& message)
     {
         std::vector<mvVec4> items;
         if (value == nullptr)
@@ -1023,7 +1078,8 @@ namespace Marvel {
         return items;
     }
 
-    std::vector<std::pair<int, int>> ToVectInt2(PyObject* value, const std::string& message)
+    std::vector<std::pair<int, int>>
+    ToVectInt2(PyObject* value, const std::string& message)
     {
         std::vector<std::pair<int, int>> items;
         if (value == nullptr)
@@ -1089,7 +1145,8 @@ namespace Marvel {
 
     }
 
-    std::vector<std::vector<std::string>> ToVectVectString(PyObject* value, const std::string& message)
+    std::vector<std::vector<std::string>>
+    ToVectVectString(PyObject* value, const std::string& message)
     {
         std::vector<std::vector<std::string>> items;
         if (value == nullptr)
@@ -1111,7 +1168,8 @@ namespace Marvel {
         return items;
     }
 
-    std::vector<std::pair<std::string, float>> ToVectPairStringFloat(PyObject* value, const std::string& message)
+    std::vector<std::pair<std::string, float>>
+    ToVectPairStringFloat(PyObject* value, const std::string& message)
     {
         std::vector<std::pair<std::string, float>> items;
         if (value == nullptr)
@@ -1146,7 +1204,8 @@ namespace Marvel {
         return items;
     }
 
-    std::vector<std::vector<float>> ToVectVectFloat(PyObject* value, const std::string& message)
+    std::vector<std::vector<float>>
+    ToVectVectFloat(PyObject* value, const std::string& message)
     {
         std::vector<std::vector<float>> items;
         if (value == nullptr)
@@ -1168,7 +1227,8 @@ namespace Marvel {
         return items;
     }
 
-    std::vector<std::vector<int>> ToVectVectInt(PyObject* value, const std::string& message)
+    std::vector<std::vector<int>>
+    ToVectVectInt(PyObject* value, const std::string& message)
     {
         std::vector<std::vector<int>> items;
         if (value == nullptr)
@@ -1190,7 +1250,8 @@ namespace Marvel {
         return items;
     }
 
-    std::vector<std::vector<double>> ToVectVectDouble(PyObject* value, const std::string& message)
+    std::vector<std::vector<double>>
+    ToVectVectDouble(PyObject* value, const std::string& message)
     {
         std::vector<std::vector<double>> items;
         if (value == nullptr)

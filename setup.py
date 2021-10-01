@@ -120,7 +120,11 @@ def setup_package():
         shutil.rmtree(src_path + "/cmake-build-local")
 
     # copy add items to temporary location
-    shutil.copy(src_path + "/DearPyGui/dearpygui/dearpygui.py", src_path + "/output/dearpygui")
+    if os.environ.get('READTHEDOCS') == 'True':
+        shutil.copy(src_path + "/DearPyGui/dearpygui/_dearpygui_RTD.py", src_path + "/output/dearpygui")
+    else:
+        shutil.copy(src_path + "/DearPyGui/dearpygui/dearpygui.py", src_path + "/output/dearpygui")
+
     shutil.copy(src_path + "/DearPyGui/dearpygui/demo.py", src_path + "/output/dearpygui")
     shutil.copy(src_path + "/DearPyGui/dearpygui/experimental.py", src_path + "/output/dearpygui")
 
@@ -129,6 +133,7 @@ def setup_package():
 
     if os.environ.get('READTHEDOCS') == 'True':
 
+        os.rename(src_path + "/output/dearpygui/_dearpygui_RTD.py", src_path + "/output/dearpygui/dearpygui.py")
         with open(src_path + "/output/dearpygui/_dearpygui.py", 'w') as newfile:
             with open(src_path + "/DearPyGui/dearpygui/_dearpygui.pyi", 'r') as file:
                 lines = file.readlines()
@@ -136,10 +141,9 @@ def setup_package():
                     if line.__contains__("..."):
                         newfile.write("\tpass\n")
                     elif line.__contains__("dearpygui._dearpygui"):
-                        newfile.write("mvBuffer = 7\n")
+                        newfile.write("mvBuffer = 7\n") # hacky
                     else:
                         newfile.write(line)
-
     else:
 
         # copy add items to temporary location
@@ -149,7 +153,7 @@ def setup_package():
 
     metadata = dict(
         name='dearpygui',                                      # Required
-        version=version_number(),                             # Required
+        version=version_number(),                              # Required
         author="Jonathan Hoffstadt and Preston Cothren",       # Optional
         author_email="jonathanhoffstadt@yahoo.com",            # Optional
         description='DearPyGui: A simple Python GUI Toolkit',  # Required

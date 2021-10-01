@@ -19,7 +19,8 @@
 
 // Helper to display a little (?) mark which shows a tooltip when hovered.
 // In your own code you may want to display an actual icon if you are using a merged icon fonts (see docs/FONTS.md)
-static void HelpMarker(const char* desc)
+mv_internal void 
+HelpMarker(const char* desc)
 {
 	ImGui::TextDisabled("(?)");
 	if (ImGui::IsItemHovered())
@@ -33,7 +34,8 @@ static void HelpMarker(const char* desc)
 }
 
 // [Internal] Display details for a single font, called by ShowStyleEditor().
-static void NodeFont(ImFont* font)
+mv_internal void
+NodeFont(ImFont* font)
 {
 	ImGuiIO& io = ImGui::GetIO();
 	ImGuiStyle& style = ImGui::GetStyle();
@@ -124,7 +126,8 @@ static void NodeFont(ImFont* font)
 
 // Demo helper function to select among loaded fonts.
 // Here we use the regular BeginCombo()/EndCombo() api which is more the more flexible one.
-static void ShowCustomFontSelector(const char* label)
+mv_internal void
+ShowCustomFontSelector(const char* label)
 {
 	ImGuiIO& io = ImGui::GetIO();
 	ImFont* font_current = ImGui::GetFont();
@@ -144,12 +147,14 @@ static void ShowCustomFontSelector(const char* label)
 
 namespace Marvel {
 
-	bool mvFontManager::isInvalid() const
+	bool 
+	mvFontManager::isInvalid() const
 	{
 		return _dirty;
 	}
 
-	void mvFontManager::rebuildAtlas()
+	void 
+	mvFontManager::rebuildAtlas()
 	{
 		auto& roots = GContext->itemRegistry->fontRegistryRoots;
 
@@ -160,14 +165,16 @@ namespace Marvel {
 
 	}
 
-	void mvFontManager::updateAtlas()
+	void 
+	mvFontManager::updateAtlas()
 	{
 		auto item = GetItem(*GContext->itemRegistry, MV_ATLAS_UUID);
 		if (item)
 			static_cast<mvStaticTexture*>(item)->markDirty();
 	}
 
-	void mvFontManager::drawWidgets()
+	void 
+	mvFontManager::drawWidgets()
 	{
 
 		ShowCustomFontSelector("Fonts##Selector");
@@ -206,12 +213,14 @@ namespace Marvel {
 
 	}
 
-	void mvFontManager::setGlobalFontScale(float scale)
+	void 
+	mvFontManager::setGlobalFontScale(float scale)
 	{
 		_globalFontScale = scale;
 	}
 
-	void mvFontManager::InsertParser(std::map<std::string, mvPythonParser>* parsers)
+	void 
+	mvFontManager::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
 		{
@@ -239,7 +248,8 @@ namespace Marvel {
 
 	}
 
-	PyObject* mvFontManager::set_global_font_scale(PyObject* self, PyObject* args, PyObject* kwargs)
+	mv_python_function
+	mvFontManager::set_global_font_scale(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		float scale;
 
@@ -252,7 +262,8 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* mvFontManager::get_global_font_scale(PyObject* self, PyObject* args, PyObject* kwargs)
+	mv_python_function
+	mvFontManager::get_global_font_scale(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		return ToPyFloat(mvToolManager::GetFontManager().getGlobalFontScale());
 	}

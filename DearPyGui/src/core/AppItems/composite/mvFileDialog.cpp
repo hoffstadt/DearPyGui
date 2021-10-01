@@ -125,7 +125,7 @@ namespace Marvel {
 			//mvFontScope fscope(this);
 
 			// display
-			if (_instance.Display(_internalLabel.c_str(), ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings, ImVec2(500, 600)))
+			if (_instance.Display(_internalLabel, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings, ImVec2(500, 600)))
 			{
 
 				// action if OK

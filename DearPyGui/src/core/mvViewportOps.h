@@ -1,16 +1,5 @@
 #pragma once
 
-//-----------------------------------------------------------------------------
-// mvWindow
-//
-//     - This abstract class is just a light wrapper for a platform specific
-//       window. It's quite lacking so may need to be extended later.
-//
-//     - This class may need to be renamed to remove confusion between this
-//       window and the mvWindowAppItem class (maybe to viewport?)
-//     
-//-----------------------------------------------------------------------------
-
 #include "mvContext.h"
 #include "mvEvents.h"
 #include "cpp.hint"

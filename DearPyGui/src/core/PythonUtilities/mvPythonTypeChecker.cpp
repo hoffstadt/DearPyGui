@@ -4,12 +4,14 @@
 
 namespace Marvel {
 
-	bool isPyObject_Any(PyObject* obj)
+	bool
+	isPyObject_Any(PyObject* obj)
 	{
 		return obj != nullptr;
 	}
 
-	bool isPyObject_String(PyObject* obj)
+	bool
+	isPyObject_String(PyObject* obj)
 	{
 		if (obj == nullptr)
 			return false;
@@ -27,7 +29,8 @@ namespace Marvel {
 		return true;
 	}
 
-	bool isPyObject_Int(PyObject* obj)
+	bool
+	isPyObject_Int(PyObject* obj)
 	{
 		if (obj == nullptr)
 			return false;
@@ -37,7 +40,8 @@ namespace Marvel {
 		return true;
 	}
 
-	bool isPyObject_Float(PyObject* obj)
+	bool
+	isPyObject_Float(PyObject* obj)
 	{
 		if (obj == nullptr)
 			return false;
@@ -47,7 +51,8 @@ namespace Marvel {
 		return true;
 	}
 
-	bool isPyObject_Bool(PyObject* obj)
+	bool
+	isPyObject_Bool(PyObject* obj)
 	{
 		if (obj == nullptr)
 			return false;
@@ -57,7 +62,8 @@ namespace Marvel {
 		return true;
 	}
 
-	bool isPyObject_StringList(PyObject* obj)
+	bool
+	isPyObject_StringList(PyObject* obj)
 	{
 		if (obj == nullptr)
 			return false;
@@ -92,7 +98,8 @@ namespace Marvel {
 		return false;
 	}
 
-	bool isPyObject_ListStringList(PyObject* obj)
+	bool
+	isPyObject_ListStringList(PyObject* obj)
 	{
 		if (obj == nullptr)
 			return false;
@@ -121,7 +128,8 @@ namespace Marvel {
 		return false;
 	}
 
-	bool isPyObject_FloatList(PyObject* obj)
+	bool
+	isPyObject_FloatList(PyObject* obj)
 	{
 		if (obj == nullptr)
 			return false;
@@ -155,7 +163,8 @@ namespace Marvel {
 		return false;
 	}
 
-	bool isPyObject_ListFloatList(PyObject* obj)
+	bool
+	isPyObject_ListFloatList(PyObject* obj)
 	{
 		if (obj == nullptr)
 			return false;
@@ -184,7 +193,8 @@ namespace Marvel {
 		return false;
 	}
 
-	bool isPyObject_IntList(PyObject* obj)
+	bool
+	isPyObject_IntList(PyObject* obj)
 	{
 		if (obj == nullptr)
 			return false;
@@ -218,7 +228,8 @@ namespace Marvel {
 		return false;
 	}
 
-	bool isPyObject_ListIntList(PyObject* obj)
+	bool
+	isPyObject_ListIntList(PyObject* obj)
 	{
 		if (obj == nullptr)
 			return false;
@@ -247,7 +258,8 @@ namespace Marvel {
 		return false;
 	}
 
-	bool isPyObject_Double(PyObject* obj)
+	bool
+	isPyObject_Double(PyObject* obj)
 	{
 		if (obj == nullptr)
 			return false;
@@ -258,7 +270,8 @@ namespace Marvel {
 		return false;
 	}
 
-	bool isPyObject_Callable(PyObject* obj)
+	bool
+	isPyObject_Callable(PyObject* obj)
 	{
 		if (obj == nullptr)
 			return false;
@@ -268,7 +281,8 @@ namespace Marvel {
 		return false;
 	}
 
-	bool isPyObject_Dict(PyObject* obj)
+	bool
+	isPyObject_Dict(PyObject* obj)
 	{
 		if (obj == nullptr)
 			return false;

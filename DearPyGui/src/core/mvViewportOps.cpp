@@ -11,10 +11,12 @@
 
 namespace Marvel {
 
-    void InsertParser_mvViewport(std::map<std::string, mvPythonParser>* parsers)
+    void 
+    InsertParser_mvViewport(std::map<std::string, mvPythonParser>* parsers)
     {
         {
             std::vector<mvPythonDataElement> args;
+            args.reserve(16);
             args.push_back({ mvPyDataType::String, "title", mvArgType::KEYWORD_ARG, "'Dear PyGui'" });
             args.push_back({ mvPyDataType::String, "small_icon", mvArgType::KEYWORD_ARG, "''" });
             args.push_back({ mvPyDataType::String, "large_icon", mvArgType::KEYWORD_ARG, "''" });
@@ -44,6 +46,7 @@ namespace Marvel {
             std::vector<mvPythonDataElement> args;
             args.push_back({ mvPyDataType::Bool, "minimized", mvArgType::KEYWORD_ARG, "False" });
             args.push_back({ mvPyDataType::Bool, "maximized", mvArgType::KEYWORD_ARG, "False" });
+            args.push_back({ mvPyDataType::UUID, "viewport", mvArgType::DEPRECATED_REMOVE_KEYWORD_ARG });
 
             mvPythonParserSetup setup;
             setup.about = "Shows the main viewport.";
@@ -127,7 +130,8 @@ namespace Marvel {
 
     }
 
-    PyObject* get_viewport_configuration(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    get_viewport_configuration(PyObject* self, PyObject* args, PyObject* kwargs)
     {
 
         if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
@@ -162,7 +166,8 @@ namespace Marvel {
         return pdict;
     }
 
-    PyObject* is_viewport_ok(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    is_viewport_ok(PyObject* self, PyObject* args, PyObject* kwargs)
     {
 
         if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
@@ -177,7 +182,8 @@ namespace Marvel {
         return ToPyBool(false);
     }
 
-    PyObject* create_viewport(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    create_viewport(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         const char* title = "Dear PyGui";
         const char* small_icon = "";
@@ -243,7 +249,8 @@ namespace Marvel {
         return GetPyNone();
     }
 
-    PyObject* show_viewport(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    show_viewport(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         int minimized = false;
         int maximized = false;
@@ -264,7 +271,8 @@ namespace Marvel {
         return GetPyNone();
     }
 
-    PyObject* configure_viewport(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    configure_viewport(PyObject* self, PyObject* args, PyObject* kwargs)
     {
 
         mvViewport* viewport = GContext->viewport;
@@ -304,7 +312,8 @@ namespace Marvel {
         return GetPyNone();
     }
 
-    PyObject* maximize_viewport(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    maximize_viewport(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
         GContext->callbackRegistry->submit([=]()
@@ -315,7 +324,8 @@ namespace Marvel {
         return GetPyNone();
     }
 
-    PyObject* minimize_viewport(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    minimize_viewport(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
         GContext->callbackRegistry->submit([=]()
@@ -326,7 +336,8 @@ namespace Marvel {
         return GetPyNone();
     }
 
-    PyObject* toggle_viewport_fullscreen(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    toggle_viewport_fullscreen(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
         GContext->callbackRegistry->submit([=]()

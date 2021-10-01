@@ -25,8 +25,9 @@
 .gitignore     export-ignore
 
 # generated code
-DearPyGui/dearpygui/dearpygui.py   linguist-generated
-DearPyGui/dearpygui/_dearpygui.pyi linguist-generated
+DearPyGui/dearpygui/dearpygui.py      linguist-generated
+DearPyGui/dearpygui/_dearpygui.pyi    linguist-generated
+DearPyGui/dearpygui/_dearpygui_RTD.py linguist-generated
 
 # vendored code
 DearPyGui/vendor/* linguist-vendored

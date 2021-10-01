@@ -151,7 +151,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	struct mvColor
 	{
-		static unsigned int ConvertToUnsignedInt(mvColor color)
+		static unsigned int ConvertToUnsignedInt(const mvColor& color)
 		{
 			return ImGui::ColorConvertFloat4ToU32(color.toVec4());
 		}
@@ -221,6 +221,16 @@ namespace Marvel {
 	typedef std::unordered_map<long, float> mvThemeStyles;
 	typedef unsigned long long mvUUID;
 }
+
+#if !defined(mv_internal)
+#define mv_internal static
+#endif
+#define mv_local_persist static
+#define mv_global static
+#define mv_python_function PyObject*
+#ifndef mv_impl
+#define mv_impl
+#endif
 
 #define MV_DEFAULT_COLOR Marvel::mvColor(1.0f, 1.0f, 1.0f, 1.0f)
 

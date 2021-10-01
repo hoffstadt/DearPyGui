@@ -20,7 +20,7 @@ from dearpygui._dearpygui import mvBuffer
 #      - Viewport Getter Commands
 #      - Deprecated Commands
 #      - Container Context Managers
-#      - Core Wrappings
+#      - Public _dearpygui Wrappings
 #      - Constants
 #
 ########################################################################################################################
@@ -65,16 +65,16 @@ def start_dearpygui():
 
 @contextmanager
 def mutex():
-   
-   try:
+    """ Handles locking/unlocking render thread mutex. """
+    try:
         yield internal_dpg.lock_mutex()
-   finally:
+    finally:
         internal_dpg.unlock_mutex()
 
 
 @contextmanager
 def popup(parent: Union[int, str], mousebutton: int = internal_dpg.mvMouseButton_Right, modal: bool = False, tag:Union[int, str] = 0) -> int:
-    
+    """ Popup widget. """    
     try:
         if tag == 0:
             _internal_popup_id = internal_dpg.generate_uuid()
