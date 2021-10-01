@@ -133,6 +133,11 @@ namespace Marvel {
 		if (ImGui::IsItemClicked())
 			*_value = !*_value;
 
+		if (_state.toggledOpen && !*_value)
+		{
+			_state.toggledOpen = false;
+		}
+
 		if (!expanded)
 		{
 			ImGui::EndGroup();

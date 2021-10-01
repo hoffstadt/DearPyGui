@@ -127,3 +127,4 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 * fixed plot context/configuration sync issues
 * fixed plot axis context/configuration sync issues
 * fixed plot legend context/configuration sync issues
+* fixed toggled_open_handler triggering for closed #1280
