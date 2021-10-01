@@ -1648,17 +1648,12 @@ namespace Marvel {
 
         if(registry.captureCallback)
         {
-    
+  
+            // this is a unique situation in that the caller always has the GIL
             registry.capturedItem = item;
-            
-            GContext->callbackRegistry->submit([&]()
-            {
-                if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
-                GContext->callbackRegistry->runCallback(registry.captureCallback, registry.capturedItem->_uuid, nullptr, nullptr);
-                Py_XDECREF(registry.captureCallback);
-                registry.captureCallback = nullptr;
-            });
-
+            GContext->callbackRegistry->runCallback(registry.captureCallback, registry.capturedItem->_uuid, nullptr, nullptr);
+            Py_XDECREF(registry.captureCallback);
+            registry.captureCallback = nullptr;
             return true;
         }
 

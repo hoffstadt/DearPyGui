@@ -1351,6 +1351,7 @@ def add_same_line(**kwargs):
     group = internal_dpg.add_group(horizontal=True, **kwargs)
     internal_dpg.move_item(last_item, parent=group)
     internal_dpg.capture_next_item(lambda s: internal_dpg.move_item(s, parent=group))
+    return group
 
 
 @deprecated("Use: `add_child_window()`")
