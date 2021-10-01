@@ -131,6 +131,11 @@ namespace Marvel {
 				for (auto& item : _children[1])
 					item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 			}
+
+			if (_state.toggledOpen && !*_value)
+			{
+				_state.toggledOpen = false;
+			}
 		}
 
 		//-----------------------------------------------------------------------------
