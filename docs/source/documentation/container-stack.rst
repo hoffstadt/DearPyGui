@@ -27,6 +27,8 @@ Below is a simple example demonstrating manual stack operations:
 
     import dearpygui.dearpygui as dpg
 
+    dpg.create_context()
+
     dpg.push_container_stack(dpg.add_window(label="Tutorial"))
 
     dpg.push_container_stack(dpg.add_menu_bar())
@@ -42,7 +44,11 @@ Below is a simple example demonstrating manual stack operations:
     # remove window from container stack
     dpg.pop_container_stack()
 
+    dpg.create_viewport(title='Custom Title', width=800, height=600)
+    dpg.setup_dearpygui()
+    dpg.show_viewport()
     dpg.start_dearpygui()
+    dpg.destroy_context()
 
 Explicit Parental Assignment
 ----------------------------
@@ -55,36 +61,49 @@ The above example can be shown again below using explicit parent assignment:
 
     import dearpygui.dearpygui as dpg
 
-    dpg.add_window(label="Tutorial", id="window")
+    dpg.create_context()
 
-    dpg.add_menu_bar(parent="window", id="menu_bar")
+    dpg.add_window(label="Tutorial", tag="window")
 
-    dpg.add_menu("Themes", parent="menu_bar", id="themes")
+    dpg.add_menu_bar(parent="window", tag="menu_bar")
+
+    dpg.add_menu(label="Themes", parent="menu_bar", tag="themes")
     dpg.add_menu_item(label="Dark", parent="themes")
     dpg.add_menu_item(label="Light", parent="themes")
 
+    dpg.create_viewport(title='Custom Title', width=800, height=600)
+    dpg.setup_dearpygui()
+    dpg.show_viewport()
     dpg.start_dearpygui()
+    dpg.destroy_context()
 
 
 Context Managers
 ----------------
 
-Context managers can be used to simplify the above example. All the context managers can be found [here](https://github.com/hoffstadt/DearPyGui/wiki/Context-Managers) but a simple example can be found below:
+Context managers can be used to simplify the above example. 
+All the context managers can be found in the 
+:doc:`../documentation/container-context-manager`
+but a simple example can be found below:
 
 .. code-block:: python
 
     import dearpygui.dearpygui as dpg
 
+    dpg.create_context()
+
     with dpg.window(label="Tutorial"):
-
         with dpg.menu_bar():
-
             with dpg.menu(label="Themes"):
                 dpg.add_menu_item(label="Dark")
                 dpg.add_menu_item(label="Light")
                 dpg.add_menu_item(label="Classic")
-
+            
+    dpg.create_viewport(title='Custom Title', width=800, height=600)
+    dpg.setup_dearpygui()
+    dpg.show_viewport()
     dpg.start_dearpygui()
+    dpg.destroy_context()
 
 **Benefits**
 1. Automatically push the container to the container stack.
