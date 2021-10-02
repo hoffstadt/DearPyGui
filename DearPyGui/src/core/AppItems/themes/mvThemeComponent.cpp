@@ -61,6 +61,8 @@ namespace Marvel {
 
     void mvThemeComponent::handleSpecificPositionalArgs(PyObject* dict)
     {
+        mv_local_persist mvRef<mvAppItem> all_item_theme_component = nullptr;
+
         if (!VerifyPositionalArguments(GetParsers()[s_command], dict))
             return;
 
@@ -78,6 +80,12 @@ namespace Marvel {
                         if (i == _specificType)
                             _specificComponentPtr = &item_type::s_class_theme_component;
                     });
+
+                if (_specificType == (int)mvAppItemType::All)
+                {
+                    _specificComponentPtr = &all_item_theme_component;
+                }
+
                 break;
             }
             default:
