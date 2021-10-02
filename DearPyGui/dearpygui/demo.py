@@ -236,6 +236,7 @@ def show_demo():
                 dpg.add_menu_item(label="Show Font Manager", callback=lambda:dpg.show_tool(dpg.mvTool_Font))
                 dpg.add_menu_item(label="Show Item Registry", callback=lambda:dpg.show_tool(dpg.mvTool_ItemRegistry))
 
+        dpg.add_text("NOTE: THIS DEMO IS NOT COMPLETE FOR 1.0.0rcX. THIS WILL BE FINISHED FOR 1.0.0.")
         dpg.add_text(f'Dear PyGui says hello. ({dpg.get_dearpygui_version()})')
         dpg.add_text("This code for this demo can be found here: ")
         dpg.add_text("https://github.com/hoffstadt/DearPyGui/blob/master/DearPyGui/dearpygui/demo.py")
