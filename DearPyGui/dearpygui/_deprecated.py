@@ -47,11 +47,6 @@ def enable_docking(dock_space=False):
     """ deprecated function """
     internal_dpg.configure_app(docking=True, docking_space=dock_space)
 
-@deprecated("Use 'get_app_configuration()['version']'.")
-def get_dearpygui_version():
-    """ deprecated function """
-    return internal_dpg.get_app_configuration()["version"]
-
 @deprecated("Use 'configure_app(init_file=file)'.")
 def set_init_file(file="dpg.ini"):
     """ deprecated function """
@@ -337,3 +332,11 @@ def child(**kwargs):
 	finally:
 		internal_dpg.pop_container_stack()
 
+@deprecated("Use: Just not recommended")
+def setup_registries() -> None:
+    """Adds default registries for fonts, handlers, textures, colormaps, and values."""
+    internal_dpg.add_font_registry(tag=internal_dpg.mvReservedUUID_0)
+    internal_dpg.add_handler_registry(tag=internal_dpg.mvReservedUUID_1)
+    internal_dpg.add_texture_registry(tag=internal_dpg.mvReservedUUID_2)
+    internal_dpg.add_value_registry(tag=internal_dpg.mvReservedUUID_3)
+    internal_dpg.add_colormap_registry(tag=internal_dpg.mvReservedUUID_4)

@@ -45,6 +45,10 @@ from dearpygui._dearpygui import mvBuffer
 # Helper Commands
 ########################################################################################################################
 
+def get_dearpygui_version():
+    """ return Dear PyGui Version """
+    return internal_dpg.get_app_configuration()["version"]
+
 def configure_item(item : Union[int, str], **kwargs) -> None:
 	"""Configures an item after creation."""
 	internal_dpg.configure_item(item, **kwargs)
@@ -53,15 +57,6 @@ def configure_item(item : Union[int, str], **kwargs) -> None:
 def configure_viewport(item : Union[int, str], **kwargs) -> None:
 	"""Configures a viewport after creation."""
 	internal_dpg.configure_viewport(item, **kwargs)
-
-
-def setup_registries() -> None:
-    """Adds default registries for fonts, handlers, textures, colormaps, and values."""
-    internal_dpg.add_font_registry(tag=internal_dpg.mvReservedUUID_0)
-    internal_dpg.add_handler_registry(tag=internal_dpg.mvReservedUUID_1)
-    internal_dpg.add_texture_registry(tag=internal_dpg.mvReservedUUID_2)
-    internal_dpg.add_value_registry(tag=internal_dpg.mvReservedUUID_3)
-    internal_dpg.add_colormap_registry(tag=internal_dpg.mvReservedUUID_4)
 
 
 def start_dearpygui():
@@ -1138,11 +1133,6 @@ def enable_docking(dock_space=False):
     """ deprecated function """
     internal_dpg.configure_app(docking=True, docking_space=dock_space)
 
-@deprecated("Use 'get_app_configuration()['version']'.")
-def get_dearpygui_version():
-    """ deprecated function """
-    return internal_dpg.get_app_configuration()["version"]
-
 @deprecated("Use 'configure_app(init_file=file)'.")
 def set_init_file(file="dpg.ini"):
     """ deprecated function """
@@ -1428,6 +1418,14 @@ def child(**kwargs):
 	finally:
 		internal_dpg.pop_container_stack()
 
+@deprecated("Use: Just not recommended")
+def setup_registries() -> None:
+    """Adds default registries for fonts, handlers, textures, colormaps, and values."""
+    internal_dpg.add_font_registry(tag=internal_dpg.mvReservedUUID_0)
+    internal_dpg.add_handler_registry(tag=internal_dpg.mvReservedUUID_1)
+    internal_dpg.add_texture_registry(tag=internal_dpg.mvReservedUUID_2)
+    internal_dpg.add_value_registry(tag=internal_dpg.mvReservedUUID_3)
+    internal_dpg.add_colormap_registry(tag=internal_dpg.mvReservedUUID_4)
 
 ##########################################################
 # Container Context Managers
