@@ -61,7 +61,7 @@ Ensure you have at least Python 3.6 64bit.
 - [Feature Tracker](https://github.com/hoffstadt/DearPyGui/projects/5) all proposed new features.
 - [Bug Tracker](https://github.com/hoffstadt/DearPyGui/projects/1) current bugs and issues.
 - Internal Documentation: Run the `show_documentation` command from within the library to view a reference guide. 
-- Complete Demo: You can also view a mostly complete showcase of _Dear PyGui_ by running:
+- Complete Demo: You can also view a mostly complete showcase of _Dear PyGui_ by running (0.8.x):
 ```python
 import dearpygui.dearpygui as dpg
 from dearpygui.demo import show_demo
@@ -74,7 +74,7 @@ dpg.start_dearpygui()
  
 Using _Dear PyGui_ is a simple as creating a python script like the one below:
 
-Code:
+Code (0.8.x):
 ```Python
 import dearpygui.dearpygui as dpg
 
@@ -150,7 +150,6 @@ These include:
 * 🥇 [Caden Bloxham](https://github.com/cbxm) _Gold Sponsor_
 * 🥇 [Yan Zaretskiy](https://github.com/mindv0rtex) _Gold Sponsor_
 * 🥇 [Leron Gray](https://github.com/daddycocoaman) _Gold Sponsor_
-* 🥇 [Trinnik](https://github.com/Trinnik) _Gold Sponsor_
 * 🥇 [Barney Mannerings](https://github.com/barnabee) _Gold Sponsor_
 * 🥇 [RB Blackstone](https://github.com/RBBlackstone) _Gold Sponsor_
 * 🥇 [Charles Ray](https://github.com/ray-5050) _Gold Sponsor_
