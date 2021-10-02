@@ -1,7 +1,6 @@
 import dearpygui.dearpygui as dpg
 import dearpygui.demo as demo
 import dearpygui_ext.themes as themes
-from dearpygui_ext.datagrid import mvDataGrid
 
 dpg.create_context()
 dpg.enable_docking()
@@ -32,7 +31,7 @@ with dpg.window(label="tutorial", width=500, height=500, show=False):
 
 # main loop
 dpg.show_viewport()
-while(dpg.is_dearpygui_running()):
+while dpg.is_dearpygui_running():
     dpg.render_dearpygui_frame()  
 
 dpg.destroy_context()
