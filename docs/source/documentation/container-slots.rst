@@ -31,6 +31,8 @@ Slots
 App items are stored in target slots within their parent container.
 Below is the breakdown of slots:
 
+Slot -1:
+    All slots
 Slot 0:
     **mvFileExtension**, **mvFontRangeHint**, **mvNodeLink**, **mvAnnotation**, **mvDragLine**, **mvDragPoint**, **mvLegend**, **mvTableColumn**
 Slot 1:
@@ -54,11 +56,11 @@ Below is a simple example that demonstrates some of the above:
 
     import dearpygui.dearpygui as dpg
 
-    dpg.setup_registries()
+    dpg.create_context()
 
-    with dpg.window(label="about"):
+    with dpg.window(label="about", width=400, height=400):
         dpg.add_button(label="Press me")
-        dpg.draw_line((10, 10), (100, 100), color=(255, 0, 0, 255), thickness=1)
+        dpg.draw_line((0, 10), (100, 100), color=(255, 0, 0, 255), thickness=1)
 
     # print children
     print(dpg.get_item_children(dpg.last_root()))
@@ -69,11 +71,19 @@ Below is a simple example that demonstrates some of the above:
     # check draw_line's slot
     print(dpg.get_item_slot(dpg.last_item()))
 
-
+    dpg.create_viewport(title='Custom Title', width=800, height=600)
+    dpg.setup_dearpygui()
+    dpg.show_viewport()
     dpg.start_dearpygui()
+    dpg.destroy_context()
 
 .. note::
     Use the *slot* keyword with
     :py:func:`get_item_children <dearpygui.dearpygui.get_item_children>`
     to return just a specific slot.
+
+.. note::
+    Use the *slot* and *children_only* keywords with
+    :py:func:`delete_item <dearpygui.dearpygui.delete_item>`
+    to delete a specific slot of children from a parent.
 
