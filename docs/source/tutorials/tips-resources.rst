@@ -37,5 +37,4 @@ More Resources
 
  * :doc:`../extra/showcase`
  * :doc:`../extra/video-tutorials`
- * here
 
