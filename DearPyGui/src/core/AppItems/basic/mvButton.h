@@ -31,6 +31,7 @@ namespace Marvel {
         );
 
         // TODO: Move these to an appropriate location
+        MV_CREATE_CONSTANT(mvAll, 0);
         MV_CREATE_CONSTANT(mvTool_About, MV_TOOL_ABOUT_UUID);
         MV_CREATE_CONSTANT(mvTool_Debug, MV_TOOL_DEBUG_UUID);
         MV_CREATE_CONSTANT(mvTool_Doc, MV_TOOL_DOC_UUID);
@@ -49,6 +50,7 @@ namespace Marvel {
         MV_CREATE_CONSTANT(mvDir_Down, ImGuiDir_Down);
 
         MV_START_CONSTANTS
+            MV_ADD_CONSTANT(mvAll),
             MV_ADD_CONSTANT(mvTool_About),
             MV_ADD_CONSTANT(mvTool_Debug),
             MV_ADD_CONSTANT(mvTool_Doc),

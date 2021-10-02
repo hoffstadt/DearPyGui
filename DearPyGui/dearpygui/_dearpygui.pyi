@@ -1280,6 +1280,7 @@ mvKey_Close_Brace=0
 mvKey_Quote=0
 mvInputText=0
 mvButton=0
+mvAll=0
 mvTool_About=0
 mvTool_Debug=0
 mvTool_Doc=0

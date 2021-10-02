@@ -8926,6 +8926,7 @@ mvKey_Close_Brace=internal_dpg.mvKey_Close_Brace
 mvKey_Quote=internal_dpg.mvKey_Quote
 mvInputText=internal_dpg.mvInputText
 mvButton=internal_dpg.mvButton
+mvAll=internal_dpg.mvAll
 mvTool_About=internal_dpg.mvTool_About
 mvTool_Debug=internal_dpg.mvTool_Debug
 mvTool_Doc=internal_dpg.mvTool_Doc
