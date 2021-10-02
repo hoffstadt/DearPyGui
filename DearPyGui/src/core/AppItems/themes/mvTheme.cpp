@@ -135,6 +135,8 @@ namespace Marvel {
 
 		mvTheme* graph = static_cast<mvTheme*>(aplot);
 
+		ResetTheme(*GContext->itemRegistry);
+
 		graph->_show = true;
 
 		return GetPyNone();
