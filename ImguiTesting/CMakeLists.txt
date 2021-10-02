@@ -64,12 +64,12 @@ target_include_directories(PureImgui
 	PRIVATE
 
 		"src/"
+		"../DearPyGui/vendor/ImGuiFileDialog/"
 		"../Dependencies/glfw/include/"
 		"../Dependencies/glfw/deps/"
 		"../Dependencies/gl3w/"
 		"../Dependencies/imgui/"
 		"../Dependencies/imgui/misc/freetype/"
-		"../Dependencies/ImGuiFileDialog/ImGuiFileDialog/"
 		"../Dependencies/imgui/backends/"
 		"../Dependencies/imgui/examples/libs/gl3w"
 		"../DearPyGui/vendor/implot/"
