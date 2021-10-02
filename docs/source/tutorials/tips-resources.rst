@@ -14,9 +14,8 @@ DPG contains several tools which can help debug applications.
 .. code-block:: python
 
     import dearpygui.dearpygui as dpg
-    import dearpygui.logger as dpg_logger
 
-    logger = dpg_logger.mvLogger()
+    dpg.create_context()
 
     dpg.show_documentation()
     dpg.show_style_editor()
@@ -26,7 +25,11 @@ DPG contains several tools which can help debug applications.
     dpg.show_font_manager()
     dpg.show_item_registry()
 
+    dpg.create_viewport(title='Custom Title', width=800, height=600)
+    dpg.setup_dearpygui()
+    dpg.show_viewport()
     dpg.start_dearpygui()
+    dpg.destroy_context()
 
 **Results**
 
