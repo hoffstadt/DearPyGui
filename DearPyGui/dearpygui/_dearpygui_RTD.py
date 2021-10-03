@@ -1449,7 +1449,7 @@ def child_window(**kwargs):
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		tracked (bool, optional): Scroll tracking
@@ -1513,7 +1513,7 @@ def collapsing_header(**kwargs):
 		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		tracked (bool, optional): Scroll tracking
@@ -1605,21 +1605,21 @@ def draw_layer(**kwargs):
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def drawlist(**kwargs):
+def drawlist(width, height, **kwargs):
 	"""	 Adds a drawing canvas.
 
 	Args:
+		width (int): 
+		height (int): 
 		label (str, optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		width (int, optional): Width of the item.
-		height (int, optional): Height of the item.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		tracked (bool, optional): Scroll tracking
@@ -1629,7 +1629,7 @@ def drawlist(**kwargs):
 		Union[int, str]
 	"""
 	try:
-		widget = internal_dpg.add_drawlist(**kwargs)
+		widget = internal_dpg.add_drawlist(width, height, **kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
@@ -1752,7 +1752,7 @@ def group(**kwargs):
 		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		tracked (bool, optional): Scroll tracking
@@ -1925,7 +1925,7 @@ def node(**kwargs):
 		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		tracked (bool, optional): Scroll tracking
@@ -2023,7 +2023,7 @@ def plot(**kwargs):
 		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		tracked (bool, optional): Scroll tracking
@@ -2132,13 +2132,13 @@ def subplots(rows, columns, **kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
-		row_ratios (Union[List[float], Tuple[float]], optional): 
-		column_ratios (Union[List[float], Tuple[float]], optional): 
+		row_ratios (Union[List[float], Tuple[float, ...]], optional): 
+		column_ratios (Union[List[float], Tuple[float, ...]], optional): 
 		no_title (bool, optional): 
 		no_menus (bool, optional): the user will not be able to open context menus with right-click
 		no_resize (bool, optional): resize splitters between subplot cells will be not be provided
@@ -2206,7 +2206,7 @@ def tab_bar(**kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		tracked (bool, optional): Scroll tracking
@@ -2240,7 +2240,7 @@ def table(**kwargs):
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		header_row (bool, optional): show headers at the top of the columns
@@ -2457,7 +2457,7 @@ def tree_node(**kwargs):
 		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		tracked (bool, optional): Scroll tracking
@@ -2560,10 +2560,10 @@ def window(**kwargs):
 		height (int, optional): Height of the item.
 		indent (int, optional): Offsets the widget to the right the specified number multiplied by the indent style.
 		show (bool, optional): Attempt to render widget.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
-		min_size (Union[List[int], Tuple[int]], optional): Minimum window size.
-		max_size (Union[List[int], Tuple[int]], optional): Maximum window size.
+		min_size (Union[List[int], Tuple[int, ...]], optional): Minimum window size.
+		max_size (Union[List[int], Tuple[int, ...]], optional): Maximum window size.
 		menubar (bool, optional): Shows or hides the menubar.
 		collapsed (bool, optional): Collapse the window.
 		autosize (bool, optional): Autosized the window to fit it's items.
@@ -2644,11 +2644,11 @@ def add_3d_slider(**kwargs):
 		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
-		default_value (Union[List[float], Tuple[float]], optional): 
+		default_value (Union[List[float], Tuple[float, ...]], optional): 
 		max_x (float, optional): Applies upper limit to slider.
 		max_y (float, optional): Applies upper limit to slider.
 		max_z (float, optional): Applies upper limit to slider.
@@ -2689,7 +2689,7 @@ def add_area_series(x, y, **kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		show (bool, optional): Attempt to render widget.
-		fill (Union[List[int], Tuple[int]], optional): 
+		fill (Union[List[int], Tuple[int, ...]], optional): 
 		contribute_to_bounds (bool, optional): 
 		id (Union[int, str], optional): (deprecated)
 	Returns:
@@ -2758,7 +2758,7 @@ def add_button(**kwargs):
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
@@ -2789,8 +2789,8 @@ def add_candle_series(dates, opens, closes, lows, highs, **kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		show (bool, optional): Attempt to render widget.
-		bull_color (Union[List[int], Tuple[int]], optional): 
-		bear_color (Union[List[int], Tuple[int]], optional): 
+		bull_color (Union[List[int], Tuple[int, ...]], optional): 
+		bear_color (Union[List[int], Tuple[int, ...]], optional): 
 		weight (int, optional): 
 		tooltip (bool, optional): 
 		id (Union[int, str], optional): (deprecated)
@@ -2836,7 +2836,7 @@ def add_checkbox(**kwargs):
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
@@ -2864,7 +2864,7 @@ def add_child_window(**kwargs):
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		tracked (bool, optional): Scroll tracking
@@ -2918,7 +2918,7 @@ def add_collapsing_header(**kwargs):
 		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		tracked (bool, optional): Scroll tracking
@@ -2940,7 +2940,7 @@ def add_color_button(default_value=(0, 0, 0, 255), **kwargs):
 	"""	 Adds a color button.
 
 	Args:
-		default_value (Union[List[int], Tuple[int]], optional): 
+		default_value (Union[List[int], Tuple[int, ...]], optional): 
 		label (str, optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
@@ -2956,7 +2956,7 @@ def add_color_button(default_value=(0, 0, 0, 255), **kwargs):
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
@@ -2974,7 +2974,7 @@ def add_color_edit(default_value=(0, 0, 0, 255), **kwargs):
 	"""	 Adds an RGBA color editor. Click the small color preview will provide a color picker. Click and draging the small color preview will copy the color to be applied on any other color widget.
 
 	Args:
-		default_value (Union[List[int], Tuple[int]], optional): 
+		default_value (Union[List[int], Tuple[int, ...]], optional): 
 		label (str, optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
@@ -2991,7 +2991,7 @@ def add_color_edit(default_value=(0, 0, 0, 255), **kwargs):
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
@@ -3019,7 +3019,7 @@ def add_color_picker(default_value=(0, 0, 0, 255), **kwargs):
 	"""	 Adds an RGB color picker. Right click the color picker for options. Click and drag the color preview to copy the color and drop on any other color widget to apply. Right Click allows the style of the color picker to be changed.
 
 	Args:
-		default_value (Union[List[int], Tuple[int]], optional): 
+		default_value (Union[List[int], Tuple[int, ...]], optional): 
 		label (str, optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
@@ -3036,7 +3036,7 @@ def add_color_picker(default_value=(0, 0, 0, 255), **kwargs):
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
@@ -3070,7 +3070,7 @@ def add_color_value(**kwargs):
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
-		default_value (Union[List[float], Tuple[float]], optional): 
+		default_value (Union[List[float], Tuple[float, ...]], optional): 
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		id (Union[int, str], optional): (deprecated)
 	Returns:
@@ -3102,7 +3102,7 @@ def add_colormap_button(default_value=(0, 0, 0, 255), **kwargs):
 	"""	 Adds a color button.
 
 	Args:
-		default_value (Union[List[int], Tuple[int]], optional): 
+		default_value (Union[List[int], Tuple[int, ...]], optional): 
 		label (str, optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
@@ -3118,7 +3118,7 @@ def add_colormap_button(default_value=(0, 0, 0, 255), **kwargs):
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
@@ -3165,7 +3165,7 @@ def add_colormap_scale(**kwargs):
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		colormap (Union[int, str], optional): mvPlotColormap_* constants or mvColorMap uuid
 		min_scale (float, optional): Sets the min number of the color scale. Typically is the same as the min scale from the heat series.
 		max_scale (float, optional): Sets the max number of the color scale. Typically is the same as the max scale from the heat series.
@@ -3194,7 +3194,7 @@ def add_colormap_slider(**kwargs):
 		callback (Callable, optional): Registers a callback.
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
@@ -3211,7 +3211,7 @@ def add_combo(items=(), **kwargs):
 	"""	 Adds a combo dropdown that allows a user to select a single option from a drop down window.
 
 	Args:
-		items (Union[List[str], Tuple[str]], optional): A tuple of items to be shown in the drop down window. Can consist of any combination of types.
+		items (Union[List[str], Tuple[str, ...]], optional): A tuple of items to be shown in the drop down window. Can consist of any combination of types.
 		label (str, optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
@@ -3227,7 +3227,7 @@ def add_combo(items=(), **kwargs):
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
@@ -3259,7 +3259,7 @@ def add_date_picker(**kwargs):
 		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
@@ -3327,7 +3327,7 @@ def add_drag_float(**kwargs):
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
@@ -3364,11 +3364,11 @@ def add_drag_floatx(**kwargs):
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
-		default_value (Union[List[float], Tuple[float]], optional): 
+		default_value (Union[List[float], Tuple[float, ...]], optional): 
 		size (int, optional): Number of components
 		format (str, optional): 
 		speed (float, optional): 
@@ -3402,7 +3402,7 @@ def add_drag_int(**kwargs):
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
@@ -3439,11 +3439,11 @@ def add_drag_intx(**kwargs):
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
-		default_value (Union[List[int], Tuple[int]], optional): 
+		default_value (Union[List[int], Tuple[int, ...]], optional): 
 		size (int, optional): Number of components.
 		format (str, optional): 
 		speed (float, optional): 
@@ -3472,7 +3472,7 @@ def add_drag_line(**kwargs):
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		default_value (Any, optional): 
-		color (Union[List[int], Tuple[int]], optional): 
+		color (Union[List[int], Tuple[int, ...]], optional): 
 		thickness (float, optional): 
 		show_label (bool, optional): 
 		vertical (bool, optional): 
@@ -3517,7 +3517,7 @@ def add_drag_point(**kwargs):
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		default_value (Any, optional): 
-		color (Union[List[int], Tuple[int]], optional): 
+		color (Union[List[int], Tuple[int, ...]], optional): 
 		thickness (float, optional): 
 		show_label (bool, optional): 
 		id (Union[int, str], optional): (deprecated)
@@ -3545,21 +3545,21 @@ def add_draw_layer(**kwargs):
 
 	return internal_dpg.add_draw_layer(**kwargs)
 
-def add_drawlist(**kwargs):
+def add_drawlist(width, height, **kwargs):
 	"""	 Adds a drawing canvas.
 
 	Args:
+		width (int): 
+		height (int): 
 		label (str, optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		width (int, optional): Width of the item.
-		height (int, optional): Height of the item.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		tracked (bool, optional): Scroll tracking
@@ -3569,7 +3569,7 @@ def add_drawlist(**kwargs):
 		Union[int, str]
 	"""
 
-	return internal_dpg.add_drawlist(**kwargs)
+	return internal_dpg.add_drawlist(width, height, **kwargs)
 
 def add_dynamic_texture(width, height, default_value, **kwargs):
 	"""	 Adds a dynamic texture.
@@ -3577,7 +3577,7 @@ def add_dynamic_texture(width, height, default_value, **kwargs):
 	Args:
 		width (int): 
 		height (int): 
-		default_value (Union[List[float], Tuple[float]]): 
+		default_value (Union[List[float], Tuple[float, ...]]): 
 		label (str, optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
@@ -3653,7 +3653,7 @@ def add_file_extension(extension, **kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		custom_text (str, optional): Replaces the displayed text in the drop down for this extension.
-		color (Union[List[float], Tuple[float]], optional): 
+		color (Union[List[float], Tuple[float, ...]], optional): 
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -3691,7 +3691,7 @@ def add_float4_value(**kwargs):
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
-		default_value (Union[List[float], Tuple[float]], optional): 
+		default_value (Union[List[float], Tuple[float, ...]], optional): 
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		id (Union[int, str], optional): (deprecated)
 	Returns:
@@ -3727,7 +3727,7 @@ def add_float_vect_value(**kwargs):
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
-		default_value (Union[List[float], Tuple[float]], optional): 
+		default_value (Union[List[float], Tuple[float, ...]], optional): 
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		id (Union[int, str], optional): (deprecated)
 	Returns:
@@ -3759,7 +3759,7 @@ def add_font_chars(chars, **kwargs):
 	"""	 Undocumented
 
 	Args:
-		chars (Union[List[int], Tuple[int]]): 
+		chars (Union[List[int], Tuple[int, ...]]): 
 		label (str, optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
@@ -3839,7 +3839,7 @@ def add_group(**kwargs):
 		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		tracked (bool, optional): Scroll tracking
@@ -3965,14 +3965,14 @@ def add_image(texture_id, **kwargs):
 		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
-		tint_color (Union[List[float], Tuple[float]], optional): Applies a color tint to the entire texture.
-		border_color (Union[List[float], Tuple[float]], optional): Displays a border of the specified color around the texture.
-		uv_min (Union[List[float], Tuple[float]], optional): Normalized texture coordinates min point.
-		uv_max (Union[List[float], Tuple[float]], optional): Normalized texture coordinates max point.
+		tint_color (Union[List[float], Tuple[float, ...]], optional): Applies a color tint to the entire texture.
+		border_color (Union[List[float], Tuple[float, ...]], optional): Displays a border of the specified color around the texture.
+		uv_min (Union[List[float], Tuple[float, ...]], optional): Normalized texture coordinates min point.
+		uv_max (Union[List[float], Tuple[float, ...]], optional): Normalized texture coordinates max point.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -4001,15 +4001,15 @@ def add_image_button(texture_id, **kwargs):
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		frame_padding (int, optional): 
-		tint_color (Union[List[float], Tuple[float]], optional): Applies a color tint to the entire texture.
-		background_color (Union[List[float], Tuple[float]], optional): Displays a border of the specified color around the texture.
-		uv_min (Union[List[float], Tuple[float]], optional): Normalized texture coordinates min point.
-		uv_max (Union[List[float], Tuple[float]], optional): Normalized texture coordinates max point.
+		tint_color (Union[List[float], Tuple[float, ...]], optional): Applies a color tint to the entire texture.
+		background_color (Union[List[float], Tuple[float, ...]], optional): Displays a border of the specified color around the texture.
+		uv_min (Union[List[float], Tuple[float, ...]], optional): Normalized texture coordinates min point.
+		uv_max (Union[List[float], Tuple[float, ...]], optional): Normalized texture coordinates max point.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -4032,9 +4032,9 @@ def add_image_series(texture_id, bounds_min, bounds_max, **kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		show (bool, optional): Attempt to render widget.
-		uv_min (Union[List[float], Tuple[float]], optional): normalized texture coordinates
-		uv_max (Union[List[float], Tuple[float]], optional): normalized texture coordinates
-		tint_color (Union[List[int], Tuple[int]], optional): 
+		uv_min (Union[List[float], Tuple[float, ...]], optional): normalized texture coordinates
+		uv_max (Union[List[float], Tuple[float, ...]], optional): normalized texture coordinates
+		tint_color (Union[List[int], Tuple[int, ...]], optional): 
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -4061,7 +4061,7 @@ def add_input_float(**kwargs):
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
@@ -4101,11 +4101,11 @@ def add_input_floatx(**kwargs):
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
-		default_value (Union[List[float], Tuple[float]], optional): 
+		default_value (Union[List[float], Tuple[float, ...]], optional): 
 		format (str, optional): 
 		min_value (float, optional): Value for lower limit of input for each cell. Use clamped to turn on.
 		max_value (float, optional): Value for upper limit of input for each cell. Use clamped to turn on.
@@ -4140,7 +4140,7 @@ def add_input_int(**kwargs):
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
@@ -4179,11 +4179,11 @@ def add_input_intx(**kwargs):
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
-		default_value (Union[List[int], Tuple[int]], optional): 
+		default_value (Union[List[int], Tuple[int, ...]], optional): 
 		min_value (int, optional): Value for lower limit of input for each cell. Use clamped to turn on.
 		max_value (int, optional): Value for upper limit of input for each cell. Use clamped to turn on.
 		size (int, optional): Number of components.
@@ -4218,7 +4218,7 @@ def add_input_text(**kwargs):
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
@@ -4250,7 +4250,7 @@ def add_int4_value(**kwargs):
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
-		default_value (Union[List[int], Tuple[int]], optional): 
+		default_value (Union[List[int], Tuple[int, ...]], optional): 
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		id (Union[int, str], optional): (deprecated)
 	Returns:
@@ -4600,7 +4600,7 @@ def add_knob_float(**kwargs):
 		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
@@ -4639,7 +4639,7 @@ def add_listbox(items=(), **kwargs):
 	"""	 Adds a listbox. If height is not large enought to show all items a scroll bar will appear.
 
 	Args:
-		items (Union[List[str], Tuple[str]], optional): A tuple of items to be shown in the listbox. Can consist of any combination of types.
+		items (Union[List[str], Tuple[str, ...]], optional): A tuple of items to be shown in the listbox. Can consist of any combination of types.
 		label (str, optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
@@ -4655,7 +4655,7 @@ def add_listbox(items=(), **kwargs):
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
@@ -4684,14 +4684,14 @@ def add_loading_indicator(**kwargs):
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		style (int, optional): 0 is rotating dots style, 1 is rotating bar style.
 		circle_count (int, optional): Number of dots show if dots or size of circle if circle.
 		speed (float, optional): Speed the anamation will rotate.
 		radius (float, optional): Radius size of the loading indicator.
 		thickness (float, optional): Thickness of the circles or line.
-		color (Union[List[int], Tuple[int]], optional): Color of the growing center circle.
-		secondary_color (Union[List[int], Tuple[int]], optional): Background of the dots in dot mode.
+		color (Union[List[int], Tuple[int, ...]], optional): Color of the growing center circle.
+		secondary_color (Union[List[int], Tuple[int, ...]], optional): Background of the dots in dot mode.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -4920,7 +4920,7 @@ def add_node(**kwargs):
 		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		tracked (bool, optional): Scroll tracking
@@ -5012,7 +5012,7 @@ def add_pie_series(x, y, radius, values, labels, **kwargs):
 		y (float): 
 		radius (float): 
 		values (Any): 
-		labels (Union[List[str], Tuple[str]]): 
+		labels (Union[List[str], Tuple[str, ...]]): 
 		label (str, optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
@@ -5049,7 +5049,7 @@ def add_plot(**kwargs):
 		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		tracked (bool, optional): Scroll tracking
@@ -5096,8 +5096,8 @@ def add_plot_annotation(**kwargs):
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		show (bool, optional): Attempt to render widget.
 		default_value (Any, optional): 
-		offset (Union[List[float], Tuple[float]], optional): 
-		color (Union[List[int], Tuple[int]], optional): 
+		offset (Union[List[float], Tuple[float, ...]], optional): 
+		color (Union[List[int], Tuple[int, ...]], optional): 
 		clamped (bool, optional): 
 		id (Union[int, str], optional): (deprecated)
 	Returns:
@@ -5174,7 +5174,7 @@ def add_progress_bar(**kwargs):
 		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
@@ -5191,7 +5191,7 @@ def add_radio_button(items=(), **kwargs):
 	"""	 Adds a set of radio buttons. If items keyword is empty, nothing will be shown.
 
 	Args:
-		items (Union[List[str], Tuple[str]], optional): A tuple of items to be shown as radio options. Can consist of any combination of types.
+		items (Union[List[str], Tuple[str, ...]], optional): A tuple of items to be shown as radio options. Can consist of any combination of types.
 		label (str, optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
@@ -5206,7 +5206,7 @@ def add_radio_button(items=(), **kwargs):
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
@@ -5225,7 +5225,7 @@ def add_raw_texture(width, height, default_value, **kwargs):
 	Args:
 		width (int): 
 		height (int): 
-		default_value (Union[List[float], Tuple[float]]): 
+		default_value (Union[List[float], Tuple[float, ...]]): 
 		label (str, optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
@@ -5280,7 +5280,7 @@ def add_selectable(**kwargs):
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
@@ -5305,7 +5305,7 @@ def add_separator(**kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -5374,7 +5374,7 @@ def add_simple_plot(**kwargs):
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
-		default_value (Union[List[float], Tuple[float]], optional): 
+		default_value (Union[List[float], Tuple[float, ...]], optional): 
 		overlay (str, optional): overlays text (similar to a plot title)
 		histogram (bool, optional): 
 		autosize (bool, optional): 
@@ -5407,7 +5407,7 @@ def add_slider_float(**kwargs):
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
@@ -5444,11 +5444,11 @@ def add_slider_floatx(**kwargs):
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
-		default_value (Union[List[float], Tuple[float]], optional): 
+		default_value (Union[List[float], Tuple[float, ...]], optional): 
 		size (int, optional): Number of components.
 		no_input (bool, optional): Disable direct entry methods or Enter key allowing to input text directly into the widget.
 		clamped (bool, optional): Applies the min and max limits to direct entry methods also such as double click and CTRL+Click.
@@ -5482,7 +5482,7 @@ def add_slider_int(**kwargs):
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
@@ -5519,11 +5519,11 @@ def add_slider_intx(**kwargs):
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
-		default_value (Union[List[int], Tuple[int]], optional): 
+		default_value (Union[List[int], Tuple[int, ...]], optional): 
 		size (int, optional): number of components
 		no_input (bool, optional): Disable direct entry methods or Enter key allowing to input text directly into the widget.
 		clamped (bool, optional): Applies the min and max limits to direct entry methods also such as double click and CTRL+Click.
@@ -5551,7 +5551,7 @@ def add_spacer(**kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -5601,7 +5601,7 @@ def add_static_texture(width, height, default_value, **kwargs):
 	Args:
 		width (int): 
 		height (int): 
-		default_value (Union[List[float], Tuple[float]]): 
+		default_value (Union[List[float], Tuple[float, ...]]): 
 		label (str, optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
@@ -5671,13 +5671,13 @@ def add_subplots(rows, columns, **kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
-		row_ratios (Union[List[float], Tuple[float]], optional): 
-		column_ratios (Union[List[float], Tuple[float]], optional): 
+		row_ratios (Union[List[float], Tuple[float, ...]], optional): 
+		column_ratios (Union[List[float], Tuple[float, ...]], optional): 
 		no_title (bool, optional): 
 		no_menus (bool, optional): the user will not be able to open context menus with right-click
 		no_resize (bool, optional): resize splitters between subplot cells will be not be provided
@@ -5735,7 +5735,7 @@ def add_tab_bar(**kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		tracked (bool, optional): Scroll tracking
@@ -5794,7 +5794,7 @@ def add_table(**kwargs):
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		header_row (bool, optional): show headers at the top of the columns
@@ -5942,13 +5942,13 @@ def add_text(default_value='', **kwargs):
 		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		wrap (int, optional): Number of pixels until wrapping starts.
 		bullet (bool, optional): Makes the text bulleted.
-		color (Union[List[float], Tuple[float]], optional): Color of the text (rgba).
+		color (Union[List[float], Tuple[float, ...]], optional): Color of the text (rgba).
 		show_label (bool, optional): Displays the label.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
@@ -6018,7 +6018,7 @@ def add_theme_color(target=0, value=(0, 0, 0, 255), **kwargs):
 
 	Args:
 		target (int, optional): 
-		value (Union[List[int], Tuple[int]], optional): 
+		value (Union[List[int], Tuple[int, ...]], optional): 
 		label (str, optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
@@ -6087,7 +6087,7 @@ def add_time_picker(**kwargs):
 		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
@@ -6132,7 +6132,7 @@ def add_tree_node(**kwargs):
 		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		tracked (bool, optional): Scroll tracking
@@ -6235,10 +6235,10 @@ def add_window(**kwargs):
 		height (int, optional): Height of the item.
 		indent (int, optional): Offsets the widget to the right the specified number multiplied by the indent style.
 		show (bool, optional): Attempt to render widget.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
-		min_size (Union[List[int], Tuple[int]], optional): Minimum window size.
-		max_size (Union[List[int], Tuple[int]], optional): Maximum window size.
+		min_size (Union[List[int], Tuple[int, ...]], optional): Minimum window size.
+		max_size (Union[List[int], Tuple[int, ...]], optional): Maximum window size.
 		menubar (bool, optional): Shows or hides the menubar.
 		collapsed (bool, optional): Collapse the window.
 		autosize (bool, optional): Autosized the window to fit it's items.
@@ -6427,7 +6427,7 @@ def create_viewport(**kwargs):
 		vsync (bool, optional): 
 		always_on_top (bool, optional): 
 		decorated (bool, optional): 
-		clear_color (Union[List[float], Tuple[float]], optional): 
+		clear_color (Union[List[float], Tuple[float, ...]], optional): 
 	Returns:
 		None
 	"""
@@ -6483,8 +6483,8 @@ def draw_arrow(p1, p2, **kwargs):
 	"""	 Adds an arrow.
 
 	Args:
-		p1 (Union[List[float], Tuple[float]]): Arrow tip.
-		p2 (Union[List[float], Tuple[float]]): Arrow tail.
+		p1 (Union[List[float], Tuple[float, ...]]): Arrow tip.
+		p2 (Union[List[float], Tuple[float, ...]]): Arrow tail.
 		label (str, optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
@@ -6492,7 +6492,7 @@ def draw_arrow(p1, p2, **kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
-		color (Union[List[int], Tuple[int]], optional): 
+		color (Union[List[int], Tuple[int, ...]], optional): 
 		thickness (float, optional): 
 		size (int, optional): 
 		id (Union[int, str], optional): (deprecated)
@@ -6506,10 +6506,10 @@ def draw_bezier_cubic(p1, p2, p3, p4, **kwargs):
 	"""	 Adds a cubic bezier curve.
 
 	Args:
-		p1 (Union[List[float], Tuple[float]]): First point in curve.
-		p2 (Union[List[float], Tuple[float]]): Second point in curve.
-		p3 (Union[List[float], Tuple[float]]): Third point in curve.
-		p4 (Union[List[float], Tuple[float]]): Fourth point in curve.
+		p1 (Union[List[float], Tuple[float, ...]]): First point in curve.
+		p2 (Union[List[float], Tuple[float, ...]]): Second point in curve.
+		p3 (Union[List[float], Tuple[float, ...]]): Third point in curve.
+		p4 (Union[List[float], Tuple[float, ...]]): Fourth point in curve.
 		label (str, optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
@@ -6517,7 +6517,7 @@ def draw_bezier_cubic(p1, p2, p3, p4, **kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
-		color (Union[List[int], Tuple[int]], optional): 
+		color (Union[List[int], Tuple[int, ...]], optional): 
 		thickness (float, optional): 
 		segments (int, optional): Number of segments to approximate bezier curve.
 		id (Union[int, str], optional): (deprecated)
@@ -6531,9 +6531,9 @@ def draw_bezier_quadratic(p1, p2, p3, **kwargs):
 	"""	 Adds a quadratic bezier curve.
 
 	Args:
-		p1 (Union[List[float], Tuple[float]]): First point in curve.
-		p2 (Union[List[float], Tuple[float]]): Second point in curve.
-		p3 (Union[List[float], Tuple[float]]): Third point in curve.
+		p1 (Union[List[float], Tuple[float, ...]]): First point in curve.
+		p2 (Union[List[float], Tuple[float, ...]]): Second point in curve.
+		p3 (Union[List[float], Tuple[float, ...]]): Third point in curve.
 		label (str, optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
@@ -6541,7 +6541,7 @@ def draw_bezier_quadratic(p1, p2, p3, **kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
-		color (Union[List[int], Tuple[int]], optional): 
+		color (Union[List[int], Tuple[int, ...]], optional): 
 		thickness (float, optional): 
 		segments (int, optional): Number of segments to approximate bezier curve.
 		id (Union[int, str], optional): (deprecated)
@@ -6555,7 +6555,7 @@ def draw_circle(center, radius, **kwargs):
 	"""	 Adds a circle
 
 	Args:
-		center (Union[List[float], Tuple[float]]): 
+		center (Union[List[float], Tuple[float, ...]]): 
 		radius (float): 
 		label (str, optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
@@ -6564,8 +6564,8 @@ def draw_circle(center, radius, **kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
-		color (Union[List[int], Tuple[int]], optional): 
-		fill (Union[List[int], Tuple[int]], optional): 
+		color (Union[List[int], Tuple[int, ...]], optional): 
+		fill (Union[List[int], Tuple[int, ...]], optional): 
 		thickness (float, optional): 
 		segments (int, optional): Number of segments to approximate circle.
 		id (Union[int, str], optional): (deprecated)
@@ -6579,8 +6579,8 @@ def draw_ellipse(pmin, pmax, **kwargs):
 	"""	 Adds an ellipse.
 
 	Args:
-		pmin (Union[List[float], Tuple[float]]): Min point of bounding rectangle.
-		pmax (Union[List[float], Tuple[float]]): Max point of bounding rectangle.
+		pmin (Union[List[float], Tuple[float, ...]]): Min point of bounding rectangle.
+		pmax (Union[List[float], Tuple[float, ...]]): Max point of bounding rectangle.
 		label (str, optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
@@ -6588,8 +6588,8 @@ def draw_ellipse(pmin, pmax, **kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
-		color (Union[List[int], Tuple[int]], optional): 
-		fill (Union[List[int], Tuple[int]], optional): 
+		color (Union[List[int], Tuple[int, ...]], optional): 
+		fill (Union[List[int], Tuple[int, ...]], optional): 
 		thickness (float, optional): 
 		segments (int, optional): Number of segments to approximate bezier curve.
 		id (Union[int, str], optional): (deprecated)
@@ -6604,8 +6604,8 @@ def draw_image(texture_id, pmin, pmax, **kwargs):
 
 	Args:
 		texture_id (Union[int, str]): 
-		pmin (Union[List[float], Tuple[float]]): Point of to start drawing texture.
-		pmax (Union[List[float], Tuple[float]]): Point to complete drawing texture.
+		pmin (Union[List[float], Tuple[float, ...]]): Point of to start drawing texture.
+		pmax (Union[List[float], Tuple[float, ...]]): Point to complete drawing texture.
 		label (str, optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
@@ -6613,9 +6613,9 @@ def draw_image(texture_id, pmin, pmax, **kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
-		uv_min (Union[List[float], Tuple[float]], optional): Normalized coordinates on texture that will be drawn.
-		uv_max (Union[List[float], Tuple[float]], optional): Normalized coordinates on texture that will be drawn.
-		color (Union[List[int], Tuple[int]], optional): 
+		uv_min (Union[List[float], Tuple[float, ...]], optional): Normalized coordinates on texture that will be drawn.
+		uv_max (Union[List[float], Tuple[float, ...]], optional): Normalized coordinates on texture that will be drawn.
+		color (Union[List[int], Tuple[int, ...]], optional): 
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -6627,8 +6627,8 @@ def draw_line(p1, p2, **kwargs):
 	"""	 Adds a line.
 
 	Args:
-		p1 (Union[List[float], Tuple[float]]): Start of line.
-		p2 (Union[List[float], Tuple[float]]): End of line.
+		p1 (Union[List[float], Tuple[float, ...]]): Start of line.
+		p2 (Union[List[float], Tuple[float, ...]]): End of line.
 		label (str, optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
@@ -6636,7 +6636,7 @@ def draw_line(p1, p2, **kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
-		color (Union[List[int], Tuple[int]], optional): 
+		color (Union[List[int], Tuple[int, ...]], optional): 
 		thickness (float, optional): 
 		id (Union[int, str], optional): (deprecated)
 	Returns:
@@ -6657,8 +6657,8 @@ def draw_polygon(points, **kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
-		color (Union[List[int], Tuple[int]], optional): 
-		fill (Union[List[int], Tuple[int]], optional): 
+		color (Union[List[int], Tuple[int, ...]], optional): 
+		fill (Union[List[int], Tuple[int, ...]], optional): 
 		thickness (float, optional): 
 		id (Union[int, str], optional): (deprecated)
 	Returns:
@@ -6680,7 +6680,7 @@ def draw_polyline(points, **kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
 		closed (bool, optional): Will close the polyline by returning to the first point.
-		color (Union[List[int], Tuple[int]], optional): 
+		color (Union[List[int], Tuple[int, ...]], optional): 
 		thickness (float, optional): 
 		id (Union[int, str], optional): (deprecated)
 	Returns:
@@ -6693,10 +6693,10 @@ def draw_quad(p1, p2, p3, p4, **kwargs):
 	"""	 Adds a quad.
 
 	Args:
-		p1 (Union[List[float], Tuple[float]]): 
-		p2 (Union[List[float], Tuple[float]]): 
-		p3 (Union[List[float], Tuple[float]]): 
-		p4 (Union[List[float], Tuple[float]]): 
+		p1 (Union[List[float], Tuple[float, ...]]): 
+		p2 (Union[List[float], Tuple[float, ...]]): 
+		p3 (Union[List[float], Tuple[float, ...]]): 
+		p4 (Union[List[float], Tuple[float, ...]]): 
 		label (str, optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
@@ -6704,8 +6704,8 @@ def draw_quad(p1, p2, p3, p4, **kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
-		color (Union[List[int], Tuple[int]], optional): 
-		fill (Union[List[int], Tuple[int]], optional): 
+		color (Union[List[int], Tuple[int, ...]], optional): 
+		fill (Union[List[int], Tuple[int, ...]], optional): 
 		thickness (float, optional): 
 		id (Union[int, str], optional): (deprecated)
 	Returns:
@@ -6718,8 +6718,8 @@ def draw_rectangle(pmin, pmax, **kwargs):
 	"""	 Adds a rectangle.
 
 	Args:
-		pmin (Union[List[float], Tuple[float]]): Min point of bounding rectangle.
-		pmax (Union[List[float], Tuple[float]]): Max point of bounding rectangle.
+		pmin (Union[List[float], Tuple[float, ...]]): Min point of bounding rectangle.
+		pmax (Union[List[float], Tuple[float, ...]]): Max point of bounding rectangle.
 		label (str, optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
@@ -6727,12 +6727,12 @@ def draw_rectangle(pmin, pmax, **kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
-		color (Union[List[int], Tuple[int]], optional): 
-		color_upper_left (Union[List[int], Tuple[int]], optional): 'multicolor' must be set to 'True'
-		color_upper_right (Union[List[int], Tuple[int]], optional): 'multicolor' must be set to 'True'
-		color_bottom_right (Union[List[int], Tuple[int]], optional): 'multicolor' must be set to 'True'
-		color_bottom_left (Union[List[int], Tuple[int]], optional): 'multicolor' must be set to 'True'
-		fill (Union[List[int], Tuple[int]], optional): 
+		color (Union[List[int], Tuple[int, ...]], optional): 
+		color_upper_left (Union[List[int], Tuple[int, ...]], optional): 'multicolor' must be set to 'True'
+		color_upper_right (Union[List[int], Tuple[int, ...]], optional): 'multicolor' must be set to 'True'
+		color_bottom_right (Union[List[int], Tuple[int, ...]], optional): 'multicolor' must be set to 'True'
+		color_bottom_left (Union[List[int], Tuple[int, ...]], optional): 'multicolor' must be set to 'True'
+		fill (Union[List[int], Tuple[int, ...]], optional): 
 		multicolor (bool, optional): 
 		rounding (float, optional): Number of pixels of the radius that will round the corners of the rectangle. Note: doesn't work with multicolor
 		thickness (float, optional): 
@@ -6747,7 +6747,7 @@ def draw_text(pos, text, **kwargs):
 	"""	 Adds text (drawlist).
 
 	Args:
-		pos (Union[List[float], Tuple[float]]): Top left point of bounding text rectangle.
+		pos (Union[List[float], Tuple[float, ...]]): Top left point of bounding text rectangle.
 		text (str): Text to draw.
 		label (str, optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
@@ -6756,7 +6756,7 @@ def draw_text(pos, text, **kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
-		color (Union[List[int], Tuple[int]], optional): 
+		color (Union[List[int], Tuple[int, ...]], optional): 
 		size (float, optional): 
 		id (Union[int, str], optional): (deprecated)
 	Returns:
@@ -6769,9 +6769,9 @@ def draw_triangle(p1, p2, p3, **kwargs):
 	"""	 Adds a triangle.
 
 	Args:
-		p1 (Union[List[float], Tuple[float]]): 
-		p2 (Union[List[float], Tuple[float]]): 
-		p3 (Union[List[float], Tuple[float]]): 
+		p1 (Union[List[float], Tuple[float, ...]]): 
+		p2 (Union[List[float], Tuple[float, ...]]): 
+		p3 (Union[List[float], Tuple[float, ...]]): 
 		label (str, optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
@@ -6779,8 +6779,8 @@ def draw_triangle(p1, p2, p3, **kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
-		color (Union[List[int], Tuple[int]], optional): 
-		fill (Union[List[int], Tuple[int]], optional): 
+		color (Union[List[int], Tuple[int, ...]], optional): 
+		fill (Union[List[int], Tuple[int, ...]], optional): 
 		thickness (float, optional): 
 		id (Union[int, str], optional): (deprecated)
 	Returns:
@@ -6857,7 +6857,7 @@ def get_aliases():
 
 	Args:
 	Returns:
-		Union[List[str], Tuple[str]]
+		Union[List[str], Tuple[str, ...]]
 	"""
 
 	return internal_dpg.get_aliases()
@@ -6867,7 +6867,7 @@ def get_all_items():
 
 	Args:
 	Returns:
-		Union[List[int], Tuple[int]]
+		Union[List[int], Tuple[int, ...]]
 	"""
 
 	return internal_dpg.get_all_items()
@@ -6888,7 +6888,7 @@ def get_axis_limits(axis):
 	Args:
 		axis (Union[int, str]): 
 	Returns:
-		Union[List[float], Tuple[float]]
+		Union[List[float], Tuple[float, ...]]
 	"""
 
 	return internal_dpg.get_axis_limits(axis)
@@ -6900,7 +6900,7 @@ def get_colormap_color(colormap, index):
 		colormap (Union[int, str]): 
 		index (int): 
 	Returns:
-		Union[List[int], Tuple[int]]
+		Union[List[int], Tuple[int, ...]]
 	"""
 
 	return internal_dpg.get_colormap_color(colormap, index)
@@ -6920,7 +6920,7 @@ def get_drawing_mouse_pos():
 
 	Args:
 	Returns:
-		Union[List[int], Tuple[int]]
+		Union[List[int], Tuple[int, ...]]
 	"""
 
 	return internal_dpg.get_drawing_mouse_pos()
@@ -7036,7 +7036,7 @@ def get_mouse_pos(**kwargs):
 	Args:
 		local (bool, optional): 
 	Returns:
-		Union[List[int], Tuple[int]]
+		Union[List[int], Tuple[int, ...]]
 	"""
 
 	return internal_dpg.get_mouse_pos(**kwargs)
@@ -7046,7 +7046,7 @@ def get_plot_mouse_pos():
 
 	Args:
 	Returns:
-		Union[List[int], Tuple[int]]
+		Union[List[int], Tuple[int, ...]]
 	"""
 
 	return internal_dpg.get_plot_mouse_pos()
@@ -7057,7 +7057,7 @@ def get_plot_query_area(plot):
 	Args:
 		plot (Union[int, str]): 
 	Returns:
-		Union[List[float], Tuple[float]]
+		Union[List[float], Tuple[float, ...]]
 	"""
 
 	return internal_dpg.get_plot_query_area(plot)
@@ -7079,7 +7079,7 @@ def get_selected_nodes(node_editor):
 	Args:
 		node_editor (Union[int, str]): 
 	Returns:
-		Union[List[int], Tuple[int]]
+		Union[List[int], Tuple[int, ...]]
 	"""
 
 	return internal_dpg.get_selected_nodes(node_editor)
@@ -7109,7 +7109,7 @@ def get_values(items):
 	"""	 Returns values of a list of items.
 
 	Args:
-		items (Union[List[int], Tuple[int]]): 
+		items (Union[List[int], Tuple[int, ...]]): 
 	Returns:
 		Any
 	"""
@@ -7132,7 +7132,7 @@ def get_windows():
 
 	Args:
 	Returns:
-		Union[List[int], Tuple[int]]
+		Union[List[int], Tuple[int, ...]]
 	"""
 
 	return internal_dpg.get_windows()
@@ -7188,7 +7188,7 @@ def highlight_table_cell(table, row, column, color):
 		table (Union[int, str]): 
 		row (int): 
 		column (int): 
-		color (Union[List[int], Tuple[int]]): 
+		color (Union[List[int], Tuple[int, ...]]): 
 	Returns:
 		None
 	"""
@@ -7201,7 +7201,7 @@ def highlight_table_column(table, column, color):
 	Args:
 		table (Union[int, str]): 
 		column (int): 
-		color (Union[List[int], Tuple[int]]): 
+		color (Union[List[int], Tuple[int, ...]]): 
 	Returns:
 		None
 	"""
@@ -7214,7 +7214,7 @@ def highlight_table_row(table, row, color):
 	Args:
 		table (Union[int, str]): 
 		row (int): 
-		color (Union[List[int], Tuple[int]]): 
+		color (Union[List[int], Tuple[int, ...]]): 
 	Returns:
 		None
 	"""
@@ -7534,7 +7534,7 @@ def reorder_items(container, slot, new_order):
 	Args:
 		container (Union[int, str]): 
 		slot (int): 
-		new_order (Union[List[int], Tuple[int]]): 
+		new_order (Union[List[int], Tuple[int, ...]]): 
 	Returns:
 		None
 	"""
@@ -7570,7 +7570,7 @@ def sample_colormap(colormap, t):
 		colormap (Union[int, str]): 
 		t (float): 
 	Returns:
-		Union[List[int], Tuple[int]]
+		Union[List[int], Tuple[int, ...]]
 	"""
 
 	return internal_dpg.sample_colormap(colormap, t)
@@ -7698,7 +7698,7 @@ def set_table_row_color(table, row, color):
 	Args:
 		table (Union[int, str]): 
 		row (int): 
-		color (Union[List[int], Tuple[int]]): 
+		color (Union[List[int], Tuple[int, ...]]): 
 	Returns:
 		None
 	"""
