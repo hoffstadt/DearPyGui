@@ -1295,15 +1295,16 @@ def add_spacing(**kwargs):
 		Union[int, str]
 	"""
 
-	if 'tag' in kwargs.keys():
-		with internal_dpg.group(tag=kwargs["tag"]) as result_id:
-			kwargs.pop("tag", None)
-			for i in range(count):
-				internal_dpg.add_spacer(**kwargs)
+	if 'count' in kwargs.keys():
+		count = kwargs["count"]
+		kwargs.pop("count", None)
+		internal_dpg.add_group(**kwargs)
+		internal_dpg.push_container_stack(internal_dpg.last_container())
+		for i in range(count):
+			internal_dpg.add_spacer()
+		result_id = internal_dpg.pop_container_stack()
 	else:
-		with internal_dpg.group() as result_id:
-			for i in range(count):
-				internal_dpg.add_spacer(**kwargs)
+		result_id = internal_dpg.add_spacer(**kwargs)
 	return result_id
 
 @deprecated("Use: add_spacer(...)")
