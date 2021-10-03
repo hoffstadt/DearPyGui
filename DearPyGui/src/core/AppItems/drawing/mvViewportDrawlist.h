@@ -21,6 +21,7 @@ namespace Marvel {
 
         MV_START_CHILDREN
             MV_ADD_CHILD(mvAppItemType::mvDrawLine),
+            MV_ADD_CHILD(mvAppItemType::mvDrawLayer),
             MV_ADD_CHILD(mvAppItemType::mvDrawArrow),
             MV_ADD_CHILD(mvAppItemType::mvDrawTriangle),
             MV_ADD_CHILD(mvAppItemType::mvDrawCircle),

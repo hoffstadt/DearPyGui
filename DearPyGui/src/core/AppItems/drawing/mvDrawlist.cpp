@@ -42,6 +42,13 @@ namespace Marvel {
 	{
 	}
 
+	void mvDrawlist::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvDrawlist*>(item);
+		_width = titem->_width;
+		_height = titem->_height;
+	}
+
 	void mvDrawlist::draw(ImDrawList* drawlist, float x, float y)
 	{
 
