@@ -257,6 +257,7 @@ namespace Marvel {
         renderRootCategory("Colormap Registries", GContext->itemRegistry->colormapRoots);
         renderRootCategory("File Dialogs", GContext->itemRegistry->filedialogRoots);
         renderRootCategory("Viewport Menubars", GContext->itemRegistry->viewportMenubarRoots);
+        renderRootCategory("Viewport Drawlists", GContext->itemRegistry->viewportDrawlistRoots);
         ImGui::EndChild();
         ImGui::EndGroup();
 

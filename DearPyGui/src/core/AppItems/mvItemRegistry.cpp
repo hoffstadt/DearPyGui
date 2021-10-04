@@ -790,6 +790,7 @@ namespace Marvel {
         else if (AddItemAfterRoot(registry.itemPoolRoots, prev, item)) return true;
         else if (AddItemAfterRoot(registry.itemTemplatesRoots, prev, item)) return true;
         else if (AddItemAfterRoot(registry.itemHandlerRegistryRoots, prev, item)) return true;
+        else if (AddItemAfterRoot(registry.viewportDrawlistRoots, prev, item)) return true;
 
         assert(false);
         return false;
@@ -825,6 +826,7 @@ namespace Marvel {
         else if (AddRuntimeChildRoot(registry.itemPoolRoots, parent, before, item)) return true;
         else if (AddRuntimeChildRoot(registry.itemTemplatesRoots, parent, before, item)) return true;
         else if (AddRuntimeChildRoot(registry.itemHandlerRegistryRoots, parent, before, item)) return true;
+        else if (AddRuntimeChildRoot(registry.viewportDrawlistRoots, parent, before, item)) return true;
 
         return false;
     }
@@ -846,6 +848,7 @@ namespace Marvel {
         if (item->getType() == mvAppItemType::mvItemPool) registry.itemPoolRoots.push_back(item);
         if (item->getType() == mvAppItemType::mvTemplateRegistry) registry.itemTemplatesRoots.push_back(item);
         if (item->getType() == mvAppItemType::mvItemHandlerRegistry) registry.itemHandlerRegistryRoots.push_back(item);
+        if (item->getType() == mvAppItemType::mvViewportDrawlist) registry.viewportDrawlistRoots.push_back(item);
 
         return true;
     }
@@ -946,6 +949,7 @@ namespace Marvel {
         GetAllItemsRoot(registry.itemPoolRoots, childList);
         GetAllItemsRoot(registry.itemTemplatesRoots, childList);
         GetAllItemsRoot(registry.itemHandlerRegistryRoots, childList);
+        GetAllItemsRoot(registry.viewportDrawlistRoots, childList);
 
         return childList;
     }
@@ -968,6 +972,7 @@ namespace Marvel {
         for (auto& root : registry.itemPoolRoots) childList.emplace_back(root->_uuid);
         for (auto& root : registry.itemTemplatesRoots) childList.emplace_back(root->_uuid);
         for (auto& root : registry.itemHandlerRegistryRoots) childList.emplace_back(root->_uuid);
+        for (auto& root : registry.viewportDrawlistRoots) childList.emplace_back(root->_uuid);
 
         return childList;
     }
@@ -1192,6 +1197,7 @@ namespace Marvel {
         else if (DeleteRoot(registry.itemPoolRoots, uuid)) deletedItem = true;
         else if (DeleteRoot(registry.itemTemplatesRoots, uuid)) deletedItem = true;
         else if (DeleteRoot(registry.itemHandlerRegistryRoots, uuid)) deletedItem = true;
+        else if (DeleteRoot(registry.viewportDrawlistRoots, uuid)) deletedItem = true;
 
         if (deletedItem)
         {
@@ -1243,6 +1249,7 @@ namespace Marvel {
             else if (MoveRoot(registry.itemPoolRoots, uuid, child)) movedItem = true;
             else if (MoveRoot(registry.itemTemplatesRoots, uuid, child)) movedItem = true;
             else if (MoveRoot(registry.itemHandlerRegistryRoots, uuid, child)) movedItem = true;
+            else if (MoveRoot(registry.viewportDrawlistRoots, uuid, child)) movedItem = true;
         }
         
         if (child == nullptr)
@@ -1279,6 +1286,7 @@ namespace Marvel {
         else if (MoveUpRoot(registry.itemPoolRoots, uuid)) movedItem = true;
         else if (MoveUpRoot(registry.itemTemplatesRoots, uuid)) movedItem = true;
         else if (MoveUpRoot(registry.itemHandlerRegistryRoots, uuid)) movedItem = true;
+        else if (MoveUpRoot(registry.viewportDrawlistRoots, uuid)) movedItem = true;
 
         if (!movedItem)
         {
@@ -1313,6 +1321,7 @@ namespace Marvel {
         else if (MoveDownRoot(registry.itemPoolRoots, uuid)) movedItem = true;
         else if (MoveDownRoot(registry.itemTemplatesRoots, uuid)) movedItem = true;
         else if (MoveDownRoot(registry.itemHandlerRegistryRoots, uuid)) movedItem = true;
+        else if (MoveDownRoot(registry.viewportDrawlistRoots, uuid)) movedItem = true;
 
         if (!movedItem)
         {
@@ -1399,6 +1408,9 @@ namespace Marvel {
         }
 
         for (auto& root : registry.viewportMenubarRoots)
+            root->draw(nullptr, 0.0f, 0.0f);
+
+        for (auto& root : registry.viewportDrawlistRoots)
             root->draw(nullptr, 0.0f, 0.0f);
 
         for (auto& root : registry.themeRegistryRoots)
@@ -1541,6 +1553,7 @@ namespace Marvel {
         if (auto foundItem = GetItemRoot(registry, registry.itemPoolRoots, uuid)) return foundItem;
         if (auto foundItem = GetItemRoot(registry, registry.itemTemplatesRoots, uuid)) return foundItem;
         if (auto foundItem = GetItemRoot(registry, registry.itemHandlerRegistryRoots, uuid)) return foundItem;
+        if (auto foundItem = GetItemRoot(registry, registry.viewportDrawlistRoots, uuid)) return foundItem;
 
         for (auto delayedItem : registry.delayedSearch)
         {
@@ -1582,6 +1595,7 @@ namespace Marvel {
         else if (auto foundItem = GetRefItemRoot(registry.itemPoolRoots, uuid)) return foundItem;
         else if (auto foundItem = GetRefItemRoot(registry.itemTemplatesRoots, uuid)) return foundItem;
         else if (auto foundItem = GetRefItemRoot(registry.itemHandlerRegistryRoots, uuid)) return foundItem;
+        else if (auto foundItem = GetRefItemRoot(registry.viewportDrawlistRoots, uuid)) return foundItem;
 
         return nullptr;
     }
@@ -1621,6 +1635,7 @@ namespace Marvel {
         registry.itemPoolRoots.clear();
         registry.itemTemplatesRoots.clear();
         registry.itemHandlerRegistryRoots.clear();
+        registry.viewportDrawlistRoots.clear();
     }
 
     void 
@@ -2536,7 +2551,7 @@ namespace Marvel {
             PyDict_SetItemString(pdict, "deactivated_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_DEACTIVATED)));
             PyDict_SetItemString(pdict, "deactivatedae_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_DEACTIVATEDAE)));
             PyDict_SetItemString(pdict, "toggled_open_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_TOGGLED_OPEN)));
-            PyDict_SetItemString(pdict, "resized_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_RESIZED)));
+            PyDict_SetItemString(pdict, "resized_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_RECT_SIZE)));
 
         }
 

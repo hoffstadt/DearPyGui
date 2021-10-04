@@ -111,6 +111,7 @@ namespace Marvel {
         std::vector<mvRef<mvAppItem>> themeRegistryRoots;
         std::vector<mvRef<mvAppItem>> itemPoolRoots;
         std::vector<mvRef<mvAppItem>> itemTemplatesRoots;
+        std::vector<mvRef<mvAppItem>> viewportDrawlistRoots;
 
         mvItemRegistry()
         {

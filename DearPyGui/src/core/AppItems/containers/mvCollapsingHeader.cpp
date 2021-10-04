@@ -123,6 +123,9 @@ namespace Marvel {
 			bool* toggle = nullptr;
 			if (_closable)
 				toggle = &_show;
+
+			ImGui::SetNextItemOpen(*_value);
+
 			*_value = ImGui::CollapsingHeader(_internalLabel.c_str(), toggle, _flags);
 			UpdateAppItemState(_state);
 

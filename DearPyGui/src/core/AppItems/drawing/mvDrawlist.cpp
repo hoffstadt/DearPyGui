@@ -14,8 +14,6 @@ namespace Marvel {
 
 		AddCommonArgs(args,(CommonParserArgs)(
 			MV_PARSER_ARG_ID |
-			MV_PARSER_ARG_WIDTH |
-			MV_PARSER_ARG_HEIGHT |
 			MV_PARSER_ARG_PARENT |
 			MV_PARSER_ARG_BEFORE |
 			MV_PARSER_ARG_CALLBACK |
@@ -25,6 +23,9 @@ namespace Marvel {
 			MV_PARSER_ARG_TRACKED |
 			MV_PARSER_ARG_POS)
 		);
+
+		args.push_back({ mvPyDataType::Integer, "width" });
+		args.push_back({ mvPyDataType::Integer, "height" });
 
 		mvPythonParserSetup setup;
 		setup.about = "Adds a drawing canvas.";
@@ -39,6 +40,13 @@ namespace Marvel {
 	mvDrawlist::mvDrawlist(mvUUID uuid)
 		: mvAppItem(uuid)
 	{
+	}
+
+	void mvDrawlist::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvDrawlist*>(item);
+		_width = titem->_width;
+		_height = titem->_height;
 	}
 
 	void mvDrawlist::draw(ImDrawList* drawlist, float x, float y)
@@ -86,6 +94,40 @@ namespace Marvel {
 			GContext->input.mouseDrawingPos.x = (int)(mousepos.x - _startx);
 			GContext->input.mouseDrawingPos.y = (int)(mousepos.y - _starty);
 		}
+	}
+
+	void mvDrawlist::handleSpecificRequiredArgs(PyObject* dict)
+	{
+		if (!VerifyRequiredArguments(GetParsers()[s_command], dict))
+			return;
+
+		for (int i = 0; i < PyTuple_Size(dict); i++)
+		{
+			PyObject* item = PyTuple_GetItem(dict, i);
+			switch (i)
+			{
+			case 0:
+				_width = ToInt(item);
+				break;
+
+			case 1:
+				_height = ToInt(item);
+				break;
+
+			default:
+				break;
+			}
+		}
+
+	}
+
+	void mvDrawlist::getSpecificConfiguration(PyObject* dict)
+	{
+		if (dict == nullptr)
+			return;
+
+		PyDict_SetItemString(dict, "width", mvPyObject(ToPyInt(_width)));
+		PyDict_SetItemString(dict, "height", mvPyObject(ToPyInt(_height)));
 	}
 
 }

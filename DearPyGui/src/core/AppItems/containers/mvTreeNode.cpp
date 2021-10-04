@@ -127,6 +127,8 @@ namespace Marvel {
 		else
 			_flags &= ~ImGuiTreeNodeFlags_Selected;
 
+		ImGui::SetNextItemOpen(*_value);
+
 		bool expanded = ImGui::TreeNodeEx(_internalLabel.c_str(), _flags);
 		UpdateAppItemState(_state);
 

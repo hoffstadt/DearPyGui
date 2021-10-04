@@ -433,12 +433,19 @@ namespace Marvel {
         _scrollMaxX = ImGui::GetScrollMaxX();
         _scrollMaxY = ImGui::GetScrollMaxY();
 
+        //-----------------------------------------------------------------------------
+        // update state
+        //-----------------------------------------------------------------------------
+
         _state.lastFrameUpdate = GContext->frame;
         _state.visible = true;
         _state.hovered = ImGui::IsWindowHovered();
         _state.focused = ImGui::IsWindowFocused();
         _state.rectSize = { ImGui::GetWindowSize().x, ImGui::GetWindowSize().y };
         _state.toggledOpen = ImGui::IsWindowCollapsed();
+        if (_state.mvPrevRectSize.x != _state.rectSize.x || _state.mvPrevRectSize.y != _state.rectSize.y) { _state.mvRectSizeResized = true; }
+        else _state.mvRectSizeResized = false;
+        _state.mvPrevRectSize = _state.rectSize;
 
         if (ImGui::GetWindowWidth() != (float)_width || ImGui::GetWindowHeight() != (float)_height)
         {
