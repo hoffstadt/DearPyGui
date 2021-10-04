@@ -32,7 +32,6 @@ namespace Marvel {
         MV_STATE_RECT_MAX       = 1 << 12,
         MV_STATE_RECT_SIZE      = 1 << 13,
         MV_STATE_CONT_AVAIL     = 1 << 14,
-        MV_STATE_RESIZED        = 1 << 15,
         MV_STATE_ALL = MV_STATE_HOVER |MV_STATE_ACTIVE |MV_STATE_FOCUSED |MV_STATE_CLICKED |MV_STATE_VISIBLE |MV_STATE_EDITED |MV_STATE_ACTIVATED |MV_STATE_DEACTIVATED |MV_STATE_DEACTIVATEDAE |
         MV_STATE_TOGGLED_OPEN | MV_STATE_RECT_MIN |MV_STATE_RECT_MAX |MV_STATE_RECT_SIZE |MV_STATE_CONT_AVAIL
     };
@@ -58,6 +57,7 @@ namespace Marvel {
     bool IsItemDeactivated         (mvAppItemState& state, int frameDelay = 0);
     bool IsItemDeactivatedAfterEdit(mvAppItemState& state, int frameDelay = 0);
     bool IsItemToogledOpen         (mvAppItemState& state, int frameDelay = 0);
+    bool IsItemRectSizeResized     (mvAppItemState& state, int frameDelay = 0);
 
     struct mvAppItemState
     {
@@ -73,9 +73,11 @@ namespace Marvel {
         bool   deactivated          = false;
         bool   deactivatedAfterEdit = false;
         bool   toggledOpen          = false;
+        bool   mvRectSizeResized    = false;
         mvVec2 rectMin              = { 0.0f, 0.0f };
         mvVec2 rectMax              = { 0.0f, 0.0f };
         mvVec2 rectSize             = { 0.0f, 0.0f };
+        mvVec2 mvPrevRectSize       = { 0.0f, 0.0f };
         mvVec2 pos                  = { 0.0f, 0.0f };
         mvVec2 contextRegionAvail   = { 0.0f, 0.0f };
         bool   ok                   = true;
