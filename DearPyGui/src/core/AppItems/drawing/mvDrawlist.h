@@ -32,6 +32,7 @@ namespace Marvel {
         );
 
         MV_START_CHILDREN
+            MV_ADD_CHILD(mvAppItemType::mvDrawLayer),
             MV_ADD_CHILD(mvAppItemType::mvDrawLine),
             MV_ADD_CHILD(mvAppItemType::mvDrawArrow),
             MV_ADD_CHILD(mvAppItemType::mvDrawTriangle),
@@ -52,6 +53,9 @@ namespace Marvel {
         explicit mvDrawlist(mvUUID uuid);
 
         void draw(ImDrawList* drawlist, float x, float y) override;
+        void handleSpecificRequiredArgs(PyObject* dict) override;
+        void getSpecificConfiguration(PyObject* dict) override;
+        void applySpecificTemplate(mvAppItem* item) override;
 
     private:
 

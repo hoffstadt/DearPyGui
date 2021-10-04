@@ -38,28 +38,15 @@ namespace Marvel {
 	void mvResizeHandler::customAction(void* data)
 	{
 
-		if (_parentPtr)
+		if (static_cast<mvAppItemState*>(data)->mvRectSizeResized)
 		{
-			auto parentPtr = static_cast<mvWindowAppItem*>(_parentPtr);
-			if (parentPtr->_resized && _callback)
-			{
-				if (_alias.empty())
-					GContext->callbackRegistry->submitCallback([=]() {
-						PyObject* dimensions = PyTuple_New(2);
-						PyTuple_SetItem(dimensions, 0, PyLong_FromLong(_parentPtr->_width));
-						PyTuple_SetItem(dimensions, 1, PyLong_FromLong(_parentPtr->_height));
-						GContext->callbackRegistry->addCallback(_callback, _uuid, dimensions, _user_data);
-						});
-				else
-					GContext->callbackRegistry->submitCallback([=]() {
-					PyObject* dimensions = PyTuple_New(2);
-					PyTuple_SetItem(dimensions, 0, PyLong_FromLong(_parentPtr->_width));
-					PyTuple_SetItem(dimensions, 1, PyLong_FromLong(_parentPtr->_height));
-					GContext->callbackRegistry->addCallback(_callback, _alias, dimensions, _user_data);
-						});
-			}
-
-			parentPtr->_resized = false;
+			GContext->callbackRegistry->submitCallback([=]()
+				{
+					if (_alias.empty())
+						GContext->callbackRegistry->runCallback(getCallback(false), _uuid, GetPyNone(), _user_data);
+					else
+						GContext->callbackRegistry->runCallback(getCallback(false), _alias, GetPyNone(), _user_data);
+				});
 		}
 	}
 }

@@ -171,10 +171,10 @@ namespace Marvel {
 		case mvPyDataType::Float:         return "float";
 		case mvPyDataType::Double:        return "float";
 		case mvPyDataType::Bool:          return "bool";
-		case mvPyDataType::StringList:    return "Union[List[str], Tuple[str]]";
-		case mvPyDataType::FloatList:     return "Union[List[float], Tuple[float]]";
-		case mvPyDataType::IntList:       return "Union[List[int], Tuple[int]]";
-		case mvPyDataType::UUIDList:      return "Union[List[int], Tuple[int]]";
+		case mvPyDataType::StringList:    return "Union[List[str], Tuple[str, ...]]";
+		case mvPyDataType::FloatList:     return "Union[List[float], Tuple[float, ...]]";
+		case mvPyDataType::IntList:       return "Union[List[int], Tuple[int, ...]]";
+		case mvPyDataType::UUIDList:      return "Union[List[int], Tuple[int, ...]]";
 		case mvPyDataType::Callable:      return "Callable";
 		case mvPyDataType::Dict:          return "dict";
 		case mvPyDataType::ListFloatList: return "List[List[float]]";

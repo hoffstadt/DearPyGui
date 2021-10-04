@@ -114,7 +114,7 @@ namespace Marvel {
 
 			case mvAppItemType::mvResizeHandler:
 			{
-				if (!(applicableState & ~MV_STATE_RESIZED))
+				if (!(applicableState & ~MV_STATE_RECT_SIZE))
 					mvThrowPythonError(mvErrorCode::mvNone, "bind_item_handler_registry",
 						"Item Handler Registry includes unapplicable handler: mvResizeHandler", item);
 				break;

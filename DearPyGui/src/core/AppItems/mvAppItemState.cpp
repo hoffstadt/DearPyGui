@@ -21,6 +21,7 @@ namespace Marvel {
         state.deactivated = false;
         state.deactivatedAfterEdit = false;
         state.toggledOpen = false;
+        state.mvRectSizeResized = false;
     }
 
     void
@@ -43,6 +44,10 @@ namespace Marvel {
         state.rectMax = { ImGui::GetItemRectMax().x, ImGui::GetItemRectMax().y };
         state.rectSize = { ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y };
         state.contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
+
+        if (state.mvPrevRectSize.x != state.rectSize.x || state.mvPrevRectSize.y != state.rectSize.y) { state.mvRectSizeResized = true; }
+        else state.mvRectSizeResized = false;
+        state.mvPrevRectSize = state.rectSize;
     }
 
     void 
@@ -74,7 +79,11 @@ namespace Marvel {
         if(applicableState & MV_STATE_TOGGLED_OPEN) PyDict_SetItemString(dict, "toggled_open", mvPyObject(ToPyBool(valid ? state.toggledOpen : false)));
         if(applicableState & MV_STATE_RECT_MIN) PyDict_SetItemString(dict, "rect_min", mvPyObject(ToPyPairII((int)state.rectMin.x, (int)state.rectMin.y)));
         if(applicableState & MV_STATE_RECT_MAX) PyDict_SetItemString(dict, "rect_max", mvPyObject(ToPyPairII((int)state.rectMax.x, (int)state.rectMax.y)));
-        if(applicableState & MV_STATE_RECT_SIZE) PyDict_SetItemString(dict, "rect_size", mvPyObject(ToPyPairII((int)state.rectSize.x, (int)state.rectSize.y)));
+        if (applicableState & MV_STATE_RECT_SIZE) 
+        {
+            PyDict_SetItemString(dict, "rect_size", mvPyObject(ToPyPairII((int)state.rectSize.x, (int)state.rectSize.y)));
+            PyDict_SetItemString(dict, "resized", mvPyObject(ToPyBool(valid ? state.mvRectSizeResized : false)));
+        }
         if(applicableState & MV_STATE_CONT_AVAIL) PyDict_SetItemString(dict, "content_region_avail", mvPyObject(ToPyPairII((int)state.contextRegionAvail.x, (int)state.contextRegionAvail.y)));
 
     }
@@ -173,5 +182,13 @@ namespace Marvel {
         if (state.lastFrameUpdate + frameDelay != GContext->frame)
             return false;
         return state.toggledOpen;
+    }
+
+    bool
+    IsItemRectSizeResized(mvAppItemState& state, int frameDelay)
+    {
+        if (state.lastFrameUpdate + frameDelay != GContext->frame)
+            return false;
+        return state.mvRectSizeResized;
     }
 }
