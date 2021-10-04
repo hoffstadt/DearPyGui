@@ -41,25 +41,16 @@ Events:
     def change_text(sender, app_data):
         dpg.set_value("text item", f"Mouse Button ID: {app_data}")
 
-<<<<<<< HEAD
     def visible_call(sender, app_data):
         print("im visible")
 
-
     with dpg.window(width=500, height=300):
         dpg.add_text("Click me with any mouse button", tag="text item")
-        dpg.add_text("Close the window with the arrow to change the visible state", tag="text item 2")
+        dpg.add_text("Close the window with the arrow to change the visible state printing to console", tag="text item 2")
         with dpg.item_handler_registry(tag="widget handler") as handler:
             dpg.add_item_clicked_handler(callback=change_text)
             dpg.add_item_visible_handler(callback=visible_call)
-=======
 
-    with dpg.window(width=500, height=300):
-        dpg.add_text("Click me with any mouse button", tag="text item")
-        dpg.add_text("Click me with any mouse button", tag="text item 2")
-        with dpg.item_handler_registry(tag="widget handler") as handler:
-            dpg.add_item_clicked_handler(callback=change_text)
->>>>>>> master
         dpg.bind_item_handler_registry("text item", "widget handler")
         dpg.bind_item_handler_registry("text item 2", "widget handler")
 
