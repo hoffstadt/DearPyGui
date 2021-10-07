@@ -129,18 +129,15 @@ namespace Marvel {
 
 		ImGui::SetNextItemOpen(*_value);
 
-		bool expanded = ImGui::TreeNodeEx(_internalLabel.c_str(), _flags);
+		*_value = ImGui::TreeNodeEx(_internalLabel.c_str(), _flags);
 		UpdateAppItemState(_state);
-
-		if (ImGui::IsItemClicked())
-			*_value = !*_value;
 
 		if (_state.toggledOpen && !*_value)
 		{
 			_state.toggledOpen = false;
 		}
 
-		if (!expanded)
+		if (!*_value)
 		{
 			ImGui::EndGroup();
 			return;
