@@ -63,7 +63,7 @@ Events:
 .. image:: https://raw.githubusercontent.com/hoffstadt/DearPyGui/assets/examples_wiki_0.8.x/widget_handlers.gif
 
 Global Handlers (IO Input)
----------------
+--------------------------
 
 Global handlers listen for actions related to the viewport such as:
 
@@ -124,7 +124,7 @@ when combined with handlers as shown below.
 
 .. code-block:: python
 
-import dearpygui.dearpygui as dpg
+    import dearpygui.dearpygui as dpg
 
     dpg.create_context()
 

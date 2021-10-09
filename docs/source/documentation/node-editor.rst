@@ -17,23 +17,24 @@ You can see an example below
     Can be input, output, or static.
 4. **Links** - the connections between attributes
 
-Regular usage
--------------
-You must first create a node editor,
-followed by nodes which contains attributes.
+Create a Node editor, add nodes that contain attributes.
 
-Attributes can contain any UI Items. When a user attempts to link attributes,
+Attributes can contain any UI Items. When a user clicks and drags a node's attribute
 the node editor's callback is ran. DPG sends the attribute ID's through the
-_app_data_ argument of the callback. It is the developer's responsibility to create the link.
+_app_data_ argument of the callback. 
+
+It's the developer's responsibility to create the link.
 
 Below is a basic example. You can grab an output pin and connect it to an input pin.
-You can detach a link by **ctrl** clicking and dragging the link away.
+You can detach a link by **ctrl** clicking the link and dragging it.
 
 **Code**
 
 .. code-block:: python
 
     import dearpygui.dearpygui as dpg
+
+    dpg.create_context()
 
     # callback runs when user attempts to connect attributes
     def link_callback(sender, app_data):
@@ -63,7 +64,11 @@ You can detach a link by **ctrl** clicking and dragging the link away.
                 with dpg.node_attribute(label="Node A4", attribute_type=dpg.mvNode_Attr_Output):
                     dpg.add_input_float(label="F4", width=200)
 
+    dpg.create_viewport(title='Custom Title', width=800, height=600)
+    dpg.setup_dearpygui()
+    dpg.show_viewport()
     dpg.start_dearpygui()
+    dpg.destroy_context()
 
 Selection Querying
 ------------------

@@ -2,22 +2,28 @@ Tooltips
 ========
 
 Tooltips are windows that appear when a widget is hovered.
-In DPG tooltips are containers that can contain any other widget.
-Tooltips are 1 of 2 widgets in which the first argument is not the name of the tooltip,
-but widget that the tooltip is associated with.
+
+Tooltips are containers that can hold any other UI Item.
+
+ToolTips must have the parent argument. This is the *tag* of the parent what will show the tooltip.
 
 .. code-block:: python
 
     import dearpygui.dearpygui as dpg
 
-    with dpg.window(label="Tutorial"):
+    dpg.create_context()
 
-        dpg.add_text("Hover me", id="tooltip_parent")
+    with dpg.window(label="Tutorial"):
+        dpg.add_text("Hover me", tag="tooltip_parent")
 
         with dpg.tooltip("tooltip_parent"):
             dpg.add_text("A tooltip")
 
+    dpg.create_viewport(title='Custom Title', width=800, height=600)
+    dpg.setup_dearpygui()
+    dpg.show_viewport()
     dpg.start_dearpygui()
+    dpg.destroy_context()
 
 **Results**
 
