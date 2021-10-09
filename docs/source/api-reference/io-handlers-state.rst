@@ -33,7 +33,7 @@ Events:
 
     with dpg.window(width=500, height=300):
         dpg.add_text("Click me with any mouse button", id="text_item")
-        dpg.add_clicked_handler(text_widget, callback=change_text)
+        dpg.add_clicked_handler("text_item", callback=change_text)
 
     dpg.start_dearpygui()
 
@@ -98,7 +98,7 @@ handlers can fall back to.
         dpg.set_value("text_item", f"Mouse Button: {app_data[0]}, Down Time: {app_data[1]} seconds")
 
     with dpg.window(width=500, height=300):
-        dpg.add_text("Press any mouse button")
+        dpg.add_text("Press any mouse button", id="text_item")
         dpg.add_mouse_down_handler(callback=change_text)
 
     dpg.start_dearpygui()
@@ -123,7 +123,7 @@ when combined with handlers as shown below.
         if dpg.is_item_hovered("text_item"):
             dpg.set_value("text_item", f"Stop Hovering Me, Go away!!")
         else:
-            dpg.set_value(user_data, f"Hover Me!")
+            dpg.set_value("text_item", f"Hover Me!")
 
     with dpg.window(width=500, height=300):
         dpg.add_text("Hover Me!", id="text_item")
