@@ -64,7 +64,7 @@ namespace Marvel {
 				}
 				
 			}
-			if(comp->_specificType == _specificType)
+			if(comp->_specificType != _specificType)
 			{
 				if (_specificEnabled == comp->_enabled)
 				{
@@ -81,14 +81,14 @@ namespace Marvel {
 		for (auto& child : _children[1])
 		{
 			auto comp = static_cast<mvThemeComponent*>(child.get());
-			if (comp->_specificType == (int)mvAppItemType::All)
+			if (comp->_specificType == (int)mvAppItemType::All || comp->_specificType == _specificType)
 			{
 				if (_specificEnabled == comp->_enabled)
 				{
 					child->customAction(data);
 				}
 			}
-			if (comp->_specificType == _specificType)
+			if (comp->_specificType != _specificType)
 			{
 				if (_specificEnabled == comp->_enabled)
 				{
