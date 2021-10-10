@@ -49,8 +49,8 @@ namespace Marvel {
         // in case item registry is destroyed
         if (GContext->started)
         {
-            CleanUpItem(*GContext->itemRegistry, _uuid);
             RemoveAlias(*GContext->itemRegistry, _alias, true);
+            CleanUpItem(*GContext->itemRegistry, _uuid);
         }
     }
 
