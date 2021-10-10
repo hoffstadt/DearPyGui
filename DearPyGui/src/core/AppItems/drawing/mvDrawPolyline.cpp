@@ -61,15 +61,20 @@ namespace Marvel {
 				point.x = impoint.x;
 				point.y = impoint.y;
 			}
+
+			drawlist->AddPolyline((const ImVec2*)const_cast<const mvVec2*>(points.data()), (int)_points.size(), _color,
+				_closed, ImPlot::GetCurrentContext()->Mx * _thickness);
 		}
 		else
 		{
 			for (auto& point : points)
 				point = point + start;
+
+			drawlist->AddPolyline((const ImVec2*)const_cast<const mvVec2*>(points.data()), (int)_points.size(), _color,
+				_closed, _thickness);
 		}
 
-		drawlist->AddPolyline((const ImVec2*)const_cast<const mvVec2*>(points.data()), (int)_points.size(), _color, 
-			_closed, ImPlot::GetCurrentContext()->Mx * _thickness);
+
 	}
 
 	void mvDrawPolyline::handleSpecificRequiredArgs(PyObject* dict)
