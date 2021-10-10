@@ -16,17 +16,17 @@ on:
     
       version:
         description: 'Dear PyGui Version'
-        required: true
+        required: false
         default: '0.0.1'
     
       deploy:
         description: 'Deploy (true will deploy to pypi)'
-        required: true
+        required: false
         default: 'false'
     
       deploytest:
         description: 'Deploy (true will deploy to test pypi)'
-        required: true
+        required: false
         default: 'false'
 
 jobs:
