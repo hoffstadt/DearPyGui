@@ -21,6 +21,7 @@
 #include "themes/mvTheme.h"
 #include "containers/mvDragPayload.h"
 #include "mvPyObject.h"
+#include "fonts/mvFont.h"
 
 namespace Marvel {
 
@@ -248,6 +249,24 @@ namespace Marvel {
 
         if (!_show)
             return;
+
+        // push font if a font object is attached
+        if (_font)
+        {
+            ImFont* fontptr = static_cast<mvFont*>(_font.get())->getFontPtr();
+            ImGui::PushFont(fontptr);
+        }
+
+        // themes
+        if (auto classTheme = getClassThemeComponent())
+            static_cast<mvThemeComponent*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
+
+        if (_theme)
+        {
+            static_cast<mvTheme*>(_theme.get())->setSpecificEnabled(_enabled);
+            static_cast<mvTheme*>(_theme.get())->setSpecificType((int)getType());
+            static_cast<mvTheme*>(_theme.get())->draw(nullptr, 0.0f, 0.0f);
+        }
 
         if (_newColorMap)
         {
