@@ -1428,6 +1428,11 @@ def setup_registries() -> None:
     internal_dpg.add_value_registry(tag=internal_dpg.mvReservedUUID_3)
     internal_dpg.add_colormap_registry(tag=internal_dpg.mvReservedUUID_4)
 
+@deprecated("Use: `set_frame_callback()`")
+def set_start_callback(callback):
+    """ deprecated function """
+    return internal_dpg.set_frame_callback(3, callback)
+
 ##########################################################
 # Container Context Managers
 ##########################################################
@@ -7634,6 +7639,18 @@ def set_exit_callback(callback):
 
 	return internal_dpg.set_exit_callback(callback)
 
+def set_frame_callback(frame, callback):
+	"""	 Sets a callback to run on first frame.
+
+	Args:
+		frame (int): 
+		callback (Callable): 
+	Returns:
+		str
+	"""
+
+	return internal_dpg.set_frame_callback(frame, callback)
+
 def set_global_font_scale(scale):
 	"""	 Sets global font scale.
 
@@ -7681,17 +7698,6 @@ def set_primary_window(window, value):
 	"""
 
 	return internal_dpg.set_primary_window(window, value)
-
-def set_start_callback(callback):
-	"""	 Sets a callback to run on first frame.
-
-	Args:
-		callback (Callable): 
-	Returns:
-		str
-	"""
-
-	return internal_dpg.set_start_callback(callback)
 
 def set_table_row_color(table, row, color):
 	"""	 Set table row color.

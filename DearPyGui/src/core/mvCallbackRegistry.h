@@ -24,12 +24,12 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_CREATE_COMMAND(set_start_callback);
+		MV_CREATE_COMMAND(set_frame_callback);
 		MV_CREATE_COMMAND(set_exit_callback);
 		MV_CREATE_COMMAND(set_viewport_resize_callback);
 
 		MV_START_COMMANDS
-			MV_ADD_COMMAND(set_start_callback);
+			MV_ADD_COMMAND(set_frame_callback);
 			MV_ADD_COMMAND(set_exit_callback);
 			MV_ADD_COMMAND(set_viewport_resize_callback);
 		MV_END_COMMANDS
@@ -93,13 +93,11 @@ namespace Marvel {
         //----------------------------------------------------------------------------- 
         void setResizeCallback (PyObject* callback) { m_resizeCallback = SanitizeCallback(callback); }
         void setOnCloseCallback(PyObject* callback) { m_onCloseCallback = SanitizeCallback(callback); }
-        void setOnStartCallback(PyObject* callback) { m_onStartCallback = SanitizeCallback(callback); }
 
         [[nodiscard]] PyObject* getResizeCallback (){ return m_resizeCallback; }
         [[nodiscard]] PyObject* getOnCloseCallback(){ return m_onCloseCallback; }
-        [[nodiscard]] PyObject* getOnStartCallback(){ return m_onStartCallback; }
 	
-	private:
+	public:
 
 		mvQueue<mvFunctionWrapper> m_tasks;
 		mvQueue<mvFunctionWrapper> m_calls;
@@ -109,7 +107,10 @@ namespace Marvel {
 		// callbacks
 		PyObject* m_resizeCallback = nullptr;
 		PyObject* m_onCloseCallback = nullptr;
-		PyObject* m_onStartCallback = nullptr;
+
+        int _highestFrame = 0;
+        std::unordered_map<int,  PyObject*> _frameCallbacks;
+        
 
 	};
 

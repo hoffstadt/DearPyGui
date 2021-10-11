@@ -40,7 +40,8 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 * item:    added `add_table_cell(...)`
 * item:    added `add_spacer(...)`
 * item:    added `add_theme_component(...)`
-* command: added `toggle_viewport_fullscreen(...)`
+* command: added `set_frame_callback(...)`
+* command: added `toggle_viewport_fullscreen(...)`        
 * command: added `show_item_debug(...)`
 * command: added `bind_theme(...)`
 * command: added `highlight_table_column(...)`
@@ -82,7 +83,8 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 * keyword: removed `default_font` keyword arg from `add_font(...)`, use `bind_font(...)` now
 * keyword: removed `default_theme` keyword arg from `add_theme(...)`, use `bind_theme(...)` now
 * keyword: renamed `id` keyword to `tag`
-* command: `cleanup_dearpygui(...)` is deprecated. Use `destroy_context(...)`
+* command: `set_start_callback(...)` is deprecated. Use `set_frame_callback(...)`
+* command: `cleanup_dearpygui(...)` is deprecated. Use `destroy_context(...)`        
 * command: `staging_container(...)` is deprecated. Use `stage(...)`
 * command: `enable_docking(...)` is deprecated. Use `configure_app(docking=True, docking_space=dock_space)`
 * command: `get_dearpygui_version()` is deprecated. Use `get_app_configuration()['version']`.
