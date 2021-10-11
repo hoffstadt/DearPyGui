@@ -295,7 +295,7 @@ namespace Marvel {
     maximize_viewport(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
-        GContext->callbackRegistry->submit([=]()
+        mvSubmitTask([=]()
             {
                 mvMaximizeViewport();
             });
@@ -307,7 +307,7 @@ namespace Marvel {
     minimize_viewport(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
-        GContext->callbackRegistry->submit([=]()
+        mvSubmitTask([=]()
             {
                 mvMinimizeViewport();
             });
@@ -319,7 +319,7 @@ namespace Marvel {
     toggle_viewport_fullscreen(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
-        GContext->callbackRegistry->submit([=]()
+        mvSubmitTask([=]()
             {
                 mvToggleFullScreen();
             });

@@ -195,12 +195,12 @@ namespace Marvel {
 				mvColor color = mvColor(value[0], value[1], value[2], value[3]);
 
 				if(_alias.empty())
-					GContext->callbackRegistry->submitCallback([=]() {
-						GContext->callbackRegistry->addCallback(getCallback(false), _uuid, ToPyColor(color), _user_data);
+					mvSubmitCallback([=]() {
+						mvAddCallback(getCallback(false), _uuid, ToPyColor(color), _user_data);
 						});
 				else
-					GContext->callbackRegistry->submitCallback([=]() {
-						GContext->callbackRegistry->addCallback(getCallback(false), _alias, ToPyColor(color), _user_data);
+					mvSubmitCallback([=]() {
+						mvAddCallback(getCallback(false), _alias, ToPyColor(color), _user_data);
 						});
 			}
 		}
@@ -253,9 +253,9 @@ namespace Marvel {
 				{
 					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
 					if (_alias.empty())
-						GContext->callbackRegistry->addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
+						mvAddCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
 					else
-						GContext->callbackRegistry->addCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
+						mvAddCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
 				}
 
 				ImGui::EndDragDropTarget();

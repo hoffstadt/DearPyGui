@@ -73,7 +73,7 @@ namespace Marvel {
                 if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(_payloadType.c_str()))
                 {
                     auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
-                    GContext->callbackRegistry->addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
+                    mvAddCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
                 }
 
                 ImPlot::EndDragDropTarget();

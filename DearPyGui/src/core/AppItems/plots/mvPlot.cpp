@@ -363,22 +363,22 @@ namespace Marvel {
             {
 
                 if (_alias.empty())
-                    GContext->callbackRegistry->submitCallback([=]() {
+                    mvSubmitCallback([=]() {
                         PyObject* area = PyTuple_New(4);
                         PyTuple_SetItem(area, 0, PyFloat_FromDouble(_queryArea[0]));
                         PyTuple_SetItem(area, 1, PyFloat_FromDouble(_queryArea[1]));
                         PyTuple_SetItem(area, 2, PyFloat_FromDouble(_queryArea[2]));
                         PyTuple_SetItem(area, 3, PyFloat_FromDouble(_queryArea[3]));
-                        GContext->callbackRegistry->addCallback(_callback, _uuid, area, _user_data);
+                        mvAddCallback(_callback, _uuid, area, _user_data);
                         });
                 else
-                    GContext->callbackRegistry->submitCallback([=]() {
+                    mvSubmitCallback([=]() {
                     PyObject* area = PyTuple_New(4);
                     PyTuple_SetItem(area, 0, PyFloat_FromDouble(_queryArea[0]));
                     PyTuple_SetItem(area, 1, PyFloat_FromDouble(_queryArea[1]));
                     PyTuple_SetItem(area, 2, PyFloat_FromDouble(_queryArea[2]));
                     PyTuple_SetItem(area, 3, PyFloat_FromDouble(_queryArea[3]));
-                    GContext->callbackRegistry->addCallback(_callback, _alias, area, _user_data);
+                    mvAddCallback(_callback, _alias, area, _user_data);
                         });
             }
 
@@ -400,9 +400,9 @@ namespace Marvel {
                     {
                         auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
                         if (_alias.empty())
-                            GContext->callbackRegistry->addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
+                            mvAddCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
                         else
-                            GContext->callbackRegistry->addCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
+                            mvAddCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
                     }
 
                     ImPlot::EndDragDropTarget();

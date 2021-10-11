@@ -131,12 +131,12 @@ namespace Marvel {
 				// action if OK
 				if (_instance.IsOk())
 				{
-					GContext->callbackRegistry->submitCallback([&]()
+					mvSubmitCallback([&]()
 						{
 							if(_alias.empty())
-								GContext->callbackRegistry->runCallback(_callback, _uuid, getInfoDict(), _user_data);
+								mvRunCallback(_callback, _uuid, getInfoDict(), _user_data);
 							else	
-								GContext->callbackRegistry->runCallback(_callback, _alias, getInfoDict(), _user_data);
+								mvRunCallback(_callback, _alias, getInfoDict(), _user_data);
 						});
 
 				}

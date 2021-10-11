@@ -22,7 +22,7 @@ namespace Marvel {
     // forward declarations
     //-----------------------------------------------------------------------------
     struct mvViewport;
-    class  mvCallbackRegistry;
+    struct  mvCallbackRegistry;
     struct mvItemRegistry;
     struct mvIO;
     struct mvContext;

@@ -51,12 +51,12 @@ namespace Marvel {
 			{
 				if (ImGui::GetIO().KeysDown[i])
 				{
-					GContext->callbackRegistry->submitCallback([=]()
+					mvSubmitCallback([=]()
 						{
 							if(_alias.empty())
-								GContext->callbackRegistry->runCallback(getCallback(false), _uuid, ToPyMPair(i, ImGui::GetIO().KeysDownDuration[i]), _user_data);
+								mvRunCallback(getCallback(false), _uuid, ToPyMPair(i, ImGui::GetIO().KeysDownDuration[i]), _user_data);
 							else
-								GContext->callbackRegistry->runCallback(getCallback(false), _alias, ToPyMPair(i, ImGui::GetIO().KeysDownDuration[i]), _user_data);
+								mvRunCallback(getCallback(false), _alias, ToPyMPair(i, ImGui::GetIO().KeysDownDuration[i]), _user_data);
 						});
 				}
 			}
@@ -64,12 +64,12 @@ namespace Marvel {
 
 		else if (ImGui::GetIO().KeysDown[_key])
 		{
-			GContext->callbackRegistry->submitCallback([=]()
+			mvSubmitCallback([=]()
 				{
 					if (_alias.empty())
-						GContext->callbackRegistry->runCallback(getCallback(false), _uuid, ToPyMPair(_key, ImGui::GetIO().KeysDownDuration[_key]), _user_data);
+						mvRunCallback(getCallback(false), _uuid, ToPyMPair(_key, ImGui::GetIO().KeysDownDuration[_key]), _user_data);
 					else
-						GContext->callbackRegistry->runCallback(getCallback(false), _alias, ToPyMPair(_key, ImGui::GetIO().KeysDownDuration[_key]), _user_data);
+						mvRunCallback(getCallback(false), _alias, ToPyMPair(_key, ImGui::GetIO().KeysDownDuration[_key]), _user_data);
 				});
 		}
 	}

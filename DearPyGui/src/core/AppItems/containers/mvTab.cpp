@@ -201,11 +201,11 @@ namespace Marvel {
                 // run call back if it exists
                 if (parent->getSpecificValue() != _uuid)
                 {
-                    GContext->callbackRegistry->submitCallback([=]() {
+                    mvSubmitCallback([=]() {
                         if(parent->_alias.empty())
-                            GContext->callbackRegistry->addCallback(parent->getCallback(), parent->_uuid, ToPyUUID(_uuid), parent->_user_data);
+                            mvAddCallback(parent->getCallback(), parent->_uuid, ToPyUUID(_uuid), parent->_user_data);
                         else
-                            GContext->callbackRegistry->addCallback(parent->getCallback(), parent->_alias, ToPyUUID(_uuid), parent->_user_data);
+                            mvAddCallback(parent->getCallback(), parent->_alias, ToPyUUID(_uuid), parent->_user_data);
                         });
                 }
 
@@ -277,9 +277,9 @@ namespace Marvel {
                 {
                     auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
                     if (_alias.empty())
-                        GContext->callbackRegistry->addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
+                        mvAddCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
                     else
-                        GContext->callbackRegistry->addCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
+                        mvAddCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
                 }
 
                 ImGui::EndDragDropTarget();

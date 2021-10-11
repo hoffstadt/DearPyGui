@@ -145,7 +145,7 @@ namespace Marvel {
                 if (ImGui::Button("Run##debug"))
                 {
                     std::string command = "from dearpygui.dearpygui import *\nfrom dearpygui.demo import *\n" + commandstring;
-                    GContext->callbackRegistry->submitCallback([=]() {
+                    mvSubmitCallback([=]() {
                         PyRun_SimpleString(command.c_str());
                         });
 

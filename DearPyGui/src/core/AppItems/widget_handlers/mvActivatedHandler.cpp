@@ -39,12 +39,12 @@ namespace Marvel {
 
 		if (static_cast<mvAppItemState*>(data)->activated)
 		{
-			GContext->callbackRegistry->submitCallback([=]()
+			mvSubmitCallback([=]()
 				{
 					if(_alias.empty())
-						GContext->callbackRegistry->runCallback(getCallback(false), _uuid, GetPyNone(), _user_data);
+						mvRunCallback(getCallback(false), _uuid, GetPyNone(), _user_data);
 					else
-						GContext->callbackRegistry->runCallback(getCallback(false), _alias, GetPyNone(), _user_data);
+						mvRunCallback(getCallback(false), _alias, GetPyNone(), _user_data);
 				});
 		}
 	}

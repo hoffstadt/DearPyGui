@@ -46,12 +46,12 @@ namespace Marvel {
 			{
 				_oldPos = mousepos;
 
-				GContext->callbackRegistry->submitCallback([=]()
+				mvSubmitCallback([=]()
 					{
 						if(_alias.empty())
-							GContext->callbackRegistry->runCallback(getCallback(false), _uuid, ToPyPair(mousepos.x, mousepos.y), _user_data);
+							mvRunCallback(getCallback(false), _uuid, ToPyPair(mousepos.x, mousepos.y), _user_data);
 						else
-							GContext->callbackRegistry->runCallback(getCallback(false), _alias, ToPyPair(mousepos.x, mousepos.y), _user_data);
+							mvRunCallback(getCallback(false), _alias, ToPyPair(mousepos.x, mousepos.y), _user_data);
 					});
 			}
 		}

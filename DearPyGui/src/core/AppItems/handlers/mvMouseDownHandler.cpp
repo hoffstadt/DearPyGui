@@ -50,12 +50,12 @@ namespace Marvel {
 			{
 				if (ImGui::GetIO().MouseDown[i])
 				{
-					GContext->callbackRegistry->submitCallback([=]()
+					mvSubmitCallback([=]()
 						{
 							if (_alias.empty())
-								GContext->callbackRegistry->runCallback(getCallback(false), _uuid, ToPyMPair(i, ImGui::GetIO().MouseDownDuration[i]), _user_data);
+								mvRunCallback(getCallback(false), _uuid, ToPyMPair(i, ImGui::GetIO().MouseDownDuration[i]), _user_data);
 							else
-								GContext->callbackRegistry->runCallback(getCallback(false), _alias, ToPyMPair(i, ImGui::GetIO().MouseDownDuration[i]), _user_data);
+								mvRunCallback(getCallback(false), _alias, ToPyMPair(i, ImGui::GetIO().MouseDownDuration[i]), _user_data);
 						});
 				}
 			}
@@ -63,12 +63,12 @@ namespace Marvel {
 
 		else if (ImGui::GetIO().MouseDown[_button])
 		{
-			GContext->callbackRegistry->submitCallback([=]()
+			mvSubmitCallback([=]()
 				{
 					if (_alias.empty())
-						GContext->callbackRegistry->runCallback(getCallback(false), _uuid, ToPyMPair(_button, ImGui::GetIO().MouseDownDuration[_button]), _user_data);
+						mvRunCallback(getCallback(false), _uuid, ToPyMPair(_button, ImGui::GetIO().MouseDownDuration[_button]), _user_data);
 					else
-						GContext->callbackRegistry->runCallback(getCallback(false), _alias, ToPyMPair(_button, ImGui::GetIO().MouseDownDuration[_button]), _user_data);
+						mvRunCallback(getCallback(false), _alias, ToPyMPair(_button, ImGui::GetIO().MouseDownDuration[_button]), _user_data);
 				});
 		}
 	}

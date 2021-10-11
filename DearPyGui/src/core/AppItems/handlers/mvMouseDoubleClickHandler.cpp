@@ -50,12 +50,12 @@ namespace Marvel {
 			{
 				if (ImGui::IsMouseDoubleClicked(i))
 				{
-					GContext->callbackRegistry->submitCallback([=]()
+					mvSubmitCallback([=]()
 						{
 							if (_alias.empty())
-								GContext->callbackRegistry->runCallback(getCallback(false), _uuid, ToPyInt(i), _user_data);
+								mvRunCallback(getCallback(false), _uuid, ToPyInt(i), _user_data);
 							else
-								GContext->callbackRegistry->runCallback(getCallback(false), _alias, ToPyInt(i), _user_data);
+								mvRunCallback(getCallback(false), _alias, ToPyInt(i), _user_data);
 						});
 				}
 			}
@@ -63,12 +63,12 @@ namespace Marvel {
 
 		else if (ImGui::IsMouseDoubleClicked(_button))
 		{
-			GContext->callbackRegistry->submitCallback([=]()
+			mvSubmitCallback([=]()
 				{
 					if (_alias.empty())
-						GContext->callbackRegistry->runCallback(getCallback(false), _uuid, ToPyInt(_button), _user_data);
+						mvRunCallback(getCallback(false), _uuid, ToPyInt(_button), _user_data);
 					else
-						GContext->callbackRegistry->runCallback(getCallback(false), _alias, ToPyInt(_button), _user_data);
+						mvRunCallback(getCallback(false), _alias, ToPyInt(_button), _user_data);
 				});
 		}
 	}

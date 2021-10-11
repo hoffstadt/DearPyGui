@@ -55,13 +55,13 @@ namespace Marvel {
 
 				if (ImGui::IsMouseDragging(i, _threshold))
 				{
-					GContext->callbackRegistry->submitCallback([=]()
+					mvSubmitCallback([=]()
 						{
 							if (_alias.empty())
-								GContext->callbackRegistry->runCallback(getCallback(false), _uuid,
+								mvRunCallback(getCallback(false), _uuid,
 									ToPyMTrip(i, ImGui::GetMouseDragDelta(i).x, ImGui::GetMouseDragDelta(i).y), _user_data);
 							else
-								GContext->callbackRegistry->runCallback(getCallback(false), _alias,
+								mvRunCallback(getCallback(false), _alias,
 									ToPyMTrip(i, ImGui::GetMouseDragDelta(i).x, ImGui::GetMouseDragDelta(i).y), _user_data);
 						});
 				}
@@ -72,13 +72,13 @@ namespace Marvel {
 		{
 			if (ImGui::IsMouseReleased(_button))
 				ImGui::ResetMouseDragDelta(_button);
-			GContext->callbackRegistry->submitCallback([=]()
+			mvSubmitCallback([=]()
 				{
 					if (_alias.empty())
-						GContext->callbackRegistry->runCallback(getCallback(false), _uuid,
+						mvRunCallback(getCallback(false), _uuid,
 							ToPyMTrip(_button, ImGui::GetMouseDragDelta(_button).x, ImGui::GetMouseDragDelta(_button).y), _user_data);
 					else
-						GContext->callbackRegistry->runCallback(getCallback(false), _alias,
+						mvRunCallback(getCallback(false), _alias,
 							ToPyMTrip(_button, ImGui::GetMouseDragDelta(_button).x, ImGui::GetMouseDragDelta(_button).y), _user_data);
 				});
 		}

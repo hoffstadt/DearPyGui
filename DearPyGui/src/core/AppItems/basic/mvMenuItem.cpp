@@ -125,9 +125,9 @@ namespace Marvel {
 			if (ImGui::MenuItem(_internalLabel.c_str(), _shortcut.c_str(), _check ? _value.get() : nullptr, _enabled))
 			{
 				if(_alias.empty())
-					GContext->callbackRegistry->addCallback(_callback, _uuid, nullptr, _user_data);
+					mvAddCallback(_callback, _uuid, nullptr, _user_data);
 				else
-					GContext->callbackRegistry->addCallback(_callback, _alias, nullptr, _user_data);
+					mvAddCallback(_callback, _alias, nullptr, _user_data);
 			}
 
 			ImGui::PopStyleColor();
@@ -182,9 +182,9 @@ namespace Marvel {
 				{
 					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
 					if (_alias.empty())
-						GContext->callbackRegistry->addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
+						mvAddCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
 					else
-						GContext->callbackRegistry->addCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
+						mvAddCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
 				}
 
 				ImGui::EndDragDropTarget();

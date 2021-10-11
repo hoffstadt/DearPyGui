@@ -15,7 +15,6 @@
 #include <frameobject.h>
 #include "mvModule_DearPyGui.h"
 #include "mvLog.h"
-#include "mvEventMacros.h"
 #include "mvToolManager.h"
 #include <imnodes.h>
 #include <thread>
@@ -124,8 +123,8 @@ namespace Marvel {
                 item_type::s_class_theme_component = nullptr;
             });
 
-        GContext->callbackRegistry->submitCallback([=]() {
-            GContext->callbackRegistry->stop();
+        mvSubmitCallback([=]() {
+            GContext->callbackRegistry->running = false;
             });
         GContext->future.get();
         if (GContext->viewport)
@@ -251,7 +250,7 @@ namespace Marvel {
         if (GContext->IO.dockingViewport)
             ImGui::DockSpaceOverViewport();
 
-        GContext->callbackRegistry->onFrame(ImGui::GetFrameCount());
+        mvFrameCallback(ImGui::GetFrameCount());
 
         // route input callbacks
         UpdateInputs(GContext->input);
@@ -266,9 +265,9 @@ namespace Marvel {
                 GContext->resetTheme = false;
             }
 
-            GContext->callbackRegistry->runTasks();
+            mvRunTasks();
             RenderItemRegistry(*GContext->itemRegistry);
-            GContext->callbackRegistry->runTasks();
+            mvRunTasks();
         }
 
         if (GContext->waitOneFrame == true)
@@ -1082,7 +1081,7 @@ namespace Marvel {
         MV_ITEM_REGISTRY_INFO("Container stack emptied.");
 
         GContext->started = true;
-        GContext->future = std::async(std::launch::async, []() {return GContext->callbackRegistry->runCallbacks(); });
+        GContext->future = std::async(std::launch::async, []() {return mvRunCallbacks(); });
 
         MV_CORE_INFO("application starting");
 

@@ -163,12 +163,12 @@ namespace Marvel {
 						auto value = *_value;
 
 						if(_alias.empty())
-							GContext->callbackRegistry->submitCallback([=]() {
-								GContext->callbackRegistry->addCallback(getCallback(false), _uuid, ToPyString(value), _user_data);
+							mvSubmitCallback([=]() {
+								mvAddCallback(getCallback(false), _uuid, ToPyString(value), _user_data);
 								});
 						else
-							GContext->callbackRegistry->submitCallback([=]() {
-								GContext->callbackRegistry->addCallback(getCallback(false), _alias, ToPyString(value), _user_data);
+							mvSubmitCallback([=]() {
+								mvAddCallback(getCallback(false), _alias, ToPyString(value), _user_data);
 									});
 
 
@@ -231,9 +231,9 @@ namespace Marvel {
 				{
 					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
 					if (_alias.empty())
-						GContext->callbackRegistry->addCallback(_dropCallback,_uuid, payloadActual->getDragData(), _user_data);
+						mvAddCallback(_dropCallback,_uuid, payloadActual->getDragData(), _user_data);
 					else
-						GContext->callbackRegistry->addCallback(_dropCallback,_alias, payloadActual->getDragData(), _user_data);
+						mvAddCallback(_dropCallback,_alias, payloadActual->getDragData(), _user_data);
 				}
 
 				ImGui::EndDragDropTarget();

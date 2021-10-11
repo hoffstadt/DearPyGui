@@ -134,7 +134,7 @@ namespace Marvel {
     mvWindowAppItem::~mvWindowAppItem()
     {
         PyObject* callback = _on_close;
-        GContext->callbackRegistry->submitCallback([callback]() {
+        mvSubmitCallback([callback]() {
             if (callback)
                 Py_XDECREF(callback);
             });
@@ -314,9 +314,9 @@ namespace Marvel {
                 _state.visible = false;
 
                 if(_alias.empty())
-                    GContext->callbackRegistry->addCallback(_on_close, _uuid, nullptr, _user_data);
+                    mvAddCallback(_on_close, _uuid, nullptr, _user_data);
                 else
-                    GContext->callbackRegistry->addCallback(_on_close, _alias, nullptr, _user_data);
+                    mvAddCallback(_on_close, _alias, nullptr, _user_data);
                 
                 return;
             }
@@ -493,9 +493,9 @@ namespace Marvel {
             _state.visible = false;
 
             if(_alias.empty())
-                GContext->callbackRegistry->addCallback(_on_close, _uuid, nullptr, _user_data);
+                mvAddCallback(_on_close, _uuid, nullptr, _user_data);
             else
-                GContext->callbackRegistry->addCallback(_on_close, _alias, nullptr, _user_data);
+                mvAddCallback(_on_close, _alias, nullptr, _user_data);
         }
 
         if (_handlerRegistry)
