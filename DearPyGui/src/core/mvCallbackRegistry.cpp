@@ -56,13 +56,6 @@ namespace Marvel {
 
 	}
 
-	mvCallbackRegistry::mvCallbackRegistry()
-	{
-		mvEventBus::Subscribe(this, mvEVT_FRAME);
-		mvEventBus::Subscribe(this, mvEVT_PRE_RENDER);
-		mvEventBus::Subscribe(this, mvEVT_END_FRAME);
-	}
-
 	void mvCallbackRegistry::runTasks()
 	{
 
@@ -74,48 +67,16 @@ namespace Marvel {
 		}
 	}
 
-	bool mvCallbackRegistry::onEvent(mvEvent& event)
-	{
-		mvEventDispatcher dispatcher(event);
-		dispatcher.dispatch(BIND_EVENT_METH(mvCallbackRegistry::onFrame),    mvEVT_FRAME);
-		dispatcher.dispatch(BIND_EVENT_METH(mvCallbackRegistry::onEndFrame), mvEVT_END_FRAME);
-		dispatcher.dispatch(BIND_EVENT_METH(mvCallbackRegistry::onRender),   mvEVT_PRE_RENDER);
-
-		return event.handled;
-	}
-
-	bool mvCallbackRegistry::onFrame(mvEvent& event)
+	void mvCallbackRegistry::onFrame(int frame)
 	{
 
-        const int frame = GetEInt(event, "FRAME");
+		if (frame > _highestFrame)
+			return;
 
-        if(frame > _highestFrame)
-           return false;
-        
-        if(_frameCallbacks.count(frame) == 0 )
-            return false;
+		if (_frameCallbacks.count(frame) == 0)
+			return;
 
-        addCallback(_frameCallbacks[frame], frame, nullptr, nullptr);
-
-		return false;
-	}
-
-	bool mvCallbackRegistry::onEndFrame(mvEvent& event)
-	{
-		MV_PROFILE_SCOPE("End Frame Tasks")
-
-		runTasks();
-		
-		return false;
-	}
-
-	bool mvCallbackRegistry::onRender(mvEvent& event)
-	{
-		MV_PROFILE_SCOPE("Begin Frame Tasks")
-
-		runTasks();
-	
-		return false;
+		addCallback(_frameCallbacks[frame], frame, nullptr, nullptr);
 	}
 
 	bool mvCallbackRegistry::runCallbacks()
@@ -155,7 +116,6 @@ namespace Marvel {
 			runCallback(callable, sender, app_data, user_data);
 			});
 	}
-
 
 	void mvCallbackRegistry::addCallback(PyObject* callable, const std::string& sender, PyObject* app_data, PyObject* user_data)
 	{

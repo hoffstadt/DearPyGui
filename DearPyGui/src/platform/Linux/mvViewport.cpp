@@ -198,13 +198,6 @@ namespace Marvel {
         if (!images.empty())
             glfwSetWindowIcon(ghandle, images.size(), images.data());
 
-        mvEventBus::Publish(mvEVT_CATEGORY_VIEWPORT, mvEVT_VIEWPORT_RESIZE, {
-                CreateEventArgument("actual_width", (int)viewport->actualWidth),
-                CreateEventArgument("actual_height", (int)viewport->actualHeight),
-                CreateEventArgument("client_width", (int)viewport->actualWidth),
-                CreateEventArgument("client_height", (int)viewport->actualHeight)
-            });
-
         glfwMakeContextCurrent(ghandle);
 
         gl3wInit();
