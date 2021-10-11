@@ -43,12 +43,6 @@ namespace Marvel {
             {
                 input.mouseGlobalPos.x = (int)mousepos.x;
                 input.mouseGlobalPos.y = (int)mousepos.y;
-
-                mvEventBus::Publish(mvEVT_CATEGORY_INPUT, mvEVT_MOUSE_MOVE,
-                    {
-                    CreateEventArgument("X", mousepos.x),
-                    CreateEventArgument("Y", mousepos.y)
-                    });
             }
         }
 
@@ -58,29 +52,16 @@ namespace Marvel {
         {
             input.keysdown[i] = ImGui::GetIO().KeysDown[i];
 
-            // route key pressed event
-            if ((input.keyspressed[i] = ImGui::IsKeyPressed(i)))
-                mvEventBus::Publish(mvEVT_CATEGORY_INPUT, mvEVT_KEY_PRESS, { CreateEventArgument("KEY", i) });
-
             // route key down event
             if (ImGui::GetIO().KeysDownDuration[i] >= 0.0f)
-            {
                 input.keysdownduration[i] = (int)(ImGui::GetIO().KeysDownDuration[i] * 100.0);
-                mvEventBus::Publish(mvEVT_CATEGORY_INPUT, mvEVT_KEY_DOWN,
-                    { CreateEventArgument("KEY", i), CreateEventArgument("DURATION", ImGui::GetIO().KeysDownDuration[i]) });
-            }
 
-            // route key released event
-            if ((input.keysreleased[i] = ImGui::IsKeyReleased(i)))
-                mvEventBus::Publish(mvEVT_CATEGORY_INPUT, mvEVT_KEY_RELEASE, { CreateEventArgument("KEY", i) });
+
         }
 
         // route mouse wheel event
         if (ImGui::GetIO().MouseWheel != 0.0f)
-        {
             input.mousewheel = (int)ImGui::GetIO().MouseWheel;
-            mvEventBus::Publish(mvEVT_CATEGORY_INPUT, mvEVT_MOUSE_WHEEL, { CreateEventArgument("DELTA", ImGui::GetIO().MouseWheel) });
-        }
 
         // route mouse dragging event
         for (int i = 0; i < 3; i++)
@@ -91,14 +72,6 @@ namespace Marvel {
             {
                 input.mouseDragDelta.x = (int)ImGui::GetMouseDragDelta().x;
                 input.mouseDragDelta.y = (int)ImGui::GetMouseDragDelta().y;
-
-                // TODO: send delta
-                mvEventBus::Publish(mvEVT_CATEGORY_INPUT, mvEVT_MOUSE_DRAG,
-                    { CreateEventArgument("BUTTON", i),
-                    CreateEventArgument("X", ImGui::GetMouseDragDelta().x),
-                    CreateEventArgument("Y", ImGui::GetMouseDragDelta().y)
-                    });
-                //ImGui::ResetMouseDragDelta(i);
                 break;
             }
 
@@ -109,27 +82,11 @@ namespace Marvel {
         {
             input.mousedown[i] = ImGui::GetIO().MouseDown[i];
 
-            // route mouse click event
-            if ((input.mouseclick[i] = ImGui::IsMouseClicked(i)))
-                mvEventBus::Publish(mvEVT_CATEGORY_INPUT, mvEVT_MOUSE_CLICK, { CreateEventArgument("BUTTON", i) });
-
             // route mouse down event
             if (ImGui::GetIO().MouseDownDuration[i] >= 0.0f)
-            {
                 input.mousedownduration[i] = (int)(ImGui::GetIO().MouseDownDuration[i] * 100.0);
-                mvEventBus::Publish(mvEVT_CATEGORY_INPUT, mvEVT_MOUSE_DOWN,
-                    { CreateEventArgument("BUTTON", i), CreateEventArgument("DURATION",  ImGui::GetIO().MouseDownDuration[i]) });
-            }
             else
                 input.mousedownduration[i] = 0;
-
-            // route mouse double clicked event
-            if ((input.mousedoubleclick[i] = ImGui::IsMouseDoubleClicked(i)))
-                mvEventBus::Publish(mvEVT_CATEGORY_INPUT, mvEVT_MOUSE_DBL_CLK, { CreateEventArgument("BUTTON", i) });
-
-            // route mouse released event
-            if ((input.mousereleased[i] = ImGui::IsMouseReleased(i)))
-                mvEventBus::Publish(mvEVT_CATEGORY_INPUT, mvEVT_MOUSE_RELEASE, { CreateEventArgument("BUTTON", i) });
         }
     }
 
@@ -294,9 +251,7 @@ namespace Marvel {
         if (GContext->IO.dockingViewport)
             ImGui::DockSpaceOverViewport();
 
-
-        mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_FRAME, {CreateEventArgument("FRAME", ImGui::GetFrameCount() )});
-
+        GContext->callbackRegistry->onFrame(ImGui::GetFrameCount());
 
         // route input callbacks
         UpdateInputs(GContext->input);
@@ -311,10 +266,9 @@ namespace Marvel {
                 GContext->resetTheme = false;
             }
 
-            mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_PRE_RENDER);
-            mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_RENDER);
+            GContext->callbackRegistry->runTasks();
             RenderItemRegistry(*GContext->itemRegistry);
-            mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_END_FRAME);
+            GContext->callbackRegistry->runTasks();
         }
 
         if (GContext->waitOneFrame == true)
@@ -1166,7 +1120,6 @@ namespace Marvel {
 
         Py_BEGIN_ALLOW_THREADS;
         DestroyContext();
-        mvEventBus::Reset();
         Py_END_ALLOW_THREADS;
 
         return GetPyNone();

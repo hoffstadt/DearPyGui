@@ -471,10 +471,7 @@ namespace Marvel {
             GContext->input.mousePos.y = (int)y;
 
             if (GContext->itemRegistry->activeWindow != _uuid)
-            {
                 GContext->itemRegistry->activeWindow = _uuid;
-                mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_ACTIVE_WINDOW, { CreateEventArgument("WINDOW", _uuid) });
-            }
 
         }
 

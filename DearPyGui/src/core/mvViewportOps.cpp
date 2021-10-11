@@ -233,17 +233,6 @@ namespace Marvel {
         if (PyObject* item = PyDict_GetItemString(kwargs, "decorated")) { viewport->modesDirty = true; viewport->decorated = ToBool(item); }
         if (PyObject* item = PyDict_GetItemString(kwargs, "title")) { viewport->titleDirty = true; viewport->title = ToString(item); }
 
-        if (viewport->sizeDirty)
-        {
-            if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
-            mvEventBus::Publish(mvEVT_CATEGORY_VIEWPORT, mvEVT_VIEWPORT_RESIZE, {
-                CreateEventArgument("actual_width", viewport->actualWidth),
-                CreateEventArgument("actual_height", viewport->actualHeight),
-                CreateEventArgument("client_width", viewport->actualWidth),
-                CreateEventArgument("client_height", viewport->actualHeight)
-                });
-        }
-
         GContext->viewport = viewport;
 
         return GetPyNone();
@@ -295,16 +284,6 @@ namespace Marvel {
             if (PyObject* item = PyDict_GetItemString(kwargs, "decorated")) { viewport->modesDirty = true; viewport->decorated = ToBool(item); }
             if (PyObject* item = PyDict_GetItemString(kwargs, "title")) { viewport->titleDirty = true; viewport->title = ToString(item); }
 
-            if (viewport->sizeDirty)
-            {
-                if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
-                mvEventBus::Publish(mvEVT_CATEGORY_VIEWPORT, mvEVT_VIEWPORT_RESIZE, {
-                    CreateEventArgument("actual_width", viewport->actualWidth),
-                    CreateEventArgument("actual_height", viewport->actualHeight),
-                    CreateEventArgument("client_width", viewport->actualWidth),
-                    CreateEventArgument("client_height", viewport->actualHeight)
-                    });
-            }
         }
         else
             mvThrowPythonError(mvErrorCode::mvNone, "No viewport created");

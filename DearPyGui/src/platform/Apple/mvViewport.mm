@@ -99,13 +99,6 @@ namespace Marvel {
         glfwSetWindowPos(ghandle, viewport->xpos, viewport->ypos);
         glfwSetWindowSizeLimits(ghandle, (int)viewport->minwidth, (int)viewport->minheight, (int)viewport->maxwidth, (int)viewport->maxheight);
 
-        mvEventBus::Publish(mvEVT_CATEGORY_VIEWPORT, mvEVT_VIEWPORT_RESIZE, {
-            CreateEventArgument("actual_width", (int)viewport->actualWidth),
-            CreateEventArgument("actual_height", (int)viewport->actualHeight),
-            CreateEventArgument("client_width", (int)viewport->actualWidth),
-            CreateEventArgument("client_height", (int)viewport->actualHeight)
-                    });
-
         gdevice = MTLCreateSystemDefaultDevice();
         gcommandQueue = [gdevice newCommandQueue];
 

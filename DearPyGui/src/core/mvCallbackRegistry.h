@@ -3,7 +3,6 @@
 #include <mutex>
 #include "mvThreadPool.h"
 #include "mvContext.h"
-#include "mvEvents.h"
 
 namespace Marvel {
 
@@ -15,7 +14,7 @@ namespace Marvel {
 		return callback;
 	}
 
-	class mvCallbackRegistry : public mvEventHandler
+	class mvCallbackRegistry
 	{
 
 		static constexpr const int s_MaxNumberOfCalls = 50;
@@ -36,14 +35,7 @@ namespace Marvel {
 
 	public:
 
-		mvCallbackRegistry();
-
-		// event handling
-		bool onEvent   (mvEvent& event) override;
-		bool onFrame   (mvEvent& event);
-		bool onEndFrame(mvEvent& event);
-		bool onRender  (mvEvent& event);
-
+		void onFrame     (int frame);
 		void runTasks    ();
         void runCallback (PyObject* callback, mvUUID sender, PyObject* app_data, PyObject* user_data);
         void runCallback (PyObject* callback, const std::string& sender, PyObject* app_data, PyObject* user_data);

@@ -1,5 +1,4 @@
 #include "mvToolWindow.h"
-#include "mvEvents.h"
 #include "mvItemRegistry.h"
 
 namespace Marvel {
@@ -42,10 +41,8 @@ namespace Marvel {
             GContext->input.mousePos.y = (int)y;
 
             if (GContext->itemRegistry->activeWindow != getUUID())
-            {
                 GContext->itemRegistry->activeWindow = getUUID();
-                mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_ACTIVE_WINDOW, { CreateEventArgument("WINDOW", getUUID()) });
-            }
+
         }
 
         ImGui::End();
