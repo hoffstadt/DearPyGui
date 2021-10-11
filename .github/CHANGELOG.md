@@ -35,6 +35,7 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 * `add_theme_color(...)` and `add_theme_style(...)` must known belong to a `theme_component`
 
 ### New
+* Python:  added 3.10 support
 * module:  added `experimental`
 * item:    added `add_table_cell(...)`
 * item:    added `add_spacer(...)`
