@@ -384,8 +384,8 @@ namespace Marvel {
 
             if (ImPlot::IsPlotHovered())
             {
-                GContext->input.mouseDrawingPos.x = ImPlot::GetPlotMousePos().x;
-                GContext->input.mouseDrawingPos.y = ImPlot::GetPlotMousePos().y;
+                GContext->input.mousePlotPos.x = ImPlot::GetPlotMousePos().x;
+                GContext->input.mousePlotPos.y = ImPlot::GetPlotMousePos().y;
             }
 
             // todo: resolve clipping
