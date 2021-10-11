@@ -2520,11 +2520,9 @@ def show_demo():
                 def _callback_manual_mutex(sender, app_data, user_data):
 
                     dpg.lock_mutex() # you could also use with dpg.mutex()
-                    dpg.set_staging_mode(True)
-                    dpg.push_container_stack(dpg.add_staging_container(id=staged_container))
+                    dpg.push_container_stack(dpg.add_stage(id=staged_container))
                     for i in range(0, 100):
                         dpg.add_text("Item: " + str(i))
-                    dpg.set_staging_mode(False)
                     dpg.pop_container_stack()
                     dpg.unlock_mutex()
 
