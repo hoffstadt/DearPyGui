@@ -341,3 +341,8 @@ def setup_registries() -> None:
     internal_dpg.add_texture_registry(tag=internal_dpg.mvReservedUUID_2)
     internal_dpg.add_value_registry(tag=internal_dpg.mvReservedUUID_3)
     internal_dpg.add_colormap_registry(tag=internal_dpg.mvReservedUUID_4)
+
+@deprecated("Use: `set_frame_callback()`")
+def set_start_callback(callback):
+    """ deprecated function """
+    return internal_dpg.set_frame_callback(3, callback)

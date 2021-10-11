@@ -1026,6 +1026,10 @@ def set_exit_callback(callback : Callable) -> str:
 	"""Sets a callback to run on last frame."""
 	...
 
+def set_frame_callback(frame : int, callback : Callable) -> str:
+	"""Sets a callback to run on first frame."""
+	...
+
 def set_global_font_scale(scale : float) -> None:
 	"""Sets global font scale."""
 	...
@@ -1040,10 +1044,6 @@ def set_item_children(item : Union[int, str], source : Union[int, str], slot : i
 
 def set_primary_window(window : Union[int, str], value : bool) -> None:
 	"""Sets the primary window."""
-	...
-
-def set_start_callback(callback : Callable) -> str:
-	"""Sets a callback to run on first frame."""
 	...
 
 def set_table_row_color(table : Union[int, str], row : int, color : Union[List[int], Tuple[int, ...]]) -> None:

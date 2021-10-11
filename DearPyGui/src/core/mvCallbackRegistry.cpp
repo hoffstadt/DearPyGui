@@ -16,6 +16,7 @@ namespace Marvel {
 
 		{
 			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::Integer, "frame" });
 			args.push_back({ mvPyDataType::Callable, "callback" });
 
 			mvPythonParserSetup setup;
@@ -24,7 +25,7 @@ namespace Marvel {
 			setup.returnType = mvPyDataType::String;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
-			parsers->insert({ "set_start_callback", parser });
+			parsers->insert({ "set_frame_callback", parser });
 		}
 
 		{
@@ -86,15 +87,15 @@ namespace Marvel {
 	bool mvCallbackRegistry::onFrame(mvEvent& event)
 	{
 
-		switch (GetEInt(event, "FRAME"))
-		{
-		case 3:
-			addCallback(m_onStartCallback, 0, nullptr, nullptr);
-			break;
+        const int frame = GetEInt(event, "FRAME");
 
-		default:
-			break;
-		}
+        if(frame > _highestFrame)
+           return false;
+        
+        if(_frameCallbacks.count(frame) == 0 )
+            return false;
+
+        addCallback(_frameCallbacks[frame], frame, nullptr, nullptr);
 
 		return false;
 	}
@@ -424,17 +425,23 @@ namespace Marvel {
 
 	}
 
-	PyObject* mvCallbackRegistry::set_start_callback(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvCallbackRegistry::set_frame_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
+        int frame = 0;
 		PyObject* callback;
 
-		if (!Parse((GetParsers())["set_start_callback"], args, kwargs, __FUNCTION__, &callback))
+		if (!Parse((GetParsers())["set_frame_callback"], args, kwargs, __FUNCTION__,
+                   &frame,  &callback))
 			return GetPyNone();
 
+        if(frame > GContext->callbackRegistry->_highestFrame)
+            GContext->callbackRegistry->_highestFrame = frame;
+        
+        // TODO: check previous entry and deprecate if existing
 		Py_XINCREF(callback);
 		GContext->callbackRegistry->submit([=]()
 			{
-				GContext->callbackRegistry->setOnStartCallback(callback);
+                GContext->callbackRegistry->_frameCallbacks[frame] = callback;
 			});
 
 		return GetPyNone();

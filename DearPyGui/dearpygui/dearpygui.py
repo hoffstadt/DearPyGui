@@ -1428,6 +1428,11 @@ def setup_registries() -> None:
     internal_dpg.add_value_registry(tag=internal_dpg.mvReservedUUID_3)
     internal_dpg.add_colormap_registry(tag=internal_dpg.mvReservedUUID_4)
 
+@deprecated("Use: `set_frame_callback()`")
+def set_start_callback(callback):
+    """ deprecated function """
+    return internal_dpg.set_frame_callback(3, callback)
+
 ##########################################################
 # Container Context Managers
 ##########################################################
@@ -8464,6 +8469,18 @@ def set_exit_callback(callback : Callable, **kwargs) -> str:
 
 	return internal_dpg.set_exit_callback(callback, **kwargs)
 
+def set_frame_callback(frame : int, callback : Callable, **kwargs) -> str:
+	"""	 Sets a callback to run on first frame.
+
+	Args:
+		frame (int): 
+		callback (Callable): 
+	Returns:
+		str
+	"""
+
+	return internal_dpg.set_frame_callback(frame, callback, **kwargs)
+
 def set_global_font_scale(scale : float, **kwargs) -> None:
 	"""	 Sets global font scale.
 
@@ -8511,17 +8528,6 @@ def set_primary_window(window : Union[int, str], value : bool, **kwargs) -> None
 	"""
 
 	return internal_dpg.set_primary_window(window, value, **kwargs)
-
-def set_start_callback(callback : Callable, **kwargs) -> str:
-	"""	 Sets a callback to run on first frame.
-
-	Args:
-		callback (Callable): 
-	Returns:
-		str
-	"""
-
-	return internal_dpg.set_start_callback(callback, **kwargs)
 
 def set_table_row_color(table : Union[int, str], row : int, color : Union[List[int], Tuple[int, ...]], **kwargs) -> None:
 	"""	 Set table row color.
