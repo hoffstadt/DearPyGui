@@ -60,9 +60,9 @@ namespace Marvel {
 			if (_parentPtr->_dragCallback)
 			{
 				if(_parentPtr->_alias.empty())
-					GContext->callbackRegistry->addCallback(_parentPtr->_dragCallback, _parent, _dragData, _user_data);
+					mvAddCallback(_parentPtr->_dragCallback, _parent, _dragData, _user_data);
 				else
-					GContext->callbackRegistry->addCallback(_parentPtr->_dragCallback, _parentPtr->_alias, _dragData, _user_data);
+					mvAddCallback(_parentPtr->_dragCallback, _parentPtr->_alias, _dragData, _user_data);
 			}
 
 			for (auto& childset : _children)

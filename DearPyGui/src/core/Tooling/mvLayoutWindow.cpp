@@ -131,21 +131,21 @@ namespace Marvel {
 		ImGui::BeginGroup();
 
 		if (ImGui::ArrowButton("Move Up", ImGuiDir_Up))
-			GContext->callbackRegistry->submitCallback([&]()
+			mvSubmitCallback([&]()
 				{
 					MoveItemUp(*GContext->itemRegistry, m_selectedItem);
 				});
 
 		ImGui::SameLine();
 		if (ImGui::ArrowButton("Move Down", ImGuiDir_Down))
-			GContext->callbackRegistry->submitCallback([&]()
+			mvSubmitCallback([&]()
 				{
 					MoveItemDown(*GContext->itemRegistry, m_selectedItem);
 				});
 		ImGui::SameLine();
 		if (ImGui::Button("Delete"))
 		{
-			GContext->callbackRegistry->submitCallback([&]()
+			mvSubmitCallback([&]()
 				{
 					DeleteItem(*GContext->itemRegistry, m_selectedItem, false);
 					m_selectedItem = 0;

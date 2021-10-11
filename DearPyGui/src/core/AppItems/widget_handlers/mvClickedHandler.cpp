@@ -42,36 +42,36 @@ namespace Marvel {
 		if(_button == -1 || _button == 0)
 			if (static_cast<mvAppItemState*>(data)->leftclicked)
 			{
-				GContext->callbackRegistry->submitCallback([=]()
+				mvSubmitCallback([=]()
 					{
 						if (_alias.empty())
-							GContext->callbackRegistry->runCallback(getCallback(false), _uuid, ToPyInt(0), _user_data);
+							mvRunCallback(getCallback(false), _uuid, ToPyInt(0), _user_data);
 						else
-							GContext->callbackRegistry->runCallback(getCallback(false), _alias, ToPyInt(0), _user_data);
+							mvRunCallback(getCallback(false), _alias, ToPyInt(0), _user_data);
 					});
 			}
 
 		if (_button == -1 || _button == 1)
 			if (static_cast<mvAppItemState*>(data)->rightclicked)
 			{
-				GContext->callbackRegistry->submitCallback([=]()
+				mvSubmitCallback([=]()
 					{
 						if (_alias.empty())
-							GContext->callbackRegistry->runCallback(getCallback(false), _uuid, ToPyInt(1), _user_data);
+							mvRunCallback(getCallback(false), _uuid, ToPyInt(1), _user_data);
 						else
-							GContext->callbackRegistry->runCallback(getCallback(false), _alias, ToPyInt(1), _user_data);
+							mvRunCallback(getCallback(false), _alias, ToPyInt(1), _user_data);
 					});
 			}
 
 		if (_button == -1 || _button == 2)
 			if (static_cast<mvAppItemState*>(data)->middleclicked)
 			{
-				GContext->callbackRegistry->submitCallback([=]()
+				mvSubmitCallback([=]()
 					{
 						if (_alias.empty())
-							GContext->callbackRegistry->runCallback(getCallback(false), _uuid, ToPyInt(2), _user_data);
+							mvRunCallback(getCallback(false), _uuid, ToPyInt(2), _user_data);
 						else
-							GContext->callbackRegistry->runCallback(getCallback(false), _alias, ToPyInt(2), _user_data);
+							mvRunCallback(getCallback(false), _alias, ToPyInt(2), _user_data);
 					});
 			}
 

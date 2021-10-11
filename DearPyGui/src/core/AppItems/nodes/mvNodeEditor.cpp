@@ -374,18 +374,18 @@ namespace Marvel {
             if (_callback)
             {
                 if (_alias.empty())
-                    GContext->callbackRegistry->submitCallback([=]() {
+                    mvSubmitCallback([=]() {
                         PyObject* link = PyTuple_New(2);
                         PyTuple_SetItem(link, 0, ToPyUUID(node1));
                         PyTuple_SetItem(link, 1, ToPyUUID(node2));
-                        GContext->callbackRegistry->addCallback(_callback, _uuid, link, _user_data);
+                        mvAddCallback(_callback, _uuid, link, _user_data);
                         });
                 else
-                    GContext->callbackRegistry->submitCallback([=]() {
+                    mvSubmitCallback([=]() {
                         PyObject* link = PyTuple_New(2);
                         PyTuple_SetItem(link, 0, ToPyUUID(node1));
                         PyTuple_SetItem(link, 1, ToPyUUID(node2));
-                        GContext->callbackRegistry->addCallback(_callback, _alias, link, _user_data);
+                        mvAddCallback(_callback, _alias, link, _user_data);
                         });
             }
         }
@@ -408,14 +408,14 @@ namespace Marvel {
             if (_delinkCallback)
             {
                 if (_alias.empty())
-                    GContext->callbackRegistry->submitCallback([=]() {
+                    mvSubmitCallback([=]() {
                         PyObject* link = ToPyUUID(name);
-                        GContext->callbackRegistry->addCallback(_delinkCallback, _uuid, link, _user_data);
+                        mvAddCallback(_delinkCallback, _uuid, link, _user_data);
                         });
                 else
-                    GContext->callbackRegistry->submitCallback([=]() {
+                    mvSubmitCallback([=]() {
                         PyObject* link = ToPyUUID(name);
-                        GContext->callbackRegistry->addCallback(_delinkCallback, _alias, link, _user_data);
+                        mvAddCallback(_delinkCallback, _alias, link, _user_data);
                             });
             }
         }

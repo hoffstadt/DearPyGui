@@ -98,7 +98,7 @@ namespace Marvel {
 		{
 			(*_value.get())[0] = dummyx;
 			(*_value.get())[1] = dummyy;
-			GContext->callbackRegistry->addCallback(_callback, _uuid, nullptr, _user_data);
+			mvAddCallback(_callback, _uuid, nullptr, _user_data);
 		}
 
 	}

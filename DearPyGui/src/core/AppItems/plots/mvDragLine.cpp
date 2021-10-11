@@ -54,14 +54,14 @@ namespace Marvel {
 		{
 			if (ImPlot::DragLineX(_specifiedLabel.c_str(), _value.get(), _show_label, _color, _thickness))
 			{
-				GContext->callbackRegistry->addCallback(_callback, _uuid, nullptr, _user_data);
+				mvAddCallback(_callback, _uuid, nullptr, _user_data);
 			}
 		}
 		else
 		{
 			if (ImPlot::DragLineY(_specifiedLabel.c_str(), _value.get(), _show_label, _color, _thickness))
 			{
-				GContext->callbackRegistry->addCallback(_callback, _uuid, nullptr, _user_data);
+				mvAddCallback(_callback, _uuid, nullptr, _user_data);
 			}
 		}
 

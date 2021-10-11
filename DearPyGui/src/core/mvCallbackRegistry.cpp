@@ -11,7 +11,7 @@
 
 namespace Marvel {
 
-	void mvCallbackRegistry::InsertParser(std::map<std::string, mvPythonParser>* parsers)
+	void InsertParser_mvCallbackRegistry(std::map<std::string, mvPythonParser>* parsers)
 	{
 
 		{
@@ -56,53 +56,53 @@ namespace Marvel {
 
 	}
 
-	void mvCallbackRegistry::runTasks()
+	void mvRunTasks()
 	{
 
-		while (!m_tasks.empty())
+		while (!GContext->callbackRegistry->tasks.empty())
 		{
 			mvFunctionWrapper t;
-			m_tasks.wait_and_pop(t);
+			GContext->callbackRegistry->tasks.wait_and_pop(t);
 			t();
 		}
 	}
 
-	void mvCallbackRegistry::onFrame(int frame)
+	void mvFrameCallback(int frame)
 	{
 
-		if (frame > _highestFrame)
+		if (frame > GContext->callbackRegistry->highestFrame)
 			return;
 
-		if (_frameCallbacks.count(frame) == 0)
+		if (GContext->callbackRegistry->frameCallbacks.count(frame) == 0)
 			return;
 
-		addCallback(_frameCallbacks[frame], frame, nullptr, nullptr);
+		mvAddCallback(GContext->callbackRegistry->frameCallbacks[frame], frame, nullptr, nullptr);
 	}
 
-	bool mvCallbackRegistry::runCallbacks()
+	bool mvRunCallbacks()
 	{
-		m_running = true;
+		GContext->callbackRegistry->running = true;
 
 		mvGlobalIntepreterLock gil;
 
-		while (m_running)
+		while (GContext->callbackRegistry->running)
 		{
 			mvFunctionWrapper t2;
 			Py_BEGIN_ALLOW_THREADS;
-			m_calls.wait_and_pop(t2);
+			GContext->callbackRegistry->calls.wait_and_pop(t2);
 			Py_END_ALLOW_THREADS;
 			t2();
-			m_callCount--;
+			GContext->callbackRegistry->callCount--;
 		}
 
-		runCallback(m_onCloseCallback, 0, nullptr, nullptr);
+		mvRunCallback(GContext->callbackRegistry->onCloseCallback, 0, nullptr, nullptr);
 		return true;
 	}
 
-	void mvCallbackRegistry::addCallback(PyObject* callable, mvUUID sender, PyObject* app_data, PyObject* user_data)
+	void mvAddCallback(PyObject* callable, mvUUID sender, PyObject* app_data, PyObject* user_data)
 	{
 
-		if (m_callCount > s_MaxNumberOfCalls)
+		if (GContext->callbackRegistry->callCount > GContext->callbackRegistry->maxNumberOfCalls)
 		{
 			if (app_data != nullptr)
 				Py_XDECREF(app_data);
@@ -112,15 +112,15 @@ namespace Marvel {
 			return;
 		}
 
-		submitCallback([=]() {
-			runCallback(callable, sender, app_data, user_data);
+		mvSubmitCallback([=]() {
+			mvRunCallback(callable, sender, app_data, user_data);
 			});
 	}
 
-	void mvCallbackRegistry::addCallback(PyObject* callable, const std::string& sender, PyObject* app_data, PyObject* user_data)
+	void mvAddCallback(PyObject* callable, const std::string& sender, PyObject* app_data, PyObject* user_data)
 	{
 
-		if (m_callCount > s_MaxNumberOfCalls)
+		if (GContext->callbackRegistry->callCount > GContext->callbackRegistry->maxNumberOfCalls)
 		{
 			if (app_data != nullptr)
 				Py_XDECREF(app_data);
@@ -130,12 +130,12 @@ namespace Marvel {
 			return;
 		}
 
-		submitCallback([=]() {
-			runCallback(callable, sender, app_data, user_data);
+		mvSubmitCallback([=]() {
+			mvRunCallback(callable, sender, app_data, user_data);
 			});
 	}
 
-	void mvCallbackRegistry::runCallback(PyObject* callable, const std::string& sender, PyObject* app_data, PyObject* user_data)
+	void mvRunCallback(PyObject* callable, const std::string& sender, PyObject* app_data, PyObject* user_data)
 	{
 
 		if (callable == nullptr)
@@ -260,7 +260,7 @@ namespace Marvel {
 
 	}
 
-	void mvCallbackRegistry::runCallback(PyObject* callable, mvUUID sender, PyObject* app_data, PyObject* user_data)
+	void mvRunCallback(PyObject* callable, mvUUID sender, PyObject* app_data, PyObject* user_data)
 	{
 
 		if (callable == nullptr)
@@ -385,7 +385,7 @@ namespace Marvel {
 
 	}
 
-	PyObject* mvCallbackRegistry::set_frame_callback(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* set_frame_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
         int frame = 0;
 		PyObject* callback;
@@ -394,20 +394,20 @@ namespace Marvel {
                    &frame,  &callback))
 			return GetPyNone();
 
-        if(frame > GContext->callbackRegistry->_highestFrame)
-            GContext->callbackRegistry->_highestFrame = frame;
+        if(frame > GContext->callbackRegistry->highestFrame)
+            GContext->callbackRegistry->highestFrame = frame;
         
         // TODO: check previous entry and deprecate if existing
 		Py_XINCREF(callback);
-		GContext->callbackRegistry->submit([=]()
+		mvSubmitCallback([=]()
 			{
-                GContext->callbackRegistry->_frameCallbacks[frame] = callback;
+                GContext->callbackRegistry->frameCallbacks[frame] = callback;
 			});
 
 		return GetPyNone();
 	}
 
-	PyObject* mvCallbackRegistry::set_exit_callback(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* set_exit_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		PyObject* callback;
 
@@ -415,14 +415,14 @@ namespace Marvel {
 			return GetPyNone();
 
 		Py_XINCREF(callback);
-		GContext->callbackRegistry->submit([=]()
+		mvSubmitCallback([=]()
 			{
-				GContext->callbackRegistry->setOnCloseCallback(callback);
+				GContext->callbackRegistry->onCloseCallback = SanitizeCallback(callback);
 			});
 		return GetPyNone();
 	}
 
-	PyObject* mvCallbackRegistry::set_viewport_resize_callback(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* set_viewport_resize_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		PyObject* callback = nullptr;
 
@@ -433,9 +433,9 @@ namespace Marvel {
 		if (callback)
 			Py_XINCREF(callback);
 
-		GContext->callbackRegistry->submit([=]()
+		mvSubmitCallback([=]()
 			{
-				GContext->callbackRegistry->setResizeCallback(callback);
+				GContext->callbackRegistry->resizeCallback = SanitizeCallback(callback);
 				return std::string();
 			});
 

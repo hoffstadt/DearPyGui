@@ -130,9 +130,9 @@ namespace Marvel {
 			if (ImGui::ColorButton(_internalLabel.c_str(), col, _flags, ImVec2((float)_width, (float)_height)))
 			{
 				if(_alias.empty())
-					GContext->callbackRegistry->addCallback(getCallback(false), _uuid, nullptr, _user_data);
+					mvAddCallback(getCallback(false), _uuid, nullptr, _user_data);
 				else	
-					GContext->callbackRegistry->addCallback(getCallback(false), _alias, nullptr, _user_data);
+					mvAddCallback(getCallback(false), _alias, nullptr, _user_data);
 			}
 		}
 
@@ -184,9 +184,9 @@ namespace Marvel {
 				{
 					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
 					if (_alias.empty())
-						GContext->callbackRegistry->addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
+						mvAddCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
 					else
-						GContext->callbackRegistry->addCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
+						mvAddCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
 				}
 
 				ImGui::EndDragDropTarget();

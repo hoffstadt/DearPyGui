@@ -26,8 +26,8 @@ namespace Marvel {
 
 		mvToolManager::FillExtraCommands(methods);
 		mvFontManager::FillExtraCommands(methods);
-		mvCallbackRegistry::FillExtraCommands(methods);
 
+		mvCallbackRegCommands(methods);
 		mvViewportCommands(methods);
 		mvContextCommands(methods);
 		mvItemRegistryCommands(methods);
@@ -53,8 +53,8 @@ namespace Marvel {
 
 			mvToolManager::InsertParser(&parsers);
 			mvFontManager::InsertParser(&parsers);
-			mvCallbackRegistry::InsertParser(&parsers);
 
+			InsertParser_mvCallbackRegistry(&parsers);
 			InsertParser_mvViewport(&parsers);
 			InsertParser_mvContext(&parsers);
 			InsertParser_mvItemRegistry(&parsers);

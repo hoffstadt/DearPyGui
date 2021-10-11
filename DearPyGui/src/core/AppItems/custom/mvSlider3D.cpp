@@ -470,12 +470,12 @@ namespace Marvel {
 			if(SliderScalar3D(_specifiedLabel.c_str(), &(*_value)[0], &(*_value)[1], &(*_value)[2], _minX, _maxX, _minY, _maxY, _minZ, _maxZ, _scale))
 			{
 				auto value = *_value;
-				GContext->callbackRegistry->submitCallback([=]() {
+				mvSubmitCallback([=]() {
 
 					if(_alias.empty())
-						GContext->callbackRegistry->addCallback(getCallback(false), _uuid, ToPyFloatList(value.data(), (int)value.size()), _user_data);
+						mvAddCallback(getCallback(false), _uuid, ToPyFloatList(value.data(), (int)value.size()), _user_data);
 					else
-						GContext->callbackRegistry->addCallback(getCallback(false), _alias, ToPyFloatList(value.data(), (int)value.size()), _user_data);
+						mvAddCallback(getCallback(false), _alias, ToPyFloatList(value.data(), (int)value.size()), _user_data);
 					});
 			}
 		}
@@ -528,9 +528,9 @@ namespace Marvel {
 				{
 					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
 					if (_alias.empty())
-						GContext->callbackRegistry->addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
+						mvAddCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
 					else
-						GContext->callbackRegistry->addCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
+						mvAddCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
 				}
 
 				ImGui::EndDragDropTarget();

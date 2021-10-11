@@ -65,14 +65,14 @@ namespace Marvel {
 
 	static void mvOnResize()
 	{
-		GContext->callbackRegistry->submitCallback([=]() {
+		mvSubmitCallback([=]() {
 			PyObject* dimensions = PyTuple_New(4);
 			PyTuple_SetItem(dimensions, 0, PyLong_FromLong(GContext->viewport->actualWidth));
 			PyTuple_SetItem(dimensions, 1, PyLong_FromLong(GContext->viewport->actualHeight));
 			PyTuple_SetItem(dimensions, 2, PyLong_FromLong(GContext->viewport->clientWidth));
 			PyTuple_SetItem(dimensions, 3, PyLong_FromLong(GContext->viewport->clientHeight));
-			GContext->callbackRegistry->addCallback(
-				GContext->callbackRegistry->getResizeCallback(), MV_APP_UUID, dimensions, nullptr);
+			mvAddCallback(
+				GContext->callbackRegistry->resizeCallback, MV_APP_UUID, dimensions, nullptr);
 			});
 	}
 

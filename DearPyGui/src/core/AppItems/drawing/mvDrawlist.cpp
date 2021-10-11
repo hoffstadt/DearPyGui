@@ -78,9 +78,9 @@ namespace Marvel {
 		if (ImGui::InvisibleButton(_internalLabel.c_str(), ImVec2((float)_width, (float)_height), ImGuiButtonFlags_MouseButtonLeft | ImGuiButtonFlags_MouseButtonRight | ImGuiButtonFlags_MouseButtonMiddle))
 		{
 			if(_alias.empty())
-				GContext->callbackRegistry->addCallback(getCallback(false), _uuid, nullptr, _user_data);
+				mvAddCallback(getCallback(false), _uuid, nullptr, _user_data);
 			else
-				GContext->callbackRegistry->addCallback(getCallback(false), _alias, nullptr, _user_data);
+				mvAddCallback(getCallback(false), _alias, nullptr, _user_data);
 		}
 
 		UpdateAppItemState(_state);

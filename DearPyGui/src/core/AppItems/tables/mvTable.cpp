@@ -311,7 +311,7 @@ namespace Marvel {
 				if (sorts_specs->SpecsDirty)
 				{
 					if (sorts_specs->SpecsCount == 0)
-						GContext->callbackRegistry->addCallback(getCallback(false), _uuid, nullptr, _user_data);
+						mvAddCallback(getCallback(false), _uuid, nullptr, _user_data);
 					else
 					{
 
@@ -327,7 +327,7 @@ namespace Marvel {
 							specs.push_back({ idMap[sort_spec->ColumnUserID], sort_spec->SortDirection == ImGuiSortDirection_Ascending ? 1 : -1 });
 						}
 
-						GContext->callbackRegistry->submitCallback([=]() {
+						mvSubmitCallback([=]() {
 							PyObject* pySpec = PyList_New(specs.size());
 							for (size_t i = 0; i < specs.size(); i++)
 							{
@@ -338,9 +338,9 @@ namespace Marvel {
 							}
 
 							if (_alias.empty())
-								GContext->callbackRegistry->runCallback(getCallback(false), _uuid, pySpec, _user_data);
+								mvRunCallback(getCallback(false), _uuid, pySpec, _user_data);
 							else
-								GContext->callbackRegistry->runCallback(getCallback(false), _alias, pySpec, _user_data);
+								mvRunCallback(getCallback(false), _alias, pySpec, _user_data);
 							Py_XDECREF(pySpec);
 							});
 					}
