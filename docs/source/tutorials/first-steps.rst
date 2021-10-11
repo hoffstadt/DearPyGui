@@ -45,6 +45,30 @@ Confirm the pip install by runing the code block below.
 
 .. image:: https://raw.githubusercontent.com/hoffstadt/DearPyGui/assets/BasicUsageExample1.PNG
 
+Demo
+----
+DPG has a mostly complete built-in demo/showcase. It is a good idea to look into this demo. 
+The code for this can be found in the repo in the `demo.py`_ file
+
+.. _Dear ImGui: https://github.com/hoffstadt/DearPyGui/blob/master/DearPyGui/dearpygui/demo.py
+
+**Code:**
+
+.. code-block:: python
+
+    import dearpygui.dearpygui as dpg
+    import dearpygui.demo as demo
+
+    dpg.create_context()
+    dpg.create_viewport(title='Custom Title', width=600, height=200)
+
+    demo.show_demo()
+
+    dpg.setup_dearpygui()
+    dpg.show_viewport()
+    dpg.start_dearpygui()
+    dpg.destroy_context()
+
 .. note:: 
     The main script must always:
 
