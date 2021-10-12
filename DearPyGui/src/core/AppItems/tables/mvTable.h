@@ -15,7 +15,6 @@ namespace Marvel {
 
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvTable, add_table)
         MV_DEFAULT_PARENTS
-        MV_DEFAULT_CHILDREN
         
         MV_CREATE_COMMAND(highlight_table_column);
         MV_CREATE_COMMAND(unhighlight_table_column);
@@ -56,6 +55,11 @@ namespace Marvel {
             MV_ADD_CONSTANT(mvTable_SizingStretchProp),
             MV_ADD_CONSTANT(mvTable_SizingStretchSame)
         MV_END_CONSTANTS
+
+        MV_START_CHILDREN
+            MV_ADD_CHILD(mvAppItemType::mvTableRow),
+            MV_ADD_CHILD(mvAppItemType::mvTableColumn)
+        MV_END_CHILDREN
 
     public:
 
