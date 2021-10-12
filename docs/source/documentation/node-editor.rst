@@ -99,15 +99,6 @@ Node Attribute Pin Shapes
 
 The following constants can be used in the `shape` argument for node attributes
 
-| Shape |
-| ---- |
-| **mvNode_PinShape_Circle** |
-| **mvNode_PinShape_CircleFilled** (default) |
-| **mvNode_PinShape_Triangle** |
-| **mvNode_PinShape_TriangleFilled** |
-| **mvNode_PinShape_Quad** |
-| **mvNode_PinShape_QuadFilled** |
-
 +--------------------------------------------+
 | Shape                                      |
 +--------------------------------------------+
