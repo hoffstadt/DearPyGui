@@ -104,4 +104,3 @@ Project Information
     image:: https://img.shields.io/badge/pypi-v0.6.213-orange
         :target: https://img.shields.io/badge/pypi-v0.6.213-orange)](https://img.shields.io/badge/pypi-v0.6.213-orange
 
-------------

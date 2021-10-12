@@ -32,7 +32,7 @@ The source code is available in the `Snake Github repository`_.
 
 
 Digital Phosphor Display with RTLSDR
-----
+------------------------------------
 
 `Digital Phosphor Display Video <https://www.youtube.com/watch?v=GPoQYTfQMxw>`_
 

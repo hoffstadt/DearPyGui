@@ -1,120 +1,219 @@
 Themes
 ======
 
-In DPG, there is an app item container called a "theme".
-A theme is composed of theme colors and styles which are themselves app items.
-The theme can either be set as the default theme, attached to an app item type,
+Themes are containers which are composed of:
+    Theme Componenets:
+        are containers within a theme that can specify an item type the theme component is applied to
+    Theme Colors:
+        items that are added to a theme component and set colors
+    Theme Styles:
+        items that are added to a theme component and set colors
+
+The theme can be:
+* attached as the default theme. This will have a global effect across all windows and propigate.
+* attached to a container. This will propigate to its children if applicable theme components are in the theme.
+* attached to an app item type if applicable theme components are in the theme.
 a item container, or a specific item.
 
-Categories
-----------
+Theme Components must have a specified item type. This can either be *mvAll* for all items or a specific named item type.
+
+Style and color items have a named constant and will apply that constant to their components named item type. 
+Style and color items must have a named category. Constants contain their category in the name.
 
 Theme colors and styles fall into the following categories:
 
-* **mvThemeCat_Core**
-* **mvThemeCat_Plots**
-* **mvthemeCat_Nodes**
+**mvThemeCat_Plots**:
+    Items that are associated with plots. Style/color constants identified by *mvPlotCol_\*\*\** or *mvPlotStyle_\*\*\**
 
-How does an app item decide its color/style?
---------------------------------------------
+**mvthemeCat_Nodes**:
+    Items that are associated with Nodes. Style/color constants identified by *mvNodeCol_\*\*\** or *mvNodeStyle_\*\*\**
 
-Every app item requires certain styles/colors to be set.
-When an app item is drawn, it performs several checks to locate the colors/styles its needs.
-The search order is:
+**mvThemeCat_Core**:
+    All other items within dearpygui. Style/color constants identified by *mvThemeCol_\*\*\** or *mvThemeStyle_\*\*\**
 
-1. Locally attached theme item.
-2. Globally attached theme item.
-3. Ancestor tree attached theme.
-4. User set default theme.
-5. DPG default theme.
+Default Theme (global) 
+----------------------
 
-Apply theme to specific item
-----------------------------
-
-Below is an example of attaching a theme to a specific widget:
+Default themes will apply the theme globally across all windows and propigate to children.
 
 .. code-block:: python
 
     import dearpygui.dearpygui as dpg
 
-    with dpg.window(label="about"):
-        dpg.add_button(label="Button 1", id="button1")
-        dpg.add_button(label="Button 2", id="button2")
+    dpg.create_context()
 
-    # create a theme
-    with dpg.theme(id="theme_id"):
-        dpg.add_theme_color(dpg.mvThemeCol_Button, (255, 140, 23), category=dpg.mvThemeCat_Core)
-        dpg.add_theme_style(dpg.mvStyleVar_FrameRounding, 5, category=dpg.mvThemeCat_Core)
+    with dpg.window(label="Tutorial", pos=(20, 50), width=275, height=225) as win1:
+        t1 = dpg.add_input_text(default_value="some text")
+        t2 = dpg.add_input_text(default_value="some text")
+        with dpg.child_window(height=100):
+            t3 = dpg.add_input_text(default_value="some text")
+            dpg.add_input_int()
+        dpg.add_input_text(default_value="some text")
 
-    dpg.set_item_theme("button1", "theme_id")
+    with dpg.window(label="Tutorial", pos=(320, 50), width=275, height=225) as win2:
+        dpg.add_input_text(default_value="some text")
+        dpg.add_input_int()
 
+    with dpg.theme() as global_theme:
+        with dpg.theme_component(dpg.mvAll):
+            dpg.add_theme_color(dpg.mvThemeCol_FrameBg, (255, 140, 23), category=dpg.mvThemeCat_Core)
+            dpg.add_theme_style(dpg.mvStyleVar_FrameRounding, 5, category=dpg.mvThemeCat_Core)
+
+        with dpg.theme_component(dpg.mvInputInt):
+            dpg.add_theme_color(dpg.mvThemeCol_FrameBg, (140, 255, 23), category=dpg.mvThemeCat_Core)
+            dpg.add_theme_style(dpg.mvStyleVar_FrameRounding, 5, category=dpg.mvThemeCat_Core)
+
+    dpg.bind_theme(global_theme)
+
+    dpg.show_style_editor()
+
+    dpg.create_viewport(title='Custom Title', width=800, height=600)
+    dpg.setup_dearpygui()
+    dpg.show_viewport()
     dpg.start_dearpygui()
+    dpg.destroy_context()
 
-Apply theme to a type
+Container Propigation
 ---------------------
 
-By applying a theme to a type, the theme only effects a specific app item type:
+Applying a theme to a container will also propagated to its children:
 
 .. code-block:: python
 
     import dearpygui.dearpygui as dpg
 
-    with dpg.window(label="about"):
-        dpg.add_button(label="Button 1")
-        dpg.add_button(label="Button 2")
+    dpg.create_context()
 
-    # create a theme
-    with dpg.theme(id="theme_id"):
-        dpg.add_theme_color(dpg.mvThemeCol_Button, (255, 140, 23), category=dpg.mvThemeCat_Core)
-        dpg.add_theme_style(dpg.mvStyleVar_FrameRounding, 5, category=dpg.mvThemeCat_Core)
+    with dpg.window(label="Tutorial", pos=(20, 50), width=275, height=225) as win1:
+        t1 = dpg.add_input_text(default_value="some text")
+        t2 = dpg.add_input_text(default_value="some text")
+        with dpg.child_window(height=100):
+            t3 = dpg.add_input_text(default_value="some text")
+            dpg.add_input_int()
+        dpg.add_input_text(default_value="some text")
 
-    dpg.set_item_type_theme(dpg.mvButton, "theme_id")
+    with dpg.window(label="Tutorial", pos=(320, 50), width=275, height=225) as win2:
+        dpg.add_input_text(default_value="some text")
+        dpg.add_input_int()
 
+    with dpg.theme() as container_theme:
+        with dpg.theme_component(dpg.mvAll):
+            dpg.add_theme_color(dpg.mvThemeCol_FrameBg, (150, 100, 100), category=dpg.mvThemeCat_Core)
+            dpg.add_theme_style(dpg.mvStyleVar_FrameRounding, 5, category=dpg.mvThemeCat_Core)
+
+        with dpg.theme_component(dpg.mvInputInt):
+            dpg.add_theme_color(dpg.mvThemeCol_FrameBg, (100, 150, 100), category=dpg.mvThemeCat_Core)
+            dpg.add_theme_style(dpg.mvStyleVar_FrameRounding, 5, category=dpg.mvThemeCat_Core)
+
+    dpg.bind_item_theme(win1, container_theme)
+
+    dpg.show_style_editor()
+
+    dpg.create_viewport(title='Custom Title', width=800, height=600)
+    dpg.setup_dearpygui()
+    dpg.show_viewport()
     dpg.start_dearpygui()
+    dpg.destroy_context()
 
+Item Specific
+-------------
 
-Apply theme to a container
---------------------------
-
-By applying a theme to a container, the theme is propagated to its children:
+Applying a theme to an item will overide any previous themes to that specified item if the theme contains an applicable component.
 
 .. code-block:: python
 
     import dearpygui.dearpygui as dpg
 
-    with dpg.window(label="about", id="window_id"):
-        dpg.add_button(label="Button 1")
-        dpg.add_button(label="Button 2")
+    dpg.create_context()
 
-    # create a theme
-    with dpg.theme(id="theme_id"):
-        dpg.add_theme_color(dpg.mvThemeCol_Button, (255, 140, 23), category=dpg.mvThemeCat_Core)
-        dpg.add_theme_style(dpg.mvStyleVar_FrameRounding, 5, category=dpg.mvThemeCat_Core)
+    with dpg.window(label="Tutorial", pos=(20, 50), width=275, height=225) as win1:
+        t1 = dpg.add_input_text(default_value="some text")
+        t2 = dpg.add_input_text(default_value="some text")
+        with dpg.child_window(height=100):
+            t3 = dpg.add_input_text(default_value="some text")
+            dpg.add_input_int()
+        dpg.add_input_text(default_value="some text")
 
-    dpg.set_item_theme("window_id", "theme_id")
+    with dpg.window(label="Tutorial", pos=(320, 50), width=275, height=225) as win2:
+        dpg.add_input_text(default_value="some text")
+        dpg.add_input_int()
 
+    with dpg.theme() as item_theme:
+        with dpg.theme_component(dpg.mvAll):
+            dpg.add_theme_color(dpg.mvThemeCol_FrameBg, (200, 200, 100), category=dpg.mvThemeCat_Core)
+            dpg.add_theme_style(dpg.mvStyleVar_FrameRounding, 0, category=dpg.mvThemeCat_Core)
+
+    dpg.bind_item_theme(t2, item_theme)
+
+    dpg.show_style_editor()
+
+    dpg.create_viewport(title='Custom Title', width=800, height=600)
+    dpg.setup_dearpygui()
+    dpg.show_viewport()
     dpg.start_dearpygui()
+    dpg.destroy_context()
 
-Apply default theme
--------------------
+Priority of Themes
+------------------
 
-Default themes will replace the default theme for every new item created.
-Below is an example of applying a default theme:
+The theme proritizes the latest applied theme in the order of 
+
+1. specific item
+2. container inherited
+3. global
 
 .. code-block:: python
 
     import dearpygui.dearpygui as dpg
 
-    # create a theme
-    with dpg.theme(default_theme=True):
-        dpg.add_theme_color(dpg.mvThemeCol_Button, (255, 140, 23), category=dpg.mvThemeCat_Core)
-        dpg.add_theme_style(dpg.mvStyleVar_FrameRounding, 5, category=dpg.mvThemeCat_Core)
+    dpg.create_context()
 
-    with dpg.window(label="about"):
-        dpg.add_button(label="Button 1")
-        dpg.add_button(label="Button 2")
+    with dpg.window(label="Tutorial", pos=(20, 50), width=275, height=225) as win1:
+        t1 = dpg.add_input_text(default_value="some text")
+        t2 = dpg.add_input_text(default_value="some text")
+        with dpg.child_window(height=100):
+            t3 = dpg.add_input_text(default_value="some text")
+            dpg.add_input_int()
+        dpg.add_input_text(default_value="some text")
 
+    with dpg.window(label="Tutorial", pos=(320, 50), width=275, height=225) as win2:
+        dpg.add_input_text(default_value="some text")
+        dpg.add_input_int()
+
+    with dpg.theme() as global_theme:
+        with dpg.theme_component(dpg.mvAll):
+            dpg.add_theme_color(dpg.mvThemeCol_FrameBg, (255, 140, 23), category=dpg.mvThemeCat_Core)
+            dpg.add_theme_style(dpg.mvStyleVar_FrameRounding, 5, category=dpg.mvThemeCat_Core)
+
+        with dpg.theme_component(dpg.mvInputInt):
+            dpg.add_theme_color(dpg.mvThemeCol_FrameBg, (140, 255, 23), category=dpg.mvThemeCat_Core)
+            dpg.add_theme_style(dpg.mvStyleVar_FrameRounding, 5, category=dpg.mvThemeCat_Core)
+
+    with dpg.theme() as container_theme:
+        with dpg.theme_component(dpg.mvAll):
+            dpg.add_theme_color(dpg.mvThemeCol_FrameBg, (150, 100, 100), category=dpg.mvThemeCat_Core)
+            dpg.add_theme_style(dpg.mvStyleVar_FrameRounding, 5, category=dpg.mvThemeCat_Core)
+
+        with dpg.theme_component(dpg.mvInputInt):
+            dpg.add_theme_color(dpg.mvThemeCol_FrameBg, (100, 150, 100), category=dpg.mvThemeCat_Core)
+            dpg.add_theme_style(dpg.mvStyleVar_FrameRounding, 5, category=dpg.mvThemeCat_Core)
+
+    with dpg.theme() as item_theme:
+        with dpg.theme_component(dpg.mvAll):
+            dpg.add_theme_color(dpg.mvThemeCol_FrameBg, (200, 200, 100), category=dpg.mvThemeCat_Core)
+            dpg.add_theme_style(dpg.mvStyleVar_FrameRounding, 0, category=dpg.mvThemeCat_Core)
+
+    dpg.bind_theme(global_theme)
+    dpg.bind_item_theme(win1, container_theme)
+    dpg.bind_item_theme(t2, item_theme)
+
+    dpg.show_style_editor()
+
+    dpg.create_viewport(title='Custom Title', width=800, height=600)
+    dpg.setup_dearpygui()
+    dpg.show_viewport()
     dpg.start_dearpygui()
+    dpg.destroy_context()
 
 
 Plot Markers
