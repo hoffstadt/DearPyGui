@@ -181,7 +181,6 @@ namespace Marvel {
 
 		ImGuiIO& io = ImGui::GetIO();
 		ImFontAtlas* atlas = io.Fonts;
-		HelpMarker("Read FAQ and docs/FONTS.md for details on font loading.");
 		ImGui::PushItemWidth(120);
 		for (int i = 0; i < atlas->Fonts.Size; i++)
 		{

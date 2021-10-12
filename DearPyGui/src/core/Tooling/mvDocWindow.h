@@ -14,7 +14,7 @@ namespace Marvel {
         mvDocWindow();
 
 		[[nodiscard]] mvUUID getUUID() const override { return MV_TOOL_DOC_UUID; }
-        [[nodiscard]] const char* getTitle() const override { return "Core Documentation"; }
+        [[nodiscard]] const char* getTitle() const override { return "Internal Documentation"; }
 
     protected:
 
