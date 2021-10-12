@@ -348,33 +348,37 @@ namespace Marvel {
 				}
 			}
 
-			if (_imguiFilter.IsActive())
+			if (_rows != 0)
 			{
-				for (auto& row : _children[1])
+
+				if (_imguiFilter.IsActive())
 				{
-					if (!_imguiFilter.PassFilter(row->_filter.c_str()))
-						continue;
-					row_renderer(row.get());
+					for (auto& row : _children[1])
+					{
+						if (!_imguiFilter.PassFilter(row->_filter.c_str()))
+							continue;
+						row_renderer(row.get());
+					}
 				}
-			}
 
-			else if (_useClipper)
-			{
-				ImGuiListClipper clipper;
-				clipper.Begin((int)_children[1].size());
-
-				while (clipper.Step())
+				else if (_useClipper)
 				{
-					for (int row_n = clipper.DisplayStart; row_n < clipper.DisplayEnd; row_n++)
-						row_renderer(_children[1][row_n].get());
+					ImGuiListClipper clipper;
+					clipper.Begin((int)_children[1].size());
 
+					while (clipper.Step())
+					{
+						for (int row_n = clipper.DisplayStart; row_n < clipper.DisplayEnd; row_n++)
+							row_renderer(_children[1][row_n].get());
+
+					}
+					clipper.End();
 				}
-				clipper.End();
-			}
-			else
-			{
-				for (auto& row : _children[1])
-					row_renderer(row.get());
+				else
+				{
+					for (auto& row : _children[1])
+						row_renderer(row.get());
+				}
 			}
 
 			// columns
