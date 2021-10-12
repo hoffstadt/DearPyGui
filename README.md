@@ -69,12 +69,11 @@ from dearpygui.demo import show_demo
 dpg.create_context()
 dpg.create_viewport()
 dpg.setup_dearpygui()
+
 show_demo()
 
 dpg.show_viewport()
-while dpg.is_dearpygui_running():
-    dpg.render_dearpygui_frame()  
-
+dpg.start_dearpygui()
 dpg.destroy_context()
 ```
 
@@ -101,9 +100,7 @@ with dpg.window(label="Example Window"):
     dpg.add_slider_float(label="float")
 
 dpg.show_viewport()
-while dpg.is_dearpygui_running():
-    dpg.render_dearpygui_frame()  
-
+dpg.start_dearpygui()
 dpg.destroy_context()
 ```
 Result:
@@ -169,7 +166,8 @@ These include:
 * 🥇 [Barney Mannerings](https://github.com/barnabee) _Gold Sponsor_
 * 🥇 [RB Blackstone](https://github.com/RBBlackstone) _Gold Sponsor_
 * 🥇 [Charles Ray](https://github.com/ray-5050) _Gold Sponsor_
-
+* 🥇 [Alexander G. Morano](https://github.com/Amorano) _Gold Sponsor_
+* 🥇 [Johannes Kargl](https://github.com/JohannesKargl) _Gold Sponsor_
 
 Thank you to all other [sponsors](https://github.com/hoffstadt/DearPyGui/wiki/Sponsors) for keeping this project moving forward!
 
