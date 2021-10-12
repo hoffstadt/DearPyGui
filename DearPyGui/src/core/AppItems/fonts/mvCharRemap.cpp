@@ -23,6 +23,7 @@ namespace Marvel {
 
 		mvPythonParserSetup setup;
 		setup.category = { "Fonts", "Widgets" };
+		setup.about = "Remaps a character.";
 		setup.returnType = mvPyDataType::UUID;
 
 		mvPythonParser parser = FinalizeParser(setup, args);

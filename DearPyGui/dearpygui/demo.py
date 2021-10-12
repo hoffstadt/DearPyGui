@@ -1638,29 +1638,60 @@ def show_demo():
 
             with dpg.tree_node(label="Sorting"):
 
-                def sort_callback(sender, app_data, user_data):
-                    pass
+                def _sort_callback(sender, sort_specs):
 
-                dpg.add_text("Sorting (not implemented yet)")
+                    # sort_specs scenarios:
+                    #   1. no sorting -> sort_specs == None
+                    #   2. single sorting -> sort_specs == [[column_id, direction]]
+                    #   3. multi sorting -> sort_specs == [[column_id, direction], [column_id, direction], ...]
+                    #
+                    # notes:
+                    #   1. direction is ascending if == 1
+                    #   2. direction is ascending if == -1
+
+                    # no sorting case
+                    if sort_specs is None: return
+
+                    rows = dpg.get_item_children(sender, 1)
+
+                    # create a list that can be sorted based on first cell
+                    # value, keeping track of row and value used to sort
+                    sortable_list = []
+                    for row in rows:
+                        first_cell = dpg.get_item_children(row, 1)[0]
+                        sortable_list.append([row, dpg.get_value(first_cell)])
+
+                    def _sorter(e):
+                        return e[1]
+
+                    sortable_list.sort(key=_sorter, reverse=sort_specs[0][1] < 0)
+
+                    # create list of just sorted row ids
+                    new_order = []
+                    for pair in sortable_list:
+                        new_order.append(pair[0])
+                    
+                    dpg.reorder_items(sender, 1, new_order)
+
                 with dpg.table(header_row=True, no_host_extendX=True,
                             borders_innerH=True, borders_outerH=True, borders_innerV=True,
                             borders_outerV=True, context_menu_in_body=True, row_background=True,
-                            policy=dpg.mvTable_SizingFixedFit, height=500, sortable=True, callback=sort_callback,
-                            scrollY=True, delay_search=True) as table_id:
+                            policy=dpg.mvTable_SizingFixedFit, height=500, sortable=True, callback=_sort_callback,
+                            scrollY=True, delay_search=True, tag="__demo_sorting_table"):
 
                     dpg.add_table_column(label="One")
-                    dpg.add_table_column(label="Two")
-                    dpg.add_table_column(label="Three")
+                    dpg.add_table_column(label="Two", no_sort=True)
+                    dpg.add_table_column(label="Three", no_sort=True)
 
                     for i in range(25):
                         with dpg.table_row():
-                            dpg.add_input_int(label=" ", step=0)
+                            dpg.add_input_int(label=" ", step=0, default_value=i)
                             dpg.add_text(f"Cell {i}, 1")
                             dpg.add_checkbox(label=f"Cell {i}, 2")
 
 
-                dpg.add_checkbox(label="sort_multi", before=table_id, user_data=table_id, callback=lambda sender, app_data, user_data:dpg.configure_item(user_data, sort_multi=app_data))
-                dpg.add_checkbox(label="sort_tristate", before=table_id, user_data=table_id, callback=lambda sender, app_data, user_data:dpg.configure_item(user_data, sort_tristate=app_data))
+                #dpg.add_checkbox(label="sort_multi", before=table_id, user_data=table_id, callback=lambda sender, app_data, user_data:dpg.configure_item(user_data, sort_multi=app_data))
+                dpg.add_checkbox(label="sort_tristate", before="__demo_sorting_table", callback=lambda sender, app_data, user_data:dpg.configure_item("__demo_sorting_table", sort_tristate=app_data))
 
             with dpg.tree_node(label="Sizing Policy"):
 

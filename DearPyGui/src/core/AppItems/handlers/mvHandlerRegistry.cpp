@@ -15,7 +15,7 @@ namespace Marvel {
 
 		mvPythonParserSetup setup;
 		setup.about = "Adds a handler registry.";
-		setup.category = { "Events", "Widgets" };
+		setup.category = { "Events", "Widgets", "Registries" };
 		setup.returnType = mvPyDataType::UUID;
 		setup.createContextManager = true;
 

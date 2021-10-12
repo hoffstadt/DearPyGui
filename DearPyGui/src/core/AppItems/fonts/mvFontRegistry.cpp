@@ -16,6 +16,7 @@ namespace Marvel {
 		);
 
 		mvPythonParserSetup setup;
+		setup.about = "Adds a font registry.";
 		setup.category = { "Fonts", "Containers", "Registries"};
 		setup.returnType = mvPyDataType::UUID;
 		setup.createContextManager = true;

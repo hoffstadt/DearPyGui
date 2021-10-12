@@ -1734,7 +1734,7 @@ def filter_set(*, label: str =None, user_data: Any =None, use_internal_label: bo
 
 @contextmanager
 def font(file : str, size : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =internal_dpg.mvReservedUUID_0, **kwargs) -> Union[int, str]:
-	"""	 Undocumented
+	"""	 Adds font to a font registry.
 
 	Args:
 		file (str): 
@@ -1766,7 +1766,7 @@ def font(file : str, size : int, *, label: str =None, user_data: Any =None, use_
 
 @contextmanager
 def font_registry(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, show: bool =True, **kwargs) -> Union[int, str]:
-	"""	 Undocumented
+	"""	 Adds a font registry.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -2771,7 +2771,7 @@ def window(*, label: str =None, user_data: Any =None, use_internal_label: bool =
 ##########################################################
 
 def add_2d_histogram_series(x : Union[List[float], Tuple[float, ...]], y : Union[List[float], Tuple[float, ...]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, show: bool =True, xbins: int =-1, ybins: int =-1, xmin_range: float =0.0, xmax_range: float =1.0, ymin_range: float =0.0, ymax_range: float =1.0, density: bool =False, outliers: bool =True, **kwargs) -> Union[int, str]:
-	"""	 Undocumented
+	"""	 Adds a 2d histogram series.
 
 	Args:
 		x (Any): 
@@ -3003,7 +3003,7 @@ def add_candle_series(dates : Union[List[float], Tuple[float, ...]], opens : Uni
 	return internal_dpg.add_candle_series(dates, opens, closes, lows, highs, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, source=source, show=show, bull_color=bull_color, bear_color=bear_color, weight=weight, tooltip=tooltip, **kwargs)
 
 def add_char_remap(source : int, target : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, **kwargs) -> Union[int, str]:
-	"""	 Undocumented
+	"""	 Remaps a character.
 
 	Args:
 		source (int): 
@@ -4091,7 +4091,7 @@ def add_float_vect_value(*, label: str =None, user_data: Any =None, use_internal
 	return internal_dpg.add_float_vect_value(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, source=source, default_value=default_value, parent=parent, **kwargs)
 
 def add_font(file : str, size : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =internal_dpg.mvReservedUUID_0, **kwargs) -> Union[int, str]:
-	"""	 Undocumented
+	"""	 Adds font to a font registry.
 
 	Args:
 		file (str): 
@@ -4120,7 +4120,7 @@ def add_font(file : str, size : int, *, label: str =None, user_data: Any =None, 
 	return internal_dpg.add_font(file, size, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, **kwargs)
 
 def add_font_chars(chars : Union[List[int], Tuple[int, ...]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, **kwargs) -> Union[int, str]:
-	"""	 Undocumented
+	"""	 Adds specific font characters to a font.
 
 	Args:
 		chars (Union[List[int], Tuple[int, ...]]): 
@@ -4141,7 +4141,7 @@ def add_font_chars(chars : Union[List[int], Tuple[int, ...]], *, label: str =Non
 	return internal_dpg.add_font_chars(chars, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, **kwargs)
 
 def add_font_range(first_char : int, last_char : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, **kwargs) -> Union[int, str]:
-	"""	 Undocumented
+	"""	 Adds a range of font characters to a font.
 
 	Args:
 		first_char (int): 
@@ -4163,7 +4163,7 @@ def add_font_range(first_char : int, last_char : int, *, label: str =None, user_
 	return internal_dpg.add_font_range(first_char, last_char, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, **kwargs)
 
 def add_font_range_hint(hint : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, **kwargs) -> Union[int, str]:
-	"""	 Undocumented
+	"""	 Adds a range of font characters (mvFontRangeHint_ constants).
 
 	Args:
 		hint (int): 
@@ -4184,7 +4184,7 @@ def add_font_range_hint(hint : int, *, label: str =None, user_data: Any =None, u
 	return internal_dpg.add_font_range_hint(hint, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, **kwargs)
 
 def add_font_registry(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, show: bool =True, **kwargs) -> Union[int, str]:
-	"""	 Undocumented
+	"""	 Adds a font registry.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -5568,7 +5568,7 @@ def add_node_editor(*, label: str =None, user_data: Any =None, use_internal_labe
 	return internal_dpg.add_node_editor(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, parent=parent, before=before, callback=callback, show=show, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, delink_callback=delink_callback, menubar=menubar, **kwargs)
 
 def add_node_link(attr_1 : Union[int, str], attr_2 : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, show: bool =True, **kwargs) -> Union[int, str]:
-	"""	 Undocumented
+	"""	 Adds a node link between 2 node attributes.
 
 	Args:
 		attr_1 (Union[int, str]): 
@@ -7140,7 +7140,7 @@ def capture_next_item(callback : Callable, **kwargs) -> None:
 	return internal_dpg.capture_next_item(callback, **kwargs)
 
 def clear_selected_links(node_editor : Union[int, str], **kwargs) -> None:
-	"""	 Undocumented
+	"""	 Clears a node editor's selected links.
 
 	Args:
 		node_editor (Union[int, str]): 
@@ -7151,7 +7151,7 @@ def clear_selected_links(node_editor : Union[int, str], **kwargs) -> None:
 	return internal_dpg.clear_selected_links(node_editor, **kwargs)
 
 def clear_selected_nodes(node_editor : Union[int, str], **kwargs) -> None:
-	"""	 Undocumented
+	"""	 Clears a node editor's selected nodes.
 
 	Args:
 		node_editor (Union[int, str]): 
@@ -7900,7 +7900,7 @@ def get_plot_query_area(plot : Union[int, str], **kwargs) -> Union[List[float], 
 	return internal_dpg.get_plot_query_area(plot, **kwargs)
 
 def get_selected_links(node_editor : Union[int, str], **kwargs) -> List[List[str]]:
-	"""	 Undocumented
+	"""	 Returns a node editor's selected links.
 
 	Args:
 		node_editor (Union[int, str]): 
@@ -7911,7 +7911,7 @@ def get_selected_links(node_editor : Union[int, str], **kwargs) -> List[List[str
 	return internal_dpg.get_selected_links(node_editor, **kwargs)
 
 def get_selected_nodes(node_editor : Union[int, str], **kwargs) -> Union[List[int], Tuple[int, ...]]:
-	"""	 Undocumented
+	"""	 Returns a node editor's selected nodes.
 
 	Args:
 		node_editor (Union[int, str]): 
