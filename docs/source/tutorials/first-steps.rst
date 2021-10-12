@@ -50,7 +50,7 @@ Demo
 DPG has a mostly complete built-in demo/showcase. It is a good idea to look into this demo. 
 The code for this can be found in the repo in the `demo.py`_ file
 
-.. _Dear ImGui: https://github.com/hoffstadt/DearPyGui/blob/master/DearPyGui/dearpygui/demo.py
+.. _demo.py: https://github.com/hoffstadt/DearPyGui/blob/master/DearPyGui/dearpygui/demo.py
 
 **Code:**
 
