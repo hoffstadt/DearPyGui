@@ -27,6 +27,21 @@ namespace Marvel {
 		return *static_cast<mvFontManager*>(s_tools[0].get());
 	}
 
+	void mvToolManager::Reset()
+	{
+		s_tools.clear();
+
+		s_tools = {
+			std::make_shared<mvFontManager>(),
+			std::make_shared<mvAboutWindow>(),
+			std::make_shared<mvDocWindow>(),
+			std::make_shared<mvMetricsWindow>(),
+			std::make_shared<mvStyleWindow>(),
+			std::make_shared<mvDebugWindow>(),
+			std::make_shared<mvLayoutWindow>(),
+		};
+	}
+
 	void mvToolManager::InsertConstants(std::vector<std::pair<std::string, long>>& constants)
 	{
 	}

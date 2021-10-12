@@ -115,6 +115,7 @@ namespace Marvel {
             return;
         }
 
+        mvToolManager::Reset();
         ClearItemRegistry(*GContext->itemRegistry);
 
         constexpr_for<1, (int)mvAppItemType::ItemTypeCount, 1>(

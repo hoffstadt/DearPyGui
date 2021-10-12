@@ -1,10 +1,20 @@
 import dearpygui.dearpygui as dpg
 from math import sin, cos
 import random
+import webbrowser
 
 def _help(message):
-    """ Simple Helper """
-    pass
+    last_item = dpg.last_item()
+    group = dpg.add_group(horizontal=True)
+    dpg.move_item(last_item, parent=group)
+    dpg.capture_next_item(lambda s: dpg.move_item(s, parent=group))
+    t = dpg.add_text("(?)", color=[0, 255, 0])
+    with dpg.tooltip(t):
+        dpg.add_text(message)
+
+def _hyperlink(text, address):
+    b = dpg.add_button(label=text, callback=lambda:webbrowser.open(address))
+    dpg.bind_item_theme(b, "__demo_hyperlinkTheme")
 
 def _config(sender, keyword, user_data):
 
@@ -41,7 +51,7 @@ def _add_config_options(item, columns, *names, **kwargs):
         else:
             dpg.push_container_stack(dpg.add_table(header_row=False))
 
-        for i in range(0, columns):
+        for i in range(columns):
             dpg.add_table_column()
 
         for i in range(int(len(names)/columns)):
@@ -71,38 +81,38 @@ def _create_static_textures():
    
     ## create static textures
     texture_data1 = []
-    for i in range(0, 100*100):
+    for i in range(100*100):
         texture_data1.append(255/255)
         texture_data1.append(0)
         texture_data1.append(255/255)
         texture_data1.append(255/255)
 
     texture_data2 = []
-    for i in range(0, 50*50):
+    for i in range(50*50):
         texture_data2.append(255/255)
         texture_data2.append(255/255)
         texture_data2.append(0)
         texture_data2.append(255/255)
 
     texture_data3 = []
-    for row in range(0, 50):
-        for column in range(0, 50):
+    for row in range(50):
+        for column in range(50):
             texture_data3.append(255/255)
             texture_data3.append(0)
             texture_data3.append(0)
             texture_data3.append(255/255)
-        for column in range(0, 50):
+        for column in range(50):
             texture_data3.append(0)
             texture_data3.append(255/255)
             texture_data3.append(0)
             texture_data3.append(255/255)
-    for row in range(0, 50):
-        for column in range(0, 50):
+    for row in range(50):
+        for column in range(50):
             texture_data3.append(0)
             texture_data3.append(0)
             texture_data3.append(255/255)
             texture_data3.append(255/255)
-        for column in range(0, 50):
+        for column in range(50):
             texture_data3.append(255/255)
             texture_data3.append(255/255)
             texture_data3.append(0)
@@ -116,14 +126,14 @@ def _create_dynamic_textures():
     
     ## create dynamic textures
     texture_data1 = []
-    for i in range(0, 100*100):
+    for i in range(100*100):
         texture_data1.append(255/255)
         texture_data1.append(0)
         texture_data1.append(255/255)
         texture_data1.append(255/255)
 
     texture_data2 = []
-    for i in range(0, 50*50):
+    for i in range(50*50):
         texture_data2.append(255/255)
         texture_data2.append(255/255)
         texture_data2.append(0)
@@ -142,7 +152,7 @@ def _update_dynamic_textures(sender, app_data, user_data):
 
     if user_data == 1:
         texture_data = []
-        for i in range(0, 100*100):
+        for i in range(100*100):
             texture_data.append(new_color[0])
             texture_data.append(new_color[1])
             texture_data.append(new_color[2])
@@ -151,7 +161,7 @@ def _update_dynamic_textures(sender, app_data, user_data):
 
     elif user_data == 2:
         texture_data = []
-        for i in range(0, 50*50):
+        for i in range(50*50):
             texture_data.append(new_color[0])
             texture_data.append(new_color[1])
             texture_data.append(new_color[2])
@@ -162,14 +172,43 @@ def _on_demo_close(sender, app_data, user_data):
     dpg.delete_item(sender)
     dpg.delete_item("__demo_texture_container")
     dpg.delete_item("__demo_colormap_registry")
+    dpg.delete_item("__demo_hyperlinkTheme")
+    dpg.delete_item("__demo_theme_progressbar")
+    dpg.delete_item("stock_theme1")
+    dpg.delete_item("stock_theme2")
+    dpg.delete_item("stock_theme3")
+    dpg.delete_item("stock_theme4")
+    dpg.delete_item("stem_theme1")
+    dpg.delete_item("__demo_keyboard_handler")
+    dpg.delete_item("__demo_mouse_handler")
+    dpg.delete_item("__demo_filedialog")
+    dpg.delete_item("__demo_stage1")
+    dpg.delete_item("__demo_popup1")
+    dpg.delete_item("__demo_popup2")
+    dpg.delete_item("__demo_item_reg3")
+    dpg.delete_item("demoitemregistry")
+    for i in range(7):
+        dpg.delete_item("__demo_theme"+str(i))
+        dpg.delete_item("__demo_theme2_"+str(i))
+    for i in range(5):
+        dpg.delete_item("__demo_item_reg1_"+str(i))
+        dpg.delete_item("__demo_item_reg2_"+str(i))
+    for i in range(3):
+        dpg.delete_item("__demo_item_reg4_"+str(i))
+    for i in range(4):
+        dpg.delete_item("__demo_item_reg5_"+str(i))
 
 def show_demo():
 
     dpg.add_texture_registry(label="Demo Texture Container", tag="__demo_texture_container")
     dpg.add_colormap_registry(label="Demo Colormap Registry", tag="__demo_colormap_registry")
 
-    #dpg.add_alias("__DARK_IMGUI_THEME", themes.create_theme_imgui_dark())
-    #dpg.add_alias("__LIGHT_IMGUI_THEME", themes.create_theme_imgui_light())
+    with dpg.theme(tag="__demo_hyperlinkTheme"):
+        with dpg.theme_component(dpg.mvButton):
+            dpg.add_theme_color(dpg.mvThemeCol_Button, [0, 0, 0, 0])
+            dpg.add_theme_color(dpg.mvThemeCol_ButtonActive, [0, 0, 0, 0])
+            dpg.add_theme_color(dpg.mvThemeCol_ButtonHovered, [29, 151, 236, 25])
+            dpg.add_theme_color(dpg.mvThemeCol_Text, [29, 151, 236])
 
     def _log(sender, app_data, user_data):
         print(f"sender: {sender}, \t app_data: {app_data}, \t user_data: {user_data}")
@@ -202,18 +241,12 @@ def show_demo():
                     dpg.add_menu_item(label="Option 3", check=True, default_value=True, callback=_log)
 
                     with dpg.child_window(height=60, autosize_x=True, delay_search=True):
-                        for i in range(0, 10):
+                        for i in range(10):
                             dpg.add_text(f"Scolling Text{i}")
 
                     dpg.add_slider_float(label="Slider Float")
                     dpg.add_input_int(label="Input Int")
                     dpg.add_combo(("Yes", "No", "Maybe"), label="Combo")
-
-            with dpg.menu(label="Themes"):
-                dpg.add_menu_item(label="Default",
-                    callback=lambda: dpg.bind_item_theme("__demo_id", 0))
-                #dpg.add_menu_item(label="Dark ImGui", callback=lambda: dpg.bind_item_theme("__demo_id", "__DARK_IMGUI_THEME"))
-                #dpg.add_menu_item(label="Light ImGui", callback=lambda: dpg.bind_item_theme("__demo_id", "__LIGHT_IMGUI_THEME"))
 
             with dpg.menu(label="Tools"):
 
@@ -225,9 +258,13 @@ def show_demo():
                 dpg.add_menu_item(label="Show Font Manager", callback=lambda:dpg.show_tool(dpg.mvTool_Font))
                 dpg.add_menu_item(label="Show Item Registry", callback=lambda:dpg.show_tool(dpg.mvTool_ItemRegistry))
 
-        dpg.add_text(f'Dear PyGui says hello. ({dpg.get_dearpygui_version()})')
-        dpg.add_text("This code for this demo can be found here: ")
-        dpg.add_text("https://github.com/hoffstadt/DearPyGui/blob/master/DearPyGui/dearpygui/demo.py")
+        with dpg.group(horizontal=True):
+            dpg.add_loading_indicator(circle_count=4)
+            with dpg.group():
+                dpg.add_text(f'Dear PyGui says hello. ({dpg.get_dearpygui_version()})')
+                with dpg.group(horizontal=True):
+                    dpg.add_text("The code for the most recent version of this demo can be found here:")
+                    _hyperlink("demo.py", "https://github.com/hoffstadt/DearPyGui/blob/master/DearPyGui/dearpygui/demo.py")
 
         with dpg.collapsing_header(label="Window Options"):
 
@@ -255,9 +292,9 @@ def show_demo():
 
                 with dpg.group(horizontal=True):
 
-                    for i in range(0, 7):
+                    for i in range(7):
 
-                        with dpg.theme() as theme:
+                        with dpg.theme(tag="__demo_theme"+str(i)):
                             with dpg.theme_component(dpg.mvButton):
                                 dpg.add_theme_color(dpg.mvThemeCol_Button, _hsv_to_rgb(i/7.0, 0.6, 0.6))
                                 dpg.add_theme_color(dpg.mvThemeCol_ButtonActive, _hsv_to_rgb(i/7.0, 0.8, 0.8))
@@ -266,8 +303,7 @@ def show_demo():
                                 dpg.add_theme_style(dpg.mvStyleVar_FramePadding, i*3, i*3)
 
                         dpg.add_button(label="Click", callback=_log)
-                        dpg.bind_item_theme(dpg.last_item(), theme)
-
+                        dpg.bind_item_theme(dpg.last_item(), "__demo_theme"+str(i))
 
                 with dpg.group(horizontal=True):
 
@@ -276,10 +312,9 @@ def show_demo():
                     dpg.add_button(arrow=True, direction=dpg.mvDir_Left, user_data=widget, callback=lambda s, a, u: dpg.set_value(u, int(dpg.get_value(u))-1))
                     dpg.add_button(arrow=True, direction=dpg.mvDir_Right, user_data=widget, callback=lambda s, a, u: dpg.set_value(u, int(dpg.get_value(u))+1))
 
-                widget2 = dpg.add_text("hover me")
-                # TODO: uncomment after tooltip is fixed
-                #with dpg.tooltip(parent=widget2): # note that "parent" is the item the tooltip show's for
-                #    dpg.add_text("I'm a fancy tooltip")
+                dpg.add_text("hover me")
+                with dpg.tooltip(dpg.last_item()):
+                    dpg.add_text("I'm a simple tooltip!")
 
                 dpg.add_separator()
 
@@ -586,7 +621,7 @@ def show_demo():
                 dpg.add_simple_plot(label="Histogram", default_value=data, height=80, histogram=True, min_scale=0.0)
 
                 data1 = []
-                for i in range(0, 70):
+                for i in range(70):
                     data1.append(cos(3.14*6*i/180))
 
                 dpg.add_simple_plot(label="Lines", default_value=data1, height=80)
@@ -594,11 +629,11 @@ def show_demo():
                 with dpg.group(horizontal=True):
                     dpg.add_progress_bar(label="Progress Bar", default_value=0.78, overlay="78%")
                     dpg.add_text("Progress Bar")
-                with dpg.theme() as theme:
+                with dpg.theme(tag="__demo_theme_progressbar"):
                     with dpg.theme_component(dpg.mvProgressBar):
                         dpg.add_theme_color(dpg.mvThemeCol_PlotHistogram, (255,0,0, 255))
                 dpg.add_progress_bar(default_value=0.78, overlay="1367/1753")
-                dpg.bind_item_theme(dpg.last_item(), theme)
+                dpg.bind_item_theme(dpg.last_item(), "__demo_theme_progressbar")
 
             with dpg.tree_node(label="Multi-component Widgets"):
 
@@ -628,9 +663,9 @@ def show_demo():
 
                             values = [ 0.0, 0.60, 0.35, 0.9, 0.70, 0.20, 0.0 ]
 
-                            for i in range(0, 7):
+                            for i in range(7):
 
-                                with dpg.theme() as theme:
+                                with dpg.theme(tag="__demo_theme2_"+str(i)):
                                     with dpg.theme_component(0):
                                         dpg.add_theme_color(dpg.mvThemeCol_FrameBg, _hsv_to_rgb(i/7.0, 0.5, 0.5))
                                         dpg.add_theme_color(dpg.mvThemeCol_SliderGrab, _hsv_to_rgb(i/7.0, 0.9, 0.9))
@@ -638,13 +673,13 @@ def show_demo():
                                         dpg.add_theme_color(dpg.mvThemeCol_FrameBgHovered, _hsv_to_rgb(i/7.0, 0.6, 0.5))
 
                                 dpg.add_slider_float(label=" ", default_value=values[i], vertical=True, max_value=1.0, height=160)
-                                dpg.bind_item_theme(dpg.last_item(), theme)
+                                dpg.bind_item_theme(dpg.last_item(), "__demo_theme2_"+str(i))
 
                         with dpg.group():
-                            for i in range(0, 3):
+                            for i in range(3):
                                 with dpg.group(horizontal=True):
                                     values = [ 0.20, 0.80, 0.40, 0.25 ]
-                                    for j in range(0, 4):
+                                    for j in range(4):
                                         dpg.add_slider_float(label=" ", default_value=values[j], vertical=True, max_value=1.0, height=50)
 
                         with dpg.group(horizontal=True):
@@ -827,7 +862,7 @@ def show_demo():
                         with dpg.menu_bar():
                             with dpg.menu(label="Menu"):
                                 pass
-                        for i in range(0, 20):
+                        for i in range(20):
                             dpg.add_text(default_value="A pretty long sentence if you really think about it. It's also pointless. we need this to be even longer")
                     with dpg.child_window(autosize_x=True, height=130, menubar=True):
                         with dpg.menu_bar():
@@ -972,35 +1007,35 @@ def show_demo():
                             with dpg.table_cell():
                                 dpg.add_text(text_items[i])
                                 with dpg.child_window(height=200, delay_search=True) as _child_id:
-                                    for j in range(0, 25):
+                                    for j in range(25):
                                         if j == 13:
                                             dpg.add_text("Item " + str(j), color=(255, 255, 0), tracked=True, track_offset=track_items[i])
                                         else:
                                             dpg.add_text("Item " + str(j))
                         
                                 _text_id = dpg.add_text("0/0")
-                                with dpg.item_handler_registry():
+                                with dpg.item_handler_registry(tag="__demo_item_reg1_"+str(i)):
                                     dpg.add_item_visible_handler(user_data=[_text_id, _child_id], callback=_update_yscroll_info)
                                 dpg.bind_item_handler_registry(_text_id, dpg.last_container())
 
-                for i in range(0, 5):
+                for i in range(5):
                     dpg.add_text(text_items[i])
                     with dpg.group(horizontal=True):
                         with dpg.child_window(height=50, horizontal_scrollbar=True, width=-200, delay_search=True) as _child_id:
                             with dpg.group(horizontal=True):
-                                for j in range(0, 25):
+                                for j in range(25):
                                     if j == 13:
                                         dpg.add_text("Item " + str(j), color=(255, 255, 0), tracked=True, track_offset=track_items[i])
                                     else:
                                         dpg.add_text("Item " + str(j))
                         _text_id = dpg.add_text("0/0")
-                        with dpg.item_handler_registry():
+                        with dpg.item_handler_registry(tag="__demo_item_reg2_"+str(i)):
                             dpg.add_item_visible_handler(user_data=[_text_id, _child_id], callback=_update_xscroll_info)
                         dpg.bind_item_handler_registry(_text_id, dpg.last_container())
 
                 with dpg.child_window(height=50, horizontal_scrollbar=True, width=-200) as _child_id:
                     with dpg.group(horizontal=True):
-                        for j in range(0, 25):
+                        for j in range(25):
                             dpg.add_text("Item " + str(j))
 
                 def _scroll_programmatically(sender, app_data, user_data):
@@ -1023,7 +1058,7 @@ def show_demo():
                     dpg.add_text("Scroll from code")
                     dpg.add_button(label=">>", small=True, user_data=["right", _child_id], callback=_scroll_programmatically)
                     _text_id = dpg.add_text("0/0")
-                with dpg.item_handler_registry():
+                with dpg.item_handler_registry(tag="__demo_item_reg3"):
                     dpg.add_item_visible_handler(user_data=[_text_id, _child_id], callback=_update_xscroll_info)
                 dpg.bind_item_handler_registry(_text_id, dpg.last_container())
 
@@ -1136,7 +1171,7 @@ def show_demo():
                 with dpg.group(horizontal=True):
                     b = dpg.add_button(label="Select..")
                     t = dpg.add_text("<None>")
-                    with dpg.popup(b):
+                    with dpg.popup(b, tag="__demo_popup1"):
                         dpg.add_text("Aquariam")
                         dpg.add_separator()
                         dpg.add_selectable(label="Bream", user_data=[t, "Bream"], callback=lambda s, a, u: dpg.set_value(u[0], u[1]))
@@ -1148,17 +1183,17 @@ def show_demo():
             with dpg.tree_node(label="Modals"):
                 dpg.add_text("Modal windows are like popups but the user cannot close them by clicking outside.")
                 dpg.add_button(label="Delete..")
-                with dpg.popup(dpg.last_item(), modal=True, mousebutton=dpg.mvMouseButton_Left) as modal_id:
+                with dpg.popup(dpg.last_item(), modal=True, mousebutton=dpg.mvMouseButton_Left, tag="__demo_popup2"):
                     dpg.add_text("All those beautiful files will be deleted.\nThis operation cannot be undone!")
                     dpg.add_separator()
                     dpg.add_checkbox(label="Don't ask me next time")
                     with dpg.group(horizontal=True):
-                        dpg.add_button(label="OK", width=75, callback=lambda: dpg.configure_item(modal_id, show=False))
-                        dpg.add_button(label="Cancel", width=75, callback=lambda: dpg.configure_item(modal_id, show=False))
+                        dpg.add_button(label="OK", width=75, callback=lambda: dpg.configure_item("__demo_popup2", show=False))
+                        dpg.add_button(label="Cancel", width=75, callback=lambda: dpg.configure_item("__demo_popup2", show=False))
 
             with dpg.tree_node(label="File/Directory Selector"):
 
-                with dpg.file_dialog(label="Demo File Dialog", show=False, callback=lambda s, a, u : print(s, a, u)):
+                with dpg.file_dialog(label="Demo File Dialog", show=False, callback=lambda s, a, u : print(s, a, u), tag="__demo_filedialog"):
                     dpg.add_file_extension(".*", color=(255, 255, 255, 255))
                     dpg.add_file_extension("Source files (*.cpp *.h *.hpp){.cpp,.h,.hpp}", color=(0, 255, 255, 255))
                     dpg.add_file_extension(".cpp", color=(255, 255, 0, 255))
@@ -1190,10 +1225,10 @@ def show_demo():
                     # add_table_next_column will jump to the next row
                     # once it reaches the end of the columns
                     # table next column use slot 1
-                    for i in range(0, 4):
+                    for i in range(4):
 
                         with dpg.table_row():
-                            for j in range(0, 3):
+                            for j in range(3):
                                 dpg.add_text(f"Row{i} Column{j}")
 
             with dpg.tree_node(label="Borders, background") as section:
@@ -1206,9 +1241,9 @@ def show_demo():
                     dpg.add_table_column(label="Header 2")
                     dpg.add_table_column(label="Header 3")
 
-                    for i in range(0, 5):
+                    for i in range(5):
                         with dpg.table_row():
-                            for j in range(0, 3):
+                            for j in range(3):
                                 dpg.add_text(f"Row{i} Column{j}")
 
                 _add_config_options(table_id, 2, 
@@ -1228,12 +1263,12 @@ def show_demo():
                     dpg.add_table_column()
                     dpg.add_table_column()
 
-                    for i in range(0, 6):
+                    for i in range(6):
                         with dpg.table_row():
                             for j in range(6):
                                 dpg.add_text(f"R{i} C{j}")
 
-                    for i in range(0, 6):
+                    for i in range(6):
                         dpg.highlight_table_row(table_id, i, [255, 0, 0, 100])
                         
                     dpg.highlight_table_column(table_id, 4, [0, 255, 0, 100])
@@ -1256,7 +1291,7 @@ def show_demo():
                     dpg.add_table_column()
                     dpg.add_table_column()
 
-                    for i in range(0, 6):
+                    for i in range(6):
                         with dpg.table_row():
                             for j in range(6):
                                 dpg.add_text(f"R{i} C{j}")
@@ -1266,7 +1301,7 @@ def show_demo():
                     dpg.highlight_table_cell(table_id, 1, 2, [0, 255, 0, 100])
                     dpg.highlight_table_cell(table_id, 2, 2, [0, 255, 0, 100])
 
-                    for i in range(0, 6):
+                    for i in range(6):
                         dpg.set_table_row_color(table_id, i, [255, 0, 0, i*255/8])
 
             with dpg.tree_node(label="Resizable, stretch"):
@@ -1278,9 +1313,9 @@ def show_demo():
                     dpg.add_table_column(label="Header 2")
                     dpg.add_table_column(label="Header 3")
 
-                    for i in range(0, 5):
+                    for i in range(5):
                         with dpg.table_row():
-                            for j in range(0, 3):
+                            for j in range(3):
                                 dpg.add_text(f"Row{i} Column{j}")
 
                 _add_config_options(table_id, 1, 
@@ -1296,9 +1331,9 @@ def show_demo():
                     dpg.add_table_column(label="Header 2")
                     dpg.add_table_column(label="Header 3")
 
-                    for i in range(0, 5):
+                    for i in range(5):
                         with dpg.table_row():
-                            for j in range(0, 3):
+                            for j in range(3):
                                 dpg.add_text(f"Row{i} Column{j}")
 
                 _add_config_options(table_id, 1, "no_host_extendX", before=table_id)
@@ -1313,9 +1348,9 @@ def show_demo():
                     dpg.add_table_column(label="BBB", width_fixed=True)
                     dpg.add_table_column(label="CCC", width_stretch=True, init_width_or_weight=0.0)
 
-                    for i in range(0, 5):
+                    for i in range(5):
                         with dpg.table_row():
-                            for j in range(0, 3):
+                            for j in range(3):
                                 if j == 2:
                                     dpg.add_text(f"Stretch {i}, {j}")
                                 else:
@@ -1330,9 +1365,9 @@ def show_demo():
                     dpg.add_table_column(label="CCC", width_stretch=True, init_width_or_weight=0.0)
                     dpg.add_table_column(label="DDD", width_stretch=True, init_width_or_weight=0.0)
 
-                    for i in range(0, 5):
+                    for i in range(5):
                         with dpg.table_row():
-                            for j in range(0, 4):
+                            for j in range(4):
                                 if j == 2 or j == 3:
                                     dpg.add_text(f"Stretch {i},{j}")
                                 else:
@@ -1350,7 +1385,7 @@ def show_demo():
                     c2 = dpg.add_table_column(label="Two")
                     c3 = dpg.add_table_column(label="Three", default_hide=True)
 
-                    for i in range(0, 8):
+                    for i in range(8):
                         with dpg.table_row():
                             dpg.add_text("Indented One", indent=5*i)
                             dpg.add_text("Hello Two")
@@ -1403,13 +1438,13 @@ def show_demo():
                     with dpg.table_row():
                         for i in range(3):
                             _text_id = dpg.add_text("(w: 0.0f)")
-                            with dpg.item_handler_registry():
+                            with dpg.item_handler_registry(tag="__demo_item_reg4_"+str(i)):
                                 dpg.add_item_visible_handler(user_data = _text_id, callback=lambda s, a, u:dpg.set_value(u, "(w: " + str(dpg.get_item_state(u)["content_region_avail"][0]) + ")"))
                             dpg.bind_item_handler_registry(_text_id, dpg.last_container())
 
-                    for i in range(0, 3):
+                    for i in range(3):
                         with dpg.table_row():
-                            for j in range(0, 3):
+                            for j in range(3):
                                 dpg.add_text(f"Hello {i}, {j}")
 
                 with dpg.table(header_row=False, delay_search=True) as table_id:
@@ -1420,15 +1455,15 @@ def show_demo():
                     dpg.add_table_column(width_fixed=True, init_width_or_weight=400)
 
                     with dpg.table_row():
-                        for i in range(0, 4):
+                        for i in range(4):
                             _text_id = dpg.add_text("(w: 0.0f)")
-                            with dpg.item_handler_registry():
+                            with dpg.item_handler_registry(tag="__demo_item_reg5_"+str(i)):
                                 dpg.add_item_visible_handler(user_data = _text_id, callback=lambda s, a, u:dpg.set_value(u, "(w: " + str(dpg.get_item_state(u)["content_region_avail"][0]) + ")"))
                             dpg.bind_item_handler_registry(_text_id, dpg.last_container())
 
-                    for i in range(0, 4):
+                    for i in range(4):
                         with dpg.table_row():
-                            for j in range(0, 4):
+                            for j in range(4):
                                 dpg.add_text(f"Hello {i}, {j}")
 
                 _add_config_options(table_id, 1, 
@@ -1440,7 +1475,7 @@ def show_demo():
 
                     dpg.add_table_column()
 
-                    for i in range(0, 10):
+                    for i in range(10):
                         with dpg.table_row(height=i*5 + 25):
                             dpg.add_text("height = " + str(i*5 + 25))
 
@@ -1453,9 +1488,9 @@ def show_demo():
                     dpg.add_table_column(label="Two")
                     dpg.add_table_column(label="three")
 
-                    for i in range(0, 5):
+                    for i in range(5):
                         with dpg.table_row():
-                            for j in range(0, 3):
+                            for j in range(3):
                                 dpg.add_button(label=f"Hello {i}, {j}", width=-1)
 
                 _add_config_options(table_id, 3, 
@@ -1471,9 +1506,9 @@ def show_demo():
                     dpg.add_table_column(label="Two")
                     dpg.add_table_column(label="three")
 
-                    for i in range(0, 5):
+                    for i in range(5):
                         with dpg.table_row():
-                            for j in range(0, 3):
+                            for j in range(3):
                                 dpg.add_text(f"Hello {i}, {j}")
 
                 _add_config_options(table_id, 3, 
@@ -1490,9 +1525,9 @@ def show_demo():
                     dpg.add_table_column(label="Two")
                     dpg.add_table_column(label="three")
 
-                    for i in range(0, 10):
+                    for i in range(10):
                         with dpg.table_row():
-                            for j in range(0, 3):
+                            for j in range(3):
                                 dpg.add_text(f"Cell {i}, {j}")
 
                 _add_config_options(table_id, 3, 
@@ -1508,9 +1543,9 @@ def show_demo():
                     dpg.add_table_column(label="Two")
                     dpg.add_table_column(label="three")
 
-                    for i in range(0, 6):
+                    for i in range(6):
                         with dpg.table_row():
-                            for j in range(0, 3):
+                            for j in range(3):
                                 dpg.add_text(f"Cell {i}, {j}")
 
             with dpg.tree_node(label="Scrolling, Clipping"):
@@ -1527,7 +1562,7 @@ def show_demo():
                     dpg.add_table_column(label="2")
                     dpg.add_table_column(label="3")
 
-                    for i in range(0, 25):
+                    for i in range(25):
                         with dpg.table_row():
                             dpg.add_input_int(label=" ", step=0)
                             dpg.add_button(label=f"Cell {i}, 1")
@@ -1545,7 +1580,7 @@ def show_demo():
                     dpg.add_table_column(label="2")
                     dpg.add_table_column(label="3")
 
-                    for i in range(0, 25):
+                    for i in range(25):
                         with dpg.table_row():
                             dpg.add_input_int(label=" ", step=0)
                             dpg.add_button(label=f"Cell {i}, 1")
@@ -1567,7 +1602,7 @@ def show_demo():
                     dpg.add_table_column(label="6", width=50)
                     dpg.add_table_column(label="7", width=50)
 
-                    for i in range(0, 25):
+                    for i in range(25):
                         with dpg.table_row():
                             dpg.add_text(f"Cell {i}, 0")
                             dpg.add_button(label=f"Cell {i}, 1")
@@ -1593,7 +1628,7 @@ def show_demo():
                     dpg.add_table_column(label="2")
                     dpg.add_table_column(label="3")
 
-                    for i in range(0, 25):
+                    for i in range(25):
                         with dpg.table_row(filter_key=f"Cell {i}, 1"):
                             dpg.add_input_int(label=" ", step=0)
                             dpg.add_button(label=f"Cell {i}, 1")
@@ -1617,7 +1652,7 @@ def show_demo():
                     dpg.add_table_column(label="Two")
                     dpg.add_table_column(label="Three")
 
-                    for i in range(0, 25):
+                    for i in range(25):
                         with dpg.table_row():
                             dpg.add_input_int(label=" ", step=0)
                             dpg.add_text(f"Cell {i}, 1")
@@ -1632,11 +1667,11 @@ def show_demo():
                 def callback(sender, value, user_data):
 
                     if user_data[8] == "resizable":
-                        for i in range(0, 8):
+                        for i in range(8):
                             dpg.configure_item(user_data[i], resizable=value)
 
                     elif user_data[8] == "no_host_extendX":
-                        for i in range(0, 8):
+                        for i in range(8):
                             dpg.configure_item(user_data[i], no_host_extendX=value)
 
                     elif user_data[8] == "policy":
@@ -1664,7 +1699,7 @@ def show_demo():
                         dpg.add_table_column()
                         dpg.add_table_column()
 
-                        for i in range(0, 8):
+                        for i in range(8):
                             with dpg.table_row():
                                 dpg.add_text("Oh dear")
                                 dpg.add_text("Oh dear")
@@ -1678,7 +1713,7 @@ def show_demo():
                         dpg.add_table_column()
                         dpg.add_table_column()
 
-                        for i in range(0, 3):
+                        for i in range(3):
                             with dpg.table_row():
                                 dpg.add_text("AAAA")
                                 dpg.add_text("BBBBBBBB")
@@ -1707,7 +1742,7 @@ def show_demo():
             sindatax = []
             sindatay = []
             cosdatay = []
-            for i in range(0, 100):
+            for i in range(100):
                 sindatax.append(i/100)
                 sindatay.append(0.5 + 0.5*sin(50*i/100))
                 cosdatay.append(0.5 + 0.75*cos(50*i/100))
@@ -1751,7 +1786,7 @@ def show_demo():
                         stock_data3 = []
                         stock_data4 = []
                         stock_data5 = []
-                        for i in range(0, 100):
+                        for i in range(100):
                             stock_datax.append(i)
                             stock_datay2.append(0)
                             stock_data1.append(400 + 50*abs(random.random()))
@@ -1760,22 +1795,22 @@ def show_demo():
                             stock_data4.append(500 + 75*abs(random.random()))
                             stock_data5.append(600 + 75*abs(random.random()))
 
-                        with dpg.theme() as stock_theme1:
+                        with dpg.theme(tag="stock_theme1"):
                             with dpg.theme_component(0):
                                 dpg.add_theme_color(dpg.mvPlotCol_Line, (0, 0, 255), category=dpg.mvThemeCat_Plots)
                                 dpg.add_theme_color(dpg.mvPlotCol_Fill, (0, 0, 255, 64), category=dpg.mvThemeCat_Plots)
 
-                        with dpg.theme() as stock_theme2:
+                        with dpg.theme(tag="stock_theme2"):
                             with dpg.theme_component(0):
                                 dpg.add_theme_color(dpg.mvPlotCol_Line, (255, 0, 0), category=dpg.mvThemeCat_Plots)
                                 dpg.add_theme_color(dpg.mvPlotCol_Fill, (255, 0, 0, 64), category=dpg.mvThemeCat_Plots)
 
-                        with dpg.theme() as stock_theme3:
+                        with dpg.theme(tag="stock_theme3"):
                             with dpg.theme_component(0):
                                 dpg.add_theme_color(dpg.mvPlotCol_Line, (0, 255, 0), category=dpg.mvThemeCat_Plots)
                                 dpg.add_theme_color(dpg.mvPlotCol_Fill, (0, 255, 0, 64), category=dpg.mvThemeCat_Plots)
 
-                        with dpg.theme() as stock_theme4:
+                        with dpg.theme(tag="stock_theme4"):
                             with dpg.theme_component(0):
                                 dpg.add_theme_color(dpg.mvPlotCol_Fill, (255, 255, 100, 64), category=dpg.mvThemeCat_Plots)
 
@@ -1784,19 +1819,19 @@ def show_demo():
                             xaxis = dpg.add_plot_axis(dpg.mvXAxis, label="Days")
                             with dpg.plot_axis(dpg.mvYAxis, label="Price"):
                                 dpg.add_line_series(stock_datax, stock_data1, label="Stock 1")
-                                dpg.bind_item_theme(dpg.last_item(), stock_theme1)
+                                dpg.bind_item_theme(dpg.last_item(), "stock_theme1")
                                 dpg.add_line_series(stock_datax, stock_data2, label="Stock 2")
-                                dpg.bind_item_theme(dpg.last_item(), stock_theme2)
+                                dpg.bind_item_theme(dpg.last_item(), "stock_theme2")
                                 dpg.add_line_series(stock_datax, stock_data3, label="Stock 3")
-                                dpg.bind_item_theme(dpg.last_item(), stock_theme3)
+                                dpg.bind_item_theme(dpg.last_item(), "stock_theme3")
                                 dpg.add_shade_series(stock_datax, stock_data1, label="Stock 1")
-                                dpg.bind_item_theme(dpg.last_item(), stock_theme1)
+                                dpg.bind_item_theme(dpg.last_item(), "stock_theme1")
                                 dpg.add_shade_series(stock_datax, stock_data2, label="Stock 2")
-                                dpg.bind_item_theme(dpg.last_item(), stock_theme2)
+                                dpg.bind_item_theme(dpg.last_item(), "stock_theme2")
                                 dpg.add_shade_series(stock_datax, stock_data3, label="Stock 3", y2=stock_datay2)
-                                dpg.bind_item_theme(dpg.last_item(), stock_theme3)
+                                dpg.bind_item_theme(dpg.last_item(), "stock_theme3")
                                 dpg.add_shade_series(stock_datax, stock_data5, y2=stock_data4, label="Shade between lines")
-                                dpg.bind_item_theme(dpg.last_item(), stock_theme4)
+                                dpg.bind_item_theme(dpg.last_item(), "stock_theme4")
                                 dpg.fit_axis_data(dpg.top_container_stack())
                             dpg.fit_axis_data(xaxis)
 
@@ -1810,7 +1845,7 @@ def show_demo():
 
                     with dpg.tree_node(label="Stem Series"):
 
-                        with dpg.theme() as stem_theme1:
+                        with dpg.theme(tag="stem_theme1"):
                             with dpg.theme_component(0):
                                 dpg.add_theme_color(dpg.mvPlotCol_Line, (0, 255, 0), category=dpg.mvThemeCat_Plots)
                                 dpg.add_theme_style(dpg.mvPlotStyleVar_Marker, dpg.mvPlotMarker_Diamond, category=dpg.mvThemeCat_Plots)
@@ -1821,7 +1856,7 @@ def show_demo():
                             with dpg.plot_axis(dpg.mvYAxis, label="y"):
                                 dpg.add_stem_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)")
                                 dpg.add_stem_series(sindatax, cosdatay, label="0.5 + 0.75 * cos(x)")
-                                dpg.bind_item_theme(dpg.last_item(), stem_theme1)
+                                dpg.bind_item_theme(dpg.last_item(), "stem_theme1")
 
                     with dpg.tree_node(label="Bar Series"):
 
@@ -1974,7 +2009,7 @@ def show_demo():
 
                         with dpg.subplots(3, 3, label="My Subplots", width=-1, height=-1, row_ratios=[5.0, 1.0, 1.0], column_ratios=[5.0, 1.0, 1.0]) as subplot_id:
 
-                                for i in range(0, 9):
+                                for i in range(9):
                                     with dpg.plot(no_title=True):
                                         dpg.add_plot_axis(dpg.mvXAxis, label="", no_tick_labels=True)
                                         with dpg.plot_axis(dpg.mvYAxis, label="", no_tick_labels=True):
@@ -1989,7 +2024,7 @@ def show_demo():
 
                                 dpg.add_plot_legend()
 
-                                for i in range(0, 6):
+                                for i in range(6):
                                     with dpg.plot(no_title=True):
                                         dpg.add_plot_axis(dpg.mvXAxis, label="")
                                         with dpg.plot_axis(dpg.mvYAxis, label=""):
@@ -2004,7 +2039,7 @@ def show_demo():
 
                                 dpg.add_plot_legend()
 
-                                for i in range(0, 4):
+                                for i in range(4):
                                     with dpg.plot(no_title=True):
                                         dpg.add_plot_axis(dpg.mvXAxis, label="")
                                         with dpg.plot_axis(dpg.mvYAxis, label=""):
@@ -2115,7 +2150,7 @@ def show_demo():
 
                         sindatax = []
                         sindatay = []
-                        for i in range(0, 100):
+                        for i in range(100):
                             sindatax.append(i/100)
                             sindatay.append(0.5 + 0.5*sin(50*i/100))
 
@@ -2306,66 +2341,49 @@ def show_demo():
 
         with dpg.collapsing_header(label="Inputs & Events"):
 
-            def _set_activator(sender, app_data, user_data):
-                keyword = dpg.get_item_label(sender)
-                constant = user_data[0][app_data]
-                for item in user_data[1]:
-                    dpg.configure_item(item, **{keyword: constant})
+            with dpg.tree_node(label="Global"):
 
-            key_constants={"All": -1, "dpg.mvKey_Shift": dpg.mvKey_Shift, "dpg.mvKey_0":dpg.mvKey_0, "dpg.mvKey_A":dpg.mvKey_A}
-            with dpg.handler_registry(show=False) as keyboard_handler:
-                k_down = dpg.add_key_down_handler()
-                k_release = dpg.add_key_release_handler()
-                k_press = dpg.add_key_press_handler()
+                with dpg.handler_registry(show=False, tag="__demo_keyboard_handler"):
+                    k_down = dpg.add_key_down_handler(key=dpg.mvKey_A)
+                    k_release = dpg.add_key_release_handler(key=dpg.mvKey_A)
+                    k_press = dpg.add_key_press_handler(key=dpg.mvKey_A)
 
-            mouse_constants={"All": -1, "dpg.mvMouseButton_Left": dpg.mvMouseButton_Left, "dpg.mvMouseButton_Right":dpg.mvMouseButton_Right, "dpg.mvMouseButton_Middle":dpg.mvMouseButton_Middle, "dpg.mvMouseButton_X1":dpg.mvMouseButton_X1, "dpg.mvMouseButton_X2":dpg.mvMouseButton_X2}
-            with dpg.handler_registry(show=False) as mouse_handler:
-                m_wheel = dpg.add_mouse_wheel_handler()
-                m_click = dpg.add_mouse_click_handler()
-                m_double_click = dpg.add_mouse_double_click_handler()
-                m_release = dpg.add_mouse_release_handler()
-                m_drag = dpg.add_mouse_drag_handler()
-                m_down = dpg.add_mouse_down_handler()
-                m_move = dpg.add_mouse_move_handler()
+                with dpg.handler_registry(show=False, tag="__demo_mouse_handler"):
+                    m_wheel = dpg.add_mouse_wheel_handler()
+                    m_click = dpg.add_mouse_click_handler(button=dpg.mvMouseButton_Left)
+                    m_double_click = dpg.add_mouse_double_click_handler(button=dpg.mvMouseButton_Left)
+                    m_release = dpg.add_mouse_release_handler(button=dpg.mvMouseButton_Left)
+                    m_drag = dpg.add_mouse_drag_handler(button=dpg.mvMouseButton_Left)
+                    m_down = dpg.add_mouse_down_handler(button=dpg.mvMouseButton_Left)
+                    m_move = dpg.add_mouse_move_handler()
 
-            with dpg.tree_node(label="Keyboard"):
-                with dpg.group(horizontal=True):
-                    dpg.add_text("Toggle Keyboard Events")
-                    _add_config_options(keyboard_handler, 1,"show")
-
-                dpg.add_combo(list(key_constants.keys()), label="key", default_value="All", callback=_set_activator, user_data=(key_constants, [k_down, k_release, k_press]))
-                kh_down = dpg.add_text("key id:  seconds:", label="Key Down Handler:", show_label=True)
-                kh_release = dpg.add_text("key id:", label="Key Release Handler:", show_label=True)
-                kh_press = dpg.add_text("key id:", label="Key Press Handler:", show_label=True)
-
-            with dpg.tree_node(label="Mouse"):
-                with dpg.group(horizontal=True):
-                    dpg.add_text("Toggle Mouse Events")
-                    _add_config_options(mouse_handler, 1,"show")
-                dpg.add_combo(list(mouse_constants.keys()), label="button", default_value="All", callback=_set_activator, user_data=(mouse_constants, [m_click, m_double_click, m_release, m_drag, m_down]))
-                mh_click = dpg.add_text("mouse id:", label="Mouse Click Handler", show_label=True)
-                mh_double = dpg.add_text("mouse id:", label="Mouse Double Click Handler", show_label=True)
-                mh_down = dpg.add_text("mouse id:  seconds:", label="Mouse Down Handler", show_label=True)
-                mh_release = dpg.add_text("mouse id:", label="Mouse Release Handler", show_label=True)
-                mh_wheel = dpg.add_text("mouse id:", label="Mouse Wheel Handler", show_label=True)
-                mh_move = dpg.add_text("mouse pos:", label="Mouse Move Handler", show_label=True)
-                mh_drag = dpg.add_text("mouse id:  delta:", label="Mouse Drag Handler", show_label=True)
+                dpg.add_checkbox(label="Activate Keyboard Handlers (A key)", callback=lambda s, a: dpg.configure_item(keyboard_handler, show=a))
+                dpg.add_checkbox(label="Activate Mouse Handlers (left button)", callback=lambda s, a: dpg.configure_item(mouse_handler, show=a))
+                kh_down = dpg.add_text("Key id:  seconds:", label="Key Down Handler:", show_label=True)
+                kh_release = dpg.add_text("Key id:", label="Key Release Handler:", show_label=True)
+                kh_press = dpg.add_text("Key id:", label="Key Press Handler:", show_label=True)
+                mh_click = dpg.add_text("Mouse id:", label="Mouse Click Handler", show_label=True)
+                mh_double = dpg.add_text("Mouse id:", label="Mouse Double Click Handler", show_label=True)
+                mh_down = dpg.add_text("Mouse id:  seconds:", label="Mouse Down Handler", show_label=True)
+                mh_release = dpg.add_text("Mouse id:", label="Mouse Release Handler", show_label=True)
+                mh_wheel = dpg.add_text("Mouse id:", label="Mouse Wheel Handler", show_label=True)
+                mh_move = dpg.add_text("Mouse pos:", label="Mouse Move Handler", show_label=True)
+                mh_drag = dpg.add_text("Mouse id:  delta:", label="Mouse Drag Handler", show_label=True)
 
             with dpg.tree_node(label="Widget"):
+
                 dpg.add_text("Interact with following widgets and check output!")
                 dpg.add_text("Note: Only the click, hover are added. Others are commented out. Check the code!")
                 cb = dpg.add_checkbox(label="Check me!", tag="democheck")
 
-                # all of the handlers for widgets except resize which is for windows only
                 with dpg.item_handler_registry(tag="demoitemregistry"):
                     dpg.add_item_clicked_handler(0, callback=lambda s, a, u: print(f"clicked_handler: {s} '\t' {a} '\t' {u}"))
                     dpg.add_item_clicked_handler(1, callback=lambda s, a, u: print(f"clicked_handler: {s} '\t' {a} '\t' {u}"))
                     dpg.add_item_hover_handler(callback=lambda s, a, u: print(f"hover_handler: {s} '\t' {a} '\t' {u}"))
                 dpg.bind_item_handler_registry(cb, "demoitemregistry")
 
-            def event_handler(sender, data):
+            def _event_handler(sender, data):
                 type=dpg.get_item_info(sender)["type"]
-                print(f"{sender} '\t' {type} '\t' {data}")
                 if type=="mvAppItemType::mvKeyDownHandler":
                     dpg.set_value(kh_down, f"Key id: {data[0]}, Seconds:{data[1]}")
                 elif type=="mvAppItemType::mvKeyReleaseHandler":
@@ -2387,11 +2405,11 @@ def show_demo():
                 elif type=="mvAppItemType::mvMouseDragHandler":
                     dpg.set_value(mh_drag, f"Mouse id: {data[0]}, Delta:{[data[1], data[2]]}")
 
-            for handler in dpg.get_item_children(keyboard_handler, 1):
-                dpg.set_item_callback(handler, event_handler)
+            for handler in dpg.get_item_children("__demo_keyboard_handler", 1):
+                dpg.set_item_callback(handler, _event_handler)
 
-            for handler in dpg.get_item_children(mouse_handler, 1):
-                dpg.set_item_callback(handler, event_handler)
+            for handler in dpg.get_item_children("__demo_mouse_handler", 1):
+                dpg.set_item_callback(handler, _event_handler)
 
         with dpg.collapsing_header(label="Drag & Drop"):
            
@@ -2475,14 +2493,14 @@ def show_demo():
                     dpg.pop_container_stack()
 
                 # when unstaging a stage, it 'unpacks' itself
-                with dpg.stage() as sc1:
+                with dpg.stage(tag="__demo_stage1"):
                     dpg.add_button(label="Staged Button 1")
                     dpg.add_button(label="Staged Button 2")
                     dpg.add_button(label="Staged Button 3")
 
                 ub1 = dpg.add_button(label="Unstage buttons", callback=_unstage_items)
                 child_id = dpg.add_child_window(height=200, width=200)
-                dpg.set_item_user_data(ub1, [sc1, child_id])
+                dpg.set_item_user_data(ub1, ["__demo_stage1", child_id])
 
             with dpg.tree_node(label="Manual Mutex Control"):
 
@@ -2497,14 +2515,14 @@ def show_demo():
 
                 def _callback_auto_mutex(sender, app_data, user_data):
                     
-                    for i in range(0, 100):
+                    for i in range(100):
                         dpg.add_text("Item: " + str(i), parent=user_data)
 
                 def _callback_manual_mutex(sender, app_data, user_data):
 
                     dpg.lock_mutex() # you could also use with dpg.mutex()
                     dpg.push_container_stack(dpg.add_stage(id=staged_container))
-                    for i in range(0, 100):
+                    for i in range(100):
                         dpg.add_text("Item: " + str(i))
                     dpg.pop_container_stack()
                     dpg.unlock_mutex()
