@@ -165,17 +165,6 @@ def _on_demo_close(sender, app_data, user_data):
 
 def show_demo():
 
-    ## create a logger
-    logger = 7
-    #logger = mvLogger()
-    #logger.log_level = 0
-    #logger.log("trace message")
-    #logger.log_debug("debug message")
-    #logger.log_info("info message")
-    #logger.log_warning("warning message")
-    #logger.log_error("error message")
-    #logger.log_critical("critical message")
-
     dpg.add_texture_registry(label="Demo Texture Container", tag="__demo_texture_container")
     dpg.add_colormap_registry(label="Demo Colormap Registry", tag="__demo_colormap_registry")
 
@@ -183,7 +172,7 @@ def show_demo():
     #dpg.add_alias("__LIGHT_IMGUI_THEME", themes.create_theme_imgui_light())
 
     def _log(sender, app_data, user_data):
-        pass
+        print(f"sender: {sender}, \t app_data: {app_data}, \t user_data: {user_data}")
 
     _create_static_textures()
     _create_dynamic_textures()
@@ -208,9 +197,9 @@ def show_demo():
 
                 with dpg.menu(label="Settings"):
 
-                    dpg.add_menu_item(label="Option 1", callback=_log, user_data=logger)
-                    dpg.add_menu_item(label="Option 2", check=True, callback=_log, user_data=logger)
-                    dpg.add_menu_item(label="Option 3", check=True, default_value=True, callback=_log, user_data=logger)
+                    dpg.add_menu_item(label="Option 1", callback=_log)
+                    dpg.add_menu_item(label="Option 2", check=True, callback=_log)
+                    dpg.add_menu_item(label="Option 3", check=True, default_value=True, callback=_log)
 
                     with dpg.child_window(height=60, autosize_x=True, delay_search=True):
                         for i in range(0, 10):
@@ -254,16 +243,16 @@ def show_demo():
             with dpg.tree_node(label="Basic"):
 
                 with dpg.group(horizontal=True):
-                    dpg.add_button(label="Button", callback=_log, user_data=logger)
-                    dpg.add_button(label="Button", callback=_log, user_data=logger, small=True)
-                    dpg.add_button(label="Button", callback=_log, user_data=logger, arrow=True) # default direction is mvDir_Up
-                    dpg.add_button(label="Button", callback=_log, user_data=logger, arrow=True, direction=dpg.mvDir_Left)
-                    dpg.add_button(label="Button", callback=_log, user_data=logger, arrow=True, direction=dpg.mvDir_Right)
-                    dpg.add_button(label="Button", callback=_log, user_data=logger, arrow=True, direction=dpg.mvDir_Down)
+                    dpg.add_button(label="Button", callback=_log)
+                    dpg.add_button(label="Button", callback=_log, small=True)
+                    dpg.add_button(label="Button", callback=_log, arrow=True) # default direction is mvDir_Up
+                    dpg.add_button(label="Button", callback=_log, arrow=True, direction=dpg.mvDir_Left)
+                    dpg.add_button(label="Button", callback=_log, arrow=True, direction=dpg.mvDir_Right)
+                    dpg.add_button(label="Button", callback=_log, arrow=True, direction=dpg.mvDir_Down)
 
-                dpg.add_checkbox(label="checkbox", callback=_log, user_data=logger)
-                dpg.add_radio_button(("radio a", "radio b", "radio c"), callback=_log, user_data=logger, horizontal=True)
-                dpg.add_selectable(label="selectable", callback=_log, user_data=logger)
+                dpg.add_checkbox(label="checkbox", callback=_log)
+                dpg.add_radio_button(("radio a", "radio b", "radio c"), callback=_log, horizontal=True)
+                dpg.add_selectable(label="selectable", callback=_log)
 
                 with dpg.group(horizontal=True):
 
@@ -296,8 +285,8 @@ def show_demo():
                 dpg.add_separator()
 
                 dpg.add_text("Value", label="Label", show_label=True)
-                dpg.add_combo(("AAAA", "BBBB", "CCCC", "DDDD", "EEEE", "FFFF", "GGGG", "HHHH", "IIII", "JJJJ", "KKKK"), label="combo", default_value="AAAA", callback=_log, user_data=logger)
-                dpg.add_input_text(label="input text", default_value="Hello, world!", callback=_log, user_data=logger)
+                dpg.add_combo(("AAAA", "BBBB", "CCCC", "DDDD", "EEEE", "FFFF", "GGGG", "HHHH", "IIII", "JJJJ", "KKKK"), label="combo", default_value="AAAA", callback=_log)
+                dpg.add_input_text(label="input text", default_value="Hello, world!", callback=_log)
                 _help(
                         "USER:\n"
                         "Hold SHIFT or use mouse to select text.\n"
@@ -306,31 +295,31 @@ def show_demo():
                         "CTRL+X,CTRL+C,CTRL+V clipboard.\n"
                         "CTRL+Z,CTRL+Y undo/redo.\n"
                         "ESCAPE to revert.\n\n")
-                dpg.add_input_text(label="input text (w/ hint)", hint="enter text here", callback=_log, user_data=logger)
-                dpg.add_input_int(label="input int", callback=_log, user_data=logger)
-                dpg.add_input_float(label="input float", callback=_log, user_data=logger)
-                dpg.add_input_float(label="input scientific", format="%e", callback=_log, user_data=logger)
-                dpg.add_input_floatx(label="input floatx", callback=_log, user_data=logger, default_value=[1,2,3,4])
-                dpg.add_drag_int(label="drag int", callback=_log, user_data=logger)
+                dpg.add_input_text(label="input text (w/ hint)", hint="enter text here", callback=_log)
+                dpg.add_input_int(label="input int", callback=_log)
+                dpg.add_input_float(label="input float", callback=_log)
+                dpg.add_input_float(label="input scientific", format="%e", callback=_log)
+                dpg.add_input_floatx(label="input floatx", callback=_log, default_value=[1,2,3,4])
+                dpg.add_drag_int(label="drag int", callback=_log)
                 _help(
                         "Click and drag to edit value.\n"
                         "Hold SHIFT/ALT for faster/slower edit.\n"
                         "Double-click or CTRL+click to input value.")
-                dpg.add_drag_int(label="drag int 0..100", format="%d%%", callback=_log, user_data=logger)
-                dpg.add_drag_float(label="drag float", callback=_log, user_data=logger)
-                dpg.add_drag_float(label="drag small float", default_value=0.0067, format="%.06f ns", callback=_log, user_data=logger)
-                dpg.add_slider_int(label="slider int", max_value=3, callback=_log, user_data=logger)
+                dpg.add_drag_int(label="drag int 0..100", format="%d%%", callback=_log)
+                dpg.add_drag_float(label="drag float", callback=_log)
+                dpg.add_drag_float(label="drag small float", default_value=0.0067, format="%.06f ns", callback=_log)
+                dpg.add_slider_int(label="slider int", max_value=3, callback=_log)
                 _help("CTRL+click to enter value.")
-                dpg.add_slider_float(label="slider float", max_value=1.0, format="ratio = %.3f", callback=_log, user_data=logger)
-                dpg.add_slider_int(label="slider angle", min_value=-360, max_value=360, format="%d deg", callback=_log, user_data=logger)
+                dpg.add_slider_float(label="slider float", max_value=1.0, format="ratio = %.3f", callback=_log)
+                dpg.add_slider_int(label="slider angle", min_value=-360, max_value=360, format="%d deg", callback=_log)
                 _help(
                         "Click on the colored square to open a color picker.\n"
                         "Click and hold to use drag and drop.\n"
                         "Right-click on the colored square to show options.\n"
                         "CTRL+click on individual component to input value.\n")
-                dpg.add_color_edit((102, 179, 0, 128), label="color edit 4", callback=_log, user_data=logger)
-                dpg.add_color_edit(default_value=(.5, 1, .25, .1), label="color edit 4", callback=_log, user_data=logger)
-                dpg.add_listbox(("Apple", "Banana", "Cherry", "Kiwi", "Mango", "Orange", "Pineapple", "Strawberry", "Watermelon"), label="listbox", num_items=4, callback=_log, user_data=logger)
+                dpg.add_color_edit((102, 179, 0, 128), label="color edit 4", callback=_log)
+                dpg.add_color_edit(default_value=(.5, 1, .25, .1), label="color edit 4", callback=_log)
+                dpg.add_listbox(("Apple", "Banana", "Cherry", "Kiwi", "Mango", "Orange", "Pineapple", "Strawberry", "Watermelon"), label="listbox", num_items=4, callback=_log)
                 dpg.add_color_button()
 
             with dpg.tree_node(label="Combo"):
@@ -571,25 +560,25 @@ def show_demo():
                         label:\n
                         \tlock cmpxchg8b eax\n"""
 
-                    dpg.add_input_text(label="input text", multiline=True, default_value=paragraph, height=300, callback=_log, user_data=logger, tab_input=True)
+                    dpg.add_input_text(label="input text", multiline=True, default_value=paragraph, height=300, callback=_log, tab_input=True)
 
                     _add_config_options(dpg.last_item(), 1, 
                             "readonly", "on_enter")
 
                 with dpg.tree_node(label="Filtered Text Input"):
 
-                    dpg.add_input_text(callback=_log, user_data=logger, label="default")
-                    dpg.add_input_text(callback=_log, user_data=logger, label="decimal", decimal=True)
-                    dpg.add_input_text(callback=_log, user_data=logger, label="no blank", no_spaces=True)
-                    dpg.add_input_text(callback=_log, user_data=logger, label="uppercase", uppercase=True)
-                    dpg.add_input_text(callback=_log, user_data=logger, label="scientific", scientific=True)
-                    dpg.add_input_text(callback=_log, user_data=logger, label="hexdecimal", hexadecimal=True)
+                    dpg.add_input_text(callback=_log, label="default")
+                    dpg.add_input_text(callback=_log, label="decimal", decimal=True)
+                    dpg.add_input_text(callback=_log, label="no blank", no_spaces=True)
+                    dpg.add_input_text(callback=_log, label="uppercase", uppercase=True)
+                    dpg.add_input_text(callback=_log, label="scientific", scientific=True)
+                    dpg.add_input_text(callback=_log, label="hexdecimal", hexadecimal=True)
             
                 with dpg.tree_node(label="Password Input"):
 
-                    password = dpg.add_input_text(label="password", password=True, callback=_log, user_data=logger)
-                    dpg.add_input_text(label="password (w/ hint)", password=True, hint="<password>", source=password, callback=_log, user_data=logger)
-                    dpg.add_input_text(label="password (clear)", source=password, callback=_log, user_data=logger)
+                    password = dpg.add_input_text(label="password", password=True, callback=_log)
+                    dpg.add_input_text(label="password (w/ hint)", password=True, hint="<password>", source=password, callback=_log)
+                    dpg.add_input_text(label="password (clear)", source=password, callback=_log)
 
             with dpg.tree_node(label="Simple Plots"):
 
@@ -2364,25 +2353,20 @@ def show_demo():
                 mh_drag = dpg.add_text("mouse id:  delta:", label="Mouse Drag Handler", show_label=True)
 
             with dpg.tree_node(label="Widget"):
-                dpg.add_text("Interact with following widgets and check logger!")
+                dpg.add_text("Interact with following widgets and check output!")
                 dpg.add_text("Note: Only the click, hover are added. Others are commented out. Check the code!")
-                cb = dpg.add_checkbox(label="Check me!")
+                cb = dpg.add_checkbox(label="Check me!", tag="democheck")
 
                 # all of the handlers for widgets except resize which is for windows only
-                #dpg.add_item_clicked_handler(cb, 0, callback=lambda s, a, u: logger.log(f"clicked_handler: {s} '\t' {a} '\t' {u}"))
-                #dpg.add_item_hover_handler(cb, callback=lambda s, a, u: logger.log(f"hover_handler: {s} '\t' {a} '\t' {u}"))
-                #dpg.add_activated_handler(widget_id, callback=lambda s, a, u: logger.log(f"activated_handler: {s} '\t' {a} '\t' {u}"))
-                #dpg.add_active_handler(widget_id, callback=lambda s, a, u: logger.log(f"active_handler: {s} '\t' {a} '\t' {u}"))
-                #dpg.add_deactivated_after_edit_handler(widget_id, callback=lambda s, a, u: logger.log(f"deactivated_after_edit_handler: {s} '\t' {a} '\t' {u}"))
-                #dpg.add_deactivated_handler(widget_id, callback=lambda s, a, u: logger.log(f"deactivated_handler: {s} '\t' {a} '\t' {u}"))
-                #dpg.add_edited_handler(widget_id, callback=lambda s, a, u: logger.log(f"edited_handler: {s} '\t' {a} '\t' {u}"))
-                #dpg.add_focus_handler(widget_id, callback=lambda s, a, u: logger.log(f"focus_handler: {s} '\t' {a} '\t' {u}"))
-                #dpg.add_toggled_open_handler(widget_id, callback=lambda s, a, u: logger.log(f"toggled_open_handler: {s} '\t' {a} '\t' {u}"))
-                #dpg.add_visible_handler(widget_id, callback=lambda s, a, u: logger.log(f"visible_handler: {s} '\t' {a} '\t' {u}"))
+                with dpg.item_handler_registry(tag="demoitemregistry"):
+                    dpg.add_item_clicked_handler(0, callback=lambda s, a, u: print(f"clicked_handler: {s} '\t' {a} '\t' {u}"))
+                    dpg.add_item_clicked_handler(1, callback=lambda s, a, u: print(f"clicked_handler: {s} '\t' {a} '\t' {u}"))
+                    dpg.add_item_hover_handler(callback=lambda s, a, u: print(f"hover_handler: {s} '\t' {a} '\t' {u}"))
+                dpg.bind_item_handler_registry(cb, "demoitemregistry")
 
             def event_handler(sender, data):
                 type=dpg.get_item_info(sender)["type"]
-                logger.log(f"{sender} '\t' {type} '\t' {data}")
+                print(f"{sender} '\t' {type} '\t' {data}")
                 if type=="mvAppItemType::mvKeyDownHandler":
                     dpg.set_value(kh_down, f"Key id: {data[0]}, Seconds:{data[1]}")
                 elif type=="mvAppItemType::mvKeyReleaseHandler":

@@ -117,6 +117,17 @@ namespace Marvel {
     }
 
     PyObject* 
+    ToPyUUID(mvAppItem* item)
+    {
+
+        if (!item->_alias.empty())
+            return ToPyString(item->_alias);
+        
+        return Py_BuildValue("K", item->_uuid);
+    }
+
+    
+    PyObject* 
     ToPyUUID(mvUUID value)
     {
         mvAppItem* item = GetItem(*GContext->itemRegistry, value);

@@ -61,27 +61,28 @@ namespace Marvel {
 
     struct mvAppItemState
     {
-        bool   hovered              = false;
-        bool   active               = false;
-        bool   focused              = false;
-        bool   leftclicked          = false;
-        bool   rightclicked         = false;
-        bool   middleclicked        = false;
-        bool   visible              = false;
-        bool   edited               = false;
-        bool   activated            = false;
-        bool   deactivated          = false;
-        bool   deactivatedAfterEdit = false;
-        bool   toggledOpen          = false;
-        bool   mvRectSizeResized    = false;
-        mvVec2 rectMin              = { 0.0f, 0.0f };
-        mvVec2 rectMax              = { 0.0f, 0.0f };
-        mvVec2 rectSize             = { 0.0f, 0.0f };
-        mvVec2 mvPrevRectSize       = { 0.0f, 0.0f };
-        mvVec2 pos                  = { 0.0f, 0.0f };
-        mvVec2 contextRegionAvail   = { 0.0f, 0.0f };
-        bool   ok                   = true;
-        int    lastFrameUpdate      = 0; // last frame update occured
+        bool       hovered              = false;
+        bool       active               = false;
+        bool       focused              = false;
+        bool       leftclicked          = false;
+        bool       rightclicked         = false;
+        bool       middleclicked        = false;
+        bool       visible              = false;
+        bool       edited               = false;
+        bool       activated            = false;
+        bool       deactivated          = false;
+        bool       deactivatedAfterEdit = false;
+        bool       toggledOpen          = false;
+        bool       mvRectSizeResized    = false;
+        mvVec2     rectMin              = { 0.0f, 0.0f };
+        mvVec2     rectMax              = { 0.0f, 0.0f };
+        mvVec2     rectSize             = { 0.0f, 0.0f };
+        mvVec2     mvPrevRectSize       = { 0.0f, 0.0f };
+        mvVec2     pos                  = { 0.0f, 0.0f };
+        mvVec2     contextRegionAvail   = { 0.0f, 0.0f };
+        bool       ok                   = true;
+        int        lastFrameUpdate      = 0; // last frame update occured
+        mvAppItem* parent               = nullptr; // hacky, but quick fix for widget handlers
     };
 
 }
