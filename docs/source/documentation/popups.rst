@@ -1,11 +1,11 @@
 Popups
 ======
 
-Popups are windows that disappear when clicked outside of the popup's boundry.
+Popups are windows that disappear when clicked outside of the popup's border.
 
-They are typically used as context menus when right-clicking a widget or as dialogs.
+They are typically used as context menus when right-clicking an item or as dialogs.
 
-In DPG popups are just windows with *popup* set to **True**, *show* set to **False**,
+In DPG, popups are just windows with *popup* set to **True**, *show* set to **False**,
 and a *clicked_handler* attached to a widget that shows the window when clicked.
 
 Normally when used, a popup will be shown until you click away from it.

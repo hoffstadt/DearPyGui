@@ -1,16 +1,15 @@
 Viewport
 ========
 
-The viewport is what you traditionally call the window in other GUI libraries.
+The viewport is what you traditionally call a **window** in other GUI libraries.
 
-In the case of Dear PyGui we call the operating system window *the viewport*
-and the Dear PyGui window as *the window*.
+In the case of DPG we call the operating system window the *viewport*
+and the DPG windows as *windows*.
 
 Before calling :py:func:`start_dearpygui <dearpygui.dearpygui.start_dearpygui>`, you must do the following:
     1. Create a viewport, using :py:func:`create_viewport <dearpygui.dearpygui.create_viewport>`.
     2. Assign the viewport, using :py:func:`setup_dearpygui <dearpygui.dearpygui.setup_dearpygui>`.
     3. Show the viewport, using :py:func:`show_viewport <dearpygui.dearpygui.show_viewport>`.
-    4. calling :py:func:`start_dearpygui <dearpygui.dearpygui.start_dearpygui>`
 
 Once the viewport has been created, you can begin
 configuring the viewport using :py:func:`configure_viewport <dearpygui.dearpygui.configure_viewport>`

@@ -2401,7 +2401,7 @@ def show_demo():
                 mh_move = dpg.add_text("Mouse pos:", label="Mouse Move Handler", show_label=True)
                 mh_drag = dpg.add_text("Mouse id:  delta:", label="Mouse Drag Handler", show_label=True)
 
-            with dpg.tree_node(label="Widget"):
+            with dpg.tree_node(label="Item"):
 
                 dpg.add_text("Interact with following widgets and check output!")
                 dpg.add_text("Note: Only the click, hover are added. Others are commented out. Check the code!")

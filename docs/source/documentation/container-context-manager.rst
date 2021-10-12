@@ -82,9 +82,9 @@ We have added context managers as helpers for most container items.
 Benefits:
 ---------
 
-1. Automatically push the container to the container stack.
-2. Automatically pop the container off the container stack.
-3. They make the code more readable and structured.
+1. Automatically push containers to container stack.
+2. Automatically pop containers off container stack.
+3. More structured, readable code.
 
 Context Managers:
 -----------------
@@ -96,6 +96,7 @@ Context Managers:
     dpg.create_context()
 
     with dpg.window(label="Main"):
+
         with dpg.menu_bar():
             with dpg.menu(label="Themes"):
                 dpg.add_menu_item(label="Dark")

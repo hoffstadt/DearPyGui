@@ -1,9 +1,9 @@
 Fonts
 =====
 
-Dear PyGui embeds a copy of 'ProggyClean.ttf' (by Tristan Grimmer),
+DPG embeds a copy of 'ProggyClean.ttf' (by Tristan Grimmer),
 a 13 pixels high, pixel-perfect font used by default. ProggyClean does not scale smoothly,
-therefore it is recommended that you load your own file when using Dear PyGui in an
+therefore it is recommended that you load your own file when using DPG in an
 application aiming to look nice and wanting to support multiple resolutions.
 
 You do this by loading external .TTF/.OTF files. 
@@ -17,8 +17,7 @@ All loaded fonts glyphs are rendered into a single texture atlas ahead of time.
 Adding/Removing/Modifying fonts will cause the font atlas to be rebuilt.
 
 You can use the style editor
-:py:func:`show_documentation <dearpygui.dearpygui.show_font_manager>`
-from the *simple* module
+:py:func:`show_font_manager <dearpygui.dearpygui.show_font_manager>`
 to browse your fonts and understand what's going on if you have an issue.
 
 Font Loading Instructions
@@ -68,7 +67,6 @@ You can use range hints, ranges, and specific characters. You can also remap cha
     import dearpygui.dearpygui as dpg
 
     dpg.create_context()
-
 
     with dpg.font_registry():
         with dpg.font("NotoSerifCJKjp-Medium.otf", 20) as font1:

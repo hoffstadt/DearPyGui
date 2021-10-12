@@ -2,20 +2,20 @@ Themes
 ======
 
 Themes are containers which are composed of:
-    Theme Componenets:
-        are containers within a theme that can specify an item type the theme component is applied to
+    Theme Components:
+        are containers within a theme that can specify an item type the theme colors/styles target
     Theme Colors:
         items that are added to a theme component and set colors
     Theme Styles:
-        items that are added to a theme component and set colors
+        items that are added to a theme component and set styles
 
 The theme can be:
-* attached as the default theme. This will have a global effect across all windows and propigate.
-* attached to a container. This will propigate to its children if applicable theme components are in the theme.
-* attached to an app item type if applicable theme components are in the theme.
-a item container, or a specific item.
 
-Theme Components must have a specified item type. This can either be *mvAll* for all items or a specific named item type.
+* bound as the default theme. This will have a global effect across all windows and propagate.
+* bound to a container. This will propagate to its children if applicable theme components are in the theme.
+* bound to an item type if applicable theme components are in the theme. a item container, or a specific item.
+
+Theme components must have a specified item type. This can either be *mvAll* for all items or a specific item type.
 
 Style and color items have a named constant and will apply that constant to their components named item type. 
 Style and color items must have a named category. Constants contain their category in the name.
@@ -25,7 +25,7 @@ Theme colors and styles fall into the following categories:
 **mvThemeCat_Plots**:
     Items that are associated with plots. Style/color constants identified by *mvPlotCol_\*\*\** or *mvPlotStyle_\*\*\**
 
-**mvthemeCat_Nodes**:
+**mvThemeCat_Nodes**:
     Items that are associated with Nodes. Style/color constants identified by *mvNodeCol_\*\*\** or *mvNodeStyle_\*\*\**
 
 **mvThemeCat_Core**:
@@ -55,6 +55,7 @@ Default themes will apply the theme globally across all windows and propigate to
         dpg.add_input_int()
 
     with dpg.theme() as global_theme:
+
         with dpg.theme_component(dpg.mvAll):
             dpg.add_theme_color(dpg.mvThemeCol_FrameBg, (255, 140, 23), category=dpg.mvThemeCat_Core)
             dpg.add_theme_style(dpg.mvStyleVar_FrameRounding, 5, category=dpg.mvThemeCat_Core)
@@ -73,10 +74,10 @@ Default themes will apply the theme globally across all windows and propigate to
     dpg.start_dearpygui()
     dpg.destroy_context()
 
-Container Propigation
+Container Propagation
 ---------------------
 
-Applying a theme to a container will also propagated to its children:
+Applying a theme to a container will propagate the theme to its children:
 
 .. code-block:: python
 
@@ -97,6 +98,7 @@ Applying a theme to a container will also propagated to its children:
         dpg.add_input_int()
 
     with dpg.theme() as container_theme:
+
         with dpg.theme_component(dpg.mvAll):
             dpg.add_theme_color(dpg.mvThemeCol_FrameBg, (150, 100, 100), category=dpg.mvThemeCat_Core)
             dpg.add_theme_style(dpg.mvStyleVar_FrameRounding, 5, category=dpg.mvThemeCat_Core)
@@ -156,7 +158,7 @@ Applying a theme to an item will overide any previous themes to that specified i
 Priority of Themes
 ------------------
 
-The theme proritizes the latest applied theme in the order of 
+The theme prioritizes the latest applied theme in the order of 
 
 1. specific item
 2. container inherited

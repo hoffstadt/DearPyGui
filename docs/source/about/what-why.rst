@@ -7,28 +7,28 @@ What & Why
 What is DPG
 -----------
 
-Dear PyGui is a simple, bloat-free, and powerful Python GUI framework.
+DPG is a simple, bloat-free, and powerful Python GUI framework.
 
-Dear PyGui provides a wrapping of Dear ImGui and other extensions that simulates a traditional
-retained mode GUI, as opposed to Dear ImGui's immediate mode paradigm.
+DPG is build with *Dear ImGui* and other extensions in order to create a unique
+retained mode API, as opposed to Dear ImGui's immediate mode paradigm.
 
-Under the hood, Dear PyGui uses the immediate mode paradigm allowing for extremely
-dynamic interfaces. Similar to PyQt, Dear PyGui does not use native widgets
+Under the hood, DPG uses the immediate mode paradigm allowing for extremely
+dynamic interfaces. Similar to *PyQt*, DPG does not use native widgets
 but instead draws the widgets using your computer's graphics
 card (using Directx11, Metal, and Vulkan rendering APIs).
 
-In the same manner Dear ImGui provides a simple way to create tools
-for game developers, Dear PyGui provides a simple way for python
+In the same manner *Dear ImGui* provides a simple way to create tools
+for game developers, DPG provides a simple way for python
 developers to create quick and powerful GUIs for scripts.
 
 Why use DPG
 -----------
 
-When compared with other Python GUI libraries Dear PyGui is unique with:
+When compared with other Python GUI libraries DPG is unique with:
 
-* GPU Rendering
-* Simple built-in Asynchronous function support
-* Complete theme and style control
-* Built-in developer tools: logging, theme inspection, resource inspection, runtime metrics
+* GPU rendering
+* Multithreaded
+* Highly customizable
+* Built-in developer tools: theme inspection, resource inspection, runtime metrics
 * 70+ widgets with hundreds of widget combinations
 * Detailed documentation, examples and support

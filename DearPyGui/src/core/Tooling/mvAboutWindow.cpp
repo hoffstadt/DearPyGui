@@ -60,6 +60,7 @@ namespace Marvel {
         ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Nikki Luzader");
         ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Diego Dorn (CozyFractal)");
         ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Fabian Schneider");
+        ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "randulfr");
         ImGui::EndChild();
         ImGui::Separator();
         ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_PlotHistogramHovered), "Partners");

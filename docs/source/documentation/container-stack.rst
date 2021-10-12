@@ -1,19 +1,18 @@
 Container Stack
 ===============
 
-Unless an item is a root type or staging mode is active,
-all app items need to belong to a valid container item.
+Unless an item is a root item,
+all items need to belong to a valid container.
 An item's parent is deduced through the following process:
 
 1. If item is a root, no parent needed; finished.
-2. Check *before* keyword, if used skip to 6 using parent of "before" item.
-3. Check *parent* keyword, if used skip to 6.
-4. Check container stack, if used skip to 6.
-5. If parent is not deduced and staging is active, add item to staging; finished.
-6. Check if parent is compatible.
-7. Check if parent accepts.
-8. If runtime, add item using runtime methods; finished.
-9. If startup, add item using startup methods; finished.
+2. Check *before* keyword, if used skip to 5 using parent of "before" item.
+3. Check *parent* keyword, if used skip to 5.
+4. Check container stack, if used skip to 5.
+5. Check if parent is compatible.
+6. Check if parent accepts.
+7. If runtime, add item using runtime methods; finished.
+8. If startup, add item using startup methods; finished.
 
 Container items can be manually pushed onto the container stack using
 :py:func:`push_container_stack <dearpygui.dearpygui.push_container_stack>`
@@ -106,6 +105,6 @@ but a simple example can be found below:
     dpg.destroy_context()
 
 **Benefits**
-1. Automatically push the container to the container stack.
-2. Automatically pop the container off the container stack.
-3. They make the code more readable and structured.
+1. Automatically push container to container stack.
+2. Automatically pop container off container stack.
+3. More structured, readable code.

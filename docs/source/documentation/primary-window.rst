@@ -1,9 +1,7 @@
 Primary Window
 ==============
 
-The primary window fills the viewport and resizes with it.
-
-It will also always remain in the background of other windows.
+The primary window fills the viewport, resizes with the viewport and remains behind other windows.
 
 A window can be set as the primary window by using the
 :py:func:`set_primary_window <dearpygui.dearpygui.set_primary_window>`
@@ -17,9 +15,6 @@ command using the required True/False allows the window to be set or unset.
 
     with dpg.window(tag="Primary Window"):
         dpg.add_text("Hello, world")
-        dpg.add_button(label="Save")
-        dpg.add_input_text(label="string", default_value="Quick brown fox")
-        dpg.add_slider_float(label="float", default_value=0.273, max_value=1)
 
     dpg.create_viewport(title='Custom Title', width=600, height=200)
     dpg.setup_dearpygui()

@@ -1,10 +1,10 @@
 Item Value
 ==========
 
-When a widget is added, it creates an associated value by default. 
-Values can be shared between widgets with the same underlying value type. 
+When an item is created, it creates an associated value by default. 
+Values can be shared between items with the same underlying value type. 
 This is accomplished by using the `source` keyword. One of the benefits of 
-this is to have multiple widgets control the same value.
+this is to have multiple items control the same value.
 
 Values are retrieved from the value :py:func:`get_value <dearpygui.dearpygui.get_value>`.
 
@@ -29,10 +29,10 @@ Values can be changed manually using :py:func:`set_value <dearpygui.dearpygui.se
     dpg.start_dearpygui()
     dpg.destroy_context()
 
-Value App Items
+Value Items
 ---------------
 There are several "Value" items that can be used. These are
-widgets that have no visual component. These include:
+items that have no visual component. These include:
 
 * **mvBoolValue**
 * **mvColorValue**

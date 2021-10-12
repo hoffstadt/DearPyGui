@@ -1,12 +1,12 @@
 Item Creation
 ==============
 
-DearPyGui can be broken down into **Items**, **UI Items**, **Containers**
+DPG can be broken down into **Items**, **UI Items**, **Containers**.
 
 Items
 -----
 
-Everything created in _Dear_PyGui_ is an **item**. New items can be created
+Everything created in DPG is an **item**. New items can be created
 by calling various *add_\*\*\** or *draw_\*\*\** functions. These commands
 return a unique identifier that can be used to later refer to the item.
 **UI items** and **containers** are also **items** - but not every **item**
@@ -17,25 +17,24 @@ and *use_internal_label*. The *tag* is generated automatically or can be specifi
 A *label* serves as the display name for an item. 
 *user_data* can be any value and is frequently used for **callbacks**.
 
-.. note:: Event **handlers**, **registries**, **group**, **same_line**, and **themes** are also items.
+.. note:: Event **handlers**, **registries**, **group**, and **themes** are also items.
     These are under-the-hood items for customizing the functionality, flow,
-    and overall look of your interface.
+    and overall look of your APP.
 
 
 Containers
 ----------
 
-**Container** items are used to group other items into 
-useful structures for layouts or for back in reference.
+**Container** items that can contain other (allowable) items.
 
 In addition to creating them by
 calling their corresponding *add_\*\*\** function, they can also be
-created by calling their corresponding context manager function.
+created by calling their corresponding context manager.
 
 .. note:: Containers are more useful (and recommended) when used as context managers.
 
 Below is an example of creating two new **window** items
-using their context manager function and starting the application:
+using their context manager and starting the application:
 
 .. code-block:: python
 
@@ -43,10 +42,10 @@ using their context manager function and starting the application:
 
     dpg.create_context()
 
-    with dpg.window(label="Window1", pos=(0,0)) as window1:
+    with dpg.window(label="Window1", pos=(0,0)):
         pass
 
-    with dpg.window(label="Window2", pos=(100,0)) as window2:
+    with dpg.window(label="Window2", pos=(100,0)):
         pass
 
     dpg.create_viewport(title='Custom Title', width=600, height=200)
@@ -67,7 +66,7 @@ These include **buttons**, **sliders**, **inputs**, and even
 other containers such as **windows** and **tree nodes**.
 
 Below is an example for creating a **window** container
-that parents a few other items:
+that contains a few other items:
 
 .. code-block:: python
 
@@ -91,7 +90,7 @@ that parents a few other items:
         print(f"Printing item tag's: {window}, {button1}, {slider_int}, {slider_float}")
 
     # If you want to add an item to an existing container, you
-    # can specify which by passing the container's tag as the
+    # can specify it by passing the container's tag as the
     # "parent" parameter.
     button2 = dpg.add_button(label="Don't forget me!", parent=window)
 
@@ -107,7 +106,7 @@ that parents a few other items:
 Runtime Adding and Deleting 
 ---------------------------
 
-With DPG you can dynamically add and delete any items at runtime.
+With DPG you can dynamically add, delete, and move items at runtime.
 
 This can be done by using a callback to run the desired item's *add_\*\*\**
 command and specifying the parent the item will belong to.
@@ -116,14 +115,13 @@ By using the **before** keyword when adding a item you can control which
 item in the parent the new item will come before. Default will place the
 new widget at the end.
 
-Below is an example demonstrating adding and deleting app items during runtime:
+Below is an example demonstrating adding and deleting items during runtime:
 
 .. code-block:: python
 
     import dearpygui.dearpygui as dpg
 
     dpg.create_context()
-
 
     def add_buttons():
         global new_button1, new_button2
@@ -159,10 +157,8 @@ Below is an example demonstrating adding and deleting app items during runtime:
 
     dpg.create_context()
 
-
     def delete_children():
         dpg.delete_item("window", children_only=True)
-
 
     with dpg.window(label="Tutorial", pos=(200, 200), tag="window"):
         dpg.add_button(label="Delete Children", callback=delete_children)

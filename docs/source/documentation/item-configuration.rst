@@ -4,7 +4,7 @@ Item Configuration
 In DPG various configuration
 options and flags can be set when items are created.
 There are several options common
-to all items (i.e. **show**) but most UI items have specific options.
+to all items (i.e. **show**) but most items have specific options.
 
 In order to modify an item's configuration after being created, you can
 use the :py:func:`configure_item <dearpygui.dearpygui.configure_item>`

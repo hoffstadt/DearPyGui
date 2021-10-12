@@ -4,8 +4,8 @@ Filter Set
 The filter set item is a container that can
 be used to filter its children based on their *filter_key*.
 
-Most app items have a *filter_key* keyword that can be set when
-creating the item. This works by setting the value of the filter set.
+Most items have a *filter_key* keyword that can be set when
+creating the item. Filtering is based on the set value of the filter set.
 
 The easiest way to understand this is by considering the example below
 
@@ -17,11 +17,8 @@ The easiest way to understand this is by considering the example below
 
     dpg.create_context()
 
-
     def callback(sender, filter_string):
-        # set value of filter set
         dpg.set_value("filter_id", filter_string)
-
 
     with dpg.window(label="about", width =500, height=300):
         dpg.add_input_text(label="Filter (inc, -exc)", callback=callback)

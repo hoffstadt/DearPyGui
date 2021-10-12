@@ -5,20 +5,19 @@ Plots are composed of multiple components.
 
 Y-axis:
     This is a container and is the parent of all the data series that are added to the plot. 
-    The plot can have multiple Y-axis at one time.
+    The plot can have multiple Y-axis at one time (up to 3).
 
 X-axis:
-    This is the x data scale.
+    This is the x data scale (only 1 x axis is allowed).
     
 Series:
     These are the containers for the data you wish to display.
-    data series need to be added as a child of a Y-axis to be displayed on the plot.
+    Data series need to be added as a child of a Y-axis to be displayed on the plot.
     There are many different types of data series avaliable.
-    Series also can contain UI Items that will be displayed when right-clicking the series label in the legend
+    Series also can contain UI Items that will be displayed when right-clicking the series label in the legend as a context menu.
 
 Legend (optional):
     This is a normal legend and alos allows the user to toggle which data series are visible.
-
 
 Plots have some functionality built in:
     Toggle Data Series:
@@ -94,7 +93,6 @@ You can change a series on a plot by
     for i in range(0, 500):
         sindatax.append(i / 1000)
         sindatay.append(0.5 + 0.5 * sin(50 * i / 1000))
-
 
     def update_series():
 
