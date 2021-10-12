@@ -106,7 +106,7 @@ API Reference Guide:
     /documentation/popups
     /documentation/simple-plots
     /documentation/staging
-    /documentation/table-api-08
+    /documentation/tables
     /documentation/textures
     /documentation/themes
     /documentation/tooltips
