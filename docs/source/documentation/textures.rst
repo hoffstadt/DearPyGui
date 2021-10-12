@@ -181,6 +181,7 @@ Format                  Static Texture Dynamic Texture Raw Texture
 **mvFormat_Float_rgb**  -               -              ✅*
 **mvFormat_Int_rgba**   -               -              -
 **mvFormat_Int_rgb**    -               -              *
+======================= ============== =============== ===========
 
 .. note::
     | **mvFormat_Float_rgb** not currently supported on MacOS
@@ -202,17 +203,17 @@ This function returns a tuple where
 
 On failure, returns **None**.
 
-The accepted file types include
+The accepted file types include:
 
-* JPEG (no 12-bit-per-channel JPEG OR JPEG with arithmetic coding)
-* PNG
-* BMP
-* PSD
-* GIF
-* HDR
-* PIC
-* PPM
-* PGM
+    * JPEG (no 12-bit-per-channel JPEG OR JPEG with arithmetic coding)
+    * PNG
+    * BMP
+    * PSD
+    * GIF
+    * HDR
+    * PIC
+    * PPM
+    * PGM
 
 A simple example can be found below
 

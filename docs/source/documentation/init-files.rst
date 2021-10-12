@@ -29,7 +29,7 @@ Use :py:func:`save_init_file <dearpygui.dearpygui.save_init_file>` while
 Loading init files
 ------------------
 
-Use :py:func:`configure_app <dearpygui.dearpygui.configure_app>`before starting DPG.
+Use :py:func:`configure_app <dearpygui.dearpygui.configure_app>` before starting DPG.
 
 Below is an example of using **init** files to preserve settings between sessions.
 

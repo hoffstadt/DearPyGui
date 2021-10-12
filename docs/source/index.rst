@@ -42,7 +42,7 @@ engineering, gaming, data science and other applications that require fast and i
     * :ref:`modindex`
     * :ref:`search`
 
-First Steps
+Quick Start
 -----------
 
 If you're ready to start using Dear PyGui visit

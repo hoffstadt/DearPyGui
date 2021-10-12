@@ -8,7 +8,7 @@ Tutorials will give a broad overview and working knowledge of DPG. Tutorials do 
 so refer to the documentation on each topic to learn more.
 
 Installing
------------
+----------
 
 Python 3.6 (64 bit) or above is required.
 
