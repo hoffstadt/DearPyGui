@@ -491,6 +491,8 @@ namespace Marvel {
 		{
 			ImGui::LoadIniSettingsFromDisk(GContext->IO.iniFile.c_str());
 			io.IniFilename = nullptr;
+			if(GContext->IO.autoSaveIniFile)
+				io.IniFilename = GContext->IO.iniFile.c_str();
 		}
 		else
 		{
