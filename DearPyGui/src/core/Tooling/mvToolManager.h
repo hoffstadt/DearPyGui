@@ -26,6 +26,7 @@ namespace Marvel{
 	public:
 
 		static void Draw();
+		static void Reset();
 
 		static void ShowTool(mvUUID name);
 

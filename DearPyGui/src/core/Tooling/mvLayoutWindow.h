@@ -21,12 +21,12 @@ namespace Marvel {
 
         void drawWidgets() override;
 
-    private:
+    public:
 
-        void renderTreeNode(mvAppItem* item);
+        void renderTreeNode(mvRef<mvAppItem>& item);
         void renderRootCategory(const char* category, std::vector<mvRef<mvAppItem>>& roots);
 
-        mvAppItem* _itemref = nullptr;
+        mvRef<mvAppItem> _itemref = nullptr;
         mvUUID m_selectedItem = 0;
         bool m_dirtyNodes = true;
         int m_selectedId = -1;

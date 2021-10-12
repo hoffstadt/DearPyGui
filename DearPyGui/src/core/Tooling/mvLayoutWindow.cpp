@@ -28,14 +28,14 @@ namespace Marvel {
         if (expanded)
         {
             for (auto& root : roots)
-                renderTreeNode(root.get());
+                renderTreeNode(root);
             ImGui::TreePop();
         }
 
         ImGui::PopID();
     }
 
-    void mvLayoutWindow::renderTreeNode(mvAppItem* item)
+    void mvLayoutWindow::renderTreeNode(mvRef<mvAppItem>& item)
     {
 
         // build up flags for current node
@@ -44,7 +44,7 @@ namespace Marvel {
             | (item->getDescFlags() & MV_ITEM_DESC_CONTAINER ? 0 : ImGuiTreeNodeFlags_Leaf);
 
         // render this node
-        ImGui::PushID(item);
+        ImGui::PushID(item.get());
         std::string labelToShow = item->getTypeString();
         if (!item->_alias.empty())
             labelToShow = item->_alias;
@@ -96,14 +96,14 @@ namespace Marvel {
                     if (ImGui::TreeNodeEx(title.c_str(), childrenSet.empty() ? ImGuiTreeNodeFlags_Leaf : 0))
                     {
                         for (auto& children : childrenSet)
-                            renderTreeNode(children.get());
+                            renderTreeNode(children);
                         ImGui::TreePop();
                     }
                 }
                 else
                 {
                     for (auto& children : childrenSet)
-                        renderTreeNode(children.get());
+                        renderTreeNode(children);
                 }
             }
             ImGui::TreePop();
@@ -122,46 +122,46 @@ namespace Marvel {
 		mvUUID parentName = 0;
 
 		if (_itemref == nullptr)
-            _itemref = GContext->itemRegistry->windowRoots[0].get();
+            _itemref = GContext->itemRegistry->windowRoots[0];
 
-		if (_itemref->_parentPtr)
-			parentName = _itemref->_parentPtr->_uuid;
+        if (_itemref->_parentPtr)
+            parentName = _itemref->_parentPtr->_uuid;
 
         // left side
-		ImGui::BeginGroup();
+        ImGui::BeginGroup();
 
-		if (ImGui::ArrowButton("Move Up", ImGuiDir_Up))
-			mvSubmitCallback([&]()
-				{
-					MoveItemUp(*GContext->itemRegistry, m_selectedItem);
-				});
+        if (ImGui::ArrowButton("Move Up", ImGuiDir_Up))
+            mvSubmitCallback([&]()
+                {
+                    MoveItemUp(*GContext->itemRegistry, m_selectedItem);
+                });
 
-		ImGui::SameLine();
-		if (ImGui::ArrowButton("Move Down", ImGuiDir_Down))
-			mvSubmitCallback([&]()
-				{
-					MoveItemDown(*GContext->itemRegistry, m_selectedItem);
-				});
-		ImGui::SameLine();
-		if (ImGui::Button("Delete"))
-		{
-			mvSubmitCallback([&]()
-				{
-					DeleteItem(*GContext->itemRegistry, m_selectedItem, false);
-					m_selectedItem = 0;
-				});
+        ImGui::SameLine();
+        if (ImGui::ArrowButton("Move Down", ImGuiDir_Down))
+            mvSubmitCallback([&]()
+                {
+                    MoveItemDown(*GContext->itemRegistry, m_selectedItem);
+                });
+        ImGui::SameLine();
+        if (ImGui::Button("Delete"))
+        {
+            mvSubmitCallback([&]()
+                {
+                    DeleteItem(*GContext->itemRegistry, m_selectedItem, false);
+                    m_selectedItem = 0;
+                });
 
             _itemref = nullptr;
-            _itemref = GContext->itemRegistry->windowRoots[0].get();
-		}
-		ImGui::SameLine();
+            _itemref = GContext->itemRegistry->windowRoots[0];
+        }
+        ImGui::SameLine();
         if (ImGui::Button("Show"))
         {
             mvAppItem* tempItem = GetItem(*GContext->itemRegistry, m_selectedItem);
             tempItem->_show = true;
             tempItem->_shownLastFrame = true;
         }
-		ImGui::SameLine();
+        ImGui::SameLine();
         if (ImGui::Button("Hide"))
         {
             mvAppItem* tempItem = GetItem(*GContext->itemRegistry, m_selectedItem);
@@ -181,7 +181,7 @@ namespace Marvel {
         std::string sizex = std::to_string(_itemref->_state.rectSize.x);
         std::string sizey = std::to_string(_itemref->_state.rectSize.y);
 
-        ImGui::PushID(_itemref);
+        ImGui::PushID(_itemref.get());
         DebugItem("Label:", _itemref->_specifiedLabel.c_str());
         DebugItem("ID:", std::to_string(_itemref->_uuid).c_str());
         DebugItem("Alias:", _itemref->_alias.c_str());
@@ -237,8 +237,9 @@ namespace Marvel {
         ImGui::PopID();
         ImGui::EndChild();
 
-		ImGui::EndGroup();
-		ImGui::SameLine();
+        ImGui::EndGroup();
+        ImGui::SameLine();
+
 
         // right side
         ImGui::BeginGroup();
