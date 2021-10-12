@@ -138,7 +138,7 @@ def setup_package():
             with open(src_path + "/DearPyGui/dearpygui/_dearpygui.pyi", 'r') as file:
                 lines = file.readlines()
                 for line in lines:
-                    if line.__contains__("..."):
+                    if line.__contains__("...") and not line.__contains__("["):
                         newfile.write("\tpass\n")
                     elif line.__contains__("dearpygui._dearpygui"):
                         newfile.write("mvBuffer = 7\n") # hacky
