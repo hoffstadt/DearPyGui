@@ -41,7 +41,7 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 * item:    added `add_spacer(...)`
 * item:    added `add_theme_component(...)`
 * command: added `set_frame_callback(...)`
-* command: added `toggle_viewport_fullscreen(...)`        
+* command: added `toggle_viewport_fullscreen(...)`
 * command: added `show_item_debug(...)`
 * command: added `bind_theme(...)`
 * command: added `highlight_table_column(...)`
@@ -72,7 +72,8 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 * columns can now be programmatically hidden
 * table "value" is now a string, which acts as a filter using the row filter keys
 * texture id can be updated with `configure_item(...)` for texture based widgets
-        
+* feature: item handlers send current bound item through "app_data"
+
 ### Deprecated
 * item:    removed table_next_column
 * removed `viewport` keyword arg from `setup_dearpygui(...)`

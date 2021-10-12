@@ -36,15 +36,15 @@ namespace Marvel {
 
     void mvHoverHandler::customAction(void* data)
     {
-
-        if (static_cast<mvAppItemState*>(data)->hovered)
+        mvAppItemState* state = static_cast<mvAppItemState*>(data);
+        if (state->hovered)
         {
             mvSubmitCallback([=]()
                 {
                     if (_alias.empty())
-                        mvRunCallback(getCallback(false), _uuid, GetPyNone(), _user_data);
+                        mvRunCallback(getCallback(false), _uuid, ToPyUUID(state->parent), _user_data);
                     else
-                        mvRunCallback(getCallback(false), _alias, GetPyNone(), _user_data);
+                        mvRunCallback(getCallback(false), _alias, ToPyUUID(state->parent), _user_data);
                 });
         }
     }

@@ -29,6 +29,7 @@ namespace Marvel {
     {
         _uuid = uuid;
         _internalLabel = "###" + std::to_string(_uuid);
+        _state.parent = this;
     }
 
     mvAppItem::~mvAppItem()
