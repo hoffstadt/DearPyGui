@@ -38,7 +38,7 @@ simple way for python developers to **create quick and powerful GUIs for scripts
 
 | [Installation](#installation) - [Usage](#usage) - [Resources](#resources) - [Support](#support) |
 :----------------------------------------------------------: |
-| [Features](#features) - [Sponsors](#sponsors) - [Credits](#credits) - [License](#license)|
+| [Features](#features) - [Sponsors](#sponsors) - [Credits](#credits) - [License](#license) - [Gallery](#gallery) |
 
 ## Installation
 
@@ -76,7 +76,6 @@ dpg.show_viewport()
 dpg.start_dearpygui()
 dpg.destroy_context()
 ```
-
 
 ## Usage
  
@@ -125,11 +124,12 @@ _Dear PyGui_ includes a plotting API built with [ImPlot](https://github.com/epez
 
 #### Node Editor
 _Dear PyGui_ includes a node editor built with [imnodes](https://github.com/Nelarius/imnodes)
-![](https://raw.githubusercontent.com/Nelarius/imnodes/master/img/imnodes.gif?token=ADH_jEpqbBrw0nH-BUmOip490dyO2CnRks5cVZllwA%3D%3D)
+![](https://github.com/hoffstadt/DearPyGui/blob/assets/readme/nodes2.png)
+
 
 #### Canvas
 _Dear PyGui_ includes a drawing API to create custom drawings, plot, and even 2D games.
-<BR>![BasicUsageExample](https://github.com/hoffstadt/DearPyGui/blob/assets/canvas.png?raw=true)
+![](https://github.com/hoffstadt/DearPyGui/blob/assets/readme/tetris.png)
  
 #### Tools
 _Dear PyGui_ includes several tools to help developers with _DearPyGui_ app development:
@@ -173,7 +173,7 @@ Thank you to all other [sponsors](https://github.com/hoffstadt/DearPyGui/wiki/Sp
 
 <a href="https://www.buymeacoffee.com/DearPyGui"><img src="https://img.buymeacoffee.com/button-api/?text=Buy us a coffee&emoji=&slug=DearPyGui&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff"></a>
 
-## Credits
+ ## Credits
 
 Developed by [Jonathan Hoffstadt](https://github.com/hoffstadt), [Preston Cothren](https://github.com/Pcothren), and every direct or indirect contributor.
 
@@ -186,3 +186,26 @@ Developed by [Jonathan Hoffstadt](https://github.com/hoffstadt), [Preston Cothre
 ## License
 
 _Dear PyGui_ is licensed under the [MIT License](https://github.com/hoffstadt/DearPyGui/blob/master/LICENSE).
+ 
+## Gallery
+ ![](https://github.com/hoffstadt/DearPyGui/blob/assets/readme/3d.png)
+ 
+ ![](https://github.com/hoffstadt/DearPyGui/blob/assets/readme/nodes1.png)
+ 
+ ![](https://github.com/hoffstadt/DearPyGui/blob/assets/readme/space.png)
+ 
+ ![](https://github.com/hoffstadt/DearPyGui/blob/assets/readme/snake.gif)
+ 
+ ![](https://github.com/hoffstadt/DearPyGui/blob/assets/readme/drawing.png)
+ 
+ <BR>![BasicUsageExample](https://github.com/hoffstadt/DearPyGui/blob/assets/canvas.png?raw=true)
+ 
+ ![](https://github.com/hoffstadt/DearPyGui/blob/assets/readme/nodes3.png)
+ 
+ ![](https://github.com/hoffstadt/DearPyGui/blob/assets/readme/3d1.png)
+ 
+ ![](https://github.com/hoffstadt/DearPyGui/blob/assets/readme/game1.png)
+ 
+ ![](https://github.com/hoffstadt/DearPyGui/blob/assets/readme/mandlebrot.gif)
+ 
+ ![](https://github.com/hoffstadt/DearPyGui/blob/assets/readme/nodes4.png)
