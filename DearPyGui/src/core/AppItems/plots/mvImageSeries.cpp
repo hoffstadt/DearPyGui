@@ -23,7 +23,7 @@ namespace Marvel {
 			MV_PARSER_ARG_SHOW)
 		);
 
-		args.push_back({ mvPyDataType::UUID, "texture_id" });
+		args.push_back({ mvPyDataType::UUID, "texture_tag" });
 		args.push_back({ mvPyDataType::DoubleList, "bounds_min"});
 		args.push_back({ mvPyDataType::DoubleList, "bounds_max"});
 		args.push_back({ mvPyDataType::FloatList, "uv_min", mvArgType::KEYWORD_ARG, "(0.0, 0.0)", "normalized texture coordinates"});
@@ -245,7 +245,7 @@ namespace Marvel {
 			_bounds_max.y = result.y;
 		}
 
-		if (PyObject* item = PyDict_GetItemString(dict, "texture_id"))
+		if (PyObject* item = PyDict_GetItemString(dict, "texture_tag"))
         {
             _textureUUID = GetIDFromPyObject(item);
             _texture = GetRefItem(*GContext->itemRegistry, _textureUUID);
@@ -278,7 +278,7 @@ namespace Marvel {
 		mvPyObject py_bounds_min = ToPyPair(_bounds_min.x, _bounds_min.y);
 		mvPyObject py_bounds_max = ToPyPair(_bounds_max.x, _bounds_max.y);
 
-		PyDict_SetItemString(dict, "texture_id", py_texture_id);
+		PyDict_SetItemString(dict, "texture_tag", py_texture_id);
 		PyDict_SetItemString(dict, "uv_min", py_uv_min);
 		PyDict_SetItemString(dict, "uv_max", py_uv_max);
 		PyDict_SetItemString(dict, "tint_color", py_tint_color);

@@ -3952,11 +3952,11 @@ def add_hline_series(x, **kwargs):
 
 	return internal_dpg.add_hline_series(x, **kwargs)
 
-def add_image(texture_id, **kwargs):
+def add_image(texture_tag, **kwargs):
 	"""	 Adds an image from a specified texture. uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown. Using range (0.0,0.0)->(1.0,1.0) for texture coordinates will generally display the entire texture.
 
 	Args:
-		texture_id (Union[int, str]): 
+		texture_tag (Union[int, str]): 
 		label (str, optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
@@ -3984,13 +3984,13 @@ def add_image(texture_id, **kwargs):
 		Union[int, str]
 	"""
 
-	return internal_dpg.add_image(texture_id, **kwargs)
+	return internal_dpg.add_image(texture_tag, **kwargs)
 
-def add_image_button(texture_id, **kwargs):
+def add_image_button(texture_tag, **kwargs):
 	"""	 Adds an button with a texture. uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown. Using range (0.0,0.0)->(1.0,1.0) texture coordinates will generally display the entire texture
 
 	Args:
-		texture_id (Union[int, str]): 
+		texture_tag (Union[int, str]): 
 		label (str, optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
@@ -4021,13 +4021,13 @@ def add_image_button(texture_id, **kwargs):
 		Union[int, str]
 	"""
 
-	return internal_dpg.add_image_button(texture_id, **kwargs)
+	return internal_dpg.add_image_button(texture_tag, **kwargs)
 
-def add_image_series(texture_id, bounds_min, bounds_max, **kwargs):
+def add_image_series(texture_tag, bounds_min, bounds_max, **kwargs):
 	"""	 Adds an image series to a plot.
 
 	Args:
-		texture_id (Union[int, str]): 
+		texture_tag (Union[int, str]): 
 		bounds_min (Any): 
 		bounds_max (Any): 
 		label (str, optional): Overrides 'name' as label.
@@ -4046,7 +4046,7 @@ def add_image_series(texture_id, bounds_min, bounds_max, **kwargs):
 		Union[int, str]
 	"""
 
-	return internal_dpg.add_image_series(texture_id, bounds_min, bounds_max, **kwargs)
+	return internal_dpg.add_image_series(texture_tag, bounds_min, bounds_max, **kwargs)
 
 def add_input_float(**kwargs):
 	"""	 Adds input for an float.
@@ -6606,11 +6606,11 @@ def draw_ellipse(pmin, pmax, **kwargs):
 
 	return internal_dpg.draw_ellipse(pmin, pmax, **kwargs)
 
-def draw_image(texture_id, pmin, pmax, **kwargs):
+def draw_image(texture_tag, pmin, pmax, **kwargs):
 	"""	 Adds an image (for a drawing).
 
 	Args:
-		texture_id (Union[int, str]): 
+		texture_tag (Union[int, str]): 
 		pmin (Union[List[float], Tuple[float, ...]]): Point of to start drawing texture.
 		pmax (Union[List[float], Tuple[float, ...]]): Point to complete drawing texture.
 		label (str, optional): Overrides 'name' as label.
@@ -6628,7 +6628,7 @@ def draw_image(texture_id, pmin, pmax, **kwargs):
 		Union[int, str]
 	"""
 
-	return internal_dpg.draw_image(texture_id, pmin, pmax, **kwargs)
+	return internal_dpg.draw_image(texture_tag, pmin, pmax, **kwargs)
 
 def draw_line(p1, p2, **kwargs):
 	"""	 Adds a line.
