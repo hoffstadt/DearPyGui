@@ -42,7 +42,7 @@ All items return their tag's when they are created.
     dpg.start_dearpygui()
     dpg.destroy_context()
 
-.. note:: Items can be created and delete at runtime see :doc:`../documentation/item-creation#Runtime Adding and Deleting`
+.. note:: Items can be created and delete at runtime see :doc:`../documentation/item-creation`
 
 .. seealso::
     | For more information on the creating items:

@@ -24,8 +24,8 @@ are useful when the DPG needs to be started and stopped multiple times in one py
 
 .. warning:: Creating the context must be the first call to DPG or DPG will not start
 
-Viewport
---------
+The Viewport
+------------
 
 The viewport is the *window* created by the operating system.
 
@@ -55,8 +55,8 @@ and shown using :py:func:`show_viewport <dearpygui.dearpygui.show_viewport>`
 
 .. seealso:: For more information on the viewport :doc:`../documentation/viewport`
 
-Render Loop
------------
+The Render Loop
+---------------
 
 The render loop is responsible for displaying widgets,
 partially maintaining state and handling item callbacks.
@@ -98,8 +98,8 @@ the render loop so you can call python commands that may need to run every frame
 
 .. seealso:: for more information on the render loop :doc:`../documentation/render-loop`
 
-Items
------
+DPG Items
+---------
 
 DPG can be broken down into **Items**, **UI Items**, **Containers**
 
@@ -112,8 +112,8 @@ UI Items:
 Containers:
     Items that can hold other items. A root container is a container that has no parent container.
 
-Primary Window
---------------
+The Primary Window
+------------------
 
 DPG can assign one window to be the *primary window*, which will fill the
 viewport and always be drawn behind other windows.

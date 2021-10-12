@@ -11,6 +11,7 @@ Values are retrieved from the value :py:func:`get_value <dearpygui.dearpygui.get
 Values can be changed manually using :py:func:`set_value <dearpygui.dearpygui.set_value>`.
 
 .. code-block:: python
+
     import dearpygui.dearpygui as dpg
 
     dpg.create_context()

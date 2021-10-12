@@ -1,5 +1,5 @@
-Textures
-========
+Textures & Images
+=================
 
 DPG uses the Graphics Processing Unit (GPU) to create the graphical user interface(GUI) you see.
 To display an image, you must first create a texture with the image data that can then be
@@ -20,6 +20,8 @@ This textures are then used in the following App Items
 
 They are always 1D lists or arrays.
 
+Using the keyword Show on the texture registry will open the texture registry.
+
 Static Textures
 ---------------
 
@@ -32,20 +34,27 @@ and any type that supports python's buffer protocol with contiguous data. Below 
 
     import dearpygui.dearpygui as dpg
 
-    texture_data = []
-    for i in range(0, 100*100):
-        texture_data.append(255/255)
-        texture_data.append(0)
-        texture_data.append(255/255)
-        texture_data.append(255/255)
+    dpg.create_context()
 
-    with dpg.texture_registry():
-        dpg.add_static_texture(100, 100, texture_data, id="texture_id")
+    texture_data = []
+    for i in range(0, 100 * 100):
+        texture_data.append(255 / 255)
+        texture_data.append(0)
+        texture_data.append(255 / 255)
+        texture_data.append(255 / 255)
+
+    with dpg.texture_registry(show=True):
+        dpg.add_static_texture(100, 100, texture_data, tag="texture_tag")
 
     with dpg.window(label="Tutorial"):
-        dpg.add_image("texture_id")
+        dpg.add_image("texture_tag")
 
+
+    dpg.create_viewport(title='Custom Title', width=800, height=600)
+    dpg.setup_dearpygui()
+    dpg.show_viewport()
     dpg.start_dearpygui()
+    dpg.destroy_context()
 
 Dynamic Textures
 ----------------
@@ -61,40 +70,48 @@ safety checks and conversion. Below is a simple example
 
     import dearpygui.dearpygui as dpg
 
-    texture_data = []
-    for i in range(0, 100*100):
-        texture_data.append(255/255)
-        texture_data.append(0)
-        texture_data.append(255/255)
-        texture_data.append(255/255)
+    dpg.create_context()
 
-    with dpg.texture_registry():
-        dpg.add_dynamic_texture(100, 100, texture_data, id="texture_id")
+    texture_data = []
+    for i in range(0, 100 * 100):
+        texture_data.append(255 / 255)
+        texture_data.append(0)
+        texture_data.append(255 / 255)
+        texture_data.append(255 / 255)
+
+    with dpg.texture_registry(show=True):
+        dpg.add_dynamic_texture(100, 100, texture_data, tag="texture_tag")
+
 
     def _update_dynamic_textures(sender, app_data, user_data):
-
         new_color = dpg.get_value(sender)
-        new_color[0] = new_color[0]/255
-        new_color[1] = new_color[1]/255
-        new_color[2] = new_color[2]/255
-        new_color[3] = new_color[3]/255
+        new_color[0] = new_color[0] / 255
+        new_color[1] = new_color[1] / 255
+        new_color[2] = new_color[2] / 255
+        new_color[3] = new_color[3] / 255
 
         new_texture_data = []
-        for i in range(0, 100*100):
+        for i in range(0, 100 * 100):
             new_texture_data.append(new_color[0])
             new_texture_data.append(new_color[1])
             new_texture_data.append(new_color[2])
             new_texture_data.append(new_color[3])
 
-        dpg.set_value("texture_id", new_texture_data)
+        dpg.set_value("texture_tag", new_texture_data)
+
 
     with dpg.window(label="Tutorial"):
-        dpg.add_image("texture_id")
+        dpg.add_image("texture_tag")
         dpg.add_color_picker((255, 0, 255, 255), label="Texture",
-            no_side_preview=True, alpha_bar=True, width=200,
-            callback=_update_dynamic_textures)
+                             no_side_preview=True, alpha_bar=True, width=200,
+                             callback=_update_dynamic_textures)
 
+
+    dpg.create_viewport(title='Custom Title', width=800, height=600)
+    dpg.setup_dearpygui()
+    dpg.show_viewport()
     dpg.start_dearpygui()
+    dpg.destroy_context()
 
 Raw Textures
 ------------
@@ -112,36 +129,45 @@ textures every frame. Below is a simple example
     import dearpygui.dearpygui as dpg
     import array
 
+    dpg.create_context()
+
+
     texture_data = []
-    for i in range(0, 100*100):
-        texture_data.append(255/255)
+    for i in range(0, 100 * 100):
+        texture_data.append(255 / 255)
         texture_data.append(0)
-        texture_data.append(255/255)
-        texture_data.append(255/255)
+        texture_data.append(255 / 255)
+        texture_data.append(255 / 255)
 
     raw_data = array.array('f', texture_data)
 
-    with dpg.texture_registry():
-        dpg.add_raw_texture(100, 100, raw_data, format=dpg.mvFormat_Float_rgba, id="texture_id")
+    with dpg.texture_registry(show=True):
+        dpg.add_raw_texture(100, 100, raw_data, format=dpg.mvFormat_Float_rgba, tag="texture_tag")
+
 
     def update_dynamic_texture(sender, app_data, user_data):
-
         new_color = dpg.get_value(sender)
-        new_color[0] = new_color[0]/255
-        new_color[1] = new_color[1]/255
-        new_color[2] = new_color[2]/255
-        new_color[3] = new_color[3]/255
+        new_color[0] = new_color[0] / 255
+        new_color[1] = new_color[1] / 255
+        new_color[2] = new_color[2] / 255
+        new_color[3] = new_color[3] / 255
 
-        for i in range(0, 100*100*4):
+        for i in range(0, 100 * 100 * 4):
             raw_data[i] = new_color[i % 4]
 
-    with dpg.window(label="Tutorial"):
-        dpg.add_image("texture_id")
-        dpg.add_color_picker((255, 0, 255, 255), label="Texture",
-            no_side_preview=True, alpha_bar=True, width=200,
-            callback=update_dynamic_texture)
 
+    with dpg.window(label="Tutorial"):
+        dpg.add_image("texture_tag")
+        dpg.add_color_picker((255, 0, 255, 255), label="Texture",
+                             no_side_preview=True, alpha_bar=True, width=200,
+                             callback=update_dynamic_texture)
+
+
+    dpg.create_viewport(title='Custom Title', width=800, height=600)
+    dpg.setup_dearpygui()
+    dpg.show_viewport()
     dpg.start_dearpygui()
+    dpg.destroy_context()
 
 Formats
 -------
@@ -155,6 +181,7 @@ Format                  Static Texture Dynamic Texture Raw Texture
 **mvFormat_Float_rgb**  -               -              ✅*
 **mvFormat_Int_rgba**   -               -              -
 **mvFormat_Int_rgb**    -               -              *
+======================= ============== =============== ===========
 
 .. note::
     | **mvFormat_Float_rgb** not currently supported on MacOS
@@ -176,17 +203,17 @@ This function returns a tuple where
 
 On failure, returns **None**.
 
-The accepted file types include
+The accepted file types include:
 
-* JPEG (no 12-bit-per-channel JPEG OR JPEG with arithmetic coding)
-* PNG
-* BMP
-* PSD
-* GIF
-* HDR
-* PIC
-* PPM
-* PGM
+    * JPEG (no 12-bit-per-channel JPEG OR JPEG with arithmetic coding)
+    * PNG
+    * BMP
+    * PSD
+    * GIF
+    * HDR
+    * PIC
+    * PPM
+    * PGM
 
 A simple example can be found below
 
@@ -194,13 +221,22 @@ A simple example can be found below
 
     import dearpygui.dearpygui as dpg
 
+    dpg.create_context()
+
+    import dearpygui.dearpygui as dpg
+
     width, height, channels, data = dpg.load_image("Somefile.png")
 
-    with dpg.texture_registry():
-        dpg.add_static_texture(width, height, data, id="texture_id")
+    with dpg.texture_registry(show=True):
+        dpg.add_static_texture(width, height, data, tag="texture_tag")
 
     with dpg.window(label="Tutorial"):
-        dpg.add_image("texture_id")
+        dpg.add_image("texture_tag")
 
+
+    dpg.create_viewport(title='Custom Title', width=800, height=600)
+    dpg.setup_dearpygui()
+    dpg.show_viewport()
     dpg.start_dearpygui()
+    dpg.destroy_context()
 

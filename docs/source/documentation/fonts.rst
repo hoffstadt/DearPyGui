@@ -32,23 +32,30 @@ and latin supplement glyphs are added (0x0020 - 0x00FF).
 
     import dearpygui.dearpygui as dpg
 
+    dpg.create_context()
+
     # add a font registry
     with dpg.font_registry():
+        # first argument ids the path to the .ttf or .otf file
+        default_font = dpg.add_font("NotoSerifCJKjp-Medium.otf", 20)
+        second_font = dpg.add_font("NotoSerifCJKjp-Medium.otf", 10)
 
-        # add font (set as default for entire app)
-        dpg.add_font("path/to/font/file/CoolFont.otf", 20, default_font=True)
-
-        # add second font
-        dpg.add_font("path/to/font/file/AnotherCoolFont.ttf", 13, id="secondary_font")
-
-    with dpg.window(label="Font Example"):
+    with dpg.window(label="Font Example", height=200, width=200):
         dpg.add_button(label="Default font")
-        dpg.add_button(label="Secondary font")
+        b2 = dpg.add_button(label="Secondary font")
+        dpg.add_button(label="default")
 
         # set font of specific widget
-        dpg.set_item_font(dpg.last_item(), "secondary_font")
+        dpg.bind_font(default_font)
+        dpg.bind_item_font(b2, second_font)
 
+    dpg.show_font_manager()
+
+    dpg.create_viewport(title='Custom Title', width=800, height=600)
+    dpg.setup_dearpygui()
+    dpg.show_viewport()
     dpg.start_dearpygui()
+    dpg.destroy_context()
 
 Loading Specific Unicode Characters
 -----------------------------------
@@ -60,9 +67,11 @@ You can use range hints, ranges, and specific characters. You can also remap cha
 
     import dearpygui.dearpygui as dpg
 
-    with dpg.font_registry():
+    dpg.create_context()
 
-        with dpg.font("path/to/font/file/CoolFont.otf", 20, default_font=True):
+
+    with dpg.font_registry():
+        with dpg.font("NotoSerifCJKjp-Medium.otf", 20) as font1:
 
             # add the default font range
             dpg.add_font_range_hint(dpg.mvFontRangeHint_Default)
@@ -87,7 +96,13 @@ You can use range hints, ranges, and specific characters. You can also remap cha
             # remap や to %
             dpg.add_char_remap(0x3084, 0x0025)
 
+    dpg.show_font_manager()
+
+    dpg.create_viewport(title='Custom Title', width=800, height=600)
+    dpg.setup_dearpygui()
+    dpg.show_viewport()
     dpg.start_dearpygui()
+    dpg.destroy_context()
 
 Where to find unicode character codes?
 --------------------------------------

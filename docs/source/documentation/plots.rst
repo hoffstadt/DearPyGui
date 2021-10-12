@@ -21,15 +21,24 @@ Legend (optional):
 
 
 Plots have some functionality built in:
-    * Click & Drag on plot: to pan the plot
-    * Click & Drag on Axis: to pan the plot in one direction
-    * Double Click: scales plot to data
-    * Right Click & Drag: to zoom to an area
-    * Double Right Click: opens settings
-    * Shift + Right Click & Drag: to zoom to an area that fills a current axis
-    * Scroll Mouse Wheel: zooms
-    * Scroll Mouse Wheel on Axis: zooms only that axis
-    * Toggle data sets on the legend to hide them
+    Toggle Data Series:
+        Click on the legend name of the desired data series to toggle
+    Settings:
+        Double Right Click
+    Pan Plot: 
+        Click & Drag on plot
+    Pan Axis: 
+        Click & Drag on Axis
+    Zoom:
+        Scroll Mouse Wheel
+    Zoom Axis:
+        Hover Axis & Scroll Mouse Wheel
+    Zoom Region: 
+        Right Click & Drag
+    Zoom Extents: 
+        Double Click
+    Zoom Axis Area:
+        Shift + Right Click & Drag
 
 .. code-block:: python
 
