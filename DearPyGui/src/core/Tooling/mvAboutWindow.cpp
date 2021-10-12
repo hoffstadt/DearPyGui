@@ -1,6 +1,50 @@
 #include "mvAboutWindow.h"
 #include "mvContext.h"
 
+mv_internal std::vector<std::string> founders =
+{
+    "Anthony Tanbakuchi",
+    "Marco Studer",
+    "Wiebe Van der Waals",
+    "Anthony Doupe",
+    "Dean Keinan",
+    "He Lingfeng",
+    "Ray Heasman",
+    "Anthony Hernandez",
+    "Alexander G. Morano",
+    "Derek Barker",
+    "Caden Bloxham",
+    "Yan Zaretskiy",
+    "Barney Mannerings",
+    "Leron Gray",
+    "RB Blackstone",
+    "Charles Ray",
+    "Jonathan Matthysen",
+    "Keith Cuff",
+    "Emmanuel Aubert",
+    "Tollis Hunt",
+    "Torsten Rehn",
+    "Storm Coates",
+    "Arad F.",
+    "John S.",
+    "Jeremy Anderson",
+    "SafetyEagleEye",
+    "Jan Kolda",
+    "Alex Davies",
+    "Sepehr Ghavam",
+    "Rahul Ravikumar",
+    "Alex(Chr0my)",
+    "Trinnik",
+    "Michael Kadziela",
+    "George Auer",
+    "Dick Kluis",
+    "Nikki Luzader",
+    "Diego Dorn (CozyFractal)",
+    "Fabian Schneider",
+    "randulfr",
+    "JohannesKargl"
+};
+
 
 namespace Marvel {
 
@@ -16,54 +60,28 @@ namespace Marvel {
         ImGui::Text("Dear PyGui %s", MV_SANDBOX_VERSION);
         ImGui::Text("Dear ImGui %s", ImGui::GetVersion());
         ImGui::Separator();
-        ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_PlotHistogramHovered), "Authors");
+        ImGui::TextColored(ImVec4(0.0f, 1.0f, 1.0f, 1.0f), "Authors");
         ImGui::BulletText("Jonathan Hoffstadt");
         ImGui::BulletText("Preston Cothren");
         ImGui::Text("Dear PyGui is licensed under the MIT License, see LICENSE for more information.");
         ImGui::Separator();
-        ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_PlotHistogramHovered), "Founding Sponsors");
+        ImGui::TextColored(ImVec4(0.0f, 1.0f, 1.0f, 1.0f), "Founding Sponsors");
         ImGui::BeginChild("Founding Sponsors##aboutsponsorschild", ImVec2(0.0, 100.0f));
-        ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Anthony Tanbakuchi");
-        ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Marco Studer");
-        ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Testpilot");
-        ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Dean Keinan");
-        ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "He Lingfeng");
-        ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Anthony Doupe");
-        ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Ray Heasman");
-        ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Anthony Hernandez");
-        ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Derek Barker");
-        ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Caden Bloxham");
-        ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Yan Zaretskiy");
-        ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Barney Mannerings");
-        ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Leron Gray");
-        ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "RB Blackstone");
-        ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Charles Ray");
-        ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Jonathan Matthysen");
-        ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Keith Cuff");
-        ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Emmanuel Aubert");
-        ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Tollis Hunt");
-        ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Torsten Rehn");
-        ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Storm Coates");
-        ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Arad F.");
-        ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "John S.");
-        ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Jeremy Anderson");
-        ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "SafetyEagleEye");
-        ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Jan Kolda");
-        ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Alex Davies");
-        ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Sepehr Ghavam");
-        ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Rahul Ravikumar");
-        ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Alex(Chr0my)");
-        ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Trinnik");
-        ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Michael Kadziela");
-        ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "George Auer");
-        ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Dick Kluis");
-        ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Nikki Luzader");
-        ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Diego Dorn (CozyFractal)");
-        ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Fabian Schneider");
-        ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "randulfr");
+
+        for (int i = 0; i < founders.size(); i++)
+        {
+            if (i % 2 == 0)
+            {
+                ImGui::TextColored(ImVec4(0.0f, 1.0f, (float)i / (float)founders.size(), 1.0f), founders[i].c_str());
+                ImGui::SameLine(250.0f);
+            }
+            else
+                ImGui::TextColored(ImVec4((float)i / (float)founders.size(), 1.0f, 0.0f, 1.0f), founders[i].c_str());
+        }
+
         ImGui::EndChild();
         ImGui::Separator();
-        ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_PlotHistogramHovered), "Partners");
+        ImGui::TextColored(ImVec4(0.0f, 1.0f, 1.0f, 1.0f), "Partners");
         ImGui::BulletText("Anthony Tanbakuchi");
         ImGui::BulletText("Dean Keinan");
         ImGui::BulletText("He Lingfeng");
@@ -72,13 +90,13 @@ namespace Marvel {
         ImGui::BulletText("Marco Studer");
         ImGui::BulletText("Scripts");
         ImGui::Separator();
-        ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_PlotHistogramHovered), "ImPlot");
+        ImGui::TextColored(ImVec4(0.0f, 1.0f, 1.0f, 1.0f), "ImPlot");
         ImGui::Text("ImPlot Author, Evan Pezent.");
         ImGui::Separator();
-        ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_PlotHistogramHovered), "imnodes");
+        ImGui::TextColored(ImVec4(0.0f, 1.0f, 1.0f, 1.0f), "imnodes");
         ImGui::Text("imnodes Author, Johann Muszynski.");
         ImGui::Separator();
-        ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_PlotHistogramHovered), "Dear ImGui");
+        ImGui::TextColored(ImVec4(0.0f, 1.0f, 1.0f, 1.0f), "Dear ImGui");
         ImGui::Text("Dear ImGui Author, Omar Cornut and all Dear ImGui contributors.");
         ImGui::Text("Dear ImGui is licensed under the MIT License, see LICENSE for more information.");
 

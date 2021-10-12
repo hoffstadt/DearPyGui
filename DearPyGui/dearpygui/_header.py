@@ -29,6 +29,14 @@ from dearpygui._dearpygui import mvBuffer
 # Helper Commands
 ########################################################################################################################
 
+def get_major_version():
+    """ return Dear PyGui Major Version """
+    return internal_dpg.get_app_configuration()["major_version"]
+
+def get_minor_version():
+    """ return Dear PyGui Major Version """
+    return internal_dpg.get_app_configuration()["minor_version"]
+
 def get_dearpygui_version():
     """ return Dear PyGui Version """
     return internal_dpg.get_app_configuration()["version"]

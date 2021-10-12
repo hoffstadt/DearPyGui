@@ -40,6 +40,8 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 * item:    added `add_table_cell(...)`
 * item:    added `add_spacer(...)`
 * item:    added `add_theme_component(...)`
+* command: added `get_major_version(...)`
+* command: added `get_minor_version(...)`
 * command: added `set_frame_callback(...)`
 * command: added `toggle_viewport_fullscreen(...)`
 * command: added `show_item_debug(...)`

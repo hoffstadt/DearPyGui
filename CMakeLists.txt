@@ -20,6 +20,8 @@ add_definitions(
 
 set(MV_PY_VERSION ${MV_PY_VERSION})
 set(MVDPG_VERSION ${MVDPG_VERSION})
+add_definitions(-DMV_DPG_MAJOR_VERSION=1)
+add_definitions(-DMV_DPG_MINOR_VERSION=0)
 if(MVDPG_VERSION)
     add_definitions(-DMV_SANDBOX_VERSION="${MVDPG_VERSION}")
 else()

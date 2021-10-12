@@ -1225,6 +1225,8 @@ namespace Marvel {
         PyDict_SetItemString(pdict, "docking_space", mvPyObject(ToPyBool(GContext->IO.docking)));
         PyDict_SetItemString(pdict, "load_init_file", mvPyObject(ToPyBool(GContext->IO.loadIniFile)));
         PyDict_SetItemString(pdict, "version", mvPyObject(ToPyString(GetVersion())));
+        PyDict_SetItemString(pdict, "major_version", mvPyObject(ToPyInt(MV_DPG_MAJOR_VERSION)));
+        PyDict_SetItemString(pdict, "minor_version", mvPyObject(ToPyInt(MV_DPG_MINOR_VERSION)));
         PyDict_SetItemString(pdict, "init_file", mvPyObject(ToPyString(GContext->IO.iniFile)));
         PyDict_SetItemString(pdict, "platform", mvPyObject(ToPyString(GetPlatform())));
         PyDict_SetItemString(pdict, "device", mvPyObject(ToPyInt(GContext->IO.info_device)));
