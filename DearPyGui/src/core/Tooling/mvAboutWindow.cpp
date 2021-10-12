@@ -33,13 +33,13 @@ namespace Marvel {
         ImGui::BulletText("Scripts");
         ImGui::Separator();
         ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_PlotHistogramHovered), "ImPlot");
-        ImGui::Text("ImPlot Author Evan Pezent.");
+        ImGui::Text("ImPlot Author, Evan Pezent.");
         ImGui::Separator();
         ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_PlotHistogramHovered), "imnodes");
-        ImGui::Text("imnodes Author Johann Muszynski.");
+        ImGui::Text("imnodes Author, Johann Muszynski.");
         ImGui::Separator();
         ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_PlotHistogramHovered), "Dear ImGui");
-        ImGui::Text("Dear ImGui Author Omar Cornut and all Dear ImGui contributors.");
+        ImGui::Text("Dear ImGui Author, Omar Cornut and all Dear ImGui contributors.");
         ImGui::Text("Dear ImGui is licensed under the MIT License, see LICENSE for more information.");
 
         mv_local_persist bool show_config_info = false;
