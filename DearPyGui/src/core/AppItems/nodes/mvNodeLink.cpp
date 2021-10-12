@@ -26,6 +26,7 @@ namespace Marvel {
 		args.push_back({ mvPyDataType::UUID, "attr_2"});
 
 		mvPythonParserSetup setup;
+		setup.about = "Adds a node link between 2 node attributes.";
 		setup.category = { "Node Editor", "Widgets"};
 		setup.returnType = mvPyDataType::UUID;
 

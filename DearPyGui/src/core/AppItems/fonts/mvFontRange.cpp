@@ -22,6 +22,7 @@ namespace Marvel {
 		args.push_back({ mvPyDataType::Integer, "last_char" });
 
 		mvPythonParserSetup setup;
+		setup.about = "Adds a range of font characters to a font.";
 		setup.category = { "Fonts", "Widgets" };
 		setup.returnType = mvPyDataType::UUID;
 

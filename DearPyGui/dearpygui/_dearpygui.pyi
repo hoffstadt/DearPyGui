@@ -7,7 +7,7 @@ from dearpygui._dearpygui import *
 
 # ~ Dear PyGui Version: master
 def add_2d_histogram_series(x : Union[List[float], Tuple[float, ...]], y : Union[List[float], Tuple[float, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', show: bool ='', xbins: int ='', ybins: int ='', xmin_range: float ='', xmax_range: float ='', ymin_range: float ='', ymax_range: float ='', density: bool ='', outliers: bool ='') -> Union[int, str]:
-	"""Undocumented"""
+	"""Adds a 2d histogram series."""
 	...
 
 def add_3d_slider(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: Union[List[float], Tuple[float, ...]] ='', max_x: float ='', max_y: float ='', max_z: float ='', min_x: float ='', min_y: float ='', min_z: float ='', scale: float ='') -> Union[int, str]:
@@ -39,7 +39,7 @@ def add_candle_series(dates : Union[List[float], Tuple[float, ...]], opens : Uni
 	...
 
 def add_char_remap(source : int, target : int, *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='') -> Union[int, str]:
-	"""Undocumented"""
+	"""Remaps a character."""
 	...
 
 def add_checkbox(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: bool ='') -> Union[int, str]:
@@ -179,23 +179,23 @@ def add_float_vect_value(*, label: str ='', user_data: Any ='', use_internal_lab
 	...
 
 def add_font(file : str, size : int, *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='') -> Union[int, str]:
-	"""Undocumented"""
+	"""Adds font to a font registry."""
 	...
 
 def add_font_chars(chars : Union[List[int], Tuple[int, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='') -> Union[int, str]:
-	"""Undocumented"""
+	"""Adds specific font characters to a font."""
 	...
 
 def add_font_range(first_char : int, last_char : int, *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='') -> Union[int, str]:
-	"""Undocumented"""
+	"""Adds a range of font characters to a font."""
 	...
 
 def add_font_range_hint(hint : int, *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='') -> Union[int, str]:
-	"""Undocumented"""
+	"""Adds a range of font characters (mvFontRangeHint_ constants)."""
 	...
 
 def add_font_registry(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', show: bool ='') -> Union[int, str]:
-	"""Undocumented"""
+	"""Adds a font registry."""
 	...
 
 def add_group(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', delay_search: bool ='', tracked: bool ='', track_offset: float ='', horizontal: bool ='', horizontal_spacing: float ='', xoffset: float ='') -> Union[int, str]:
@@ -395,7 +395,7 @@ def add_node_editor(*, label: str ='', user_data: Any ='', use_internal_label: b
 	...
 
 def add_node_link(attr_1 : Union[int, str], attr_2 : Union[int, str], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', show: bool ='') -> Union[int, str]:
-	"""Undocumented"""
+	"""Adds a node link between 2 node attributes."""
 	...
 
 def add_pie_series(x : float, y : float, radius : float, values : Union[List[float], Tuple[float, ...]], labels : Union[List[str], Tuple[str, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', show: bool ='', format: str ='', angle: float ='', normalize: bool ='') -> Union[int, str]:
@@ -623,11 +623,11 @@ def capture_next_item(callback : Callable) -> None:
 	...
 
 def clear_selected_links(node_editor : Union[int, str]) -> None:
-	"""Undocumented"""
+	"""Clears a node editor's selected links."""
 	...
 
 def clear_selected_nodes(node_editor : Union[int, str]) -> None:
-	"""Undocumented"""
+	"""Clears a node editor's selected nodes."""
 	...
 
 def configure_app(*, docking: bool ='', docking_space: bool ='', load_init_file: str ='', init_file: str ='', auto_save_init_file: bool ='', device: int ='', auto_device: bool ='', allow_alias_overwrites: bool ='', manual_alias_management: bool ='', skip_required_args: bool ='', skip_positional_args: bool ='', skip_keyword_args: bool ='') -> None:
@@ -823,11 +823,11 @@ def get_plot_query_area(plot : Union[int, str]) -> Union[List[float], Tuple[floa
 	...
 
 def get_selected_links(node_editor : Union[int, str]) -> List[List[str]]:
-	"""Undocumented"""
+	"""Returns a node editor's selected links."""
 	...
 
 def get_selected_nodes(node_editor : Union[int, str]) -> Union[List[int], Tuple[int, ...]]:
-	"""Undocumented"""
+	"""Returns a node editor's selected nodes."""
 	...
 
 def get_total_time() -> float:

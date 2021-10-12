@@ -34,6 +34,7 @@ namespace Marvel {
 		args.push_back({ mvPyDataType::Bool, "outliers", mvArgType::KEYWORD_ARG, "True" });
 
 		mvPythonParserSetup setup;
+		setup.about = "Adds a 2d histogram series.";
 		setup.category = { "Plotting", "Containers", "Widgets" };
 		setup.returnType = mvPyDataType::UUID;
 

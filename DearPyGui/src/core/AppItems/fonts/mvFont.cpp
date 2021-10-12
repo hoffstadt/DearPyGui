@@ -30,6 +30,7 @@ namespace Marvel {
 			args.push_back({ mvPyDataType::Bool, "default_font", mvArgType::DEPRECATED_REMOVE_KEYWORD_ARG });
 			
 			mvPythonParserSetup setup;
+			setup.about = "Adds font to a font registry.";
 			setup.category = { "Fonts", "Containers" };
 			setup.returnType = mvPyDataType::UUID;
 			setup.createContextManager = true;
@@ -45,7 +46,7 @@ namespace Marvel {
 
 			mvPythonParserSetup setup;
 			setup.about = "Binds a global font.";
-			setup.category = { "font" };
+			setup.category = { "Fonts" };
 			setup.returnType = mvPyDataType::UUID;
 
 			mvPythonParser parser = FinalizeParser(setup, args);

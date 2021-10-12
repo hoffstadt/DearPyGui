@@ -311,7 +311,7 @@ namespace Marvel {
 				if (sorts_specs->SpecsDirty)
 				{
 					if (sorts_specs->SpecsCount == 0)
-						mvAddCallback(getCallback(false), _uuid, nullptr, _user_data);
+						mvAddCallback(getCallback(false), _uuid, GetPyNone(), _user_data);
 					else
 					{
 

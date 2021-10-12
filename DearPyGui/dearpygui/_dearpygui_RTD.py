@@ -1698,7 +1698,7 @@ def filter_set(**kwargs):
 
 @contextmanager
 def font(file, size, **kwargs):
-	"""	 Undocumented
+	"""	 Adds font to a font registry.
 
 	Args:
 		file (str): 
@@ -1722,7 +1722,7 @@ def font(file, size, **kwargs):
 
 @contextmanager
 def font_registry(**kwargs):
-	"""	 Undocumented
+	"""	 Adds a font registry.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -2603,7 +2603,7 @@ def window(**kwargs):
 ##########################################################
 
 def add_2d_histogram_series(x, y, **kwargs):
-	"""	 Undocumented
+	"""	 Adds a 2d histogram series.
 
 	Args:
 		x (Any): 
@@ -2807,7 +2807,7 @@ def add_candle_series(dates, opens, closes, lows, highs, **kwargs):
 	return internal_dpg.add_candle_series(dates, opens, closes, lows, highs, **kwargs)
 
 def add_char_remap(source, target, **kwargs):
-	"""	 Undocumented
+	"""	 Remaps a character.
 
 	Args:
 		source (int): 
@@ -3743,7 +3743,7 @@ def add_float_vect_value(**kwargs):
 	return internal_dpg.add_float_vect_value(**kwargs)
 
 def add_font(file, size, **kwargs):
-	"""	 Undocumented
+	"""	 Adds font to a font registry.
 
 	Args:
 		file (str): 
@@ -3762,7 +3762,7 @@ def add_font(file, size, **kwargs):
 	return internal_dpg.add_font(file, size, **kwargs)
 
 def add_font_chars(chars, **kwargs):
-	"""	 Undocumented
+	"""	 Adds specific font characters to a font.
 
 	Args:
 		chars (Union[List[int], Tuple[int, ...]]): 
@@ -3779,7 +3779,7 @@ def add_font_chars(chars, **kwargs):
 	return internal_dpg.add_font_chars(chars, **kwargs)
 
 def add_font_range(first_char, last_char, **kwargs):
-	"""	 Undocumented
+	"""	 Adds a range of font characters to a font.
 
 	Args:
 		first_char (int): 
@@ -3797,7 +3797,7 @@ def add_font_range(first_char, last_char, **kwargs):
 	return internal_dpg.add_font_range(first_char, last_char, **kwargs)
 
 def add_font_range_hint(hint, **kwargs):
-	"""	 Undocumented
+	"""	 Adds a range of font characters (mvFontRangeHint_ constants).
 
 	Args:
 		hint (int): 
@@ -3814,7 +3814,7 @@ def add_font_range_hint(hint, **kwargs):
 	return internal_dpg.add_font_range_hint(hint, **kwargs)
 
 def add_font_registry(**kwargs):
-	"""	 Undocumented
+	"""	 Adds a font registry.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -4992,7 +4992,7 @@ def add_node_editor(**kwargs):
 	return internal_dpg.add_node_editor(**kwargs)
 
 def add_node_link(attr_1, attr_2, **kwargs):
-	"""	 Undocumented
+	"""	 Adds a node link between 2 node attributes.
 
 	Args:
 		attr_1 (Union[int, str]): 
@@ -6362,7 +6362,7 @@ def capture_next_item(callback):
 	return internal_dpg.capture_next_item(callback)
 
 def clear_selected_links(node_editor):
-	"""	 Undocumented
+	"""	 Clears a node editor's selected links.
 
 	Args:
 		node_editor (Union[int, str]): 
@@ -6373,7 +6373,7 @@ def clear_selected_links(node_editor):
 	return internal_dpg.clear_selected_links(node_editor)
 
 def clear_selected_nodes(node_editor):
-	"""	 Undocumented
+	"""	 Clears a node editor's selected nodes.
 
 	Args:
 		node_editor (Union[int, str]): 
@@ -7070,7 +7070,7 @@ def get_plot_query_area(plot):
 	return internal_dpg.get_plot_query_area(plot)
 
 def get_selected_links(node_editor):
-	"""	 Undocumented
+	"""	 Returns a node editor's selected links.
 
 	Args:
 		node_editor (Union[int, str]): 
@@ -7081,7 +7081,7 @@ def get_selected_links(node_editor):
 	return internal_dpg.get_selected_links(node_editor)
 
 def get_selected_nodes(node_editor):
-	"""	 Undocumented
+	"""	 Returns a node editor's selected nodes.
 
 	Args:
 		node_editor (Union[int, str]): 

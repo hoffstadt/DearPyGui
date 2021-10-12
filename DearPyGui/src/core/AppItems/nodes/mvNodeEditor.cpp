@@ -49,6 +49,7 @@ namespace Marvel {
             args.push_back({ mvPyDataType::UUID, "node_editor" });
 
             mvPythonParserSetup setup;
+            setup.about = "Returns a node editor's selected nodes.";
             setup.category = { "Node Editor", "App Item Operations" };
             setup.returnType = mvPyDataType::UUIDList;
 
@@ -61,6 +62,7 @@ namespace Marvel {
             args.push_back({ mvPyDataType::UUID, "node_editor" });
 
             mvPythonParserSetup setup;
+            setup.about = "Returns a node editor's selected links.";
             setup.category = { "Node Editor", "App Item Operations" };
             setup.returnType = mvPyDataType::ListStrList;
 
@@ -73,6 +75,7 @@ namespace Marvel {
             args.push_back({ mvPyDataType::UUID, "node_editor" });
 
             mvPythonParserSetup setup;
+            setup.about = "Clears a node editor's selected links.";
             setup.category = { "Node Editor", "App Item Operations" };
 
             mvPythonParser parser = FinalizeParser(setup, args);
@@ -84,6 +87,7 @@ namespace Marvel {
             args.push_back({ mvPyDataType::UUID, "node_editor" });
 
             mvPythonParserSetup setup;
+            setup.about = "Clears a node editor's selected nodes.";
             setup.category = { "Node Editor", "App Item Operations" };
 
             mvPythonParser parser = FinalizeParser(setup, args);

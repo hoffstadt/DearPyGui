@@ -21,6 +21,7 @@ namespace Marvel {
 		args.push_back({ mvPyDataType::Integer, "hint" });
 
 		mvPythonParserSetup setup;
+		setup.about = "Adds a range of font characters (mvFontRangeHint_ constants).";
 		setup.category = { "Fonts", "Widgets" };
 		setup.returnType = mvPyDataType::UUID;
 
