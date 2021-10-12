@@ -61,12 +61,21 @@ Ensure you have at least Python 3.6 64bit.
 - [Feature Tracker](https://github.com/hoffstadt/DearPyGui/projects/5) all proposed new features.
 - [Bug Tracker](https://github.com/hoffstadt/DearPyGui/projects/1) current bugs and issues.
 - Internal Documentation: Run the `show_documentation` command from within the library to view a reference guide. 
-- Complete Demo: You can also view a mostly complete showcase of _Dear PyGui_ by running (0.8.x):
+- Complete Demo: You can also view a mostly complete showcase of _Dear PyGui_ by running:
 ```python
 import dearpygui.dearpygui as dpg
 from dearpygui.demo import show_demo
+
+dpg.create_context()
+dpg.create_viewport()
+dpg.setup_dearpygui()
 show_demo()
-dpg.start_dearpygui()
+
+dpg.show_viewport()
+while dpg.is_dearpygui_running():
+    dpg.render_dearpygui_frame()  
+
+dpg.destroy_context()
 ```
 
 
@@ -74,12 +83,16 @@ dpg.start_dearpygui()
  
 Using _Dear PyGui_ is a simple as creating a python script like the one below:
 
-Code (0.8.x):
+Code:
 ```Python
 import dearpygui.dearpygui as dpg
 
 def save_callback():
     print("Save Clicked")
+
+dpg.create_context()
+dpg.create_viewport()
+dpg.setup_dearpygui()
 
 with dpg.window(label="Example Window"):
     dpg.add_text("Hello world")
@@ -87,8 +100,11 @@ with dpg.window(label="Example Window"):
     dpg.add_input_text(label="string")
     dpg.add_slider_float(label="float")
 
-dpg.setup_viewport()
-dpg.start_dearpygui()
+dpg.show_viewport()
+while dpg.is_dearpygui_running():
+    dpg.render_dearpygui_frame()  
+
+dpg.destroy_context()
 ```
 Result:
 <BR>![BasicUsageExample](https://github.com/hoffstadt/DearPyGui/blob/assets/BasicUsageExample1.PNG?raw=true)
