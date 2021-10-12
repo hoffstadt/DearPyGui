@@ -29,7 +29,7 @@ namespace Marvel {
 			MV_PARSER_ARG_POS)
 		);
 
-		args.push_back({ mvPyDataType::UUID, "texture_id" });
+		args.push_back({ mvPyDataType::UUID, "texture_tag" });
 		args.push_back({ mvPyDataType::FloatList, "tint_color", mvArgType::KEYWORD_ARG, "(255, 255, 255, 255)", "Applies a color tint to the entire texture." });
 		args.push_back({ mvPyDataType::FloatList, "border_color", mvArgType::KEYWORD_ARG, "(0, 0, 0, 0)", "Displays a border of the specified color around the texture." });
 		args.push_back({ mvPyDataType::FloatList, "uv_min", mvArgType::KEYWORD_ARG, "(0.0, 0.0)", "Normalized texture coordinates min point." });
@@ -68,7 +68,7 @@ namespace Marvel {
 			MV_PARSER_ARG_POS)
 		);
 
-		args.push_back({ mvPyDataType::UUID, "texture_id" });
+		args.push_back({ mvPyDataType::UUID, "texture_tag" });
 		args.push_back({ mvPyDataType::Integer, "frame_padding", mvArgType::KEYWORD_ARG, "-1" });
 		args.push_back({ mvPyDataType::FloatList, "tint_color", mvArgType::KEYWORD_ARG, "(255, 255, 255, 255)", "Applies a color tint to the entire texture." });
 		args.push_back({ mvPyDataType::FloatList, "background_color", mvArgType::KEYWORD_ARG, "(0, 0, 0, 0)", "Displays a border of the specified color around the texture." });
@@ -304,7 +304,7 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "uv_max")) _uv_max = ToVec2(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "tint_color")) _tintColor = ToColor(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "border_color")) _borderColor = ToColor(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "texture_id"))
+		if (PyObject* item = PyDict_GetItemString(dict, "texture_tag"))
         {
             _textureUUID = GetIDFromPyObject(item);
             _texture = GetRefItem(*GContext->itemRegistry, _textureUUID);
@@ -333,7 +333,7 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "uv_max", mvPyObject(ToPyPair(_uv_max.x, _uv_max.y)));
 		PyDict_SetItemString(dict, "tint_color", mvPyObject(ToPyColor(_tintColor)));
 		PyDict_SetItemString(dict, "border_color", mvPyObject(ToPyColor(_borderColor)));
-		PyDict_SetItemString(dict, "texture_id", mvPyObject(ToPyUUID(_textureUUID)));
+		PyDict_SetItemString(dict, "texture_tag", mvPyObject(ToPyUUID(_textureUUID)));
 	}
 
 	mvImageButton::mvImageButton(mvUUID uuid)
@@ -558,7 +558,7 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "tint_color")) _tintColor = ToColor(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "background_color")) _backgroundColor = ToColor(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "frame_padding")) _framePadding = ToInt(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "texture_id"))
+		if (PyObject* item = PyDict_GetItemString(dict, "texture_tag"))
 		{
 			_textureUUID = GetIDFromPyObject(item);
 			_texture = GetRefItem(*GContext->itemRegistry, _textureUUID);
@@ -588,6 +588,6 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "tint_color", mvPyObject(ToPyColor(_tintColor)));
 		PyDict_SetItemString(dict, "background_color", mvPyObject(ToPyColor(_backgroundColor)));
 		PyDict_SetItemString(dict, "frame_padding", mvPyObject(ToPyInt(_framePadding)));
-		PyDict_SetItemString(dict, "texture_id", mvPyObject(ToPyUUID(_textureUUID)));
+		PyDict_SetItemString(dict, "texture_tag", mvPyObject(ToPyUUID(_textureUUID)));
 	}
 }

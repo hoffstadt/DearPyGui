@@ -17,7 +17,7 @@ namespace Marvel {
 			MV_PARSER_ARG_SHOW)
 		);
 
-		args.push_back({ mvPyDataType::UUID, "texture_id" });
+		args.push_back({ mvPyDataType::UUID, "texture_tag" });
 		args.push_back({ mvPyDataType::FloatList, "pmin", mvArgType::REQUIRED_ARG, "...", "Point of to start drawing texture." });
 		args.push_back({ mvPyDataType::FloatList, "pmax", mvArgType::REQUIRED_ARG, "...", "Point to complete drawing texture." });
 		args.push_back({ mvPyDataType::FloatList, "uv_min", mvArgType::KEYWORD_ARG, "(0.0, 0.0)", "Normalized coordinates on texture that will be drawn." });
@@ -135,7 +135,7 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "uv_min")) _uv_min = ToVec2(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "uv_max")) _uv_max = ToVec2(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "color")) _color = ToColor(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "texture_id"))
+		if (PyObject* item = PyDict_GetItemString(dict, "texture_tag"))
         {
             _textureUUID = GetIDFromPyObject(item);
             _texture = GetRefItem(*GContext->itemRegistry, _textureUUID);
@@ -165,7 +165,7 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "uv_min", mvPyObject(ToPyPair(_uv_min.x, _uv_min.y)));
 		PyDict_SetItemString(dict, "uv_max", mvPyObject(ToPyPair(_uv_max.x, _uv_max.y)));
 		PyDict_SetItemString(dict, "color", mvPyObject(ToPyColor(_color)));
-		PyDict_SetItemString(dict, "texture_id", mvPyObject(ToPyUUID(_textureUUID)));
+		PyDict_SetItemString(dict, "texture_tag", mvPyObject(ToPyUUID(_textureUUID)));
 	}
 
 }

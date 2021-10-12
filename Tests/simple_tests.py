@@ -108,7 +108,7 @@ class TestDragDrop(unittest.TestCase):
                         dpg.add_button()
                     with dpg.tree_node():
                         dpg.add_button()
-                with dpg.child(width=150, height=100, payload_type="str", drop_callback=testy):
+                with dpg.child_window(width=150, height=100, payload_type="str", drop_callback=testy):
                     pass
 
             # tab stuff
