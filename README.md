@@ -17,7 +17,7 @@
 [![Deployment](https://github.com/hoffstadt/DearPyGui/actions/workflows/Deployment.yml/badge.svg?branch=master)](https://github.com/hoffstadt/DearPyGui/actions/workflows/Deployment.yml)
 [![Documentation Status](https://readthedocs.org/projects/dearpygui/badge/?version=latest)](https://dearpygui.readthedocs.io/en/latest/?badge=latest)
 
-**Dear PyGui** is a **simple to use (but powerful) Python GUI framework**. _Dear PyGui_ is **NOT** a wrapping of **[Dear ImGui](https://github.com/ocornut/imgui)** in the normal sense. It is a library built with _Dear ImGui_ which simulates a traditional retained mode GUI (as opposed to _Dear ImGui_'s immediate mode paradigm).
+**Dear PyGui** is a **simple to use (but powerful) Python GUI framework**. _Dear PyGui_ is **NOT** a wrapping of **[Dear ImGui](https://github.com/ocornut/imgui)** in the normal sense. It is a library built with _Dear ImGui_ which creates a unique retained mode API (as opposed to _Dear ImGui_'s immediate mode paradigm).
 
 <BR>![Themes](https://github.com/hoffstadt/DearPyGui/blob/assets/linuxthemes.PNG?raw=true)
 
@@ -110,7 +110,7 @@ Result:
 ## Features
 
 #### Plotting/Graphing
-_Dear PyGui_ includes a plotting API ([ImPlot](https://github.com/epezent/implot) Wrapping)
+_Dear PyGui_ includes a plotting API built with [ImPlot](https://github.com/epezent/implot)
 
 <img src="https://raw.githubusercontent.com/wiki/epezent/implot/screenshots3/controls.gif" width="270"> <img src="https://raw.githubusercontent.com/wiki/epezent/implot/screenshots3/dnd.gif" width="270"> <img src="https://raw.githubusercontent.com/wiki/epezent/implot/screenshots3/pie.gif" width="270">
 
@@ -124,7 +124,7 @@ _Dear PyGui_ includes a plotting API ([ImPlot](https://github.com/epezent/implot
 <img src="https://raw.githubusercontent.com/wiki/epezent/implot/screenshots3/tables.gif" width="270">
 
 #### Node Editor
-_Dear PyGui_ includes a node editor API ([imnodes](https://github.com/Nelarius/imnodes) Wrapping)
+_Dear PyGui_ includes a node editor built with [imnodes](https://github.com/Nelarius/imnodes)
 ![](https://raw.githubusercontent.com/Nelarius/imnodes/master/img/imnodes.gif?token=ADH_jEpqbBrw0nH-BUmOip490dyO2CnRks5cVZllwA%3D%3D)
 
 #### Canvas
@@ -132,7 +132,7 @@ _Dear PyGui_ includes a drawing API to create custom drawings, plot, and even 2D
 <BR>![BasicUsageExample](https://github.com/hoffstadt/DearPyGui/blob/assets/canvas.png?raw=true)
  
 #### Tools
-_Dear PyGui_ includes several tools to help developers with _DearPyGui_ app development including built-in documentation, logging, source viewer, and other tools:
+_Dear PyGui_ includes several tools to help developers with _DearPyGui_ app development:
 <BR>![BasicUsageExample](https://github.com/hoffstadt/DearPyGui/blob/assets/tools.png?raw=true)
 
 
