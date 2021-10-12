@@ -303,6 +303,7 @@ namespace Marvel {
             args.push_back({ mvPyDataType::Bool, "docking_space", mvArgType::KEYWORD_ARG, "False", "add explicit dockspace over viewport" });
             args.push_back({ mvPyDataType::String, "load_init_file", mvArgType::KEYWORD_ARG, "''", "Load .ini file." });
             args.push_back({ mvPyDataType::String, "init_file", mvArgType::KEYWORD_ARG, "''" });
+            args.push_back({ mvPyDataType::Bool, "auto_save_init_file", mvArgType::KEYWORD_ARG, "False" });
             args.push_back({ mvPyDataType::Integer, "device", mvArgType::KEYWORD_ARG, "-1", "Which display adapter to use. (-1 will use default)" });
             args.push_back({ mvPyDataType::Bool, "auto_device", mvArgType::KEYWORD_ARG, "False", "Let us pick the display adapter." });
             args.push_back({ mvPyDataType::Bool, "allow_alias_overwrites", mvArgType::KEYWORD_ARG, "False" });
@@ -1172,6 +1173,7 @@ namespace Marvel {
         int docking_space = false;
         const char* load_init_file = "";
         const char* init_file = "";
+        int auto_save_init_file = false;
         int device = -1;
         int auto_device = false;
         int allow_alias_overwrites = false;
@@ -1181,7 +1183,7 @@ namespace Marvel {
         int skip_keyword_args = false;
 
         if (!Parse((GetParsers())["configure_app"], args, kwargs, __FUNCTION__,
-            &docking, &docking_space, &load_init_file, &init_file, &device, &auto_device,
+            &docking, &docking_space, &load_init_file, &init_file, &auto_save_init_file, &device, &auto_device,
             &allow_alias_overwrites, &manual_alias_management, &skip_required_args, &skip_positional_args, &skip_keyword_args))
             return GetPyNone();
 
@@ -1194,6 +1196,7 @@ namespace Marvel {
         }
 
         GContext->IO.iniFile = init_file;
+        GContext->IO.autoSaveIniFile = auto_save_init_file;
         GContext->IO.info_device = device;
         GContext->IO.info_auto_device = auto_device;
         GContext->IO.allowAliasOverwrites = allow_alias_overwrites;
@@ -1230,6 +1233,7 @@ namespace Marvel {
         PyDict_SetItemString(pdict, "skip_keyword_args", mvPyObject(ToPyBool(GContext->IO.skipKeywordArgs)));
         PyDict_SetItemString(pdict, "skip_positional_args", mvPyObject(ToPyBool(GContext->IO.skipPositionalArgs)));
         PyDict_SetItemString(pdict, "skip_required_args", mvPyObject(ToPyBool(GContext->IO.skipRequiredArgs)));
+        PyDict_SetItemString(pdict, "auto_save_init_file", mvPyObject(ToPyBool(GContext->IO.autoSaveIniFile)));
         return pdict;
     }
 

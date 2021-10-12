@@ -7161,7 +7161,7 @@ def clear_selected_nodes(node_editor : Union[int, str], **kwargs) -> None:
 
 	return internal_dpg.clear_selected_nodes(node_editor, **kwargs)
 
-def configure_app(*, docking: bool =False, docking_space: bool =False, load_init_file: str ='', init_file: str ='', device: int =-1, auto_device: bool =False, allow_alias_overwrites: bool =False, manual_alias_management: bool =False, skip_required_args: bool =False, skip_positional_args: bool =False, skip_keyword_args: bool =False, **kwargs) -> None:
+def configure_app(*, docking: bool =False, docking_space: bool =False, load_init_file: str ='', init_file: str ='', auto_save_init_file: bool =False, device: int =-1, auto_device: bool =False, allow_alias_overwrites: bool =False, manual_alias_management: bool =False, skip_required_args: bool =False, skip_positional_args: bool =False, skip_keyword_args: bool =False, **kwargs) -> None:
 	"""	 Configures app.
 
 	Args:
@@ -7169,6 +7169,7 @@ def configure_app(*, docking: bool =False, docking_space: bool =False, load_init
 		docking_space (bool, optional): add explicit dockspace over viewport
 		load_init_file (str, optional): Load .ini file.
 		init_file (str, optional): 
+		auto_save_init_file (bool, optional): 
 		device (int, optional): Which display adapter to use. (-1 will use default)
 		auto_device (bool, optional): Let us pick the display adapter.
 		allow_alias_overwrites (bool, optional): 
@@ -7180,7 +7181,7 @@ def configure_app(*, docking: bool =False, docking_space: bool =False, load_init
 		None
 	"""
 
-	return internal_dpg.configure_app(docking=docking, docking_space=docking_space, load_init_file=load_init_file, init_file=init_file, device=device, auto_device=auto_device, allow_alias_overwrites=allow_alias_overwrites, manual_alias_management=manual_alias_management, skip_required_args=skip_required_args, skip_positional_args=skip_positional_args, skip_keyword_args=skip_keyword_args, **kwargs)
+	return internal_dpg.configure_app(docking=docking, docking_space=docking_space, load_init_file=load_init_file, init_file=init_file, auto_save_init_file=auto_save_init_file, device=device, auto_device=auto_device, allow_alias_overwrites=allow_alias_overwrites, manual_alias_management=manual_alias_management, skip_required_args=skip_required_args, skip_positional_args=skip_positional_args, skip_keyword_args=skip_keyword_args, **kwargs)
 
 def create_context(**kwargs) -> None:
 	"""	 Creates the Dear PyGui context.

@@ -6391,6 +6391,7 @@ def configure_app(**kwargs):
 		docking_space (bool, optional): add explicit dockspace over viewport
 		load_init_file (str, optional): Load .ini file.
 		init_file (str, optional): 
+		auto_save_init_file (bool, optional): 
 		device (int, optional): Which display adapter to use. (-1 will use default)
 		auto_device (bool, optional): Let us pick the display adapter.
 		allow_alias_overwrites (bool, optional): 

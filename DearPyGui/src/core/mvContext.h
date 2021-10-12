@@ -84,6 +84,7 @@ namespace Marvel {
 
         std::string iniFile;
         bool        loadIniFile = false;
+        bool        autoSaveIniFile = false;
 
         // GPU selection
         bool        info_auto_device = false;
