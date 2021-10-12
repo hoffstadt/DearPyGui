@@ -2260,7 +2260,7 @@ def show_demo():
             draw_spacing = 10
             draw_rounding = draw_size/5.0
             draw_color = [255, 255, 0]
-            with dpg.drawlist(width=800, height=500):
+            with dpg.drawlist(width=300, height=200):
                 draw_x = 4
                 draw_y = 4
                 for i in range(2):

@@ -135,6 +135,7 @@ namespace Marvel {
 			_state.leftclicked = ImGui::IsItemClicked(0);
 			_state.rightclicked = ImGui::IsItemClicked(1);
 			 _state.middleclicked = ImGui::IsItemClicked(2);
+			 _state.contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
 
 			if (_wrap >= 0)
 				ImGui::PopTextWrapPos();
