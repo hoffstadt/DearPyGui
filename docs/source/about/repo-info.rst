@@ -59,10 +59,6 @@ Project Information
 
 .. image:: https://github.com/hoffstadt/DearPyGui/workflows/Embedded%20Build/badge.svg?branch=master
     :target: https://github.com/hoffstadt/DearPyGui/actions?workflow=Embedded%20Build
-.. image:: https://img.shields.io/appveyor/build/hoffstadt/DearPyGui/master?label=AppVeyor%20Master
-    :target: https://img.shields.io/appveyor/build/hoffstadt/DearPyGui/master?label=AppVeyor%20Master
-.. image:: https://img.shields.io/appveyor/build/hoffstadt/DearPyGui/0.6.x?label=AppVeyor%200.6.x
-    :target: https://img.shields.io/appveyor/build/hoffstadt/DearPyGui/0.6.x?label=AppVeyor%200.6.x
 
 ------------
 

@@ -9,16 +9,16 @@ Viewport Menu Bar
 Menu Bar:
     Attached to a specified window
 
-Other than being attached to different parents they both act like menu bars
+Other than being attached to different parents they both act the same.
 
-The menu bar item consists of the following components
+A typical menu bar consists of the following components:
 
 Menu Bar:
-    The main menu ribbon. Used to contain items.
+    The main menu ribbon. Used to contain menus.
 Menu:
-    Popup menus that are used to contain items in a collapsable fashion.
+    Popup windows that are used to contain items in a collapsable fashion.
 Menu Item:
-    Items that can run callbacks and display a checkmark to reflect a state. (like active or in use)
+    Items that can run callbacks and display a checkmark.
 
 Usage
 -----
@@ -41,7 +41,6 @@ Any widget can be added to a menu.
 
     dpg.create_context()
     dpg.create_viewport(title='Custom Title', width=600, height=200)
-
 
     with dpg.viewport_menu_bar():
         with dpg.menu(label="File"):
@@ -74,10 +73,8 @@ Any widget can be added to a menu.
 
     dpg.create_viewport(title='Custom Title', width=600, height=200)
 
-
     def print_me(sender):
         print(f"Menu Item: {sender}")
-
 
     with dpg.window(label="Tutorial"):
         with dpg.menu_bar():

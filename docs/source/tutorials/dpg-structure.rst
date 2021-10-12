@@ -22,7 +22,7 @@ All DPG apps must do 3 things:
 Creating and destroying the context and also setup and start dearpygui 
 are useful when the DPG needs to be started and stopped multiple times in one python session.
 
-.. warning:: Creating the context must be the first call to DPG or DPG will not start
+.. warning:: Creating the context must be the first call to DPG or DPG will not start (and will probably crash).
 
 The Viewport
 ------------
@@ -58,8 +58,8 @@ and shown using :py:func:`show_viewport <dearpygui.dearpygui.show_viewport>`
 The Render Loop
 ---------------
 
-The render loop is responsible for displaying widgets,
-partially maintaining state and handling item callbacks.
+The render loop is responsible for displaying items,
+partially maintaining state and callbacks.
 
 The render loop is completely handled
 by the :py:func:`start_dearpygui <dearpygui.dearpygui.start_dearpygui>` command.
@@ -98,7 +98,7 @@ the render loop so you can call python commands that may need to run every frame
 
 .. seealso:: for more information on the render loop :doc:`../documentation/render-loop`
 
-DPG Items
+Items
 ---------
 
 DPG can be broken down into **Items**, **UI Items**, **Containers**

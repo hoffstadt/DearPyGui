@@ -8,7 +8,9 @@ Staged items are not submitted for rendering.
 
 Staged items will show up in the item registry.
 
-They can later be "unstaged" when a parent is set using :py:func:`move_item <dearpygui.dearpygui.move_item>`.
+Items can be moved out of staging by using :py:func:`move_item <dearpygui.dearpygui.move_item>`.
+
+
 
 The most basic example can be found below:
 
@@ -37,17 +39,16 @@ The most basic example can be found below:
     dpg.start_dearpygui()
     dpg.destroy_context()
 
-Preffered way to "unstage" items is 
-using :py:func:`unstage_items <dearpygui.dearpygui.unstage_items>`.
-will place the items as if they are newly created items according to
+Prefered way to "unstage" items is 
+using :py:func:`unstage <dearpygui.dearpygui.unstage>`.
+This will place the items as if they were newly created items according to
 the standard rules of :doc:`../documentation/container-stack`.
 
-Also using the unstage command will automatically clean up the stage.
+Also using the unstage command will automatically clean up the stage container.
 
 Using :py:func:`push_container_stack <dearpygui.dearpygui.push_container_stack>` and 
 :py:func:`pop_container_stack <dearpygui.dearpygui.pop_container_stack>` is recomended here as it
-provides much more performance when unstaging items. 
-This is because the parent look up and item position shuffling is only done once.
+provides better performance when unstaging. 
 
 .. code-block:: python
 
@@ -118,7 +119,6 @@ Below is are 2 examples:
             dpg.push_container_stack(parent)
             dpg.unstage(self._staging_container_id)
             dpg.pop_container_stack()
-
 
     my_button = Button("Press me")
     my_button.set_callback(lambda: print("I've been pressed!"))

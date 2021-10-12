@@ -1,11 +1,11 @@
 Tooltips
 ========
 
-Tooltips are windows that appear when a widget is hovered.
+Tooltips are windows that appear when an item is hovered.
 
 Tooltips are containers that can hold any other UI Item.
 
-ToolTips must have the parent argument. This is the *tag* of the parent what will show the tooltip.
+Tooltips must have the parent argument. This is the *tag* of the parent what will show the tooltip.
 
 .. code-block:: python
 

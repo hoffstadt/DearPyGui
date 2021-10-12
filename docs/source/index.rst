@@ -16,10 +16,10 @@ Features include traditional GUI elements such as buttons, radio buttons,
 menus and various methods to create a functional layout.
 
 Additionally, DPG has an incredible assortment of dynamic
-plots, tables, drawings, logging, debugger, and multiple resource viewers.
+plots, tables, drawings, debugger, and multiple resource viewers.
 
 DPG is well suited for creating simple user interfaces
-as well as to developing complex and
+as well as developing complex and
 demanding graphical interfaces.
 
 DPG offers a solid framework for developing scientific,
@@ -45,7 +45,7 @@ engineering, gaming, data science and other applications that require fast and i
 Quick Start
 -----------
 
-If you're ready to start using Dear PyGui visit
+If you're ready to start using DPG visit
 the :doc:`tutorials/first-steps` in tutorials.
 
 The :doc:`Tutorials <tutorials/first-steps>` will provide a great overview

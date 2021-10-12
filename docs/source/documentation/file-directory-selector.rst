@@ -1,7 +1,7 @@
 File & Directory Selector
 =========================
 
-The file dialog widget can be used to select a single file,
+The file dialog item can be used to select a single file,
 multiple files, or a directory. When the user clicks the **Ok** button,
 the dialog's callback is ran. 
 
@@ -22,11 +22,9 @@ The simplest case is as a director picker. Below is the example
 
     dpg.create_context()
 
-
     def callback(sender, app_data):
         print("Sender: ", sender)
         print("App Data: ", app_data)
-
 
     dpg.add_file_dialog(directory_selector=True, show=False, callback=callback, tag="file_dialog_id")
 
@@ -44,8 +42,8 @@ The simplest case is as a director picker. Below is the example
 File Extensions
 ---------------
 
-File extensions are app items that are added to the file dialog.
-You can even set the color of the file extensions. Below is a simple example
+File extensions are items that are added to the file dialog.
+You can even set the color of the file extensions. Below is a simple example:
 
 .. code-block:: python
 
@@ -56,7 +54,6 @@ You can even set the color of the file extensions. Below is a simple example
     def callback(sender, app_data, user_data):
         print("Sender: ", sender)
         print("App Data: ", app_data)
-
 
     with dpg.file_dialog(directory_selector=False, show=False, callback=callback, id="file_dialog_id"):
         dpg.add_file_extension(".*")
@@ -77,12 +74,12 @@ You can even set the color of the file extensions. Below is a simple example
 Customizing
 -----------
 
-File dialogs can be customized with a panel by just adding app
+File dialogs can be customized with a panel by just adding
 items to the file dialog as if it were a regular container. 
 
-This can allow the creation or a pinned menu, favorites, directory tree, and much more
+This can allow the creation of a pinned menu, favorites, directory tree, and much more.
 
-Below is an example
+Below is an example:
 
 .. code-block:: python
 
@@ -90,11 +87,9 @@ Below is an example
 
     dpg.create_context()
 
-
     def callback(sender, app_data):
         print("Sender: ", sender)
         print("App Data: ", app_data)
-
 
     with dpg.file_dialog(directory_selector=False, show=False, callback=callback, tag="file_dialog_tag"):
         dpg.add_file_extension(".*")
@@ -135,11 +130,9 @@ You can select multiple files by setting the *file_count* keyword
 
     dpg.create_context()
 
-
     def callback(sender, app_data):
         print("Sender: ", sender)
         print("App Data: ", app_data)
-
 
     with dpg.file_dialog(directory_selector=False, show=False, callback=callback, file_count=3, tag="file_dialog_tag"):
         dpg.add_file_extension("", color=(255, 150, 150, 255))

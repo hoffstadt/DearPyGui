@@ -1,47 +1,42 @@
 Container Slots & Children
 ==========================
 
-Most app items can have child app items. App items
-can only be children to valid **container** items with
-the exception of item event handlers, which can belong
-to non-container app items. Some related commands can be found below:
+Most items can have child items. Items
+can only be children to valid **container** items.
+Some related commands can be found below:
 
 :py:func:`is_item_container <dearpygui.dearpygui.is_item_container>`
     checks if an item is a container type
 :py:func:`get_item_slot <dearpygui.dearpygui.get_item_slot>`
-    returns the item's target slot
+    returns the item's slot
 :py:func:`get_item_parent <dearpygui.dearpygui.get_item_parent>`
-    returns the item's parent's UUID
+    returns the item's parent UUID
 :py:func:`get_item_children <dearpygui.dearpygui.get_item_children>`
     returns an item’s children
 :py:func:`reorder_items <dearpygui.dearpygui.reorder_items>`
     reorders children in a single call
 :py:func:`move_item_up <dearpygui.dearpygui.move_item_up>`
-    moves an item within its slot
+    moves an item up within its slot
 :py:func:`move_item_down <dearpygui.dearpygui.move_item_down>`
-    moves an item within its slot
+    moves an item down within its slot
 :py:func:`move_item <dearpygui.dearpygui.move_item>`
-    moves an item anywhere
+    moves an item between containers
 :py:func:`set_item_children <dearpygui.dearpygui.set_item_children>`
-    unstaging a staging container
+    unstaging a stage into an item's children slot
 
 Slots
 -----
 
-App items are stored in target slots within their parent container.
+Items are stored in target slots within their parent container.
 Below is the breakdown of slots:
 
-Slot -1:
-    All slots
 Slot 0:
     **mvFileExtension**, **mvFontRangeHint**, **mvNodeLink**, **mvAnnotation**, **mvDragLine**, **mvDragPoint**, **mvLegend**, **mvTableColumn**
 Slot 1:
-  All other app items
+  Most items
 Slot 2:
   Draw items
 Slot 3:
-  item event handlers
-Slot 4:
     **mvDragPayload**
 
 To query what slot an item belongs to, use

@@ -4,7 +4,7 @@ Drawing-API
 DPG has a low level drawing API that is well suited for primitive drawing,
 custom widgets or even dynamic drawings.
 
-Drawing commands can be used in containers like drawlist,
+Drawing commands can be added to containers like drawlist,
 viewport_drawlist, or a window.
 
 A drawlist item is created by calling
@@ -21,6 +21,7 @@ The origin for the drawing is in the top left and the y-axis points down.
     dpg.create_context()
 
     with dpg.window(label="Tutorial"):
+
         with dpg.drawlist(width=300, height=300):  # or you could use dpg.add_drawlist and set parents manually
 
             dpg.draw_line((10, 10), (100, 100), color=(255, 0, 0, 255), thickness=1)
@@ -40,8 +41,8 @@ The origin for the drawing is in the top left and the y-axis points down.
 Layers
 ------
 
-Drawlist can hold layers. Layers are an effective way to group 
-drawing items for easier controls like, hiding, bring forward, ect.
+Drawlists can also contain layers. Layers are an effective way to group 
+drawing items for better control of hiding, Z ordering, ect.
 
 **Code**
 
@@ -51,11 +52,9 @@ drawing items for easier controls like, hiding, bring forward, ect.
 
     dpg.create_context()
 
-
     def toggle_layer2(sender):
         show_value = dpg.get_value(sender)
         dpg.configure_item("layer2", show=show_value)
-
 
     with dpg.window(label="Tutorial"):
         dpg.add_checkbox(label="show layer", callback=toggle_layer2, default_value=True)
@@ -82,17 +81,17 @@ drawing items for easier controls like, hiding, bring forward, ect.
 Images
 ------
 
-Drawlists can display any textures including images
+Drawlists can display images
 of types PNG, JPEG, or BMP (See
 :doc:`../documentation/textures` for
-more detail). Images are drawn using draw_image.
+more detail). Images are added using draw_image.
 
 Using the keywords **pmin** and **pmax** we can define the
 upper left and lower right area of the rectangle that the image
-will be draw onto the canvas. The image will scale to fit the specified area.
+will be drawn onto the canvas. The image will scale to fit the specified area.
 
-With keywords **uv_min** and **uv_max** we can define a scalar number
-of what area on the image should be drawn to the canvas. The
+With keywords **uv_min** and **uv_max** we can specify normalized texture 
+coordinates to use just a portion of the area on the image. The
 default of uv_min = [0,0] and uv_max = [1,1] will display the entire
 image while uv_min = [0,0] uv_max = [0.5,0.5] will only show the first
 quarter of the drawing.

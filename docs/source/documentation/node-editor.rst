@@ -17,10 +17,8 @@ You can see an example below
     Can be input, output, or static.
 4. **Links** - the connections between attributes
 
-Create a Node editor, add nodes that contain attributes.
-
 Attributes can contain any UI Items. When a user clicks and drags a node's attribute
-the node editor's callback is ran. DPG sends the attribute ID's through the
+the node editor's callback is ran. DPG sends the attributes' tags through the
 _app_data_ argument of the callback. 
 
 It's the developer's responsibility to create the link.
@@ -40,7 +38,6 @@ You can detach a link by **ctrl** clicking the link and dragging it.
     def link_callback(sender, app_data):
         # app_data -> (link_id1, link_id2)
         dpg.add_node_link(app_data[0], app_data[1], parent=sender)
-
 
     # callback runs when user attempts to disconnect attributes
     def delink_callback(sender, app_data):
@@ -87,11 +84,15 @@ Node Attribute Types
 
 The following constants can be used in the `attribute_type` argument for node attributes
 
-| Attribute |
-| ---- |
++---------------------------------+
+| Attribute                       |
++---------------------------------+
 | **mvNode_Attr_Input** (default) |
-| **mvNode_Attr_Output** |
-| **mvNode_Attr_Static** |
++---------------------------------+
+| **mvNode_Attr_Output**          |
++---------------------------------+
+| **mvNode_Attr_Static**          |
++---------------------------------+
 
 Node Attribute Pin Shapes
 -------------------------
@@ -107,7 +108,23 @@ The following constants can be used in the `shape` argument for node attributes
 | **mvNode_PinShape_Quad** |
 | **mvNode_PinShape_QuadFilled** |
 
-Associated App Items
++--------------------------------------------+
+| Shape                                      |
++--------------------------------------------+
+| **mvNode_PinShape_Circle**                 |
++--------------------------------------------+
+| **mvNode_PinShape_CircleFilled** (default) |
++--------------------------------------------+
+| **mvNode_PinShape_Triangle**               |
++--------------------------------------------+
+| **mvNode_PinShape_TriangleFilled**         |
++--------------------------------------------+
+| **mvNode_PinShape_Quad**                   |
++--------------------------------------------+
+| **mvNode_PinShape_QuadFilled**             |
++--------------------------------------------+
+
+Associated Items
 --------------------
 
 * **mvNode**
