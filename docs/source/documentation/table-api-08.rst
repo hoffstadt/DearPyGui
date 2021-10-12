@@ -1,7 +1,8 @@
-Table API (0.8.0)
-=================
+Tables
+======
 
 The table API is a low level API that can be used to create a table.
+
 It can also be used as a layout mechanism. Tables are composed of
 multiple components which include columns, rows, next_columns, and the
 actual app items to be displayed. The best place to learn about the various
@@ -13,32 +14,67 @@ Below is the minimum example for creating a table
 
 .. code-block:: python
 
- import dearpygui.dearpygui as dpg
+    import dearpygui.dearpygui as dpg
 
- with dpg.window(label="Tutorial"):
+    dpg.create_context()
 
-     with dpg.table(header_row=False):
+    with dpg.window(label="Tutorial"):
+        with dpg.table(header_row=False):
 
-         # use add_table_column to add columns to the table,
-         # table columns use child slot 0
-         dpg.add_table_column()
-         dpg.add_table_column()
-         dpg.add_table_column()
+            # use add_table_column to add columns to the table,
+            # table columns use child slot 0
+            dpg.add_table_column()
+            dpg.add_table_column()
+            dpg.add_table_column()
 
-         # add_table_next_column will jump to the next row
-         # once it reaches the end of the columns
-         # table next column use slot 1
-         for i in range(0, 4):
-             for j in range(0, 3):
-                 dpg.add_text(f"Row{i} Column{j}")
+            # add_table_next_column will jump to the next row
+            # once it reaches the end of the columns
+            # table next column use slot 1
+            for i in range(0, 4):
+                with dpg.table_row():
+                    for j in range(0, 3):
+                        dpg.add_text(f"Row{i} Column{j}")
 
-                 # call if not last cell
-                 if not (i == 3 and j == 2):
-                     dpg.add_table_next_column()
-
- dpg.start_dearpygui()
+    dpg.create_viewport(title='Custom Title', width=800, height=600)
+    dpg.setup_dearpygui()
+    dpg.show_viewport()
+    dpg.start_dearpygui()
+    dpg.destroy_context()
 
 .. note:: The maximum number of columns is 64.
+
+multiple items can go into a single cell by creating a cell as shown
+
+**Code**
+
+.. code-block:: python
+
+    import dearpygui.dearpygui as dpg
+
+    dpg.create_context()
+
+    with dpg.window(label="Tutorial"):
+
+        with dpg.table(header_row=False, resizable=True, policy=dpg.mvTable_SizingStretchProp,
+                       borders_outerH=True, borders_innerV=True, borders_innerH=True, borders_outerV=True):
+
+            dpg.add_table_column(label="Header 1")
+            dpg.add_table_column(label="Header 2")
+            dpg.add_table_column(label="Header 3")
+
+            # once it reaches the end of the columns
+            for i in range(0, 4):
+                with dpg.table_row():
+                    for j in range(0, 3):
+                        with dpg.table_cell():
+                            dpg.add_button(label=f"Row{i} Column{j} a")
+                            dpg.add_button(label=f"Row{i} Column{j} b")
+
+    dpg.create_viewport(title='Custom Title', width=800, height=600)
+    dpg.setup_dearpygui()
+    dpg.show_viewport()
+    dpg.start_dearpygui()
+    dpg.destroy_context()
 
 Borders, Background
 -------------------
@@ -52,30 +88,35 @@ row coloring using the `row_background` keyword.
 
 .. code-block:: python
 
- import dearpygui.dearpygui as dpg
+    import dearpygui.dearpygui as dpg
 
- with dpg.window(label="about"):
+    dpg.create_context()
 
-     with dpg.table(header_row=False, row_background=True,
-                             borders_innerH=True, borders_outerH=True, borders_innerV=True,
-                             borders_outerV=True):
+    with dpg.window(label="Tutorial"):
 
-         # use add_table_column to add columns to the table,
-         # table columns use slot 0
-         dpg.add_table_column()
-         dpg.add_table_column()
-         dpg.add_table_column()
+        with dpg.table(header_row=False, row_background=True,
+                       borders_innerH=True, borders_outerH=True, borders_innerV=True,
+                       borders_outerV=True):
 
-         # add_table_next_column will jump to the next row
-         # once it reaches the end of the columns
-         # table next column use slot 1
-         for i in range(0, 4):
-             for j in range(0, 3):
-                 dpg.add_text(f"Row{i} Column{j}")
-                 if not (i == 3 and j == 2):
-                     dpg.add_table_next_column()
+            # use add_table_column to add columns to the table,
+            # table columns use child slot 0
+            dpg.add_table_column()
+            dpg.add_table_column()
+            dpg.add_table_column()
 
- dpg.start_dearpygui()
+            # add_table_next_column will jump to the next row
+            # once it reaches the end of the columns
+            # table next column use slot 1
+            for i in range(0, 4):
+                with dpg.table_row():
+                    for j in range(0, 3):
+                        dpg.add_text(f"Row{i} Column{j}")
+
+    dpg.create_viewport(title='Custom Title', width=800, height=600)
+    dpg.setup_dearpygui()
+    dpg.show_viewport()
+    dpg.start_dearpygui()
+    dpg.destroy_context()
 
 Column Headers
 --------------
@@ -87,28 +128,33 @@ and setting the label of the columns.
 
 .. code-block:: python
 
- import dearpygui.dearpygui as dpg
+    import dearpygui.dearpygui as dpg
 
- with dpg.window(label="about"):
+    dpg.create_context()
 
-     with dpg.table(header_row=True):
+    with dpg.window(label="Tutorial"):
+    
+        with dpg.table(header_row=True):
 
-         # use add_table_column to add columns to the table,
-         # table columns use slot 0
-         dpg.add_table_column(label="Header 1")
-         dpg.add_table_column(label="Header 2")
-         dpg.add_table_column(label="Header 3")
+            # use add_table_column to add columns to the table,
+            # table columns use slot 0
+            dpg.add_table_column(label="Header 1")
+            dpg.add_table_column(label="Header 2")
+            dpg.add_table_column(label="Header 3")
 
-         # add_table_next_column will jump to the next row
-         # once it reaches the end of the columns
-         # table next column use slot 1
-         for i in range(0, 4):
-             for j in range(0, 3):
-                 dpg.add_text(f"Row{i} Column{j}")
-                 if not (i == 3 and j == 2):
-                     dpg.add_table_next_column()
+            # add_table_next_column will jump to the next row
+            # once it reaches the end of the columns
+            # table next column use slot 1
+            for i in range(0, 4):
+                with dpg.table_row():
+                    for j in range(0, 3):
+                        dpg.add_text(f"Row{i} Column{j}")
 
- dpg.start_dearpygui()
+    dpg.create_viewport(title='Custom Title', width=800, height=600)
+    dpg.setup_dearpygui()
+    dpg.show_viewport()
+    dpg.start_dearpygui()
+    dpg.destroy_context()
 
 Resizing
 --------
@@ -134,24 +180,32 @@ Below is an example of setting the stretch policy for the entire table
 
 .. code-block:: python
 
- import dearpygui.dearpygui as dpg
+    import dearpygui.dearpygui as dpg
 
- with dpg.window(label="about"):
+    dpg.create_context()
 
-     with dpg.table(header_row=False, resizable=True, policy=dpg.mvTable_SizingStretchProp,
-                 borders_outerH=True, borders_innerV=True, borders_outerV=True):
+    with dpg.window(label="Tutorial"):
 
-         dpg.add_table_column(label="Header 1")
-         dpg.add_table_column(label="Header 2")
-         dpg.add_table_column(label="Header 3")
+        with dpg.table(header_row=False, resizable=True, policy=dpg.mvTable_SizingStretchProp,
+                       borders_outerH=True, borders_innerV=True, borders_outerV=True):
 
-         for i in range(0, 5):
-             for j in range(0, 3):
-                 dpg.add_text(f"Row{i} Column{j}")
-                 if not (i == 4 and j == 2):
-                     dpg.add_table_next_column()
+            dpg.add_table_column(label="Header 1")
+            dpg.add_table_column(label="Header 2")
+            dpg.add_table_column(label="Header 3")
 
- dpg.start_dearpygui()
+            # add_table_next_column will jump to the next row
+            # once it reaches the end of the columns
+            # table next column use slot 1
+            for i in range(0, 4):
+                with dpg.table_row():
+                    for j in range(0, 3):
+                        dpg.add_text(f"Row{i} Column{j}")
+
+    dpg.create_viewport(title='Custom Title', width=800, height=600)
+    dpg.setup_dearpygui()
+    dpg.show_viewport()
+    dpg.start_dearpygui()
+    dpg.destroy_context()
 
 **Fixed**
 
@@ -159,25 +213,29 @@ Below is an example of setting the fixed fit policy for the entire table
 
 .. code-block:: python
 
- import dearpygui.dearpygui as dpg
+    import dearpygui.dearpygui as dpg
 
- with dpg.window(label="about"):
+    dpg.create_context()
 
-     # Only available if scrollX/scrollY are disabled and stretch columns are not used
-     with dpg.table(header_row=False, policy=dpg.mvTable_SizingFixedFit, resizable=True, no_host_extendX=True,
-                 borders_innerV=True, borders_outerV=True, borders_outerH=True):
+    with dpg.window(label="Tutorial"):
 
-         dpg.add_table_column(label="Header 1")
-         dpg.add_table_column(label="Header 2")
-         dpg.add_table_column(label="Header 3")
+        # Only available if scrollX/scrollY are disabled and stretch columns are not used
+        with dpg.table(header_row=False, policy=dpg.mvTable_SizingFixedFit, resizable=True, no_host_extendX=True,
+                       borders_innerV=True, borders_outerV=True, borders_outerH=True):
 
-         for i in range(0, 5):
-             for j in range(0, 3):
-                 dpg.add_text(f"Row{i} Column{j}")
-                 if not (i == 4 and j == 2):
-                     dpg.add_table_next_column()
+            dpg.add_table_column(label="Header 1")
+            dpg.add_table_column(label="Header 2")
+            dpg.add_table_column(label="Header 3")
+            for i in range(0, 4):
+                with dpg.table_row():
+                    for j in range(0, 3):
+                        dpg.add_button(label=f"Row{i} Column{j} a")
 
- dpg.start_dearpygui()
+    dpg.create_viewport(title='Custom Title', width=800, height=600)
+    dpg.setup_dearpygui()
+    dpg.show_viewport()
+    dpg.start_dearpygui()
+    dpg.destroy_context()
 
 **Mixed**
 
@@ -187,29 +245,35 @@ You can also set columns individually by using the
 
 .. code-block:: python
 
- import dearpygui.dearpygui as dpg
+    import dearpygui.dearpygui as dpg
 
- with dpg.window(label="about"):
+    dpg.create_context()
 
-     with dpg.table(header_row=True, policy=dpg.mvTable_SizingFixedFit, row_background=True, reorderable=True,
-                 resizable=True, no_host_extendX=False, hideable=True,
-                 borders_innerV=True, delay_search=True, borders_outerV=True, borders_innerH=True, borders_outerH=True):
+    with dpg.window(label="Tutorial"):
 
-         dpg.add_table_column(label="AAA", width_fixed=True)
-         dpg.add_table_column(label="BBB", width_fixed=True)
-         dpg.add_table_column(label="CCC", width_stretch=True, init_width_or_weight=0.0)
-         dpg.add_table_column(label="DDD", width_stretch=True, init_width_or_weight=0.0)
+        with dpg.table(header_row=True, policy=dpg.mvTable_SizingFixedFit, row_background=True, reorderable=True,
+                       resizable=True, no_host_extendX=False, hideable=True,
+                       borders_innerV=True, delay_search=True, borders_outerV=True, borders_innerH=True,
+                       borders_outerH=True):
 
-         for i in range(0, 5):
-             for j in range(0, 4):
-                 if j == 2 or j == 3:
-                     dpg.add_text(f"Stretch {i},{j}")
-                 else:
-                     dpg.add_text(f"Fixed {i}, {j}")
-                 if not (i == 4 and j == 3):
-                     dpg.add_table_next_column()
+            dpg.add_table_column(label="AAA", width_fixed=True)
+            dpg.add_table_column(label="BBB", width_fixed=True)
+            dpg.add_table_column(label="CCC", width_stretch=True, init_width_or_weight=0.0)
+            dpg.add_table_column(label="DDD", width_stretch=True, init_width_or_weight=0.0)
 
- dpg.start_dearpygui()
+            for i in range(0, 5):
+                with dpg.table_row():
+                    for j in range(0, 4):
+                        if j == 2 or j == 3:
+                            dpg.add_text(f"Stretch {i},{j}")
+                        else:
+                            dpg.add_text(f"Fixed {i}, {j}")
+
+    dpg.create_viewport(title='Custom Title', width=800, height=600)
+    dpg.setup_dearpygui()
+    dpg.show_viewport()
+    dpg.start_dearpygui()
+    dpg.destroy_context()
 
 Column Options
 --------------
@@ -217,25 +281,27 @@ Column Options
 There are a large number of options available for table columns
 which are best learned through running the demo, these include
 
-| keyword | default value | description |
-|---------|---------------|-------------|
-| init_width_or_weight | 0.0 | sets the starting width (fixed policy) or proportion (stretch) of the column. |
-| default_hide | False | Default as a hidden/disabled column. |
-| default_sort | False | Default as a sorting column. |
-| width_stretch | False | Column will stretch. Preferable with horizontal scrolling disabled (default if table sizing policy is _SizingStretchSame or _SizingStretchProp). |
-| width_fixed | False | Column will not stretch. Preferable with horizontal scrolling enabled (default if table sizing policy is _SizingFixedFit and table is resizable). |
-| no_resize | False | Disable manual resizing. |
-| no_reorder | False | Disable manual reordering this column, this will also prevent other columns from crossing over this column. |
-| no_hide | False | Disable ability to hide/disable this column. |
-| no_clip | False | Disable clipping for this column. |
-| no_sort | False | Disable sorting for this column. |
-| no_sort_ascending | False | Disable ability to sort in the ascending direction. |
-| no_sort_descending | False | Disable ability to sort in the descending direction. |
-| no_header_width | False | Disable header text width contribution to automatic column width. |
-| prefer_sort_ascending | True| Make the initial sort direction Ascending when first sorting on this column (default). |
-| prefer_sort_descending | False | Make the initial sort direction Descending when first sorting on this column. |
-| indent_enabled | False | Use current Indent value when entering cell (default for column 0). |
-| indent_disable | False | Ignore current Indent value when entering cell (default for columns > 0). Indentation changes _within_ the cell will still be honored. |
+====================== ============= ===========
+keyword                default value description
+====================== ============= ===========
+init_width_or_weight   0.0           sets the starting width (fixed policy) or proportion (stretch) of the column.
+default_hide           False         Default as a hidden/disabled column.
+default_sort           False         Default as a sorting column.
+width_stretch          False         Column will stretch. Preferable with horizontal scrolling disabled (default if table sizing policy is _SizingStretchSame or _SizingStretchProp).
+width_fixed            False         Column will not stretch. Preferable with horizontal scrolling enabled (default if table sizing policy is _SizingFixedFit and table is resizable).
+no_resize              False         Disable manual resizing.
+no_reorder             False         Disable manual reordering this column, this will also prevent other columns from crossing over this column.
+no_hide                False         Disable ability to hide/disable this column.
+no_clip                False         Disable clipping for this column.
+no_sort                False         Disable sorting for this column.
+no_sort_ascending      False         Disable ability to sort in the ascending direction.
+no_sort_descending     False         Disable ability to sort in the descending direction.
+no_header_width        False         Disable header text width contribution to automatic column width.
+prefer_sort_ascending  True          Make the initial sort direction Ascending when first sorting on this column (default).
+prefer_sort_descending False         Make the initial sort direction Descending when first sorting on this column.
+indent_enabled         False         Use current Indent value when entering cell (default for column 0).
+indent_disable         False         Ignore current Indent value when entering cell (default for columns > 0). Indentation changes _within_ the cell will still be honored.
+====================== ============= ===========
 
 Sorting
 -------
@@ -252,54 +318,40 @@ Clipping
 
 Using a clipper can help performance with large tables.
 
-Because the clipper works on single items, you must group your
-table rows with :py:func:`add_table_row <dearpygui.dearpygui.add_table_row>`
-or the corresponding context manager.
-For the clipper to work properly, the rows must have uniform height.
-
 Try using the example below with and with out clipping and see
 the effect on the framerate listed in metrics.
 
 .. code-block:: python
 
- import dearpygui.dearpygui as dpg
+    import dearpygui.dearpygui as dpg
 
- def clipper_toggle(sender, value):
+    dpg.create_context()
 
-     if value:
-         dpg.show_item("clipper")
-         dpg.hide_item("no_clipper")
-     else:
-         dpg.show_item("no_clipper")
-         dpg.hide_item("clipper")
 
- with dpg.window(label="Tutorial"):
+    def clipper_toggle(sender):
+        dpg.configure_item("table_clip", clipper=dpg.get_value(sender))
 
-     dpg.add_checkbox(label="clipper", default_value=True, callback=clipper_toggle)
 
-     with dpg.table(header_row=False, id="clipper"):
+    with dpg.window(label="Tutorial"):
+        dpg.add_checkbox(label="clipper", callback=clipper_toggle, default_value=True)
 
-         for i in range(5):
-             dpg.add_table_column()
+        with dpg.table(header_row=False, tag="table_clip", clipper=True):
 
-         with dpg.clipper():
-             for i in range(20000):
-                 with dpg.table_row(): # clipper must use table_row item
-                     for j in range(5):
-                         dpg.add_text(f"Row{i} Column{j}")
+            for i in range(5):
+                dpg.add_table_column()
 
-     with dpg.table(header_row=False, id="no_clipper", show=False):
+                for i in range(7000):
+                    with dpg.table_row():
+                        for j in range(5):
+                            dpg.add_text(f"Row{i} Column{j}")
 
-         for i in range(5):
-             dpg.add_table_column()
+    dpg.show_metrics()
 
-         for i in range(20000):
-             with dpg.table_row(): # clipper must use table_row item
-                 for j in range(5):
-                     dpg.add_text(f"Row{i} Column{j}")
-
- dpg.show_metrics()
- dpg.start_dearpygui()
+    dpg.create_viewport(title='Custom Title', width=800, height=600)
+    dpg.setup_dearpygui()
+    dpg.show_viewport()
+    dpg.start_dearpygui()
+    dpg.destroy_context()
 
 Filtering
 ---------

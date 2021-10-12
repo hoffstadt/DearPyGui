@@ -65,6 +65,8 @@ Default themes will apply the theme globally across all windows and propigate to
 
     dpg.bind_theme(global_theme)
 
+    dpg.show_style_editor()
+
     dpg.create_viewport(title='Custom Title', width=800, height=600)
     dpg.setup_dearpygui()
     dpg.show_viewport()
@@ -105,6 +107,8 @@ Applying a theme to a container will also propagated to its children:
 
     dpg.bind_item_theme(win1, container_theme)
 
+    dpg.show_style_editor()
+
     dpg.create_viewport(title='Custom Title', width=800, height=600)
     dpg.setup_dearpygui()
     dpg.show_viewport()
@@ -140,6 +144,8 @@ Applying a theme to an item will overide any previous themes to that specified i
             dpg.add_theme_style(dpg.mvStyleVar_FrameRounding, 0, category=dpg.mvThemeCat_Core)
 
     dpg.bind_item_theme(t2, item_theme)
+
+    dpg.show_style_editor()
 
     dpg.create_viewport(title='Custom Title', width=800, height=600)
     dpg.setup_dearpygui()
@@ -200,6 +206,8 @@ The theme proritizes the latest applied theme in the order of
     dpg.bind_theme(global_theme)
     dpg.bind_item_theme(win1, container_theme)
     dpg.bind_item_theme(t2, item_theme)
+
+    dpg.show_style_editor()
 
     dpg.create_viewport(title='Custom Title', width=800, height=600)
     dpg.setup_dearpygui()

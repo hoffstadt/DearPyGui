@@ -12,17 +12,16 @@ Init Files
 * table column visible state
 * table column sorting state
 
-.. note:: Init files use the ID of the window. Make sure the ID does not
-    change between sessions by generating the ID beforehand.
+.. note:: Init files use the TAG of the window. Make sure the TAG does not
+    change between sessions by generating the TAG beforehand or specifying it as a string.
 
 Creating init files
 -------------------
 
-There are two procedures for creating **init** files:
-1. Use :py:func:`save_init_file <dearpygui.dearpygui.save_init_file>` while
+Use :py:func:`save_init_file <dearpygui.dearpygui.save_init_file>` while
     your application is running.
-2. Temporarily add :py:func:`set_init_file <dearpygui.dearpygui.set_init_file>`
-    to your application before starting DPG.
+
+..note:: The save function will not save over an existing init file. you must manually delete the esxisting file.
 
 .. note:: windows and tables can individually opt out of having their settings saved with the
     `no_saved_settings` keyword.
@@ -30,25 +29,33 @@ There are two procedures for creating **init** files:
 Loading init files
 ------------------
 
-There are two procedures for loading **init** files:
-1. Use :py:func:`load_init_file <dearpygui.dearpygui.load_init_file>`before starting DPG.
-2. Use :py:func:`set_init_file <dearpygui.dearpygui.set_init_file>` before starting DPG.
+Use :py:func:`configure_app <dearpygui.dearpygui.configure_app>`before starting DPG.
 
-.. note:: Procedure 2 will overwrite the **init** file.
+Below is an example of using **init** files to preserve settings between sessions.
 
-Basic Usage
------------
-
-Below is an example of using **init** files to preserve settings between sessions
+* Position the windows
+* press the save button and the init file will be saved in the local directory
+* re-open the app and see your windows in teh previous position.
 
 .. code-block:: python
 
     import dearpygui.dearpygui as dpg
 
-    dpg.set_init_file()  # default file is 'dpg.ini'
+    dpg.create_context()
 
-    with dpg.window(label="about"):
+    def save_init():
+        dpg.save_init_file("dpg.ini")
+
+    dpg.configure_app(init_file="dpg.ini")  # default file is 'dpg.ini'
+    with dpg.window(label="about", tag="main window"):
+        dpg.add_button(label="Save Window pos", callback=lambda: save_init)
+
+    with dpg.window(label="about", tag="side window"):
         dpg.add_button(label="Press me")
 
+    dpg.create_viewport(title='Custom Title', width=800, height=600)
+    dpg.setup_dearpygui()
+    dpg.show_viewport()
     dpg.start_dearpygui()
+    dpg.destroy_context()
 

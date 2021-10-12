@@ -2,10 +2,13 @@ Staging
 =======
 
 The staging system is used to create items or item hierarchies where
-the parent/root is to be decided at a later time. Staged items are not
-submitted for rendering.
+the parent/root is to be decided at a later time. 
 
-They can later be "unstaged", at which time a parent is known.
+Staged items are not submitted for rendering.
+
+Staged items will show up in the item registry.
+
+They can later be "unstaged" when a parent is set using :py:func:`move_item <dearpygui.dearpygui.move_item>`.
 
 The most basic example can be found below:
 
@@ -13,58 +16,69 @@ The most basic example can be found below:
 
     import dearpygui.dearpygui as dpg
 
-    dpg.set_staging_mode(True)
+    dpg.create_context()
 
-    dpg.add_button(label="Press me", id="button_id")
+    def stage_items():
+        with dpg.stage(tag="stage1"):
+            dpg.add_text("hello, i was added from a stage", tag="text_tag")
 
-    # proof the item has been created
-    print(dpg.get_item_configuration("button_id"))
+    def present_stage_items():
+        dpg.move_item("text_tag", parent="main_win")
 
-    dpg.set_staging_mode(False)
+    with dpg.window(label="Tutorial", tag="main_win"):
+        dpg.add_button(label="stage items", callback=stage_items)
+        dpg.add_button(label="present stages items", callback=present_stage_items)
 
-    with dpg.window(label="Tutorial"):
-        dpg.unstage_items(["button_id"])
+    dpg.show_item_registry()
 
+    dpg.create_viewport(title='Custom Title', width=800, height=600)
+    dpg.setup_dearpygui()
+    dpg.show_viewport()
     dpg.start_dearpygui()
+    dpg.destroy_context()
 
-When staging mode is enabled, items will
-still attempt to
-:doc:`../documentation/container-stack`
-according to the regular procedure however if a parent can not be deduced, it will stage the item.
-
-Using :py:func:`unstage_items <dearpygui.dearpygui.unstage_items>`
-will attempt to place the item as if you created it there, following
+Preffered way to "unstage" items is 
+using :py:func:`unstage_items <dearpygui.dearpygui.unstage_items>`.
+will place the items as if they are newly created items according to
 the standard rules of :doc:`../documentation/container-stack`.
-You can also unstage an item by using :py:func:`move_item <dearpygui.dearpygui.move_item>`
 
-Staging Container
------------------
+Also using the unstage command will automatically clean up the stage.
 
-DPG provides a special container called a **Staging Container**.
-This container can only be created when staging mode is enabled and has the special
-property that when "unstaged" it unpacks its children then deletes itself.
-
-Below is a basic example
+Using :py:func:`push_container_stack <dearpygui.dearpygui.push_container_stack>` and 
+:py:func:`pop_container_stack <dearpygui.dearpygui.pop_container_stack>` is recomended here as it
+provides much more performance when unstaging items. 
+This is because the parent look up and item position shuffling is only done once.
 
 .. code-block:: python
 
     import dearpygui.dearpygui as dpg
 
-    dpg.set_staging_mode(True)
+    dpg.create_context()
 
-    with dpg.staging_container(id="staging_container_id"):
-        dpg.add_button(label="Button 1")
-        dpg.add_button(label="Button 2")
-        dpg.add_button(label="Button 3")
-        dpg.add_button(label="Button 4")
-        dpg.add_button(label="Button 5")
+    def stage_items():
+        with dpg.stage(tag="stage1"):
+            dpg.add_text("hello, i was added from a stage")
+            dpg.add_text("hello, i was added from a stage")
+            dpg.add_text("hello, i was added from a stage")
+            dpg.add_text("hello, i was added from a stage")
+            dpg.add_text("hello, i was added from a stage")
 
-    dpg.set_staging_mode(False)
+    def present_stage_items():
+        dpg.push_container_stack("main_win")
+        dpg.unstage("stage1")
+        dpg.pop_container_stack()
 
-    with dpg.window(label="Tutorial"):
-        dpg.unstage_items(["staging_container_id"])
+    with dpg.window(label="Tutorial", tag="main_win", height=400, width=400):
+        dpg.add_button(label="stage items", callback=stage_items)
+        dpg.add_button(label="present stages items", callback=present_stage_items)
 
+    dpg.show_item_registry()
+
+    dpg.create_viewport(title='Custom Title', width=800, height=600)
+    dpg.setup_dearpygui()
+    dpg.show_viewport()
     dpg.start_dearpygui()
+    dpg.destroy_context()
 
 Wrapping Items with Classes
 ---------------------------
@@ -77,7 +91,7 @@ or :py:func:`get_item_configuration <dearpygui.dearpygui.get_item_configuration>
 before the item is actually created), you can create and stage the item in the
 constructor of the wrapping class!
 
-Below is are 2 simple examples:
+Below is are 2 examples:
 
 **Example 1**
 
@@ -85,13 +99,14 @@ Below is are 2 simple examples:
 
     import dearpygui.dearpygui as dpg
 
+    dpg.create_context()
+
+
     class Button:
 
         def __init__(self, label):
-            dpg.set_staging_mode(True)
-            with dpg.staging_container() as self._staging_container_id:
+            with dpg.stage() as self._staging_container_id:
                 self._id = dpg.add_button(label=label)
-            dpg.set_staging_mode(False)
 
         def set_callback(self, callback):
             dpg.set_item_callback(self._id, callback)
@@ -99,8 +114,10 @@ Below is are 2 simple examples:
         def get_label(self):
             return dpg.get_item_label(self._id)
 
-        def submit(self):
-            dpg.unstage_items([self._staging_container_id])
+        def submit(self, parent):
+            dpg.push_container_stack(parent)
+            dpg.unstage(self._staging_container_id)
+            dpg.pop_container_stack()
 
 
     my_button = Button("Press me")
@@ -108,10 +125,16 @@ Below is are 2 simple examples:
 
     print(my_button.get_label())
 
-    with dpg.window(label="Tutorial"):
-        my_button.submit()
+    with dpg.window(label="Tutorial", tag="main_win"):
+        dpg.add_text("hello world")
 
+    my_button.submit("main_win")
+
+    dpg.create_viewport(title='Custom Title', width=800, height=600)
+    dpg.setup_dearpygui()
+    dpg.show_viewport()
     dpg.start_dearpygui()
+    dpg.destroy_context()
 
 **Example 2**
 
@@ -119,29 +142,32 @@ Below is are 2 simple examples:
 
     import dearpygui.dearpygui as dpg
 
+    dpg.create_context()
+
+
     class Window:
 
         def __init__(self, label):
             self._children = []
-            dpg.set_staging_mode(True)
-            self._id = dpg.add_window(label=label)
-            dpg.set_staging_mode(False)
+            with dpg.stage() as stage:
+                self.id = dpg.add_window(label=label)
+            self.stage = stage
 
         def add_child(self, child):
-            dpg.move_item(child._id, parent=self._id)
+            dpg.move_item(child.id, parent=self.id)
 
         def submit(self):
-            dpg.unstage_items([self._id])
+            dpg.unstage(self.stage)
+
 
     class Button:
 
         def __init__(self, label):
-            dpg.set_staging_mode(True)
-            self._id = dpg.add_button(label=label)
-            dpg.set_staging_mode(False)
+            with dpg.stage():
+                self.id = dpg.add_button(label=label)
 
         def set_callback(self, callback):
-            dpg.set_item_callback(self._id, callback)
+            dpg.set_item_callback(self.id, callback)
 
 
     my_button = Button("Press me")
@@ -153,4 +179,8 @@ Below is are 2 simple examples:
 
     my_window.submit()
 
+    dpg.create_viewport(title='Custom Title', width=800, height=600)
+    dpg.setup_dearpygui()
+    dpg.show_viewport()
     dpg.start_dearpygui()
+    dpg.destroy_context()
