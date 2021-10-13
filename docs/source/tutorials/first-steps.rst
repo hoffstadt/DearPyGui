@@ -74,7 +74,7 @@ The code for this can be found in the repo in the `demo.py`_ file
 
     - Create the context :py:func:`create_context <dearpygui.dearpygui.create_context>`
     - Create the viewport :py:func:`create_viewport <dearpygui.dearpygui.create_viewport>`
-    - Setup dearpygui :py:func:`show_viewport <dearpygui.dearpygui.show_viewport>`
+    - Setup dearpygui :py:func:`setup_dearpygui <dearpygui.dearpygui.setup_dearpygui>`
     - Show the viewport :py:func:`show_viewport <dearpygui.dearpygui.show_viewport>`
     - Start dearpygui :py:func:`start_dearpygui <dearpygui.dearpygui.start_dearpygui>`
     - Clean up the context :py:func:`destroy_context <dearpygui.dearpygui.destroy_context>`
