@@ -41,8 +41,11 @@ mv_internal std::vector<std::string> founders =
     "Nikki Luzader",
     "Diego Dorn (CozyFractal)",
     "Fabian Schneider",
-    "randulfr",
-    "JohannesKargl"
+    "Rand Anderson",
+    "Johannes Kargl",
+    "Seth Weil",
+    "Harvey de Meester",
+    "Daniel Werbin"
 };
 
 

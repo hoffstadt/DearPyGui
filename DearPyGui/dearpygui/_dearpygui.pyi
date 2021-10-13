@@ -630,7 +630,7 @@ def clear_selected_nodes(node_editor : Union[int, str]) -> None:
 	"""Clears a node editor's selected nodes."""
 	...
 
-def configure_app(*, docking: bool ='', docking_space: bool ='', load_init_file: str ='', init_file: str ='', auto_save_init_file: bool ='', device: int ='', auto_device: bool ='', allow_alias_overwrites: bool ='', manual_alias_management: bool ='', skip_required_args: bool ='', skip_positional_args: bool ='', skip_keyword_args: bool ='') -> None:
+def configure_app(*, docking: bool ='', docking_space: bool ='', load_init_file: str ='', init_file: str ='', auto_save_init_file: bool ='', device: int ='', auto_device: bool ='', allow_alias_overwrites: bool ='', manual_alias_management: bool ='', skip_required_args: bool ='', skip_positional_args: bool ='', skip_keyword_args: bool ='', **kwargs) -> None:
 	"""Configures app."""
 	...
 

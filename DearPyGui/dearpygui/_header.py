@@ -45,6 +45,9 @@ def configure_item(item : Union[int, str], **kwargs) -> None:
 	"""Configures an item after creation."""
 	internal_dpg.configure_item(item, **kwargs)
 
+def configure_app(**kwargs) -> None:
+	"""Configures an item after creation."""
+	internal_dpg.configure_app(**kwargs)
 
 def configure_viewport(item : Union[int, str], **kwargs) -> None:
 	"""Configures a viewport after creation."""

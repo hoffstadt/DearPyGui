@@ -2388,8 +2388,8 @@ def show_demo():
                     m_down = dpg.add_mouse_down_handler(button=dpg.mvMouseButton_Left)
                     m_move = dpg.add_mouse_move_handler()
 
-                dpg.add_checkbox(label="Activate Keyboard Handlers (A key)", callback=lambda s, a: dpg.configure_item(keyboard_handler, show=a))
-                dpg.add_checkbox(label="Activate Mouse Handlers (left button)", callback=lambda s, a: dpg.configure_item(mouse_handler, show=a))
+                dpg.add_checkbox(label="Activate Keyboard Handlers (A key)", callback=lambda s, a: dpg.configure_item("__demo_keyboard_handler", show=a))
+                dpg.add_checkbox(label="Activate Mouse Handlers (left button)", callback=lambda s, a: dpg.configure_item("__demo_mouse_handler", show=a))
                 kh_down = dpg.add_text("Key id:  seconds:", label="Key Down Handler:", show_label=True)
                 kh_release = dpg.add_text("Key id:", label="Key Release Handler:", show_label=True)
                 kh_press = dpg.add_text("Key id:", label="Key Press Handler:", show_label=True)

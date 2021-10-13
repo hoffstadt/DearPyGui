@@ -316,6 +316,8 @@ namespace Marvel {
             mvPythonParserSetup setup;
             setup.about = "Configures app.";
             setup.category = { "General" };
+            setup.unspecifiedKwargs = true;
+            setup.internal = true;
 
             mvPythonParser parser = FinalizeParser(setup, args);
             parsers->insert({ "configure_app", parser });
@@ -1169,48 +1171,41 @@ namespace Marvel {
     mv_python_function
     configure_app(PyObject* self, PyObject* args, PyObject* kwargs)
     {
-
-        int docking = false;
-        int docking_space = false;
-        const char* load_init_file = "";
-        const char* init_file = "";
-        int auto_save_init_file = false;
-        int device = -1;
-        int auto_device = false;
-        int allow_alias_overwrites = false;
-        int manual_alias_management = false;
-        int skip_required_args = false;
-        int skip_positional_args = false;
-        int skip_keyword_args = false;
-
-        if (!Parse((GetParsers())["configure_app"], args, kwargs, __FUNCTION__,
-            &docking, &docking_space, &load_init_file, &init_file, &auto_save_init_file, &device, &auto_device,
-            &allow_alias_overwrites, &manual_alias_management, &skip_required_args, &skip_positional_args, &skip_keyword_args))
+        if (kwargs == nullptr)
             return GetPyNone();
+
+        if (VerifyKeywordArguments(GetParsers()["configure_app"], kwargs))
+            return GetPyNone();
+
+        if (PyArg_ValidateKeywordArguments(kwargs) == 0)
+        {
+            assert(false);
+            mvThrowPythonError(mvErrorCode::mvNone, "Dictionary keywords must be strings");
+            return GetPyNone();
+        }
 
         if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
-        if (docking)
+        if (PyObject* item = PyDict_GetItemString(kwargs, "auto_device")) GContext->IO.info_auto_device = ToBool(item);
+        if (PyObject* item = PyDict_GetItemString(kwargs, "docking")) GContext->IO.docking = ToBool(item);
+        if (PyObject* item = PyDict_GetItemString(kwargs, "docking_space")) GContext->IO.dockingViewport = ToBool(item);
+        if (PyObject* item = PyDict_GetItemString(kwargs, "load_init_file"))
         {
-            GContext->IO.docking = docking;
-            GContext->IO.dockingViewport = docking_space;
-        }
-
-        GContext->IO.iniFile = init_file;
-        GContext->IO.autoSaveIniFile = auto_save_init_file;
-        GContext->IO.info_device = device;
-        GContext->IO.info_auto_device = auto_device;
-        GContext->IO.allowAliasOverwrites = allow_alias_overwrites;
-        GContext->IO.manualAliasManagement = manual_alias_management;
-        GContext->IO.skipPositionalArgs = skip_positional_args;
-        GContext->IO.skipKeywordArgs = skip_keyword_args;
-        GContext->IO.skipRequiredArgs = skip_required_args;
-
-        if (!std::string(load_init_file).empty())
-        {
+            std::string load_init_file = ToString(item);
             GContext->IO.iniFile = load_init_file;
             GContext->IO.loadIniFile = true;
         }
+
+        if (PyObject* item = PyDict_GetItemString(kwargs, "allow_alias_overwrites")) GContext->IO.allowAliasOverwrites = ToBool(item);
+        if (PyObject* item = PyDict_GetItemString(kwargs, "manual_alias_management")) GContext->IO.manualAliasManagement = ToBool(item);
+        if (PyObject* item = PyDict_GetItemString(kwargs, "skip_keyword_args")) GContext->IO.skipKeywordArgs = ToBool(item);
+        if (PyObject* item = PyDict_GetItemString(kwargs, "skip_positional_args")) GContext->IO.skipPositionalArgs = ToBool(item);
+        if (PyObject* item = PyDict_GetItemString(kwargs, "skip_required_args")) GContext->IO.skipRequiredArgs = ToBool(item);
+        if (PyObject* item = PyDict_GetItemString(kwargs, "auto_save_init_file")) GContext->IO.autoSaveIniFile = ToBool(item);
+
+        if (PyObject* item = PyDict_GetItemString(kwargs, "init_file")) GContext->IO.iniFile = ToString(item);
+        if (PyObject* item = PyDict_GetItemString(kwargs, "device_name")) GContext->IO.info_device_name = ToString(item);
+        if (PyObject* item = PyDict_GetItemString(kwargs, "device")) GContext->IO.info_device = ToInt(item);
 
         return GetPyNone();
     }
