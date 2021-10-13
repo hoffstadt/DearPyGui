@@ -163,7 +163,7 @@ def setup_package():
         license = 'MIT',
         python_requires='>=3.6',
         classifiers=[
-                'Development Status :: 4 - Production/Stable',
+                'Development Status :: 5 - Production/Stable',
                 'Intended Audience :: Education',
                 'Intended Audience :: Developers',
                 'Intended Audience :: Science/Research',
