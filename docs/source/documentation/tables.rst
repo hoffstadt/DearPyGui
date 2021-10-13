@@ -166,12 +166,11 @@ You can also set the sizing policy
 keyword, `policy`, using the following options
 
 
-| Policy |
-| ---- |
-| mvTable_SizingFixedFit |
-| mvTable_SizingFixedSame |
-| mvTable_SizingStretchProp |
-| mvTable_SizingStretchSame |
+ Policy:
+    | mvTable_SizingFixedFit
+    | mvTable_SizingFixedSame
+    | mvTable_SizingStretchProp
+    | mvTable_SizingStretchSame
 
 Stretch
 -------
@@ -405,10 +404,10 @@ the effect on the framerate listed in metrics.
             for i in range(5):
                 dpg.add_table_column()
 
-                for i in range(7000):
-                    with dpg.table_row():
-                        for j in range(5):
-                            dpg.add_text(f"Row{i} Column{j}")
+            for i in range(30000):
+                with dpg.table_row():
+                    for j in range(5):
+                        dpg.add_text(f"Row{i} Column{j}")
 
     dpg.show_metrics()
 
