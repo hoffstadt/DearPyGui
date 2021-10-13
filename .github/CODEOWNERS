@@ -1,0 +1,27 @@
+# default owners
+*                                   @hoffstadt
+
+# directories
+/Dependencies/                      @hoffstadt
+/Scripts/                           @hoffstadt
+/DearPyGui/                         @hoffstadt @Pcothren
+/ImGuiTesting/                      @hoffstadt @Pcothren
+/Tools/*                            @hoffstadt @Pcothren
+/docs/*                             @hoffstadt @Pcothren
+
+# specific files
+/DearPyGui/cmake/distribution.cmake @hoffstadt
+/DearPyGui/cmake/embedded.cmake     @hoffstadt
+/DearPyGui/CMakeLists.txt           @hoffstadt
+/DearPyGui/.gitignore               @hoffstadt
+CMakeLists.txt                      @hoffstadt
+CMakeSettings.json                  @hoffstadt
+setup.py                            @hoffstadt
+.gitattributes                      @hoffstadt
+.gitignore                          @hoffstadt
+.gitmodules                         @hoffstadt
+.readthedocs.yaml                   @hoffstadt @Pcothren
+
+# no owners
+/docs/source/
+/Resources
