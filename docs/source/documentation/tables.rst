@@ -166,12 +166,11 @@ You can also set the sizing policy
 keyword, `policy`, using the following options
 
 
-| Policy |
-| ---- |
-| mvTable_SizingFixedFit |
-| mvTable_SizingFixedSame |
-| mvTable_SizingStretchProp |
-| mvTable_SizingStretchSame |
+ Policy:
+    | mvTable_SizingFixedFit
+    | mvTable_SizingFixedSame
+    | mvTable_SizingStretchProp
+    | mvTable_SizingStretchSame
 
 Stretch
 -------

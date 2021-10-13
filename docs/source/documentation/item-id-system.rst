@@ -100,7 +100,7 @@ be done at run time, is anonymous or sometimes just for convenience.
 
     with dpg.window(label="Example"):
         with dpg.group():
-            dpg.add_button(label="Press me")
+            dpg.add_button(label="View the Terminal for item tags")
             print(dpg.last_item())
             print(dpg.last_container())
             print(dpg.last_root())
