@@ -2,7 +2,7 @@
 name: Bug report
 about: Create a report to help us improve
 title: ''
-labels: ''
+labels: 'state: pending'
 assignees: ''
 
 ---
@@ -56,10 +56,16 @@ XXX _(you can drag files here)_
 # Here's some code anyone can copy and paste to reproduce your issue
 import dearpygui.dearpygui as dpg
 
+dpg.create_context()
+dpg.create_viewport()
+dpg.setup_dearpygui()
+
 with dpg.window(label="tutorial"):
     dpg.add_button(label="Press me")
 
 more_code_to_explain_my_issue()
 
+dpg.show_viewport()
 dpg.start_dearpygui()
+dpg.destroy_context()
 ```
