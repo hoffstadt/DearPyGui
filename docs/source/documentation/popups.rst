@@ -12,6 +12,7 @@ Normally when used, a popup will be shown until you click away from it.
 By default, a right click activates the popup.
 
 **Code**
+
 .. code-block:: python
 
     import dearpygui.dearpygui as dpg
