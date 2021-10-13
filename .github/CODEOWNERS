@@ -23,5 +23,6 @@ setup.py                            @hoffstadt
 .readthedocs.yaml                   @hoffstadt @Pcothren
 
 # no owners
+README.md
 /docs/source/
 /Resources
