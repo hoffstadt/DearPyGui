@@ -11,7 +11,7 @@ Handlers can be activated or deactivated by showing or hiding them.
 Handlers are required to be added to a handler registry. 
 
 Item Handlers
-----------------
+-------------
 
 Item handlers listen for states related to a specific item.
 
