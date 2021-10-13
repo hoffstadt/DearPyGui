@@ -121,9 +121,9 @@ namespace Marvel {
         
 		mvUUID parentName = 0;
 
-        if (_itemref == nullptr && GContext->itemRegistry->windowRoots.size())
+        if (_itemref == nullptr && GContext->itemRegistry->windowRoots.size() > 0)
             _itemref = GContext->itemRegistry->windowRoots[0];
-        else
+        else if(_itemref == nullptr)
             return;
 
         if (_itemref->_parentPtr)
