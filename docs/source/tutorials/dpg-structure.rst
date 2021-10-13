@@ -19,10 +19,19 @@ All DPG apps must do 3 things:
     * Create & Show Viewport
     * Setup & Start DearPyGui
 
+The Context
+-----------
+
+To access any DPG commands the context must be created with :py:func:`create_context <dearpygui.dearpygui.create_context>` 
+This should be the first DPG command and it's typical to perform this with an import.
+
+Proper clean up of DPG can be done using :py:func:`destroy_context <dearpygui.dearpygui.destroy_context>`.
+
 Creating and destroying the context and also setup and start dearpygui 
 are useful when the DPG needs to be started and stopped multiple times in one python session.
 
-.. warning:: Creating the context must be the first call to DPG or DPG will not start (and will probably crash).
+.. warning:: If :py:func:`create_context <dearpygui.dearpygui.create_context>`
+    is not first DPG will not start (and will probably crash).
 
 The Viewport
 ------------
@@ -65,7 +74,8 @@ The render loop is completely handled
 by the :py:func:`start_dearpygui <dearpygui.dearpygui.start_dearpygui>` command.
 
 In some cases it's necessary to explicitly create
-the render loop so you can call python commands that may need to run every frame.
+the render loop so you can call python commands that may need to run every frame. 
+Such as per-frame ticker or counter update functions.
 
 **Code:**
 
@@ -96,10 +106,10 @@ the render loop so you can call python commands that may need to run every frame
 
 .. warning:: The manual render loop must be created after :py:func:`start_dearpygui <dearpygui.dearpygui.start_dearpygui>`
 
-.. seealso:: for more information on the render loop :doc:`../documentation/render-loop`
+.. seealso:: For more information on the render loop :doc:`../documentation/render-loop`
 
-Items
----------
+Item Overview
+-------------
 
 DPG can be broken down into **Items**, **UI Items**, **Containers**
 
@@ -107,15 +117,16 @@ Items:
     Items are anything in the library (i.e. button, registries, windows, ect).
 
 UI Items:
-    Any item in dpg that has a visual component (i.e. button, listbox, window, ect).
+    Any item in DPG that has a visual component (i.e. button, listbox, window, ect).
 
 Containers:
-    Items that can hold other items. A root container is a container that has no parent container.
+    Items that can hold other items. (i.e. window, groups, registries, ect).
 
 The Primary Window
 ------------------
 
-DPG can assign one window to be the *primary window*, which will fill the
+DPG can assign one window to be the *primary window*. 
+The primary window will fill the
 viewport and always be drawn behind other windows.
 
 **Code:**
