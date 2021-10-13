@@ -2,8 +2,8 @@
 name: Documentation Improvement
 about: Not Documented, Not Done... Help us be done!
 title: ''
-labels: 'state: pending'
-assignees: ''
+labels: 'state: pending, type: docs'
+assignees: Pcothren
 
 ---
 
