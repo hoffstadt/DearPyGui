@@ -28,7 +28,7 @@ Confirm the pip install by runing the code block below.
     import dearpygui.dearpygui as dpg
 
     dpg.create_context()
-    dpg.create_viewport(title='Custom Title', width=600, height=200)
+    dpg.create_viewport(title='Custom Title', width=600, height=300)
 
     with dpg.window(label="Example Window"):
         dpg.add_text("Hello, world")
@@ -60,7 +60,7 @@ The code for this can be found in the repo in the `demo.py`_ file
     import dearpygui.demo as demo
 
     dpg.create_context()
-    dpg.create_viewport(title='Custom Title', width=600, height=200)
+    dpg.create_viewport(title='Custom Title', width=600, height=600)
 
     demo.show_demo()
 

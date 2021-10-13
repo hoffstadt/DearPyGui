@@ -41,7 +41,7 @@ app_data:
         print(f"app_data is: {app_data}")
 
     with dpg.window(label="Tutorial"):
-        dpg.add_button(label="Apply", callback=button_callback)
+        dpg.add_button(label="Print to Terminal", callback=button_callback)
 
     dpg.create_viewport(title='Custom Title', width=800, height=600)
     dpg.setup_dearpygui()
@@ -75,10 +75,10 @@ User data can be any python object.
 
     with dpg.window(label="Tutorial"):
         # user data set when button is created
-        dpg.add_button(label="Apply", callback=button_callback, user_data="Some Data")
+        dpg.add_button(label="Print to Terminal", callback=button_callback, user_data="Some Data")
 
         # user data and callback set any time after button has been created
-        dpg.add_button(label="Apply 2", tag="btn")
+        dpg.add_button(label="Print to Terminal 2", tag="btn")
         dpg.set_item_callback("btn", button_callback)
         dpg.set_item_user_data("btn", "Some Extra User Data")
 
