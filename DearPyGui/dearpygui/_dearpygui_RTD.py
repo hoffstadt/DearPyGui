@@ -61,6 +61,9 @@ def configure_item(item : Union[int, str], **kwargs) -> None:
 	"""Configures an item after creation."""
 	internal_dpg.configure_item(item, **kwargs)
 
+def configure_app(**kwargs) -> None:
+	"""Configures an item after creation."""
+	internal_dpg.configure_app(**kwargs)
 
 def configure_viewport(item : Union[int, str], **kwargs) -> None:
 	"""Configures a viewport after creation."""
@@ -6390,28 +6393,6 @@ def clear_selected_nodes(node_editor):
 	"""
 
 	return internal_dpg.clear_selected_nodes(node_editor)
-
-def configure_app(**kwargs):
-	"""	 Configures app.
-
-	Args:
-		docking (bool, optional): Enables docking support.
-		docking_space (bool, optional): add explicit dockspace over viewport
-		load_init_file (str, optional): Load .ini file.
-		init_file (str, optional): 
-		auto_save_init_file (bool, optional): 
-		device (int, optional): Which display adapter to use. (-1 will use default)
-		auto_device (bool, optional): Let us pick the display adapter.
-		allow_alias_overwrites (bool, optional): 
-		manual_alias_management (bool, optional): 
-		skip_required_args (bool, optional): 
-		skip_positional_args (bool, optional): 
-		skip_keyword_args (bool, optional): 
-	Returns:
-		None
-	"""
-
-	return internal_dpg.configure_app(**kwargs)
 
 def create_context():
 	"""	 Creates the Dear PyGui context.

@@ -9,7 +9,7 @@ import sys
 import shutil
 import subprocess
 
-wip_version = "1.0.0rc6"
+wip_version = "1.0.0"
 
 def version_number():
     """This function reads the version number which is populated by github actions"""
@@ -163,7 +163,7 @@ def setup_package():
         license = 'MIT',
         python_requires='>=3.6',
         classifiers=[
-                'Development Status :: 4 - Beta',
+                'Development Status :: 4 - Production/Stable',
                 'Intended Audience :: Education',
                 'Intended Audience :: Developers',
                 'Intended Audience :: Science/Research',

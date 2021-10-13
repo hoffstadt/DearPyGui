@@ -167,7 +167,7 @@ These include:
 * 🥇 [RB Blackstone](https://github.com/RBBlackstone) _Gold Sponsor_
 * 🥇 [Charles Ray](https://github.com/ray-5050) _Gold Sponsor_
 * 🥇 [Alexander G. Morano](https://github.com/Amorano) _Gold Sponsor_
-* 🥇 [Johannes Kargl](https://github.com/JohannesKargl) _Gold Sponsor_
+* 🥇 Johannes Kargl _Gold Sponsor_
 
 Thank you to all other [sponsors](https://github.com/hoffstadt/DearPyGui/wiki/Sponsors) for keeping this project moving forward!
 
