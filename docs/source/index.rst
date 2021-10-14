@@ -131,6 +131,7 @@ Video Tutorials:
     :maxdepth: 2
     :hidden:
     :caption: More
+    
     /extra/known-issues
     /extra/showcase
     /extra/video-tutorials
