@@ -1,5 +1,5 @@
-Item Tag System
-===============
+Tag System
+==========
 
 In DPG, all items must have an associated unique ID (UUID) 
 which can either be an integer or a string.

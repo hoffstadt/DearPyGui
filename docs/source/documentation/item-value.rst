@@ -1,5 +1,5 @@
-Item Value
-==========
+Values
+======
 
 When an item is created, it creates an associated value by default. 
 Values can be shared between items with the same underlying value type. 
