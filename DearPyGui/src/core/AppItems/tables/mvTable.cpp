@@ -271,6 +271,14 @@ namespace Marvel {
 			int column_index = -1;
 			for (auto& cell : row->_children[1])
 			{
+
+				// if tooltip, do not move column index
+				if (cell->getType() == mvAppItemType::mvTooltip)
+				{
+					cell->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
+					continue;
+				}
+
 				column_index++;
 
 				ImGui::TableSetColumnIndex(column_index);
