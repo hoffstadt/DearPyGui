@@ -52,7 +52,7 @@ static PyObject* parser(PyObject* self, PyObject* args, PyObject* kwargs)\
 	if(!GContext->IO.skipKeywordArgs)\
 		item->handleKeywordArgs(kwargs, #parser);\
 	AddItemWithRuntimeChecks((*GContext->itemRegistry), item, parent, before);\
-    if(item->_alias.empty()) return ToPyLong((long)id);\
+    if(item->_alias.empty()) return Py_BuildValue("K", id);\
 	return ToPyString(item->_alias);\
 }\
 static PyMethodDef GetMethodDefinition(){return { s_command, (PyCFunction)parser, METH_VARARGS | METH_KEYWORDS, GetParsers()[s_command].documentation.c_str() };\
