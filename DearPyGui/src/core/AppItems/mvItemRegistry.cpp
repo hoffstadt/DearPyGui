@@ -865,6 +865,8 @@ namespace Marvel {
             }
 
             auto child = root->getChild(uuid);
+            if (uuid == 2198)
+                int a = 5;
             if (child)
             {
                 CacheItem(registry, child);
@@ -1339,6 +1341,12 @@ namespace Marvel {
     RenderItemRegistry(mvItemRegistry& registry)
     {
 
+        // TODO: figure out why delayedSearch can
+        //       still have values (sometimes).
+        //       It should be empty after every search.
+        if(!registry.delayedSearch.empty())
+            registry.delayedSearch.clear();
+
         MV_PROFILE_SCOPE("Rendering")
 
         if(registry.showImGuiDebug)
@@ -1557,7 +1565,7 @@ namespace Marvel {
 
         for (auto delayedItem : registry.delayedSearch)
         {
-            auto child = delayedItem->getChild(uuid);
+            mvAppItem* child = delayedItem->getChild(uuid);
             if (child)
             {
                 CacheItem(registry, child);
