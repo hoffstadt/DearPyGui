@@ -7,6 +7,8 @@
 #include "mvNodeEditor.h"
 #include "mvPythonExceptions.h"
 #include "mvPyObject.h"
+#include "AppItems/fonts/mvFont.h"
+#include "AppItems/themes/mvTheme.h"
 
 namespace Marvel {
 
@@ -57,51 +59,110 @@ namespace Marvel {
 
 	void mvNodeAttribute::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ScopedID id(_uuid);
+		//-----------------------------------------------------------------------------
+		// pre draw
+		//-----------------------------------------------------------------------------
 
-		if (_attrType == mvNodeAttribute::AttributeType::mvAttr_Static)
-			imnodes::BeginStaticAttribute((int)_id);
-		else if(_attrType == mvNodeAttribute::AttributeType::mvAttr_Output)
-			imnodes::BeginOutputAttribute((int)_id, _shape);
-		else
-			imnodes::BeginInputAttribute((int)_id, _shape);
+		// show/hide
+		if (!_show)
+			return;
 
-		for (auto& item : _children[1])
+		// set item width
+		if (_width != 0)
+			ImGui::SetNextItemWidth((float)_width);
+
+		// indent (for children
+		if (_indent > 0.0f)
+			ImGui::Indent(_indent);
+
+		// push font if a font object is attached
+		if (_font)
 		{
-			// skip item if it's not shown
-			if (!item->_show)
-				continue;
-
-			// set item width
-			if (item->_width != 0)
-				ImGui::SetNextItemWidth((float)item->_width);
-
-			if (item->_focusNextFrame)
-			{
-				ImGui::SetKeyboardFocusHere();
-				item->_focusNextFrame = false;
-			}
-
-			auto oldCursorPos = ImGui::GetCursorPos();
-			if (item->_dirtyPos)
-				ImGui::SetCursorPos(item->_state.pos);
-
-			item->_state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
-
-			item->draw(drawlist, x, y);
-
-			if (item->_dirtyPos)
-				ImGui::SetCursorPos(oldCursorPos);
-
-			UpdateAppItemState(item->_state);
+			ImFont* fontptr = static_cast<mvFont*>(_font.get())->getFontPtr();
+			ImGui::PushFont(fontptr);
 		}
 
-		if (_attrType == mvNodeAttribute::AttributeType::mvAttr_Static)
-			imnodes::EndStaticAttribute();
-		else if (_attrType == mvNodeAttribute::AttributeType::mvAttr_Output)
-			imnodes::EndOutputAttribute();
-		else
-			imnodes::EndInputAttribute();
+		// themes
+		if (auto classTheme = getClassThemeComponent())
+			static_cast<mvThemeComponent*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
+
+		if (_theme)
+		{
+			static_cast<mvTheme*>(_theme.get())->setSpecificEnabled(_enabled);
+			static_cast<mvTheme*>(_theme.get())->setSpecificType((int)getType());
+			static_cast<mvTheme*>(_theme.get())->draw(nullptr, 0.0f, 0.0f);
+		}
+
+		//-----------------------------------------------------------------------------
+		// draw
+		//-----------------------------------------------------------------------------
+		{
+			ScopedID id(_uuid);
+
+			if (_attrType == mvNodeAttribute::AttributeType::mvAttr_Static)
+				imnodes::BeginStaticAttribute((int)_id);
+			else if (_attrType == mvNodeAttribute::AttributeType::mvAttr_Output)
+				imnodes::BeginOutputAttribute((int)_id, _shape);
+			else
+				imnodes::BeginInputAttribute((int)_id, _shape);
+
+			for (auto& item : _children[1])
+			{
+				// skip item if it's not shown
+				if (!item->_show)
+					continue;
+
+				// set item width
+				if (item->_width != 0)
+					ImGui::SetNextItemWidth((float)item->_width);
+
+				if (item->_focusNextFrame)
+				{
+					ImGui::SetKeyboardFocusHere();
+					item->_focusNextFrame = false;
+				}
+
+				auto oldCursorPos = ImGui::GetCursorPos();
+				if (item->_dirtyPos)
+					ImGui::SetCursorPos(item->_state.pos);
+
+				item->_state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
+
+				item->draw(drawlist, x, y);
+
+				if (item->_dirtyPos)
+					ImGui::SetCursorPos(oldCursorPos);
+
+				UpdateAppItemState(item->_state);
+			}
+
+			if (_attrType == mvNodeAttribute::AttributeType::mvAttr_Static)
+				imnodes::EndStaticAttribute();
+			else if (_attrType == mvNodeAttribute::AttributeType::mvAttr_Output)
+				imnodes::EndOutputAttribute();
+			else
+				imnodes::EndInputAttribute();
+
+		}
+
+		// undo indents
+		if (_indent > 0.0f)
+			ImGui::Unindent(_indent);
+
+		// pop font off stack
+		if (_font)
+			ImGui::PopFont();
+
+		// handle popping themes
+		if (auto classTheme = getClassThemeComponent())
+			static_cast<mvThemeComponent*>(classTheme.get())->customAction();
+
+		if (_theme)
+		{
+			static_cast<mvTheme*>(_theme.get())->setSpecificEnabled(_enabled);
+			static_cast<mvTheme*>(_theme.get())->setSpecificType((int)getType());
+			static_cast<mvTheme*>(_theme.get())->customAction();
+		}
 	}
 
 	void mvNodeAttribute::handleSpecificKeywordArgs(PyObject* dict)

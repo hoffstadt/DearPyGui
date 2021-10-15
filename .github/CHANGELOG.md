@@ -24,3 +24,4 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 
 ### Fixes
 * fixed `show_item_registry()` not rendering widgets
+* fixed themes not binding to node attributes #1320
