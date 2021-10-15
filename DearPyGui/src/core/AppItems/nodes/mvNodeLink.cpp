@@ -101,26 +101,6 @@ namespace Marvel {
 
 	void mvNodeLink::customAction(void* data)
 	{
-		//-----------------------------------------------------------------------------
-		// update state
-		//   * only update if applicable
-		//-----------------------------------------------------------------------------
-		//_state.hovered = imnodes::IsLinkHovered(&_id);
-		_state.visible = ImGui::IsItemVisible();
-		//_state.active = imnodes::IsLinkStarted(&_id);
-		//_state.deactivated = imnodes::IsLinkDropped(&_id);
-
-		// handle popping themes
-		if (auto classTheme = getClassThemeComponent())
-			static_cast<mvThemeComponent*>(classTheme.get())->customAction();
-
-		if (_theme)
-		{
-			static_cast<mvTheme*>(_theme.get())->setSpecificEnabled(_enabled);
-			static_cast<mvTheme*>(_theme.get())->setSpecificType((int)getType());
-			static_cast<mvTheme*>(_theme.get())->customAction();
-		}
-
 		if (_handlerRegistry)
 			_handlerRegistry->customAction(data);
 	}
@@ -162,8 +142,26 @@ namespace Marvel {
 		// post draw
 		//-----------------------------------------------------------------------------
 		_state.lastFrameUpdate = GContext->frame;
-		// check custom action
 
+		//-----------------------------------------------------------------------------
+		// update state
+		//   * only update if applicable
+		//-----------------------------------------------------------------------------
+		//_state.hovered = imnodes::IsLinkHovered(&_id);
+		_state.visible = ImGui::IsItemVisible();
+		//_state.active = imnodes::IsLinkStarted(&_id);
+		//_state.deactivated = imnodes::IsLinkDropped(&_id);
+
+		// handle popping themes
+		if (auto classTheme = getClassThemeComponent())
+			static_cast<mvThemeComponent*>(classTheme.get())->customAction();
+
+		if (_theme)
+		{
+			static_cast<mvTheme*>(_theme.get())->setSpecificEnabled(_enabled);
+			static_cast<mvTheme*>(_theme.get())->setSpecificType((int)getType());
+			static_cast<mvTheme*>(_theme.get())->customAction();
+		}
 	}
 
 	void mvNodeLink::getSpecificConfiguration(PyObject* dict)
