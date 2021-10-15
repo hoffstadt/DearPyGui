@@ -200,6 +200,7 @@ namespace Marvel {
 			return;
 		 
 		if (PyObject* item = PyDict_GetItemString(dict, "closable")) _closable = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "default_open")) setPyValue(item);
 
 		// helper for bit flipping
 		auto flagop = [dict](const char* keyword, int flag, int& flags)
@@ -208,7 +209,6 @@ namespace Marvel {
 		};
 
 		// flags
-		flagop("default_open", ImGuiTreeNodeFlags_DefaultOpen, _flags);
 		flagop("open_on_double_click", ImGuiTreeNodeFlags_OpenOnDoubleClick, _flags);
 		flagop("open_on_arrow", ImGuiTreeNodeFlags_OpenOnArrow, _flags);
 		flagop("leaf", ImGuiTreeNodeFlags_Leaf, _flags);
@@ -222,6 +222,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 		 
+		PyDict_SetItemString(dict, "closable", mvPyObject(ToPyBool(*_value)));
 		PyDict_SetItemString(dict, "closable", mvPyObject(ToPyBool(_closable)));
 
 		// helper to check and set bit
@@ -231,7 +232,6 @@ namespace Marvel {
 		};
 
 		// flags
-		checkbitset("default_open", ImGuiTreeNodeFlags_DefaultOpen, _flags);
 		checkbitset("open_on_double_click", ImGuiTreeNodeFlags_OpenOnDoubleClick, _flags);
 		checkbitset("open_on_arrow", ImGuiTreeNodeFlags_OpenOnArrow, _flags);
 		checkbitset("leaf", ImGuiTreeNodeFlags_Leaf, _flags);
