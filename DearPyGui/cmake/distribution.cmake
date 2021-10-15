@@ -46,7 +46,7 @@ elseif(APPLE)
 	add_definitions(-DUNIX)
 	set_target_properties(_dearpygui PROPERTIES SUFFIX ".so")
 	set_target_properties(_dearpygui PROPERTIES PREFIX "")
-	SET_PROPERTY(TARGET _dearpygui APPEND_STRING PROPERTY COMPILE_FLAGS "-fobjc-arc -Wno-comment -Wno-unused-result -Wsign-compare -Wunreachable-code -fno-common -dynamic -DNDEBUG -g -fwrapv -O3 -Wall")
+	SET_PROPERTY(TARGET _dearpygui APPEND_STRING PROPERTY COMPILE_FLAGS "-fobjc-arc -Wno-comment -Wno-unused-result -Wsign-compare -Wunreachable-code -fno-common -dynamic -DNDEBUG -fwrapv -O3 -Wall")
 	target_link_libraries(_dearpygui
 
 		PRIVATE
@@ -66,7 +66,7 @@ else() # Linux
 	add_definitions(-DLINUX)
 	add_definitions(-DUNIX)
 	set_target_properties(_dearpygui PROPERTIES PREFIX "")
-	set_property(TARGET _dearpygui APPEND_STRING PROPERTY COMPILE_FLAGS "-fPIC -Wno-comment -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall")
+	set_property(TARGET _dearpygui APPEND_STRING PROPERTY COMPILE_FLAGS "-fPIC -Wno-comment -Wno-unused-result -Wsign-compare -DNDEBUG -fwrapv -O3 -Wall")
 	add_definitions(-DIMGUI_IMPL_OPENGL_LOADER_GL3W)
 	target_link_libraries(_dearpygui 
 		PRIVATE 
