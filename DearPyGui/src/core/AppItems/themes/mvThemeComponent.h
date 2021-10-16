@@ -38,7 +38,7 @@ namespace Marvel {
         void handleSpecificKeywordArgs(PyObject* dict) override;
         void customAction(void* data = nullptr) override;
 
-    private:
+    public:
 
         int _specificType = (int)mvAppItemType::All;
         bool _specificEnabled = true;
