@@ -638,7 +638,7 @@ def configure_item(item : Union[int, str], **kwargs) -> None:
 	"""Configures an item."""
 	...
 
-def configure_viewport(, **kwargs) -> None:
+def configure_viewport(**kwargs) -> None:
 	"""Configures a viewport."""
 	...
 
