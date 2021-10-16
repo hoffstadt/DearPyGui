@@ -73,7 +73,6 @@ else() # Linux
 			"-fPIC -lcrypt -lpthread -ldl  -lutil -lm"
 			GL
 			glfw
-			${Python_LIBRARIES}
 	)
 
 endif()
