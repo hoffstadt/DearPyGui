@@ -17,25 +17,25 @@ namespace Marvel {
         {
             std::vector<mvPythonDataElement> args;
             args.reserve(16);
-            args.push_back({ mvPyDataType::String, "title", mvArgType::KEYWORD_ARG, "'Dear PyGui'" });
-            args.push_back({ mvPyDataType::String, "small_icon", mvArgType::KEYWORD_ARG, "''" });
-            args.push_back({ mvPyDataType::String, "large_icon", mvArgType::KEYWORD_ARG, "''" });
-            args.push_back({ mvPyDataType::Integer, "width", mvArgType::KEYWORD_ARG, "1280" });
-            args.push_back({ mvPyDataType::Integer, "height", mvArgType::KEYWORD_ARG, "800" });
-            args.push_back({ mvPyDataType::Integer, "x_pos", mvArgType::KEYWORD_ARG, "100" });
-            args.push_back({ mvPyDataType::Integer, "y_pos", mvArgType::KEYWORD_ARG, "100" });
-            args.push_back({ mvPyDataType::Integer, "min_width", mvArgType::KEYWORD_ARG, "250" });
-            args.push_back({ mvPyDataType::Integer, "max_width", mvArgType::KEYWORD_ARG, "10000" });
-            args.push_back({ mvPyDataType::Integer, "min_height", mvArgType::KEYWORD_ARG, "250" });
-            args.push_back({ mvPyDataType::Integer, "max_height", mvArgType::KEYWORD_ARG, "10000" });
-            args.push_back({ mvPyDataType::Bool, "resizable", mvArgType::KEYWORD_ARG, "True" });
-            args.push_back({ mvPyDataType::Bool, "vsync", mvArgType::KEYWORD_ARG, "True" });
-            args.push_back({ mvPyDataType::Bool, "always_on_top", mvArgType::KEYWORD_ARG, "False" });
-            args.push_back({ mvPyDataType::Bool, "decorated", mvArgType::KEYWORD_ARG, "True" });
-            args.push_back({ mvPyDataType::FloatList, "clear_color", mvArgType::KEYWORD_ARG, "(0, 0, 0, 255)" });
+            args.push_back({ mvPyDataType::String, "title", mvArgType::KEYWORD_ARG, "'Dear PyGui'", "Sets the title of the viewport."});
+            args.push_back({ mvPyDataType::String, "small_icon", mvArgType::KEYWORD_ARG, "''", "Sets the small icon that is found in the viewport's decorator bar. Must be ***.ico on windows and either ***.ico or ***.png on mac."});
+            args.push_back({ mvPyDataType::String, "large_icon", mvArgType::KEYWORD_ARG, "''", "Sets the large icon that is found in the task bar while the app is running. Must be ***.ico on windows and either ***.ico or ***.png on mac." });
+            args.push_back({ mvPyDataType::Integer, "width", mvArgType::KEYWORD_ARG, "1280", "Sets the width of the drawable space on the viewport. Does not inclue the border."});
+            args.push_back({ mvPyDataType::Integer, "height", mvArgType::KEYWORD_ARG, "800", "Sets the height of the drawable space on the viewport. Does not inclue the border or decorator bar." });
+            args.push_back({ mvPyDataType::Integer, "x_pos", mvArgType::KEYWORD_ARG, "100", "Sets x position the viewport will be drawn in screen coordinates." });
+            args.push_back({ mvPyDataType::Integer, "y_pos", mvArgType::KEYWORD_ARG, "100", "Sets y position the viewport will be drawn in screen coordinates." });
+            args.push_back({ mvPyDataType::Integer, "min_width", mvArgType::KEYWORD_ARG, "250", "Applies a minimuim limit to the width of the viewport." });
+            args.push_back({ mvPyDataType::Integer, "max_width", mvArgType::KEYWORD_ARG, "10000", "Applies a maximum limit to the width of the viewport." });
+            args.push_back({ mvPyDataType::Integer, "min_height", mvArgType::KEYWORD_ARG, "250", "Applies a minimuim limit to the height of the viewport." });
+            args.push_back({ mvPyDataType::Integer, "max_height", mvArgType::KEYWORD_ARG, "10000", "Applies a maximum limit to the height of the viewport." });
+            args.push_back({ mvPyDataType::Bool, "resizable", mvArgType::KEYWORD_ARG, "True", "Enables and Disables user ability to resize the viewport."});
+            args.push_back({ mvPyDataType::Bool, "vsync", mvArgType::KEYWORD_ARG, "True", "Enables and Disables the renderloop vsync limit. vsync frame value is set by refresh rate of display." });
+            args.push_back({ mvPyDataType::Bool, "always_on_top", mvArgType::KEYWORD_ARG, "False", "Forces the viewport to always be drawn ontop of all other viewports."});
+            args.push_back({ mvPyDataType::Bool, "decorated", mvArgType::KEYWORD_ARG, "True", "Enabled and disabled the decorator bar at the top of the viewport."});
+            args.push_back({ mvPyDataType::FloatList, "clear_color", mvArgType::KEYWORD_ARG, "(0, 0, 0, 255)", "Sets the color of the back of the viewport."});
 
             mvPythonParserSetup setup;
-            setup.about = "Creates a viewport.";
+            setup.about = "Creates a viewport. Viewports are required.";
             setup.category = { "General" };
 
             mvPythonParser parser = FinalizeParser(setup, args);
@@ -44,8 +44,8 @@ namespace Marvel {
 
         {
             std::vector<mvPythonDataElement> args;
-            args.push_back({ mvPyDataType::Bool, "minimized", mvArgType::KEYWORD_ARG, "False" });
-            args.push_back({ mvPyDataType::Bool, "maximized", mvArgType::KEYWORD_ARG, "False" });
+            args.push_back({ mvPyDataType::Bool, "minimized", mvArgType::KEYWORD_ARG, "False", "Sets the state of the viewport to minimized"});
+            args.push_back({ mvPyDataType::Bool, "maximized", mvArgType::KEYWORD_ARG, "False", "Sets the state of the viewport to maximized" });
             args.push_back({ mvPyDataType::UUID, "viewport", mvArgType::DEPRECATED_REMOVE_KEYWORD_ARG });
 
             mvPythonParserSetup setup;
@@ -58,7 +58,6 @@ namespace Marvel {
 
         {
             std::vector<mvPythonDataElement> args;
-            args.push_back({ mvPyDataType::UUID, "item" });
 
             mvPythonParserSetup setup;
             setup.about = "Configures a viewport.";
@@ -72,7 +71,6 @@ namespace Marvel {
 
         {
             std::vector<mvPythonDataElement> args;
-            args.push_back({ mvPyDataType::UUID, "item" });
 
             mvPythonParserSetup setup;
             setup.about = "Returns a viewport's configuration.";

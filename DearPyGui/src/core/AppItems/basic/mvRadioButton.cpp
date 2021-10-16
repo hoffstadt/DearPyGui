@@ -30,8 +30,8 @@ namespace Marvel {
 			MV_PARSER_ARG_POS)
 		);
 
-		args.push_back({ mvPyDataType::StringList, "items", mvArgType::POSITIONAL_ARG, "()", "A tuple of items to be shown as radio options. Can consist of any combination of types." });
-		args.push_back({ mvPyDataType::String, "default_value", mvArgType::KEYWORD_ARG, "''" });
+		args.push_back({ mvPyDataType::StringList, "items", mvArgType::POSITIONAL_ARG, "()", "A tuple of items to be shown as radio options. Can consist of any combination of types. All types will be shown as strings." });
+		args.push_back({ mvPyDataType::String, "default_value", mvArgType::KEYWORD_ARG, "''", "Default selected radio option. Set by using the string value of the item."});
 		args.push_back({ mvPyDataType::Bool, "horizontal", mvArgType::KEYWORD_ARG, "False", "Displays the radio options horizontally." });
 
 		mvPythonParserSetup setup;

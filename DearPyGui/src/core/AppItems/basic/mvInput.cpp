@@ -36,16 +36,16 @@ namespace Marvel {
         );
 
         args.push_back({ mvPyDataType::String, "default_value", mvArgType::KEYWORD_ARG, "''" });
-        args.push_back({ mvPyDataType::String, "hint", mvArgType::KEYWORD_ARG, "''", "Displayed only when value is empty string. Will reappear if input value is set to empty string. Will not show if default value is anything other than default empty string." });
+        args.push_back({ mvPyDataType::String, "hint", mvArgType::KEYWORD_ARG, "''", "Displayed only when value is an empty string. Will reappear if input value is set to empty string. Will not show if default value is anything other than default empty string." });
         args.push_back({ mvPyDataType::Bool, "multiline", mvArgType::KEYWORD_ARG, "False", "Allows for multiline text input." });
         args.push_back({ mvPyDataType::Bool, "no_spaces", mvArgType::KEYWORD_ARG, "False", "Filter out spaces and tabs." });
         args.push_back({ mvPyDataType::Bool, "uppercase", mvArgType::KEYWORD_ARG, "False", "Automatically make all inputs uppercase." });
-        args.push_back({ mvPyDataType::Bool, "tab_input", mvArgType::KEYWORD_ARG, "False", "Allows tabs to be input instead of changing widget focus." });
-        args.push_back({ mvPyDataType::Bool, "decimal", mvArgType::KEYWORD_ARG, "False", "Only allow 0123456789.+-*/" });
-        args.push_back({ mvPyDataType::Bool, "hexadecimal", mvArgType::KEYWORD_ARG, "False", "Only allow 0123456789ABCDEFabcdef" });
-        args.push_back({ mvPyDataType::Bool, "readonly", mvArgType::KEYWORD_ARG, "False", "Activates read only mode." });
-        args.push_back({ mvPyDataType::Bool, "password", mvArgType::KEYWORD_ARG, "False", "Password mode, display all characters as '*'." });
-        args.push_back({ mvPyDataType::Bool, "scientific", mvArgType::KEYWORD_ARG, "False", "Only allow 0123456789.+-*/eE (Scientific notation input)" });
+        args.push_back({ mvPyDataType::Bool, "tab_input", mvArgType::KEYWORD_ARG, "False", "Allows tabs to be input into the string value instead of changing item focus." });
+        args.push_back({ mvPyDataType::Bool, "decimal", mvArgType::KEYWORD_ARG, "False", "Only allow characters 0123456789.+-*/" });
+        args.push_back({ mvPyDataType::Bool, "hexadecimal", mvArgType::KEYWORD_ARG, "False", "Only allow characters 0123456789ABCDEFabcdef" });
+        args.push_back({ mvPyDataType::Bool, "readonly", mvArgType::KEYWORD_ARG, "False", "Activates read only mode where no text can be input but text can still be highlighted." });
+        args.push_back({ mvPyDataType::Bool, "password", mvArgType::KEYWORD_ARG, "False", "Display all input characters as '*'." });
+        args.push_back({ mvPyDataType::Bool, "scientific", mvArgType::KEYWORD_ARG, "False", "Only allow characters 0123456789.+-*/eE (Scientific notation input)" });
         args.push_back({ mvPyDataType::Bool, "on_enter", mvArgType::KEYWORD_ARG, "False", "Only runs callback on enter key press." });
 
         mvPythonParserSetup setup;
@@ -81,13 +81,13 @@ namespace Marvel {
         );
 
         args.push_back({ mvPyDataType::IntList, "default_value", mvArgType::KEYWORD_ARG, "(0, 0, 0, 0)" });
-        args.push_back({ mvPyDataType::Integer, "min_value", mvArgType::KEYWORD_ARG, "0", "Value for lower limit of input for each cell. Use clamped to turn on." });
-        args.push_back({ mvPyDataType::Integer, "max_value", mvArgType::KEYWORD_ARG, "100", "Value for upper limit of input for each cell. Use clamped to turn on." });
-        args.push_back({ mvPyDataType::Integer, "size", mvArgType::KEYWORD_ARG, "4", "Number of components." });
-        args.push_back({ mvPyDataType::Bool, "min_clamped", mvArgType::KEYWORD_ARG, "False", "Activates and deactivates min_value." });
-        args.push_back({ mvPyDataType::Bool, "max_clamped", mvArgType::KEYWORD_ARG, "False", "Activates and deactivates max_value." });
+        args.push_back({ mvPyDataType::Integer, "min_value", mvArgType::KEYWORD_ARG, "0", "Value for lower limit of input for each cell. Use min_clamped to turn on." });
+        args.push_back({ mvPyDataType::Integer, "max_value", mvArgType::KEYWORD_ARG, "100", "Value for upper limit of input for each cell. Use max_clamped to turn on." });
+        args.push_back({ mvPyDataType::Integer, "size", mvArgType::KEYWORD_ARG, "4", "Number of components displayed for input." });
+        args.push_back({ mvPyDataType::Bool, "min_clamped", mvArgType::KEYWORD_ARG, "False", "Activates and deactivates the enforcment of min_value." });
+        args.push_back({ mvPyDataType::Bool, "max_clamped", mvArgType::KEYWORD_ARG, "False", "Activates and deactivates the enforcment of max_value." });
         args.push_back({ mvPyDataType::Bool, "on_enter", mvArgType::KEYWORD_ARG, "False", "Only runs callback on enter." });
-        args.push_back({ mvPyDataType::Bool, "readonly", mvArgType::KEYWORD_ARG, "False", "Activates a read only mode for the inputs." });
+        args.push_back({ mvPyDataType::Bool, "readonly", mvArgType::KEYWORD_ARG, "False", "Activates read only mode where no text can be input but text can still be highlighted." });
 
         mvPythonParserSetup setup;
         setup.about = "Adds multi int input for up to 4 integer values.";
@@ -121,14 +121,14 @@ namespace Marvel {
         );
 
         args.push_back({ mvPyDataType::FloatList, "default_value", mvArgType::KEYWORD_ARG, "(0.0, 0.0, 0.0, 0.0)" });
-        args.push_back({ mvPyDataType::String, "format", mvArgType::KEYWORD_ARG, "'%.3f'" });
-        args.push_back({ mvPyDataType::Float, "min_value", mvArgType::KEYWORD_ARG, "0.0", "Value for lower limit of input for each cell. Use clamped to turn on." });
-        args.push_back({ mvPyDataType::Float, "max_value", mvArgType::KEYWORD_ARG, "100.0", "Value for upper limit of input for each cell. Use clamped to turn on." });
-        args.push_back({ mvPyDataType::Integer, "size", mvArgType::KEYWORD_ARG, "4", "Number of components." });
-        args.push_back({ mvPyDataType::Bool, "min_clamped", mvArgType::KEYWORD_ARG, "False", "Activates and deactivates min_value."});
-        args.push_back({ mvPyDataType::Bool, "max_clamped", mvArgType::KEYWORD_ARG, "False", "Activates and deactivates max_value."});
+        args.push_back({ mvPyDataType::String, "format", mvArgType::KEYWORD_ARG, "'%.3f'", "Determines the format the float will be displayed as use python string formatting." });
+        args.push_back({ mvPyDataType::Float, "min_value", mvArgType::KEYWORD_ARG, "0.0", "Value for lower limit of input for each cell. Use min_clamped to turn on." });
+        args.push_back({ mvPyDataType::Float, "max_value", mvArgType::KEYWORD_ARG, "100.0", "Value for upper limit of input for each cell. Use max_clamped to turn on." });
+        args.push_back({ mvPyDataType::Integer, "size", mvArgType::KEYWORD_ARG, "4", "Number of components displayed for input." });
+        args.push_back({ mvPyDataType::Bool, "min_clamped", mvArgType::KEYWORD_ARG, "False", "Activates and deactivates the enforcment of min_value." });
+        args.push_back({ mvPyDataType::Bool, "max_clamped", mvArgType::KEYWORD_ARG, "False", "Activates and deactivates the enforcment of max_value."});
         args.push_back({ mvPyDataType::Bool, "on_enter", mvArgType::KEYWORD_ARG, "False", "Only runs callback on enter key press." });
-        args.push_back({ mvPyDataType::Bool, "readonly", mvArgType::KEYWORD_ARG, "False", "Activates a read only mode for the inputs." });
+        args.push_back({ mvPyDataType::Bool, "readonly", mvArgType::KEYWORD_ARG, "False", "Activates read only mode where no text can be input but text can still be highlighted." });
 
         mvPythonParserSetup setup;
         setup.about = "Adds multi float input for up to 4 float values.";
@@ -163,17 +163,17 @@ namespace Marvel {
         );
 
         args.push_back({ mvPyDataType::Integer, "default_value", mvArgType::KEYWORD_ARG, "0" });
-        args.push_back({ mvPyDataType::Integer, "min_value", mvArgType::KEYWORD_ARG, "0", "Value for lower limit of input. By default this limits the step buttons. Use clamped to limit manual input." });
-        args.push_back({ mvPyDataType::Integer, "max_value", mvArgType::KEYWORD_ARG, "100", "Value for upper limit of input. By default this limits the step buttons. Use clamped to limit manual input." });
+        args.push_back({ mvPyDataType::Integer, "min_value", mvArgType::KEYWORD_ARG, "0", "Value for lower limit of input. By default this limits the step buttons. Use min_clamped to limit manual input." });
+        args.push_back({ mvPyDataType::Integer, "max_value", mvArgType::KEYWORD_ARG, "100", "Value for upper limit of input. By default this limits the step buttons. Use max_clamped to limit manual input." });
         args.push_back({ mvPyDataType::Integer, "step", mvArgType::KEYWORD_ARG, "1", "Increment to change value by when the step buttons are pressed. Setting this to a value of 0 or smaller will turn off step buttons." });
         args.push_back({ mvPyDataType::Integer, "step_fast", mvArgType::KEYWORD_ARG, "100", "After holding the step buttons for extended time the increments will switch to this value." });
-        args.push_back({ mvPyDataType::Bool, "min_clamped", mvArgType::KEYWORD_ARG, "False", "Activates and deactivates min_value." });
-        args.push_back({ mvPyDataType::Bool, "max_clamped", mvArgType::KEYWORD_ARG, "False", "Activates and deactivates max_value." });
+        args.push_back({ mvPyDataType::Bool, "min_clamped", mvArgType::KEYWORD_ARG, "False", "Activates and deactivates the enforcment of min_value." });
+        args.push_back({ mvPyDataType::Bool, "max_clamped", mvArgType::KEYWORD_ARG, "False", "Activates and deactivates the enforcment of max_value." });
         args.push_back({ mvPyDataType::Bool, "on_enter", mvArgType::KEYWORD_ARG, "False", "Only runs callback on enter key press." });
-        args.push_back({ mvPyDataType::Bool, "readonly", mvArgType::KEYWORD_ARG, "False", "Activates a read only mode for the input." });
+        args.push_back({ mvPyDataType::Bool, "readonly", mvArgType::KEYWORD_ARG, "False", "Activates read only mode where no text can be input but text can still be highlighted." });
 
         mvPythonParserSetup setup;
-        setup.about = "Adds input for an int.";
+        setup.about = "Adds input for an int. +/- buttons can be activated by setting the value of step.";
         setup.category = { "Widgets" };
         setup.returnType = mvPyDataType::UUID;
 
@@ -206,18 +206,18 @@ namespace Marvel {
         );
 
         args.push_back({ mvPyDataType::Float, "default_value", mvArgType::KEYWORD_ARG, "0.0" });
-        args.push_back({ mvPyDataType::String, "format", mvArgType::KEYWORD_ARG, "'%.3f'" });
-        args.push_back({ mvPyDataType::Float, "min_value", mvArgType::KEYWORD_ARG, "0.0", "Value for lower limit of input. By default this limits the step buttons. Use clamped to limit manual input." });
-        args.push_back({ mvPyDataType::Float, "max_value", mvArgType::KEYWORD_ARG, "100.0", "Value for upper limit of input. By default this limits the step buttons. Use clamped to limit manual input." });
+        args.push_back({ mvPyDataType::String, "format", mvArgType::KEYWORD_ARG, "'%.3f'", "Determines the format the float will be displayed as use python string formatting." });
+        args.push_back({ mvPyDataType::Float, "min_value", mvArgType::KEYWORD_ARG, "0.0", "Value for lower limit of input. By default this limits the step buttons. Use min_clamped to limit manual input." });
+        args.push_back({ mvPyDataType::Float, "max_value", mvArgType::KEYWORD_ARG, "100.0", "Value for upper limit of input. By default this limits the step buttons. Use max_clamped to limit manual input." });
         args.push_back({ mvPyDataType::Float, "step", mvArgType::KEYWORD_ARG, "0.1", "Increment to change value by when the step buttons are pressed. Setting this to a value of 0 or smaller will turn off step buttons." });
         args.push_back({ mvPyDataType::Float, "step_fast", mvArgType::KEYWORD_ARG, "1.0", "After holding the step buttons for extended time the increments will switch to this value." });
-        args.push_back({ mvPyDataType::Bool, "min_clamped", mvArgType::KEYWORD_ARG, "False", "Activates and deactivates min_value." });
-        args.push_back({ mvPyDataType::Bool, "max_clamped", mvArgType::KEYWORD_ARG, "False", "Activates and deactivates max_value." });
+        args.push_back({ mvPyDataType::Bool, "min_clamped", mvArgType::KEYWORD_ARG, "False", "Activates and deactivates the enforcment of min_value." });
+        args.push_back({ mvPyDataType::Bool, "max_clamped", mvArgType::KEYWORD_ARG, "False", "Activates and deactivates the enforcment of max_value." });
         args.push_back({ mvPyDataType::Bool, "on_enter", mvArgType::KEYWORD_ARG, "False", "Only runs callback on enter key press." });
-        args.push_back({ mvPyDataType::Bool, "readonly", mvArgType::KEYWORD_ARG, "False", "Activates a read only mode for the input." });
+        args.push_back({ mvPyDataType::Bool, "readonly", mvArgType::KEYWORD_ARG, "False", "Activates read only mode where no text can be input but text can still be highlighted." });
 
         mvPythonParserSetup setup;
-        setup.about = "Adds input for an float.";
+        setup.about = "Adds input for an float. +/- buttons can be activated by setting the value of step.";
         setup.category = { "Widgets" };
         setup.returnType = mvPyDataType::UUID;
 

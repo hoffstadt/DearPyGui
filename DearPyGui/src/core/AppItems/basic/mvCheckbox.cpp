@@ -31,7 +31,7 @@ namespace Marvel {
 			MV_PARSER_ARG_POS)
 		);
 
-		args.push_back({ mvPyDataType::Bool, "default_value", mvArgType::KEYWORD_ARG, "False" });
+		args.push_back({ mvPyDataType::Bool, "default_value", mvArgType::KEYWORD_ARG, "False", "Sets the default value of the checkmark"});
 
 		mvPythonParserSetup setup;
 		setup.about = "Adds a checkbox.";

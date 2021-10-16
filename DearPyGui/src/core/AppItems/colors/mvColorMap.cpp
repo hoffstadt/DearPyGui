@@ -21,12 +21,12 @@ namespace Marvel {
                 MV_PARSER_ARG_SHOW)
             );
 
-            args.push_back({ mvPyDataType::ListListInt, "colors" });
-            args.push_back({ mvPyDataType::Bool, "qualitative" });
+            args.push_back({ mvPyDataType::ListListInt, "colors", mvArgType::REQUIRED_ARG, "", "colors that will be mapped to the normalized value 0.0->1.0"});
+            args.push_back({ mvPyDataType::Bool, "qualitative", mvArgType::REQUIRED_ARG, "", "Qualitative will create hard transitions for color boundries across the value range when enabled."});
             args.push_back({ mvPyDataType::UUID, "parent", mvArgType::KEYWORD_ARG, "internal_dpg.mvReservedUUID_4", "Parent to add this item to. (runtime adding)" });
 
             mvPythonParserSetup setup;
-            setup.about = "Adds a legend that pairs values with colors. This is typically used with a heat series.";
+            setup.about = "Adds a legend that pairs colors with normalized value 0.0->1.0. Each color will be  This is typically used with a heat series. (ex. [[0, 0, 0, 255], [255, 255, 255, 255]] will be mapped to a soft transition from 0.0-1.0)";
             setup.category = { "Widgets", "Colors" };
             setup.returnType = mvPyDataType::UUID;
 
@@ -38,8 +38,8 @@ namespace Marvel {
         {
             std::vector<mvPythonDataElement> args;
 
-            args.push_back({ mvPyDataType::UUID, "item" });
-            args.push_back({ mvPyDataType::UUID, "source" });
+            args.push_back({ mvPyDataType::UUID, "item", mvArgType::REQUIRED_ARG, "", "item that the color map will be applied to"});
+            args.push_back({ mvPyDataType::UUID, "source", mvArgType::REQUIRED_ARG, "", "The colormap tag. This should come from a colormap that was added to a colormap registry.  Built in color maps are accessible through their corresponding constants mvPlotColormap_Twilight, mvPlotColormap_***" });
 
             mvPythonParserSetup setup;
             setup.about = "Sets the color map for widgets that accept it.";
@@ -53,11 +53,11 @@ namespace Marvel {
         {
             std::vector<mvPythonDataElement> args;
   
-            args.push_back({ mvPyDataType::UUID, "colormap" });
-            args.push_back({ mvPyDataType::Float, "t" });
+            args.push_back({ mvPyDataType::UUID, "colormap", mvArgType::REQUIRED_ARG, "", "The colormap tag. This should come from a colormap that was added to a colormap registry. Built in color maps are accessible through their corresponding constants mvPlotColormap_Twilight, mvPlotColormap_***" });
+            args.push_back({ mvPyDataType::Float, "t", mvArgType::REQUIRED_ARG, "", "Value of the colormap to sample between 0.0-1.0" });
 
             mvPythonParserSetup setup;
-            setup.about = "Returns a color from a colormap given t between 0 and 1. This command can only be ran once the app is started.";
+            setup.about = "Returns a color from a colormap given t between 0.0-1.0. This command can only be ran once the app is started.";
             setup.category = { "Widget Operations" };
             setup.returnType = mvPyDataType::IntList;
 
@@ -69,11 +69,11 @@ namespace Marvel {
         {
             std::vector<mvPythonDataElement> args;
 
-            args.push_back({ mvPyDataType::UUID, "colormap" });
-            args.push_back({ mvPyDataType::Integer, "index" });
+            args.push_back({ mvPyDataType::UUID, "colormap", mvArgType::REQUIRED_ARG, "", "The colormap tag. This should come from a colormap that was added to a colormap registry. Built in color maps are accessible through their corresponding constants mvPlotColormap_Twilight, mvPlotColormap_***" });
+            args.push_back({ mvPyDataType::Integer, "index", mvArgType::REQUIRED_ARG, "", "Desired position of the color in the colors list value of the colormap being quiered " });
 
             mvPythonParserSetup setup;
-            setup.about = "Returns a color from a colormap given an index >= 0 (modulo will be performed). This command can only be ran once the app is started.";
+            setup.about = "Returns a color from a colormap given an index >= 0. (ex. 0 will be the first color in the color list of the color map) Modulo will be performed against the number of items in the color list. This command can only be ran once the app is started.";
             setup.category = { "Widget Operations" };
             setup.returnType = mvPyDataType::IntList;
 

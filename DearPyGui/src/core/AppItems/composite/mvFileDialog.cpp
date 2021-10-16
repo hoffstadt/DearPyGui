@@ -32,7 +32,7 @@ namespace Marvel {
 			args.push_back({ mvPyDataType::Bool, "directory_selector", mvArgType::KEYWORD_ARG, "False", "Shows only directory/paths as options. Allows selection of directory/paths only." });
 
 			mvPythonParserSetup setup;
-			setup.about = "Displays a file or directory selector depending on keywords. Displays a file dialog by default.";
+			setup.about = "Displays a file or directory selector depending on keywords. Displays a file dialog by default. Callback will be ran when the file or directory picker is closed. The app_data arguemnt will be populated with information related to the file and directory as a dictionary.";
 			setup.category = { "Containers", "Widgets", "File Dialog" };
 			setup.returnType = mvPyDataType::UUID;
 			setup.createContextManager = true;
@@ -47,9 +47,9 @@ namespace Marvel {
 			args.push_back({ mvPyDataType::UUID, "file_dialog" });
 
 			mvPythonParserSetup setup;
-			setup.about = "Undocumented function";
+			setup.about = "Returns information related to the file dialog. Typically used while the file dialog is in use to query data about the state or info related to the file dialog.";
 			setup.category = { "Widgets", "File Dialog"};
-			setup.returnType = mvPyDataType::UUID;
+			setup.returnType = mvPyDataType::Dict;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "get_file_dialog_info", parser });

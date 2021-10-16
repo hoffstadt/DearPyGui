@@ -31,7 +31,7 @@ namespace Marvel {
 			MV_PARSER_ARG_POS)
 		);
 
-		args.push_back({ mvPyDataType::String, "overlay", mvArgType::KEYWORD_ARG, "''", "Overlayed text." });
+		args.push_back({ mvPyDataType::String, "overlay", mvArgType::KEYWORD_ARG, "''", "Overlayed text onto the bar that typically used to display the value of the progress." });
 		args.push_back({ mvPyDataType::Float, "default_value", mvArgType::KEYWORD_ARG, "0.0", "Normalized value to fill the bar from 0.0 to 1.0." });
 
 		mvPythonParserSetup setup;
