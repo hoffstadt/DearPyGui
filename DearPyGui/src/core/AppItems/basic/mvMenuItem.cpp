@@ -26,12 +26,12 @@ namespace Marvel {
 			MV_PARSER_ARG_ENABLED)
 		);
 		args.push_back({ mvPyDataType::Callable, "drag_callback", mvArgType::DEPRECATED_REMOVE_KEYWORD_ARG });
-		args.push_back({ mvPyDataType::Bool, "default_value", mvArgType::KEYWORD_ARG, "False"});
+		args.push_back({ mvPyDataType::Bool, "default_value", mvArgType::KEYWORD_ARG, "False", "This value also controls the checkmark when shown."});
 		args.push_back({ mvPyDataType::String, "shortcut", mvArgType::KEYWORD_ARG, "''", "Displays text on the menu item. Typically used to show a shortcut key command." });
-		args.push_back({ mvPyDataType::Bool, "check", mvArgType::KEYWORD_ARG, "False", "Displays a checkmark on the menu item when it is selected." });
+		args.push_back({ mvPyDataType::Bool, "check", mvArgType::KEYWORD_ARG, "False", "Displays a checkmark on the menu item when it is selected and placed in a menu." });
 
 		mvPythonParserSetup setup;
-		setup.about = "Adds a menu item to an existing menu. Menu items act similar to selectables.";
+		setup.about = "Adds a menu item to an existing menu. Menu items act similar to selectables and has a bool value. When placed in a menu the checkmark will reflect its value.";
 		setup.category = { "Widgets" };
 		setup.returnType = mvPyDataType::UUID;
 

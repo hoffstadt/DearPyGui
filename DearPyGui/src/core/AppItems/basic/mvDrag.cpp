@@ -34,9 +34,9 @@ namespace Marvel {
         );
 
         args.push_back({ mvPyDataType::FloatList, "default_value", mvArgType::KEYWORD_ARG, "(0.0, 0.0, 0.0, 0.0)" });
-        args.push_back({ mvPyDataType::Integer, "size", mvArgType::KEYWORD_ARG, "4", "Number of components" });
-        args.push_back({ mvPyDataType::String, "format", mvArgType::KEYWORD_ARG, "'%0.3f'" });
-        args.push_back({ mvPyDataType::Float, "speed", mvArgType::KEYWORD_ARG, "1.0" });
+        args.push_back({ mvPyDataType::Integer, "size", mvArgType::KEYWORD_ARG, "4", "Number of floats to be displayed." });
+        args.push_back({ mvPyDataType::String, "format", mvArgType::KEYWORD_ARG, "'%0.3f'", "Determines the format the float will be displayed as use python string formatting."});
+        args.push_back({ mvPyDataType::Float, "speed", mvArgType::KEYWORD_ARG, "1.0", "Sets the sensitivity the float will be modified while dragging."});
         args.push_back({ mvPyDataType::Float, "min_value", mvArgType::KEYWORD_ARG, "0.0", "Applies a limit only to draging entry only." });
         args.push_back({ mvPyDataType::Float, "max_value", mvArgType::KEYWORD_ARG, "100.0", "Applies a limit only to draging entry only." });
         args.push_back({ mvPyDataType::Bool, "no_input", mvArgType::KEYWORD_ARG, "False", "Disable direct entry methods or Enter key allowing to input text directly into the widget." });
@@ -74,9 +74,9 @@ namespace Marvel {
         );
 
         args.push_back({ mvPyDataType::IntList, "default_value", mvArgType::KEYWORD_ARG, "(0, 0, 0, 0)" });
-        args.push_back({ mvPyDataType::Integer, "size", mvArgType::KEYWORD_ARG, "4", "Number of components." });
-        args.push_back({ mvPyDataType::String, "format", mvArgType::KEYWORD_ARG, "'%d'" });
-        args.push_back({ mvPyDataType::Float, "speed", mvArgType::KEYWORD_ARG, "1.0" });
+        args.push_back({ mvPyDataType::Integer, "size", mvArgType::KEYWORD_ARG, "4", "Number of ints to be displayed."});
+        args.push_back({ mvPyDataType::String, "format", mvArgType::KEYWORD_ARG, "'%d'", "Determines the format the int will be displayed as use python string formatting."});
+        args.push_back({ mvPyDataType::Float, "speed", mvArgType::KEYWORD_ARG, "1.0", "Sets the sensitivity the float will be modified while dragging."});
         args.push_back({ mvPyDataType::Integer, "min_value", mvArgType::KEYWORD_ARG, "0", "Applies a limit only to draging entry only." });
         args.push_back({ mvPyDataType::Integer, "max_value", mvArgType::KEYWORD_ARG, "100", "Applies a limit only to draging entry only." });
         args.push_back({ mvPyDataType::Bool, "no_input", mvArgType::KEYWORD_ARG, "False", "Disable direct entry methods or Enter key allowing to input text directly into the widget." });
@@ -114,8 +114,8 @@ namespace Marvel {
         );
 
         args.push_back({ mvPyDataType::Float, "default_value", mvArgType::KEYWORD_ARG, "0.0" });
-        args.push_back({ mvPyDataType::String, "format", mvArgType::KEYWORD_ARG, "'%0.3f'" });
-        args.push_back({ mvPyDataType::Float, "speed", mvArgType::KEYWORD_ARG, "1.0" });
+        args.push_back({ mvPyDataType::String, "format", mvArgType::KEYWORD_ARG, "'%0.3f'", "Determines the format the float will be displayed as use python string formatting."});
+        args.push_back({ mvPyDataType::Float, "speed", mvArgType::KEYWORD_ARG, "1.0", "Sets the sensitivity the float will be modified while dragging." });
         args.push_back({ mvPyDataType::Float, "min_value", mvArgType::KEYWORD_ARG, "0.0", "Applies a limit only to draging entry only." });
         args.push_back({ mvPyDataType::Float, "max_value", mvArgType::KEYWORD_ARG, "100.0", "Applies a limit only to draging entry only." });
         args.push_back({ mvPyDataType::Bool, "no_input", mvArgType::KEYWORD_ARG, "False", "Disable direct entry methods or Enter key allowing to input text directly into the widget." });
@@ -153,8 +153,8 @@ namespace Marvel {
         );
 
         args.push_back({ mvPyDataType::Integer, "default_value", mvArgType::KEYWORD_ARG, "0" });
-        args.push_back({ mvPyDataType::String, "format", mvArgType::KEYWORD_ARG, "'%d'" });
-        args.push_back({ mvPyDataType::Float, "speed", mvArgType::KEYWORD_ARG, "1.0" });
+        args.push_back({ mvPyDataType::String, "format", mvArgType::KEYWORD_ARG, "'%d'", "Determines the format the float will be displayed as use python string formatting." });
+        args.push_back({ mvPyDataType::Float, "speed", mvArgType::KEYWORD_ARG, "1.0", "Sets the sensitivity the float will be modified while dragging." });
         args.push_back({ mvPyDataType::Integer, "min_value", mvArgType::KEYWORD_ARG, "0", "Applies a limit only to draging entry only." });
         args.push_back({ mvPyDataType::Integer, "max_value", mvArgType::KEYWORD_ARG, "100", "Applies a limit only to draging entry only." });
         args.push_back({ mvPyDataType::Bool, "no_input", mvArgType::KEYWORD_ARG, "False", "Disable direct entry methods or Enter key allowing to input text directly into the widget." });

@@ -31,15 +31,15 @@ namespace Marvel {
 			MV_PARSER_ARG_POS)
 		);
 
-		args.push_back({ mvPyDataType::StringList, "items", mvArgType::POSITIONAL_ARG, "()", "A tuple of items to be shown in the drop down window. Can consist of any combination of types." });
-		args.push_back({ mvPyDataType::String, "default_value", mvArgType::KEYWORD_ARG, "''" });
-		args.push_back({ mvPyDataType::Bool, "popup_align_left", mvArgType::KEYWORD_ARG, "False", "Align the popup toward the left." });
-		args.push_back({ mvPyDataType::Bool, "no_arrow_button", mvArgType::KEYWORD_ARG, "False", "Display the preview box without the square arrow button." });
-		args.push_back({ mvPyDataType::Bool, "no_preview", mvArgType::KEYWORD_ARG, "False", "Display only the square arrow button." });
-		args.push_back({ mvPyDataType::Long, "height_mode", mvArgType::KEYWORD_ARG, "1", "mvComboHeight_Small, _Regular, _Large, _Largest" });
+		args.push_back({ mvPyDataType::StringList, "items", mvArgType::POSITIONAL_ARG, "()", "A tuple of items to be shown in the drop down window. Can consist of any combination of types but will convert all items to strings to be shown." });
+		args.push_back({ mvPyDataType::String, "default_value", mvArgType::KEYWORD_ARG, "''", "Sets a selected item from the drop down by specifying the string value."});
+		args.push_back({ mvPyDataType::Bool, "popup_align_left", mvArgType::KEYWORD_ARG, "False", "Align the contents on the popup toward the left." });
+		args.push_back({ mvPyDataType::Bool, "no_arrow_button", mvArgType::KEYWORD_ARG, "False", "Display the preview box without the square arrow button indicating dropdown activity." });
+		args.push_back({ mvPyDataType::Bool, "no_preview", mvArgType::KEYWORD_ARG, "False", "Display only the square arrow button and not the selected value." });
+		args.push_back({ mvPyDataType::Long, "height_mode", mvArgType::KEYWORD_ARG, "1", "Controlls the number of items shown in the dropdown by the constants mvComboHeight_Small, mvComboHeight_Regular, mvComboHeight_Large, mvComboHeight_Largest" });
 
 		mvPythonParserSetup setup;
-		setup.about = "Adds a combo dropdown that allows a user to select a single option from a drop down window.";
+		setup.about = "Adds a combo dropdown that allows a user to select a single option from a drop down window. All items will be shown as selectables on the dropdown.";
 		setup.category = { "Widgets" };
 		setup.returnType = mvPyDataType::UUID;
 

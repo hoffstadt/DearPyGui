@@ -17,7 +17,7 @@ namespace Marvel {
 		);
 
 		mvPythonParserSetup setup;
-		setup.about = "Adds a horizontal separator.";
+		setup.about = "Adds a horizontal line separator.";
 		setup.category = { "Widgets" };
 		setup.returnType = mvPyDataType::UUID;
 

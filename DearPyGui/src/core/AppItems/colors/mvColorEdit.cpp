@@ -33,14 +33,14 @@ namespace Marvel {
 		);
 
 		args.push_back({ mvPyDataType::IntList, "default_value", mvArgType::POSITIONAL_ARG, "(0, 0, 0, 255)"});
-		args.push_back({ mvPyDataType::Bool, "no_alpha", mvArgType::KEYWORD_ARG, "False", "Disable Alpha component." });
+		args.push_back({ mvPyDataType::Bool, "no_alpha", mvArgType::KEYWORD_ARG, "False", "Removes the displayed slider that can change alpha channel." });
 		args.push_back({ mvPyDataType::Bool, "no_picker", mvArgType::KEYWORD_ARG, "False", "Disable picker popup when color square is clicked." });
 		args.push_back({ mvPyDataType::Bool, "no_options", mvArgType::KEYWORD_ARG, "False", "Disable toggling options menu when right-clicking on inputs/small preview." });
 		args.push_back({ mvPyDataType::Bool, "no_small_preview", mvArgType::KEYWORD_ARG, "False", "Disable colored square preview next to the inputs. (e.g. to show only the inputs). This only displays if the side preview is not shown." });
 		args.push_back({ mvPyDataType::Bool, "no_inputs", mvArgType::KEYWORD_ARG, "False", "Disable inputs sliders/text widgets. (e.g. to show only the small preview colored square)" });
 		args.push_back({ mvPyDataType::Bool, "no_tooltip", mvArgType::KEYWORD_ARG, "False", "Disable tooltip when hovering the preview." });
 		args.push_back({ mvPyDataType::Bool, "no_label", mvArgType::KEYWORD_ARG, "False", "Disable display of inline text label." });
-		args.push_back({ mvPyDataType::Bool, "no_drag_drop", mvArgType::KEYWORD_ARG, "False", "Disable ability to drag and drop small preview (color square) to apply colors." });
+		args.push_back({ mvPyDataType::Bool, "no_drag_drop", mvArgType::KEYWORD_ARG, "False", "Disable ability to drag and drop small preview (color square) to apply colors to other items." });
 		args.push_back({ mvPyDataType::Bool, "alpha_bar", mvArgType::KEYWORD_ARG, "False", "Show vertical alpha bar/gradient in picker." });
 		args.push_back({ mvPyDataType::Long, "alpha_preview", mvArgType::KEYWORD_ARG, "0", "mvColorEdit_AlphaPreviewNone, mvColorEdit_AlphaPreview, or mvColorEdit_AlphaPreviewHalf" });
 		args.push_back({ mvPyDataType::Long, "display_mode", mvArgType::KEYWORD_ARG, "1048576", "mvColorEdit_rgb, mvColorEdit_hsv, or mvColorEdit_hex" });
@@ -48,7 +48,7 @@ namespace Marvel {
 		args.push_back({ mvPyDataType::Long, "input_mode", mvArgType::KEYWORD_ARG, "134217728", "mvColorEdit_input_rgb or mvColorEdit_input_hsv" });
 
 		mvPythonParserSetup setup;
-		setup.about = "Adds an RGBA color editor. Click the small color preview will provide a color picker. Click and draging the small color preview will copy the color to be applied on any other color widget.";
+		setup.about = "Adds an RGBA color editor. Left clicking the small color preview will provide a color picker. Click and draging the small color preview will copy the color to be applied on any other color widget.";
 		setup.category = { "Widgets", "Colors" };
 		setup.returnType = mvPyDataType::UUID;
 

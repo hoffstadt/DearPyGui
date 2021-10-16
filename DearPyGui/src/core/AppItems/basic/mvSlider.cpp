@@ -35,12 +35,12 @@ namespace Marvel {
         );
 
         args.push_back({ mvPyDataType::FloatList, "default_value", mvArgType::KEYWORD_ARG, "(0.0, 0.0, 0.0, 0.0)" });
-        args.push_back({ mvPyDataType::Integer, "size", mvArgType::KEYWORD_ARG, "4", "Number of components." });
-        args.push_back({ mvPyDataType::Bool, "no_input", mvArgType::KEYWORD_ARG, "False", "Disable direct entry methods or Enter key allowing to input text directly into the widget." });
+        args.push_back({ mvPyDataType::Integer, "size", mvArgType::KEYWORD_ARG, "4", "Number of floats to be displayed." });
+        args.push_back({ mvPyDataType::Bool, "no_input", mvArgType::KEYWORD_ARG, "False", "Disable direct entry methods double-click or ctrl+click or Enter key allowing to input text directly into the item." });
         args.push_back({ mvPyDataType::Bool, "clamped", mvArgType::KEYWORD_ARG, "False", "Applies the min and max limits to direct entry methods also such as double click and CTRL+Click." });
         args.push_back({ mvPyDataType::Float, "min_value", mvArgType::KEYWORD_ARG, "0.0", "Applies a limit only to sliding entry only." });
         args.push_back({ mvPyDataType::Float, "max_value", mvArgType::KEYWORD_ARG, "100.0", "Applies a limit only to sliding entry only." });
-        args.push_back({ mvPyDataType::String, "format", mvArgType::KEYWORD_ARG, "'%.3f'" });
+        args.push_back({ mvPyDataType::String, "format", mvArgType::KEYWORD_ARG, "'%.3f'", "Determines the format the int will be displayed as use python string formatting." });
 
         mvPythonParserSetup setup;
         setup.about = "Adds multi slider for up to 4 float values. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the slider. Use clamped keyword to also apply limits to the direct entry modes.";
@@ -75,12 +75,12 @@ namespace Marvel {
         );
 
         args.push_back({ mvPyDataType::IntList, "default_value", mvArgType::KEYWORD_ARG, "(0, 0, 0, 0)" });
-        args.push_back({ mvPyDataType::Integer, "size", mvArgType::KEYWORD_ARG, "4", "number of components" });
-        args.push_back({ mvPyDataType::Bool, "no_input", mvArgType::KEYWORD_ARG, "False", "Disable direct entry methods or Enter key allowing to input text directly into the widget." });
+        args.push_back({ mvPyDataType::Integer, "size", mvArgType::KEYWORD_ARG, "4", "Number of ints to be displayed." });
+        args.push_back({ mvPyDataType::Bool, "no_input", mvArgType::KEYWORD_ARG, "False", "Disable direct entry methods double-click or ctrl+click or Enter key allowing to input text directly into the item."  });
         args.push_back({ mvPyDataType::Bool, "clamped", mvArgType::KEYWORD_ARG, "False", "Applies the min and max limits to direct entry methods also such as double click and CTRL+Click." });
         args.push_back({ mvPyDataType::Integer, "min_value", mvArgType::KEYWORD_ARG, "0", "Applies a limit only to sliding entry only." });
         args.push_back({ mvPyDataType::Integer, "max_value", mvArgType::KEYWORD_ARG, "100", "Applies a limit only to sliding entry only." });
-        args.push_back({ mvPyDataType::String, "format", mvArgType::KEYWORD_ARG, "'%d'" });
+        args.push_back({ mvPyDataType::String, "format", mvArgType::KEYWORD_ARG, "'%d'", "Determines the format the int will be displayed as use python string formatting." });
 
         mvPythonParserSetup setup;
         setup.about = "Adds multi slider for up to 4 int values. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the slider. Use clamped keyword to also apply limits to the direct entry modes.";
@@ -117,12 +117,12 @@ namespace Marvel {
         );
 
         args.push_back({ mvPyDataType::Float, "default_value", mvArgType::KEYWORD_ARG, "0.0" });
-        args.push_back({ mvPyDataType::Bool, "vertical", mvArgType::KEYWORD_ARG, "False", "Sets orientation to vertical." });
-        args.push_back({ mvPyDataType::Bool, "no_input", mvArgType::KEYWORD_ARG, "False", "Disable direct entry methods or Enter key allowing to input text directly into the widget." });
+        args.push_back({ mvPyDataType::Bool, "vertical", mvArgType::KEYWORD_ARG, "False", "Sets orientation of the slidebar and slider to vertical." });
+        args.push_back({ mvPyDataType::Bool, "no_input", mvArgType::KEYWORD_ARG, "False", "Disable direct entry methods double-click or ctrl+click or Enter key allowing to input text directly into the item." });
         args.push_back({ mvPyDataType::Bool, "clamped", mvArgType::KEYWORD_ARG, "False", "Applies the min and max limits to direct entry methods also such as double click and CTRL+Click." });
         args.push_back({ mvPyDataType::Float, "min_value", mvArgType::KEYWORD_ARG, "0.0", "Applies a limit only to sliding entry only." });
         args.push_back({ mvPyDataType::Float, "max_value", mvArgType::KEYWORD_ARG, "100.0", "Applies a limit only to sliding entry only." });
-        args.push_back({ mvPyDataType::String, "format", mvArgType::KEYWORD_ARG, "'%.3f'" });
+        args.push_back({ mvPyDataType::String, "format", mvArgType::KEYWORD_ARG, "'%.3f'", "Determines the format the float will be displayed as use python string formatting." });
 
         mvPythonParserSetup setup;
         setup.about = "Adds slider for a single float value. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the slider. Use clamped keyword to also apply limits to the direct entry modes.";
@@ -159,12 +159,12 @@ namespace Marvel {
         );
 
         args.push_back({ mvPyDataType::Integer, "default_value", mvArgType::KEYWORD_ARG, "0" });
-        args.push_back({ mvPyDataType::Bool, "vertical", mvArgType::KEYWORD_ARG, "False", "Sets orientation to vertical." });
-        args.push_back({ mvPyDataType::Bool, "no_input", mvArgType::KEYWORD_ARG, "False", "Disable direct entry methods or Enter key allowing to input text directly into the widget." });
+        args.push_back({ mvPyDataType::Bool, "vertical", mvArgType::KEYWORD_ARG, "False", "Sets orientation of the slidebar and slider to vertical." });
+        args.push_back({ mvPyDataType::Bool, "no_input", mvArgType::KEYWORD_ARG, "False", "Disable direct entry methods double-click or ctrl+click or Enter key allowing to input text directly into the item." });
         args.push_back({ mvPyDataType::Bool, "clamped", mvArgType::KEYWORD_ARG, "False", "Applies the min and max limits to direct entry methods also such as double click and CTRL+Click." });
         args.push_back({ mvPyDataType::Integer, "min_value", mvArgType::KEYWORD_ARG, "0", "Applies a limit only to sliding entry only." });
         args.push_back({ mvPyDataType::Integer, "max_value", mvArgType::KEYWORD_ARG, "100", "Applies a limit only to sliding entry only." });
-        args.push_back({ mvPyDataType::String, "format", mvArgType::KEYWORD_ARG, "'%d'" });
+        args.push_back({ mvPyDataType::String, "format", mvArgType::KEYWORD_ARG, "'%d'", "Determines the format the int will be displayed as use python string formatting." });
 
         mvPythonParserSetup setup;
         setup.about = "Adds slider for a single int value. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the slider. Use clamped keyword to also apply limits to the direct entry modes.";

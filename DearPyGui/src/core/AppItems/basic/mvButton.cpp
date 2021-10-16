@@ -33,9 +33,9 @@ namespace Marvel {
 			MV_PARSER_ARG_POS)
 			);
 
-		args.push_back({ mvPyDataType::Bool, "small", mvArgType::KEYWORD_ARG, "False", "Small button, useful for embedding in text." });
-		args.push_back({ mvPyDataType::Bool, "arrow", mvArgType::KEYWORD_ARG, "False", "Arrow button, requires the direction keyword." });
-		args.push_back({ mvPyDataType::Integer, "direction", mvArgType::KEYWORD_ARG, "0", "A cardinal direction for arrow." });
+		args.push_back({ mvPyDataType::Bool, "small", mvArgType::KEYWORD_ARG, "False", "Shrinks the size of the button to the text of the label it contains. Useful for embedding in text." });
+		args.push_back({ mvPyDataType::Bool, "arrow", mvArgType::KEYWORD_ARG, "False", "Displays an arrow in place of the text string. This requires the direction keyword." });
+		args.push_back({ mvPyDataType::Integer, "direction", mvArgType::KEYWORD_ARG, "0", "Sets the cardinal direction for the arrow buy using constants mvDir_Left, mvDir_Up, mvDir_Down, mvDir_Right, mvDir_None. Arrow keyword must be set to True." });
 
 		mvPythonParserSetup setup;
 		setup.about = "Adds a button.";

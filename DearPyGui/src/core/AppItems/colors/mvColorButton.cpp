@@ -32,9 +32,9 @@ namespace Marvel {
 		);
 
 		args.push_back({ mvPyDataType::IntList, "default_value", mvArgType::POSITIONAL_ARG, "(0, 0, 0, 255)" });
-		args.push_back({ mvPyDataType::Bool, "no_alpha", mvArgType::KEYWORD_ARG, "False", "Ignore Alpha component." });
+		args.push_back({ mvPyDataType::Bool, "no_alpha", mvArgType::KEYWORD_ARG, "False", "Removes the displayed slider that can change alpha channel." });
 		args.push_back({ mvPyDataType::Bool, "no_border", mvArgType::KEYWORD_ARG, "False", "Disable border around the image." });
-		args.push_back({ mvPyDataType::Bool, "no_drag_drop", mvArgType::KEYWORD_ARG, "False", "Disable display of inline text label." });
+		args.push_back({ mvPyDataType::Bool, "no_drag_drop", mvArgType::KEYWORD_ARG, "False", "Disable ability to drag and drop small preview (color square) to apply colors to other items." });
 
 		mvPythonParserSetup setup;
 		setup.about = "Adds a color button.";

@@ -31,12 +31,12 @@ namespace Marvel {
             MV_PARSER_ARG_POS)
         );
 
-        args.push_back({ mvPyDataType::StringList, "items", mvArgType::POSITIONAL_ARG, "()", "A tuple of items to be shown in the listbox. Can consist of any combination of types." });
-        args.push_back({ mvPyDataType::String, "default_value", mvArgType::KEYWORD_ARG, "''" });
+        args.push_back({ mvPyDataType::StringList, "items", mvArgType::POSITIONAL_ARG, "()", "A tuple of items to be shown in the listbox. Can consist of any combination of types. All items will be displayed as strings." });
+        args.push_back({ mvPyDataType::String, "default_value", mvArgType::KEYWORD_ARG, "''", "String value fo the item that will be selected by default."});
         args.push_back({ mvPyDataType::Integer, "num_items", mvArgType::KEYWORD_ARG, "3", "Expands the height of the listbox to show specified number of items." });
 
         mvPythonParserSetup setup;
-        setup.about = "Adds a listbox. If height is not large enought to show all items a scroll bar will appear.";
+        setup.about = "Adds a listbox. If height is not large enough to show all items a scroll bar will appear.";
         setup.category = { "Widgets" };
         setup.returnType = mvPyDataType::UUID;
 

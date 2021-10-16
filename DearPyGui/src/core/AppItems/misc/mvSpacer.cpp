@@ -19,7 +19,7 @@ namespace Marvel {
         );
 
         mvPythonParserSetup setup;
-        setup.about = "Adds a spacer.";
+        setup.about = "Adds a spacer item that can be used to help with layouts or can be used as a placeholder item.";
         setup.category = { "Widgets" };
         setup.returnType = mvPyDataType::UUID;
 

@@ -33,7 +33,7 @@ namespace Marvel {
 		);
 
 		args.push_back({ mvPyDataType::IntList, "default_value", mvArgType::POSITIONAL_ARG, "(0, 0, 0, 255)" });
-		args.push_back({ mvPyDataType::Bool, "no_alpha", mvArgType::KEYWORD_ARG, "False", "Ignore Alpha component." });
+		args.push_back({ mvPyDataType::Bool, "no_alpha", mvArgType::KEYWORD_ARG, "False", "Removes the displayed slider that can change alpha channel." });
 		args.push_back({ mvPyDataType::Bool, "no_side_preview", mvArgType::KEYWORD_ARG, "False", "Disable bigger color preview on right side of the picker, use small colored square preview instead , unless small preview is also hidden." });
 		args.push_back({ mvPyDataType::Bool, "no_small_preview", mvArgType::KEYWORD_ARG, "False", "Disable colored square preview next to the inputs. (e.g. to show only the inputs). This only displays if the side preview is not shown." });
 		args.push_back({ mvPyDataType::Bool, "no_inputs", mvArgType::KEYWORD_ARG, "False", "Disable inputs sliders/text widgets. (e.g. to show only the small preview colored square)" });

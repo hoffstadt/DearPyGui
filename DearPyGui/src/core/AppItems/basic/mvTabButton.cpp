@@ -27,7 +27,7 @@ namespace Marvel {
 			MV_PARSER_ARG_SHOW)
 		);
 
-		args.push_back({ mvPyDataType::Bool, "no_reorder", mvArgType::KEYWORD_ARG, "False", "Disable reordering this tab or having another tab cross over this tab." });
+		args.push_back({ mvPyDataType::Bool, "no_reorder", mvArgType::KEYWORD_ARG, "False", "Disable reordering this tab or having another tab cross over this tab. Fixes the position of this tab in relation to the order of neighboring tabs at start. " });
 		args.push_back({ mvPyDataType::Bool, "leading", mvArgType::KEYWORD_ARG, "False", "Enforce the tab position to the left of the tab bar (after the tab list popup button)." });
 		args.push_back({ mvPyDataType::Bool, "trailing", mvArgType::KEYWORD_ARG, "False", "Enforce the tab position to the right of the tab bar (before the scrolling buttons)." });
 		args.push_back({ mvPyDataType::Bool, "no_tooltip", mvArgType::KEYWORD_ARG, "False", "Disable tooltip for the given tab." });

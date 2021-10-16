@@ -33,7 +33,7 @@ namespace Marvel {
 		args.push_back({ mvPyDataType::Float, "default_value", mvArgType::KEYWORD_ARG, "0.0" });
 
 		mvPythonParserSetup setup;
-		setup.about = "Adds a color button.";
+		setup.about = "Adds a color slider that a color map can be bound to.";
 		setup.category = { "Widgets", "Colors" };
 		setup.returnType = mvPyDataType::UUID;
 

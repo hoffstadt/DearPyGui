@@ -33,10 +33,10 @@ namespace Marvel {
 		);
 
 		args.push_back({ mvPyDataType::Bool, "default_value", mvArgType::KEYWORD_ARG, "False" });
-		args.push_back({ mvPyDataType::Bool, "span_columns", mvArgType::KEYWORD_ARG, "False", "Span the width of all columns if placed in a table." });
+		args.push_back({ mvPyDataType::Bool, "span_columns", mvArgType::KEYWORD_ARG, "False", "Forces the selectable to span the width of all columns if placed in a table." });
 
 		mvPythonParserSetup setup;
-		setup.about = "Adds a selectable.";
+		setup.about = "Adds a selectable. Similar to a button but can indicate its selected state.";
 		setup.category = { "Widgets" };
 		setup.returnType = mvPyDataType::UUID;
 
