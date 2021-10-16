@@ -7939,15 +7939,16 @@ def get_values(items : Union[List[int], Tuple[int, ...]], **kwargs) -> Any:
 
 	return internal_dpg.get_values(items, **kwargs)
 
-def get_viewport_configuration(**kwargs) -> dict:
+def get_viewport_configuration(item : Union[int, str], **kwargs) -> dict:
 	"""	 Returns a viewport's configuration.
 
 	Args:
+		item (Union[int, str]): 
 	Returns:
 		dict
 	"""
 
-	return internal_dpg.get_viewport_configuration(**kwargs)
+	return internal_dpg.get_viewport_configuration(item, **kwargs)
 
 def get_windows(**kwargs) -> Union[List[int], Tuple[int, ...]]:
 	"""	 Returns all windows.

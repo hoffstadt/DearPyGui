@@ -638,7 +638,7 @@ def configure_item(item : Union[int, str], **kwargs) -> None:
 	"""Configures an item."""
 	...
 
-def configure_viewport(**kwargs) -> None:
+def configure_viewport(item : Union[int, str], **kwargs) -> None:
 	"""Configures a viewport."""
 	...
 
@@ -842,7 +842,7 @@ def get_values(items : Union[List[int], Tuple[int, ...]]) -> Any:
 	"""Returns values of a list of items."""
 	...
 
-def get_viewport_configuration() -> dict:
+def get_viewport_configuration(item : Union[int, str]) -> dict:
 	"""Returns a viewport's configuration."""
 	...
 

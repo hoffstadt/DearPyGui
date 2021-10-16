@@ -7109,15 +7109,16 @@ def get_values(items):
 
 	return internal_dpg.get_values(items)
 
-def get_viewport_configuration():
+def get_viewport_configuration(item):
 	"""	 Returns a viewport's configuration.
 
 	Args:
+		item (Union[int, str]): 
 	Returns:
 		dict
 	"""
 
-	return internal_dpg.get_viewport_configuration()
+	return internal_dpg.get_viewport_configuration(item)
 
 def get_windows():
 	"""	 Returns all windows.

@@ -58,6 +58,7 @@ namespace Marvel {
 
         {
             std::vector<mvPythonDataElement> args;
+            args.push_back({ mvPyDataType::UUID, "item" });
 
             mvPythonParserSetup setup;
             setup.about = "Configures a viewport.";
@@ -71,6 +72,7 @@ namespace Marvel {
 
         {
             std::vector<mvPythonDataElement> args;
+            args.push_back({ mvPyDataType::UUID, "item" });
 
             mvPythonParserSetup setup;
             setup.about = "Returns a viewport's configuration.";
