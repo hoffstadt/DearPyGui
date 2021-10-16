@@ -63,7 +63,7 @@ def add_color_button(default_value : Union[List[int], Tuple[int, ...]] ='', *, l
 	...
 
 def add_color_edit(default_value : Union[List[int], Tuple[int, ...]] ='', *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', no_alpha: bool ='', no_picker: bool ='', no_options: bool ='', no_small_preview: bool ='', no_inputs: bool ='', no_tooltip: bool ='', no_label: bool ='', no_drag_drop: bool ='', alpha_bar: bool ='', alpha_preview: int ='', display_mode: int ='', display_type: int ='', input_mode: int ='') -> Union[int, str]:
-	"""Adds an RGBA color editor. Click the small color preview will provide a color picker. Click and draging the small color preview will copy the color to be applied on any other color widget."""
+	"""Adds an RGBA color editor. Left clicking the small color preview will provide a color picker. Click and draging the small color preview will copy the color to be applied on any other color widget."""
 	...
 
 def add_color_picker(default_value : Union[List[int], Tuple[int, ...]] ='', *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', no_alpha: bool ='', no_side_preview: bool ='', no_small_preview: bool ='', no_inputs: bool ='', no_tooltip: bool ='', no_label: bool ='', alpha_bar: bool ='', display_rgb: bool ='', display_hsv: bool ='', display_hex: bool ='', picker_mode: int ='', alpha_preview: int ='', display_type: int ='', input_mode: int ='') -> Union[int, str]:
@@ -75,11 +75,11 @@ def add_color_value(*, label: str ='', user_data: Any ='', use_internal_label: b
 	...
 
 def add_colormap(colors : List[List[int]], qualitative : bool, *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', show: bool ='', parent: Union[int, str] ='') -> Union[int, str]:
-	"""Adds a legend that pairs values with colors. This is typically used with a heat series."""
+	"""Adds a legend that pairs colors with normalized value 0.0->1.0. Each color will be  This is typically used with a heat series. (ex. [[0, 0, 0, 255], [255, 255, 255, 255]] will be mapped to a soft transition from 0.0-1.0)"""
 	...
 
-def add_colormap_button(default_value : Union[List[int], Tuple[int, ...]] ='', *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', no_alpha: bool ='', no_border: bool ='', no_drag_drop: bool ='') -> Union[int, str]:
-	"""Adds a color button."""
+def add_colormap_button(default_value : Union[List[int], Tuple[int, ...]] ='', *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='') -> Union[int, str]:
+	"""Adds a button that a color map can be bound to."""
 	...
 
 def add_colormap_registry(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', show: bool ='') -> Union[int, str]:
@@ -91,11 +91,11 @@ def add_colormap_scale(*, label: str ='', user_data: Any ='', use_internal_label
 	...
 
 def add_colormap_slider(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drop_callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: float ='') -> Union[int, str]:
-	"""Adds a color button."""
+	"""Adds a color slider that a color map can be bound to."""
 	...
 
 def add_combo(items : Union[List[str], Tuple[str, ...]] ='', *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: str ='', popup_align_left: bool ='', no_arrow_button: bool ='', no_preview: bool ='', height_mode: int ='') -> Union[int, str]:
-	"""Adds a combo dropdown that allows a user to select a single option from a drop down window."""
+	"""Adds a combo dropdown that allows a user to select a single option from a drop down window. All items will be shown as selectables on the dropdown."""
 	...
 
 def add_date_picker(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: dict ='', level: int ='') -> Union[int, str]:
@@ -155,7 +155,7 @@ def add_error_series(x : Union[List[float], Tuple[float, ...]], y : Union[List[f
 	...
 
 def add_file_dialog(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', callback: Callable ='', show: bool ='', default_path: str ='', default_filename: str ='', file_count: int ='', modal: bool ='', directory_selector: bool ='') -> Union[int, str]:
-	"""Displays a file or directory selector depending on keywords. Displays a file dialog by default."""
+	"""Displays a file or directory selector depending on keywords. Displays a file dialog by default. Callback will be ran when the file or directory picker is closed. The app_data arguemnt will be populated with information related to the file and directory as a dictionary."""
 	...
 
 def add_file_extension(extension : str, *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', custom_text: str ='', color: Union[List[float], Tuple[float, ...]] ='') -> Union[int, str]:
@@ -231,7 +231,7 @@ def add_image_series(texture_tag : Union[int, str], bounds_min : Union[List[floa
 	...
 
 def add_input_float(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: float ='', format: str ='', min_value: float ='', max_value: float ='', step: float ='', step_fast: float ='', min_clamped: bool ='', max_clamped: bool ='', on_enter: bool ='', readonly: bool ='') -> Union[int, str]:
-	"""Adds input for an float."""
+	"""Adds input for an float. +/- buttons can be activated by setting the value of step."""
 	...
 
 def add_input_floatx(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: Union[List[float], Tuple[float, ...]] ='', format: str ='', min_value: float ='', max_value: float ='', size: int ='', min_clamped: bool ='', max_clamped: bool ='', on_enter: bool ='', readonly: bool ='') -> Union[int, str]:
@@ -239,7 +239,7 @@ def add_input_floatx(*, label: str ='', user_data: Any ='', use_internal_label: 
 	...
 
 def add_input_int(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: int ='', min_value: int ='', max_value: int ='', step: int ='', step_fast: int ='', min_clamped: bool ='', max_clamped: bool ='', on_enter: bool ='', readonly: bool ='') -> Union[int, str]:
-	"""Adds input for an int."""
+	"""Adds input for an int. +/- buttons can be activated by setting the value of step."""
 	...
 
 def add_input_intx(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: Union[List[int], Tuple[int, ...]] ='', min_value: int ='', max_value: int ='', size: int ='', min_clamped: bool ='', max_clamped: bool ='', on_enter: bool ='', readonly: bool ='') -> Union[int, str]:
@@ -335,7 +335,7 @@ def add_line_series(x : Union[List[float], Tuple[float, ...]], y : Union[List[fl
 	...
 
 def add_listbox(items : Union[List[str], Tuple[str, ...]] ='', *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: str ='', num_items: int ='') -> Union[int, str]:
-	"""Adds a listbox. If height is not large enought to show all items a scroll bar will appear."""
+	"""Adds a listbox. If height is not large enough to show all items a scroll bar will appear."""
 	...
 
 def add_loading_indicator(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', drop_callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', style: int ='', circle_count: int ='', speed: float ='', radius: float ='', thickness: float ='', color: Union[List[int], Tuple[int, ...]] ='', secondary_color: Union[List[int], Tuple[int, ...]] ='') -> Union[int, str]:
@@ -351,7 +351,7 @@ def add_menu_bar(*, label: str ='', user_data: Any ='', use_internal_label: bool
 	...
 
 def add_menu_item(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: bool ='', shortcut: str ='', check: bool ='') -> Union[int, str]:
-	"""Adds a menu item to an existing menu. Menu items act similar to selectables."""
+	"""Adds a menu item to an existing menu. Menu items act similar to selectables and has a bool value. When placed in a menu the checkmark will reflect its value."""
 	...
 
 def add_mouse_click_handler(button : int ='', *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', callback: Callable ='', show: bool ='', parent: Union[int, str] ='') -> Union[int, str]:
@@ -435,11 +435,11 @@ def add_scatter_series(x : Union[List[float], Tuple[float, ...]], y : Union[List
 	...
 
 def add_selectable(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: bool ='', span_columns: bool ='') -> Union[int, str]:
-	"""Adds a selectable."""
+	"""Adds a selectable. Similar to a button but can indicate its selected state."""
 	...
 
 def add_separator(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='') -> Union[int, str]:
-	"""Adds a horizontal separator."""
+	"""Adds a horizontal line separator."""
 	...
 
 def add_series_value(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', source: Union[int, str] ='', default_value: Any ='', parent: Union[int, str] ='') -> Union[int, str]:
@@ -471,7 +471,7 @@ def add_slider_intx(*, label: str ='', user_data: Any ='', use_internal_label: b
 	...
 
 def add_spacer(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='') -> Union[int, str]:
-	"""Adds a spacer."""
+	"""Adds a spacer item that can be used to help with layouts or can be used as a placeholder item."""
 	...
 
 def add_stage(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='') -> Union[int, str]:
@@ -638,7 +638,7 @@ def configure_item(item : Union[int, str], **kwargs) -> None:
 	"""Configures an item."""
 	...
 
-def configure_viewport(item : Union[int, str], **kwargs) -> None:
+def configure_viewport(, **kwargs) -> None:
 	"""Configures a viewport."""
 	...
 
@@ -647,7 +647,7 @@ def create_context() -> None:
 	...
 
 def create_viewport(*, title: str ='', small_icon: str ='', large_icon: str ='', width: int ='', height: int ='', x_pos: int ='', y_pos: int ='', min_width: int ='', max_width: int ='', min_height: int ='', max_height: int ='', resizable: bool ='', vsync: bool ='', always_on_top: bool ='', decorated: bool ='', clear_color: Union[List[float], Tuple[float, ...]] ='') -> None:
-	"""Creates a viewport."""
+	"""Creates a viewport. Viewports are required."""
 	...
 
 def delete_item(item : Union[int, str], *, children_only: bool ='', slot: int ='') -> None:
@@ -759,7 +759,7 @@ def get_axis_limits(axis : Union[int, str]) -> Union[List[float], Tuple[float, .
 	...
 
 def get_colormap_color(colormap : Union[int, str], index : int) -> Union[List[int], Tuple[int, ...]]:
-	"""Returns a color from a colormap given an index >= 0 (modulo will be performed). This command can only be ran once the app is started."""
+	"""Returns a color from a colormap given an index >= 0. (ex. 0 will be the first color in the color list of the color map) Modulo will be performed against the number of items in the color list. This command can only be ran once the app is started."""
 	...
 
 def get_delta_time() -> float:
@@ -770,8 +770,8 @@ def get_drawing_mouse_pos() -> Union[List[int], Tuple[int, ...]]:
 	"""Returns mouse position in drawing."""
 	...
 
-def get_file_dialog_info(file_dialog : Union[int, str]) -> Union[int, str]:
-	"""Undocumented function"""
+def get_file_dialog_info(file_dialog : Union[int, str]) -> dict:
+	"""Returns information related to the file dialog. Typically used while the file dialog is in use to query data about the state or info related to the file dialog."""
 	...
 
 def get_frame_count() -> int:
@@ -842,7 +842,7 @@ def get_values(items : Union[List[int], Tuple[int, ...]]) -> Any:
 	"""Returns values of a list of items."""
 	...
 
-def get_viewport_configuration(item : Union[int, str]) -> dict:
+def get_viewport_configuration() -> dict:
 	"""Returns a viewport's configuration."""
 	...
 
@@ -1003,7 +1003,7 @@ def reset_pos(item : Union[int, str]) -> None:
 	...
 
 def sample_colormap(colormap : Union[int, str], t : float) -> Union[List[int], Tuple[int, ...]]:
-	"""Returns a color from a colormap given t between 0 and 1. This command can only be ran once the app is started."""
+	"""Returns a color from a colormap given t between 0.0-1.0. This command can only be ran once the app is started."""
 	...
 
 def save_init_file(file : str) -> None:

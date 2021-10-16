@@ -1682,7 +1682,7 @@ def drawlist(width : int, height : int, *, label: str =None, user_data: Any =Non
 
 @contextmanager
 def file_dialog(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, callback: Callable =None, show: bool =True, default_path: str ='', default_filename: str ='.', file_count: int =0, modal: bool =False, directory_selector: bool =False, **kwargs) -> Union[int, str]:
-	"""	 Displays a file or directory selector depending on keywords. Displays a file dialog by default.
+	"""	 Displays a file or directory selector depending on keywords. Displays a file dialog by default. Callback will be ran when the file or directory picker is closed. The app_data arguemnt will be populated with information related to the file and directory as a dictionary.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -2967,9 +2967,9 @@ def add_button(*, label: str =None, user_data: Any =None, use_internal_label: bo
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
-		small (bool, optional): Small button, useful for embedding in text.
-		arrow (bool, optional): Arrow button, requires the direction keyword.
-		direction (int, optional): A cardinal direction for arrow.
+		small (bool, optional): Shrinks the size of the button to the text of the label it contains. Useful for embedding in text.
+		arrow (bool, optional): Displays an arrow in place of the text string. This requires the direction keyword.
+		direction (int, optional): Sets the cardinal direction for the arrow buy using constants mvDir_Left, mvDir_Up, mvDir_Down, mvDir_Right, mvDir_None. Arrow keyword must be set to True.
 		id (Union[int, str], optional): (deprecated) 
 	Returns:
 		Union[int, str]
@@ -3057,7 +3057,7 @@ def add_checkbox(*, label: str =None, user_data: Any =None, use_internal_label: 
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
-		default_value (bool, optional): 
+		default_value (bool, optional): Sets the default value of the checkmark
 		id (Union[int, str], optional): (deprecated) 
 	Returns:
 		Union[int, str]
@@ -3193,9 +3193,9 @@ def add_color_button(default_value : Union[List[int], Tuple[int, ...]] =(0, 0, 0
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
-		no_alpha (bool, optional): Ignore Alpha component.
+		no_alpha (bool, optional): Removes the displayed slider that can change alpha channel.
 		no_border (bool, optional): Disable border around the image.
-		no_drag_drop (bool, optional): Disable display of inline text label.
+		no_drag_drop (bool, optional): Disable ability to drag and drop small preview (color square) to apply colors to other items.
 		id (Union[int, str], optional): (deprecated) 
 	Returns:
 		Union[int, str]
@@ -3208,7 +3208,7 @@ def add_color_button(default_value : Union[List[int], Tuple[int, ...]] =(0, 0, 0
 	return internal_dpg.add_color_button(default_value, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, no_alpha=no_alpha, no_border=no_border, no_drag_drop=no_drag_drop, **kwargs)
 
 def add_color_edit(default_value : Union[List[int], Tuple[int, ...]] =(0, 0, 0, 255), *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, no_alpha: bool =False, no_picker: bool =False, no_options: bool =False, no_small_preview: bool =False, no_inputs: bool =False, no_tooltip: bool =False, no_label: bool =False, no_drag_drop: bool =False, alpha_bar: bool =False, alpha_preview: int =0, display_mode: int =1048576, display_type: int =8388608, input_mode: int =134217728, **kwargs) -> Union[int, str]:
-	"""	 Adds an RGBA color editor. Click the small color preview will provide a color picker. Click and draging the small color preview will copy the color to be applied on any other color widget.
+	"""	 Adds an RGBA color editor. Left clicking the small color preview will provide a color picker. Click and draging the small color preview will copy the color to be applied on any other color widget.
 
 	Args:
 		default_value (Union[List[int], Tuple[int, ...]], optional): 
@@ -3232,14 +3232,14 @@ def add_color_edit(default_value : Union[List[int], Tuple[int, ...]] =(0, 0, 0, 
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
-		no_alpha (bool, optional): Disable Alpha component.
+		no_alpha (bool, optional): Removes the displayed slider that can change alpha channel.
 		no_picker (bool, optional): Disable picker popup when color square is clicked.
 		no_options (bool, optional): Disable toggling options menu when right-clicking on inputs/small preview.
 		no_small_preview (bool, optional): Disable colored square preview next to the inputs. (e.g. to show only the inputs). This only displays if the side preview is not shown.
 		no_inputs (bool, optional): Disable inputs sliders/text widgets. (e.g. to show only the small preview colored square)
 		no_tooltip (bool, optional): Disable tooltip when hovering the preview.
 		no_label (bool, optional): Disable display of inline text label.
-		no_drag_drop (bool, optional): Disable ability to drag and drop small preview (color square) to apply colors.
+		no_drag_drop (bool, optional): Disable ability to drag and drop small preview (color square) to apply colors to other items.
 		alpha_bar (bool, optional): Show vertical alpha bar/gradient in picker.
 		alpha_preview (int, optional): mvColorEdit_AlphaPreviewNone, mvColorEdit_AlphaPreview, or mvColorEdit_AlphaPreviewHalf
 		display_mode (int, optional): mvColorEdit_rgb, mvColorEdit_hsv, or mvColorEdit_hex
@@ -3281,7 +3281,7 @@ def add_color_picker(default_value : Union[List[int], Tuple[int, ...]] =(0, 0, 0
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
-		no_alpha (bool, optional): Ignore Alpha component.
+		no_alpha (bool, optional): Removes the displayed slider that can change alpha channel.
 		no_side_preview (bool, optional): Disable bigger color preview on right side of the picker, use small colored square preview instead , unless small preview is also hidden.
 		no_small_preview (bool, optional): Disable colored square preview next to the inputs. (e.g. to show only the inputs). This only displays if the side preview is not shown.
 		no_inputs (bool, optional): Disable inputs sliders/text widgets. (e.g. to show only the small preview colored square)
@@ -3329,11 +3329,11 @@ def add_color_value(*, label: str =None, user_data: Any =None, use_internal_labe
 	return internal_dpg.add_color_value(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, source=source, default_value=default_value, parent=parent, **kwargs)
 
 def add_colormap(colors : List[List[int]], qualitative : bool, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, show: bool =True, parent: Union[int, str] =internal_dpg.mvReservedUUID_4, **kwargs) -> Union[int, str]:
-	"""	 Adds a legend that pairs values with colors. This is typically used with a heat series.
+	"""	 Adds a legend that pairs colors with normalized value 0.0->1.0. Each color will be  This is typically used with a heat series. (ex. [[0, 0, 0, 255], [255, 255, 255, 255]] will be mapped to a soft transition from 0.0-1.0)
 
 	Args:
-		colors (Any): 
-		qualitative (bool): 
+		colors (Any): colors that will be mapped to the normalized value 0.0->1.0
+		qualitative (bool): Qualitative will create hard transitions for color boundries across the value range when enabled.
 		label (str, optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
@@ -3351,8 +3351,8 @@ def add_colormap(colors : List[List[int]], qualitative : bool, *, label: str =No
 
 	return internal_dpg.add_colormap(colors, qualitative, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, show=show, parent=parent, **kwargs)
 
-def add_colormap_button(default_value : Union[List[int], Tuple[int, ...]] =(0, 0, 0, 255), *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, no_alpha: bool =False, no_border: bool =False, no_drag_drop: bool =False, **kwargs) -> Union[int, str]:
-	"""	 Adds a color button.
+def add_colormap_button(default_value : Union[List[int], Tuple[int, ...]] =(0, 0, 0, 255), *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, **kwargs) -> Union[int, str]:
+	"""	 Adds a button that a color map can be bound to.
 
 	Args:
 		default_value (Union[List[int], Tuple[int, ...]], optional): 
@@ -3375,9 +3375,6 @@ def add_colormap_button(default_value : Union[List[int], Tuple[int, ...]] =(0, 0
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
-		no_alpha (bool, optional): Ignore Alpha component.
-		no_border (bool, optional): Disable border around the image.
-		no_drag_drop (bool, optional): Disable display of inline text label.
 		id (Union[int, str], optional): (deprecated) 
 	Returns:
 		Union[int, str]
@@ -3387,7 +3384,7 @@ def add_colormap_button(default_value : Union[List[int], Tuple[int, ...]] =(0, 0
 		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
 		tag=kwargs['id']
 
-	return internal_dpg.add_colormap_button(default_value, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, no_alpha=no_alpha, no_border=no_border, no_drag_drop=no_drag_drop, **kwargs)
+	return internal_dpg.add_colormap_button(default_value, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, **kwargs)
 
 def add_colormap_registry(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, show: bool =False, **kwargs) -> Union[int, str]:
 	"""	 Adds a colormap registry.
@@ -3427,7 +3424,7 @@ def add_colormap_scale(*, label: str =None, user_data: Any =None, use_internal_l
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
-		colormap (Union[int, str], optional): mvPlotColormap_* constants or mvColorMap uuid
+		colormap (Union[int, str], optional): mvPlotColormap_* constants or mvColorMap uuid from a color map registry
 		min_scale (float, optional): Sets the min number of the color scale. Typically is the same as the min scale from the heat series.
 		max_scale (float, optional): Sets the max number of the color scale. Typically is the same as the max scale from the heat series.
 		id (Union[int, str], optional): (deprecated) 
@@ -3449,7 +3446,7 @@ def add_colormap_scale(*, label: str =None, user_data: Any =None, use_internal_l
 	return internal_dpg.add_colormap_scale(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, drop_callback=drop_callback, show=show, pos=pos, colormap=colormap, min_scale=min_scale, max_scale=max_scale, **kwargs)
 
 def add_colormap_slider(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: float =0.0, **kwargs) -> Union[int, str]:
-	"""	 Adds a color button.
+	"""	 Adds a color slider that a color map can be bound to.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -3489,10 +3486,10 @@ def add_colormap_slider(*, label: str =None, user_data: Any =None, use_internal_
 	return internal_dpg.add_colormap_slider(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, **kwargs)
 
 def add_combo(items : Union[List[str], Tuple[str, ...]] =(), *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: str ='', popup_align_left: bool =False, no_arrow_button: bool =False, no_preview: bool =False, height_mode: int =1, **kwargs) -> Union[int, str]:
-	"""	 Adds a combo dropdown that allows a user to select a single option from a drop down window.
+	"""	 Adds a combo dropdown that allows a user to select a single option from a drop down window. All items will be shown as selectables on the dropdown.
 
 	Args:
-		items (Union[List[str], Tuple[str, ...]], optional): A tuple of items to be shown in the drop down window. Can consist of any combination of types.
+		items (Union[List[str], Tuple[str, ...]], optional): A tuple of items to be shown in the drop down window. Can consist of any combination of types but will convert all items to strings to be shown.
 		label (str, optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
@@ -3512,11 +3509,11 @@ def add_combo(items : Union[List[str], Tuple[str, ...]] =(), *, label: str =None
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
-		default_value (str, optional): 
-		popup_align_left (bool, optional): Align the popup toward the left.
-		no_arrow_button (bool, optional): Display the preview box without the square arrow button.
-		no_preview (bool, optional): Display only the square arrow button.
-		height_mode (int, optional): mvComboHeight_Small, _Regular, _Large, _Largest
+		default_value (str, optional): Sets a selected item from the drop down by specifying the string value.
+		popup_align_left (bool, optional): Align the contents on the popup toward the left.
+		no_arrow_button (bool, optional): Display the preview box without the square arrow button indicating dropdown activity.
+		no_preview (bool, optional): Display only the square arrow button and not the selected value.
+		height_mode (int, optional): Controlls the number of items shown in the dropdown by the constants mvComboHeight_Small, mvComboHeight_Regular, mvComboHeight_Large, mvComboHeight_Largest
 		id (Union[int, str], optional): (deprecated) 
 	Returns:
 		Union[int, str]
@@ -3629,8 +3626,8 @@ def add_drag_float(*, label: str =None, user_data: Any =None, use_internal_label
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		default_value (float, optional): 
-		format (str, optional): 
-		speed (float, optional): 
+		format (str, optional): Determines the format the float will be displayed as use python string formatting.
+		speed (float, optional): Sets the sensitivity the float will be modified while dragging.
 		min_value (float, optional): Applies a limit only to draging entry only.
 		max_value (float, optional): Applies a limit only to draging entry only.
 		no_input (bool, optional): Disable direct entry methods or Enter key allowing to input text directly into the widget.
@@ -3670,9 +3667,9 @@ def add_drag_floatx(*, label: str =None, user_data: Any =None, use_internal_labe
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		default_value (Union[List[float], Tuple[float, ...]], optional): 
-		size (int, optional): Number of components
-		format (str, optional): 
-		speed (float, optional): 
+		size (int, optional): Number of floats to be displayed.
+		format (str, optional): Determines the format the float will be displayed as use python string formatting.
+		speed (float, optional): Sets the sensitivity the float will be modified while dragging.
 		min_value (float, optional): Applies a limit only to draging entry only.
 		max_value (float, optional): Applies a limit only to draging entry only.
 		no_input (bool, optional): Disable direct entry methods or Enter key allowing to input text directly into the widget.
@@ -3712,8 +3709,8 @@ def add_drag_int(*, label: str =None, user_data: Any =None, use_internal_label: 
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		default_value (int, optional): 
-		format (str, optional): 
-		speed (float, optional): 
+		format (str, optional): Determines the format the float will be displayed as use python string formatting.
+		speed (float, optional): Sets the sensitivity the float will be modified while dragging.
 		min_value (int, optional): Applies a limit only to draging entry only.
 		max_value (int, optional): Applies a limit only to draging entry only.
 		no_input (bool, optional): Disable direct entry methods or Enter key allowing to input text directly into the widget.
@@ -3753,9 +3750,9 @@ def add_drag_intx(*, label: str =None, user_data: Any =None, use_internal_label:
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		default_value (Union[List[int], Tuple[int, ...]], optional): 
-		size (int, optional): Number of components.
-		format (str, optional): 
-		speed (float, optional): 
+		size (int, optional): Number of ints to be displayed.
+		format (str, optional): Determines the format the int will be displayed as use python string formatting.
+		speed (float, optional): Sets the sensitivity the float will be modified while dragging.
 		min_value (int, optional): Applies a limit only to draging entry only.
 		max_value (int, optional): Applies a limit only to draging entry only.
 		no_input (bool, optional): Disable direct entry methods or Enter key allowing to input text directly into the widget.
@@ -3957,7 +3954,7 @@ def add_error_series(x : Union[List[float], Tuple[float, ...]], y : Union[List[f
 	return internal_dpg.add_error_series(x, y, negative, positive, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, source=source, show=show, contribute_to_bounds=contribute_to_bounds, horizontal=horizontal, **kwargs)
 
 def add_file_dialog(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, callback: Callable =None, show: bool =True, default_path: str ='', default_filename: str ='.', file_count: int =0, modal: bool =False, directory_selector: bool =False, **kwargs) -> Union[int, str]:
-	"""	 Displays a file or directory selector depending on keywords. Displays a file dialog by default.
+	"""	 Displays a file or directory selector depending on keywords. Displays a file dialog by default. Callback will be ran when the file or directory picker is closed. The app_data arguemnt will be populated with information related to the file and directory as a dictionary.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -3998,7 +3995,7 @@ def add_file_extension(extension : str, *, label: str =None, user_data: Any =Non
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		custom_text (str, optional): Replaces the displayed text in the drop down for this extension.
-		color (Union[List[float], Tuple[float, ...]], optional): 
+		color (Union[List[float], Tuple[float, ...]], optional): Color for the text that will be shown with specified extensions.
 		id (Union[int, str], optional): (deprecated) 
 	Returns:
 		Union[int, str]
@@ -4361,7 +4358,7 @@ def add_image(texture_tag : Union[int, str], *, label: str =None, user_data: Any
 	"""	 Adds an image from a specified texture. uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown. Using range (0.0,0.0)->(1.0,1.0) for texture coordinates will generally display the entire texture.
 
 	Args:
-		texture_tag (Union[int, str]): 
+		texture_tag (Union[int, str]): The texture_tag should come from a texture that was added to a texture registry.
 		label (str, optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
@@ -4381,7 +4378,7 @@ def add_image(texture_tag : Union[int, str], *, label: str =None, user_data: Any
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		tint_color (Union[List[float], Tuple[float, ...]], optional): Applies a color tint to the entire texture.
-		border_color (Union[List[float], Tuple[float, ...]], optional): Displays a border of the specified color around the texture.
+		border_color (Union[List[float], Tuple[float, ...]], optional): Displays a border of the specified color around the texture. If the theme style has turned off the border it will not be shown.
 		uv_min (Union[List[float], Tuple[float, ...]], optional): Normalized texture coordinates min point.
 		uv_max (Union[List[float], Tuple[float, ...]], optional): Normalized texture coordinates max point.
 		id (Union[int, str], optional): (deprecated) 
@@ -4399,7 +4396,7 @@ def add_image_button(texture_tag : Union[int, str], *, label: str =None, user_da
 	"""	 Adds an button with a texture. uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown. Using range (0.0,0.0)->(1.0,1.0) texture coordinates will generally display the entire texture
 
 	Args:
-		texture_tag (Union[int, str]): 
+		texture_tag (Union[int, str]): The texture_tag should come from a texture that was added to a texture registry.
 		label (str, optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
@@ -4420,7 +4417,7 @@ def add_image_button(texture_tag : Union[int, str], *, label: str =None, user_da
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
-		frame_padding (int, optional): 
+		frame_padding (int, optional): Empty space around the outside of the texture. Button will show around the texture.
 		tint_color (Union[List[float], Tuple[float, ...]], optional): Applies a color tint to the entire texture.
 		background_color (Union[List[float], Tuple[float, ...]], optional): Displays a border of the specified color around the texture.
 		uv_min (Union[List[float], Tuple[float, ...]], optional): Normalized texture coordinates min point.
@@ -4466,7 +4463,7 @@ def add_image_series(texture_tag : Union[int, str], bounds_min : Union[List[floa
 	return internal_dpg.add_image_series(texture_tag, bounds_min, bounds_max, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, source=source, show=show, uv_min=uv_min, uv_max=uv_max, tint_color=tint_color, **kwargs)
 
 def add_input_float(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: float =0.0, format: str ='%.3f', min_value: float =0.0, max_value: float =100.0, step: float =0.1, step_fast: float =1.0, min_clamped: bool =False, max_clamped: bool =False, on_enter: bool =False, readonly: bool =False, **kwargs) -> Union[int, str]:
-	"""	 Adds input for an float.
+	"""	 Adds input for an float. +/- buttons can be activated by setting the value of step.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -4489,15 +4486,15 @@ def add_input_float(*, label: str =None, user_data: Any =None, use_internal_labe
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		default_value (float, optional): 
-		format (str, optional): 
-		min_value (float, optional): Value for lower limit of input. By default this limits the step buttons. Use clamped to limit manual input.
-		max_value (float, optional): Value for upper limit of input. By default this limits the step buttons. Use clamped to limit manual input.
+		format (str, optional): Determines the format the float will be displayed as use python string formatting.
+		min_value (float, optional): Value for lower limit of input. By default this limits the step buttons. Use min_clamped to limit manual input.
+		max_value (float, optional): Value for upper limit of input. By default this limits the step buttons. Use max_clamped to limit manual input.
 		step (float, optional): Increment to change value by when the step buttons are pressed. Setting this to a value of 0 or smaller will turn off step buttons.
 		step_fast (float, optional): After holding the step buttons for extended time the increments will switch to this value.
-		min_clamped (bool, optional): Activates and deactivates min_value.
-		max_clamped (bool, optional): Activates and deactivates max_value.
+		min_clamped (bool, optional): Activates and deactivates the enforcment of min_value.
+		max_clamped (bool, optional): Activates and deactivates the enforcment of max_value.
 		on_enter (bool, optional): Only runs callback on enter key press.
-		readonly (bool, optional): Activates a read only mode for the input.
+		readonly (bool, optional): Activates read only mode where no text can be input but text can still be highlighted.
 		id (Union[int, str], optional): (deprecated) 
 	Returns:
 		Union[int, str]
@@ -4533,14 +4530,14 @@ def add_input_floatx(*, label: str =None, user_data: Any =None, use_internal_lab
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		default_value (Union[List[float], Tuple[float, ...]], optional): 
-		format (str, optional): 
-		min_value (float, optional): Value for lower limit of input for each cell. Use clamped to turn on.
-		max_value (float, optional): Value for upper limit of input for each cell. Use clamped to turn on.
-		size (int, optional): Number of components.
-		min_clamped (bool, optional): Activates and deactivates min_value.
-		max_clamped (bool, optional): Activates and deactivates max_value.
+		format (str, optional): Determines the format the float will be displayed as use python string formatting.
+		min_value (float, optional): Value for lower limit of input for each cell. Use min_clamped to turn on.
+		max_value (float, optional): Value for upper limit of input for each cell. Use max_clamped to turn on.
+		size (int, optional): Number of components displayed for input.
+		min_clamped (bool, optional): Activates and deactivates the enforcment of min_value.
+		max_clamped (bool, optional): Activates and deactivates the enforcment of max_value.
 		on_enter (bool, optional): Only runs callback on enter key press.
-		readonly (bool, optional): Activates a read only mode for the inputs.
+		readonly (bool, optional): Activates read only mode where no text can be input but text can still be highlighted.
 		id (Union[int, str], optional): (deprecated) 
 	Returns:
 		Union[int, str]
@@ -4553,7 +4550,7 @@ def add_input_floatx(*, label: str =None, user_data: Any =None, use_internal_lab
 	return internal_dpg.add_input_floatx(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, format=format, min_value=min_value, max_value=max_value, size=size, min_clamped=min_clamped, max_clamped=max_clamped, on_enter=on_enter, readonly=readonly, **kwargs)
 
 def add_input_int(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: int =0, min_value: int =0, max_value: int =100, step: int =1, step_fast: int =100, min_clamped: bool =False, max_clamped: bool =False, on_enter: bool =False, readonly: bool =False, **kwargs) -> Union[int, str]:
-	"""	 Adds input for an int.
+	"""	 Adds input for an int. +/- buttons can be activated by setting the value of step.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -4576,14 +4573,14 @@ def add_input_int(*, label: str =None, user_data: Any =None, use_internal_label:
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		default_value (int, optional): 
-		min_value (int, optional): Value for lower limit of input. By default this limits the step buttons. Use clamped to limit manual input.
-		max_value (int, optional): Value for upper limit of input. By default this limits the step buttons. Use clamped to limit manual input.
+		min_value (int, optional): Value for lower limit of input. By default this limits the step buttons. Use min_clamped to limit manual input.
+		max_value (int, optional): Value for upper limit of input. By default this limits the step buttons. Use max_clamped to limit manual input.
 		step (int, optional): Increment to change value by when the step buttons are pressed. Setting this to a value of 0 or smaller will turn off step buttons.
 		step_fast (int, optional): After holding the step buttons for extended time the increments will switch to this value.
-		min_clamped (bool, optional): Activates and deactivates min_value.
-		max_clamped (bool, optional): Activates and deactivates max_value.
+		min_clamped (bool, optional): Activates and deactivates the enforcment of min_value.
+		max_clamped (bool, optional): Activates and deactivates the enforcment of max_value.
 		on_enter (bool, optional): Only runs callback on enter key press.
-		readonly (bool, optional): Activates a read only mode for the input.
+		readonly (bool, optional): Activates read only mode where no text can be input but text can still be highlighted.
 		id (Union[int, str], optional): (deprecated) 
 	Returns:
 		Union[int, str]
@@ -4619,13 +4616,13 @@ def add_input_intx(*, label: str =None, user_data: Any =None, use_internal_label
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		default_value (Union[List[int], Tuple[int, ...]], optional): 
-		min_value (int, optional): Value for lower limit of input for each cell. Use clamped to turn on.
-		max_value (int, optional): Value for upper limit of input for each cell. Use clamped to turn on.
-		size (int, optional): Number of components.
-		min_clamped (bool, optional): Activates and deactivates min_value.
-		max_clamped (bool, optional): Activates and deactivates max_value.
+		min_value (int, optional): Value for lower limit of input for each cell. Use min_clamped to turn on.
+		max_value (int, optional): Value for upper limit of input for each cell. Use max_clamped to turn on.
+		size (int, optional): Number of components displayed for input.
+		min_clamped (bool, optional): Activates and deactivates the enforcment of min_value.
+		max_clamped (bool, optional): Activates and deactivates the enforcment of max_value.
 		on_enter (bool, optional): Only runs callback on enter.
-		readonly (bool, optional): Activates a read only mode for the inputs.
+		readonly (bool, optional): Activates read only mode where no text can be input but text can still be highlighted.
 		id (Union[int, str], optional): (deprecated) 
 	Returns:
 		Union[int, str]
@@ -4662,16 +4659,16 @@ def add_input_text(*, label: str =None, user_data: Any =None, use_internal_label
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		default_value (str, optional): 
-		hint (str, optional): Displayed only when value is empty string. Will reappear if input value is set to empty string. Will not show if default value is anything other than default empty string.
+		hint (str, optional): Displayed only when value is an empty string. Will reappear if input value is set to empty string. Will not show if default value is anything other than default empty string.
 		multiline (bool, optional): Allows for multiline text input.
 		no_spaces (bool, optional): Filter out spaces and tabs.
 		uppercase (bool, optional): Automatically make all inputs uppercase.
-		tab_input (bool, optional): Allows tabs to be input instead of changing widget focus.
-		decimal (bool, optional): Only allow 0123456789.+-*/
-		hexadecimal (bool, optional): Only allow 0123456789ABCDEFabcdef
-		readonly (bool, optional): Activates read only mode.
-		password (bool, optional): Password mode, display all characters as '*'.
-		scientific (bool, optional): Only allow 0123456789.+-*/eE (Scientific notation input)
+		tab_input (bool, optional): Allows tabs to be input into the string value instead of changing item focus.
+		decimal (bool, optional): Only allow characters 0123456789.+-*/
+		hexadecimal (bool, optional): Only allow characters 0123456789ABCDEFabcdef
+		readonly (bool, optional): Activates read only mode where no text can be input but text can still be highlighted.
+		password (bool, optional): Display all input characters as '*'.
+		scientific (bool, optional): Only allow characters 0123456789.+-*/eE (Scientific notation input)
 		on_enter (bool, optional): Only runs callback on enter key press.
 		id (Union[int, str], optional): (deprecated) 
 	Returns:
@@ -5163,10 +5160,10 @@ def add_line_series(x : Union[List[float], Tuple[float, ...]], y : Union[List[fl
 	return internal_dpg.add_line_series(x, y, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, source=source, show=show, **kwargs)
 
 def add_listbox(items : Union[List[str], Tuple[str, ...]] =(), *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: str ='', num_items: int =3, **kwargs) -> Union[int, str]:
-	"""	 Adds a listbox. If height is not large enought to show all items a scroll bar will appear.
+	"""	 Adds a listbox. If height is not large enough to show all items a scroll bar will appear.
 
 	Args:
-		items (Union[List[str], Tuple[str, ...]], optional): A tuple of items to be shown in the listbox. Can consist of any combination of types.
+		items (Union[List[str], Tuple[str, ...]], optional): A tuple of items to be shown in the listbox. Can consist of any combination of types. All items will be displayed as strings.
 		label (str, optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
@@ -5186,7 +5183,7 @@ def add_listbox(items : Union[List[str], Tuple[str, ...]] =(), *, label: str =No
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
-		default_value (str, optional): 
+		default_value (str, optional): String value fo the item that will be selected by default.
 		num_items (int, optional): Expands the height of the listbox to show specified number of items.
 		id (Union[int, str], optional): (deprecated) 
 	Returns:
@@ -5288,7 +5285,7 @@ def add_menu_bar(*, label: str =None, user_data: Any =None, use_internal_label: 
 	return internal_dpg.add_menu_bar(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, indent=indent, parent=parent, show=show, delay_search=delay_search, **kwargs)
 
 def add_menu_item(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: bool =False, shortcut: str ='', check: bool =False, **kwargs) -> Union[int, str]:
-	"""	 Adds a menu item to an existing menu. Menu items act similar to selectables.
+	"""	 Adds a menu item to an existing menu. Menu items act similar to selectables and has a bool value. When placed in a menu the checkmark will reflect its value.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -5306,9 +5303,9 @@ def add_menu_item(*, label: str =None, user_data: Any =None, use_internal_label:
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
-		default_value (bool, optional): 
+		default_value (bool, optional): This value also controls the checkmark when shown.
 		shortcut (str, optional): Displays text on the menu item. Typically used to show a shortcut key command.
-		check (bool, optional): Displays a checkmark on the menu item when it is selected.
+		check (bool, optional): Displays a checkmark on the menu item when it is selected and placed in a menu.
 		id (Union[int, str], optional): (deprecated) 
 		drag_callback (Callable, optional): (deprecated) 
 	Returns:
@@ -5795,7 +5792,7 @@ def add_progress_bar(*, label: str =None, user_data: Any =None, use_internal_lab
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
-		overlay (str, optional): Overlayed text.
+		overlay (str, optional): Overlayed text onto the bar that typically used to display the value of the progress.
 		default_value (float, optional): Normalized value to fill the bar from 0.0 to 1.0.
 		id (Union[int, str], optional): (deprecated) 
 	Returns:
@@ -5812,7 +5809,7 @@ def add_radio_button(items : Union[List[str], Tuple[str, ...]] =(), *, label: st
 	"""	 Adds a set of radio buttons. If items keyword is empty, nothing will be shown.
 
 	Args:
-		items (Union[List[str], Tuple[str, ...]], optional): A tuple of items to be shown as radio options. Can consist of any combination of types.
+		items (Union[List[str], Tuple[str, ...]], optional): A tuple of items to be shown as radio options. Can consist of any combination of types. All types will be shown as strings.
 		label (str, optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
@@ -5831,7 +5828,7 @@ def add_radio_button(items : Union[List[str], Tuple[str, ...]] =(), *, label: st
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
-		default_value (str, optional): 
+		default_value (str, optional): Default selected radio option. Set by using the string value of the item.
 		horizontal (bool, optional): Displays the radio options horizontally.
 		id (Union[int, str], optional): (deprecated) 
 	Returns:
@@ -5894,7 +5891,7 @@ def add_scatter_series(x : Union[List[float], Tuple[float, ...]], y : Union[List
 	return internal_dpg.add_scatter_series(x, y, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, source=source, show=show, **kwargs)
 
 def add_selectable(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: bool =False, span_columns: bool =False, **kwargs) -> Union[int, str]:
-	"""	 Adds a selectable.
+	"""	 Adds a selectable. Similar to a button but can indicate its selected state.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -5918,7 +5915,7 @@ def add_selectable(*, label: str =None, user_data: Any =None, use_internal_label
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		default_value (bool, optional): 
-		span_columns (bool, optional): Span the width of all columns if placed in a table.
+		span_columns (bool, optional): Forces the selectable to span the width of all columns if placed in a table.
 		id (Union[int, str], optional): (deprecated) 
 	Returns:
 		Union[int, str]
@@ -5931,7 +5928,7 @@ def add_selectable(*, label: str =None, user_data: Any =None, use_internal_label
 	return internal_dpg.add_selectable(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, span_columns=span_columns, **kwargs)
 
 def add_separator(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], **kwargs) -> Union[int, str]:
-	"""	 Adds a horizontal separator.
+	"""	 Adds a horizontal line separator.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -6065,12 +6062,12 @@ def add_slider_float(*, label: str =None, user_data: Any =None, use_internal_lab
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		default_value (float, optional): 
-		vertical (bool, optional): Sets orientation to vertical.
-		no_input (bool, optional): Disable direct entry methods or Enter key allowing to input text directly into the widget.
+		vertical (bool, optional): Sets orientation of the slidebar and slider to vertical.
+		no_input (bool, optional): Disable direct entry methods double-click or ctrl+click or Enter key allowing to input text directly into the item.
 		clamped (bool, optional): Applies the min and max limits to direct entry methods also such as double click and CTRL+Click.
 		min_value (float, optional): Applies a limit only to sliding entry only.
 		max_value (float, optional): Applies a limit only to sliding entry only.
-		format (str, optional): 
+		format (str, optional): Determines the format the float will be displayed as use python string formatting.
 		id (Union[int, str], optional): (deprecated) 
 	Returns:
 		Union[int, str]
@@ -6106,12 +6103,12 @@ def add_slider_floatx(*, label: str =None, user_data: Any =None, use_internal_la
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		default_value (Union[List[float], Tuple[float, ...]], optional): 
-		size (int, optional): Number of components.
-		no_input (bool, optional): Disable direct entry methods or Enter key allowing to input text directly into the widget.
+		size (int, optional): Number of floats to be displayed.
+		no_input (bool, optional): Disable direct entry methods double-click or ctrl+click or Enter key allowing to input text directly into the item.
 		clamped (bool, optional): Applies the min and max limits to direct entry methods also such as double click and CTRL+Click.
 		min_value (float, optional): Applies a limit only to sliding entry only.
 		max_value (float, optional): Applies a limit only to sliding entry only.
-		format (str, optional): 
+		format (str, optional): Determines the format the int will be displayed as use python string formatting.
 		id (Union[int, str], optional): (deprecated) 
 	Returns:
 		Union[int, str]
@@ -6148,12 +6145,12 @@ def add_slider_int(*, label: str =None, user_data: Any =None, use_internal_label
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		default_value (int, optional): 
-		vertical (bool, optional): Sets orientation to vertical.
-		no_input (bool, optional): Disable direct entry methods or Enter key allowing to input text directly into the widget.
+		vertical (bool, optional): Sets orientation of the slidebar and slider to vertical.
+		no_input (bool, optional): Disable direct entry methods double-click or ctrl+click or Enter key allowing to input text directly into the item.
 		clamped (bool, optional): Applies the min and max limits to direct entry methods also such as double click and CTRL+Click.
 		min_value (int, optional): Applies a limit only to sliding entry only.
 		max_value (int, optional): Applies a limit only to sliding entry only.
-		format (str, optional): 
+		format (str, optional): Determines the format the int will be displayed as use python string formatting.
 		id (Union[int, str], optional): (deprecated) 
 	Returns:
 		Union[int, str]
@@ -6189,12 +6186,12 @@ def add_slider_intx(*, label: str =None, user_data: Any =None, use_internal_labe
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		default_value (Union[List[int], Tuple[int, ...]], optional): 
-		size (int, optional): number of components
-		no_input (bool, optional): Disable direct entry methods or Enter key allowing to input text directly into the widget.
+		size (int, optional): Number of ints to be displayed.
+		no_input (bool, optional): Disable direct entry methods double-click or ctrl+click or Enter key allowing to input text directly into the item.
 		clamped (bool, optional): Applies the min and max limits to direct entry methods also such as double click and CTRL+Click.
 		min_value (int, optional): Applies a limit only to sliding entry only.
 		max_value (int, optional): Applies a limit only to sliding entry only.
-		format (str, optional): 
+		format (str, optional): Determines the format the int will be displayed as use python string formatting.
 		id (Union[int, str], optional): (deprecated) 
 	Returns:
 		Union[int, str]
@@ -6207,7 +6204,7 @@ def add_slider_intx(*, label: str =None, user_data: Any =None, use_internal_labe
 	return internal_dpg.add_slider_intx(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, size=size, no_input=no_input, clamped=clamped, min_value=min_value, max_value=max_value, format=format, **kwargs)
 
 def add_spacer(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], **kwargs) -> Union[int, str]:
-	"""	 Adds a spacer.
+	"""	 Adds a spacer item that can be used to help with layouts or can be used as a placeholder item.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -6472,7 +6469,7 @@ def add_tab_button(*, label: str =None, user_data: Any =None, use_internal_label
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
-		no_reorder (bool, optional): Disable reordering this tab or having another tab cross over this tab.
+		no_reorder (bool, optional): Disable reordering this tab or having another tab cross over this tab. Fixes the position of this tab in relation to the order of neighboring tabs at start. 
 		leading (bool, optional): Enforce the tab position to the left of the tab bar (after the tab list popup button).
 		trailing (bool, optional): Enforce the tab position to the right of the tab bar (before the scrolling buttons).
 		no_tooltip (bool, optional): Disable tooltip for the given tab.
@@ -6675,10 +6672,10 @@ def add_text(default_value : str ='', *, label: str =None, user_data: Any =None,
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
-		wrap (int, optional): Number of pixels until wrapping starts.
-		bullet (bool, optional): Makes the text bulleted.
+		wrap (int, optional): Number of pixels from the start of the item until wrapping starts.
+		bullet (bool, optional): Places a bullet to the left of the text.
 		color (Union[List[float], Tuple[float, ...]], optional): Color of the text (rgba).
-		show_label (bool, optional): Displays the label.
+		show_label (bool, optional): Displays the label to teh right of the text.
 		id (Union[int, str], optional): (deprecated) 
 	Returns:
 		Union[int, str]
@@ -7062,8 +7059,8 @@ def bind_colormap(item : Union[int, str], source : Union[int, str], **kwargs) ->
 	"""	 Sets the color map for widgets that accept it.
 
 	Args:
-		item (Union[int, str]): 
-		source (Union[int, str]): 
+		item (Union[int, str]): item that the color map will be applied to
+		source (Union[int, str]): The colormap tag. This should come from a colormap that was added to a colormap registry.  Built in color maps are accessible through their corresponding constants mvPlotColormap_Twilight, mvPlotColormap_***
 	Returns:
 		None
 	"""
@@ -7183,25 +7180,25 @@ def create_context(**kwargs) -> None:
 	return internal_dpg.create_context(**kwargs)
 
 def create_viewport(*, title: str ='Dear PyGui', small_icon: str ='', large_icon: str ='', width: int =1280, height: int =800, x_pos: int =100, y_pos: int =100, min_width: int =250, max_width: int =10000, min_height: int =250, max_height: int =10000, resizable: bool =True, vsync: bool =True, always_on_top: bool =False, decorated: bool =True, clear_color: Union[List[float], Tuple[float, ...]] =(0, 0, 0, 255), **kwargs) -> None:
-	"""	 Creates a viewport.
+	"""	 Creates a viewport. Viewports are required.
 
 	Args:
-		title (str, optional): 
-		small_icon (str, optional): 
-		large_icon (str, optional): 
-		width (int, optional): 
-		height (int, optional): 
-		x_pos (int, optional): 
-		y_pos (int, optional): 
-		min_width (int, optional): 
-		max_width (int, optional): 
-		min_height (int, optional): 
-		max_height (int, optional): 
-		resizable (bool, optional): 
-		vsync (bool, optional): 
-		always_on_top (bool, optional): 
-		decorated (bool, optional): 
-		clear_color (Union[List[float], Tuple[float, ...]], optional): 
+		title (str, optional): Sets the title of the viewport.
+		small_icon (str, optional): Sets the small icon that is found in the viewport's decorator bar. Must be ***.ico on windows and either ***.ico or ***.png on mac.
+		large_icon (str, optional): Sets the large icon that is found in the task bar while the app is running. Must be ***.ico on windows and either ***.ico or ***.png on mac.
+		width (int, optional): Sets the width of the drawable space on the viewport. Does not inclue the border.
+		height (int, optional): Sets the height of the drawable space on the viewport. Does not inclue the border or decorator bar.
+		x_pos (int, optional): Sets x position the viewport will be drawn in screen coordinates.
+		y_pos (int, optional): Sets y position the viewport will be drawn in screen coordinates.
+		min_width (int, optional): Applies a minimuim limit to the width of the viewport.
+		max_width (int, optional): Applies a maximum limit to the width of the viewport.
+		min_height (int, optional): Applies a minimuim limit to the height of the viewport.
+		max_height (int, optional): Applies a maximum limit to the height of the viewport.
+		resizable (bool, optional): Enables and Disables user ability to resize the viewport.
+		vsync (bool, optional): Enables and Disables the renderloop vsync limit. vsync frame value is set by refresh rate of display.
+		always_on_top (bool, optional): Forces the viewport to always be drawn ontop of all other viewports.
+		decorated (bool, optional): Enabled and disabled the decorator bar at the top of the viewport.
+		clear_color (Union[List[float], Tuple[float, ...]], optional): Sets the color of the back of the viewport.
 	Returns:
 		None
 	"""
@@ -7720,11 +7717,11 @@ def get_axis_limits(axis : Union[int, str], **kwargs) -> Union[List[float], Tupl
 	return internal_dpg.get_axis_limits(axis, **kwargs)
 
 def get_colormap_color(colormap : Union[int, str], index : int, **kwargs) -> Union[List[int], Tuple[int, ...]]:
-	"""	 Returns a color from a colormap given an index >= 0 (modulo will be performed). This command can only be ran once the app is started.
+	"""	 Returns a color from a colormap given an index >= 0. (ex. 0 will be the first color in the color list of the color map) Modulo will be performed against the number of items in the color list. This command can only be ran once the app is started.
 
 	Args:
-		colormap (Union[int, str]): 
-		index (int): 
+		colormap (Union[int, str]): The colormap tag. This should come from a colormap that was added to a colormap registry. Built in color maps are accessible through their corresponding constants mvPlotColormap_Twilight, mvPlotColormap_***
+		index (int): Desired position of the color in the colors list value of the colormap being quiered 
 	Returns:
 		Union[List[int], Tuple[int, ...]]
 	"""
@@ -7751,13 +7748,13 @@ def get_drawing_mouse_pos(**kwargs) -> Union[List[int], Tuple[int, ...]]:
 
 	return internal_dpg.get_drawing_mouse_pos(**kwargs)
 
-def get_file_dialog_info(file_dialog : Union[int, str], **kwargs) -> Union[int, str]:
-	"""	 Undocumented function
+def get_file_dialog_info(file_dialog : Union[int, str], **kwargs) -> dict:
+	"""	 Returns information related to the file dialog. Typically used while the file dialog is in use to query data about the state or info related to the file dialog.
 
 	Args:
 		file_dialog (Union[int, str]): 
 	Returns:
-		Union[int, str]
+		dict
 	"""
 
 	return internal_dpg.get_file_dialog_info(file_dialog, **kwargs)
@@ -7942,16 +7939,15 @@ def get_values(items : Union[List[int], Tuple[int, ...]], **kwargs) -> Any:
 
 	return internal_dpg.get_values(items, **kwargs)
 
-def get_viewport_configuration(item : Union[int, str], **kwargs) -> dict:
+def get_viewport_configuration(**kwargs) -> dict:
 	"""	 Returns a viewport's configuration.
 
 	Args:
-		item (Union[int, str]): 
 	Returns:
 		dict
 	"""
 
-	return internal_dpg.get_viewport_configuration(item, **kwargs)
+	return internal_dpg.get_viewport_configuration(**kwargs)
 
 def get_windows(**kwargs) -> Union[List[int], Tuple[int, ...]]:
 	"""	 Returns all windows.
@@ -8390,11 +8386,11 @@ def reset_pos(item : Union[int, str], **kwargs) -> None:
 	return internal_dpg.reset_pos(item, **kwargs)
 
 def sample_colormap(colormap : Union[int, str], t : float, **kwargs) -> Union[List[int], Tuple[int, ...]]:
-	"""	 Returns a color from a colormap given t between 0 and 1. This command can only be ran once the app is started.
+	"""	 Returns a color from a colormap given t between 0.0-1.0. This command can only be ran once the app is started.
 
 	Args:
-		colormap (Union[int, str]): 
-		t (float): 
+		colormap (Union[int, str]): The colormap tag. This should come from a colormap that was added to a colormap registry. Built in color maps are accessible through their corresponding constants mvPlotColormap_Twilight, mvPlotColormap_***
+		t (float): Value of the colormap to sample between 0.0-1.0
 	Returns:
 		Union[List[int], Tuple[int, ...]]
 	"""
@@ -8642,8 +8638,8 @@ def show_viewport(*, minimized: bool =False, maximized: bool =False, **kwargs) -
 	"""	 Shows the main viewport.
 
 	Args:
-		minimized (bool, optional): 
-		maximized (bool, optional): 
+		minimized (bool, optional): Sets the state of the viewport to minimized
+		maximized (bool, optional): Sets the state of the viewport to maximized
 		viewport (Union[int, str], optional): (deprecated) 
 	Returns:
 		None
