@@ -33,9 +33,9 @@ namespace Marvel {
 
         MV_PROFILE_SCOPE("Input Routing")
 
-            // update mouse
-            // mouse move event
-            ImVec2 mousepos = ImGui::GetMousePos();
+        // update mouse
+        // mouse move event
+        ImVec2 mousepos = ImGui::GetMousePos();
         if (ImGui::IsMousePosValid(&mousepos))
         {
             if (input.mouseGlobalPos.x != mousepos.x || input.mouseGlobalPos.y != mousepos.y)
@@ -50,11 +50,12 @@ namespace Marvel {
         for (int i = 0; i < IM_ARRAYSIZE(ImGui::GetIO().KeysDown); i++)
         {
             input.keysdown[i] = ImGui::GetIO().KeysDown[i];
+            input.keyspressed[i] = ImGui::GetIO().KeysDownDuration[i] == 0.0f;
+            input.keysreleased[i] = ImGui::GetIO().KeysDownDurationPrev[i] >= 0.0f && !ImGui::GetIO().KeysDown[i];
 
             // route key down event
             if (ImGui::GetIO().KeysDownDuration[i] >= 0.0f)
                 input.keysdownduration[i] = (int)(ImGui::GetIO().KeysDownDuration[i] * 100.0);
-
 
         }
 
