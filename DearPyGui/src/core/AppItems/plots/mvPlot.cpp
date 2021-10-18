@@ -250,6 +250,16 @@ namespace Marvel {
         if (!_show)
             return;
 
+        // cache old cursor position
+        ImVec2 previousCursorPos = ImGui::GetCursorPos();
+
+        // set cursor position if user set
+        if (_dirtyPos)
+            ImGui::SetCursorPos(_state.pos);
+
+        // update widget's position state
+        _state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
+
         // push font if a font object is attached
         if (_font)
         {
@@ -446,6 +456,10 @@ namespace Marvel {
             ImPlot::EndPlot();
             
         }
+
+        // set cursor position to cached position
+        if (_dirtyPos)
+            ImGui::SetCursorPos(previousCursorPos);
 
         ImPlot::GetInputMap() = _originalMap;
 
