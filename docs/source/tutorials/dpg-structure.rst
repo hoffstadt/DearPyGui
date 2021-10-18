@@ -6,6 +6,7 @@ DPG Structure Overview
 
 A DPG app will have an overall structure as follows:
     * Setup
+    * Context
     * Viewport
     * Render Loop
     * Items
@@ -104,7 +105,7 @@ Such as per-frame ticker or counter update functions.
 
     dpg.destroy_context()
 
-.. warning:: The manual render loop must be created after :py:func:`start_dearpygui <dearpygui.dearpygui.start_dearpygui>`
+.. warning:: The manual render loop must be created after :py:func:`setup_dearpygui <dearpygui.dearpygui.setup_dearpygui>`
 
 .. seealso:: For more information on the render loop :doc:`../documentation/render-loop`
 
