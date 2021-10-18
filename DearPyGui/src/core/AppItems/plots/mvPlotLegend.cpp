@@ -86,7 +86,7 @@ namespace Marvel {
         if (dict == nullptr)
             return;
 
-        if (PyObject* item = PyDict_GetItemString(dict, "location")) { _location = ToInt(item); _dirty = true; }
+        if (PyObject* item = PyDict_GetItemString(dict, "location")) { _legendLocation = ToInt(item); _dirty = true; }
         if (PyObject* item = PyDict_GetItemString(dict, "horizontal")){ _horizontal = ToBool(item); _dirty = true;}
         if (PyObject* item = PyDict_GetItemString(dict, "outside")) {_outside = ToBool(item); _dirty = true;}
 
