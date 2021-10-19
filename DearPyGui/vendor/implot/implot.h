@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-// ImPlot v0.11 WIP
+// ImPlot v0.12 WIP
 
 #pragma once
 #include "imgui.h"
@@ -38,7 +38,7 @@
 #endif
 
 // ImPlot version string
-#define IMPLOT_VERSION "0.11 WIP"
+#define IMPLOT_VERSION "0.12 WIP"
 // Indicates variable should deduced automatically.
 #define IMPLOT_AUTO -1
 // Special color used to indicate that a color should be deduced automatically.
@@ -419,7 +419,7 @@ IMPLOT_API void EndPlot();
 //     EndSubplots();
 // }
 //
-// Procudes:
+// Produces:
 //
 // [0][1][2]
 // [3][4][5]
@@ -509,33 +509,33 @@ IMPLOT_API void EndSubplots();
 // Plots a standard 2D line plot.
 template <typename T> IMPLOT_API void PlotLine(const char* label_id, const T* values, int count, double xscale=1, double x0=0, int offset=0, int stride=sizeof(T));
 template <typename T> IMPLOT_API void PlotLine(const char* label_id, const T* xs, const T* ys, int count, int offset=0, int stride=sizeof(T));
-                      IMPLOT_API void PlotLineG(const char* label_id, ImPlotPoint (*getter)(void* data, int idx), void* data, int count, int offset=0);
+                      IMPLOT_API void PlotLineG(const char* label_id, ImPlotPoint (*getter)(void* data, int idx), void* data, int count);
 
 // Plots a standard 2D scatter plot. Default marker is ImPlotMarker_Circle.
 template <typename T> IMPLOT_API  void PlotScatter(const char* label_id, const T* values, int count, double xscale=1, double x0=0, int offset=0, int stride=sizeof(T));
 template <typename T> IMPLOT_API  void PlotScatter(const char* label_id, const T* xs, const T* ys, int count, int offset=0, int stride=sizeof(T));
-                      IMPLOT_API  void PlotScatterG(const char* label_id, ImPlotPoint (*getter)(void* data, int idx), void* data, int count, int offset=0);
+                      IMPLOT_API  void PlotScatterG(const char* label_id, ImPlotPoint (*getter)(void* data, int idx), void* data, int count);
 
 // Plots a a stairstep graph. The y value is continued constantly from every x position, i.e. the interval [x[i], x[i+1]) has the value y[i].
 template <typename T> IMPLOT_API void PlotStairs(const char* label_id, const T* values, int count, double xscale=1, double x0=0, int offset=0, int stride=sizeof(T));
 template <typename T> IMPLOT_API void PlotStairs(const char* label_id, const T* xs, const T* ys, int count, int offset=0, int stride=sizeof(T));
-                      IMPLOT_API void PlotStairsG(const char* label_id, ImPlotPoint (*getter)(void* data, int idx), void* data, int count, int offset=0);
+                      IMPLOT_API void PlotStairsG(const char* label_id, ImPlotPoint (*getter)(void* data, int idx), void* data, int count);
 
 // Plots a shaded (filled) region between two lines, or a line and a horizontal reference. Set y_ref to +/-INFINITY for infinite fill extents.
 template <typename T> IMPLOT_API void PlotShaded(const char* label_id, const T* values, int count, double y_ref=0, double xscale=1, double x0=0, int offset=0, int stride=sizeof(T));
 template <typename T> IMPLOT_API void PlotShaded(const char* label_id, const T* xs, const T* ys, int count, double y_ref=0, int offset=0, int stride=sizeof(T));
 template <typename T> IMPLOT_API void PlotShaded(const char* label_id, const T* xs, const T* ys1, const T* ys2, int count, int offset=0, int stride=sizeof(T));
-                      IMPLOT_API void PlotShadedG(const char* label_id, ImPlotPoint (*getter1)(void* data, int idx), void* data1, ImPlotPoint (*getter2)(void* data, int idx), void* data2, int count, int offset=0);
+                      IMPLOT_API void PlotShadedG(const char* label_id, ImPlotPoint (*getter1)(void* data, int idx), void* data1, ImPlotPoint (*getter2)(void* data, int idx), void* data2, int count);
 
 // Plots a vertical bar graph. #width and #shift are in X units.
 template <typename T> IMPLOT_API void PlotBars(const char* label_id, const T* values, int count, double width=0.67, double shift=0, int offset=0, int stride=sizeof(T));
 template <typename T> IMPLOT_API void PlotBars(const char* label_id, const T* xs, const T* ys, int count, double width, int offset=0, int stride=sizeof(T));
-                      IMPLOT_API void PlotBarsG(const char* label_id, ImPlotPoint (*getter)(void* data, int idx), void* data, int count, double width, int offset=0);
+                      IMPLOT_API void PlotBarsG(const char* label_id, ImPlotPoint (*getter)(void* data, int idx), void* data, int count, double width);
 
 // Plots a horizontal bar graph. #height and #shift are in Y units.
 template <typename T> IMPLOT_API void PlotBarsH(const char* label_id, const T* values, int count, double height=0.67, double shift=0, int offset=0, int stride=sizeof(T));
 template <typename T> IMPLOT_API void PlotBarsH(const char* label_id, const T* xs, const T* ys, int count, double height, int offset=0, int stride=sizeof(T));
-                      IMPLOT_API void PlotBarsHG(const char* label_id, ImPlotPoint (*getter)(void* data, int idx), void* data, int count, double height,  int offset=0);
+                      IMPLOT_API void PlotBarsHG(const char* label_id, ImPlotPoint (*getter)(void* data, int idx), void* data, int count, double height);
 
 // Plots vertical error bar. The label_id should be the same as the label_id of the associated line or bar plot.
 template <typename T> IMPLOT_API void PlotErrorBars(const char* label_id, const T* xs, const T* ys, const T* err, int count, int offset=0, int stride=sizeof(T));
@@ -571,7 +571,7 @@ template <typename T> IMPLOT_API double PlotHistogram2D(const char* label_id, co
 
 // Plots digital data. Digital plots do not respond to y drag or zoom, and are always referenced to the bottom of the plot.
 template <typename T> IMPLOT_API void PlotDigital(const char* label_id, const T* xs, const T* ys, int count, int offset=0, int stride=sizeof(T));
-                      IMPLOT_API void PlotDigitalG(const char* label_id, ImPlotPoint (*getter)(void* data, int idx), void* data, int count, int offset=0);
+                      IMPLOT_API void PlotDigitalG(const char* label_id, ImPlotPoint (*getter)(void* data, int idx), void* data, int count);
 
 // Plots an axis-aligned image. #bounds_min/bounds_max are in plot coordinates (y-up) and #uv0/uv1 are in texture coordinates (y-down).
 IMPLOT_API void PlotImage(const char* label_id, ImTextureID user_texture_id, const ImPlotPoint& bounds_min, const ImPlotPoint& bounds_max, const ImVec2& uv0=ImVec2(0,0), const ImVec2& uv1=ImVec2(1,1), const ImVec4& tint_col=ImVec4(1,1,1,1));
@@ -651,8 +651,11 @@ IMPLOT_API ImPlotLimits GetPlotQuery(ImPlotYAxis y_axis = IMPLOT_AUTO);
 // Set the current plot query bounds. Query must be enabled with ImPlotFlags_Query.
 IMPLOT_API void SetPlotQuery(const ImPlotLimits& query, ImPlotYAxis y_axis = IMPLOT_AUTO);
 
+// Returns true if the bounding frame of a subplot is hovered/
+IMPLOT_API bool IsSubplotsHovered();
+
 //-----------------------------------------------------------------------------
-// Algined Plots
+// Aligned Plots
 //-----------------------------------------------------------------------------
 
 // Consider using Begin/EndSubplots first. They are more feature rich and
