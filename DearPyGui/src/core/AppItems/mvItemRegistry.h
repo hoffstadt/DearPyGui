@@ -28,20 +28,20 @@ namespace Marvel {
     // cleanup
     void             ClearItemRegistry(mvItemRegistry& registry);
     void             CleanUpItem      (mvItemRegistry& registry, mvUUID uuid);
-    bool             DeleteItem       (mvItemRegistry& registry, mvUUID uuid, bool childrenOnly = false, int slot = -1);
+    b8               DeleteItem       (mvItemRegistry& registry, mvUUID uuid, b8 childrenOnly = false, i32 slot = -1);
 
     // aliases
     void             AddAlias      (mvItemRegistry& registry, const std::string& alias, mvUUID id);
-    void             RemoveAlias   (mvItemRegistry& registry, const std::string& alias, bool itemTriggered = false);
+    void             RemoveAlias   (mvItemRegistry& registry, const std::string& alias, b8 itemTriggered = false);
     mvUUID           GetIdFromAlias(mvItemRegistry& registry, const std::string& alias);
 
     // item pools
     mvRef<mvAppItem> GetItemFromPool(mvItemRegistry& registry, mvAppItemType itemType);
 
     // item movement
-    bool             MoveItem    (mvItemRegistry& registry, mvUUID uuid, mvUUID parent, mvUUID before);
-    bool             MoveItemUp  (mvItemRegistry& registry, mvUUID uuid);
-    bool             MoveItemDown(mvItemRegistry& registry, mvUUID uuid);
+    b8               MoveItem    (mvItemRegistry& registry, mvUUID uuid, mvUUID parent, mvUUID before);
+    b8               MoveItemUp  (mvItemRegistry& registry, mvUUID uuid);
+    b8               MoveItemDown(mvItemRegistry& registry, mvUUID uuid);
 
     // item retrieval
     mvUUID           GetIDFromPyObject(PyObject* item);
@@ -52,7 +52,7 @@ namespace Marvel {
 
     // item operations
     void             DelaySearch             (mvItemRegistry& registry, mvAppItem* item);
-    bool             AddItemWithRuntimeChecks(mvItemRegistry& registry, mvRef<mvAppItem> item, mvUUID parent, mvUUID before);
+    b8               AddItemWithRuntimeChecks(mvItemRegistry& registry, mvRef<mvAppItem> item, mvUUID parent, mvUUID before);
     void             ResetTheme              (mvItemRegistry& registry);
     void             TryBoundTemplateRegistry(mvItemRegistry& registry, mvAppItem* item);
 
@@ -72,14 +72,14 @@ namespace Marvel {
     struct mvItemRegistry
     {
 
-        static constexpr int CachedContainerCount = 25;
+        static constexpr i32 CachedContainerCount = 25;
 
         // caching
         mvUUID     lastItemAdded = 0;
         mvUUID     lastContainerAdded = 0;
         mvUUID     lastRootAdded = 0;
-        int        cachedContainerIndex = 0;
-        int        cachedItemsIndex = 0;
+        i32        cachedContainerIndex = 0;
+        i32        cachedItemsIndex = 0;
         mvUUID     cachedItemsID[CachedContainerCount];
         mvAppItem* cachedItemsPTR[CachedContainerCount];
         mvUUID     cachedContainersID[CachedContainerCount];
@@ -90,8 +90,8 @@ namespace Marvel {
         std::unordered_map<std::string, mvUUID> aliases;
         mvUUID                                  activeWindow = 0;
         std::vector<mvAppItem*>                 delayedSearch;
-        bool                                    showImGuiDebug = false;
-        bool                                    showImPlotDebug = false;
+        b8                                      showImGuiDebug = false;
+        b8                                      showImPlotDebug = false;
         mvRef<mvAppItem>                        boundedTemplateRegistry;
         std::vector<mvRef<mvAppItem>>           debugWindows;
         mvRef<mvAppItem>                        capturedItem = nullptr;
@@ -116,7 +116,7 @@ namespace Marvel {
         mvItemRegistry()
         {
             // prefill cached containers
-            for (int i = 0; i < CachedContainerCount; i++)
+            for (i32 i = 0; i < CachedContainerCount; i++)
             {
                 cachedContainersID[i] = 0;
                 cachedContainersPTR[i] = nullptr;

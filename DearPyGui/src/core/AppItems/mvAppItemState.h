@@ -40,48 +40,48 @@ namespace Marvel {
     // public API
     //-----------------------------------------------------------------------------
 
-    void FillAppItemState  (PyObject* dict, mvAppItemState& state, int applicableState); // fills python dict with applicable state values
+    void FillAppItemState  (PyObject* dict, mvAppItemState& state, i32 applicableState); // fills python dict with applicable state values
     void ResetAppItemState (mvAppItemState& state);                                      // reset values to false
     void UpdateAppItemState(mvAppItemState& state);                                      // standard imgui update
 
     // return actual value if frame is active
-    bool IsItemHovered             (mvAppItemState& state, int frameDelay = 0);
-    bool IsItemActive              (mvAppItemState& state, int frameDelay = 0);
-    bool IsItemFocused             (mvAppItemState& state, int frameDelay = 0);
-    bool IsItemLeftClicked         (mvAppItemState& state, int frameDelay = 0);
-    bool IsItemRightClicked        (mvAppItemState& state, int frameDelay = 0);
-    bool IsItemMiddleClicked       (mvAppItemState& state, int frameDelay = 0);
-    bool IsItemVisible             (mvAppItemState& state, int frameDelay = 0);
-    bool IsItemEdited              (mvAppItemState& state, int frameDelay = 0);
-    bool IsItemActivated           (mvAppItemState& state, int frameDelay = 0);
-    bool IsItemDeactivated         (mvAppItemState& state, int frameDelay = 0);
-    bool IsItemDeactivatedAfterEdit(mvAppItemState& state, int frameDelay = 0);
-    bool IsItemToogledOpen         (mvAppItemState& state, int frameDelay = 0);
-    bool IsItemRectSizeResized     (mvAppItemState& state, int frameDelay = 0);
+    b8 IsItemHovered             (mvAppItemState& state, i32 frameDelay = 0);
+    b8 IsItemActive              (mvAppItemState& state, i32 frameDelay = 0);
+    b8 IsItemFocused             (mvAppItemState& state, i32 frameDelay = 0);
+    b8 IsItemLeftClicked         (mvAppItemState& state, i32 frameDelay = 0);
+    b8 IsItemRightClicked        (mvAppItemState& state, i32 frameDelay = 0);
+    b8 IsItemMiddleClicked       (mvAppItemState& state, i32 frameDelay = 0);
+    b8 IsItemVisible             (mvAppItemState& state, i32 frameDelay = 0);
+    b8 IsItemEdited              (mvAppItemState& state, i32 frameDelay = 0);
+    b8 IsItemActivated           (mvAppItemState& state, i32 frameDelay = 0);
+    b8 IsItemDeactivated         (mvAppItemState& state, i32 frameDelay = 0);
+    b8 IsItemDeactivatedAfterEdit(mvAppItemState& state, i32 frameDelay = 0);
+    b8 IsItemToogledOpen         (mvAppItemState& state, i32 frameDelay = 0);
+    b8 IsItemRectSizeResized     (mvAppItemState& state, i32 frameDelay = 0);
 
     struct mvAppItemState
     {
-        bool       hovered              = false;
-        bool       active               = false;
-        bool       focused              = false;
-        bool       leftclicked          = false;
-        bool       rightclicked         = false;
-        bool       middleclicked        = false;
-        bool       visible              = false;
-        bool       edited               = false;
-        bool       activated            = false;
-        bool       deactivated          = false;
-        bool       deactivatedAfterEdit = false;
-        bool       toggledOpen          = false;
-        bool       mvRectSizeResized    = false;
+        b8         hovered              = false;
+        b8         active               = false;
+        b8         focused              = false;
+        b8         leftclicked          = false;
+        b8         rightclicked         = false;
+        b8         middleclicked        = false;
+        b8         visible              = false;
+        b8         edited               = false;
+        b8         activated            = false;
+        b8         deactivated          = false;
+        b8         deactivatedAfterEdit = false;
+        b8         toggledOpen          = false;
+        b8         mvRectSizeResized    = false;
         mvVec2     rectMin              = { 0.0f, 0.0f };
         mvVec2     rectMax              = { 0.0f, 0.0f };
         mvVec2     rectSize             = { 0.0f, 0.0f };
         mvVec2     mvPrevRectSize       = { 0.0f, 0.0f };
         mvVec2     pos                  = { 0.0f, 0.0f };
         mvVec2     contextRegionAvail   = { 0.0f, 0.0f };
-        bool       ok                   = true;
-        int        lastFrameUpdate      = 0; // last frame update occured
+        b8         ok                   = true;
+        i32        lastFrameUpdate      = 0; // last frame update occured
         mvAppItem* parent               = nullptr; // hacky, but quick fix for widget handlers
     };
 

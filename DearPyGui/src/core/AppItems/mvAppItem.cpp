@@ -12,11 +12,11 @@
 namespace Marvel {
 
     mv_internal void 
-    UpdateLocations(std::vector<mvRef<mvAppItem>>* children, int slots)
+    UpdateLocations(std::vector<mvRef<mvAppItem>>* children, i32 slots)
     {
-        for (int i = 0; i < slots; i++)
+        for (i32 i = 0; i < slots; i++)
         {
-            int index = 0;
+            i32 index = 0;
             for (auto& child : children[i])
             {
                 child->_location = index;
@@ -129,11 +129,11 @@ namespace Marvel {
         applySpecificTemplate(item);
     }
 
-    bool 
+    b8 
     mvAppItem::moveChildUp(mvUUID uuid)
     {
-        bool found = false;
-        int index = 0;
+        b8 found = false;
+        i32 index = 0;
 
         for (auto& childset : _children)
         {
@@ -144,7 +144,7 @@ namespace Marvel {
                 if (childset[i]->_uuid == uuid)
                 {
                     found = true;
-                    index = (int)i;
+                    index = (i32)i;
                     break;
                 }
 
@@ -177,10 +177,10 @@ namespace Marvel {
         return false;
     }
 
-    bool  
+    b8 
     mvAppItem::moveChildDown(mvUUID uuid)
     {
-        bool found = false;
+        b8 found = false;
         size_t index = 0;
 
         for (auto& childset : _children)
@@ -227,7 +227,7 @@ namespace Marvel {
         return false;
     }
 
-    bool 
+    b8
     mvAppItem::addRuntimeChild(mvUUID parent, mvUUID before, mvRef<mvAppItem> item)
     {
         if (before == 0 && parent == 0)
@@ -241,7 +241,7 @@ namespace Marvel {
 
                 if (_uuid == parent)
                 {
-                    item->_location = (int)_children[item->getTarget()].size();
+                    item->_location = (i32)_children[item->getTarget()].size();
                     _children[item->getTarget()].push_back(item);
                     onChildAdd(item);
                     item->_parentPtr = this;
@@ -324,22 +324,22 @@ namespace Marvel {
         return false;
     }
 
-    bool 
+    b8
     mvAppItem::addItem(mvRef<mvAppItem> item)
     {
-        item->_location = (int)_children[item->getTarget()].size();
+        item->_location = (i32)_children[item->getTarget()].size();
         _children[item->getTarget()].push_back(item);
         onChildAdd(item);
         return true;
     }
 
-    bool 
+    b8
     mvAppItem::addChildAfter(mvUUID prev, mvRef<mvAppItem> item)
     {
         if (prev == 0)
             return false;
 
-        bool prevFound = false;
+        b8 prevFound = false;
 
         // check children
         for (auto& childslot : _children)
@@ -393,14 +393,14 @@ namespace Marvel {
         return false;
     }
 
-    bool 
+    b8 
     mvAppItem::deleteChild(mvUUID uuid)
     {
 
         for (auto& childset : _children)
         {
-            bool childfound = false;
-            bool itemDeleted = false;
+            b8 childfound = false;
+            b8 itemDeleted = false;
 
             for (auto& item : childset)
             {
@@ -451,7 +451,7 @@ namespace Marvel {
 
         for (auto& childset : _children)
         {
-            bool childfound = false;
+            b8 childfound = false;
 
             for (auto& item : childset)
             {
@@ -606,14 +606,14 @@ namespace Marvel {
         }
 
         if (PyObject* item = PyDict_GetItemString(dict, "pos")) {
-            std::vector<float> position = ToFloatVect(item);
+            std::vector<f32> position = ToFloatVect(item);
             if (!position.empty())
             {
                 _dirtyPos = true;
                 _state.pos = mvVec2{ position[0], position[1] };
             }
         }
-        if (PyObject* item = PyDict_GetItemString(dict, "indent")) _indent = (float)ToInt(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "indent")) _indent = (f32)ToInt(item);
         if (PyObject* item = PyDict_GetItemString(dict, "show")) 
         {
             _show = ToBool(item);
@@ -637,7 +637,7 @@ namespace Marvel {
         }
         if (PyObject* item = PyDict_GetItemString(dict, "enabled"))
         {
-            bool value = ToBool(item);
+            b8 value = ToBool(item);
 
             if (_enabled != value)
             {

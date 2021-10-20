@@ -6,7 +6,7 @@
 
 namespace Marvel {
 
-	static PyObject* SanitizeCallback(PyObject* callback)
+	mv_internal PyObject* SanitizeCallback(PyObject* callback)
 	{
 		if (callback == Py_None)
 			return nullptr;
@@ -16,24 +16,24 @@ namespace Marvel {
 
 	struct mvCallbackRegistry
 	{
-		const int maxNumberOfCalls = 50;
+		const i32 maxNumberOfCalls = 50;
 
 		mvQueue<mvFunctionWrapper> tasks;
 		mvQueue<mvFunctionWrapper> calls;
-		std::atomic<bool>          running;
-		std::atomic<int>           callCount = 0;
+		std::atomic<b8>            running = false;
+		std::atomic<i32>           callCount = 0;
 
 		// callbacks
 		PyObject* resizeCallback = nullptr;
 		PyObject* onCloseCallback = nullptr;
 
-		int highestFrame = 0;
-		std::unordered_map<int, PyObject*> frameCallbacks;
+		i32 highestFrame = 0;
+		std::unordered_map<i32, PyObject*> frameCallbacks;
 	};
 
 	void InsertParser_mvCallbackRegistry(std::map<std::string, mvPythonParser>* parsers);
 
-	void mvFrameCallback(int frame);
+	void mvFrameCallback(i32 frame);
 	void mvRunTasks();
 	void mvRunCallback(PyObject* callback, mvUUID sender, PyObject* app_data, PyObject* user_data);
 	void mvRunCallback(PyObject* callback, const std::string& sender, PyObject* app_data, PyObject* user_data);

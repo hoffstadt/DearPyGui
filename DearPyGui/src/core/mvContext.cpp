@@ -40,14 +40,14 @@ namespace Marvel {
         {
             if (input.mouseGlobalPos.x != mousepos.x || input.mouseGlobalPos.y != mousepos.y)
             {
-                input.mouseGlobalPos.x = (int)mousepos.x;
-                input.mouseGlobalPos.y = (int)mousepos.y;
+                input.mouseGlobalPos.x = (i32)mousepos.x;
+                input.mouseGlobalPos.y = (i32)mousepos.y;
             }
         }
 
 
         // route key events
-        for (int i = 0; i < IM_ARRAYSIZE(ImGui::GetIO().KeysDown); i++)
+        for (i32 i = 0; i < IM_ARRAYSIZE(ImGui::GetIO().KeysDown); i++)
         {
             input.keysdown[i] = ImGui::GetIO().KeysDown[i];
             input.keyspressed[i] = ImGui::GetIO().KeysDownDuration[i] == 0.0f;
@@ -55,36 +55,36 @@ namespace Marvel {
 
             // route key down event
             if (ImGui::GetIO().KeysDownDuration[i] >= 0.0f)
-                input.keysdownduration[i] = (int)(ImGui::GetIO().KeysDownDuration[i] * 100.0);
+                input.keysdownduration[i] = (i32)(ImGui::GetIO().KeysDownDuration[i] * 100.0);
 
         }
 
         // route mouse wheel event
         if (ImGui::GetIO().MouseWheel != 0.0f)
-            input.mousewheel = (int)ImGui::GetIO().MouseWheel;
+            input.mousewheel = (i32)ImGui::GetIO().MouseWheel;
 
         // route mouse dragging event
-        for (int i = 0; i < 3; i++)
+        for (i32 i = 0; i < 3; i++)
         {
-            input.mouseDragging[i] = ImGui::IsMouseDragging(i, (float)input.mouseDragThreshold);
+            input.mouseDragging[i] = ImGui::IsMouseDragging(i, (f32)input.mouseDragThreshold);
 
-            if (ImGui::IsMouseDragging(i, (float)input.mouseDragThreshold))
+            if (ImGui::IsMouseDragging(i, (f32)input.mouseDragThreshold))
             {
-                input.mouseDragDelta.x = (int)ImGui::GetMouseDragDelta().x;
-                input.mouseDragDelta.y = (int)ImGui::GetMouseDragDelta().y;
+                input.mouseDragDelta.x = (i32)ImGui::GetMouseDragDelta().x;
+                input.mouseDragDelta.y = (i32)ImGui::GetMouseDragDelta().y;
                 break;
             }
 
         }
 
         // route other mouse events (note mouse move callbacks are handled in mvWindowAppItem)
-        for (int i = 0; i < IM_ARRAYSIZE(ImGui::GetIO().MouseDown); i++)
+        for (i32 i = 0; i < IM_ARRAYSIZE(ImGui::GetIO().MouseDown); i++)
         {
             input.mousedown[i] = ImGui::GetIO().MouseDown[i];
 
             // route mouse down event
             if (ImGui::GetIO().MouseDownDuration[i] >= 0.0f)
-                input.mousedownduration[i] = (int)(ImGui::GetIO().MouseDownDuration[i] * 100.0);
+                input.mousedownduration[i] = (i32)(ImGui::GetIO().MouseDownDuration[i] * 100.0);
             else
                 input.mousedownduration[i] = 0;
         }
@@ -119,7 +119,7 @@ namespace Marvel {
         mvToolManager::Reset();
         ClearItemRegistry(*GContext->itemRegistry);
 
-        constexpr_for<1, (int)mvAppItemType::ItemTypeCount, 1>(
+        constexpr_for<1, (i32)mvAppItemType::ItemTypeCount, 1>(
             [&](auto i) {
                 using item_type = typename mvItemTypeMap<i>::type;
                 item_type::s_class_theme_component = nullptr;
@@ -245,7 +245,7 @@ namespace Marvel {
         GContext->deltaTime = ImGui::GetIO().DeltaTime;
         GContext->time = ImGui::GetTime();
         GContext->frame = ImGui::GetFrameCount();
-        GContext->framerate = (int)ImGui::GetIO().Framerate;
+        GContext->framerate = (i32)ImGui::GetIO().Framerate;
 
         ImGui::GetIO().FontGlobalScale = mvToolManager::GetFontManager().getGlobalFontScale();
 
@@ -963,7 +963,7 @@ namespace Marvel {
     mv_python_function
     split_frame(PyObject* self, PyObject* args, PyObject* kwargs)
     {
-        int delay = 32;
+        i32 delay = 32;
 
         if (!Parse((GetParsers())["split_frame"], args, kwargs, __FUNCTION__,
             &delay))
@@ -1001,12 +1001,6 @@ namespace Marvel {
     mv_python_function
     get_frame_count(PyObject* self, PyObject* args, PyObject* kwargs)
     {
-        int frame = 0;
-
-        if (!Parse((GetParsers())["get_frame_count"], args, kwargs, __FUNCTION__,
-            &frame))
-            return GetPyNone();
-
         if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
         return ToPyInt(GContext->frame);
     }
@@ -1015,8 +1009,8 @@ namespace Marvel {
     load_image(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         const char* file;
-        float gamma = 1.0f;
-        float gamma_scale = 1.0f;
+        f32 gamma = 1.0f;
+        f32 gamma_scale = 1.0f;
 
         if (!Parse((GetParsers())["load_image"], args, kwargs, __FUNCTION__,
             &file, &gamma, &gamma_scale))
@@ -1037,11 +1031,11 @@ namespace Marvel {
         
 
         // Load from disk into a raw RGBA buffer
-        int image_width = 0;
-        int image_height = 0;
+        i32 image_width = 0;
+        i32 image_height = 0;
 
         // automatic gamma correction
-        float* image_data = stbi_loadf(file, &image_width, &image_height, NULL, 4);
+        f32* image_data = stbi_loadf(file, &image_width, &image_height, NULL, 4);
         if (image_data == NULL)
             return GetPyNone();
 
@@ -1049,7 +1043,7 @@ namespace Marvel {
         PymvBuffer* newbufferview = nullptr;
         newbufferview = PyObject_New(PymvBuffer, &PymvBufferType);
         newbufferview->arr.length = image_width * image_height * 4;
-        newbufferview->arr.data = (float*)image_data;
+        newbufferview->arr.data = (f32*)image_data;
         newbuffer = PyObject_Init((PyObject*)newbufferview, &PymvBufferType);
 
         PyObject* result = PyTuple_New(4);
@@ -1144,7 +1138,7 @@ namespace Marvel {
     get_total_time(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         if(!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
-        return ToPyFloat((float)GContext->time);
+        return ToPyFloat((f32)GContext->time);
     }
 
     mv_python_function
@@ -1159,7 +1153,7 @@ namespace Marvel {
     get_frame_rate(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
-        return ToPyFloat((float)GContext->framerate);
+        return ToPyFloat((f32)GContext->framerate);
 
     }
 
@@ -1239,7 +1233,7 @@ namespace Marvel {
     mv_python_function
     get_mouse_pos(PyObject* self, PyObject* args, PyObject* kwargs)
     {
-        int local = true;
+        b32 local = true;
 
         if (!Parse((GetParsers())["get_mouse_pos"], args, kwargs, __FUNCTION__, &local))
             return GetPyNone();
@@ -1247,9 +1241,9 @@ namespace Marvel {
         auto pos = mvVec2();
 
         if (local)
-            pos = { (float)GContext->input.mousePos.x, (float)GContext->input.mousePos.y };
+            pos = { (f32)GContext->input.mousePos.x, (f32)GContext->input.mousePos.y };
         else
-            pos = { (float)GContext->input.mouseGlobalPos.x, (float)GContext->input.mouseGlobalPos.y };
+            pos = { (f32)GContext->input.mouseGlobalPos.x, (f32)GContext->input.mouseGlobalPos.y };
 
         return ToPyPair(pos.x, pos.y);
     }
@@ -1261,7 +1255,7 @@ namespace Marvel {
         if (!Parse((GetParsers())["get_plot_mouse_pos"], args, kwargs, __FUNCTION__))
             return GetPyNone();
 
-        mvVec2 pos = { (float)GContext->input.mousePlotPos.x, (float)GContext->input.mousePlotPos.y };
+        mvVec2 pos = { (f32)GContext->input.mousePlotPos.x, (f32)GContext->input.mousePlotPos.y };
 
         return ToPyPair(pos.x, pos.y);
     }
@@ -1273,7 +1267,7 @@ namespace Marvel {
         if (!Parse((GetParsers())["get_drawing_mouse_pos"], args, kwargs, __FUNCTION__))
             return GetPyNone();
 
-        mvVec2 pos = { (float)GContext->input.mouseDrawingPos.x, (float)GContext->input.mouseDrawingPos.y };
+        mvVec2 pos = { (f32)GContext->input.mouseDrawingPos.x, (f32)GContext->input.mouseDrawingPos.y };
 
         return ToPyPair(pos.x, pos.y);
     }
@@ -1282,14 +1276,14 @@ namespace Marvel {
     get_mouse_drag_delta(PyObject* self, PyObject* arg, PyObject* kwargss)
     {
 
-        mvVec2 pos = { (float)GContext->input.mouseDragDelta.x, (float)GContext->input.mouseDragDelta.y };
+        mvVec2 pos = { (f32)GContext->input.mouseDragDelta.x, (f32)GContext->input.mouseDragDelta.y };
         return ToPyPair(pos.x, pos.y);
     }
 
     mv_python_function
     is_key_pressed(PyObject* self, PyObject* args, PyObject* kwargs)
     {
-        int key;
+        i32 key;
 
         if (!Parse((GetParsers())["is_key_pressed"], args, kwargs, __FUNCTION__, &key))
             return GetPyNone();
@@ -1300,7 +1294,7 @@ namespace Marvel {
     mv_python_function
     is_key_released(PyObject* self, PyObject* args, PyObject* kwargs)
     {
-        int key;
+        i32 key;
 
         if (!Parse((GetParsers())["is_key_released"], args, kwargs, __FUNCTION__, &key))
             return GetPyNone();
@@ -1311,7 +1305,7 @@ namespace Marvel {
     mv_python_function
     is_key_down(PyObject* self, PyObject* args, PyObject* kwargs)
     {
-        int key;
+        i32 key;
 
         if (!Parse((GetParsers())["is_key_down"], args, kwargs, __FUNCTION__, &key))
             return GetPyNone();
@@ -1322,19 +1316,19 @@ namespace Marvel {
     mv_python_function
     is_mouse_button_dragging(PyObject* self, PyObject* args, PyObject* kwargs)
     {
-        int button;
-        float threshold;
+        i32 button;
+        f32 threshold;
 
         if (!Parse((GetParsers())["is_mouse_button_dragging"], args, kwargs, __FUNCTION__, &button, &threshold))
             return GetPyNone();
 
-        return ToPyBool((float)GContext->input.mousedownduration[button] / 100.0f >= threshold);
+        return ToPyBool((f32)GContext->input.mousedownduration[button] / 100.0f >= threshold);
     }
 
     mv_python_function
     is_mouse_button_down(PyObject* self, PyObject* args, PyObject* kwargs)
     {
-        int button;
+        i32 button;
 
         if (!Parse((GetParsers())["is_mouse_button_down"], args, kwargs, __FUNCTION__, &button))
             return GetPyNone();
@@ -1345,7 +1339,7 @@ namespace Marvel {
     mv_python_function
     is_mouse_button_clicked(PyObject* self, PyObject* args, PyObject* kwargs)
     {
-        int button;
+        i32 button;
 
         if (!Parse((GetParsers())["is_mouse_button_clicked"], args, kwargs, __FUNCTION__, &button))
             return GetPyNone();
@@ -1356,7 +1350,7 @@ namespace Marvel {
     mv_python_function
     is_mouse_button_double_clicked(PyObject* self, PyObject* args, PyObject* kwargs)
     {
-        int button;
+        i32 button;
 
         if (!Parse((GetParsers())["is_mouse_button_double_clicked"], args, kwargs, __FUNCTION__, &button))
             return GetPyNone();
@@ -1367,7 +1361,7 @@ namespace Marvel {
     mv_python_function
     is_mouse_button_released(PyObject* self, PyObject* args, PyObject* kwargs)
     {
-        int button;
+        i32 button;
 
         if (!Parse((GetParsers())["is_mouse_button_released"], args, kwargs, __FUNCTION__, &button))
             return GetPyNone();

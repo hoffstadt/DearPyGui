@@ -3,6 +3,7 @@
 #include <chrono>
 #include <string>
 #include <map>
+#include "mvTypes.h"
 
 namespace Marvel {
 
@@ -76,7 +77,7 @@ namespace Marvel {
 	private:
 
 		const char*                                        m_Name;
-		bool                                               m_Stopped;
+		b8                                                 m_Stopped;
 		std::chrono::time_point<std::chrono::steady_clock> m_StartTimepoint;
 
 	};

@@ -19,8 +19,8 @@ namespace Marvel {
 
 	struct mvViewport
 	{
-		bool        running = true;
-		bool        shown = false;
+		b8 running = true;
+		b8 shown = false;
 
 		std::string title = "Dear PyGui";
 		std::string small_icon;
@@ -28,35 +28,35 @@ namespace Marvel {
 		mvColor     clearColor = mvColor(0, 0, 0, 255);
 		
 		// window modes
-		bool titleDirty  = false;
-		bool modesDirty  = false;
-		bool vsync       = true;
-		bool resizable   = true;
-		bool alwaysOnTop = false;
-		bool decorated   = true;
-        bool fullScreen  = false;
+		b8 titleDirty  = false;
+		b8 modesDirty  = false;
+		b8 vsync       = true;
+		b8 resizable   = true;
+		b8 alwaysOnTop = false;
+		b8 decorated   = true;
+        b8 fullScreen  = false;
 
 		// position/size
-		bool     sizeDirty    = false;
-		bool     posDirty     = false;
-		unsigned width        = 0;
-		unsigned height       = 0;
-		unsigned minwidth     = 250;
-		unsigned minheight    = 250;
-		unsigned maxwidth     = 10000;
-		unsigned maxheight    = 10000;
-		int      actualWidth  = 1280;
-		int      actualHeight = 800;
-		int      clientWidth  = 1280;
-		int      clientHeight = 800;
-		int      xpos         = 100;
-		int      ypos         = 100;
+		b8  sizeDirty    = false;
+		b8  posDirty     = false;
+		u32 width        = 0;
+		u32 height       = 0;
+		u32 minwidth     = 250;
+		u32 minheight    = 250;
+		u32 maxwidth     = 10000;
+		u32 maxheight    = 10000;
+		i32 actualWidth  = 1280;
+		i32 actualHeight = 800;
+		i32 clientWidth  = 1280;
+		i32 clientHeight = 800;
+		i32 xpos         = 100;
+		i32 ypos         = 100;
 
 	};
 
-	mvViewport* mvCreateViewport(unsigned width, unsigned height);
+	mvViewport* mvCreateViewport(u32 width, u32 height);
 	void        mvCleanupViewport();
-	void        mvShowViewport(bool minimized, bool maximized);
+	void        mvShowViewport(b8 minimized, b8 maximized);
 	void        mvMaximizeViewport();
 	void        mvMinimizeViewport();
 	void        mvRestoreViewport();
