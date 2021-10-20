@@ -20,7 +20,7 @@ namespace Marvel {
 
 		mvQueue<mvFunctionWrapper> tasks;
 		mvQueue<mvFunctionWrapper> calls;
-		std::atomic<b8>            running;
+		std::atomic<b8>            running = false;
 		std::atomic<i32>           callCount = 0;
 
 		// callbacks
