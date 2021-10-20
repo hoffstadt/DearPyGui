@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-// ImPlot v0.11 WIP
+// ImPlot v0.12 WIP
 
 /*
 
@@ -31,6 +31,7 @@ Below is a change-log of API breaking changes only. If you are using one of the 
 When you are not sure about a old symbol or function name, try using the Search/Find function of your IDE to look for comments or references in all implot files.
 You can read releases logs https://github.com/epezent/implot/releases for more details.
 
+- 2021/07/30 (0.12) - The offset argument of `PlotXG` functions was been removed. Implement offsetting in your getter callback instead.
 - 2021/03/08 (0.9)  - SetColormap and PushColormap(ImVec4*) were removed. Use AddColormap for custom colormap support. LerpColormap was changed to SampleColormap.
                       ShowColormapScale was changed to ColormapScale and requires additional arguments.
 - 2021/03/07 (0.9)  - The signature of ShowColormapScale was modified to accept a ImVec2 size.
@@ -84,7 +85,9 @@ You can read releases logs https://github.com/epezent/implot/releases for more d
 #endif
 
 // Global plot context
+#ifndef GImPlot
 ImPlotContext* GImPlot = NULL;
+#endif
 
 //-----------------------------------------------------------------------------
 // Struct Implementations
@@ -436,7 +439,6 @@ void Initialize(ImPlotContext* ctx) {
     IMPLOT_APPEND_CMAP(PiYG, false);
     IMPLOT_APPEND_CMAP(Spectral, false);
     IMPLOT_APPEND_CMAP(Greys, false);
-
 }
 
 void ResetCtxForNextPlot(ImPlotContext* ctx) {
@@ -690,6 +692,9 @@ bool ShowLegendEntries(ImPlotItemGroup& items, const ImRect& legend_bb, bool hov
 // Tick Utils
 //-----------------------------------------------------------------------------
 
+static const float TICK_FILL_X = 0.8f;
+static const float TICK_FILL_Y = 1.0f;
+
 void AddTicksDefault(const ImPlotRange& range, float pix, ImPlotOrientation orn, ImPlotTickCollection& ticks, const char* fmt) {
     const int idx0          = ticks.Size;
     const int nMinor        = 10;
@@ -700,12 +705,7 @@ void AddTicksDefault(const ImPlotRange& range, float pix, ImPlotOrientation orn,
     const double graphmax   = ceil(range.Max / interval) * interval;
     bool first_major_set    = false;
     int  first_major_idx    = 0;
-
-    char dummy[32];
-    sprintf(dummy,fmt,-ImAbs(interval / nMinor));
-    ImVec2 dummy_size = ImGui::CalcTextSize(dummy);
     ImVec2 total_size(0,0);
-
     for (double major = graphmin; major < graphmax + 0.5 * interval; major += interval) {
         // is this zero? combat zero formatting issues
         if (major-interval < 0 && major+interval > 0)
@@ -715,19 +715,17 @@ void AddTicksDefault(const ImPlotRange& range, float pix, ImPlotOrientation orn,
                 first_major_idx = ticks.Size;
                 first_major_set = true;
             }
-            ticks.Append(major, true, true, fmt);
-            total_size += dummy_size;
+            total_size += ticks.Append(major, true, true, fmt).LabelSize;
         }
         for (int i = 1; i < nMinor; ++i) {
             double minor = major + i * interval / nMinor;
             if (range.Contains(minor)) {
-                ticks.Append(minor, false, true, fmt);
-                total_size += dummy_size;
+                total_size += ticks.Append(minor, false, true, fmt).LabelSize;
             }
         }
     }
     // prune if necessary
-    if ((orn == ImPlotOrientation_Horizontal && total_size.x > pix) || (orn == ImPlotOrientation_Vertical && total_size.y > pix)) {
+    if ((orn == ImPlotOrientation_Horizontal && total_size.x > pix*TICK_FILL_X) || (orn == ImPlotOrientation_Vertical && total_size.y > pix*TICK_FILL_Y)) {
         for (int i = first_major_idx-1; i >= idx0; i -= 2)
             ticks.Ticks[i].ShowLabel = false;
         for (int i = first_major_idx+1; i < ticks.Size; i += 2)
@@ -2058,22 +2056,6 @@ bool BeginPlot(const char* title, const char* x_label, const char* y1_label, con
     for (int i = 0; i < IMPLOT_Y_AXES; ++i)
         plot.YAxis[i].Constrain();
 
-    // constrain equal axes for primary x and y if not approximately equal
-    // constrains x to y since x pixel size depends on y labels width, and causes feedback loops in opposite case
-    if (ImHasFlag(plot.Flags, ImPlotFlags_Equal)) {
-        double xar = plot.XAxis.GetAspect();
-        double yar = plot.YAxis[0].GetAspect();
-        // edge case: user has set x range this frame, so fit y to x so that we honor their request for x range
-        // NB: because of feedback across several frames, the user's x request may not be perfectly honored
-        if (gp.NextPlotData.HasXRange) {
-            plot.YAxis[0].SetAspect(xar);
-        }
-        else {
-            if (!ImAlmostEqual(xar,yar) && !plot.YAxis[0].IsInputLocked())
-                plot.XAxis.SetAspect(yar);
-        }
-    }
-
     // AXIS COLORS -----------------------------------------------------------------
 
     UpdateAxisColors(ImPlotCol_XAxis,  &plot.XAxis);
@@ -2239,6 +2221,23 @@ bool BeginPlot(const char* title, const char* x_label, const char* y1_label, con
     plot.XAxis.Pixels = plot.PlotRect.GetWidth();
     for (int i = 0; i < IMPLOT_Y_AXES; ++i)
         plot.YAxis[i].Pixels = plot.PlotRect.GetHeight();
+
+    // Equal axis constraint. Must happen after we set Pixels
+    // constrain equal axes for primary x and y if not approximately equal
+    // constrains x to y since x pixel size depends on y labels width, and causes feedback loops in opposite case
+    if (ImHasFlag(plot.Flags, ImPlotFlags_Equal)) {
+        double xar = plot.XAxis.GetAspect();
+        double yar = plot.YAxis[0].GetAspect();
+        // edge case: user has set x range this frame, so fit y to x so that we honor their request for x range
+        // NB: because of feedback across several frames, the user's x request may not be perfectly honored
+        if (gp.NextPlotData.HasXRange) {
+            plot.YAxis[0].SetAspect(xar);
+        }
+        else {
+            if (!ImAlmostEqual(xar,yar) && !plot.YAxis[0].IsInputLocked())
+                plot.XAxis.SetAspect(yar);
+        }
+    }
 
     // INPUT ------------------------------------------------------------------
     HandlePlotInput(plot);
@@ -2812,7 +2811,6 @@ bool BeginSubplots(const char* title, int rows, int cols, const ImVec2& size, Im
 
     // calc plot frame sizes
     ImVec2 title_size(0.0f, 0.0f);
-    const float txt_height = ImGui::GetTextLineHeight();
     if (!ImHasFlag(subplot.Flags, ImPlotSubplotFlags_NoTitle))
          title_size = ImGui::CalcTextSize(title, NULL, true);
     const float pad_top = title_size.x > 0.0f ? title_size.y + gp.Style.LabelPadding.y : 0;
@@ -2855,12 +2853,10 @@ bool BeginSubplots(const char* title, int rows, int cols, const ImVec2& size, Im
     // render splitters
     if (!ImHasFlag(subplot.Flags, ImPlotSubplotFlags_NoResize)) {
         ImDrawList& DrawList = *ImGui::GetWindowDrawList();
-        const ImU32 nrm_col = ImGui::ColorConvertFloat4ToU32(GImGui->Style.Colors[ImGuiCol_Separator]);
         const ImU32 hov_col = ImGui::ColorConvertFloat4ToU32(GImGui->Style.Colors[ImGuiCol_SeparatorHovered]);
         const ImU32 act_col = ImGui::ColorConvertFloat4ToU32(GImGui->Style.Colors[ImGuiCol_SeparatorActive]);
         float xpos = subplot.GridRect.Min.x;
         float ypos = subplot.GridRect.Min.y;
-        const ImVec2 mouse = ImGui::GetIO().MousePos;
         int separator = 1;
         // bool pass = false;
         for (int r = 0; r < subplot.Rows-1; ++r) {
@@ -3181,6 +3177,12 @@ void PushPlotClipRect(float expand) {
 
 void PopPlotClipRect() {
     ImGui::PopClipRect();
+}
+
+bool IsSubplotsHovered() {
+    ImPlotContext& gp = *GImPlot;
+    IM_ASSERT_USER_ERROR(gp.CurrentSubplot != NULL, "IsSubplotsHovered() needs to be called between BeginSubplots() and EndSubplots()!");
+    return gp.CurrentSubplot->FrameHovered;
 }
 
 bool IsPlotHovered() {
@@ -4910,7 +4912,7 @@ bool ShowTimePicker(const char* id, ImPlotTime* t) {
     }
     if (!hour24) {
         ImGui::SameLine();
-        if (ImGui::Button(am_pm[ap],ImVec2(height,height))) {
+        if (ImGui::Button(am_pm[ap],ImVec2(0,height))) {
             ap = 1 - ap;
             changed = true;
         }

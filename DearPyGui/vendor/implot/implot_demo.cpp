@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-// ImPlot v0.11 WIP
+// ImPlot v0.12 WIP
 
 #include "implot.h"
 #include <math.h>
@@ -983,7 +983,7 @@ void ShowDemo_SubplotsSizing() {
     if (ImPlot::BeginSubplots("My Subplots", rows, cols, ImVec2(-1,400), flags, rratios, cratios)) {
         for (int i = 0; i < rows*cols; ++i) {
             if (ImPlot::BeginPlot("",NULL,NULL,ImVec2(),ImPlotFlags_NoLegend,ImPlotAxisFlags_NoTickLabels,ImPlotAxisFlags_NoTickLabels)) {
-                char buffer[8];
+                char buffer[16];
                 float fi = 0.01f * (i+1);
                 sprintf(buffer, "data%d", i);
                 if (i == 0)
@@ -1025,7 +1025,7 @@ void ShowDemo_SubplotItemSharing() {
                     }
                 }
                 if (ImPlot::BeginDragDropTarget()) {
-                    if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("MY_DND"))
+                    if (ImGui::AcceptDragDropPayload("MY_DND"))
                         id[curj] = i;
                     ImPlot::EndDragDropTarget();
                 }
