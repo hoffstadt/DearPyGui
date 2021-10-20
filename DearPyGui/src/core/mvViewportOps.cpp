@@ -188,19 +188,19 @@ namespace Marvel {
         const char* title = "Dear PyGui";
         const char* small_icon = "";
         const char* large_icon = "";
-        int width = 1280;
-        int height = 800;
-        int x_pos = 100;
-        int y_pos = 100;
-        int min_width = 250;
-        int max_width = 10000;
-        int min_height = 250;
-        int max_height = 10000;
+        i32 width = 1280;
+        i32 height = 800;
+        i32 x_pos = 100;
+        i32 y_pos = 100;
+        i32 min_width = 250;
+        i32 max_width = 10000;
+        i32 min_height = 250;
+        i32 max_height = 10000;
 
-        int resizable = true;
-        int vsync = true;
-        int always_on_top = false;
-        int decorated = true;
+        b32 resizable = true;
+        b32 vsync = true;
+        b32 always_on_top = false;
+        b32 decorated = true;
 
         PyObject* color = PyList_New(4);
         PyList_SetItem(color, 0, PyFloat_FromDouble(0.0));
@@ -241,8 +241,8 @@ namespace Marvel {
     mv_python_function
     show_viewport(PyObject* self, PyObject* args, PyObject* kwargs)
     {
-        int minimized = false;
-        int maximized = false;
+        b32 minimized = false;
+        b32 maximized = false;
 
         if (!Parse((GetParsers())["show_viewport"], args, kwargs, __FUNCTION__,
             &minimized, &maximized))

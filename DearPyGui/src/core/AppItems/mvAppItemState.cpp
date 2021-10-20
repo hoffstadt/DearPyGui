@@ -51,7 +51,7 @@ namespace Marvel {
     }
 
     void 
-    FillAppItemState(PyObject* dict, mvAppItemState& state, int applicableState)
+    FillAppItemState(PyObject* dict, mvAppItemState& state, i32 applicableState)
     {
         if (dict == nullptr)
             return;
@@ -59,7 +59,7 @@ namespace Marvel {
         bool valid = state.lastFrameUpdate == GContext->frame;
 
         PyDict_SetItemString(dict, "ok", mvPyObject(ToPyBool(state.ok)));
-        PyDict_SetItemString(dict, "pos", mvPyObject(ToPyPairII((int)state.pos.x, (int)state.pos.y)));
+        PyDict_SetItemString(dict, "pos", mvPyObject(ToPyPairII((i32)state.pos.x, (i32)state.pos.y)));
 
         if(applicableState & MV_STATE_HOVER) PyDict_SetItemString(dict, "hovered", mvPyObject(ToPyBool(valid ? state.hovered : false)));
         if(applicableState & MV_STATE_ACTIVE) PyDict_SetItemString(dict, "active", mvPyObject(ToPyBool(valid ? state.active : false)));
@@ -77,115 +77,115 @@ namespace Marvel {
         if(applicableState & MV_STATE_DEACTIVATED) PyDict_SetItemString(dict, "deactivated", mvPyObject(ToPyBool(valid ? state.deactivated : false)));
         if(applicableState & MV_STATE_DEACTIVATEDAE) PyDict_SetItemString(dict, "deactivated_after_edit", mvPyObject(ToPyBool(valid ? state.deactivatedAfterEdit : false)));
         if(applicableState & MV_STATE_TOGGLED_OPEN) PyDict_SetItemString(dict, "toggled_open", mvPyObject(ToPyBool(valid ? state.toggledOpen : false)));
-        if(applicableState & MV_STATE_RECT_MIN) PyDict_SetItemString(dict, "rect_min", mvPyObject(ToPyPairII((int)state.rectMin.x, (int)state.rectMin.y)));
-        if(applicableState & MV_STATE_RECT_MAX) PyDict_SetItemString(dict, "rect_max", mvPyObject(ToPyPairII((int)state.rectMax.x, (int)state.rectMax.y)));
+        if(applicableState & MV_STATE_RECT_MIN) PyDict_SetItemString(dict, "rect_min", mvPyObject(ToPyPairII((i32)state.rectMin.x, (i32)state.rectMin.y)));
+        if(applicableState & MV_STATE_RECT_MAX) PyDict_SetItemString(dict, "rect_max", mvPyObject(ToPyPairII((i32)state.rectMax.x, (i32)state.rectMax.y)));
         if (applicableState & MV_STATE_RECT_SIZE) 
         {
-            PyDict_SetItemString(dict, "rect_size", mvPyObject(ToPyPairII((int)state.rectSize.x, (int)state.rectSize.y)));
+            PyDict_SetItemString(dict, "rect_size", mvPyObject(ToPyPairII((i32)state.rectSize.x, (i32)state.rectSize.y)));
             PyDict_SetItemString(dict, "resized", mvPyObject(ToPyBool(valid ? state.mvRectSizeResized : false)));
         }
-        if(applicableState & MV_STATE_CONT_AVAIL) PyDict_SetItemString(dict, "content_region_avail", mvPyObject(ToPyPairII((int)state.contextRegionAvail.x, (int)state.contextRegionAvail.y)));
+        if(applicableState & MV_STATE_CONT_AVAIL) PyDict_SetItemString(dict, "content_region_avail", mvPyObject(ToPyPairII((i32)state.contextRegionAvail.x, (i32)state.contextRegionAvail.y)));
 
     }
 
-    bool 
-    IsItemHovered(mvAppItemState& state, int frameDelay)
+    b8
+    IsItemHovered(mvAppItemState& state, i32 frameDelay)
     { 
         if (state.lastFrameUpdate + frameDelay != GContext->frame)
             return false;
         return state.hovered;
     }
 
-    bool 
-    IsItemActive(mvAppItemState& state, int frameDelay)
+    b8
+    IsItemActive(mvAppItemState& state, i32 frameDelay)
     { 
         if (state.lastFrameUpdate + frameDelay != GContext->frame)
             return false;
         return state.active;
     }
 
-    bool 
-    IsItemFocused(mvAppItemState& state, int frameDelay)
+    b8
+    IsItemFocused(mvAppItemState& state, i32 frameDelay)
     { 
         if (state.lastFrameUpdate + frameDelay != GContext->frame)
             return false;
         return state.focused;
     }
 
-    bool 
-    IsItemLeftClicked(mvAppItemState& state, int frameDelay)
+    b8
+    IsItemLeftClicked(mvAppItemState& state, i32 frameDelay)
     { 
         if (state.lastFrameUpdate + frameDelay != GContext->frame)
             return false;
         return state.leftclicked;
     }
 
-    bool 
-    IsItemRightClicked(mvAppItemState& state, int frameDelay)
+    b8
+    IsItemRightClicked(mvAppItemState& state, i32 frameDelay)
     { 
         if (state.lastFrameUpdate + frameDelay != GContext->frame)
             return false;
         return state.rightclicked;
     }
 
-    bool 
-    IsItemMiddleClicked(mvAppItemState& state, int frameDelay)
+    b8
+    IsItemMiddleClicked(mvAppItemState& state, i32 frameDelay)
     { 
         if (state.lastFrameUpdate + frameDelay != GContext->frame)
             return false;
         return state.middleclicked;
     }
 
-    bool 
-    IsItemVisible(mvAppItemState& state, int frameDelay)
+    b8
+    IsItemVisible(mvAppItemState& state, i32 frameDelay)
     { 
         if (state.lastFrameUpdate + frameDelay != GContext->frame)
             return false;
         return state.visible;
     }
 
-    bool 
-    IsItemEdited(mvAppItemState& state, int frameDelay)
+    b8
+    IsItemEdited(mvAppItemState& state, i32 frameDelay)
     { 
         if (state.lastFrameUpdate + frameDelay != GContext->frame)
             return false;
         return state.edited;
     }
 
-    bool 
-    IsItemActivated(mvAppItemState& state, int frameDelay)
+    b8
+    IsItemActivated(mvAppItemState& state, i32 frameDelay)
     { 
         if (state.lastFrameUpdate + frameDelay != GContext->frame)
             return false;
         return state.activated;
     }
 
-    bool 
-    IsItemDeactivated(mvAppItemState& state, int frameDelay)
+    b8
+    IsItemDeactivated(mvAppItemState& state, i32 frameDelay)
     { 
         if (state.lastFrameUpdate + frameDelay != GContext->frame)
             return false;
         return state.deactivated;
     }
 
-    bool 
-    IsItemDeactivatedAfterEdit(mvAppItemState& state, int frameDelay)
+    b8
+    IsItemDeactivatedAfterEdit(mvAppItemState& state, i32 frameDelay)
     { 
         if (state.lastFrameUpdate + frameDelay != GContext->frame)
             return false;
         return state.deactivatedAfterEdit;
     }
 
-    bool 
-    IsItemToogledOpen(mvAppItemState& state, int frameDelay)
+    b8
+    IsItemToogledOpen(mvAppItemState& state, i32 frameDelay)
     { 
         if (state.lastFrameUpdate + frameDelay != GContext->frame)
             return false;
         return state.toggledOpen;
     }
 
-    bool
-    IsItemRectSizeResized(mvAppItemState& state, int frameDelay)
+    b8
+    IsItemRectSizeResized(mvAppItemState& state, i32 frameDelay)
     {
         if (state.lastFrameUpdate + frameDelay != GContext->frame)
             return false;

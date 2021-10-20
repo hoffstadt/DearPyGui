@@ -67,7 +67,7 @@ namespace Marvel {
 		}
 	}
 
-	void mvFrameCallback(int frame)
+	void mvFrameCallback(i32 frame)
 	{
 
 		if (frame > GContext->callbackRegistry->highestFrame)
@@ -181,7 +181,7 @@ namespace Marvel {
 		if (fc) {
 			PyObject* ac = PyObject_GetAttrString(fc, "co_argcount");
 			if (ac) {
-				int count = PyLong_AsLong(ac);
+				i32 count = PyLong_AsLong(ac);
 
 				if (PyMethod_Check(callable))
 					count--;
@@ -306,7 +306,7 @@ namespace Marvel {
 		if (fc) {
 			PyObject* ac = PyObject_GetAttrString(fc, "co_argcount");
 			if (ac) {
-				int count = PyLong_AsLong(ac);
+				i32 count = PyLong_AsLong(ac);
 
 				if (PyMethod_Check(callable))
 					count--;
@@ -387,7 +387,7 @@ namespace Marvel {
 
 	PyObject* set_frame_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-        int frame = 0;
+        i32 frame = 0;
 		PyObject* callback;
 
 		if (!Parse((GetParsers())["set_frame_callback"], args, kwargs, __FUNCTION__,

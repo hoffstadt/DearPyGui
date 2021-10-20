@@ -12,6 +12,7 @@
 #include "mvCore.h"
 #include "cpp.hint"
 #include "mvPythonParser.h"
+#include "mvTypes.h"
 
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
@@ -79,24 +80,24 @@ namespace Marvel {
     struct mvIO
     {
 
-        bool        docking = false;
-        bool        dockingViewport = false;
+        b8 docking = false;
+        b8 dockingViewport = false;
 
         std::string iniFile;
-        bool        loadIniFile = false;
-        bool        autoSaveIniFile = false;
+        b8          loadIniFile = false;
+        b8          autoSaveIniFile = false;
 
         // GPU selection
-        bool        info_auto_device = false;
-        int         info_device = -1;
+        b8          info_auto_device = false;
+        i32         info_device = -1;
         std::string info_device_name;
 
         // item registry
-        bool        allowAliasOverwrites = false;
-        bool        manualAliasManagement = false;
-        bool        skipRequiredArgs = false;
-        bool        skipPositionalArgs = false;
-        bool        skipKeywordArgs = false;
+        b8 allowAliasOverwrites = false;
+        b8 manualAliasManagement = false;
+        b8 skipRequiredArgs = false;
+        b8 skipPositionalArgs = false;
+        b8 skipKeywordArgs = false;
     };
 
     struct mvContext
@@ -105,14 +106,14 @@ namespace Marvel {
         std::atomic_bool    manualMutexControl = false;
         std::atomic_bool    started            = false;
         std::mutex          mutex;
-        std::future<bool>   future;
-        float               deltaTime = 0.0f;   // time since last frame
-        double              time      = 0.0;    // total time since starting
-        int                 frame     = 0;      // frame count
-        int                 framerate = 0;      // frame rate
+        std::future<b8>     future;
+        f32                 deltaTime = 0.0f;   // time since last frame
+        f64                 time      = 0.0;    // total time since starting
+        i32                 frame     = 0;      // frame count
+        i32                 framerate = 0;      // frame rate
         mvUUID              id = MV_START_UUID; // current ID
         mvViewport*         viewport = nullptr;
-        bool                resetTheme = false;
+        b8                  resetTheme = false;
         mvIO                IO;
         mvItemRegistry*     itemRegistry = nullptr;
         mvCallbackRegistry* callbackRegistry = nullptr;
