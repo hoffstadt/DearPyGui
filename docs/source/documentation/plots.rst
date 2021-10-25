@@ -464,12 +464,12 @@ The color and styles of a plot and series can be changed using theme app item
         # create a theme for the plot
         with dpg.theme(tag="plot_theme"):
             with dpg.theme_component(dpg.mvStemSeries):
-                dpg.add_theme_color(dpg.mvPlotCol_Line, (150, 255, 0))
+                dpg.add_theme_color(dpg.mvPlotCol_Line, (150, 255, 0), category=dpg.mvThemeCat_Plots)
                 dpg.add_theme_style(dpg.mvPlotStyleVar_Marker, dpg.mvPlotMarker_Diamond, category=dpg.mvThemeCat_Plots)
                 dpg.add_theme_style(dpg.mvPlotStyleVar_MarkerSize, 7, category=dpg.mvThemeCat_Plots)
 
             with dpg.theme_component(dpg.mvScatterSeries):
-                dpg.add_theme_color(dpg.mvPlotCol_Line, (60, 150, 200))
+                dpg.add_theme_color(dpg.mvPlotCol_Line, (60, 150, 200), category=dpg.mvThemeCat_Plots)
                 dpg.add_theme_style(dpg.mvPlotStyleVar_Marker, dpg.mvPlotMarker_Square, category=dpg.mvThemeCat_Plots)
                 dpg.add_theme_style(dpg.mvPlotStyleVar_MarkerSize, 4, category=dpg.mvThemeCat_Plots)
 
