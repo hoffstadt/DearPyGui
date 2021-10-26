@@ -5,6 +5,8 @@
 #include "mvTableColumn.h"
 #include "mvPyObject.h"
 #include "mvPythonExceptions.h"
+#include "fonts/mvFont.h"
+#include "themes/mvTheme.h"
 
 namespace Marvel {
 
@@ -247,160 +249,207 @@ namespace Marvel {
 
 	void mvTable::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ScopedID id(_uuid);
+		//-----------------------------------------------------------------------------
+		// pre draw
+		//-----------------------------------------------------------------------------
 
-		if (_columns == 0)
+		// show/hide
+		if (!_show)
 			return;
 
-		auto row_renderer = [&](mvAppItem* row)
+		// push font if a font object is attached
+		if (_font)
 		{
-			ImGui::TableNextRow(0, (float)row->_height);
+			ImFont* fontptr = static_cast<mvFont*>(_font.get())->getFontPtr();
+			ImGui::PushFont(fontptr);
+		}
 
-			row->_state.lastFrameUpdate = GContext->frame;
-			row->_state.visible = true;
+		// themes
+		if (auto classTheme = getClassThemeComponent())
+			static_cast<mvThemeComponent*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
 
-			//int row_index = ImGui::TableGetRowIndex() + _tableHeader ? 1 : 0;
-			int row_index = row->_location;
+		if (_theme)
+		{
+			static_cast<mvTheme*>(_theme.get())->setSpecificEnabled(_enabled);
+			static_cast<mvTheme*>(_theme.get())->setSpecificType((int)getType());
+			static_cast<mvTheme*>(_theme.get())->draw(nullptr, 0.0f, 0.0f);
+		}
 
-			if (_rowColorsSet[row_index])
-				ImGui::TableSetBgColor(ImGuiTableBgTarget_RowBg0, _rowColors[row_index]);
+		{
+			ScopedID id(_uuid);
 
-			if (_rowSelectionColorsSet[row_index])
-				ImGui::TableSetBgColor(ImGuiTableBgTarget_RowBg1, _rowSelectionColors[row_index]);
+			if (_columns == 0)
+				return;
 
-			int column_index = -1;
-			for (auto& cell : row->_children[1])
+			auto row_renderer = [&](mvAppItem* row)
 			{
+				ImGui::TableNextRow(0, (float)row->_height);
 
-				// if tooltip, do not move column index
-				if (cell->getType() == mvAppItemType::mvTooltip)
+				row->_state.lastFrameUpdate = GContext->frame;
+				row->_state.visible = true;
+
+				//int row_index = ImGui::TableGetRowIndex() + _tableHeader ? 1 : 0;
+				int row_index = row->_location;
+
+				if (_rowColorsSet[row_index])
+					ImGui::TableSetBgColor(ImGuiTableBgTarget_RowBg0, _rowColors[row_index]);
+
+				if (_rowSelectionColorsSet[row_index])
+					ImGui::TableSetBgColor(ImGuiTableBgTarget_RowBg1, _rowSelectionColors[row_index]);
+
+				int column_index = -1;
+				for (auto& cell : row->_children[1])
 				{
+
+					// if tooltip, do not move column index
+					if (cell->getType() == mvAppItemType::mvTooltip)
+					{
+						cell->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
+						continue;
+					}
+
+					column_index++;
+
+					ImGui::TableSetColumnIndex(column_index);
+
+					if (_columnColorsSet[column_index])
+						ImGui::TableSetBgColor(ImGuiTableBgTarget_CellBg, _columnColors[column_index]);
+
+					if (_cellColorsSet[row_index][column_index])
+						ImGui::TableSetBgColor(ImGuiTableBgTarget_CellBg, _cellColors[row_index][column_index]);
+
 					cell->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-					continue;
+				}
+			};
+
+			if (ImGui::BeginTable(_internalLabel.c_str(), _columns, _flags,
+				ImVec2((float)_width, (float)_height), (float)_inner_width))
+			{
+				_state.lastFrameUpdate = GContext->frame;
+				_state.visible = true;
+
+				ImGui::TableSetupScrollFreeze(_freezeRows, _freezeColumns);
+
+				// columns
+				for (auto& item : _children[0])
+				{
+					// skip item if it's not shown
+					if (!item->_show)
+						continue;
+
+					item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 				}
 
-				column_index++;
+				if (_tableHeader)
+					ImGui::TableHeadersRow();
 
-				ImGui::TableSetColumnIndex(column_index);
-
-				if (_columnColorsSet[column_index])
-					ImGui::TableSetBgColor(ImGuiTableBgTarget_CellBg, _columnColors[column_index]);
-
-				if (_cellColorsSet[row_index][column_index])
-					ImGui::TableSetBgColor(ImGuiTableBgTarget_CellBg, _cellColors[row_index][column_index]);
-
-				cell->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-			}
-		};
-
-		if (ImGui::BeginTable(_internalLabel.c_str(), _columns, _flags, 
-			ImVec2((float)_width, (float)_height), (float)_inner_width))
-		{
-			_state.lastFrameUpdate = GContext->frame;
-			_state.visible = true;
-
-			ImGui::TableSetupScrollFreeze(_freezeRows, _freezeColumns);
-
-			// columns
-			for (auto& item : _children[0])
-			{
-				// skip item if it's not shown
-				if (!item->_show)
-					continue;
-
-				item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-			}
-
-			if (_tableHeader)
-				ImGui::TableHeadersRow();
-
-			if (ImGuiTableSortSpecs* sorts_specs = ImGui::TableGetSortSpecs())
-			{
-				if (sorts_specs->SpecsDirty)
+				if (ImGuiTableSortSpecs* sorts_specs = ImGui::TableGetSortSpecs())
 				{
-					if (sorts_specs->SpecsCount == 0)
-						mvAddCallback(getCallback(false), _uuid, GetPyNone(), _user_data);
-					else
+					if (sorts_specs->SpecsDirty)
 					{
-
-						// generate id map for columns
-						std::unordered_map<ImGuiID, mvUUID> idMap;
-						for (size_t i = 0; i < _children[0].size(); i++)
-							idMap[static_cast<mvTableColumn*>(_children[0][i].get())->_id] = _children[0][i]->_uuid;
-
-						std::vector<SortSpec> specs;
-						for (int i = 0; i < sorts_specs->SpecsCount; i++)
+						if (sorts_specs->SpecsCount == 0)
+							mvAddCallback(getCallback(false), _uuid, GetPyNone(), _user_data);
+						else
 						{
-							const ImGuiTableColumnSortSpecs* sort_spec = &sorts_specs->Specs[i];
-							specs.push_back({ idMap[sort_spec->ColumnUserID], sort_spec->SortDirection == ImGuiSortDirection_Ascending ? 1 : -1 });
-						}
 
-						mvSubmitCallback([=]() {
-							PyObject* pySpec = PyList_New(specs.size());
-							for (size_t i = 0; i < specs.size(); i++)
+							// generate id map for columns
+							std::unordered_map<ImGuiID, mvUUID> idMap;
+							for (size_t i = 0; i < _children[0].size(); i++)
+								idMap[static_cast<mvTableColumn*>(_children[0][i].get())->_id] = _children[0][i]->_uuid;
+
+							std::vector<SortSpec> specs;
+							for (int i = 0; i < sorts_specs->SpecsCount; i++)
 							{
-								PyObject* pySingleSpec = PyList_New(2);
-								PyList_SetItem(pySingleSpec, 0, ToPyLong(specs[i].column));
-								PyList_SetItem(pySingleSpec, 1, ToPyInt(specs[i].direction));
-								PyList_SetItem(pySpec, i, pySingleSpec);
+								const ImGuiTableColumnSortSpecs* sort_spec = &sorts_specs->Specs[i];
+								specs.push_back({ idMap[sort_spec->ColumnUserID], sort_spec->SortDirection == ImGuiSortDirection_Ascending ? 1 : -1 });
 							}
 
-							if (_alias.empty())
-								mvRunCallback(getCallback(false), _uuid, pySpec, _user_data);
-							else
-								mvRunCallback(getCallback(false), _alias, pySpec, _user_data);
-							Py_XDECREF(pySpec);
-							});
+							mvSubmitCallback([=]() {
+								PyObject* pySpec = PyList_New(specs.size());
+								for (size_t i = 0; i < specs.size(); i++)
+								{
+									PyObject* pySingleSpec = PyList_New(2);
+									PyList_SetItem(pySingleSpec, 0, ToPyLong(specs[i].column));
+									PyList_SetItem(pySingleSpec, 1, ToPyInt(specs[i].direction));
+									PyList_SetItem(pySpec, i, pySingleSpec);
+								}
+
+								if (_alias.empty())
+									mvRunCallback(getCallback(false), _uuid, pySpec, _user_data);
+								else
+									mvRunCallback(getCallback(false), _alias, pySpec, _user_data);
+								Py_XDECREF(pySpec);
+								});
+						}
+						sorts_specs->SpecsDirty = false;
 					}
-					sorts_specs->SpecsDirty = false;
 				}
-			}
 
-			if (_rows != 0)
-			{
-
-				if (_imguiFilter.IsActive())
+				if (_rows != 0)
 				{
-					for (auto& row : _children[1])
+
+					if (_imguiFilter.IsActive())
 					{
-						if (!_imguiFilter.PassFilter(row->_filter.c_str()))
-							continue;
-						row_renderer(row.get());
+						for (auto& row : _children[1])
+						{
+							if (!_imguiFilter.PassFilter(row->_filter.c_str()))
+								continue;
+							row_renderer(row.get());
+						}
 					}
-				}
 
-				else if (_useClipper)
-				{
-					ImGuiListClipper clipper;
-					clipper.Begin((int)_children[1].size());
-
-					while (clipper.Step())
+					else if (_useClipper)
 					{
-						for (int row_n = clipper.DisplayStart; row_n < clipper.DisplayEnd; row_n++)
-							row_renderer(_children[1][row_n].get());
+						ImGuiListClipper clipper;
+						clipper.Begin((int)_children[1].size());
 
+						while (clipper.Step())
+						{
+							for (int row_n = clipper.DisplayStart; row_n < clipper.DisplayEnd; row_n++)
+								row_renderer(_children[1][row_n].get());
+
+						}
+						clipper.End();
 					}
-					clipper.End();
+					else
+					{
+						for (auto& row : _children[1])
+							row_renderer(row.get());
+					}
 				}
-				else
+
+				// columns
+				int columnnum = 0;
+				for (auto& item : _children[0])
 				{
-					for (auto& row : _children[1])
-						row_renderer(row.get());
+					ImGuiTableColumnFlags flags = ImGui::TableGetColumnFlags(columnnum);
+					item->_state.lastFrameUpdate = GContext->frame;
+					item->_state.visible = flags & ImGuiTableColumnFlags_IsVisible;
+					item->_state.hovered = flags & ImGuiTableColumnFlags_IsHovered;
+					columnnum++;
 				}
-			}
 
-			// columns
-			int columnnum = 0;
-			for (auto& item : _children[0])
-			{
-				ImGuiTableColumnFlags flags = ImGui::TableGetColumnFlags(columnnum);
-				item->_state.lastFrameUpdate = GContext->frame;
-				item->_state.visible = flags & ImGuiTableColumnFlags_IsVisible;
-				item->_state.hovered = flags & ImGuiTableColumnFlags_IsHovered;
-				columnnum++;
+				ImGui::EndTable();
 			}
+		}
 
-			ImGui::EndTable();
+		//-----------------------------------------------------------------------------
+		// post draw
+		//-----------------------------------------------------------------------------
+
+		// pop font off stack
+		if (_font)
+			ImGui::PopFont();
+
+		// handle popping themes
+		if (auto classTheme = getClassThemeComponent())
+			static_cast<mvThemeComponent*>(classTheme.get())->customAction();
+
+		if (_theme)
+		{
+			static_cast<mvTheme*>(_theme.get())->setSpecificEnabled(_enabled);
+			static_cast<mvTheme*>(_theme.get())->setSpecificType((int)getType());
+			static_cast<mvTheme*>(_theme.get())->customAction();
 		}
 
 	}
