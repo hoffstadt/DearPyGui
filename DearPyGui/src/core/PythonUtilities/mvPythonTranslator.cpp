@@ -84,7 +84,6 @@ namespace Marvel {
     PyObject* 
     GetPyNone()
     {
-         
         Py_RETURN_NONE;
     }
 
