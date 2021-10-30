@@ -540,6 +540,12 @@ namespace Marvel {
 		_rowColorsSet.shrink_to_fit();
 		_rowSelectionColors.shrink_to_fit();
 		_rowSelectionColorsSet.shrink_to_fit();
+
+		for (int i = 0; i < _columns; i++)
+		{
+			_columnColors.push_back(ImGui::ColorConvertFloat4ToU32(ImVec4(0.0f, 0.0f, 0.0f, 0.0f)));
+			_columnColorsSet.push_back(false);
+		}
 	}
 
 	void mvTable::handleSpecificKeywordArgs(PyObject* dict)
