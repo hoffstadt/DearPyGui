@@ -223,8 +223,6 @@ A simple example can be found below
 
     dpg.create_context()
 
-    import dearpygui.dearpygui as dpg
-
     width, height, channels, data = dpg.load_image("Somefile.png")
 
     with dpg.texture_registry(show=True):
