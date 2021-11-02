@@ -7,7 +7,8 @@
 #include <cstdlib>
 #include "mvToolManager.h"
 #include "mvBuffer.h"
-#include "mvMathTypes.h"
+#include "mvVec4Type.h"
+#include "mvMat4Type.h"
 
 namespace Marvel {
 
@@ -114,6 +115,10 @@ namespace Marvel {
 		if (PyType_Ready(&PymvVec4Type) < 0)
 			return NULL;
 
+		PymvMat4Type.tp_new = PyType_GenericNew;
+		if (PyType_Ready(&PymvMat4Type) < 0)
+			return NULL;
+
 		m = PyModule_Create(&dearpyguiModule);
 		if (m == NULL)
 			return NULL;
@@ -138,6 +143,9 @@ namespace Marvel {
 
 		Py_INCREF(&PymvVec4Type);
 		PyModule_AddObject(m, "mvVec4", (PyObject*)&PymvVec4Type);
+
+		Py_INCREF(&PymvMat4Type);
+		PyModule_AddObject(m, "mvMat4", (PyObject*)&PymvMat4Type);
 
 		return m;
 	}

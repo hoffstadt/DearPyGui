@@ -1,4 +1,4 @@
-#include "mvMathTypes.h"
+#include "mvVec4Type.h"
 #include <string>
 #include "mvTypes.h"
 #include "mvPythonTranslator.h"
@@ -126,6 +126,25 @@ PymvVec4_add(PyObject* left, PyObject* right)
 	newbufferview->vec4.data[1] = leftVect->vec4.data[1] + rightVect->vec4.data[1];
 	newbufferview->vec4.data[2] = leftVect->vec4.data[2] + rightVect->vec4.data[2];
 	newbufferview->vec4.data[3] = leftVect->vec4.data[3] + rightVect->vec4.data[3];
+
+	return newbuffer;
+}
+
+PyObject*
+PymvVec4_subtract(PyObject* left, PyObject* right)
+{
+	PyObject* newbuffer = nullptr;
+	PymvVec4* newbufferview = nullptr;
+	newbufferview = PyObject_New(PymvVec4, &PymvVec4Type);
+	newbuffer = PyObject_Init((PyObject*)newbufferview, &PymvVec4Type);
+
+	PymvVec4* leftVect = (PymvVec4*)left;
+	PymvVec4* rightVect = (PymvVec4*)right;
+
+	newbufferview->vec4.data[0] = leftVect->vec4.data[0] - rightVect->vec4.data[0];
+	newbufferview->vec4.data[1] = leftVect->vec4.data[1] - rightVect->vec4.data[1];
+	newbufferview->vec4.data[2] = leftVect->vec4.data[2] - rightVect->vec4.data[2];
+	newbufferview->vec4.data[3] = leftVect->vec4.data[3] - rightVect->vec4.data[3];
 
 	return newbuffer;
 }

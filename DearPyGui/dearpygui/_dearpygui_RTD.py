@@ -22,6 +22,7 @@ import inspect
 import dearpygui._dearpygui as internal_dpg
 from dearpygui._dearpygui import mvBuffer
 from dearpygui._dearpygui import mvVec4
+from dearpygui._dearpygui import mvMat4
 
 ########################################################################################################################
 # User API Index

@@ -1,17 +1,6 @@
 #pragma once
 
-#include <Python.h>
-
-struct mvVec4
-{
-    float data[4];
-};
-
-struct PymvVec4
-{
-    PyObject_HEAD
-    mvVec4 vec4;
-};
+#include "mvCustomTypes.h"
 
 // methods
 int        PymvVec4_init       (PymvVec4* self, PyObject* args, PyObject* kwds); // __init__ method
@@ -25,48 +14,49 @@ int        PymvVec4_setItem    (PyObject* obj, Py_ssize_t index, PyObject* value
 
 // math operators
 PyObject* PymvVec4_add(PyObject* left, PyObject* right);
+PyObject* PymvVec4_subtract(PyObject* left, PyObject* right);
 
 static PyBufferProcs PymvVec4_as_buffer = {
     (getbufferproc)PymvVec4_getbuffer,
     (releasebufferproc)0,
 };
 static PyNumberMethods PymvVec4_as_number = {
-     (binaryfunc)PymvVec4_add,  // nb_add;
-     (binaryfunc)0,             // nb_subtract;
-     (binaryfunc)0,             // nb_multiply;
-     (binaryfunc)0,             // nb_remainder;
-     (binaryfunc)0,             // nb_divmod;
-     (ternaryfunc)0,            // nb_power;
-     (unaryfunc)0,              // nb_negative;
-     (unaryfunc)0,              // nb_positive;
-     (unaryfunc)0,              // nb_absolute;
-     (inquiry)0,                // nb_bool;
-     (unaryfunc)0,              // nb_invert;
-     (binaryfunc)0,             // nb_lshift;
-     (binaryfunc)0,             // nb_rshift;
-     (binaryfunc)0,             // nb_and;
-     (binaryfunc)0,             // nb_xor;
-     (binaryfunc)0,             // nb_or;
-     (unaryfunc)0,              // nb_int;
-     (void*)0,                  // nb_reserved;
-     (unaryfunc)0,              // nb_float;
-     (binaryfunc)0,             // nb_inplace_add;
-     (binaryfunc)0,             // nb_inplace_subtract;
-     (binaryfunc)0,             // nb_inplace_multiply;
-     (binaryfunc)0,             // nb_inplace_remainder;
-     (ternaryfunc)0,            //  nb_inplace_power;
-     (binaryfunc)0,             //  nb_inplace_lshift;
-     (binaryfunc)0,             //  nb_inplace_rshift;
-     (binaryfunc)0,             //  nb_inplace_and;
-     (binaryfunc)0,             //  nb_inplace_xor;
-     (binaryfunc)0,             //  nb_inplace_or;
-     (binaryfunc)0,             //  nb_floor_divide;
-     (binaryfunc)0,             //  nb_true_divide;
-     (binaryfunc)0,             //  nb_inplace_floor_divide;
-     (binaryfunc)0,             //  nb_inplace_true_divide;
-     (unaryfunc)0,              //  nb_index;
-     (binaryfunc)0,             //  nb_matrix_multiply;
-     (binaryfunc)0              //  nb_inplace_matrix_multiply;
+     (binaryfunc)PymvVec4_add,      // nb_add;
+     (binaryfunc)PymvVec4_subtract, // nb_subtract;
+     (binaryfunc)0,                 // nb_multiply;
+     (binaryfunc)0,                 // nb_remainder;
+     (binaryfunc)0,                 // nb_divmod;
+     (ternaryfunc)0,                // nb_power;
+     (unaryfunc)0,                  // nb_negative;
+     (unaryfunc)0,                  // nb_positive;
+     (unaryfunc)0,                  // nb_absolute;
+     (inquiry)0,                    // nb_bool;
+     (unaryfunc)0,                  // nb_invert;
+     (binaryfunc)0,                 // nb_lshift;
+     (binaryfunc)0,                 // nb_rshift;
+     (binaryfunc)0,                 // nb_and;
+     (binaryfunc)0,                 // nb_xor;
+     (binaryfunc)0,                 // nb_or;
+     (unaryfunc)0,                  // nb_int;
+     (void*)0,                      // nb_reserved;
+     (unaryfunc)0,                  // nb_float;
+     (binaryfunc)0,                 // nb_inplace_add;
+     (binaryfunc)0,                 // nb_inplace_subtract;
+     (binaryfunc)0,                 // nb_inplace_multiply;
+     (binaryfunc)0,                 // nb_inplace_remainder;
+     (ternaryfunc)0,                // nb_inplace_power;
+     (binaryfunc)0,                 // nb_inplace_lshift;
+     (binaryfunc)0,                 // nb_inplace_rshift;
+     (binaryfunc)0,                 // nb_inplace_and;
+     (binaryfunc)0,                 // nb_inplace_xor;
+     (binaryfunc)0,                 // nb_inplace_or;
+     (binaryfunc)0,                 // nb_floor_divide;
+     (binaryfunc)0,                 // nb_true_divide;
+     (binaryfunc)0,                 // nb_inplace_floor_divide;
+     (binaryfunc)0,                 // nb_inplace_true_divide;
+     (unaryfunc)0,                  // nb_index;
+     (binaryfunc)0,                 // nb_matrix_multiply;
+     (binaryfunc)0                  // nb_inplace_matrix_multiply;
 };
 
 static PySequenceMethods PymvVec4_as_sequence = {

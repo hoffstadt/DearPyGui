@@ -27,7 +27,8 @@ set(MARVEL_SOURCES
 	"src/core/mvCallbackRegistry.cpp"
 
 	"src/core/PythonTypes/mvBuffer.cpp"
-	"src/core/PythonTypes/mvMathTypes.cpp"
+	"src/core/PythonTypes/mvVec4Type.cpp"
+	"src/core/PythonTypes/mvMat4Type.cpp"
 
 	"src/core/CustomImGuiWidgets/mvKnobCustom.cpp"
 	"src/core/CustomImGuiWidgets/mvLoadingIndicatorCustom.cpp"

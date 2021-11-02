@@ -1,19 +1,6 @@
 #pragma once
 
-#include <Python.h>
-
-struct mvBuffer
-{
-    float* data;
-    long length;
-};
-
-struct PymvBuffer
-{
-    PyObject_HEAD
-    /* Type-specific fields go below. */
-    mvBuffer arr;
-};
+#include "mvCustomTypes.h"
 
 // methods
 int        PymvBuffer_init       (PymvBuffer* self, PyObject* args, PyObject* kwds); // __init__ method
