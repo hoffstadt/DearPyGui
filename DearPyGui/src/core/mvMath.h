@@ -20,7 +20,6 @@ struct mvPlotPoint
     }
 };
 
-
 struct mvVec2
 {
 	union { f32 x, r, u; };
@@ -74,39 +73,39 @@ struct mvTransforms
 	mvMat4 modelViewProjection = mvIdentityMat4();
 };
 
-mvVec2 operator+(mvVec2& left, mvVec2& right);
-mvVec2 operator-(mvVec2& left, mvVec2& right);
-mvVec2 operator*(mvVec2& left, mvVec2& right);
-mvVec2 operator*(mvVec2& left, f32 right);
+mvVec2 operator+(mvVec2 left, mvVec2 right);
+mvVec2 operator-(mvVec2 left, mvVec2 right);
+mvVec2 operator*(mvVec2 left, mvVec2 right);
+mvVec2 operator*(mvVec2 left, f32 right);
 
-mvVec3 operator+(mvVec3& left, mvVec3& right);
-mvVec3 operator-(mvVec3& left, mvVec3& right);
-mvVec3 operator*(mvVec3& left, mvVec3& right);
-mvVec3 operator*(mvVec3& left, f32 right);
+mvVec3 operator+(mvVec3 left, mvVec3 right);
+mvVec3 operator-(mvVec3 left, mvVec3 right);
+mvVec3 operator*(mvVec3 left, mvVec3 right);
+mvVec3 operator*(mvVec3 left, f32 right);
 
-mvVec4 operator+(mvVec4& left, mvVec4& right);
-mvVec4 operator-(mvVec4& left, mvVec4& right);
-mvVec4 operator*(mvVec4& left, mvVec4& right);
-mvVec4 operator*(mvVec4& left, f32 right);
-mvVec4 operator*(mvMat4& left, mvVec4& right);
+mvVec4 operator+(mvVec4 left, mvVec4 right);
+mvVec4 operator-(mvVec4 left, mvVec4 right);
+mvVec4 operator*(mvVec4 left, mvVec4 right);
+mvVec4 operator*(mvVec4 left, f32 right);
+mvVec4 operator*(mvMat4 left, mvVec4 right);
 
-mvMat4 operator*(mvMat4& left, mvMat4& right);
-mvMat4 operator+(mvMat4& left, mvMat4& right);
-mvMat4 operator-(mvMat4& left, mvMat4& right);
-mvMat4 operator*(mvMat4& left, f32 right);
+mvMat4 operator*(mvMat4 left, mvMat4 right);
+mvMat4 operator+(mvMat4 left, mvMat4 right);
+mvMat4 operator-(mvMat4 left, mvMat4 right);
+mvMat4 operator*(mvMat4 left, f32 right);
 
-mvVec3 mvNormalize(mvVec3& v);
-mvVec3 mvCross    (mvVec3& v1, mvVec3& v2);
-f32    mvDot      (mvVec3& v1, mvVec3& v2);
+mvVec3 mvNormalize(mvVec3 v);
+mvVec3 mvCross    (mvVec3 v1, mvVec3 v2);
+f32    mvDot      (mvVec3 v1, mvVec3 v2);
 f32    mvRadians  (f32 degrees);
 
 mvMat4 mvYawPitchRoll (f32 yaw, f32 pitch, f32 roll);
-mvMat4 mvLookAtLH     (mvVec3& eye, mvVec3& center, mvVec3& up);
-mvMat4 mvLookAtRH     (mvVec3& eye, mvVec3& center, mvVec3& up);
-mvMat4 mvTranslate    (mvMat4& m, mvVec3& v);
-mvMat4 mvRotate       (mvMat4& m, f32 angle, mvVec3& v);
-mvMat4 mvScale        (mvMat4& m, mvVec3& v);
-mvMat4 mvSwitchHand   (mvMat4& m);
+mvMat4 mvLookAtLH     (mvVec3 eye, mvVec3 center, mvVec3 up);
+mvMat4 mvLookAtRH     (mvVec3 eye, mvVec3 center, mvVec3 up);
+mvMat4 mvTranslate    (mvMat4 m, mvVec3 v);
+mvMat4 mvRotate       (mvMat4 m, f32 angle, mvVec3& v);
+mvMat4 mvScale        (mvMat4 m, mvVec3& v);
+mvMat4 mvSwitchHand   (mvMat4 m);
 mvMat4 mvOrthoLH      (f32 left, f32 right, f32 bottom, f32 top, f32 zNear, f32 zFar);
 mvMat4 mvOrthoRH      (f32 left, f32 right, f32 bottom, f32 top, f32 zNear, f32 zFar);
 mvMat4 mvPerspectiveLH(f32 fovy, f32 aspect, f32 zNear, f32 zFar);
