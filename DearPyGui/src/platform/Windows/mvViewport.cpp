@@ -479,12 +479,6 @@ namespace Marvel {
 		if (viewport->alwaysOnTop)
 			SetWindowPos(ghandle, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 
-		// Setup Dear ImGui context
-		IMGUI_CHECKVERSION();
-		ImGui::CreateContext();
-		ImPlot::CreateContext();
-		imnodes::CreateContext();
-
 		ImGuiIO& io = ImGui::GetIO(); (void)io;
 		io.ConfigWindowsMoveFromTitleBarOnly = true;
 		if (GContext->IO.loadIniFile)
@@ -532,9 +526,6 @@ namespace Marvel {
 		// Cleanup
 		ImGui_ImplDX11_Shutdown();
 		ImGui_ImplWin32_Shutdown();
-		imnodes::DestroyContext();
-		ImPlot::DestroyContext();
-		ImGui::DestroyContext();
 
 		mvCleanupDeviceD3D();
 		::DestroyWindow(ghandle);

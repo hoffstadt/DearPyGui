@@ -1404,11 +1404,7 @@ namespace Marvel {
         }
 
         for (auto& root : registry.colormapRoots)
-        {
-            if (root->_triggerAlternativeAction)
-                root->alternativeCustomAction();
             root->draw(nullptr, 0.0f, 0.0f);
-        }
 
         for (auto& root : registry.windowRoots)
             root->draw(nullptr, 0.0f, 0.0f);
