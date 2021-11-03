@@ -104,6 +104,11 @@ namespace Marvel {
 
         GContext->itemRegistry = new mvItemRegistry();
         GContext->callbackRegistry = new mvCallbackRegistry();
+
+        IMGUI_CHECKVERSION();
+        ImGui::CreateContext();
+        ImPlot::CreateContext();
+        imnodes::CreateContext();
     }
 
     mv_internal void
@@ -115,6 +120,10 @@ namespace Marvel {
             assert(false);
             return;
         }
+
+        imnodes::DestroyContext();
+        ImPlot::DestroyContext();
+        ImGui::DestroyContext();
 
         mvToolManager::Reset();
         ClearItemRegistry(*GContext->itemRegistry);

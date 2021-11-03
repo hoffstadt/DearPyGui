@@ -57,7 +57,7 @@ namespace Marvel {
             args.push_back({ mvPyDataType::Float, "t", mvArgType::REQUIRED_ARG, "", "Value of the colormap to sample between 0.0-1.0" });
 
             mvPythonParserSetup setup;
-            setup.about = "Returns a color from a colormap given t between 0.0-1.0. This command can only be ran once the app is started.";
+            setup.about = "Returns a color from a colormap given t between 0.0-1.0.";
             setup.category = { "Widget Operations" };
             setup.returnType = mvPyDataType::IntList;
 
@@ -73,7 +73,7 @@ namespace Marvel {
             args.push_back({ mvPyDataType::Integer, "index", mvArgType::REQUIRED_ARG, "", "Desired position of the color in the colors list value of the colormap being quiered " });
 
             mvPythonParserSetup setup;
-            setup.about = "Returns a color from a colormap given an index >= 0. (ex. 0 will be the first color in the color list of the color map) Modulo will be performed against the number of items in the color list. This command can only be ran once the app is started.";
+            setup.about = "Returns a color from a colormap given an index >= 0. (ex. 0 will be the first color in the color list of the color map) Modulo will be performed against the number of items in the color list.";
             setup.category = { "Widget Operations" };
             setup.returnType = mvPyDataType::IntList;
 
@@ -85,12 +85,7 @@ namespace Marvel {
 
     mvColorMap::mvColorMap(mvUUID uuid)
         : mvAppItem(uuid)
-    {
-        _triggerAlternativeAction = true;
-        
-        // since the implot context may not have been created
-        static ImPlotColormap startmap = 16;
-        _colorMap = startmap++;
+    { 
     }
 
     void mvColorMap::applySpecificTemplate(mvAppItem* item)
@@ -139,6 +134,8 @@ namespace Marvel {
                 break;
             }
         }
+
+        _colorMap = ImPlot::AddColormap(_internalLabel.c_str(), _colors.data(), (int)_colors.size(), _qualitative);
     }
 
     void mvColorMap::draw(ImDrawList* drawlist, float x, float y)
@@ -146,17 +143,6 @@ namespace Marvel {
         ScopedID id(_uuid);
 
         ImPlot::ColormapButton(_internalLabel.c_str(), ImVec2(-1.0f, 0.0f), _colorMap);
-    }
-
-    void mvColorMap::alternativeCustomAction(void* data)
-    {
-        if (_created)
-            return;
-
-        _colorMap = ImPlot::AddColormap(_internalLabel.c_str(), _colors.data(), (int)_colors.size(), _qualitative);
-        _created = true;
-
-        _triggerAlternativeAction = false;
     }
 
     PyObject* mvColorMap::bind_colormap(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -280,12 +266,6 @@ namespace Marvel {
 
         if (!Parse((GetParsers())["get_colormap_color"], args, kwargs, __FUNCTION__, &itemraw, &index))
             return GetPyNone();
-
-        if(!GContext->started)
-        {
-            mvThrowPythonError(mvErrorCode::mvNone, "get_colormap_color", "This command can only be ran once the app is started.", nullptr);
-            return GetPyNone();
-        }
 
         if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 

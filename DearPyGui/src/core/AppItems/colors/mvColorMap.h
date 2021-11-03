@@ -82,7 +82,6 @@ namespace Marvel {
 
         void draw(ImDrawList* drawlist, float x, float y) override;
         void handleSpecificRequiredArgs(PyObject* args) override;
-        void alternativeCustomAction(void* data = nullptr) override;
         void applySpecificTemplate(mvAppItem* item) override;
         ImPlotColormap getColorMap() const { return _colorMap; }
 
@@ -91,8 +90,6 @@ namespace Marvel {
         ImPlotColormap      _colorMap = -1;
         bool                _qualitative = true;
         std::vector<ImVec4> _colors;
-        bool                _created = false;
-
     };
 
 }

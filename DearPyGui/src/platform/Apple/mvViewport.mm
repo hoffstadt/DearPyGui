@@ -62,9 +62,6 @@ namespace Marvel {
         // Cleanup
         ImGui_ImplMetal_Shutdown();
         ImGui_ImplGlfw_Shutdown();
-        imnodes::DestroyContext();
-        ImPlot::DestroyContext();
-        ImGui::DestroyContext();
 
         glfwDestroyWindow(ghandle);
         glfwTerminate();
@@ -102,11 +99,6 @@ namespace Marvel {
         gdevice = MTLCreateSystemDefaultDevice();
         gcommandQueue = [gdevice newCommandQueue];
 
-        // Setup Dear ImGui binding
-        IMGUI_CHECKVERSION();
-        ImGui::CreateContext();
-        ImPlot::CreateContext();
-        imnodes::CreateContext();
         ImGuiIO &io = ImGui::GetIO();
         io.ConfigWindowsMoveFromTitleBarOnly = true;
 

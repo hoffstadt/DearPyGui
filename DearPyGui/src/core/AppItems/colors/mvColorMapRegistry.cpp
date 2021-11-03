@@ -59,17 +59,4 @@ namespace Marvel {
 		ImGui::PopID();
 
 	}
-
-	void mvColorMapRegistry::alternativeCustomAction(void* data)
-	{
-		for (auto& item : _children[1])
-			item->alternativeCustomAction();
-
-		_triggerAlternativeAction = false;
-	}
-
-	void mvColorMapRegistry::onChildAdd(mvRef<mvAppItem> item)
-	{
-		_triggerAlternativeAction = true;
-	}
 }
