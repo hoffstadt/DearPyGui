@@ -7,10 +7,10 @@
 mv_internal void 
 intialize_mvVec4(mvVec4* a, float x, float y, float z, float w)
 {
-	a->data[0] = x;
-	a->data[1] = y;
-	a->data[2] = z;
-	a->data[3] = w;
+	a->x = x;
+	a->y = y;
+	a->z = z;
+	a->w = w;
 }
 
 int 
@@ -43,12 +43,10 @@ PyObject*
 PymvVec4_str(PymvVec4* self)
 {
 	std::string result = "[ ";
-
-	for (int i = 0; i < 4; i++)
-	{
-		result += std::to_string(self->vec4.data[i]) + " ";
-	}
-
+    result += std::to_string(self->vec4.x) + " ";
+    result += std::to_string(self->vec4.y) + " ";
+    result += std::to_string(self->vec4.z) + " ";
+    result += std::to_string(self->vec4.w) + " ";
 	result +=  "]";
 
 	PyObject* ret = PyUnicode_FromString(result.c_str());
@@ -64,11 +62,11 @@ PymvVec4_getbuffer(PyObject* obj, Py_buffer* view, int flags)
 		return -1;
 	}
 	
-	mv_local_persist int arrayLength = 4;
+	mv_local_persist Py_ssize_t arrayLength = 4;
 
 	auto self = (PymvVec4*)obj;
 	view->obj = (PyObject*)self;
-	view->buf = (void*)self->vec4.data;
+	view->buf = (void*)&self->vec4.x;
 	view->len = 4 * sizeof(float);
 	view->readonly = 0;
 	view->itemsize = sizeof(float);
@@ -96,9 +94,14 @@ PyObject*
 PymvVec4_getItem(PyObject* obj, Py_ssize_t index)
 {
 	PymvVec4* self = (PymvVec4*)obj;
-	if(index > 3)
-		return Py_BuildValue("f", self->vec4.data[3]);
-	return Py_BuildValue("f", self->vec4.data[index]);
+    switch(index)
+    {
+        case 0: return Py_BuildValue("f", self->vec4.x);            
+        case 1: return Py_BuildValue("f", self->vec4.y);            
+        case 2: return Py_BuildValue("f", self->vec4.z);            
+        case 3: return Py_BuildValue("f", self->vec4.w);
+        default: return Py_BuildValue("f", self->vec4.w);
+    }
 }
 
 int 
@@ -107,7 +110,24 @@ PymvVec4_setItem(PyObject* obj, Py_ssize_t index, PyObject* value)
 	PymvVec4* self = (PymvVec4*)obj;
 	if (index > 3)
 		return 0;
-	self->vec4.data[index] = (float)PyFloat_AsDouble(value);
+    f32 val  = (float)PyFloat_AsDouble(value);
+        switch(index)
+    {
+        case 0:
+            self->vec4.x = val;
+            break;
+        case 1:
+            self->vec4.y = val;
+            break;
+        case 2:
+            self->vec4.z = val;
+            break;
+        case 3:
+            self->vec4.w = val;
+            break;
+        default: break;
+    }
+        
 	return 0;
 }
 
@@ -122,10 +142,10 @@ PymvVec4_add(PyObject* left, PyObject* right)
 	PymvVec4* leftVect = (PymvVec4*)left;
 	PymvVec4* rightVect = (PymvVec4*)right;
 
-	newbufferview->vec4.data[0] = leftVect->vec4.data[0] + rightVect->vec4.data[0];
-	newbufferview->vec4.data[1] = leftVect->vec4.data[1] + rightVect->vec4.data[1];
-	newbufferview->vec4.data[2] = leftVect->vec4.data[2] + rightVect->vec4.data[2];
-	newbufferview->vec4.data[3] = leftVect->vec4.data[3] + rightVect->vec4.data[3];
+	newbufferview->vec4.x = leftVect->vec4.x + rightVect->vec4.x;
+	newbufferview->vec4.y = leftVect->vec4.y + rightVect->vec4.y;
+	newbufferview->vec4.z = leftVect->vec4.z + rightVect->vec4.z;
+	newbufferview->vec4.w = leftVect->vec4.w + rightVect->vec4.w;
 
 	return newbuffer;
 }
@@ -141,10 +161,10 @@ PymvVec4_subtract(PyObject* left, PyObject* right)
 	PymvVec4* leftVect = (PymvVec4*)left;
 	PymvVec4* rightVect = (PymvVec4*)right;
 
-	newbufferview->vec4.data[0] = leftVect->vec4.data[0] - rightVect->vec4.data[0];
-	newbufferview->vec4.data[1] = leftVect->vec4.data[1] - rightVect->vec4.data[1];
-	newbufferview->vec4.data[2] = leftVect->vec4.data[2] - rightVect->vec4.data[2];
-	newbufferview->vec4.data[3] = leftVect->vec4.data[3] - rightVect->vec4.data[3];
+	newbufferview->vec4.x = leftVect->vec4.x - rightVect->vec4.x;
+	newbufferview->vec4.y = leftVect->vec4.y - rightVect->vec4.y;
+	newbufferview->vec4.z = leftVect->vec4.z - rightVect->vec4.z;
+	newbufferview->vec4.w = leftVect->vec4.w - rightVect->vec4.w;
 
 	return newbuffer;
 }

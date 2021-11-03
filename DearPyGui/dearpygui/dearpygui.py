@@ -7057,6 +7057,18 @@ def add_window(*, label: str =None, user_data: Any =None, use_internal_label: bo
 
 	return internal_dpg.add_window(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, show=show, pos=pos, delay_search=delay_search, min_size=min_size, max_size=max_size, menubar=menubar, collapsed=collapsed, autosize=autosize, no_resize=no_resize, no_title_bar=no_title_bar, no_move=no_move, no_scrollbar=no_scrollbar, no_collapse=no_collapse, horizontal_scrollbar=horizontal_scrollbar, no_focus_on_appearing=no_focus_on_appearing, no_bring_to_front_on_focus=no_bring_to_front_on_focus, no_close=no_close, no_background=no_background, modal=modal, popup=popup, no_saved_settings=no_saved_settings, on_close=on_close, **kwargs)
 
+def apply_transform(item : Union[int, str], transform : Any, **kwargs) -> None:
+	"""	 Applies a transformation matrix to a layer.
+
+	Args:
+		item (Union[int, str]): item that the color map will be applied to
+		transform (Any): item that the color map will be applied to
+	Returns:
+		None
+	"""
+
+	return internal_dpg.apply_transform(item, transform, **kwargs)
+
 def bind_colormap(item : Union[int, str], source : Union[int, str], **kwargs) -> None:
 	"""	 Sets the color map for widgets that accept it.
 

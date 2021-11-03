@@ -13,8 +13,9 @@ namespace Marvel {
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvDrawLayer, add_draw_layer)
-        MV_NO_COMMANDS
         MV_NO_CONSTANTS
+
+        MV_CREATE_COMMAND(apply_transform);
 
         MV_SET_STATES(MV_STATE_NONE);
 
@@ -44,11 +45,20 @@ namespace Marvel {
             MV_ADD_CHILD(mvAppItemType::mvDrawImage)
         MV_END_CHILDREN
 
+        MV_START_COMMANDS
+            MV_ADD_COMMAND(apply_transform);
+        MV_END_COMMANDS
+
     public:
 
         explicit mvDrawLayer(mvUUID uuid);
 
         void draw(ImDrawList* drawlist, float x, float y) override;
+
+    public:
+
+        mvMat4 _appliedTransform = mvIdentityMat4();
+        b8     _appliedTransformIsIdentity = true;
 
     };
 

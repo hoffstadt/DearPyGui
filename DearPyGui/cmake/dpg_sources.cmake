@@ -22,6 +22,7 @@ set(MARVEL_SOURCES
 	"$<$<PLATFORM_ID:Linux>:src/platform/Linux/mvViewport.cpp>"
 
 	"src/core/mvContext.cpp"
+	"src/core/mvMath.cpp"
 	"src/core/mvViewportOps.cpp"
 	"src/core/mvProfiler.cpp"
 	"src/core/mvCallbackRegistry.cpp"

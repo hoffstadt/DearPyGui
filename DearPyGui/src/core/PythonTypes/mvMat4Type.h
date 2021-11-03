@@ -15,6 +15,7 @@ int        PymvMat4_setItem    (PyObject* obj, Py_ssize_t index, PyObject* value
 // math operators
 PyObject* PymvMat4_add(PyObject* left, PyObject* right);
 PyObject* PymvMat4_subtract(PyObject* left, PyObject* right);
+PyObject* PymvMat4_multiply(PyObject* left, PyObject* right);
 
 static PyBufferProcs PymvMat4_as_buffer = {
     (getbufferproc)PymvMat4_getbuffer,
@@ -23,7 +24,7 @@ static PyBufferProcs PymvMat4_as_buffer = {
 static PyNumberMethods PymvMat4_as_number = {
      (binaryfunc)PymvMat4_add,      // nb_add;
      (binaryfunc)PymvMat4_subtract, // nb_subtract;
-     (binaryfunc)0,                 // nb_multiply;
+     (binaryfunc)PymvMat4_multiply, // nb_multiply;
      (binaryfunc)0,                 // nb_remainder;
      (binaryfunc)0,                 // nb_divmod;
      (ternaryfunc)0,                // nb_power;

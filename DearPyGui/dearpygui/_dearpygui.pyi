@@ -590,6 +590,10 @@ def add_window(*, label: str ='', user_data: Any ='', use_internal_label: bool =
 	"""Creates a new window for following items to be added to."""
 	...
 
+def apply_transform(item : Union[int, str], transform : Any) -> None:
+	"""Applies a transformation matrix to a layer."""
+	...
+
 def bind_colormap(item : Union[int, str], source : Union[int, str]) -> None:
 	"""Sets the color map for widgets that accept it."""
 	...

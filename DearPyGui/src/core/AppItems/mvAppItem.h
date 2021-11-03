@@ -277,6 +277,11 @@ namespace Marvel {
         b8          _useInternalLabel = true; // when false, will use specificed label
         std::string _alias;
 
+        // only for draw cmds and layers (unfortunately this is the best place
+        // to put it for the moment.
+        mvMat4 _transform = mvIdentityMat4();
+        b8     _transformIsIdentity = true;
+
     };
 
 }

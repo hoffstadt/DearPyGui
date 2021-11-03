@@ -6279,6 +6279,18 @@ def add_window(**kwargs):
 
 	return internal_dpg.add_window(**kwargs)
 
+def apply_transform(item, transform):
+	"""	 Applies a transformation matrix to a layer.
+
+	Args:
+		item (Union[int, str]): item that the color map will be applied to
+		transform (Any): item that the color map will be applied to
+	Returns:
+		None
+	"""
+
+	return internal_dpg.apply_transform(item, transform)
+
 def bind_colormap(item, source):
 	"""	 Sets the color map for widgets that accept it.
 
