@@ -65,7 +65,7 @@ struct mvMat4
 };
 
 mvMat4 mvIdentityMat4();
-mvMat4 mvConstructMat4(mvVec4& c0, mvVec4& c1, mvVec4& c2, mvVec4& c3);
+mvMat4 mvConstructMat4(mvVec4 c0, mvVec4 c1, mvVec4 c2, mvVec4 c3);
 
 struct mvTransforms
 {

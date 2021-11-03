@@ -611,7 +611,7 @@ mvInvert(mvMat4& m)
 }
 
 mvMat4
-mvConstructMat4(mvVec4& c0, mvVec4& c1, mvVec4& c2, mvVec4& c3)
+mvConstructMat4(mvVec4 c0, mvVec4 c1, mvVec4 c2, mvVec4 c3)
 {
     mvMat4 result{};
     result[0] = c0;
