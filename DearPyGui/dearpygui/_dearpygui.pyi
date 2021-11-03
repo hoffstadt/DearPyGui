@@ -650,6 +650,14 @@ def create_context() -> None:
 	"""Creates the Dear PyGui context."""
 	...
 
+def create_rotation_transform(angle : float, axis : Union[List[float], Tuple[float, ...]]) -> Any:
+	"""Applies a transformation matrix to a layer."""
+	...
+
+def create_translation_transform(translation : Union[List[float], Tuple[float, ...]]) -> Any:
+	"""Applies a transformation matrix to a layer."""
+	...
+
 def create_viewport(*, title: str ='', small_icon: str ='', large_icon: str ='', width: int ='', height: int ='', x_pos: int ='', y_pos: int ='', min_width: int ='', max_width: int ='', min_height: int ='', max_height: int ='', resizable: bool ='', vsync: bool ='', always_on_top: bool ='', decorated: bool ='', clear_color: Union[List[float], Tuple[float, ...]] ='') -> None:
 	"""Creates a viewport. Viewports are required."""
 	...

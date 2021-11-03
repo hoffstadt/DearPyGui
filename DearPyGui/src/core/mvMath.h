@@ -48,7 +48,13 @@ struct mvVec4
 
 	float& operator[](i32 index);
     operator ImVec4();
+    operator mvVec2();
     operator ImPlotPoint();
+
+	mvVec2 xy()
+	{
+		return mvVec2{ x, y };
+	}
 
 	mvVec3 xyz()
 	{
@@ -103,14 +109,14 @@ mvMat4 mvYawPitchRoll (f32 yaw, f32 pitch, f32 roll);
 mvMat4 mvLookAtLH     (mvVec3 eye, mvVec3 center, mvVec3 up);
 mvMat4 mvLookAtRH     (mvVec3 eye, mvVec3 center, mvVec3 up);
 mvMat4 mvTranslate    (mvMat4 m, mvVec3 v);
-mvMat4 mvRotate       (mvMat4 m, f32 angle, mvVec3& v);
-mvMat4 mvScale        (mvMat4 m, mvVec3& v);
+mvMat4 mvRotate       (mvMat4 m, f32 angle, mvVec3 v);
+mvMat4 mvScale        (mvMat4 m, mvVec3 v);
 mvMat4 mvSwitchHand   (mvMat4 m);
 mvMat4 mvOrthoLH      (f32 left, f32 right, f32 bottom, f32 top, f32 zNear, f32 zFar);
 mvMat4 mvOrthoRH      (f32 left, f32 right, f32 bottom, f32 top, f32 zNear, f32 zFar);
 mvMat4 mvPerspectiveLH(f32 fovy, f32 aspect, f32 zNear, f32 zFar);
 mvMat4 mvPerspectiveRH(f32 fovy, f32 aspect, f32 zNear, f32 zFar);
-mvMat4 mvInvert       (mvMat4& m);
+mvMat4 mvInvert       (mvMat4 m);
 mvMat4 mvCreateMatrix(
 	f32 m00, f32 m01, f32 m02, f32 m03,
 	f32 m10, f32 m11, f32 m12, f32 m13,

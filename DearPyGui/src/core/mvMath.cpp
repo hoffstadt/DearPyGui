@@ -16,6 +16,16 @@ mvVec2::operator ImPlotPoint()
     return ImPlotPoint{ (double)x, (double)y };
 }
 
+mvVec4::operator ImPlotPoint()
+{
+    return ImPlotPoint{ (double)x, (double)y };
+}
+
+mvVec4::operator mvVec2()
+{
+    return mvVec2{ x, y };
+}
+
 mvVec4::operator ImVec4()
 {
     if (x < 0 || y < 0 || z < 0 || w < 0)

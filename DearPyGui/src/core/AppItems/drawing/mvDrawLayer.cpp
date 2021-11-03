@@ -44,6 +44,37 @@ namespace Marvel {
 
             parsers->insert({ "apply_transform", parser });
         }
+
+        {
+            std::vector<mvPythonDataElement> args;
+
+            args.push_back({ mvPyDataType::Float, "angle", mvArgType::REQUIRED_ARG, "", "angle to rotate" });
+            args.push_back({ mvPyDataType::FloatList, "axis", mvArgType::REQUIRED_ARG, "", "axis to rotate around" });
+
+            mvPythonParserSetup setup;
+            setup.about = "Applies a transformation matrix to a layer.";
+            setup.category = { "Drawlist", "Widgets" };
+            setup.returnType = mvPyDataType::Object;
+
+            mvPythonParser parser = FinalizeParser(setup, args);
+
+            parsers->insert({ "create_rotation_transform", parser });
+        }
+
+        {
+            std::vector<mvPythonDataElement> args;
+
+            args.push_back({ mvPyDataType::FloatList, "translation", mvArgType::REQUIRED_ARG, "", "translation" });
+
+            mvPythonParserSetup setup;
+            setup.about = "Applies a transformation matrix to a layer.";
+            setup.category = { "Drawlist", "Widgets" };
+            setup.returnType = mvPyDataType::Object;
+
+            mvPythonParser parser = FinalizeParser(setup, args);
+
+            parsers->insert({ "create_translation_transform", parser });
+        }
 	}
 
 	mvDrawLayer::mvDrawLayer(mvUUID uuid)
@@ -78,7 +109,8 @@ namespace Marvel {
                 if (!item->_show)
                     continue;
 
-                item->_transform = _appliedTransform * _transform * item->_transform;
+                item->_transform = _appliedTransform * _transform;
+                //item->_transform = _appliedTransform * _transform * item->_transform;
                 item->_transformIsIdentity = false;
                 
                 item->draw(drawlist, x, y);
@@ -114,7 +146,7 @@ namespace Marvel {
         {
             mvDrawLayer* graph = static_cast<mvDrawLayer*>(aitem);
             graph->_appliedTransform = atransform->m;
-            graph->_appliedTransformIsIdentity = true;
+            graph->_appliedTransformIsIdentity = false;
             // TODO: added check for identity and set back to false
         }
 
@@ -127,5 +159,50 @@ namespace Marvel {
 
         
         return GetPyNone();
+    }
+
+    PyObject* mvDrawLayer::create_rotation_transform(PyObject* self, PyObject* args, PyObject* kwargs)
+    {
+        mv_local_persist mvMat4 identity = mvIdentityMat4();
+        float angle = 0.0f;
+        PyObject* axis;
+
+        if (!Parse((GetParsers())["create_rotation_transform"], args, kwargs, __FUNCTION__, &angle, &axis))
+            return GetPyNone();
+
+        if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+
+        mvVec4 aaxis = ToVec4(axis);
+
+        PyObject* newbuffer = nullptr;
+        PymvMat4* newbufferview = nullptr;
+        newbufferview = PyObject_New(PymvMat4, &PymvMat4Type);
+        newbuffer = PyObject_Init((PyObject*)newbufferview, &PymvMat4Type);
+
+        newbufferview->m = mvRotate(identity, angle, aaxis.xyz());
+
+        return newbuffer;
+    }
+
+    PyObject* mvDrawLayer::create_translation_transform(PyObject* self, PyObject* args, PyObject* kwargs)
+    {
+        mv_local_persist mvMat4 identity = mvIdentityMat4();
+        PyObject* axis;
+
+        if (!Parse((GetParsers())["create_translation_transform"], args, kwargs, __FUNCTION__, &axis))
+            return GetPyNone();
+
+        if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+
+        mvVec4 aaxis = ToVec4(axis);
+
+        PyObject* newbuffer = nullptr;
+        PymvMat4* newbufferview = nullptr;
+        newbufferview = PyObject_New(PymvMat4, &PymvMat4Type);
+        newbuffer = PyObject_Init((PyObject*)newbufferview, &PymvMat4Type);
+
+        newbufferview->m = mvTranslate(identity, aaxis.xyz());
+
+        return newbuffer;
     }
 }

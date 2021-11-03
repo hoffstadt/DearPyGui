@@ -1,47 +1,40 @@
 import dearpygui.dearpygui as dpg
-import dearpygui.demo as demo
-from dearpygui_ext.logger import mvLogger
+import math
 
 dpg.create_context()
 dpg.create_viewport()
 dpg.setup_dearpygui()
 
-mat1 = dpg.mvMat4(
-    0, 1, 2, 3,
-    4, 5, 6, 7,
-    8, 9, 10, 11,
-    12, 13, 14, 15)
-
-mat2 = dpg.mvMat4(
-    4, 2, 2, 3,
-    4, 5, 8, 7,
-    8, 9, 1, 11,
-    2, 3, 4, 0)
-
-print(mat1+mat2)
-print(mat1*mat2)
-
-log = mvLogger()
-log.log("log")
-log.log_debug("log debug")
-log.log_info("log info")
-log.log_warning("log warning")
-log.log_error("log error")
-log.log_critical("log critical")
+rotation = dpg.create_rotation_transform(math.pi*10.0/180.0, [0, 0, -1])
+translation = dpg.create_translation_transform([100, 100, 0])
+transform = translation*rotation
 
 with dpg.font_registry():
     with dpg.font("../../Resources/NotoSerifCJKjp-Medium.otf", 20, tag="custom font"):
         dpg.add_font_range_hint(dpg.mvFontRangeHint_Default)
     dpg.bind_font(dpg.last_container())
 
-demo.show_demo()
+dpg.show_metrics()
 
-with dpg.window(label="tutorial", width=500, height=500, show=False):
-    dpg.add_button(label="Press me", callback=lambda:dpg.toggle_viewport_fullscreen())
+with dpg.window(label="tutorial", width=500, height=500):
+
+    dpg.draw_quad((0, 0), (100, 0), (100, 100), (0, 100), color=(0, 255, 255), thickness=1)
+    with dpg.draw_layer(tag="node1"):
+        dpg.draw_quad((0, 0), (100, 0), (100, 100), (0, 100), color=(255, 0, 255), thickness=1)
+        dpg.draw_quad((100, 100), (200, 100), (200, 200), (100, 200), color=(0, 255, 255), thickness=2)
+    with dpg.draw_layer(tag="node2"):
+        dpg.draw_quad((10, 10), (20, 10), (20, 20), (10, 20), color=(0, 255, 255), thickness=2)
+
+
 
 # main loop
 dpg.show_viewport()
 while dpg.is_dearpygui_running():
+    transform = translation * dpg.create_rotation_transform(math.pi*dpg.get_frame_count()*3/180.0, [0, 0, -1])
+    dpg.apply_transform("node1", transform)
+    dpg.apply_transform("node2", 
+                        dpg.create_translation_transform([100+100*math.sin(dpg.get_frame_count()/100), 100+50*math.cos(dpg.get_frame_count()/100), 0]) *
+                        dpg.create_rotation_transform(math.pi*dpg.get_frame_count()/180.0, [0, 0, -1]))
     dpg.render_dearpygui_frame()  
 
 dpg.destroy_context()

@@ -6415,6 +6415,29 @@ def create_context():
 
 	return internal_dpg.create_context()
 
+def create_rotation_transform(angle, axis):
+	"""	 Applies a transformation matrix to a layer.
+
+	Args:
+		angle (float): angle to rotate
+		axis (Union[List[float], Tuple[float, ...]]): axis to rotate around
+	Returns:
+		Any
+	"""
+
+	return internal_dpg.create_rotation_transform(angle, axis)
+
+def create_translation_transform(translation):
+	"""	 Applies a transformation matrix to a layer.
+
+	Args:
+		translation (Union[List[float], Tuple[float, ...]]): translation
+	Returns:
+		Any
+	"""
+
+	return internal_dpg.create_translation_transform(translation)
+
 def create_viewport(**kwargs):
 	"""	 Creates a viewport. Viewports are required.
 

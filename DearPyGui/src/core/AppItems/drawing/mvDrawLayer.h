@@ -16,6 +16,8 @@ namespace Marvel {
         MV_NO_CONSTANTS
 
         MV_CREATE_COMMAND(apply_transform);
+        MV_CREATE_COMMAND(create_rotation_transform);
+        MV_CREATE_COMMAND(create_translation_transform);
 
         MV_SET_STATES(MV_STATE_NONE);
 
@@ -47,6 +49,8 @@ namespace Marvel {
 
         MV_START_COMMANDS
             MV_ADD_COMMAND(apply_transform);
+            MV_ADD_COMMAND(create_rotation_transform);
+            MV_ADD_COMMAND(create_translation_transform);
         MV_END_COMMANDS
 
     public:

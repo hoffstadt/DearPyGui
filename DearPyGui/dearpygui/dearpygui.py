@@ -7193,6 +7193,29 @@ def create_context(**kwargs) -> None:
 
 	return internal_dpg.create_context(**kwargs)
 
+def create_rotation_transform(angle : float, axis : Union[List[float], Tuple[float, ...]], **kwargs) -> Any:
+	"""	 Applies a transformation matrix to a layer.
+
+	Args:
+		angle (float): angle to rotate
+		axis (Union[List[float], Tuple[float, ...]]): axis to rotate around
+	Returns:
+		Any
+	"""
+
+	return internal_dpg.create_rotation_transform(angle, axis, **kwargs)
+
+def create_translation_transform(translation : Union[List[float], Tuple[float, ...]], **kwargs) -> Any:
+	"""	 Applies a transformation matrix to a layer.
+
+	Args:
+		translation (Union[List[float], Tuple[float, ...]]): translation
+	Returns:
+		Any
+	"""
+
+	return internal_dpg.create_translation_transform(translation, **kwargs)
+
 def create_viewport(*, title: str ='Dear PyGui', small_icon: str ='', large_icon: str ='', width: int =1280, height: int =800, x_pos: int =100, y_pos: int =100, min_width: int =250, max_width: int =10000, min_height: int =250, max_height: int =10000, resizable: bool =True, vsync: bool =True, always_on_top: bool =False, decorated: bool =True, clear_color: Union[List[float], Tuple[float, ...]] =(0, 0, 0, 255), **kwargs) -> None:
 	"""	 Creates a viewport. Viewports are required.
 
