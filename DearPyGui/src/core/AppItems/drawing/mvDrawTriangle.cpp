@@ -22,6 +22,9 @@ namespace Marvel {
 		args.push_back({ mvPyDataType::IntList, "color", mvArgType::KEYWORD_ARG, "(255, 255, 255, 255)" });
 		args.push_back({ mvPyDataType::IntList, "fill", mvArgType::KEYWORD_ARG, "(0, 0, 0, -255)" });
 		args.push_back({ mvPyDataType::Float, "thickness", mvArgType::KEYWORD_ARG, "1.0" });
+		args.push_back({ mvPyDataType::Bool, "perspective_divide", mvArgType::KEYWORD_ARG, "False" });
+		args.push_back({ mvPyDataType::Bool, "depth_clipping", mvArgType::KEYWORD_ARG, "False" });
+		args.push_back({ mvPyDataType::Integer, "cull_mode", mvArgType::KEYWORD_ARG, "0" });
 
 		mvPythonParserSetup setup;
 		setup.about = "Adds a triangle.";
@@ -62,6 +65,44 @@ namespace Marvel {
 			tp1 = _transform * _p1;
 			tp2 = _transform * _p2;
 			tp3 = _transform * _p3;
+		}
+
+		if (_depthClipping)
+		{
+			if (tp1.z < 0.1) return;
+			if (tp2.z < 0.1) return;
+			if (tp3.z < 0.1) return;
+		}
+
+		if (_perspectiveDivide)
+		{
+			tp1.x = tp1.x / tp1.w;
+			tp2.x = tp2.x / tp2.w;
+			tp3.x = tp3.x / tp3.w;
+
+			tp1.y = tp1.y / tp1.w;
+			tp2.y = tp2.y / tp2.w;
+			tp3.y = tp3.y / tp3.w;
+
+			tp1.z = tp1.z / tp1.w;
+			tp2.z = tp2.z / tp2.w;
+			tp3.z = tp3.z / tp3.w;
+		}
+
+		if (_cullMode == 1) // backface
+		{
+			mvVec3 n = mvCross(tp2 - tp1, tp3 - tp2);
+
+			if (n.z < 0)
+				return;
+		}
+
+		else if (_cullMode == 2) // frontface
+		{
+			mvVec3 n = mvCross(tp2 - tp1, tp3 - tp2);
+
+			if (n.z > 0)
+				return;
 		}
 
 		if (ImPlot::GetCurrentContext()->CurrentPlot)
@@ -125,6 +166,9 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "color")) _color = ToColor(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "fill")) _fill = ToColor(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "thickness")) _thickness = ToFloat(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "perspective_divide")) _perspectiveDivide = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "depth_clipping")) _depthClipping = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "cull_mode")) _cullMode = ToInt(item);
 
 		_p1.w = 1.0f;
 		_p2.w = 1.0f;
@@ -140,8 +184,11 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "p2", mvPyObject(ToPyPair(_p2.x, _p2.y)));
 		PyDict_SetItemString(dict, "p3", mvPyObject(ToPyPair(_p3.x, _p3.y)));
 		PyDict_SetItemString(dict, "color", mvPyObject(ToPyColor(_color)));
-		PyDict_SetItemString(dict, "thickness", mvPyObject(ToPyColor(_fill)));
+		PyDict_SetItemString(dict, "fill", mvPyObject(ToPyColor(_fill)));
 		PyDict_SetItemString(dict, "thickness", mvPyObject(ToPyFloat(_thickness)));
+		PyDict_SetItemString(dict, "perspective_divide", mvPyObject(ToPyBool(_perspectiveDivide)));
+		PyDict_SetItemString(dict, "depth_clipping", mvPyObject(ToPyBool(_depthClipping)));
+		PyDict_SetItemString(dict, "cull_mode", mvPyObject(ToPyInt(_cullMode)));
 	}
 
 }

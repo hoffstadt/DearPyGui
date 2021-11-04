@@ -2,24 +2,23 @@
 
 #include "mvAppItem.h"
 #include "mvItemRegistry.h"
+#include "textures/mvStaticTexture.h"
+#include "textures/mvDynamicTexture.h"
+#include "textures/mvRawTexture.h"
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvDrawTriangle, MV_ITEM_DESC_DEFAULT, StorageValueTypes::None, 2);
-    class mvDrawTriangle : public mvAppItem
+    MV_REGISTER_WIDGET(mvDrawImageQuad, MV_ITEM_DESC_DEFAULT, StorageValueTypes::None, 2);
+    class mvDrawImageQuad : public mvAppItem
     {
-
     public:
 
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-        MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvDrawTriangle, draw_triangle)
+        MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvDrawImageQuad, draw_image_quad)
         MV_NO_COMMANDS
         MV_DEFAULT_CHILDREN
-
-        MV_CREATE_CONSTANT(mvCullMode_None, 0);
-        MV_CREATE_CONSTANT(mvCullMode_Back, 1);
-        MV_CREATE_CONSTANT(mvCullMode_Front, 2);
+        MV_NO_CONSTANTS
 
         MV_SET_STATES(MV_STATE_NONE);
 
@@ -33,16 +32,9 @@ namespace Marvel {
             MV_ADD_PARENT(mvAppItemType::mvViewportDrawlist)
         MV_END_PARENTS
 
-
-        MV_START_CONSTANTS
-            MV_ADD_CONSTANT(mvCullMode_None),
-            MV_ADD_CONSTANT(mvCullMode_Back),
-            MV_ADD_CONSTANT(mvCullMode_Front)
-        MV_END_CONSTANTS
-
     public:
 
-        explicit mvDrawTriangle(mvUUID uuid);
+        explicit mvDrawImageQuad(mvUUID uuid);
 
         void draw(ImDrawList* drawlist, float x, float y) override;
         void handleSpecificRequiredArgs(PyObject* args) override;
@@ -50,17 +42,24 @@ namespace Marvel {
         void getSpecificConfiguration(PyObject* dict) override;
         void applySpecificTemplate(mvAppItem* item) override;
 
+
     private:
 
-        mvVec4  _p1 = { 0.0f, 0.0f, 0.0f, 1.0f };
-        mvVec4  _p2 = { 0.0f, 0.0f, 0.0f, 1.0f };
-        mvVec4  _p3 = { 0.0f, 0.0f, 0.0f, 1.0f };
-        mvColor _color;
-        mvColor _fill;
-        float   _thickness = 1.0f;
-        long    _cullMode = mvCullMode_None;
-        bool    _perspectiveDivide = false;
-        bool    _depthClipping = false;
+
+        mvUUID      _textureUUID = 0;
+        mvVec4      _p1 = { 0.0f, 0.0f, 0.0f, 1.0f };
+        mvVec4      _p2 = { 0.0f, 0.0f, 0.0f, 1.0f };
+        mvVec4      _p3 = { 0.0f, 0.0f, 0.0f, 1.0f };
+        mvVec4      _p4 = { 0.0f, 0.0f, 0.0f, 1.0f };
+        mvVec2      _uv1= {0.0f, 0.0f};
+        mvVec2      _uv2 = {1.0f, 0.0f};
+        mvVec2      _uv3 = {1.0f, 1.0f};
+        mvVec2      _uv4 = {0.0f, 1.0f};
+        mvColor     _color = mvColor(255, 255, 255, 255);
+
+        // pointer to existing item or internal
+        std::shared_ptr<mvAppItem> _texture = nullptr;
+        bool _internalTexture = false; // create a local texture if necessary
 
     };
 

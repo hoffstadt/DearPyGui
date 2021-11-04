@@ -2,6 +2,7 @@
 #include <string>
 #include "mvTypes.h"
 #include "mvPythonTranslator.h"
+#include "mvPythonTypeChecker.h"
 #include "mvPythonExceptions.h"
 
 mv_internal void 
@@ -21,10 +22,10 @@ PymvVec4_init(PymvVec4* self, PyObject* args, PyObject* kwds)
 	float y = 0.0f;
 	float z = 0.0f;
 	float w = 0.0f;
-	char kw_x[] = "x";
-	char kw_y[] = "y";
-	char kw_z[] = "z";
-	char kw_w[] = "w";
+	static char kw_x[] = "x";
+	static char kw_y[] = "y";
+	static char kw_z[] = "z";
+	static char kw_w[] = "w";
 	static char* kwlist[] = { kw_x, kw_y, kw_z, kw_w, nullptr };
 	if (!PyArg_ParseTupleAndKeywords(args, kwds, "|ffff", kwlist, &x, &y, &z, &w))
 		return -1;
@@ -165,6 +166,53 @@ PymvVec4_subtract(PyObject* left, PyObject* right)
 	newbufferview->vec4.y = leftVect->vec4.y - rightVect->vec4.y;
 	newbufferview->vec4.z = leftVect->vec4.z - rightVect->vec4.z;
 	newbufferview->vec4.w = leftVect->vec4.w - rightVect->vec4.w;
+
+	return newbuffer;
+}
+
+PyObject* PymvVec4_multiply(PyObject* left, PyObject* right)
+{
+	PyObject* newbuffer = nullptr;
+	PymvVec4* newbufferview = nullptr;
+	newbufferview = PyObject_New(PymvVec4, &PymvVec4Type);
+	newbuffer = PyObject_Init((PyObject*)newbufferview, &PymvVec4Type);
+
+	//PymvVec4* leftVect = (PymvVec4*)left;
+	//PymvVec4* rightVect = (PymvVec4*)right;
+
+	using namespace Marvel;
+
+	if (isPyObject_Float(left))
+	{
+		float value = ToFloat(left);
+		PymvVec4* rightVect = (PymvVec4*)right;
+
+		newbufferview->vec4.x = value * rightVect->vec4.x;
+		newbufferview->vec4.y = value * rightVect->vec4.y;
+		newbufferview->vec4.z = value * rightVect->vec4.z;
+		newbufferview->vec4.w = value * rightVect->vec4.w;
+	}
+
+	else if (isPyObject_Float(right))
+	{
+		float value = ToFloat(right);
+		PymvVec4* leftVect = (PymvVec4*)left;
+
+		newbufferview->vec4.x = value * leftVect->vec4.x;
+		newbufferview->vec4.y = value * leftVect->vec4.y;
+		newbufferview->vec4.z = value * leftVect->vec4.z;
+		newbufferview->vec4.w = value * leftVect->vec4.w;
+	}
+
+	else
+	{
+		PymvVec4* leftVect = (PymvVec4*)left;
+		PymvVec4* rightVect = (PymvVec4*)right;
+		newbufferview->vec4.x = leftVect->vec4.x * rightVect->vec4.x;
+		newbufferview->vec4.y = leftVect->vec4.y * rightVect->vec4.y;
+		newbufferview->vec4.z = leftVect->vec4.z * rightVect->vec4.z;
+		newbufferview->vec4.w = leftVect->vec4.w * rightVect->vec4.w;
+	}
 
 	return newbuffer;
 }

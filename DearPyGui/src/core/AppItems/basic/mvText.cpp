@@ -31,7 +31,7 @@ namespace Marvel {
 		args.push_back({ mvPyDataType::Integer, "wrap", mvArgType::KEYWORD_ARG, "-1", "Number of pixels from the start of the item until wrapping starts." });
 		args.push_back({ mvPyDataType::Bool, "bullet", mvArgType::KEYWORD_ARG, "False", "Places a bullet to the left of the text." });
 		args.push_back({ mvPyDataType::FloatList, "color", mvArgType::KEYWORD_ARG, "(-1, -1, -1, -1)", "Color of the text (rgba)." });
-		args.push_back({ mvPyDataType::Bool, "show_label", mvArgType::KEYWORD_ARG, "False", "Displays the label to teh right of the text." });
+		args.push_back({ mvPyDataType::Bool, "show_label", mvArgType::KEYWORD_ARG, "False", "Displays the label to the right of the text." });
 
 		mvPythonParserSetup setup;
 		setup.about = "Adds text. Text can have an optional label that will display to the right of the text.";

@@ -5965,7 +5965,7 @@ def add_text(default_value='', **kwargs):
 		wrap (int, optional): Number of pixels from the start of the item until wrapping starts.
 		bullet (bool, optional): Places a bullet to the left of the text.
 		color (Union[List[float], Tuple[float, ...]], optional): Color of the text (rgba).
-		show_label (bool, optional): Displays the label to teh right of the text.
+		show_label (bool, optional): Displays the label to the right of the text.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -6415,7 +6415,20 @@ def create_context():
 
 	return internal_dpg.create_context()
 
-def create_lookat_transform(eye, center, up):
+def create_fps_matrix(eye, pitch, yaw):
+	"""	 Applies a transformation matrix to a layer.
+
+	Args:
+		eye (Union[List[float], Tuple[float, ...]]): scale value per axis
+		pitch (float): scale value per axis
+		yaw (float): scale value per axis
+	Returns:
+		Any
+	"""
+
+	return internal_dpg.create_fps_matrix(eye, pitch, yaw)
+
+def create_lookat_matrix(eye, center, up):
 	"""	 Applies a transformation matrix to a layer.
 
 	Args:
@@ -6426,9 +6439,9 @@ def create_lookat_transform(eye, center, up):
 		Any
 	"""
 
-	return internal_dpg.create_lookat_transform(eye, center, up)
+	return internal_dpg.create_lookat_matrix(eye, center, up)
 
-def create_orthographic_transform(left, right, bottom, top, zNear, zFar):
+def create_orthographic_matrix(left, right, bottom, top, zNear, zFar):
 	"""	 Applies a transformation matrix to a layer.
 
 	Args:
@@ -6442,9 +6455,9 @@ def create_orthographic_transform(left, right, bottom, top, zNear, zFar):
 		Any
 	"""
 
-	return internal_dpg.create_orthographic_transform(left, right, bottom, top, zNear, zFar)
+	return internal_dpg.create_orthographic_matrix(left, right, bottom, top, zNear, zFar)
 
-def create_perspective_transform(fov, aspect, zNear, zFar):
+def create_perspective_matrix(fov, aspect, zNear, zFar):
 	"""	 Applies a transformation matrix to a layer.
 
 	Args:
@@ -6456,9 +6469,9 @@ def create_perspective_transform(fov, aspect, zNear, zFar):
 		Any
 	"""
 
-	return internal_dpg.create_perspective_transform(fov, aspect, zNear, zFar)
+	return internal_dpg.create_perspective_matrix(fov, aspect, zNear, zFar)
 
-def create_rotation_transform(angle, axis):
+def create_rotation_matrix(angle, axis):
 	"""	 Applies a transformation matrix to a layer.
 
 	Args:
@@ -6468,9 +6481,9 @@ def create_rotation_transform(angle, axis):
 		Any
 	"""
 
-	return internal_dpg.create_rotation_transform(angle, axis)
+	return internal_dpg.create_rotation_matrix(angle, axis)
 
-def create_scale_transform(scales):
+def create_scale_matrix(scales):
 	"""	 Applies a transformation matrix to a layer.
 
 	Args:
@@ -6479,9 +6492,9 @@ def create_scale_transform(scales):
 		Any
 	"""
 
-	return internal_dpg.create_scale_transform(scales)
+	return internal_dpg.create_scale_matrix(scales)
 
-def create_translation_transform(translation):
+def create_translation_matrix(translation):
 	"""	 Applies a transformation matrix to a layer.
 
 	Args:
@@ -6490,7 +6503,7 @@ def create_translation_transform(translation):
 		Any
 	"""
 
-	return internal_dpg.create_translation_transform(translation)
+	return internal_dpg.create_translation_matrix(translation)
 
 def create_viewport(**kwargs):
 	"""	 Creates a viewport. Viewports are required.
@@ -6707,6 +6720,34 @@ def draw_image(texture_tag, pmin, pmax, **kwargs):
 
 	return internal_dpg.draw_image(texture_tag, pmin, pmax, **kwargs)
 
+def draw_image_quad(texture_tag, p1, p2, p3, p4, **kwargs):
+	"""	 Adds an image (for a drawing).
+
+	Args:
+		texture_tag (Union[int, str]): 
+		p1 (Union[List[float], Tuple[float, ...]]): 
+		p2 (Union[List[float], Tuple[float, ...]]): 
+		p3 (Union[List[float], Tuple[float, ...]]): 
+		p4 (Union[List[float], Tuple[float, ...]]): 
+		label (str, optional): Overrides 'name' as label.
+		user_data (Any, optional): User data for callbacks
+		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
+		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
+		show (bool, optional): Attempt to render widget.
+		uv1 (Union[List[float], Tuple[float, ...]], optional): Normalized coordinates on texture that will be drawn.
+		uv2 (Union[List[float], Tuple[float, ...]], optional): Normalized coordinates on texture that will be drawn.
+		uv3 (Union[List[float], Tuple[float, ...]], optional): Normalized coordinates on texture that will be drawn.
+		uv4 (Union[List[float], Tuple[float, ...]], optional): Normalized coordinates on texture that will be drawn.
+		color (Union[List[int], Tuple[int, ...]], optional): 
+		id (Union[int, str], optional): (deprecated)
+	Returns:
+		Union[int, str]
+	"""
+
+	return internal_dpg.draw_image_quad(texture_tag, p1, p2, p3, p4, **kwargs)
+
 def draw_line(p1, p2, **kwargs):
 	"""	 Adds a line.
 
@@ -6866,6 +6907,9 @@ def draw_triangle(p1, p2, p3, **kwargs):
 		color (Union[List[int], Tuple[int, ...]], optional): 
 		fill (Union[List[int], Tuple[int, ...]], optional): 
 		thickness (float, optional): 
+		perspective_divide (bool, optional): 
+		depth_clipping (bool, optional): 
+		cull_mode (int, optional): 
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -8282,6 +8326,10 @@ mvTableRow=internal_dpg.mvTableRow
 mvDrawLine=internal_dpg.mvDrawLine
 mvDrawArrow=internal_dpg.mvDrawArrow
 mvDrawTriangle=internal_dpg.mvDrawTriangle
+mvCullMode_None=internal_dpg.mvCullMode_None
+mvCullMode_Back=internal_dpg.mvCullMode_Back
+mvCullMode_Front=internal_dpg.mvCullMode_Front
+mvDrawImageQuad=internal_dpg.mvDrawImageQuad
 mvDrawCircle=internal_dpg.mvDrawCircle
 mvDrawEllipse=internal_dpg.mvDrawEllipse
 mvDrawBezierCubic=internal_dpg.mvDrawBezierCubic

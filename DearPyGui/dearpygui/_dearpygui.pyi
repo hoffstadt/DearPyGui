@@ -650,27 +650,31 @@ def create_context() -> None:
 	"""Creates the Dear PyGui context."""
 	...
 
-def create_lookat_transform(eye : Union[List[float], Tuple[float, ...]], center : Union[List[float], Tuple[float, ...]], up : Union[List[float], Tuple[float, ...]]) -> Any:
+def create_fps_matrix(eye : Union[List[float], Tuple[float, ...]], pitch : float, yaw : float) -> Any:
 	"""Applies a transformation matrix to a layer."""
 	...
 
-def create_orthographic_transform(left : float, right : float, bottom : float, top : float, zNear : float, zFar : float) -> Any:
+def create_lookat_matrix(eye : Union[List[float], Tuple[float, ...]], center : Union[List[float], Tuple[float, ...]], up : Union[List[float], Tuple[float, ...]]) -> Any:
 	"""Applies a transformation matrix to a layer."""
 	...
 
-def create_perspective_transform(fov : float, aspect : float, zNear : float, zFar : float) -> Any:
+def create_orthographic_matrix(left : float, right : float, bottom : float, top : float, zNear : float, zFar : float) -> Any:
 	"""Applies a transformation matrix to a layer."""
 	...
 
-def create_rotation_transform(angle : float, axis : Union[List[float], Tuple[float, ...]]) -> Any:
+def create_perspective_matrix(fov : float, aspect : float, zNear : float, zFar : float) -> Any:
 	"""Applies a transformation matrix to a layer."""
 	...
 
-def create_scale_transform(scales : Union[List[float], Tuple[float, ...]]) -> Any:
+def create_rotation_matrix(angle : float, axis : Union[List[float], Tuple[float, ...]]) -> Any:
 	"""Applies a transformation matrix to a layer."""
 	...
 
-def create_translation_transform(translation : Union[List[float], Tuple[float, ...]]) -> Any:
+def create_scale_matrix(scales : Union[List[float], Tuple[float, ...]]) -> Any:
+	"""Applies a transformation matrix to a layer."""
+	...
+
+def create_translation_matrix(translation : Union[List[float], Tuple[float, ...]]) -> Any:
 	"""Applies a transformation matrix to a layer."""
 	...
 
@@ -718,6 +722,10 @@ def draw_image(texture_tag : Union[int, str], pmin : Union[List[float], Tuple[fl
 	"""Adds an image (for a drawing)."""
 	...
 
+def draw_image_quad(texture_tag : Union[int, str], p1 : Union[List[float], Tuple[float, ...]], p2 : Union[List[float], Tuple[float, ...]], p3 : Union[List[float], Tuple[float, ...]], p4 : Union[List[float], Tuple[float, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', show: bool ='', uv1: Union[List[float], Tuple[float, ...]] ='', uv2: Union[List[float], Tuple[float, ...]] ='', uv3: Union[List[float], Tuple[float, ...]] ='', uv4: Union[List[float], Tuple[float, ...]] ='', color: Union[List[int], Tuple[int, ...]] ='') -> Union[int, str]:
+	"""Adds an image (for a drawing)."""
+	...
+
 def draw_line(p1 : Union[List[float], Tuple[float, ...]], p2 : Union[List[float], Tuple[float, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', show: bool ='', color: Union[List[int], Tuple[int, ...]] ='', thickness: float ='') -> Union[int, str]:
 	"""Adds a line."""
 	...
@@ -742,7 +750,7 @@ def draw_text(pos : Union[List[float], Tuple[float, ...]], text : str, *, label:
 	"""Adds text (drawlist)."""
 	...
 
-def draw_triangle(p1 : Union[List[float], Tuple[float, ...]], p2 : Union[List[float], Tuple[float, ...]], p3 : Union[List[float], Tuple[float, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', show: bool ='', color: Union[List[int], Tuple[int, ...]] ='', fill: Union[List[int], Tuple[int, ...]] ='', thickness: float ='') -> Union[int, str]:
+def draw_triangle(p1 : Union[List[float], Tuple[float, ...]], p2 : Union[List[float], Tuple[float, ...]], p3 : Union[List[float], Tuple[float, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', show: bool ='', color: Union[List[int], Tuple[int, ...]] ='', fill: Union[List[int], Tuple[int, ...]] ='', thickness: float ='', perspective_divide: bool ='', depth_clipping: bool ='', cull_mode: int ='') -> Union[int, str]:
 	"""Adds a triangle."""
 	...
 
@@ -1421,6 +1429,10 @@ mvTableRow=0
 mvDrawLine=0
 mvDrawArrow=0
 mvDrawTriangle=0
+mvCullMode_None=0
+mvCullMode_Back=0
+mvCullMode_Front=0
+mvDrawImageQuad=0
 mvDrawCircle=0
 mvDrawEllipse=0
 mvDrawBezierCubic=0

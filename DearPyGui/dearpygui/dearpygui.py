@@ -6677,7 +6677,7 @@ def add_text(default_value : str ='', *, label: str =None, user_data: Any =None,
 		wrap (int, optional): Number of pixels from the start of the item until wrapping starts.
 		bullet (bool, optional): Places a bullet to the left of the text.
 		color (Union[List[float], Tuple[float, ...]], optional): Color of the text (rgba).
-		show_label (bool, optional): Displays the label to teh right of the text.
+		show_label (bool, optional): Displays the label to the right of the text.
 		id (Union[int, str], optional): (deprecated) 
 	Returns:
 		Union[int, str]
@@ -7193,7 +7193,20 @@ def create_context(**kwargs) -> None:
 
 	return internal_dpg.create_context(**kwargs)
 
-def create_lookat_transform(eye : Union[List[float], Tuple[float, ...]], center : Union[List[float], Tuple[float, ...]], up : Union[List[float], Tuple[float, ...]], **kwargs) -> Any:
+def create_fps_matrix(eye : Union[List[float], Tuple[float, ...]], pitch : float, yaw : float, **kwargs) -> Any:
+	"""	 Applies a transformation matrix to a layer.
+
+	Args:
+		eye (Union[List[float], Tuple[float, ...]]): scale value per axis
+		pitch (float): scale value per axis
+		yaw (float): scale value per axis
+	Returns:
+		Any
+	"""
+
+	return internal_dpg.create_fps_matrix(eye, pitch, yaw, **kwargs)
+
+def create_lookat_matrix(eye : Union[List[float], Tuple[float, ...]], center : Union[List[float], Tuple[float, ...]], up : Union[List[float], Tuple[float, ...]], **kwargs) -> Any:
 	"""	 Applies a transformation matrix to a layer.
 
 	Args:
@@ -7204,9 +7217,9 @@ def create_lookat_transform(eye : Union[List[float], Tuple[float, ...]], center 
 		Any
 	"""
 
-	return internal_dpg.create_lookat_transform(eye, center, up, **kwargs)
+	return internal_dpg.create_lookat_matrix(eye, center, up, **kwargs)
 
-def create_orthographic_transform(left : float, right : float, bottom : float, top : float, zNear : float, zFar : float, **kwargs) -> Any:
+def create_orthographic_matrix(left : float, right : float, bottom : float, top : float, zNear : float, zFar : float, **kwargs) -> Any:
 	"""	 Applies a transformation matrix to a layer.
 
 	Args:
@@ -7220,9 +7233,9 @@ def create_orthographic_transform(left : float, right : float, bottom : float, t
 		Any
 	"""
 
-	return internal_dpg.create_orthographic_transform(left, right, bottom, top, zNear, zFar, **kwargs)
+	return internal_dpg.create_orthographic_matrix(left, right, bottom, top, zNear, zFar, **kwargs)
 
-def create_perspective_transform(fov : float, aspect : float, zNear : float, zFar : float, **kwargs) -> Any:
+def create_perspective_matrix(fov : float, aspect : float, zNear : float, zFar : float, **kwargs) -> Any:
 	"""	 Applies a transformation matrix to a layer.
 
 	Args:
@@ -7234,9 +7247,9 @@ def create_perspective_transform(fov : float, aspect : float, zNear : float, zFa
 		Any
 	"""
 
-	return internal_dpg.create_perspective_transform(fov, aspect, zNear, zFar, **kwargs)
+	return internal_dpg.create_perspective_matrix(fov, aspect, zNear, zFar, **kwargs)
 
-def create_rotation_transform(angle : float, axis : Union[List[float], Tuple[float, ...]], **kwargs) -> Any:
+def create_rotation_matrix(angle : float, axis : Union[List[float], Tuple[float, ...]], **kwargs) -> Any:
 	"""	 Applies a transformation matrix to a layer.
 
 	Args:
@@ -7246,9 +7259,9 @@ def create_rotation_transform(angle : float, axis : Union[List[float], Tuple[flo
 		Any
 	"""
 
-	return internal_dpg.create_rotation_transform(angle, axis, **kwargs)
+	return internal_dpg.create_rotation_matrix(angle, axis, **kwargs)
 
-def create_scale_transform(scales : Union[List[float], Tuple[float, ...]], **kwargs) -> Any:
+def create_scale_matrix(scales : Union[List[float], Tuple[float, ...]], **kwargs) -> Any:
 	"""	 Applies a transformation matrix to a layer.
 
 	Args:
@@ -7257,9 +7270,9 @@ def create_scale_transform(scales : Union[List[float], Tuple[float, ...]], **kwa
 		Any
 	"""
 
-	return internal_dpg.create_scale_transform(scales, **kwargs)
+	return internal_dpg.create_scale_matrix(scales, **kwargs)
 
-def create_translation_transform(translation : Union[List[float], Tuple[float, ...]], **kwargs) -> Any:
+def create_translation_matrix(translation : Union[List[float], Tuple[float, ...]], **kwargs) -> Any:
 	"""	 Applies a transformation matrix to a layer.
 
 	Args:
@@ -7268,7 +7281,7 @@ def create_translation_transform(translation : Union[List[float], Tuple[float, .
 		Any
 	"""
 
-	return internal_dpg.create_translation_transform(translation, **kwargs)
+	return internal_dpg.create_translation_matrix(translation, **kwargs)
 
 def create_viewport(*, title: str ='Dear PyGui', small_icon: str ='', large_icon: str ='', width: int =1280, height: int =800, x_pos: int =100, y_pos: int =100, min_width: int =250, max_width: int =10000, min_height: int =250, max_height: int =10000, resizable: bool =True, vsync: bool =True, always_on_top: bool =False, decorated: bool =True, clear_color: Union[List[float], Tuple[float, ...]] =(0, 0, 0, 255), **kwargs) -> None:
 	"""	 Creates a viewport. Viewports are required.
@@ -7509,6 +7522,38 @@ def draw_image(texture_tag : Union[int, str], pmin : Union[List[float], Tuple[fl
 
 	return internal_dpg.draw_image(texture_tag, pmin, pmax, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, show=show, uv_min=uv_min, uv_max=uv_max, color=color, **kwargs)
 
+def draw_image_quad(texture_tag : Union[int, str], p1 : Union[List[float], Tuple[float, ...]], p2 : Union[List[float], Tuple[float, ...]], p3 : Union[List[float], Tuple[float, ...]], p4 : Union[List[float], Tuple[float, ...]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, uv1: Union[List[float], Tuple[float, ...]] =(0.0, 0.0), uv2: Union[List[float], Tuple[float, ...]] =(1.0, 0.0), uv3: Union[List[float], Tuple[float, ...]] =(1.0, 1.0), uv4: Union[List[float], Tuple[float, ...]] =(0.0, 1.0), color: Union[List[int], Tuple[int, ...]] =(255, 255, 255, 255), **kwargs) -> Union[int, str]:
+	"""	 Adds an image (for a drawing).
+
+	Args:
+		texture_tag (Union[int, str]): 
+		p1 (Union[List[float], Tuple[float, ...]]): 
+		p2 (Union[List[float], Tuple[float, ...]]): 
+		p3 (Union[List[float], Tuple[float, ...]]): 
+		p4 (Union[List[float], Tuple[float, ...]]): 
+		label (str, optional): Overrides 'name' as label.
+		user_data (Any, optional): User data for callbacks
+		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
+		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
+		show (bool, optional): Attempt to render widget.
+		uv1 (Union[List[float], Tuple[float, ...]], optional): Normalized coordinates on texture that will be drawn.
+		uv2 (Union[List[float], Tuple[float, ...]], optional): Normalized coordinates on texture that will be drawn.
+		uv3 (Union[List[float], Tuple[float, ...]], optional): Normalized coordinates on texture that will be drawn.
+		uv4 (Union[List[float], Tuple[float, ...]], optional): Normalized coordinates on texture that will be drawn.
+		color (Union[List[int], Tuple[int, ...]], optional): 
+		id (Union[int, str], optional): (deprecated) 
+	Returns:
+		Union[int, str]
+	"""
+
+	if 'id' in kwargs.keys():
+		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
+		tag=kwargs['id']
+
+	return internal_dpg.draw_image_quad(texture_tag, p1, p2, p3, p4, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, show=show, uv1=uv1, uv2=uv2, uv3=uv3, uv4=uv4, color=color, **kwargs)
+
 def draw_line(p1 : Union[List[float], Tuple[float, ...]], p2 : Union[List[float], Tuple[float, ...]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, color: Union[List[int], Tuple[int, ...]] =(255, 255, 255, 255), thickness: float =1.0, **kwargs) -> Union[int, str]:
 	"""	 Adds a line.
 
@@ -7675,7 +7720,7 @@ def draw_text(pos : Union[List[float], Tuple[float, ...]], text : str, *, label:
 
 	return internal_dpg.draw_text(pos, text, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, show=show, color=color, size=size, **kwargs)
 
-def draw_triangle(p1 : Union[List[float], Tuple[float, ...]], p2 : Union[List[float], Tuple[float, ...]], p3 : Union[List[float], Tuple[float, ...]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, color: Union[List[int], Tuple[int, ...]] =(255, 255, 255, 255), fill: Union[List[int], Tuple[int, ...]] =(0, 0, 0, -255), thickness: float =1.0, **kwargs) -> Union[int, str]:
+def draw_triangle(p1 : Union[List[float], Tuple[float, ...]], p2 : Union[List[float], Tuple[float, ...]], p3 : Union[List[float], Tuple[float, ...]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, color: Union[List[int], Tuple[int, ...]] =(255, 255, 255, 255), fill: Union[List[int], Tuple[int, ...]] =(0, 0, 0, -255), thickness: float =1.0, perspective_divide: bool =False, depth_clipping: bool =False, cull_mode: int =0, **kwargs) -> Union[int, str]:
 	"""	 Adds a triangle.
 
 	Args:
@@ -7692,6 +7737,9 @@ def draw_triangle(p1 : Union[List[float], Tuple[float, ...]], p2 : Union[List[fl
 		color (Union[List[int], Tuple[int, ...]], optional): 
 		fill (Union[List[int], Tuple[int, ...]], optional): 
 		thickness (float, optional): 
+		perspective_divide (bool, optional): 
+		depth_clipping (bool, optional): 
+		cull_mode (int, optional): 
 		id (Union[int, str], optional): (deprecated) 
 	Returns:
 		Union[int, str]
@@ -7701,7 +7749,7 @@ def draw_triangle(p1 : Union[List[float], Tuple[float, ...]], p2 : Union[List[fl
 		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
 		tag=kwargs['id']
 
-	return internal_dpg.draw_triangle(p1, p2, p3, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, show=show, color=color, fill=fill, thickness=thickness, **kwargs)
+	return internal_dpg.draw_triangle(p1, p2, p3, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, show=show, color=color, fill=fill, thickness=thickness, perspective_divide=perspective_divide, depth_clipping=depth_clipping, cull_mode=cull_mode, **kwargs)
 
 def empty_container_stack(**kwargs) -> None:
 	"""	 Emptyes the container stack.
@@ -9124,6 +9172,10 @@ mvTableRow=internal_dpg.mvTableRow
 mvDrawLine=internal_dpg.mvDrawLine
 mvDrawArrow=internal_dpg.mvDrawArrow
 mvDrawTriangle=internal_dpg.mvDrawTriangle
+mvCullMode_None=internal_dpg.mvCullMode_None
+mvCullMode_Back=internal_dpg.mvCullMode_Back
+mvCullMode_Front=internal_dpg.mvCullMode_Front
+mvDrawImageQuad=internal_dpg.mvDrawImageQuad
 mvDrawCircle=internal_dpg.mvDrawCircle
 mvDrawEllipse=internal_dpg.mvDrawEllipse
 mvDrawBezierCubic=internal_dpg.mvDrawBezierCubic

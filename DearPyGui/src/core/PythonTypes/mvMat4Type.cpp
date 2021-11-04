@@ -51,28 +51,28 @@ PymvMat4_init(PymvMat4* self, PyObject* args, PyObject* kwds)
 	f32 m32 = 0.0f;
 	f32 m33 = 0.0f;
 
-	char km00[] = "m00";
-	char km01[] = "m01";
-	char km02[] = "m02";
-	char km03[] = "m03";
-	char km10[] = "m10";
-	char km11[] = "m11";
-	char km12[] = "m12";
-	char km13[] = "m13";
-	char km20[] = "m20";
-	char km21[] = "m21";
-	char km22[] = "m22";
-	char km23[] = "m23";
-	char km30[] = "m30";
-	char km31[] = "m31";
-	char km32[] = "m32";
-	char km33[] = "m33";
+	static char km00[] = "m00";
+	static char km01[] = "m01";
+	static char km02[] = "m02";
+	static char km03[] = "m03";
+	static char km10[] = "m10";
+	static char km11[] = "m11";
+	static char km12[] = "m12";
+	static char km13[] = "m13";
+	static char km20[] = "m20";
+	static char km21[] = "m21";
+	static char km22[] = "m22";
+	static char km23[] = "m23";
+	static char km30[] = "m30";
+	static char km31[] = "m31";
+	static char km32[] = "m32";
+	static char km33[] = "m33";
 
 	static char* kwlist[] = { 
 	km00, km01, km02, km03,
 	km10, km11, km12, km13, 
 	km20, km21, km22, km23,
-	km30, km31, km32, km33, nullptr };
+	km30, km31, km32, km33, NULL };
 	if (!PyArg_ParseTupleAndKeywords(args, kwds, "|ffffffffffffffff", kwlist, 
 		&m00, &m01, &m02, &m03,
 	    &m10, &m11, &m12, &m13,

@@ -13,8 +13,9 @@ PyObject*  PymvVec4_getItem    (PyObject* obj, Py_ssize_t index);
 int        PymvVec4_setItem    (PyObject* obj, Py_ssize_t index, PyObject* value);
 
 // math operators
-PyObject* PymvVec4_add(PyObject* left, PyObject* right);
+PyObject* PymvVec4_add     (PyObject* left, PyObject* right);
 PyObject* PymvVec4_subtract(PyObject* left, PyObject* right);
+PyObject* PymvVec4_multiply(PyObject* left, PyObject* right);
 
 static PyBufferProcs PymvVec4_as_buffer = {
     (getbufferproc)PymvVec4_getbuffer,
@@ -23,7 +24,7 @@ static PyBufferProcs PymvVec4_as_buffer = {
 static PyNumberMethods PymvVec4_as_number = {
      (binaryfunc)PymvVec4_add,      // nb_add;
      (binaryfunc)PymvVec4_subtract, // nb_subtract;
-     (binaryfunc)0,                 // nb_multiply;
+     (binaryfunc)PymvVec4_multiply, // nb_multiply;
      (binaryfunc)0,                 // nb_remainder;
      (binaryfunc)0,                 // nb_divmod;
      (ternaryfunc)0,                // nb_power;

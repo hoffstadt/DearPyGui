@@ -58,7 +58,7 @@ namespace Marvel {
 
             mvPythonParser parser = FinalizeParser(setup, args);
 
-            parsers->insert({ "create_rotation_transform", parser });
+            parsers->insert({ "create_rotation_matrix", parser });
         }
 
         {
@@ -73,7 +73,7 @@ namespace Marvel {
 
             mvPythonParser parser = FinalizeParser(setup, args);
 
-            parsers->insert({ "create_scale_transform", parser });
+            parsers->insert({ "create_scale_matrix", parser });
         }
 
         {
@@ -88,7 +88,7 @@ namespace Marvel {
 
             mvPythonParser parser = FinalizeParser(setup, args);
 
-            parsers->insert({ "create_translation_transform", parser });
+            parsers->insert({ "create_translation_matrix", parser });
         }
 
         {
@@ -105,7 +105,7 @@ namespace Marvel {
 
             mvPythonParser parser = FinalizeParser(setup, args);
 
-            parsers->insert({ "create_lookat_transform", parser });
+            parsers->insert({ "create_lookat_matrix", parser });
         }
 
         {
@@ -123,7 +123,7 @@ namespace Marvel {
 
             mvPythonParser parser = FinalizeParser(setup, args);
 
-            parsers->insert({ "create_perspective_transform", parser });
+            parsers->insert({ "create_perspective_matrix", parser });
         }
 
         {
@@ -143,7 +143,24 @@ namespace Marvel {
 
             mvPythonParser parser = FinalizeParser(setup, args);
 
-            parsers->insert({ "create_orthographic_transform", parser });
+            parsers->insert({ "create_orthographic_matrix", parser });
+        }
+
+        {
+            std::vector<mvPythonDataElement> args;
+
+            args.push_back({ mvPyDataType::FloatList, "eye", mvArgType::REQUIRED_ARG, "", "scale value per axis" });
+            args.push_back({ mvPyDataType::Float, "pitch", mvArgType::REQUIRED_ARG, "", "scale value per axis" });
+            args.push_back({ mvPyDataType::Float, "yaw", mvArgType::REQUIRED_ARG, "", "scale value per axis" });
+
+            mvPythonParserSetup setup;
+            setup.about = "Applies a transformation matrix to a layer.";
+            setup.category = { "Drawlist", "Widgets" };
+            setup.returnType = mvPyDataType::Object;
+
+            mvPythonParser parser = FinalizeParser(setup, args);
+
+            parsers->insert({ "create_fps_matrix", parser });
         }
 	}
 
@@ -233,13 +250,13 @@ namespace Marvel {
         return GetPyNone();
     }
 
-    PyObject* mvDrawLayer::create_rotation_transform(PyObject* self, PyObject* args, PyObject* kwargs)
+    PyObject* mvDrawLayer::create_rotation_matrix(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         mv_local_persist mvMat4 identity = mvIdentityMat4();
         float angle = 0.0f;
         PyObject* axis;
 
-        if (!Parse((GetParsers())["create_rotation_transform"], args, kwargs, __FUNCTION__, &angle, &axis))
+        if (!Parse((GetParsers())["create_rotation_matrix"], args, kwargs, __FUNCTION__, &angle, &axis))
             return GetPyNone();
 
         if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
@@ -256,14 +273,14 @@ namespace Marvel {
         return newbuffer;
     }
 
-    PyObject* mvDrawLayer::create_perspective_transform(PyObject* self, PyObject* args, PyObject* kwargs)
+    PyObject* mvDrawLayer::create_perspective_matrix(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         float fov = 0.0f;
         float aspect = 0.0f;
         float zNear = 0.0f;
         float zFar = 0.0f;
 
-        if (!Parse((GetParsers())["create_perspective_transform"], args, kwargs, __FUNCTION__, 
+        if (!Parse((GetParsers())["create_perspective_matrix"], args, kwargs, __FUNCTION__, 
             &fov, &aspect, &zNear, &zFar))
             return GetPyNone();
 
@@ -279,7 +296,7 @@ namespace Marvel {
         return newbuffer;
     }
 
-    PyObject* mvDrawLayer::create_orthographic_transform(PyObject* self, PyObject* args, PyObject* kwargs)
+    PyObject* mvDrawLayer::create_orthographic_matrix(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         float left = 0.0f;
         float right = 0.0f;
@@ -288,7 +305,7 @@ namespace Marvel {
         float zNear = 0.0f;
         float zFar = 0.0f;
 
-        if (!Parse((GetParsers())["create_orthographic_transform"], args, kwargs, __FUNCTION__,
+        if (!Parse((GetParsers())["create_orthographic_matrix"], args, kwargs, __FUNCTION__,
             &left, &right, &bottom, &top, &zNear, &zFar))
             return GetPyNone();
 
@@ -304,12 +321,12 @@ namespace Marvel {
         return newbuffer;
     }
 
-    PyObject* mvDrawLayer::create_translation_transform(PyObject* self, PyObject* args, PyObject* kwargs)
+    PyObject* mvDrawLayer::create_translation_matrix(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         mv_local_persist mvMat4 identity = mvIdentityMat4();
         PyObject* axis;
 
-        if (!Parse((GetParsers())["create_translation_transform"], args, kwargs, __FUNCTION__, &axis))
+        if (!Parse((GetParsers())["create_translation_matrix"], args, kwargs, __FUNCTION__, &axis))
             return GetPyNone();
 
         if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
@@ -326,12 +343,12 @@ namespace Marvel {
         return newbuffer;
     }
 
-    PyObject* mvDrawLayer::create_scale_transform(PyObject* self, PyObject* args, PyObject* kwargs)
+    PyObject* mvDrawLayer::create_scale_matrix(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         mv_local_persist mvMat4 identity = mvIdentityMat4();
         PyObject* axis;
 
-        if (!Parse((GetParsers())["create_scale_transform"], args, kwargs, __FUNCTION__, &axis))
+        if (!Parse((GetParsers())["create_scale_matrix"], args, kwargs, __FUNCTION__, &axis))
             return GetPyNone();
 
         if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
@@ -348,14 +365,14 @@ namespace Marvel {
         return newbuffer;
     }
 
-    PyObject* mvDrawLayer::create_lookat_transform(PyObject* self, PyObject* args, PyObject* kwargs)
+    PyObject* mvDrawLayer::create_lookat_matrix(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         mv_local_persist mvMat4 identity = mvIdentityMat4();
         PyObject* eye;
         PyObject* center;
         PyObject* up;
 
-        if (!Parse((GetParsers())["create_lookat_transform"], args, kwargs, __FUNCTION__, 
+        if (!Parse((GetParsers())["create_lookat_matrix"], args, kwargs, __FUNCTION__, 
             &eye, &center, &up))
             return GetPyNone();
 
@@ -371,6 +388,30 @@ namespace Marvel {
         newbuffer = PyObject_Init((PyObject*)newbufferview, &PymvMat4Type);
 
         newbufferview->m = mvLookAtRH(aeye.xyz(), acenter.xyz(), aup.xyz());
+
+        return newbuffer;
+    }
+
+    PyObject* mvDrawLayer::create_fps_matrix(PyObject* self, PyObject* args, PyObject* kwargs)
+    {
+        mv_local_persist mvMat4 identity = mvIdentityMat4();
+        PyObject* eye;
+        f32 pitch = 0.0f;
+        f32 yaw = 0.0f;
+
+        if (!Parse((GetParsers())["create_fps_matrix"], args, kwargs, __FUNCTION__,
+            &eye, &pitch, &yaw))
+            return GetPyNone();
+
+        if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+
+        mvVec4 aeye = ToVec4(eye);
+        PyObject* newbuffer = nullptr;
+        PymvMat4* newbufferview = nullptr;
+        newbufferview = PyObject_New(PymvMat4, &PymvMat4Type);
+        newbuffer = PyObject_Init((PyObject*)newbufferview, &PymvMat4Type);
+
+        newbufferview->m = mvFPSViewRH(aeye.xyz(), pitch, yaw);
 
         return newbuffer;
     }

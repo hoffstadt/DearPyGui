@@ -42,7 +42,7 @@ namespace Marvel {
         mvFileDialog, mvTabButton,
         mvNodeEditor, mvNode, mvNodeAttribute,
         mvTable, mvTableColumn, mvTableRow,
-        mvDrawLine, mvDrawArrow, mvDrawTriangle,
+        mvDrawLine, mvDrawArrow, mvDrawTriangle, mvDrawImageQuad,
         mvDrawCircle, mvDrawEllipse, mvDrawBezierCubic, mvDrawBezierQuadratic,
         mvDrawQuad, mvDrawRect, mvDrawText, mvDrawPolygon, mvDrawPolyline,
         mvDrawImage, mvDragFloatMulti, mvDragIntMulti, mvSliderFloatMulti,

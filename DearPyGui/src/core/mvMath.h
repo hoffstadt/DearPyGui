@@ -49,6 +49,7 @@ struct mvVec4
 	float& operator[](i32 index);
     operator ImVec4();
     operator mvVec2();
+    operator mvVec3();
     operator ImPlotPoint();
 
 	mvVec2 xy()
@@ -105,20 +106,16 @@ mvVec3 mvCross    (mvVec3 v1, mvVec3 v2);
 f32    mvDot      (mvVec3 v1, mvVec3 v2);
 f32    mvRadians  (f32 degrees);
 
-mvMat4 mvYawPitchRoll (f32 yaw, f32 pitch, f32 roll);
-mvMat4 mvLookAtLH     (mvVec3 eye, mvVec3 center, mvVec3 up);
-mvMat4 mvLookAtRH     (mvVec3 eye, mvVec3 center, mvVec3 up);
-mvMat4 mvTranslate    (mvMat4 m, mvVec3 v);
-mvMat4 mvRotate       (mvMat4 m, f32 angle, mvVec3 v);
-mvMat4 mvScale        (mvMat4 m, mvVec3 v);
-mvMat4 mvOrthoLH      (f32 left, f32 right, f32 bottom, f32 top, f32 zNear, f32 zFar);
-mvMat4 mvOrthoRH      (f32 left, f32 right, f32 bottom, f32 top, f32 zNear, f32 zFar);
-mvMat4 mvPerspectiveLH(f32 fovy, f32 aspect, f32 zNear, f32 zFar);
+mvMat4 mvLookAtRH(mvVec3 eye, mvVec3 center, mvVec3 up); // world space eye, center, up
+mvMat4 mvFPSViewRH(mvVec3 eye, float pitch, float yaw);   // world space eye, center, up
+mvMat4 mvTranslate(mvMat4 m, mvVec3 v);
+mvMat4 mvRotate(mvMat4 m, f32 angle, mvVec3 v);
+mvMat4 mvScale(mvMat4 m, mvVec3 v);
+mvMat4 mvOrthoRH(f32 left, f32 right, f32 bottom, f32 top, f32 zNear, f32 zFar);
 mvMat4 mvPerspectiveRH(f32 fovy, f32 aspect, f32 zNear, f32 zFar);
-mvMat4 mvInvert       (mvMat4 m);
 mvMat4 mvCreateMatrix(
 	f32 m00, f32 m01, f32 m02, f32 m03,
 	f32 m10, f32 m11, f32 m12, f32 m13,
 	f32 m20, f32 m21, f32 m22, f32 m23,
 	f32 m30, f32 m31, f32 m32, f32 m33
-	);
+);

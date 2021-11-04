@@ -26,6 +26,11 @@ mvVec4::operator mvVec2()
     return mvVec2{ x, y };
 }
 
+mvVec4::operator mvVec3()
+{
+    return mvVec3{ x, y, z };
+}
+
 mvVec4::operator ImVec4()
 {
     if (x < 0 || y < 0 || z < 0 || w < 0)
@@ -367,49 +372,6 @@ mvRotate(mvMat4 m, f32 angle, mvVec3 v)
 }
 
 mvMat4 
-mvYawPitchRoll(f32 yaw, f32 pitch, f32 roll)
-{
-    // x = roll
-    // y = pitch
-    // z = yaw
-
-    f32 tmp_ch = cos(yaw);
-    f32 tmp_sh = sin(yaw);
-    f32 tmp_cp = cos(pitch);
-    f32 tmp_sp = sin(pitch);
-    f32 tmp_cb = cos(roll);
-    f32 tmp_sb = sin(roll);
-
-    mvMat4 result{};
-
-    // column 0
-    result[0][0] = tmp_ch * tmp_cb + tmp_sh * tmp_sp * tmp_sb;
-    result[0][1] = tmp_sb * tmp_cp;
-    result[0][2] = -tmp_sh * tmp_cb + tmp_ch * tmp_sp * tmp_sb;
-    result[0][3] = 0.0f;
-
-    // column 1
-    result[1][0] = -tmp_ch * tmp_sb + tmp_sh * tmp_sp * tmp_cb;
-    result[1][1] = tmp_cb * tmp_cp;
-    result[1][2] = tmp_sb * tmp_sh + tmp_ch * tmp_sp * tmp_cb;
-    result[1][3] = 0.0f;
-
-    // column 2
-    result[2][0] = tmp_sh * tmp_cp;
-    result[2][1] = -tmp_sp;
-    result[2][2] = tmp_ch * tmp_cp;
-    result[2][3] = 0.0f;
-
-    // column 3
-    result[3][0] = 0.0f;
-    result[3][1] = 0.0f;
-    result[3][2] = 0.0f;
-    result[3][3] = 1.0f;
-
-    return result;
-}
-
-mvMat4 
 mvScale(mvMat4 m, mvVec3 v)
 {
     mvMat4 result{};
@@ -447,77 +409,34 @@ mvDot(mvVec3 v1, mvVec3 v2)
     return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
 }
 
-mvMat4 
-mvLookAtLH(mvVec3 eye, mvVec3 center, mvVec3 up)
-{
-    mvVec3 f = mvNormalize(center - eye);
-    mvVec3 s = mvNormalize(mvCross(up, f));
-    mvVec3 u = mvCross(f, s);
-
-    mvMat4 result = mvIdentityMat4();
-    result[0][0] = s.x;
-    result[1][0] = s.y;
-    result[2][0] = s.z;
-    result[0][1] = u.x;
-    result[1][1] = u.y;
-    result[2][1] = u.z;
-    result[0][2] = f.x;
-    result[1][2] = f.y;
-    result[2][2] = f.z;
-    result[3][0] = -mvDot(s, eye);
-    result[3][1] = -mvDot(u, eye);
-    result[3][2] = -mvDot(f, eye);
-    return result;
-}
-
 mvMat4
 mvLookAtRH(mvVec3 eye, mvVec3 center, mvVec3 up)
 {
     mvVec3 zaxis = mvNormalize(center - eye);
-    mvVec3 xaxis = mvNormalize(mvCross(up, zaxis));
-    mvVec3 yaxis = mvCross(zaxis, xaxis);
+    mvVec3 xaxis = mvNormalize(mvCross(zaxis, up));
+    mvVec3 yaxis = mvCross(xaxis, zaxis);
 
-    mvMat4 translation = mvIdentityMat4();
-    translation[3][0] = -eye.x;
-    translation[3][1] = -eye.y;
-    translation[3][2] = -eye.z;
-
-    mvMat4 rotation = mvIdentityMat4();
+    mvMat4 viewMatrix = mvIdentityMat4();
 
     // row 0
-    rotation[0][0] = xaxis.x;
-    rotation[1][0] = xaxis.y;
-    rotation[2][0] = xaxis.z;
+    viewMatrix[0][0] = xaxis.x;
+    viewMatrix[1][0] = xaxis.y;
+    viewMatrix[2][0] = xaxis.z;
+    viewMatrix[3][0] = -mvDot(xaxis, eye);
 
     // row 1
-    rotation[0][1] = yaxis.x;
-    rotation[1][1] = yaxis.y;
-    rotation[2][1] = yaxis.z;
+    viewMatrix[0][1] = yaxis.x;
+    viewMatrix[1][1] = yaxis.y;
+    viewMatrix[2][1] = yaxis.z;
+    viewMatrix[3][1] = -mvDot(yaxis, eye);
 
     // row 2
-    rotation[0][2] = zaxis.x;
-    rotation[1][2] = zaxis.y;
-    rotation[2][2] = zaxis.z;
+    viewMatrix[0][2] = -zaxis.x;
+    viewMatrix[1][2] = -zaxis.y;
+    viewMatrix[2][2] = -zaxis.z;
+    viewMatrix[3][2] = mvDot(zaxis, eye);
 
-    // row 3
-    //rotation[3][0] = -mvDot(xaxis, eye);
-    //rotation[3][1] = -mvDot(yaxis, eye);
-    //rotation[3][2] = mvDot(zaxis, eye);
-
-    return rotation * translation;
-}
-
-mvMat4 
-mvOrthoLH(f32 left, f32 right, f32 bottom, f32 top, f32 zNear, f32 zFar)
-{
-    mvMat4 result = mvIdentityMat4();
-    result[0][0] = 2.0f / (right - left);
-    result[1][1] = 2.0f / (top - bottom);
-    result[2][2] = 2.0f / (zFar - zNear);
-    result[3][0] = -(right + left) / (right - left);
-    result[3][1] = -(top + bottom) / (top - bottom);
-    result[3][2] = -(zFar + zNear) / (zFar - zNear);
-    return result;
+    return viewMatrix;
 }
 
 mvMat4
@@ -530,20 +449,6 @@ mvOrthoRH(f32 left, f32 right, f32 bottom, f32 top, f32 zNear, f32 zFar)
     result[3][0] = -(right + left) / (right - left);
     result[3][1] = -(top + bottom) / (top - bottom);
     result[3][2] = -(zFar + zNear) / (zFar - zNear);
-    return result;
-}
-
-mvMat4 
-mvPerspectiveLH(f32 fovy, f32 aspect, f32 zNear, f32 zFar)
-{
-    const f32 tanHalfFovy = tan(fovy / 2.0f);
-
-    mvMat4 result{};
-    result[0][0] = 1.0f / (aspect * tanHalfFovy);
-    result[1][1] = 1.0f / (tanHalfFovy);
-    result[2][2] = (zFar + zNear) / (zFar - zNear);
-    result[2][3] = 1.0f;
-    result[3][2] = -(2.0f * zFar * zNear) / (zFar - zNear);
     return result;
 }
 
@@ -666,4 +571,28 @@ mvCreateMatrix(
     m[3][3] = m33;
 
     return m;
+}
+
+mvMat4
+mvFPSViewRH(mvVec3 eye, float pitch, float yaw)
+{
+
+    // I assume the values are already converted to radians.
+    f32 cosPitch = cos(pitch);
+    f32 sinPitch = sin(pitch);
+    f32 cosYaw = cos(yaw);
+    f32 sinYaw = sin(yaw);
+
+    mvVec3 xaxis = { cosYaw, 0, -sinYaw };
+    mvVec3 yaxis = { sinYaw * sinPitch, cosPitch, cosYaw * sinPitch };
+    mvVec3 zaxis = { sinYaw * cosPitch, -sinPitch, cosPitch * cosYaw };
+
+    mvMat4 viewMatrix = mvConstructMat4(
+        mvVec4{ xaxis.x, yaxis.x, zaxis.x, 0 },
+        mvVec4{ xaxis.y, yaxis.y, zaxis.y, 0 },
+        mvVec4{ xaxis.z, yaxis.z, zaxis.z, 0 },
+        mvVec4{ -mvDot(xaxis, eye), -mvDot(yaxis, eye), -mvDot(zaxis, eye), 1 }
+    );
+
+    return viewMatrix;
 }

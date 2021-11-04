@@ -29,7 +29,7 @@ PymvBuffer_init(PymvBuffer* self, PyObject* args, PyObject* kwds)
 		deallocate_mvBuffer(&self->arr);
 
 	int length = 0;
-	char kw[] = "length";
+	static char kw[] = "length";
 	static char* kwlist[] = { kw, nullptr };
 	if (!PyArg_ParseTupleAndKeywords(args, kwds, "|i", kwlist, &length))
 		return -1;

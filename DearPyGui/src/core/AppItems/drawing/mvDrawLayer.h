@@ -16,12 +16,13 @@ namespace Marvel {
         MV_NO_CONSTANTS
 
         MV_CREATE_COMMAND(apply_transform);
-        MV_CREATE_COMMAND(create_rotation_transform);
-        MV_CREATE_COMMAND(create_translation_transform);
-        MV_CREATE_COMMAND(create_scale_transform);
-        MV_CREATE_COMMAND(create_lookat_transform);
-        MV_CREATE_COMMAND(create_perspective_transform);
-        MV_CREATE_COMMAND(create_orthographic_transform);
+        MV_CREATE_COMMAND(create_rotation_matrix);
+        MV_CREATE_COMMAND(create_translation_matrix);
+        MV_CREATE_COMMAND(create_scale_matrix);
+        MV_CREATE_COMMAND(create_lookat_matrix);
+        MV_CREATE_COMMAND(create_perspective_matrix);
+        MV_CREATE_COMMAND(create_orthographic_matrix);
+        MV_CREATE_COMMAND(create_fps_matrix);
 
         MV_SET_STATES(MV_STATE_NONE);
 
@@ -50,16 +51,18 @@ namespace Marvel {
             MV_ADD_CHILD(mvAppItemType::mvDrawPolyline),
             MV_ADD_CHILD(mvAppItemType::mvDrawImage),
             MV_ADD_CHILD(mvAppItemType::mvDrawLayer),
+            MV_ADD_CHILD(mvAppItemType::mvDrawImageQuad),
         MV_END_CHILDREN
 
         MV_START_COMMANDS
             MV_ADD_COMMAND(apply_transform);
-            MV_ADD_COMMAND(create_rotation_transform);
-            MV_ADD_COMMAND(create_translation_transform);
-            MV_ADD_COMMAND(create_scale_transform);
-            MV_ADD_COMMAND(create_lookat_transform);
-            MV_ADD_COMMAND(create_perspective_transform);
-            MV_ADD_COMMAND(create_orthographic_transform);
+            MV_ADD_COMMAND(create_rotation_matrix);
+            MV_ADD_COMMAND(create_translation_matrix);
+            MV_ADD_COMMAND(create_scale_matrix);
+            MV_ADD_COMMAND(create_lookat_matrix);
+            MV_ADD_COMMAND(create_perspective_matrix);
+            MV_ADD_COMMAND(create_orthographic_matrix);
+            MV_ADD_COMMAND(create_fps_matrix);
         MV_END_COMMANDS
 
     public:
