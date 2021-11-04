@@ -7193,6 +7193,49 @@ def create_context(**kwargs) -> None:
 
 	return internal_dpg.create_context(**kwargs)
 
+def create_lookat_transform(eye : Union[List[float], Tuple[float, ...]], center : Union[List[float], Tuple[float, ...]], up : Union[List[float], Tuple[float, ...]], **kwargs) -> Any:
+	"""	 Applies a transformation matrix to a layer.
+
+	Args:
+		eye (Union[List[float], Tuple[float, ...]]): scale value per axis
+		center (Union[List[float], Tuple[float, ...]]): scale value per axis
+		up (Union[List[float], Tuple[float, ...]]): scale value per axis
+	Returns:
+		Any
+	"""
+
+	return internal_dpg.create_lookat_transform(eye, center, up, **kwargs)
+
+def create_orthographic_transform(left : float, right : float, bottom : float, top : float, zNear : float, zFar : float, **kwargs) -> Any:
+	"""	 Applies a transformation matrix to a layer.
+
+	Args:
+		left (float): angle to rotate
+		right (float): angle to rotate
+		bottom (float): angle to rotate
+		top (float): angle to rotate
+		zNear (float): angle to rotate
+		zFar (float): angle to rotate
+	Returns:
+		Any
+	"""
+
+	return internal_dpg.create_orthographic_transform(left, right, bottom, top, zNear, zFar, **kwargs)
+
+def create_perspective_transform(fov : float, aspect : float, zNear : float, zFar : float, **kwargs) -> Any:
+	"""	 Applies a transformation matrix to a layer.
+
+	Args:
+		fov (float): angle to rotate
+		aspect (float): angle to rotate
+		zNear (float): angle to rotate
+		zFar (float): angle to rotate
+	Returns:
+		Any
+	"""
+
+	return internal_dpg.create_perspective_transform(fov, aspect, zNear, zFar, **kwargs)
+
 def create_rotation_transform(angle : float, axis : Union[List[float], Tuple[float, ...]], **kwargs) -> Any:
 	"""	 Applies a transformation matrix to a layer.
 
@@ -7204,6 +7247,17 @@ def create_rotation_transform(angle : float, axis : Union[List[float], Tuple[flo
 	"""
 
 	return internal_dpg.create_rotation_transform(angle, axis, **kwargs)
+
+def create_scale_transform(scales : Union[List[float], Tuple[float, ...]], **kwargs) -> Any:
+	"""	 Applies a transformation matrix to a layer.
+
+	Args:
+		scales (Union[List[float], Tuple[float, ...]]): scale value per axis
+	Returns:
+		Any
+	"""
+
+	return internal_dpg.create_scale_transform(scales, **kwargs)
 
 def create_translation_transform(translation : Union[List[float], Tuple[float, ...]], **kwargs) -> Any:
 	"""	 Applies a transformation matrix to a layer.

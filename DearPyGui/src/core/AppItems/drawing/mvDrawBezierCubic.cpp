@@ -54,13 +54,26 @@ namespace Marvel {
 
 	void mvDrawBezierCubic::draw(ImDrawList* drawlist, float x, float y)
 	{
+		mvVec4  tp1 = _p1;
+		mvVec4  tp2 = _p2;
+		mvVec4  tp3 = _p3;
+		mvVec4  tp4 = _p4;
+
+		if (!_transformIsIdentity)
+		{
+			tp1 = _transform * _p1;
+			tp2 = _transform * _p2;
+			tp3 = _transform * _p3;
+			tp4 = _transform * _p4;
+		}
+
 		if (ImPlot::GetCurrentContext()->CurrentPlot)
-			drawlist->AddBezierCubic(ImPlot::PlotToPixels(_p1), ImPlot::PlotToPixels(_p2), ImPlot::PlotToPixels(_p3),
-				ImPlot::PlotToPixels(_p4), _color, ImPlot::GetCurrentContext()->Mx*_thickness, _segments);
+			drawlist->AddBezierCubic(ImPlot::PlotToPixels(tp1), ImPlot::PlotToPixels(tp2), ImPlot::PlotToPixels(tp3),
+				ImPlot::PlotToPixels(tp4), _color, ImPlot::GetCurrentContext()->Mx*_thickness, _segments);
 		else
 		{
 			mvVec2 start = { x, y };
-			drawlist->AddBezierCubic(_p1 + start, _p2 + start, _p3 + start, _p4 + start, _color, _thickness, _segments);
+			drawlist->AddBezierCubic(tp1 + start, tp2 + start, tp3 + start, tp4 + start, _color, _thickness, _segments);
 		}
 	}
 
@@ -75,19 +88,23 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				_p1 = ToVec2(item);
+				_p1 = ToVec4(item);
+				_p1.w = 1.0f;
 				break;
 
 			case 1:
-				_p2 = ToVec2(item);
+				_p2 = ToVec4(item);
+				_p2.w = 1.0f;
 				break;
 
 			case 2:
-				_p3 = ToVec2(item);
+				_p3 = ToVec4(item);
+				_p3.w = 1.0f;
 				break;
 
 			case 3:
-				_p4 = ToVec2(item);
+				_p4 = ToVec4(item);
+				_p4.w = 1.0f;
 				break;
 
 			default:
@@ -101,13 +118,18 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "p1")) _p1 = ToVec2(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "p2")) _p2 = ToVec2(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "p3")) _p3 = ToVec2(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "p4")) _p4 = ToVec2(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "p1")) _p1 = ToVec4(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "p2")) _p2 = ToVec4(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "p3")) _p3 = ToVec4(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "p4")) _p4 = ToVec4(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "color")) _color = ToColor(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "thickness")) _thickness = ToFloat(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "segments")) _segments = ToInt(item);
+
+		_p1.w = 1.0f;
+		_p2.w = 1.0f;
+		_p3.w = 1.0f;
+		_p4.w = 1.0f;
 	}
 
 	void mvDrawBezierCubic::getSpecificConfiguration(PyObject* dict)

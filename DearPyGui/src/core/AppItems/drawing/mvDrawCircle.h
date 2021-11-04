@@ -42,7 +42,7 @@ namespace Marvel {
 
     private:
 
-        mvVec2  _center = { 0.0f, 0.0f };
+        mvVec4  _center = { 0.0f, 0.0f, 0.0f, 1.0f };
         float   _radius = 1.0f;
         int     _segments = 0;
         mvColor _color;

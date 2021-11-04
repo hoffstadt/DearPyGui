@@ -42,7 +42,7 @@ namespace Marvel {
 
     private:
 
-        std::vector<mvVec2> _points;
+        std::vector<mvVec4> _points;
         mvColor             _color;
         mvColor             _fill;
         float               _thickness = 1.0f;

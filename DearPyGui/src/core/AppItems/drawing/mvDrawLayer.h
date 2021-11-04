@@ -18,6 +18,10 @@ namespace Marvel {
         MV_CREATE_COMMAND(apply_transform);
         MV_CREATE_COMMAND(create_rotation_transform);
         MV_CREATE_COMMAND(create_translation_transform);
+        MV_CREATE_COMMAND(create_scale_transform);
+        MV_CREATE_COMMAND(create_lookat_transform);
+        MV_CREATE_COMMAND(create_perspective_transform);
+        MV_CREATE_COMMAND(create_orthographic_transform);
 
         MV_SET_STATES(MV_STATE_NONE);
 
@@ -44,13 +48,18 @@ namespace Marvel {
             MV_ADD_CHILD(mvAppItemType::mvDrawText),
             MV_ADD_CHILD(mvAppItemType::mvDrawPolygon),
             MV_ADD_CHILD(mvAppItemType::mvDrawPolyline),
-            MV_ADD_CHILD(mvAppItemType::mvDrawImage)
+            MV_ADD_CHILD(mvAppItemType::mvDrawImage),
+            MV_ADD_CHILD(mvAppItemType::mvDrawLayer),
         MV_END_CHILDREN
 
         MV_START_COMMANDS
             MV_ADD_COMMAND(apply_transform);
             MV_ADD_COMMAND(create_rotation_transform);
             MV_ADD_COMMAND(create_translation_transform);
+            MV_ADD_COMMAND(create_scale_transform);
+            MV_ADD_COMMAND(create_lookat_transform);
+            MV_ADD_COMMAND(create_perspective_transform);
+            MV_ADD_COMMAND(create_orthographic_transform);
         MV_END_COMMANDS
 
     public:
@@ -58,11 +67,6 @@ namespace Marvel {
         explicit mvDrawLayer(mvUUID uuid);
 
         void draw(ImDrawList* drawlist, float x, float y) override;
-
-    public:
-
-        mvMat4 _appliedTransform = mvIdentityMat4();
-        b8     _appliedTransformIsIdentity = true;
 
     };
 

@@ -632,38 +632,6 @@ mvConstructMat4(mvVec4 c0, mvVec4 c1, mvVec4 c2, mvVec4 c3)
 }
 
 mvMat4 
-mvSwitchHand(mvMat4 m)
-{
-    mvMat4 result = mvIdentityMat4();
-
-    // row 0
-    result[0][0] = m[0][0];
-    result[1][0] = m[1][0];
-    result[2][0] = m[2][0];
-    result[3][0] = m[3][0];
-
-    // row 1
-    result[0][1] = m[0][1];
-    result[1][1] = m[1][1];
-    result[2][1] = m[2][1];
-    result[3][1] = m[3][1];
-
-    // row 2
-    result[0][2] = m[0][2];
-    result[1][2] = m[1][2];
-    result[2][2] = m[2][2];
-    result[3][2] = m[3][2];
-
-    // row 3
-    result[0][3] = m[0][3];
-    result[1][3] = m[1][3];
-    result[2][3] = m[2][3];
-    result[3][3] = m[3][3];
-
-    return result;
-}
-
-mvMat4 
 mvCreateMatrix(
     f32 m00, f32 m01, f32 m02, f32 m03,
     f32 m10, f32 m11, f32 m12, f32 m13,

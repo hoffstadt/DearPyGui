@@ -53,22 +53,33 @@ namespace Marvel {
 
 	void mvDrawTriangle::draw(ImDrawList* drawlist, float x, float y)
 	{
+		mvVec4  tp1 = _p1;
+		mvVec4  tp2 = _p2;
+		mvVec4  tp3 = _p3;
+
+		if (!_transformIsIdentity)
+		{
+			tp1 = _transform * _p1;
+			tp2 = _transform * _p2;
+			tp3 = _transform * _p3;
+		}
+
 		if (ImPlot::GetCurrentContext()->CurrentPlot)
 		{
-			drawlist->AddTriangle(ImPlot::PlotToPixels(_p1), ImPlot::PlotToPixels(_p2), ImPlot::PlotToPixels(_p3),
+			drawlist->AddTriangle(ImPlot::PlotToPixels(tp1), ImPlot::PlotToPixels(tp2), ImPlot::PlotToPixels(tp3),
 				_color, ImPlot::GetCurrentContext()->Mx * _thickness);
 			if (_fill.r < 0.0f)
 				return;
-			drawlist->AddTriangleFilled(ImPlot::PlotToPixels(_p1), ImPlot::PlotToPixels(_p2), ImPlot::PlotToPixels(_p3), 
+			drawlist->AddTriangleFilled(ImPlot::PlotToPixels(tp1), ImPlot::PlotToPixels(tp2), ImPlot::PlotToPixels(tp3),
 				_fill);
 		}
 		else
 		{
 			mvVec2 start = { x, y };
-			drawlist->AddTriangle(_p1 + start, _p2 + start, _p3 + start, _color, _thickness);
+			drawlist->AddTriangle(tp1 + start, tp2 + start, tp3 + start, _color, _thickness);
 			if (_fill.r < 0.0f)
 				return;
-			drawlist->AddTriangleFilled(_p1 + start, _p2 + start, _p3 + start, _fill);
+			drawlist->AddTriangleFilled(tp1 + start, tp2 + start, tp3 + start, _fill);
 		}
 	}
 
@@ -83,15 +94,18 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				_p1 = ToVec2(item);
+				_p1 = ToVec4(item);
+				_p1.w = 1.0f;
 				break;
 
 			case 1:
-				_p2 = ToVec2(item);
+				_p2 = ToVec4(item);
+				_p2.w = 1.0f;
 				break;
 
 			case 2:
-				_p3 = ToVec2(item);
+				_p3 = ToVec4(item);
+				_p3.w = 1.0f;
 				break;
 
 			default:
@@ -105,13 +119,16 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "p1")) _p1 = ToVec2(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "p2")) _p2 = ToVec2(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "p3")) _p3 = ToVec2(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "p1")) _p1 = ToVec4(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "p2")) _p2 = ToVec4(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "p3")) _p3 = ToVec4(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "color")) _color = ToColor(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "fill")) _fill = ToColor(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "thickness")) _thickness = ToFloat(item);
 
+		_p1.w = 1.0f;
+		_p2.w = 1.0f;
+		_p3.w = 1.0f;
 	}
 
 	void mvDrawTriangle::getSpecificConfiguration(PyObject* dict)

@@ -55,24 +55,41 @@ namespace Marvel {
 
 	void mvDrawEllipse::draw(ImDrawList* drawlist, float x, float y)
 	{
-		if (_dirty) {
+		mvVec4  tpmin = _pmin;
+		mvVec4  tpmax = _pmax;
+
+		if (!_transformIsIdentity)
+		{
+			tpmin = _transform * _pmin;
+			tpmax = _transform * _pmax;
+		}
+
+		if (_dirty)
+		{
 			if (_segments < 3) { _segments = 3; }
 			const float  width = _pmax.x - _pmin.x;
 			const float  height = _pmax.y - _pmin.y;
 			const float  cx = width / 2.0f + _pmin.x;
 			const float  cy = height / 2.0f + _pmin.y;
 			const float radian_inc = ((float)M_PI * 2.0f) / (float)_segments;
-			std::vector<mvVec2> points;
+			std::vector<mvVec4> points;
 			points.reserve(_segments + 1);
 			for (int i = 0; i <= _segments; i++)
 			{
-				points.push_back(mvVec2{ cx  + cosf(i*radian_inc) * width, cy + sinf(i * radian_inc) * height });
+				points.push_back(mvVec4{ cx  + cosf(i*radian_inc) * width, cy + sinf(i * radian_inc) * height, 0.0f, 1.0f });
 			}
 			_points = std::move(points);
 			_dirty = false;
 		}
 
-		std::vector<mvVec2> points = _points;
+		std::vector<mvVec4> points = _points;
+
+		if (!_transformIsIdentity)
+		{
+			for(auto& point : points)
+				point = _transform * point;
+		}
+
 		if (ImPlot::GetCurrentContext()->CurrentPlot)
 		{
 			for (auto& point : points)
@@ -92,14 +109,14 @@ namespace Marvel {
 		}
 
         if(ImPlot::GetCurrentContext()->CurrentPlot)
-            drawlist->AddPolyline((const ImVec2*)const_cast<const mvVec2*>(points.data()), (int)points.size(), 
+            drawlist->AddPolyline((const ImVec2*)const_cast<const mvVec4*>(points.data()), (int)points.size(), 
 			    _color, false, ImPlot::GetCurrentContext()->Mx * _thickness);
         else
-            drawlist->AddPolyline((const ImVec2*)const_cast<const mvVec2*>(points.data()), (int)points.size(), 
+            drawlist->AddPolyline((const ImVec2*)const_cast<const mvVec4*>(points.data()), (int)points.size(), 
 			    _color, false, _thickness);
 		if (_fill.r < 0.0f)
 			return;
-		drawlist->AddConvexPolyFilled((const ImVec2*)const_cast<const mvVec2*>(points.data()), (int)points.size(), _fill);
+		drawlist->AddConvexPolyFilled((const ImVec2*)const_cast<const mvVec4*>(points.data()), (int)points.size(), _fill);
 	}
 
 	void mvDrawEllipse::handleSpecificRequiredArgs(PyObject* dict)
@@ -113,12 +130,14 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				_pmin = ToVec2(item);
+				_pmin = ToVec4(item);
+				_pmin.w = 1.0f;
 				_dirty = true;
 				break;
 
 			case 1:
-				_pmax = ToVec2(item);
+				_pmax = ToVec4(item);
+				_pmax.w = 1.0f;
 				_dirty = true;
 				break;
 
@@ -137,10 +156,12 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "color")) _color = ToColor(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "fill")) _fill = ToColor(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "thickness")) _thickness = ToFloat(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "pmax")) { _pmax = ToVec2(item); _dirty = true; }
-		if (PyObject* item = PyDict_GetItemString(dict, "pmin")) { _pmin = ToVec2(item); _dirty = true; }
+		if (PyObject* item = PyDict_GetItemString(dict, "pmax")) { _pmax = ToVec4(item); _dirty = true; }
+		if (PyObject* item = PyDict_GetItemString(dict, "pmin")) { _pmin = ToVec4(item); _dirty = true; }
 		if (PyObject* item = PyDict_GetItemString(dict, "segments")) _segments = ToInt(item);
 
+		_pmin.w = 1.0f;
+		_pmax.w = 1.0f;
 	}
 
 	void mvDrawEllipse::getSpecificConfiguration(PyObject* dict)

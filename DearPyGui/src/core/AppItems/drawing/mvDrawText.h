@@ -42,7 +42,7 @@ namespace Marvel {
 
     private:
 
-        mvVec2      _pos = { 0.0f, 0.0f };
+        mvVec4      _pos = { 0.0f, 0.0f, 0.0f, 1.0f };
         std::string _text;
         mvColor     _color;
         float       _size = 1.0f;

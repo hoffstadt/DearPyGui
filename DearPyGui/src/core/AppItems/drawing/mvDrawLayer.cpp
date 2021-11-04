@@ -64,6 +64,21 @@ namespace Marvel {
         {
             std::vector<mvPythonDataElement> args;
 
+            args.push_back({ mvPyDataType::FloatList, "scales", mvArgType::REQUIRED_ARG, "", "scale value per axis" });
+
+            mvPythonParserSetup setup;
+            setup.about = "Applies a transformation matrix to a layer.";
+            setup.category = { "Drawlist", "Widgets" };
+            setup.returnType = mvPyDataType::Object;
+
+            mvPythonParser parser = FinalizeParser(setup, args);
+
+            parsers->insert({ "create_scale_transform", parser });
+        }
+
+        {
+            std::vector<mvPythonDataElement> args;
+
             args.push_back({ mvPyDataType::FloatList, "translation", mvArgType::REQUIRED_ARG, "", "translation" });
 
             mvPythonParserSetup setup;
@@ -74,6 +89,61 @@ namespace Marvel {
             mvPythonParser parser = FinalizeParser(setup, args);
 
             parsers->insert({ "create_translation_transform", parser });
+        }
+
+        {
+            std::vector<mvPythonDataElement> args;
+
+            args.push_back({ mvPyDataType::FloatList, "eye", mvArgType::REQUIRED_ARG, "", "scale value per axis" });
+            args.push_back({ mvPyDataType::FloatList, "center", mvArgType::REQUIRED_ARG, "", "scale value per axis" });
+            args.push_back({ mvPyDataType::FloatList, "up", mvArgType::REQUIRED_ARG, "", "scale value per axis" });
+
+            mvPythonParserSetup setup;
+            setup.about = "Applies a transformation matrix to a layer.";
+            setup.category = { "Drawlist", "Widgets" };
+            setup.returnType = mvPyDataType::Object;
+
+            mvPythonParser parser = FinalizeParser(setup, args);
+
+            parsers->insert({ "create_lookat_transform", parser });
+        }
+
+        {
+            std::vector<mvPythonDataElement> args;
+
+            args.push_back({ mvPyDataType::Float, "fov", mvArgType::REQUIRED_ARG, "", "angle to rotate" });
+            args.push_back({ mvPyDataType::Float, "aspect", mvArgType::REQUIRED_ARG, "", "angle to rotate" });
+            args.push_back({ mvPyDataType::Float, "zNear", mvArgType::REQUIRED_ARG, "", "angle to rotate" });
+            args.push_back({ mvPyDataType::Float, "zFar", mvArgType::REQUIRED_ARG, "", "angle to rotate" });
+
+            mvPythonParserSetup setup;
+            setup.about = "Applies a transformation matrix to a layer.";
+            setup.category = { "Drawlist", "Widgets" };
+            setup.returnType = mvPyDataType::Object;
+
+            mvPythonParser parser = FinalizeParser(setup, args);
+
+            parsers->insert({ "create_perspective_transform", parser });
+        }
+
+        {
+            std::vector<mvPythonDataElement> args;
+
+            args.push_back({ mvPyDataType::Float, "left", mvArgType::REQUIRED_ARG, "", "angle to rotate" });
+            args.push_back({ mvPyDataType::Float, "right", mvArgType::REQUIRED_ARG, "", "angle to rotate" });
+            args.push_back({ mvPyDataType::Float, "bottom", mvArgType::REQUIRED_ARG, "", "angle to rotate" });
+            args.push_back({ mvPyDataType::Float, "top", mvArgType::REQUIRED_ARG, "", "angle to rotate" });
+            args.push_back({ mvPyDataType::Float, "zNear", mvArgType::REQUIRED_ARG, "", "angle to rotate" });
+            args.push_back({ mvPyDataType::Float, "zFar", mvArgType::REQUIRED_ARG, "", "angle to rotate" });
+
+            mvPythonParserSetup setup;
+            setup.about = "Applies a transformation matrix to a layer.";
+            setup.category = { "Drawlist", "Widgets" };
+            setup.returnType = mvPyDataType::Object;
+
+            mvPythonParser parser = FinalizeParser(setup, args);
+
+            parsers->insert({ "create_orthographic_transform", parser });
         }
 	}
 
@@ -96,6 +166,7 @@ namespace Marvel {
                     continue;
 
                 item->_transformIsIdentity = true;
+                item->_appliedTransformIsIdentity = true;
                 item->draw(drawlist, x, y);
 
                 UpdateAppItemState(item->_state);
@@ -109,9 +180,10 @@ namespace Marvel {
                 if (!item->_show)
                     continue;
 
-                item->_transform = _appliedTransform * _transform;
-                //item->_transform = _appliedTransform * _transform * item->_transform;
+                item->_transform = _transform*_appliedTransform;
+
                 item->_transformIsIdentity = false;
+                item->_appliedTransformIsIdentity = false;
                 
                 item->draw(drawlist, x, y);
 
@@ -184,6 +256,54 @@ namespace Marvel {
         return newbuffer;
     }
 
+    PyObject* mvDrawLayer::create_perspective_transform(PyObject* self, PyObject* args, PyObject* kwargs)
+    {
+        float fov = 0.0f;
+        float aspect = 0.0f;
+        float zNear = 0.0f;
+        float zFar = 0.0f;
+
+        if (!Parse((GetParsers())["create_perspective_transform"], args, kwargs, __FUNCTION__, 
+            &fov, &aspect, &zNear, &zFar))
+            return GetPyNone();
+
+        if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+
+        PyObject* newbuffer = nullptr;
+        PymvMat4* newbufferview = nullptr;
+        newbufferview = PyObject_New(PymvMat4, &PymvMat4Type);
+        newbuffer = PyObject_Init((PyObject*)newbufferview, &PymvMat4Type);
+
+        newbufferview->m = mvPerspectiveRH(fov, aspect, zNear, zFar);
+
+        return newbuffer;
+    }
+
+    PyObject* mvDrawLayer::create_orthographic_transform(PyObject* self, PyObject* args, PyObject* kwargs)
+    {
+        float left = 0.0f;
+        float right = 0.0f;
+        float bottom = 0.0f;
+        float top = 0.0f;
+        float zNear = 0.0f;
+        float zFar = 0.0f;
+
+        if (!Parse((GetParsers())["create_orthographic_transform"], args, kwargs, __FUNCTION__,
+            &left, &right, &bottom, &top, &zNear, &zFar))
+            return GetPyNone();
+
+        if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+
+        PyObject* newbuffer = nullptr;
+        PymvMat4* newbufferview = nullptr;
+        newbufferview = PyObject_New(PymvMat4, &PymvMat4Type);
+        newbuffer = PyObject_Init((PyObject*)newbufferview, &PymvMat4Type);
+
+        newbufferview->m = mvOrthoRH(left, right, bottom, top, zNear, zFar);
+
+        return newbuffer;
+    }
+
     PyObject* mvDrawLayer::create_translation_transform(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         mv_local_persist mvMat4 identity = mvIdentityMat4();
@@ -202,6 +322,55 @@ namespace Marvel {
         newbuffer = PyObject_Init((PyObject*)newbufferview, &PymvMat4Type);
 
         newbufferview->m = mvTranslate(identity, aaxis.xyz());
+
+        return newbuffer;
+    }
+
+    PyObject* mvDrawLayer::create_scale_transform(PyObject* self, PyObject* args, PyObject* kwargs)
+    {
+        mv_local_persist mvMat4 identity = mvIdentityMat4();
+        PyObject* axis;
+
+        if (!Parse((GetParsers())["create_scale_transform"], args, kwargs, __FUNCTION__, &axis))
+            return GetPyNone();
+
+        if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+
+        mvVec4 aaxis = ToVec4(axis);
+
+        PyObject* newbuffer = nullptr;
+        PymvMat4* newbufferview = nullptr;
+        newbufferview = PyObject_New(PymvMat4, &PymvMat4Type);
+        newbuffer = PyObject_Init((PyObject*)newbufferview, &PymvMat4Type);
+
+        newbufferview->m = mvScale(identity, aaxis.xyz());
+
+        return newbuffer;
+    }
+
+    PyObject* mvDrawLayer::create_lookat_transform(PyObject* self, PyObject* args, PyObject* kwargs)
+    {
+        mv_local_persist mvMat4 identity = mvIdentityMat4();
+        PyObject* eye;
+        PyObject* center;
+        PyObject* up;
+
+        if (!Parse((GetParsers())["create_lookat_transform"], args, kwargs, __FUNCTION__, 
+            &eye, &center, &up))
+            return GetPyNone();
+
+        if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+
+        mvVec4 aeye = ToVec4(eye);
+        mvVec4 acenter = ToVec4(center);
+        mvVec4 aup = ToVec4(up);
+
+        PyObject* newbuffer = nullptr;
+        PymvMat4* newbufferview = nullptr;
+        newbufferview = PyObject_New(PymvMat4, &PymvMat4Type);
+        newbuffer = PyObject_Init((PyObject*)newbufferview, &PymvMat4Type);
+
+        newbufferview->m = mvLookAtRH(aeye.xyz(), acenter.xyz(), aup.xyz());
 
         return newbuffer;
     }

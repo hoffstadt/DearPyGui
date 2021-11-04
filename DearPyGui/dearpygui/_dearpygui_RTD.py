@@ -6415,6 +6415,49 @@ def create_context():
 
 	return internal_dpg.create_context()
 
+def create_lookat_transform(eye, center, up):
+	"""	 Applies a transformation matrix to a layer.
+
+	Args:
+		eye (Union[List[float], Tuple[float, ...]]): scale value per axis
+		center (Union[List[float], Tuple[float, ...]]): scale value per axis
+		up (Union[List[float], Tuple[float, ...]]): scale value per axis
+	Returns:
+		Any
+	"""
+
+	return internal_dpg.create_lookat_transform(eye, center, up)
+
+def create_orthographic_transform(left, right, bottom, top, zNear, zFar):
+	"""	 Applies a transformation matrix to a layer.
+
+	Args:
+		left (float): angle to rotate
+		right (float): angle to rotate
+		bottom (float): angle to rotate
+		top (float): angle to rotate
+		zNear (float): angle to rotate
+		zFar (float): angle to rotate
+	Returns:
+		Any
+	"""
+
+	return internal_dpg.create_orthographic_transform(left, right, bottom, top, zNear, zFar)
+
+def create_perspective_transform(fov, aspect, zNear, zFar):
+	"""	 Applies a transformation matrix to a layer.
+
+	Args:
+		fov (float): angle to rotate
+		aspect (float): angle to rotate
+		zNear (float): angle to rotate
+		zFar (float): angle to rotate
+	Returns:
+		Any
+	"""
+
+	return internal_dpg.create_perspective_transform(fov, aspect, zNear, zFar)
+
 def create_rotation_transform(angle, axis):
 	"""	 Applies a transformation matrix to a layer.
 
@@ -6426,6 +6469,17 @@ def create_rotation_transform(angle, axis):
 	"""
 
 	return internal_dpg.create_rotation_transform(angle, axis)
+
+def create_scale_transform(scales):
+	"""	 Applies a transformation matrix to a layer.
+
+	Args:
+		scales (Union[List[float], Tuple[float, ...]]): scale value per axis
+	Returns:
+		Any
+	"""
+
+	return internal_dpg.create_scale_transform(scales)
 
 def create_translation_transform(translation):
 	"""	 Applies a transformation matrix to a layer.

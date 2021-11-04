@@ -111,7 +111,6 @@ mvMat4 mvLookAtRH     (mvVec3 eye, mvVec3 center, mvVec3 up);
 mvMat4 mvTranslate    (mvMat4 m, mvVec3 v);
 mvMat4 mvRotate       (mvMat4 m, f32 angle, mvVec3 v);
 mvMat4 mvScale        (mvMat4 m, mvVec3 v);
-mvMat4 mvSwitchHand   (mvMat4 m);
 mvMat4 mvOrthoLH      (f32 left, f32 right, f32 bottom, f32 top, f32 zNear, f32 zFar);
 mvMat4 mvOrthoRH      (f32 left, f32 right, f32 bottom, f32 top, f32 zNear, f32 zFar);
 mvMat4 mvPerspectiveLH(f32 fovy, f32 aspect, f32 zNear, f32 zFar);

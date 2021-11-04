@@ -48,15 +48,22 @@ namespace Marvel {
 
 	void mvDrawLine::draw(ImDrawList* drawlist, float x, float y)
 	{
+		mvVec4  tp1 = _p1;
+		mvVec4  tp2 = _p2;
 
+		if (!_transformIsIdentity)
+		{
+			tp1 = _transform * _p1;
+			tp2 = _transform * _p2;
+		}
 
 		if(ImPlot::GetCurrentContext()->CurrentPlot)
-			drawlist->AddLine(ImPlot::PlotToPixels(_p1), ImPlot::PlotToPixels(_p2), _color, 
+			drawlist->AddLine(ImPlot::PlotToPixels(tp1), ImPlot::PlotToPixels(tp2), _color,
 				ImPlot::GetCurrentContext()->Mx * _thickness);
 		else
 		{
-			ImVec2 start = { x, y };
-			drawlist->AddLine(_p1 + start, _p2 + start, _color, _thickness);
+			mvVec2 start = { x, y };
+			drawlist->AddLine(tp1 + start, tp2 + start, _color, _thickness);
 		}
 
 	}
@@ -72,11 +79,13 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				_p1 = ToVec2(item);
+				_p1 = ToVec4(item);
+				_p1.w = 1.0f;
 				break;
 
 			case 1:
-				_p2 = ToVec2(item);
+				_p2 = ToVec4(item);
+				_p2.w = 1.0f;
 				break;
 
 			default:
@@ -91,11 +100,13 @@ namespace Marvel {
 			return;
 
 
-		if (PyObject* item = PyDict_GetItemString(dict, "p1")) _p1 = ToVec2(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "p2")) _p2 = ToVec2(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "p1")) _p1 = ToVec4(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "p2")) _p2 = ToVec4(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "color")) _color = ToColor(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "thickness")) _thickness = ToFloat(item);
 
+		_p1.w = 1.0f;
+		_p2.w = 1.0f;
 	}
 
 	void mvDrawLine::getSpecificConfiguration(PyObject* dict)

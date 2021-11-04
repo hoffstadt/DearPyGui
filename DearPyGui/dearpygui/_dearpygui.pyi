@@ -650,7 +650,23 @@ def create_context() -> None:
 	"""Creates the Dear PyGui context."""
 	...
 
+def create_lookat_transform(eye : Union[List[float], Tuple[float, ...]], center : Union[List[float], Tuple[float, ...]], up : Union[List[float], Tuple[float, ...]]) -> Any:
+	"""Applies a transformation matrix to a layer."""
+	...
+
+def create_orthographic_transform(left : float, right : float, bottom : float, top : float, zNear : float, zFar : float) -> Any:
+	"""Applies a transformation matrix to a layer."""
+	...
+
+def create_perspective_transform(fov : float, aspect : float, zNear : float, zFar : float) -> Any:
+	"""Applies a transformation matrix to a layer."""
+	...
+
 def create_rotation_transform(angle : float, axis : Union[List[float], Tuple[float, ...]]) -> Any:
+	"""Applies a transformation matrix to a layer."""
+	...
+
+def create_scale_transform(scales : Union[List[float], Tuple[float, ...]]) -> Any:
 	"""Applies a transformation matrix to a layer."""
 	...
 

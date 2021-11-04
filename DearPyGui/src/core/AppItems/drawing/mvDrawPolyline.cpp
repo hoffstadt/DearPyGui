@@ -49,9 +49,15 @@ namespace Marvel {
 	void mvDrawPolyline::draw(ImDrawList* drawlist, float x, float y)
 	{
 
-		mvVec2 start = { x, y };
+		mvVec4 start = { x, y };
 
-		std::vector<mvVec2> points = _points;
+		std::vector<mvVec4> points = _points;
+
+		if (!_transformIsIdentity)
+		{
+			for (auto& point : points)
+				point = _transform * point;
+		}
 
 		if (ImPlot::GetCurrentContext()->CurrentPlot)
 		{
@@ -62,7 +68,7 @@ namespace Marvel {
 				point.y = impoint.y;
 			}
 
-			drawlist->AddPolyline((const ImVec2*)const_cast<const mvVec2*>(points.data()), (int)_points.size(), _color,
+			drawlist->AddPolyline((const ImVec2*)const_cast<const mvVec4*>(points.data()), (int)_points.size(), _color,
 				_closed, ImPlot::GetCurrentContext()->Mx * _thickness);
 		}
 		else
@@ -70,7 +76,7 @@ namespace Marvel {
 			for (auto& point : points)
 				point = point + start;
 
-			drawlist->AddPolyline((const ImVec2*)const_cast<const mvVec2*>(points.data()), (int)_points.size(), _color,
+			drawlist->AddPolyline((const ImVec2*)const_cast<const mvVec4*>(points.data()), (int)_points.size(), _color,
 				_closed, _thickness);
 		}
 
@@ -88,7 +94,7 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				_points = ToVectVec2(item);
+				_points = ToVectVec4(item);
 				break;
 
 			default:
@@ -102,10 +108,13 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "points")) _points = ToVectVec2(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "points")) _points = ToVectVec4(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "closed")) _closed = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "color")) _color = ToColor(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "thickness")) _thickness = ToFloat(item);
+
+		for (auto& point : _points)
+			point.w = 1.0f;
 	}
 
 	void mvDrawPolyline::getSpecificConfiguration(PyObject* dict)

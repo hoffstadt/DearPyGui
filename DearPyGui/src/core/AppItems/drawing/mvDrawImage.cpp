@@ -72,12 +72,21 @@ namespace Marvel {
 			else
 				texture = static_cast<mvDynamicTexture*>(_texture.get())->getRawTexture();
 
+			mvVec4  tpmin = _pmin;
+			mvVec4  tpmax = _pmax;
+
+			if (!_transformIsIdentity)
+			{
+				tpmin = _transform * _pmin;
+				tpmax = _transform * _pmax;
+			}
+
 			if (ImPlot::GetCurrentContext()->CurrentPlot)
-				drawlist->AddImage(texture, ImPlot::PlotToPixels(_pmin), ImPlot::PlotToPixels(_pmax), _uv_min, _uv_max, _color);
+				drawlist->AddImage(texture, ImPlot::PlotToPixels(tpmin), ImPlot::PlotToPixels(tpmax), _uv_min, _uv_max, _color);
 			else
 			{
 				mvVec2 start = { x, y };
-				drawlist->AddImage(texture, _pmin + start, _pmax + start, _uv_min, _uv_max, _color);
+				drawlist->AddImage(texture, tpmin + start, tpmax + start, _uv_min, _uv_max, _color);
 			}
 		}
 	}
@@ -112,11 +121,13 @@ namespace Marvel {
 			}
 
 			case 1:
-				_pmin = ToVec2(item);
+				_pmin = ToVec4(item);
+				_pmin.w = 1.0f;
 				break;
 
 			case 2:
-				_pmax = ToVec2(item);
+				_pmax = ToVec4(item);
+				_pmax.w = 1.0f;
 				break;
 
 			default:
@@ -130,8 +141,8 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "pmax")) _pmax = ToVec2(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "pmin")) _pmin = ToVec2(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "pmax")) _pmax = ToVec4(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "pmin")) _pmin = ToVec4(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "uv_min")) _uv_min = ToVec2(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "uv_max")) _uv_max = ToVec2(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "color")) _color = ToColor(item);
@@ -153,6 +164,9 @@ namespace Marvel {
                 mvThrowPythonError(mvErrorCode::mvTextureNotFound, s_command, "Texture not found.", this);
 			}
         }
+
+		_pmin.w = 1.0f;
+		_pmax.w = 1.0f;
 	}
 
 	void mvDrawImage::getSpecificConfiguration(PyObject* dict)
