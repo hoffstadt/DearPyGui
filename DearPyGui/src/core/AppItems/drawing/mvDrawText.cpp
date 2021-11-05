@@ -56,6 +56,18 @@ namespace Marvel {
 			tpos = _transform * _pos;
 		}
 
+		if (_perspectiveDivide)
+		{
+			tpos.x = tpos.x / tpos.w;
+			tpos.y = tpos.y / tpos.w;
+			tpos.z = tpos.z / tpos.w;
+		}
+
+		if (_depthClipping)
+		{
+			if (mvClipPoint(_clipViewport, tpos)) return;
+		}
+
 		ImFont* fontptr = ImGui::GetFont();
 		if (_font)
 			fontptr = static_cast<mvFont*>(_font.get())->getFontPtr();

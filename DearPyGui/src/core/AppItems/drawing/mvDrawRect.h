@@ -53,7 +53,6 @@ namespace Marvel {
         mvColor _fill;
         float   _thickness = 1.0f;
         bool    _multicolor = false;
-
     };
 
 }

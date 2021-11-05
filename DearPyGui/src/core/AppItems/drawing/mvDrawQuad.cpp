@@ -83,6 +83,32 @@ namespace Marvel {
 			tp4.z = tp4.z / tp4.w;
 		}
 
+		if (_perspectiveDivide)
+		{
+			tp1.x = tp1.x / tp1.w;
+			tp2.x = tp2.x / tp2.w;
+			tp3.x = tp3.x / tp3.w;
+			tp4.x = tp4.x / tp4.w;
+
+			tp1.y = tp1.y / tp1.w;
+			tp2.y = tp2.y / tp2.w;
+			tp3.y = tp3.y / tp3.w;
+			tp4.y = tp4.y / tp4.w;
+
+			tp1.z = tp1.z / tp1.w;
+			tp2.z = tp2.z / tp2.w;
+			tp3.z = tp3.z / tp3.w;
+			tp4.z = tp4.z / tp4.w;
+		}
+
+		if (_depthClipping)
+		{
+			if (mvClipPoint(_clipViewport, tp1)) return;
+			if (mvClipPoint(_clipViewport, tp2)) return;
+			if (mvClipPoint(_clipViewport, tp3)) return;
+			if (mvClipPoint(_clipViewport, tp4)) return;
+		}
+
 		if (ImPlot::GetCurrentContext()->CurrentPlot)
 		{
 			drawlist->AddQuad(ImPlot::PlotToPixels(tp1), ImPlot::PlotToPixels(tp2), ImPlot::PlotToPixels(tp3),

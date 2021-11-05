@@ -58,9 +58,6 @@ namespace Marvel {
         mvColor _color;
         mvColor _fill;
         float   _thickness = 1.0f;
-        long    _cullMode = mvCullMode_None;
-        bool    _perspectiveDivide = false;
-        bool    _depthClipping = false;
 
     };
 

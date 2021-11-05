@@ -46,7 +46,6 @@ namespace Marvel {
         std::string _text;
         mvColor     _color;
         float       _size = 1.0f;
-
     };
 
 }

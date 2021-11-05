@@ -16,6 +16,7 @@ namespace Marvel {
         MV_NO_CONSTANTS
 
         MV_CREATE_COMMAND(apply_transform);
+        MV_CREATE_COMMAND(set_clip_space);
         MV_CREATE_COMMAND(create_rotation_matrix);
         MV_CREATE_COMMAND(create_translation_matrix);
         MV_CREATE_COMMAND(create_scale_matrix);
@@ -56,6 +57,7 @@ namespace Marvel {
 
         MV_START_COMMANDS
             MV_ADD_COMMAND(apply_transform);
+            MV_ADD_COMMAND(set_clip_space);
             MV_ADD_COMMAND(create_rotation_matrix);
             MV_ADD_COMMAND(create_translation_matrix);
             MV_ADD_COMMAND(create_scale_matrix);
@@ -70,7 +72,12 @@ namespace Marvel {
         explicit mvDrawLayer(mvUUID uuid);
 
         void draw(ImDrawList* drawlist, float x, float y) override;
+        void handleSpecificKeywordArgs(PyObject* dict) override;
+        void getSpecificConfiguration(PyObject* dict) override;
 
+    public:
+
+        mvMat4 _viewportTransform = mvIdentityMat4();
     };
 
 }

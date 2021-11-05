@@ -286,6 +286,26 @@ namespace Marvel {
         mvMat4 _appliedTransform = mvIdentityMat4();
         b8     _appliedTransformIsIdentity = true;
 
+        // only used by draw items
+        long    _cullMode = 0; // mvCullMode_None
+        bool    _perspectiveDivide = false;
+        bool    _depthClipping = false;
+        f32     _clipViewport[6] = { 0.0f, 0.0f, 1.0f, 1.0f, -1.0f, 1.0f }; // top leftx, top lefty, width, height, min depth, maxdepth
+
     };
 
+    inline bool mvClipPoint(f32 clipViewport[6], mvVec4& point)
+    {
+
+        if (point.x < clipViewport[0]) return true;
+        if (point.x > clipViewport[0] + clipViewport[2]) return true;
+
+        if (point.y < clipViewport[1] - clipViewport[3]) return true;
+        if (point.y > clipViewport[1]) return true;
+
+        if (point.z < clipViewport[4]) return true;
+        if (point.z > clipViewport[5]) return true;
+
+        return false;
+    }
 }

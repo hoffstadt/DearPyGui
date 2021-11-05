@@ -72,6 +72,24 @@ namespace Marvel {
 			tpmax = _transform * _pmax;
 		}
 
+		if (_perspectiveDivide)
+		{
+			tpmin.x = tpmin.x / tpmin.w;
+			tpmax.x = tpmax.x / tpmax.w;
+
+			tpmin.y = tpmin.y / tpmin.w;
+			tpmax.y = tpmax.y / tpmax.w;
+
+			tpmin.z = tpmin.z / tpmin.w;
+			tpmax.z = tpmax.z / tpmax.w;
+		}
+
+		if (_depthClipping)
+		{
+			if (mvClipPoint(_clipViewport, tpmin)) return;
+			if (mvClipPoint(_clipViewport, tpmax)) return;
+		}
+
 		if (ImPlot::GetCurrentContext()->CurrentPlot)
 		{
 			drawlist->AddRect(ImPlot::PlotToPixels(tpmin), ImPlot::PlotToPixels(tpmax), _color,

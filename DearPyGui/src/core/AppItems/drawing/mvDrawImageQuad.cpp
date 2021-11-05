@@ -93,15 +93,7 @@ namespace Marvel {
 				tp4 = _transform * _p4;
 			}
 
-			//if (_depthClipping)
-			{
-				if (tp1.z < 0.1) return;
-				if (tp2.z < 0.1) return;
-				if (tp3.z < 0.1) return;
-				if (tp4.z < 0.1) return;
-			}
-
-			//if (_perspectiveDivide)
+			if (_perspectiveDivide)
 			{
 				tp1.x = tp1.x / tp1.w;
 				tp2.x = tp2.x / tp2.w;
@@ -117,6 +109,14 @@ namespace Marvel {
 				tp2.z = tp2.z / tp2.w;
 				tp3.z = tp3.z / tp3.w;
 				tp4.z = tp4.z / tp4.w;
+			}
+
+			if (_depthClipping)
+			{
+				if (mvClipPoint(_clipViewport, tp1)) return;
+				if (mvClipPoint(_clipViewport, tp2)) return;
+				if (mvClipPoint(_clipViewport, tp3)) return;
+				if (mvClipPoint(_clipViewport, tp4)) return;
 			}
 
 			if (ImPlot::GetCurrentContext()->CurrentPlot)

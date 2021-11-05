@@ -106,6 +106,36 @@ namespace Marvel {
 			tpp2 = _transform * _points[1];
 			tpp3 = _transform * _points[2];
 		}
+
+		if (_perspectiveDivide)
+		{
+			tp1.x = tp1.x / tp1.w;
+			tp2.x = tp2.x / tp2.w;
+			tpp1.x = tpp1.x / tpp1.w;
+			tpp2.x = tpp2.x / tpp2.w;
+			tpp3.x = tpp3.x / tpp3.w;
+
+			tp1.y = tp1.y / tp1.w;
+			tp2.y = tp2.y / tp2.w;
+			tpp1.y = tpp1.y / tpp1.w;
+			tpp2.y = tpp2.y / tpp2.w;
+			tpp3.y = tpp3.y / tpp3.w;
+
+			tp1.z = tp1.z / tp1.w;
+			tp2.z = tp2.z / tp2.w;
+			tpp1.z = tpp1.z / tpp1.w;
+			tpp2.z = tpp2.z / tpp2.w;
+			tpp3.z = tpp3.z / tpp3.w;
+		}
+
+		if (_depthClipping)
+		{
+			if (mvClipPoint(_clipViewport, tp1)) return;
+			if (mvClipPoint(_clipViewport, tp2)) return;
+			if (mvClipPoint(_clipViewport, tpp1)) return;
+			if (mvClipPoint(_clipViewport, tpp2)) return;
+			if (mvClipPoint(_clipViewport, tpp3)) return;
+		}
 		
 		if (ImPlot::GetCurrentContext()->CurrentPlot)
 		{

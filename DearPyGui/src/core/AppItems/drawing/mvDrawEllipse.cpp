@@ -64,6 +64,17 @@ namespace Marvel {
 			tpmax = _transform * _pmax;
 		}
 
+		if (_perspectiveDivide)
+		{
+			tpmin.x = tpmin.x / tpmin.w;
+			tpmin.y = tpmin.y / tpmin.w;
+			tpmin.z = tpmin.z / tpmin.w;
+
+			tpmax.x = tpmax.x / tpmax.w;
+			tpmax.y = tpmax.y / tpmax.w;
+			tpmax.z = tpmax.z / tpmax.w;
+		}
+
 		if (_dirty)
 		{
 			if (_segments < 3) { _segments = 3; }
@@ -80,6 +91,12 @@ namespace Marvel {
 			}
 			_points = std::move(points);
 			_dirty = false;
+		}
+
+		if (_depthClipping)
+		{
+			if (mvClipPoint(_clipViewport, tpmin)) return;
+			if (mvClipPoint(_clipViewport, tpmax)) return;
 		}
 
 		std::vector<mvVec4> points = _points;

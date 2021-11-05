@@ -59,6 +59,23 @@ namespace Marvel {
 				point = _transform * point;
 		}
 
+		if (_perspectiveDivide)
+		{
+
+			for (auto& point : points)
+			{
+				point.x = point.x / point.w;
+				point.x = point.x / point.w;
+				point.x = point.x / point.w;
+			}
+		}
+
+		if (_depthClipping)
+		{
+			for(auto& point : points)
+				if (mvClipPoint(_clipViewport, point)) return;
+		}
+
 		if (ImPlot::GetCurrentContext()->CurrentPlot)
 		{
 			for (auto& point : points)

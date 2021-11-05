@@ -57,6 +57,24 @@ namespace Marvel {
 			tp2 = _transform * _p2;
 		}
 
+		if (_perspectiveDivide)
+		{
+			tp1.x = tp1.x / tp1.w;
+			tp2.x = tp2.x / tp2.w;
+
+			tp1.y = tp1.y / tp1.w;
+			tp2.y = tp2.y / tp2.w;
+
+			tp1.z = tp1.z / tp1.w;
+			tp2.z = tp2.z / tp2.w;
+		}
+
+		if (_depthClipping)
+		{
+			if (mvClipPoint(_clipViewport, tp1)) return;
+			if (mvClipPoint(_clipViewport, tp2)) return;
+		}
+
 		if(ImPlot::GetCurrentContext()->CurrentPlot)
 			drawlist->AddLine(ImPlot::PlotToPixels(tp1), ImPlot::PlotToPixels(tp2), _color,
 				ImPlot::GetCurrentContext()->Mx * _thickness);

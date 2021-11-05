@@ -63,6 +63,28 @@ namespace Marvel {
 			tp3 = _transform * _p3;
 		}
 
+		if (_perspectiveDivide)
+		{
+			tp1.x = tp1.x / tp1.w;
+			tp2.x = tp2.x / tp2.w;
+			tp3.x = tp3.x / tp3.w;
+
+			tp1.y = tp1.y / tp1.w;
+			tp2.y = tp2.y / tp2.w;
+			tp3.y = tp3.y / tp3.w;
+
+			tp1.z = tp1.z / tp1.w;
+			tp2.z = tp2.z / tp2.w;
+			tp3.z = tp3.z / tp3.w;
+		}
+
+		if (_depthClipping)
+		{
+			if (mvClipPoint(_clipViewport, tp1)) return;
+			if (mvClipPoint(_clipViewport, tp2)) return;
+			if (mvClipPoint(_clipViewport, tp3)) return;
+		}
+
 		if (ImPlot::GetCurrentContext()->CurrentPlot)
 			drawlist->AddBezierQuadratic(ImPlot::PlotToPixels(tp1),
 				ImPlot::PlotToPixels(tp2), ImPlot::PlotToPixels(tp3), _color, ImPlot::GetCurrentContext()->Mx * _thickness, _segments);

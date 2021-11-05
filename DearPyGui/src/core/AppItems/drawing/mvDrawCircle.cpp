@@ -59,6 +59,18 @@ namespace Marvel {
 			tcenter = _transform * _center;
 		}
 
+		if (_perspectiveDivide)
+		{
+			tcenter.x = tcenter.x / tcenter.w;
+			tcenter.y = tcenter.y / tcenter.w;
+			tcenter.z = tcenter.z / tcenter.w;
+		}
+
+		if (_depthClipping)
+		{
+			if (mvClipPoint(_clipViewport, tcenter)) return;
+		}
+
 		if (ImPlot::GetCurrentContext()->CurrentPlot)
 		{
 			drawlist->AddCircle(ImPlot::PlotToPixels(tcenter), ImPlot::GetCurrentContext()->Mx * _radius, _color,

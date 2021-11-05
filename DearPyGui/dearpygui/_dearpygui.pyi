@@ -138,7 +138,7 @@ def add_drag_point(*, label: str ='', user_data: Any ='', use_internal_label: bo
 	"""Adds a drag point to a plot."""
 	...
 
-def add_draw_layer(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', show: bool ='') -> Union[int, str]:
+def add_draw_layer(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', show: bool ='', perspective_divide: bool ='', depth_clipping: bool ='', cull_mode: int ='') -> Union[int, str]:
 	"""Creates a layer useful for grouping drawlist items."""
 	...
 
@@ -750,7 +750,7 @@ def draw_text(pos : Union[List[float], Tuple[float, ...]], text : str, *, label:
 	"""Adds text (drawlist)."""
 	...
 
-def draw_triangle(p1 : Union[List[float], Tuple[float, ...]], p2 : Union[List[float], Tuple[float, ...]], p3 : Union[List[float], Tuple[float, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', show: bool ='', color: Union[List[int], Tuple[int, ...]] ='', fill: Union[List[int], Tuple[int, ...]] ='', thickness: float ='', perspective_divide: bool ='', depth_clipping: bool ='', cull_mode: int ='') -> Union[int, str]:
+def draw_triangle(p1 : Union[List[float], Tuple[float, ...]], p2 : Union[List[float], Tuple[float, ...]], p3 : Union[List[float], Tuple[float, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', show: bool ='', color: Union[List[int], Tuple[int, ...]] ='', fill: Union[List[int], Tuple[int, ...]] ='', thickness: float ='') -> Union[int, str]:
 	"""Adds a triangle."""
 	...
 
@@ -1056,6 +1056,10 @@ def set_axis_limits_auto(axis : Union[int, str]) -> None:
 
 def set_axis_ticks(axis : Union[int, str], label_pairs : Any) -> None:
 	"""Replaces axis ticks with 'label_pairs' argument."""
+	...
+
+def set_clip_space(item : Union[int, str], top_left_x : float, top_left_y : float, width : float, height : float, min_depth : float, max_depth : float) -> None:
+	"""Applies a transformation matrix to a layer."""
 	...
 
 def set_exit_callback(callback : Callable) -> str:

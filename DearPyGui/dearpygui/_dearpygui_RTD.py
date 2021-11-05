@@ -1612,6 +1612,9 @@ def draw_layer(**kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
+		perspective_divide (bool, optional): apply perspective divide
+		depth_clipping (bool, optional): apply depth clipping
+		cull_mode (int, optional): 
 		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
@@ -3554,6 +3557,9 @@ def add_draw_layer(**kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
+		perspective_divide (bool, optional): apply perspective divide
+		depth_clipping (bool, optional): apply depth clipping
+		cull_mode (int, optional): 
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -6907,9 +6913,6 @@ def draw_triangle(p1, p2, p3, **kwargs):
 		color (Union[List[int], Tuple[int, ...]], optional): 
 		fill (Union[List[int], Tuple[int, ...]], optional): 
 		thickness (float, optional): 
-		perspective_divide (bool, optional): 
-		depth_clipping (bool, optional): 
-		cull_mode (int, optional): 
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -7749,6 +7752,23 @@ def set_axis_ticks(axis, label_pairs):
 	"""
 
 	return internal_dpg.set_axis_ticks(axis, label_pairs)
+
+def set_clip_space(item, top_left_x, top_left_y, width, height, min_depth, max_depth):
+	"""	 Applies a transformation matrix to a layer.
+
+	Args:
+		item (Union[int, str]): item that the color map will be applied to
+		top_left_x (float): angle to rotate
+		top_left_y (float): angle to rotate
+		width (float): angle to rotate
+		height (float): angle to rotate
+		min_depth (float): angle to rotate
+		max_depth (float): angle to rotate
+	Returns:
+		None
+	"""
+
+	return internal_dpg.set_clip_space(item, top_left_x, top_left_y, width, height, min_depth, max_depth)
 
 def set_exit_callback(callback):
 	"""	 Sets a callback to run on last frame.

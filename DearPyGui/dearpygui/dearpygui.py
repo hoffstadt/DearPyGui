@@ -1621,7 +1621,7 @@ def drag_payload(*, label: str =None, user_data: Any =None, use_internal_label: 
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def draw_layer(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, **kwargs) -> Union[int, str]:
+def draw_layer(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, perspective_divide: bool =False, depth_clipping: bool =False, cull_mode: int =0, **kwargs) -> Union[int, str]:
 	"""	 Creates a layer useful for grouping drawlist items.
 
 	Args:
@@ -1632,6 +1632,9 @@ def draw_layer(*, label: str =None, user_data: Any =None, use_internal_label: bo
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
+		perspective_divide (bool, optional): apply perspective divide
+		depth_clipping (bool, optional): apply depth clipping
+		cull_mode (int, optional): 
 		id (Union[int, str], optional): (deprecated) 
 	Yields:
 		Union[int, str]
@@ -1641,7 +1644,7 @@ def draw_layer(*, label: str =None, user_data: Any =None, use_internal_label: bo
 		if 'id' in kwargs.keys():
 			warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
 			tag=kwargs['id']
-		widget = internal_dpg.add_draw_layer(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, show=show, **kwargs)
+		widget = internal_dpg.add_draw_layer(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, show=show, perspective_divide=perspective_divide, depth_clipping=depth_clipping, cull_mode=cull_mode, **kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
@@ -3851,7 +3854,7 @@ def add_drag_point(*, label: str =None, user_data: Any =None, use_internal_label
 
 	return internal_dpg.add_drag_point(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, source=source, callback=callback, show=show, default_value=default_value, color=color, thickness=thickness, show_label=show_label, **kwargs)
 
-def add_draw_layer(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, **kwargs) -> Union[int, str]:
+def add_draw_layer(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, perspective_divide: bool =False, depth_clipping: bool =False, cull_mode: int =0, **kwargs) -> Union[int, str]:
 	"""	 Creates a layer useful for grouping drawlist items.
 
 	Args:
@@ -3862,6 +3865,9 @@ def add_draw_layer(*, label: str =None, user_data: Any =None, use_internal_label
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
+		perspective_divide (bool, optional): apply perspective divide
+		depth_clipping (bool, optional): apply depth clipping
+		cull_mode (int, optional): 
 		id (Union[int, str], optional): (deprecated) 
 	Returns:
 		Union[int, str]
@@ -3871,7 +3877,7 @@ def add_draw_layer(*, label: str =None, user_data: Any =None, use_internal_label
 		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
 		tag=kwargs['id']
 
-	return internal_dpg.add_draw_layer(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, show=show, **kwargs)
+	return internal_dpg.add_draw_layer(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, show=show, perspective_divide=perspective_divide, depth_clipping=depth_clipping, cull_mode=cull_mode, **kwargs)
 
 def add_drawlist(width : int, height : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, **kwargs) -> Union[int, str]:
 	"""	 Adds a drawing canvas.
@@ -7720,7 +7726,7 @@ def draw_text(pos : Union[List[float], Tuple[float, ...]], text : str, *, label:
 
 	return internal_dpg.draw_text(pos, text, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, show=show, color=color, size=size, **kwargs)
 
-def draw_triangle(p1 : Union[List[float], Tuple[float, ...]], p2 : Union[List[float], Tuple[float, ...]], p3 : Union[List[float], Tuple[float, ...]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, color: Union[List[int], Tuple[int, ...]] =(255, 255, 255, 255), fill: Union[List[int], Tuple[int, ...]] =(0, 0, 0, -255), thickness: float =1.0, perspective_divide: bool =False, depth_clipping: bool =False, cull_mode: int =0, **kwargs) -> Union[int, str]:
+def draw_triangle(p1 : Union[List[float], Tuple[float, ...]], p2 : Union[List[float], Tuple[float, ...]], p3 : Union[List[float], Tuple[float, ...]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, color: Union[List[int], Tuple[int, ...]] =(255, 255, 255, 255), fill: Union[List[int], Tuple[int, ...]] =(0, 0, 0, -255), thickness: float =1.0, **kwargs) -> Union[int, str]:
 	"""	 Adds a triangle.
 
 	Args:
@@ -7737,9 +7743,6 @@ def draw_triangle(p1 : Union[List[float], Tuple[float, ...]], p2 : Union[List[fl
 		color (Union[List[int], Tuple[int, ...]], optional): 
 		fill (Union[List[int], Tuple[int, ...]], optional): 
 		thickness (float, optional): 
-		perspective_divide (bool, optional): 
-		depth_clipping (bool, optional): 
-		cull_mode (int, optional): 
 		id (Union[int, str], optional): (deprecated) 
 	Returns:
 		Union[int, str]
@@ -7749,7 +7752,7 @@ def draw_triangle(p1 : Union[List[float], Tuple[float, ...]], p2 : Union[List[fl
 		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
 		tag=kwargs['id']
 
-	return internal_dpg.draw_triangle(p1, p2, p3, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, show=show, color=color, fill=fill, thickness=thickness, perspective_divide=perspective_divide, depth_clipping=depth_clipping, cull_mode=cull_mode, **kwargs)
+	return internal_dpg.draw_triangle(p1, p2, p3, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, show=show, color=color, fill=fill, thickness=thickness, **kwargs)
 
 def empty_container_stack(**kwargs) -> None:
 	"""	 Emptyes the container stack.
@@ -8583,6 +8586,23 @@ def set_axis_ticks(axis : Union[int, str], label_pairs : Any, **kwargs) -> None:
 	"""
 
 	return internal_dpg.set_axis_ticks(axis, label_pairs, **kwargs)
+
+def set_clip_space(item : Union[int, str], top_left_x : float, top_left_y : float, width : float, height : float, min_depth : float, max_depth : float, **kwargs) -> None:
+	"""	 Applies a transformation matrix to a layer.
+
+	Args:
+		item (Union[int, str]): item that the color map will be applied to
+		top_left_x (float): angle to rotate
+		top_left_y (float): angle to rotate
+		width (float): angle to rotate
+		height (float): angle to rotate
+		min_depth (float): angle to rotate
+		max_depth (float): angle to rotate
+	Returns:
+		None
+	"""
+
+	return internal_dpg.set_clip_space(item, top_left_x, top_left_y, width, height, min_depth, max_depth, **kwargs)
 
 def set_exit_callback(callback : Callable, **kwargs) -> str:
 	"""	 Sets a callback to run on last frame.
