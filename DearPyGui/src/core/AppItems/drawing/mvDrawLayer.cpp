@@ -196,6 +196,10 @@ namespace Marvel {
 
 	}
 
+    mvDrawLayer::~mvDrawLayer()
+    {
+    }
+
 	void mvDrawLayer::draw(ImDrawList* drawlist, float x, float y)
 	{
 
@@ -311,6 +315,7 @@ namespace Marvel {
         
         return GetPyNone();
     }
+    
     PyObject* mvDrawLayer::set_clip_space(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         PyObject* itemraw;
@@ -341,21 +346,16 @@ namespace Marvel {
         {
             mvDrawLayer* graph = static_cast<mvDrawLayer*>(aitem);
             graph->_clipViewport[0] = topleftx;
-            graph->_clipViewport[1] = toplefty;
+            graph->_clipViewport[1] = toplefty+height;
             graph->_clipViewport[2] = width;
             graph->_clipViewport[3] = height;
             graph->_clipViewport[4] = mindepth;
             graph->_clipViewport[5] = maxdepth;
-            //graph->_viewportTransform = mvCreateMatrix(
-            //    width / 2.0f,           0.0f, 0.0f,  width / 2.0f,
-            //            0.0f, -height / 2.0f, 0.0f, height / 2.0f,
-            //            0.0f,           0.0f, 0.5f,          0.5f,
-            //            0.0f,           0.0f, 0.0f,          1.0f
-            //);
+
             graph->_viewportTransform = mvCreateMatrix(
                        width,      0.0f, 0.0f,      width/2.0f,
                         0.0f,        -height, 0.0f, height /2.0f,
-                        0.0f,           0.0f, 0.5f,    0.5f,
+                        0.0f,           0.0f, 0.25f,    0.5f,
                         0.0f,           0.0f, 0.0f,    1.0f
             );
         }

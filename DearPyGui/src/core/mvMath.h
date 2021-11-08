@@ -5,6 +5,16 @@
 #include <cmath>
 #include "mvTypes.h"
 
+inline b8 mvMax(f32 left, f32 right)
+{
+	return left < right ? right : left;
+}
+
+inline b8 mvMin(f32 left, f32 right)
+{
+	return left < right ? left : right;
+}
+
 struct mvPlotPoint
 {
     f64 x, y;

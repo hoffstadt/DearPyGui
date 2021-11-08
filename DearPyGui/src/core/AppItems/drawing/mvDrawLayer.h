@@ -70,6 +70,7 @@ namespace Marvel {
     public:
 
         explicit mvDrawLayer(mvUUID uuid);
+        ~mvDrawLayer();
 
         void draw(ImDrawList* drawlist, float x, float y) override;
         void handleSpecificKeywordArgs(PyObject* dict) override;

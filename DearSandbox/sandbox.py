@@ -2,6 +2,7 @@ import dearpygui.dearpygui as dpg
 import math
 
 dpg.create_context()
+dpg.configure_app(init_file="custom_layout.ini")
 dpg.create_viewport()
 dpg.setup_dearpygui()
 
@@ -178,7 +179,6 @@ class Cube:
         self.node = dpg.generate_uuid()
 
     def submit(self):
-
         with dpg.draw_layer(tag=self.node, depth_clipping=True, cull_mode=dpg.mvCullMode_Back, perspective_divide=True):
             self.triangles.append(dpg.draw_triangle(self.verticies[1],  self.verticies[2],  self.verticies[0], color=self.outline_color, fill=self.colors[0], thickness=1))
             self.triangles.append(dpg.draw_triangle(self.verticies[1],  self.verticies[3],  self.verticies[2], color=self.outline_color, fill=self.colors[1], thickness=1))
@@ -192,7 +192,8 @@ class Cube:
             self.triangles.append(dpg.draw_triangle(self.verticies[19], self.verticies[17], self.verticies[18], color=self.outline_color, fill=self.colors[9], thickness=1))
             self.triangles.append(dpg.draw_triangle(self.verticies[21], self.verticies[23], self.verticies[20], color=self.outline_color, fill=self.colors[10], thickness=1))
             self.triangles.append(dpg.draw_triangle(self.verticies[23], self.verticies[22], self.verticies[20], color=self.outline_color, fill=self.colors[11], thickness=1))
-    
+  
+
     def _reconfigure(self):
         dpg.configure_item(self.node, depth_clipping=self.depth_clipping, perspective_divide=self.perspective_divide, cull_mode=self.cull_mode)
 
@@ -258,11 +259,12 @@ camera.show_controls()
 
 cubes = []
 for i in range(0):
-    for j in range(10):
+    for j in range(3):
         cubes.append(Cube(3, 255, [i*8, j*8, 0]))
 
-cubes.reverse()
+#cubes.reverse()
 dpg.set_viewport_resize_callback(lambda:camera.mark_dirty())
+rect = dpg.generate_uuid()
 
 with dpg.viewport_drawlist(front=False):
 
@@ -270,7 +272,8 @@ with dpg.viewport_drawlist(front=False):
 
     for c in cubes:
         c.submit()
-
+    
+    dpg.draw_rectangle((0, 0), (10, 10), tag=rect)
     with dpg.draw_layer(tag="gizmo", perspective_divide=True):
         dpg.draw_line((0.0, 0.0, 0.0), (1.0, 0.0, 0.0), color=(255, 0, 0))
         dpg.draw_line((0.0, 0.0, 0.0), (0.0, 1.0, 0.0), color=(0, 255, 0))
@@ -295,9 +298,8 @@ while dpg.is_dearpygui_running():
     if camera.dirty or cube.dirty:
         width = dpg.get_viewport_client_width()
         height = dpg.get_viewport_client_height()
-        #cube.update_clip_space(0, height, width, height, -1.0, 1.0)
-        cube.update_clip_space(width/2, height, width/2, height/2, -1.0, 1.0)
-
+        cube.update_clip_space(width/4, height/4, width/2, height/2.0, -1.0, 1.0)
+        dpg.configure_item(rect, pmin=(width/4, height/4), pmax=(0.75*width, 0.75*height))
         view = camera.view_matrix()
         projection = camera.projection_matrix(width/2, height/2)
     
@@ -306,8 +308,7 @@ while dpg.is_dearpygui_running():
         cube.update(projection, view)
         for c in cubes:
             c.update(projection, view)
-            #c.update_clip_space(0, height, width, height, -1.0, 1.0)
-            c.update_clip_space(width/2, height, width/2, height/2, -1.0, 1.0)
+            c.update_clip_space(width/4, height/4, width/2, height/2.0, -1.0, 1.0)
 
         camera.dirty = False
         cube.dirty = False
