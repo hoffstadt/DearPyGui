@@ -52,21 +52,40 @@ namespace Marvel {
 
 	void mvDrawCircle::draw(ImDrawList* drawlist, float x, float y)
 	{
+		mvVec4  tcenter = _center;
+
+		if (!_transformIsIdentity)
+		{
+			tcenter = _transform * _center;
+		}
+
+		if (_perspectiveDivide)
+		{
+			tcenter.x = tcenter.x / tcenter.w;
+			tcenter.y = tcenter.y / tcenter.w;
+			tcenter.z = tcenter.z / tcenter.w;
+		}
+
+		if (_depthClipping)
+		{
+			if (mvClipPoint(_clipViewport, tcenter)) return;
+		}
+
 		if (ImPlot::GetCurrentContext()->CurrentPlot)
 		{
-			drawlist->AddCircle(ImPlot::PlotToPixels(_center), ImPlot::GetCurrentContext()->Mx * _radius, _color, 
+			drawlist->AddCircle(ImPlot::PlotToPixels(tcenter), ImPlot::GetCurrentContext()->Mx * _radius, _color,
 				ImPlot::GetCurrentContext()->Mx * _segments, _thickness);
 			if (_fill.r < 0.0f)
 				return;
-			drawlist->AddCircleFilled(ImPlot::PlotToPixels(_center), ImPlot::GetCurrentContext()->Mx * _radius, _fill, _segments);
+			drawlist->AddCircleFilled(ImPlot::PlotToPixels(tcenter), ImPlot::GetCurrentContext()->Mx * _radius, _fill, _segments);
 		}
 		else
 		{
-		mvVec2 start = { x, y };
-		drawlist->AddCircle(_center + start, _radius, _color, _segments, _thickness);
-		if (_fill.r < 0.0f)
-			return;
-		drawlist->AddCircleFilled(_center + start, _radius, _fill, _segments);
+			mvVec2 start = { x, y };
+			drawlist->AddCircle(tcenter + start, _radius, _color, _segments, _thickness);
+			if (_fill.r < 0.0f)
+				return;
+			drawlist->AddCircleFilled(tcenter + start, _radius, _fill, _segments);
 		}
 	}
 
@@ -81,7 +100,8 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				_center = ToVec2(item);
+				_center = ToVec4(item);
+				_center.w = 1.0f;
 				break;
 
 			case 1:
@@ -100,13 +120,14 @@ namespace Marvel {
 			return;
 
 
-		if (PyObject* item = PyDict_GetItemString(dict, "center")) _center = ToVec2(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "center")) _center = ToVec4(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "color")) _color = ToColor(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "fill")) _fill = ToColor(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "thickness")) _thickness = ToFloat(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "radius")) _radius = ToFloat(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "segments")) _segments = ToInt(item);
 
+		_center.w = 1.0f;
 	}
 
 	void mvDrawCircle::getSpecificConfiguration(PyObject* dict)

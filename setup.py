@@ -142,6 +142,8 @@ def setup_package():
                         newfile.write("\tpass\n")
                     elif line.__contains__("dearpygui._dearpygui"):
                         newfile.write("mvBuffer = 7\n") # hacky
+                        newfile.write("mvVec4 = 7\n") # hacky
+                        newfile.write("mvMat4 = 7\n") # hacky
                     else:
                         newfile.write(line)
     else:

@@ -63,31 +63,58 @@ namespace Marvel {
 
 	void mvDrawRect::draw(ImDrawList* drawlist, float x, float y)
 	{
+		mvVec4  tpmin = _pmin;
+		mvVec4  tpmax = _pmax;
+
+		if (!_transformIsIdentity)
+		{
+			tpmin = _transform * _pmin;
+			tpmax = _transform * _pmax;
+		}
+
+		if (_perspectiveDivide)
+		{
+			tpmin.x = tpmin.x / tpmin.w;
+			tpmax.x = tpmax.x / tpmax.w;
+
+			tpmin.y = tpmin.y / tpmin.w;
+			tpmax.y = tpmax.y / tpmax.w;
+
+			tpmin.z = tpmin.z / tpmin.w;
+			tpmax.z = tpmax.z / tpmax.w;
+		}
+
+		if (_depthClipping)
+		{
+			if (mvClipPoint(_clipViewport, tpmin)) return;
+			if (mvClipPoint(_clipViewport, tpmax)) return;
+		}
+
 		if (ImPlot::GetCurrentContext()->CurrentPlot)
 		{
-			drawlist->AddRect(ImPlot::PlotToPixels(_pmin), ImPlot::PlotToPixels(_pmax), _color, 
+			drawlist->AddRect(ImPlot::PlotToPixels(tpmin), ImPlot::PlotToPixels(tpmax), _color,
 				ImPlot::GetCurrentContext()->Mx * _rounding, ImDrawCornerFlags_All, ImPlot::GetCurrentContext()->Mx * _thickness);
 			if (_multicolor)
 			{
-				drawlist->AddRectFilledMultiColor(ImPlot::PlotToPixels(_pmin), ImPlot::PlotToPixels(_pmax), _color_bottom_right, _color_bottom_left, _color_upper_left, _color_upper_right);
+				drawlist->AddRectFilledMultiColor(ImPlot::PlotToPixels(tpmin), ImPlot::PlotToPixels(tpmax), _color_bottom_right, _color_bottom_left, _color_upper_left, _color_upper_right);
 				return;
 			}
 			if (_fill.r < 0.0f)
 				return;
-			drawlist->AddRectFilled(ImPlot::PlotToPixels(_pmin), ImPlot::PlotToPixels(_pmax), _fill, ImPlot::GetCurrentContext()->Mx * _rounding, ImDrawCornerFlags_All);
+			drawlist->AddRectFilled(ImPlot::PlotToPixels(tpmin), ImPlot::PlotToPixels(tpmax), _fill, ImPlot::GetCurrentContext()->Mx * _rounding, ImDrawCornerFlags_All);
 		}
 		else
 		{
 			mvVec2 start = { x, y };
-			drawlist->AddRect(_pmin + start, _pmax + start, _color, _rounding, ImDrawCornerFlags_All, _thickness);
+			drawlist->AddRect(tpmin + start, tpmax + start, _color, _rounding, ImDrawCornerFlags_All, _thickness);
 			if (_multicolor)
 			{
-				drawlist->AddRectFilledMultiColor(_pmin + start, _pmax + start, _color_bottom_right, _color_bottom_left, _color_upper_left, _color_upper_right);
+				drawlist->AddRectFilledMultiColor(tpmin + start, tpmax + start, _color_bottom_right, _color_bottom_left, _color_upper_left, _color_upper_right);
 				return;
 			}
 			if (_fill.r < 0.0f)
 				return;
-			drawlist->AddRectFilled(_pmin + start, _pmax + start, _fill, _rounding, ImDrawCornerFlags_All);
+			drawlist->AddRectFilled(tpmin + start, tpmax + start, _fill, _rounding, ImDrawCornerFlags_All);
 		}
 	}
 
@@ -102,11 +129,13 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				_pmin = ToVec2(item);
+				_pmin = ToVec4(item);
+				_pmin.w = 1.0f;
 				break;
 
 			case 1:
-				_pmax = ToVec2(item);
+				_pmax = ToVec4(item);
+				_pmax.w = 1.0f;
 				break;
 
 			default:
@@ -120,8 +149,8 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "pmax")) _pmax = ToVec2(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "pmin")) _pmin = ToVec2(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "pmax")) _pmax = ToVec4(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "pmin")) _pmin = ToVec4(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "color")) _color = ToColor(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "color_upper_left")) _color_upper_left = ToColor(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "color_upper_right")) _color_upper_right = ToColor(item);

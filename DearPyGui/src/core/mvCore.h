@@ -7,12 +7,12 @@
 //     
 //-----------------------------------------------------------------------------
 
-#include <imgui.h>
-#include <implot.h>
+
 #include <utility>
 #include <memory>
 #include <unordered_map>
 #include "mvTypes.h"
+#include "mvMath.h"
 
 namespace Marvel {
 
@@ -68,67 +68,6 @@ namespace Marvel {
 
 		std::unique_ptr<impl_base> m_impl;
 
-	};
-
-	//-----------------------------------------------------------------------------
-	// mvPlotPoint
-	//-----------------------------------------------------------------------------
-	struct mvPlotPoint
-	{
-		double x, y;
-
-		operator ImPlotPoint()
-		{
-			return ImPlotPoint{ x, y };
-		}
-
-		mvPlotPoint operator+(const ImPlotPoint& other)
-		{
-			return mvPlotPoint{ x + other.x, y + other.y };
-		}
-	};
-
-	//-----------------------------------------------------------------------------
-	// mvVec2
-	//-----------------------------------------------------------------------------
-	struct mvVec2
-	{
-		float x, y;
-
-		operator ImVec2()
-		{
-			return ImVec2{ x, y };
-		}
-
-		operator ImPlotPoint()
-		{
-			return ImPlotPoint{ (double)x, (double)y };
-		}
-
-		mvVec2 operator+(const ImVec2& other)
-		{
-			return mvVec2{ x + other.x, y + other.y };
-		}
-	};
-
-	//-----------------------------------------------------------------------------
-	// mvVec4
-	//-----------------------------------------------------------------------------
-	struct mvVec4
-	{
-		float x, y, z, w;
-
-		operator ImVec4()
-		{
-			if (x < 0 || y < 0 || z < 0 || w < 0)
-				return ImVec4(0, 0, 0, -1);
-			return ImVec4{ x, y , z, w};
-		}
-
-		mvVec4 operator+(const ImVec4& other)
-		{
-			return mvVec4{ x + other.x, y + other.y, z + other.z, w + other.w };
-		}
 	};
 
 	//-----------------------------------------------------------------------------

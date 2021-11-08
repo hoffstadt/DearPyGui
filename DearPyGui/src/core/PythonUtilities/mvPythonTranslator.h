@@ -46,6 +46,7 @@ namespace Marvel {
     PyObject*   ToPyPairII(int x, int y);
     PyObject*   ToPyPair  (const std::string& x, const std::string& y);
     PyObject*   ToPyList  (const std::vector<mvVec2>& value);
+    PyObject*   ToPyList  (const std::vector<mvVec4>& value);
     PyObject*   ToPyList  (const std::vector<int>& value);
     PyObject*   ToPyList  (const std::vector<mvUUID>& value);
     PyObject*   ToPyList  (const std::vector<float>& value);
@@ -82,8 +83,8 @@ namespace Marvel {
     tm          ToTime  (PyObject* value, const std::string& message = "Type must be a dict");
 
     std::vector<mvVec2>                              ToVectVec2           (PyObject* value, const std::string& message = "Type must be a list/tuple of list/tuple.");
-    std::pair<std::vector<float>, std::vector<float>>ToPairVec            (PyObject* value, const std::string& message = "Type must be a list/tuple of two list/tuple.");
     std::vector<mvVec4>                              ToVectVec4           (PyObject* value, const std::string& message = "Type must be a list/tuple of list/tuple.");
+    std::pair<std::vector<float>, std::vector<float>>ToPairVec            (PyObject* value, const std::string& message = "Type must be a list/tuple of two list/tuple.");
     std::vector<int>                                 ToIntVect            (PyObject* value, const std::string& message = "Type must be a list or tuple of integers.");
     std::vector<mvUUID>                              ToUUIDVect           (PyObject* value, const std::string& message = "Type must be a list or tuple of integers.");
     std::vector<float>                               ToFloatVect          (PyObject* value, const std::string& message = "Type must be a list or tuple of floats.");

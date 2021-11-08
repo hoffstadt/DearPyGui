@@ -48,8 +48,32 @@ namespace Marvel {
 
 	void mvDrawPolygon::draw(ImDrawList* drawlist, float x, float y)
 	{
-		mvVec2 start = { x, y };
-		std::vector<mvVec2> points = _points;
+		mvVec4 start = { x, y };
+		std::vector<mvVec4> points = _points;
+
+		if (!_transformIsIdentity)
+		{
+			for (auto& point : points)
+				point = _transform * point;
+		}
+
+		if (_perspectiveDivide)
+		{
+
+			for (auto& point : points)
+			{
+				point.x = point.x / point.w;
+				point.x = point.x / point.w;
+				point.x = point.x / point.w;
+			}
+		}
+
+		if (_depthClipping)
+		{
+			for(auto& point : points)
+				if (mvClipPoint(_clipViewport, point)) return;
+		}
+
 		if (ImPlot::GetCurrentContext()->CurrentPlot)
 		{
 			for (auto& point : points)
@@ -65,7 +89,7 @@ namespace Marvel {
 				point = point + start;
 		}
 		// TODO: Find a way to store lines and only calc new fill lines when dirty similar to ellipse
-		drawlist->AddPolyline((const ImVec2*)const_cast<const mvVec2*>(points.data()), (int)_points.size(), _color, false, _thickness);
+		drawlist->AddPolyline((const ImVec2*)const_cast<const mvVec4*>(points.data()), (int)_points.size(), _color, false, _thickness);
 		if (_fill.r < 0.0f)
 			return;
 
@@ -159,13 +183,16 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				_points = ToVectVec2(item);
+				_points = ToVectVec4(item);
 				break;
 
 			default:
 				break;
 			}
 		}
+
+		for (auto& point : _points)
+			point.w = 1.0f;
 	}
 
 	void mvDrawPolygon::handleSpecificKeywordArgs(PyObject* dict)
@@ -173,10 +200,13 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "points")) _points = ToVectVec2(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "points")) _points = ToVectVec4(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "fill")) _fill = ToColor(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "color")) _color = ToColor(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "thickness")) _thickness = ToFloat(item);
+
+		for (auto& point : _points)
+			point.w = 1.0f;
 
 	}
 

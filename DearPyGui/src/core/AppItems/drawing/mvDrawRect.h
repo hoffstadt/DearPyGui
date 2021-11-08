@@ -42,8 +42,8 @@ namespace Marvel {
 
     private:
 
-        mvVec2  _pmin = { 0.0f, 0.0f };
-        mvVec2  _pmax = { 1.0f, 1.0f };
+        mvVec4  _pmax = { 0.0f, 0.0f, 0.0f, 1.0f };
+        mvVec4  _pmin = { 1.0f, 0.0f, 0.0f, 1.0f };
         float   _rounding = 0.0f;
         mvColor _color;
         mvColor _color_upper_left;
@@ -53,7 +53,6 @@ namespace Marvel {
         mvColor _fill;
         float   _thickness = 1.0f;
         bool    _multicolor = false;
-
     };
 
 }

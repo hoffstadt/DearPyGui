@@ -49,16 +49,35 @@ namespace Marvel {
 
 	void mvDrawText::draw(ImDrawList* drawlist, float x, float y)
 	{
+		mvVec4  tpos = _pos;
+
+		if (!_transformIsIdentity)
+		{
+			tpos = _transform * _pos;
+		}
+
+		if (_perspectiveDivide)
+		{
+			tpos.x = tpos.x / tpos.w;
+			tpos.y = tpos.y / tpos.w;
+			tpos.z = tpos.z / tpos.w;
+		}
+
+		if (_depthClipping)
+		{
+			if (mvClipPoint(_clipViewport, tpos)) return;
+		}
+
 		ImFont* fontptr = ImGui::GetFont();
 		if (_font)
 			fontptr = static_cast<mvFont*>(_font.get())->getFontPtr();
 
 		if (ImPlot::GetCurrentContext()->CurrentPlot)
-			drawlist->AddText(fontptr, ImPlot::GetCurrentContext()->Mx * (float)_size, ImPlot::PlotToPixels(_pos), _color, _text.c_str());
+			drawlist->AddText(fontptr, ImPlot::GetCurrentContext()->Mx * (float)_size, ImPlot::PlotToPixels(tpos), _color, _text.c_str());
 		else
 		{
 			mvVec2 start = { x, y };
-			drawlist->AddText(fontptr, (float)_size, _pos + start, _color, _text.c_str());
+			drawlist->AddText(fontptr, (float)_size, tpos + start, _color, _text.c_str());
 		}
 	}
 
@@ -73,7 +92,8 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				_pos = ToVec2(item);
+				_pos = ToVec4(item);
+				_pos.w = 1.0f;
 				break;
 
 			case 1:
@@ -92,9 +112,10 @@ namespace Marvel {
 			return;
 
 		if (PyObject* item = PyDict_GetItemString(dict, "text")) _text = ToString(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "pos")) _pos = ToVec2(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "pos")) _pos = ToVec4(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "color")) _color = ToColor(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "size")) _size = ToFloat(item);
+		_pos.w = 1.0f;
 
 	}
 

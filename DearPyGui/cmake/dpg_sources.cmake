@@ -21,11 +21,15 @@ set(MARVEL_SOURCES
 	"$<$<PLATFORM_ID:Linux>:src/platform/Linux/mvUtilities.cpp>"
 	"$<$<PLATFORM_ID:Linux>:src/platform/Linux/mvViewport.cpp>"
 
-	"src/core/mvBuffer.cpp"
 	"src/core/mvContext.cpp"
+	"src/core/mvMath.cpp"
 	"src/core/mvViewportOps.cpp"
 	"src/core/mvProfiler.cpp"
 	"src/core/mvCallbackRegistry.cpp"
+
+	"src/core/PythonTypes/mvBuffer.cpp"
+	"src/core/PythonTypes/mvVec4Type.cpp"
+	"src/core/PythonTypes/mvMat4Type.cpp"
 
 	"src/core/CustomImGuiWidgets/mvKnobCustom.cpp"
 	"src/core/CustomImGuiWidgets/mvLoadingIndicatorCustom.cpp"
@@ -127,6 +131,7 @@ set(MARVEL_SOURCES
 	"src/core/AppItems/drawing/mvDrawImage.cpp"
 	"src/core/AppItems/drawing/mvDrawLayer.cpp"
 	"src/core/AppItems/drawing/mvViewportDrawlist.cpp"
+	"src/core/AppItems/drawing/mvDrawImageQuad.cpp"
 	
 	"src/core/AppItems/composite/mvFileDialog.cpp"
 	"src/core/AppItems/composite/mvFileExtension.cpp"
@@ -244,6 +249,7 @@ set(MARVEL_INCLUDE_DIR
 	"vendor/ImGuiFileDialog"
 	"src/"
 	"src/core"
+	"src/core/PythonTypes"
 	"src/core/CustomImGuiWidgets"
 	"src/core/Modules"
 	"src/core/AppItems"

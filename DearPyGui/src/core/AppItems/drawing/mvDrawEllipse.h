@@ -42,13 +42,13 @@ namespace Marvel {
 
     private:
 
-        mvVec2  _pmin = { 0.0f, 0.0f };
-        mvVec2  _pmax = { 1.0f, 1.0f };
+        mvVec4  _pmin = { 0.0f, 0.0f, 0.0f, 1.0f };
+        mvVec4  _pmax = { 1.0f, 1.0f, 0.0f, 1.0f };
         int     _segments = 0;
         mvColor _color;
         mvColor _fill;
         float   _thickness = 1.0f;
-        std::vector<mvVec2> _points;
+        std::vector<mvVec4> _points;
         bool _dirty = true;
 
     };

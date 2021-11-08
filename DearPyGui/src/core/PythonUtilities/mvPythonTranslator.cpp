@@ -84,7 +84,6 @@ namespace Marvel {
     PyObject* 
     GetPyNone()
     {
-         
         Py_RETURN_NONE;
     }
 
@@ -125,8 +124,7 @@ namespace Marvel {
         
         return Py_BuildValue("K", item->_uuid);
     }
-
-    
+  
     PyObject* 
     ToPyUUID(mvUUID value)
     {
@@ -233,6 +231,26 @@ namespace Marvel {
             PyObject* item = PyList_New(2);
             PyList_SetItem(item, 0, PyFloat_FromDouble (value[i].x));
             PyList_SetItem(item, 1, PyFloat_FromDouble (value[i].y));
+            PyList_SetItem(item, i, item);
+        }
+
+        return result;
+    }
+
+    PyObject*
+    ToPyList(const std::vector<mvVec4>& value)
+    {
+
+
+        PyObject* result = PyList_New(value.size());
+
+        for (size_t i = 0; i < value.size(); ++i)
+        {
+            PyObject* item = PyList_New(4);
+            PyList_SetItem(item, 0, PyFloat_FromDouble(value[i].x));
+            PyList_SetItem(item, 1, PyFloat_FromDouble(value[i].y));
+            PyList_SetItem(item, 2, PyFloat_FromDouble(value[i].z));
+            PyList_SetItem(item, 3, PyFloat_FromDouble(value[i].w));
             PyList_SetItem(item, i, item);
         }
 
