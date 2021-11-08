@@ -42,7 +42,6 @@ namespace Marvel {
             mvPythonParserSetup setup;
             setup.about = "Applies a transformation matrix to a layer.";
             setup.category = { "Drawlist", "Widgets" };
-            setup.returnType = mvPyDataType::None;
 
             mvPythonParser parser = FinalizeParser(setup, args);
 
@@ -63,7 +62,6 @@ namespace Marvel {
             mvPythonParserSetup setup;
             setup.about = "Applies a transformation matrix to a layer.";
             setup.category = { "Drawlist", "Widgets" };
-            setup.returnType = mvPyDataType::None;
 
             mvPythonParser parser = FinalizeParser(setup, args);
 

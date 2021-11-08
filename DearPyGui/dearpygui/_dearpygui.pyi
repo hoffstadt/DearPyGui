@@ -138,7 +138,7 @@ def add_drag_point(*, label: str ='', user_data: Any ='', use_internal_label: bo
 	"""Adds a drag point to a plot."""
 	...
 
-def add_draw_layer(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', show: bool ='', perspective_divide: bool ='', depth_clipping: bool ='', cull_mode: int ='') -> Union[int, str]:
+def add_draw_layer(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', show: bool ='') -> Union[int, str]:
 	"""Creates a layer useful for grouping drawlist items."""
 	...
 
@@ -590,10 +590,6 @@ def add_window(*, label: str ='', user_data: Any ='', use_internal_label: bool =
 	"""Creates a new window for following items to be added to."""
 	...
 
-def apply_transform(item : Union[int, str], transform : Any) -> None:
-	"""Applies a transformation matrix to a layer."""
-	...
-
 def bind_colormap(item : Union[int, str], source : Union[int, str]) -> None:
 	"""Sets the color map for widgets that accept it."""
 	...
@@ -650,34 +646,6 @@ def create_context() -> None:
 	"""Creates the Dear PyGui context."""
 	...
 
-def create_fps_matrix(eye : Union[List[float], Tuple[float, ...]], pitch : float, yaw : float) -> Any:
-	"""Applies a transformation matrix to a layer."""
-	...
-
-def create_lookat_matrix(eye : Union[List[float], Tuple[float, ...]], center : Union[List[float], Tuple[float, ...]], up : Union[List[float], Tuple[float, ...]]) -> Any:
-	"""Applies a transformation matrix to a layer."""
-	...
-
-def create_orthographic_matrix(left : float, right : float, bottom : float, top : float, zNear : float, zFar : float) -> Any:
-	"""Applies a transformation matrix to a layer."""
-	...
-
-def create_perspective_matrix(fov : float, aspect : float, zNear : float, zFar : float) -> Any:
-	"""Applies a transformation matrix to a layer."""
-	...
-
-def create_rotation_matrix(angle : float, axis : Union[List[float], Tuple[float, ...]]) -> Any:
-	"""Applies a transformation matrix to a layer."""
-	...
-
-def create_scale_matrix(scales : Union[List[float], Tuple[float, ...]]) -> Any:
-	"""Applies a transformation matrix to a layer."""
-	...
-
-def create_translation_matrix(translation : Union[List[float], Tuple[float, ...]]) -> Any:
-	"""Applies a transformation matrix to a layer."""
-	...
-
 def create_viewport(*, title: str ='', small_icon: str ='', large_icon: str ='', width: int ='', height: int ='', x_pos: int ='', y_pos: int ='', min_width: int ='', max_width: int ='', min_height: int ='', max_height: int ='', resizable: bool ='', vsync: bool ='', always_on_top: bool ='', decorated: bool ='', clear_color: Union[List[float], Tuple[float, ...]] ='') -> None:
 	"""Creates a viewport. Viewports are required."""
 	...
@@ -719,10 +687,6 @@ def draw_ellipse(pmin : Union[List[float], Tuple[float, ...]], pmax : Union[List
 	...
 
 def draw_image(texture_tag : Union[int, str], pmin : Union[List[float], Tuple[float, ...]], pmax : Union[List[float], Tuple[float, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', show: bool ='', uv_min: Union[List[float], Tuple[float, ...]] ='', uv_max: Union[List[float], Tuple[float, ...]] ='', color: Union[List[int], Tuple[int, ...]] ='') -> Union[int, str]:
-	"""Adds an image (for a drawing)."""
-	...
-
-def draw_image_quad(texture_tag : Union[int, str], p1 : Union[List[float], Tuple[float, ...]], p2 : Union[List[float], Tuple[float, ...]], p3 : Union[List[float], Tuple[float, ...]], p4 : Union[List[float], Tuple[float, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', show: bool ='', uv1: Union[List[float], Tuple[float, ...]] ='', uv2: Union[List[float], Tuple[float, ...]] ='', uv3: Union[List[float], Tuple[float, ...]] ='', uv4: Union[List[float], Tuple[float, ...]] ='', color: Union[List[int], Tuple[int, ...]] ='') -> Union[int, str]:
 	"""Adds an image (for a drawing)."""
 	...
 
@@ -1056,10 +1020,6 @@ def set_axis_limits_auto(axis : Union[int, str]) -> None:
 
 def set_axis_ticks(axis : Union[int, str], label_pairs : Any) -> None:
 	"""Replaces axis ticks with 'label_pairs' argument."""
-	...
-
-def set_clip_space(item : Union[int, str], top_left_x : float, top_left_y : float, width : float, height : float, min_depth : float, max_depth : float) -> None:
-	"""Applies a transformation matrix to a layer."""
 	...
 
 def set_exit_callback(callback : Callable) -> str:
@@ -1433,10 +1393,6 @@ mvTableRow=0
 mvDrawLine=0
 mvDrawArrow=0
 mvDrawTriangle=0
-mvCullMode_None=0
-mvCullMode_Back=0
-mvCullMode_Front=0
-mvDrawImageQuad=0
 mvDrawCircle=0
 mvDrawEllipse=0
 mvDrawBezierCubic=0
