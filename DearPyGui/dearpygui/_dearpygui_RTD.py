@@ -1627,6 +1627,29 @@ def draw_layer(**kwargs):
 		internal_dpg.pop_container_stack()
 
 @contextmanager
+def draw_node(**kwargs):
+	"""	 Creates a layer useful for grouping drawlist items.
+
+	Args:
+		label (str, optional): Overrides 'name' as label.
+		user_data (Any, optional): User data for callbacks
+		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
+		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
+		show (bool, optional): Attempt to render widget.
+		id (Union[int, str], optional): (deprecated)
+	Yields:
+		Union[int, str]
+	"""
+	try:
+		widget = internal_dpg.add_draw_node(**kwargs)
+		internal_dpg.push_container_stack(widget)
+		yield widget
+	finally:
+		internal_dpg.pop_container_stack()
+
+@contextmanager
 def drawlist(width, height, **kwargs):
 	"""	 Adds a drawing canvas.
 
@@ -3566,6 +3589,24 @@ def add_draw_layer(**kwargs):
 	"""
 
 	return internal_dpg.add_draw_layer(**kwargs)
+
+def add_draw_node(**kwargs):
+	"""	 Creates a layer useful for grouping drawlist items.
+
+	Args:
+		label (str, optional): Overrides 'name' as label.
+		user_data (Any, optional): User data for callbacks
+		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
+		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
+		show (bool, optional): Attempt to render widget.
+		id (Union[int, str], optional): (deprecated)
+	Returns:
+		Union[int, str]
+	"""
+
+	return internal_dpg.add_draw_node(**kwargs)
 
 def add_drawlist(width, height, **kwargs):
 	"""	 Adds a drawing canvas.
@@ -8324,6 +8365,7 @@ mvDatePickerLevel_Year=internal_dpg.mvDatePickerLevel_Year
 mvColorButton=internal_dpg.mvColorButton
 mvFileDialog=internal_dpg.mvFileDialog
 mvTabButton=internal_dpg.mvTabButton
+mvDrawNode=internal_dpg.mvDrawNode
 mvNodeEditor=internal_dpg.mvNodeEditor
 mvNode=internal_dpg.mvNode
 mvNodeAttribute=internal_dpg.mvNodeAttribute

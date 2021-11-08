@@ -39,7 +39,7 @@ namespace Marvel {
         mvPlot, mvSimplePlot, mvDrawlist, mvWindowAppItem,
         mvSelectable, mvTreeNode, mvProgressBar, mvSpacer,
         mvImageButton, mvTimePicker, mvDatePicker, mvColorButton,
-        mvFileDialog, mvTabButton,
+        mvFileDialog, mvTabButton, mvDrawNode,
         mvNodeEditor, mvNode, mvNodeAttribute,
         mvTable, mvTableColumn, mvTableRow,
         mvDrawLine, mvDrawArrow, mvDrawTriangle, mvDrawImageQuad,

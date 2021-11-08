@@ -132,6 +132,7 @@ set(MARVEL_SOURCES
 	"src/core/AppItems/drawing/mvDrawLayer.cpp"
 	"src/core/AppItems/drawing/mvViewportDrawlist.cpp"
 	"src/core/AppItems/drawing/mvDrawImageQuad.cpp"
+	"src/core/AppItems/drawing/mvDrawNode.cpp"
 	
 	"src/core/AppItems/composite/mvFileDialog.cpp"
 	"src/core/AppItems/composite/mvFileExtension.cpp"

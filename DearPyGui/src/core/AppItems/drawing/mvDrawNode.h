@@ -5,17 +5,25 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvDrawLayer, MV_ITEM_DESC_CONTAINER, StorageValueTypes::None, 2);
-    class mvDrawLayer : public mvAppItem
+    MV_REGISTER_WIDGET(mvDrawNode, MV_ITEM_DESC_CONTAINER, StorageValueTypes::None, 2);
+    class mvDrawNode : public mvAppItem
     {
     public:
 
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-        MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvDrawLayer, add_draw_layer)
+        MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvDrawNode, add_draw_node)
         MV_NO_CONSTANTS
 
-        MV_CREATE_COMMAND(set_clip_space);
+        MV_CREATE_COMMAND(apply_transform);
+        
+        MV_CREATE_COMMAND(create_rotation_matrix);
+        MV_CREATE_COMMAND(create_translation_matrix);
+        MV_CREATE_COMMAND(create_scale_matrix);
+        MV_CREATE_COMMAND(create_lookat_matrix);
+        MV_CREATE_COMMAND(create_perspective_matrix);
+        MV_CREATE_COMMAND(create_orthographic_matrix);
+        MV_CREATE_COMMAND(create_fps_matrix);
 
         MV_SET_STATES(MV_STATE_NONE);
 
@@ -23,9 +31,11 @@ namespace Marvel {
             MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
             MV_ADD_PARENT(mvAppItemType::mvStage),
             MV_ADD_PARENT(mvAppItemType::mvDrawlist),
+            MV_ADD_PARENT(mvAppItemType::mvDrawLayer),
             MV_ADD_PARENT(mvAppItemType::mvWindowAppItem),
             MV_ADD_PARENT(mvAppItemType::mvPlot),
-            MV_ADD_PARENT(mvAppItemType::mvViewportDrawlist)
+            MV_ADD_PARENT(mvAppItemType::mvViewportDrawlist),
+            MV_ADD_PARENT(mvAppItemType::mvDrawNode),
         MV_END_PARENTS
 
         MV_START_CHILDREN
@@ -42,18 +52,25 @@ namespace Marvel {
             MV_ADD_CHILD(mvAppItemType::mvDrawPolygon),
             MV_ADD_CHILD(mvAppItemType::mvDrawPolyline),
             MV_ADD_CHILD(mvAppItemType::mvDrawImage),
-            MV_ADD_CHILD(mvAppItemType::mvDrawImageQuad),
             MV_ADD_CHILD(mvAppItemType::mvDrawNode),
+            MV_ADD_CHILD(mvAppItemType::mvDrawImageQuad),
         MV_END_CHILDREN
 
         MV_START_COMMANDS
-            MV_ADD_COMMAND(set_clip_space);
+            MV_ADD_COMMAND(apply_transform);
+            MV_ADD_COMMAND(create_rotation_matrix);
+            MV_ADD_COMMAND(create_translation_matrix);
+            MV_ADD_COMMAND(create_scale_matrix);
+            MV_ADD_COMMAND(create_lookat_matrix);
+            MV_ADD_COMMAND(create_perspective_matrix);
+            MV_ADD_COMMAND(create_orthographic_matrix);
+            MV_ADD_COMMAND(create_fps_matrix);
         MV_END_COMMANDS
 
     public:
 
-        explicit mvDrawLayer(mvUUID uuid);
-        ~mvDrawLayer();
+        explicit mvDrawNode(mvUUID uuid);
+        ~mvDrawNode();
 
         void draw(ImDrawList* drawlist, float x, float y) override;
         void handleSpecificKeywordArgs(PyObject* dict) override;
@@ -61,8 +78,7 @@ namespace Marvel {
 
     public:
 
-        mvMat4 _viewportTransform = mvIdentityMat4();
-
+        mvMat4 _nodeTransform = mvIdentityMat4();
     };
 
 }

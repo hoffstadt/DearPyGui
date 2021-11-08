@@ -142,6 +142,10 @@ def add_draw_layer(*, label: str ='', user_data: Any ='', use_internal_label: bo
 	"""Creates a layer useful for grouping drawlist items."""
 	...
 
+def add_draw_node(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', show: bool ='') -> Union[int, str]:
+	"""Creates a layer useful for grouping drawlist items."""
+	...
+
 def add_drawlist(width : int, height : int, *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', delay_search: bool ='', tracked: bool ='', track_offset: float ='') -> Union[int, str]:
 	"""Adds a drawing canvas."""
 	...
@@ -1411,6 +1415,7 @@ mvDatePickerLevel_Year=0
 mvColorButton=0
 mvFileDialog=0
 mvTabButton=0
+mvDrawNode=0
 mvNodeEditor=0
 mvNode=0
 mvNodeAttribute=0
