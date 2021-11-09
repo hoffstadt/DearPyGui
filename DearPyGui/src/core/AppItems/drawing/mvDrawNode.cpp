@@ -209,7 +209,7 @@ namespace Marvel {
                 if (!item->_show)
                     continue;
 
-                item->_transform = _nodeTransform *_transform*_appliedTransform;
+                item->_transform =   _transform * _appliedTransform;
 
                 item->_transformIsIdentity = false;
                 item->_appliedTransformIsIdentity = false;

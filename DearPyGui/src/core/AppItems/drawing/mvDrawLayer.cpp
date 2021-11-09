@@ -150,8 +150,8 @@ namespace Marvel {
             graph->_clipViewport[5] = maxdepth;
 
             graph->_viewportTransform = mvCreateMatrix(
-                width, 0.0f, 0.0f, width / 2.0f,
-                0.0f, -height, 0.0f, height / 2.0f,
+                width, 0.0f, 0.0f, topleftx + (width / 2.0f),
+                0.0f, -height, 0.0f, toplefty + (height / 2.0f),
                 0.0f, 0.0f, 0.25f, 0.5f,
                 0.0f, 0.0f, 0.0f, 1.0f
             );

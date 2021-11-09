@@ -282,7 +282,7 @@ namespace Marvel {
         mvMat4 _transform = mvIdentityMat4();
         b8     _transformIsIdentity = true;
 
-        // only used by layers
+        // only used by nodes
         mvMat4 _appliedTransform = mvIdentityMat4();
         b8     _appliedTransformIsIdentity = true;
 

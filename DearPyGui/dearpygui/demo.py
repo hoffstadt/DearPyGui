@@ -1,4 +1,5 @@
 import dearpygui.dearpygui as dpg
+import math
 from math import sin, cos
 import random
 import webbrowser
@@ -186,6 +187,8 @@ def _on_demo_close(sender, app_data, user_data):
     dpg.delete_item("__demo_popup1")
     dpg.delete_item("__demo_popup2")
     dpg.delete_item("__demo_item_reg3")
+    dpg.delete_item("__demo_item_reg6")
+    dpg.delete_item("__demo_item_reg7")
     dpg.delete_item("demoitemregistry")
     for i in range(7):
         dpg.delete_item("__demo_theme"+str(i))
@@ -2320,55 +2323,229 @@ def show_demo():
 
         with dpg.collapsing_header(label="Drawing API"):
 
-            draw_thickness = 3.0
-            draw_size = 36
-            draw_spacing = 10
-            draw_rounding = draw_size/5.0
-            draw_color = [255, 255, 0]
-            with dpg.drawlist(width=300, height=200):
-                draw_x = 4
-                draw_y = 4
-                for i in range(2):
-
-                    _draw_t = draw_thickness
-                    if i == 0:
-                        _draw_t = 1.0
-                    dpg.draw_circle([draw_x + draw_size*0.5, draw_y + draw_size*0.5], draw_size*0.5, thickness=_draw_t, color=draw_color)
-                    draw_x = draw_x + draw_spacing + draw_size
-                    dpg.draw_rectangle([draw_x, draw_y], [draw_size + draw_x, draw_size + draw_y], thickness=_draw_t, color=draw_color)
-                    draw_x = draw_x + draw_spacing + draw_size
-                    dpg.draw_rectangle([draw_x, draw_y], [draw_size + draw_x, draw_size + draw_y], rounding=draw_rounding, thickness=_draw_t, color=draw_color)
-                    draw_x = draw_x + draw_spacing + draw_size
-                    dpg.draw_triangle([draw_x+draw_size*0.5,draw_y], [draw_x+draw_size, draw_y+draw_size-0.5], [draw_x, draw_y+draw_size-0.5], thickness=_draw_t, color=draw_color)
-                    draw_x = draw_x + draw_spacing + draw_size
-                    dpg.draw_line([draw_x, draw_y], [draw_x + draw_size, draw_y], thickness=_draw_t, color=draw_color)
-                    draw_x = draw_x + draw_spacing + draw_size
-                    dpg.draw_line([draw_x, draw_y], [draw_x, draw_y + draw_size], thickness=_draw_t, color=draw_color)
-                    draw_x = draw_x + draw_spacing + draw_size
-                    dpg.draw_line([draw_x, draw_y], [draw_x + draw_size, draw_y + draw_size], thickness=_draw_t, color=draw_color)
-                    draw_x = draw_x + draw_spacing + draw_size
-                    dpg.draw_bezier_quadratic([draw_x, draw_y + draw_size * 0.6], 
-                                              [draw_x + draw_size*0.5, draw_y - draw_size * 0.4], 
-                                              [draw_x + draw_size, draw_y + draw_size], thickness=_draw_t, color=draw_color)
-                    draw_x = draw_x + draw_spacing + draw_size
-                    dpg.draw_bezier_cubic([draw_x, draw_y], 
-                                          [draw_x + draw_size*1.3, draw_y + draw_size * 0.3], 
-                                          [draw_x+draw_size - draw_size*1.3, draw_y + draw_size - draw_size*0.3],
-                                          [draw_x + draw_size, draw_y + draw_size], thickness=_draw_t, color=draw_color)
+            with dpg.tree_node(label="Basic"):
+                draw_thickness = 3.0
+                draw_size = 36
+                draw_spacing = 10
+                draw_rounding = draw_size/5.0
+                draw_color = [255, 255, 0]
+                with dpg.drawlist(width=300, height=200):
                     draw_x = 4
-                    draw_y = draw_y + draw_size + draw_spacing
+                    draw_y = 4
+                    for i in range(2):
 
-                _draw_t = 0.0
+                        _draw_t = draw_thickness
+                        if i == 0:
+                            _draw_t = 1.0
+                        dpg.draw_circle([draw_x + draw_size*0.5, draw_y + draw_size*0.5], draw_size*0.5, thickness=_draw_t, color=draw_color)
+                        draw_x = draw_x + draw_spacing + draw_size
+                        dpg.draw_rectangle([draw_x, draw_y], [draw_size + draw_x, draw_size + draw_y], thickness=_draw_t, color=draw_color)
+                        draw_x = draw_x + draw_spacing + draw_size
+                        dpg.draw_rectangle([draw_x, draw_y], [draw_size + draw_x, draw_size + draw_y], rounding=draw_rounding, thickness=_draw_t, color=draw_color)
+                        draw_x = draw_x + draw_spacing + draw_size
+                        dpg.draw_triangle([draw_x+draw_size*0.5,draw_y], [draw_x+draw_size, draw_y+draw_size-0.5], [draw_x, draw_y+draw_size-0.5], thickness=_draw_t, color=draw_color)
+                        draw_x = draw_x + draw_spacing + draw_size
+                        dpg.draw_line([draw_x, draw_y], [draw_x + draw_size, draw_y], thickness=_draw_t, color=draw_color)
+                        draw_x = draw_x + draw_spacing + draw_size
+                        dpg.draw_line([draw_x, draw_y], [draw_x, draw_y + draw_size], thickness=_draw_t, color=draw_color)
+                        draw_x = draw_x + draw_spacing + draw_size
+                        dpg.draw_line([draw_x, draw_y], [draw_x + draw_size, draw_y + draw_size], thickness=_draw_t, color=draw_color)
+                        draw_x = draw_x + draw_spacing + draw_size
+                        dpg.draw_bezier_quadratic([draw_x, draw_y + draw_size * 0.6], 
+                                                  [draw_x + draw_size*0.5, draw_y - draw_size * 0.4], 
+                                                  [draw_x + draw_size, draw_y + draw_size], thickness=_draw_t, color=draw_color)
+                        draw_x = draw_x + draw_spacing + draw_size
+                        dpg.draw_bezier_cubic([draw_x, draw_y], 
+                                              [draw_x + draw_size*1.3, draw_y + draw_size * 0.3], 
+                                              [draw_x+draw_size - draw_size*1.3, draw_y + draw_size - draw_size*0.3],
+                                              [draw_x + draw_size, draw_y + draw_size], thickness=_draw_t, color=draw_color)
+                        draw_x = 4
+                        draw_y = draw_y + draw_size + draw_spacing
 
-                dpg.draw_circle([draw_x + draw_size*0.5, draw_y + draw_size*0.5], draw_size*0.5, thickness=_draw_t, color=draw_color, fill=draw_color)
-                draw_x = draw_x + draw_spacing + draw_size
-                dpg.draw_rectangle([draw_size + draw_x, draw_size + draw_y], [draw_x, draw_y], thickness=_draw_t, color=draw_color, fill=draw_color)
-                draw_x = draw_x + draw_spacing + draw_size
-                dpg.draw_rectangle([draw_x, draw_y], [draw_size + draw_x, draw_size + draw_y], rounding=draw_rounding, thickness=_draw_t, color=draw_color, fill=draw_color)
-                draw_x = draw_x + draw_spacing + draw_size
-                dpg.draw_triangle([draw_x+draw_size*0.5,draw_y], [draw_x+draw_size, draw_y+draw_size-0.5], [draw_x, draw_y+draw_size-0.5], thickness=_draw_t, color=draw_color, fill=draw_color)
-                draw_x = draw_x + draw_spacing + draw_size
-                dpg.draw_rectangle([draw_size + draw_x, draw_size + draw_y], [draw_x, draw_y], color=[0, 0, 0, 0], thickness=_draw_t, color_upper_left=[0, 0, 0], color_upper_right=[255, 0, 0], color_bottom_left=[255, 255, 0], color_bottom_right=[0, 255, 0], multicolor=True)
+                    _draw_t = 0.0
+
+                    dpg.draw_circle([draw_x + draw_size*0.5, draw_y + draw_size*0.5], draw_size*0.5, thickness=_draw_t, color=draw_color, fill=draw_color)
+                    draw_x = draw_x + draw_spacing + draw_size
+                    dpg.draw_rectangle([draw_size + draw_x, draw_size + draw_y], [draw_x, draw_y], thickness=_draw_t, color=draw_color, fill=draw_color)
+                    draw_x = draw_x + draw_spacing + draw_size
+                    dpg.draw_rectangle([draw_x, draw_y], [draw_size + draw_x, draw_size + draw_y], rounding=draw_rounding, thickness=_draw_t, color=draw_color, fill=draw_color)
+                    draw_x = draw_x + draw_spacing + draw_size
+                    dpg.draw_triangle([draw_x+draw_size*0.5,draw_y], [draw_x+draw_size, draw_y+draw_size-0.5], [draw_x, draw_y+draw_size-0.5], thickness=_draw_t, color=draw_color, fill=draw_color)
+                    draw_x = draw_x + draw_spacing + draw_size
+                    dpg.draw_rectangle([draw_size + draw_x, draw_size + draw_y], [draw_x, draw_y], color=[0, 0, 0, 0], thickness=_draw_t, color_upper_left=[0, 0, 0], color_upper_right=[255, 0, 0], color_bottom_left=[255, 255, 0], color_bottom_right=[0, 255, 0], multicolor=True)
+
+            with dpg.tree_node(label="Draw Nodes & 3D transforms"):
+
+                with dpg.group(horizontal=True):
+                    with dpg.drawlist(width=500, height=500, tag="_demo_advanced_drawing"):
+
+                        with dpg.draw_layer():
+
+                            dpg.draw_circle([250, 250], 150, color=[0, 255, 0])
+                            dpg.draw_circle([250, 250], 200, color=[0, 255, 255])
+                            with dpg.draw_node(tag="_drawing_sun"):
+                                dpg.apply_transform(dpg.last_item(), dpg.create_translation_matrix([250, 250]))
+                                dpg.draw_circle([0, 0], 15, color=[255, 255, 0], fill=[255, 255, 0])
+                                with dpg.draw_node(tag="_drawing_planet1", user_data=45.0):
+                                    dpg.apply_transform(dpg.last_item(), dpg.create_rotation_matrix(math.pi*45.0/180.0 , [0, 0, -1])*dpg.create_translation_matrix([150, 0]))
+                                    dpg.draw_circle([0, 0], 10, color=[0, 255, 0], fill=[0, 255, 0])
+                                    dpg.draw_circle([0, 0], 25, color=[255, 0, 255])
+                                    with dpg.draw_node(tag="_drawing_moon1", user_data=45.0):
+                                        dpg.apply_transform(dpg.last_item(), dpg.create_rotation_matrix(math.pi*45.0/180.0 , [0, 0, -1])*dpg.create_translation_matrix([25, 0]))
+                                        dpg.draw_circle([0, 0], 5, color=[255, 0, 255], fill=[255, 0, 255])
+
+                                with dpg.draw_node(tag="_drawing_planet2", user_data=0.0):
+                                    dpg.apply_transform(dpg.last_item(), dpg.create_rotation_matrix(math.pi*0.0/180.0 , [0, 0, -1])*dpg.create_translation_matrix([200, 0]))
+                                    dpg.draw_circle([0, 0], 10, color=[0, 255, 255], fill=[0, 255, 255])
+                                    dpg.draw_circle([0, 0], 25, color=[255, 0, 255])
+                                    dpg.draw_circle([0, 0], 45, color=[255, 255, 255])
+                                    with dpg.draw_node(tag="_drawing_moon2", user_data=45.0):
+                                        dpg.apply_transform(dpg.last_item(), dpg.create_rotation_matrix(math.pi*45.0/180.0 , [0, 0, -1])*dpg.create_translation_matrix([25, 0]))
+                                        dpg.draw_circle([0, 0], 5, color=[255, 0, 255], fill=[255, 0, 255])
+
+                                    with dpg.draw_node(tag="_drawing_moon3", user_data=120.0):
+                                        dpg.apply_transform(dpg.last_item(), dpg.create_rotation_matrix(math.pi*120.0/180.0 , [0, 0, -1])*dpg.create_translation_matrix([45, 0]))
+                                        dpg.draw_circle([0, 0], 5, color=[255, 255, 255], fill=[255, 255, 255])
+
+                    def _demo_live_drawing():
+                        planet_rot1 = dpg.get_item_user_data("_drawing_planet1") + 1.0
+                        planet_rot2 = dpg.get_item_user_data("_drawing_planet2") + 2.0
+                        moon_rot1 = dpg.get_item_user_data("_drawing_moon1") + 3.0
+                        moon_rot2 = dpg.get_item_user_data("_drawing_moon2") + 7.0
+                        moon_rot3 = dpg.get_item_user_data("_drawing_moon3") + 10.0
+                        dpg.apply_transform("_drawing_planet1", dpg.create_rotation_matrix(math.pi*planet_rot1/180.0 , [0, 0, -1])*dpg.create_translation_matrix([150, 0]))
+                        dpg.apply_transform("_drawing_planet2", dpg.create_rotation_matrix(math.pi*planet_rot2/180.0 , [0, 0, -1])*dpg.create_translation_matrix([200, 0]))
+                        dpg.apply_transform("_drawing_moon1", dpg.create_rotation_matrix(math.pi*moon_rot1/180.0 , [0, 0, -1])*dpg.create_translation_matrix([25, 0]))
+                        dpg.apply_transform("_drawing_moon2", dpg.create_rotation_matrix(math.pi*moon_rot2/180.0 , [0, 0, -1])*dpg.create_translation_matrix([25, 0]))
+                        dpg.apply_transform("_drawing_moon3", dpg.create_rotation_matrix(math.pi*moon_rot3/180.0 , [0, 0, 1])*dpg.create_translation_matrix([45, 0]))
+                        dpg.set_item_user_data("_drawing_planet1", planet_rot1)
+                        dpg.set_item_user_data("_drawing_planet2", planet_rot2)
+                        dpg.set_item_user_data("_drawing_moon1", moon_rot1)
+                        dpg.set_item_user_data("_drawing_moon2", moon_rot2)
+                        dpg.set_item_user_data("_drawing_moon3", moon_rot3)
+
+                    with dpg.item_handler_registry(tag="__demo_item_reg6"):
+                        dpg.add_item_visible_handler(callback=_demo_live_drawing)
+                    dpg.bind_item_handler_registry("_demo_advanced_drawing", dpg.last_container())
+
+
+                    size = 5
+                    demo_verticies = [
+                            [-size, -size, -size],  # 0 near side
+                            [ size, -size, -size],  # 1
+                            [-size,  size, -size],  # 2
+                            [ size,  size, -size],  # 3
+                            [-size, -size,  size],  # 4 far side
+                            [ size, -size,  size],  # 5
+                            [-size,  size,  size],  # 6
+                            [ size,  size,  size],  # 7
+                            [-size, -size, -size],  # 8 left side
+                            [-size,  size, -size],  # 9
+                            [-size, -size,  size],  # 10
+                            [-size,  size,  size],  # 11
+                            [ size, -size, -size],  # 12 right side
+                            [ size,  size, -size],  # 13
+                            [ size, -size,  size],  # 14
+                            [ size,  size,  size],  # 15
+                            [-size, -size, -size],  # 16 bottom side
+                            [ size, -size, -size],  # 17
+                            [-size, -size,  size],  # 18
+                            [ size, -size,  size],  # 19
+                            [-size,  size, -size],  # 20 top side
+                            [ size,  size, -size],  # 21
+                            [-size,  size,  size],  # 22
+                            [ size,  size,  size],  # 23
+                        ]
+
+                    demo_colors = [
+                            [255,   0,   0, 150],
+                            [255, 255,   0, 150],
+                            [255, 255, 255, 150],
+                            [255,   0, 255, 150],
+                            [  0, 255,   0, 150],
+                            [  0, 255, 255, 150],
+                            [  0,   0, 255, 150],
+                            [  0, 125,   0, 150],
+                            [128,   0,   0, 150],
+                            [128,  70,   0, 150],
+                            [128, 255, 255, 150],
+                            [128,   0, 128, 150]
+                        ]
+
+                    with dpg.drawlist(width=500, height=500, tag="_demo_advanced_drawing_3d"):
+
+                        with dpg.draw_layer(depth_clipping=False, cull_mode=dpg.mvCullMode_Back, perspective_divide=True):
+                            dpg.set_clip_space(dpg.last_item(), 0, 0, 500, 500, -1.0, 1.0)
+                            with dpg.draw_node(tag="_demo_3dNode1", user_data=[0, 0, 0]):
+                                dpg.draw_triangle(demo_verticies[1],  demo_verticies[2],  demo_verticies[0], color=[0,0,0.0], fill=demo_colors[0])
+                                dpg.draw_triangle(demo_verticies[1],  demo_verticies[3],  demo_verticies[2], color=[0,0,0.0], fill=demo_colors[1])
+                                dpg.draw_triangle(demo_verticies[7],  demo_verticies[5],  demo_verticies[4], color=[0,0,0.0], fill=demo_colors[2])
+                                dpg.draw_triangle(demo_verticies[6],  demo_verticies[7],  demo_verticies[4], color=[0,0,0.0], fill=demo_colors[3])
+                                dpg.draw_triangle(demo_verticies[9],  demo_verticies[10], demo_verticies[8], color=[0,0,0.0], fill=demo_colors[4])
+                                dpg.draw_triangle(demo_verticies[9],  demo_verticies[11], demo_verticies[10], color=[0,0,0.0], fill=demo_colors[5])
+                                dpg.draw_triangle(demo_verticies[15], demo_verticies[13], demo_verticies[12], color=[0,0,0.0], fill=demo_colors[6])
+                                dpg.draw_triangle(demo_verticies[14], demo_verticies[15], demo_verticies[12], color=[0,0,0.0], fill=demo_colors[7])
+                                dpg.draw_triangle(demo_verticies[18], demo_verticies[17], demo_verticies[16], color=[0,0,0.0], fill=demo_colors[8])
+                                dpg.draw_triangle(demo_verticies[19], demo_verticies[17], demo_verticies[18], color=[0,0,0.0], fill=demo_colors[9])
+                                dpg.draw_triangle(demo_verticies[21], demo_verticies[23], demo_verticies[20], color=[0,0,0.0], fill=demo_colors[10])
+                                dpg.draw_triangle(demo_verticies[23], demo_verticies[22], demo_verticies[20], color=[0,0,0.0], fill=demo_colors[11])
+
+                with dpg.group(horizontal=True):
+
+                        with dpg.drawlist(width=500, height=500):
+
+                            with dpg.draw_layer(depth_clipping=False, cull_mode=dpg.mvCullMode_Front, perspective_divide=True):
+                                dpg.set_clip_space(dpg.last_item(), 0, 0, 500, 500, -1.0, 1.0)
+                                with dpg.draw_node(tag="_demo_3dNode2", user_data=[0, 0, 0]):
+                                    dpg.draw_triangle(demo_verticies[1],  demo_verticies[2],  demo_verticies[0], color=[0,0,0.0], fill=demo_colors[0])
+                                    dpg.draw_triangle(demo_verticies[1],  demo_verticies[3],  demo_verticies[2], color=[0,0,0.0], fill=demo_colors[1])
+                                    dpg.draw_triangle(demo_verticies[7],  demo_verticies[5],  demo_verticies[4], color=[0,0,0.0], fill=demo_colors[2])
+                                    dpg.draw_triangle(demo_verticies[6],  demo_verticies[7],  demo_verticies[4], color=[0,0,0.0], fill=demo_colors[3])
+                                    dpg.draw_triangle(demo_verticies[9],  demo_verticies[10], demo_verticies[8], color=[0,0,0.0], fill=demo_colors[4])
+                                    dpg.draw_triangle(demo_verticies[9],  demo_verticies[11], demo_verticies[10], color=[0,0,0.0], fill=demo_colors[5])
+                                    dpg.draw_triangle(demo_verticies[15], demo_verticies[13], demo_verticies[12], color=[0,0,0.0], fill=demo_colors[6])
+                                    dpg.draw_triangle(demo_verticies[14], demo_verticies[15], demo_verticies[12], color=[0,0,0.0], fill=demo_colors[7])
+                                    dpg.draw_triangle(demo_verticies[18], demo_verticies[17], demo_verticies[16], color=[0,0,0.0], fill=demo_colors[8])
+                                    dpg.draw_triangle(demo_verticies[19], demo_verticies[17], demo_verticies[18], color=[0,0,0.0], fill=demo_colors[9])
+                                    dpg.draw_triangle(demo_verticies[21], demo_verticies[23], demo_verticies[20], color=[0,0,0.0], fill=demo_colors[10])
+                                    dpg.draw_triangle(demo_verticies[23], demo_verticies[22], demo_verticies[20], color=[0,0,0.0], fill=demo_colors[11])
+
+                        with dpg.drawlist(width=500, height=500):
+
+                            with dpg.draw_layer(depth_clipping=False, cull_mode=dpg.mvCullMode_None, perspective_divide=True):
+                                dpg.set_clip_space(dpg.last_item(), 0, 0, 500, 500, -1.0, 1.0)
+                                with dpg.draw_node(tag="_demo_3dNode3", user_data=[0, 0, 0]):
+                                    dpg.draw_triangle(demo_verticies[1],  demo_verticies[2],  demo_verticies[0], color=[0,0,0.0], fill=demo_colors[0])
+                                    dpg.draw_triangle(demo_verticies[1],  demo_verticies[3],  demo_verticies[2], color=[0,0,0.0], fill=demo_colors[1])
+                                    dpg.draw_triangle(demo_verticies[7],  demo_verticies[5],  demo_verticies[4], color=[0,0,0.0], fill=demo_colors[2])
+                                    dpg.draw_triangle(demo_verticies[6],  demo_verticies[7],  demo_verticies[4], color=[0,0,0.0], fill=demo_colors[3])
+                                    dpg.draw_triangle(demo_verticies[9],  demo_verticies[10], demo_verticies[8], color=[0,0,0.0], fill=demo_colors[4])
+                                    dpg.draw_triangle(demo_verticies[9],  demo_verticies[11], demo_verticies[10], color=[0,0,0.0], fill=demo_colors[5])
+                                    dpg.draw_triangle(demo_verticies[15], demo_verticies[13], demo_verticies[12], color=[0,0,0.0], fill=demo_colors[6])
+                                    dpg.draw_triangle(demo_verticies[14], demo_verticies[15], demo_verticies[12], color=[0,0,0.0], fill=demo_colors[7])
+                                    dpg.draw_triangle(demo_verticies[18], demo_verticies[17], demo_verticies[16], color=[0,0,0.0], fill=demo_colors[8])
+                                    dpg.draw_triangle(demo_verticies[19], demo_verticies[17], demo_verticies[18], color=[0,0,0.0], fill=demo_colors[9])
+                                    dpg.draw_triangle(demo_verticies[21], demo_verticies[23], demo_verticies[20], color=[0,0,0.0], fill=demo_colors[10])
+                                    dpg.draw_triangle(demo_verticies[23], demo_verticies[22], demo_verticies[20], color=[0,0,0.0], fill=demo_colors[11])
+
+                        def _demo_live_3D_drawing():
+                            view_matrix = dpg.create_fps_matrix([0, 0, 50], 0.0, 0.0)
+                            proj_matrix = dpg.create_perspective_matrix(math.pi*45.0/180.0, 500/500, 0.1, 100)
+                            cube_rot = dpg.get_item_user_data("_demo_3dNode1")
+                            cube_rot[0] = cube_rot[0] + 1.0
+                            cube_rot[1] = cube_rot[1] + 2.0
+                            cube_rot[2] = cube_rot[2] + 3.0
+                            model_matrix = dpg.create_rotation_matrix(math.pi*cube_rot[0]/180.0 , [1, 0, 0])*\
+                                                    dpg.create_rotation_matrix(math.pi*cube_rot[1]/180.0 , [0, 1, 0])*\
+                                                    dpg.create_rotation_matrix(math.pi*cube_rot[2]/180.0 , [0, 0, 1])
+                            dpg.apply_transform("_demo_3dNode1", proj_matrix*view_matrix*model_matrix)
+                            dpg.apply_transform("_demo_3dNode2", proj_matrix*view_matrix*model_matrix)
+                            dpg.apply_transform("_demo_3dNode3", proj_matrix*view_matrix*model_matrix)
+                            dpg.set_item_user_data("_demo_3dNode1", cube_rot)
+
+                        with dpg.item_handler_registry(tag="__demo_item_reg7"):
+                            dpg.add_item_visible_handler(callback=_demo_live_3D_drawing)
+                        dpg.bind_item_handler_registry("_demo_advanced_drawing_3d", dpg.last_container())
 
         with dpg.collapsing_header(label="Inputs & Events"):
 
