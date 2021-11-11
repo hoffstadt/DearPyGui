@@ -263,13 +263,13 @@ Matrices are column major. Post-multiplication is used, for example to scale, th
 you use: Transform = Translate * Rotate * Scale.
 
 The following matrix helper functions are provided:
-**create_rotation_matrix**
-**create_translation_matrix**
-**create_scale_matrix**
-**create_lookat_matrix**
-**create_perspective_matrix**
-**create_orthographic_matrix**
-**create_fps_matrix**
+- **create_rotation_matrix**
+- **create_translation_matrix**
+- **create_scale_matrix**
+- **create_lookat_matrix**
+- **create_perspective_matrix**
+- **create_orthographic_matrix**
+- **create_fps_matrix**
 
 **Code**
 
@@ -373,6 +373,7 @@ This API is for 'light' 3D operations. There are a few issues you may come acros
 the drawing API.
 
 **Issue 1: Z ordering**
+
 With the current API, users are responsible for correct Z ordering. The recommended way to address
 this is to use "painter's algoright". Basically, just order the items in proper depth order.
 
@@ -380,6 +381,7 @@ This is not the best solution overall. We would prefer to use proper depth buffe
 requires pixel level control which is not practical with this API.
 
 **Issue 2: Perspective Texture Correction**
+
 When using draw_image_quad, viewing the image at sharp angles will deform the image. This is
 due to texture coordinates being linearly interpolated in normalized device coordinate space.
 
@@ -387,8 +389,10 @@ There is currently no practical solution but an attempt could be made to split t
 several smaller quads. The actual solution requires pixel level control which is not practical with this API.
 
 **Issue 3: Culling**
+
 Currently, culling is only setup for triangles.
 
 **Dear Py3D and Software Renderer**
+
 All of the above issues will resolved in **Dear Py3D**. Before **Dear Py3D**, we will also be 
 introducing a software renderer for **Dear PyGui** that will resolve the above issues.

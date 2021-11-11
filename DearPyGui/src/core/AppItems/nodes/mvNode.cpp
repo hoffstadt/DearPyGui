@@ -111,8 +111,16 @@ namespace Marvel {
 		}
 
 		// themes
-		if (auto classTheme = getClassThemeComponent())
-			static_cast<mvThemeComponent*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
+		if (_enabled)
+		{
+			if (auto classTheme = getClassThemeComponent())
+				static_cast<mvThemeComponent*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
+		}
+		else
+		{
+			if (auto classTheme = getClassDisabledThemeComponent())
+				static_cast<mvThemeComponent*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
+		}
 
 		if (_theme)
 		{
@@ -185,8 +193,16 @@ namespace Marvel {
 			ImGui::PopFont();
 
 		// handle popping themes
-		if (auto classTheme = getClassThemeComponent())
-			static_cast<mvThemeComponent*>(classTheme.get())->customAction();
+		if (_enabled)
+		{
+			if (auto classTheme = getClassThemeComponent())
+				static_cast<mvThemeComponent*>(classTheme.get())->customAction();
+		}
+		else
+		{
+			if (auto classTheme = getClassDisabledThemeComponent())
+				static_cast<mvThemeComponent*>(classTheme.get())->customAction();
+		}
 
 		if (_theme)
 		{
