@@ -44,7 +44,9 @@ namespace Marvel {
         for (auto& childset : _children)
         {
             for (auto& child : childset)
-                child->draw(drawlist, x, y);
+            {
+                child->draw(nullptr, 0.0f, 0.0f);
+            }
         }
 
     }
@@ -54,7 +56,9 @@ namespace Marvel {
         for (auto& childset : _children)
         {
             for (auto& child : childset)
+            {
                 child->customAction(data);
+            }
         }
         
     }
@@ -78,12 +82,16 @@ namespace Marvel {
                     [&](auto i) {
                         using item_type = typename mvItemTypeMap<i>::type;
                         if (i == _specificType)
+                        {
                             _specificComponentPtr = &item_type::s_class_theme_component;
+                            _specificDisabledComponentPtr = &item_type::s_class_theme_disabled_component;
+                        }
                     });
 
                 if (_specificType == (int)mvAppItemType::All)
                 {
                     _specificComponentPtr = &all_item_theme_component;
+                    _specificDisabledComponentPtr = &all_item_theme_component;
                 }
 
                 break;

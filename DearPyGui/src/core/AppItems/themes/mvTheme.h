@@ -47,11 +47,10 @@ namespace Marvel {
         void setSpecificType(int specificType) { _specificType = specificType; }
         void setSpecificEnabled(int enabled) { _specificEnabled = enabled; }
 
-    private:
+    public:
 
         int _specificType = (int)mvAppItemType::All;
         bool _specificEnabled = true;
 
     };
-
 }

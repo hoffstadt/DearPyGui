@@ -150,7 +150,7 @@ namespace Marvel {
 		case mvPyDataType::Callable:       return " : Callable";
 		case mvPyDataType::Dict:           return " : dict";
 		case mvPyDataType::ListAny:        return " : List[Any]";
-		case mvPyDataType::ListListInt:    return " : List[List[int]]";
+		case mvPyDataType::ListListInt:    return " : List[Union[List[int], Tuple[int, ...]]]";
 		case mvPyDataType::ListFloatList:  return " : List[List[float]]";
 		case mvPyDataType::ListDoubleList: return " : List[List[float]]";
 		case mvPyDataType::ListStrList:    return " : List[List[str]]";

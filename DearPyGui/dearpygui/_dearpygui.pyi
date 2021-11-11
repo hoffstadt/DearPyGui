@@ -74,7 +74,7 @@ def add_color_value(*, label: str ='', user_data: Any ='', use_internal_label: b
 	"""Adds a color value."""
 	...
 
-def add_colormap(colors : List[List[int]], qualitative : bool, *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', show: bool ='', parent: Union[int, str] ='') -> Union[int, str]:
+def add_colormap(colors : List[Union[List[int], Tuple[int, ...]]], qualitative : bool, *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', show: bool ='', parent: Union[int, str] ='') -> Union[int, str]:
 	"""Adds a legend that pairs colors with normalized value 0.0->1.0. Each color will be  This is typically used with a heat series. (ex. [[0, 0, 0, 255], [255, 255, 255, 255]] will be mapped to a soft transition from 0.0-1.0)"""
 	...
 
@@ -162,7 +162,7 @@ def add_file_dialog(*, label: str ='', user_data: Any ='', use_internal_label: b
 	"""Displays a file or directory selector depending on keywords. Displays a file dialog by default. Callback will be ran when the file or directory picker is closed. The app_data arguemnt will be populated with information related to the file and directory as a dictionary."""
 	...
 
-def add_file_extension(extension : str, *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', custom_text: str ='', color: Union[List[float], Tuple[float, ...]] ='') -> Union[int, str]:
+def add_file_extension(extension : str, *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', custom_text: str ='', color: Union[List[int], Tuple[int, ...]] ='') -> Union[int, str]:
 	"""Creates a file extension filter option in the file dialog."""
 	...
 
@@ -534,7 +534,7 @@ def add_template_registry(*, label: str ='', user_data: Any ='', use_internal_la
 	"""Adds a template registry."""
 	...
 
-def add_text(default_value : str ='', *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', wrap: int ='', bullet: bool ='', color: Union[List[float], Tuple[float, ...]] ='', show_label: bool ='') -> Union[int, str]:
+def add_text(default_value : str ='', *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', wrap: int ='', bullet: bool ='', color: Union[List[int], Tuple[int, ...]] ='', show_label: bool ='') -> Union[int, str]:
 	"""Adds text. Text can have an optional label that will display to the right of the text."""
 	...
 

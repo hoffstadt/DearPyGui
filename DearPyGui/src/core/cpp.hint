@@ -19,6 +19,7 @@ template<>struct mvItemTypeReverseMap<class x>{static constexpr mvAppItemType ty
 
 #define MV_APPLY_WIDGET_REGISTRATION(x, parser)\
 static inline mvRef<mvAppItem> s_class_theme_component = nullptr;\
+static inline mvRef<mvAppItem> s_class_theme_disabled_component = nullptr;\
 static constexpr const long s_internal_type = (long)x;\
 static constexpr const char* const s_internal_id = #x;\
 static constexpr const char* const s_command = #parser;\
@@ -27,6 +28,7 @@ int getTarget() const override { return mvItemTypeMap<(int)x>::target; }\
 int getDescFlags() const override { return mvItemTypeMap<(int)x>::flags; }\
 StorageValueTypes getValueType() const override { return mvItemTypeMap<(int)x>::value_type; }\
 mvRef<mvAppItem> getClassThemeComponent() const override { return s_class_theme_component; }\
+mvRef<mvAppItem> getClassDisabledThemeComponent() const override { return s_class_theme_disabled_component; }\
 const char* getCommand() const override { return #parser; }\
 const char* getTypeString() const override { return #x; }\
 const std::vector<std::pair<std::string, int>>& getAllowableParents() const override { return mvItemTypeMap<(int)x>::type::GetAllowableParents(); };\

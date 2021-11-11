@@ -43,6 +43,7 @@ namespace Marvel {
         int _specificType = (int)mvAppItemType::All;
         bool _specificEnabled = true;
         mvRef<mvAppItem>* _specificComponentPtr = nullptr;
+        mvRef<mvAppItem>* _specificDisabledComponentPtr = nullptr;
         mvRef<mvAppItem> _oldComponent = nullptr;
 
     };

@@ -1170,6 +1170,7 @@ namespace Marvel {
     void mvInputInt::setPyValue(PyObject* value)
     {
         *_value = ToInt(value);
+        _last_value = *_value;
     }
 
     void mvInputInt::draw(ImDrawList* drawlist, float x, float y)
@@ -1364,6 +1365,7 @@ namespace Marvel {
     void mvInputFloat::setPyValue(PyObject* value)
     {
         *_value = ToFloat(value);
+        _last_value = *_value;
     }
 
     void mvInputFloat::setDataSource(mvUUID dataSource)
@@ -1389,8 +1391,6 @@ namespace Marvel {
 
     void mvInputFloat::draw(ImDrawList* drawlist, float x, float y)
     {
-
-
 
         //-----------------------------------------------------------------------------
         // pre draw
@@ -1433,8 +1433,16 @@ namespace Marvel {
         }
 
         // themes
-        if (auto classTheme = getClassThemeComponent())
-            static_cast<mvThemeComponent*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
+        if (_enabled)
+        {
+            if (auto classTheme = getClassThemeComponent())
+                static_cast<mvThemeComponent*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
+        }
+        else
+        {
+            if (auto classTheme = getClassDisabledThemeComponent())
+                static_cast<mvThemeComponent*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
+        }
 
         if (_theme)
         {
@@ -1510,8 +1518,16 @@ namespace Marvel {
             ImGui::PopFont();
 
         // handle popping themes
-        if (auto classTheme = getClassThemeComponent())
-            static_cast<mvThemeComponent*>(classTheme.get())->customAction();
+        if (_enabled)
+        {
+            if (auto classTheme = getClassThemeComponent())
+                static_cast<mvThemeComponent*>(classTheme.get())->customAction();
+        }
+        else
+        {
+            if (auto classTheme = getClassDisabledThemeComponent())
+                static_cast<mvThemeComponent*>(classTheme.get())->customAction();
+        }
 
         if (_theme)
         {

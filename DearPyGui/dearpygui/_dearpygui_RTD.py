@@ -3716,7 +3716,7 @@ def add_file_extension(extension, **kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		custom_text (str, optional): Replaces the displayed text in the drop down for this extension.
-		color (Union[List[float], Tuple[float, ...]], optional): Color for the text that will be shown with specified extensions.
+		color (Union[List[int], Tuple[int, ...]], optional): Color for the text that will be shown with specified extensions.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -6011,7 +6011,7 @@ def add_text(default_value='', **kwargs):
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		wrap (int, optional): Number of pixels from the start of the item until wrapping starts.
 		bullet (bool, optional): Places a bullet to the left of the text.
-		color (Union[List[float], Tuple[float, ...]], optional): Color of the text (rgba).
+		color (Union[List[int], Tuple[int, ...]], optional): Color of the text (rgba).
 		show_label (bool, optional): Displays the label to the right of the text.
 		id (Union[int, str], optional): (deprecated)
 	Returns:

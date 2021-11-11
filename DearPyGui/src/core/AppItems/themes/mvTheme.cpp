@@ -71,6 +71,11 @@ namespace Marvel {
 					comp->_oldComponent = *comp->_specificComponentPtr;
 					*comp->_specificComponentPtr = child;
 				}
+				else
+				{
+					comp->_oldComponent = *comp->_specificDisabledComponentPtr;
+					*comp->_specificDisabledComponentPtr = child;
+				}
 			}
 		}
 	}
@@ -93,6 +98,10 @@ namespace Marvel {
 				if (_specificEnabled == comp->_specificEnabled)
 				{
 					*comp->_specificComponentPtr = comp->_oldComponent;
+				}
+				else
+				{
+					*comp->_specificDisabledComponentPtr = comp->_oldComponent;
 				}
 			}
 		}

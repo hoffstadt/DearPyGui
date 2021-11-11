@@ -3360,7 +3360,7 @@ def add_color_value(*, label: str =None, user_data: Any =None, use_internal_labe
 
 	return internal_dpg.add_color_value(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, source=source, default_value=default_value, parent=parent, **kwargs)
 
-def add_colormap(colors : List[List[int]], qualitative : bool, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, show: bool =True, parent: Union[int, str] =internal_dpg.mvReservedUUID_4, **kwargs) -> Union[int, str]:
+def add_colormap(colors : List[Union[List[int], Tuple[int, ...]]], qualitative : bool, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, show: bool =True, parent: Union[int, str] =internal_dpg.mvReservedUUID_4, **kwargs) -> Union[int, str]:
 	"""	 Adds a legend that pairs colors with normalized value 0.0->1.0. Each color will be  This is typically used with a heat series. (ex. [[0, 0, 0, 255], [255, 255, 255, 255]] will be mapped to a soft transition from 0.0-1.0)
 
 	Args:
@@ -4038,7 +4038,7 @@ def add_file_dialog(*, label: str =None, user_data: Any =None, use_internal_labe
 
 	return internal_dpg.add_file_dialog(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, callback=callback, show=show, default_path=default_path, default_filename=default_filename, file_count=file_count, modal=modal, directory_selector=directory_selector, **kwargs)
 
-def add_file_extension(extension : str, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, parent: Union[int, str] =0, before: Union[int, str] =0, custom_text: str ='', color: Union[List[float], Tuple[float, ...]] =(-255, 0, 0, 255), **kwargs) -> Union[int, str]:
+def add_file_extension(extension : str, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, parent: Union[int, str] =0, before: Union[int, str] =0, custom_text: str ='', color: Union[List[int], Tuple[int, ...]] =(-255, 0, 0, 255), **kwargs) -> Union[int, str]:
 	"""	 Creates a file extension filter option in the file dialog.
 
 	Args:
@@ -4052,7 +4052,7 @@ def add_file_extension(extension : str, *, label: str =None, user_data: Any =Non
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		custom_text (str, optional): Replaces the displayed text in the drop down for this extension.
-		color (Union[List[float], Tuple[float, ...]], optional): Color for the text that will be shown with specified extensions.
+		color (Union[List[int], Tuple[int, ...]], optional): Color for the text that will be shown with specified extensions.
 		id (Union[int, str], optional): (deprecated) 
 	Returns:
 		Union[int, str]
@@ -6708,7 +6708,7 @@ def add_template_registry(*, label: str =None, user_data: Any =None, use_interna
 
 	return internal_dpg.add_template_registry(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, **kwargs)
 
-def add_text(default_value : str ='', *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, wrap: int =-1, bullet: bool =False, color: Union[List[float], Tuple[float, ...]] =(-1, -1, -1, -1), show_label: bool =False, **kwargs) -> Union[int, str]:
+def add_text(default_value : str ='', *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, wrap: int =-1, bullet: bool =False, color: Union[List[int], Tuple[int, ...]] =(-255, 0, 0, 255), show_label: bool =False, **kwargs) -> Union[int, str]:
 	"""	 Adds text. Text can have an optional label that will display to the right of the text.
 
 	Args:
@@ -6731,7 +6731,7 @@ def add_text(default_value : str ='', *, label: str =None, user_data: Any =None,
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		wrap (int, optional): Number of pixels from the start of the item until wrapping starts.
 		bullet (bool, optional): Places a bullet to the left of the text.
-		color (Union[List[float], Tuple[float, ...]], optional): Color of the text (rgba).
+		color (Union[List[int], Tuple[int, ...]], optional): Color of the text (rgba).
 		show_label (bool, optional): Displays the label to the right of the text.
 		id (Union[int, str], optional): (deprecated) 
 	Returns:

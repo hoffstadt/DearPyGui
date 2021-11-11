@@ -130,6 +130,7 @@ namespace Marvel {
         //   - MV_APPLY_WIDGET_REGISTRATION
         //-----------------------------------------------------------------------------
         [[nodiscard]] virtual mvRef<mvAppItem>  getClassThemeComponent() const = 0;
+        [[nodiscard]] virtual mvRef<mvAppItem>  getClassDisabledThemeComponent() const = 0;
         [[nodiscard]] virtual mvAppItemType     getType      () const { return mvAppItemType::None; } // should be pure, see #1071
         [[nodiscard]] virtual i32               getDescFlags () const = 0;
         [[nodiscard]] virtual i32               getTarget    () const = 0; // which child slot
@@ -250,7 +251,6 @@ namespace Marvel {
 
         // theme
         mvRef<mvAppItem> _theme = nullptr;
-        mvRef<mvAppItem> _themeComponent = nullptr;
 
         // drag & drop
         PyObject* _dragCallback = nullptr;

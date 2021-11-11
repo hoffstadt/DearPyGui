@@ -21,7 +21,7 @@ namespace Marvel {
 
 			args.push_back({ mvPyDataType::String, "extension", mvArgType::REQUIRED_ARG, "*", "Extension that will show as an when the parent is a file dialog." });
 			args.push_back({ mvPyDataType::String, "custom_text", mvArgType::KEYWORD_ARG, "''", "Replaces the displayed text in the drop down for this extension." });
-			args.push_back({ mvPyDataType::FloatList, "color", mvArgType::KEYWORD_ARG, "(-255, 0, 0, 255)", "Color for the text that will be shown with specified extensions."});
+			args.push_back({ mvPyDataType::IntList, "color", mvArgType::KEYWORD_ARG, "(-255, 0, 0, 255)", "Color for the text that will be shown with specified extensions."});
 
 			mvPythonParserSetup setup;
 			setup.about = "Creates a file extension filter option in the file dialog.";

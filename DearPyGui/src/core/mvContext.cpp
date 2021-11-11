@@ -132,6 +132,7 @@ namespace Marvel {
             [&](auto i) {
                 using item_type = typename mvItemTypeMap<i>::type;
                 item_type::s_class_theme_component = nullptr;
+                item_type::s_class_theme_disabled_component = nullptr;
             });
 
         mvSubmitCallback([=]() {
