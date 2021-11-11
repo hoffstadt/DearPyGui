@@ -375,7 +375,7 @@ the drawing API.
 **Issue 1: Z ordering**
 
 With the current API, users are responsible for correct Z ordering. The recommended way to address
-this is to use "painter's algoright". Basically, just order the items in proper depth order.
+this is to use "painter's algorithm". Basically, just order the items in proper depth order.
 
 This is not the best solution overall. We would prefer to use proper depth buffering but this
 requires pixel level control which is not practical with this API.
