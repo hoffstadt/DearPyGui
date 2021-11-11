@@ -59,10 +59,6 @@ namespace Marvel {
         void handleSpecificKeywordArgs(PyObject* dict) override;
         void getSpecificConfiguration(PyObject* dict) override;
 
-    public:
-
-        mvMat4 _viewportTransform = mvIdentityMat4();
-
     };
 
 }

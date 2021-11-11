@@ -91,21 +91,12 @@ namespace Marvel {
 	void mvDrawArrow::draw(ImDrawList* drawlist, float x, float y)
 	{
 
-		mvVec4  tp1 = _p1;
-		mvVec4  tp2 = _p2;
+		mvVec4  tp1 = _transform * _p1;
+		mvVec4  tp2 = _transform * _p2;
 
-		mvVec4  tpp1 = _points[0];
-		mvVec4  tpp2 = _points[1];
-		mvVec4  tpp3 = _points[2];
-
-		if (!_transformIsIdentity)
-		{
-			tp1 = _transform * _p1;
-			tp2 = _transform * _p2;
-			tpp1 = _transform * _points[0];
-			tpp2 = _transform * _points[1];
-			tpp3 = _transform * _points[2];
-		}
+		mvVec4  tpp1 = _transform * _points[0];
+		mvVec4  tpp2 = _transform * _points[1];
+		mvVec4  tpp3 = _transform * _points[2];
 
 		if (_perspectiveDivide)
 		{

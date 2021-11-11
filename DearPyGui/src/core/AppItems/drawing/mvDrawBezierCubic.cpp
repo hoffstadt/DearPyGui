@@ -54,18 +54,10 @@ namespace Marvel {
 
 	void mvDrawBezierCubic::draw(ImDrawList* drawlist, float x, float y)
 	{
-		mvVec4  tp1 = _p1;
-		mvVec4  tp2 = _p2;
-		mvVec4  tp3 = _p3;
-		mvVec4  tp4 = _p4;
-
-		if (!_transformIsIdentity)
-		{
-			tp1 = _transform * _p1;
-			tp2 = _transform * _p2;
-			tp3 = _transform * _p3;
-			tp4 = _transform * _p4;
-		}
+		mvVec4  tp1 = _transform * _p1;
+		mvVec4  tp2 = _transform * _p2;
+		mvVec4  tp3 = _transform * _p3;
+		mvVec4  tp4 = _transform * _p4;
 
 		if (_perspectiveDivide)
 		{

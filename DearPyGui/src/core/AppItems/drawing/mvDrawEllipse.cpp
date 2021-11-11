@@ -55,14 +55,8 @@ namespace Marvel {
 
 	void mvDrawEllipse::draw(ImDrawList* drawlist, float x, float y)
 	{
-		mvVec4  tpmin = _pmin;
-		mvVec4  tpmax = _pmax;
-
-		if (!_transformIsIdentity)
-		{
-			tpmin = _transform * _pmin;
-			tpmax = _transform * _pmax;
-		}
+		mvVec4  tpmin = _transform * _pmin;
+		mvVec4  tpmax = _transform * _pmax;
 
 		if (_perspectiveDivide)
 		{
@@ -101,11 +95,8 @@ namespace Marvel {
 
 		std::vector<mvVec4> points = _points;
 
-		if (!_transformIsIdentity)
-		{
-			for(auto& point : points)
-				point = _transform * point;
-		}
+		for(auto& point : points)
+			point = _transform * point;
 
 		if (ImPlot::GetCurrentContext()->CurrentPlot)
 		{

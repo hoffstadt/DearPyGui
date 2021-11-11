@@ -1602,7 +1602,7 @@ def drag_payload(**kwargs):
 
 @contextmanager
 def draw_layer(**kwargs):
-	"""	 Creates a layer useful for grouping drawlist items.
+	"""	 New in 1.1. Creates a layer useful for grouping drawlist items.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -1614,7 +1614,7 @@ def draw_layer(**kwargs):
 		show (bool, optional): Attempt to render widget.
 		perspective_divide (bool, optional): apply perspective divide
 		depth_clipping (bool, optional): apply depth clipping
-		cull_mode (int, optional): 
+		cull_mode (int, optional): culling mode, mvCullMode_* constants. Only works with triangles currently.
 		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
@@ -1628,7 +1628,7 @@ def draw_layer(**kwargs):
 
 @contextmanager
 def draw_node(**kwargs):
-	"""	 Creates a layer useful for grouping drawlist items.
+	"""	 New in 1.1. Creates a drawing node to associate a transformation matrix. Child node matricies will concatenate.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -3570,7 +3570,7 @@ def add_drag_point(**kwargs):
 	return internal_dpg.add_drag_point(**kwargs)
 
 def add_draw_layer(**kwargs):
-	"""	 Creates a layer useful for grouping drawlist items.
+	"""	 New in 1.1. Creates a layer useful for grouping drawlist items.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -3582,7 +3582,7 @@ def add_draw_layer(**kwargs):
 		show (bool, optional): Attempt to render widget.
 		perspective_divide (bool, optional): apply perspective divide
 		depth_clipping (bool, optional): apply depth clipping
-		cull_mode (int, optional): 
+		cull_mode (int, optional): culling mode, mvCullMode_* constants. Only works with triangles currently.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -3591,7 +3591,7 @@ def add_draw_layer(**kwargs):
 	return internal_dpg.add_draw_layer(**kwargs)
 
 def add_draw_node(**kwargs):
-	"""	 Creates a layer useful for grouping drawlist items.
+	"""	 New in 1.1. Creates a drawing node to associate a transformation matrix. Child node matricies will concatenate.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -6327,11 +6327,11 @@ def add_window(**kwargs):
 	return internal_dpg.add_window(**kwargs)
 
 def apply_transform(item, transform):
-	"""	 Applies a transformation matrix to a layer.
+	"""	 New in 1.1. Applies a transformation matrix to a layer.
 
 	Args:
-		item (Union[int, str]): item that the color map will be applied to
-		transform (Any): item that the color map will be applied to
+		item (Union[int, str]): Drawing node to apply transform to.
+		transform (Any): Transformation matrix.
 	Returns:
 		None
 	"""
@@ -6463,41 +6463,41 @@ def create_context():
 	return internal_dpg.create_context()
 
 def create_fps_matrix(eye, pitch, yaw):
-	"""	 Applies a transformation matrix to a layer.
+	"""	 New in 1.1. Create a 'first person shooter' matrix.
 
 	Args:
-		eye (Union[List[float], Tuple[float, ...]]): scale value per axis
-		pitch (float): scale value per axis
-		yaw (float): scale value per axis
+		eye (Union[List[float], Tuple[float, ...]]): eye position
+		pitch (float): pitch (in radians)
+		yaw (float): yaw (in radians)
 	Returns:
 		Any
 	"""
 
 	return internal_dpg.create_fps_matrix(eye, pitch, yaw)
 
-def create_lookat_matrix(eye, center, up):
-	"""	 Applies a transformation matrix to a layer.
+def create_lookat_matrix(eye, target, up):
+	"""	 New in 1.1. Creates a 'Look at matrix'.
 
 	Args:
-		eye (Union[List[float], Tuple[float, ...]]): scale value per axis
-		center (Union[List[float], Tuple[float, ...]]): scale value per axis
-		up (Union[List[float], Tuple[float, ...]]): scale value per axis
+		eye (Union[List[float], Tuple[float, ...]]): eye position
+		target (Union[List[float], Tuple[float, ...]]): target position
+		up (Union[List[float], Tuple[float, ...]]): up vector
 	Returns:
 		Any
 	"""
 
-	return internal_dpg.create_lookat_matrix(eye, center, up)
+	return internal_dpg.create_lookat_matrix(eye, target, up)
 
 def create_orthographic_matrix(left, right, bottom, top, zNear, zFar):
-	"""	 Applies a transformation matrix to a layer.
+	"""	 New in 1.1. Creates an orthographic matrix.
 
 	Args:
-		left (float): angle to rotate
-		right (float): angle to rotate
-		bottom (float): angle to rotate
-		top (float): angle to rotate
-		zNear (float): angle to rotate
-		zFar (float): angle to rotate
+		left (float): left plane
+		right (float): right plane
+		bottom (float): bottom plane
+		top (float): top plane
+		zNear (float): Near clipping plane.
+		zFar (float): Far clipping plane.
 	Returns:
 		Any
 	"""
@@ -6505,13 +6505,13 @@ def create_orthographic_matrix(left, right, bottom, top, zNear, zFar):
 	return internal_dpg.create_orthographic_matrix(left, right, bottom, top, zNear, zFar)
 
 def create_perspective_matrix(fov, aspect, zNear, zFar):
-	"""	 Applies a transformation matrix to a layer.
+	"""	 New in 1.1. Creates a perspective matrix.
 
 	Args:
-		fov (float): angle to rotate
-		aspect (float): angle to rotate
-		zNear (float): angle to rotate
-		zFar (float): angle to rotate
+		fov (float): Field of view (in radians)
+		aspect (float): Aspect ratio (width/height)
+		zNear (float): Near clipping plane.
+		zFar (float): Far clipping plane.
 	Returns:
 		Any
 	"""
@@ -6519,7 +6519,7 @@ def create_perspective_matrix(fov, aspect, zNear, zFar):
 	return internal_dpg.create_perspective_matrix(fov, aspect, zNear, zFar)
 
 def create_rotation_matrix(angle, axis):
-	"""	 Applies a transformation matrix to a layer.
+	"""	 New in 1.1. Applies a transformation matrix to a layer.
 
 	Args:
 		angle (float): angle to rotate
@@ -6531,10 +6531,10 @@ def create_rotation_matrix(angle, axis):
 	return internal_dpg.create_rotation_matrix(angle, axis)
 
 def create_scale_matrix(scales):
-	"""	 Applies a transformation matrix to a layer.
+	"""	 New in 1.1. Applies a transformation matrix to a layer.
 
 	Args:
-		scales (Union[List[float], Tuple[float, ...]]): scale value per axis
+		scales (Union[List[float], Tuple[float, ...]]): scale values per axis
 	Returns:
 		Any
 	"""
@@ -6542,10 +6542,10 @@ def create_scale_matrix(scales):
 	return internal_dpg.create_scale_matrix(scales)
 
 def create_translation_matrix(translation):
-	"""	 Applies a transformation matrix to a layer.
+	"""	 New in 1.1. Creates a translation matrix.
 
 	Args:
-		translation (Union[List[float], Tuple[float, ...]]): translation
+		translation (Union[List[float], Tuple[float, ...]]): translation vector
 	Returns:
 		Any
 	"""
@@ -7795,10 +7795,10 @@ def set_axis_ticks(axis, label_pairs):
 	return internal_dpg.set_axis_ticks(axis, label_pairs)
 
 def set_clip_space(item, top_left_x, top_left_y, width, height, min_depth, max_depth):
-	"""	 Applies a transformation matrix to a layer.
+	"""	 New in 1.1. Set the clip space for depth clipping and 'viewport' transformation.
 
 	Args:
-		item (Union[int, str]): item that the color map will be applied to
+		item (Union[int, str]): draw layer to set clip space
 		top_left_x (float): angle to rotate
 		top_left_y (float): angle to rotate
 		width (float): angle to rotate

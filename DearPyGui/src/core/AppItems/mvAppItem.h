@@ -280,11 +280,9 @@ namespace Marvel {
         // only for draw cmds and layers (unfortunately this is the best place
         // to put it for the moment.
         mvMat4 _transform = mvIdentityMat4();
-        b8     _transformIsIdentity = true;
 
         // only used by nodes
         mvMat4 _appliedTransform = mvIdentityMat4();
-        b8     _appliedTransformIsIdentity = true;
 
         // only used by draw items
         long    _cullMode = 0; // mvCullMode_None

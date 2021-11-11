@@ -52,12 +52,7 @@ namespace Marvel {
 
 	void mvDrawCircle::draw(ImDrawList* drawlist, float x, float y)
 	{
-		mvVec4  tcenter = _center;
-
-		if (!_transformIsIdentity)
-		{
-			tcenter = _transform * _center;
-		}
+		mvVec4  tcenter = _transform * _center;
 
 		if (_perspectiveDivide)
 		{

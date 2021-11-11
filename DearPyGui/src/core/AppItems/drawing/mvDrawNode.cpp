@@ -19,8 +19,8 @@ namespace Marvel {
                           );
 
             mvPythonParserSetup setup;
-            setup.about = "Creates a layer useful for grouping drawlist items.";
-            setup.category = { "Drawlist", "Widgets" };
+            setup.about = "New in 1.1. Creates a drawing node to associate a transformation matrix. Child node matricies will concatenate.";
+            setup.category = { "Drawlist", "Widgets", "Matrix Operations"};
             setup.returnType = mvPyDataType::UUID;
             setup.createContextManager = true;
 
@@ -32,12 +32,12 @@ namespace Marvel {
         {
             std::vector<mvPythonDataElement> args;
 
-            args.push_back({ mvPyDataType::UUID, "item", mvArgType::REQUIRED_ARG, "", "item that the color map will be applied to"});
-            args.push_back({ mvPyDataType::Object, "transform", mvArgType::REQUIRED_ARG, "", "item that the color map will be applied to"});
+            args.push_back({ mvPyDataType::UUID, "item", mvArgType::REQUIRED_ARG, "", "Drawing node to apply transform to."});
+            args.push_back({ mvPyDataType::Object, "transform", mvArgType::REQUIRED_ARG, "", "Transformation matrix."});
 
             mvPythonParserSetup setup;
-            setup.about = "Applies a transformation matrix to a layer.";
-            setup.category = { "Drawlist", "Widgets" };
+            setup.about = "New in 1.1. Applies a transformation matrix to a layer.";
+            setup.category = { "Drawlist", "Matrix Operations" };
 
             mvPythonParser parser = FinalizeParser(setup, args);
 
@@ -51,8 +51,8 @@ namespace Marvel {
             args.push_back({ mvPyDataType::FloatList, "axis", mvArgType::REQUIRED_ARG, "", "axis to rotate around" });
 
             mvPythonParserSetup setup;
-            setup.about = "Applies a transformation matrix to a layer.";
-            setup.category = { "Drawlist", "Widgets" };
+            setup.about = "New in 1.1. Applies a transformation matrix to a layer.";
+            setup.category = { "Drawlist", "Matrix Operations" };
             setup.returnType = mvPyDataType::Object;
 
             mvPythonParser parser = FinalizeParser(setup, args);
@@ -63,11 +63,11 @@ namespace Marvel {
         {
             std::vector<mvPythonDataElement> args;
 
-            args.push_back({ mvPyDataType::FloatList, "scales", mvArgType::REQUIRED_ARG, "", "scale value per axis" });
+            args.push_back({ mvPyDataType::FloatList, "scales", mvArgType::REQUIRED_ARG, "", "scale values per axis" });
 
             mvPythonParserSetup setup;
-            setup.about = "Applies a transformation matrix to a layer.";
-            setup.category = { "Drawlist", "Widgets" };
+            setup.about = "New in 1.1. Applies a transformation matrix to a layer.";
+            setup.category = { "Drawlist", "Matrix Operations" };
             setup.returnType = mvPyDataType::Object;
 
             mvPythonParser parser = FinalizeParser(setup, args);
@@ -78,11 +78,11 @@ namespace Marvel {
         {
             std::vector<mvPythonDataElement> args;
 
-            args.push_back({ mvPyDataType::FloatList, "translation", mvArgType::REQUIRED_ARG, "", "translation" });
+            args.push_back({ mvPyDataType::FloatList, "translation", mvArgType::REQUIRED_ARG, "", "translation vector" });
 
             mvPythonParserSetup setup;
-            setup.about = "Applies a transformation matrix to a layer.";
-            setup.category = { "Drawlist", "Widgets" };
+            setup.about = "New in 1.1. Creates a translation matrix.";
+            setup.category = { "Drawlist", "Matrix Operations" };
             setup.returnType = mvPyDataType::Object;
 
             mvPythonParser parser = FinalizeParser(setup, args);
@@ -93,13 +93,13 @@ namespace Marvel {
         {
             std::vector<mvPythonDataElement> args;
 
-            args.push_back({ mvPyDataType::FloatList, "eye", mvArgType::REQUIRED_ARG, "", "scale value per axis" });
-            args.push_back({ mvPyDataType::FloatList, "center", mvArgType::REQUIRED_ARG, "", "scale value per axis" });
-            args.push_back({ mvPyDataType::FloatList, "up", mvArgType::REQUIRED_ARG, "", "scale value per axis" });
+            args.push_back({ mvPyDataType::FloatList, "eye", mvArgType::REQUIRED_ARG, "", "eye position" });
+            args.push_back({ mvPyDataType::FloatList, "target", mvArgType::REQUIRED_ARG, "", "target position" });
+            args.push_back({ mvPyDataType::FloatList, "up", mvArgType::REQUIRED_ARG, "", "up vector" });
 
             mvPythonParserSetup setup;
-            setup.about = "Applies a transformation matrix to a layer.";
-            setup.category = { "Drawlist", "Widgets" };
+            setup.about = "New in 1.1. Creates a 'Look at matrix'.";
+            setup.category = { "Drawlist", "Matrix Operations" };
             setup.returnType = mvPyDataType::Object;
 
             mvPythonParser parser = FinalizeParser(setup, args);
@@ -110,14 +110,14 @@ namespace Marvel {
         {
             std::vector<mvPythonDataElement> args;
 
-            args.push_back({ mvPyDataType::Float, "fov", mvArgType::REQUIRED_ARG, "", "angle to rotate" });
-            args.push_back({ mvPyDataType::Float, "aspect", mvArgType::REQUIRED_ARG, "", "angle to rotate" });
-            args.push_back({ mvPyDataType::Float, "zNear", mvArgType::REQUIRED_ARG, "", "angle to rotate" });
-            args.push_back({ mvPyDataType::Float, "zFar", mvArgType::REQUIRED_ARG, "", "angle to rotate" });
+            args.push_back({ mvPyDataType::Float, "fov", mvArgType::REQUIRED_ARG, "", "Field of view (in radians)" });
+            args.push_back({ mvPyDataType::Float, "aspect", mvArgType::REQUIRED_ARG, "", "Aspect ratio (width/height)" });
+            args.push_back({ mvPyDataType::Float, "zNear", mvArgType::REQUIRED_ARG, "", "Near clipping plane." });
+            args.push_back({ mvPyDataType::Float, "zFar", mvArgType::REQUIRED_ARG, "", "Far clipping plane." });
 
             mvPythonParserSetup setup;
-            setup.about = "Applies a transformation matrix to a layer.";
-            setup.category = { "Drawlist", "Widgets" };
+            setup.about = "New in 1.1. Creates a perspective matrix.";
+            setup.category = { "Drawlist", "Matrix Operations" };
             setup.returnType = mvPyDataType::Object;
 
             mvPythonParser parser = FinalizeParser(setup, args);
@@ -128,16 +128,16 @@ namespace Marvel {
         {
             std::vector<mvPythonDataElement> args;
 
-            args.push_back({ mvPyDataType::Float, "left", mvArgType::REQUIRED_ARG, "", "angle to rotate" });
-            args.push_back({ mvPyDataType::Float, "right", mvArgType::REQUIRED_ARG, "", "angle to rotate" });
-            args.push_back({ mvPyDataType::Float, "bottom", mvArgType::REQUIRED_ARG, "", "angle to rotate" });
-            args.push_back({ mvPyDataType::Float, "top", mvArgType::REQUIRED_ARG, "", "angle to rotate" });
-            args.push_back({ mvPyDataType::Float, "zNear", mvArgType::REQUIRED_ARG, "", "angle to rotate" });
-            args.push_back({ mvPyDataType::Float, "zFar", mvArgType::REQUIRED_ARG, "", "angle to rotate" });
+            args.push_back({ mvPyDataType::Float, "left", mvArgType::REQUIRED_ARG, "", "left plane" });
+            args.push_back({ mvPyDataType::Float, "right", mvArgType::REQUIRED_ARG, "", "right plane" });
+            args.push_back({ mvPyDataType::Float, "bottom", mvArgType::REQUIRED_ARG, "", "bottom plane" });
+            args.push_back({ mvPyDataType::Float, "top", mvArgType::REQUIRED_ARG, "", "top plane" });
+            args.push_back({ mvPyDataType::Float, "zNear", mvArgType::REQUIRED_ARG, "", "Near clipping plane." });
+            args.push_back({ mvPyDataType::Float, "zFar", mvArgType::REQUIRED_ARG, "", "Far clipping plane." });
 
             mvPythonParserSetup setup;
-            setup.about = "Applies a transformation matrix to a layer.";
-            setup.category = { "Drawlist", "Widgets" };
+            setup.about = "New in 1.1. Creates an orthographic matrix.";
+            setup.category = { "Drawlist", "Matrix Operations" };
             setup.returnType = mvPyDataType::Object;
 
             mvPythonParser parser = FinalizeParser(setup, args);
@@ -148,13 +148,13 @@ namespace Marvel {
         {
             std::vector<mvPythonDataElement> args;
 
-            args.push_back({ mvPyDataType::FloatList, "eye", mvArgType::REQUIRED_ARG, "", "scale value per axis" });
-            args.push_back({ mvPyDataType::Float, "pitch", mvArgType::REQUIRED_ARG, "", "scale value per axis" });
-            args.push_back({ mvPyDataType::Float, "yaw", mvArgType::REQUIRED_ARG, "", "scale value per axis" });
+            args.push_back({ mvPyDataType::FloatList, "eye", mvArgType::REQUIRED_ARG, "", "eye position" });
+            args.push_back({ mvPyDataType::Float, "pitch", mvArgType::REQUIRED_ARG, "", "pitch (in radians)" });
+            args.push_back({ mvPyDataType::Float, "yaw", mvArgType::REQUIRED_ARG, "", "yaw (in radians)" });
 
             mvPythonParserSetup setup;
-            setup.about = "Applies a transformation matrix to a layer.";
-            setup.category = { "Drawlist", "Widgets" };
+            setup.about = "New in 1.1. Create a 'first person shooter' matrix.";
+            setup.category = { "Drawlist", "Matrix Operations" };
             setup.returnType = mvPyDataType::Object;
 
             mvPythonParser parser = FinalizeParser(setup, args);
@@ -177,55 +177,26 @@ namespace Marvel {
 	void mvDrawNode::draw(ImDrawList* drawlist, float x, float y)
 	{
 
-        if(_appliedTransformIsIdentity)
+        for (auto& item : _children[2])
         {
-            for (auto& item : _children[2])
-            {
-                // skip item if it's not shown
-                if (!item->_show)
-                    continue;
+            // skip item if it's not shown
+            if (!item->_show)
+                continue;
 
-                item->_transformIsIdentity = true;
-                item->_appliedTransformIsIdentity = true;
-                item->_perspectiveDivide = _perspectiveDivide;
-                item->_depthClipping = _depthClipping;
-                item->_cullMode = _cullMode;
-                item->_clipViewport[0] = _clipViewport[0];
-                item->_clipViewport[1] = _clipViewport[1];
-                item->_clipViewport[2] = _clipViewport[2];
-                item->_clipViewport[3] = _clipViewport[3];
-                item->_clipViewport[4] = _clipViewport[4];
-                item->_clipViewport[5] = _clipViewport[5];
-                item->draw(drawlist, x, y);
+            item->_transform =   _transform * _appliedTransform;
 
-                UpdateAppItemState(item->_state);
-            }
-        }
-        else
-        {
-            for (auto& item : _children[2])
-            {
-                // skip item if it's not shown
-                if (!item->_show)
-                    continue;
+            item->_perspectiveDivide = _perspectiveDivide;
+            item->_depthClipping = _depthClipping;
+            item->_cullMode = _cullMode;
+            item->_clipViewport[0] = _clipViewport[0];
+            item->_clipViewport[1] = _clipViewport[1];
+            item->_clipViewport[2] = _clipViewport[2];
+            item->_clipViewport[3] = _clipViewport[3];
+            item->_clipViewport[4] = _clipViewport[4];
+            item->_clipViewport[5] = _clipViewport[5];
+            item->draw(drawlist, x, y);
 
-                item->_transform =   _transform * _appliedTransform;
-
-                item->_transformIsIdentity = false;
-                item->_appliedTransformIsIdentity = false;
-                item->_perspectiveDivide = _perspectiveDivide;
-                item->_depthClipping = _depthClipping;
-                item->_cullMode = _cullMode;
-                item->_clipViewport[0] = _clipViewport[0];
-                item->_clipViewport[1] = _clipViewport[1];
-                item->_clipViewport[2] = _clipViewport[2];
-                item->_clipViewport[3] = _clipViewport[3];
-                item->_clipViewport[4] = _clipViewport[4];
-                item->_clipViewport[5] = _clipViewport[5];
-                item->draw(drawlist, x, y);
-
-                UpdateAppItemState(item->_state);
-            }
+            UpdateAppItemState(item->_state);
         }
 	}
 
@@ -268,8 +239,6 @@ namespace Marvel {
         {
             mvDrawNode* graph = static_cast<mvDrawNode*>(aitem);
             graph->_appliedTransform = atransform->m;
-            graph->_appliedTransformIsIdentity = false;
-            // TODO: added check for identity and set back to false
         }
 
         else

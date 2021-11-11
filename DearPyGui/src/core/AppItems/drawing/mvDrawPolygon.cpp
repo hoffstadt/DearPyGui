@@ -51,11 +51,8 @@ namespace Marvel {
 		mvVec4 start = { x, y };
 		std::vector<mvVec4> points = _points;
 
-		if (!_transformIsIdentity)
-		{
-			for (auto& point : points)
-				point = _transform * point;
-		}
+		for (auto& point : points)
+			point = _transform * point;
 
 		if (_perspectiveDivide)
 		{

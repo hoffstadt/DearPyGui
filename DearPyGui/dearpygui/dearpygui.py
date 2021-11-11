@@ -1622,7 +1622,7 @@ def drag_payload(*, label: str =None, user_data: Any =None, use_internal_label: 
 
 @contextmanager
 def draw_layer(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, perspective_divide: bool =False, depth_clipping: bool =False, cull_mode: int =0, **kwargs) -> Union[int, str]:
-	"""	 Creates a layer useful for grouping drawlist items.
+	"""	 New in 1.1. Creates a layer useful for grouping drawlist items.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -1634,7 +1634,7 @@ def draw_layer(*, label: str =None, user_data: Any =None, use_internal_label: bo
 		show (bool, optional): Attempt to render widget.
 		perspective_divide (bool, optional): apply perspective divide
 		depth_clipping (bool, optional): apply depth clipping
-		cull_mode (int, optional): 
+		cull_mode (int, optional): culling mode, mvCullMode_* constants. Only works with triangles currently.
 		id (Union[int, str], optional): (deprecated) 
 	Yields:
 		Union[int, str]
@@ -1652,7 +1652,7 @@ def draw_layer(*, label: str =None, user_data: Any =None, use_internal_label: bo
 
 @contextmanager
 def draw_node(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, **kwargs) -> Union[int, str]:
-	"""	 Creates a layer useful for grouping drawlist items.
+	"""	 New in 1.1. Creates a drawing node to associate a transformation matrix. Child node matricies will concatenate.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -3882,7 +3882,7 @@ def add_drag_point(*, label: str =None, user_data: Any =None, use_internal_label
 	return internal_dpg.add_drag_point(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, source=source, callback=callback, show=show, default_value=default_value, color=color, thickness=thickness, show_label=show_label, **kwargs)
 
 def add_draw_layer(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, perspective_divide: bool =False, depth_clipping: bool =False, cull_mode: int =0, **kwargs) -> Union[int, str]:
-	"""	 Creates a layer useful for grouping drawlist items.
+	"""	 New in 1.1. Creates a layer useful for grouping drawlist items.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -3894,7 +3894,7 @@ def add_draw_layer(*, label: str =None, user_data: Any =None, use_internal_label
 		show (bool, optional): Attempt to render widget.
 		perspective_divide (bool, optional): apply perspective divide
 		depth_clipping (bool, optional): apply depth clipping
-		cull_mode (int, optional): 
+		cull_mode (int, optional): culling mode, mvCullMode_* constants. Only works with triangles currently.
 		id (Union[int, str], optional): (deprecated) 
 	Returns:
 		Union[int, str]
@@ -3907,7 +3907,7 @@ def add_draw_layer(*, label: str =None, user_data: Any =None, use_internal_label
 	return internal_dpg.add_draw_layer(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, show=show, perspective_divide=perspective_divide, depth_clipping=depth_clipping, cull_mode=cull_mode, **kwargs)
 
 def add_draw_node(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, **kwargs) -> Union[int, str]:
-	"""	 Creates a layer useful for grouping drawlist items.
+	"""	 New in 1.1. Creates a drawing node to associate a transformation matrix. Child node matricies will concatenate.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -7113,11 +7113,11 @@ def add_window(*, label: str =None, user_data: Any =None, use_internal_label: bo
 	return internal_dpg.add_window(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, show=show, pos=pos, delay_search=delay_search, min_size=min_size, max_size=max_size, menubar=menubar, collapsed=collapsed, autosize=autosize, no_resize=no_resize, no_title_bar=no_title_bar, no_move=no_move, no_scrollbar=no_scrollbar, no_collapse=no_collapse, horizontal_scrollbar=horizontal_scrollbar, no_focus_on_appearing=no_focus_on_appearing, no_bring_to_front_on_focus=no_bring_to_front_on_focus, no_close=no_close, no_background=no_background, modal=modal, popup=popup, no_saved_settings=no_saved_settings, on_close=on_close, **kwargs)
 
 def apply_transform(item : Union[int, str], transform : Any, **kwargs) -> None:
-	"""	 Applies a transformation matrix to a layer.
+	"""	 New in 1.1. Applies a transformation matrix to a layer.
 
 	Args:
-		item (Union[int, str]): item that the color map will be applied to
-		transform (Any): item that the color map will be applied to
+		item (Union[int, str]): Drawing node to apply transform to.
+		transform (Any): Transformation matrix.
 	Returns:
 		None
 	"""
@@ -7249,41 +7249,41 @@ def create_context(**kwargs) -> None:
 	return internal_dpg.create_context(**kwargs)
 
 def create_fps_matrix(eye : Union[List[float], Tuple[float, ...]], pitch : float, yaw : float, **kwargs) -> Any:
-	"""	 Applies a transformation matrix to a layer.
+	"""	 New in 1.1. Create a 'first person shooter' matrix.
 
 	Args:
-		eye (Union[List[float], Tuple[float, ...]]): scale value per axis
-		pitch (float): scale value per axis
-		yaw (float): scale value per axis
+		eye (Union[List[float], Tuple[float, ...]]): eye position
+		pitch (float): pitch (in radians)
+		yaw (float): yaw (in radians)
 	Returns:
 		Any
 	"""
 
 	return internal_dpg.create_fps_matrix(eye, pitch, yaw, **kwargs)
 
-def create_lookat_matrix(eye : Union[List[float], Tuple[float, ...]], center : Union[List[float], Tuple[float, ...]], up : Union[List[float], Tuple[float, ...]], **kwargs) -> Any:
-	"""	 Applies a transformation matrix to a layer.
+def create_lookat_matrix(eye : Union[List[float], Tuple[float, ...]], target : Union[List[float], Tuple[float, ...]], up : Union[List[float], Tuple[float, ...]], **kwargs) -> Any:
+	"""	 New in 1.1. Creates a 'Look at matrix'.
 
 	Args:
-		eye (Union[List[float], Tuple[float, ...]]): scale value per axis
-		center (Union[List[float], Tuple[float, ...]]): scale value per axis
-		up (Union[List[float], Tuple[float, ...]]): scale value per axis
+		eye (Union[List[float], Tuple[float, ...]]): eye position
+		target (Union[List[float], Tuple[float, ...]]): target position
+		up (Union[List[float], Tuple[float, ...]]): up vector
 	Returns:
 		Any
 	"""
 
-	return internal_dpg.create_lookat_matrix(eye, center, up, **kwargs)
+	return internal_dpg.create_lookat_matrix(eye, target, up, **kwargs)
 
 def create_orthographic_matrix(left : float, right : float, bottom : float, top : float, zNear : float, zFar : float, **kwargs) -> Any:
-	"""	 Applies a transformation matrix to a layer.
+	"""	 New in 1.1. Creates an orthographic matrix.
 
 	Args:
-		left (float): angle to rotate
-		right (float): angle to rotate
-		bottom (float): angle to rotate
-		top (float): angle to rotate
-		zNear (float): angle to rotate
-		zFar (float): angle to rotate
+		left (float): left plane
+		right (float): right plane
+		bottom (float): bottom plane
+		top (float): top plane
+		zNear (float): Near clipping plane.
+		zFar (float): Far clipping plane.
 	Returns:
 		Any
 	"""
@@ -7291,13 +7291,13 @@ def create_orthographic_matrix(left : float, right : float, bottom : float, top 
 	return internal_dpg.create_orthographic_matrix(left, right, bottom, top, zNear, zFar, **kwargs)
 
 def create_perspective_matrix(fov : float, aspect : float, zNear : float, zFar : float, **kwargs) -> Any:
-	"""	 Applies a transformation matrix to a layer.
+	"""	 New in 1.1. Creates a perspective matrix.
 
 	Args:
-		fov (float): angle to rotate
-		aspect (float): angle to rotate
-		zNear (float): angle to rotate
-		zFar (float): angle to rotate
+		fov (float): Field of view (in radians)
+		aspect (float): Aspect ratio (width/height)
+		zNear (float): Near clipping plane.
+		zFar (float): Far clipping plane.
 	Returns:
 		Any
 	"""
@@ -7305,7 +7305,7 @@ def create_perspective_matrix(fov : float, aspect : float, zNear : float, zFar :
 	return internal_dpg.create_perspective_matrix(fov, aspect, zNear, zFar, **kwargs)
 
 def create_rotation_matrix(angle : float, axis : Union[List[float], Tuple[float, ...]], **kwargs) -> Any:
-	"""	 Applies a transformation matrix to a layer.
+	"""	 New in 1.1. Applies a transformation matrix to a layer.
 
 	Args:
 		angle (float): angle to rotate
@@ -7317,10 +7317,10 @@ def create_rotation_matrix(angle : float, axis : Union[List[float], Tuple[float,
 	return internal_dpg.create_rotation_matrix(angle, axis, **kwargs)
 
 def create_scale_matrix(scales : Union[List[float], Tuple[float, ...]], **kwargs) -> Any:
-	"""	 Applies a transformation matrix to a layer.
+	"""	 New in 1.1. Applies a transformation matrix to a layer.
 
 	Args:
-		scales (Union[List[float], Tuple[float, ...]]): scale value per axis
+		scales (Union[List[float], Tuple[float, ...]]): scale values per axis
 	Returns:
 		Any
 	"""
@@ -7328,10 +7328,10 @@ def create_scale_matrix(scales : Union[List[float], Tuple[float, ...]], **kwargs
 	return internal_dpg.create_scale_matrix(scales, **kwargs)
 
 def create_translation_matrix(translation : Union[List[float], Tuple[float, ...]], **kwargs) -> Any:
-	"""	 Applies a transformation matrix to a layer.
+	"""	 New in 1.1. Creates a translation matrix.
 
 	Args:
-		translation (Union[List[float], Tuple[float, ...]]): translation
+		translation (Union[List[float], Tuple[float, ...]]): translation vector
 	Returns:
 		Any
 	"""
@@ -8637,10 +8637,10 @@ def set_axis_ticks(axis : Union[int, str], label_pairs : Any, **kwargs) -> None:
 	return internal_dpg.set_axis_ticks(axis, label_pairs, **kwargs)
 
 def set_clip_space(item : Union[int, str], top_left_x : float, top_left_y : float, width : float, height : float, min_depth : float, max_depth : float, **kwargs) -> None:
-	"""	 Applies a transformation matrix to a layer.
+	"""	 New in 1.1. Set the clip space for depth clipping and 'viewport' transformation.
 
 	Args:
-		item (Union[int, str]): item that the color map will be applied to
+		item (Union[int, str]): draw layer to set clip space
 		top_left_x (float): angle to rotate
 		top_left_y (float): angle to rotate
 		width (float): angle to rotate

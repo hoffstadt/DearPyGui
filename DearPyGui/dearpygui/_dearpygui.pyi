@@ -139,11 +139,11 @@ def add_drag_point(*, label: str ='', user_data: Any ='', use_internal_label: bo
 	...
 
 def add_draw_layer(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', show: bool ='', perspective_divide: bool ='', depth_clipping: bool ='', cull_mode: int ='') -> Union[int, str]:
-	"""Creates a layer useful for grouping drawlist items."""
+	"""New in 1.1. Creates a layer useful for grouping drawlist items."""
 	...
 
 def add_draw_node(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', show: bool ='') -> Union[int, str]:
-	"""Creates a layer useful for grouping drawlist items."""
+	"""New in 1.1. Creates a drawing node to associate a transformation matrix. Child node matricies will concatenate."""
 	...
 
 def add_drawlist(width : int, height : int, *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', delay_search: bool ='', tracked: bool ='', track_offset: float ='') -> Union[int, str]:
@@ -595,7 +595,7 @@ def add_window(*, label: str ='', user_data: Any ='', use_internal_label: bool =
 	...
 
 def apply_transform(item : Union[int, str], transform : Any) -> None:
-	"""Applies a transformation matrix to a layer."""
+	"""New in 1.1. Applies a transformation matrix to a layer."""
 	...
 
 def bind_colormap(item : Union[int, str], source : Union[int, str]) -> None:
@@ -655,31 +655,31 @@ def create_context() -> None:
 	...
 
 def create_fps_matrix(eye : Union[List[float], Tuple[float, ...]], pitch : float, yaw : float) -> Any:
-	"""Applies a transformation matrix to a layer."""
+	"""New in 1.1. Create a 'first person shooter' matrix."""
 	...
 
-def create_lookat_matrix(eye : Union[List[float], Tuple[float, ...]], center : Union[List[float], Tuple[float, ...]], up : Union[List[float], Tuple[float, ...]]) -> Any:
-	"""Applies a transformation matrix to a layer."""
+def create_lookat_matrix(eye : Union[List[float], Tuple[float, ...]], target : Union[List[float], Tuple[float, ...]], up : Union[List[float], Tuple[float, ...]]) -> Any:
+	"""New in 1.1. Creates a 'Look at matrix'."""
 	...
 
 def create_orthographic_matrix(left : float, right : float, bottom : float, top : float, zNear : float, zFar : float) -> Any:
-	"""Applies a transformation matrix to a layer."""
+	"""New in 1.1. Creates an orthographic matrix."""
 	...
 
 def create_perspective_matrix(fov : float, aspect : float, zNear : float, zFar : float) -> Any:
-	"""Applies a transformation matrix to a layer."""
+	"""New in 1.1. Creates a perspective matrix."""
 	...
 
 def create_rotation_matrix(angle : float, axis : Union[List[float], Tuple[float, ...]]) -> Any:
-	"""Applies a transformation matrix to a layer."""
+	"""New in 1.1. Applies a transformation matrix to a layer."""
 	...
 
 def create_scale_matrix(scales : Union[List[float], Tuple[float, ...]]) -> Any:
-	"""Applies a transformation matrix to a layer."""
+	"""New in 1.1. Applies a transformation matrix to a layer."""
 	...
 
 def create_translation_matrix(translation : Union[List[float], Tuple[float, ...]]) -> Any:
-	"""Applies a transformation matrix to a layer."""
+	"""New in 1.1. Creates a translation matrix."""
 	...
 
 def create_viewport(*, title: str ='', small_icon: str ='', large_icon: str ='', width: int ='', height: int ='', x_pos: int ='', y_pos: int ='', min_width: int ='', max_width: int ='', min_height: int ='', max_height: int ='', resizable: bool ='', vsync: bool ='', always_on_top: bool ='', decorated: bool ='', clear_color: Union[List[float], Tuple[float, ...]] ='') -> None:
@@ -1063,7 +1063,7 @@ def set_axis_ticks(axis : Union[int, str], label_pairs : Any) -> None:
 	...
 
 def set_clip_space(item : Union[int, str], top_left_x : float, top_left_y : float, width : float, height : float, min_depth : float, max_depth : float) -> None:
-	"""Applies a transformation matrix to a layer."""
+	"""New in 1.1. Set the clip space for depth clipping and 'viewport' transformation."""
 	...
 
 def set_exit_callback(callback : Callable) -> str:

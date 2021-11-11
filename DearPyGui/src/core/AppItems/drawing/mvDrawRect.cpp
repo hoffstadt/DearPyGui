@@ -63,14 +63,8 @@ namespace Marvel {
 
 	void mvDrawRect::draw(ImDrawList* drawlist, float x, float y)
 	{
-		mvVec4  tpmin = _pmin;
-		mvVec4  tpmax = _pmax;
-
-		if (!_transformIsIdentity)
-		{
-			tpmin = _transform * _pmin;
-			tpmax = _transform * _pmax;
-		}
+		mvVec4  tpmin = _transform * _pmin;
+		mvVec4  tpmax = _transform * _pmax;
 
 		if (_perspectiveDivide)
 		{

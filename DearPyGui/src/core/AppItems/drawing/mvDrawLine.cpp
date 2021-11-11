@@ -48,14 +48,8 @@ namespace Marvel {
 
 	void mvDrawLine::draw(ImDrawList* drawlist, float x, float y)
 	{
-		mvVec4  tp1 = _p1;
-		mvVec4  tp2 = _p2;
-
-		if (!_transformIsIdentity)
-		{
-			tp1 = _transform * _p1;
-			tp2 = _transform * _p2;
-		}
+		mvVec4  tp1 = _transform * _p1;
+		mvVec4  tp2 = _transform * _p2;
 
 		if (_perspectiveDivide)
 		{

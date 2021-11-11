@@ -49,12 +49,7 @@ namespace Marvel {
 
 	void mvDrawText::draw(ImDrawList* drawlist, float x, float y)
 	{
-		mvVec4  tpos = _pos;
-
-		if (!_transformIsIdentity)
-		{
-			tpos = _transform * _pos;
-		}
+		mvVec4  tpos = _transform * _pos;
 
 		if (_perspectiveDivide)
 		{

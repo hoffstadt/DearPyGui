@@ -20,10 +20,10 @@ namespace Marvel {
 
             args.push_back({ mvPyDataType::Bool, "perspective_divide", mvArgType::KEYWORD_ARG, "False", "apply perspective divide" });
             args.push_back({ mvPyDataType::Bool, "depth_clipping", mvArgType::KEYWORD_ARG, "False", "apply depth clipping" });
-            args.push_back({ mvPyDataType::Integer, "cull_mode", mvArgType::KEYWORD_ARG, "0" });
+            args.push_back({ mvPyDataType::Integer, "cull_mode", mvArgType::KEYWORD_ARG, "0", "culling mode, mvCullMode_* constants. Only works with triangles currently."});
 
             mvPythonParserSetup setup;
-            setup.about = "Creates a layer useful for grouping drawlist items.";
+            setup.about = "New in 1.1. Creates a layer useful for grouping drawlist items.";
             setup.category = { "Drawlist", "Widgets" };
             setup.returnType = mvPyDataType::UUID;
             setup.createContextManager = true;
@@ -36,7 +36,7 @@ namespace Marvel {
         {
             std::vector<mvPythonDataElement> args;
 
-            args.push_back({ mvPyDataType::UUID, "item", mvArgType::REQUIRED_ARG, "", "item that the color map will be applied to" });
+            args.push_back({ mvPyDataType::UUID, "item", mvArgType::REQUIRED_ARG, "", "draw layer to set clip space" });
             args.push_back({ mvPyDataType::Float, "top_left_x", mvArgType::REQUIRED_ARG, "", "angle to rotate" });
             args.push_back({ mvPyDataType::Float, "top_left_y", mvArgType::REQUIRED_ARG, "", "angle to rotate" });
             args.push_back({ mvPyDataType::Float, "width", mvArgType::REQUIRED_ARG, "", "angle to rotate" });
@@ -45,7 +45,7 @@ namespace Marvel {
             args.push_back({ mvPyDataType::Float, "max_depth", mvArgType::REQUIRED_ARG, "", "angle to rotate" });
 
             mvPythonParserSetup setup;
-            setup.about = "Applies a transformation matrix to a layer.";
+            setup.about = "New in 1.1. Set the clip space for depth clipping and 'viewport' transformation.";
             setup.category = { "Drawlist", "Widgets" };
 
             mvPythonParser parser = FinalizeParser(setup, args);
@@ -75,11 +75,11 @@ namespace Marvel {
             if (!item->_show)
                 continue;
 
-            item->_transformIsIdentity = false;
-            item->_appliedTransformIsIdentity = false;
             item->_perspectiveDivide = _perspectiveDivide;
             item->_depthClipping = _depthClipping;
-            item->_transform = _viewportTransform;
+
+            item->_transform = _transform;
+
             item->_cullMode = _cullMode;
             item->_clipViewport[0] = _clipViewport[0];
             item->_clipViewport[1] = _clipViewport[1];
@@ -149,7 +149,7 @@ namespace Marvel {
             graph->_clipViewport[4] = mindepth;
             graph->_clipViewport[5] = maxdepth;
 
-            graph->_viewportTransform = mvCreateMatrix(
+            graph->_transform = mvCreateMatrix(
                 width, 0.0f, 0.0f, topleftx + (width / 2.0f),
                 0.0f, -height, 0.0f, toplefty + (height / 2.0f),
                 0.0f, 0.0f, 0.25f, 0.5f,
