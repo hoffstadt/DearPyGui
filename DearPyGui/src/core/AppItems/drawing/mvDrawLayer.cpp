@@ -18,9 +18,9 @@ namespace Marvel {
                               MV_PARSER_ARG_SHOW)
                           );
 
-            args.push_back({ mvPyDataType::Bool, "perspective_divide", mvArgType::KEYWORD_ARG, "False", "apply perspective divide" });
-            args.push_back({ mvPyDataType::Bool, "depth_clipping", mvArgType::KEYWORD_ARG, "False", "apply depth clipping" });
-            args.push_back({ mvPyDataType::Integer, "cull_mode", mvArgType::KEYWORD_ARG, "0", "culling mode, mvCullMode_* constants. Only works with triangles currently."});
+            args.push_back({ mvPyDataType::Bool, "perspective_divide", mvArgType::KEYWORD_ARG, "False", "New in 1.1. apply perspective divide" });
+            args.push_back({ mvPyDataType::Bool, "depth_clipping", mvArgType::KEYWORD_ARG, "False", "New in 1.1. apply depth clipping" });
+            args.push_back({ mvPyDataType::Integer, "cull_mode", mvArgType::KEYWORD_ARG, "0", "New in 1.1. culling mode, mvCullMode_* constants. Only works with triangles currently."});
 
             mvPythonParserSetup setup;
             setup.about = "New in 1.1. Creates a layer useful for grouping drawlist items.";

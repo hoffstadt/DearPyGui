@@ -21,9 +21,6 @@ with dpg.font_registry():
 
 demo.show_demo()
 
-with dpg.window(label="tutorial", width=500, height=500, show=False):
-    dpg.add_button(label="Press me", callback=lambda:dpg.toggle_viewport_fullscreen())
-
 # main loop
 dpg.show_viewport()
 while dpg.is_dearpygui_running():

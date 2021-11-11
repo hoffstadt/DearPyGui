@@ -1612,9 +1612,9 @@ def draw_layer(**kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
-		perspective_divide (bool, optional): apply perspective divide
-		depth_clipping (bool, optional): apply depth clipping
-		cull_mode (int, optional): culling mode, mvCullMode_* constants. Only works with triangles currently.
+		perspective_divide (bool, optional): New in 1.1. apply perspective divide
+		depth_clipping (bool, optional): New in 1.1. apply depth clipping
+		cull_mode (int, optional): New in 1.1. culling mode, mvCullMode_* constants. Only works with triangles currently.
 		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
@@ -3580,9 +3580,9 @@ def add_draw_layer(**kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
-		perspective_divide (bool, optional): apply perspective divide
-		depth_clipping (bool, optional): apply depth clipping
-		cull_mode (int, optional): culling mode, mvCullMode_* constants. Only works with triangles currently.
+		perspective_divide (bool, optional): New in 1.1. apply perspective divide
+		depth_clipping (bool, optional): New in 1.1. apply depth clipping
+		cull_mode (int, optional): New in 1.1. culling mode, mvCullMode_* constants. Only works with triangles currently.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]

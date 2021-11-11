@@ -223,8 +223,9 @@ def show_demo():
     
         with dpg.menu_bar():
 
-            with dpg.menu(label="File"):
+            with dpg.menu(label="Menu"):
 
+                dpg.add_text("This menu is just for show!")
                 dpg.add_menu_item(label="New")
                 dpg.add_menu_item(label="Open")
 
@@ -260,6 +261,11 @@ def show_demo():
                 dpg.add_menu_item(label="Show Style Editor", callback=lambda:dpg.show_tool(dpg.mvTool_Style))
                 dpg.add_menu_item(label="Show Font Manager", callback=lambda:dpg.show_tool(dpg.mvTool_Font))
                 dpg.add_menu_item(label="Show Item Registry", callback=lambda:dpg.show_tool(dpg.mvTool_ItemRegistry))
+
+            with dpg.menu(label="Settings"):
+
+                dpg.add_menu_item(label="Wait For Input", check=True, callback=lambda s, a: dpg.configure_app(wait_for_input=a))
+                dpg.add_menu_item(label="Toggle Fullscreen", callback=lambda:dpg.toggle_viewport_fullscreen())
 
         with dpg.group(horizontal=True):
             dpg.add_loading_indicator(circle_count=4)
