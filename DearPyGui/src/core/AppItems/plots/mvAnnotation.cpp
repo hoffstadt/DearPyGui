@@ -83,6 +83,9 @@ namespace Marvel {
 
 	void mvAnnotation::draw(ImDrawList* drawlist, float x, float y)
 	{
+		if (!_show)
+			return;
+
 		ScopedID id(_uuid);
 
 		if (_clamped)
