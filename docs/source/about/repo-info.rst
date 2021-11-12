@@ -97,6 +97,6 @@ Project Information
     image:: https://img.shields.io/pypi/v/dearpygui
         :target: https://pypi.org/project/dearpygui/
 .. |rb pi|
-    image:: https://img.shields.io/badge/pypi-v1.0.2-blue
-        :target: https://img.shields.io/badge/pypi-v1.0.2-blue)](https://img.shields.io/badge/pypi-v1.0.2-blue
+    image:: https://img.shields.io/badge/pypi-v1.1-blue
+        :target: https://img.shields.io/badge/pypi-v1.1-blue)](https://img.shields.io/badge/pypi-v1.1-blue
 
