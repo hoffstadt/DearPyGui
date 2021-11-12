@@ -15,7 +15,7 @@ endif()
 
 if(WIN32)
 else() # Linux
-	add_definitions(-DIMGUI_USER_CONFIG="ImGuiFileDialogConfigUnix.h")
+	add_definitions(-DCUSTOM_IMGUIFILEDIALOG_CONFIG="ImGuiFileDialogConfigUnix.h")
 endif()
 
 # various settings
