@@ -1524,7 +1524,6 @@ namespace Marvel {
 
             if (ImGui::InputFloat(_internalLabel.c_str(), _value.get(), _step, _step_fast, _format.c_str(), _flags))
             {
-                auto inital_value = *_value;
                 // determines clamped cases
                 if (_min_clamped && _max_clamped)
                 {
@@ -1723,6 +1722,20 @@ namespace Marvel {
         flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, _stor_flags);
         flagop("readonly", ImGuiInputTextFlags_ReadOnly, _flags);
         flagop("readonly", ImGuiInputTextFlags_ReadOnly, _stor_flags);
+
+        if (_enabledLastFrame)
+        {
+            _enabledLastFrame = false;
+            _flags = _stor_flags;
+        }
+
+        if (_disabledLastFrame)
+        {
+            _disabledLastFrame = false;
+            _stor_flags = _flags;
+            _flags |= ImGuiInputTextFlags_ReadOnly;
+            _flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
+        }
 
     }
 
