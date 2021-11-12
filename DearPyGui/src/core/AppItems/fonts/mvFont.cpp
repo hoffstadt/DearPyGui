@@ -52,6 +52,21 @@ namespace Marvel {
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "bind_font", parser });
 		}
+
+		{
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::String, "text" });
+			args.push_back({ mvPyDataType::Float, "wrap_width", mvArgType::KEYWORD_ARG, "-1.0", "Wrap width to use (-1.0 turns wrap off)." });
+			args.push_back({ mvPyDataType::UUID, "font", mvArgType::KEYWORD_ARG, "0", "Font to use." });
+
+			mvPythonParserSetup setup;
+			setup.about = "Returns width/height of text with specified font (must occur after 1st frame).";
+			setup.category = { "Fonts" };
+			setup.returnType = mvPyDataType::FloatList;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
+			parsers->insert({ "get_text_size", parser });
+		}
 	}
 
 	mvFont::mvFont(mvUUID uuid)
@@ -249,6 +264,63 @@ namespace Marvel {
 
 		graph->_default = true;
 		mvToolManager::GetFontManager()._newDefault = true;
+
+		return GetPyNone();
+	}
+
+	PyObject* mvFont::get_text_size(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+
+		const char* text;
+		float wrap_width = -1.0f;
+		PyObject* fontRaw;
+
+		if (!Parse((GetParsers())["get_text_size"], args, kwargs, __FUNCTION__,
+			&text, &wrap_width, &fontRaw))
+			return GetPyNone();
+
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+
+		mvUUID font = GetIDFromPyObject(fontRaw);
+
+		if (font == 0)
+		{
+			if(GContext->frame < 1)
+				return GetPyNone();
+
+			ImVec2 size = ImGui::CalcTextSize(text, 0, false, wrap_width);
+			return ToPyPair(size.x, size.y);
+		}
+
+		auto afont = GetItem((*GContext->itemRegistry), font);
+		if (afont == nullptr)
+		{
+			mvThrowPythonError(mvErrorCode::mvItemNotFound, "get_text_size",
+				"Item not found: " + std::to_string(font), nullptr);
+			return GetPyNone();
+		}
+
+		if (afont->getType() != mvAppItemType::mvFont)
+		{
+			mvThrowPythonError(mvErrorCode::mvIncompatibleType, "get_text_size",
+				"Incompatible type. Expected types include: mvFont", afont);
+			return GetPyNone();
+		}
+
+		mvFont* graph = static_cast<mvFont*>(afont);
+
+		if (graph->_fontPtr)
+		{
+			ImGuiContext& g = *GImGui;
+			ImFont* previousFont = g.Font;
+			float previousFontSize = g.FontSize;
+			g.Font = graph->_fontPtr;
+			g.FontSize = graph->_size;
+			ImVec2 size = ImGui::CalcTextSize(text, 0, false, wrap_width);
+			g.Font = previousFont;
+			g.FontSize = previousFontSize;
+			return ToPyPair(size.x, size.y);
+		}
 
 		return GetPyNone();
 	}

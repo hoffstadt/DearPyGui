@@ -870,6 +870,10 @@ def get_selected_nodes(node_editor : Union[int, str]) -> Union[List[int], Tuple[
 	"""Returns a node editor's selected nodes."""
 	...
 
+def get_text_size(text : str, *, wrap_width: float ='', font: Union[int, str] ='') -> Union[List[float], Tuple[float, ...]]:
+	"""Returns width/height of text with specified font (must occur after 1st frame)."""
+	...
+
 def get_total_time() -> float:
 	"""Returns total time since Dear PyGui has started."""
 	...

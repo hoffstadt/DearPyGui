@@ -18,9 +18,11 @@ namespace Marvel {
         MV_SET_STATES(MV_STATE_NONE);
 
         MV_CREATE_COMMAND(bind_font);
+        MV_CREATE_COMMAND(get_text_size);
 
         MV_START_COMMANDS
             MV_ADD_COMMAND(bind_font);
+            MV_ADD_COMMAND(get_text_size);
         MV_END_COMMANDS
 
         MV_START_PARENTS

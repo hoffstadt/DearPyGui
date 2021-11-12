@@ -8098,6 +8098,19 @@ def get_selected_nodes(node_editor : Union[int, str], **kwargs) -> Union[List[in
 
 	return internal_dpg.get_selected_nodes(node_editor, **kwargs)
 
+def get_text_size(text : str, *, wrap_width: float =-1.0, font: Union[int, str] =0, **kwargs) -> Union[List[float], Tuple[float, ...]]:
+	"""	 Returns width/height of text with specified font (must occur after 1st frame).
+
+	Args:
+		text (str): 
+		wrap_width (float, optional): Wrap width to use (-1.0 turns wrap off).
+		font (Union[int, str], optional): Font to use.
+	Returns:
+		Union[List[float], Tuple[float, ...]]
+	"""
+
+	return internal_dpg.get_text_size(text, wrap_width=wrap_width, font=font, **kwargs)
+
 def get_total_time(**kwargs) -> float:
 	"""	 Returns total time since Dear PyGui has started.
 
