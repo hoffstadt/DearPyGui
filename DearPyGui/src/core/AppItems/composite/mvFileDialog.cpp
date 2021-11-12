@@ -99,7 +99,10 @@ namespace Marvel {
 			_dirtySettings = false;
 		}
 
-		
+		// remap selectable to FrameBgActive
+		ImGuiStyle* style = &ImGui::GetStyle();
+		ImGui::PushStyleColor(ImGuiCol_Header, style->Colors[ImGuiCol_FrameBgActive]);
+
 		// without panel
 		if (_children[1].empty())
 		{
@@ -146,6 +149,8 @@ namespace Marvel {
 				_show = false;
 			}
 		}
+
+		ImGui::PopStyleColor();
 	}
 
 	PyObject* mvFileDialog::getPyValue()
