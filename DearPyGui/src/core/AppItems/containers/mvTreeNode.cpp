@@ -256,6 +256,7 @@ namespace Marvel {
 			return;
 		 
 		if (PyObject* item = PyDict_GetItemString(dict, "selectable")) _selectable = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "default_open")) setPyValue(item);
 
 		// helper for bit flipping
 		auto flagop = [dict](const char* keyword, int flag, int& flags)
