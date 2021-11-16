@@ -49,7 +49,12 @@ namespace Marvel {
 	void mvDrawPolygon::draw(ImDrawList* drawlist, float x, float y)
 	{
 		mvVec4 start = { x, y };
+
+		// this is disgusting; we should not be allocating
+		// every frame. Fix ASAP
 		std::vector<mvVec4> points = _points;
+		std::vector<ImVec2> finalpoints;
+		finalpoints.reserve(_points.size());
 
 		for (auto& point : points)
 			point = _transform * point;
@@ -60,8 +65,8 @@ namespace Marvel {
 			for (auto& point : points)
 			{
 				point.x = point.x / point.w;
-				point.x = point.x / point.w;
-				point.x = point.x / point.w;
+				point.y = point.y / point.w;
+				point.z = point.z / point.w;
 			}
 		}
 
@@ -78,15 +83,19 @@ namespace Marvel {
 				ImVec2 impoint = ImPlot::PlotToPixels(point);
 				point.x = impoint.x;
 				point.y = impoint.y;
+				finalpoints.push_back(impoint);
 			}
 		}
 		else
 		{
 			for (auto& point : points)
+			{
 				point = point + start;
+				finalpoints.push_back(ImVec2{ point.x, point.y });
+			}
 		}
 		// TODO: Find a way to store lines and only calc new fill lines when dirty similar to ellipse
-		drawlist->AddPolyline((const ImVec2*)const_cast<const mvVec4*>(points.data()), (int)_points.size(), _color, false, _thickness);
+		drawlist->AddPolyline(finalpoints.data(), (int)finalpoints.size(), _color, false, _thickness);
 		if (_fill.r < 0.0f)
 			return;
 
