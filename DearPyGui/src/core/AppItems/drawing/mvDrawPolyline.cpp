@@ -52,6 +52,8 @@ namespace Marvel {
 		mvVec4 start = { x, y };
 
 		std::vector<mvVec4> points = _points;
+		std::vector<ImVec2> finalpoints;
+		finalpoints.reserve(_points.size());
 
 		for (auto& point : points)
 			point = _transform * point;
@@ -80,17 +82,21 @@ namespace Marvel {
 				ImVec2 impoint = ImPlot::PlotToPixels(point);
 				point.x = impoint.x;
 				point.y = impoint.y;
+				finalpoints.push_back(impoint);
 			}
 
-			drawlist->AddPolyline((const ImVec2*)const_cast<const mvVec4*>(points.data()), (int)_points.size(), _color,
+			drawlist->AddPolyline(finalpoints.data(), (int)finalpoints.size(), _color,
 				_closed, ImPlot::GetCurrentContext()->Mx * _thickness);
 		}
 		else
 		{
 			for (auto& point : points)
+			{
 				point = point + start;
+				finalpoints.push_back(ImVec2{ point.x, point.y });
+			}
 
-			drawlist->AddPolyline((const ImVec2*)const_cast<const mvVec4*>(points.data()), (int)_points.size(), _color,
+			drawlist->AddPolyline(finalpoints.data(), (int)finalpoints.size(), _color,
 				_closed, _thickness);
 		}
 

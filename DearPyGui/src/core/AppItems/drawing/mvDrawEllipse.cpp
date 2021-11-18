@@ -81,7 +81,7 @@ namespace Marvel {
 			points.reserve(_segments + 1);
 			for (int i = 0; i <= _segments; i++)
 			{
-				points.push_back(mvVec4{ cx  + cosf(i*radian_inc) * width, cy + sinf(i * radian_inc) * height, 0.0f, 1.0f });
+				points.push_back(mvVec4{ cx  + cosf(i*radian_inc) * width/2.0f, cy + sinf(i * radian_inc) * height/2.0f, 0.0f, 1.0f });
 			}
 			_points = std::move(points);
 			_dirty = false;
@@ -93,7 +93,11 @@ namespace Marvel {
 			if (mvClipPoint(_clipViewport, tpmax)) return;
 		}
 
+		// this is disgusting; we should not be allocating
+		// every frame. Fix ASAP
 		std::vector<mvVec4> points = _points;
+		std::vector<ImVec2> finalpoints;
+		finalpoints.reserve(_points.size());
 
 		for(auto& point : points)
 			point = _transform * point;
@@ -105,6 +109,7 @@ namespace Marvel {
 				ImVec2 impoint = ImPlot::PlotToPixels(point);
 				point.x = impoint.x;
 				point.y = impoint.y;
+				finalpoints.push_back(impoint);
 			}
 		}
 		else
@@ -113,18 +118,19 @@ namespace Marvel {
 			{
 				point.x += x;
 				point.y += y;
+				finalpoints.push_back(ImVec2{ point.x, point.y });
 			}
 		}
 
         if(ImPlot::GetCurrentContext()->CurrentPlot)
-            drawlist->AddPolyline((const ImVec2*)const_cast<const mvVec4*>(points.data()), (int)points.size(), 
+            drawlist->AddPolyline(finalpoints.data(), (int)finalpoints.size(),
 			    _color, false, ImPlot::GetCurrentContext()->Mx * _thickness);
         else
-            drawlist->AddPolyline((const ImVec2*)const_cast<const mvVec4*>(points.data()), (int)points.size(), 
+            drawlist->AddPolyline(finalpoints.data(), (int)finalpoints.size(),
 			    _color, false, _thickness);
 		if (_fill.r < 0.0f)
 			return;
-		drawlist->AddConvexPolyFilled((const ImVec2*)const_cast<const mvVec4*>(points.data()), (int)points.size(), _fill);
+		drawlist->AddConvexPolyFilled(finalpoints.data(), (int)finalpoints.size(), _fill);
 	}
 
 	void mvDrawEllipse::handleSpecificRequiredArgs(PyObject* dict)
