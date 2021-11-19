@@ -13,7 +13,7 @@ namespace Marvel {
 	{
 		std::vector<mvPythonDataElement> args;
 
-		AddCommonArgs(args,(CommonParserArgs)(
+		AddCommonArgs(args, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_PARENT)
 		);
@@ -44,7 +44,12 @@ namespace Marvel {
 		ImVec4 color = ImVec4((*_value)[0], (*_value)[1], (*_value)[2], (*_value)[3]);
 
 		if (_libType == mvLibType::MV_IMGUI)
+		{
+			if (_targetColor == ImGuiCol_DockingPreview)
+				GImGui->Style.Colors[_targetColor] = color;
+
 			ImGui::PushStyleColor(_targetColor, color);
+		}
 		else if (_libType == mvLibType::MV_IMPLOT)
 			ImPlot::PushStyleColor(_targetColor, color);
 		else if (_libType == mvLibType::MV_IMNODES)
@@ -181,7 +186,7 @@ namespace Marvel {
 	void mvThemeColor::applySpecificTemplate(mvAppItem* item)
 	{
 		auto titem = static_cast<mvThemeColor*>(item);
-		if(_source != 0) _value = titem->_value;
+		if (_source != 0) _value = titem->_value;
 		_targetColor = titem->_targetColor;
 		_libType = titem->_libType;
 	}
