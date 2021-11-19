@@ -14,7 +14,7 @@ namespace Marvel {
 	{
 		std::vector<mvPythonDataElement> args;
 
-		AddCommonArgs(args,(CommonParserArgs)(
+		AddCommonArgs(args, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_PARENT)
 		);
@@ -221,36 +221,6 @@ namespace Marvel {
 			case 0:
 			{
 				_targetStyle = ToInt(item);
-				if (_libType == mvLibType::MV_IMGUI)
-				{
-					if (_targetStyle >= ImGuiStyleVar_COUNT || _targetStyle < 0)
-					{
-						_state.ok = false;
-						mvThrowPythonError(mvErrorCode::mvNone, "Style target out of range.");
-						MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
-					}
-				}
-
-				else if (_libType == mvLibType::MV_IMPLOT)
-				{
-
-					if (_targetStyle >= ImPlotStyleVar_COUNT || _targetStyle < 0)
-					{
-						_state.ok = false;
-						mvThrowPythonError(mvErrorCode::mvNone, "Style target out of range.");
-						MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
-					}
-				}
-
-				else if (_libType == mvLibType::MV_IMNODES)
-				{
-					if (_targetStyle >= 14 || _targetStyle < 0)
-					{
-						_state.ok = false;
-						mvThrowPythonError(mvErrorCode::mvNone, "Style target out of range.");
-						MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
-					}
-				}
 				break;
 			}
 
@@ -309,7 +279,7 @@ namespace Marvel {
 	void mvThemeStyle::applySpecificTemplate(mvAppItem* item)
 	{
 		auto titem = static_cast<mvThemeStyle*>(item);
-		if(_source != 0) _value = titem->_value;
+		if (_source != 0) _value = titem->_value;
 		_targetStyle = titem->_targetStyle;
 		_libType = titem->_libType;
 	}
