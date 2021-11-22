@@ -36,6 +36,7 @@ namespace Marvel {
         void draw(ImDrawList* drawlist, float x, float y) override;
         void handleSpecificPositionalArgs(PyObject* dict) override;
         void handleSpecificKeywordArgs(PyObject* dict) override;
+        void getSpecificConfiguration(PyObject* dict) override;
         void customAction(void* data = nullptr) override;
 
     public:

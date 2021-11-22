@@ -109,4 +109,16 @@ namespace Marvel {
 
         if (PyObject* item = PyDict_GetItemString(dict, "enabled_state")) _specificEnabled = ToBool(item);
     }
+
+    void mvThemeComponent::getSpecificConfiguration(PyObject* dict)
+	{
+		if (dict == nullptr)
+			return;
+
+		mvPyObject py_target = ToPyInt(_specificType);
+		mvPyObject py_cat = ToPyBool((int)_specificEnabled);
+
+		PyDict_SetItemString(dict, "item_type", py_target);
+		PyDict_SetItemString(dict, "enabled_state", py_cat);
+	}
 }
