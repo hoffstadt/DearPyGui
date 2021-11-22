@@ -276,6 +276,18 @@ namespace Marvel {
 		}
 	}
 
+	void mvThemeStyle::getSpecificConfiguration(PyObject* dict)
+	{
+		if (dict == nullptr)
+			return;
+
+		mvPyObject py_target = ToPyInt(_targetStyle);
+		mvPyObject py_cat = ToPyInt((int)_libType);
+
+		PyDict_SetItemString(dict, "target", py_target);
+		PyDict_SetItemString(dict, "category", py_cat);
+	}
+
 	void mvThemeStyle::applySpecificTemplate(mvAppItem* item)
 	{
 		auto titem = static_cast<mvThemeStyle*>(item);

@@ -133,6 +133,18 @@ namespace Marvel {
 		}
 	}
 
+	void mvThemeColor::getSpecificConfiguration(PyObject* dict)
+	{
+		if (dict == nullptr)
+			return;
+
+		mvPyObject py_target = ToPyInt(_targetColor);
+		mvPyObject py_cat = ToPyInt((int)_libType);
+
+		PyDict_SetItemString(dict, "target", py_target);
+		PyDict_SetItemString(dict, "category", py_cat);
+	}
+
 	PyObject* mvThemeColor::getPyValue()
 	{
 		// nasty hack
