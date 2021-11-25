@@ -7516,7 +7516,7 @@ def is_plot_queried(plot):
 
 	return internal_dpg.is_plot_queried(plot)
 
-def is_table_cell_highlight(table, row, column):
+def is_table_cell_highlighted(table, row, column):
 	"""	 Checks if a table cell is highlighted.
 
 	Args:
@@ -7527,9 +7527,9 @@ def is_table_cell_highlight(table, row, column):
 		bool
 	"""
 
-	return internal_dpg.is_table_cell_highlight(table, row, column)
+	return internal_dpg.is_table_cell_highlighted(table, row, column)
 
-def is_table_column_highlight(table, column):
+def is_table_column_highlighted(table, column):
 	"""	 Checks if a table column is highlighted.
 
 	Args:
@@ -7539,9 +7539,9 @@ def is_table_column_highlight(table, column):
 		bool
 	"""
 
-	return internal_dpg.is_table_column_highlight(table, column)
+	return internal_dpg.is_table_column_highlighted(table, column)
 
-def is_table_row_highlight(table, row):
+def is_table_row_highlighted(table, row):
 	"""	 Checks if a table row is highlighted.
 
 	Args:
@@ -7551,7 +7551,7 @@ def is_table_row_highlight(table, row):
 		bool
 	"""
 
-	return internal_dpg.is_table_row_highlight(table, row)
+	return internal_dpg.is_table_row_highlighted(table, row)
 
 def is_viewport_ok():
 	"""	 Checks if a viewport has been created and shown.

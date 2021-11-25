@@ -197,7 +197,7 @@ namespace Marvel {
 			setup.returnType = mvPyDataType::Bool;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
-			parsers->insert({ "is_table_column_highlight", parser });
+			parsers->insert({ "is_table_column_highlighted", parser });
 		}
 
 		{
@@ -211,7 +211,7 @@ namespace Marvel {
 			setup.returnType = mvPyDataType::Bool;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
-			parsers->insert({ "is_table_row_highlight", parser });
+			parsers->insert({ "is_table_row_highlighted", parser });
 		}
 
 		{
@@ -227,7 +227,7 @@ namespace Marvel {
 			setup.returnType = mvPyDataType::Bool;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
-			parsers->insert({ "is_table_cell_highlight", parser });
+			parsers->insert({ "is_table_cell_highlighted", parser });
 		}
 	}
 
