@@ -8358,7 +8358,7 @@ def is_plot_queried(plot : Union[int, str], **kwargs) -> bool:
 
 	return internal_dpg.is_plot_queried(plot, **kwargs)
 
-def is_table_cell_highlight(table : Union[int, str], row : int, column : int, **kwargs) -> bool:
+def is_table_cell_highlighted(table : Union[int, str], row : int, column : int, **kwargs) -> bool:
 	"""	 Checks if a table cell is highlighted.
 
 	Args:
@@ -8369,9 +8369,9 @@ def is_table_cell_highlight(table : Union[int, str], row : int, column : int, **
 		bool
 	"""
 
-	return internal_dpg.is_table_cell_highlight(table, row, column, **kwargs)
+	return internal_dpg.is_table_cell_highlighted(table, row, column, **kwargs)
 
-def is_table_column_highlight(table : Union[int, str], column : int, **kwargs) -> bool:
+def is_table_column_highlighted(table : Union[int, str], column : int, **kwargs) -> bool:
 	"""	 Checks if a table column is highlighted.
 
 	Args:
@@ -8381,9 +8381,9 @@ def is_table_column_highlight(table : Union[int, str], column : int, **kwargs) -
 		bool
 	"""
 
-	return internal_dpg.is_table_column_highlight(table, column, **kwargs)
+	return internal_dpg.is_table_column_highlighted(table, column, **kwargs)
 
-def is_table_row_highlight(table : Union[int, str], row : int, **kwargs) -> bool:
+def is_table_row_highlighted(table : Union[int, str], row : int, **kwargs) -> bool:
 	"""	 Checks if a table row is highlighted.
 
 	Args:
@@ -8393,7 +8393,7 @@ def is_table_row_highlight(table : Union[int, str], row : int, **kwargs) -> bool
 		bool
 	"""
 
-	return internal_dpg.is_table_row_highlight(table, row, **kwargs)
+	return internal_dpg.is_table_row_highlighted(table, row, **kwargs)
 
 def is_viewport_ok(**kwargs) -> bool:
 	"""	 Checks if a viewport has been created and shown.

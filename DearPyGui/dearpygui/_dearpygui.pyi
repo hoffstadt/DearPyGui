@@ -962,15 +962,15 @@ def is_plot_queried(plot : Union[int, str]) -> bool:
 	"""Returns true if the plot is currently being queried. (Requires plot 'query' kwarg to be enabled)"""
 	...
 
-def is_table_cell_highlight(table : Union[int, str], row : int, column : int) -> bool:
+def is_table_cell_highlighted(table : Union[int, str], row : int, column : int) -> bool:
 	"""Checks if a table cell is highlighted."""
 	...
 
-def is_table_column_highlight(table : Union[int, str], column : int) -> bool:
+def is_table_column_highlighted(table : Union[int, str], column : int) -> bool:
 	"""Checks if a table column is highlighted."""
 	...
 
-def is_table_row_highlight(table : Union[int, str], row : int) -> bool:
+def is_table_row_highlighted(table : Union[int, str], row : int) -> bool:
 	"""Checks if a table row is highlighted."""
 	...
 
