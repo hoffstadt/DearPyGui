@@ -178,7 +178,7 @@ Scene Graph
 
 **New in 1.1**. For more complex drawing, you can utilize a **draw_node** item. A draw node is used
 to associate a transformation matrix with a group of draw items. You can use **apply_transform**
-to apply a transformation matrix to anode. This matrix will be used to multiply each child draw item's
+to apply a transformation matrix to a node. This matrix will be used to multiply each child draw item's
 points. If a child is another draw node, the matricies will concatenate.
 
 **Code**
