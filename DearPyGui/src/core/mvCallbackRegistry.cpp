@@ -95,7 +95,6 @@ namespace Marvel {
 			GContext->callbackRegistry->callCount--;
 		}
 
-		mvRunCallback(GContext->callbackRegistry->onCloseCallback, 0, nullptr, nullptr);
 		return true;
 	}
 

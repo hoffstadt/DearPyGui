@@ -121,6 +121,16 @@ namespace Marvel {
             return;
         }
 
+        // hacky fix, started was set to false
+        // to exit the event loop, but needs to be
+        // true in order to run DPG commands for the 
+        // exit callback.
+        GContext->started = true;
+        mvSubmitCallback([=]() {
+            mvRunCallback(GContext->callbackRegistry->onCloseCallback, 0, nullptr, nullptr);
+            GContext->started = false;  // return to false after
+            });
+
         imnodes::DestroyContext();
         ImPlot::DestroyContext();
         ImGui::DestroyContext();
