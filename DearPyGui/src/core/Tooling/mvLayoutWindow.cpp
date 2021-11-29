@@ -45,7 +45,7 @@ namespace Marvel {
 
         // render this node
         ImGui::PushID(item.get());
-        std::string labelToShow = item->getTypeString();
+        std::string labelToShow = GetEntityTypeString(item->getType());
         if (!item->_alias.empty())
             labelToShow = item->_alias;
         else if (!item->_specifiedLabel.empty())
@@ -187,7 +187,7 @@ namespace Marvel {
         DebugItem("Label:", _itemref->_specifiedLabel.c_str());
         DebugItem("ID:", std::to_string(_itemref->_uuid).c_str());
         DebugItem("Alias:", _itemref->_alias.c_str());
-        DebugItem("Type:", _itemref->getTypeString());
+        DebugItem("Type:", GetEntityTypeString(_itemref->getType()));
         DebugItem("Filter:", _itemref->_filter.c_str());
         DebugItem("Payload Type:", _itemref->_payloadType.c_str());
         DebugItem("Location:", std::to_string(_itemref->_location).c_str());

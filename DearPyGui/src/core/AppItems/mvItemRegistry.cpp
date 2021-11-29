@@ -226,6 +226,20 @@ namespace Marvel {
         }
     }
 
+    const char* 
+    GetEntityTypeString(mvAppItemType type)
+    {
+        #define X(el) #el,
+        mv_local_persist const char* entity_type_strings[(size_t)mvAppItemType::ItemTypeCount] =
+        {
+            "All, an error occured", // shouldn't actually occur
+            MV_ITEM_TYPES
+        };
+        #undef X
+
+        return entity_type_strings[(size_t)type];
+    }
+
     mvItemRegistry::mvItemRegistry()
     {
         // prefill cached containers
@@ -1671,7 +1685,7 @@ namespace Marvel {
             DebugItem("Label:", root->_specifiedLabel.c_str());
             DebugItem("ID:", std::to_string(root->_uuid).c_str());
             DebugItem("Alias:", root->_alias.c_str());
-            DebugItem("Type:", root->getTypeString());
+            DebugItem("Type:", GetEntityTypeString(root->getType()));
             DebugItem("Filter:", root->_filter.c_str());
             DebugItem("Payload Type:", root->_payloadType.c_str());
             DebugItem("Location:", std::to_string(root->_location).c_str());
@@ -2743,7 +2757,7 @@ namespace Marvel {
                 PyDict_SetItemString(pdict, "children", mvPyObject(pyChildren));
             }
 
-            PyDict_SetItemString(pdict, "type", mvPyObject(ToPyString(appitem->getTypeString())));
+            PyDict_SetItemString(pdict, "type", mvPyObject(ToPyString(GetEntityTypeString(appitem->getType()))));
             PyDict_SetItemString(pdict, "target", mvPyObject(ToPyInt(GetEntityTargetSlot(appitem->getType()))));
 
             if (appitem->_parentPtr)

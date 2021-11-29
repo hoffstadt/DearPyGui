@@ -27,7 +27,6 @@ mvAppItemType getType() const override { return x; }\
 mvRef<mvAppItem> getClassThemeComponent() const override { return s_class_theme_component; }\
 mvRef<mvAppItem> getClassDisabledThemeComponent() const override { return s_class_theme_disabled_component; }\
 const char* getCommand() const override { return #parser; }\
-const char* getTypeString() const override { return #x; }\
 const std::vector<std::pair<std::string, int>>& getAllowableParents() const override { return mvItemTypeMap<(int)x>::type::GetAllowableParents(); };\
 const std::vector<std::pair<std::string, int>>& getAllowableChildren() const override { return mvItemTypeMap<(int)x>::type::GetAllowableChildren(); };\
 static PyObject* parser(PyObject* self, PyObject* args, PyObject* kwargs)\
