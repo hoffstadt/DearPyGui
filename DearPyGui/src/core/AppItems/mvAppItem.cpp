@@ -48,7 +48,7 @@ namespace Marvel {
         if (_dropCallback) Py_DECREF(_dropCallback);
 
         // in case item registry is destroyed
-        if (GContext->started)
+        if (GContext->itemRegistry)
         {
             RemoveAlias(*GContext->itemRegistry, _alias, true);
             CleanUpItem(*GContext->itemRegistry, _uuid);

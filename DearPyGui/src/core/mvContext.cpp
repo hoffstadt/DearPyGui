@@ -148,7 +148,8 @@ namespace Marvel {
         mvSubmitCallback([=]() {
             GContext->callbackRegistry->running = false;
             });
-        GContext->future.get();
+        if(GContext->future.valid())
+            GContext->future.get();
         if (GContext->viewport)
             delete GContext->viewport;
 
