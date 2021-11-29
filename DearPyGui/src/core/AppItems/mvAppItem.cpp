@@ -241,8 +241,9 @@ namespace Marvel {
 
                 if (_uuid == parent)
                 {
-                    item->_location = (i32)_children[item->getTarget()].size();
-                    _children[item->getTarget()].push_back(item);
+                    i32 targetSlot = GetEntityTargetSlot(item->getType());
+                    item->_location = (i32)_children[targetSlot].size();
+                    _children[targetSlot].push_back(item);
                     onChildAdd(item);
                     item->_parentPtr = this;
                     item->_parent = _uuid;
@@ -327,8 +328,9 @@ namespace Marvel {
     b8
     mvAppItem::addItem(mvRef<mvAppItem> item)
     {
-        item->_location = (i32)_children[item->getTarget()].size();
-        _children[item->getTarget()].push_back(item);
+        i32 targetSlot = GetEntityTargetSlot(item->getType());
+        item->_location = (i32)_children[targetSlot].size();
+        _children[targetSlot].push_back(item);
         onChildAdd(item);
         return true;
     }
@@ -361,16 +363,16 @@ namespace Marvel {
         if (prevFound)
         {
             //item->setParent(this);
-
-            std::vector<mvRef<mvAppItem>> oldchildren = _children[item->getTarget()];
-            _children[item->getTarget()].clear();
+            i32 targetSlot = GetEntityTargetSlot(item->getType());
+            std::vector<mvRef<mvAppItem>> oldchildren = _children[targetSlot];
+            _children[targetSlot].clear();
 
             for (auto& child : oldchildren)
             {
-                _children[item->getTarget()].push_back(child);
+                _children[targetSlot].push_back(child);
                 if (child->_uuid == prev)
                 {
-                    _children[item->getTarget()].push_back(item);
+                    _children[targetSlot].push_back(item);
                     onChildAdd(item);
                 }
             }

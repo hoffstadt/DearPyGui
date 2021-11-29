@@ -15,7 +15,7 @@
 namespace Marvel {
 
     i32 
-        GetEntityDesciptionFlags(mvAppItemType type)
+    GetEntityDesciptionFlags(mvAppItemType type)
     {
         switch (type)
         {
@@ -91,6 +91,43 @@ namespace Marvel {
         case mvAppItemType::mvColorMapRegistry:
         case mvAppItemType::mvStage: return MV_ITEM_DESC_ROOT | MV_ITEM_DESC_CONTAINER;
         default: return MV_ITEM_DESC_DEFAULT;
+        }
+    }
+
+    i32
+    GetEntityTargetSlot(mvAppItemType type)
+    {
+        switch (type)
+        {
+        case mvAppItemType::mvFileExtension:
+        case mvAppItemType::mvFontRangeHint:
+        case mvAppItemType::mvNodeLink:
+        case mvAppItemType::mvAnnotation:
+        case mvAppItemType::mvDragLine:
+        case mvAppItemType::mvDragPoint:
+        case mvAppItemType::mvPlotLegend:
+        case mvAppItemType::mvTableColumn: return 0;
+
+        case mvAppItemType::mvDrawBezierCubic:
+        case mvAppItemType::mvDrawBezierQuadratic:
+        case mvAppItemType::mvDrawCircle:
+        case mvAppItemType::mvDrawEllipse:
+        case mvAppItemType::mvDrawImage:
+        case mvAppItemType::mvDrawImageQuad:
+        case mvAppItemType::mvDrawLayer:
+        case mvAppItemType::mvDrawLine:
+        case mvAppItemType::mvDrawNode:
+        case mvAppItemType::mvDrawPolygon:
+        case mvAppItemType::mvDrawPolyline:
+        case mvAppItemType::mvDrawQuad:
+        case mvAppItemType::mvDrawRect:
+        case mvAppItemType::mvDrawText:
+        case mvAppItemType::mvDrawTriangle:
+        case mvAppItemType::mvDrawArrow: return 2;
+
+        case mvAppItemType::mvDragPayload: return 3;
+
+        default: return 1;
         }
     }
 
@@ -2032,7 +2069,7 @@ namespace Marvel {
     {
         if (registry.boundedTemplateRegistry)
         {
-            for (auto& tempItem : registry.boundedTemplateRegistry->_children[item->getTarget()])
+            for (auto& tempItem : registry.boundedTemplateRegistry->_children[GetEntityTargetSlot(item->getType())])
             {
                 if (tempItem->getType() == item->getType())
                 {
@@ -2612,7 +2649,7 @@ namespace Marvel {
             }
 
             PyDict_SetItemString(pdict, "type", mvPyObject(ToPyString(appitem->getTypeString())));
-            PyDict_SetItemString(pdict, "target", mvPyObject(ToPyInt(appitem->getTarget())));
+            PyDict_SetItemString(pdict, "target", mvPyObject(ToPyInt(GetEntityTargetSlot(appitem->getType()))));
 
             if (appitem->_parentPtr)
                 PyDict_SetItemString(pdict, "parent", mvPyObject(ToPyUUID(appitem->_parentPtr->_uuid)));

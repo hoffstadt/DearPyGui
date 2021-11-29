@@ -70,6 +70,7 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
 
     i32 GetEntityDesciptionFlags(mvAppItemType type);
+    i32 GetEntityTargetSlot     (mvAppItemType type);
 
     struct mvItemRegistry
     {
