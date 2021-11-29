@@ -35,9 +35,6 @@ namespace Marvel {
     void             RemoveAlias   (mvItemRegistry& registry, const std::string& alias, b8 itemTriggered = false);
     mvUUID           GetIdFromAlias(mvItemRegistry& registry, const std::string& alias);
 
-    // item pools
-    mvRef<mvAppItem> GetItemFromPool(mvItemRegistry& registry, mvAppItemType itemType);
-
     // item movement
     b8               MoveItem    (mvItemRegistry& registry, mvUUID uuid, mvUUID parent, mvUUID before);
     b8               MoveItemUp  (mvItemRegistry& registry, mvUUID uuid);
@@ -79,9 +76,6 @@ namespace Marvel {
 
         static constexpr i32 CachedContainerCount = 25;
 
-        // new
-        i32 entity_descriptions[(size_t)mvAppItemType::ItemTypeCount];
-
         // caching
         mvUUID     lastItemAdded = 0;
         mvUUID     lastContainerAdded = 0;
@@ -117,7 +111,6 @@ namespace Marvel {
         std::vector<mvRef<mvAppItem>> textureRegistryRoots;
         std::vector<mvRef<mvAppItem>> valueRegistryRoots;
         std::vector<mvRef<mvAppItem>> themeRegistryRoots;
-        std::vector<mvRef<mvAppItem>> itemPoolRoots;
         std::vector<mvRef<mvAppItem>> itemTemplatesRoots;
         std::vector<mvRef<mvAppItem>> viewportDrawlistRoots;
 

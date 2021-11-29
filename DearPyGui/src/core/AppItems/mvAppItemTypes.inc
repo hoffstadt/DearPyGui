@@ -156,8 +156,6 @@
     X( mvColorMapRegistry ) \
     X( mvColorMapButton ) \
     X( mvColorMapSlider ) \
-    X( mvItemPool ) \
-    X( mvItemSet ) \
     X( mvTemplateRegistry ) \
     X( mvTableCell ) \
     X( mvItemHandlerRegistry )

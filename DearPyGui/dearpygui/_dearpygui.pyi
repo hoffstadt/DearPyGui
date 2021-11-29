@@ -298,16 +298,8 @@ def add_item_hover_handler(*, label: str ='', user_data: Any ='', use_internal_l
 	"""Adds a hover handler."""
 	...
 
-def add_item_pool(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='') -> Union[int, str]:
-	"""Adds an item pool."""
-	...
-
 def add_item_resize_handler(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', callback: Callable ='', show: bool ='') -> Union[int, str]:
 	"""Adds a resize handler."""
-	...
-
-def add_item_set(type : int, count : int, *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='') -> Union[int, str]:
-	"""Adds an item set to an item pool."""
 	...
 
 def add_item_toggled_open_handler(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', callback: Callable ='', show: bool ='') -> Union[int, str]:
@@ -1752,8 +1744,6 @@ mvPlotColormap_Greys=0
 mvColorMapRegistry=0
 mvColorMapButton=0
 mvColorMapSlider=0
-mvItemPool=0
-mvItemSet=0
 mvTemplateRegistry=0
 mvTableCell=0
 mvItemHandlerRegistry=0

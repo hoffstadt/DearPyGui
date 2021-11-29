@@ -62,9 +62,6 @@ namespace Marvel {
     template<int item_type> 
     struct mvItemTypeMap {};
 
-    template<typename T> 
-    struct mvItemTypeReverseMap{};
-
     struct ScopedID
     {
         ScopedID(void* id) { ImGui::PushID(id); }
@@ -173,10 +170,6 @@ namespace Marvel {
         mvAppItemState _state;
         i32            _location = -1;
         b8             _showDebug = false;
-        
-        // item pool info
-        mvUUID _pool = 0;
-        mvUUID _itemSet = 0;
         
         // next frame triggers
         b8 _focusNextFrame = false;

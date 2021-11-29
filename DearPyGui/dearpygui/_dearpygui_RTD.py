@@ -1859,48 +1859,6 @@ def item_handler_registry(**kwargs):
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def item_pool(**kwargs):
-	"""	 Adds an item pool.
-
-	Args:
-		label (str, optional): Overrides 'name' as label.
-		user_data (Any, optional): User data for callbacks
-		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
-		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		id (Union[int, str], optional): (deprecated)
-	Yields:
-		Union[int, str]
-	"""
-	try:
-		widget = internal_dpg.add_item_pool(**kwargs)
-		internal_dpg.push_container_stack(widget)
-		yield widget
-	finally:
-		internal_dpg.pop_container_stack()
-
-@contextmanager
-def item_set(type, count, **kwargs):
-	"""	 Adds an item set to an item pool.
-
-	Args:
-		type (int): 
-		count (int): 
-		label (str, optional): Overrides 'name' as label.
-		user_data (Any, optional): User data for callbacks
-		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
-		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		id (Union[int, str], optional): (deprecated)
-	Yields:
-		Union[int, str]
-	"""
-	try:
-		widget = internal_dpg.add_item_set(type, count, **kwargs)
-		internal_dpg.push_container_stack(widget)
-		yield widget
-	finally:
-		internal_dpg.pop_container_stack()
-
-@contextmanager
 def menu(**kwargs):
 	"""	 Adds a menu to an existing menu bar.
 
@@ -4501,21 +4459,6 @@ def add_item_hover_handler(**kwargs):
 
 	return internal_dpg.add_item_hover_handler(**kwargs)
 
-def add_item_pool(**kwargs):
-	"""	 Adds an item pool.
-
-	Args:
-		label (str, optional): Overrides 'name' as label.
-		user_data (Any, optional): User data for callbacks
-		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
-		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		id (Union[int, str], optional): (deprecated)
-	Returns:
-		Union[int, str]
-	"""
-
-	return internal_dpg.add_item_pool(**kwargs)
-
 def add_item_resize_handler(**kwargs):
 	"""	 Adds a resize handler.
 
@@ -4533,23 +4476,6 @@ def add_item_resize_handler(**kwargs):
 	"""
 
 	return internal_dpg.add_item_resize_handler(**kwargs)
-
-def add_item_set(type, count, **kwargs):
-	"""	 Adds an item set to an item pool.
-
-	Args:
-		type (int): 
-		count (int): 
-		label (str, optional): Overrides 'name' as label.
-		user_data (Any, optional): User data for callbacks
-		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
-		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		id (Union[int, str], optional): (deprecated)
-	Returns:
-		Union[int, str]
-	"""
-
-	return internal_dpg.add_item_set(type, count, **kwargs)
 
 def add_item_toggled_open_handler(**kwargs):
 	"""	 Adds a togged open handler.
@@ -8711,8 +8637,6 @@ mvPlotColormap_Greys=internal_dpg.mvPlotColormap_Greys
 mvColorMapRegistry=internal_dpg.mvColorMapRegistry
 mvColorMapButton=internal_dpg.mvColorMapButton
 mvColorMapSlider=internal_dpg.mvColorMapSlider
-mvItemPool=internal_dpg.mvItemPool
-mvItemSet=internal_dpg.mvItemSet
 mvTemplateRegistry=internal_dpg.mvTemplateRegistry
 mvTableCell=internal_dpg.mvTableCell
 mvItemHandlerRegistry=internal_dpg.mvItemHandlerRegistry

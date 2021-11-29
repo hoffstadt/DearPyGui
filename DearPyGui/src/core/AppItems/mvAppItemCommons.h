@@ -67,7 +67,6 @@
 #include "colors/mvColorMapSlider.h"
 
 #include "misc/mvProgressBar.h"
-#include "misc/mvItemPool.h"
 #include "misc/mvSpacer.h"
 #include "misc/mvSeparator.h"
 

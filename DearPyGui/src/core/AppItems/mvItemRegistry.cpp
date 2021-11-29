@@ -80,7 +80,6 @@ namespace Marvel {
         case mvAppItemType::mvValueRegistry:
         case mvAppItemType::mvItemHandlerRegistry:
         case mvAppItemType::mvTextureRegistry:
-        case mvAppItemType::mvItemPool:
         case mvAppItemType::mvHandlerRegistry:
         case mvAppItemType::mvFontRegistry:
         case mvAppItemType::mvWindowAppItem:
@@ -1025,7 +1024,6 @@ namespace Marvel {
         else if (AddItemAfterRoot(registry.valueRegistryRoots, prev, item)) return true;
         else if (AddItemAfterRoot(registry.windowRoots, prev, item)) return true;
         else if (AddItemAfterRoot(registry.themeRegistryRoots, prev, item)) return true;
-        else if (AddItemAfterRoot(registry.itemPoolRoots, prev, item)) return true;
         else if (AddItemAfterRoot(registry.itemTemplatesRoots, prev, item)) return true;
         else if (AddItemAfterRoot(registry.itemHandlerRegistryRoots, prev, item)) return true;
         else if (AddItemAfterRoot(registry.viewportDrawlistRoots, prev, item)) return true;
@@ -1061,7 +1059,6 @@ namespace Marvel {
         else if (AddRuntimeChildRoot(registry.valueRegistryRoots, parent, before, item)) return true;
         else if (AddRuntimeChildRoot(registry.windowRoots, parent, before, item)) return true;
         else if (AddRuntimeChildRoot(registry.themeRegistryRoots, parent, before, item)) return true;
-        else if (AddRuntimeChildRoot(registry.itemPoolRoots, parent, before, item)) return true;
         else if (AddRuntimeChildRoot(registry.itemTemplatesRoots, parent, before, item)) return true;
         else if (AddRuntimeChildRoot(registry.itemHandlerRegistryRoots, parent, before, item)) return true;
         else if (AddRuntimeChildRoot(registry.viewportDrawlistRoots, parent, before, item)) return true;
@@ -1083,7 +1080,6 @@ namespace Marvel {
         if (item->getType() == mvAppItemType::mvTextureRegistry) registry.textureRegistryRoots.push_back(item);
         if (item->getType() == mvAppItemType::mvValueRegistry) registry.valueRegistryRoots.push_back(item);
         if (item->getType() == mvAppItemType::mvTheme) registry.themeRegistryRoots.push_back(item);
-        if (item->getType() == mvAppItemType::mvItemPool) registry.itemPoolRoots.push_back(item);
         if (item->getType() == mvAppItemType::mvTemplateRegistry) registry.itemTemplatesRoots.push_back(item);
         if (item->getType() == mvAppItemType::mvItemHandlerRegistry) registry.itemHandlerRegistryRoots.push_back(item);
         if (item->getType() == mvAppItemType::mvViewportDrawlist) registry.viewportDrawlistRoots.push_back(item);
@@ -1184,7 +1180,6 @@ namespace Marvel {
         GetAllItemsRoot(registry.textureRegistryRoots, childList);
         GetAllItemsRoot(registry.valueRegistryRoots, childList);
         GetAllItemsRoot(registry.themeRegistryRoots, childList);
-        GetAllItemsRoot(registry.itemPoolRoots, childList);
         GetAllItemsRoot(registry.itemTemplatesRoots, childList);
         GetAllItemsRoot(registry.itemHandlerRegistryRoots, childList);
         GetAllItemsRoot(registry.viewportDrawlistRoots, childList);
@@ -1207,7 +1202,6 @@ namespace Marvel {
         for (auto& root : registry.textureRegistryRoots) childList.emplace_back(root->_uuid);
         for (auto& root : registry.valueRegistryRoots) childList.emplace_back(root->_uuid);
         for (auto& root : registry.themeRegistryRoots) childList.emplace_back(root->_uuid);
-        for (auto& root : registry.itemPoolRoots) childList.emplace_back(root->_uuid);
         for (auto& root : registry.itemTemplatesRoots) childList.emplace_back(root->_uuid);
         for (auto& root : registry.itemHandlerRegistryRoots) childList.emplace_back(root->_uuid);
         for (auto& root : registry.viewportDrawlistRoots) childList.emplace_back(root->_uuid);
@@ -1355,19 +1349,6 @@ namespace Marvel {
         return 0;
     }
 
-    mvRef<mvAppItem> 
-    GetItemFromPool(mvItemRegistry& registry, mvAppItemType itemType)
-    {
-        for (auto& pool : registry.itemPoolRoots)
-        {
-            auto item = static_cast<mvItemPool*>(pool.get())->getItem(itemType);
-            if (item)
-                return item;
-        }
-
-        return nullptr;
-    }
-
     mvAppItem* 
     GetItemRoot(mvItemRegistry& registry, mvUUID uuid)
     {
@@ -1432,7 +1413,6 @@ namespace Marvel {
         else if (DeleteRoot(registry.valueRegistryRoots, uuid)) deletedItem = true;
         else if (DeleteRoot(registry.windowRoots, uuid)) deletedItem = true;
         else if (DeleteRoot(registry.themeRegistryRoots, uuid)) deletedItem = true;
-        else if (DeleteRoot(registry.itemPoolRoots, uuid)) deletedItem = true;
         else if (DeleteRoot(registry.itemTemplatesRoots, uuid)) deletedItem = true;
         else if (DeleteRoot(registry.itemHandlerRegistryRoots, uuid)) deletedItem = true;
         else if (DeleteRoot(registry.viewportDrawlistRoots, uuid)) deletedItem = true;
@@ -1484,7 +1464,6 @@ namespace Marvel {
             else if (MoveRoot(registry.valueRegistryRoots, uuid, child)) movedItem = true;
             else if (MoveRoot(registry.windowRoots, uuid, child)) movedItem = true;
             else if (MoveRoot(registry.themeRegistryRoots, uuid, child)) movedItem = true;
-            else if (MoveRoot(registry.itemPoolRoots, uuid, child)) movedItem = true;
             else if (MoveRoot(registry.itemTemplatesRoots, uuid, child)) movedItem = true;
             else if (MoveRoot(registry.itemHandlerRegistryRoots, uuid, child)) movedItem = true;
             else if (MoveRoot(registry.viewportDrawlistRoots, uuid, child)) movedItem = true;
@@ -1521,7 +1500,6 @@ namespace Marvel {
         else if (MoveUpRoot(registry.valueRegistryRoots, uuid)) movedItem = true;
         else if (MoveUpRoot(registry.windowRoots, uuid)) movedItem = true;
         else if (MoveUpRoot(registry.themeRegistryRoots, uuid)) movedItem = true;
-        else if (MoveUpRoot(registry.itemPoolRoots, uuid)) movedItem = true;
         else if (MoveUpRoot(registry.itemTemplatesRoots, uuid)) movedItem = true;
         else if (MoveUpRoot(registry.itemHandlerRegistryRoots, uuid)) movedItem = true;
         else if (MoveUpRoot(registry.viewportDrawlistRoots, uuid)) movedItem = true;
@@ -1556,7 +1534,6 @@ namespace Marvel {
         else if (MoveDownRoot(registry.valueRegistryRoots, uuid)) movedItem = true;
         else if (MoveDownRoot(registry.windowRoots, uuid)) movedItem = true;
         else if (MoveDownRoot(registry.themeRegistryRoots, uuid)) movedItem = true;
-        else if (MoveDownRoot(registry.itemPoolRoots, uuid)) movedItem = true;
         else if (MoveDownRoot(registry.itemTemplatesRoots, uuid)) movedItem = true;
         else if (MoveDownRoot(registry.itemHandlerRegistryRoots, uuid)) movedItem = true;
         else if (MoveDownRoot(registry.viewportDrawlistRoots, uuid)) movedItem = true;
@@ -1790,7 +1767,6 @@ namespace Marvel {
         if (auto foundItem = GetItemRoot(registry, registry.valueRegistryRoots, uuid)) return foundItem;
         if (auto foundItem = GetItemRoot(registry, registry.windowRoots, uuid)) return foundItem;
         if (auto foundItem = GetItemRoot(registry, registry.themeRegistryRoots, uuid)) return foundItem;
-        if (auto foundItem = GetItemRoot(registry, registry.itemPoolRoots, uuid)) return foundItem;
         if (auto foundItem = GetItemRoot(registry, registry.itemTemplatesRoots, uuid)) return foundItem;
         if (auto foundItem = GetItemRoot(registry, registry.itemHandlerRegistryRoots, uuid)) return foundItem;
         if (auto foundItem = GetItemRoot(registry, registry.viewportDrawlistRoots, uuid)) return foundItem;
@@ -1832,7 +1808,6 @@ namespace Marvel {
         else if (auto foundItem = GetRefItemRoot(registry.valueRegistryRoots, uuid)) return foundItem;
         else if (auto foundItem = GetRefItemRoot(registry.windowRoots, uuid)) return foundItem;
         else if (auto foundItem = GetRefItemRoot(registry.themeRegistryRoots, uuid)) return foundItem;
-        else if (auto foundItem = GetRefItemRoot(registry.itemPoolRoots, uuid)) return foundItem;
         else if (auto foundItem = GetRefItemRoot(registry.itemTemplatesRoots, uuid)) return foundItem;
         else if (auto foundItem = GetRefItemRoot(registry.itemHandlerRegistryRoots, uuid)) return foundItem;
         else if (auto foundItem = GetRefItemRoot(registry.viewportDrawlistRoots, uuid)) return foundItem;
@@ -1872,7 +1847,6 @@ namespace Marvel {
         registry.textureRegistryRoots.clear();
         registry.valueRegistryRoots.clear();
         registry.themeRegistryRoots.clear();
-        registry.itemPoolRoots.clear();
         registry.itemTemplatesRoots.clear();
         registry.itemHandlerRegistryRoots.clear();
         registry.viewportDrawlistRoots.clear();

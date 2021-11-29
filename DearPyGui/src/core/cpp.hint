@@ -14,8 +14,7 @@
 
 #define MV_REGISTER_WIDGET(x) class x;\
 template<> struct mvItemTypeMap<(int)mvAppItemType::x>\
-{typedef x type; static constexpr const char* const s_class = #x;};\
-template<>struct mvItemTypeReverseMap<class x>{static constexpr mvAppItemType type = mvAppItemType::x;};
+{typedef x type; static constexpr const char* const s_class = #x;};
 
 #define MV_APPLY_WIDGET_REGISTRATION(x, parser)\
 static inline mvRef<mvAppItem> s_class_theme_component = nullptr;\
@@ -35,9 +34,7 @@ static PyObject* parser(PyObject* self, PyObject* args, PyObject* kwargs)\
 	mvRef<mvAppItem> item = nullptr;\
 	auto [parent, before, alias] = GetNameFromArgs(id, args, kwargs);\
 	if(id == 0) id = GenerateUUID();\
-	item = GetItemFromPool((*GContext->itemRegistry), x);\
-	if(item == nullptr) item = CreateRef<mvItemTypeMap<(int)x>::type>(id);\
-	else item->_uuid;\
+	item = CreateRef<mvItemTypeMap<(int)x>::type>(id);\
 	if (!item->_alias.empty()) RemoveAlias(*GContext->itemRegistry, item->_alias, true);\
 	item->_alias = alias;\
 	if (!item->_alias.empty()) AddAlias(*GContext->itemRegistry, item->_alias, item->_uuid);\
