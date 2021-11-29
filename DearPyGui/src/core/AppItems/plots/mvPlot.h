@@ -37,20 +37,6 @@ namespace Marvel {
         MV_CREATE_CONSTANT(mvPlotMarker_Plus    ,  8L);  // a plus marker will be rendered at each point (not filled)
         MV_CREATE_CONSTANT(mvPlotMarker_Asterisk,  9L); // a asterisk marker will be rendered at each point (not filled)
 
-        MV_SET_STATES(
-            MV_STATE_HOVER |
-            MV_STATE_ACTIVE |
-            MV_STATE_FOCUSED |
-            MV_STATE_CLICKED |
-            MV_STATE_VISIBLE |
-            MV_STATE_ACTIVATED |
-            MV_STATE_DEACTIVATED |
-            MV_STATE_RECT_MIN |
-            MV_STATE_RECT_MAX |
-            MV_STATE_RECT_SIZE |
-            MV_STATE_CONT_AVAIL
-        );
-
         MV_START_COMMANDS
             MV_ADD_COMMAND(is_plot_queried);
             MV_ADD_COMMAND(get_plot_query_area);

@@ -16,7 +16,7 @@ namespace Marvel {
 
         MV_CREATE_COMMAND(set_clip_space);
 
-        MV_SET_STATES(MV_STATE_NONE);
+        
 
         MV_START_PARENTS
             MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),

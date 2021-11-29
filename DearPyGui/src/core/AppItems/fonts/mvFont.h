@@ -14,7 +14,7 @@ namespace Marvel {
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvFont, add_font)
         MV_NO_CONSTANTS
 
-        MV_SET_STATES(MV_STATE_NONE);
+        
 
         MV_CREATE_COMMAND(bind_font);
         MV_CREATE_COMMAND(get_text_size);

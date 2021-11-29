@@ -41,7 +41,7 @@ namespace Marvel {
 	void mvItemHandlerRegistry::onBind(mvAppItem* item)
 	{
 
-		auto applicableState = item->getApplicableState();
+		auto applicableState = GetApplicableState(item->getType());
 
 		for (auto& handler : _children[1])
 		{

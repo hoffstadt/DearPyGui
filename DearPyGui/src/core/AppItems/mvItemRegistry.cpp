@@ -14,243 +14,6 @@
 
 namespace Marvel {
 
-    i32 
-    GetEntityDesciptionFlags(mvAppItemType type)
-    {
-        switch (type)
-        {
-        case mvAppItemType::mvThemeComponent:
-        case mvAppItemType::mvTable:
-        case mvAppItemType::mvTableCell:
-        case mvAppItemType::mvTableRow:
-        case mvAppItemType::mv2dHistogramSeries:
-        case mvAppItemType::mvAreaSeries:
-        case mvAppItemType::mvBarSeries:
-        case mvAppItemType::mvCandleSeries:
-        case mvAppItemType::mvErrorSeries:
-        case mvAppItemType::mvHeatSeries:
-        case mvAppItemType::mvHistogramSeries:
-        case mvAppItemType::mvImageSeries:
-        case mvAppItemType::mvVLineSeries:
-        case mvAppItemType::mvHLineSeries:
-        case mvAppItemType::mvLabelSeries:
-        case mvAppItemType::mvLineSeries:
-        case mvAppItemType::mvPieSeries:
-        case mvAppItemType::mvScatterSeries:
-        case mvAppItemType::mvShadeSeries:
-        case mvAppItemType::mvStairSeries:
-        case mvAppItemType::mvStemSeries:
-        case mvAppItemType::mvPlot:
-        case mvAppItemType::mvSubPlots:
-        case mvAppItemType::mvPlotAxis:
-        case mvAppItemType::mvPlotLegend:
-        case mvAppItemType::mvNode:
-        case mvAppItemType::mvNodeAttribute:
-        case mvAppItemType::mvNodeEditor:
-        case mvAppItemType::mvFont:
-        case mvAppItemType::mvDrawLayer:
-        case mvAppItemType::mvDrawlist:
-        case mvAppItemType::mvDrawNode:
-        case mvAppItemType::mvTreeNode:
-        case mvAppItemType::mvTab:
-        case mvAppItemType::mvTabBar:
-        case mvAppItemType::mvMenuBar:
-        case mvAppItemType::mvMenu:
-        case mvAppItemType::mvGroup:
-        case mvAppItemType::mvCollapsingHeader:
-        case mvAppItemType::mvClipper:
-        case mvAppItemType::mvChildWindow:
-        case mvAppItemType::mvFilterSet: return MV_ITEM_DESC_CONTAINER;
-
-        case mvAppItemType::mvTooltip:
-        case mvAppItemType::mvActivatedHandler:
-        case mvAppItemType::mvActiveHandler:
-        case mvAppItemType::mvClickedHandler:
-        case mvAppItemType::mvDeactivatedAfterEditHandler:
-        case mvAppItemType::mvDeactivatedHandler:
-        case mvAppItemType::mvEditedHandler:
-        case mvAppItemType::mvFocusHandler:
-        case mvAppItemType::mvHoverHandler:
-        case mvAppItemType::mvResizeHandler:
-        case mvAppItemType::mvToggledOpenHandler:
-        case mvAppItemType::mvVisibleHandler:
-        case mvAppItemType::mvDragPayload: return MV_ITEM_DESC_CONTAINER | MV_ITEM_DESC_HANDLER;
-
-        case mvAppItemType::mvTheme:
-        case mvAppItemType::mvValueRegistry:
-        case mvAppItemType::mvItemHandlerRegistry:
-        case mvAppItemType::mvTextureRegistry:
-        case mvAppItemType::mvHandlerRegistry:
-        case mvAppItemType::mvFontRegistry:
-        case mvAppItemType::mvWindowAppItem:
-        case mvAppItemType::mvViewportDrawlist:
-        case mvAppItemType::mvViewportMenuBar:
-        case mvAppItemType::mvTemplateRegistry:
-        case mvAppItemType::mvFileDialog:
-        case mvAppItemType::mvColorMapRegistry:
-        case mvAppItemType::mvStage: return MV_ITEM_DESC_ROOT | MV_ITEM_DESC_CONTAINER;
-        default: return MV_ITEM_DESC_DEFAULT;
-        }
-    }
-
-    i32
-    GetEntityTargetSlot(mvAppItemType type)
-    {
-        switch (type)
-        {
-        case mvAppItemType::mvFileExtension:
-        case mvAppItemType::mvFontRangeHint:
-        case mvAppItemType::mvNodeLink:
-        case mvAppItemType::mvAnnotation:
-        case mvAppItemType::mvDragLine:
-        case mvAppItemType::mvDragPoint:
-        case mvAppItemType::mvPlotLegend:
-        case mvAppItemType::mvTableColumn: return 0;
-
-        case mvAppItemType::mvDrawBezierCubic:
-        case mvAppItemType::mvDrawBezierQuadratic:
-        case mvAppItemType::mvDrawCircle:
-        case mvAppItemType::mvDrawEllipse:
-        case mvAppItemType::mvDrawImage:
-        case mvAppItemType::mvDrawImageQuad:
-        case mvAppItemType::mvDrawLayer:
-        case mvAppItemType::mvDrawLine:
-        case mvAppItemType::mvDrawNode:
-        case mvAppItemType::mvDrawPolygon:
-        case mvAppItemType::mvDrawPolyline:
-        case mvAppItemType::mvDrawQuad:
-        case mvAppItemType::mvDrawRect:
-        case mvAppItemType::mvDrawText:
-        case mvAppItemType::mvDrawTriangle:
-        case mvAppItemType::mvDrawArrow: return 2;
-
-        case mvAppItemType::mvDragPayload: return 3;
-
-        default: return 1;
-        }
-    }
-
-    StorageValueTypes
-    GetEntityValueType(mvAppItemType type)
-    {
-        switch (type)
-        {
-
-        case mvAppItemType::mvTimePicker:
-        case mvAppItemType::mvDatePicker: return StorageValueTypes::Time;
-
-        case mvAppItemType::mvTabBar: return StorageValueTypes::UUID;
-
-        case mvAppItemType::mvColorValue:
-        case mvAppItemType::mvThemeColor:
-        case mvAppItemType::mvColorPicker:
-        case mvAppItemType::mvColorEdit: return StorageValueTypes::Color;
-
-        case mvAppItemType::mvIntValue:
-        case mvAppItemType::mvSliderInt:
-        case mvAppItemType::mvInputInt:
-        case mvAppItemType::mvDragInt: return StorageValueTypes::Int;
-
-        case mvAppItemType::mvFloatValue:
-        case mvAppItemType::mvProgressBar:
-        case mvAppItemType::mvKnobFloat:
-        case mvAppItemType::mvColorMapSlider:
-        case mvAppItemType::mvSliderFloat:
-        case mvAppItemType::mvInputFloat:
-        case mvAppItemType::mvDragFloat: return StorageValueTypes::Float;
-        
-        case mvAppItemType::mvFloat4Value:
-        case mvAppItemType::mvThemeStyle:
-        case mvAppItemType::mvAnnotation:
-        case mvAppItemType::mvSlider3D:
-        case mvAppItemType::mvInputFloatMulti:
-        case mvAppItemType::mvSliderFloatMulti:
-        case mvAppItemType::mvDragFloatMulti: return StorageValueTypes::Float4;
-
-        case mvAppItemType::mvInt4Value:
-        case mvAppItemType::mvInputIntMulti:
-        case mvAppItemType::mvSliderIntMulti:
-        case mvAppItemType::mvDragIntMulti: return StorageValueTypes::Int4;
-
-        case mvAppItemType::mvStringValue:
-        case mvAppItemType::mvText:
-        case mvAppItemType::mvRadioButton:
-        case mvAppItemType::mvListbox:
-        case mvAppItemType::mvInputText:
-        case mvAppItemType::mvCombo: return StorageValueTypes::String;
-
-        case mvAppItemType::mvBoolValue:
-        case mvAppItemType::mvTreeNode:
-        case mvAppItemType::mvTooltip:
-        case mvAppItemType::mvTab:
-        case mvAppItemType::mvMenuBar:
-        case mvAppItemType::mvMenu:
-        case mvAppItemType::mvCollapsingHeader:
-        case mvAppItemType::mvChildWindow:
-        case mvAppItemType::mvFileDialog:
-        case mvAppItemType::mvSelectable:
-        case mvAppItemType::mvMenuItem:
-        case mvAppItemType::mvCheckbox: return StorageValueTypes::Bool;
-        
-        case mvAppItemType::mvSeriesValue:
-        case mvAppItemType::mv2dHistogramSeries:
-        case mvAppItemType::mvAreaSeries:
-        case mvAppItemType::mvBarSeries:
-        case mvAppItemType::mvCandleSeries:
-        case mvAppItemType::mvErrorSeries:
-        case mvAppItemType::mvHeatSeries:
-        case mvAppItemType::mvHistogramSeries:
-        case mvAppItemType::mvImageSeries:
-        case mvAppItemType::mvVLineSeries:
-        case mvAppItemType::mvHLineSeries:
-        case mvAppItemType::mvLabelSeries:
-        case mvAppItemType::mvLineSeries:
-        case mvAppItemType::mvPieSeries:
-        case mvAppItemType::mvScatterSeries:
-        case mvAppItemType::mvShadeSeries:
-        case mvAppItemType::mvStairSeries:
-        case mvAppItemType::mvStemSeries: return StorageValueTypes::Series;
-
-        case mvAppItemType::mvDoubleValue:
-        case mvAppItemType::mvDragLine: return StorageValueTypes::Double;
-        
-        case mvAppItemType::mvDouble4Value:
-        case mvAppItemType::mvDragPoint: return StorageValueTypes::Double4;
-
-        case mvAppItemType::mvStaticTexture:
-        case mvAppItemType::mvDynamicTexture:
-        case mvAppItemType::mvSimplePlot: return StorageValueTypes::FloatVect;
-
-        default: return StorageValueTypes::None;
-        }
-    }
-
-    const char* 
-    GetEntityTypeString(mvAppItemType type)
-    {
-        #define X(el) #el,
-        mv_local_persist const char* entity_type_strings[(size_t)mvAppItemType::ItemTypeCount] =
-        {
-            "All, an error occured", // shouldn't actually occur
-            MV_ITEM_TYPES
-        };
-        #undef X
-
-        return entity_type_strings[(size_t)type];
-    }
-
-    mvRef<mvAppItem>
-    CreateEntity(mvAppItemType type, mvUUID id)
-    {
-        #define X(el) case mvAppItemType::el: return CreateRef<el>(id);
-        switch (type)
-        {
-            MV_ITEM_TYPES
-            default: return nullptr;
-        }
-        #undef X
-    }
-
     mvItemRegistry::mvItemRegistry()
     {
         // prefill cached containers
@@ -1701,7 +1464,7 @@ namespace Marvel {
             DebugItem("Font Bound:", root->_font ? ts : fs);
             DebugItem("Handlers Bound:", root->_handlerRegistry ? ts : fs);
 
-            i32 applicableState = root->getApplicableState();
+            i32 applicableState = GetApplicableState(root->getType());
             ImGui::Spacing();
             ImGui::Spacing();
             ImGui::Spacing();
@@ -2766,7 +2529,7 @@ namespace Marvel {
             else
                 PyDict_SetItemString(pdict, "container", mvPyObject(ToPyBool(false)));
 
-            i32 applicableState = appitem->getApplicableState();
+            i32 applicableState = GetApplicableState(appitem->getType());
             PyDict_SetItemString(pdict, "hover_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_HOVER)));
             PyDict_SetItemString(pdict, "active_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_ACTIVE)));
             PyDict_SetItemString(pdict, "focus_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_FOCUSED)));
@@ -3103,7 +2866,7 @@ namespace Marvel {
         PyObject* pdict = PyDict_New();
 
         if (appitem)
-            FillAppItemState(pdict, appitem->_state, appitem->getApplicableState());
+            FillAppItemState(pdict, appitem->_state, GetApplicableState(appitem->getType()));
         else
             mvThrowPythonError(mvErrorCode::mvItemNotFound, "get_item_state",
                 "Item not found: " + std::to_string(item), nullptr);

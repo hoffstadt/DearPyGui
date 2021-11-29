@@ -34,22 +34,6 @@ namespace Marvel {
             MV_DEFAULT_CHILDREN
             MV_NO_CONSTANTS
 
-            MV_SET_STATES(
-                MV_STATE_HOVER |
-                MV_STATE_ACTIVE |
-                MV_STATE_FOCUSED |
-                MV_STATE_CLICKED |
-                MV_STATE_VISIBLE |
-                MV_STATE_EDITED |
-                MV_STATE_ACTIVATED |
-                MV_STATE_DEACTIVATED |
-                MV_STATE_DEACTIVATEDAE |
-                MV_STATE_RECT_MIN |
-                MV_STATE_RECT_MAX |
-                MV_STATE_RECT_SIZE |
-                MV_STATE_CONT_AVAIL
-            );
-
     public:
 
         explicit mvDragFloat(mvUUID uuid);
@@ -94,21 +78,6 @@ namespace Marvel {
         MV_DEFAULT_CHILDREN
         MV_NO_CONSTANTS
 
-        MV_SET_STATES(
-            MV_STATE_HOVER |
-            MV_STATE_ACTIVE |
-            MV_STATE_FOCUSED |
-            MV_STATE_CLICKED |
-            MV_STATE_VISIBLE |
-            MV_STATE_EDITED |
-            MV_STATE_ACTIVATED |
-            MV_STATE_DEACTIVATED |
-            MV_STATE_DEACTIVATEDAE |
-            MV_STATE_RECT_MIN |
-            MV_STATE_RECT_MAX |
-            MV_STATE_RECT_SIZE |
-            MV_STATE_CONT_AVAIL
-        );
 
     public:
 
@@ -154,22 +123,6 @@ namespace Marvel {
             MV_DEFAULT_CHILDREN
             MV_NO_CONSTANTS
 
-            MV_SET_STATES(
-                MV_STATE_HOVER |
-                MV_STATE_ACTIVE |
-                MV_STATE_FOCUSED |
-                MV_STATE_CLICKED |
-                MV_STATE_VISIBLE |
-                MV_STATE_EDITED |
-                MV_STATE_ACTIVATED |
-                MV_STATE_DEACTIVATED |
-                MV_STATE_DEACTIVATEDAE |
-                MV_STATE_RECT_MIN |
-                MV_STATE_RECT_MAX |
-                MV_STATE_RECT_SIZE |
-                MV_STATE_CONT_AVAIL
-            );
-
     public:
 
         explicit mvDragInt(mvUUID uuid);
@@ -213,22 +166,6 @@ namespace Marvel {
         MV_DEFAULT_PARENTS
         MV_DEFAULT_CHILDREN
         MV_NO_CONSTANTS
-
-        MV_SET_STATES(
-            MV_STATE_HOVER |
-            MV_STATE_ACTIVE |
-            MV_STATE_FOCUSED |
-            MV_STATE_CLICKED |
-            MV_STATE_VISIBLE |
-            MV_STATE_EDITED |
-            MV_STATE_ACTIVATED |
-            MV_STATE_DEACTIVATED |
-            MV_STATE_DEACTIVATEDAE |
-            MV_STATE_RECT_MIN |
-            MV_STATE_RECT_MAX |
-            MV_STATE_RECT_SIZE |
-            MV_STATE_CONT_AVAIL
-        );
 
     public:
 

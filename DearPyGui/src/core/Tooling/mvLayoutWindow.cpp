@@ -214,7 +214,7 @@ namespace Marvel {
         DebugItem("Font Bound:", _itemref->_font ? ts : fs);
         DebugItem("Handlers Bound:", _itemref->_handlerRegistry ? ts : fs);
 
-        int applicableState = _itemref->getApplicableState();
+        int applicableState = GetApplicableState(_itemref->getType());
         ImGui::Spacing();
         ImGui::Spacing();
         ImGui::Spacing();

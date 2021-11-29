@@ -20,7 +20,7 @@ namespace Marvel {
         MV_CREATE_CONSTANT(mvCullMode_Back, 1);
         MV_CREATE_CONSTANT(mvCullMode_Front, 2);
 
-        MV_SET_STATES(MV_STATE_NONE);
+        
 
         MV_START_PARENTS
             MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),

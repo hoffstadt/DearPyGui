@@ -15,20 +15,6 @@ namespace Marvel {
         MV_DEFAULT_PARENTS
         MV_DEFAULT_CHILDREN
 
-        MV_SET_STATES(
-            MV_STATE_HOVER |
-            MV_STATE_ACTIVE |
-            MV_STATE_FOCUSED |
-            MV_STATE_CLICKED |
-            MV_STATE_VISIBLE |
-            MV_STATE_ACTIVATED |
-            MV_STATE_DEACTIVATED |
-            MV_STATE_RECT_MIN |
-            MV_STATE_RECT_MAX |
-            MV_STATE_RECT_SIZE |
-            MV_STATE_CONT_AVAIL
-        );
-
         // TODO: Move these to an appropriate location
         MV_CREATE_CONSTANT(mvAll, 0);
         MV_CREATE_CONSTANT(mvTool_About, MV_TOOL_ABOUT_UUID);

@@ -17,7 +17,7 @@ namespace Marvel {
 
         MV_CREATE_COMMAND(bind_theme);
 
-        MV_SET_STATES(MV_STATE_NONE);
+        
 
         MV_START_COMMANDS
             MV_ADD_COMMAND(bind_theme);

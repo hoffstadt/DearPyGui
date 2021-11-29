@@ -23,12 +23,6 @@ namespace Marvel {
         MV_CREATE_COMMAND(clear_selected_nodes);
         MV_CREATE_COMMAND(clear_selected_links);
 
-        MV_SET_STATES(
-            MV_STATE_HOVER |
-            MV_STATE_VISIBLE |
-            MV_STATE_RECT_SIZE
-        );
-
         MV_START_COMMANDS
             MV_ADD_COMMAND(get_selected_nodes);
             MV_ADD_COMMAND(get_selected_links);

@@ -24,8 +24,6 @@ namespace Marvel {
         MV_CREATE_COMMAND(create_orthographic_matrix);
         MV_CREATE_COMMAND(create_fps_matrix);
 
-        MV_SET_STATES(MV_STATE_NONE);
-
         MV_START_PARENTS
             MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
             MV_ADD_PARENT(mvAppItemType::mvStage),

@@ -17,15 +17,6 @@ namespace Marvel {
         MV_DEFAULT_CHILDREN
         MV_NO_CONSTANTS
 
-        MV_SET_STATES(
-            MV_STATE_HOVER |
-            MV_STATE_ACTIVE |
-            MV_STATE_FOCUSED |
-            MV_STATE_DEACTIVATED |
-            MV_STATE_RECT_SIZE |
-            MV_STATE_CONT_AVAIL
-        );
-
     public:
 
         explicit mvChildWindow(mvUUID uuid);

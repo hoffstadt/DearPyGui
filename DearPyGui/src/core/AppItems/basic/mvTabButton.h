@@ -21,11 +21,7 @@ namespace Marvel {
             MV_ADD_PARENT(mvAppItemType::mvStage),
             MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry)
         MV_END_PARENTS
-
-
-        // TODO: correct these
-        MV_SET_STATES(MV_STATE_NONE);
-
+        
     public:
 
         explicit mvTabButton(mvUUID uuid);

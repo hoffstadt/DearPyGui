@@ -19,8 +19,6 @@ namespace Marvel {
 		MV_DEFAULT_PARENTS
 		MV_NO_CONSTANTS
 
-		MV_SET_STATES(MV_STATE_NONE);
-
         MV_START_CHILDREN
             MV_ADD_CHILD(mvAppItemType::mvColorMap)
         MV_END_CHILDREN

@@ -27,13 +27,6 @@ namespace Marvel {
         MV_CREATE_COMMAND(get_x_scroll_max);
         MV_CREATE_COMMAND(get_y_scroll_max);
 
-        MV_SET_STATES(
-            MV_STATE_HOVER |
-            MV_STATE_FOCUSED | 
-            MV_STATE_VISIBLE | 
-            MV_STATE_RECT_SIZE |
-            MV_STATE_TOGGLED_OPEN);
-
         MV_START_COMMANDS
             MV_ADD_COMMAND(set_x_scroll);
             MV_ADD_COMMAND(set_y_scroll);

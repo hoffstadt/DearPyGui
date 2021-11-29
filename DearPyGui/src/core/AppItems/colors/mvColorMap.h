@@ -47,7 +47,7 @@ namespace Marvel {
         MV_CREATE_COMMAND(sample_colormap);
         MV_CREATE_COMMAND(get_colormap_color);
 
-        MV_SET_STATES(MV_STATE_NONE);
+        
 
         MV_START_COMMANDS
             MV_ADD_COMMAND(bind_colormap);

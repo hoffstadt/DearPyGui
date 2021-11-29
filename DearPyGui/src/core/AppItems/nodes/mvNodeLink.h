@@ -21,10 +21,6 @@ namespace Marvel {
         MV_DEFAULT_CHILDREN
         MV_NO_CONSTANTS
 
-            MV_SET_STATES(
-                MV_STATE_HOVER
-            );
-
         MV_START_PARENTS
             MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
             MV_ADD_PARENT(mvAppItemType::mvStage),

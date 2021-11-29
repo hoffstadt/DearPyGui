@@ -25,7 +25,7 @@ namespace Marvel {
         MV_CREATE_CONSTANT(mvPlot_Location_SouthWest, ImPlotLocation_SouthWest);
         MV_CREATE_CONSTANT(mvPlot_Location_SouthEast, ImPlotLocation_SouthEast);
 
-        MV_SET_STATES(MV_STATE_NONE);
+        
 
         MV_START_PARENTS
             MV_ADD_PARENT(mvAppItemType::mvStage),

@@ -21,9 +21,7 @@ namespace Marvel {
         MV_DEFAULT_CHILDREN
         MV_NO_CONSTANTS
 
-        MV_CREATE_COMMAND(get_file_dialog_info);
-
-        MV_SET_STATES(MV_STATE_NONE);
+        MV_CREATE_COMMAND(get_file_dialog_info);       
 
         MV_START_COMMANDS
             MV_ADD_COMMAND(get_file_dialog_info);

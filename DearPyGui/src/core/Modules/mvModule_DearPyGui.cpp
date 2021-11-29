@@ -70,7 +70,7 @@ namespace Marvel {
 			InsertConstants_mvContext(ModuleConstants);
 			mvToolManager::InsertConstants(ModuleConstants);
 
-			#define X(el) ModuleConstants.push_back({ std::string(#el), el::s_internal_type }); \
+			#define X(el) ModuleConstants.push_back({ std::string(#el), (long)mvAppItemType::el }); \
 					for (const auto& item : el::GetGeneralConstants()) ModuleConstants.push_back({ item.first, item.second });
 			MV_ITEM_TYPES
 			#undef X

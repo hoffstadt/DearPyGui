@@ -32,8 +32,6 @@ namespace Marvel {
         MV_CREATE_CONSTANT(mvTable_SizingStretchProp, ImGuiTableFlags_SizingStretchProp);
         MV_CREATE_CONSTANT(mvTable_SizingStretchSame, ImGuiTableFlags_SizingStretchSame);
 
-        MV_SET_STATES(MV_STATE_VISIBLE);
-
         MV_START_COMMANDS
             MV_ADD_COMMAND(highlight_table_column);
             MV_ADD_COMMAND(unhighlight_table_column);
