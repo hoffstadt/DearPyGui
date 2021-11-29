@@ -7,7 +7,7 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvItemSet
     //-----------------------------------------------------------------------------
-    MV_REGISTER_WIDGET(mvItemSet, MV_ITEM_DESC_DEFAULT, StorageValueTypes::None, 1);
+    MV_REGISTER_WIDGET(mvItemSet);
     class mvItemSet : public mvAppItem
     {
 
@@ -56,7 +56,7 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvItemPool
     //-----------------------------------------------------------------------------
-    MV_REGISTER_WIDGET(mvItemPool, MV_ITEM_DESC_ROOT | MV_ITEM_DESC_CONTAINER, StorageValueTypes::None, 1);
+    MV_REGISTER_WIDGET(mvItemPool);
     class mvItemPool : public mvAppItem
     {
 

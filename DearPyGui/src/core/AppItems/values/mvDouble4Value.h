@@ -5,7 +5,7 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvDouble4Value, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Double4, 1);
+    MV_REGISTER_WIDGET(mvDouble4Value);
     class mvDouble4Value : public mvAppItem
     {
 

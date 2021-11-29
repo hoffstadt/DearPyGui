@@ -4,7 +4,7 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvClipper, MV_ITEM_DESC_CONTAINER, StorageValueTypes::None, 1);
+	MV_REGISTER_WIDGET(mvClipper);
 	class mvClipper : public mvAppItem
 	{
 

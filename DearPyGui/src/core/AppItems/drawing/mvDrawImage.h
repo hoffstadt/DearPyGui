@@ -8,7 +8,7 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvDrawImage, MV_ITEM_DESC_DEFAULT, StorageValueTypes::None, 2);
+    MV_REGISTER_WIDGET(mvDrawImage);
     class mvDrawImage : public mvAppItem
     {
     public:

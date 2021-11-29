@@ -4,7 +4,7 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvFontRangeHint, MV_ITEM_DESC_DEFAULT, StorageValueTypes::None, 0);
+    MV_REGISTER_WIDGET(mvFontRangeHint);
     class mvFontRangeHint : public mvAppItem
     {
 

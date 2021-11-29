@@ -5,7 +5,7 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvMenuItem, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Bool, 1);
+    MV_REGISTER_WIDGET(mvMenuItem);
     class mvMenuItem : public mvAppItem
     {
 

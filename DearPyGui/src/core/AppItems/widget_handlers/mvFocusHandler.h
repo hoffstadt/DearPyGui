@@ -4,7 +4,7 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvFocusHandler, MV_ITEM_DESC_DEFAULT | MV_ITEM_DESC_HANDLER, StorageValueTypes::None, 1);
+    MV_REGISTER_WIDGET(mvFocusHandler);
     class mvFocusHandler : public mvAppItem
     {
 

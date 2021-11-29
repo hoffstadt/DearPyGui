@@ -4,7 +4,7 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvFilterSet, MV_ITEM_DESC_CONTAINER, StorageValueTypes::None, 1);
+    MV_REGISTER_WIDGET(mvFilterSet);
     class mvFilterSet : public mvAppItem
     {
 

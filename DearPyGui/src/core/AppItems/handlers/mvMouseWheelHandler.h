@@ -4,7 +4,7 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvMouseWheelHandler, MV_ITEM_DESC_DEFAULT, StorageValueTypes::None, 1);
+    MV_REGISTER_WIDGET(mvMouseWheelHandler);
     class mvMouseWheelHandler : public mvAppItem
     {
 

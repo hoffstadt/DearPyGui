@@ -4,7 +4,7 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvTimePicker, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Time, 1);
+    MV_REGISTER_WIDGET(mvTimePicker);
     class mvTimePicker : public mvAppItem
     {
 

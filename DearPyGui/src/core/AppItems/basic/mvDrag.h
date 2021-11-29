@@ -21,7 +21,7 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvDragFloat
     //-----------------------------------------------------------------------------
-    MV_REGISTER_WIDGET(mvDragFloat, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Float, 1);
+    MV_REGISTER_WIDGET(mvDragFloat);
     class mvDragFloat : public mvAppItem
     {
 
@@ -82,7 +82,7 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvDragFloatMulti
     //-----------------------------------------------------------------------------
-    MV_REGISTER_WIDGET(mvDragFloatMulti, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Float4, 1);
+    MV_REGISTER_WIDGET(mvDragFloatMulti);
     class mvDragFloatMulti : public mvAppItem
     {
 
@@ -143,7 +143,7 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvDragInt
     //----------------------------------------------------------------------------- 
-    MV_REGISTER_WIDGET(mvDragInt, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Int, 1);
+    MV_REGISTER_WIDGET(mvDragInt);
     class mvDragInt : public mvAppItem
     {
 
@@ -204,7 +204,7 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvDragIntMulti
     //-----------------------------------------------------------------------------
-    MV_REGISTER_WIDGET(mvDragIntMulti, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Int4, 1);
+    MV_REGISTER_WIDGET(mvDragIntMulti);
     class mvDragIntMulti : public mvAppItem
     {
 

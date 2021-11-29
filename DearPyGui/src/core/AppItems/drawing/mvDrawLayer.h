@@ -5,7 +5,7 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvDrawLayer, MV_ITEM_DESC_CONTAINER, StorageValueTypes::None, 2);
+    MV_REGISTER_WIDGET(mvDrawLayer);
     class mvDrawLayer : public mvAppItem
     {
     public:

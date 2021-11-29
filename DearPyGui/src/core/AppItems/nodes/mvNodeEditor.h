@@ -7,7 +7,7 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvNodeEditor, MV_ITEM_DESC_CONTAINER, StorageValueTypes::None, 1);
+    MV_REGISTER_WIDGET(mvNodeEditor);
     class mvNodeEditor : public mvAppItem
     {
 

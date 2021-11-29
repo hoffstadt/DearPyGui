@@ -8,7 +8,7 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvSlider3D, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Float4, 1);
+    MV_REGISTER_WIDGET(mvSlider3D);
     class mvSlider3D : public mvAppItem
     {
 

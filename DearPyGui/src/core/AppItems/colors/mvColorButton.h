@@ -5,7 +5,7 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvColorButton, MV_ITEM_DESC_DEFAULT, StorageValueTypes::None, 1);
+    MV_REGISTER_WIDGET(mvColorButton);
     class mvColorButton : public mvAppItem
     {
 

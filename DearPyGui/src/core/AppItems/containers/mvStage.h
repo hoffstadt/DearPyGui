@@ -4,7 +4,7 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvStage, MV_ITEM_DESC_CONTAINER | MV_ITEM_DESC_ROOT, StorageValueTypes::None, 1);
+	MV_REGISTER_WIDGET(mvStage);
 	class mvStage : public mvAppItem
 	{
 

@@ -4,7 +4,7 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvDynamicTexture, MV_ITEM_DESC_DEFAULT, StorageValueTypes::FloatVect, 1);
+    MV_REGISTER_WIDGET(mvDynamicTexture);
     class mvDynamicTexture : public mvAppItem
     {
 

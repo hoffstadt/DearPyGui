@@ -6,7 +6,7 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvThemeStyle, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Float4, 1);
+    MV_REGISTER_WIDGET(mvThemeStyle);
     class mvThemeStyle : public mvAppItem
     {
 

@@ -9,7 +9,7 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvSubPlots, MV_ITEM_DESC_CONTAINER, StorageValueTypes::None, 1);
+    MV_REGISTER_WIDGET(mvSubPlots);
     class mvSubPlots : public mvAppItem
     {
 

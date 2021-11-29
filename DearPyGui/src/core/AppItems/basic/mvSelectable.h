@@ -4,7 +4,7 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvSelectable, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Bool, 1);
+    MV_REGISTER_WIDGET(mvSelectable);
     class mvSelectable : public mvAppItem
     {
 

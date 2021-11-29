@@ -4,7 +4,7 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvFloatVectValue, MV_ITEM_DESC_DEFAULT, StorageValueTypes::FloatVect, 1);
+    MV_REGISTER_WIDGET(mvFloatVectValue);
     class mvFloatVectValue : public mvAppItem
     {
 

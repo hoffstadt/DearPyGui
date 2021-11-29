@@ -4,7 +4,7 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvBoolValue, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Bool, 1);
+    MV_REGISTER_WIDGET(mvBoolValue);
     class mvBoolValue : public mvAppItem
     {
 

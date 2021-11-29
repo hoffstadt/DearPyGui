@@ -131,6 +131,101 @@ namespace Marvel {
         }
     }
 
+    StorageValueTypes
+    GetEntityValueType(mvAppItemType type)
+    {
+        switch (type)
+        {
+
+        case mvAppItemType::mvTimePicker:
+        case mvAppItemType::mvDatePicker: return StorageValueTypes::Time;
+
+        case mvAppItemType::mvTabBar: return StorageValueTypes::UUID;
+
+        case mvAppItemType::mvColorValue:
+        case mvAppItemType::mvThemeColor:
+        case mvAppItemType::mvColorPicker:
+        case mvAppItemType::mvColorEdit: return StorageValueTypes::Color;
+
+        case mvAppItemType::mvIntValue:
+        case mvAppItemType::mvSliderInt:
+        case mvAppItemType::mvInputInt:
+        case mvAppItemType::mvDragInt: return StorageValueTypes::Int;
+
+        case mvAppItemType::mvFloatValue:
+        case mvAppItemType::mvProgressBar:
+        case mvAppItemType::mvKnobFloat:
+        case mvAppItemType::mvColorMapSlider:
+        case mvAppItemType::mvSliderFloat:
+        case mvAppItemType::mvInputFloat:
+        case mvAppItemType::mvDragFloat: return StorageValueTypes::Float;
+        
+        case mvAppItemType::mvFloat4Value:
+        case mvAppItemType::mvThemeStyle:
+        case mvAppItemType::mvAnnotation:
+        case mvAppItemType::mvSlider3D:
+        case mvAppItemType::mvInputFloatMulti:
+        case mvAppItemType::mvSliderFloatMulti:
+        case mvAppItemType::mvDragFloatMulti: return StorageValueTypes::Float4;
+
+        case mvAppItemType::mvInt4Value:
+        case mvAppItemType::mvInputIntMulti:
+        case mvAppItemType::mvSliderIntMulti:
+        case mvAppItemType::mvDragIntMulti: return StorageValueTypes::Int4;
+
+        case mvAppItemType::mvStringValue:
+        case mvAppItemType::mvText:
+        case mvAppItemType::mvRadioButton:
+        case mvAppItemType::mvListbox:
+        case mvAppItemType::mvInputText:
+        case mvAppItemType::mvCombo: return StorageValueTypes::String;
+
+        case mvAppItemType::mvBoolValue:
+        case mvAppItemType::mvTreeNode:
+        case mvAppItemType::mvTooltip:
+        case mvAppItemType::mvTab:
+        case mvAppItemType::mvMenuBar:
+        case mvAppItemType::mvMenu:
+        case mvAppItemType::mvCollapsingHeader:
+        case mvAppItemType::mvChildWindow:
+        case mvAppItemType::mvFileDialog:
+        case mvAppItemType::mvSelectable:
+        case mvAppItemType::mvMenuItem:
+        case mvAppItemType::mvCheckbox: return StorageValueTypes::Bool;
+        
+        case mvAppItemType::mvSeriesValue:
+        case mvAppItemType::mv2dHistogramSeries:
+        case mvAppItemType::mvAreaSeries:
+        case mvAppItemType::mvBarSeries:
+        case mvAppItemType::mvCandleSeries:
+        case mvAppItemType::mvErrorSeries:
+        case mvAppItemType::mvHeatSeries:
+        case mvAppItemType::mvHistogramSeries:
+        case mvAppItemType::mvImageSeries:
+        case mvAppItemType::mvVLineSeries:
+        case mvAppItemType::mvHLineSeries:
+        case mvAppItemType::mvLabelSeries:
+        case mvAppItemType::mvLineSeries:
+        case mvAppItemType::mvPieSeries:
+        case mvAppItemType::mvScatterSeries:
+        case mvAppItemType::mvShadeSeries:
+        case mvAppItemType::mvStairSeries:
+        case mvAppItemType::mvStemSeries: return StorageValueTypes::Series;
+
+        case mvAppItemType::mvDoubleValue:
+        case mvAppItemType::mvDragLine: return StorageValueTypes::Double;
+        
+        case mvAppItemType::mvDouble4Value:
+        case mvAppItemType::mvDragPoint: return StorageValueTypes::Double4;
+
+        case mvAppItemType::mvStaticTexture:
+        case mvAppItemType::mvDynamicTexture:
+        case mvAppItemType::mvSimplePlot: return StorageValueTypes::FloatVect;
+
+        default: return StorageValueTypes::None;
+        }
+    }
+
     mvItemRegistry::mvItemRegistry()
     {
         // prefill cached containers

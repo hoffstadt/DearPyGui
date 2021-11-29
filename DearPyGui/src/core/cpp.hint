@@ -12,9 +12,9 @@
 #define mv_impl
 #endif
 
-#define MV_REGISTER_WIDGET(x, y, z, w) class x;\
+#define MV_REGISTER_WIDGET(x) class x;\
 template<> struct mvItemTypeMap<(int)mvAppItemType::x>\
-{typedef x type;static constexpr const StorageValueTypes value_type = z; static constexpr const char* const s_class = #x;};\
+{typedef x type; static constexpr const char* const s_class = #x;};\
 template<>struct mvItemTypeReverseMap<class x>{static constexpr mvAppItemType type = mvAppItemType::x;};
 
 #define MV_APPLY_WIDGET_REGISTRATION(x, parser)\
@@ -24,7 +24,6 @@ static constexpr const long s_internal_type = (long)x;\
 static constexpr const char* const s_internal_id = #x;\
 static constexpr const char* const s_command = #parser;\
 mvAppItemType getType() const override { return x; }\
-StorageValueTypes getValueType() const override { return mvItemTypeMap<(int)x>::value_type; }\
 mvRef<mvAppItem> getClassThemeComponent() const override { return s_class_theme_component; }\
 mvRef<mvAppItem> getClassDisabledThemeComponent() const override { return s_class_theme_disabled_component; }\
 const char* getCommand() const override { return #parser; }\

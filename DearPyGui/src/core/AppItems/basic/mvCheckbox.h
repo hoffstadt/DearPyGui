@@ -4,7 +4,7 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvCheckbox, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Bool, 1);
+    MV_REGISTER_WIDGET(mvCheckbox);
     class mvCheckbox : public mvAppItem
     {
 

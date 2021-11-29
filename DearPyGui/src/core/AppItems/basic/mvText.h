@@ -12,7 +12,7 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvText
     //-----------------------------------------------------------------------------
-    MV_REGISTER_WIDGET(mvText, MV_ITEM_DESC_DEFAULT, StorageValueTypes::String, 1);
+    MV_REGISTER_WIDGET(mvText);
     class mvText : public mvAppItem
     {
 

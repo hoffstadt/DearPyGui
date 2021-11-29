@@ -4,7 +4,7 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvPlotLegend, MV_ITEM_DESC_DEFAULT | MV_ITEM_DESC_CONTAINER, StorageValueTypes::None, 0);
+    MV_REGISTER_WIDGET(mvPlotLegend);
     class mvPlotLegend : public mvAppItem
     {
 

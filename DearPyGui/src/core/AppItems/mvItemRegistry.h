@@ -69,8 +69,9 @@ namespace Marvel {
     //         * creates the "standard" windows on startup (debug, about, etc.)
     //-----------------------------------------------------------------------------
 
-    i32 GetEntityDesciptionFlags(mvAppItemType type);
-    i32 GetEntityTargetSlot     (mvAppItemType type);
+    i32               GetEntityDesciptionFlags(mvAppItemType type);
+    i32               GetEntityTargetSlot     (mvAppItemType type);
+    StorageValueTypes GetEntityValueType      (mvAppItemType type);
 
     struct mvItemRegistry
     {

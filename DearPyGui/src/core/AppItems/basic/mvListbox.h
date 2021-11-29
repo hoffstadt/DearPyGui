@@ -4,7 +4,7 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvListbox, MV_ITEM_DESC_DEFAULT, StorageValueTypes::String, 1);
+    MV_REGISTER_WIDGET(mvListbox);
     class mvListbox : public mvAppItem
     {
 

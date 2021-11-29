@@ -5,7 +5,7 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvColorMapSlider, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Float, 1);
+    MV_REGISTER_WIDGET(mvColorMapSlider);
     class mvColorMapSlider : public mvAppItem
     {
 

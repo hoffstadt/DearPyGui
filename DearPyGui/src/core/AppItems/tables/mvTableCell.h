@@ -6,7 +6,7 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvTableCell, MV_ITEM_DESC_CONTAINER, StorageValueTypes::None, 1);
+    MV_REGISTER_WIDGET(mvTableCell);
     class mvTableCell : public mvAppItem
     {
 

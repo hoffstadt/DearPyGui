@@ -4,7 +4,7 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvTabBar, MV_ITEM_DESC_CONTAINER, StorageValueTypes::UUID, 1);
+    MV_REGISTER_WIDGET(mvTabBar);
     class mvTabBar : public mvAppItem
     {
 
