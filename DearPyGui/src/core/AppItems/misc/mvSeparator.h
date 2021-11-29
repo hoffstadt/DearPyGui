@@ -4,7 +4,6 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvSeparator);
     class mvSeparator : public mvAppItem
     {
 

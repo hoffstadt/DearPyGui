@@ -22,7 +22,6 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvInputText
     //-----------------------------------------------------------------------------
-    MV_REGISTER_WIDGET(mvInputText);
     class mvInputText : public mvAppItem
     {
 
@@ -81,7 +80,6 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvInputInt
     //-----------------------------------------------------------------------------
-    MV_REGISTER_WIDGET(mvInputInt);
     class mvInputInt : public mvAppItem
     {
 
@@ -145,7 +143,6 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvInputIntMulti
     //-----------------------------------------------------------------------------
-    MV_REGISTER_WIDGET(mvInputIntMulti);
     class mvInputIntMulti : public mvAppItem
     {
 
@@ -207,7 +204,6 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvInputFloat
     //-----------------------------------------------------------------------------
-    MV_REGISTER_WIDGET(mvInputFloat);
     class mvInputFloat : public mvAppItem
     {
 
@@ -272,7 +268,6 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvInputFloatMulti
     //-----------------------------------------------------------------------------
-    MV_REGISTER_WIDGET(mvInputFloatMulti);
     class mvInputFloatMulti : public mvAppItem
     {
 

@@ -66,6 +66,7 @@ namespace Marvel {
     //         * creates the "standard" windows on startup (debug, about, etc.)
     //-----------------------------------------------------------------------------
 
+    mvRef<mvAppItem>  CreateEntity            (mvAppItemType type, mvUUID id);
     i32               GetEntityDesciptionFlags(mvAppItemType type);
     i32               GetEntityTargetSlot     (mvAppItemType type);
     StorageValueTypes GetEntityValueType      (mvAppItemType type);

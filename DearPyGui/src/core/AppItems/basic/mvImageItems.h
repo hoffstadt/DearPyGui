@@ -21,7 +21,6 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvImage
     //-----------------------------------------------------------------------------
-    MV_REGISTER_WIDGET(mvImage);
     class mvImage : public mvAppItem
     {
 
@@ -77,7 +76,6 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvImageButton
     //-----------------------------------------------------------------------------
-    MV_REGISTER_WIDGET(mvImageButton);
     class mvImageButton : public mvAppItem
     {
 

@@ -5,7 +5,6 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvMenuItem);
     class mvMenuItem : public mvAppItem
     {
 

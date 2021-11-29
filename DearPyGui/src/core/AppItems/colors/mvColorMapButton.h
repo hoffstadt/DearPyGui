@@ -5,7 +5,6 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvColorMapButton);
 	class mvColorMapButton : public mvAppItem
 	{
 

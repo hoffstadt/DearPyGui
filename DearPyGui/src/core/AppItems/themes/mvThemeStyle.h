@@ -6,7 +6,6 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvThemeStyle);
     class mvThemeStyle : public mvAppItem
     {
 

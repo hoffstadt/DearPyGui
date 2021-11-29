@@ -4,7 +4,6 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvTooltip);
     class mvTooltip : public mvAppItem
     {
     public:

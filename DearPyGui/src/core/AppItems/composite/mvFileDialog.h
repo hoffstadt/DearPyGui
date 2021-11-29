@@ -10,7 +10,6 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvFileDialog);
     class mvFileDialog final : public mvAppItem
     {
     public:

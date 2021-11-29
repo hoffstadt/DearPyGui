@@ -4,7 +4,6 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvActiveHandler);
     class mvActiveHandler : public mvAppItem
     {
 

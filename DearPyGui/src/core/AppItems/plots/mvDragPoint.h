@@ -5,7 +5,6 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvDragPoint, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Double4, 0);
     class mvDragPoint : public mvAppItem
     {
     public:

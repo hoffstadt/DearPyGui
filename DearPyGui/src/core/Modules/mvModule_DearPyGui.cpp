@@ -19,12 +19,9 @@ namespace Marvel {
 		mv_local_persist std::vector<PyMethodDef> methods;
 		methods.clear();
 
-		constexpr_for<1, (int)mvAppItemType::ItemTypeCount, 1>(
-			[&](auto i) {
-				using item_type = typename mvItemTypeMap<i>::type;
-				methods.push_back(item_type::GetMethodDefinition());
-				item_type::FillExtraCommands(methods);
-			});
+		#define X(el) methods.push_back(el::GetMethodDefinition()); el::FillExtraCommands(methods);
+		MV_ITEM_TYPES
+		#undef X
 
 		mvToolManager::FillExtraCommands(methods);
 		mvFontManager::FillExtraCommands(methods);
@@ -47,11 +44,9 @@ namespace Marvel {
 
 		if (parsers.empty())
 		{
-			constexpr_for<1, (int)mvAppItemType::ItemTypeCount, 1>(
-				[&](auto i) {
-					using item_type = typename mvItemTypeMap<i>::type;
-					item_type::InsertParser(&parsers);
-				});
+			#define X(el) el::InsertParser(&parsers);
+			MV_ITEM_TYPES
+			#undef X
 
 			mvToolManager::InsertParser(&parsers);
 			mvFontManager::InsertParser(&parsers);
@@ -75,15 +70,10 @@ namespace Marvel {
 			InsertConstants_mvContext(ModuleConstants);
 			mvToolManager::InsertConstants(ModuleConstants);
 
-			constexpr_for<1, (int)mvAppItemType::ItemTypeCount, 1>(
-				[&](auto i) {
-
-					using item_type = typename mvItemTypeMap<i>::type;
-					ModuleConstants.push_back({ std::string(mvItemTypeMap<i>::s_class), item_type::s_internal_type });
-					for (const auto& item : item_type::GetGeneralConstants())
-						ModuleConstants.push_back({ item.first, item.second });
-
-				});
+			#define X(el) ModuleConstants.push_back({ std::string(#el), el::s_internal_type }); \
+					for (const auto& item : el::GetGeneralConstants()) ModuleConstants.push_back({ item.first, item.second });
+			MV_ITEM_TYPES
+			#undef X
 
 			int j = 0;
 			for (int i = MV_RESERVED_UUID_start; i < MV_RESERVED_UUID_start+MV_RESERVED_UUIDs; i++)

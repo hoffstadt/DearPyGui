@@ -4,7 +4,6 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvChildWindow);
     class mvChildWindow : public mvAppItem
     {
 

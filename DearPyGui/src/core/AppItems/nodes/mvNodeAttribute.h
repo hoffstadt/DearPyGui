@@ -7,7 +7,6 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvNodeAttribute);
     class mvNodeAttribute : public mvAppItem
     {
 

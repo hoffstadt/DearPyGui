@@ -4,7 +4,6 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvButton);
     class mvButton : public mvAppItem
     {
     public:

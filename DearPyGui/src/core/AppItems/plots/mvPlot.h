@@ -9,7 +9,6 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvPlot);
     class mvPlot : public mvAppItem
     {
 

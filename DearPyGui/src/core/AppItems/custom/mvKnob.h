@@ -7,7 +7,6 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvKnobFloat);
     class mvKnobFloat : public mvAppItem
     {
 

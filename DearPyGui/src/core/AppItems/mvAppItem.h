@@ -59,9 +59,6 @@ namespace Marvel {
         MV_IMNODES = 2
     };
 
-    template<int item_type> 
-    struct mvItemTypeMap {};
-
     struct ScopedID
     {
         ScopedID(void* id) { ImGui::PushID(id); }

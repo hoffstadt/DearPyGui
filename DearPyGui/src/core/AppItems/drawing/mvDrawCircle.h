@@ -5,7 +5,6 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvDrawCircle);
     class mvDrawCircle : public mvAppItem
     {
     public:

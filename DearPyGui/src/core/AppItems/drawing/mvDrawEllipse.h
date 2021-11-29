@@ -5,7 +5,6 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvDrawEllipse);
     class mvDrawEllipse : public mvAppItem
     {
     public:

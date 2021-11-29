@@ -4,7 +4,6 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvShadeSeries);
     class mvShadeSeries : public mvAppItem
     {
     public:

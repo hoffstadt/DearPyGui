@@ -4,7 +4,6 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvCheckbox);
     class mvCheckbox : public mvAppItem
     {
 

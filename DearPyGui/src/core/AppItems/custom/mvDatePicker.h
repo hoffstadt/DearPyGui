@@ -4,7 +4,6 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvDatePicker);
     class mvDatePicker : public mvAppItem
     {
         enum class DatePickerLevel {

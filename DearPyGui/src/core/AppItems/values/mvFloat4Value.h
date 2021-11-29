@@ -5,7 +5,6 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvFloat4Value);
     class mvFloat4Value : public mvAppItem
     {
 

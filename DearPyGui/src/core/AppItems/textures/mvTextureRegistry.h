@@ -6,7 +6,6 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvTextureRegistry);
     class mvTextureRegistry : public mvAppItem
     {
 

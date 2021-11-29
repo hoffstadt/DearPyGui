@@ -4,7 +4,6 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvLabelSeries);
     class mvLabelSeries : public mvAppItem
     {
     public:

@@ -5,7 +5,6 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvColorEdit);
     class mvColorEdit : public mvAppItem
     {
 

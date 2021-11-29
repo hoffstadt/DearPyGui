@@ -4,7 +4,6 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvProgressBar);
     class mvProgressBar : public mvAppItem
     {
 

@@ -4,7 +4,6 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvFont);
     class mvFont : public mvAppItem
     {
 

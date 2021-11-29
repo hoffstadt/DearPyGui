@@ -239,6 +239,18 @@ namespace Marvel {
         return entity_type_strings[(size_t)type];
     }
 
+    mvRef<mvAppItem>
+    CreateEntity(mvAppItemType type, mvUUID id)
+    {
+        #define X(el) case mvAppItemType::el: return CreateRef<el>(id);
+        switch (type)
+        {
+            MV_ITEM_TYPES
+            default: return nullptr;
+        }
+        #undef X
+    }
+
     mvItemRegistry::mvItemRegistry()
     {
         // prefill cached containers
@@ -3106,12 +3118,9 @@ namespace Marvel {
         if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
         PyObject* pdict = PyDict_New();
-        constexpr_for<1, (i32)mvAppItemType::ItemTypeCount, 1>(
-            [&](auto i) {
-
-                using item_type = typename mvItemTypeMap<i>::type;
-                PyDict_SetItemString(pdict, mvItemTypeMap<i>::s_class, PyLong_FromLong(item_type::s_internal_type));
-            });
+        #define X(el) PyDict_SetItemString(pdict, #el, PyLong_FromLong((int)mvAppItemType::el));
+        MV_ITEM_TYPES
+        #undef X
 
         return pdict;
     }

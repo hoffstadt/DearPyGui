@@ -6,7 +6,6 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvTableRow);
     class mvTableRow : public mvAppItem
     {
 

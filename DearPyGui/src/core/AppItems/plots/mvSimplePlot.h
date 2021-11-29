@@ -5,7 +5,6 @@
 
 namespace Marvel{
 
-    MV_REGISTER_WIDGET(mvSimplePlot, MV_ITEM_DESC_DEFAULT, StorageValueTypes::FloatVect, 1);
     class mvSimplePlot : public mvAppItem
     {
 

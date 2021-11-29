@@ -15,7 +15,6 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvVLineSeries
     //-----------------------------------------------------------------------------
-    MV_REGISTER_WIDGET(mvVLineSeries);
     class mvVLineSeries : public mvAppItem
     {
     public:
@@ -64,7 +63,6 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvHLineSeries
     //-----------------------------------------------------------------------------
-    MV_REGISTER_WIDGET(mvHLineSeries);
     class mvHLineSeries : public mvAppItem
     {
     public:

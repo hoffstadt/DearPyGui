@@ -6,7 +6,6 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvFileExtension);
     class mvFileExtension : public mvAppItem
     {
     public:

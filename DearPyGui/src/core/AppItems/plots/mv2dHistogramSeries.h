@@ -4,7 +4,6 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mv2dHistogramSeries);
     class mv2dHistogramSeries : public mvAppItem
     {
     public:

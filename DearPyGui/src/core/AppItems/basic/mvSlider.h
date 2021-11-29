@@ -20,7 +20,6 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvSliderFloat
     //-----------------------------------------------------------------------------
-    MV_REGISTER_WIDGET(mvSliderFloat, MV_ITEM_DESC_DEFAULT);
     class mvSliderFloat : public mvAppItem
     {
 
@@ -81,7 +80,6 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvSliderFloat4
     //-----------------------------------------------------------------------------
-    MV_REGISTER_WIDGET(mvSliderFloatMulti);
     class mvSliderFloatMulti : public mvAppItem
     {
 
@@ -141,7 +139,6 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvSliderInt
     //-----------------------------------------------------------------------------
-    MV_REGISTER_WIDGET(mvSliderInt);
     class mvSliderInt : public mvAppItem
     {
 
@@ -201,7 +198,6 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvSliderIntMulti
     //-----------------------------------------------------------------------------
-    MV_REGISTER_WIDGET(mvSliderIntMulti);
     class mvSliderIntMulti : public mvAppItem
     {
 

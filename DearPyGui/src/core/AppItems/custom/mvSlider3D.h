@@ -8,7 +8,6 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvSlider3D);
     class mvSlider3D : public mvAppItem
     {
 
