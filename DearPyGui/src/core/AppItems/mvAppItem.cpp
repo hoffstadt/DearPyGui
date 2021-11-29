@@ -148,7 +148,7 @@ namespace Marvel {
                     break;
                 }
 
-                if (childset[i]->getDescFlags() & MV_ITEM_DESC_CONTAINER)
+                if (GetEntityDesciptionFlags(childset[i]->getType()) & MV_ITEM_DESC_CONTAINER)
                 {
                     found = childset[i]->moveChildUp(uuid);
                     if (found)
@@ -196,7 +196,7 @@ namespace Marvel {
                     break;
                 }
 
-                if (childset[i]->getDescFlags() & MV_ITEM_DESC_CONTAINER)
+                if (GetEntityDesciptionFlags(childset[i]->getType()) & MV_ITEM_DESC_CONTAINER)
                 {
                     found = childset[i]->moveChildDown(uuid);
                     if (found)
@@ -254,8 +254,8 @@ namespace Marvel {
                 {
                     for (auto& child : childslot)
                     {
-                        if (child->getDescFlags() & MV_ITEM_DESC_CONTAINER 
-                            || item->getDescFlags() & MV_ITEM_DESC_HANDLER)
+                        if (GetEntityDesciptionFlags(child->getType()) & MV_ITEM_DESC_CONTAINER
+                            || GetEntityDesciptionFlags(item->getType()) & MV_ITEM_DESC_HANDLER)
                         {
                             // parent found
                             if (child->addRuntimeChild(parent, before, item))
@@ -310,8 +310,8 @@ namespace Marvel {
             // check children
             for (auto& child : children)
             {
-                if (child->getDescFlags() & MV_ITEM_DESC_CONTAINER
-                    || item->getDescFlags() & MV_ITEM_DESC_HANDLER)
+                if (GetEntityDesciptionFlags(child->getType()) & MV_ITEM_DESC_CONTAINER
+                    || GetEntityDesciptionFlags(item->getType()) & MV_ITEM_DESC_HANDLER)
                 {
                     // parent found
                     if (child->addRuntimeChild(parent, before, item))
@@ -461,7 +461,7 @@ namespace Marvel {
                     break;
                 }
 
-                if (item->getDescFlags() & MV_ITEM_DESC_CONTAINER)
+                if (GetEntityDesciptionFlags(item->getType()) & MV_ITEM_DESC_CONTAINER)
                 {
                     stolenChild = item->stealChild(uuid);
                     if (stolenChild)

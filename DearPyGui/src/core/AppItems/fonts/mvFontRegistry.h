@@ -4,7 +4,7 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvFontRegistry, MV_ITEM_DESC_DEFAULT | MV_ITEM_DESC_ROOT | MV_ITEM_DESC_CONTAINER, StorageValueTypes::None, 1);
+    MV_REGISTER_WIDGET(mvFontRegistry, MV_ITEM_DESC_ROOT | MV_ITEM_DESC_CONTAINER, StorageValueTypes::None, 1);
     class mvFontRegistry : public mvAppItem
     {
 

@@ -41,7 +41,7 @@ namespace Marvel {
         // build up flags for current node
         const auto node_flags = ImGuiTreeNodeFlags_OpenOnArrow
             | ((item->_uuid == m_selectedItem) ? ImGuiTreeNodeFlags_Selected : 0)
-            | (item->getDescFlags() & MV_ITEM_DESC_CONTAINER ? 0 : ImGuiTreeNodeFlags_Leaf);
+            | (GetEntityDesciptionFlags(item->getType()) & MV_ITEM_DESC_CONTAINER ? 0 : ImGuiTreeNodeFlags_Leaf);
 
         // render this node
         ImGui::PushID(item.get());
@@ -71,7 +71,7 @@ namespace Marvel {
             m_dirtyNodes = true;
         }
 
-        if (!(item->getDescFlags() & MV_ITEM_DESC_CONTAINER))
+        if (!(GetEntityDesciptionFlags(item->getType()) & MV_ITEM_DESC_CONTAINER))
         {
             if(expanded)
                 ImGui::TreePop();
@@ -192,7 +192,7 @@ namespace Marvel {
         DebugItem("Payload Type:", _itemref->_payloadType.c_str());
         DebugItem("Location:", std::to_string(_itemref->_location).c_str());
         DebugItem("Track Offset:", std::to_string(_itemref->_trackOffset).c_str());
-        DebugItem("Container:", _itemref->getDescFlags() & MV_ITEM_DESC_CONTAINER ? ts : fs);
+        DebugItem("Container:", GetEntityDesciptionFlags(_itemref->getType()) & MV_ITEM_DESC_CONTAINER ? ts : fs);
         DebugItem("Width:", width.c_str());
         DebugItem("Height:", height.c_str());
         DebugItem("Size x:", sizex.c_str());

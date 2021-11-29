@@ -14,6 +14,98 @@
 
 namespace Marvel {
 
+    i32 
+        GetEntityDesciptionFlags(mvAppItemType type)
+    {
+        switch (type)
+        {
+        case mvAppItemType::mvThemeComponent:
+        case mvAppItemType::mvTable:
+        case mvAppItemType::mvTableCell:
+        case mvAppItemType::mvTableRow:
+        case mvAppItemType::mv2dHistogramSeries:
+        case mvAppItemType::mvAreaSeries:
+        case mvAppItemType::mvBarSeries:
+        case mvAppItemType::mvCandleSeries:
+        case mvAppItemType::mvErrorSeries:
+        case mvAppItemType::mvHeatSeries:
+        case mvAppItemType::mvHistogramSeries:
+        case mvAppItemType::mvImageSeries:
+        case mvAppItemType::mvVLineSeries:
+        case mvAppItemType::mvHLineSeries:
+        case mvAppItemType::mvLabelSeries:
+        case mvAppItemType::mvLineSeries:
+        case mvAppItemType::mvPieSeries:
+        case mvAppItemType::mvScatterSeries:
+        case mvAppItemType::mvShadeSeries:
+        case mvAppItemType::mvStairSeries:
+        case mvAppItemType::mvStemSeries:
+        case mvAppItemType::mvPlot:
+        case mvAppItemType::mvSubPlots:
+        case mvAppItemType::mvPlotAxis:
+        case mvAppItemType::mvPlotLegend:
+        case mvAppItemType::mvNode:
+        case mvAppItemType::mvNodeAttribute:
+        case mvAppItemType::mvNodeEditor:
+        case mvAppItemType::mvFont:
+        case mvAppItemType::mvDrawLayer:
+        case mvAppItemType::mvDrawlist:
+        case mvAppItemType::mvDrawNode:
+        case mvAppItemType::mvTreeNode:
+        case mvAppItemType::mvTab:
+        case mvAppItemType::mvTabBar:
+        case mvAppItemType::mvMenuBar:
+        case mvAppItemType::mvMenu:
+        case mvAppItemType::mvGroup:
+        case mvAppItemType::mvCollapsingHeader:
+        case mvAppItemType::mvClipper:
+        case mvAppItemType::mvChildWindow:
+        case mvAppItemType::mvFilterSet: return MV_ITEM_DESC_CONTAINER;
+
+        case mvAppItemType::mvTooltip:
+        case mvAppItemType::mvActivatedHandler:
+        case mvAppItemType::mvActiveHandler:
+        case mvAppItemType::mvClickedHandler:
+        case mvAppItemType::mvDeactivatedAfterEditHandler:
+        case mvAppItemType::mvDeactivatedHandler:
+        case mvAppItemType::mvEditedHandler:
+        case mvAppItemType::mvFocusHandler:
+        case mvAppItemType::mvHoverHandler:
+        case mvAppItemType::mvResizeHandler:
+        case mvAppItemType::mvToggledOpenHandler:
+        case mvAppItemType::mvVisibleHandler:
+        case mvAppItemType::mvDragPayload: return MV_ITEM_DESC_CONTAINER | MV_ITEM_DESC_HANDLER;
+
+        case mvAppItemType::mvTheme:
+        case mvAppItemType::mvValueRegistry:
+        case mvAppItemType::mvItemHandlerRegistry:
+        case mvAppItemType::mvTextureRegistry:
+        case mvAppItemType::mvItemPool:
+        case mvAppItemType::mvHandlerRegistry:
+        case mvAppItemType::mvFontRegistry:
+        case mvAppItemType::mvWindowAppItem:
+        case mvAppItemType::mvViewportDrawlist:
+        case mvAppItemType::mvViewportMenuBar:
+        case mvAppItemType::mvTemplateRegistry:
+        case mvAppItemType::mvFileDialog:
+        case mvAppItemType::mvColorMapRegistry:
+        case mvAppItemType::mvStage: return MV_ITEM_DESC_ROOT | MV_ITEM_DESC_CONTAINER;
+        default: return MV_ITEM_DESC_DEFAULT;
+        }
+    }
+
+    mvItemRegistry::mvItemRegistry()
+    {
+        // prefill cached containers
+        for (i32 i = 0; i < CachedContainerCount; i++)
+        {
+            cachedContainersID[i] = 0;
+            cachedContainersPTR[i] = nullptr;
+            cachedItemsID[i] = 0;
+            cachedItemsPTR[i] = nullptr;
+        }
+    }
+
     void 
     InsertParser_mvItemRegistry(std::map<std::string, mvPythonParser>* parsers)
     {
@@ -645,7 +737,7 @@ namespace Marvel {
     mv_internal void
     CacheItem(mvItemRegistry& registry, mvAppItem* item)
     {
-        if (item->getDescFlags() & MV_ITEM_DESC_CONTAINER)
+        if (GetEntityDesciptionFlags(item->getType()) & MV_ITEM_DESC_CONTAINER)
         {
             registry.cachedContainersID[registry.cachedContainerIndex] = item->_uuid;
             registry.cachedContainersPTR[registry.cachedContainerIndex] = item;
@@ -905,19 +997,19 @@ namespace Marvel {
             for (auto& child : children0)
             {
                 childList.emplace_back(child->_uuid);
-                if (child->getDescFlags() & MV_ITEM_DESC_CONTAINER)
+                if (GetEntityDesciptionFlags(child->getType()) & MV_ITEM_DESC_CONTAINER)
                     ChildRetriever(child);
             }
             for (auto& child : children1)
             {
                 childList.emplace_back(child->_uuid);
-                if (child->getDescFlags() & MV_ITEM_DESC_CONTAINER)
+                if (GetEntityDesciptionFlags(child->getType()) & MV_ITEM_DESC_CONTAINER)
                     ChildRetriever(child);
             }
             for (auto& child : children2)
             {
                 childList.emplace_back(child->_uuid);
-                if (child->getDescFlags() & MV_ITEM_DESC_CONTAINER)
+                if (GetEntityDesciptionFlags(child->getType()) & MV_ITEM_DESC_CONTAINER)
                     ChildRetriever(child);
             }
 
@@ -1139,7 +1231,7 @@ namespace Marvel {
             if (item->_parentPtr)
             {
                 mvAppItem* currentAncestor = item->_parentPtr;
-                while (!(currentAncestor->getDescFlags() & MV_ITEM_DESC_ROOT))
+                while (!(GetEntityDesciptionFlags(currentAncestor->getType()) & MV_ITEM_DESC_ROOT))
                     currentAncestor = currentAncestor->_parentPtr;
 
                 return currentAncestor;
@@ -1452,7 +1544,7 @@ namespace Marvel {
             DebugItem("Payload Type:", root->_payloadType.c_str());
             DebugItem("Location:", std::to_string(root->_location).c_str());
             DebugItem("Track Offset:", std::to_string(root->_trackOffset).c_str());
-            DebugItem("Container:", root->getDescFlags() & MV_ITEM_DESC_CONTAINER ? ts : fs);
+            DebugItem("Container:", GetEntityDesciptionFlags(root->getType()) & MV_ITEM_DESC_CONTAINER ? ts : fs);
             DebugItem("Width:", width.c_str());
             DebugItem("Height:", height.c_str());
             DebugItem("Size x:", sizex.c_str());
@@ -1674,7 +1766,7 @@ namespace Marvel {
             return true;
         }
 
-        if (item->getDescFlags() & MV_ITEM_DESC_HANDLER && parent == 0)
+        if (GetEntityDesciptionFlags(item->getType()) & MV_ITEM_DESC_HANDLER && parent == 0)
             parent = item->_parent;
 
         if (item == nullptr)
@@ -1687,12 +1779,12 @@ namespace Marvel {
         //---------------------------------------------------------------------------
         // STEP 0: updata "last" information
         //---------------------------------------------------------------------------
-        if (item->getDescFlags() & MV_ITEM_DESC_ROOT)
+        if (GetEntityDesciptionFlags(item->getType()) & MV_ITEM_DESC_ROOT)
         {
             registry.lastRootAdded = item->_uuid;
             registry.lastContainerAdded = item->_uuid;
         }
-        else if (item->getDescFlags() & MV_ITEM_DESC_CONTAINER)
+        else if (GetEntityDesciptionFlags(item->getType()) & MV_ITEM_DESC_CONTAINER)
             registry.lastContainerAdded = item->_uuid;
 
         registry.lastItemAdded = item->_uuid;
@@ -1721,7 +1813,7 @@ namespace Marvel {
         //---------------------------------------------------------------------------
         // STEP 2: handle root case
         //---------------------------------------------------------------------------
-        if (item->getDescFlags() & MV_ITEM_DESC_ROOT)
+        if (GetEntityDesciptionFlags(item->getType()) & MV_ITEM_DESC_ROOT)
         {
 
             if (GContext->started)
@@ -2066,7 +2158,7 @@ namespace Marvel {
         mvAppItem* parent = GetItem((*GContext->itemRegistry), item);
         if (parent)
         {
-            if (parent->getDescFlags() & MV_ITEM_DESC_CONTAINER)
+            if (GetEntityDesciptionFlags(parent->getType()) & MV_ITEM_DESC_CONTAINER)
             {
                 PushParent((*GContext->itemRegistry), parent);
                 return ToPyBool(true);
@@ -2537,7 +2629,7 @@ namespace Marvel {
             else
                 PyDict_SetItemString(pdict, "font", mvPyObject(GetPyNone()));
 
-            if (appitem->getDescFlags() & MV_ITEM_DESC_CONTAINER)
+            if (GetEntityDesciptionFlags(appitem->getType()) & MV_ITEM_DESC_CONTAINER)
                 PyDict_SetItemString(pdict, "container", mvPyObject(ToPyBool(true)));
             else
                 PyDict_SetItemString(pdict, "container", mvPyObject(ToPyBool(false)));

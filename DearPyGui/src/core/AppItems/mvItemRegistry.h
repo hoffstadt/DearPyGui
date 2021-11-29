@@ -69,10 +69,15 @@ namespace Marvel {
     //         * creates the "standard" windows on startup (debug, about, etc.)
     //-----------------------------------------------------------------------------
 
+    i32 GetEntityDesciptionFlags(mvAppItemType type);
+
     struct mvItemRegistry
     {
 
         static constexpr i32 CachedContainerCount = 25;
+
+        // new
+        i32 entity_descriptions[(size_t)mvAppItemType::ItemTypeCount];
 
         // caching
         mvUUID     lastItemAdded = 0;
@@ -113,17 +118,7 @@ namespace Marvel {
         std::vector<mvRef<mvAppItem>> itemTemplatesRoots;
         std::vector<mvRef<mvAppItem>> viewportDrawlistRoots;
 
-        mvItemRegistry()
-        {
-            // prefill cached containers
-            for (i32 i = 0; i < CachedContainerCount; i++)
-            {
-                cachedContainersID[i] = 0;
-                cachedContainersPTR[i] = nullptr;
-                cachedItemsID[i] = 0;
-                cachedItemsPTR[i] = nullptr;
-            }
-        }
+        mvItemRegistry();
     };
 
     //-----------------------------------------------------------------------------
