@@ -15,7 +15,6 @@ namespace Marvel {
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvMenuBar, add_menu_bar)
         MV_NO_COMMANDS
         MV_DEFAULT_CHILDREN
-        MV_NO_CONSTANTS
 
         MV_START_PARENTS
             MV_ADD_PARENT(mvAppItemType::mvWindowAppItem),

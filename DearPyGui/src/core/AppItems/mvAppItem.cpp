@@ -722,7 +722,7 @@ namespace Marvel {
         _source = value; 
     }
 
-        mv_internal bool
+    mv_internal bool
     CanItemTypeBeHovered(mvAppItemType type)
     {
         switch (type)
@@ -1602,5 +1602,24 @@ namespace Marvel {
             default: return nullptr;
         }
         #undef X
+    }
+
+    b8
+    DoesEntityAcceptParent(mvAppItemType entity, mvAppItemType parent)
+    {
+        switch (entity)
+        {
+        case mvAppItemType::mvTabButton:
+        {
+            switch (parent)
+            {
+            case mvAppItemType::mvTabBar:
+            case mvAppItemType::mvStage:
+            case mvAppItemType::mvTemplateRegistry: return true;
+            default: return false;
+            }
+        }
+        default: return true;
+        }
     }
 }

@@ -24,18 +24,6 @@ namespace Marvel {
         MV_DEFAULT_PARENTS
         MV_DEFAULT_CHILDREN
 
-        MV_CREATE_CONSTANT(mvComboHeight_Small, 0L);
-        MV_CREATE_CONSTANT(mvComboHeight_Regular, 1L);
-        MV_CREATE_CONSTANT(mvComboHeight_Large, 2L);
-        MV_CREATE_CONSTANT(mvComboHeight_Largest, 3L);
-
-        MV_START_CONSTANTS
-            MV_ADD_CONSTANT(mvComboHeight_Small),
-            MV_ADD_CONSTANT(mvComboHeight_Regular),
-            MV_ADD_CONSTANT(mvComboHeight_Large),
-            MV_ADD_CONSTANT(mvComboHeight_Largest)
-        MV_END_CONSTANTS
-
     public:
 
         explicit mvCombo(mvUUID uuid);

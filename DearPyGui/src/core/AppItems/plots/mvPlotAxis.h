@@ -14,9 +14,6 @@ namespace Marvel {
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvPlotAxis, add_plot_axis)
         MV_DEFAULT_CHILDREN
 
-        MV_CREATE_CONSTANT(mvXAxis, 0);
-        MV_CREATE_CONSTANT(mvYAxis, 1);
-
         MV_CREATE_COMMAND(reset_axis_ticks);
         MV_CREATE_COMMAND(set_axis_ticks);
         MV_CREATE_COMMAND(set_axis_limits);
@@ -40,11 +37,6 @@ namespace Marvel {
             MV_ADD_COMMAND(get_axis_limits);
             MV_ADD_COMMAND(fit_axis_data);
         MV_END_COMMANDS
-
-        MV_START_CONSTANTS
-            MV_ADD_CONSTANT(mvXAxis),
-            MV_ADD_CONSTANT(mvYAxis)
-        MV_END_CONSTANTS
 
     public:
 

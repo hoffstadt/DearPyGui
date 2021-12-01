@@ -24,9 +24,6 @@ namespace Marvel {
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvVLineSeries, add_vline_series)
         MV_NO_COMMANDS
         MV_DEFAULT_CHILDREN
-        MV_NO_CONSTANTS
-
-        
 
         MV_START_PARENTS
             MV_ADD_PARENT(mvAppItemType::mvPlotAxis),
@@ -72,9 +69,6 @@ namespace Marvel {
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvHLineSeries, add_hline_series)
         MV_NO_COMMANDS
         MV_DEFAULT_CHILDREN
-        MV_NO_CONSTANTS
-
-        
 
         MV_START_PARENTS
             MV_ADD_PARENT(mvAppItemType::mvPlotAxis),

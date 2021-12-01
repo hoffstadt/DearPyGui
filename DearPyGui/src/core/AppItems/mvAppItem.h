@@ -260,4 +260,5 @@ namespace Marvel {
     StorageValueTypes GetEntityValueType(mvAppItemType type);
     const char*       GetEntityTypeString(mvAppItemType type);
     i32               GetApplicableState(mvAppItemType type);
+    b8                DoesEntityAcceptParent(mvAppItemType entity, mvAppItemType parent);
 }

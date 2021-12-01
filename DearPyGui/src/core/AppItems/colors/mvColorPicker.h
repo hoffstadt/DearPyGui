@@ -17,14 +17,6 @@ namespace Marvel {
         MV_DEFAULT_PARENTS
         MV_DEFAULT_CHILDREN
 
-        MV_CREATE_CONSTANT(mvColorPicker_bar, ImGuiColorEditFlags_PickerHueBar);
-        MV_CREATE_CONSTANT(mvColorPicker_wheel, ImGuiColorEditFlags_PickerHueWheel);
-
-        MV_START_CONSTANTS
-            MV_ADD_CONSTANT(mvColorPicker_bar),
-            MV_ADD_CONSTANT(mvColorPicker_wheel)
-        MV_END_CONSTANTS
-
     public:
 
         explicit mvColorPicker(mvUUID uuid);

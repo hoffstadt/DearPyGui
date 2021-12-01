@@ -16,7 +16,6 @@ namespace Marvel {
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvTextureRegistry, add_texture_registry)
         MV_NO_COMMANDS
         MV_DEFAULT_PARENTS
-        MV_NO_CONSTANTS
 
         MV_START_CHILDREN
             MV_ADD_CHILD(mvAppItemType::mvStaticTexture),

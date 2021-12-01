@@ -19,9 +19,6 @@ namespace Marvel {
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvSubPlots, add_subplots)
         MV_NO_COMMANDS
         MV_DEFAULT_PARENTS
-        MV_NO_CONSTANTS
-
-        
 
         MV_START_CHILDREN
             MV_ADD_CHILD(mvAppItemType::mvPlot),

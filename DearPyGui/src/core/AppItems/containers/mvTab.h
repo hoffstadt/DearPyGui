@@ -22,23 +22,11 @@ namespace Marvel {
         MV_NO_COMMANDS
         MV_DEFAULT_CHILDREN
 
-        MV_CREATE_CONSTANT(mvTabOrder_Reorderable, 0L);
-        MV_CREATE_CONSTANT(mvTabOrder_Fixed, 1L);
-        MV_CREATE_CONSTANT(mvTabOrder_Leading, 2L);
-        MV_CREATE_CONSTANT(mvTabOrder_Trailing, 3L);
-
         MV_START_PARENTS
             MV_ADD_PARENT(mvAppItemType::mvTabBar),
             MV_ADD_PARENT(mvAppItemType::mvStage),
             MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
         MV_END_PARENTS
-
-        MV_START_CONSTANTS
-            MV_ADD_CONSTANT(mvTabOrder_Reorderable),
-            MV_ADD_CONSTANT(mvTabOrder_Fixed),
-            MV_ADD_CONSTANT(mvTabOrder_Leading),
-            MV_ADD_CONSTANT(mvTabOrder_Trailing)
-        MV_END_CONSTANTS
 
     public:
 
