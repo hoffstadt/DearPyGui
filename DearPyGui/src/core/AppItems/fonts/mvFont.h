@@ -4,7 +4,6 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvFont, MV_ITEM_DESC_DEFAULT | MV_ITEM_DESC_CONTAINER, StorageValueTypes::None, 1);
     class mvFont : public mvAppItem
     {
 
@@ -13,9 +12,6 @@ namespace Marvel {
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvFont, add_font)
-        MV_NO_CONSTANTS
-
-        MV_SET_STATES(MV_STATE_NONE);
 
         MV_CREATE_COMMAND(bind_font);
         MV_CREATE_COMMAND(get_text_size);

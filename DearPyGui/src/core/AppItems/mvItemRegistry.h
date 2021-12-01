@@ -35,9 +35,6 @@ namespace Marvel {
     void             RemoveAlias   (mvItemRegistry& registry, const std::string& alias, b8 itemTriggered = false);
     mvUUID           GetIdFromAlias(mvItemRegistry& registry, const std::string& alias);
 
-    // item pools
-    mvRef<mvAppItem> GetItemFromPool(mvItemRegistry& registry, mvAppItemType itemType);
-
     // item movement
     b8               MoveItem    (mvItemRegistry& registry, mvUUID uuid, mvUUID parent, mvUUID before);
     b8               MoveItemUp  (mvItemRegistry& registry, mvUUID uuid);
@@ -68,6 +65,8 @@ namespace Marvel {
     //         * acts as the interface for accessing widgets
     //         * creates the "standard" windows on startup (debug, about, etc.)
     //-----------------------------------------------------------------------------
+
+
 
     struct mvItemRegistry
     {
@@ -109,21 +108,10 @@ namespace Marvel {
         std::vector<mvRef<mvAppItem>> textureRegistryRoots;
         std::vector<mvRef<mvAppItem>> valueRegistryRoots;
         std::vector<mvRef<mvAppItem>> themeRegistryRoots;
-        std::vector<mvRef<mvAppItem>> itemPoolRoots;
         std::vector<mvRef<mvAppItem>> itemTemplatesRoots;
         std::vector<mvRef<mvAppItem>> viewportDrawlistRoots;
 
-        mvItemRegistry()
-        {
-            // prefill cached containers
-            for (i32 i = 0; i < CachedContainerCount; i++)
-            {
-                cachedContainersID[i] = 0;
-                cachedContainersPTR[i] = nullptr;
-                cachedItemsID[i] = 0;
-                cachedItemsPTR[i] = nullptr;
-            }
-        }
+        mvItemRegistry();
     };
 
     //-----------------------------------------------------------------------------

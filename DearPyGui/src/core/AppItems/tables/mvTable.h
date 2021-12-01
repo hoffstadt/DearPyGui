@@ -5,7 +5,6 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvTable, MV_ITEM_DESC_CONTAINER, StorageValueTypes::None, 1);
     class mvTable : public mvAppItem
     {
 
@@ -28,13 +27,6 @@ namespace Marvel {
         MV_CREATE_COMMAND(is_table_row_highlighted);
         MV_CREATE_COMMAND(is_table_cell_highlighted);
 
-        MV_CREATE_CONSTANT(mvTable_SizingFixedFit, ImGuiTableFlags_SizingFixedFit);
-        MV_CREATE_CONSTANT(mvTable_SizingFixedSame, ImGuiTableFlags_SizingFixedSame);
-        MV_CREATE_CONSTANT(mvTable_SizingStretchProp, ImGuiTableFlags_SizingStretchProp);
-        MV_CREATE_CONSTANT(mvTable_SizingStretchSame, ImGuiTableFlags_SizingStretchSame);
-
-        MV_SET_STATES(MV_STATE_VISIBLE);
-
         MV_START_COMMANDS
             MV_ADD_COMMAND(highlight_table_column);
             MV_ADD_COMMAND(unhighlight_table_column);
@@ -48,13 +40,6 @@ namespace Marvel {
             MV_ADD_COMMAND(is_table_row_highlighted);
             MV_ADD_COMMAND(is_table_cell_highlighted);
         MV_END_COMMANDS
-
-        MV_START_CONSTANTS
-            MV_ADD_CONSTANT(mvTable_SizingFixedFit),
-            MV_ADD_CONSTANT(mvTable_SizingFixedSame),
-            MV_ADD_CONSTANT(mvTable_SizingStretchProp),
-            MV_ADD_CONSTANT(mvTable_SizingStretchSame)
-        MV_END_CONSTANTS
 
         MV_START_CHILDREN
             MV_ADD_CHILD(mvAppItemType::mvTableRow),

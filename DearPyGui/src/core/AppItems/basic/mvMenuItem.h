@@ -5,7 +5,6 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvMenuItem, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Bool, 1);
     class mvMenuItem : public mvAppItem
     {
 
@@ -17,9 +16,7 @@ namespace Marvel {
         MV_NO_COMMANDS
         MV_DEFAULT_PARENTS
         MV_DEFAULT_CHILDREN
-        MV_NO_CONSTANTS
 
-        MV_SET_STATES(MV_STATE_NONE);
 
     public:
 

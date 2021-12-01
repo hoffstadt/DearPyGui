@@ -5,7 +5,6 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvDrawTriangle, MV_ITEM_DESC_DEFAULT, StorageValueTypes::None, 2);
     class mvDrawTriangle : public mvAppItem
     {
 
@@ -17,12 +16,6 @@ namespace Marvel {
         MV_NO_COMMANDS
         MV_DEFAULT_CHILDREN
 
-        MV_CREATE_CONSTANT(mvCullMode_None, 0);
-        MV_CREATE_CONSTANT(mvCullMode_Back, 1);
-        MV_CREATE_CONSTANT(mvCullMode_Front, 2);
-
-        MV_SET_STATES(MV_STATE_NONE);
-
         MV_START_PARENTS
             MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
             MV_ADD_PARENT(mvAppItemType::mvStage),
@@ -33,13 +26,6 @@ namespace Marvel {
             MV_ADD_PARENT(mvAppItemType::mvPlot),
             MV_ADD_PARENT(mvAppItemType::mvViewportDrawlist)
         MV_END_PARENTS
-
-
-        MV_START_CONSTANTS
-            MV_ADD_CONSTANT(mvCullMode_None),
-            MV_ADD_CONSTANT(mvCullMode_Back),
-            MV_ADD_CONSTANT(mvCullMode_Front)
-        MV_END_CONSTANTS
 
     public:
 

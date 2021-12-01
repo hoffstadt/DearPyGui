@@ -4,7 +4,6 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvTabButton, MV_ITEM_DESC_DEFAULT, StorageValueTypes::None, 1);
     class mvTabButton : public mvAppItem
     {
 
@@ -15,18 +14,13 @@ namespace Marvel {
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvTabButton, add_tab_button)
         MV_NO_COMMANDS
         MV_DEFAULT_CHILDREN
-        MV_NO_CONSTANTS
 
         MV_START_PARENTS
             MV_ADD_PARENT(mvAppItemType::mvTabBar),
             MV_ADD_PARENT(mvAppItemType::mvStage),
             MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry)
         MV_END_PARENTS
-
-
-        // TODO: correct these
-        MV_SET_STATES(MV_STATE_NONE);
-
+        
     public:
 
         explicit mvTabButton(mvUUID uuid);

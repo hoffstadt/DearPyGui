@@ -5,7 +5,6 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvDrawEllipse, MV_ITEM_DESC_DEFAULT, StorageValueTypes::None, 2);
     class mvDrawEllipse : public mvAppItem
     {
     public:
@@ -15,9 +14,6 @@ namespace Marvel {
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvDrawEllipse, draw_ellipse)
         MV_NO_COMMANDS
         MV_DEFAULT_CHILDREN
-        MV_NO_CONSTANTS
-
-        MV_SET_STATES(MV_STATE_NONE);
 
         MV_START_PARENTS
             MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),

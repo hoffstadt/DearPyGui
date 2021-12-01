@@ -4,7 +4,6 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvCombo, MV_ITEM_DESC_DEFAULT, StorageValueTypes::String, 1);
     class mvCombo : public mvAppItem
     {
 
@@ -24,34 +23,6 @@ namespace Marvel {
         MV_NO_COMMANDS
         MV_DEFAULT_PARENTS
         MV_DEFAULT_CHILDREN
-
-        MV_CREATE_CONSTANT(mvComboHeight_Small, 0L);
-        MV_CREATE_CONSTANT(mvComboHeight_Regular, 1L);
-        MV_CREATE_CONSTANT(mvComboHeight_Large, 2L);
-        MV_CREATE_CONSTANT(mvComboHeight_Largest, 3L);
-
-        MV_SET_STATES(
-            MV_STATE_HOVER |
-            MV_STATE_ACTIVE |
-            MV_STATE_FOCUSED |
-            MV_STATE_CLICKED |
-            MV_STATE_VISIBLE |
-            MV_STATE_EDITED |
-            MV_STATE_ACTIVATED |
-            MV_STATE_DEACTIVATED |
-            MV_STATE_DEACTIVATEDAE |
-            MV_STATE_RECT_MIN |
-            MV_STATE_RECT_MAX |
-            MV_STATE_RECT_SIZE |
-            MV_STATE_CONT_AVAIL
-        );
-
-        MV_START_CONSTANTS
-            MV_ADD_CONSTANT(mvComboHeight_Small),
-            MV_ADD_CONSTANT(mvComboHeight_Regular),
-            MV_ADD_CONSTANT(mvComboHeight_Large),
-            MV_ADD_CONSTANT(mvComboHeight_Largest)
-        MV_END_CONSTANTS
 
     public:
 

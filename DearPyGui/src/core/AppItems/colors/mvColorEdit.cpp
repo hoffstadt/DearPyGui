@@ -118,7 +118,7 @@ namespace Marvel {
 				"Source item not found: " + std::to_string(dataSource), this);
 			return;
 		}
-		if (item->getValueType() != getValueType())
+		if (GetEntityValueType(item->getType()) != GetEntityValueType(getType()))
 		{
 			mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
 				"Values types do not match: " + std::to_string(dataSource), this);
@@ -331,10 +331,10 @@ namespace Marvel {
 
 			switch (mode)
 			{
-			case mvColorEdit_AlphaPreview:
+			case ImGuiColorEditFlags_AlphaPreview:
 				_flags |= ImGuiColorEditFlags_AlphaPreview;
 				break;
-			case mvColorEdit_AlphaPreviewHalf:
+			case ImGuiColorEditFlags_AlphaPreviewHalf:
 				_flags |= ImGuiColorEditFlags_AlphaPreviewHalf;
 				break;
 			default:
@@ -353,10 +353,10 @@ namespace Marvel {
 
 			switch (mode)
 			{
-			case mvColorEdit_hex:
+			case ImGuiColorEditFlags_DisplayHex:
 				_flags |= ImGuiColorEditFlags_DisplayHex;
 				break;
-			case mvColorEdit_hsv:
+			case ImGuiColorEditFlags_DisplayHSV:
 				_flags |= ImGuiColorEditFlags_DisplayHSV;
 				break;
 			default:
@@ -375,7 +375,7 @@ namespace Marvel {
 
 			switch (mode)
 			{
-			case mvColorEdit_float:
+			case ImGuiColorEditFlags_Float:
 				_flags |= ImGuiColorEditFlags_Float;
 				break;
 			default:
@@ -394,7 +394,7 @@ namespace Marvel {
 
 			switch (mode)
 			{
-			case mvColorEdit_input_hsv:
+			case ImGuiColorEditFlags_InputHSV:
 				_flags |= ImGuiColorEditFlags_InputHSV;
 				break;
 			default:
@@ -428,31 +428,31 @@ namespace Marvel {
 
 		// input_mode
 		if (_flags & ImGuiColorEditFlags_InputRGB)
-			PyDict_SetItemString(dict, "input_mode", mvPyObject(ToPyLong(mvColorEdit_input_rgb)));
+			PyDict_SetItemString(dict, "input_mode", mvPyObject(ToPyLong(ImGuiColorEditFlags_InputRGB)));
 		else if (_flags & ImGuiColorEditFlags_InputHSV)
-			PyDict_SetItemString(dict, "input_mode", mvPyObject(ToPyLong(mvColorEdit_input_hsv)));
+			PyDict_SetItemString(dict, "input_mode", mvPyObject(ToPyLong(ImGuiColorEditFlags_InputHSV)));
 
 		// alpha_preview
 		if(_flags & ImGuiColorEditFlags_AlphaPreview)
-			PyDict_SetItemString(dict, "alpha_preview", mvPyObject(ToPyLong(mvColorEdit_AlphaPreview)));
+			PyDict_SetItemString(dict, "alpha_preview", mvPyObject(ToPyLong(ImGuiColorEditFlags_AlphaPreview)));
 		else if (_flags & ImGuiColorEditFlags_AlphaPreviewHalf)
-			PyDict_SetItemString(dict, "alpha_preview", mvPyObject(ToPyLong(mvColorEdit_AlphaPreviewHalf)));
+			PyDict_SetItemString(dict, "alpha_preview", mvPyObject(ToPyLong(ImGuiColorEditFlags_AlphaPreviewHalf)));
 		else
-			PyDict_SetItemString(dict, "alpha_preview", mvPyObject(ToPyLong(mvColorEdit_AlphaPreviewNone)));
+			PyDict_SetItemString(dict, "alpha_preview", mvPyObject(ToPyLong(0l)));
 
 		// display_mode
 		if (_flags & ImGuiColorEditFlags_DisplayHSV)
-			PyDict_SetItemString(dict, "display_mode", mvPyObject(ToPyLong(mvColorEdit_hsv)));
+			PyDict_SetItemString(dict, "display_mode", mvPyObject(ToPyLong(ImGuiColorEditFlags_DisplayHSV)));
 		else if (_flags & ImGuiColorEditFlags_DisplayHex)
-			PyDict_SetItemString(dict, "display_mode", mvPyObject(ToPyLong(mvColorEdit_hex)));
+			PyDict_SetItemString(dict, "display_mode", mvPyObject(ToPyLong(ImGuiColorEditFlags_DisplayHex)));
 		else
-			PyDict_SetItemString(dict, "display_mode", mvPyObject(ToPyLong(mvColorEdit_rgb)));
+			PyDict_SetItemString(dict, "display_mode", mvPyObject(ToPyLong(ImGuiColorEditFlags_DisplayRGB)));
 
 		// display_type
 		if (_flags & ImGuiColorEditFlags_Uint8)
-			PyDict_SetItemString(dict, "display_type", mvPyObject(ToPyLong(mvColorEdit_uint8)));
+			PyDict_SetItemString(dict, "display_type", mvPyObject(ToPyLong(ImGuiColorEditFlags_Uint8)));
 		else if (_flags & ImGuiColorEditFlags_Float)
-			PyDict_SetItemString(dict, "display_type", mvPyObject(ToPyLong(mvColorEdit_float)));
+			PyDict_SetItemString(dict, "display_type", mvPyObject(ToPyLong(ImGuiColorEditFlags_Float)));
 
 	}
 

@@ -4,7 +4,6 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvRawTexture, MV_ITEM_DESC_DEFAULT, StorageValueTypes::None, 1);
     class mvRawTexture : public mvAppItem
     {
 
@@ -21,21 +20,11 @@ namespace Marvel {
         MV_NO_COMMANDS
         MV_DEFAULT_CHILDREN
 
-        MV_SET_STATES(MV_STATE_NONE);
-
-        MV_CREATE_CONSTANT(mvFormat_Float_rgba, 0);
-        MV_CREATE_CONSTANT(mvFormat_Float_rgb, 1);
-
         MV_START_PARENTS
             MV_ADD_PARENT(mvAppItemType::mvStage),
             MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
             MV_ADD_PARENT(mvAppItemType::mvTextureRegistry)
         MV_END_PARENTS
-
-        MV_START_CONSTANTS
-            MV_ADD_CONSTANT(mvFormat_Float_rgba),
-            MV_ADD_CONSTANT(mvFormat_Float_rgb),
-        MV_END_CONSTANTS
 
     public:
 

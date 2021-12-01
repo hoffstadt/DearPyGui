@@ -4,7 +4,6 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvChildWindow, MV_ITEM_DESC_CONTAINER, StorageValueTypes::Bool, 1);
     class mvChildWindow : public mvAppItem
     {
 
@@ -16,16 +15,6 @@ namespace Marvel {
         MV_NO_COMMANDS
         MV_DEFAULT_PARENTS
         MV_DEFAULT_CHILDREN
-        MV_NO_CONSTANTS
-
-        MV_SET_STATES(
-            MV_STATE_HOVER |
-            MV_STATE_ACTIVE |
-            MV_STATE_FOCUSED |
-            MV_STATE_DEACTIVATED |
-            MV_STATE_RECT_SIZE |
-            MV_STATE_CONT_AVAIL
-        );
 
     public:
 

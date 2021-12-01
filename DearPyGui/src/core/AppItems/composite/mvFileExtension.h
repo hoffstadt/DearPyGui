@@ -6,7 +6,6 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvFileExtension, MV_ITEM_DESC_DEFAULT, StorageValueTypes::None, 0);
     class mvFileExtension : public mvAppItem
     {
     public:
@@ -16,9 +15,6 @@ namespace Marvel {
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvFileExtension, add_file_extension)
         MV_NO_COMMANDS
         MV_DEFAULT_CHILDREN
-        MV_NO_CONSTANTS
-
-        MV_SET_STATES(MV_STATE_NONE);
 
         MV_START_PARENTS
             MV_ADD_PARENT(mvAppItemType::mvStage),

@@ -4,7 +4,6 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvDrawlist, MV_ITEM_DESC_CONTAINER, StorageValueTypes::None, 1);
     class mvDrawlist : public mvAppItem
     {
 
@@ -15,21 +14,6 @@ namespace Marvel {
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvDrawlist, add_drawlist)
         MV_NO_COMMANDS
         MV_DEFAULT_PARENTS
-        MV_NO_CONSTANTS
-
-        MV_SET_STATES(
-            MV_STATE_HOVER |
-            MV_STATE_ACTIVE |
-            MV_STATE_FOCUSED |
-            MV_STATE_CLICKED |
-            MV_STATE_VISIBLE |
-            MV_STATE_ACTIVATED |
-            MV_STATE_DEACTIVATED |
-            MV_STATE_RECT_MIN |
-            MV_STATE_RECT_MAX |
-            MV_STATE_RECT_SIZE |
-            MV_STATE_CONT_AVAIL
-        );
 
         MV_START_CHILDREN
             MV_ADD_CHILD(mvAppItemType::mvDrawLayer),

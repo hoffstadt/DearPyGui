@@ -5,7 +5,6 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvDrawLayer, MV_ITEM_DESC_CONTAINER, StorageValueTypes::None, 2);
     class mvDrawLayer : public mvAppItem
     {
     public:
@@ -13,11 +12,10 @@ namespace Marvel {
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvDrawLayer, add_draw_layer)
-        MV_NO_CONSTANTS
 
         MV_CREATE_COMMAND(set_clip_space);
 
-        MV_SET_STATES(MV_STATE_NONE);
+        
 
         MV_START_PARENTS
             MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),

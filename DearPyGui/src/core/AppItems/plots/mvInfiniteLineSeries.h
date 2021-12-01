@@ -15,7 +15,6 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvVLineSeries
     //-----------------------------------------------------------------------------
-    MV_REGISTER_WIDGET(mvVLineSeries, MV_ITEM_DESC_DEFAULT | MV_ITEM_DESC_CONTAINER, StorageValueTypes::Series, 1);
     class mvVLineSeries : public mvAppItem
     {
     public:
@@ -25,9 +24,6 @@ namespace Marvel {
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvVLineSeries, add_vline_series)
         MV_NO_COMMANDS
         MV_DEFAULT_CHILDREN
-        MV_NO_CONSTANTS
-
-        MV_SET_STATES(MV_STATE_NONE);
 
         MV_START_PARENTS
             MV_ADD_PARENT(mvAppItemType::mvPlotAxis),
@@ -64,7 +60,6 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvHLineSeries
     //-----------------------------------------------------------------------------
-    MV_REGISTER_WIDGET(mvHLineSeries, MV_ITEM_DESC_DEFAULT | MV_ITEM_DESC_CONTAINER, StorageValueTypes::Series, 1);
     class mvHLineSeries : public mvAppItem
     {
     public:
@@ -74,9 +69,6 @@ namespace Marvel {
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvHLineSeries, add_hline_series)
         MV_NO_COMMANDS
         MV_DEFAULT_CHILDREN
-        MV_NO_CONSTANTS
-
-        MV_SET_STATES(MV_STATE_NONE);
 
         MV_START_PARENTS
             MV_ADD_PARENT(mvAppItemType::mvPlotAxis),

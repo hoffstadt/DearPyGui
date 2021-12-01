@@ -17,6 +17,7 @@
 #include "cpp.hint"
 #include "mvDefaultTheme.h"
 #include <implot_internal.h>
+#include "mvAppItemTypes.inc"
 
 namespace Marvel {
 
@@ -28,49 +29,10 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     enum class mvAppItemType
     {
-        None = -1, All, mvInputText, mvButton,
-        mvRadioButton, mvTabBar, mvTab, mvImage, mvMenuBar, mvViewportMenuBar,
-        mvMenu, mvMenuItem, mvChildWindow, mvGroup,
-        mvSliderFloat, mvSliderInt, mvFilterSet,
-        mvDragFloat, mvDragInt, mvInputFloat,
-        mvInputInt, mvColorEdit, mvClipper,
-        mvColorPicker, mvTooltip, mvCollapsingHeader,
-        mvSeparator, mvCheckbox, mvListbox, mvText, mvCombo,
-        mvPlot, mvSimplePlot, mvDrawlist, mvWindowAppItem,
-        mvSelectable, mvTreeNode, mvProgressBar, mvSpacer,
-        mvImageButton, mvTimePicker, mvDatePicker, mvColorButton,
-        mvFileDialog, mvTabButton, mvDrawNode,
-        mvNodeEditor, mvNode, mvNodeAttribute,
-        mvTable, mvTableColumn, mvTableRow,
-        mvDrawLine, mvDrawArrow, mvDrawTriangle, mvDrawImageQuad,
-        mvDrawCircle, mvDrawEllipse, mvDrawBezierCubic, mvDrawBezierQuadratic,
-        mvDrawQuad, mvDrawRect, mvDrawText, mvDrawPolygon, mvDrawPolyline,
-        mvDrawImage, mvDragFloatMulti, mvDragIntMulti, mvSliderFloatMulti,
-        mvSliderIntMulti, mvInputIntMulti, mvInputFloatMulti,
-        mvDragPoint, mvDragLine, mvAnnotation, mvLineSeries,
-        mvScatterSeries, mvStemSeries, mvStairSeries, mvBarSeries,
-        mvErrorSeries, mvVLineSeries, mvHLineSeries, mvHeatSeries,
-        mvImageSeries, mvPieSeries, mvShadeSeries, mvLabelSeries,
-        mvHistogramSeries, mv2dHistogramSeries,
-        mvCandleSeries, mvAreaSeries, mvColorMapScale, mvSlider3D,
-        mvKnobFloat, mvLoadingIndicator, mvNodeLink, 
-        mvTextureRegistry, mvStaticTexture, mvDynamicTexture,
-        mvStage, mvDrawLayer, mvViewportDrawlist,
-        mvFileExtension, mvPlotLegend, mvPlotAxis,
-        mvHandlerRegistry, mvKeyDownHandler, mvKeyPressHandler,
-        mvKeyReleaseHandler, mvMouseMoveHandler, mvMouseWheelHandler,
-        mvMouseClickHandler, mvMouseDoubleClickHandler, mvMouseDownHandler,
-        mvMouseReleaseHandler, mvMouseDragHandler, 
-        mvHoverHandler, mvActiveHandler, mvFocusHandler, mvVisibleHandler,
-        mvEditedHandler, mvActivatedHandler, mvDeactivatedHandler, mvDeactivatedAfterEditHandler,
-        mvToggledOpenHandler, mvClickedHandler, mvDragPayload, mvResizeHandler,
-        mvFont, mvFontRegistry, mvTheme, mvThemeColor, mvThemeStyle, mvThemeComponent,
-        mvFontRangeHint, mvFontRange, mvFontChars, mvCharRemap,
-        mvValueRegistry, mvIntValue, mvFloatValue, mvFloat4Value,
-        mvInt4Value, mvBoolValue, mvStringValue, mvDoubleValue, mvDouble4Value,
-        mvColorValue, mvFloatVectValue, mvSeriesValue, mvRawTexture, mvSubPlots,
-        mvColorMap, mvColorMapRegistry, mvColorMapButton, mvColorMapSlider,
-        mvItemPool, mvItemSet, mvTemplateRegistry, mvTableCell, mvItemHandlerRegistry,
+        None = -1, All, 
+        #define X(el) el,
+        MV_ITEM_TYPES
+        #undef X
         ItemTypeCount
     };
 
@@ -96,12 +58,6 @@ namespace Marvel {
         MV_IMPLOT = 1,
         MV_IMNODES = 2
     };
-
-    template<int item_type> 
-    struct mvItemTypeMap {};
-
-    template<typename T> 
-    struct mvItemTypeReverseMap{};
 
     struct ScopedID
     {
@@ -132,12 +88,7 @@ namespace Marvel {
         [[nodiscard]] virtual mvRef<mvAppItem>  getClassThemeComponent() const = 0;
         [[nodiscard]] virtual mvRef<mvAppItem>  getClassDisabledThemeComponent() const = 0;
         [[nodiscard]] virtual mvAppItemType     getType      () const { return mvAppItemType::None; } // should be pure, see #1071
-        [[nodiscard]] virtual i32               getDescFlags () const = 0;
-        [[nodiscard]] virtual i32               getTarget    () const = 0; // which child slot
-        [[nodiscard]] virtual StorageValueTypes getValueType () const = 0;
         [[nodiscard]] virtual const char*       getCommand   () const = 0;
-        [[nodiscard]] virtual const char*       getTypeString() const = 0;
-        [[nodiscard]] virtual i32               getApplicableState() const = 0;
         [[nodiscard]] virtual const std::vector<std::pair<std::string, i32>>& getAllowableParents() const = 0;
         [[nodiscard]] virtual const std::vector<std::pair<std::string, i32>>& getAllowableChildren() const = 0;
 
@@ -215,10 +166,6 @@ namespace Marvel {
         mvAppItemState _state;
         i32            _location = -1;
         b8             _showDebug = false;
-        
-        // item pool info
-        mvUUID _pool = 0;
-        mvUUID _itemSet = 0;
         
         // next frame triggers
         b8 _focusNextFrame = false;
@@ -306,4 +253,12 @@ namespace Marvel {
 
         return false;
     }
+
+    mvRef<mvAppItem>  CreateEntity(mvAppItemType type, mvUUID id);
+    i32               GetEntityDesciptionFlags(mvAppItemType type);
+    i32               GetEntityTargetSlot(mvAppItemType type);
+    StorageValueTypes GetEntityValueType(mvAppItemType type);
+    const char*       GetEntityTypeString(mvAppItemType type);
+    i32               GetApplicableState(mvAppItemType type);
+    b8                DoesEntityAcceptParent(mvAppItemType entity, mvAppItemType parent);
 }

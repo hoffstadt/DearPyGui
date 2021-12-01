@@ -5,7 +5,6 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvColorEdit, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Color, 1);
     class mvColorEdit : public mvAppItem
     {
 
@@ -17,49 +16,6 @@ namespace Marvel {
         MV_NO_COMMANDS
         MV_DEFAULT_PARENTS
         MV_DEFAULT_CHILDREN
-
-        MV_SET_STATES(
-            MV_STATE_HOVER |
-            MV_STATE_ACTIVE |
-            MV_STATE_FOCUSED |
-            MV_STATE_CLICKED |
-            MV_STATE_VISIBLE |
-            MV_STATE_EDITED |
-            MV_STATE_ACTIVATED |
-            MV_STATE_DEACTIVATED |
-            MV_STATE_DEACTIVATEDAE |
-            MV_STATE_RECT_MIN |
-            MV_STATE_RECT_MAX |
-            MV_STATE_RECT_SIZE |
-            MV_STATE_CONT_AVAIL
-        );
-
-        MV_CREATE_CONSTANT(mvColorEdit_AlphaPreviewNone, 0);
-        MV_CREATE_CONSTANT(mvColorEdit_AlphaPreview, ImGuiColorEditFlags_AlphaPreview);
-        MV_CREATE_CONSTANT(mvColorEdit_AlphaPreviewHalf, ImGuiColorEditFlags_AlphaPreviewHalf);
-
-        MV_CREATE_CONSTANT(mvColorEdit_uint8, ImGuiColorEditFlags_Uint8);
-        MV_CREATE_CONSTANT(mvColorEdit_float, ImGuiColorEditFlags_Float);
-            
-        MV_CREATE_CONSTANT(mvColorEdit_rgb, ImGuiColorEditFlags_DisplayRGB);
-        MV_CREATE_CONSTANT(mvColorEdit_hsv, ImGuiColorEditFlags_DisplayHSV);
-        MV_CREATE_CONSTANT(mvColorEdit_hex, ImGuiColorEditFlags_DisplayHex);
-
-        MV_CREATE_CONSTANT(mvColorEdit_input_rgb, ImGuiColorEditFlags_InputRGB);
-        MV_CREATE_CONSTANT(mvColorEdit_input_hsv, ImGuiColorEditFlags_InputHSV);
-
-        MV_START_CONSTANTS
-            MV_ADD_CONSTANT(mvColorEdit_AlphaPreviewNone),
-            MV_ADD_CONSTANT(mvColorEdit_AlphaPreview),
-            MV_ADD_CONSTANT(mvColorEdit_AlphaPreviewHalf),
-            MV_ADD_CONSTANT(mvColorEdit_uint8),
-            MV_ADD_CONSTANT(mvColorEdit_float),
-            MV_ADD_CONSTANT(mvColorEdit_rgb),
-            MV_ADD_CONSTANT(mvColorEdit_hsv),
-            MV_ADD_CONSTANT(mvColorEdit_hex),
-            MV_ADD_CONSTANT(mvColorEdit_input_rgb),
-            MV_ADD_CONSTANT(mvColorEdit_input_hsv)
-        MV_END_CONSTANTS
 
     public:
 

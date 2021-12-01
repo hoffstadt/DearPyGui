@@ -10,7 +10,6 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvFileDialog, MV_ITEM_DESC_ROOT | MV_ITEM_DESC_CONTAINER, StorageValueTypes::Bool, 1);
     class mvFileDialog final : public mvAppItem
     {
     public:
@@ -20,11 +19,8 @@ namespace Marvel {
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvFileDialog, add_file_dialog)
         MV_DEFAULT_PARENTS
         MV_DEFAULT_CHILDREN
-        MV_NO_CONSTANTS
 
-        MV_CREATE_COMMAND(get_file_dialog_info);
-
-        MV_SET_STATES(MV_STATE_NONE);
+        MV_CREATE_COMMAND(get_file_dialog_info);       
 
         MV_START_COMMANDS
             MV_ADD_COMMAND(get_file_dialog_info);

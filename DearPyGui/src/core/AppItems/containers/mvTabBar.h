@@ -4,7 +4,6 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvTabBar, MV_ITEM_DESC_CONTAINER, StorageValueTypes::UUID, 1);
     class mvTabBar : public mvAppItem
     {
 
@@ -15,9 +14,6 @@ namespace Marvel {
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvTabBar, add_tab_bar)
         MV_NO_COMMANDS
         MV_DEFAULT_PARENTS
-        MV_NO_CONSTANTS
-
-        MV_SET_STATES(MV_STATE_VISIBLE);
 
         MV_START_CHILDREN
             MV_ADD_CHILD(mvAppItemType::mvTab),

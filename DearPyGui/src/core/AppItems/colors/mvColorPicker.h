@@ -5,7 +5,6 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvColorPicker, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Color, 1);
     class mvColorPicker : public mvAppItem
     {
 
@@ -17,30 +16,6 @@ namespace Marvel {
         MV_NO_COMMANDS
         MV_DEFAULT_PARENTS
         MV_DEFAULT_CHILDREN
-
-        MV_CREATE_CONSTANT(mvColorPicker_bar, ImGuiColorEditFlags_PickerHueBar);
-        MV_CREATE_CONSTANT(mvColorPicker_wheel, ImGuiColorEditFlags_PickerHueWheel);
-
-        MV_SET_STATES(
-            MV_STATE_HOVER |
-            MV_STATE_ACTIVE |
-            MV_STATE_FOCUSED |
-            MV_STATE_CLICKED |
-            MV_STATE_VISIBLE |
-            MV_STATE_EDITED |
-            MV_STATE_ACTIVATED |
-            MV_STATE_DEACTIVATED |
-            MV_STATE_DEACTIVATEDAE |
-            MV_STATE_RECT_MIN |
-            MV_STATE_RECT_MAX |
-            MV_STATE_RECT_SIZE |
-            MV_STATE_CONT_AVAIL
-        );
-
-        MV_START_CONSTANTS
-            MV_ADD_CONSTANT(mvColorPicker_bar),
-            MV_ADD_CONSTANT(mvColorPicker_wheel)
-        MV_END_CONSTANTS
 
     public:
 

@@ -6,7 +6,6 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvTableRow, MV_ITEM_DESC_CONTAINER, StorageValueTypes::None, 1);
     class mvTableRow : public mvAppItem
     {
 
@@ -18,9 +17,6 @@ namespace Marvel {
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvTableRow, add_table_row)
         MV_NO_COMMANDS
         MV_DEFAULT_CHILDREN
-        MV_NO_CONSTANTS
-
-        MV_SET_STATES(MV_STATE_VISIBLE);
 
         MV_START_PARENTS
             MV_ADD_PARENT(mvAppItemType::mvStage),

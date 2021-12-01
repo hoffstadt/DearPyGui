@@ -7,7 +7,6 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvNodeEditor, MV_ITEM_DESC_CONTAINER, StorageValueTypes::None, 1);
     class mvNodeEditor : public mvAppItem
     {
 
@@ -17,18 +16,11 @@ namespace Marvel {
 
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvNodeEditor, add_node_editor)
         MV_DEFAULT_PARENTS
-        MV_NO_CONSTANTS
 
         MV_CREATE_COMMAND(get_selected_nodes);
         MV_CREATE_COMMAND(get_selected_links);
         MV_CREATE_COMMAND(clear_selected_nodes);
         MV_CREATE_COMMAND(clear_selected_links);
-
-        MV_SET_STATES(
-            MV_STATE_HOVER |
-            MV_STATE_VISIBLE |
-            MV_STATE_RECT_SIZE
-        );
 
         MV_START_COMMANDS
             MV_ADD_COMMAND(get_selected_nodes);

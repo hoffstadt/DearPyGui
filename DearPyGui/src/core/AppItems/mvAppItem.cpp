@@ -148,7 +148,7 @@ namespace Marvel {
                     break;
                 }
 
-                if (childset[i]->getDescFlags() & MV_ITEM_DESC_CONTAINER)
+                if (GetEntityDesciptionFlags(childset[i]->getType()) & MV_ITEM_DESC_CONTAINER)
                 {
                     found = childset[i]->moveChildUp(uuid);
                     if (found)
@@ -196,7 +196,7 @@ namespace Marvel {
                     break;
                 }
 
-                if (childset[i]->getDescFlags() & MV_ITEM_DESC_CONTAINER)
+                if (GetEntityDesciptionFlags(childset[i]->getType()) & MV_ITEM_DESC_CONTAINER)
                 {
                     found = childset[i]->moveChildDown(uuid);
                     if (found)
@@ -241,8 +241,9 @@ namespace Marvel {
 
                 if (_uuid == parent)
                 {
-                    item->_location = (i32)_children[item->getTarget()].size();
-                    _children[item->getTarget()].push_back(item);
+                    i32 targetSlot = GetEntityTargetSlot(item->getType());
+                    item->_location = (i32)_children[targetSlot].size();
+                    _children[targetSlot].push_back(item);
                     onChildAdd(item);
                     item->_parentPtr = this;
                     item->_parent = _uuid;
@@ -254,8 +255,8 @@ namespace Marvel {
                 {
                     for (auto& child : childslot)
                     {
-                        if (child->getDescFlags() & MV_ITEM_DESC_CONTAINER 
-                            || item->getDescFlags() & MV_ITEM_DESC_HANDLER)
+                        if (GetEntityDesciptionFlags(child->getType()) & MV_ITEM_DESC_CONTAINER
+                            || GetEntityDesciptionFlags(item->getType()) & MV_ITEM_DESC_HANDLER)
                         {
                             // parent found
                             if (child->addRuntimeChild(parent, before, item))
@@ -310,8 +311,8 @@ namespace Marvel {
             // check children
             for (auto& child : children)
             {
-                if (child->getDescFlags() & MV_ITEM_DESC_CONTAINER
-                    || item->getDescFlags() & MV_ITEM_DESC_HANDLER)
+                if (GetEntityDesciptionFlags(child->getType()) & MV_ITEM_DESC_CONTAINER
+                    || GetEntityDesciptionFlags(item->getType()) & MV_ITEM_DESC_HANDLER)
                 {
                     // parent found
                     if (child->addRuntimeChild(parent, before, item))
@@ -327,8 +328,9 @@ namespace Marvel {
     b8
     mvAppItem::addItem(mvRef<mvAppItem> item)
     {
-        item->_location = (i32)_children[item->getTarget()].size();
-        _children[item->getTarget()].push_back(item);
+        i32 targetSlot = GetEntityTargetSlot(item->getType());
+        item->_location = (i32)_children[targetSlot].size();
+        _children[targetSlot].push_back(item);
         onChildAdd(item);
         return true;
     }
@@ -361,16 +363,16 @@ namespace Marvel {
         if (prevFound)
         {
             //item->setParent(this);
-
-            std::vector<mvRef<mvAppItem>> oldchildren = _children[item->getTarget()];
-            _children[item->getTarget()].clear();
+            i32 targetSlot = GetEntityTargetSlot(item->getType());
+            std::vector<mvRef<mvAppItem>> oldchildren = _children[targetSlot];
+            _children[targetSlot].clear();
 
             for (auto& child : oldchildren)
             {
-                _children[item->getTarget()].push_back(child);
+                _children[targetSlot].push_back(child);
                 if (child->_uuid == prev)
                 {
-                    _children[item->getTarget()].push_back(item);
+                    _children[targetSlot].push_back(item);
                     onChildAdd(item);
                 }
             }
@@ -461,7 +463,7 @@ namespace Marvel {
                     break;
                 }
 
-                if (item->getDescFlags() & MV_ITEM_DESC_CONTAINER)
+                if (GetEntityDesciptionFlags(item->getType()) & MV_ITEM_DESC_CONTAINER)
                 {
                     stolenChild = item->stealChild(uuid);
                     if (stolenChild)
@@ -720,4 +722,904 @@ namespace Marvel {
         _source = value; 
     }
 
+    mv_internal bool
+    CanItemTypeBeHovered(mvAppItemType type)
+    {
+        switch (type)
+        {
+        case mvAppItemType::mvCheckbox:
+        case mvAppItemType::mvCombo:
+        case mvAppItemType::mvDragInt:
+        case mvAppItemType::mvDragIntMulti:
+        case mvAppItemType::mvDragFloat:
+        case mvAppItemType::mvDragFloatMulti:
+        case mvAppItemType::mvImage:
+        case mvAppItemType::mvImageButton:
+        case mvAppItemType::mvInputText:
+        case mvAppItemType::mvInputInt:
+        case mvAppItemType::mvInputFloat:
+        case mvAppItemType::mvInputIntMulti:
+        case mvAppItemType::mvInputFloatMulti:
+        case mvAppItemType::mvListbox:
+        case mvAppItemType::mvRadioButton:
+        case mvAppItemType::mvSelectable:
+        case mvAppItemType::mvSliderInt:
+        case mvAppItemType::mvSliderFloat:
+        case mvAppItemType::mvSliderFloatMulti:
+        case mvAppItemType::mvSliderIntMulti:
+        case mvAppItemType::mvText:
+        case mvAppItemType::mvColorButton:
+        case mvAppItemType::mvColorEdit:
+        case mvAppItemType::mvColorPicker:
+        case mvAppItemType::mvColorMapButton:
+        case mvAppItemType::mvColorMapScale:
+        case mvAppItemType::mvColorMapSlider:
+        case mvAppItemType::mvChildWindow:
+        case mvAppItemType::mvCollapsingHeader:
+        case mvAppItemType::mvGroup:
+        case mvAppItemType::mvMenu:
+        case mvAppItemType::mvTab:
+        case mvAppItemType::mvTreeNode:
+        case mvAppItemType::mvWindowAppItem:
+        case mvAppItemType::mvDatePicker:
+        case mvAppItemType::mvKnobFloat:
+        case mvAppItemType::mvLoadingIndicator:
+        case mvAppItemType::mvSlider3D:
+        case mvAppItemType::mvDrawlist:
+        case mvAppItemType::mvNode:
+        case mvAppItemType::mvNodeAttribute:
+        case mvAppItemType::mvNodeEditor:
+        case mvAppItemType::mvNodeLink:
+        case mvAppItemType::mvPlot:
+        case mvAppItemType::mvTableColumn:
+        case mvAppItemType::mvButton: return true;
+        default: return false;
+        }
+
+    }
+
+    mv_internal bool
+    CanItemTypeBeActive(mvAppItemType type)
+    {
+        switch (type)
+        {
+        case mvAppItemType::mvCheckbox:
+        case mvAppItemType::mvCombo:
+        case mvAppItemType::mvDragInt:
+        case mvAppItemType::mvDragIntMulti:
+        case mvAppItemType::mvDragFloat:
+        case mvAppItemType::mvDragFloatMulti:
+        case mvAppItemType::mvImageButton:
+        case mvAppItemType::mvInputText:
+        case mvAppItemType::mvInputInt:
+        case mvAppItemType::mvInputFloat:
+        case mvAppItemType::mvInputIntMulti:
+        case mvAppItemType::mvInputFloatMulti:
+        case mvAppItemType::mvListbox:
+        case mvAppItemType::mvRadioButton:
+        case mvAppItemType::mvSelectable:
+        case mvAppItemType::mvSliderInt:
+        case mvAppItemType::mvSliderFloat:
+        case mvAppItemType::mvSliderFloatMulti:
+        case mvAppItemType::mvSliderIntMulti:
+        case mvAppItemType::mvColorButton:
+        case mvAppItemType::mvColorEdit:
+        case mvAppItemType::mvColorPicker:
+        case mvAppItemType::mvColorMapButton:
+        case mvAppItemType::mvColorMapSlider:
+        case mvAppItemType::mvChildWindow:
+        case mvAppItemType::mvCollapsingHeader:
+        case mvAppItemType::mvGroup:
+        case mvAppItemType::mvMenu:
+        case mvAppItemType::mvTab:
+        case mvAppItemType::mvTreeNode:
+        case mvAppItemType::mvDatePicker:
+        case mvAppItemType::mvKnobFloat:
+        case mvAppItemType::mvDrawlist:
+        case mvAppItemType::mvPlot:
+        case mvAppItemType::mvButton: return true;
+        default: return false;
+        }
+
+    }
+
+    mv_internal bool
+    CanItemTypeBeFocused(mvAppItemType type)
+    {
+        switch (type)
+        {
+        case mvAppItemType::mvCheckbox:
+        case mvAppItemType::mvCombo:
+        case mvAppItemType::mvDragInt:
+        case mvAppItemType::mvDragIntMulti:
+        case mvAppItemType::mvDragFloat:
+        case mvAppItemType::mvDragFloatMulti:
+        case mvAppItemType::mvImageButton:
+        case mvAppItemType::mvInputText:
+        case mvAppItemType::mvInputInt:
+        case mvAppItemType::mvInputFloat:
+        case mvAppItemType::mvInputIntMulti:
+        case mvAppItemType::mvInputFloatMulti:
+        case mvAppItemType::mvListbox:
+        case mvAppItemType::mvRadioButton:
+        case mvAppItemType::mvSelectable:
+        case mvAppItemType::mvSliderInt:
+        case mvAppItemType::mvSliderFloat:
+        case mvAppItemType::mvSliderFloatMulti:
+        case mvAppItemType::mvSliderIntMulti:
+        case mvAppItemType::mvColorButton:
+        case mvAppItemType::mvColorEdit:
+        case mvAppItemType::mvColorPicker:
+        case mvAppItemType::mvColorMapButton:
+        case mvAppItemType::mvColorMapSlider:
+        case mvAppItemType::mvChildWindow:
+        case mvAppItemType::mvCollapsingHeader:
+        case mvAppItemType::mvGroup:
+        case mvAppItemType::mvMenu:
+        case mvAppItemType::mvTab:
+        case mvAppItemType::mvTreeNode:
+        case mvAppItemType::mvWindowAppItem:
+        case mvAppItemType::mvDatePicker:
+        case mvAppItemType::mvKnobFloat:
+        case mvAppItemType::mvDrawlist:
+        case mvAppItemType::mvPlot:
+        case mvAppItemType::mvButton: return true;
+        default: return false;
+        }
+
+    }
+
+    mv_internal bool
+    CanItemTypeBeClicked(mvAppItemType type)
+    {
+        switch (type)
+        {
+        case mvAppItemType::mvCheckbox:
+        case mvAppItemType::mvCombo:
+        case mvAppItemType::mvDragInt:
+        case mvAppItemType::mvDragFloat:
+        case mvAppItemType::mvDragFloatMulti:
+        case mvAppItemType::mvDragIntMulti:
+        case mvAppItemType::mvImageButton:
+        case mvAppItemType::mvImage:
+        case mvAppItemType::mvInputText:
+        case mvAppItemType::mvInputInt:
+        case mvAppItemType::mvInputFloat:
+        case mvAppItemType::mvInputIntMulti:
+        case mvAppItemType::mvInputFloatMulti:
+        case mvAppItemType::mvListbox:
+        case mvAppItemType::mvRadioButton:
+        case mvAppItemType::mvSelectable:
+        case mvAppItemType::mvSliderInt:
+        case mvAppItemType::mvSliderFloat:
+        case mvAppItemType::mvSliderIntMulti:
+        case mvAppItemType::mvSliderFloatMulti:
+        case mvAppItemType::mvText:
+        case mvAppItemType::mvColorButton:
+        case mvAppItemType::mvColorEdit:
+        case mvAppItemType::mvColorMapButton:
+        case mvAppItemType::mvColorMapScale:
+        case mvAppItemType::mvColorMapSlider:
+        case mvAppItemType::mvColorPicker:
+        case mvAppItemType::mvCollapsingHeader:
+        case mvAppItemType::mvGroup:
+        case mvAppItemType::mvTab:
+        case mvAppItemType::mvTreeNode:
+        case mvAppItemType::mvDatePicker:
+        case mvAppItemType::mvKnobFloat:
+        case mvAppItemType::mvLoadingIndicator:
+        case mvAppItemType::mvDrawlist:
+        case mvAppItemType::mvNode:
+        case mvAppItemType::mvPlot:
+        case mvAppItemType::mvButton: return true;
+        default: return false;
+        }
+
+    }
+
+    mv_internal bool
+    CanItemTypeBeVisible(mvAppItemType type)
+    {
+        switch (type)
+        {
+        case mvAppItemType::mvCheckbox:
+        case mvAppItemType::mvCombo:
+        case mvAppItemType::mvDragInt:
+        case mvAppItemType::mvDragIntMulti:
+        case mvAppItemType::mvDragFloat:
+        case mvAppItemType::mvDragFloatMulti:
+        case mvAppItemType::mvImage:
+        case mvAppItemType::mvImageButton:
+        case mvAppItemType::mvInputText:
+        case mvAppItemType::mvInputInt:
+        case mvAppItemType::mvInputIntMulti:
+        case mvAppItemType::mvInputFloat:
+        case mvAppItemType::mvInputFloatMulti:
+        case mvAppItemType::mvListbox:
+        case mvAppItemType::mvRadioButton:
+        case mvAppItemType::mvSelectable:
+        case mvAppItemType::mvSliderInt:
+        case mvAppItemType::mvSliderIntMulti:
+        case mvAppItemType::mvSliderFloat:
+        case mvAppItemType::mvSliderFloatMulti:
+        case mvAppItemType::mvText:
+        case mvAppItemType::mvColorButton:
+        case mvAppItemType::mvColorEdit:
+        case mvAppItemType::mvColorMapButton:
+        case mvAppItemType::mvColorMapScale:
+        case mvAppItemType::mvColorMapSlider:
+        case mvAppItemType::mvColorPicker:
+        case mvAppItemType::mvCollapsingHeader:
+        case mvAppItemType::mvGroup:
+        case mvAppItemType::mvMenuBar:
+        case mvAppItemType::mvTab:
+        case mvAppItemType::mvTabBar:
+        case mvAppItemType::mvTooltip:
+        case mvAppItemType::mvTreeNode:
+        case mvAppItemType::mvWindowAppItem:
+        case mvAppItemType::mvDatePicker:
+        case mvAppItemType::mvKnobFloat:
+        case mvAppItemType::mvLoadingIndicator:
+        case mvAppItemType::mvSlider3D:
+        case mvAppItemType::mvTimePicker:
+        case mvAppItemType::mvDrawlist:
+        case mvAppItemType::mvNode:
+        case mvAppItemType::mvNodeEditor:
+        case mvAppItemType::mvPlot:
+        case mvAppItemType::mvTable:
+        case mvAppItemType::mvTableColumn:
+        case mvAppItemType::mvTableRow:
+        case mvAppItemType::mvButton: return true;
+        default: return false;
+        }
+
+    }
+
+    mv_internal bool
+    CanItemTypeBeEdited(mvAppItemType type)
+    {
+        switch (type)
+        {
+        case mvAppItemType::mvDragInt:
+        case mvAppItemType::mvDragIntMulti:
+        case mvAppItemType::mvDragFloat:
+        case mvAppItemType::mvDragFloatMulti:
+        case mvAppItemType::mvInputText:
+        case mvAppItemType::mvInputInt:
+        case mvAppItemType::mvInputIntMulti:
+        case mvAppItemType::mvInputFloat:
+        case mvAppItemType::mvInputFloatMulti:
+        case mvAppItemType::mvListbox:
+        case mvAppItemType::mvRadioButton:
+        case mvAppItemType::mvSelectable:
+        case mvAppItemType::mvSliderInt:
+        case mvAppItemType::mvSliderIntMulti:
+        case mvAppItemType::mvSliderFloat:
+        case mvAppItemType::mvSliderFloatMulti:
+        case mvAppItemType::mvColorEdit:
+        case mvAppItemType::mvColorMapSlider:
+        case mvAppItemType::mvColorPicker:
+        case mvAppItemType::mvGroup:
+        case mvAppItemType::mvKnobFloat:
+        case mvAppItemType::mvCombo: return true;
+        default: return false;
+        }
+
+    }
+
+    mv_internal bool
+    CanItemTypeBeActivated(mvAppItemType type)
+    {
+        switch (type)
+        {
+        case mvAppItemType::mvCheckbox:
+        case mvAppItemType::mvCombo:
+        case mvAppItemType::mvDragInt:
+        case mvAppItemType::mvDragIntMulti:
+        case mvAppItemType::mvDragFloat:
+        case mvAppItemType::mvDragFloatMulti:
+        case mvAppItemType::mvImageButton:
+        case mvAppItemType::mvInputText:
+        case mvAppItemType::mvInputInt:
+        case mvAppItemType::mvInputIntMulti:
+        case mvAppItemType::mvInputFloat:
+        case mvAppItemType::mvInputFloatMulti:
+        case mvAppItemType::mvListbox:
+        case mvAppItemType::mvRadioButton:
+        case mvAppItemType::mvSelectable:
+        case mvAppItemType::mvSliderInt:
+        case mvAppItemType::mvSliderIntMulti:
+        case mvAppItemType::mvSliderFloat:
+        case mvAppItemType::mvSliderFloatMulti:
+        case mvAppItemType::mvColorButton:
+        case mvAppItemType::mvColorEdit:
+        case mvAppItemType::mvColorMapButton:
+        case mvAppItemType::mvColorMapSlider:
+        case mvAppItemType::mvColorPicker:
+        case mvAppItemType::mvCollapsingHeader:
+        case mvAppItemType::mvGroup:
+        case mvAppItemType::mvMenu:
+        case mvAppItemType::mvTab:
+        case mvAppItemType::mvTreeNode:
+        case mvAppItemType::mvDatePicker:
+        case mvAppItemType::mvKnobFloat:
+        case mvAppItemType::mvDrawlist:
+        case mvAppItemType::mvPlot:
+        case mvAppItemType::mvButton: return true;
+        default: return false;
+        }
+
+    }
+
+    mv_internal bool
+    CanItemTypeBeDeactivated(mvAppItemType type)
+    {
+        switch (type)
+        {
+        case mvAppItemType::mvCheckbox:
+        case mvAppItemType::mvCombo:
+        case mvAppItemType::mvDragInt:
+        case mvAppItemType::mvDragIntMulti:
+        case mvAppItemType::mvDragFloat:
+        case mvAppItemType::mvDragFloatMulti:
+        case mvAppItemType::mvImageButton:
+        case mvAppItemType::mvInputText:
+        case mvAppItemType::mvInputInt:
+        case mvAppItemType::mvInputIntMulti:
+        case mvAppItemType::mvInputFloat:
+        case mvAppItemType::mvInputFloatMulti:
+        case mvAppItemType::mvListbox:
+        case mvAppItemType::mvRadioButton:
+        case mvAppItemType::mvSelectable:
+        case mvAppItemType::mvSliderInt:
+        case mvAppItemType::mvSliderIntMulti:
+        case mvAppItemType::mvSliderFloat:
+        case mvAppItemType::mvSliderFloatMulti:
+        case mvAppItemType::mvColorButton:
+        case mvAppItemType::mvColorEdit:
+        case mvAppItemType::mvColorMapButton:
+        case mvAppItemType::mvColorMapSlider:
+        case mvAppItemType::mvColorPicker:
+        case mvAppItemType::mvChildWindow:
+        case mvAppItemType::mvCollapsingHeader:
+        case mvAppItemType::mvGroup:
+        case mvAppItemType::mvMenu:
+        case mvAppItemType::mvTab:
+        case mvAppItemType::mvTreeNode:
+        case mvAppItemType::mvDatePicker:
+        case mvAppItemType::mvKnobFloat:
+        case mvAppItemType::mvDrawlist:
+        case mvAppItemType::mvPlot:
+        case mvAppItemType::mvButton: return true;
+        default: return false;
+        }
+
+    }
+
+    mv_internal bool
+    CanItemTypeBeDeactivatedAE(mvAppItemType type)
+    {
+        switch (type)
+        {
+        case mvAppItemType::mvDragInt:
+        case mvAppItemType::mvDragIntMulti:
+        case mvAppItemType::mvDragFloat:
+        case mvAppItemType::mvDragFloatMulti:
+        case mvAppItemType::mvCombo:
+        case mvAppItemType::mvInputText:
+        case mvAppItemType::mvInputInt:
+        case mvAppItemType::mvInputIntMulti:
+        case mvAppItemType::mvInputFloat:
+        case mvAppItemType::mvInputFloatMulti:
+        case mvAppItemType::mvListbox:
+        case mvAppItemType::mvRadioButton:
+        case mvAppItemType::mvSelectable:
+        case mvAppItemType::mvSliderInt:
+        case mvAppItemType::mvSliderIntMulti:
+        case mvAppItemType::mvSliderFloat:
+        case mvAppItemType::mvSliderFloatMulti:
+        case mvAppItemType::mvColorEdit:
+        case mvAppItemType::mvColorMapSlider:
+        case mvAppItemType::mvColorPicker:
+        case mvAppItemType::mvGroup:
+        case mvAppItemType::mvCheckbox: return true;
+        default: return false;
+        }
+
+    }
+
+    mv_internal bool
+    CanItemTypeBeToggledOpen(mvAppItemType type)
+    {
+        switch (type)
+        {
+        case mvAppItemType::mvWindowAppItem:
+        case mvAppItemType::mvTreeNode:
+        case mvAppItemType::mvSelectable:
+        case mvAppItemType::mvCollapsingHeader: return true;
+        default: return false;
+        }
+
+    }
+
+    mv_internal bool
+    CanItemTypeHaveRectMin(mvAppItemType type)
+    {
+        switch (type)
+        {
+        case mvAppItemType::mvCheckbox:
+        case mvAppItemType::mvCombo:
+        case mvAppItemType::mvDragInt:
+        case mvAppItemType::mvDragIntMulti:
+        case mvAppItemType::mvDragFloat:
+        case mvAppItemType::mvDragFloatMulti:
+        case mvAppItemType::mvImage:
+        case mvAppItemType::mvImageButton:
+        case mvAppItemType::mvInputText:
+        case mvAppItemType::mvInputInt:
+        case mvAppItemType::mvInputIntMulti:
+        case mvAppItemType::mvInputFloat:
+        case mvAppItemType::mvInputFloatMulti:
+        case mvAppItemType::mvListbox:
+        case mvAppItemType::mvRadioButton:
+        case mvAppItemType::mvSelectable:
+        case mvAppItemType::mvSliderInt:
+        case mvAppItemType::mvSliderIntMulti:
+        case mvAppItemType::mvSliderFloat:
+        case mvAppItemType::mvSliderFloatMulti:
+        case mvAppItemType::mvText:
+        case mvAppItemType::mvColorButton:
+        case mvAppItemType::mvColorEdit:
+        case mvAppItemType::mvColorMapButton:
+        case mvAppItemType::mvColorMapScale:
+        case mvAppItemType::mvColorMapSlider:
+        case mvAppItemType::mvColorPicker:
+        case mvAppItemType::mvCollapsingHeader:
+        case mvAppItemType::mvGroup:
+        case mvAppItemType::mvTab:
+        case mvAppItemType::mvTreeNode:
+        case mvAppItemType::mvDatePicker:
+        case mvAppItemType::mvKnobFloat:
+        case mvAppItemType::mvLoadingIndicator:
+        case mvAppItemType::mvSlider3D:
+        case mvAppItemType::mvTimePicker:
+        case mvAppItemType::mvDrawlist:
+        case mvAppItemType::mvPlot:
+        case mvAppItemType::mvButton: return true;
+        default: return false;
+        }
+
+    }
+
+    mv_internal bool
+    CanItemTypeHaveRectMax(mvAppItemType type)
+    {
+        switch (type)
+        {
+        case mvAppItemType::mvCheckbox:
+        case mvAppItemType::mvCombo:
+        case mvAppItemType::mvDragInt:
+        case mvAppItemType::mvDragIntMulti:
+        case mvAppItemType::mvDragFloat:
+        case mvAppItemType::mvDragFloatMulti:
+        case mvAppItemType::mvImage:
+        case mvAppItemType::mvImageButton:
+        case mvAppItemType::mvInputText:
+        case mvAppItemType::mvInputInt:
+        case mvAppItemType::mvInputIntMulti:
+        case mvAppItemType::mvInputFloat:
+        case mvAppItemType::mvInputFloatMulti:
+        case mvAppItemType::mvListbox:
+        case mvAppItemType::mvRadioButton:
+        case mvAppItemType::mvSelectable:
+        case mvAppItemType::mvSliderInt:
+        case mvAppItemType::mvSliderIntMulti:
+        case mvAppItemType::mvSliderFloat:
+        case mvAppItemType::mvSliderFloatMulti:
+        case mvAppItemType::mvText:
+        case mvAppItemType::mvColorButton:
+        case mvAppItemType::mvColorEdit:
+        case mvAppItemType::mvColorMapButton:
+        case mvAppItemType::mvColorMapScale:
+        case mvAppItemType::mvColorMapSlider:
+        case mvAppItemType::mvColorPicker:
+        case mvAppItemType::mvCollapsingHeader:
+        case mvAppItemType::mvGroup:
+        case mvAppItemType::mvTab:
+        case mvAppItemType::mvTreeNode:
+        case mvAppItemType::mvDatePicker:
+        case mvAppItemType::mvKnobFloat:
+        case mvAppItemType::mvLoadingIndicator:
+        case mvAppItemType::mvSlider3D:
+        case mvAppItemType::mvTimePicker:
+        case mvAppItemType::mvDrawlist:
+        case mvAppItemType::mvPlot:
+        case mvAppItemType::mvButton: return true;
+        default: return false;
+        }
+
+    }
+
+    mv_internal bool
+    CanItemTypeHaveRectSize(mvAppItemType type)
+    {
+        switch (type)
+        {
+        case mvAppItemType::mvCheckbox:
+        case mvAppItemType::mvCombo:
+        case mvAppItemType::mvDragInt:
+        case mvAppItemType::mvDragIntMulti:
+        case mvAppItemType::mvDragFloat:
+        case mvAppItemType::mvDragFloatMulti:
+        case mvAppItemType::mvImage:
+        case mvAppItemType::mvImageButton:
+        case mvAppItemType::mvInputText:
+        case mvAppItemType::mvInputInt:
+        case mvAppItemType::mvInputIntMulti:
+        case mvAppItemType::mvInputFloat:
+        case mvAppItemType::mvInputFloatMulti:
+        case mvAppItemType::mvListbox:
+        case mvAppItemType::mvRadioButton:
+        case mvAppItemType::mvSelectable:
+        case mvAppItemType::mvSliderInt:
+        case mvAppItemType::mvSliderIntMulti:
+        case mvAppItemType::mvSliderFloat:
+        case mvAppItemType::mvSliderFloatMulti:
+        case mvAppItemType::mvText:
+        case mvAppItemType::mvColorButton:
+        case mvAppItemType::mvColorEdit:
+        case mvAppItemType::mvColorMapButton:
+        case mvAppItemType::mvColorMapScale:
+        case mvAppItemType::mvColorMapSlider:
+        case mvAppItemType::mvColorPicker:
+        case mvAppItemType::mvChildWindow:
+        case mvAppItemType::mvCollapsingHeader:
+        case mvAppItemType::mvGroup:
+        case mvAppItemType::mvMenu:
+        case mvAppItemType::mvTab:
+        case mvAppItemType::mvTooltip:
+        case mvAppItemType::mvTreeNode:
+        case mvAppItemType::mvWindowAppItem:
+        case mvAppItemType::mvDatePicker:
+        case mvAppItemType::mvKnobFloat:
+        case mvAppItemType::mvLoadingIndicator:
+        case mvAppItemType::mvSlider3D:
+        case mvAppItemType::mvTimePicker:
+        case mvAppItemType::mvDrawlist:
+        case mvAppItemType::mvNode:
+        case mvAppItemType::mvNodeEditor:
+        case mvAppItemType::mvPlot:
+        case mvAppItemType::mvButton: return true;
+        default: return false;
+        }
+
+    }
+
+    mv_internal bool
+    CanItemTypeHaveContAvail(mvAppItemType type)
+    {
+        switch (type)
+        {
+        case mvAppItemType::mvCheckbox:
+        case mvAppItemType::mvCombo:
+        case mvAppItemType::mvDragInt:
+        case mvAppItemType::mvDragIntMulti:
+        case mvAppItemType::mvDragFloat:
+        case mvAppItemType::mvDragFloatMulti:
+        case mvAppItemType::mvImage:
+        case mvAppItemType::mvImageButton:
+        case mvAppItemType::mvInputText:
+        case mvAppItemType::mvInputInt:
+        case mvAppItemType::mvInputIntMulti:
+        case mvAppItemType::mvInputFloat:
+        case mvAppItemType::mvInputFloatMulti:
+        case mvAppItemType::mvListbox:
+        case mvAppItemType::mvRadioButton:
+        case mvAppItemType::mvSelectable:
+        case mvAppItemType::mvSliderInt:
+        case mvAppItemType::mvSliderIntMulti:
+        case mvAppItemType::mvSliderFloat:
+        case mvAppItemType::mvSliderFloatMulti:
+        case mvAppItemType::mvText:
+        case mvAppItemType::mvColorButton:
+        case mvAppItemType::mvColorEdit:
+        case mvAppItemType::mvColorMapButton:
+        case mvAppItemType::mvColorMapScale:
+        case mvAppItemType::mvColorMapSlider:
+        case mvAppItemType::mvColorPicker:
+        case mvAppItemType::mvChildWindow:
+        case mvAppItemType::mvCollapsingHeader:
+        case mvAppItemType::mvGroup:
+        case mvAppItemType::mvTab:
+        case mvAppItemType::mvTooltip:
+        case mvAppItemType::mvTreeNode:
+        case mvAppItemType::mvDatePicker:
+        case mvAppItemType::mvKnobFloat:
+        case mvAppItemType::mvLoadingIndicator:
+        case mvAppItemType::mvSlider3D:
+        case mvAppItemType::mvDrawlist:
+        case mvAppItemType::mvPlot:
+        case mvAppItemType::mvButton: return true;
+        default: return false;
+        }
+
+    }
+
+    i32
+    GetApplicableState(mvAppItemType type)
+    {
+        i32 applicableState = MV_STATE_NONE;
+        if(CanItemTypeBeHovered(type)) applicableState |= MV_STATE_HOVER;
+        if(CanItemTypeBeActive(type)) applicableState |= MV_STATE_ACTIVE;
+        if(CanItemTypeBeFocused(type)) applicableState |= MV_STATE_FOCUSED;
+        if(CanItemTypeBeClicked(type)) applicableState |= MV_STATE_CLICKED;
+        if(CanItemTypeBeVisible(type)) applicableState |= MV_STATE_VISIBLE;
+        if(CanItemTypeBeEdited(type)) applicableState |= MV_STATE_EDITED;
+        if(CanItemTypeBeActivated(type)) applicableState |= MV_STATE_ACTIVATED;
+        if(CanItemTypeBeDeactivated(type)) applicableState |= MV_STATE_DEACTIVATED;
+        if(CanItemTypeBeDeactivatedAE(type)) applicableState |= MV_STATE_DEACTIVATEDAE;
+        if(CanItemTypeBeToggledOpen(type)) applicableState |= MV_STATE_TOGGLED_OPEN;
+        if(CanItemTypeHaveRectMin(type)) applicableState |= MV_STATE_RECT_MIN;
+        if(CanItemTypeHaveRectMax(type)) applicableState |= MV_STATE_RECT_MAX;
+        if(CanItemTypeHaveRectSize(type)) applicableState |= MV_STATE_RECT_SIZE;
+        if(CanItemTypeHaveContAvail(type)) applicableState |= MV_STATE_CONT_AVAIL;
+
+        return applicableState;
+    }
+
+    i32 
+    GetEntityDesciptionFlags(mvAppItemType type)
+    {
+        switch (type)
+        {
+        case mvAppItemType::mvThemeComponent:
+        case mvAppItemType::mvTable:
+        case mvAppItemType::mvTableCell:
+        case mvAppItemType::mvTableRow:
+        case mvAppItemType::mv2dHistogramSeries:
+        case mvAppItemType::mvAreaSeries:
+        case mvAppItemType::mvBarSeries:
+        case mvAppItemType::mvCandleSeries:
+        case mvAppItemType::mvErrorSeries:
+        case mvAppItemType::mvHeatSeries:
+        case mvAppItemType::mvHistogramSeries:
+        case mvAppItemType::mvImageSeries:
+        case mvAppItemType::mvVLineSeries:
+        case mvAppItemType::mvHLineSeries:
+        case mvAppItemType::mvLabelSeries:
+        case mvAppItemType::mvLineSeries:
+        case mvAppItemType::mvPieSeries:
+        case mvAppItemType::mvScatterSeries:
+        case mvAppItemType::mvShadeSeries:
+        case mvAppItemType::mvStairSeries:
+        case mvAppItemType::mvStemSeries:
+        case mvAppItemType::mvPlot:
+        case mvAppItemType::mvSubPlots:
+        case mvAppItemType::mvPlotAxis:
+        case mvAppItemType::mvPlotLegend:
+        case mvAppItemType::mvNode:
+        case mvAppItemType::mvNodeAttribute:
+        case mvAppItemType::mvNodeEditor:
+        case mvAppItemType::mvFont:
+        case mvAppItemType::mvDrawLayer:
+        case mvAppItemType::mvDrawlist:
+        case mvAppItemType::mvDrawNode:
+        case mvAppItemType::mvTreeNode:
+        case mvAppItemType::mvTab:
+        case mvAppItemType::mvTabBar:
+        case mvAppItemType::mvMenuBar:
+        case mvAppItemType::mvMenu:
+        case mvAppItemType::mvGroup:
+        case mvAppItemType::mvCollapsingHeader:
+        case mvAppItemType::mvClipper:
+        case mvAppItemType::mvChildWindow:
+        case mvAppItemType::mvFilterSet: return MV_ITEM_DESC_CONTAINER;
+
+        case mvAppItemType::mvTooltip:
+        case mvAppItemType::mvActivatedHandler:
+        case mvAppItemType::mvActiveHandler:
+        case mvAppItemType::mvClickedHandler:
+        case mvAppItemType::mvDeactivatedAfterEditHandler:
+        case mvAppItemType::mvDeactivatedHandler:
+        case mvAppItemType::mvEditedHandler:
+        case mvAppItemType::mvFocusHandler:
+        case mvAppItemType::mvHoverHandler:
+        case mvAppItemType::mvResizeHandler:
+        case mvAppItemType::mvToggledOpenHandler:
+        case mvAppItemType::mvVisibleHandler:
+        case mvAppItemType::mvDragPayload: return MV_ITEM_DESC_CONTAINER | MV_ITEM_DESC_HANDLER;
+
+        case mvAppItemType::mvTheme:
+        case mvAppItemType::mvValueRegistry:
+        case mvAppItemType::mvItemHandlerRegistry:
+        case mvAppItemType::mvTextureRegistry:
+        case mvAppItemType::mvHandlerRegistry:
+        case mvAppItemType::mvFontRegistry:
+        case mvAppItemType::mvWindowAppItem:
+        case mvAppItemType::mvViewportDrawlist:
+        case mvAppItemType::mvViewportMenuBar:
+        case mvAppItemType::mvTemplateRegistry:
+        case mvAppItemType::mvFileDialog:
+        case mvAppItemType::mvColorMapRegistry:
+        case mvAppItemType::mvStage: return MV_ITEM_DESC_ROOT | MV_ITEM_DESC_CONTAINER;
+        default: return MV_ITEM_DESC_DEFAULT;
+        }
+    }
+
+    i32
+    GetEntityTargetSlot(mvAppItemType type)
+    {
+        switch (type)
+        {
+        case mvAppItemType::mvFileExtension:
+        case mvAppItemType::mvFontRangeHint:
+        case mvAppItemType::mvNodeLink:
+        case mvAppItemType::mvAnnotation:
+        case mvAppItemType::mvDragLine:
+        case mvAppItemType::mvDragPoint:
+        case mvAppItemType::mvPlotLegend:
+        case mvAppItemType::mvTableColumn: return 0;
+
+        case mvAppItemType::mvDrawBezierCubic:
+        case mvAppItemType::mvDrawBezierQuadratic:
+        case mvAppItemType::mvDrawCircle:
+        case mvAppItemType::mvDrawEllipse:
+        case mvAppItemType::mvDrawImage:
+        case mvAppItemType::mvDrawImageQuad:
+        case mvAppItemType::mvDrawLayer:
+        case mvAppItemType::mvDrawLine:
+        case mvAppItemType::mvDrawNode:
+        case mvAppItemType::mvDrawPolygon:
+        case mvAppItemType::mvDrawPolyline:
+        case mvAppItemType::mvDrawQuad:
+        case mvAppItemType::mvDrawRect:
+        case mvAppItemType::mvDrawText:
+        case mvAppItemType::mvDrawTriangle:
+        case mvAppItemType::mvDrawArrow: return 2;
+
+        case mvAppItemType::mvDragPayload: return 3;
+
+        default: return 1;
+        }
+    }
+
+    StorageValueTypes
+    GetEntityValueType(mvAppItemType type)
+    {
+        switch (type)
+        {
+
+        case mvAppItemType::mvTimePicker:
+        case mvAppItemType::mvDatePicker: return StorageValueTypes::Time;
+
+        case mvAppItemType::mvTabBar: return StorageValueTypes::UUID;
+
+        case mvAppItemType::mvColorValue:
+        case mvAppItemType::mvThemeColor:
+        case mvAppItemType::mvColorPicker:
+        case mvAppItemType::mvColorEdit: return StorageValueTypes::Color;
+
+        case mvAppItemType::mvIntValue:
+        case mvAppItemType::mvSliderInt:
+        case mvAppItemType::mvInputInt:
+        case mvAppItemType::mvDragInt: return StorageValueTypes::Int;
+
+        case mvAppItemType::mvFloatValue:
+        case mvAppItemType::mvProgressBar:
+        case mvAppItemType::mvKnobFloat:
+        case mvAppItemType::mvColorMapSlider:
+        case mvAppItemType::mvSliderFloat:
+        case mvAppItemType::mvInputFloat:
+        case mvAppItemType::mvDragFloat: return StorageValueTypes::Float;
+        
+        case mvAppItemType::mvFloat4Value:
+        case mvAppItemType::mvThemeStyle:
+        case mvAppItemType::mvAnnotation:
+        case mvAppItemType::mvSlider3D:
+        case mvAppItemType::mvInputFloatMulti:
+        case mvAppItemType::mvSliderFloatMulti:
+        case mvAppItemType::mvDragFloatMulti: return StorageValueTypes::Float4;
+
+        case mvAppItemType::mvInt4Value:
+        case mvAppItemType::mvInputIntMulti:
+        case mvAppItemType::mvSliderIntMulti:
+        case mvAppItemType::mvDragIntMulti: return StorageValueTypes::Int4;
+
+        case mvAppItemType::mvStringValue:
+        case mvAppItemType::mvText:
+        case mvAppItemType::mvRadioButton:
+        case mvAppItemType::mvListbox:
+        case mvAppItemType::mvInputText:
+        case mvAppItemType::mvCombo: return StorageValueTypes::String;
+
+        case mvAppItemType::mvBoolValue:
+        case mvAppItemType::mvTreeNode:
+        case mvAppItemType::mvTooltip:
+        case mvAppItemType::mvTab:
+        case mvAppItemType::mvMenuBar:
+        case mvAppItemType::mvMenu:
+        case mvAppItemType::mvCollapsingHeader:
+        case mvAppItemType::mvChildWindow:
+        case mvAppItemType::mvFileDialog:
+        case mvAppItemType::mvSelectable:
+        case mvAppItemType::mvMenuItem:
+        case mvAppItemType::mvCheckbox: return StorageValueTypes::Bool;
+        
+        case mvAppItemType::mvSeriesValue:
+        case mvAppItemType::mv2dHistogramSeries:
+        case mvAppItemType::mvAreaSeries:
+        case mvAppItemType::mvBarSeries:
+        case mvAppItemType::mvCandleSeries:
+        case mvAppItemType::mvErrorSeries:
+        case mvAppItemType::mvHeatSeries:
+        case mvAppItemType::mvHistogramSeries:
+        case mvAppItemType::mvImageSeries:
+        case mvAppItemType::mvVLineSeries:
+        case mvAppItemType::mvHLineSeries:
+        case mvAppItemType::mvLabelSeries:
+        case mvAppItemType::mvLineSeries:
+        case mvAppItemType::mvPieSeries:
+        case mvAppItemType::mvScatterSeries:
+        case mvAppItemType::mvShadeSeries:
+        case mvAppItemType::mvStairSeries:
+        case mvAppItemType::mvStemSeries: return StorageValueTypes::Series;
+
+        case mvAppItemType::mvDoubleValue:
+        case mvAppItemType::mvDragLine: return StorageValueTypes::Double;
+        
+        case mvAppItemType::mvDouble4Value:
+        case mvAppItemType::mvDragPoint: return StorageValueTypes::Double4;
+
+        case mvAppItemType::mvStaticTexture:
+        case mvAppItemType::mvDynamicTexture:
+        case mvAppItemType::mvSimplePlot: return StorageValueTypes::FloatVect;
+
+        default: return StorageValueTypes::None;
+        }
+    }
+
+    const char* 
+    GetEntityTypeString(mvAppItemType type)
+    {
+        #define X(el) #el,
+        mv_local_persist const char* entity_type_strings[(size_t)mvAppItemType::ItemTypeCount] =
+        {
+            "All, an error occured", // shouldn't actually occur
+            MV_ITEM_TYPES
+        };
+        #undef X
+
+        return entity_type_strings[(size_t)type];
+    }
+
+    mvRef<mvAppItem>
+    CreateEntity(mvAppItemType type, mvUUID id)
+    {
+        #define X(el) case mvAppItemType::el: return CreateRef<el>(id);
+        switch (type)
+        {
+            MV_ITEM_TYPES
+            default: return nullptr;
+        }
+        #undef X
+    }
+
+    b8
+    DoesEntityAcceptParent(mvAppItemType entity, mvAppItemType parent)
+    {
+        switch (entity)
+        {
+        case mvAppItemType::mvTabButton:
+        {
+            switch (parent)
+            {
+            case mvAppItemType::mvTabBar:
+            case mvAppItemType::mvStage:
+            case mvAppItemType::mvTemplateRegistry: return true;
+            default: return false;
+            }
+        }
+        default: return true;
+        }
+    }
 }

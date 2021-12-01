@@ -5,7 +5,6 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvDrawNode, MV_ITEM_DESC_CONTAINER, StorageValueTypes::None, 2);
     class mvDrawNode : public mvAppItem
     {
     public:
@@ -13,7 +12,6 @@ namespace Marvel {
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvDrawNode, add_draw_node)
-        MV_NO_CONSTANTS
 
         MV_CREATE_COMMAND(apply_transform);
         
@@ -24,8 +22,6 @@ namespace Marvel {
         MV_CREATE_COMMAND(create_perspective_matrix);
         MV_CREATE_COMMAND(create_orthographic_matrix);
         MV_CREATE_COMMAND(create_fps_matrix);
-
-        MV_SET_STATES(MV_STATE_NONE);
 
         MV_START_PARENTS
             MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),

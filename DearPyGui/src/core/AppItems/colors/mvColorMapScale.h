@@ -7,7 +7,6 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvColorMapScale, MV_ITEM_DESC_DEFAULT, StorageValueTypes::None, 1);
     class mvColorMapScale : public mvAppItem
     {
 
@@ -19,17 +18,6 @@ namespace Marvel {
 		MV_NO_COMMANDS
 		MV_DEFAULT_PARENTS
 		MV_DEFAULT_CHILDREN
-		MV_NO_CONSTANTS
-
-		MV_SET_STATES(
-			MV_STATE_HOVER |
-			MV_STATE_CLICKED |
-			MV_STATE_VISIBLE |
-			MV_STATE_RECT_MIN |
-			MV_STATE_RECT_MAX |
-			MV_STATE_RECT_SIZE |
-			MV_STATE_CONT_AVAIL
-		);
 
     public:
 

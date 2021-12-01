@@ -223,7 +223,7 @@ namespace Marvel {
                 "Source item not found: " + std::to_string(dataSource), this);
             return;
         }
-        if (item->getValueType() != getValueType())
+        if (GetEntityValueType(item->getType()) != GetEntityValueType(getType()))
         {
             mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
                 "Values types do not match: " + std::to_string(dataSource), this);
@@ -519,7 +519,7 @@ namespace Marvel {
                 "Source item not found: " + std::to_string(dataSource), this);
             return;
         }
-        if (item->getValueType() != getValueType())
+        if (GetEntityValueType(item->getType()) != GetEntityValueType(getType()))
         {
             mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
                 "Values types do not match: " + std::to_string(dataSource), this);
@@ -802,7 +802,7 @@ namespace Marvel {
                 "Source item not found: " + std::to_string(dataSource), this);
             return;
         }
-        if (item->getValueType() != getValueType())
+        if (GetEntityValueType(item->getType()) != GetEntityValueType(getType()))
         {
             mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
                 "Values types do not match: " + std::to_string(dataSource), this);
@@ -993,7 +993,7 @@ namespace Marvel {
                 "Source item not found: " + std::to_string(dataSource), this);
             return;
         }
-        if (item->getValueType() != getValueType())
+        if (GetEntityValueType(item->getType()) != GetEntityValueType(getType()))
         {
             mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
                 "Values types do not match: " + std::to_string(dataSource), this);

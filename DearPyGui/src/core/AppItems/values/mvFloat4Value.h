@@ -5,7 +5,6 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvFloat4Value, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Float4, 1);
     class mvFloat4Value : public mvAppItem
     {
 
@@ -16,9 +15,6 @@ namespace Marvel {
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvFloat4Value, add_float4_value)
         MV_NO_COMMANDS
         MV_DEFAULT_CHILDREN
-        MV_NO_CONSTANTS
-
-        MV_SET_STATES(MV_STATE_NONE);
 
         MV_START_PARENTS
             MV_ADD_PARENT(mvAppItemType::mvValueRegistry)

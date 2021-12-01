@@ -25,7 +25,6 @@ namespace Marvel
 	{
 		if (item)
 		{
-			std::string itemType = item->getTypeString();
 			std::string fullMessage = "\nError:     [%d]\nCommand:   %s\nItem:      %d \nLabel:     %s\nItem Type: %s\nMessage:   %s";
 			PyErr_Format(PyExc_Exception,
 				fullMessage.c_str(),
@@ -33,7 +32,7 @@ namespace Marvel
 				command.c_str(),
 				item->_uuid,
 				item->_specifiedLabel.c_str(),
-				itemType.c_str(),
+				GetEntityTypeString(item->getType()),
 				message.c_str());
 		}
 		else

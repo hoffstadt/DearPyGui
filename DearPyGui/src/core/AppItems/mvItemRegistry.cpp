@@ -14,6 +14,18 @@
 
 namespace Marvel {
 
+    mvItemRegistry::mvItemRegistry()
+    {
+        // prefill cached containers
+        for (i32 i = 0; i < CachedContainerCount; i++)
+        {
+            cachedContainersID[i] = 0;
+            cachedContainersPTR[i] = nullptr;
+            cachedItemsID[i] = 0;
+            cachedItemsPTR[i] = nullptr;
+        }
+    }
+
     void 
     InsertParser_mvItemRegistry(std::map<std::string, mvPythonParser>* parsers)
     {
@@ -645,7 +657,7 @@ namespace Marvel {
     mv_internal void
     CacheItem(mvItemRegistry& registry, mvAppItem* item)
     {
-        if (item->getDescFlags() & MV_ITEM_DESC_CONTAINER)
+        if (GetEntityDesciptionFlags(item->getType()) & MV_ITEM_DESC_CONTAINER)
         {
             registry.cachedContainersID[registry.cachedContainerIndex] = item->_uuid;
             registry.cachedContainersPTR[registry.cachedContainerIndex] = item;
@@ -787,7 +799,6 @@ namespace Marvel {
         else if (AddItemAfterRoot(registry.valueRegistryRoots, prev, item)) return true;
         else if (AddItemAfterRoot(registry.windowRoots, prev, item)) return true;
         else if (AddItemAfterRoot(registry.themeRegistryRoots, prev, item)) return true;
-        else if (AddItemAfterRoot(registry.itemPoolRoots, prev, item)) return true;
         else if (AddItemAfterRoot(registry.itemTemplatesRoots, prev, item)) return true;
         else if (AddItemAfterRoot(registry.itemHandlerRegistryRoots, prev, item)) return true;
         else if (AddItemAfterRoot(registry.viewportDrawlistRoots, prev, item)) return true;
@@ -823,7 +834,6 @@ namespace Marvel {
         else if (AddRuntimeChildRoot(registry.valueRegistryRoots, parent, before, item)) return true;
         else if (AddRuntimeChildRoot(registry.windowRoots, parent, before, item)) return true;
         else if (AddRuntimeChildRoot(registry.themeRegistryRoots, parent, before, item)) return true;
-        else if (AddRuntimeChildRoot(registry.itemPoolRoots, parent, before, item)) return true;
         else if (AddRuntimeChildRoot(registry.itemTemplatesRoots, parent, before, item)) return true;
         else if (AddRuntimeChildRoot(registry.itemHandlerRegistryRoots, parent, before, item)) return true;
         else if (AddRuntimeChildRoot(registry.viewportDrawlistRoots, parent, before, item)) return true;
@@ -845,7 +855,6 @@ namespace Marvel {
         if (item->getType() == mvAppItemType::mvTextureRegistry) registry.textureRegistryRoots.push_back(item);
         if (item->getType() == mvAppItemType::mvValueRegistry) registry.valueRegistryRoots.push_back(item);
         if (item->getType() == mvAppItemType::mvTheme) registry.themeRegistryRoots.push_back(item);
-        if (item->getType() == mvAppItemType::mvItemPool) registry.itemPoolRoots.push_back(item);
         if (item->getType() == mvAppItemType::mvTemplateRegistry) registry.itemTemplatesRoots.push_back(item);
         if (item->getType() == mvAppItemType::mvItemHandlerRegistry) registry.itemHandlerRegistryRoots.push_back(item);
         if (item->getType() == mvAppItemType::mvViewportDrawlist) registry.viewportDrawlistRoots.push_back(item);
@@ -905,19 +914,19 @@ namespace Marvel {
             for (auto& child : children0)
             {
                 childList.emplace_back(child->_uuid);
-                if (child->getDescFlags() & MV_ITEM_DESC_CONTAINER)
+                if (GetEntityDesciptionFlags(child->getType()) & MV_ITEM_DESC_CONTAINER)
                     ChildRetriever(child);
             }
             for (auto& child : children1)
             {
                 childList.emplace_back(child->_uuid);
-                if (child->getDescFlags() & MV_ITEM_DESC_CONTAINER)
+                if (GetEntityDesciptionFlags(child->getType()) & MV_ITEM_DESC_CONTAINER)
                     ChildRetriever(child);
             }
             for (auto& child : children2)
             {
                 childList.emplace_back(child->_uuid);
-                if (child->getDescFlags() & MV_ITEM_DESC_CONTAINER)
+                if (GetEntityDesciptionFlags(child->getType()) & MV_ITEM_DESC_CONTAINER)
                     ChildRetriever(child);
             }
 
@@ -946,7 +955,6 @@ namespace Marvel {
         GetAllItemsRoot(registry.textureRegistryRoots, childList);
         GetAllItemsRoot(registry.valueRegistryRoots, childList);
         GetAllItemsRoot(registry.themeRegistryRoots, childList);
-        GetAllItemsRoot(registry.itemPoolRoots, childList);
         GetAllItemsRoot(registry.itemTemplatesRoots, childList);
         GetAllItemsRoot(registry.itemHandlerRegistryRoots, childList);
         GetAllItemsRoot(registry.viewportDrawlistRoots, childList);
@@ -969,7 +977,6 @@ namespace Marvel {
         for (auto& root : registry.textureRegistryRoots) childList.emplace_back(root->_uuid);
         for (auto& root : registry.valueRegistryRoots) childList.emplace_back(root->_uuid);
         for (auto& root : registry.themeRegistryRoots) childList.emplace_back(root->_uuid);
-        for (auto& root : registry.itemPoolRoots) childList.emplace_back(root->_uuid);
         for (auto& root : registry.itemTemplatesRoots) childList.emplace_back(root->_uuid);
         for (auto& root : registry.itemHandlerRegistryRoots) childList.emplace_back(root->_uuid);
         for (auto& root : registry.viewportDrawlistRoots) childList.emplace_back(root->_uuid);
@@ -1117,19 +1124,6 @@ namespace Marvel {
         return 0;
     }
 
-    mvRef<mvAppItem> 
-    GetItemFromPool(mvItemRegistry& registry, mvAppItemType itemType)
-    {
-        for (auto& pool : registry.itemPoolRoots)
-        {
-            auto item = static_cast<mvItemPool*>(pool.get())->getItem(itemType);
-            if (item)
-                return item;
-        }
-
-        return nullptr;
-    }
-
     mvAppItem* 
     GetItemRoot(mvItemRegistry& registry, mvUUID uuid)
     {
@@ -1139,7 +1133,7 @@ namespace Marvel {
             if (item->_parentPtr)
             {
                 mvAppItem* currentAncestor = item->_parentPtr;
-                while (!(currentAncestor->getDescFlags() & MV_ITEM_DESC_ROOT))
+                while (!(GetEntityDesciptionFlags(currentAncestor->getType()) & MV_ITEM_DESC_ROOT))
                     currentAncestor = currentAncestor->_parentPtr;
 
                 return currentAncestor;
@@ -1194,7 +1188,6 @@ namespace Marvel {
         else if (DeleteRoot(registry.valueRegistryRoots, uuid)) deletedItem = true;
         else if (DeleteRoot(registry.windowRoots, uuid)) deletedItem = true;
         else if (DeleteRoot(registry.themeRegistryRoots, uuid)) deletedItem = true;
-        else if (DeleteRoot(registry.itemPoolRoots, uuid)) deletedItem = true;
         else if (DeleteRoot(registry.itemTemplatesRoots, uuid)) deletedItem = true;
         else if (DeleteRoot(registry.itemHandlerRegistryRoots, uuid)) deletedItem = true;
         else if (DeleteRoot(registry.viewportDrawlistRoots, uuid)) deletedItem = true;
@@ -1246,7 +1239,6 @@ namespace Marvel {
             else if (MoveRoot(registry.valueRegistryRoots, uuid, child)) movedItem = true;
             else if (MoveRoot(registry.windowRoots, uuid, child)) movedItem = true;
             else if (MoveRoot(registry.themeRegistryRoots, uuid, child)) movedItem = true;
-            else if (MoveRoot(registry.itemPoolRoots, uuid, child)) movedItem = true;
             else if (MoveRoot(registry.itemTemplatesRoots, uuid, child)) movedItem = true;
             else if (MoveRoot(registry.itemHandlerRegistryRoots, uuid, child)) movedItem = true;
             else if (MoveRoot(registry.viewportDrawlistRoots, uuid, child)) movedItem = true;
@@ -1283,7 +1275,6 @@ namespace Marvel {
         else if (MoveUpRoot(registry.valueRegistryRoots, uuid)) movedItem = true;
         else if (MoveUpRoot(registry.windowRoots, uuid)) movedItem = true;
         else if (MoveUpRoot(registry.themeRegistryRoots, uuid)) movedItem = true;
-        else if (MoveUpRoot(registry.itemPoolRoots, uuid)) movedItem = true;
         else if (MoveUpRoot(registry.itemTemplatesRoots, uuid)) movedItem = true;
         else if (MoveUpRoot(registry.itemHandlerRegistryRoots, uuid)) movedItem = true;
         else if (MoveUpRoot(registry.viewportDrawlistRoots, uuid)) movedItem = true;
@@ -1318,7 +1309,6 @@ namespace Marvel {
         else if (MoveDownRoot(registry.valueRegistryRoots, uuid)) movedItem = true;
         else if (MoveDownRoot(registry.windowRoots, uuid)) movedItem = true;
         else if (MoveDownRoot(registry.themeRegistryRoots, uuid)) movedItem = true;
-        else if (MoveDownRoot(registry.itemPoolRoots, uuid)) movedItem = true;
         else if (MoveDownRoot(registry.itemTemplatesRoots, uuid)) movedItem = true;
         else if (MoveDownRoot(registry.itemHandlerRegistryRoots, uuid)) movedItem = true;
         else if (MoveDownRoot(registry.viewportDrawlistRoots, uuid)) movedItem = true;
@@ -1447,12 +1437,12 @@ namespace Marvel {
             DebugItem("Label:", root->_specifiedLabel.c_str());
             DebugItem("ID:", std::to_string(root->_uuid).c_str());
             DebugItem("Alias:", root->_alias.c_str());
-            DebugItem("Type:", root->getTypeString());
+            DebugItem("Type:", GetEntityTypeString(root->getType()));
             DebugItem("Filter:", root->_filter.c_str());
             DebugItem("Payload Type:", root->_payloadType.c_str());
             DebugItem("Location:", std::to_string(root->_location).c_str());
             DebugItem("Track Offset:", std::to_string(root->_trackOffset).c_str());
-            DebugItem("Container:", root->getDescFlags() & MV_ITEM_DESC_CONTAINER ? ts : fs);
+            DebugItem("Container:", GetEntityDesciptionFlags(root->getType()) & MV_ITEM_DESC_CONTAINER ? ts : fs);
             DebugItem("Width:", width.c_str());
             DebugItem("Height:", height.c_str());
             DebugItem("Size x:", sizex.c_str());
@@ -1474,7 +1464,7 @@ namespace Marvel {
             DebugItem("Font Bound:", root->_font ? ts : fs);
             DebugItem("Handlers Bound:", root->_handlerRegistry ? ts : fs);
 
-            i32 applicableState = root->getApplicableState();
+            i32 applicableState = GetApplicableState(root->getType());
             ImGui::Spacing();
             ImGui::Spacing();
             ImGui::Spacing();
@@ -1552,7 +1542,6 @@ namespace Marvel {
         if (auto foundItem = GetItemRoot(registry, registry.valueRegistryRoots, uuid)) return foundItem;
         if (auto foundItem = GetItemRoot(registry, registry.windowRoots, uuid)) return foundItem;
         if (auto foundItem = GetItemRoot(registry, registry.themeRegistryRoots, uuid)) return foundItem;
-        if (auto foundItem = GetItemRoot(registry, registry.itemPoolRoots, uuid)) return foundItem;
         if (auto foundItem = GetItemRoot(registry, registry.itemTemplatesRoots, uuid)) return foundItem;
         if (auto foundItem = GetItemRoot(registry, registry.itemHandlerRegistryRoots, uuid)) return foundItem;
         if (auto foundItem = GetItemRoot(registry, registry.viewportDrawlistRoots, uuid)) return foundItem;
@@ -1594,7 +1583,6 @@ namespace Marvel {
         else if (auto foundItem = GetRefItemRoot(registry.valueRegistryRoots, uuid)) return foundItem;
         else if (auto foundItem = GetRefItemRoot(registry.windowRoots, uuid)) return foundItem;
         else if (auto foundItem = GetRefItemRoot(registry.themeRegistryRoots, uuid)) return foundItem;
-        else if (auto foundItem = GetRefItemRoot(registry.itemPoolRoots, uuid)) return foundItem;
         else if (auto foundItem = GetRefItemRoot(registry.itemTemplatesRoots, uuid)) return foundItem;
         else if (auto foundItem = GetRefItemRoot(registry.itemHandlerRegistryRoots, uuid)) return foundItem;
         else if (auto foundItem = GetRefItemRoot(registry.viewportDrawlistRoots, uuid)) return foundItem;
@@ -1634,7 +1622,6 @@ namespace Marvel {
         registry.textureRegistryRoots.clear();
         registry.valueRegistryRoots.clear();
         registry.themeRegistryRoots.clear();
-        registry.itemPoolRoots.clear();
         registry.itemTemplatesRoots.clear();
         registry.itemHandlerRegistryRoots.clear();
         registry.viewportDrawlistRoots.clear();
@@ -1674,7 +1661,7 @@ namespace Marvel {
             return true;
         }
 
-        if (item->getDescFlags() & MV_ITEM_DESC_HANDLER && parent == 0)
+        if (GetEntityDesciptionFlags(item->getType()) & MV_ITEM_DESC_HANDLER && parent == 0)
             parent = item->_parent;
 
         if (item == nullptr)
@@ -1687,12 +1674,12 @@ namespace Marvel {
         //---------------------------------------------------------------------------
         // STEP 0: updata "last" information
         //---------------------------------------------------------------------------
-        if (item->getDescFlags() & MV_ITEM_DESC_ROOT)
+        if (GetEntityDesciptionFlags(item->getType()) & MV_ITEM_DESC_ROOT)
         {
             registry.lastRootAdded = item->_uuid;
             registry.lastContainerAdded = item->_uuid;
         }
-        else if (item->getDescFlags() & MV_ITEM_DESC_CONTAINER)
+        else if (GetEntityDesciptionFlags(item->getType()) & MV_ITEM_DESC_CONTAINER)
             registry.lastContainerAdded = item->_uuid;
 
         registry.lastItemAdded = item->_uuid;
@@ -1721,7 +1708,7 @@ namespace Marvel {
         //---------------------------------------------------------------------------
         // STEP 2: handle root case
         //---------------------------------------------------------------------------
-        if (item->getDescFlags() & MV_ITEM_DESC_ROOT)
+        if (GetEntityDesciptionFlags(item->getType()) & MV_ITEM_DESC_ROOT)
         {
 
             if (GContext->started)
@@ -1940,7 +1927,7 @@ namespace Marvel {
     {
         if (registry.boundedTemplateRegistry)
         {
-            for (auto& tempItem : registry.boundedTemplateRegistry->_children[item->getTarget()])
+            for (auto& tempItem : registry.boundedTemplateRegistry->_children[GetEntityTargetSlot(item->getType())])
             {
                 if (tempItem->getType() == item->getType())
                 {
@@ -2066,7 +2053,7 @@ namespace Marvel {
         mvAppItem* parent = GetItem((*GContext->itemRegistry), item);
         if (parent)
         {
-            if (parent->getDescFlags() & MV_ITEM_DESC_CONTAINER)
+            if (GetEntityDesciptionFlags(parent->getType()) & MV_ITEM_DESC_CONTAINER)
             {
                 PushParent((*GContext->itemRegistry), parent);
                 return ToPyBool(true);
@@ -2519,8 +2506,8 @@ namespace Marvel {
                 PyDict_SetItemString(pdict, "children", mvPyObject(pyChildren));
             }
 
-            PyDict_SetItemString(pdict, "type", mvPyObject(ToPyString(appitem->getTypeString())));
-            PyDict_SetItemString(pdict, "target", mvPyObject(ToPyInt(appitem->getTarget())));
+            PyDict_SetItemString(pdict, "type", mvPyObject(ToPyString(GetEntityTypeString(appitem->getType()))));
+            PyDict_SetItemString(pdict, "target", mvPyObject(ToPyInt(GetEntityTargetSlot(appitem->getType()))));
 
             if (appitem->_parentPtr)
                 PyDict_SetItemString(pdict, "parent", mvPyObject(ToPyUUID(appitem->_parentPtr->_uuid)));
@@ -2537,12 +2524,12 @@ namespace Marvel {
             else
                 PyDict_SetItemString(pdict, "font", mvPyObject(GetPyNone()));
 
-            if (appitem->getDescFlags() & MV_ITEM_DESC_CONTAINER)
+            if (GetEntityDesciptionFlags(appitem->getType()) & MV_ITEM_DESC_CONTAINER)
                 PyDict_SetItemString(pdict, "container", mvPyObject(ToPyBool(true)));
             else
                 PyDict_SetItemString(pdict, "container", mvPyObject(ToPyBool(false)));
 
-            i32 applicableState = appitem->getApplicableState();
+            i32 applicableState = GetApplicableState(appitem->getType());
             PyDict_SetItemString(pdict, "hover_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_HOVER)));
             PyDict_SetItemString(pdict, "active_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_ACTIVE)));
             PyDict_SetItemString(pdict, "focus_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_FOCUSED)));
@@ -2879,7 +2866,7 @@ namespace Marvel {
         PyObject* pdict = PyDict_New();
 
         if (appitem)
-            FillAppItemState(pdict, appitem->_state, appitem->getApplicableState());
+            FillAppItemState(pdict, appitem->_state, GetApplicableState(appitem->getType()));
         else
             mvThrowPythonError(mvErrorCode::mvItemNotFound, "get_item_state",
                 "Item not found: " + std::to_string(item), nullptr);
@@ -2894,12 +2881,9 @@ namespace Marvel {
         if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
         PyObject* pdict = PyDict_New();
-        constexpr_for<1, (i32)mvAppItemType::ItemTypeCount, 1>(
-            [&](auto i) {
-
-                using item_type = typename mvItemTypeMap<i>::type;
-                PyDict_SetItemString(pdict, mvItemTypeMap<i>::s_class, PyLong_FromLong(item_type::s_internal_type));
-            });
+        #define X(el) PyDict_SetItemString(pdict, #el, PyLong_FromLong((int)mvAppItemType::el));
+        MV_ITEM_TYPES
+        #undef X
 
         return pdict;
     }

@@ -41,11 +41,11 @@ namespace Marvel {
         // build up flags for current node
         const auto node_flags = ImGuiTreeNodeFlags_OpenOnArrow
             | ((item->_uuid == m_selectedItem) ? ImGuiTreeNodeFlags_Selected : 0)
-            | (item->getDescFlags() & MV_ITEM_DESC_CONTAINER ? 0 : ImGuiTreeNodeFlags_Leaf);
+            | (GetEntityDesciptionFlags(item->getType()) & MV_ITEM_DESC_CONTAINER ? 0 : ImGuiTreeNodeFlags_Leaf);
 
         // render this node
         ImGui::PushID(item.get());
-        std::string labelToShow = item->getTypeString();
+        std::string labelToShow = GetEntityTypeString(item->getType());
         if (!item->_alias.empty())
             labelToShow = item->_alias;
         else if (!item->_specifiedLabel.empty())
@@ -71,7 +71,7 @@ namespace Marvel {
             m_dirtyNodes = true;
         }
 
-        if (!(item->getDescFlags() & MV_ITEM_DESC_CONTAINER))
+        if (!(GetEntityDesciptionFlags(item->getType()) & MV_ITEM_DESC_CONTAINER))
         {
             if(expanded)
                 ImGui::TreePop();
@@ -187,12 +187,12 @@ namespace Marvel {
         DebugItem("Label:", _itemref->_specifiedLabel.c_str());
         DebugItem("ID:", std::to_string(_itemref->_uuid).c_str());
         DebugItem("Alias:", _itemref->_alias.c_str());
-        DebugItem("Type:", _itemref->getTypeString());
+        DebugItem("Type:", GetEntityTypeString(_itemref->getType()));
         DebugItem("Filter:", _itemref->_filter.c_str());
         DebugItem("Payload Type:", _itemref->_payloadType.c_str());
         DebugItem("Location:", std::to_string(_itemref->_location).c_str());
         DebugItem("Track Offset:", std::to_string(_itemref->_trackOffset).c_str());
-        DebugItem("Container:", _itemref->getDescFlags() & MV_ITEM_DESC_CONTAINER ? ts : fs);
+        DebugItem("Container:", GetEntityDesciptionFlags(_itemref->getType()) & MV_ITEM_DESC_CONTAINER ? ts : fs);
         DebugItem("Width:", width.c_str());
         DebugItem("Height:", height.c_str());
         DebugItem("Size x:", sizex.c_str());
@@ -214,7 +214,7 @@ namespace Marvel {
         DebugItem("Font Bound:", _itemref->_font ? ts : fs);
         DebugItem("Handlers Bound:", _itemref->_handlerRegistry ? ts : fs);
 
-        int applicableState = _itemref->getApplicableState();
+        int applicableState = GetApplicableState(_itemref->getType());
         ImGui::Spacing();
         ImGui::Spacing();
         ImGui::Spacing();

@@ -4,7 +4,6 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvTooltip, MV_ITEM_DESC_CONTAINER | MV_ITEM_DESC_HANDLER, StorageValueTypes::Bool, 1);
     class mvTooltip : public mvAppItem
     {
     public:
@@ -15,13 +14,6 @@ namespace Marvel {
         MV_NO_COMMANDS
         MV_DEFAULT_PARENTS
         MV_DEFAULT_CHILDREN
-        MV_NO_CONSTANTS
-
-        MV_SET_STATES(
-            MV_STATE_VISIBLE |
-            MV_STATE_RECT_SIZE |
-            MV_STATE_CONT_AVAIL
-        );
 
     public:
 

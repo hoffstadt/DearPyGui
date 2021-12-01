@@ -21,7 +21,6 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvDragFloat
     //-----------------------------------------------------------------------------
-    MV_REGISTER_WIDGET(mvDragFloat, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Float, 1);
     class mvDragFloat : public mvAppItem
     {
 
@@ -33,23 +32,6 @@ namespace Marvel {
             MV_NO_COMMANDS
             MV_DEFAULT_PARENTS
             MV_DEFAULT_CHILDREN
-            MV_NO_CONSTANTS
-
-            MV_SET_STATES(
-                MV_STATE_HOVER |
-                MV_STATE_ACTIVE |
-                MV_STATE_FOCUSED |
-                MV_STATE_CLICKED |
-                MV_STATE_VISIBLE |
-                MV_STATE_EDITED |
-                MV_STATE_ACTIVATED |
-                MV_STATE_DEACTIVATED |
-                MV_STATE_DEACTIVATEDAE |
-                MV_STATE_RECT_MIN |
-                MV_STATE_RECT_MAX |
-                MV_STATE_RECT_SIZE |
-                MV_STATE_CONT_AVAIL
-            );
 
     public:
 
@@ -82,7 +64,6 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvDragFloatMulti
     //-----------------------------------------------------------------------------
-    MV_REGISTER_WIDGET(mvDragFloatMulti, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Float4, 1);
     class mvDragFloatMulti : public mvAppItem
     {
 
@@ -94,23 +75,7 @@ namespace Marvel {
         MV_NO_COMMANDS
         MV_DEFAULT_PARENTS
         MV_DEFAULT_CHILDREN
-        MV_NO_CONSTANTS
 
-        MV_SET_STATES(
-            MV_STATE_HOVER |
-            MV_STATE_ACTIVE |
-            MV_STATE_FOCUSED |
-            MV_STATE_CLICKED |
-            MV_STATE_VISIBLE |
-            MV_STATE_EDITED |
-            MV_STATE_ACTIVATED |
-            MV_STATE_DEACTIVATED |
-            MV_STATE_DEACTIVATEDAE |
-            MV_STATE_RECT_MIN |
-            MV_STATE_RECT_MAX |
-            MV_STATE_RECT_SIZE |
-            MV_STATE_CONT_AVAIL
-        );
 
     public:
 
@@ -143,7 +108,6 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvDragInt
     //----------------------------------------------------------------------------- 
-    MV_REGISTER_WIDGET(mvDragInt, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Int, 1);
     class mvDragInt : public mvAppItem
     {
 
@@ -155,23 +119,6 @@ namespace Marvel {
             MV_NO_COMMANDS
             MV_DEFAULT_PARENTS
             MV_DEFAULT_CHILDREN
-            MV_NO_CONSTANTS
-
-            MV_SET_STATES(
-                MV_STATE_HOVER |
-                MV_STATE_ACTIVE |
-                MV_STATE_FOCUSED |
-                MV_STATE_CLICKED |
-                MV_STATE_VISIBLE |
-                MV_STATE_EDITED |
-                MV_STATE_ACTIVATED |
-                MV_STATE_DEACTIVATED |
-                MV_STATE_DEACTIVATEDAE |
-                MV_STATE_RECT_MIN |
-                MV_STATE_RECT_MAX |
-                MV_STATE_RECT_SIZE |
-                MV_STATE_CONT_AVAIL
-            );
 
     public:
 
@@ -204,7 +151,6 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvDragIntMulti
     //-----------------------------------------------------------------------------
-    MV_REGISTER_WIDGET(mvDragIntMulti, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Int4, 1);
     class mvDragIntMulti : public mvAppItem
     {
 
@@ -216,23 +162,6 @@ namespace Marvel {
         MV_NO_COMMANDS
         MV_DEFAULT_PARENTS
         MV_DEFAULT_CHILDREN
-        MV_NO_CONSTANTS
-
-        MV_SET_STATES(
-            MV_STATE_HOVER |
-            MV_STATE_ACTIVE |
-            MV_STATE_FOCUSED |
-            MV_STATE_CLICKED |
-            MV_STATE_VISIBLE |
-            MV_STATE_EDITED |
-            MV_STATE_ACTIVATED |
-            MV_STATE_DEACTIVATED |
-            MV_STATE_DEACTIVATEDAE |
-            MV_STATE_RECT_MIN |
-            MV_STATE_RECT_MAX |
-            MV_STATE_RECT_SIZE |
-            MV_STATE_CONT_AVAIL
-        );
 
     public:
 

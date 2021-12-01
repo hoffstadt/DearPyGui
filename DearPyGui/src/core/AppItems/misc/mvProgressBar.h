@@ -4,7 +4,6 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvProgressBar, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Float, 1);
     class mvProgressBar : public mvAppItem
     {
 
@@ -16,10 +15,6 @@ namespace Marvel {
         MV_NO_COMMANDS
         MV_DEFAULT_PARENTS
         MV_DEFAULT_CHILDREN
-        MV_NO_CONSTANTS
-
-        // TODO: apply appropriately
-        MV_SET_STATES(MV_STATE_NONE);
 
     public:
 
