@@ -722,7 +722,7 @@ namespace Marvel {
         _source = value; 
     }
 
-        mv_internal bool
+    mv_internal bool
     CanItemTypeBeHovered(mvAppItemType type)
     {
         switch (type)

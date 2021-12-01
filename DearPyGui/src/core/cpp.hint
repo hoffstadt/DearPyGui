@@ -60,21 +60,6 @@ static PyMethodDef GetMethodDefinition(){return { s_command, (PyCFunction)parser
 #define MV_END_COMMANDS }
 
 ///////////////////////////////////////////////////////////////////////////////
-// constants
-///////////////////////////////////////////////////////////////////////////////
-
-#define MV_NO_CONSTANTS public: static const std::vector<std::pair<std::string, long>>& GetGeneralConstants()\
-{static std::vector<std::pair<std::string, long>> constants ={\
-};return constants;}
-
-#define MV_START_CONSTANTS public: static const std::vector<std::pair<std::string, long>>& GetGeneralConstants()\
-{static std::vector<std::pair<std::string, long>> constants ={
-
-#define MV_END_CONSTANTS };return constants;}
-#define MV_ADD_CONSTANT(x) {#x, x}
-#define MV_CREATE_CONSTANT(y, z) static constexpr const long y = z;
-
-///////////////////////////////////////////////////////////////////////////////
 // parents
 ///////////////////////////////////////////////////////////////////////////////
 

@@ -21,18 +21,6 @@ namespace Marvel {
             MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
         MV_END_PARENTS
 
-        MV_CREATE_CONSTANT(mvPlotBin_Sqrt,    -1L);
-        MV_CREATE_CONSTANT(mvPlotBin_Sturges, -2L);
-        MV_CREATE_CONSTANT(mvPlotBin_Rice,    -3L);
-        MV_CREATE_CONSTANT(mvPlotBin_Scott,   -4L);
-
-        MV_START_CONSTANTS
-            MV_ADD_CONSTANT(mvPlotBin_Sqrt),
-            MV_ADD_CONSTANT(mvPlotBin_Sturges),
-            MV_ADD_CONSTANT(mvPlotBin_Rice),
-            MV_ADD_CONSTANT(mvPlotBin_Scott),
-        MV_END_CONSTANTS
-
     public:
 
         explicit mvHistogramSeries(mvUUID uuid);

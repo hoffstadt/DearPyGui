@@ -22,39 +22,10 @@ namespace Marvel {
         MV_CREATE_COMMAND(is_plot_queried);
         MV_CREATE_COMMAND(get_plot_query_area);
 
-        //-----------------------------------------------------------------------------
-        // Plot Marker Specifications
-        //-----------------------------------------------------------------------------
-        MV_CREATE_CONSTANT(mvPlotMarker_None    , -1L);  // no marker
-        MV_CREATE_CONSTANT(mvPlotMarker_Circle  ,  0L);  // a circle marker will be rendered at each point
-        MV_CREATE_CONSTANT(mvPlotMarker_Square  ,  1L);  // a square maker will be rendered at each point
-        MV_CREATE_CONSTANT(mvPlotMarker_Diamond ,  2L);  // a diamond marker will be rendered at each point
-        MV_CREATE_CONSTANT(mvPlotMarker_Up      ,  3L);  // an upward-pointing triangle marker will up rendered at each point
-        MV_CREATE_CONSTANT(mvPlotMarker_Down    ,  4L);  // an downward-pointing triangle marker will up rendered at each point
-        MV_CREATE_CONSTANT(mvPlotMarker_Left    ,  5L);  // an leftward-pointing triangle marker will up rendered at each point
-        MV_CREATE_CONSTANT(mvPlotMarker_Right   ,  6L);  // an rightward-pointing triangle marker will up rendered at each point
-        MV_CREATE_CONSTANT(mvPlotMarker_Cross   ,  7L);  // a cross marker will be rendered at each point (not filled)
-        MV_CREATE_CONSTANT(mvPlotMarker_Plus    ,  8L);  // a plus marker will be rendered at each point (not filled)
-        MV_CREATE_CONSTANT(mvPlotMarker_Asterisk,  9L); // a asterisk marker will be rendered at each point (not filled)
-
         MV_START_COMMANDS
             MV_ADD_COMMAND(is_plot_queried);
             MV_ADD_COMMAND(get_plot_query_area);
         MV_END_COMMANDS
-
-        MV_START_CONSTANTS
-            MV_ADD_CONSTANT(mvPlotMarker_None),
-            MV_ADD_CONSTANT(mvPlotMarker_Circle),
-            MV_ADD_CONSTANT(mvPlotMarker_Square),
-            MV_ADD_CONSTANT(mvPlotMarker_Diamond),
-            MV_ADD_CONSTANT(mvPlotMarker_Up),
-            MV_ADD_CONSTANT(mvPlotMarker_Down),
-            MV_ADD_CONSTANT(mvPlotMarker_Left),
-            MV_ADD_CONSTANT(mvPlotMarker_Right),
-            MV_ADD_CONSTANT(mvPlotMarker_Cross),
-            MV_ADD_CONSTANT(mvPlotMarker_Plus),
-            MV_ADD_CONSTANT(mvPlotMarker_Asterisk),
-        MV_END_CONSTANTS
 
         MV_START_CHILDREN
             MV_ADD_CHILD(mvAppItemType::mvPlotLegend),

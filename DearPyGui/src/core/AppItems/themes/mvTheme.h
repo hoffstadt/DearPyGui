@@ -17,8 +17,6 @@ namespace Marvel {
 
         MV_CREATE_COMMAND(bind_theme);
 
-        
-
         MV_START_COMMANDS
             MV_ADD_COMMAND(bind_theme);
         MV_END_COMMANDS
@@ -27,15 +25,6 @@ namespace Marvel {
             MV_ADD_CHILD(mvAppItemType::mvThemeComponent)
         MV_END_CHILDREN
 
-        MV_CREATE_CONSTANT(mvThemeCat_Core, 0);
-        MV_CREATE_CONSTANT(mvThemeCat_Plots, 1);
-        MV_CREATE_CONSTANT(mvThemeCat_Nodes, 2);
-
-        MV_START_CONSTANTS
-            MV_ADD_CONSTANT(mvThemeCat_Core),
-            MV_ADD_CONSTANT(mvThemeCat_Plots),
-            MV_ADD_CONSTANT(mvThemeCat_Nodes),
-        MV_END_CONSTANTS
 
     public:
 

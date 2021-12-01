@@ -32,7 +32,6 @@ namespace Marvel {
             MV_NO_COMMANDS
             MV_DEFAULT_PARENTS
             MV_DEFAULT_CHILDREN
-            MV_NO_CONSTANTS
 
     public:
 
@@ -76,7 +75,6 @@ namespace Marvel {
         MV_NO_COMMANDS
         MV_DEFAULT_PARENTS
         MV_DEFAULT_CHILDREN
-        MV_NO_CONSTANTS
 
 
     public:
@@ -121,7 +119,6 @@ namespace Marvel {
             MV_NO_COMMANDS
             MV_DEFAULT_PARENTS
             MV_DEFAULT_CHILDREN
-            MV_NO_CONSTANTS
 
     public:
 
@@ -165,7 +162,6 @@ namespace Marvel {
         MV_NO_COMMANDS
         MV_DEFAULT_PARENTS
         MV_DEFAULT_CHILDREN
-        MV_NO_CONSTANTS
 
     public:
 

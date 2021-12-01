@@ -14,9 +14,6 @@ namespace Marvel {
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvDeactivatedAfterEditHandler, add_item_deactivated_after_edit_handler)
         MV_NO_COMMANDS
         MV_DEFAULT_CHILDREN
-        MV_NO_CONSTANTS
-
-        
 
         MV_START_PARENTS
             MV_ADD_PARENT(mvAppItemType::mvStage),

@@ -12,9 +12,6 @@ namespace Marvel {
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvFont, add_font)
-        MV_NO_CONSTANTS
-
-        
 
         MV_CREATE_COMMAND(bind_font);
         MV_CREATE_COMMAND(get_text_size);

@@ -16,7 +16,6 @@ namespace Marvel {
 
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvNodeEditor, add_node_editor)
         MV_DEFAULT_PARENTS
-        MV_NO_CONSTANTS
 
         MV_CREATE_COMMAND(get_selected_nodes);
         MV_CREATE_COMMAND(get_selected_links);

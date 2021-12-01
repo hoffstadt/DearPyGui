@@ -18,7 +18,6 @@ namespace Marvel {
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvWindowAppItem, add_window)
         MV_DEFAULT_PARENTS
         MV_DEFAULT_CHILDREN
-        MV_NO_CONSTANTS
 
         MV_CREATE_COMMAND(set_x_scroll);
         MV_CREATE_COMMAND(set_y_scroll);

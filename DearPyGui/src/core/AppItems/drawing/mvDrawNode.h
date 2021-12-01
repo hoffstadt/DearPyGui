@@ -12,7 +12,6 @@ namespace Marvel {
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvDrawNode, add_draw_node)
-        MV_NO_CONSTANTS
 
         MV_CREATE_COMMAND(apply_transform);
         
