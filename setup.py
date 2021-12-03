@@ -18,7 +18,13 @@ def version_number():
         return wip_version
     try:
         with open('version_number.txt', encoding='utf-8') as f:
-            return f.readline().rstrip()
+            version = f.readline().rstrip()
+
+            # temporary fix fox CI issues with windows
+            if(version.startswith("ECHO")):
+                return "0.0.1"
+
+            return version
 
     except IOError:
         return wip_version
