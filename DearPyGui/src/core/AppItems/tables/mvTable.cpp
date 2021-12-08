@@ -336,7 +336,7 @@ namespace Marvel {
 				_state.lastFrameUpdate = GContext->frame;
 				_state.visible = true;
 
-				ImGui::TableSetupScrollFreeze(_freezeRows, _freezeColumns);
+				ImGui::TableSetupScrollFreeze(_freezeColumns, _freezeRows);
 
 				// columns
 				for (auto& item : _children[0])
