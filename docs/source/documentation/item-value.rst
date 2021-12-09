@@ -30,7 +30,7 @@ Values can be changed manually using :py:func:`set_value <dearpygui.dearpygui.se
     dpg.destroy_context()
 
 Value Items
----------------
+-----------
 There are several "Value" items that can be used. These are
 items that have no visual component. These include:
 
