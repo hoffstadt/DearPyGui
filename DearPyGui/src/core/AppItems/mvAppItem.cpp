@@ -1194,50 +1194,7 @@ namespace Marvel {
     mv_internal bool
     CanItemTypeHaveRectMax(mvAppItemType type)
     {
-        switch (type)
-        {
-        case mvAppItemType::mvCheckbox:
-        case mvAppItemType::mvCombo:
-        case mvAppItemType::mvDragInt:
-        case mvAppItemType::mvDragIntMulti:
-        case mvAppItemType::mvDragFloat:
-        case mvAppItemType::mvDragFloatMulti:
-        case mvAppItemType::mvImage:
-        case mvAppItemType::mvImageButton:
-        case mvAppItemType::mvInputText:
-        case mvAppItemType::mvInputInt:
-        case mvAppItemType::mvInputIntMulti:
-        case mvAppItemType::mvInputFloat:
-        case mvAppItemType::mvInputFloatMulti:
-        case mvAppItemType::mvListbox:
-        case mvAppItemType::mvRadioButton:
-        case mvAppItemType::mvSelectable:
-        case mvAppItemType::mvSliderInt:
-        case mvAppItemType::mvSliderIntMulti:
-        case mvAppItemType::mvSliderFloat:
-        case mvAppItemType::mvSliderFloatMulti:
-        case mvAppItemType::mvText:
-        case mvAppItemType::mvColorButton:
-        case mvAppItemType::mvColorEdit:
-        case mvAppItemType::mvColorMapButton:
-        case mvAppItemType::mvColorMapScale:
-        case mvAppItemType::mvColorMapSlider:
-        case mvAppItemType::mvColorPicker:
-        case mvAppItemType::mvCollapsingHeader:
-        case mvAppItemType::mvGroup:
-        case mvAppItemType::mvTab:
-        case mvAppItemType::mvTreeNode:
-        case mvAppItemType::mvDatePicker:
-        case mvAppItemType::mvKnobFloat:
-        case mvAppItemType::mvLoadingIndicator:
-        case mvAppItemType::mvSlider3D:
-        case mvAppItemType::mvTimePicker:
-        case mvAppItemType::mvDrawlist:
-        case mvAppItemType::mvPlot:
-        case mvAppItemType::mvButton: return true;
-        default: return false;
-        }
-
+        return CanItemTypeHaveRectMin(type);
     }
 
     mv_internal bool
