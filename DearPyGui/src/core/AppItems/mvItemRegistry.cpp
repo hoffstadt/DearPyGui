@@ -865,7 +865,7 @@ namespace Marvel {
     mv_internal mvAppItem*
     GetItemRoot(mvItemRegistry& registry, std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid)
     {
-        for (auto root : roots)
+        for (auto& root : roots)
         {
             if (root->_uuid == uuid)
             {
