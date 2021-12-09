@@ -200,8 +200,8 @@ user_data:
 .. seealso::
     For more information on the item callbacks :doc:`../documentation/item-callbacks`
 
-Values
-------
+Item Values
+-----------
 
 Almost all UI items have a *value* which can be accessed or set.
 
