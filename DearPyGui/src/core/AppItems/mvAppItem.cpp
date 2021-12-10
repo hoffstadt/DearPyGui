@@ -1542,13 +1542,15 @@ namespace Marvel {
     const char* 
     GetEntityTypeString(mvAppItemType type)
     {
-        #define X(el) #el,
+        #define Y(el) #el
+        #define X(el) Y(mvAppItemType:: ## el),
         mv_local_persist const char* entity_type_strings[(size_t)mvAppItemType::ItemTypeCount] =
         {
             "All, an error occured", // shouldn't actually occur
             MV_ITEM_TYPES
         };
         #undef X
+        #undef Y
 
         return entity_type_strings[(size_t)type];
     }
