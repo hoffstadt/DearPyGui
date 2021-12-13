@@ -3397,6 +3397,8 @@ namespace IGFD
 				}
 #endif // IMGUI_HAS_VIEWPORT
 
+				windowSizeDPG = ImGui::GetWindowSize();
+
 				prFileDialogInternal.puName = name; //-V820
 				puAnyWindowsHovered |= ImGui::IsWindowHovered();
 

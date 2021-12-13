@@ -1073,6 +1073,7 @@ namespace IGFD
 
 	public:
 		bool puAnyWindowsHovered = false;							// not remember why haha :) todo : to check if we can remove
+		ImVec2 windowSizeDPG = ImVec2(0.0f, 0.0f);
 
 	public:
 		static FileDialog* Instance()								// Singleton for easier accces form anywhere but only one dialog at a time

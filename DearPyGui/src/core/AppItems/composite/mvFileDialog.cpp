@@ -30,6 +30,8 @@ namespace Marvel {
 			args.push_back({ mvPyDataType::Integer, "file_count", mvArgType::KEYWORD_ARG, "0", "Number of visible files in the dialog." });
 			args.push_back({ mvPyDataType::Bool, "modal", mvArgType::KEYWORD_ARG, "False", "Forces user interaction with the file selector." });
 			args.push_back({ mvPyDataType::Bool, "directory_selector", mvArgType::KEYWORD_ARG, "False", "Shows only directory/paths as options. Allows selection of directory/paths only." });
+			args.push_back({ mvPyDataType::IntList, "min_size", mvArgType::KEYWORD_ARG, "[100, 100]", "Minimum window size." });
+			args.push_back({ mvPyDataType::IntList, "max_size", mvArgType::KEYWORD_ARG, "[30000, 30000]", "Maximum window size." });
 
 			mvPythonParserSetup setup;
 			setup.about = "Displays a file or directory selector depending on keywords. Displays a file dialog by default. Callback will be ran when the file or directory picker is closed. The app_data arguemnt will be populated with information related to the file and directory as a dictionary.";
@@ -127,8 +129,25 @@ namespace Marvel {
 		{
 			//mvFontScope fscope(this);
 
+			if (_dirtyPos)
+			{
+				ImGui::SetNextWindowPos(_state.pos);
+				_dirtyPos = false;
+			}
+
+			if (_dirty_size)
+			{
+				ImGui::SetNextWindowSize(ImVec2((float)_width, (float)_height));
+				_dirty_size = false;
+			}
+
 			// display
-			if (_instance.Display(_internalLabel, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings, ImVec2(500, 600)))
+			if (_instance.IsOpened())
+			{
+				_state.rectSize = { _instance.windowSizeDPG.x, _instance.windowSizeDPG.y };
+			}
+
+			if (_instance.Display(_internalLabel, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings, _min_size, _max_size))
 			{
 
 				// action if OK
@@ -195,6 +214,18 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "modal")) _modal = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "directory_selector")) _directory = ToBool(item);
 
+		if (PyObject* item = PyDict_GetItemString(dict, "min_size"))
+		{
+			auto min_size = ToIntVect(item);
+			_min_size = { (float)min_size[0], (float)min_size[1] };
+		}
+
+		if (PyObject* item = PyDict_GetItemString(dict, "max_size"))
+		{
+			auto max_size = ToIntVect(item);
+			_max_size = { (float)max_size[0], (float)max_size[1] };
+		}
+
 	}
 
 	void mvFileDialog::getSpecificConfiguration(PyObject* dict)
@@ -218,6 +249,8 @@ namespace Marvel {
 		//PyDict_SetItemString(dict, "file_name_buffer", mvPyObject(ToPyString(_instance.FileNameBuffer)));
 		PyDict_SetItemString(dict, "current_path", mvPyObject(ToPyString(_instance.GetCurrentPath())));
 		PyDict_SetItemString(dict, "current_filter", mvPyObject(ToPyString(_instance.GetCurrentFilter())));
+		PyDict_SetItemString(dict, "min_size", mvPyObject(ToPyPair(_min_size.x, _min_size.y)));
+		PyDict_SetItemString(dict, "max_size", mvPyObject(ToPyPair(_max_size.x, _max_size.y)));
 
 		auto selections = _instance.GetSelection();
 

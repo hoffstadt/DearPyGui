@@ -1713,7 +1713,7 @@ def drawlist(width : int, height : int, *, label: str =None, user_data: Any =Non
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def file_dialog(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, callback: Callable =None, show: bool =True, default_path: str ='', default_filename: str ='.', file_count: int =0, modal: bool =False, directory_selector: bool =False, **kwargs) -> Union[int, str]:
+def file_dialog(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, callback: Callable =None, show: bool =True, default_path: str ='', default_filename: str ='.', file_count: int =0, modal: bool =False, directory_selector: bool =False, min_size: Union[List[int], Tuple[int, ...]] =[100, 100], max_size: Union[List[int], Tuple[int, ...]] =[30000, 30000], **kwargs) -> Union[int, str]:
 	"""	 Displays a file or directory selector depending on keywords. Displays a file dialog by default. Callback will be ran when the file or directory picker is closed. The app_data arguemnt will be populated with information related to the file and directory as a dictionary.
 
 	Args:
@@ -1730,6 +1730,8 @@ def file_dialog(*, label: str =None, user_data: Any =None, use_internal_label: b
 		file_count (int, optional): Number of visible files in the dialog.
 		modal (bool, optional): Forces user interaction with the file selector.
 		directory_selector (bool, optional): Shows only directory/paths as options. Allows selection of directory/paths only.
+		min_size (Union[List[int], Tuple[int, ...]], optional): Minimum window size.
+		max_size (Union[List[int], Tuple[int, ...]], optional): Maximum window size.
 		id (Union[int, str], optional): (deprecated) 
 	Yields:
 		Union[int, str]
@@ -1739,7 +1741,7 @@ def file_dialog(*, label: str =None, user_data: Any =None, use_internal_label: b
 		if 'id' in kwargs.keys():
 			warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
 			tag=kwargs['id']
-		widget = internal_dpg.add_file_dialog(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, callback=callback, show=show, default_path=default_path, default_filename=default_filename, file_count=file_count, modal=modal, directory_selector=directory_selector, **kwargs)
+		widget = internal_dpg.add_file_dialog(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, callback=callback, show=show, default_path=default_path, default_filename=default_filename, file_count=file_count, modal=modal, directory_selector=directory_selector, min_size=min_size, max_size=max_size, **kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
@@ -3960,7 +3962,7 @@ def add_error_series(x : Union[List[float], Tuple[float, ...]], y : Union[List[f
 
 	return internal_dpg.add_error_series(x, y, negative, positive, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, source=source, show=show, contribute_to_bounds=contribute_to_bounds, horizontal=horizontal, **kwargs)
 
-def add_file_dialog(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, callback: Callable =None, show: bool =True, default_path: str ='', default_filename: str ='.', file_count: int =0, modal: bool =False, directory_selector: bool =False, **kwargs) -> Union[int, str]:
+def add_file_dialog(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, callback: Callable =None, show: bool =True, default_path: str ='', default_filename: str ='.', file_count: int =0, modal: bool =False, directory_selector: bool =False, min_size: Union[List[int], Tuple[int, ...]] =[100, 100], max_size: Union[List[int], Tuple[int, ...]] =[30000, 30000], **kwargs) -> Union[int, str]:
 	"""	 Displays a file or directory selector depending on keywords. Displays a file dialog by default. Callback will be ran when the file or directory picker is closed. The app_data arguemnt will be populated with information related to the file and directory as a dictionary.
 
 	Args:
@@ -3977,6 +3979,8 @@ def add_file_dialog(*, label: str =None, user_data: Any =None, use_internal_labe
 		file_count (int, optional): Number of visible files in the dialog.
 		modal (bool, optional): Forces user interaction with the file selector.
 		directory_selector (bool, optional): Shows only directory/paths as options. Allows selection of directory/paths only.
+		min_size (Union[List[int], Tuple[int, ...]], optional): Minimum window size.
+		max_size (Union[List[int], Tuple[int, ...]], optional): Maximum window size.
 		id (Union[int, str], optional): (deprecated) 
 	Returns:
 		Union[int, str]
@@ -3986,7 +3990,7 @@ def add_file_dialog(*, label: str =None, user_data: Any =None, use_internal_labe
 		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
 		tag=kwargs['id']
 
-	return internal_dpg.add_file_dialog(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, callback=callback, show=show, default_path=default_path, default_filename=default_filename, file_count=file_count, modal=modal, directory_selector=directory_selector, **kwargs)
+	return internal_dpg.add_file_dialog(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, callback=callback, show=show, default_path=default_path, default_filename=default_filename, file_count=file_count, modal=modal, directory_selector=directory_selector, min_size=min_size, max_size=max_size, **kwargs)
 
 def add_file_extension(extension : str, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, parent: Union[int, str] =0, before: Union[int, str] =0, custom_text: str ='', color: Union[List[int], Tuple[int, ...]] =(-255, 0, 0, 255), **kwargs) -> Union[int, str]:
 	"""	 Creates a file extension filter option in the file dialog.

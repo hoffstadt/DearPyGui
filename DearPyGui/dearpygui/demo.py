@@ -1202,7 +1202,7 @@ def show_demo():
 
             with dpg.tree_node(label="File/Directory Selector"):
 
-                with dpg.file_dialog(label="Demo File Dialog", show=False, callback=lambda s, a, u : print(s, a, u), tag="__demo_filedialog"):
+                with dpg.file_dialog(label="Demo File Dialog", width=300, height=400, show=False, callback=lambda s, a, u : print(s, a, u), tag="__demo_filedialog"):
                     dpg.add_file_extension(".*", color=(255, 255, 255, 255))
                     dpg.add_file_extension("Source files (*.cpp *.h *.hpp){.cpp,.h,.hpp}", color=(0, 255, 255, 255))
                     dpg.add_file_extension(".cpp", color=(255, 255, 0, 255))
