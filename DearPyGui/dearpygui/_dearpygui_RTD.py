@@ -1698,6 +1698,8 @@ def file_dialog(**kwargs):
 		file_count (int, optional): Number of visible files in the dialog.
 		modal (bool, optional): Forces user interaction with the file selector.
 		directory_selector (bool, optional): Shows only directory/paths as options. Allows selection of directory/paths only.
+		min_size (Union[List[int], Tuple[int, ...]], optional): Minimum window size.
+		max_size (Union[List[int], Tuple[int, ...]], optional): Maximum window size.
 		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
@@ -3653,6 +3655,8 @@ def add_file_dialog(**kwargs):
 		file_count (int, optional): Number of visible files in the dialog.
 		modal (bool, optional): Forces user interaction with the file selector.
 		directory_selector (bool, optional): Shows only directory/paths as options. Allows selection of directory/paths only.
+		min_size (Union[List[int], Tuple[int, ...]], optional): Minimum window size.
+		max_size (Union[List[int], Tuple[int, ...]], optional): Maximum window size.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
