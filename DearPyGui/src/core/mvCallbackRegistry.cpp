@@ -11,51 +11,6 @@
 
 namespace Marvel {
 
-	void InsertParser_mvCallbackRegistry(std::map<std::string, mvPythonParser>* parsers)
-	{
-
-		{
-			std::vector<mvPythonDataElement> args;
-			args.push_back({ mvPyDataType::Integer, "frame" });
-			args.push_back({ mvPyDataType::Callable, "callback" });
-
-			mvPythonParserSetup setup;
-			setup.about = "Sets a callback to run on first frame.";
-			setup.category = { "General" };
-			setup.returnType = mvPyDataType::String;
-
-			mvPythonParser parser = FinalizeParser(setup, args);
-			parsers->insert({ "set_frame_callback", parser });
-		}
-
-		{
-			std::vector<mvPythonDataElement> args;
-			args.push_back({ mvPyDataType::Callable, "callback" });
-
-			mvPythonParserSetup setup;
-			setup.about = "Sets a callback to run on last frame.";
-			setup.category = { "General" };
-			setup.returnType = mvPyDataType::String;
-
-			mvPythonParser parser = FinalizeParser(setup, args);
-			parsers->insert({ "set_exit_callback", parser });
-		}
-
-		{
-			std::vector<mvPythonDataElement> args;
-			args.push_back({ mvPyDataType::Callable, "callback" });
-
-			mvPythonParserSetup setup;
-			setup.about = "Sets a callback to run on viewport resize.";
-			setup.category = { "General" };
-			setup.returnType = mvPyDataType::String;
-
-			mvPythonParser parser = FinalizeParser(setup, args);
-			parsers->insert({ "set_viewport_resize_callback", parser });
-		}
-
-	}
-
 	void mvRunTasks()
 	{
 
@@ -384,60 +339,4 @@ namespace Marvel {
 
 	}
 
-	PyObject* set_frame_callback(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-        i32 frame = 0;
-		PyObject* callback;
-
-		if (!Parse((GetParsers())["set_frame_callback"], args, kwargs, __FUNCTION__,
-                   &frame,  &callback))
-			return GetPyNone();
-
-        if(frame > GContext->callbackRegistry->highestFrame)
-            GContext->callbackRegistry->highestFrame = frame;
-        
-        // TODO: check previous entry and deprecate if existing
-		Py_XINCREF(callback);
-		mvSubmitCallback([=]()
-			{
-                GContext->callbackRegistry->frameCallbacks[frame] = callback;
-			});
-
-		return GetPyNone();
-	}
-
-	PyObject* set_exit_callback(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		PyObject* callback;
-
-		if (!Parse((GetParsers())["set_exit_callback"], args, kwargs, __FUNCTION__, &callback))
-			return GetPyNone();
-
-		Py_XINCREF(callback);
-		mvSubmitCallback([=]()
-			{
-				GContext->callbackRegistry->onCloseCallback = SanitizeCallback(callback);
-			});
-		return GetPyNone();
-	}
-
-	PyObject* set_viewport_resize_callback(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		PyObject* callback = nullptr;
-
-		if (!Parse((GetParsers())["set_viewport_resize_callback"], args, kwargs, __FUNCTION__,
-			&callback))
-			return GetPyNone();
-
-		if (callback)
-			Py_XINCREF(callback);
-
-		mvSubmitCallback([=]()
-			{
-				GContext->callbackRegistry->resizeCallback = SanitizeCallback(callback);
-				return std::string();
-			});
-
-		return GetPyNone();
-	}
 }

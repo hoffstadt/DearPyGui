@@ -19,22 +19,6 @@ namespace Marvel {
         MV_DEFAULT_PARENTS
         MV_DEFAULT_CHILDREN
 
-        MV_CREATE_COMMAND(set_x_scroll);
-        MV_CREATE_COMMAND(set_y_scroll);
-        MV_CREATE_COMMAND(get_x_scroll);
-        MV_CREATE_COMMAND(get_y_scroll);
-        MV_CREATE_COMMAND(get_x_scroll_max);
-        MV_CREATE_COMMAND(get_y_scroll_max);
-
-        MV_START_COMMANDS
-            MV_ADD_COMMAND(set_x_scroll);
-            MV_ADD_COMMAND(set_y_scroll);
-            MV_ADD_COMMAND(get_x_scroll);
-            MV_ADD_COMMAND(get_y_scroll);
-            MV_ADD_COMMAND(get_x_scroll_max);
-            MV_ADD_COMMAND(get_y_scroll_max)
-        MV_END_COMMANDS
-
         enum class Status{ Normal, Transition, Dirty};
 
     public:
@@ -54,7 +38,7 @@ namespace Marvel {
 
         ~mvWindowAppItem();
 
-    private:
+    public:
 
         ImGuiWindowFlags _windowflags = ImGuiWindowFlags_None;
         ImGuiWindowFlags _oldWindowflags = ImGuiWindowFlags_None;

@@ -14,32 +14,6 @@ namespace Marvel {
 
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvTable, add_table)
         MV_DEFAULT_PARENTS
-        
-        MV_CREATE_COMMAND(highlight_table_column);
-        MV_CREATE_COMMAND(unhighlight_table_column);
-        MV_CREATE_COMMAND(set_table_row_color);
-        MV_CREATE_COMMAND(unset_table_row_color);
-        MV_CREATE_COMMAND(highlight_table_cell);
-        MV_CREATE_COMMAND(unhighlight_table_cell);
-        MV_CREATE_COMMAND(highlight_table_row);
-        MV_CREATE_COMMAND(unhighlight_table_row);
-        MV_CREATE_COMMAND(is_table_column_highlighted);
-        MV_CREATE_COMMAND(is_table_row_highlighted);
-        MV_CREATE_COMMAND(is_table_cell_highlighted);
-
-        MV_START_COMMANDS
-            MV_ADD_COMMAND(highlight_table_column);
-            MV_ADD_COMMAND(unhighlight_table_column);
-            MV_ADD_COMMAND(set_table_row_color);
-            MV_ADD_COMMAND(unset_table_row_color);
-            MV_ADD_COMMAND(highlight_table_cell);
-            MV_ADD_COMMAND(unhighlight_table_cell);
-            MV_ADD_COMMAND(highlight_table_row);
-            MV_ADD_COMMAND(unhighlight_table_row);
-            MV_ADD_COMMAND(is_table_column_highlighted);
-            MV_ADD_COMMAND(is_table_row_highlighted);
-            MV_ADD_COMMAND(is_table_cell_highlighted);
-        MV_END_COMMANDS
 
         MV_START_CHILDREN
             MV_ADD_CHILD(mvAppItemType::mvTableRow),
@@ -62,7 +36,7 @@ namespace Marvel {
         PyObject* getPyValue() override;
         void setPyValue(PyObject* value) override;
 
-    private:
+    public:
 
         ImGuiTextFilter _imguiFilter;
 

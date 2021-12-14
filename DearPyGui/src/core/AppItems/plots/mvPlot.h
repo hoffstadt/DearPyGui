@@ -19,14 +19,6 @@ namespace Marvel {
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvPlot, add_plot)
         MV_DEFAULT_PARENTS
 
-        MV_CREATE_COMMAND(is_plot_queried);
-        MV_CREATE_COMMAND(get_plot_query_area);
-
-        MV_START_COMMANDS
-            MV_ADD_COMMAND(is_plot_queried);
-            MV_ADD_COMMAND(get_plot_query_area);
-        MV_END_COMMANDS
-
         MV_START_CHILDREN
             MV_ADD_CHILD(mvAppItemType::mvPlotLegend),
             MV_ADD_CHILD(mvAppItemType::mvPlotAxis),

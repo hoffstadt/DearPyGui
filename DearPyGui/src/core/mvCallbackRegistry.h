@@ -31,8 +31,6 @@ namespace Marvel {
 		std::unordered_map<i32, PyObject*> frameCallbacks;
 	};
 
-	void InsertParser_mvCallbackRegistry(std::map<std::string, mvPythonParser>* parsers);
-
 	void mvFrameCallback(i32 frame);
 	void mvRunTasks();
 	void mvRunCallback(PyObject* callback, mvUUID sender, PyObject* app_data, PyObject* user_data);
@@ -77,15 +75,5 @@ namespace Marvel {
 
 		return res;
 	}
-
-	MV_CREATE_FREE_COMMAND(set_frame_callback);
-	MV_CREATE_FREE_COMMAND(set_exit_callback);
-	MV_CREATE_FREE_COMMAND(set_viewport_resize_callback);
-
-	MV_START_FREE_COMMANDS(mvCallbackRegCommands)
-		MV_ADD_COMMAND(set_frame_callback);
-		MV_ADD_COMMAND(set_exit_callback);
-		MV_ADD_COMMAND(set_viewport_resize_callback);
-	MV_END_COMMANDS
 
 }

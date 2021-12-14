@@ -22,16 +22,6 @@ namespace Marvel {
             MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry)
         MV_END_PARENTS
 
-        MV_CREATE_COMMAND(bind_colormap);
-        MV_CREATE_COMMAND(sample_colormap);
-        MV_CREATE_COMMAND(get_colormap_color);
-
-        MV_START_COMMANDS
-            MV_ADD_COMMAND(bind_colormap);
-            MV_ADD_COMMAND(sample_colormap);
-            MV_ADD_COMMAND(get_colormap_color);
-        MV_END_COMMANDS
-
     public:
 
         explicit mvColorMap(mvUUID uuid);
@@ -41,7 +31,7 @@ namespace Marvel {
         void applySpecificTemplate(mvAppItem* item) override;
         ImPlotColormap getColorMap() const { return _colorMap; }
 
-    private:
+    public:
 
         ImPlotColormap      _colorMap = -1;
         bool                _qualitative = true;

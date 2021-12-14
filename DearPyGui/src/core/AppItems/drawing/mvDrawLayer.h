@@ -13,10 +13,6 @@ namespace Marvel {
 
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvDrawLayer, add_draw_layer)
 
-        MV_CREATE_COMMAND(set_clip_space);
-
-        
-
         MV_START_PARENTS
             MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
             MV_ADD_PARENT(mvAppItemType::mvStage),
@@ -43,10 +39,6 @@ namespace Marvel {
             MV_ADD_CHILD(mvAppItemType::mvDrawImageQuad),
             MV_ADD_CHILD(mvAppItemType::mvDrawNode),
         MV_END_CHILDREN
-
-        MV_START_COMMANDS
-            MV_ADD_COMMAND(set_clip_space);
-        MV_END_COMMANDS
 
     public:
 

@@ -13,14 +13,6 @@ namespace Marvel {
 
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvFont, add_font)
 
-        MV_CREATE_COMMAND(bind_font);
-        MV_CREATE_COMMAND(get_text_size);
-
-        MV_START_COMMANDS
-            MV_ADD_COMMAND(bind_font);
-            MV_ADD_COMMAND(get_text_size);
-        MV_END_COMMANDS
-
         MV_START_PARENTS
             MV_ADD_PARENT(mvAppItemType::mvFontRegistry)
         MV_END_PARENTS

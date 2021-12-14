@@ -13,16 +13,6 @@ namespace Marvel {
 
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvDrawNode, add_draw_node)
 
-        MV_CREATE_COMMAND(apply_transform);
-        
-        MV_CREATE_COMMAND(create_rotation_matrix);
-        MV_CREATE_COMMAND(create_translation_matrix);
-        MV_CREATE_COMMAND(create_scale_matrix);
-        MV_CREATE_COMMAND(create_lookat_matrix);
-        MV_CREATE_COMMAND(create_perspective_matrix);
-        MV_CREATE_COMMAND(create_orthographic_matrix);
-        MV_CREATE_COMMAND(create_fps_matrix);
-
         MV_START_PARENTS
             MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
             MV_ADD_PARENT(mvAppItemType::mvStage),
@@ -51,17 +41,6 @@ namespace Marvel {
             MV_ADD_CHILD(mvAppItemType::mvDrawNode),
             MV_ADD_CHILD(mvAppItemType::mvDrawImageQuad),
         MV_END_CHILDREN
-
-        MV_START_COMMANDS
-            MV_ADD_COMMAND(apply_transform);
-            MV_ADD_COMMAND(create_rotation_matrix);
-            MV_ADD_COMMAND(create_translation_matrix);
-            MV_ADD_COMMAND(create_scale_matrix);
-            MV_ADD_COMMAND(create_lookat_matrix);
-            MV_ADD_COMMAND(create_perspective_matrix);
-            MV_ADD_COMMAND(create_orthographic_matrix);
-            MV_ADD_COMMAND(create_fps_matrix);
-        MV_END_COMMANDS
 
     public:
 

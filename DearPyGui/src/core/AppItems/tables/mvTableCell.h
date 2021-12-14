@@ -15,7 +15,6 @@ namespace Marvel {
 
 
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvTableCell, add_table_cell)
-        MV_NO_COMMANDS
         MV_DEFAULT_CHILDREN
 
         MV_START_PARENTS

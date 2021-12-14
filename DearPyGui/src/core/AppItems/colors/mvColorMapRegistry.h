@@ -15,7 +15,6 @@ namespace Marvel {
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvColorMapRegistry, add_colormap_registry)
-		MV_NO_COMMANDS
 		MV_DEFAULT_PARENTS
 
         MV_START_CHILDREN

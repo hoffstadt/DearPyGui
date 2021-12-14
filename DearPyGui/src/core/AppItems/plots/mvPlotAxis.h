@@ -14,29 +14,11 @@ namespace Marvel {
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvPlotAxis, add_plot_axis)
         MV_DEFAULT_CHILDREN
 
-        MV_CREATE_COMMAND(reset_axis_ticks);
-        MV_CREATE_COMMAND(set_axis_ticks);
-        MV_CREATE_COMMAND(set_axis_limits);
-        MV_CREATE_COMMAND(set_axis_limits_auto);
-        MV_CREATE_COMMAND(get_axis_limits);
-        MV_CREATE_COMMAND(fit_axis_data);
-
-        
-
         MV_START_PARENTS
             MV_ADD_PARENT(mvAppItemType::mvStage),
             MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
             MV_ADD_PARENT(mvAppItemType::mvPlot)
         MV_END_PARENTS
-
-        MV_START_COMMANDS
-            MV_ADD_COMMAND(reset_axis_ticks);
-            MV_ADD_COMMAND(set_axis_ticks);
-            MV_ADD_COMMAND(set_axis_limits);
-            MV_ADD_COMMAND(set_axis_limits_auto);
-            MV_ADD_COMMAND(get_axis_limits);
-            MV_ADD_COMMAND(fit_axis_data);
-        MV_END_COMMANDS
 
     public:
 

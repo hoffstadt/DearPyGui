@@ -16,18 +16,6 @@ namespace Marvel {
 
 	public:
 
-		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
-
-		MV_CREATE_COMMAND(get_global_font_scale);
-		MV_CREATE_COMMAND(set_global_font_scale);
-
-		MV_START_COMMANDS
-			MV_ADD_COMMAND(get_global_font_scale);
-			MV_ADD_COMMAND(set_global_font_scale);
-		MV_END_COMMANDS
-
-	public:
-
 		void   rebuildAtlas();
 		void   updateAtlas();
 		bool   isInvalid() const;

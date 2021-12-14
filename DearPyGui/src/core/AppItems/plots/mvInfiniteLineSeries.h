@@ -22,7 +22,6 @@ namespace Marvel {
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvVLineSeries, add_vline_series)
-        MV_NO_COMMANDS
         MV_DEFAULT_CHILDREN
 
         MV_START_PARENTS
@@ -67,7 +66,6 @@ namespace Marvel {
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvHLineSeries, add_hline_series)
-        MV_NO_COMMANDS
         MV_DEFAULT_CHILDREN
 
         MV_START_PARENTS

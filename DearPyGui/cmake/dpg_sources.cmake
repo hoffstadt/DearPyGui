@@ -23,7 +23,6 @@ set(MARVEL_SOURCES
 
 	"src/core/mvContext.cpp"
 	"src/core/mvMath.cpp"
-	"src/core/mvViewportOps.cpp"
 	"src/core/mvProfiler.cpp"
 	"src/core/mvCallbackRegistry.cpp"
 
