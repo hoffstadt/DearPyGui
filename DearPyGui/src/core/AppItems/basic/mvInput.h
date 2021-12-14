@@ -30,9 +30,8 @@ namespace Marvel {
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvInputText, add_input_text)
-            MV_NO_COMMANDS
-            MV_DEFAULT_PARENTS
-            MV_DEFAULT_CHILDREN
+        MV_DEFAULT_PARENTS
+        MV_DEFAULT_CHILDREN
 
     public:
 
@@ -71,9 +70,8 @@ namespace Marvel {
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvInputInt, add_input_int)
-            MV_NO_COMMANDS
-            MV_DEFAULT_PARENTS
-            MV_DEFAULT_CHILDREN
+        MV_DEFAULT_PARENTS
+        MV_DEFAULT_CHILDREN
 
     public:
 
@@ -117,7 +115,6 @@ namespace Marvel {
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvInputIntMulti, add_input_intx)
-        MV_NO_COMMANDS
         MV_DEFAULT_PARENTS
         MV_DEFAULT_CHILDREN
 
@@ -161,9 +158,8 @@ namespace Marvel {
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvInputFloat, add_input_float)
-            MV_NO_COMMANDS
-            MV_DEFAULT_PARENTS
-            MV_DEFAULT_CHILDREN
+        MV_DEFAULT_PARENTS
+        MV_DEFAULT_CHILDREN
 
     public:
 
@@ -208,7 +204,6 @@ namespace Marvel {
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvInputFloatMulti, add_input_floatx)
-        MV_NO_COMMANDS
         MV_DEFAULT_PARENTS
         MV_DEFAULT_CHILDREN
 

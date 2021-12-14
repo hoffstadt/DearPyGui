@@ -20,12 +20,6 @@ namespace Marvel {
         MV_DEFAULT_PARENTS
         MV_DEFAULT_CHILDREN
 
-        MV_CREATE_COMMAND(get_file_dialog_info);       
-
-        MV_START_COMMANDS
-            MV_ADD_COMMAND(get_file_dialog_info);
-        MV_END_COMMANDS
-
     public:
 
         explicit mvFileDialog(mvUUID uuid);
@@ -47,7 +41,7 @@ namespace Marvel {
         PyObject*        getInfoDict();
         bool             getContinueValue() const { return *_value; }
 
-    private:
+    public:
 
         mvRef<bool>     _value = CreateRef<bool>(false);
         bool            _disabled_value = false;

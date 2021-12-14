@@ -48,18 +48,6 @@ static PyMethodDef GetMethodDefinition(){return { s_command, (PyCFunction)parser
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-// commands
-///////////////////////////////////////////////////////////////////////////////
-
-#define MV_NO_COMMANDS static void FillExtraCommands(std::vector<PyMethodDef>& methods){}
-#define MV_CREATE_FREE_COMMAND(x) PyObject* x(PyObject* self, PyObject* args, PyObject* kwargs)
-#define MV_CREATE_COMMAND(x) static PyObject* x(PyObject* self, PyObject* args, PyObject* kwargs)
-#define MV_START_FREE_COMMANDS(x) static void x(std::vector<PyMethodDef>& methods){ 
-#define MV_START_COMMANDS static void FillExtraCommands(std::vector<PyMethodDef>& methods){ 
-#define MV_ADD_COMMAND(x) methods.push_back({ #x, (PyCFunction)x, METH_VARARGS | METH_KEYWORDS, GetParsers()[#x].documentation.c_str() });
-#define MV_END_COMMANDS }
-
-///////////////////////////////////////////////////////////////////////////////
 // parents
 ///////////////////////////////////////////////////////////////////////////////
 

@@ -15,12 +15,6 @@ namespace Marvel {
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvTheme, add_theme)
         MV_DEFAULT_PARENTS
 
-        MV_CREATE_COMMAND(bind_theme);
-
-        MV_START_COMMANDS
-            MV_ADD_COMMAND(bind_theme);
-        MV_END_COMMANDS
-
         MV_START_CHILDREN
             MV_ADD_CHILD(mvAppItemType::mvThemeComponent)
         MV_END_CHILDREN

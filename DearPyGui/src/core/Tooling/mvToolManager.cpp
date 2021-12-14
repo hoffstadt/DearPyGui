@@ -42,27 +42,6 @@ namespace Marvel {
 		};
 	}
 
-	void mvToolManager::InsertConstants(std::vector<std::pair<std::string, long>>& constants)
-	{
-	}
-
-	void mvToolManager::InsertParser(std::map<std::string, mvPythonParser>* parsers)
-	{
-
-		std::vector<mvPythonDataElement> args;
-
-		args.push_back({ mvPyDataType::UUID, "tool" });
-
-		mvPythonParserSetup setup;
-		setup.about = "Shows a built in tool.";
-		setup.category = { "Widgets" };
-		setup.returnType = mvPyDataType::String;
-
-		mvPythonParser parser = FinalizeParser(setup, args);
-
-		parsers->insert({ "show_tool", parser });
-	}
-
 	void mvToolManager::Draw()
 	{
 		MV_PROFILE_SCOPE("Tool rendering")
@@ -83,18 +62,4 @@ namespace Marvel {
 		}
 	}
 
-	PyObject* mvToolManager::show_tool(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		PyObject* toolraw;
-
-		if (!Parse((GetParsers())["show_tool"], args, kwargs, __FUNCTION__,
-			&toolraw))
-			return GetPyNone();
-
-		mvUUID tool = GetIDFromPyObject(toolraw);
-
-		mvToolManager::ShowTool(tool);
-
-		return GetPyNone();
-	}
 }

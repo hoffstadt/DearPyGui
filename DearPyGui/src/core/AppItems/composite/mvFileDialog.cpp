@@ -43,20 +43,6 @@ namespace Marvel {
 			parsers->insert({ s_command, parser });
 		}
 
-		{
-			std::vector<mvPythonDataElement> args;
-
-			args.push_back({ mvPyDataType::UUID, "file_dialog" });
-
-			mvPythonParserSetup setup;
-			setup.about = "Returns information related to the file dialog. Typically used while the file dialog is in use to query data about the state or info related to the file dialog.";
-			setup.category = { "Widgets", "File Dialog"};
-			setup.returnType = mvPyDataType::Dict;
-
-			mvPythonParser parser = FinalizeParser(setup, args);
-			parsers->insert({ "get_file_dialog_info", parser });
-		}
-
 	}
 
 	mvFileDialog::mvFileDialog(mvUUID uuid)
@@ -262,32 +248,4 @@ namespace Marvel {
 		return dict;
 	}
 
-	PyObject* mvFileDialog::get_file_dialog_info(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		PyObject* file_dialog_raw;
-
-		if (!Parse((GetParsers())["get_file_dialog_info"], args, kwargs, __FUNCTION__, &file_dialog_raw))
-			return GetPyNone();
-
-		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
-
-		mvUUID file_dialog = GetIDFromPyObject(file_dialog_raw);
-
-		auto aplot = GetItem(*GContext->itemRegistry, file_dialog);
-		if (aplot == nullptr)
-		{
-			mvThrowPythonError(mvErrorCode::mvNone, std::to_string(file_dialog) + " plot does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::mvFileDialog)
-		{
-			mvThrowPythonError(mvErrorCode::mvNone, std::to_string(file_dialog) + " is not a plot.");
-			return GetPyNone();
-		}
-
-		mvFileDialog* graph = static_cast<mvFileDialog*>(aplot);
-
-		return graph->getInfoDict();
-	}
 }

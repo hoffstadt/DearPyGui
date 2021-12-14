@@ -17,18 +17,6 @@ namespace Marvel {
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvNodeEditor, add_node_editor)
         MV_DEFAULT_PARENTS
 
-        MV_CREATE_COMMAND(get_selected_nodes);
-        MV_CREATE_COMMAND(get_selected_links);
-        MV_CREATE_COMMAND(clear_selected_nodes);
-        MV_CREATE_COMMAND(clear_selected_links);
-
-        MV_START_COMMANDS
-            MV_ADD_COMMAND(get_selected_nodes);
-            MV_ADD_COMMAND(get_selected_links);
-            MV_ADD_COMMAND(clear_selected_nodes);
-            MV_ADD_COMMAND(clear_selected_links);
-        MV_END_COMMANDS
-
         MV_START_CHILDREN
             MV_ADD_CHILD(mvAppItemType::mvMenuBar),
             MV_ADD_CHILD(mvAppItemType::mvNode),

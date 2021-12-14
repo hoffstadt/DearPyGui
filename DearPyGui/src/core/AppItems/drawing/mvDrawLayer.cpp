@@ -32,27 +32,6 @@ namespace Marvel {
 
             parsers->insert({ s_command, parser });
         }
-
-        {
-            std::vector<mvPythonDataElement> args;
-
-            args.push_back({ mvPyDataType::UUID, "item", mvArgType::REQUIRED_ARG, "", "draw layer to set clip space" });
-            args.push_back({ mvPyDataType::Float, "top_left_x", mvArgType::REQUIRED_ARG, "", "angle to rotate" });
-            args.push_back({ mvPyDataType::Float, "top_left_y", mvArgType::REQUIRED_ARG, "", "angle to rotate" });
-            args.push_back({ mvPyDataType::Float, "width", mvArgType::REQUIRED_ARG, "", "angle to rotate" });
-            args.push_back({ mvPyDataType::Float, "height", mvArgType::REQUIRED_ARG, "", "angle to rotate" });
-            args.push_back({ mvPyDataType::Float, "min_depth", mvArgType::REQUIRED_ARG, "", "angle to rotate" });
-            args.push_back({ mvPyDataType::Float, "max_depth", mvArgType::REQUIRED_ARG, "", "angle to rotate" });
-
-            mvPythonParserSetup setup;
-            setup.about = "New in 1.1. Set the clip space for depth clipping and 'viewport' transformation.";
-            setup.category = { "Drawlist", "Widgets" };
-
-            mvPythonParser parser = FinalizeParser(setup, args);
-
-            parsers->insert({ "set_clip_space", parser });
-        }
-
 	}
 
 	mvDrawLayer::mvDrawLayer(mvUUID uuid)
@@ -113,58 +92,4 @@ namespace Marvel {
         PyDict_SetItemString(dict, "cull_mode", mvPyObject(ToPyInt(_cullMode)));
     }
     
-    PyObject* mvDrawLayer::set_clip_space(PyObject* self, PyObject* args, PyObject* kwargs)
-    {
-        PyObject* itemraw;
-        float topleftx = 0.0f;
-        float toplefty = 0.0f;
-        float width = 0.0f;
-        float height = 0.0f;
-        float mindepth = 0.0f;
-        float maxdepth = 0.0f;
-
-        if (!Parse((GetParsers())["set_clip_space"], args, kwargs, __FUNCTION__, &itemraw,
-            &topleftx, &toplefty, &width, &height, &mindepth, &maxdepth))
-            return GetPyNone();
-
-        if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
-
-        mvUUID item = GetIDFromPyObject(itemraw);
-
-        auto aitem = GetItem((*GContext->itemRegistry), item);
-        if (aitem == nullptr)
-        {
-            mvThrowPythonError(mvErrorCode::mvItemNotFound, "apply_transform",
-                "Item not found: " + std::to_string(item), nullptr);
-            return GetPyNone();
-        }
-
-        if (aitem->getType() == mvAppItemType::mvDrawLayer)
-        {
-            mvDrawLayer* graph = static_cast<mvDrawLayer*>(aitem);
-            graph->_clipViewport[0] = topleftx;
-            graph->_clipViewport[1] = toplefty + height;
-            graph->_clipViewport[2] = width;
-            graph->_clipViewport[3] = height;
-            graph->_clipViewport[4] = mindepth;
-            graph->_clipViewport[5] = maxdepth;
-
-            graph->_transform = mvCreateMatrix(
-                width, 0.0f, 0.0f, topleftx + (width / 2.0f),
-                0.0f, -height, 0.0f, toplefty + (height / 2.0f),
-                0.0f, 0.0f, 0.25f, 0.5f,
-                0.0f, 0.0f, 0.0f, 1.0f
-            );
-        }
-
-        else
-        {
-            mvThrowPythonError(mvErrorCode::mvIncompatibleType, "apply_transform",
-                "Incompatible type. Expected types include: mvDrawLayer", aitem);
-            return GetPyNone();
-        }
-
-
-        return GetPyNone();
-    }
 }

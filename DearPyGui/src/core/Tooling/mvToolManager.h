@@ -14,17 +14,6 @@ namespace Marvel{
 
 	public:
 
-		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
-		static void InsertConstants(std::vector<std::pair<std::string, long>>& constants);
-
-		MV_CREATE_COMMAND(show_tool);
-
-		MV_START_COMMANDS
-			MV_ADD_COMMAND(show_tool);
-		MV_END_COMMANDS
-
-	public:
-
 		static void Draw();
 		static void Reset();
 

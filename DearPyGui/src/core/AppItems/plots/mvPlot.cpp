@@ -85,32 +85,6 @@ namespace Marvel {
             parsers->insert({ s_command, parser });
         }
 
-        {
-            std::vector<mvPythonDataElement> args;
-            args.push_back({ mvPyDataType::UUID, "plot" });
-
-            mvPythonParserSetup setup;
-            setup.about = "Returns true if the plot is currently being queried. (Requires plot 'query' kwarg to be enabled)";
-            setup.category = { "Plotting", "App Item Operations" };
-            setup.returnType = mvPyDataType::Bool;
-
-            mvPythonParser parser = FinalizeParser(setup, args);
-            parsers->insert({ "is_plot_queried", parser });
-        }
-
-        {
-            std::vector<mvPythonDataElement> args;
-            args.push_back({ mvPyDataType::UUID, "plot" });
-
-            mvPythonParserSetup setup;
-            setup.about = "Returns the last/current query area of the plot. (Requires plot 'query' kwarg to be enabled)";
-            setup.category = { "Plotting", "App Item Operations" };
-            setup.returnType = mvPyDataType::FloatList;
-
-            mvPythonParser parser = FinalizeParser(setup, args);
-            parsers->insert({ "get_plot_query_area", parser });
-        }
-
     }
 
     mvPlot::mvPlot(mvUUID uuid)
@@ -595,69 +569,6 @@ namespace Marvel {
         checkbitset("crosshairs",           ImPlotFlags_Crosshairs,       _flags);
         checkbitset("anti_aliased",         ImPlotFlags_AntiAliased,      _flags);
         checkbitset("equal_aspects",        ImPlotFlags_Equal,            _flags);
-    }
-
-    PyObject* mvPlot::is_plot_queried(PyObject* self, PyObject* args, PyObject* kwargs)
-    {
-        PyObject* plotraw;
-
-        if (!Parse((GetParsers())["is_plot_queried"], args, kwargs, __FUNCTION__, &plotraw))
-            return GetPyNone();
-
-        if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
-
-        mvUUID plot = GetIDFromPyObject(plotraw);
-
-        auto aplot = GetItem(*GContext->itemRegistry, plot);
-        if (aplot == nullptr)
-        {
-            mvThrowPythonError(mvErrorCode::mvItemNotFound, "is_plot_queried",
-                "Item not found: " + std::to_string(plot), nullptr);
-            return GetPyNone();
-        }
-
-        if (aplot->getType() != mvAppItemType::mvPlot)
-        {
-            mvThrowPythonError(mvErrorCode::mvIncompatibleType, "is_plot_queried",
-                "Incompatible type. Expected types include: mvPlot", aplot);
-            return GetPyNone();
-        }
-
-        mvPlot* graph = static_cast<mvPlot*>(aplot);
-
-        return ToPyBool(graph->isPlotQueried());
-    }
-
-    PyObject* mvPlot::get_plot_query_area(PyObject* self, PyObject* args, PyObject* kwargs)
-    {
-        PyObject* plotraw;
-
-        if (!Parse((GetParsers())["get_plot_query_area"], args, kwargs, __FUNCTION__, &plotraw))
-            return GetPyNone();
-
-        if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
-
-        mvUUID plot = GetIDFromPyObject(plotraw);
-
-        auto aplot = GetItem(*GContext->itemRegistry, plot);
-        if (aplot == nullptr)
-        {
-            mvThrowPythonError(mvErrorCode::mvItemNotFound, "get_plot_query_area",
-                "Item not found: " + std::to_string(plot), nullptr);
-            return GetPyNone();
-        }
-
-        if (aplot->getType() != mvAppItemType::mvPlot)
-        {
-            mvThrowPythonError(mvErrorCode::mvIncompatibleType, "is_plot_queried",
-                "Incompatible type. Expected types include: mvPlot", aplot);
-            return GetPyNone();
-        }
-
-        mvPlot* graph = static_cast<mvPlot*>(aplot);
-
-        double* result = graph->getPlotQueryArea();
-        return Py_BuildValue("(dddd)", result[0], result[1], result[2], result[3]);
     }
 
 }
