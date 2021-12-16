@@ -15,14 +15,6 @@ namespace Marvel {
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvMenuBar, add_menu_bar)
         MV_DEFAULT_CHILDREN
 
-        MV_START_PARENTS
-            MV_ADD_PARENT(mvAppItemType::mvWindowAppItem),
-            MV_ADD_PARENT(mvAppItemType::mvChildWindow),
-            MV_ADD_PARENT(mvAppItemType::mvNodeEditor),
-            MV_ADD_PARENT(mvAppItemType::mvStage),
-            MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
-        MV_END_PARENTS
-
     public:
 
         explicit mvMenuBar(mvUUID uuid);

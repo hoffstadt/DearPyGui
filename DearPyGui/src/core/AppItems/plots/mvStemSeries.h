@@ -13,11 +13,6 @@ namespace Marvel {
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvStemSeries, add_stem_series)
         MV_DEFAULT_CHILDREN
 
-        MV_START_PARENTS
-            MV_ADD_PARENT(mvAppItemType::mvPlotAxis),
-            MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
-        MV_END_PARENTS
-
     public:
 
         explicit mvStemSeries(mvUUID uuid);

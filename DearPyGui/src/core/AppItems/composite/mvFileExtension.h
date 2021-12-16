@@ -15,12 +15,6 @@ namespace Marvel {
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvFileExtension, add_file_extension)
         MV_DEFAULT_CHILDREN
 
-        MV_START_PARENTS
-            MV_ADD_PARENT(mvAppItemType::mvStage),
-            MV_ADD_PARENT(mvAppItemType::mvFileDialog),
-            MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
-        MV_END_PARENTS
-
     public:
 
         explicit mvFileExtension(mvUUID uuid);

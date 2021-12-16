@@ -1564,22 +1564,308 @@ namespace Marvel {
         #undef X
     }
 
-    b8
-    DoesEntityAcceptParent(mvAppItemType entity, mvAppItemType parent)
+    const std::vector<std::pair<std::string, i32>>& 
+    GetAllowableParents(mvAppItemType type)
     {
-        switch (entity)
+
+        // TODO: possibly index into array instead of switch
+
+        #define MV_ADD_PARENT(x){#x, (int)x}
+        #define MV_START_PARENTS {mv_local_persist std::vector<std::pair<std::string, i32>> parents = {
+        #define MV_END_PARENTS };return parents;}
+
+        switch (type)
         {
+
+        case mvAppItemType::mvActivatedHandler:
+        case mvAppItemType::mvActiveHandler:
+        case mvAppItemType::mvClickedHandler:
+        case mvAppItemType::mvDeactivatedAfterEditHandler:
+        case mvAppItemType::mvDeactivatedHandler:
+        case mvAppItemType::mvEditedHandler:
+        case mvAppItemType::mvFocusHandler:
+        case mvAppItemType::mvHoverHandler:
+        case mvAppItemType::mvResizeHandler:
+        case mvAppItemType::mvToggledOpenHandler:
+        case mvAppItemType::mvVisibleHandler:
+            MV_START_PARENTS
+            MV_ADD_PARENT(mvAppItemType::mvStage),
+            MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
+            MV_ADD_PARENT(mvAppItemType::mvItemHandlerRegistry)
+            MV_END_PARENTS
+
+        case mvAppItemType::mvBoolValue:
+        case mvAppItemType::mvColorValue:
+        case mvAppItemType::mvDouble4Value:
+        case mvAppItemType::mvDoubleValue:
+        case mvAppItemType::mvFloat4Value:
+        case mvAppItemType::mvFloatValue:
+        case mvAppItemType::mvFloatVectValue:
+        case mvAppItemType::mvInt4Value:
+        case mvAppItemType::mvIntValue:
+        case mvAppItemType::mvSeriesValue:
+        case mvAppItemType::mvStringValue:
+            MV_START_PARENTS
+            MV_ADD_PARENT(mvAppItemType::mvValueRegistry)
+            MV_END_PARENTS
+
+        case mvAppItemType::mvThemeComponent:
+            MV_START_PARENTS
+            MV_ADD_PARENT(mvAppItemType::mvTheme),
+            MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry)
+            MV_END_PARENTS
+
+        case mvAppItemType::mvThemeStyle:
+        case mvAppItemType::mvThemeColor:
+            MV_START_PARENTS
+            MV_ADD_PARENT(mvAppItemType::mvThemeComponent),
+            MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
+            MV_END_PARENTS
+
+        case mvAppItemType::mvDynamicTexture:
+        case mvAppItemType::mvStaticTexture:
+        case mvAppItemType::mvRawTexture:
+            MV_START_PARENTS
+            MV_ADD_PARENT(mvAppItemType::mvStage),
+            MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
+            MV_ADD_PARENT(mvAppItemType::mvTextureRegistry)
+            MV_END_PARENTS
+
+        case mvAppItemType::mvTableCell:
+            MV_START_PARENTS
+            MV_ADD_PARENT(mvAppItemType::mvStage),
+            MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
+            MV_ADD_PARENT(mvAppItemType::mvTableRow)
+            MV_END_PARENTS
+
+        case mvAppItemType::mvTableColumn:
+        case mvAppItemType::mvTableRow:
+            MV_START_PARENTS
+            MV_ADD_PARENT(mvAppItemType::mvStage),
+            MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
+            MV_ADD_PARENT(mvAppItemType::mvTable)
+            MV_END_PARENTS
+
+        case mvAppItemType::mvDrawBezierCubic:
+        case mvAppItemType::mvDrawBezierQuadratic:
+        case mvAppItemType::mvDrawCircle:
+        case mvAppItemType::mvDrawEllipse:
+        case mvAppItemType::mvDrawImage:
+        case mvAppItemType::mvDrawImageQuad:
+        case mvAppItemType::mvDrawLine:
+        case mvAppItemType::mvDrawPolygon:
+        case mvAppItemType::mvDrawPolyline:
+        case mvAppItemType::mvDrawQuad:
+        case mvAppItemType::mvDrawRect:
+        case mvAppItemType::mvDrawText:
+        case mvAppItemType::mvDrawTriangle:
+        case mvAppItemType::mvDrawArrow:
+            MV_START_PARENTS
+            MV_ADD_PARENT(mvAppItemType::mvStage),
+            MV_ADD_PARENT(mvAppItemType::mvDrawlist),
+            MV_ADD_PARENT(mvAppItemType::mvDrawLayer),
+            MV_ADD_PARENT(mvAppItemType::mvWindowAppItem),
+            MV_ADD_PARENT(mvAppItemType::mvPlot),
+            MV_ADD_PARENT(mvAppItemType::mvDrawNode),
+            MV_ADD_PARENT(mvAppItemType::mvViewportDrawlist),
+            MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
+            MV_END_PARENTS
+
+        case mvAppItemType::mvDrawLayer:
+            MV_START_PARENTS
+            MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
+            MV_ADD_PARENT(mvAppItemType::mvStage),
+            MV_ADD_PARENT(mvAppItemType::mvDrawlist),
+            MV_ADD_PARENT(mvAppItemType::mvWindowAppItem),
+            MV_ADD_PARENT(mvAppItemType::mvPlot),
+            MV_ADD_PARENT(mvAppItemType::mvViewportDrawlist)
+            MV_END_PARENTS
+
+        case mvAppItemType::mvDrawNode:
+            MV_START_PARENTS
+            MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
+            MV_ADD_PARENT(mvAppItemType::mvStage),
+            MV_ADD_PARENT(mvAppItemType::mvDrawlist),
+            MV_ADD_PARENT(mvAppItemType::mvDrawLayer),
+            MV_ADD_PARENT(mvAppItemType::mvWindowAppItem),
+            MV_ADD_PARENT(mvAppItemType::mvPlot),
+            MV_ADD_PARENT(mvAppItemType::mvViewportDrawlist),
+            MV_ADD_PARENT(mvAppItemType::mvDrawNode),
+            MV_END_PARENTS
+
+        case mvAppItemType::mvMenuBar:
+            MV_START_PARENTS
+            MV_ADD_PARENT(mvAppItemType::mvWindowAppItem),
+            MV_ADD_PARENT(mvAppItemType::mvChildWindow),
+            MV_ADD_PARENT(mvAppItemType::mvNodeEditor),
+            MV_ADD_PARENT(mvAppItemType::mvStage),
+            MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
+            MV_END_PARENTS
+
+        case mvAppItemType::mvColorMap:
+            MV_START_PARENTS
+            MV_ADD_PARENT(mvAppItemType::mvColorMapRegistry),
+            MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry)
+            MV_END_PARENTS
+
+        case mvAppItemType::mvFileExtension:
+            MV_START_PARENTS
+            MV_ADD_PARENT(mvAppItemType::mvStage),
+            MV_ADD_PARENT(mvAppItemType::mvFileDialog),
+            MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
+            MV_END_PARENTS
+
+        case mvAppItemType::mvTab:
+            MV_START_PARENTS
+            MV_ADD_PARENT(mvAppItemType::mvTabBar),
+            MV_ADD_PARENT(mvAppItemType::mvStage),
+            MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
+            MV_END_PARENTS
+
         case mvAppItemType::mvTabButton:
+            MV_START_PARENTS
+            MV_ADD_PARENT(mvAppItemType::mvTabBar),
+            MV_ADD_PARENT(mvAppItemType::mvStage),
+            MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry)
+            MV_END_PARENTS
+
+        case mvAppItemType::mvNodeAttribute:
+            MV_START_PARENTS
+            MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
+            MV_ADD_PARENT(mvAppItemType::mvStage),
+            MV_ADD_PARENT(mvAppItemType::mvNode)
+            MV_END_PARENTS
+
+        case mvAppItemType::mvNodeLink:
+        case mvAppItemType::mvNode:
+            MV_START_PARENTS
+            MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
+            MV_ADD_PARENT(mvAppItemType::mvStage),
+            MV_ADD_PARENT(mvAppItemType::mvNodeEditor)
+            MV_END_PARENTS
+
+        case mvAppItemType::mvPlotLegend:
+            MV_START_PARENTS
+            MV_ADD_PARENT(mvAppItemType::mvStage),
+            MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
+            MV_ADD_PARENT(mvAppItemType::mvPlot),
+            MV_ADD_PARENT(mvAppItemType::mvSubPlots)
+            MV_END_PARENTS
+
+        case mvAppItemType::mvPlotAxis:
+        case mvAppItemType::mvDragLine:
+        case mvAppItemType::mvDragPoint:
+        case mvAppItemType::mvAnnotation:
+            MV_START_PARENTS
+            MV_ADD_PARENT(mvAppItemType::mvStage),
+            MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
+            MV_ADD_PARENT(mvAppItemType::mvPlot)
+            MV_END_PARENTS
+
+        case mvAppItemType::mvAreaSeries:
+        case mvAppItemType::mvBarSeries:
+        case mvAppItemType::mvCandleSeries:
+        case mvAppItemType::mvErrorSeries:
+        case mvAppItemType::mvHeatSeries:
+        case mvAppItemType::mvHistogramSeries:
+        case mvAppItemType::mvImageSeries:
+        case mvAppItemType::mvVLineSeries:
+        case mvAppItemType::mvHLineSeries:
+        case mvAppItemType::mvLabelSeries:
+        case mvAppItemType::mvLineSeries:
+        case mvAppItemType::mvPieSeries:
+        case mvAppItemType::mvScatterSeries:
+        case mvAppItemType::mvShadeSeries:
+        case mvAppItemType::mvStairSeries:
+        case mvAppItemType::mvStemSeries:
+        case mvAppItemType::mv2dHistogramSeries:
+            MV_START_PARENTS
+            MV_ADD_PARENT(mvAppItemType::mvPlotAxis),
+            MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
+            MV_END_PARENTS
+
+        case mvAppItemType::mvMouseClickHandler:
+        case mvAppItemType::mvMouseDoubleClickHandler:
+        case mvAppItemType::mvMouseDownHandler:
+        case mvAppItemType::mvMouseDragHandler:
+        case mvAppItemType::mvMouseMoveHandler:
+        case mvAppItemType::mvMouseReleaseHandler:
+        case mvAppItemType::mvMouseWheelHandler:
+        case mvAppItemType::mvKeyPressHandler:
+        case mvAppItemType::mvKeyReleaseHandler:
+        case mvAppItemType::mvKeyDownHandler:
+            MV_START_PARENTS
+            MV_ADD_PARENT(mvAppItemType::mvStage),
+            MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
+            MV_ADD_PARENT(mvAppItemType::mvHandlerRegistry)
+            MV_END_PARENTS
+
+        case mvAppItemType::mvFontChars:
+        case mvAppItemType::mvFontRange:
+        case mvAppItemType::mvFontRangeHint:
+        case mvAppItemType::mvCharRemap:
+            MV_START_PARENTS
+            MV_ADD_PARENT(mvAppItemType::mvFont),
+            MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry)
+            MV_END_PARENTS
+
+        case mvAppItemType::mvFont:
+            MV_START_PARENTS
+            MV_ADD_PARENT(mvAppItemType::mvFontRegistry)
+            MV_END_PARENTS
+
+        case mvAppItemType::mvDragPayload:
+            MV_START_PARENTS
+            MV_ADD_PARENT(mvAppItemType::mvButton),
+            MV_ADD_PARENT(mvAppItemType::mvCheckbox),
+            MV_ADD_PARENT(mvAppItemType::mvCombo),
+            MV_ADD_PARENT(mvAppItemType::mvDragIntMulti),
+            MV_ADD_PARENT(mvAppItemType::mvDragFloatMulti),
+            MV_ADD_PARENT(mvAppItemType::mvDragInt),
+            MV_ADD_PARENT(mvAppItemType::mvDragFloat),
+            MV_ADD_PARENT(mvAppItemType::mvImage),
+            MV_ADD_PARENT(mvAppItemType::mvImageButton),
+            MV_ADD_PARENT(mvAppItemType::mvInputIntMulti),
+            MV_ADD_PARENT(mvAppItemType::mvInputFloatMulti),
+            MV_ADD_PARENT(mvAppItemType::mvInputInt),
+            MV_ADD_PARENT(mvAppItemType::mvInputFloat),
+            MV_ADD_PARENT(mvAppItemType::mvInputText),
+            MV_ADD_PARENT(mvAppItemType::mvListbox),
+            MV_ADD_PARENT(mvAppItemType::mvMenuItem),
+            MV_ADD_PARENT(mvAppItemType::mvRadioButton),
+            MV_ADD_PARENT(mvAppItemType::mvSelectable),
+            MV_ADD_PARENT(mvAppItemType::mvSliderIntMulti),
+            MV_ADD_PARENT(mvAppItemType::mvSliderFloatMulti),
+            MV_ADD_PARENT(mvAppItemType::mvSliderInt),
+            MV_ADD_PARENT(mvAppItemType::mvSliderFloat),
+            MV_ADD_PARENT(mvAppItemType::mvTabButton),
+            MV_ADD_PARENT(mvAppItemType::mvText),
+            MV_ADD_PARENT(mvAppItemType::mvColorButton),
+            MV_ADD_PARENT(mvAppItemType::mvColorEdit),
+            MV_ADD_PARENT(mvAppItemType::mvColorMapButton),
+            MV_ADD_PARENT(mvAppItemType::mvColorPicker),
+            MV_ADD_PARENT(mvAppItemType::mvCollapsingHeader),
+            MV_ADD_PARENT(mvAppItemType::mvGroup),
+            MV_ADD_PARENT(mvAppItemType::mvTreeNode),
+            MV_ADD_PARENT(mvAppItemType::mvDatePicker),
+            MV_ADD_PARENT(mvAppItemType::mvKnobFloat),
+            MV_ADD_PARENT(mvAppItemType::mvLoadingIndicator),
+            MV_ADD_PARENT(mvAppItemType::mvSlider3D),
+            MV_ADD_PARENT(mvAppItemType::mvTimePicker),
+            MV_ADD_PARENT(mvAppItemType::mvProgressBar),
+            MV_ADD_PARENT(mvAppItemType::mvNode),
+            MV_ADD_PARENT(mvAppItemType::mvPlot)
+            MV_END_PARENTS
+
+        default:
         {
-            switch (parent)
-            {
-            case mvAppItemType::mvTabBar:
-            case mvAppItemType::mvStage:
-            case mvAppItemType::mvTemplateRegistry: return true;
-            default: return false;
-            }
+            mv_local_persist std::vector<std::pair<std::string, i32>> parents = { {"All", 0} };
+            return parents;
         }
-        default: return true;
+
+        #undef MV_ADD_PARENT
+        #undef MV_START_PARENTS
+        #undef MV_END_PARENTS
         }
     }
 }

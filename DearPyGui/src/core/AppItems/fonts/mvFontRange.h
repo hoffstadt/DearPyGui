@@ -15,11 +15,6 @@ namespace Marvel {
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvFontRange, add_font_range)
         MV_DEFAULT_CHILDREN
 
-        MV_START_PARENTS
-            MV_ADD_PARENT(mvAppItemType::mvFont),
-            MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
-        MV_END_PARENTS
-
     public:
 
         explicit mvFontRange(mvUUID uuid);

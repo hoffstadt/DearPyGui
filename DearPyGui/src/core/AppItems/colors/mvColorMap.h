@@ -17,11 +17,6 @@ namespace Marvel {
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvColorMap, add_colormap)
         MV_DEFAULT_CHILDREN
 
-        MV_START_PARENTS
-            MV_ADD_PARENT(mvAppItemType::mvColorMapRegistry),
-            MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry)
-        MV_END_PARENTS
-
     public:
 
         explicit mvColorMap(mvUUID uuid);

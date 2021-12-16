@@ -16,11 +16,6 @@ namespace Marvel {
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvThemeColor, add_theme_color)
         MV_DEFAULT_CHILDREN
 
-        MV_START_PARENTS
-            MV_ADD_PARENT(mvAppItemType::mvThemeComponent),
-            MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
-        MV_END_PARENTS
-
     public:
 
         explicit mvThemeColor(mvUUID uuid);

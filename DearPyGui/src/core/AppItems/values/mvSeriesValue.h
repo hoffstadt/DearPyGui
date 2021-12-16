@@ -14,10 +14,6 @@ namespace Marvel {
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvSeriesValue, add_series_value)
         MV_DEFAULT_CHILDREN
 
-        MV_START_PARENTS
-            MV_ADD_PARENT(mvAppItemType::mvValueRegistry)
-        MV_END_PARENTS
-
     public:
 
         explicit mvSeriesValue(mvUUID uuid);

@@ -89,7 +89,6 @@ namespace Marvel {
         [[nodiscard]] virtual mvRef<mvAppItem>  getClassDisabledThemeComponent() const = 0;
         [[nodiscard]] virtual mvAppItemType     getType      () const { return mvAppItemType::None; } // should be pure, see #1071
         [[nodiscard]] virtual const char*       getCommand   () const = 0;
-        [[nodiscard]] virtual const std::vector<std::pair<std::string, i32>>& getAllowableParents() const = 0;
         [[nodiscard]] virtual const std::vector<std::pair<std::string, i32>>& getAllowableChildren() const = 0;
 
         // actual immediate mode drawing instructions
@@ -254,11 +253,11 @@ namespace Marvel {
         return false;
     }
 
-    mvRef<mvAppItem>  CreateEntity(mvAppItemType type, mvUUID id);
-    i32               GetEntityDesciptionFlags(mvAppItemType type);
-    i32               GetEntityTargetSlot(mvAppItemType type);
-    StorageValueTypes GetEntityValueType(mvAppItemType type);
-    const char*       GetEntityTypeString(mvAppItemType type);
-    i32               GetApplicableState(mvAppItemType type);
-    b8                DoesEntityAcceptParent(mvAppItemType entity, mvAppItemType parent);
+    mvRef<mvAppItem>                                CreateEntity(mvAppItemType type, mvUUID id);
+    i32                                             GetEntityDesciptionFlags(mvAppItemType type);
+    i32                                             GetEntityTargetSlot     (mvAppItemType type);
+    StorageValueTypes                               GetEntityValueType      (mvAppItemType type);
+    const char*                                     GetEntityTypeString     (mvAppItemType type);
+    i32                                             GetApplicableState      (mvAppItemType type);
+    const std::vector<std::pair<std::string, i32>>& GetAllowableParents     (mvAppItemType type);
 }

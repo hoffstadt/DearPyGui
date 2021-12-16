@@ -17,12 +17,6 @@ namespace Marvel {
         friend class mvNodeEditor;
 
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvNode, add_node)
-
-        MV_START_PARENTS
-            MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
-            MV_ADD_PARENT(mvAppItemType::mvStage),
-            MV_ADD_PARENT(mvAppItemType::mvNodeEditor)
-        MV_END_PARENTS
         
         MV_START_CHILDREN
             MV_ADD_CHILD(mvAppItemType::mvNodeAttribute),

@@ -15,17 +15,6 @@ namespace Marvel {
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvDrawArrow, draw_arrow)
         MV_DEFAULT_CHILDREN
 
-        MV_START_PARENTS
-            MV_ADD_PARENT(mvAppItemType::mvStage),
-            MV_ADD_PARENT(mvAppItemType::mvDrawlist),
-            MV_ADD_PARENT(mvAppItemType::mvDrawLayer),
-            MV_ADD_PARENT(mvAppItemType::mvWindowAppItem),
-            MV_ADD_PARENT(mvAppItemType::mvPlot),
-            MV_ADD_PARENT(mvAppItemType::mvDrawNode),
-            MV_ADD_PARENT(mvAppItemType::mvViewportDrawlist),
-            MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
-        MV_END_PARENTS
-
     public:
 
         explicit mvDrawArrow(mvUUID uuid);

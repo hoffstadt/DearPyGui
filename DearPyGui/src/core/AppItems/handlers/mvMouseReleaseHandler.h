@@ -14,12 +14,6 @@ namespace Marvel {
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvMouseReleaseHandler, add_mouse_release_handler)
         MV_DEFAULT_CHILDREN
 
-        MV_START_PARENTS
-            MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
-            MV_ADD_PARENT(mvAppItemType::mvStage),
-            MV_ADD_PARENT(mvAppItemType::mvHandlerRegistry)
-        MV_END_PARENTS
-
     public:
 
         explicit mvMouseReleaseHandler(mvUUID uuid);

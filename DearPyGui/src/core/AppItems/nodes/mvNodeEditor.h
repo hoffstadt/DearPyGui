@@ -15,7 +15,6 @@ namespace Marvel {
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvNodeEditor, add_node_editor)
-        MV_DEFAULT_PARENTS
 
         MV_START_CHILDREN
             MV_ADD_CHILD(mvAppItemType::mvMenuBar),

@@ -28,7 +28,6 @@ namespace Marvel {
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvSliderFloat, add_slider_float)
-        MV_DEFAULT_PARENTS
         MV_DEFAULT_CHILDREN
 
     public:
@@ -70,7 +69,6 @@ namespace Marvel {
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvSliderFloatMulti, add_slider_floatx)
-        MV_DEFAULT_PARENTS
         MV_DEFAULT_CHILDREN
 
     public:
@@ -111,7 +109,6 @@ namespace Marvel {
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvSliderInt, add_slider_int)
-        MV_DEFAULT_PARENTS
         MV_DEFAULT_CHILDREN
 
     public:
@@ -152,7 +149,6 @@ namespace Marvel {
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvSliderIntMulti, add_slider_intx)
-        MV_DEFAULT_PARENTS
         MV_DEFAULT_CHILDREN
 
     public:

@@ -998,7 +998,7 @@ namespace Marvel {
         // STEP 5: check if parent is a compatible type
         //---------------------------------------------------------------------------
         b8 isParentCompatible = false;
-        const std::vector<std::pair<std::string, i32>>* allowableParents = &item->getAllowableParents();
+        const std::vector<std::pair<std::string, i32>>* allowableParents = &GetAllowableParents(item->getType());
 
         std::string acceptableParentTypes;
 

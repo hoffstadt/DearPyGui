@@ -14,13 +14,6 @@ namespace Marvel {
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvPlotLegend, add_plot_legend)
         MV_DEFAULT_CHILDREN
 
-        MV_START_PARENTS
-            MV_ADD_PARENT(mvAppItemType::mvStage),
-            MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
-            MV_ADD_PARENT(mvAppItemType::mvPlot),
-            MV_ADD_PARENT(mvAppItemType::mvSubPlots)
-        MV_END_PARENTS
-
     public:
 
         explicit mvPlotLegend(mvUUID uuid);

@@ -15,10 +15,6 @@ namespace Marvel {
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvFloat4Value, add_float4_value)
         MV_DEFAULT_CHILDREN
 
-        MV_START_PARENTS
-            MV_ADD_PARENT(mvAppItemType::mvValueRegistry)
-        MV_END_PARENTS
-
     public:
 
         explicit mvFloat4Value(mvUUID uuid);

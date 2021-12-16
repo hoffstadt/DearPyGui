@@ -13,15 +13,6 @@ namespace Marvel {
 
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvDrawLayer, add_draw_layer)
 
-        MV_START_PARENTS
-            MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
-            MV_ADD_PARENT(mvAppItemType::mvStage),
-            MV_ADD_PARENT(mvAppItemType::mvDrawlist),
-            MV_ADD_PARENT(mvAppItemType::mvWindowAppItem),
-            MV_ADD_PARENT(mvAppItemType::mvPlot),
-            MV_ADD_PARENT(mvAppItemType::mvViewportDrawlist)
-        MV_END_PARENTS
-
         MV_START_CHILDREN
             MV_ADD_CHILD(mvAppItemType::mvDrawLine),
             MV_ADD_CHILD(mvAppItemType::mvDrawArrow),
