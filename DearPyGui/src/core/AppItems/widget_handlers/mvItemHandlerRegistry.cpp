@@ -34,7 +34,10 @@ namespace Marvel {
 	{
 
 		for (auto& item : _children[1])
-			item->customAction(data);
+		{
+			if(item->_show)
+				item->customAction(data);
+		}
 
 	}
 
