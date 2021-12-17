@@ -13,8 +13,6 @@
 #endif
 
 #define MV_APPLY_WIDGET_REGISTRATION(x, parser)\
-static inline mvRef<mvAppItem> s_class_theme_component = nullptr;\
-static inline mvRef<mvAppItem> s_class_theme_disabled_component = nullptr;\
 static constexpr const char* const s_command = #parser;\
 mvAppItemType getType() const override { return x; }\
 const char* getCommand() const override { return #parser; }\

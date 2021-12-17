@@ -2109,7 +2109,7 @@ namespace Marvel {
         #undef MV_END_CHILDREN
     }
 
-    mvRef<mvAppItem>
+    mvRef<mvAppItem>&
     GetClassThemeComponent(mvAppItemType type)
     {
         #define X(el) case mvAppItemType::el: { mv_local_persist mvRef<mvAppItem> s_class_theme = nullptr; return s_class_theme; }
@@ -2119,14 +2119,13 @@ namespace Marvel {
         default:
             {
                 mv_local_persist mvRef<mvAppItem> s_class_theme = nullptr;
-                assert(false && "Class type now found.");
                 return s_class_theme;
             }
         }
         #undef X
     }
 
-    mvRef<mvAppItem>
+    mvRef<mvAppItem>&
     GetDisabledClassThemeComponent(mvAppItemType type)
     {
         #define X(el) case mvAppItemType::el: { mv_local_persist mvRef<mvAppItem> s_class_theme = nullptr; return s_class_theme; }
@@ -2136,7 +2135,6 @@ namespace Marvel {
         default:
             {
                 mv_local_persist mvRef<mvAppItem> s_class_theme = nullptr;
-                assert(false && "Class type now found.");
                 return s_class_theme;
             }
         }

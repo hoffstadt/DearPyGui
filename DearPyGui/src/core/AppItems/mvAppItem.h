@@ -258,7 +258,7 @@ namespace Marvel {
     i32                                             GetApplicableState              (mvAppItemType type);
     const std::vector<std::pair<std::string, i32>>& GetAllowableParents             (mvAppItemType type);
     const std::vector<std::pair<std::string, i32>>& GetAllowableChildren            (mvAppItemType type);
-    mvRef<mvAppItem>                                GetClassThemeComponent          (mvAppItemType type);
-    mvRef<mvAppItem>                                GetDisabledClassThemeComponent  (mvAppItemType type);
+    mvRef<mvAppItem>&                               GetClassThemeComponent          (mvAppItemType type);
+    mvRef<mvAppItem>&                               GetDisabledClassThemeComponent  (mvAppItemType type);
 
 }

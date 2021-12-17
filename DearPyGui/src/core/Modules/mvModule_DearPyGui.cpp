@@ -2289,7 +2289,10 @@ namespace Marvel {
 			mvToolManager::Reset();
 			ClearItemRegistry(*GContext->itemRegistry);
 
-			#define X(el) el::s_class_theme_component = nullptr; el::s_class_theme_disabled_component = nullptr;
+
+
+			//#define X(el) el::s_class_theme_component = nullptr; el::s_class_theme_disabled_component = nullptr;
+			#define X(el) GetClassThemeComponent(mvAppItemType::el) = nullptr; GetDisabledClassThemeComponent(mvAppItemType::el) = nullptr;
 			MV_ITEM_TYPES
 			#undef X
 

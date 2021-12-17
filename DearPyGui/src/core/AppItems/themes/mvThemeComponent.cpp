@@ -78,9 +78,8 @@ namespace Marvel {
             case 0:
             {
                 _specificType = ToInt(item);
-                #define X(el) if((int)mvAppItemType::el == _specificType){_specificDisabledComponentPtr = &el::s_class_theme_disabled_component; _specificComponentPtr = &el::s_class_theme_component;}
-                MV_ITEM_TYPES
-                #undef X
+                _specificComponentPtr = &GetClassThemeComponent((mvAppItemType)_specificType);
+                _specificDisabledComponentPtr = &GetDisabledClassThemeComponent((mvAppItemType)_specificType);
 
                 if (_specificType == (int)mvAppItemType::All)
                 {
