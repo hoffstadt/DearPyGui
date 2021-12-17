@@ -15,12 +15,6 @@ namespace Marvel {
 
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvTextureRegistry, add_texture_registry)
 
-        MV_START_CHILDREN
-            MV_ADD_CHILD(mvAppItemType::mvStaticTexture),
-            MV_ADD_CHILD(mvAppItemType::mvDynamicTexture),
-            MV_ADD_CHILD(mvAppItemType::mvRawTexture)
-        MV_END_CHILDREN
-
     public:
 
         explicit mvTextureRegistry(mvUUID uuid);

@@ -12,7 +12,6 @@ namespace Marvel {
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvDragPoint, add_drag_point)
-        MV_DEFAULT_CHILDREN
 
     public:
 

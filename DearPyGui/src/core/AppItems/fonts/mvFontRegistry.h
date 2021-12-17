@@ -13,10 +13,6 @@ namespace Marvel {
 
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvFontRegistry, add_font_registry)
 
-        MV_START_CHILDREN
-            MV_ADD_CHILD(mvAppItemType::mvFont)
-        MV_END_CHILDREN
-
     public:
 
         explicit mvFontRegistry(mvUUID uuid);

@@ -18,41 +18,6 @@ namespace Marvel {
 
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvPlot, add_plot)
 
-        MV_START_CHILDREN
-            MV_ADD_CHILD(mvAppItemType::mvPlotLegend),
-            MV_ADD_CHILD(mvAppItemType::mvPlotAxis),
-            MV_ADD_CHILD(mvAppItemType::mvDragPoint),
-            MV_ADD_CHILD(mvAppItemType::mvDragLine),
-            MV_ADD_CHILD(mvAppItemType::mvAnnotation),
-            MV_ADD_CHILD(mvAppItemType::mvDrawLine),
-            MV_ADD_CHILD(mvAppItemType::mvDrawArrow),
-            MV_ADD_CHILD(mvAppItemType::mvDrawTriangle),
-            MV_ADD_CHILD(mvAppItemType::mvDrawCircle),
-            MV_ADD_CHILD(mvAppItemType::mvDrawEllipse),
-            MV_ADD_CHILD(mvAppItemType::mvDrawBezierCubic),
-            MV_ADD_CHILD(mvAppItemType::mvDrawBezierQuadratic),
-            MV_ADD_CHILD(mvAppItemType::mvDrawQuad),
-            MV_ADD_CHILD(mvAppItemType::mvDrawRect),
-            MV_ADD_CHILD(mvAppItemType::mvDrawText),
-            MV_ADD_CHILD(mvAppItemType::mvDrawPolygon),
-            MV_ADD_CHILD(mvAppItemType::mvDrawPolyline),
-            MV_ADD_CHILD(mvAppItemType::mvDrawImage),
-            MV_ADD_CHILD(mvAppItemType::mvDrawLayer),
-            MV_ADD_CHILD(mvAppItemType::mvActivatedHandler),
-            MV_ADD_CHILD(mvAppItemType::mvActiveHandler),
-            MV_ADD_CHILD(mvAppItemType::mvClickedHandler),
-            MV_ADD_CHILD(mvAppItemType::mvDeactivatedAfterEditHandler),
-            MV_ADD_CHILD(mvAppItemType::mvDeactivatedHandler),
-            MV_ADD_CHILD(mvAppItemType::mvEditedHandler),
-            MV_ADD_CHILD(mvAppItemType::mvFocusHandler),
-            MV_ADD_CHILD(mvAppItemType::mvHoverHandler),
-            MV_ADD_CHILD(mvAppItemType::mvResizeHandler),
-            MV_ADD_CHILD(mvAppItemType::mvToggledOpenHandler),
-            MV_ADD_CHILD(mvAppItemType::mvVisibleHandler),
-            MV_ADD_CHILD(mvAppItemType::mvDragPayload),
-            MV_ADD_CHILD(mvAppItemType::mvDrawNode),
-        MV_END_CHILDREN
-
     public:
 
         explicit mvPlot(mvUUID uuid);

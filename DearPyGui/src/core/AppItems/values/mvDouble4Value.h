@@ -13,7 +13,6 @@ namespace Marvel {
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvDouble4Value, add_double4_value)
-        MV_DEFAULT_CHILDREN
 
     public:
 

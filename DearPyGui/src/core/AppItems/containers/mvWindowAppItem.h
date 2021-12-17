@@ -16,7 +16,6 @@ namespace Marvel {
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvWindowAppItem, add_window)
-        MV_DEFAULT_CHILDREN
 
         enum class Status{ Normal, Transition, Dirty};
 

@@ -13,8 +13,6 @@ namespace Marvel {
 
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvActiveHandler, add_item_active_handler)
 
-        MV_DEFAULT_CHILDREN
-
     public:
 
         explicit mvActiveHandler(mvUUID uuid);

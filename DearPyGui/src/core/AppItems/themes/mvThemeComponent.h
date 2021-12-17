@@ -7,18 +7,11 @@ namespace Marvel {
     class mvThemeComponent : public mvAppItem
     {
 
-        friend class mvTheme;
-
     public:
 
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvThemeComponent, add_theme_component)
-
-        MV_START_CHILDREN
-            MV_ADD_CHILD(mvAppItemType::mvThemeColor),
-            MV_ADD_CHILD(mvAppItemType::mvThemeStyle)
-        MV_END_CHILDREN
 
     public:
 

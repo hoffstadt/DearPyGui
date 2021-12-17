@@ -14,18 +14,7 @@ namespace Marvel {
 
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-        friend class mvNodeEditor;
-
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvNode, add_node)
-        
-        MV_START_CHILDREN
-            MV_ADD_CHILD(mvAppItemType::mvNodeAttribute),
-            MV_ADD_CHILD(mvAppItemType::mvActiveHandler),
-            MV_ADD_CHILD(mvAppItemType::mvClickedHandler),
-            MV_ADD_CHILD(mvAppItemType::mvHoverHandler),
-            MV_ADD_CHILD(mvAppItemType::mvVisibleHandler),
-            MV_ADD_CHILD(mvAppItemType::mvDragPayload),
-        MV_END_CHILDREN
 
     public:
 
@@ -38,7 +27,7 @@ namespace Marvel {
 
         int getId() const {return _id;}
 
-    private:
+    public:
 
         int _id = 0;
         bool _draggable = true;

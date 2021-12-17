@@ -14,11 +14,6 @@ namespace Marvel {
 
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvTable, add_table)
 
-        MV_START_CHILDREN
-            MV_ADD_CHILD(mvAppItemType::mvTableRow),
-            MV_ADD_CHILD(mvAppItemType::mvTableColumn)
-        MV_END_CHILDREN
-
     public:
 
         explicit mvTable(mvUUID uuid);

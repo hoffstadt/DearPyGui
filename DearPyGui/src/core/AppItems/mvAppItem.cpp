@@ -1862,10 +1862,250 @@ namespace Marvel {
             mv_local_persist std::vector<std::pair<std::string, i32>> parents = { {"All", 0} };
             return parents;
         }
+        }
 
         #undef MV_ADD_PARENT
         #undef MV_START_PARENTS
         #undef MV_END_PARENTS
+    }
+
+    const std::vector<std::pair<std::string, i32>>&
+    GetAllowableChildren(mvAppItemType type)
+    {
+
+        // TODO: possibly index into array instead of switch
+
+        #define MV_ADD_CHILD(x){#x, (int)x}
+        #define MV_START_CHILDREN {mv_local_persist std::vector<std::pair<std::string, i32>> children = {
+        #define MV_END_CHILDREN };return children;}
+
+        switch (type)
+        {
+
+        case mvAppItemType::mvItemHandlerRegistry:
+            MV_START_CHILDREN
+            MV_ADD_CHILD(mvAppItemType::mvActivatedHandler),
+            MV_ADD_CHILD(mvAppItemType::mvActiveHandler),
+            MV_ADD_CHILD(mvAppItemType::mvClickedHandler),
+            MV_ADD_CHILD(mvAppItemType::mvDeactivatedAfterEditHandler),
+            MV_ADD_CHILD(mvAppItemType::mvDeactivatedHandler),
+            MV_ADD_CHILD(mvAppItemType::mvEditedHandler),
+            MV_ADD_CHILD(mvAppItemType::mvFocusHandler),
+            MV_ADD_CHILD(mvAppItemType::mvHoverHandler),
+            MV_ADD_CHILD(mvAppItemType::mvResizeHandler),
+            MV_ADD_CHILD(mvAppItemType::mvToggledOpenHandler),
+            MV_ADD_CHILD(mvAppItemType::mvVisibleHandler)
+            MV_END_CHILDREN
+
+        case mvAppItemType::mvValueRegistry:
+            MV_START_CHILDREN
+            MV_ADD_CHILD(mvAppItemType::mvBoolValue),
+            MV_ADD_CHILD(mvAppItemType::mvIntValue),
+            MV_ADD_CHILD(mvAppItemType::mvInt4Value),
+            MV_ADD_CHILD(mvAppItemType::mvFloatValue),
+            MV_ADD_CHILD(mvAppItemType::mvFloat4Value),
+            MV_ADD_CHILD(mvAppItemType::mvStringValue),
+            MV_ADD_CHILD(mvAppItemType::mvDoubleValue),
+            MV_ADD_CHILD(mvAppItemType::mvDouble4Value),
+            MV_ADD_CHILD(mvAppItemType::mvColorValue),
+            MV_ADD_CHILD(mvAppItemType::mvFloatVectValue),
+            MV_ADD_CHILD(mvAppItemType::mvSeriesValue)
+            MV_END_CHILDREN
+
+        case mvAppItemType::mvThemeComponent:
+            MV_START_CHILDREN
+            MV_ADD_CHILD(mvAppItemType::mvThemeColor),
+            MV_ADD_CHILD(mvAppItemType::mvThemeStyle)
+            MV_END_CHILDREN
+
+        case mvAppItemType::mvTheme:
+            MV_START_CHILDREN
+            MV_ADD_CHILD(mvAppItemType::mvThemeComponent)
+            MV_END_CHILDREN
+
+        case mvAppItemType::mvTextureRegistry:
+            MV_START_CHILDREN
+            MV_ADD_CHILD(mvAppItemType::mvStaticTexture),
+            MV_ADD_CHILD(mvAppItemType::mvDynamicTexture),
+            MV_ADD_CHILD(mvAppItemType::mvRawTexture)
+            MV_END_CHILDREN
+
+        case mvAppItemType::mvTable:
+            MV_START_CHILDREN
+            MV_ADD_CHILD(mvAppItemType::mvTableRow),
+            MV_ADD_CHILD(mvAppItemType::mvTableColumn)
+            MV_END_CHILDREN
+
+        case mvAppItemType::mvSubPlots:
+            MV_START_CHILDREN
+            MV_ADD_CHILD(mvAppItemType::mvPlot),
+            MV_ADD_CHILD(mvAppItemType::mvPlotLegend)
+            MV_END_CHILDREN
+
+        case mvAppItemType::mvPlot:
+            MV_START_CHILDREN
+            MV_ADD_CHILD(mvAppItemType::mvPlotLegend),
+            MV_ADD_CHILD(mvAppItemType::mvPlotAxis),
+            MV_ADD_CHILD(mvAppItemType::mvDragPoint),
+            MV_ADD_CHILD(mvAppItemType::mvDragLine),
+            MV_ADD_CHILD(mvAppItemType::mvAnnotation),
+            MV_ADD_CHILD(mvAppItemType::mvDrawLine),
+            MV_ADD_CHILD(mvAppItemType::mvDrawArrow),
+            MV_ADD_CHILD(mvAppItemType::mvDrawTriangle),
+            MV_ADD_CHILD(mvAppItemType::mvDrawCircle),
+            MV_ADD_CHILD(mvAppItemType::mvDrawEllipse),
+            MV_ADD_CHILD(mvAppItemType::mvDrawBezierCubic),
+            MV_ADD_CHILD(mvAppItemType::mvDrawBezierQuadratic),
+            MV_ADD_CHILD(mvAppItemType::mvDrawQuad),
+            MV_ADD_CHILD(mvAppItemType::mvDrawRect),
+            MV_ADD_CHILD(mvAppItemType::mvDrawText),
+            MV_ADD_CHILD(mvAppItemType::mvDrawPolygon),
+            MV_ADD_CHILD(mvAppItemType::mvDrawPolyline),
+            MV_ADD_CHILD(mvAppItemType::mvDrawImage),
+            MV_ADD_CHILD(mvAppItemType::mvDrawLayer),
+            MV_ADD_CHILD(mvAppItemType::mvActivatedHandler),
+            MV_ADD_CHILD(mvAppItemType::mvActiveHandler),
+            MV_ADD_CHILD(mvAppItemType::mvClickedHandler),
+            MV_ADD_CHILD(mvAppItemType::mvDeactivatedAfterEditHandler),
+            MV_ADD_CHILD(mvAppItemType::mvDeactivatedHandler),
+            MV_ADD_CHILD(mvAppItemType::mvEditedHandler),
+            MV_ADD_CHILD(mvAppItemType::mvFocusHandler),
+            MV_ADD_CHILD(mvAppItemType::mvHoverHandler),
+            MV_ADD_CHILD(mvAppItemType::mvResizeHandler),
+            MV_ADD_CHILD(mvAppItemType::mvToggledOpenHandler),
+            MV_ADD_CHILD(mvAppItemType::mvVisibleHandler),
+            MV_ADD_CHILD(mvAppItemType::mvDragPayload),
+            MV_ADD_CHILD(mvAppItemType::mvDrawNode),
+            MV_END_CHILDREN
+
+        case mvAppItemType::mvNodeEditor:
+            MV_START_CHILDREN
+            MV_ADD_CHILD(mvAppItemType::mvMenuBar),
+            MV_ADD_CHILD(mvAppItemType::mvNode),
+            MV_ADD_CHILD(mvAppItemType::mvNodeLink),
+            MV_ADD_CHILD(mvAppItemType::mvActivatedHandler),
+            MV_ADD_CHILD(mvAppItemType::mvActiveHandler),
+            MV_ADD_CHILD(mvAppItemType::mvClickedHandler),
+            MV_ADD_CHILD(mvAppItemType::mvDeactivatedAfterEditHandler),
+            MV_ADD_CHILD(mvAppItemType::mvDeactivatedHandler),
+            MV_ADD_CHILD(mvAppItemType::mvEditedHandler),
+            MV_ADD_CHILD(mvAppItemType::mvFocusHandler),
+            MV_ADD_CHILD(mvAppItemType::mvHoverHandler),
+            MV_ADD_CHILD(mvAppItemType::mvResizeHandler),
+            MV_ADD_CHILD(mvAppItemType::mvToggledOpenHandler),
+            MV_ADD_CHILD(mvAppItemType::mvVisibleHandler)
+            MV_END_CHILDREN
+
+        case mvAppItemType::mvNode:
+            MV_START_CHILDREN
+            MV_ADD_CHILD(mvAppItemType::mvNodeAttribute),
+            MV_ADD_CHILD(mvAppItemType::mvActiveHandler),
+            MV_ADD_CHILD(mvAppItemType::mvClickedHandler),
+            MV_ADD_CHILD(mvAppItemType::mvHoverHandler),
+            MV_ADD_CHILD(mvAppItemType::mvVisibleHandler),
+            MV_ADD_CHILD(mvAppItemType::mvDragPayload),
+            MV_END_CHILDREN
+
+        case mvAppItemType::mvHandlerRegistry:
+            MV_START_CHILDREN
+            MV_ADD_CHILD(mvAppItemType::mvKeyDownHandler),
+            MV_ADD_CHILD(mvAppItemType::mvKeyPressHandler),
+            MV_ADD_CHILD(mvAppItemType::mvKeyReleaseHandler),
+            MV_ADD_CHILD(mvAppItemType::mvMouseMoveHandler),
+            MV_ADD_CHILD(mvAppItemType::mvMouseWheelHandler),
+            MV_ADD_CHILD(mvAppItemType::mvMouseClickHandler),
+            MV_ADD_CHILD(mvAppItemType::mvMouseDoubleClickHandler),
+            MV_ADD_CHILD(mvAppItemType::mvMouseDownHandler),
+            MV_ADD_CHILD(mvAppItemType::mvMouseReleaseHandler),
+            MV_ADD_CHILD(mvAppItemType::mvMouseDragHandler)
+            MV_END_CHILDREN
+
+        case mvAppItemType::mvFontRegistry:
+            MV_START_CHILDREN
+            MV_ADD_CHILD(mvAppItemType::mvFont)
+            MV_END_CHILDREN
+
+        case mvAppItemType::mvFont:
+            MV_START_CHILDREN
+            MV_ADD_CHILD(mvAppItemType::mvFontChars),
+            MV_ADD_CHILD(mvAppItemType::mvFontRange),
+            MV_ADD_CHILD(mvAppItemType::mvCharRemap),
+            MV_ADD_CHILD(mvAppItemType::mvFontRangeHint),
+            MV_ADD_CHILD(mvAppItemType::mvTemplateRegistry),
+            MV_END_CHILDREN
+
+        case mvAppItemType::mvViewportDrawlist:
+        case mvAppItemType::mvDrawlist:
+            MV_START_CHILDREN
+            MV_ADD_CHILD(mvAppItemType::mvDrawLayer),
+            MV_ADD_CHILD(mvAppItemType::mvDrawLine),
+            MV_ADD_CHILD(mvAppItemType::mvDrawArrow),
+            MV_ADD_CHILD(mvAppItemType::mvDrawTriangle),
+            MV_ADD_CHILD(mvAppItemType::mvDrawCircle),
+            MV_ADD_CHILD(mvAppItemType::mvDrawEllipse),
+            MV_ADD_CHILD(mvAppItemType::mvDrawBezierCubic),
+            MV_ADD_CHILD(mvAppItemType::mvDrawBezierQuadratic),
+            MV_ADD_CHILD(mvAppItemType::mvDrawQuad),
+            MV_ADD_CHILD(mvAppItemType::mvDrawRect),
+            MV_ADD_CHILD(mvAppItemType::mvDrawText),
+            MV_ADD_CHILD(mvAppItemType::mvDrawPolygon),
+            MV_ADD_CHILD(mvAppItemType::mvDrawPolyline),
+            MV_ADD_CHILD(mvAppItemType::mvDrawImageQuad),
+            MV_ADD_CHILD(mvAppItemType::mvDrawImage),
+            MV_ADD_CHILD(mvAppItemType::mvDrawNode),
+            MV_END_CHILDREN
+
+        case mvAppItemType::mvDrawNode:
+        case mvAppItemType::mvDrawLayer:
+            MV_START_CHILDREN
+            MV_ADD_CHILD(mvAppItemType::mvDrawLine),
+            MV_ADD_CHILD(mvAppItemType::mvDrawArrow),
+            MV_ADD_CHILD(mvAppItemType::mvDrawTriangle),
+            MV_ADD_CHILD(mvAppItemType::mvDrawCircle),
+            MV_ADD_CHILD(mvAppItemType::mvDrawEllipse),
+            MV_ADD_CHILD(mvAppItemType::mvDrawBezierCubic),
+            MV_ADD_CHILD(mvAppItemType::mvDrawBezierQuadratic),
+            MV_ADD_CHILD(mvAppItemType::mvDrawQuad),
+            MV_ADD_CHILD(mvAppItemType::mvDrawRect),
+            MV_ADD_CHILD(mvAppItemType::mvDrawText),
+            MV_ADD_CHILD(mvAppItemType::mvDrawPolygon),
+            MV_ADD_CHILD(mvAppItemType::mvDrawPolyline),
+            MV_ADD_CHILD(mvAppItemType::mvDrawImage),
+            MV_ADD_CHILD(mvAppItemType::mvDrawImageQuad),
+            MV_ADD_CHILD(mvAppItemType::mvDrawNode),
+            MV_END_CHILDREN
+
+        case mvAppItemType::mvTabBar:
+            MV_START_CHILDREN
+            MV_ADD_CHILD(mvAppItemType::mvTab),
+            MV_ADD_CHILD(mvAppItemType::mvTabButton),
+            MV_ADD_CHILD(mvAppItemType::mvActivatedHandler),
+            MV_ADD_CHILD(mvAppItemType::mvActiveHandler),
+            MV_ADD_CHILD(mvAppItemType::mvClickedHandler),
+            MV_ADD_CHILD(mvAppItemType::mvDeactivatedAfterEditHandler),
+            MV_ADD_CHILD(mvAppItemType::mvDeactivatedHandler),
+            MV_ADD_CHILD(mvAppItemType::mvEditedHandler),
+            MV_ADD_CHILD(mvAppItemType::mvFocusHandler),
+            MV_ADD_CHILD(mvAppItemType::mvHoverHandler),
+            MV_ADD_CHILD(mvAppItemType::mvResizeHandler),
+            MV_ADD_CHILD(mvAppItemType::mvToggledOpenHandler),
+            MV_ADD_CHILD(mvAppItemType::mvVisibleHandler)
+            MV_END_CHILDREN
+
+        case mvAppItemType::mvColorMapRegistry:
+            MV_START_CHILDREN
+            MV_ADD_CHILD(mvAppItemType::mvColorMap)
+            MV_END_CHILDREN
+
+        default:
+            {
+                mv_local_persist std::vector<std::pair<std::string, i32>> parents = { {"All", 0} };
+                return parents;
+            }
         }
+
+        #undef MV_ADD_CHILD
+        #undef MV_START_CHILDREN
+        #undef MV_END_CHILDREN
     }
 }

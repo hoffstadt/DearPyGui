@@ -18,11 +18,6 @@ namespace Marvel {
 
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvSubPlots, add_subplots)
 
-        MV_START_CHILDREN
-            MV_ADD_CHILD(mvAppItemType::mvPlot),
-            MV_ADD_CHILD(mvAppItemType::mvPlotLegend)
-        MV_END_CHILDREN
-
     public:
 
         explicit mvSubPlots(mvUUID uuid);

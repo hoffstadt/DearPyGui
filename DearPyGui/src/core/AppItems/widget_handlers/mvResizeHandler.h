@@ -13,8 +13,6 @@ namespace Marvel {
 
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvResizeHandler, add_item_resize_handler)
 
-        MV_DEFAULT_CHILDREN
-
     public:
 
         explicit mvResizeHandler(mvUUID uuid);

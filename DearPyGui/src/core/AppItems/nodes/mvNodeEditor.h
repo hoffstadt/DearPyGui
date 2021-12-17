@@ -16,23 +16,6 @@ namespace Marvel {
 
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvNodeEditor, add_node_editor)
 
-        MV_START_CHILDREN
-            MV_ADD_CHILD(mvAppItemType::mvMenuBar),
-            MV_ADD_CHILD(mvAppItemType::mvNode),
-            MV_ADD_CHILD(mvAppItemType::mvNodeLink),
-            MV_ADD_CHILD(mvAppItemType::mvActivatedHandler),
-            MV_ADD_CHILD(mvAppItemType::mvActiveHandler),
-            MV_ADD_CHILD(mvAppItemType::mvClickedHandler),
-            MV_ADD_CHILD(mvAppItemType::mvDeactivatedAfterEditHandler),
-            MV_ADD_CHILD(mvAppItemType::mvDeactivatedHandler),
-            MV_ADD_CHILD(mvAppItemType::mvEditedHandler),
-            MV_ADD_CHILD(mvAppItemType::mvFocusHandler),
-            MV_ADD_CHILD(mvAppItemType::mvHoverHandler) ,
-            MV_ADD_CHILD(mvAppItemType::mvResizeHandler),
-            MV_ADD_CHILD(mvAppItemType::mvToggledOpenHandler),
-            MV_ADD_CHILD(mvAppItemType::mvVisibleHandler)
-        MV_END_CHILDREN
-
     public:
 
         explicit mvNodeEditor(mvUUID uuid);

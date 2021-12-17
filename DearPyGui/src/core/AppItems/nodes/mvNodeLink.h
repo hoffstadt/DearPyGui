@@ -14,10 +14,7 @@ namespace Marvel {
 
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-        friend class mvNodeEditor;
-
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvNodeLink, add_node_link)
-        MV_DEFAULT_CHILDREN
 
     public:
 
@@ -32,7 +29,7 @@ namespace Marvel {
         int getId1() const { return _id1; }
         int getId2() const { return _id2; }
 
-    private:
+    public:
 
         int _id0 = 0;
         int _id1 = 0;

@@ -12,7 +12,6 @@ namespace Marvel {
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvFloatVectValue, add_float_vect_value)
-        MV_DEFAULT_CHILDREN
 
     public:
 

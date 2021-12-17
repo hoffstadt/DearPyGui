@@ -15,7 +15,6 @@ namespace Marvel {
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvDrawImageQuad, draw_image_quad)
-        MV_DEFAULT_CHILDREN
 
     public:
 

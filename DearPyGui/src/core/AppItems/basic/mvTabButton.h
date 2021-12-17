@@ -12,8 +12,7 @@ namespace Marvel {
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvTabButton, add_tab_button)
-        MV_DEFAULT_CHILDREN
-        
+
     public:
 
         explicit mvTabButton(mvUUID uuid);

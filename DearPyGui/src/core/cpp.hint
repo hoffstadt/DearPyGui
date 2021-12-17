@@ -20,7 +20,6 @@ mvAppItemType getType() const override { return x; }\
 mvRef<mvAppItem> getClassThemeComponent() const override { return s_class_theme_component; }\
 mvRef<mvAppItem> getClassDisabledThemeComponent() const override { return s_class_theme_disabled_component; }\
 const char* getCommand() const override { return #parser; }\
-const std::vector<std::pair<std::string, int>>& getAllowableChildren() const override { return GetAllowableChildren(); };\
 static PyObject* parser(PyObject* self, PyObject* args, PyObject* kwargs)\
 {\
 	mvUUID id = 0;\
@@ -45,16 +44,3 @@ static PyObject* parser(PyObject* self, PyObject* args, PyObject* kwargs)\
 }\
 static PyMethodDef GetMethodDefinition(){return { s_command, (PyCFunction)parser, METH_VARARGS | METH_KEYWORDS, GetParsers()[s_command].documentation.c_str() };\
 }
-
-///////////////////////////////////////////////////////////////////////////////
-// children
-///////////////////////////////////////////////////////////////////////////////
-
-#define MV_DEFAULT_CHILDREN static const std::vector<std::pair<std::string, int>>& GetAllowableChildren()\
-{static std::vector<std::pair<std::string, int>> constants = {{"All", 0}}; return constants;}
-
-#define MV_START_CHILDREN static const std::vector<std::pair<std::string, int>>& GetAllowableChildren()\
-{static std::vector<std::pair<std::string, int>> constants = {
-
-#define MV_ADD_CHILD(x){#x, (int)x}
-#define MV_END_CHILDREN };return constants;}

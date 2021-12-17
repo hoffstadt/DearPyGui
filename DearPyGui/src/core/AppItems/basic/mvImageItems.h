@@ -29,7 +29,6 @@ namespace Marvel {
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvImage, add_image)
-        MV_DEFAULT_CHILDREN
 
     public:
 
@@ -71,7 +70,6 @@ namespace Marvel {
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvImageButton, add_image_button)
-        MV_DEFAULT_CHILDREN
 
     public:
 

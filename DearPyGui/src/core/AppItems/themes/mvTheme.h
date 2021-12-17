@@ -14,11 +14,6 @@ namespace Marvel {
 
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvTheme, add_theme)
 
-        MV_START_CHILDREN
-            MV_ADD_CHILD(mvAppItemType::mvThemeComponent)
-        MV_END_CHILDREN
-
-
     public:
 
         explicit mvTheme(mvUUID uuid);

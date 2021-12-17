@@ -12,7 +12,6 @@ namespace Marvel {
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvMouseMoveHandler, add_mouse_move_handler)
-        MV_DEFAULT_CHILDREN
 
     public:
 

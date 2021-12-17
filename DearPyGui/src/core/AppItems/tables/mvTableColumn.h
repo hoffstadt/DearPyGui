@@ -8,15 +8,11 @@ namespace Marvel {
     class mvTableColumn : public mvAppItem
     {
         
-        // for access to ID
-        friend class mvTable;
-
     public:
 
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvTableColumn, add_table_column)
-        MV_DEFAULT_CHILDREN
 
     public:
 
@@ -27,7 +23,7 @@ namespace Marvel {
         void getSpecificConfiguration(PyObject* dict) override;
         void applySpecificTemplate(mvAppItem* item) override;
 
-    private:
+    public:
 
         ImGuiTableColumnFlags _flags = 0;
         float _init_width_or_weight = 0.0f;

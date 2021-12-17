@@ -1036,7 +1036,7 @@ namespace Marvel {
         // STEP 6: check if parent accepts our item (this isn't duplicate STEP 3)
         //---------------------------------------------------------------------------
         b8 amICompatible = false;
-        const std::vector<std::pair<std::string, i32>>* allowableChildren = &parentPtr->getAllowableChildren();
+        const std::vector<std::pair<std::string, i32>>* allowableChildren = &GetAllowableChildren(parentPtr->getType());
 
         std::string acceptableChildTypes;
 
