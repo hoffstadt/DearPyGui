@@ -110,12 +110,12 @@ namespace Marvel {
         // themes
         if (_enabled)
         {
-            if (auto classTheme = getClassThemeComponent())
+            if (auto classTheme = GetClassThemeComponent(getType()))
                 static_cast<mvThemeComponent*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
         }
         else
         {
-            if (auto classTheme = getClassDisabledThemeComponent())
+            if (auto classTheme = GetDisabledClassThemeComponent(getType()))
                 static_cast<mvThemeComponent*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
         }
 
@@ -158,12 +158,12 @@ namespace Marvel {
         // handle popping themes
         if (_enabled)
         {
-            if (auto classTheme = getClassThemeComponent())
+            if (auto classTheme = GetClassThemeComponent(getType()))
                 static_cast<mvThemeComponent*>(classTheme.get())->customAction();
         }
         else
         {
-            if (auto classTheme = getClassDisabledThemeComponent())
+            if (auto classTheme = GetDisabledClassThemeComponent(getType()))
                 static_cast<mvThemeComponent*>(classTheme.get())->customAction();
         }
 

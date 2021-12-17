@@ -2108,4 +2108,38 @@ namespace Marvel {
         #undef MV_START_CHILDREN
         #undef MV_END_CHILDREN
     }
+
+    mvRef<mvAppItem>
+    GetClassThemeComponent(mvAppItemType type)
+    {
+        #define X(el) case mvAppItemType::el: { mv_local_persist mvRef<mvAppItem> s_class_theme = nullptr; return s_class_theme; }
+        switch (type)
+        {
+        MV_ITEM_TYPES
+        default:
+            {
+                mv_local_persist mvRef<mvAppItem> s_class_theme = nullptr;
+                assert(false && "Class type now found.");
+                return s_class_theme;
+            }
+        }
+        #undef X
+    }
+
+    mvRef<mvAppItem>
+    GetDisabledClassThemeComponent(mvAppItemType type)
+    {
+        #define X(el) case mvAppItemType::el: { mv_local_persist mvRef<mvAppItem> s_class_theme = nullptr; return s_class_theme; }
+        switch (type)
+        {
+        MV_ITEM_TYPES
+        default:
+            {
+                mv_local_persist mvRef<mvAppItem> s_class_theme = nullptr;
+                assert(false && "Class type now found.");
+                return s_class_theme;
+            }
+        }
+        #undef X
+    }
 }

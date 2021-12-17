@@ -17,8 +17,6 @@ static inline mvRef<mvAppItem> s_class_theme_component = nullptr;\
 static inline mvRef<mvAppItem> s_class_theme_disabled_component = nullptr;\
 static constexpr const char* const s_command = #parser;\
 mvAppItemType getType() const override { return x; }\
-mvRef<mvAppItem> getClassThemeComponent() const override { return s_class_theme_component; }\
-mvRef<mvAppItem> getClassDisabledThemeComponent() const override { return s_class_theme_disabled_component; }\
 const char* getCommand() const override { return #parser; }\
 static PyObject* parser(PyObject* self, PyObject* args, PyObject* kwargs)\
 {\

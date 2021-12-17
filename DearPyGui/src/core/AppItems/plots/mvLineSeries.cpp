@@ -88,7 +88,7 @@ namespace Marvel {
 		}
 
 		// themes
-		if (auto classTheme = getClassThemeComponent())
+		if (auto classTheme = GetClassThemeComponent(getType()))
 			static_cast<mvThemeComponent*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
 
 		if (_theme)
@@ -144,7 +144,7 @@ namespace Marvel {
 			ImGui::PopFont();
 
 		// handle popping themes
-		if (auto classTheme = getClassThemeComponent())
+		if (auto classTheme = GetClassThemeComponent(getType()))
 			static_cast<mvThemeComponent*>(classTheme.get())->customAction();
 
 		if (_theme)

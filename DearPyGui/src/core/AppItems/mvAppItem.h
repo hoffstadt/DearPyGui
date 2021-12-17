@@ -85,8 +85,6 @@ namespace Marvel {
         //   - MV_REGISTER_WIDGET
         //   - MV_APPLY_WIDGET_REGISTRATION
         //-----------------------------------------------------------------------------
-        [[nodiscard]] virtual mvRef<mvAppItem>  getClassThemeComponent() const = 0;
-        [[nodiscard]] virtual mvRef<mvAppItem>  getClassDisabledThemeComponent() const = 0;
         [[nodiscard]] virtual mvAppItemType     getType      () const { return mvAppItemType::None; } // should be pure, see #1071
         [[nodiscard]] virtual const char*       getCommand   () const = 0;
 
@@ -253,11 +251,14 @@ namespace Marvel {
     }
 
     mvRef<mvAppItem>                                CreateEntity(mvAppItemType type, mvUUID id);
-    i32                                             GetEntityDesciptionFlags(mvAppItemType type);
-    i32                                             GetEntityTargetSlot     (mvAppItemType type);
-    StorageValueTypes                               GetEntityValueType      (mvAppItemType type);
-    const char*                                     GetEntityTypeString     (mvAppItemType type);
-    i32                                             GetApplicableState      (mvAppItemType type);
-    const std::vector<std::pair<std::string, i32>>& GetAllowableParents     (mvAppItemType type);
-    const std::vector<std::pair<std::string, i32>>& GetAllowableChildren    (mvAppItemType type);
+    i32                                             GetEntityDesciptionFlags        (mvAppItemType type);
+    i32                                             GetEntityTargetSlot             (mvAppItemType type);
+    StorageValueTypes                               GetEntityValueType              (mvAppItemType type);
+    const char*                                     GetEntityTypeString             (mvAppItemType type);
+    i32                                             GetApplicableState              (mvAppItemType type);
+    const std::vector<std::pair<std::string, i32>>& GetAllowableParents             (mvAppItemType type);
+    const std::vector<std::pair<std::string, i32>>& GetAllowableChildren            (mvAppItemType type);
+    mvRef<mvAppItem>                                GetClassThemeComponent          (mvAppItemType type);
+    mvRef<mvAppItem>                                GetDisabledClassThemeComponent  (mvAppItemType type);
+
 }
