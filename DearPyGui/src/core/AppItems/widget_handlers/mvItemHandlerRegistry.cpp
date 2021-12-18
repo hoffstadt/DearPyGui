@@ -55,7 +55,7 @@ namespace Marvel {
 			{
 				if(!(applicableState & MV_STATE_ACTIVATED))
 					mvThrowPythonError(mvErrorCode::mvNone, "bind_item_handler_registry",
-						"Item Handler Registry includes unapplicable handler: mvActivatedHandler", item);
+						"Item Handler Registry includes inapplicable handler: mvActivatedHandler", item);
 				break;
 			}
 
@@ -63,7 +63,7 @@ namespace Marvel {
 			{
 				if (!(applicableState & MV_STATE_ACTIVE))
 					mvThrowPythonError(mvErrorCode::mvNone, "bind_item_handler_registry",
-						"Item Handler Registry includes unapplicable handler: mvActiveHandler", item);
+						"Item Handler Registry includes inapplicable handler: mvActiveHandler", item);
 				break;
 			}
 
@@ -71,7 +71,7 @@ namespace Marvel {
 			{
 				if (!(applicableState & MV_STATE_CLICKED))
 					mvThrowPythonError(mvErrorCode::mvNone, "bind_item_handler_registry",
-						"Item Handler Registry includes unapplicable handler: mvClickedHandler", item);
+						"Item Handler Registry includes inapplicable handler: mvClickedHandler", item);
 				break;
 			}
 
@@ -79,7 +79,7 @@ namespace Marvel {
 			{
 				if (!(applicableState & MV_STATE_DEACTIVATEDAE))
 					mvThrowPythonError(mvErrorCode::mvNone, "bind_item_handler_registry",
-						"Item Handler Registry includes unapplicable handler: mvDeactivatedAfterEditHandler", item);
+						"Item Handler Registry includes inapplicable handler: mvDeactivatedAfterEditHandler", item);
 				break;
 			}
 
@@ -87,7 +87,7 @@ namespace Marvel {
 			{
 				if (!(applicableState & ~MV_STATE_DEACTIVATED))
 					mvThrowPythonError(mvErrorCode::mvNone, "bind_item_handler_registry",
-						"Item Handler Registry includes unapplicable handler: mvDeactivatedHandler", item);
+						"Item Handler Registry includes inapplicable handler: mvDeactivatedHandler", item);
 				break;
 			}
 
@@ -95,7 +95,7 @@ namespace Marvel {
 			{
 				if (!(applicableState & ~MV_STATE_EDITED))
 					mvThrowPythonError(mvErrorCode::mvNone, "bind_item_handler_registry",
-						"Item Handler Registry includes unapplicable handler: mvEditedHandler", item);
+						"Item Handler Registry includes inapplicable handler: mvEditedHandler", item);
 				break;
 			}
 
@@ -103,7 +103,7 @@ namespace Marvel {
 			{
 				if (!(applicableState & ~MV_STATE_FOCUSED))
 					mvThrowPythonError(mvErrorCode::mvNone, "bind_item_handler_registry",
-						"Item Handler Registry includes unapplicable handler: mvFocusHandler", item);
+						"Item Handler Registry includes inapplicable handler: mvFocusHandler", item);
 				break;
 			}
 
@@ -111,7 +111,7 @@ namespace Marvel {
 			{
 				if (!(applicableState & ~MV_STATE_HOVER))
 					mvThrowPythonError(mvErrorCode::mvNone, "bind_item_handler_registry",
-						"Item Handler Registry includes unapplicable handler: mvHoverHandler", item);
+						"Item Handler Registry includes inapplicable handler: mvHoverHandler", item);
 				break;
 			}
 
@@ -119,7 +119,7 @@ namespace Marvel {
 			{
 				if (!(applicableState & ~MV_STATE_RECT_SIZE))
 					mvThrowPythonError(mvErrorCode::mvNone, "bind_item_handler_registry",
-						"Item Handler Registry includes unapplicable handler: mvResizeHandler", item);
+						"Item Handler Registry includes inapplicable handler: mvResizeHandler", item);
 				break;
 			}
 
@@ -127,7 +127,7 @@ namespace Marvel {
 			{
 				if (!(applicableState & ~MV_STATE_TOGGLED_OPEN))
 					mvThrowPythonError(mvErrorCode::mvNone, "bind_item_handler_registry",
-						"Item Handler Registry includes unapplicable handler: mvToggledOpenHandler", item);
+						"Item Handler Registry includes inapplicable handler: mvToggledOpenHandler", item);
 				break;
 			}
 
@@ -135,7 +135,7 @@ namespace Marvel {
 			{
 				if (!(applicableState & MV_STATE_VISIBLE))
 					mvThrowPythonError(mvErrorCode::mvNone, "bind_item_handler_registry",
-						"Item Handler Registry includes unapplicable handler: mvVisibleHandler", item);
+						"Item Handler Registry includes inapplicable handler: mvVisibleHandler", item);
 				break;
 			}
 			}
