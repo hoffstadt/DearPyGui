@@ -2254,6 +2254,8 @@ namespace Marvel {
 			imnodes::CreateContext();
 		}
 
+		mvToolManager::GetFontManager()._dirty = true;
+
 		Py_END_ALLOW_THREADS;
 		return GetPyNone();
 	}
