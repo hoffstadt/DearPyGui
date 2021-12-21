@@ -11,32 +11,3 @@
 #ifndef mv_impl
 #define mv_impl
 #endif
-
-#define MV_APPLY_WIDGET_REGISTRATION(x, parser)\
-static constexpr const char* const s_command = #parser;\
-mvAppItemType getType() const override { return x; }\
-const char* getCommand() const override { return #parser; }\
-static PyObject* parser(PyObject* self, PyObject* args, PyObject* kwargs)\
-{\
-	mvUUID id = 0;\
-	mvRef<mvAppItem> item = nullptr;\
-	auto [parent, before, alias] = GetNameFromArgs(id, args, kwargs);\
-	if(id == 0) id = GenerateUUID();\
-	item = CreateEntity(x, id);\
-	if (!item->_alias.empty()) RemoveAlias(*GContext->itemRegistry, item->_alias, true);\
-	item->_alias = alias;\
-	if (!item->_alias.empty()) AddAlias(*GContext->itemRegistry, item->_alias, item->_uuid);\
-	TryBoundTemplateRegistry((*GContext->itemRegistry), item.get());\
-    VerifyArgumentCount(GetParsers()[#parser], args);\
-	if(!GContext->IO.skipRequiredArgs)\
-		item->handleSpecificRequiredArgs(args);\
-	if(!GContext->IO.skipPositionalArgs)\
-		item->handleSpecificPositionalArgs(args);\
-	if(!GContext->IO.skipKeywordArgs)\
-		item->handleKeywordArgs(kwargs, #parser);\
-	AddItemWithRuntimeChecks((*GContext->itemRegistry), item, parent, before);\
-    if(item->_alias.empty()) return Py_BuildValue("K", id);\
-	return ToPyString(item->_alias);\
-}\
-static PyMethodDef GetMethodDefinition(){return { s_command, (PyCFunction)parser, METH_VARARGS | METH_KEYWORDS, GetParsers()[s_command].documentation.c_str() };\
-}
