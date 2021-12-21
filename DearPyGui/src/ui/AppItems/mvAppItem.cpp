@@ -5444,6 +5444,11 @@ namespace Marvel {
             setup.createContextManager = true;
             break;
         }
+
+        case mvAppItemType::All:
+        case mvAppItemType::None:
+        case mvAppItemType::ItemTypeCount:
+        default: break;
         }
 
         return FinalizeParser(setup, args);
