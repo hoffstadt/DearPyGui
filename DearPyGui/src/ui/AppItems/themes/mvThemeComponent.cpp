@@ -14,36 +14,37 @@ namespace Marvel {
     {
     }
 
-    void mvThemeComponent::draw(ImDrawList* drawlist, float x, float y)
+    void mvThemeComponent::push_theme_items()
     {
 
-        for (auto& childset : _children)
+        for (auto& child : childslots[1])
         {
-            for (auto& child : childset)
-            {
-                child->draw(nullptr, 0.0f, 0.0f);
-            }
+            if (child->type == mvAppItemType::mvThemeColor)
+                ((mvThemeColor*)child.get())->push_theme_color();
+            else if (child->type == mvAppItemType::mvThemeStyle)
+                ((mvThemeStyle*)child.get())->push_theme_style();
         }
 
     }
 
-    void mvThemeComponent::customAction(void* data)
+    void mvThemeComponent::pop_theme_items()
     {
-        for (auto& childset : _children)
+
+        for (auto& child : childslots[1])
         {
-            for (auto& child : childset)
-            {
-                child->customAction(data);
-            }
+            if (child->type == mvAppItemType::mvThemeColor)
+                ((mvThemeColor*)child.get())->pop_theme_color();
+            else if (child->type == mvAppItemType::mvThemeStyle)
+                ((mvThemeStyle*)child.get())->pop_theme_style();
         }
         
     }
 
     void mvThemeComponent::handleSpecificPositionalArgs(PyObject* dict)
     {
-        mv_local_persist mvRef<mvAppItem> all_item_theme_component = nullptr;
+        mv_local_persist mvRef<mvThemeComponent> all_item_theme_component = nullptr;
 
-        if (!VerifyPositionalArguments(GetParsers()[GetEntityCommand(_type)], dict))
+        if (!VerifyPositionalArguments(GetParsers()[GetEntityCommand(type)], dict))
             return;
 
         for (int i = 0; i < PyTuple_Size(dict); i++)

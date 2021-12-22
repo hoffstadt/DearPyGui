@@ -28,8 +28,8 @@ namespace Marvel {
 
 	void mvImageSeries::setDataSource(mvUUID dataSource)
 	{
-		if (dataSource == _source) return;
-		_source = dataSource;
+		if (dataSource == config.source) return;
+		config.source = dataSource;
 
 		mvAppItem* item = GetItem((*GContext->itemRegistry), dataSource);
 		if (!item)
@@ -38,7 +38,7 @@ namespace Marvel {
 				"Source item not found: " + std::to_string(dataSource), this);
 			return;
 		}
-		if (GetEntityValueType(item->_type) != GetEntityValueType(_type))
+		if (GetEntityValueType(item->type) != GetEntityValueType(type))
 		{
 			mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
 				"Values types do not match: " + std::to_string(dataSource), this);
@@ -53,13 +53,13 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		// pre draw
 		//-----------------------------------------------------------------------------
-		if (!_show)
+		if (!config.show)
 			return;
 
 		// push font if a font object is attached
-		if (_font)
+		if (font)
 		{
-			ImFont* fontptr = static_cast<mvFont*>(_font.get())->getFontPtr();
+			ImFont* fontptr = static_cast<mvFont*>(font.get())->getFontPtr();
 			ImGui::PushFont(fontptr);
 		}
 
@@ -76,32 +76,32 @@ namespace Marvel {
 				if (_internalTexture)
 					_texture->draw(drawlist, x, y);
 
-				if (!_texture->_state.ok)
+				if (!_texture->state.ok)
 					return;
 
 				void* texture = nullptr;
 
-				if (_texture->_type == mvAppItemType::mvStaticTexture)
+				if (_texture->type == mvAppItemType::mvStaticTexture)
 					texture = static_cast<mvStaticTexture*>(_texture.get())->getRawTexture();
-				else if (_texture->_type == mvAppItemType::mvRawTexture)
+				else if (_texture->type == mvAppItemType::mvRawTexture)
 					texture = static_cast<mvRawTexture*>(_texture.get())->getRawTexture();
 				else
 					texture = static_cast<mvDynamicTexture*>(_texture.get())->getRawTexture();
 
-				ImPlot::PlotImage(_internalLabel.c_str(), texture, _bounds_min, _bounds_max, _uv_min, _uv_max, _tintColor);
+				ImPlot::PlotImage(info.internalLabel.c_str(), texture, _bounds_min, _bounds_max, _uv_min, _uv_max, _tintColor);
 
 				// Begin a popup for a legend entry.
-				if (ImPlot::BeginLegendPopup(_internalLabel.c_str(), 1))
+				if (ImPlot::BeginLegendPopup(info.internalLabel.c_str(), 1))
 				{
-					for (auto& childset : _children)
+					for (auto& childset : childslots)
 					{
 						for (auto& item : childset)
 						{
 							// skip item if it's not shown
-							if (!item->_show)
+							if (!item->config.show)
 								continue;
 							item->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
-							UpdateAppItemState(item->_state);
+							UpdateAppItemState(item->state);
 						}
 					}
 					ImPlot::EndLegendPopup();
@@ -120,7 +120,7 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 
 		// pop font off stack
-		if (_font)
+		if (font)
 			ImGui::PopFont();
 
 		// handle popping themes
@@ -130,7 +130,7 @@ namespace Marvel {
 
 	void mvImageSeries::handleSpecificRequiredArgs(PyObject* dict)
 	{
-		if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(_type)], dict))
+		if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)
@@ -152,7 +152,7 @@ namespace Marvel {
 				}
 				else
 				{
-					mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(_type), "Texture not found.", this);
+					mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(type), "Texture not found.", this);
 					break;
 				}
 			}
@@ -215,7 +215,7 @@ namespace Marvel {
             }
             else
             {
-                mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(_type), "Texture not found.", this);
+                mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(type), "Texture not found.", this);
 			}
         }
 
@@ -244,7 +244,7 @@ namespace Marvel {
 	void mvImageSeries::applySpecificTemplate(mvAppItem* item)
 	{
 		auto titem = static_cast<mvImageSeries*>(item);
-		if(_source != 0) _value = titem->_value;
+		if (config.source != 0) _value = titem->_value;
 		_textureUUID = titem->_textureUUID;
 		_bounds_min = titem->_bounds_min;
 		_bounds_max = titem->_bounds_max;

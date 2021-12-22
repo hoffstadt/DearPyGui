@@ -5,6 +5,7 @@
 #include "fonts/mvFont.h"
 #include "themes/mvTheme.h"
 #include "containers/mvDragPayload.h"
+#include "AppItems/widget_handlers/mvItemHandlerRegistry.h"
 
 namespace Marvel {
 
@@ -18,7 +19,7 @@ namespace Marvel {
 	void mvText::applySpecificTemplate(mvAppItem* item)
 	{
 		auto titem = static_cast<mvText*>(item);
-		if (_source != 0) _value = titem->_value;
+		if (config.source != 0) _value = titem->_value;
 		_disabled_value = titem->_disabled_value;
 		_color = titem->_color;
 		_wrap = titem->_wrap;
@@ -31,31 +32,31 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		// predraw
 		//-----------------------------------------------------------------------------
-		if (!_show)
+		if (!config.show)
 			return;
 
-		if (_focusNextFrame)
+		if (info.focusNextFrame)
 		{
 			ImGui::SetKeyboardFocusHere();
-			_focusNextFrame = false;
+			info.focusNextFrame = false;
 		}
 
-		_previousCursorPos = ImGui::GetCursorPos();
-		if (_dirtyPos)
-			ImGui::SetCursorPos(_state.pos);
+		info.previousCursorPos = ImGui::GetCursorPos();
+		if (info.dirtyPos)
+			ImGui::SetCursorPos(state.pos);
 
-		_state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
+		state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
 
 		// set item width
-		if (_width != 0)
-			ImGui::SetNextItemWidth((float)_width);
+		if (config.width != 0)
+			ImGui::SetNextItemWidth((float)config.width);
 
-		if (_indent > 0.0f)
-			ImGui::Indent(_indent);
+		if (config.indent > 0.0f)
+			ImGui::Indent(config.indent);
 
-		if (_font)
+		if (font)
 		{
-			ImFont* fontptr = static_cast<mvFont*>(_font.get())->getFontPtr();
+			ImFont* fontptr = static_cast<mvFont*>(font.get())->getFontPtr();
 			ImGui::PushFont(fontptr);
 		}
 
@@ -86,13 +87,13 @@ namespace Marvel {
 			//ImGui::Text("%s", _value.c_str());
 			ImGui::TextUnformatted(_value->c_str()); // this doesn't have a buffer size limit
 
-			_state.lastFrameUpdate = GContext->frame;
-			_state.visible = ImGui::IsItemVisible();
-			_state.hovered = ImGui::IsItemHovered();
-			_state.leftclicked = ImGui::IsItemClicked(0);
-			_state.rightclicked = ImGui::IsItemClicked(1);
-			 _state.middleclicked = ImGui::IsItemClicked(2);
-			 _state.contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
+			state.lastFrameUpdate = GContext->frame;
+			state.visible = ImGui::IsItemVisible();
+			state.hovered = ImGui::IsItemHovered();
+			state.leftclicked = ImGui::IsItemClicked(0);
+			state.rightclicked = ImGui::IsItemClicked(1);
+			state.middleclicked = ImGui::IsItemClicked(2);
+			state.contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
 
 			if (_wrap >= 0)
 				ImGui::PopTextWrapPos();
@@ -104,26 +105,26 @@ namespace Marvel {
 			{
 				ImGui::SameLine();
 				ImGui::SetCursorPos({ valueEndX + style.ItemInnerSpacing.x, textVertCenter });
-				ImGui::TextUnformatted(_specifiedLabel.c_str());
+				ImGui::TextUnformatted(config.specifiedLabel.c_str());
 
-				_state.visible = ImGui::IsItemVisible();
-				_state.hovered = ImGui::IsItemHovered();
-				_state.leftclicked = ImGui::IsItemClicked(0);
-				_state.rightclicked = ImGui::IsItemClicked(1);
-				_state.middleclicked = ImGui::IsItemClicked(2);
+				state.visible = ImGui::IsItemVisible();
+				state.hovered = ImGui::IsItemHovered();
+				state.leftclicked = ImGui::IsItemClicked(0);
+				state.rightclicked = ImGui::IsItemClicked(1);
+				state.middleclicked = ImGui::IsItemClicked(2);
 			}
 		}
 
 		//-----------------------------------------------------------------------------
 		// postdraw
 		//-----------------------------------------------------------------------------
-		if (_dirtyPos)
-			ImGui::SetCursorPos(_previousCursorPos);
+		if (info.dirtyPos)
+			ImGui::SetCursorPos(info.previousCursorPos);
 
-		if (_indent > 0.0f)
-			ImGui::Unindent(_indent);
+		if (config.indent > 0.0f)
+			ImGui::Unindent(config.indent);
 
-		if (_font)
+		if (font)
 		{
 			ImGui::PopFont();
 		}
@@ -131,8 +132,8 @@ namespace Marvel {
 		// handle popping themes
 		cleanup_local_theming(this);
 
-		if (_handlerRegistry)
-			_handlerRegistry->customAction(&_state);
+		if (handlerRegistry)
+			handlerRegistry->checkEvents(&state);
 
 		// handle drag & drop payloads
 		apply_drag_drop(this);
@@ -140,7 +141,7 @@ namespace Marvel {
 
 	void mvText::handleSpecificPositionalArgs(PyObject* dict)
 	{
-		if (!VerifyPositionalArguments(GetParsers()[GetEntityCommand(_type)], dict))
+		if (!VerifyPositionalArguments(GetParsers()[GetEntityCommand(type)], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)
@@ -193,8 +194,8 @@ namespace Marvel {
 
 	void mvText::setDataSource(mvUUID dataSource)
 	{
-		if (dataSource == _source) return;
-		_source = dataSource;
+		if (dataSource == config.source) return;
+		config.source = dataSource;
 
 		mvAppItem* item = GetItem((*GContext->itemRegistry), dataSource);
 		if (!item)
@@ -203,7 +204,7 @@ namespace Marvel {
 				"Source item not found: " + std::to_string(dataSource), this);
 			return;
 		}
-		if (GetEntityValueType(item->_type) != GetEntityValueType(_type))
+		if (GetEntityValueType(item->type) != GetEntityValueType(type))
 		{
 			mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
 				"Values types do not match: " + std::to_string(dataSource), this);

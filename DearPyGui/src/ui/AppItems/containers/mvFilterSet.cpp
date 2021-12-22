@@ -34,18 +34,18 @@ namespace Marvel {
 
 	void mvFilterSet::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ScopedID id(_uuid);
+		ScopedID id(uuid);
 
-		if (_width != 0)
-			ImGui::PushItemWidth((float)_width);
+		if (config.width != 0)
+			ImGui::PushItemWidth((float)config.width);
 
 		if (_imguiFilter.IsActive())
 		{
-			for (auto& childset : _children)
+			for (auto& childset : childslots)
 			{
 				for (auto& child : childset)
 				{
-					if (!_imguiFilter.PassFilter(child->_filter.c_str()))
+					if (!_imguiFilter.PassFilter(child->config.filter.c_str()))
 						continue;
 
 					child->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
@@ -56,14 +56,14 @@ namespace Marvel {
 		else
 		{
 
-			for (auto& childset : _children)
+			for (auto& childset : childslots)
 			{
 				for (auto& child : childset)
 					child->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 			}
 		}
 
-		if (_width != 0)
+		if (config.width != 0)
 			ImGui::PopItemWidth();
 	}
 

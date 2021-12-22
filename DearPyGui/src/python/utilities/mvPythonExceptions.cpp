@@ -30,9 +30,9 @@ namespace Marvel
 				fullMessage.c_str(),
 				(int)code,
 				command.c_str(),
-				item->_uuid,
-				item->_specifiedLabel.c_str(),
-				GetEntityTypeString(item->_type),
+				item->uuid,
+				item->config.specifiedLabel.c_str(),
+				GetEntityTypeString(item->type),
 				message.c_str());
 		}
 		else

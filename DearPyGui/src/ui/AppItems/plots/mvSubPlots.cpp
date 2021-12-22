@@ -27,9 +27,9 @@ namespace Marvel {
 	mvSubPlots::mvSubPlots(mvUUID uuid)
 		: mvAppItem(uuid)
 	{
-		//_label = "SubPlot###" + std::to_string(_uuid);
-		_width = -1;
-		_height = -1;
+		//_label = "SubPlot###" + std::to_string(uuid);
+		config.width = -1;
+		config.height = -1;
 	}
 
 	void mvSubPlots::applySpecificTemplate(mvAppItem* item)
@@ -44,7 +44,7 @@ namespace Marvel {
 
 	void mvSubPlots::onChildAdd(mvRef<mvAppItem> item)
 	{
-		if (item->_type == mvAppItemType::mvPlotLegend)
+		if (item->type == mvAppItemType::mvPlotLegend)
 		{
 			_flags &= ~ImPlotSubplotFlags_NoLegend;
 			_flags |= ImPlotSubplotFlags_ShareItems;
@@ -54,7 +54,7 @@ namespace Marvel {
 	void mvSubPlots::onChildRemoved(mvRef<mvAppItem> item)
 	{
 
-		if (item->_type == mvAppItemType::mvPlotLegend)
+		if (item->type == mvAppItemType::mvPlotLegend)
 		{
 			_flags |= ImPlotSubplotFlags_NoLegend;
 			_flags &= ~ImPlotSubplotFlags_ShareItems;
@@ -75,14 +75,14 @@ namespace Marvel {
 	void mvSubPlots::draw(ImDrawList* drawlist, float x, float y)
 	{
 
-		ScopedID id(_uuid);
+		ScopedID id(uuid);
 
-		if (ImPlot::BeginSubplots(_internalLabel.c_str(),  _rows, _cols, ImVec2((float)_width, (float)_height),
+		if (ImPlot::BeginSubplots(info.internalLabel.c_str(),  _rows, _cols, ImVec2((float)config.width, (float)config.height),
 			_flags, _row_ratios.empty() ? nullptr : _row_ratios.data(), _col_ratios.empty() ? nullptr : _col_ratios.data()))
 		{
 
 			// plots
-			for (auto& item : _children[1])
+			for (auto& item : childslots[1])
 				item->draw(drawlist, x, y);
 
 			ImPlot::EndSubplots();
@@ -91,7 +91,7 @@ namespace Marvel {
 
 	void mvSubPlots::handleSpecificRequiredArgs(PyObject* dict)
 	{
-		if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(_type)], dict))
+		if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)

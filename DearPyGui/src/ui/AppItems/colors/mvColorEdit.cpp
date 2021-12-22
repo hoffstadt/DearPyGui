@@ -6,6 +6,7 @@
 #include "AppItems/fonts/mvFont.h"
 #include "AppItems/themes/mvTheme.h"
 #include "AppItems/containers/mvDragPayload.h"
+#include "AppItems/widget_handlers/mvItemHandlerRegistry.h"
 
 namespace Marvel {
 
@@ -18,7 +19,7 @@ namespace Marvel {
 	void mvColorEdit::applySpecificTemplate(mvAppItem* item)
 	{
 		auto titem = static_cast<mvColorEdit*>(item);
-		if (_source != 0) _value = titem->_value;
+		if (config.source != 0) _value = titem->_value;
 		_flags = titem->_flags;
 		_no_picker = titem->_no_picker;
 		_no_options = titem->_no_options;
@@ -59,8 +60,8 @@ namespace Marvel {
 
 	void mvColorEdit::setDataSource(mvUUID dataSource)
 	{
-		if (dataSource == _source) return;
-		_source = dataSource;
+		if (dataSource == config.source) return;
+		config.source = dataSource;
 
 		mvAppItem* item = GetItem((*GContext->itemRegistry), dataSource);
 		if (!item)
@@ -69,7 +70,7 @@ namespace Marvel {
 				"Source item not found: " + std::to_string(dataSource), this);
 			return;
 		}
-		if (GetEntityValueType(item->_type) != GetEntityValueType(_type))
+		if (GetEntityValueType(item->type) != GetEntityValueType(type))
 		{
 			mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
 				"Values types do not match: " + std::to_string(dataSource), this);
@@ -86,38 +87,38 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 
 		// show/hide
-		if (!_show)
+		if (!config.show)
 			return;
 
 		// focusing
-		if (_focusNextFrame)
+		if (info.focusNextFrame)
 		{
 			ImGui::SetKeyboardFocusHere();
-			_focusNextFrame = false;
+			info.focusNextFrame = false;
 		}
 
 		// cache old cursor position
 		ImVec2 previousCursorPos = ImGui::GetCursorPos();
 
 		// set cursor position if user set
-		if (_dirtyPos)
-			ImGui::SetCursorPos(_state.pos);
+		if (info.dirtyPos)
+			ImGui::SetCursorPos(state.pos);
 
 		// update widget's position state
-		_state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
+		state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
 
 		// set item width
-		if (_width != 0)
-			ImGui::SetNextItemWidth((float)_width);
+		if (config.width != 0)
+			ImGui::SetNextItemWidth((float)config.width);
 
 		// set indent
-		if (_indent > 0.0f)
-			ImGui::Indent(_indent);
+		if (config.indent > 0.0f)
+			ImGui::Indent(config.indent);
 
 		// push font if a font object is attached
-		if (_font)
+		if (font)
 		{
-			ImFont* fontptr = static_cast<mvFont*>(_font.get())->getFontPtr();
+			ImFont* fontptr = static_cast<mvFont*>(font.get())->getFontPtr();
 			ImGui::PushFont(fontptr);
 		}
 
@@ -128,22 +129,22 @@ namespace Marvel {
 		// draw
 		//-----------------------------------------------------------------------------
 		{
-			ScopedID id(_uuid);
+			ScopedID id(uuid);
 
-			if (!_enabled) std::copy(_value->data(), _value->data() + 4, _disabled_value);
+			if(!config.enabled) std::copy(_value->data(), _value->data() + 4, _disabled_value);
 
-			if (ImGui::ColorEdit4(_internalLabel.c_str(), _enabled ? _value->data() : &_disabled_value[0], _flags))
+			if (ImGui::ColorEdit4(info.internalLabel.c_str(), config.enabled ? _value->data() : &_disabled_value[0], _flags))
 			{
 				auto value = *_value;
 				mvColor color = mvColor(value[0], value[1], value[2], value[3]);
 
-				if(_alias.empty())
+				if(config.alias.empty())
 					mvSubmitCallback([=]() {
-						mvAddCallback(getCallback(false), _uuid, ToPyColor(color), _user_data);
+						mvAddCallback(getCallback(false), uuid, ToPyColor(color), config.user_data);
 						});
 				else
 					mvSubmitCallback([=]() {
-						mvAddCallback(getCallback(false), _alias, ToPyColor(color), _user_data);
+						mvAddCallback(getCallback(false), config.alias, ToPyColor(color), config.user_data);
 						});
 			}
 		}
@@ -151,28 +152,28 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		// update state
 		//-----------------------------------------------------------------------------
-		UpdateAppItemState(_state);
+		UpdateAppItemState(state);
 
 		//-----------------------------------------------------------------------------
 		// post draw
 		//-----------------------------------------------------------------------------
 
 		// set cursor position to cached position
-		if (_dirtyPos)
+		if (info.dirtyPos)
 			ImGui::SetCursorPos(previousCursorPos);
 
-		if (_indent > 0.0f)
-			ImGui::Unindent(_indent);
+		if (config.indent > 0.0f)
+			ImGui::Unindent(config.indent);
 
 		// pop font off stack
-		if (_font)
+		if (font)
 			ImGui::PopFont();
 
 		// handle popping themes
 		cleanup_local_theming(this);
 
-		if (_handlerRegistry)
-			_handlerRegistry->customAction(&_state);
+		if (handlerRegistry)
+			handlerRegistry->checkEvents(&state);
 
 		// handle drag & drop if used
 		apply_drag_drop(this);
@@ -180,7 +181,7 @@ namespace Marvel {
 
 	void mvColorEdit::handleSpecificPositionalArgs(PyObject* dict)
 	{
-		if (!VerifyPositionalArguments(GetParsers()[GetEntityCommand(_type)], dict))
+		if (!VerifyPositionalArguments(GetParsers()[GetEntityCommand(type)], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)

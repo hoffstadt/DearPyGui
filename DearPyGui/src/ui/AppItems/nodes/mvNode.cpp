@@ -8,6 +8,7 @@
 #include "AppItems/themes/mvTheme.h"
 #include "AppItems/containers/mvDragPayload.h"
 #include "mvPyObject.h"
+#include "AppItems/widget_handlers/mvItemHandlerRegistry.h"
 
 namespace Marvel {
 
@@ -40,8 +41,8 @@ namespace Marvel {
 	mvNode::mvNode(mvUUID uuid)
 		: mvAppItem(uuid)
 	{
-		_internalLabel = FindRenderedTextEnd(_internalLabel.c_str()) + std::to_string(_uuid);
-		_specifiedLabel = _internalLabel;
+		info.internalLabel = FindRenderedTextEnd(info.internalLabel.c_str()) + std::to_string(uuid);
+		config.specifiedLabel = info.internalLabel;
         int64_t address = (int64_t)this;
         int64_t reduced_address = address % 2147483648;
         _id = (int)reduced_address;
@@ -61,21 +62,21 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 
 		// show/hide
-		if (!_show)
+		if (!config.show)
 			return;
 
 		// set item width
-		if (_width != 0)
-			ImGui::SetNextItemWidth((float)_width);
+		if (config.width != 0)
+			ImGui::SetNextItemWidth((float)config.width);
 
 		// indent (for children
-		if (_indent > 0.0f)
-			ImGui::Indent(_indent);
+		if (config.indent > 0.0f)
+			ImGui::Indent(config.indent);
 
 		// push font if a font object is attached
-		if (_font)
+		if (font)
 		{
-			ImFont* fontptr = static_cast<mvFont*>(_font.get())->getFontPtr();
+			ImFont* fontptr = static_cast<mvFont*>(font.get())->getFontPtr();
 			ImGui::PushFont(fontptr);
 		}
 
@@ -86,12 +87,12 @@ namespace Marvel {
 		// draw
 		//-----------------------------------------------------------------------------
 		{
-			ScopedID id(_uuid);
+			ScopedID id(uuid);
 
-			if (_dirtyPos)
+			if (info.dirtyPos)
 			{
-				imnodes::SetNodeGridSpacePos((int)_id, _state.pos);
-				_dirtyPos = false;
+				imnodes::SetNodeGridSpacePos((int)_id, state.pos);
+				info.dirtyPos = false;
 			}
 
 			imnodes::SetNodeDraggable((int)_id, _draggable);
@@ -99,24 +100,24 @@ namespace Marvel {
 			imnodes::BeginNode(_id);
 
 			imnodes::BeginNodeTitleBar();
-			ImGui::TextUnformatted(_specifiedLabel.c_str());
+			ImGui::TextUnformatted(config.specifiedLabel.c_str());
 			imnodes::EndNodeTitleBar();
 
-			_state.lastFrameUpdate = GContext->frame;
-			_state.leftclicked = ImGui::IsItemClicked();
-			_state.rightclicked = ImGui::IsItemClicked(1);
-			_state.middleclicked = ImGui::IsItemClicked(2);
-			_state.visible = ImGui::IsItemVisible();
+			state.lastFrameUpdate = GContext->frame;
+			state.leftclicked = ImGui::IsItemClicked();
+			state.rightclicked = ImGui::IsItemClicked(1);
+			state.middleclicked = ImGui::IsItemClicked(2);
+			state.visible = ImGui::IsItemVisible();
 
-			for (auto& item : _children[1])
+			for (auto& item : childslots[1])
 			{
 				// skip item if it's not shown
-				if (!item->_show)
+				if (!item->config.show)
 					continue;
 
 				// set item width
-				if (item->_width != 0)
-					ImGui::SetNextItemWidth((float)item->_width);
+				if (item->config.width != 0)
+					ImGui::SetNextItemWidth((float)item->config.width);
 
 				item->draw(drawlist, x, y);
 
@@ -135,21 +136,21 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		ImVec2 pos = imnodes::GetNodeGridSpacePos((int)_id);
 
-		_state.pos = { pos.x , pos.y };
+		state.pos = { pos.x , pos.y };
 
 		// undo indents
-		if (_indent > 0.0f)
-			ImGui::Unindent(_indent);
+		if (config.indent > 0.0f)
+			ImGui::Unindent(config.indent);
 
 		// pop font off stack
-		if (_font)
+		if (font)
 			ImGui::PopFont();
 
 		// handle popping themes
 		cleanup_local_theming(this);
 
-		if (_handlerRegistry)
-			_handlerRegistry->customAction(&_state);
+		if (handlerRegistry)
+			handlerRegistry->checkEvents(&state);
 
 		// handle drag & drop payloads
 		apply_drag_drop(this);

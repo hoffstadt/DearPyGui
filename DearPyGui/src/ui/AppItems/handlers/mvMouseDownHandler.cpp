@@ -29,10 +29,10 @@ namespace Marvel {
 				{
 					mvSubmitCallback([=]()
 						{
-							if (_alias.empty())
-								mvRunCallback(getCallback(false), _uuid, ToPyMPair(i, ImGui::GetIO().MouseDownDuration[i]), _user_data);
+							if(config.alias.empty())
+								mvRunCallback(getCallback(false), uuid, ToPyMPair(i, ImGui::GetIO().MouseDownDuration[i]), config.user_data);
 							else
-								mvRunCallback(getCallback(false), _alias, ToPyMPair(i, ImGui::GetIO().MouseDownDuration[i]), _user_data);
+								mvRunCallback(getCallback(false), config.alias, ToPyMPair(i, ImGui::GetIO().MouseDownDuration[i]), config.user_data);
 						});
 				}
 			}
@@ -42,17 +42,17 @@ namespace Marvel {
 		{
 			mvSubmitCallback([=]()
 				{
-					if (_alias.empty())
-						mvRunCallback(getCallback(false), _uuid, ToPyMPair(_button, ImGui::GetIO().MouseDownDuration[_button]), _user_data);
+					if(config.alias.empty())
+						mvRunCallback(getCallback(false), uuid, ToPyMPair(_button, ImGui::GetIO().MouseDownDuration[_button]), config.user_data);
 					else
-						mvRunCallback(getCallback(false), _alias, ToPyMPair(_button, ImGui::GetIO().MouseDownDuration[_button]), _user_data);
+						mvRunCallback(getCallback(false), config.alias, ToPyMPair(_button, ImGui::GetIO().MouseDownDuration[_button]), config.user_data);
 				});
 		}
 	}
 
 	void mvMouseDownHandler::handleSpecificPositionalArgs(PyObject* dict)
 	{
-		if (!VerifyPositionalArguments(GetParsers()[GetEntityCommand(_type)], dict))
+		if (!VerifyPositionalArguments(GetParsers()[GetEntityCommand(type)], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)

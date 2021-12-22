@@ -6,16 +6,17 @@
 #include "mvChild.h"
 #include "fonts/mvFont.h"
 #include "themes/mvTheme.h"
+#include "AppItems/widget_handlers/mvItemHandlerRegistry.h"
 
 namespace Marvel {
 
     mvWindowAppItem::mvWindowAppItem(mvUUID uuid, bool mainWindow)
         : mvAppItem(uuid), _mainWindow(mainWindow)
     {
-        //_label = "Window###" + std::to_string(_uuid);
-        _width = 500;
-        _height = 500;
-        _dirty_size = true;
+        //_label = "Window###" + std::to_string(uuid);
+        config.width = 500;
+        config.height = 500;
+        info.dirty_size = true;
 
         _oldWindowflags = ImGuiWindowFlags_None;
 
@@ -68,13 +69,13 @@ namespace Marvel {
 
     void mvWindowAppItem::onChildAdd(mvRef<mvAppItem> item)
     {
-        if (item->_type == mvAppItemType::mvMenuBar)
+        if (item->type == mvAppItemType::mvMenuBar)
             _windowflags |= ImGuiWindowFlags_MenuBar;
     }
 
     void mvWindowAppItem::onChildRemoved(mvRef<mvAppItem> item)
     {
-        if (item->_type == mvAppItemType::mvMenuBar)
+        if (item->type == mvAppItemType::mvMenuBar)
             _windowflags &= ~ImGuiWindowFlags_MenuBar;
     }
 
@@ -89,24 +90,24 @@ namespace Marvel {
 
             if (_oldWindowflags & ImGuiWindowFlags_MenuBar)
                 _windowflags |= ImGuiWindowFlags_MenuBar;
-            _oldxpos = _state.pos.x;
-            _oldypos = _state.pos.y;
-            _oldWidth = _width;
-            _oldHeight = _height;
+            _oldxpos = state.pos.x;
+            _oldypos = state.pos.y;
+            _oldWidth = config.width;
+            _oldHeight = config.height;
         }
         else
         {
-            _focusNextFrame = true;
+            info.focusNextFrame = true;
             if (_windowflags & ImGuiWindowFlags_MenuBar)
                 _oldWindowflags |= ImGuiWindowFlags_MenuBar;
             _windowflags = _oldWindowflags;
             if (_windowflags & ImGuiWindowFlags_MenuBar)
                 _windowflags |= ImGuiWindowFlags_MenuBar;
-            _state.pos = { _oldxpos , _oldypos };
-            _width = _oldWidth;
-            _height = _oldHeight;
-            _dirtyPos = true;
-            _dirty_size = true;
+            state.pos = { _oldxpos , _oldypos };
+            config.width = _oldWidth;
+            config.height = _oldHeight;
+            info.dirtyPos = true;
+            info.dirty_size = true;
         }
 
 
@@ -119,26 +120,26 @@ namespace Marvel {
         // pre draw
         //-----------------------------------------------------------------------------
 
-        if (!_show)
+        if (!config.show)
             return;
 
         if (GContext->frame == 1 && !GContext->IO.iniFile.empty() && !(_windowflags & ImGuiWindowFlags_NoSavedSettings))
         {
-            _dirtyPos = false;
-            _dirty_size = false;
+            info.dirtyPos = false;
+            info.dirty_size = false;
             _collapsedDirty = false;
         }
 
-        if (_focusNextFrame)
+        if (info.focusNextFrame)
         {
             ImGui::SetNextWindowFocus();
-            _focusNextFrame = false;
+            info.focusNextFrame = false;
         }
 
         // handle fonts
-        if (_font)
+        if (font)
         {
-            ImFont* fontptr = static_cast<mvFont*>(_font.get())->getFontPtr();
+            ImFont* fontptr = static_cast<mvFont*>(font.get())->getFontPtr();
             ImGui::PushFont(fontptr);
         }
 
@@ -150,7 +151,7 @@ namespace Marvel {
         // draw
         //-----------------------------------------------------------------------------
 
-        ScopedID id(_uuid);
+        ScopedID id(uuid);
 
         if (_mainWindow)
         {
@@ -160,16 +161,16 @@ namespace Marvel {
             ImGui::SetNextWindowSize(ImVec2((float)GContext->viewport->clientWidth, (float)GContext->viewport->clientHeight));
         }
 
-        else if (_dirtyPos)
+        else if (info.dirtyPos)
         {
-            ImGui::SetNextWindowPos(_state.pos);
-            _dirtyPos = false;
+            ImGui::SetNextWindowPos(state.pos);
+            info.dirtyPos = false;
         }
 
-        if (_dirty_size)
+        if (info.dirty_size)
         {
-            ImGui::SetNextWindowSize(ImVec2((float)_width, (float)_height));
-            _dirty_size = false;
+            ImGui::SetNextWindowSize(ImVec2((float)config.width, (float)config.height));
+            info.dirty_size = false;
         }
 
         if (_collapsedDirty)
@@ -182,29 +183,29 @@ namespace Marvel {
 
         if (_modal)
         {
-            if (_shownLastFrame)
+            if (info.shownLastFrame)
             {
-                _shownLastFrame = false;
-                ImGui::OpenPopup(_internalLabel.c_str(), ImGuiPopupFlags_NoOpenOverExistingPopup);
+                info.shownLastFrame = false;
+                ImGui::OpenPopup(info.internalLabel.c_str(), ImGuiPopupFlags_NoOpenOverExistingPopup);
             }
             
-            if (!ImGui::BeginPopupModal(_internalLabel.c_str(), _no_close ? nullptr : &_show, _windowflags))
+            if (!ImGui::BeginPopupModal(info.internalLabel.c_str(), _no_close ? nullptr : &config.show, _windowflags))
             {
                 if (_mainWindow)
                     ImGui::PopStyleVar();
 
                 // shouldn't have to do this but do. Fix later
-                _show = false;
-                _state.lastFrameUpdate = GContext->frame;
-                _state.hovered = false;
-                _state.focused = false;
-                _state.toggledOpen = false;
-                _state.visible = false;
+                config.show = false;
+                state.lastFrameUpdate = GContext->frame;
+                state.hovered = false;
+                state.focused = false;
+                state.toggledOpen = false;
+                state.visible = false;
 
-                if(_alias.empty())
-                    mvAddCallback(_on_close, _uuid, nullptr, _user_data);
+                if(config.alias.empty())
+                    mvAddCallback(_on_close, uuid, nullptr, config.user_data);
                 else
-                    mvAddCallback(_on_close, _alias, nullptr, _user_data);
+                    mvAddCallback(_on_close, config.alias, nullptr, config.user_data);
                 
                 return;
             }
@@ -212,13 +213,13 @@ namespace Marvel {
 
         else if (_popup)
         {
-            if (_shownLastFrame)
+            if (info.shownLastFrame)
             {
-                _shownLastFrame = false;
-                ImGui::OpenPopup(_internalLabel.c_str(), ImGuiPopupFlags_NoOpenOverExistingPopup);
+                info.shownLastFrame = false;
+                ImGui::OpenPopup(info.internalLabel.c_str(), ImGuiPopupFlags_NoOpenOverExistingPopup);
             }
 
-            if (!ImGui::BeginPopup(_internalLabel.c_str(), _windowflags))
+            if (!ImGui::BeginPopup(info.internalLabel.c_str(), _windowflags))
             {
                 if (_mainWindow)
                     ImGui::PopStyleVar();
@@ -228,7 +229,7 @@ namespace Marvel {
 
         else
         {
-            if (!ImGui::Begin(_internalLabel.c_str(), _no_close ? nullptr : &_show, _windowflags))
+            if (!ImGui::Begin(info.internalLabel.c_str(), _no_close ? nullptr : &config.show, _windowflags))
             {
                 if (_mainWindow)
                     ImGui::PopStyleVar();
@@ -246,36 +247,36 @@ namespace Marvel {
         if (_mainWindow)
             ImGui::PopStyleVar();
 
-        for (auto& item : _children[0])
+        for (auto& item : childslots[0])
         {
             // skip item if it's not shown
-            if (!item->_show)
+            if (!item->config.show)
                 continue;
 
             item->draw(this_drawlist, startx, starty);
 
-            UpdateAppItemState(item->_state);
+            UpdateAppItemState(item->state);
 
         }
 
-        for (auto& item : _children[1])
+        for (auto& item : childslots[1])
         {
 
             item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-            if (item->_tracked)
-                ImGui::SetScrollHereY(item->_trackOffset);
+            if (item->config.tracked)
+                ImGui::SetScrollHereY(item->config.trackOffset);
 
         }
 
-        for (auto& item : _children[2])
+        for (auto& item : childslots[2])
         {
             // skip item if it's not shown
-            if (!item->_show)
+            if (!item->config.show)
                 continue;
 
             item->draw(this_drawlist, startx, starty);
 
-            UpdateAppItemState(item->_state);
+            UpdateAppItemState(item->state);
 
         }
 
@@ -284,7 +285,7 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
 
         // pop font from stack
-        if (_font)
+        if (font)
             ImGui::PopFont();
 
         // handle popping themes
@@ -317,28 +318,28 @@ namespace Marvel {
         // update state
         //-----------------------------------------------------------------------------
 
-        _state.lastFrameUpdate = GContext->frame;
-        _state.visible = true;
-        _state.hovered = ImGui::IsWindowHovered();
-        _state.focused = ImGui::IsWindowFocused();
-        _state.rectSize = { ImGui::GetWindowSize().x, ImGui::GetWindowSize().y };
-        _state.toggledOpen = ImGui::IsWindowCollapsed();
-        if (_state.mvPrevRectSize.x != _state.rectSize.x || _state.mvPrevRectSize.y != _state.rectSize.y) { _state.mvRectSizeResized = true; }
-        else _state.mvRectSizeResized = false;
-        _state.mvPrevRectSize = _state.rectSize;
+        state.lastFrameUpdate = GContext->frame;
+        state.visible = true;
+        state.hovered = ImGui::IsWindowHovered();
+        state.focused = ImGui::IsWindowFocused();
+        state.rectSize = { ImGui::GetWindowSize().x, ImGui::GetWindowSize().y };
+        state.toggledOpen = ImGui::IsWindowCollapsed();
+        if (state.mvPrevRectSize.x != state.rectSize.x || state.mvPrevRectSize.y != state.rectSize.y) { state.mvRectSizeResized = true; }
+        else state.mvRectSizeResized = false;
+        state.mvPrevRectSize = state.rectSize;
 
-        if (ImGui::GetWindowWidth() != (float)_width || ImGui::GetWindowHeight() != (float)_height)
+        if (ImGui::GetWindowWidth() != (float)config.width || ImGui::GetWindowHeight() != (float)config.height)
         {
-            _width = (int)ImGui::GetWindowWidth();
-            _height = (int)ImGui::GetWindowHeight();
+            config.width = (int)ImGui::GetWindowWidth();
+            config.height = (int)ImGui::GetWindowHeight();
             _resized = true;
         }
 
-        _width = (int)ImGui::GetWindowWidth();
-        _height = (int)ImGui::GetWindowHeight();
+        config.width = (int)ImGui::GetWindowWidth();
+        config.height = (int)ImGui::GetWindowHeight();
 
         // update active window
-        if (IsItemFocused(_state))
+        if (IsItemFocused(state))
         {
 
             float titleBarHeight = ImGui::GetStyle().FramePadding.y * 2 + ImGui::GetFontSize();
@@ -350,12 +351,12 @@ namespace Marvel {
             GContext->input.mousePos.x = (int)x;
             GContext->input.mousePos.y = (int)y;
 
-            if (GContext->itemRegistry->activeWindow != _uuid)
-                GContext->itemRegistry->activeWindow = _uuid;
+            if (GContext->itemRegistry->activeWindow != uuid)
+                GContext->itemRegistry->activeWindow = uuid;
 
         }
 
-        _state.pos = { ImGui::GetWindowPos().x , ImGui::GetWindowPos().y };
+        state.pos = { ImGui::GetWindowPos().x , ImGui::GetWindowPos().y };
 
         if (_popup || _modal)
             ImGui::EndPopup();
@@ -364,22 +365,22 @@ namespace Marvel {
 
         _collapsed = ImGui::IsWindowCollapsed();
 
-        if (!_show)
+        if (!config.show)
         {
-            _state.lastFrameUpdate = GContext->frame;
-            _state.hovered = false;
-            _state.focused = false;
-            _state.toggledOpen = false;
-            _state.visible = false;
+            state.lastFrameUpdate = GContext->frame;
+            state.hovered = false;
+            state.focused = false;
+            state.toggledOpen = false;
+            state.visible = false;
 
-            if(_alias.empty())
-                mvAddCallback(_on_close, _uuid, nullptr, _user_data);
+            if(config.alias.empty())
+                mvAddCallback(_on_close, uuid, nullptr, config.user_data);
             else
-                mvAddCallback(_on_close, _alias, nullptr, _user_data);
+                mvAddCallback(_on_close, config.alias, nullptr, config.user_data);
         }
 
-        if (_handlerRegistry)
-            _handlerRegistry->customAction(&_state);
+        if (handlerRegistry)
+            handlerRegistry->checkEvents(&state);
     }
 
     void mvWindowAppItem::handleSpecificKeywordArgs(PyObject* dict)
@@ -390,19 +391,19 @@ namespace Marvel {
         if (PyObject* item = PyDict_GetItemString(dict, "modal"))
         {
             _modal = ToBool(item);
-            _shownLastFrame = true;
+            info.shownLastFrame = true;
         }
 
         if (PyObject* item = PyDict_GetItemString(dict, "popup"))
         {
             _popup = ToBool(item);
-            _shownLastFrame = true;
+            info.shownLastFrame = true;
         }
 
         if (PyObject* item = PyDict_GetItemString(dict, "label"))
         {
-            _dirtyPos = true;
-            _dirty_size = true;
+            info.dirtyPos = true;
+            info.dirty_size = true;
         }
 
         if (PyObject* item = PyDict_GetItemString(dict, "no_close")) _no_close = ToBool(item);
@@ -454,10 +455,10 @@ namespace Marvel {
         flagop("no_background", ImGuiWindowFlags_NoBackground, _windowflags);
         flagop("no_saved_settings", ImGuiWindowFlags_NoSavedSettings, _windowflags);
 
-        _oldxpos = _state.pos.x;
-        _oldypos = _state.pos.y;
-        _oldWidth = _width;
-        _oldHeight = _height;
+        _oldxpos = state.pos.x;
+        _oldypos = state.pos.y;
+        _oldWidth = config.width;
+        _oldHeight = config.height;
         _oldWindowflags = _windowflags;
 
     }

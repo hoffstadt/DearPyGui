@@ -22,19 +22,19 @@ namespace Marvel {
 
 	void mvTableColumn::draw(ImDrawList* drawlist, float x, float y)
 	{
-		_id = (ImGuiID)_uuid;
-		ImGui::TableSetupColumn(_internalLabel.c_str(), _flags, _init_width_or_weight, _id);
+		_id = (ImGuiID)uuid;
+		ImGui::TableSetupColumn(info.internalLabel.c_str(), _flags, _init_width_or_weight, _id);
 
-		if (_shownLastFrame)
+		if (info.shownLastFrame)
 		{
-			_shownLastFrame = false;
-			ImGui::TableSetColumnEnabled(_location, _enabled);
+			info.shownLastFrame = false;
+			ImGui::TableSetColumnEnabled(info.location, config.enabled);
 		}
 
-		if (_hiddenLastFrame)
+		if (info.hiddenLastFrame)
 		{
-			_hiddenLastFrame = false;
-			ImGui::TableSetColumnEnabled(_location, _enabled);
+			info.hiddenLastFrame = false;
+			ImGui::TableSetColumnEnabled(info.location, config.enabled);
 		}
 	}
 

@@ -15,8 +15,8 @@ namespace Marvel {
         explicit mvItemHandlerRegistry(mvUUID uuid);
 
         void draw(ImDrawList* drawlist, float x, float y) override {}
-        void customAction(void* data = nullptr) override;
-        void onBind(mvAppItem* item) override;
+        void checkEvents(void* data = nullptr);
+        void onBind(mvAppItem* item);
 
     };
 

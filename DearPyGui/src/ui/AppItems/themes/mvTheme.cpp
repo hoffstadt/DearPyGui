@@ -11,45 +11,44 @@ namespace Marvel {
 	void 
 	apply_local_theming(mvAppItem* item)
 	{
-		if (item->_enabled)
+		if (item->config.enabled)
 		{
-			if (auto classTheme = GetClassThemeComponent(item->_type))
-				static_cast<mvThemeComponent*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
+			if (auto classTheme = GetClassThemeComponent(item->type))
+				classTheme->push_theme_items();
 		}
 		else
 		{
-			if (auto classTheme = GetDisabledClassThemeComponent(item->_type))
-				static_cast<mvThemeComponent*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
+			if (auto classTheme = GetDisabledClassThemeComponent(item->type))
+				classTheme->push_theme_items();
 		}
 
-		if (item->_theme)
+		if (item->theme)
 		{
-			static_cast<mvTheme*>(item->_theme.get())->setSpecificEnabled(item->_enabled);
-			static_cast<mvTheme*>(item->_theme.get())->setSpecificType((int)item->_type);
-			static_cast<mvTheme*>(item->_theme.get())->draw(nullptr, 0.0f, 0.0f);
+			item->theme->setSpecificEnabled(item->config.enabled);
+			item->theme->setSpecificType((int)item->type);
+			item->theme->push_theme_components();
 		}
 	}
 
 	void 
 	cleanup_local_theming(mvAppItem* item)
 	{
-		// handle popping themes
-		if (item->_enabled)
+		if (item->config.enabled)
 		{
-			if (auto classTheme = GetClassThemeComponent(item->_type))
-				static_cast<mvThemeComponent*>(classTheme.get())->customAction();
+			if (auto classTheme = GetClassThemeComponent(item->type))
+				classTheme->pop_theme_items();
 		}
 		else
 		{
-			if (auto classTheme = GetDisabledClassThemeComponent(item->_type))
-				static_cast<mvThemeComponent*>(classTheme.get())->customAction();
+			if (auto classTheme = GetDisabledClassThemeComponent(item->type))
+				classTheme->pop_theme_items();
 		}
 
-		if (item->_theme)
+		if (item->theme)
 		{
-			static_cast<mvTheme*>(item->_theme.get())->setSpecificEnabled(item->_enabled);
-			static_cast<mvTheme*>(item->_theme.get())->setSpecificType((int)item->_type);
-			static_cast<mvTheme*>(item->_theme.get())->customAction();
+			item->theme->setSpecificEnabled(item->config.enabled);
+			item->theme->setSpecificType((int)item->type);
+			item->theme->pop_theme_components();
 		}
 	}
 
@@ -57,19 +56,19 @@ namespace Marvel {
 		:
 		mvAppItem(uuid)
 	{
-		_show = false;
+		config.show = false;
 	}
 
-	void mvTheme::draw(ImDrawList* drawlist, float x, float y)
+	void mvTheme::push_theme_components()
 	{
-		for (auto& child : _children[1])
+		for (auto& child : childslots[1])
 		{
 			auto comp = static_cast<mvThemeComponent*>(child.get());
 			if (comp->_specificType == (int)mvAppItemType::All || comp->_specificType == _specificType)
 			{
 				if (_specificEnabled == comp->_specificEnabled)
 				{
-					child->draw(drawlist, x, y);
+					comp->push_theme_items();
 				}
 				
 			}
@@ -78,28 +77,28 @@ namespace Marvel {
 				if (_specificEnabled == comp->_specificEnabled)
 				{
 					comp->_oldComponent = *comp->_specificComponentPtr;
-					*comp->_specificComponentPtr = child;
+					*comp->_specificComponentPtr = *(mvRef<mvThemeComponent>*)&child;
 				}
 				else
 				{
 					comp->_oldComponent = *comp->_specificDisabledComponentPtr;
-					*comp->_specificDisabledComponentPtr = child;
+					*comp->_specificDisabledComponentPtr = *(mvRef<mvThemeComponent>*) & child;
 				}
 			}
 		}
 	}
 
-	void mvTheme::customAction(void* data)
+	void mvTheme::pop_theme_components()
 	{
 
-		for (auto& child : _children[1])
+		for (auto& child : childslots[1])
 		{
 			auto comp = static_cast<mvThemeComponent*>(child.get());
 			if (comp->_specificType == (int)mvAppItemType::All || comp->_specificType == _specificType)
 			{
 				if (_specificEnabled == comp->_specificEnabled)
 				{
-					child->customAction(data);
+					comp->pop_theme_items();
 				}
 			}
 			if (comp->_specificType != _specificType)

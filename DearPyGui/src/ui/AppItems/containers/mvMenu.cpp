@@ -5,6 +5,7 @@
 #include "AppItems/fonts/mvFont.h"
 #include "AppItems/themes/mvTheme.h"
 #include "AppItems/containers/mvDragPayload.h"
+#include "AppItems/widget_handlers/mvItemHandlerRegistry.h"
 
 namespace Marvel {
 
@@ -21,38 +22,38 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 
 		// show/hide
-		if (!_show)
+		if (!config.show)
 			return;
 
 		// focusing
-		if (_focusNextFrame)
+		if (info.focusNextFrame)
 		{
 			ImGui::SetKeyboardFocusHere();
-			_focusNextFrame = false;
+			info.focusNextFrame = false;
 		}
 
 		// cache old cursor position
 		ImVec2 previousCursorPos = ImGui::GetCursorPos();
 
 		// set cursor position if user set
-		if (_dirtyPos)
-			ImGui::SetCursorPos(_state.pos);
+		if (info.dirtyPos)
+			ImGui::SetCursorPos(state.pos);
 
 		// update widget's position state
-		_state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
+		state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
 
 		// set item width
-		if (_width != 0)
-			ImGui::SetNextItemWidth((float)_width);
+		if (config.width != 0)
+			ImGui::SetNextItemWidth((float)config.width);
 
 		// set indent
-		if (_indent > 0.0f)
-			ImGui::Indent(_indent);
+		if (config.indent > 0.0f)
+			ImGui::Indent(config.indent);
 
 		// push font if a font object is attached
-		if (_font)
+		if (font)
 		{
-			ImFont* fontptr = static_cast<mvFont*>(_font.get())->getFontPtr();
+			ImFont* fontptr = static_cast<mvFont*>(font.get())->getFontPtr();
 			ImGui::PushFont(fontptr);
 		}
 
@@ -63,32 +64,32 @@ namespace Marvel {
 		// draw
 		//-----------------------------------------------------------------------------
 		{
-			ScopedID id(_uuid);
+			ScopedID id(uuid);
 
 			// create menu and see if its selected
-			if (ImGui::BeginMenu(_internalLabel.c_str(), _enabled))
+			if (ImGui::BeginMenu(info.internalLabel.c_str(), config.enabled))
 			{
-				_state.lastFrameUpdate = GContext->frame;
-				_state.active = ImGui::IsItemActive();
-				_state.activated = ImGui::IsItemActivated();
-				_state.deactivated = ImGui::IsItemDeactivated();
-				_state.focused = ImGui::IsWindowFocused();
-				_state.hovered = ImGui::IsWindowHovered();
-				_state.rectSize = { ImGui::GetWindowWidth(), ImGui::GetWindowHeight() };
-				_state.contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
+				state.lastFrameUpdate = GContext->frame;
+				state.active = ImGui::IsItemActive();
+				state.activated = ImGui::IsItemActivated();
+				state.deactivated = ImGui::IsItemDeactivated();
+				state.focused = ImGui::IsWindowFocused();
+				state.hovered = ImGui::IsWindowHovered();
+				state.rectSize = { ImGui::GetWindowWidth(), ImGui::GetWindowHeight() };
+				state.contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
 
 				// set other menus's value false on same level
-				for (auto& sibling : _parentPtr->_children[1])
+				for (auto& sibling : info.parentPtr->childslots[1])
 				{
 					// ensure sibling
-					if (sibling->_type == mvAppItemType::mvMenu)
+					if (sibling->type == mvAppItemType::mvMenu)
 						*((mvMenu*)sibling.get())->_value = false;
 				}
 
 				// set current menu value true
 				*_value = true;
 
-				for (auto& item : _children[1])
+				for (auto& item : childslots[1])
 					item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 
 				if (ImGui::IsWindowFocused(ImGuiFocusedFlags_ChildWindows))
@@ -102,8 +103,8 @@ namespace Marvel {
 					GContext->input.mousePos.y = (int)y;
 
 
-					if (GContext->itemRegistry->activeWindow != _uuid)
-						GContext->itemRegistry->activeWindow = _uuid;
+					if (GContext->itemRegistry->activeWindow != uuid)
+						GContext->itemRegistry->activeWindow = uuid;
 
 
 				}
@@ -117,21 +118,21 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 
 		// set cursor position to cached position
-		if (_dirtyPos)
+		if (info.dirtyPos)
 			ImGui::SetCursorPos(previousCursorPos);
 
-		if (_indent > 0.0f)
-			ImGui::Unindent(_indent);
+		if (config.indent > 0.0f)
+			ImGui::Unindent(config.indent);
 
 		// pop font off stack
-		if (_font)
+		if (font)
 			ImGui::PopFont();
 
 		// handle popping themes
 		cleanup_local_theming(this);
 
-		if (_handlerRegistry)
-			_handlerRegistry->customAction(&_state);
+		if (handlerRegistry)
+			handlerRegistry->checkEvents(&state);
 
 		// handle drag & drop if used
 		apply_drag_drop(this);
@@ -142,7 +143,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 		 
-		if (PyObject* item = PyDict_GetItemString(dict, "enabled")) _enabled = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "enabled")) config.enabled = ToBool(item);
 
 	}
 
@@ -151,7 +152,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 		 
-		PyDict_SetItemString(dict, "enabled", mvPyObject(ToPyBool(_enabled)));
+		PyDict_SetItemString(dict, "enabled", mvPyObject(ToPyBool(config.enabled)));
 	}
 
 	PyObject* mvMenu::getPyValue()
@@ -166,8 +167,8 @@ namespace Marvel {
 
 	void mvMenu::setDataSource(mvUUID dataSource)
 	{
-		if (dataSource == _source) return;
-		_source = dataSource;
+		if (dataSource == config.source) return;
+		config.source = dataSource;
 
 		mvAppItem* item = GetItem((*GContext->itemRegistry), dataSource);
 		if (!item)
@@ -176,7 +177,7 @@ namespace Marvel {
 				"Source item not found: " + std::to_string(dataSource), this);
 			return;
 		}
-		if (GetEntityValueType(item->_type) != GetEntityValueType(_type))
+		if (GetEntityValueType(item->type) != GetEntityValueType(type))
 		{
 			mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
 				"Values types do not match: " + std::to_string(dataSource), this);

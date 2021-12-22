@@ -19,7 +19,7 @@ namespace Marvel {
 
     void mvPlotLegend::draw(ImDrawList* drawlist, float x, float y)
     {
-        if (!_show)
+        if (!config.show)
             return;
 
         if (_dirty)
@@ -28,26 +28,26 @@ namespace Marvel {
             _dirty = false;
         }
 
-        UpdateAppItemState(_state);
+        UpdateAppItemState(state);
 
-        if (_font)
+        if (font)
         {
             ImGui::PopFont();
         }
 
-        if (_theme)
+        if (theme)
         {
-            static_cast<mvTheme*>(_theme.get())->customAction();
+            static_cast<mvTheme*>(theme.get())->customAction();
         }
 
-        if (_dropCallback)
+        if (config.dropCallback)
         {
             if (ImPlot::BeginDragDropTargetLegend())
             {
-                if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(_payloadType.c_str()))
+                if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(config.payloadType.c_str()))
                 {
                     auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
-                    mvAddCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
+                    mvAddCallback(config.dropCallback, uuid, payloadActual->getDragData(), nullptr);
                 }
 
                 ImPlot::EndDragDropTarget();
@@ -64,24 +64,24 @@ namespace Marvel {
         if (PyObject* item = PyDict_GetItemString(dict, "horizontal")){ _horizontal = ToBool(item); _dirty = true;}
         if (PyObject* item = PyDict_GetItemString(dict, "outside")) {_outside = ToBool(item); _dirty = true;}
 
-        if (_shownLastFrame)
+        if (info.shownLastFrame)
         {
-            _shownLastFrame = false;
-            if (auto plot = static_cast<mvPlot*>(_parentPtr))
+            info.shownLastFrame = false;
+            if (auto plot = static_cast<mvPlot*>(info.parentPtr))
                 plot->removeFlag(ImPlotFlags_NoLegend);
-            else if (auto plot = static_cast<mvSubPlots*>(_parentPtr))
+            else if (auto plot = static_cast<mvSubPlots*>(info.parentPtr))
                 plot->removeFlag(ImPlotSubplotFlags_NoLegend);
-            _show = true;
+            config.show = true;
         }
 
-        if (_hiddenLastFrame)
+        if (info.hiddenLastFrame)
         {
-            _hiddenLastFrame = false;
-            if (auto plot = static_cast<mvPlot*>(_parentPtr))
+            info.hiddenLastFrame = false;
+            if (auto plot = static_cast<mvPlot*>(info.parentPtr))
                 plot->addFlag(ImPlotFlags_NoLegend);
-            else if (auto plot = static_cast<mvSubPlots*>(_parentPtr))
+            else if (auto plot = static_cast<mvSubPlots*>(info.parentPtr))
                 plot->addFlag(ImPlotSubplotFlags_NoLegend);
-            _show = false;
+            config.show = false;
         }
     }
 
@@ -98,7 +98,7 @@ namespace Marvel {
         if (dict == nullptr)
             return;
 
-        PyDict_SetItemString(dict, "location", mvPyObject(ToPyInt(_location)));
+        PyDict_SetItemString(dict, "location", mvPyObject(ToPyInt(info.location)));
         PyDict_SetItemString(dict, "horizontal", mvPyObject(ToPyBool(_horizontal)));
         PyDict_SetItemString(dict, "outside", mvPyObject(ToPyBool(_outside)));
 

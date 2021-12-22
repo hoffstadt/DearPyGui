@@ -27,10 +27,10 @@ namespace Marvel {
 
 	void mvDrawEllipse::draw(ImDrawList* drawlist, float x, float y)
 	{
-		mvVec4  tpmin = _transform * _pmin;
-		mvVec4  tpmax = _transform * _pmax;
+		mvVec4  tpmin = drawInfo->transform * _pmin;
+		mvVec4  tpmax = drawInfo->transform * _pmax;
 
-		if (_perspectiveDivide)
+		if (drawInfo->perspectiveDivide)
 		{
 			tpmin.x = tpmin.x / tpmin.w;
 			tpmin.y = tpmin.y / tpmin.w;
@@ -59,10 +59,10 @@ namespace Marvel {
 			_dirty = false;
 		}
 
-		if (_depthClipping)
+		if (drawInfo->depthClipping)
 		{
-			if (mvClipPoint(_clipViewport, tpmin)) return;
-			if (mvClipPoint(_clipViewport, tpmax)) return;
+			if (mvClipPoint(drawInfo->clipViewport, tpmin)) return;
+			if (mvClipPoint(drawInfo->clipViewport, tpmax)) return;
 		}
 
 		// this is disgusting; we should not be allocating
@@ -72,7 +72,7 @@ namespace Marvel {
 		finalpoints.reserve(_points.size());
 
 		for(auto& point : points)
-			point = _transform * point;
+			point = drawInfo->transform * point;
 
 		if (ImPlot::GetCurrentContext()->CurrentPlot)
 		{
@@ -107,7 +107,7 @@ namespace Marvel {
 
 	void mvDrawEllipse::handleSpecificRequiredArgs(PyObject* dict)
 	{
-		if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(_type)], dict))
+		if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)

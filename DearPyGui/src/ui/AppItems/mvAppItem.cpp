@@ -19,7 +19,7 @@ namespace Marvel {
             i32 index = 0;
             for (auto& child : children[i])
             {
-                child->_location = index;
+                child->info.location = index;
                 index++;
             }
         }
@@ -27,546 +27,122 @@ namespace Marvel {
 
     mvAppItem::mvAppItem(mvUUID uuid)
     {
-        _uuid = uuid;
-        _internalLabel = "###" + std::to_string(_uuid);
-        _state.parent = this;
+        this->uuid = uuid;
+        info.internalLabel = "###" + std::to_string(uuid);
+        state.parent = this;
     }
 
     mvAppItem::~mvAppItem()
     {
-        for (auto& childset : _children)
+        for (auto& childset : childslots)
         {
             childset.clear();
             childset.shrink_to_fit();
         }
-        onChildrenRemoved();
+
+        if (type == mvAppItemType::mvTable)
+            static_cast<mvTable*>(this)->onChildrenRemoved();
+        else if (type == mvAppItemType::mvTextureRegistry)
+            static_cast<mvTextureRegistry*>(this)->onChildrenRemoved();
 
         mvGlobalIntepreterLock gil;
-        if (_callback) Py_DECREF(_callback);
-        if (_user_data) Py_DECREF(_user_data);
-        if (_dragCallback) Py_DECREF(_dragCallback);
-        if (_dropCallback) Py_DECREF(_dropCallback);
+        if (config.callback) Py_DECREF(config.callback);
+        if (config.user_data) Py_DECREF(config.user_data);
+        if (config.dragCallback) Py_DECREF(config.dragCallback);
+        if (config.dropCallback) Py_DECREF(config.dropCallback);
 
         // in case item registry is destroyed
         if (GContext->itemRegistry)
         {
-            if (GContext->itemRegistry->aliases.count(_alias) != 0)
+            if (GContext->itemRegistry->aliases.count(config.alias) != 0)
             {
                 if (!GContext->IO.manualAliasManagement)
-                    GContext->itemRegistry->aliases.erase(_alias);
+                    GContext->itemRegistry->aliases.erase(config.alias);
             }
-            CleanUpItem(*GContext->itemRegistry, _uuid);
+            CleanUpItem(*GContext->itemRegistry, uuid);
         }
     }
 
     void 
     mvAppItem::applyTemplate(mvAppItem* item)
     {
-        _useInternalLabel = item->_useInternalLabel;
-        _tracked = item->_tracked;
-        _trackOffset = item->_trackOffset;
-        _searchLast = item->_searchLast;
-        _indent = item->_indent;
-        _show = item->_show;
-        _filter = item->_filter;
-        _payloadType = item->_payloadType;
-        _enabled = item->_enabled;
-        _source = item->_source;
-        _font = item->_font;
-        _theme = item->_theme;
-        _width = item->_width;
-        _height = item->_height;
-        _dirty_size = true;
-        //setPos(item->_state.pos);
+        config.useInternalLabel = item->config.useInternalLabel;
+        config.tracked = item->config.tracked;
+        config.trackOffset = item->config.trackOffset;
+        config.searchLast = item->config.searchLast;
+        config.indent = item->config.indent;
+        config.show = item->config.show;
+        config.filter = item->config.filter;
+        config.payloadType = item->config.payloadType;
+        config.enabled = item->config.enabled;
+        config.source = item->config.source;
+        font = item->font;
+        theme = item->theme;
+        config.width = item->config.width;
+        config.height = item->config.height;
+        info.dirty_size = true;
+        //setPos(item->state.pos);
 
-        if (!item->_specifiedLabel.empty())
+        if (!item->config.specifiedLabel.empty())
         {
-            _specifiedLabel = item->_specifiedLabel;
-            if (_useInternalLabel)
-                _internalLabel = item->_specifiedLabel + "###" + std::to_string(_uuid);
+            config.specifiedLabel = item->config.specifiedLabel;
+            if (config.useInternalLabel)
+                info.internalLabel = item->config.specifiedLabel + "###" + std::to_string(uuid);
             else
-                _internalLabel = item->_specifiedLabel;
+                info.internalLabel = item->config.specifiedLabel;
         }
 
-        if (_enabled) _enabledLastFrame = true;
-        else _disabledLastFrame = true;
+        if (config.enabled) info.enabledLastFrame = true;
+        else info.disabledLastFrame = true;
 
-        if (item->_callback)
+        if (item->config.callback)
         {
-            Py_XINCREF(item->_callback);
+            Py_XINCREF(item->config.callback);
 
-            if (item->_callback == Py_None)
-                _callback = nullptr;
+            if (item->config.callback == Py_None)
+                config.callback = nullptr;
             else
-                _callback = item->_callback;
-
-            
+                config.callback = item->config.callback;
+  
         }
 
-        if (item->_dragCallback)
+        if (item->config.dragCallback)
         {
-            Py_XINCREF(item->_dragCallback);
-            if (item->_dragCallback == Py_None)
-                _dragCallback = nullptr;
+            Py_XINCREF(item->config.dragCallback);
+            if (item->config.dragCallback == Py_None)
+                config.dragCallback = nullptr;
             else
-                _dragCallback = item->_dragCallback;
+                config.dragCallback = item->config.dragCallback;
         }
 
-        if (item->_dropCallback)
+        if (item->config.dropCallback)
         {
-            Py_XINCREF(item->_dropCallback);
-            if (item->_dropCallback == Py_None)
-                _dropCallback = nullptr;
+            Py_XINCREF(item->config.dropCallback);
+            if (item->config.dropCallback == Py_None)
+                config.dropCallback = nullptr;
             else
-                _dropCallback = item->_dropCallback;
+                config.dropCallback = item->config.dropCallback;
         }
 
-        if (item->_user_data)
+        if (item->config.user_data)
         {
-            Py_XINCREF(item->_user_data);
-            if (item->_user_data == Py_None)
-                _user_data = nullptr;
+            Py_XINCREF(item->config.user_data);
+            if (item->config.user_data == Py_None)
+                config.user_data = nullptr;
             else
-                _user_data = item->_user_data;
+                config.user_data = item->config.user_data;
         }
 
         applySpecificTemplate(item);
     }
 
-    b8 
-    mvAppItem::moveChildUp(mvUUID uuid)
-    {
-        b8 found = false;
-        i32 index = 0;
-
-        for (auto& childset : _children)
-        {
-            // check children
-            for (size_t i = 0; i < childset.size(); i++)
-            {
-
-                if (childset[i]->_uuid == uuid)
-                {
-                    found = true;
-                    index = (i32)i;
-                    break;
-                }
-
-                if (GetEntityDesciptionFlags(childset[i]->_type) & MV_ITEM_DESC_CONTAINER)
-                {
-                    found = childset[i]->moveChildUp(uuid);
-                    if (found)
-                        return true;
-                }
-
-            }
-
-            if (found)
-            {
-                if (index > 0)
-                {
-                    auto upperitem = childset[index - 1];
-                    auto loweritem = childset[index];
-
-                    childset[index] = upperitem;
-                    childset[index - 1] = loweritem;
-
-                    UpdateLocations(_children, 4);
-                }
-
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    b8 
-    mvAppItem::moveChildDown(mvUUID uuid)
-    {
-        b8 found = false;
-        size_t index = 0;
-
-        for (auto& childset : _children)
-        {
-            // check children
-            for (size_t i = 0; i < childset.size(); i++)
-            {
-
-                if (childset[i]->_uuid == uuid)
-                {
-                    found = true;
-                    index = i;
-                    break;
-                }
-
-                if (GetEntityDesciptionFlags(childset[i]->_type) & MV_ITEM_DESC_CONTAINER)
-                {
-                    found = childset[i]->moveChildDown(uuid);
-                    if (found)
-                        return true;
-                }
-
-            }
-
-            if (found)
-            {
-                if (index < childset.size() - 1)
-                {
-                    auto upperitem = childset[index];
-                    auto loweritem = childset[index + 1];
-
-                    childset[index] = loweritem;
-                    childset[index + 1] = upperitem;
-
-                    UpdateLocations(_children, 4);
-                }
-
-                return true;
-            }
-
-            
-        }
-
-        return false;
-    }
-
-    b8
-    mvAppItem::addRuntimeChild(mvUUID parent, mvUUID before, mvRef<mvAppItem> item)
-    {
-        if (before == 0 && parent == 0)
-            return false;
-
-        for (auto& children : _children)
-        {
-            //this is the container, add item to end.
-            if (before == 0)
-            {
-
-                if (_uuid == parent)
-                {
-                    i32 targetSlot = GetEntityTargetSlot(item->_type);
-                    item->_location = (i32)_children[targetSlot].size();
-                    _children[targetSlot].push_back(item);
-                    onChildAdd(item);
-                    item->_parentPtr = this;
-                    item->_parent = _uuid;
-                    return true;
-                }
-
-                // check children
-                for (auto& childslot : _children)
-                {
-                    for (auto& child : childslot)
-                    {
-                        if (GetEntityDesciptionFlags(child->_type) & MV_ITEM_DESC_CONTAINER
-                            || GetEntityDesciptionFlags(item->_type) & MV_ITEM_DESC_HANDLER)
-                        {
-                            // parent found
-                            if (child->addRuntimeChild(parent, before, item))
-                                return true;
-                        }
-                    }
-                }
-            }
-
-            // this is the container, add item to beginning.
-            else
-            {
-                bool beforeFound = false;
-
-                // check children
-                for (auto& child : children)
-                {
-
-                    if (child->_uuid == before)
-                    {
-                        beforeFound = true;
-                        break;
-                    }
-                }
-
-
-                // after item is in this container
-                if (beforeFound)
-                {
-                    item->_parentPtr = this;
-
-                    std::vector<mvRef<mvAppItem>> oldchildren = children;
-                    children.clear();
-
-                    for (auto& child : oldchildren)
-                    {
-                        if (child->_uuid == before)
-                        {
-                            children.push_back(item);
-                            onChildAdd(item);
-                        }
-                        children.push_back(child);
-
-                    }
-
-                    UpdateLocations(_children, 4);
-
-                    return true;
-                }
-            }
-
-            // check children
-            for (auto& child : children)
-            {
-                if (GetEntityDesciptionFlags(child->_type) & MV_ITEM_DESC_CONTAINER
-                    || GetEntityDesciptionFlags(item->_type) & MV_ITEM_DESC_HANDLER)
-                {
-                    // parent found
-                    if (child->addRuntimeChild(parent, before, item))
-                        return true;
-                }
-            }
-
-        };
-
-        return false;
-    }
-
-    b8
-    mvAppItem::addItem(mvRef<mvAppItem> item)
-    {
-        i32 targetSlot = GetEntityTargetSlot(item->_type);
-        item->_location = (i32)_children[targetSlot].size();
-        _children[targetSlot].push_back(item);
-        onChildAdd(item);
-        return true;
-    }
-
-    b8
-    mvAppItem::addChildAfter(mvUUID prev, mvRef<mvAppItem> item)
-    {
-        if (prev == 0)
-            return false;
-
-        b8 prevFound = false;
-
-        // check children
-        for (auto& childslot : _children)
-        {
-            for (auto& child : childslot)
-            {
-
-                if (child->_uuid == prev)
-                {
-                    item->_parentPtr = this;
-                    prevFound = true;
-                    break;
-                }
-
-            }
-        }
-
-        // prev item is in this container
-        if (prevFound)
-        {
-            //item->setParent(this);
-            i32 targetSlot = GetEntityTargetSlot(item->_type);
-            std::vector<mvRef<mvAppItem>> oldchildren = _children[targetSlot];
-            _children[targetSlot].clear();
-
-            for (auto& child : oldchildren)
-            {
-                _children[targetSlot].push_back(child);
-                if (child->_uuid == prev)
-                {
-                    _children[targetSlot].push_back(item);
-                    onChildAdd(item);
-                }
-            }
-
-            return true;
-        }
-
-
-        // check children
-        for (auto& childslot : _children)
-        {
-            for (auto& child : childslot)
-            {
-                // parent found
-                if (child->addChildAfter(prev, item))
-                    return true;
-            }
-        }
-
-        return false;
-    }
-
-    b8 
-    mvAppItem::deleteChild(mvUUID uuid)
-    {
-
-        for (auto& childset : _children)
-        {
-            b8 childfound = false;
-            b8 itemDeleted = false;
-
-            for (auto& item : childset)
-            {
-                if (item->_uuid == uuid)
-                {
-                    childfound = true;
-                    break;
-                }
-
-                itemDeleted = item->deleteChild(uuid);
-                if (itemDeleted)
-                    break;
-            }
-
-            if (childfound)
-            {
-                std::vector<mvRef<mvAppItem>> oldchildren = childset;
-
-                childset.clear();
-
-                for (auto& item : oldchildren)
-                {
-                    if (item->_uuid == uuid)
-                    {
-                        itemDeleted = true;
-                        onChildRemoved(item);
-                        continue;
-                    }
-
-                    childset.push_back(item);
-                }
-            }
-
-            if (itemDeleted)
-            {
-                UpdateLocations(_children, 4);
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    mvRef<mvAppItem>
-    mvAppItem::stealChild(mvUUID uuid)
-    {
-        mvRef<mvAppItem> stolenChild = nullptr;
-
-        for (auto& childset : _children)
-        {
-            b8 childfound = false;
-
-            for (auto& item : childset)
-            {
-                if (item->_uuid == uuid)
-                {
-                    childfound = true;
-                    break;
-                }
-
-                if (GetEntityDesciptionFlags(item->_type) & MV_ITEM_DESC_CONTAINER)
-                {
-                    stolenChild = item->stealChild(uuid);
-                    if (stolenChild)
-                        return stolenChild;
-                }
-            }
-
-            if (childfound)
-            {
-                std::vector<mvRef<mvAppItem>> oldchildren = childset;
-
-                childset.clear();
-
-                for (auto& item : oldchildren)
-                {
-                    if (item->_uuid == uuid)
-                    {
-                        stolenChild = item;
-                        onChildRemoved(item);
-                        continue;
-                    }
-
-                    childset.push_back(item);
-                }
-
-                UpdateLocations(_children, 4);
-
-                return stolenChild;
-            }
-
-
-            //return static_cast<mvRef<mvAppItem>>(CreateRef<mvButton>("Not possible"));
-        }
-
-        return stolenChild;
-    }
-
-    mvAppItem* 
-    mvAppItem::getChild(mvUUID uuid)
-    {
-
-        if (_uuid == uuid)
-            return this;
-
-        if (_searchLast)
-        {
-            if (_searchDelayed)
-                _searchDelayed = false;
-            else
-            {
-                _searchDelayed = true;
-                DelaySearch(*GContext->itemRegistry, this);
-                return nullptr;
-            }
-        }
-
-        for (auto& childset : _children)
-        {
-            for (auto& item : childset)
-            {
-                if (item->_uuid == uuid)
-                    return item.get();
-
-                auto child = item->getChild(uuid);
-                if (child)
-                    return child;
-            }
-        }
-
-        return nullptr;
-    }
-
-    mvRef<mvAppItem> 
-    mvAppItem::getChildRef(mvUUID uuid)
-    {
-
-        for (auto& childset : _children)
-        {
-            for (auto& item : childset)
-            {
-                if (item->_uuid == uuid)
-                    return item;
-
-                auto child = item->getChildRef(uuid);
-                if (child)
-                    return child;
-            }
-        }
-
-        return nullptr;
-    }
-
     PyObject* 
     mvAppItem::getCallback(bool ignore_enabled)
     {
-        if (_enabled)
-            return _callback;
+        if (config.enabled)
+            return config.callback;
 
-        return ignore_enabled ? _callback : nullptr;
+        return ignore_enabled ? config.callback : nullptr;
     }
 
     void 
@@ -585,52 +161,52 @@ namespace Marvel {
             return;
         }
 
-        if (PyObject* item = PyDict_GetItemString(dict, "use_internal_label")) _useInternalLabel = ToBool(item); // must be before label
+        if (PyObject* item = PyDict_GetItemString(dict, "use_internal_label")) config.useInternalLabel = ToBool(item); // must be before label
 
         if (PyObject* item = PyDict_GetItemString(dict, "label"))
         {
             if (item != Py_None)
             {
                 const std::string label = ToString(item);
-                _specifiedLabel = label;
-                if (_useInternalLabel)
-                    _internalLabel = label + "###" + std::to_string(_uuid);
+                config.specifiedLabel = label;
+                if (config.useInternalLabel)
+                    info.internalLabel = label + "###" + std::to_string(uuid);
                 else
-                    _internalLabel = label;
+                    info.internalLabel = label;
             }
         }
 
         if (PyObject* item = PyDict_GetItemString(dict, "width"))
         {
-            _dirty_size = true;
-            _width = ToInt(item);
+            info.dirty_size = true;
+            config.width = ToInt(item);
         }
         if (PyObject* item = PyDict_GetItemString(dict, "height"))
         {
-            _dirty_size = true;
-            _height = ToInt(item);
+            info.dirty_size = true;
+            config.height = ToInt(item);
         }
 
         if (PyObject* item = PyDict_GetItemString(dict, "pos")) {
             std::vector<f32> position = ToFloatVect(item);
             if (!position.empty())
             {
-                _dirtyPos = true;
-                _state.pos = mvVec2{ position[0], position[1] };
+                info.dirtyPos = true;
+                state.pos = mvVec2{ position[0], position[1] };
             }
         }
-        if (PyObject* item = PyDict_GetItemString(dict, "indent")) _indent = (f32)ToInt(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "indent")) config.indent = (f32)ToInt(item);
         if (PyObject* item = PyDict_GetItemString(dict, "show")) 
         {
-            _show = ToBool(item);
-            if (_show)
-                _shownLastFrame = true;
+            config.show = ToBool(item);
+            if (config.show)
+                info.shownLastFrame = true;
             else
-                _hiddenLastFrame = true;
+                info.hiddenLastFrame = true;
         }
 
-        if (PyObject* item = PyDict_GetItemString(dict, "filter_key")) _filter = ToString(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "payload_type")) _payloadType = ToString(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "filter_key")) config.filter = ToString(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "payload_type")) config.payloadType = ToString(item);
         if (PyObject* item = PyDict_GetItemString(dict, "source"))
         {
             if (isPyObject_Int(item))
@@ -645,76 +221,76 @@ namespace Marvel {
         {
             b8 value = ToBool(item);
 
-            if (_enabled != value)
+            if (config.enabled != value)
             {
-                _enabled = value;
+                config.enabled = value;
 
                 if (value)
-                    _enabledLastFrame = true;
+                    info.enabledLastFrame = true;
                 else
-                    _disabledLastFrame = true;
+                    info.disabledLastFrame = true;
             }
         }
-        if (PyObject* item = PyDict_GetItemString(dict, "tracked")) _tracked = ToBool(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "delay_search")) _searchLast = ToBool(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "tracked")) config.tracked = ToBool(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "delay_search")) config.searchLast = ToBool(item);
         if (PyObject* item = PyDict_GetItemString(dict, "track_offset"))
         {
-            _trackOffset = ToFloat(item);
+            config.trackOffset = ToFloat(item);
         }
         if (PyObject* item = PyDict_GetItemString(dict, "default_value"))
         {
-            if(_source == 0)
+            if(config.source == 0)
                 setPyValue(item);
         }
 
         if (PyObject* item = PyDict_GetItemString(dict, "callback"))
         {
-            if (_callback)
-                Py_XDECREF(_callback);
+            if (config.callback)
+                Py_XDECREF(config.callback);
 
             // TODO: investigate if PyNone should be increffed
             Py_XINCREF(item);
             if (item == Py_None)
-                _callback = nullptr;
+                config.callback = nullptr;
             else
-                _callback = item;
+                config.callback = item;
         }
 
         if (PyObject* item = PyDict_GetItemString(dict, "drag_callback"))
         {
-            if (_dragCallback)
-                Py_XDECREF(_dragCallback);
+            if (config.dragCallback)
+                Py_XDECREF(config.dragCallback);
 
             Py_XINCREF(item);
             if (item == Py_None)
-                _dragCallback = nullptr;
+                config.dragCallback = nullptr;
             else
-                _dragCallback = item;
+                config.dragCallback = item;
         }
 
         if (PyObject* item = PyDict_GetItemString(dict, "drop_callback"))
         {
-            if (_dropCallback)
-                Py_XDECREF(_dropCallback);
+            if (config.dropCallback)
+                Py_XDECREF(config.dropCallback);
 
             Py_XINCREF(item);
 
             if (item == Py_None)
-                _dropCallback = nullptr;
+                config.dropCallback = nullptr;
             else
-                _dropCallback = item;
+                config.dropCallback = item;
         }
 
         if (PyObject* item = PyDict_GetItemString(dict, "user_data"))
         {
-            if (_user_data)
-                Py_XDECREF(_user_data);
+            if (config.user_data)
+                Py_XDECREF(config.user_data);
             
             Py_XINCREF(item);
             if (item == Py_None)
-                _user_data = nullptr;
+                config.user_data = nullptr;
             else
-                _user_data = item;
+                config.user_data = item;
         }
 
         handleSpecificKeywordArgs(dict);
@@ -723,7 +299,7 @@ namespace Marvel {
     void 
     mvAppItem::setDataSource(mvUUID value)
     {
-        _source = value; 
+        config.source = value; 
     }
 
     mv_internal bool
@@ -1333,6 +909,26 @@ namespace Marvel {
     {
         switch (type)
         {
+
+        case mvAppItemType::mvDrawBezierCubic:
+        case mvAppItemType::mvDrawBezierQuadratic:
+        case mvAppItemType::mvDrawCircle:
+        case mvAppItemType::mvDrawEllipse:
+        case mvAppItemType::mvDrawImage:
+        case mvAppItemType::mvDrawImageQuad:
+        case mvAppItemType::mvDrawLine:
+        case mvAppItemType::mvDrawPolygon:
+        case mvAppItemType::mvDrawPolyline:
+        case mvAppItemType::mvDrawQuad:
+        case mvAppItemType::mvDrawRect:
+        case mvAppItemType::mvDrawText:
+        case mvAppItemType::mvDrawTriangle:
+        case mvAppItemType::mvDrawArrow: return MV_ITEM_DESC_DRAW_CMP;
+
+        case mvAppItemType::mvDrawNode:
+        case mvAppItemType::mvDrawLayer:
+        case mvAppItemType::mvDrawlist: return MV_ITEM_DESC_DRAW_CMP | MV_ITEM_DESC_CONTAINER;
+
         case mvAppItemType::mvThemeComponent:
         case mvAppItemType::mvTable:
         case mvAppItemType::mvTableCell:
@@ -1362,9 +958,6 @@ namespace Marvel {
         case mvAppItemType::mvNodeAttribute:
         case mvAppItemType::mvNodeEditor:
         case mvAppItemType::mvFont:
-        case mvAppItemType::mvDrawLayer:
-        case mvAppItemType::mvDrawlist:
-        case mvAppItemType::mvDrawNode:
         case mvAppItemType::mvTreeNode:
         case mvAppItemType::mvTab:
         case mvAppItemType::mvTabBar:
@@ -1376,7 +969,6 @@ namespace Marvel {
         case mvAppItemType::mvChildWindow:
         case mvAppItemType::mvFilterSet: return MV_ITEM_DESC_CONTAINER;
 
-        case mvAppItemType::mvTooltip:
         case mvAppItemType::mvActivatedHandler:
         case mvAppItemType::mvActiveHandler:
         case mvAppItemType::mvClickedHandler:
@@ -1387,7 +979,9 @@ namespace Marvel {
         case mvAppItemType::mvHoverHandler:
         case mvAppItemType::mvResizeHandler:
         case mvAppItemType::mvToggledOpenHandler:
-        case mvAppItemType::mvVisibleHandler:
+        case mvAppItemType::mvVisibleHandler: return MV_ITEM_DESC_HANDLER;
+
+        case mvAppItemType::mvTooltip:
         case mvAppItemType::mvDragPayload: return MV_ITEM_DESC_CONTAINER | MV_ITEM_DESC_HANDLER;
 
         case mvAppItemType::mvTheme:
@@ -1555,7 +1149,7 @@ namespace Marvel {
     mvRef<mvAppItem>
     CreateEntity(mvAppItemType type, mvUUID id)
     {
-        #define X(el) case mvAppItemType::el: {auto item = CreateRef<el>(id); item->_type = mvAppItemType::el; return item;};
+        #define X(el) case mvAppItemType::el: {auto item = CreateRef<el>(id); item->type = mvAppItemType::el; return item;};
         switch (type)
         {
             MV_ITEM_TYPES
@@ -2109,32 +1703,32 @@ namespace Marvel {
         #undef MV_END_CHILDREN
     }
 
-    mvRef<mvAppItem>&
+    mvRef<mvThemeComponent>&
     GetClassThemeComponent(mvAppItemType type)
     {
-        #define X(el) case mvAppItemType::el: { mv_local_persist mvRef<mvAppItem> s_class_theme = nullptr; return s_class_theme; }
+        #define X(el) case mvAppItemType::el: { mv_local_persist mvRef<mvThemeComponent> s_class_theme = nullptr; return s_class_theme; }
         switch (type)
         {
         MV_ITEM_TYPES
         default:
             {
-                mv_local_persist mvRef<mvAppItem> s_class_theme = nullptr;
+                mv_local_persist mvRef<mvThemeComponent> s_class_theme = nullptr;
                 return s_class_theme;
             }
         }
         #undef X
     }
 
-    mvRef<mvAppItem>&
+    mvRef<mvThemeComponent>&
     GetDisabledClassThemeComponent(mvAppItemType type)
     {
-        #define X(el) case mvAppItemType::el: { mv_local_persist mvRef<mvAppItem> s_class_theme = nullptr; return s_class_theme; }
+        #define X(el) case mvAppItemType::el: { mv_local_persist mvRef<mvThemeComponent> s_class_theme = nullptr; return s_class_theme; }
         switch (type)
         {
         MV_ITEM_TYPES
         default:
             {
-                mv_local_persist mvRef<mvAppItem> s_class_theme = nullptr;
+                mv_local_persist mvRef<mvThemeComponent> s_class_theme = nullptr;
                 return s_class_theme;
             }
         }

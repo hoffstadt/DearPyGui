@@ -7,6 +7,7 @@
 #include "AppItems/fonts/mvFont.h"
 #include "AppItems/themes/mvTheme.h"
 #include "AppItems/containers/mvDragPayload.h"
+#include "AppItems/widget_handlers/mvItemHandlerRegistry.h"
 
 namespace Marvel {
 
@@ -18,7 +19,7 @@ namespace Marvel {
 	void mvProgressBar::applySpecificTemplate(mvAppItem* item)
 	{
 		auto titem = static_cast<mvProgressBar*>(item);
-		if (_source != 0) _value = titem->_value;
+		if (config.source != 0) _value = titem->_value;
 		_disabled_value = titem->_disabled_value;
 		_overlay = titem->_overlay;
 	}
@@ -35,8 +36,8 @@ namespace Marvel {
 
 	void mvProgressBar::setDataSource(mvUUID dataSource)
 	{
-		if (dataSource == _source) return;
-		_source = dataSource;
+		if (dataSource == config.source) return;
+		config.source = dataSource;
 
 		mvAppItem* item = GetItem((*GContext->itemRegistry), dataSource);
 		if (!item)
@@ -45,7 +46,7 @@ namespace Marvel {
 				"Source item not found: " + std::to_string(dataSource), this);
 			return;
 		}
-		if (GetEntityValueType(item->_type) != GetEntityValueType(_type))
+		if (GetEntityValueType(item->type) != GetEntityValueType(type))
 		{
 			mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
 				"Values types do not match: " + std::to_string(dataSource), this);
@@ -62,38 +63,38 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 
 		// show/hide
-		if (!_show)
+		if (!config.show)
 			return;
 
 		// focusing
-		if (_focusNextFrame)
+		if (info.focusNextFrame)
 		{
 			ImGui::SetKeyboardFocusHere();
-			_focusNextFrame = false;
+			info.focusNextFrame = false;
 		}
 
 		// cache old cursor position
 		ImVec2 previousCursorPos = ImGui::GetCursorPos();
 
 		// set cursor position if user set
-		if (_dirtyPos)
-			ImGui::SetCursorPos(_state.pos);
+		if (info.dirtyPos)
+			ImGui::SetCursorPos(state.pos);
 
 		// update widget's position state
-		_state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
+		state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
 
 		// set item width
-		if (_width != 0)
-			ImGui::SetNextItemWidth((float)_width);
+		if (config.width != 0)
+			ImGui::SetNextItemWidth((float)config.width);
 
 		// set indent
-		if (_indent > 0.0f)
-			ImGui::Indent(_indent);
+		if (config.indent > 0.0f)
+			ImGui::Indent(config.indent);
 
 		// push font if a font object is attached
-		if (_font)
+		if (font)
 		{
-			ImFont* fontptr = static_cast<mvFont*>(_font.get())->getFontPtr();
+			ImFont* fontptr = static_cast<mvFont*>(font.get())->getFontPtr();
 			ImGui::PushFont(fontptr);
 		}
 
@@ -105,37 +106,37 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		{
 
-			ScopedID id(_uuid);
+			ScopedID id(uuid);
 
-			ImGui::ProgressBar(*_value, ImVec2((float)_width, (float)_height), _overlay.c_str());
+			ImGui::ProgressBar(*_value, ImVec2((float)config.width, (float)config.height), _overlay.c_str());
 
 		}
 
 		//-----------------------------------------------------------------------------
 		// update state
 		//-----------------------------------------------------------------------------
-		UpdateAppItemState(_state);
+		UpdateAppItemState(state);
 
 		//-----------------------------------------------------------------------------
 		// post draw
 		//-----------------------------------------------------------------------------
 
 		// set cursor position to cached position
-		if (_dirtyPos)
+		if (info.dirtyPos)
 			ImGui::SetCursorPos(previousCursorPos);
 
-		if (_indent > 0.0f)
-			ImGui::Unindent(_indent);
+		if (config.indent > 0.0f)
+			ImGui::Unindent(config.indent);
 
 		// pop font off stack
-		if (_font)
+		if (font)
 			ImGui::PopFont();
 		
 		// handle popping themes
 		cleanup_local_theming(this);
 
-		if (_handlerRegistry)
-			_handlerRegistry->customAction(&_state);
+		if (handlerRegistry)
+			handlerRegistry->checkEvents(&state);
 
 		// handle drag & drop if used
 		apply_drag_drop(this);

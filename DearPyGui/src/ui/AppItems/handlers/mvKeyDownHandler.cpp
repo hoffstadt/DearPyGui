@@ -30,10 +30,10 @@ namespace Marvel {
 				{
 					mvSubmitCallback([=]()
 						{
-							if(_alias.empty())
-								mvRunCallback(getCallback(false), _uuid, ToPyMPair(i, ImGui::GetIO().KeysDownDuration[i]), _user_data);
+							if(config.alias.empty())
+								mvRunCallback(getCallback(false), uuid, ToPyMPair(i, ImGui::GetIO().KeysDownDuration[i]), config.user_data);
 							else
-								mvRunCallback(getCallback(false), _alias, ToPyMPair(i, ImGui::GetIO().KeysDownDuration[i]), _user_data);
+								mvRunCallback(getCallback(false), config.alias, ToPyMPair(i, ImGui::GetIO().KeysDownDuration[i]), config.user_data);
 						});
 				}
 			}
@@ -43,17 +43,17 @@ namespace Marvel {
 		{
 			mvSubmitCallback([=]()
 				{
-					if (_alias.empty())
-						mvRunCallback(getCallback(false), _uuid, ToPyMPair(_key, ImGui::GetIO().KeysDownDuration[_key]), _user_data);
+					if(config.alias.empty())
+						mvRunCallback(getCallback(false), uuid, ToPyMPair(_key, ImGui::GetIO().KeysDownDuration[_key]), config.user_data);
 					else
-						mvRunCallback(getCallback(false), _alias, ToPyMPair(_key, ImGui::GetIO().KeysDownDuration[_key]), _user_data);
+						mvRunCallback(getCallback(false), config.alias, ToPyMPair(_key, ImGui::GetIO().KeysDownDuration[_key]), config.user_data);
 				});
 		}
 	}
 
 	void mvKeyDownHandler::handleSpecificRequiredArgs(PyObject* dict)
 	{
-		if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(_type)], dict))
+		if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)

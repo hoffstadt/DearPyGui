@@ -20,26 +20,26 @@ namespace Marvel {
 	void mvDrawNode::draw(ImDrawList* drawlist, float x, float y)
 	{
 
-        for (auto& item : _children[2])
+        for (auto& item : childslots[2])
         {
             // skip item if it's not shown
-            if (!item->_show)
+            if (!item->config.show)
                 continue;
 
-            item->_transform =   _transform * _appliedTransform;
+            item->drawInfo->transform =   drawInfo->transform * drawInfo->appliedTransform;
 
-            item->_perspectiveDivide = _perspectiveDivide;
-            item->_depthClipping = _depthClipping;
-            item->_cullMode = _cullMode;
-            item->_clipViewport[0] = _clipViewport[0];
-            item->_clipViewport[1] = _clipViewport[1];
-            item->_clipViewport[2] = _clipViewport[2];
-            item->_clipViewport[3] = _clipViewport[3];
-            item->_clipViewport[4] = _clipViewport[4];
-            item->_clipViewport[5] = _clipViewport[5];
+            item->drawInfo->perspectiveDivide = drawInfo->perspectiveDivide;
+            item->drawInfo->depthClipping = drawInfo->depthClipping;
+            item->drawInfo->cullMode = drawInfo->cullMode;
+            item->drawInfo->clipViewport[0] = drawInfo->clipViewport[0];
+            item->drawInfo->clipViewport[1] = drawInfo->clipViewport[1];
+            item->drawInfo->clipViewport[2] = drawInfo->clipViewport[2];
+            item->drawInfo->clipViewport[3] = drawInfo->clipViewport[3];
+            item->drawInfo->clipViewport[4] = drawInfo->clipViewport[4];
+            item->drawInfo->clipViewport[5] = drawInfo->clipViewport[5];
             item->draw(drawlist, x, y);
 
-            UpdateAppItemState(item->_state);
+            UpdateAppItemState(item->state);
         }
 	}
 

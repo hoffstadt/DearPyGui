@@ -40,16 +40,16 @@ namespace Marvel {
 
         // build up flags for current node
         const auto node_flags = ImGuiTreeNodeFlags_OpenOnArrow
-            | ((item->_uuid == m_selectedItem) ? ImGuiTreeNodeFlags_Selected : 0)
-            | (GetEntityDesciptionFlags(item->_type) & MV_ITEM_DESC_CONTAINER ? 0 : ImGuiTreeNodeFlags_Leaf);
+            | ((item->uuid == m_selectedItem) ? ImGuiTreeNodeFlags_Selected : 0)
+            | (GetEntityDesciptionFlags(item->type) & MV_ITEM_DESC_CONTAINER ? 0 : ImGuiTreeNodeFlags_Leaf);
 
         // render this node
         ImGui::PushID(item.get());
-        std::string labelToShow = GetEntityTypeString(item->_type);
-        if (!item->_alias.empty())
-            labelToShow = item->_alias;
-        else if (!item->_specifiedLabel.empty())
-            labelToShow = item->_specifiedLabel;
+        std::string labelToShow = GetEntityTypeString(item->type);
+        if (!item->config.alias.empty())
+            labelToShow = item->config.alias;
+        else if (!item->config.specifiedLabel.empty())
+            labelToShow = item->config.specifiedLabel;
 
 
         if (!_imguiFilter.PassFilter(labelToShow.c_str()) && _startFiltering)
@@ -60,23 +60,23 @@ namespace Marvel {
 
         const auto expanded = ImGui::TreeNodeEx(labelToShow.c_str(), node_flags);
 
-        if (item->_uuid == m_selectedItem)
+        if (item->uuid == m_selectedItem)
             _startFiltering = true;
         
         // processing for selecting node
         if (ImGui::IsItemClicked())
         {
-            m_selectedItem = item->_uuid;
+            m_selectedItem = item->uuid;
             _itemref = item;
             m_dirtyNodes = true;
         }
 
-        if (!(GetEntityDesciptionFlags(item->_type) & MV_ITEM_DESC_CONTAINER))
+        if (!(GetEntityDesciptionFlags(item->type) & MV_ITEM_DESC_CONTAINER))
         {
             if(expanded)
                 ImGui::TreePop();
             ImGui::PopID();
-            if (item->_uuid == m_selectedItem)
+            if (item->uuid == m_selectedItem)
                 _startFiltering = false;
             return;
         }
@@ -85,7 +85,7 @@ namespace Marvel {
         {
 
             int i = 0;
-            for (auto& childrenSet : item->_children)
+            for (auto& childrenSet : item->childslots)
             {
 
                 std::string title = "Child Slot: " + std::to_string(i++);
@@ -111,7 +111,7 @@ namespace Marvel {
 
         ImGui::PopID();
 
-        if (item->_uuid == m_selectedItem)
+        if (item->uuid == m_selectedItem)
             _startFiltering = false;
 
     }
@@ -126,8 +126,8 @@ namespace Marvel {
         else if(_itemref == nullptr)
             return;
 
-        if (_itemref->_parentPtr)
-            parentName = _itemref->_parentPtr->_uuid;
+        if (_itemref->info.parentPtr)
+            parentName = _itemref->info.parentPtr->uuid;
 
         // left side
         ImGui::BeginGroup();
@@ -160,15 +160,15 @@ namespace Marvel {
         if (ImGui::Button("Show"))
         {
             mvAppItem* tempItem = GetItem(*GContext->itemRegistry, m_selectedItem);
-            tempItem->_show = true;
-            tempItem->_shownLastFrame = true;
+            tempItem->config.show = true;
+            tempItem->info.shownLastFrame = true;
         }
         ImGui::SameLine();
         if (ImGui::Button("Hide"))
         {
             mvAppItem* tempItem = GetItem(*GContext->itemRegistry, m_selectedItem);
-            tempItem->_show = false;
-            tempItem->_hiddenLastFrame = true;
+            tempItem->config.show = false;
+            tempItem->info.hiddenLastFrame = true;
         }
         ImGui::SameLine();
         ImGui::Checkbox("Show Slots###layout", &_slots);
@@ -177,64 +177,64 @@ namespace Marvel {
         mv_local_persist char ts[6] = "True";
         mv_local_persist char fs[6] = "False";
 
-        std::string width = std::to_string(_itemref->_width);
-        std::string height = std::to_string(_itemref->_height);
+        std::string width = std::to_string(_itemref->config.width);
+        std::string height = std::to_string(_itemref->config.height);
 
-        std::string sizex = std::to_string(_itemref->_state.rectSize.x);
-        std::string sizey = std::to_string(_itemref->_state.rectSize.y);
+        std::string sizex = std::to_string(_itemref->state.rectSize.x);
+        std::string sizey = std::to_string(_itemref->state.rectSize.y);
 
         ImGui::PushID(_itemref.get());
-        DebugItem("Label:", _itemref->_specifiedLabel.c_str());
-        DebugItem("ID:", std::to_string(_itemref->_uuid).c_str());
-        DebugItem("Alias:", _itemref->_alias.c_str());
-        DebugItem("Type:", GetEntityTypeString(_itemref->_type));
-        DebugItem("Filter:", _itemref->_filter.c_str());
-        DebugItem("Payload Type:", _itemref->_payloadType.c_str());
-        DebugItem("Location:", std::to_string(_itemref->_location).c_str());
-        DebugItem("Track Offset:", std::to_string(_itemref->_trackOffset).c_str());
-        DebugItem("Container:", GetEntityDesciptionFlags(_itemref->_type) & MV_ITEM_DESC_CONTAINER ? ts : fs);
+        DebugItem("Label:", _itemref->config.specifiedLabel.c_str());
+        DebugItem("ID:", std::to_string(_itemref->uuid).c_str());
+        DebugItem("Alias:", _itemref->config.alias.c_str());
+        DebugItem("Type:", GetEntityTypeString(_itemref->type));
+        DebugItem("Filter:", _itemref->config.filter.c_str());
+        DebugItem("Payload Type:", _itemref->config.payloadType.c_str());
+        DebugItem("Location:", std::to_string(_itemref->info.location).c_str());
+        DebugItem("Track Offset:", std::to_string(_itemref->config.trackOffset).c_str());
+        DebugItem("Container:", GetEntityDesciptionFlags(_itemref->type) & MV_ITEM_DESC_CONTAINER ? ts : fs);
         DebugItem("Width:", width.c_str());
         DebugItem("Height:", height.c_str());
         DebugItem("Size x:", sizex.c_str());
         DebugItem("Size y:", sizey.c_str());
-        DebugItem("Show:", _itemref->_show ? ts : fs);
-        DebugItem("Enabled:", _itemref->_enabled ? ts : fs);
-        DebugItem("Tracked:", _itemref->_tracked ? ts : fs);
-        DebugItem("Callback:", _itemref->_callback ? ts : fs);
-        DebugItem("User Data:", _itemref->_user_data ? ts : fs);
-        DebugItem("Drop Callback:", _itemref->_dropCallback ? ts : fs);
-        DebugItem("Drag Callback:", _itemref->_dragCallback ? ts : fs);
+        DebugItem("Show:", _itemref->config.show ? ts : fs);
+        DebugItem("Enabled:", _itemref->config.enabled ? ts : fs);
+        DebugItem("Tracked:", _itemref->config.tracked ? ts : fs);
+        DebugItem("Callback:", _itemref->config.callback ? ts : fs);
+        DebugItem("User Data:", _itemref->config.user_data ? ts : fs);
+        DebugItem("Drop Callback:", _itemref->config.dropCallback ? ts : fs);
+        DebugItem("Drag Callback:", _itemref->config.dragCallback ? ts : fs);
 
         ImGui::Spacing();
         ImGui::Spacing();
         ImGui::Spacing();
         ImGui::Text("Bindings");
         ImGui::Separator();
-        DebugItem("Theme Bound:", _itemref->_theme ? ts : fs);
-        DebugItem("Font Bound:", _itemref->_font ? ts : fs);
-        DebugItem("Handlers Bound:", _itemref->_handlerRegistry ? ts : fs);
+        DebugItem("Theme Bound:", _itemref->theme ? ts : fs);
+        DebugItem("Font Bound:", _itemref->font ? ts : fs);
+        DebugItem("Handlers Bound:", _itemref->handlerRegistry ? ts : fs);
 
-        int applicableState = GetApplicableState(_itemref->_type);
+        int applicableState = GetApplicableState(_itemref->type);
         ImGui::Spacing();
         ImGui::Spacing();
         ImGui::Spacing();
         ImGui::Text("State");
         ImGui::Separator();
-        if (applicableState & MV_STATE_VISIBLE) DebugItem("Item Visible:", IsItemVisible(_itemref->_state, 1) ? ts : fs);
-        if (applicableState & MV_STATE_HOVER) DebugItem("Item Hovered:", IsItemHovered(_itemref->_state, 1) ? ts : fs);
-        if (applicableState & MV_STATE_ACTIVE) DebugItem("Item Active:", IsItemActive(_itemref->_state, 1) ? ts : fs);
-        if (applicableState & MV_STATE_FOCUSED) DebugItem("Item Focused:", IsItemFocused(_itemref->_state, 1) ? ts : fs);
+        if (applicableState & MV_STATE_VISIBLE) DebugItem("Item Visible:", IsItemVisible(_itemref->state, 1) ? ts : fs);
+        if (applicableState & MV_STATE_HOVER) DebugItem("Item Hovered:", IsItemHovered(_itemref->state, 1) ? ts : fs);
+        if (applicableState & MV_STATE_ACTIVE) DebugItem("Item Active:", IsItemActive(_itemref->state, 1) ? ts : fs);
+        if (applicableState & MV_STATE_FOCUSED) DebugItem("Item Focused:", IsItemFocused(_itemref->state, 1) ? ts : fs);
         if (applicableState & MV_STATE_CLICKED)
         {
-            DebugItem("Item Left Clicked:", IsItemLeftClicked(_itemref->_state, 1) ? ts : fs);
-            DebugItem("Item Right Clicked:", IsItemRightClicked(_itemref->_state, 1) ? ts : fs);
-            DebugItem("Item Middle Clicked:", IsItemMiddleClicked(_itemref->_state, 1) ? ts : fs);
+            DebugItem("Item Left Clicked:", IsItemLeftClicked(_itemref->state, 1) ? ts : fs);
+            DebugItem("Item Right Clicked:", IsItemRightClicked(_itemref->state, 1) ? ts : fs);
+            DebugItem("Item Middle Clicked:", IsItemMiddleClicked(_itemref->state, 1) ? ts : fs);
         }
-        if (applicableState & MV_STATE_EDITED) DebugItem("Item Edited:", IsItemEdited(_itemref->_state, 1) ? ts : fs);
-        if (applicableState & MV_STATE_ACTIVATED) DebugItem("Item Activated:", IsItemActivated(_itemref->_state, 1) ? ts : fs);
-        if (applicableState & MV_STATE_DEACTIVATED) DebugItem("Item Deactivated:", IsItemDeactivated(_itemref->_state, 1) ? ts : fs);
-        if (applicableState & MV_STATE_DEACTIVATEDAE) DebugItem("Item DeactivatedAfterEdit:", IsItemDeactivatedAfterEdit(_itemref->_state, 1) ? ts : fs);
-        if (applicableState & MV_STATE_TOGGLED_OPEN) DebugItem("Item ToggledOpen:", IsItemToogledOpen(_itemref->_state, 1) ? ts : fs);
+        if (applicableState & MV_STATE_EDITED) DebugItem("Item Edited:", IsItemEdited(_itemref->state, 1) ? ts : fs);
+        if (applicableState & MV_STATE_ACTIVATED) DebugItem("Item Activated:", IsItemActivated(_itemref->state, 1) ? ts : fs);
+        if (applicableState & MV_STATE_DEACTIVATED) DebugItem("Item Deactivated:", IsItemDeactivated(_itemref->state, 1) ? ts : fs);
+        if (applicableState & MV_STATE_DEACTIVATEDAE) DebugItem("Item DeactivatedAfterEdit:", IsItemDeactivatedAfterEdit(_itemref->state, 1) ? ts : fs);
+        if (applicableState & MV_STATE_TOGGLED_OPEN) DebugItem("Item ToggledOpen:", IsItemToogledOpen(_itemref->state, 1) ? ts : fs);
 
         ImGui::PopID();
         ImGui::EndChild();

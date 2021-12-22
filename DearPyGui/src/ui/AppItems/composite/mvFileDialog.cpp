@@ -17,8 +17,8 @@ namespace Marvel {
 		mvAppItem(uuid)
 	{
 		*_value = true;
-		_width = 500;
-		_height = 500;
+		config.width = 500;
+		config.height = 500;
 	}
 
 	ImGuiFileDialog& mvFileDialog::getDialog()
@@ -28,23 +28,23 @@ namespace Marvel {
 
 	void mvFileDialog::drawPanel()
 	{
-		for (auto& item : _children[1])
+		for (auto& item : childslots[1])
 			item->draw(ImGui::GetWindowDrawList(), ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 
 	}
 
 	void mvFileDialog::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ScopedID id(_uuid);
+		ScopedID id(uuid);
 
-		if (!_show)
+		if (!config.show)
 			return;
 
 		// extensions
 		if (_dirtySettings)
 		{
 			_filters.clear();
-			for (auto& item : _children[0])
+			for (auto& item : childslots[0])
 			{
 				item->draw(drawlist, x, y);
 				_filters.append(static_cast<mvFileExtension*>(item.get())->_extension);
@@ -59,12 +59,12 @@ namespace Marvel {
 		ImGui::PushStyleColor(ImGuiCol_Header, style->Colors[ImGuiCol_FrameBgActive]);
 
 		// without panel
-		if (_children[1].empty())
+		if (childslots[1].empty())
 		{
 			if (_modal)
-				_instance.OpenModal(_internalLabel.c_str(), _internalLabel.c_str(), _directory ? nullptr : _filters.c_str(), _defaultPath, _defaultFilename, _fileCount);
+				_instance.OpenModal(info.internalLabel.c_str(), info.internalLabel.c_str(), _directory ? nullptr : _filters.c_str(), _defaultPath, _defaultFilename, _fileCount);
 			else
-				_instance.OpenDialog(_internalLabel.c_str(), _internalLabel.c_str(), _directory ? nullptr : _filters.c_str(), _defaultPath, _defaultFilename, _fileCount);
+				_instance.OpenDialog(info.internalLabel.c_str(), info.internalLabel.c_str(), _directory ? nullptr : _filters.c_str(), _defaultPath, _defaultFilename, _fileCount);
 		}
 
 		// with panel
@@ -72,35 +72,35 @@ namespace Marvel {
 		{
 
 			if (_modal)
-				_instance.OpenModal(_internalLabel.c_str(), _internalLabel.c_str(), _directory ? nullptr : _filters.c_str(), _defaultPath, _defaultFilename,
+				_instance.OpenModal(info.internalLabel.c_str(), info.internalLabel.c_str(), _directory ? nullptr : _filters.c_str(), _defaultPath, _defaultFilename,
 					std::bind(&Panel, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3), 250.0f, _fileCount, IGFDUserDatas(this));
 			else
-				_instance.OpenDialog(_internalLabel.c_str(), _internalLabel.c_str(), _directory ? nullptr : _filters.c_str(), _defaultPath, _defaultFilename,
+				_instance.OpenDialog(info.internalLabel.c_str(), info.internalLabel.c_str(), _directory ? nullptr : _filters.c_str(), _defaultPath, _defaultFilename,
 					std::bind(&Panel, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3), 250.0f, _fileCount, IGFDUserDatas(this));
 		}
 
 		{
 			//mvFontScope fscope(this);
 
-			if (_dirtyPos)
+			if (info.dirtyPos)
 			{
-				ImGui::SetNextWindowPos(_state.pos);
-				_dirtyPos = false;
+				ImGui::SetNextWindowPos(state.pos);
+				info.dirtyPos = false;
 			}
 
-			if (_dirty_size)
+			if (info.dirty_size)
 			{
-				ImGui::SetNextWindowSize(ImVec2((float)_width, (float)_height));
-				_dirty_size = false;
+				ImGui::SetNextWindowSize(ImVec2((float)config.width, (float)config.height));
+				info.dirty_size = false;
 			}
 
 			// display
 			if (_instance.IsOpened())
 			{
-				_state.rectSize = { _instance.windowSizeDPG.x, _instance.windowSizeDPG.y };
+				state.rectSize = { _instance.windowSizeDPG.x, _instance.windowSizeDPG.y };
 			}
 
-			if (_instance.Display(_internalLabel, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings, _min_size, _max_size))
+			if (_instance.Display(info.internalLabel, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings, _min_size, _max_size))
 			{
 
 				// action if OK
@@ -108,17 +108,17 @@ namespace Marvel {
 				{
 					mvSubmitCallback([&]()
 						{
-							if(_alias.empty())
-								mvRunCallback(_callback, _uuid, getInfoDict(), _user_data);
+							if(config.alias.empty())
+								mvRunCallback(config.callback, uuid, getInfoDict(), config.user_data);
 							else	
-								mvRunCallback(_callback, _alias, getInfoDict(), _user_data);
+								mvRunCallback(config.callback, config.alias, getInfoDict(), config.user_data);
 						});
 
 				}
 
 				// close
 				_instance.Close();
-				_show = false;
+				config.show = false;
 			}
 		}
 
@@ -137,8 +137,8 @@ namespace Marvel {
 
 	void mvFileDialog::setDataSource(mvUUID dataSource)
 	{
-		if (dataSource == _source) return;
-		_source = dataSource;
+		if (dataSource == config.source) return;
+		config.source = dataSource;
 
 		mvAppItem* item = GetItem((*GContext->itemRegistry), dataSource);
 		if (!item)
@@ -147,7 +147,7 @@ namespace Marvel {
 				"Source item not found: " + std::to_string(dataSource), this);
 			return;
 		}
-		if (GetEntityValueType(item->_type) != GetEntityValueType(_type))
+		if (GetEntityValueType(item->type) != GetEntityValueType(type))
 		{
 			mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
 				"Values types do not match: " + std::to_string(dataSource), this);

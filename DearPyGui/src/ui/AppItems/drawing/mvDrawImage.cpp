@@ -32,22 +32,22 @@ namespace Marvel {
 			if (_internalTexture)
 				_texture->draw(drawlist, x, y);
 
-			if (!_texture->_state.ok)
+			if (!_texture->state.ok)
 				return;
 
 			void* texture = nullptr;
 
-			if (_texture->_type == mvAppItemType::mvStaticTexture)
+			if (_texture->type == mvAppItemType::mvStaticTexture)
 				texture = static_cast<mvStaticTexture*>(_texture.get())->getRawTexture();
-			else if (_texture->_type == mvAppItemType::mvRawTexture)
+			else if (_texture->type == mvAppItemType::mvRawTexture)
 				texture = static_cast<mvRawTexture*>(_texture.get())->getRawTexture();
 			else
 				texture = static_cast<mvDynamicTexture*>(_texture.get())->getRawTexture();
 
-			mvVec4  tpmin = _transform * _pmin;
-			mvVec4  tpmax = _transform * _pmax;
+			mvVec4  tpmin = drawInfo->transform * _pmin;
+			mvVec4  tpmax = drawInfo->transform * _pmax;
 
-			if (_perspectiveDivide)
+			if (drawInfo->perspectiveDivide)
 			{
 				tpmin.x = tpmin.x / tpmin.w;
 				tpmax.x = tpmax.x / tpmax.w;
@@ -59,10 +59,10 @@ namespace Marvel {
 				tpmax.z = tpmax.z / tpmax.w;
 			}
 
-			if (_depthClipping)
+			if (drawInfo->depthClipping)
 			{
-				if (mvClipPoint(_clipViewport, tpmin)) return;
-				if (mvClipPoint(_clipViewport, tpmax)) return;
+				if (mvClipPoint(drawInfo->clipViewport, tpmin)) return;
+				if (mvClipPoint(drawInfo->clipViewport, tpmax)) return;
 			}
 
 			if (ImPlot::GetCurrentContext()->CurrentPlot)
@@ -77,7 +77,7 @@ namespace Marvel {
 
 	void mvDrawImage::handleSpecificRequiredArgs(PyObject* dict)
 	{
-		if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(_type)], dict))
+		if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)
@@ -99,7 +99,7 @@ namespace Marvel {
 				}
 				else
 				{
-					mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(_type), "Texture not found.", this);
+					mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(type), "Texture not found.", this);
 					break;
 				}
 			}
@@ -145,7 +145,7 @@ namespace Marvel {
             }
             else
             {
-                mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(_type), "Texture not found.", this);
+                mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(type), "Texture not found.", this);
 			}
         }
 

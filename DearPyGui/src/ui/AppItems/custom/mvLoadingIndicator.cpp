@@ -3,6 +3,7 @@
 #include "AppItems/fonts/mvFont.h"
 #include "AppItems/themes/mvTheme.h"
 #include "AppItems/containers/mvDragPayload.h"
+#include "AppItems/widget_handlers/mvItemHandlerRegistry.h"
 
 namespace Marvel {
 
@@ -31,38 +32,38 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
 
         // show/hide
-        if (!_show)
+        if (!config.show)
             return;
 
         // focusing
-        if (_focusNextFrame)
+        if (info.focusNextFrame)
         {
             ImGui::SetKeyboardFocusHere();
-            _focusNextFrame = false;
+            info.focusNextFrame = false;
         }
 
         // cache old cursor position
         ImVec2 previousCursorPos = ImGui::GetCursorPos();
 
         // set cursor position if user set
-        if (_dirtyPos)
-            ImGui::SetCursorPos(_state.pos);
+        if (info.dirtyPos)
+            ImGui::SetCursorPos(state.pos);
 
         // update widget's position state
-        _state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
+        state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
 
         // set item width
-        if (_width != 0)
-            ImGui::SetNextItemWidth((float)_width);
+        if (config.width != 0)
+            ImGui::SetNextItemWidth((float)config.width);
 
         // set indent
-        if (_indent > 0.0f)
-            ImGui::Indent(_indent);
+        if (config.indent > 0.0f)
+            ImGui::Indent(config.indent);
 
         // push font if a font object is attached
-        if (_font)
+        if (font)
         {
-            ImFont* fontptr = static_cast<mvFont*>(_font.get())->getFontPtr();
+            ImFont* fontptr = static_cast<mvFont*>(font.get())->getFontPtr();
             ImGui::PushFont(fontptr);
         }
 
@@ -73,39 +74,39 @@ namespace Marvel {
         // draw
         //-----------------------------------------------------------------------------
         {
-            ScopedID id(_uuid);
+            ScopedID id(uuid);
 
             if (_style == 0)
-                LoadingIndicatorCircle(_specifiedLabel.c_str(), _radius, _mainColor, _optionalColor, _circleCount, _speed);
+                LoadingIndicatorCircle(config.specifiedLabel.c_str(), _radius, _mainColor, _optionalColor, _circleCount, _speed);
             else
-                LoadingIndicatorCircle2(_specifiedLabel.c_str(), _radius, _thickness, _mainColor);
+                LoadingIndicatorCircle2(config.specifiedLabel.c_str(), _radius, _thickness, _mainColor);
         }
 
         //-----------------------------------------------------------------------------
         // update state
         //-----------------------------------------------------------------------------
-        UpdateAppItemState(_state);
+        UpdateAppItemState(state);
 
         //-----------------------------------------------------------------------------
         // post draw
         //-----------------------------------------------------------------------------
 
         // set cursor position to cached position
-        if (_dirtyPos)
+        if (info.dirtyPos)
             ImGui::SetCursorPos(previousCursorPos);
 
-        if (_indent > 0.0f)
-            ImGui::Unindent(_indent);
+        if (config.indent > 0.0f)
+            ImGui::Unindent(config.indent);
 
         // pop font off stack
-        if (_font)
+        if (font)
             ImGui::PopFont();
 
         // handle popping themes
         cleanup_local_theming(this);
 
-        if (_handlerRegistry)
-            _handlerRegistry->customAction(&_state);
+        if (handlerRegistry)
+            handlerRegistry->checkEvents(&state);
 
         // handle drag & drop if used
         apply_drag_drop(this);

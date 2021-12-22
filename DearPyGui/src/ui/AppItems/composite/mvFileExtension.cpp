@@ -27,12 +27,12 @@ namespace Marvel {
 			info.color = _color.toVec4();
 		else
 			info.color = { 1.0f, 1.0f, 1.0f, 1.0f };
-		static_cast<mvFileDialog*>(_parentPtr)->getDialog().SetExtentionInfos(_extension.c_str(), info);
+		static_cast<mvFileDialog*>(this->info.parentPtr)->getDialog().SetExtentionInfos(_extension.c_str(), info);
 	}
 
 	void mvFileExtension::handleSpecificRequiredArgs(PyObject* dict)
 	{
-		if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(_type)], dict))
+		if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)
@@ -58,8 +58,8 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "custom_text"))_customText = ToString(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "color")) _color = ToColor(item);
 
-		if (_parentPtr)
-			static_cast<mvFileDialog*>(_parentPtr)->markDirty();
+		if (info.parentPtr)
+			static_cast<mvFileDialog*>(info.parentPtr)->markDirty();
 	}
 
 	void mvFileExtension::getSpecificConfiguration(PyObject* dict)

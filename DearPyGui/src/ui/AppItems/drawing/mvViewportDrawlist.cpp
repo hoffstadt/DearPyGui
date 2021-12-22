@@ -24,15 +24,15 @@ namespace Marvel {
 
 		ImDrawList* internal_drawlist = _front ? ImGui::GetForegroundDrawList() : ImGui::GetBackgroundDrawList();
 
-		for (auto& item : _children[2])
+		for (auto& item : childslots[2])
 		{
 			// skip item if it's not shown
-			if (!item->_show)
+			if (!item->config.show)
 				continue;
 
 			item->draw(internal_drawlist, 0.0f, 0.0f);
 
-			UpdateAppItemState(item->_state);
+			UpdateAppItemState(item->state);
 		}
 
 	}

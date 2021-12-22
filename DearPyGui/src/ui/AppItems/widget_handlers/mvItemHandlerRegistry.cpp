@@ -10,12 +10,12 @@ namespace Marvel {
 	{
 	}
 
-	void mvItemHandlerRegistry::customAction(void* data)
+	void mvItemHandlerRegistry::checkEvents(void* data)
 	{
 
-		for (auto& item : _children[1])
+		for (auto& item : childslots[1])
 		{
-			if(item->_show)
+			if(item->config.show)
 				item->customAction(data);
 		}
 
@@ -24,11 +24,11 @@ namespace Marvel {
 	void mvItemHandlerRegistry::onBind(mvAppItem* item)
 	{
 
-		auto applicableState = GetApplicableState(item->_type);
+		auto applicableState = GetApplicableState(item->type);
 
-		for (auto& handler : _children[1])
+		for (auto& handler : childslots[1])
 		{
-			switch (handler->_type)
+			switch (handler->type)
 			{
 
 			case mvAppItemType::mvActivatedHandler:

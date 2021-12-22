@@ -47,32 +47,32 @@ namespace Marvel {
 				return GetPyNone();
 			}
 
-			if (asource->_type == mvAppItemType::mvColorMap)
+			if (asource->type == mvAppItemType::mvColorMap)
 			{
 				mvColorMap* colormap = static_cast<mvColorMap*>(asource);
 				source = colormap->_colorMap;
 			}
 		}
 
-		if (aitem->_type == mvAppItemType::mvPlot)
+		if (aitem->type == mvAppItemType::mvPlot)
 		{
 			mvPlot* graph = static_cast<mvPlot*>(aitem);
 			graph->SetColorMap((ImPlotColormap)source);
 		}
 
-		else if (aitem->_type == mvAppItemType::mvColorMapScale)
+		else if (aitem->type == mvAppItemType::mvColorMapScale)
 		{
 			mvColorMapScale* graph = static_cast<mvColorMapScale*>(aitem);
 			graph->setColorMap((ImPlotColormap)source);
 		}
 
-		else if (aitem->_type == mvAppItemType::mvColorMapButton)
+		else if (aitem->type == mvAppItemType::mvColorMapButton)
 		{
 			mvColorMapButton* graph = static_cast<mvColorMapButton*>(aitem);
 			graph->setColorMap((ImPlotColormap)source);
 		}
 
-		else if (aitem->_type == mvAppItemType::mvColorMapSlider)
+		else if (aitem->type == mvAppItemType::mvColorMapSlider)
 		{
 			mvColorMapSlider* graph = static_cast<mvColorMapSlider*>(aitem);
 			graph->setColorMap((ImPlotColormap)source);
@@ -112,7 +112,7 @@ namespace Marvel {
 				return GetPyNone();
 			}
 
-			if (asource->_type == mvAppItemType::mvColorMap)
+			if (asource->type == mvAppItemType::mvColorMap)
 			{
 				mvColorMap* colormap = static_cast<mvColorMap*>(asource);
 				item = colormap->_colorMap;
@@ -154,7 +154,7 @@ namespace Marvel {
 				return GetPyNone();
 			}
 
-			if (asource->_type == mvAppItemType::mvColorMap)
+			if (asource->type == mvAppItemType::mvColorMap)
 			{
 				mvColorMap* colormap = static_cast<mvColorMap*>(asource);
 				item = colormap->_colorMap;
@@ -186,7 +186,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (aplot->_type != mvAppItemType::mvFileDialog)
+		if (aplot->type != mvAppItemType::mvFileDialog)
 		{
 			mvThrowPythonError(mvErrorCode::mvNone, std::to_string(file_dialog) + " is not a plot.");
 			return GetPyNone();
@@ -220,7 +220,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (window->_type == mvAppItemType::mvWindowAppItem)
+		if (window->type == mvAppItemType::mvWindowAppItem)
 		{
 
 			auto pWindow = static_cast<mvWindowAppItem*>(window);
@@ -228,7 +228,7 @@ namespace Marvel {
 			pWindow->_scrollX = value;
 			pWindow->_scrollXSet = true;
 		}
-		else if (window->_type == mvAppItemType::mvChildWindow)
+		else if (window->type == mvAppItemType::mvChildWindow)
 		{
 			auto pChild = static_cast<mvChildWindow*>(window);
 
@@ -266,7 +266,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (window->_type == mvAppItemType::mvWindowAppItem)
+		if (window->type == mvAppItemType::mvWindowAppItem)
 		{
 
 			auto pWindow = static_cast<mvWindowAppItem*>(window);
@@ -274,7 +274,7 @@ namespace Marvel {
 			pWindow->_scrollY = value;
 			pWindow->_scrollYSet = true;
 		}
-		else if (window->_type == mvAppItemType::mvChildWindow)
+		else if (window->type == mvAppItemType::mvChildWindow)
 		{
 			auto pChild = static_cast<mvChildWindow*>(window);
 
@@ -311,14 +311,14 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (window->_type == mvAppItemType::mvWindowAppItem)
+		if (window->type == mvAppItemType::mvWindowAppItem)
 		{
 
 			auto pWindow = static_cast<mvWindowAppItem*>(window);
 
 			return ToPyFloat(pWindow->_scrollX);
 		}
-		else if (window->_type == mvAppItemType::mvChildWindow)
+		else if (window->type == mvAppItemType::mvChildWindow)
 		{
 			auto pChild = static_cast<mvChildWindow*>(window);
 
@@ -355,14 +355,14 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (window->_type == mvAppItemType::mvWindowAppItem)
+		if (window->type == mvAppItemType::mvWindowAppItem)
 		{
 
 			auto pWindow = static_cast<mvWindowAppItem*>(window);
 
 			return ToPyFloat(pWindow->_scrollY);
 		}
-		else if (window->_type == mvAppItemType::mvChildWindow)
+		else if (window->type == mvAppItemType::mvChildWindow)
 		{
 			auto pChild = static_cast<mvChildWindow*>(window);
 
@@ -399,14 +399,14 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (window->_type == mvAppItemType::mvWindowAppItem)
+		if (window->type == mvAppItemType::mvWindowAppItem)
 		{
 
 			auto pWindow = static_cast<mvWindowAppItem*>(window);
 
 			return ToPyFloat(pWindow->_scrollMaxX);
 		}
-		else if (window->_type == mvAppItemType::mvChildWindow)
+		else if (window->type == mvAppItemType::mvChildWindow)
 		{
 			auto pChild = static_cast<mvChildWindow*>(window);
 
@@ -443,14 +443,14 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (window->_type == mvAppItemType::mvWindowAppItem)
+		if (window->type == mvAppItemType::mvWindowAppItem)
 		{
 
 			auto pWindow = static_cast<mvWindowAppItem*>(window);
 
 			return ToPyFloat(pWindow->_scrollMaxY);
 		}
-		else if (window->_type == mvAppItemType::mvChildWindow)
+		else if (window->type == mvAppItemType::mvChildWindow)
 		{
 			auto pChild = static_cast<mvChildWindow*>(window);
 
@@ -492,17 +492,17 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (aitem->_type == mvAppItemType::mvDrawLayer)
+		if (aitem->type == mvAppItemType::mvDrawLayer)
 		{
 			mvDrawLayer* graph = static_cast<mvDrawLayer*>(aitem);
-			graph->_clipViewport[0] = topleftx;
-			graph->_clipViewport[1] = toplefty + height;
-			graph->_clipViewport[2] = width;
-			graph->_clipViewport[3] = height;
-			graph->_clipViewport[4] = mindepth;
-			graph->_clipViewport[5] = maxdepth;
+			graph->drawInfo->clipViewport[0] = topleftx;
+			graph->drawInfo->clipViewport[1] = toplefty + height;
+			graph->drawInfo->clipViewport[2] = width;
+			graph->drawInfo->clipViewport[3] = height;
+			graph->drawInfo->clipViewport[4] = mindepth;
+			graph->drawInfo->clipViewport[5] = maxdepth;
 
-			graph->_transform = mvCreateMatrix(
+			graph->drawInfo->transform = mvCreateMatrix(
 				width, 0.0f, 0.0f, topleftx + (width / 2.0f),
 				0.0f, -height, 0.0f, toplefty + (height / 2.0f),
 				0.0f, 0.0f, 0.25f, 0.5f,
@@ -512,7 +512,7 @@ namespace Marvel {
 
 		else
 		{
-			mvThrowPythonError(mvErrorCode::mvIncompatibleType, "apply_transform",
+			mvThrowPythonError(mvErrorCode::mvIncompatibleType, "applydrawInfo->transform",
 				"Incompatible type. Expected types include: mvDrawLayer", aitem);
 			return GetPyNone();
 		}
@@ -544,10 +544,10 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (aitem->_type == mvAppItemType::mvDrawNode)
+		if (aitem->type == mvAppItemType::mvDrawNode)
 		{
 			mvDrawNode* graph = static_cast<mvDrawNode*>(aitem);
-			graph->_appliedTransform = atransform->m;
+			graph->drawInfo->appliedTransform = atransform->m;
 		}
 
 		else
@@ -763,7 +763,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (aplot->_type != mvAppItemType::mvFont)
+		if (aplot->type != mvAppItemType::mvFont)
 		{
 			mvThrowPythonError(mvErrorCode::mvIncompatibleType, "bind_font",
 				"Incompatible type. Expected types include: mvFont", aplot);
@@ -811,7 +811,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (afont->_type != mvAppItemType::mvFont)
+		if (afont->type != mvAppItemType::mvFont)
 		{
 			mvThrowPythonError(mvErrorCode::mvIncompatibleType, "get_text_size",
 				"Incompatible type. Expected types include: mvFont", afont);
@@ -857,7 +857,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (anode_editor->_type != mvAppItemType::mvNodeEditor)
+		if (anode_editor->type != mvAppItemType::mvNodeEditor)
 		{
 			mvThrowPythonError(mvErrorCode::mvIncompatibleType, "get_selected_nodes",
 				"Incompatible type. Expected types include: mvNodeEditor", anode_editor);
@@ -892,7 +892,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (anode_editor->_type != mvAppItemType::mvNodeEditor)
+		if (anode_editor->type != mvAppItemType::mvNodeEditor)
 		{
 			mvThrowPythonError(mvErrorCode::mvIncompatibleType, "get_selected_links",
 				"Incompatible type. Expected types include: mvNodeEditor", anode_editor);
@@ -926,7 +926,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (anode_editor->_type != mvAppItemType::mvNodeEditor)
+		if (anode_editor->type != mvAppItemType::mvNodeEditor)
 		{
 			mvThrowPythonError(mvErrorCode::mvIncompatibleType, "clear_selected_links",
 				"Incompatible type. Expected types include: mvNodeEditor", anode_editor);
@@ -960,7 +960,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (anode_editor->_type != mvAppItemType::mvNodeEditor)
+		if (anode_editor->type != mvAppItemType::mvNodeEditor)
 		{
 			mvThrowPythonError(mvErrorCode::mvIncompatibleType, "clear_selected_nodes",
 				"Incompatible type. Expected types include: mvNodeEditor", anode_editor);
@@ -994,7 +994,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (aplot->_type != mvAppItemType::mvPlot)
+		if (aplot->type != mvAppItemType::mvPlot)
 		{
 			mvThrowPythonError(mvErrorCode::mvIncompatibleType, "is_plot_queried",
 				"Incompatible type. Expected types include: mvPlot", aplot);
@@ -1026,7 +1026,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (aplot->_type != mvAppItemType::mvPlot)
+		if (aplot->type != mvAppItemType::mvPlot)
 		{
 			mvThrowPythonError(mvErrorCode::mvIncompatibleType, "is_plot_queried",
 				"Incompatible type. Expected types include: mvPlot", aplot);
@@ -1062,7 +1062,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (aplot->_type != mvAppItemType::mvPlotAxis)
+		if (aplot->type != mvAppItemType::mvPlotAxis)
 		{
 			mvThrowPythonError(mvErrorCode::mvIncompatibleType, "set_axis_ticks",
 				"Incompatible type. Expected types include: mvPlotAxis", aplot);
@@ -1106,7 +1106,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (aplot->_type != mvAppItemType::mvPlotAxis)
+		if (aplot->type != mvAppItemType::mvPlotAxis)
 		{
 			mvThrowPythonError(mvErrorCode::mvIncompatibleType, "set_axis_limits",
 				"Incompatible type. Expected types include: mvPlotAxis", aplot);
@@ -1140,7 +1140,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (aplot->_type != mvAppItemType::mvPlotAxis)
+		if (aplot->type != mvAppItemType::mvPlotAxis)
 		{
 			mvThrowPythonError(mvErrorCode::mvIncompatibleType, "set_axis_limits",
 				"Incompatible type. Expected types include: mvPlotAxis", aplot);
@@ -1174,7 +1174,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (aplot->_type != mvAppItemType::mvPlotAxis)
+		if (aplot->type != mvAppItemType::mvPlotAxis)
 		{
 			mvThrowPythonError(mvErrorCode::mvIncompatibleType, "fit_axis_data",
 				"Incompatible type. Expected types include: mvPlotAxis", aplot);
@@ -1208,7 +1208,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (aplot->_type != mvAppItemType::mvPlotAxis)
+		if (aplot->type != mvAppItemType::mvPlotAxis)
 		{
 			mvThrowPythonError(mvErrorCode::mvIncompatibleType, "get_axis_limits",
 				"Incompatible type. Expected types include: mvPlotAxis", aplot);
@@ -1241,7 +1241,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (aplot->_type != mvAppItemType::mvPlotAxis)
+		if (aplot->type != mvAppItemType::mvPlotAxis)
 		{
 			mvThrowPythonError(mvErrorCode::mvIncompatibleType, "reset_axis_ticks",
 				"Incompatible type. Expected types include: mvPlotAxis", aplot);
@@ -1277,7 +1277,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (atable->_type != mvAppItemType::mvTable)
+		if (atable->type != mvAppItemType::mvTable)
 		{
 			mvThrowPythonError(mvErrorCode::mvIncompatibleType, "highlight_table_column",
 				"Incompatible type. Expected types include: mvTable", atable);
@@ -1321,7 +1321,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (atable->_type != mvAppItemType::mvTable)
+		if (atable->type != mvAppItemType::mvTable)
 		{
 			mvThrowPythonError(mvErrorCode::mvIncompatibleType, "unhighlight_table_column",
 				"Incompatible type. Expected types include: mvTable", atable);
@@ -1364,7 +1364,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (atable->_type != mvAppItemType::mvTable)
+		if (atable->type != mvAppItemType::mvTable)
 		{
 			mvThrowPythonError(mvErrorCode::mvIncompatibleType, "set_table_row_color",
 				"Incompatible type. Expected types include: mvTable", atable);
@@ -1408,7 +1408,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (atable->_type != mvAppItemType::mvTable)
+		if (atable->type != mvAppItemType::mvTable)
 		{
 			mvThrowPythonError(mvErrorCode::mvIncompatibleType, "unset_table_row_color",
 				"Incompatible type. Expected types include: mvTable", atable);
@@ -1450,7 +1450,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (atable->_type != mvAppItemType::mvTable)
+		if (atable->type != mvAppItemType::mvTable)
 		{
 			mvThrowPythonError(mvErrorCode::mvIncompatibleType, "highlight_table_row",
 				"Incompatible type. Expected types include: mvTable", atable);
@@ -1494,7 +1494,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (atable->_type != mvAppItemType::mvTable)
+		if (atable->type != mvAppItemType::mvTable)
 		{
 			mvThrowPythonError(mvErrorCode::mvIncompatibleType, "unhighlight_table_row",
 				"Incompatible type. Expected types include: mvTable", atable);
@@ -1538,7 +1538,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (atable->_type != mvAppItemType::mvTable)
+		if (atable->type != mvAppItemType::mvTable)
 		{
 			mvThrowPythonError(mvErrorCode::mvIncompatibleType, "highlight_table_cell",
 				"Incompatible type. Expected types include: mvTable", atable);
@@ -1583,7 +1583,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (atable->_type != mvAppItemType::mvTable)
+		if (atable->type != mvAppItemType::mvTable)
 		{
 			mvThrowPythonError(mvErrorCode::mvIncompatibleType, "unhighlight_table_cell",
 				"Incompatible type. Expected types include: mvTable", atable);
@@ -1626,7 +1626,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (atable->_type != mvAppItemType::mvTable)
+		if (atable->type != mvAppItemType::mvTable)
 		{
 			mvThrowPythonError(mvErrorCode::mvIncompatibleType, "is_table_cell_highlighted",
 				"Incompatible type. Expected types include: mvTable", atable);
@@ -1673,7 +1673,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (atable->_type != mvAppItemType::mvTable)
+		if (atable->type != mvAppItemType::mvTable)
 		{
 			mvThrowPythonError(mvErrorCode::mvIncompatibleType, "is_table_row_highlighted",
 				"Incompatible type. Expected types include: mvTable", atable);
@@ -1713,7 +1713,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (atable->_type != mvAppItemType::mvTable)
+		if (atable->type != mvAppItemType::mvTable)
 		{
 			mvThrowPythonError(mvErrorCode::mvIncompatibleType, "is_table_column_highlighted",
 				"Incompatible type. Expected types include: mvTable", atable);
@@ -1761,7 +1761,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (aplot->_type != mvAppItemType::mvTheme)
+		if (aplot->type != mvAppItemType::mvTheme)
 		{
 			mvThrowPythonError(mvErrorCode::mvIncompatibleType, "bind_theme",
 				"Incompatible type. Expected types include: mvTheme", aplot);
@@ -1772,7 +1772,7 @@ namespace Marvel {
 
 		ResetTheme(*GContext->itemRegistry);
 
-		graph->_show = true;
+		graph->config.show = true;
 
 		return GetPyNone();
 	}
@@ -2579,7 +2579,7 @@ namespace Marvel {
 		GContext->itemRegistry->containers.pop();
 
 		if (item)
-			return ToPyUUID(item->_uuid);
+			return ToPyUUID(item->uuid);
 		else
 			return GetPyNone();
 
@@ -2604,7 +2604,7 @@ namespace Marvel {
 			item = GContext->itemRegistry->containers.top();
 
 		if (item)
-			return ToPyUUID(item->_uuid);
+			return ToPyUUID(item->uuid);
 		else
 			return GetPyNone();
 	}
@@ -2648,7 +2648,7 @@ namespace Marvel {
 		mvAppItem* parent = GetItem((*GContext->itemRegistry), item);
 		if (parent)
 		{
-			if (GetEntityDesciptionFlags(parent->_type) & MV_ITEM_DESC_CONTAINER)
+			if (GetEntityDesciptionFlags(parent->type) & MV_ITEM_DESC_CONTAINER)
 			{
 				GContext->itemRegistry->containers.push(parent);
 				return ToPyBool(true);
@@ -2692,7 +2692,7 @@ namespace Marvel {
 		// reset other windows
 		for (auto& window : GContext->itemRegistry->windowRoots)
 		{
-			if (window->_uuid != item)
+			if (window->uuid != item)
 				static_cast<mvWindowAppItem*>(window.get())->setWindowAsMainStatus(false);
 		}
 
@@ -2825,7 +2825,7 @@ namespace Marvel {
 
 		mvAppItem* parent = GetItem((*GContext->itemRegistry), container);
 
-		std::vector<mvRef<mvAppItem>>& children = parent->_children[slot];
+		std::vector<mvRef<mvAppItem>>& children = parent->childslots[slot];
 
 		std::vector<mvRef<mvAppItem>> newchildren;
 		newchildren.reserve(children.size());
@@ -2835,7 +2835,7 @@ namespace Marvel {
 		{
 			for (auto& child : children)
 			{
-				if (child->_uuid == item)
+				if (child->uuid == item)
 				{
 					newchildren.emplace_back(child);
 					break;
@@ -2862,9 +2862,9 @@ namespace Marvel {
 		b8 item_found = false;
 		for (auto& aitem : GContext->itemRegistry->stagingRoots)
 		{
-			if (aitem->_uuid == item && aitem->_type == mvAppItemType::mvStage)
+			if (aitem->uuid == item && aitem->type == mvAppItemType::mvStage)
 			{
-				for (auto& children : aitem->_children)
+				for (auto& children : aitem->childslots)
 				{
 					for (auto& child : children)
 						AddItemWithRuntimeChecks(*GContext->itemRegistry, child, 0, 0);
@@ -2904,7 +2904,7 @@ namespace Marvel {
 		auto actualItem = GetRefItem((*GContext->itemRegistry), item);
 		if (actualItem)
 		{
-			actualItem->_showDebug = true;
+			actualItem->info.showDebug = true;
 			GContext->itemRegistry->debugWindows.push_back(actualItem);
 		}
 		else
@@ -2922,25 +2922,25 @@ namespace Marvel {
 		// to help recursively retrieve children
 		std::function<void(mvRef<mvAppItem>)> ChildRetriever;
 		ChildRetriever = [&childList, &ChildRetriever](mvRef<mvAppItem> item) {
-			auto& children0 = item->_children[0];
-			auto& children1 = item->_children[1];
-			auto& children2 = item->_children[2];
+			auto& children0 = item->childslots[0];
+			auto& children1 = item->childslots[1];
+			auto& children2 = item->childslots[2];
 			for (auto& child : children0)
 			{
-				childList.emplace_back(child->_uuid);
-				if (GetEntityDesciptionFlags(child->_type) & MV_ITEM_DESC_CONTAINER)
+				childList.emplace_back(child->uuid);
+				if (GetEntityDesciptionFlags(child->type) & MV_ITEM_DESC_CONTAINER)
 					ChildRetriever(child);
 			}
 			for (auto& child : children1)
 			{
-				childList.emplace_back(child->_uuid);
-				if (GetEntityDesciptionFlags(child->_type) & MV_ITEM_DESC_CONTAINER)
+				childList.emplace_back(child->uuid);
+				if (GetEntityDesciptionFlags(child->type) & MV_ITEM_DESC_CONTAINER)
 					ChildRetriever(child);
 			}
 			for (auto& child : children2)
 			{
-				childList.emplace_back(child->_uuid);
-				if (GetEntityDesciptionFlags(child->_type) & MV_ITEM_DESC_CONTAINER)
+				childList.emplace_back(child->uuid);
+				if (GetEntityDesciptionFlags(child->type) & MV_ITEM_DESC_CONTAINER)
 					ChildRetriever(child);
 			}
 
@@ -2948,7 +2948,7 @@ namespace Marvel {
 
 		for (auto& root : roots)
 		{
-			childList.emplace_back(root->_uuid);
+			childList.emplace_back(root->uuid);
 			ChildRetriever(root);
 		}
 	}
@@ -3005,19 +3005,19 @@ namespace Marvel {
 		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
 		std::vector<mvUUID> childList;
-		for (auto& root : GContext->itemRegistry->colormapRoots) childList.emplace_back(root->_uuid);
-		for (auto& root : GContext->itemRegistry->filedialogRoots) childList.emplace_back(root->_uuid);
-		for (auto& root : GContext->itemRegistry->stagingRoots) childList.emplace_back(root->_uuid);
-		for (auto& root : GContext->itemRegistry->viewportMenubarRoots) childList.emplace_back(root->_uuid);
-		for (auto& root : GContext->itemRegistry->windowRoots) childList.emplace_back(root->_uuid);
-		for (auto& root : GContext->itemRegistry->fontRegistryRoots) childList.emplace_back(root->_uuid);
-		for (auto& root : GContext->itemRegistry->handlerRegistryRoots) childList.emplace_back(root->_uuid);
-		for (auto& root : GContext->itemRegistry->textureRegistryRoots) childList.emplace_back(root->_uuid);
-		for (auto& root : GContext->itemRegistry->valueRegistryRoots) childList.emplace_back(root->_uuid);
-		for (auto& root : GContext->itemRegistry->themeRegistryRoots) childList.emplace_back(root->_uuid);
-		for (auto& root : GContext->itemRegistry->itemTemplatesRoots) childList.emplace_back(root->_uuid);
-		for (auto& root : GContext->itemRegistry->itemHandlerRegistryRoots) childList.emplace_back(root->_uuid);
-		for (auto& root : GContext->itemRegistry->viewportDrawlistRoots) childList.emplace_back(root->_uuid);
+		for (auto& root : GContext->itemRegistry->colormapRoots) childList.emplace_back(root->uuid);
+		for (auto& root : GContext->itemRegistry->filedialogRoots) childList.emplace_back(root->uuid);
+		for (auto& root : GContext->itemRegistry->stagingRoots) childList.emplace_back(root->uuid);
+		for (auto& root : GContext->itemRegistry->viewportMenubarRoots) childList.emplace_back(root->uuid);
+		for (auto& root : GContext->itemRegistry->windowRoots) childList.emplace_back(root->uuid);
+		for (auto& root : GContext->itemRegistry->fontRegistryRoots) childList.emplace_back(root->uuid);
+		for (auto& root : GContext->itemRegistry->handlerRegistryRoots) childList.emplace_back(root->uuid);
+		for (auto& root : GContext->itemRegistry->textureRegistryRoots) childList.emplace_back(root->uuid);
+		for (auto& root : GContext->itemRegistry->valueRegistryRoots) childList.emplace_back(root->uuid);
+		for (auto& root : GContext->itemRegistry->themeRegistryRoots) childList.emplace_back(root->uuid);
+		for (auto& root : GContext->itemRegistry->itemTemplatesRoots) childList.emplace_back(root->uuid);
+		for (auto& root : GContext->itemRegistry->itemHandlerRegistryRoots) childList.emplace_back(root->uuid);
+		for (auto& root : GContext->itemRegistry->viewportDrawlistRoots) childList.emplace_back(root->uuid);
 
 		return ToPyList(childList);
 	}
@@ -3154,7 +3154,7 @@ namespace Marvel {
 		{
 			for (size_t i = 0; i < GContext->itemRegistry->windowRoots.size(); i++)
 			{
-				if (GContext->itemRegistry->windowRoots[i]->_uuid == item)
+				if (GContext->itemRegistry->windowRoots[i]->uuid == item)
 				{
 					mvRef<mvAppItem> oldItem = GContext->itemRegistry->windowRoots.back();
 					GContext->itemRegistry->windowRoots[GContext->itemRegistry->windowRoots.size() - 1] = GContext->itemRegistry->windowRoots[i];
@@ -3168,9 +3168,9 @@ namespace Marvel {
 
 		if (appitem)
 		{
-			appitem->_focusNextFrame = true;
+			appitem->info.focusNextFrame = true;
 			if (auto parent = GetItemRoot(*GContext->itemRegistry, item))
-				parent->_focusNextFrame = true;
+				parent->info.focusNextFrame = true;
 		}
 		else
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "focus_item",
@@ -3189,11 +3189,11 @@ namespace Marvel {
 
 		if (item)
 		{
-			for (auto& children : item->_children)
+			for (auto& children : item->childslots)
 			{
 				std::vector<mvUUID> childSlot;
 				for (auto& child : children)
-					childSlot.emplace_back(child->_uuid);
+					childSlot.emplace_back(child->uuid);
 				childList.push_back(childSlot);
 			}
 
@@ -3226,9 +3226,9 @@ namespace Marvel {
 		if (appitem)
 		{
 
-			std::string parserCommand = GetEntityCommand(appitem->_type);
+			std::string parserCommand = GetEntityCommand(appitem->type);
 
-			auto children = GetItemChildren(*GContext->itemRegistry, appitem->_uuid);
+			auto children = GetItemChildren(*GContext->itemRegistry, appitem->uuid);
 			if (children.empty())
 				PyDict_SetItemString(pdict, "children", mvPyObject(GetPyNone()));
 			else
@@ -3243,30 +3243,30 @@ namespace Marvel {
 				PyDict_SetItemString(pdict, "children", mvPyObject(pyChildren));
 			}
 
-			PyDict_SetItemString(pdict, "type", mvPyObject(ToPyString(GetEntityTypeString(appitem->_type))));
-			PyDict_SetItemString(pdict, "target", mvPyObject(ToPyInt(GetEntityTargetSlot(appitem->_type))));
+			PyDict_SetItemString(pdict, "type", mvPyObject(ToPyString(GetEntityTypeString(appitem->type))));
+			PyDict_SetItemString(pdict, "target", mvPyObject(ToPyInt(GetEntityTargetSlot(appitem->type))));
 
-			if (appitem->_parentPtr)
-				PyDict_SetItemString(pdict, "parent", mvPyObject(ToPyUUID(appitem->_parentPtr->_uuid)));
+			if (appitem->info.parentPtr)
+				PyDict_SetItemString(pdict, "parent", mvPyObject(ToPyUUID(appitem->info.parentPtr->uuid)));
 			else
 				PyDict_SetItemString(pdict, "parent", mvPyObject(GetPyNone()));
 
-			if (appitem->_theme)
-				PyDict_SetItemString(pdict, "theme", mvPyObject(ToPyUUID(appitem->_theme->_uuid)));
+			if (appitem->theme)
+				PyDict_SetItemString(pdict, "theme", mvPyObject(ToPyUUID(appitem->theme->uuid)));
 			else
 				PyDict_SetItemString(pdict, "theme", mvPyObject(GetPyNone()));
 
-			if (appitem->_font)
-				PyDict_SetItemString(pdict, "font", mvPyObject(ToPyUUID(appitem->_font->_uuid)));
+			if (appitem->font)
+				PyDict_SetItemString(pdict, "font", mvPyObject(ToPyUUID(appitem->font->uuid)));
 			else
 				PyDict_SetItemString(pdict, "font", mvPyObject(GetPyNone()));
 
-			if (GetEntityDesciptionFlags(appitem->_type) & MV_ITEM_DESC_CONTAINER)
+			if (GetEntityDesciptionFlags(appitem->type) & MV_ITEM_DESC_CONTAINER)
 				PyDict_SetItemString(pdict, "container", mvPyObject(ToPyBool(true)));
 			else
 				PyDict_SetItemString(pdict, "container", mvPyObject(ToPyBool(false)));
 
-			i32 applicableState = GetApplicableState(appitem->_type);
+			i32 applicableState = GetApplicableState(appitem->type);
 			PyDict_SetItemString(pdict, "hover_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_HOVER)));
 			PyDict_SetItemString(pdict, "active_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_ACTIVE)));
 			PyDict_SetItemString(pdict, "focus_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_FOCUSED)));
@@ -3306,18 +3306,18 @@ namespace Marvel {
 		if (appitem)
 		{
 			// config py objects
-			mvPyObject py_filter_key = ToPyString(appitem->_filter);
-			mvPyObject py_payload_type = ToPyString(appitem->_payloadType);
-			mvPyObject py_label = ToPyString(appitem->_specifiedLabel);
-			mvPyObject py_use_internal_label = ToPyBool(appitem->_useInternalLabel);
-			mvPyObject py_source = ToPyUUID(appitem->_source);
-			mvPyObject py_show = ToPyBool(appitem->_show);
-			mvPyObject py_enabled = ToPyBool(appitem->_enabled);
-			mvPyObject py_tracked = ToPyBool(appitem->_tracked);
-			mvPyObject py_width = ToPyInt(appitem->_width);
-			mvPyObject py_track_offset = ToPyFloat(appitem->_trackOffset);
-			mvPyObject py_height = ToPyInt(appitem->_height);
-			mvPyObject py_indent = ToPyInt((i32)appitem->_indent);
+			mvPyObject py_filter_key = ToPyString(appitem->config.filter);
+			mvPyObject py_payload_type = ToPyString(appitem->config.payloadType);
+			mvPyObject py_label = ToPyString(appitem->config.specifiedLabel);
+			mvPyObject py_use_internal_label = ToPyBool(appitem->config.useInternalLabel);
+			mvPyObject py_source = ToPyUUID(appitem->config.source);
+			mvPyObject py_show = ToPyBool(appitem->config.show);
+			mvPyObject py_enabled = ToPyBool(appitem->config.enabled);
+			mvPyObject py_tracked = ToPyBool(appitem->config.tracked);
+			mvPyObject py_width = ToPyInt(appitem->config.width);
+			mvPyObject py_track_offset = ToPyFloat(appitem->config.trackOffset);
+			mvPyObject py_height = ToPyInt(appitem->config.height);
+			mvPyObject py_indent = ToPyInt((i32)appitem->config.indent);
 
 			PyDict_SetItemString(pdict, "filter_key", py_filter_key);
 			PyDict_SetItemString(pdict, "payload_type", py_payload_type);
@@ -3332,34 +3332,34 @@ namespace Marvel {
 			PyDict_SetItemString(pdict, "height", py_height);
 			PyDict_SetItemString(pdict, "indent", py_indent);
 
-			if (appitem->_callback)
+			if (appitem->config.callback)
 			{
-				Py_XINCREF(appitem->_callback);
-				PyDict_SetItemString(pdict, "callback", appitem->_callback);
+				Py_XINCREF(appitem->config.callback);
+				PyDict_SetItemString(pdict, "callback", appitem->config.callback);
 			}
 			else
 				PyDict_SetItemString(pdict, "callback", GetPyNone());
 
-			if (appitem->_dropCallback)
+			if (appitem->config.dropCallback)
 			{
-				Py_XINCREF(appitem->_dropCallback);
-				PyDict_SetItemString(pdict, "drop_callback", appitem->_dropCallback);
+				Py_XINCREF(appitem->config.dropCallback);
+				PyDict_SetItemString(pdict, "drop_callback", appitem->config.dropCallback);
 			}
 			else
 				PyDict_SetItemString(pdict, "drop_callback", GetPyNone());
 
-			if (appitem->_dragCallback)
+			if (appitem->config.dragCallback)
 			{
-				Py_XINCREF(appitem->_dragCallback);
-				PyDict_SetItemString(pdict, "drag_callback", appitem->_dragCallback);
+				Py_XINCREF(appitem->config.dragCallback);
+				PyDict_SetItemString(pdict, "drag_callback", appitem->config.dragCallback);
 			}
 			else
 				PyDict_SetItemString(pdict, "drag_callback", GetPyNone());
 
-			if (appitem->_user_data)
+			if (appitem->config.user_data)
 			{
-				Py_XINCREF(appitem->_user_data);
-				PyDict_SetItemString(pdict, "user_data", appitem->_user_data);
+				Py_XINCREF(appitem->config.user_data);
+				PyDict_SetItemString(pdict, "user_data", appitem->config.user_data);
 			}
 			else
 				PyDict_SetItemString(pdict, "user_data", GetPyNone());
@@ -3397,7 +3397,7 @@ namespace Marvel {
 
 		for (auto& stage : staging)
 		{
-			if (stage->_uuid == source)
+			if (stage->uuid == source)
 			{
 				staging_container = stage;
 				stage_found = true;
@@ -3416,22 +3416,22 @@ namespace Marvel {
 
 		if (appitem)
 		{
-			auto& oldChildren = appitem->_children[slot];
-			oldChildren.reserve(staging_container->_children[slot].size());
-			oldChildren = std::move(staging_container->_children[slot]);
+			auto& oldChildren = appitem->childslots[slot];
+			oldChildren.reserve(staging_container->childslots[slot].size());
+			oldChildren = std::move(staging_container->childslots[slot]);
 			for (auto& child : oldChildren)
 			{
-				child->_parent = item;
-				child->_parentPtr = appitem;
+				child->config.parent = item;
+				child->info.parentPtr = appitem;
 			}
 
 			// update locations
 			for (i32 i = 0; i < 4; i++)
 			{
 				i32 index = 0;
-				for (auto& child : appitem->_children[i])
+				for (auto& child : appitem->childslots[i])
 				{
-					child->_location = index;
+					child->info.location = index;
 					index++;
 				}
 			}
@@ -3466,14 +3466,13 @@ namespace Marvel {
 		{
 			if (font == 0)
 			{
-				appitem->_font = nullptr;
+				appitem->font = nullptr;
 				return GetPyNone();
 			}
 
 			if (appfont)
 			{
-				appitem->_font = appfont;
-				appfont->onBind(appitem);
+				appitem->font = appfont;
 			}
 			else
 			{
@@ -3508,7 +3507,7 @@ namespace Marvel {
 		{
 			if (theme == 0)
 			{
-				appitem->_theme = nullptr;
+				appitem->theme = nullptr;
 				return GetPyNone();
 			}
 
@@ -3516,8 +3515,12 @@ namespace Marvel {
 
 			if (apptheme)
 			{
-				appitem->_theme = apptheme;
-				apptheme->onBind(appitem);
+				if (apptheme->type != mvAppItemType::mvTheme)
+				{
+					mvThrowPythonError(mvErrorCode::mvIncompatibleType, "bind_item_theme",
+						"Item not a theme: " + std::to_string(theme), nullptr);
+				}
+				appitem->theme = *(mvRef<mvTheme>*)(&apptheme);
 				return GetPyNone();
 			}
 			else
@@ -3551,7 +3554,7 @@ namespace Marvel {
 		{
 			if (reg == 0)
 			{
-				appitem->_handlerRegistry = nullptr;
+				appitem->handlerRegistry = nullptr;
 				return GetPyNone();
 			}
 
@@ -3559,13 +3562,18 @@ namespace Marvel {
 
 			if (apptheme)
 			{
-				appitem->_handlerRegistry = apptheme;
-				apptheme->onBind(appitem);
+				if (apptheme->type != mvAppItemType::mvItemHandlerRegistry)
+				{
+					mvThrowPythonError(mvErrorCode::mvIncompatibleType, "bind_item_handler_registry",
+						"Item not handler registry: " + std::to_string(reg), nullptr);
+				}
+				appitem->handlerRegistry = *(mvRef<mvItemHandlerRegistry>*)(&apptheme);
+				appitem->handlerRegistry->onBind(appitem);
 				return GetPyNone();
 			}
 			else
 				mvThrowPythonError(mvErrorCode::mvItemNotFound, "bind_item_handler_registry",
-					"Theme item not found: " + std::to_string(item), nullptr);
+					"Item Handler Registry not found: " + std::to_string(reg), nullptr);
 		}
 		else
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "bind_item_handler_registry",
@@ -3589,7 +3597,7 @@ namespace Marvel {
 		mvAppItem* appitem = GetItem((*GContext->itemRegistry), item);
 
 		if (appitem)
-			appitem->_dirtyPos = false;
+			appitem->info.dirtyPos = false;
 		else
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "reset_pos",
 				"Item not found: " + std::to_string(item), nullptr);
@@ -3613,7 +3621,7 @@ namespace Marvel {
 		PyObject* pdict = PyDict_New();
 
 		if (appitem)
-			FillAppItemState(pdict, appitem->_state, GetApplicableState(appitem->_type));
+			FillAppItemState(pdict, appitem->state, GetApplicableState(appitem->type));
 		else
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "get_item_state",
 				"Item not found: " + std::to_string(item), nullptr);
@@ -3647,7 +3655,7 @@ namespace Marvel {
 		if (appitem)
 		{
 			//appitem->checkArgs(args, kwargs);
-			appitem->handleKeywordArgs(kwargs, GetEntityCommand(appitem->_type));
+			appitem->handleKeywordArgs(kwargs, GetEntityCommand(appitem->type));
 		}
 		else
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "configure_item",
@@ -3748,7 +3756,7 @@ namespace Marvel {
 		mvUUID item = GetIDFromPyObject(itemraw);
 		mvAppItem* appitem = GetItem((*GContext->itemRegistry), item);
 		if (appitem)
-			appitem->_alias = alias;
+			appitem->config.alias = alias;
 		return GetPyNone();
 	}
 
@@ -3766,7 +3774,7 @@ namespace Marvel {
 		mvUUID item = GetIDFromPyObject(itemraw);
 		mvAppItem* appitem = GetItem((*GContext->itemRegistry), item);
 		if (appitem)
-			return ToPyString(appitem->_alias);
+			return ToPyString(appitem->config.alias);
 		return GetPyNone();
 	}
 

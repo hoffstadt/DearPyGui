@@ -9,6 +9,7 @@
 #include "AppItems/fonts/mvFont.h"
 #include "AppItems/themes/mvTheme.h"
 #include "AppItems/containers/mvDragPayload.h"
+#include "AppItems/widget_handlers/mvItemHandlerRegistry.h"
 
 namespace Marvel {
 
@@ -21,7 +22,7 @@ namespace Marvel {
     void mvInputText::applySpecificTemplate(mvAppItem* item)
     {
         auto titem = static_cast<mvInputText*>(item);
-        if (_source != 0) _value = titem->_value;
+        if (config.source != 0) _value = titem->_value;
         _disabled_value = titem->_disabled_value;
         _hint = titem->_hint;
         _multiline = titem->_multiline;
@@ -41,8 +42,8 @@ namespace Marvel {
 
     void mvInputText::setDataSource(mvUUID dataSource)
     {
-        if (dataSource == _source) return;
-        _source = dataSource;
+        if (dataSource == config.source) return;
+        config.source = dataSource;
 
         mvAppItem* item = GetItem((*GContext->itemRegistry), dataSource);
         if (!item)
@@ -51,7 +52,7 @@ namespace Marvel {
                 "Source item not found: " + std::to_string(dataSource), this);
             return;
         }
-        if (GetEntityValueType(item->_type) != GetEntityValueType(_type))
+        if (GetEntityValueType(item->type) != GetEntityValueType(type))
         {
             mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
                 "Values types do not match: " + std::to_string(dataSource), this);
@@ -68,38 +69,38 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
 
         // show/hide
-        if (!_show)
+        if (!config.show)
             return;
 
         // focusing
-        if (_focusNextFrame)
+        if (info.focusNextFrame)
         {
             ImGui::SetKeyboardFocusHere();
-            _focusNextFrame = false;
+            info.focusNextFrame = false;
         }
 
         // cache old cursor position
         ImVec2 previousCursorPos = ImGui::GetCursorPos();
 
         // set cursor position if user set
-        if (_dirtyPos)
-            ImGui::SetCursorPos(_state.pos);
+        if (info.dirtyPos)
+            ImGui::SetCursorPos(state.pos);
 
         // update widget's position state
-        _state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
+        state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
 
         // set item width
-        if (_width != 0)
-            ImGui::SetNextItemWidth((float)_width);
+        if (config.width != 0)
+            ImGui::SetNextItemWidth((float)config.width);
 
         // set indent
-        if (_indent > 0.0f)
-            ImGui::Indent(_indent);
+        if (config.indent > 0.0f)
+            ImGui::Indent(config.indent);
 
         // push font if a font object is attached
-        if (_font)
+        if (font)
         {
-            ImFont* fontptr = static_cast<mvFont*>(_font.get())->getFontPtr();
+            ImFont* fontptr = static_cast<mvFont*>(font.get())->getFontPtr();
             ImGui::PushFont(fontptr);
         }
 
@@ -111,7 +112,7 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         {
 
-            ScopedID id(_uuid);
+            ScopedID id(uuid);
 
             bool activated = false;
 
@@ -121,23 +122,23 @@ namespace Marvel {
             if (_hint.empty())
             {
                 if (_multiline)
-                    activated = ImGui::InputTextMultiline(_internalLabel.c_str(), _value.get(), ImVec2((float)_width, (float)_height), _flags);
+                    activated = ImGui::InputTextMultiline(info.internalLabel.c_str(), _value.get(), ImVec2((float)config.width, (float)config.height), _flags);
                 else
-                    activated = ImGui::InputText(_internalLabel.c_str(), _value.get(), _flags);
+                    activated = ImGui::InputText(info.internalLabel.c_str(), _value.get(), _flags);
             }
             else
-                activated = ImGui::InputTextWithHint(_internalLabel.c_str(), _hint.c_str(), _value.get(), _flags);
+                activated = ImGui::InputTextWithHint(info.internalLabel.c_str(), _hint.c_str(), _value.get(), _flags);
 
             if (activated)
             {
                 auto value = *_value;
-                if (_alias.empty())
+                if(config.alias.empty())
                     mvSubmitCallback([=]() {
-                    mvAddCallback(getCallback(false), _uuid, ToPyString(value), _user_data);
+                    mvAddCallback(getCallback(false), uuid, ToPyString(value), config.user_data);
                         });
                 else
                     mvSubmitCallback([=]() {
-                    mvAddCallback(getCallback(false), _alias, ToPyString(value), _user_data);
+                    mvAddCallback(getCallback(false), config.alias, ToPyString(value), config.user_data);
                         });
             }
 
@@ -146,28 +147,28 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         // update state
         //-----------------------------------------------------------------------------
-        UpdateAppItemState(_state);
+        UpdateAppItemState(state);
 
         //-----------------------------------------------------------------------------
         // post draw
         //-----------------------------------------------------------------------------
 
         // set cursor position to cached position
-        if (_dirtyPos)
+        if (info.dirtyPos)
             ImGui::SetCursorPos(previousCursorPos);
 
-        if (_indent > 0.0f)
-            ImGui::Unindent(_indent);
+        if (config.indent > 0.0f)
+            ImGui::Unindent(config.indent);
 
         // pop font off stack
-        if (_font)
+        if (font)
             ImGui::PopFont();
 
         // handle popping themes
         cleanup_local_theming(this);
 
-        if (_handlerRegistry)
-            _handlerRegistry->customAction(&_state);
+        if (handlerRegistry)
+            handlerRegistry->checkEvents(&state);
 
         // handle drag & drop if used
         apply_drag_drop(this);
@@ -198,15 +199,15 @@ namespace Marvel {
         flagop("scientific", ImGuiInputTextFlags_CharsScientific, _flags);
         flagop("tab_input", ImGuiInputTextFlags_AllowTabInput, _flags);
 
-        if (_enabledLastFrame)
+        if (info.enabledLastFrame)
         {
-            _enabledLastFrame = false;
+            info.enabledLastFrame = false;
             _flags = _stor_flags;
         }
 
-        if (_disabledLastFrame)
+        if (info.disabledLastFrame)
         {
-            _disabledLastFrame = false;
+            info.disabledLastFrame = false;
             _stor_flags = _flags;
             _flags |= ImGuiInputTextFlags_ReadOnly;
             _flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
@@ -248,7 +249,7 @@ namespace Marvel {
     void mvInputIntMulti::applySpecificTemplate(mvAppItem* item)
     {
         auto titem = static_cast<mvInputIntMulti*>(item);
-        if (_source != 0) _value = titem->_value;
+        if (config.source != 0) _value = titem->_value;
         _disabled_value[0] = titem->_disabled_value[0];
         _disabled_value[1] = titem->_disabled_value[1];
         _disabled_value[2] = titem->_disabled_value[2];
@@ -284,8 +285,8 @@ namespace Marvel {
 
     void mvInputIntMulti::setDataSource(mvUUID dataSource)
     {
-        if (dataSource == _source) return;
-        _source = dataSource;
+        if (dataSource == config.source) return;
+        config.source = dataSource;
 
         mvAppItem* item = GetItem((*GContext->itemRegistry), dataSource);
         if (!item)
@@ -294,7 +295,7 @@ namespace Marvel {
                 "Source item not found: " + std::to_string(dataSource), this);
             return;
         }
-        if (GetEntityValueType(item->_type) != GetEntityValueType(_type))
+        if (GetEntityValueType(item->type) != GetEntityValueType(type))
         {
             mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
                 "Values types do not match: " + std::to_string(dataSource), this);
@@ -311,38 +312,38 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
 
         // show/hide
-        if (!_show)
+        if (!config.show)
             return;
 
         // focusing
-        if (_focusNextFrame)
+        if (info.focusNextFrame)
         {
             ImGui::SetKeyboardFocusHere();
-            _focusNextFrame = false;
+            info.focusNextFrame = false;
         }
 
         // cache old cursor position
         ImVec2 previousCursorPos = ImGui::GetCursorPos();
 
         // set cursor position if user set
-        if (_dirtyPos)
-            ImGui::SetCursorPos(_state.pos);
+        if (info.dirtyPos)
+            ImGui::SetCursorPos(state.pos);
 
         // update widget's position state
-        _state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
+        state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
 
         // set item width
-        if (_width != 0)
-            ImGui::SetNextItemWidth((float)_width);
+        if (config.width != 0)
+            ImGui::SetNextItemWidth((float)config.width);
 
         // set indent
-        if (_indent > 0.0f)
-            ImGui::Indent(_indent);
+        if (config.indent > 0.0f)
+            ImGui::Indent(config.indent);
 
         // push font if a font object is attached
-        if (_font)
+        if (font)
         {
-            ImFont* fontptr = static_cast<mvFont*>(_font.get())->getFontPtr();
+            ImFont* fontptr = static_cast<mvFont*>(font.get())->getFontPtr();
             ImGui::PushFont(fontptr);
         }
 
@@ -353,20 +354,20 @@ namespace Marvel {
         // draw
         //-----------------------------------------------------------------------------
         {
-            ScopedID id(_uuid);
+            ScopedID id(uuid);
 
             bool res = false;
 
             switch (_size)
             {
             case 2:
-                res = ImGui::InputInt2(_internalLabel.c_str(), _value->data(), _flags);
+                res = ImGui::InputInt2(info.internalLabel.c_str(), _value->data(), _flags);
                 break;
             case 3:
-                res = ImGui::InputInt3(_internalLabel.c_str(), _value->data(), _flags);
+                res = ImGui::InputInt3(info.internalLabel.c_str(), _value->data(), _flags);
                 break;
             case 4:
-                res = ImGui::InputInt4(_internalLabel.c_str(), _value->data(), _flags);
+                res = ImGui::InputInt4(info.internalLabel.c_str(), _value->data(), _flags);
                 break;
             default:
                 break;
@@ -409,13 +410,13 @@ namespace Marvel {
 
                     auto value = *_value;
 
-                    if(_alias.empty())
+                    if(config.alias.empty())
                         mvSubmitCallback([=]() {
-                            mvAddCallback(getCallback(false), _uuid, ToPyIntList(value.data(), (int)value.size()), _user_data);
+                            mvAddCallback(getCallback(false), uuid, ToPyIntList(value.data(), (int)value.size()), config.user_data);
                             });
                     else
                         mvSubmitCallback([=]() {
-                        mvAddCallback(getCallback(false), _alias, ToPyIntList(value.data(), (int)value.size()), _user_data);
+                        mvAddCallback(getCallback(false), config.alias, ToPyIntList(value.data(), (int)value.size()), config.user_data);
                             });
                 }
             }
@@ -424,28 +425,28 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         // update state
         //-----------------------------------------------------------------------------
-        UpdateAppItemState(_state);
+        UpdateAppItemState(state);
 
         //-----------------------------------------------------------------------------
         // post draw
         //-----------------------------------------------------------------------------
 
         // set cursor position to cached position
-        if (_dirtyPos)
+        if (info.dirtyPos)
             ImGui::SetCursorPos(previousCursorPos);
 
-        if (_indent > 0.0f)
-            ImGui::Unindent(_indent);
+        if (config.indent > 0.0f)
+            ImGui::Unindent(config.indent);
 
         // pop font off stack
-        if (_font)
+        if (font)
             ImGui::PopFont();
 
         // handle popping themes
         cleanup_local_theming(this);
 
-        if (_handlerRegistry)
-            _handlerRegistry->customAction(&_state);
+        if (handlerRegistry)
+            handlerRegistry->checkEvents(&state);
 
         // handle drag & drop if used
         apply_drag_drop(this);
@@ -460,7 +461,7 @@ namespace Marvel {
     void mvInputFloatMulti::applySpecificTemplate(mvAppItem* item)
     {
         auto titem = static_cast<mvInputFloatMulti*>(item);
-        if (_source != 0) _value = titem->_value;
+        if (config.source != 0) _value = titem->_value;
         _disabled_value[0] = titem->_disabled_value[0];
         _disabled_value[1] = titem->_disabled_value[1];
         _disabled_value[2] = titem->_disabled_value[2];
@@ -497,8 +498,8 @@ namespace Marvel {
 
     void mvInputFloatMulti::setDataSource(mvUUID dataSource)
     {
-        if (dataSource == _source) return;
-        _source = dataSource;
+        if (dataSource == config.source) return;
+        config.source = dataSource;
 
         mvAppItem* item = GetItem((*GContext->itemRegistry), dataSource);
         if (!item)
@@ -507,7 +508,7 @@ namespace Marvel {
                 "Source item not found: " + std::to_string(dataSource), this);
             return;
         }
-        if (GetEntityValueType(item->_type) != GetEntityValueType(_type))
+        if (GetEntityValueType(item->type) != GetEntityValueType(type))
         {
             mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
                 "Values types do not match: " + std::to_string(dataSource), this);
@@ -524,38 +525,38 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
 
         // show/hide
-        if (!_show)
+        if (!config.show)
             return;
 
         // focusing
-        if (_focusNextFrame)
+        if (info.focusNextFrame)
         {
             ImGui::SetKeyboardFocusHere();
-            _focusNextFrame = false;
+            info.focusNextFrame = false;
         }
 
         // cache old cursor position
         ImVec2 previousCursorPos = ImGui::GetCursorPos();
 
         // set cursor position if user set
-        if (_dirtyPos)
-            ImGui::SetCursorPos(_state.pos);
+        if (info.dirtyPos)
+            ImGui::SetCursorPos(state.pos);
 
         // update widget's position state
-        _state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
+        state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
 
         // set item width
-        if (_width != 0)
-            ImGui::SetNextItemWidth((float)_width);
+        if (config.width != 0)
+            ImGui::SetNextItemWidth((float)config.width);
 
         // set indent
-        if (_indent > 0.0f)
-            ImGui::Indent(_indent);
+        if (config.indent > 0.0f)
+            ImGui::Indent(config.indent);
 
         // push font if a font object is attached
-        if (_font)
+        if (font)
         {
-            ImFont* fontptr = static_cast<mvFont*>(_font.get())->getFontPtr();
+            ImFont* fontptr = static_cast<mvFont*>(font.get())->getFontPtr();
             ImGui::PushFont(fontptr);
         }
 
@@ -567,20 +568,20 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         {
 
-            ScopedID id(_uuid);
+            ScopedID id(uuid);
 
             bool res = false;
 
             switch (_size)
             {
             case 2:
-                res = ImGui::InputFloat2(_internalLabel.c_str(), _value->data(), _format.c_str(), _flags);
+                res = ImGui::InputFloat2(info.internalLabel.c_str(), _value->data(), _format.c_str(), _flags);
                 break;
             case 3:
-                res = ImGui::InputFloat3(_internalLabel.c_str(), _value->data(), _format.c_str(), _flags);
+                res = ImGui::InputFloat3(info.internalLabel.c_str(), _value->data(), _format.c_str(), _flags);
                 break;
             case 4:
-                res = ImGui::InputFloat4(_internalLabel.c_str(), _value->data(), _format.c_str(), _flags);
+                res = ImGui::InputFloat4(info.internalLabel.c_str(), _value->data(), _format.c_str(), _flags);
                 break;
             default:
                 break;
@@ -622,13 +623,13 @@ namespace Marvel {
                     _last_value = *_value;
                     auto value = *_value;
 
-                    if(_alias.empty())
+                    if(config.alias.empty())
                         mvSubmitCallback([=]() {
-                            mvAddCallback(getCallback(false), _uuid, ToPyFloatList(value.data(), (int)value.size()), _user_data);
+                            mvAddCallback(getCallback(false), uuid, ToPyFloatList(value.data(), (int)value.size()), config.user_data);
                             });
                     else
                         mvSubmitCallback([=]() {
-                        mvAddCallback(getCallback(false), _alias, ToPyFloatList(value.data(), (int)value.size()), _user_data);
+                        mvAddCallback(getCallback(false), config.alias, ToPyFloatList(value.data(), (int)value.size()), config.user_data);
                             });
                 }
             }
@@ -638,28 +639,28 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         // update state
         //-----------------------------------------------------------------------------
-        UpdateAppItemState(_state);
+        UpdateAppItemState(state);
 
         //-----------------------------------------------------------------------------
         // post draw
         //-----------------------------------------------------------------------------
 
         // set cursor position to cached position
-        if (_dirtyPos)
+        if (info.dirtyPos)
             ImGui::SetCursorPos(previousCursorPos);
 
-        if (_indent > 0.0f)
-            ImGui::Unindent(_indent);
+        if (config.indent > 0.0f)
+            ImGui::Unindent(config.indent);
 
         // pop font off stack
-        if (_font)
+        if (font)
             ImGui::PopFont();
 
         // handle popping themes
         cleanup_local_theming(this);
 
-        if (_handlerRegistry)
-            _handlerRegistry->customAction(&_state);
+        if (handlerRegistry)
+            handlerRegistry->checkEvents(&state);
 
         // handle drag & drop if used
         apply_drag_drop(this);
@@ -692,15 +693,15 @@ namespace Marvel {
         if (PyObject* item = PyDict_GetItemString(dict, "min_clamped")) _min_clamped = ToBool(item);
         if (PyObject* item = PyDict_GetItemString(dict, "max_clamped")) _max_clamped = ToBool(item);
 
-        if (_enabledLastFrame)
+        if (info.enabledLastFrame)
         {
-            _enabledLastFrame = false;
+            info.enabledLastFrame = false;
             _flags = _stor_flags;
         }
 
-        if (_disabledLastFrame)
+        if (info.disabledLastFrame)
         {
-            _disabledLastFrame = false;
+            info.disabledLastFrame = false;
             _stor_flags = _flags;
             _flags |= ImGuiInputTextFlags_ReadOnly;
             _flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
@@ -756,15 +757,15 @@ namespace Marvel {
         flagop("readonly", ImGuiInputTextFlags_ReadOnly, _flags);
         flagop("readonly", ImGuiInputTextFlags_ReadOnly, _stor_flags);
 
-        if (_enabledLastFrame)
+        if (info.enabledLastFrame)
         {
-            _enabledLastFrame = false;
+            info.enabledLastFrame = false;
             _flags = _stor_flags;
         }
 
-        if (_disabledLastFrame)
+        if (info.disabledLastFrame)
         {
-            _disabledLastFrame = false;
+            info.disabledLastFrame = false;
             _stor_flags = _flags;
             _flags |= ImGuiInputTextFlags_ReadOnly;
             _flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
@@ -804,7 +805,7 @@ namespace Marvel {
     void mvInputInt::applySpecificTemplate(mvAppItem* item)
     {
         auto titem = static_cast<mvInputInt*>(item);
-        if (_source != 0) _value = titem->_value;
+        if (config.source != 0) _value = titem->_value;
         _disabled_value = titem->_disabled_value;
         _min = titem->_min;
         _max = titem->_max;
@@ -819,8 +820,8 @@ namespace Marvel {
 
     void mvInputInt::setDataSource(mvUUID dataSource)
     {
-        if (dataSource == _source) return;
-        _source = dataSource;
+        if (dataSource == config.source) return;
+        config.source = dataSource;
 
         mvAppItem* item = GetItem((*GContext->itemRegistry), dataSource);
         if (!item)
@@ -829,7 +830,7 @@ namespace Marvel {
                 "Source item not found: " + std::to_string(dataSource), this);
             return;
         }
-        if (GetEntityValueType(item->_type) != GetEntityValueType(_type))
+        if (GetEntityValueType(item->type) != GetEntityValueType(type))
         {
             mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
                 "Values types do not match: " + std::to_string(dataSource), this);
@@ -858,38 +859,38 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
 
         // show/hide
-        if (!_show)
+        if (!config.show)
             return;
 
         // focusing
-        if (_focusNextFrame)
+        if (info.focusNextFrame)
         {
             ImGui::SetKeyboardFocusHere();
-            _focusNextFrame = false;
+            info.focusNextFrame = false;
         }
 
         // cache old cursor position
         ImVec2 previousCursorPos = ImGui::GetCursorPos();
 
         // set cursor position if user set
-        if (_dirtyPos)
-            ImGui::SetCursorPos(_state.pos);
+        if (info.dirtyPos)
+            ImGui::SetCursorPos(state.pos);
 
         // update widget's position state
-        _state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
+        state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
 
         // set item width
-        if (_width != 0)
-            ImGui::SetNextItemWidth((float)_width);
+        if (config.width != 0)
+            ImGui::SetNextItemWidth((float)config.width);
 
         // set indent
-        if (_indent > 0.0f)
-            ImGui::Indent(_indent);
+        if (config.indent > 0.0f)
+            ImGui::Indent(config.indent);
 
         // push font if a font object is attached
-        if (_font)
+        if (font)
         {
-            ImFont* fontptr = static_cast<mvFont*>(_font.get())->getFontPtr();
+            ImFont* fontptr = static_cast<mvFont*>(font.get())->getFontPtr();
             ImGui::PushFont(fontptr);
         }
 
@@ -901,9 +902,9 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         {
 
-            ScopedID id(_uuid);
+            ScopedID id(uuid);
 
-            if (ImGui::InputInt(_internalLabel.c_str(), _value.get(), _step, _step_fast, _flags))
+            if (ImGui::InputInt(info.internalLabel.c_str(), _value.get(), _step, _step_fast, _flags))
             {
                 // determines clamped cases
                 if (_min_clamped && _max_clamped)
@@ -929,13 +930,13 @@ namespace Marvel {
                     _last_value = *_value;
                     auto value = *_value;
 
-                    if (_alias.empty())
+                    if(config.alias.empty())
                         mvSubmitCallback([=]() {
-                        mvAddCallback(getCallback(false), _uuid, ToPyInt(value), _user_data);
+                        mvAddCallback(getCallback(false), uuid, ToPyInt(value), config.user_data);
                             });
                     else
                         mvSubmitCallback([=]() {
-                        mvAddCallback(getCallback(false), _alias, ToPyInt(value), _user_data);
+                        mvAddCallback(getCallback(false), config.alias, ToPyInt(value), config.user_data);
                             });
                 }
             }
@@ -945,28 +946,28 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         // update state
         //-----------------------------------------------------------------------------
-        UpdateAppItemState(_state);
+        UpdateAppItemState(state);
 
         //-----------------------------------------------------------------------------
         // post draw
         //-----------------------------------------------------------------------------
 
         // set cursor position to cached position
-        if (_dirtyPos)
+        if (info.dirtyPos)
             ImGui::SetCursorPos(previousCursorPos);
 
-        if (_indent > 0.0f)
-            ImGui::Unindent(_indent);
+        if (config.indent > 0.0f)
+            ImGui::Unindent(config.indent);
 
         // pop font off stack
-        if (_font)
+        if (font)
             ImGui::PopFont();
 
         // handle popping themes
         cleanup_local_theming(this);
 
-        if (_handlerRegistry)
-            _handlerRegistry->customAction(&_state);
+        if (handlerRegistry)
+            handlerRegistry->checkEvents(&state);
 
         // handle drag & drop if used
         apply_drag_drop(this);
@@ -981,7 +982,7 @@ namespace Marvel {
     void mvInputFloat::applySpecificTemplate(mvAppItem* item)
     {
         auto titem = static_cast<mvInputFloat*>(item);
-        if (_source != 0) _value = titem->_value;
+        if (config.source != 0) _value = titem->_value;
         _disabled_value = titem->_disabled_value;
         _min = titem->_min;
         _max = titem->_max;
@@ -1008,8 +1009,8 @@ namespace Marvel {
 
     void mvInputFloat::setDataSource(mvUUID dataSource)
     {
-        if (dataSource == _source) return;
-        _source = dataSource;
+        if (dataSource == config.source) return;
+        config.source = dataSource;
 
         mvAppItem* item = GetItem((*GContext->itemRegistry), dataSource);
         if (!item)
@@ -1018,7 +1019,7 @@ namespace Marvel {
                 "Source item not found: " + std::to_string(dataSource), this);
             return;
         }
-        if (GetEntityValueType(item->_type) != GetEntityValueType(_type))
+        if (GetEntityValueType(item->type) != GetEntityValueType(type))
         {
             mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
                 "Values types do not match: " + std::to_string(dataSource), this);
@@ -1035,38 +1036,38 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
 
         // show/hide
-        if (!_show)
+        if (!config.show)
             return;
 
         // focusing
-        if (_focusNextFrame)
+        if (info.focusNextFrame)
         {
             ImGui::SetKeyboardFocusHere();
-            _focusNextFrame = false;
+            info.focusNextFrame = false;
         }
 
         // cache old cursor position
         ImVec2 previousCursorPos = ImGui::GetCursorPos();
 
         // set cursor position if user set
-        if (_dirtyPos)
-            ImGui::SetCursorPos(_state.pos);
+        if (info.dirtyPos)
+            ImGui::SetCursorPos(state.pos);
 
         // update widget's position state
-        _state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
+        state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
 
         // set item width
-        if (_width != 0)
-            ImGui::SetNextItemWidth((float)_width);
+        if (config.width != 0)
+            ImGui::SetNextItemWidth((float)config.width);
 
         // set indent
-        if (_indent > 0.0f)
-            ImGui::Indent(_indent);
+        if (config.indent > 0.0f)
+            ImGui::Indent(config.indent);
 
         // push font if a font object is attached
-        if (_font)
+        if (font)
         {
-            ImFont* fontptr = static_cast<mvFont*>(_font.get())->getFontPtr();
+            ImFont* fontptr = static_cast<mvFont*>(font.get())->getFontPtr();
             ImGui::PushFont(fontptr);
         }
 
@@ -1078,9 +1079,9 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         {
 
-            ScopedID id(_uuid);
+            ScopedID id(uuid);
 
-            if (ImGui::InputFloat(_internalLabel.c_str(), _value.get(), _step, _step_fast, _format.c_str(), _flags))
+            if (ImGui::InputFloat(info.internalLabel.c_str(), _value.get(), _step, _step_fast, _format.c_str(), _flags))
             {
                 // determines clamped cases
                 if (_min_clamped && _max_clamped)
@@ -1106,13 +1107,13 @@ namespace Marvel {
                     _last_value = *_value;
                     auto value = *_value;
 
-                    if (_alias.empty())
+                    if(config.alias.empty())
                         mvSubmitCallback([=]() {
-                        mvAddCallback(getCallback(false), _uuid, ToPyFloat(value), _user_data);
+                        mvAddCallback(getCallback(false), uuid, ToPyFloat(value), config.user_data);
                             });
                     else
                         mvSubmitCallback([=]() {
-                        mvAddCallback(getCallback(false), _alias, ToPyFloat(value), _user_data);
+                        mvAddCallback(getCallback(false), config.alias, ToPyFloat(value), config.user_data);
                             });
                 }
             }
@@ -1121,28 +1122,28 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         // update state
         //-----------------------------------------------------------------------------
-        UpdateAppItemState(_state);
+        UpdateAppItemState(state);
 
         //-----------------------------------------------------------------------------
         // post draw
         //-----------------------------------------------------------------------------
 
         // set cursor position to cached position
-        if (_dirtyPos)
+        if (info.dirtyPos)
             ImGui::SetCursorPos(previousCursorPos);
 
-        if (_indent > 0.0f)
-            ImGui::Unindent(_indent);
+        if (config.indent > 0.0f)
+            ImGui::Unindent(config.indent);
 
         // pop font off stack
-        if (_font)
+        if (font)
             ImGui::PopFont();
 
         // handle popping themes
         cleanup_local_theming(this);
 
-        if (_handlerRegistry)
-            _handlerRegistry->customAction(&_state);
+        if (handlerRegistry)
+            handlerRegistry->checkEvents(&state);
 
         // handle drag & drop if used
         apply_drag_drop(this);
@@ -1175,15 +1176,15 @@ namespace Marvel {
         if (PyObject* item = PyDict_GetItemString(dict, "min_clamped")) _min_clamped = ToBool(item);
         if (PyObject* item = PyDict_GetItemString(dict, "max_clamped")) _max_clamped = ToBool(item);
 
-        if (_enabledLastFrame)
+        if (info.enabledLastFrame)
         {
-            _enabledLastFrame = false;
+            info.enabledLastFrame = false;
             _flags = _stor_flags;
         }
 
-        if (_disabledLastFrame)
+        if (info.disabledLastFrame)
         {
-            _disabledLastFrame = false;
+            info.disabledLastFrame = false;
             _stor_flags = _flags;
             _flags |= ImGuiInputTextFlags_ReadOnly;
             _flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
@@ -1244,15 +1245,15 @@ namespace Marvel {
         flagop("readonly", ImGuiInputTextFlags_ReadOnly, _flags);
         flagop("readonly", ImGuiInputTextFlags_ReadOnly, _stor_flags);
 
-        if (_enabledLastFrame)
+        if (info.enabledLastFrame)
         {
-            _enabledLastFrame = false;
+            info.enabledLastFrame = false;
             _flags = _stor_flags;
         }
 
-        if (_disabledLastFrame)
+        if (info.disabledLastFrame)
         {
-            _disabledLastFrame = false;
+            info.disabledLastFrame = false;
             _stor_flags = _flags;
             _flags |= ImGuiInputTextFlags_ReadOnly;
             _flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;

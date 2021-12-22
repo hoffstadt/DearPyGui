@@ -58,20 +58,84 @@ namespace Marvel {
     mv_internal void
     CacheItem(mvItemRegistry& registry, mvAppItem* item)
     {
-        if (GetEntityDesciptionFlags(item->_type) & MV_ITEM_DESC_CONTAINER)
+        if (GetEntityDesciptionFlags(item->type) & MV_ITEM_DESC_CONTAINER)
         {
-            registry.cachedContainersID[registry.cachedContainerIndex] = item->_uuid;
+            registry.cachedContainersID[registry.cachedContainerIndex] = item->uuid;
             registry.cachedContainersPTR[registry.cachedContainerIndex] = item;
             registry.cachedContainerIndex++;
             if (registry.cachedContainerIndex == registry.CachedContainerCount)
                 registry.cachedContainerIndex = 0;
         }
 
-        registry.cachedItemsID[registry.cachedItemsIndex] = item->_uuid;
+        registry.cachedItemsID[registry.cachedItemsIndex] = item->uuid;
         registry.cachedItemsPTR[registry.cachedItemsIndex] = item;
         registry.cachedItemsIndex++;
         if (registry.cachedItemsIndex == registry.CachedContainerCount)
             registry.cachedItemsIndex = 0;
+    }
+
+    mv_internal void
+    UpdateChildLocations(std::vector<mvRef<mvAppItem>>* children, i32 slots)
+    {
+        for (i32 i = 0; i < slots; i++)
+        {
+            i32 index = 0;
+            for (auto& child : children[i])
+            {
+                child->info.location = index;
+                index++;
+            }
+        }
+    }
+
+    mv_internal b8
+    DeleteChild(mvAppItem* item, mvUUID uuid)
+    {
+        for (auto& childset : item->childslots)
+        {
+            b8 childfound = false;
+            b8 itemDeleted = false;
+
+            for (auto& child : childset)
+            {
+                if (child->uuid == uuid)
+                {
+                    childfound = true;
+                    break;
+                }
+
+                itemDeleted = DeleteChild(child.get(), uuid);
+                if (itemDeleted)
+                    break;
+            }
+
+            if (childfound)
+            {
+                std::vector<mvRef<mvAppItem>> oldchildren = childset;
+
+                childset.clear();
+
+                for (auto& child : oldchildren)
+                {
+                    if (child->uuid == uuid)
+                    {
+                        itemDeleted = true;
+                        item->onChildRemoved(child);
+                        continue;
+                    }
+
+                    childset.push_back(child);
+                }
+            }
+
+            if (itemDeleted)
+            {
+                UpdateChildLocations(item->childslots, 4);
+                return true;
+            }
+        }
+
+        return false;
     }
 
     mv_internal b8
@@ -82,7 +146,7 @@ namespace Marvel {
         // try to delete build-in item
         for (auto& root : roots)
         {
-            deletedItem = root->deleteChild(uuid);
+            deletedItem = DeleteChild(root.get(), uuid);
             if (deletedItem)
                 break;
         }
@@ -95,7 +159,7 @@ namespace Marvel {
         // check if attempting to delete a window
         for (auto& window : roots)
         {
-            if (window->_uuid == uuid)
+            if (window->uuid == uuid)
             {
                 rootDeleting = true;
                 break;
@@ -113,7 +177,7 @@ namespace Marvel {
 
             for (auto& root : oldroots)
             {
-                if (root->_uuid == uuid)
+                if (root->uuid == uuid)
                 {
                     deletedItem = true;
                     continue;
@@ -127,16 +191,119 @@ namespace Marvel {
         return false;
     }
 
+    mv_internal mvRef<mvAppItem>
+    StealChild(mvAppItem* item, mvUUID uuid)
+    {
+        mvRef<mvAppItem> stolenChild = nullptr;
+
+        for (auto& childset : item->childslots)
+        {
+            b8 childfound = false;
+
+            for (auto& child : childset)
+            {
+                if (child->uuid == uuid)
+                {
+                    childfound = true;
+                    break;
+                }
+
+                if (GetEntityDesciptionFlags(child->type) & MV_ITEM_DESC_CONTAINER)
+                {
+                    stolenChild = StealChild(child.get(), uuid);
+                    if (stolenChild)
+                        return stolenChild;
+                }
+            }
+
+            if (childfound)
+            {
+                std::vector<mvRef<mvAppItem>> oldchildren = childset;
+
+                childset.clear();
+
+                for (auto& child : oldchildren)
+                {
+                    if (child->uuid == uuid)
+                    {
+                        stolenChild = child;
+                        item->onChildRemoved(child);
+                        continue;
+                    }
+
+                    childset.push_back(child);
+                }
+
+                UpdateChildLocations(item->childslots, 4);
+
+                return stolenChild;
+            }
+
+
+            //return static_cast<mvRef<mvAppItem>>(CreateRef<mvButton>("Not possible"));
+        }
+
+        return stolenChild;
+    }
+
     mv_internal b8
     MoveRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid, mvRef<mvAppItem>& item)
     {
         
         for (auto& window : roots)
         {
-            item = window->stealChild(uuid);
+            item = StealChild(window.get(), uuid);
             if (item)
                 return true;
         }
+        return false;
+    }
+
+    mv_internal b8
+    MoveChildUp(mvAppItem* item, mvUUID uuid)
+    {
+        b8 found = false;
+        i32 index = 0;
+
+        for (auto& childset : item->childslots)
+        {
+            // check children
+            for (size_t i = 0; i < childset.size(); i++)
+            {
+
+                if (childset[i]->uuid == uuid)
+                {
+                    found = true;
+                    index = (i32)i;
+                    break;
+                }
+
+                if (GetEntityDesciptionFlags(childset[i]->type) & MV_ITEM_DESC_CONTAINER)
+                {
+                    found = MoveChildUp(childset[i].get(), uuid);
+                    if (found)
+                        return true;
+                }
+
+            }
+
+            if (found)
+            {
+                if (index > 0)
+                {
+                    auto upperitem = childset[index - 1];
+                    auto loweritem = childset[index];
+
+                    childset[index] = upperitem;
+                    childset[index - 1] = loweritem;
+
+                    UpdateChildLocations(item->childslots, 4);
+                }
+
+                return true;
+            }
+        }
+
         return false;
     }
 
@@ -145,9 +312,59 @@ namespace Marvel {
     {
         for (auto& window : roots)
         {
-            if (window->moveChildUp(uuid))
+            if (MoveChildUp(window.get(), uuid))
                 return true;
         }
+        return false;
+    }
+
+    mv_internal b8
+    MoveChildDown(mvAppItem* item, mvUUID uuid)
+    {
+        b8 found = false;
+        size_t index = 0;
+
+        for (auto& childset : item->childslots)
+        {
+            // check children
+            for (size_t i = 0; i < childset.size(); i++)
+            {
+
+                if (childset[i]->uuid == uuid)
+                {
+                    found = true;
+                    index = i;
+                    break;
+                }
+
+                if (GetEntityDesciptionFlags(childset[i]->type) & MV_ITEM_DESC_CONTAINER)
+                {
+                    found = MoveChildDown(childset[i].get(), uuid);
+                    if (found)
+                        return true;
+                }
+
+            }
+
+            if (found)
+            {
+                if (index < childset.size() - 1)
+                {
+                    auto upperitem = childset[index];
+                    auto loweritem = childset[index + 1];
+
+                    childset[index] = loweritem;
+                    childset[index + 1] = upperitem;
+
+                    UpdateChildLocations(item->childslots, 4);
+                }
+
+                return true;
+            }
+
+
+        }
+
         return false;
     }
 
@@ -156,22 +373,180 @@ namespace Marvel {
     {
         for (auto& window : roots)
         {
-            if (window->moveChildDown(uuid))
+            if (MoveChildDown(window.get(), uuid))
                 return true;
         }
         return false;
     }
 
     mv_internal b8
+    AddRuntimeChild(mvAppItem* rootitem, mvUUID parent, mvUUID before, mvRef<mvAppItem> item)
+    {
+        if (before == 0 && parent == 0)
+            return false;
+
+        for (auto& children : rootitem->childslots)
+        {
+            //this is the container, add item to end.
+            if (before == 0)
+            {
+
+                if (rootitem->uuid == parent)
+                {
+                    i32 targetSlot = GetEntityTargetSlot(item->type);
+                    item->info.location = (i32)rootitem->childslots[targetSlot].size();
+                    rootitem->childslots[targetSlot].push_back(item);
+                    rootitem->onChildAdd(item);
+                    item->info.parentPtr = rootitem;
+                    item->config.parent = rootitem->uuid;
+                    return true;
+                }
+
+                // check children
+                for (auto& childslot : rootitem->childslots)
+                {
+                    for (auto& child : childslot)
+                    {
+                        if (GetEntityDesciptionFlags(child->type) & MV_ITEM_DESC_CONTAINER
+                            || GetEntityDesciptionFlags(item->type) & MV_ITEM_DESC_HANDLER)
+                        {
+                            // parent found
+                            if (AddRuntimeChild(child.get(), parent, before, item))
+                                return true;
+                        }
+                    }
+                }
+            }
+
+            // this is the container, add item to beginning.
+            else
+            {
+                bool beforeFound = false;
+
+                // check children
+                for (auto& child : children)
+                {
+
+                    if (child->uuid == before)
+                    {
+                        beforeFound = true;
+                        break;
+                    }
+                }
+
+
+                // after item is in this container
+                if (beforeFound)
+                {
+                    item->info.parentPtr = rootitem;
+
+                    std::vector<mvRef<mvAppItem>> oldchildren = children;
+                    children.clear();
+
+                    for (auto& child : oldchildren)
+                    {
+                        if (child->uuid == before)
+                        {
+                            children.push_back(item);
+                            rootitem->onChildAdd(item);
+                        }
+                        children.push_back(child);
+
+                    }
+
+                    UpdateChildLocations(rootitem->childslots, 4);
+
+                    return true;
+                }
+            }
+
+            // check children
+            for (auto& child : children)
+            {
+                if (GetEntityDesciptionFlags(child->type) & MV_ITEM_DESC_CONTAINER
+                    || GetEntityDesciptionFlags(item->type) & MV_ITEM_DESC_HANDLER)
+                {
+                    // parent found
+                    if (AddRuntimeChild(child.get(), parent, before, item))
+                        return true;
+                }
+            }
+
+        };
+
+        return false;
+    }
+
+
+    mv_internal b8
     AddRuntimeChildRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID parent, mvUUID before, mvRef<mvAppItem> item)
     {
         for (auto& root : roots)
         {
-            if (root->addRuntimeChild(parent, before, item))
+            if (AddRuntimeChild(root.get(), parent, before, item))
                 return true;
         }
         return false;
 
+    }
+
+    mv_internal b8
+    AddChildAfter(mvAppItem* parent, mvUUID prev, mvRef<mvAppItem> item)
+    {
+        if (prev == 0)
+            return false;
+
+        b8 prevFound = false;
+
+        // check children
+        for (auto& childslot : parent->childslots)
+        {
+            for (auto& child : childslot)
+            {
+
+                if (child->uuid == prev)
+                {
+                    item->info.parentPtr = parent;
+                    prevFound = true;
+                    break;
+                }
+
+            }
+        }
+
+        // prev item is in this container
+        if (prevFound)
+        {
+            i32 targetSlot = GetEntityTargetSlot(item->type);
+            std::vector<mvRef<mvAppItem>> oldchildren = parent->childslots[targetSlot];
+            parent->childslots[targetSlot].clear();
+
+            for (auto& child : oldchildren)
+            {
+                parent->childslots[targetSlot].push_back(child);
+                if (child->uuid == prev)
+                {
+                    parent->childslots[targetSlot].push_back(item);
+                    parent->onChildAdd(item);
+                }
+            }
+
+            return true;
+        }
+
+
+        // check children
+        for (auto& childslot : parent->childslots)
+        {
+            for (auto& child : childslot)
+            {
+                // parent found
+                if (AddChildAfter(child.get(), prev, item))
+                    return true;
+            }
+        }
+
+        return false;
     }
 
     mv_internal b8
@@ -179,7 +554,7 @@ namespace Marvel {
     {
         for (auto& root : roots)
         {
-            if (root->addChildAfter(prev, item))
+            if (AddChildAfter(root.get(), prev, item))
                 return true;
         }
 
@@ -211,13 +586,12 @@ namespace Marvel {
     mv_internal b8
     AddItem(mvItemRegistry& registry, mvRef<mvAppItem> item)
     {
-
-        //MV_ITEM_REGISTRY_TRACE("Adding item: " + item->_name);
-
         mvAppItem* parentitem = TopParent(registry);
-        item->_parentPtr = parentitem;
-        parentitem->addItem(item);
-
+        item->info.parentPtr = parentitem;
+        i32 targetSlot = GetEntityTargetSlot(item->type);
+        item->info.location = (i32)parentitem->childslots[targetSlot].size();
+        parentitem->childslots[targetSlot].push_back(item);
+        parentitem->onChildAdd(item);
         return true;
     }
 
@@ -246,21 +620,75 @@ namespace Marvel {
     AddRoot(mvItemRegistry& registry, mvRef<mvAppItem> item)
     {
 
-        if (item->_type == mvAppItemType::mvWindowAppItem) registry.windowRoots.push_back(item);
-        if (item->_type == mvAppItemType::mvColorMapRegistry) registry.colormapRoots.push_back(item);
-        if (item->_type == mvAppItemType::mvFileDialog) registry.filedialogRoots.push_back(item);
-        if (item->_type == mvAppItemType::mvStage) registry.stagingRoots.push_back(item);
-        if (item->_type == mvAppItemType::mvViewportMenuBar) registry.viewportMenubarRoots.push_back(item);
-        if (item->_type == mvAppItemType::mvFontRegistry) registry.fontRegistryRoots.push_back(item);
-        if (item->_type == mvAppItemType::mvHandlerRegistry) registry.handlerRegistryRoots.push_back(item);
-        if (item->_type == mvAppItemType::mvTextureRegistry) registry.textureRegistryRoots.push_back(item);
-        if (item->_type == mvAppItemType::mvValueRegistry) registry.valueRegistryRoots.push_back(item);
-        if (item->_type == mvAppItemType::mvTheme) registry.themeRegistryRoots.push_back(item);
-        if (item->_type == mvAppItemType::mvTemplateRegistry) registry.itemTemplatesRoots.push_back(item);
-        if (item->_type == mvAppItemType::mvItemHandlerRegistry) registry.itemHandlerRegistryRoots.push_back(item);
-        if (item->_type == mvAppItemType::mvViewportDrawlist) registry.viewportDrawlistRoots.push_back(item);
+        if (item->type == mvAppItemType::mvWindowAppItem) registry.windowRoots.push_back(item);
+        if (item->type == mvAppItemType::mvColorMapRegistry) registry.colormapRoots.push_back(item);
+        if (item->type == mvAppItemType::mvFileDialog) registry.filedialogRoots.push_back(item);
+        if (item->type == mvAppItemType::mvStage) registry.stagingRoots.push_back(item);
+        if (item->type == mvAppItemType::mvViewportMenuBar) registry.viewportMenubarRoots.push_back(item);
+        if (item->type == mvAppItemType::mvFontRegistry) registry.fontRegistryRoots.push_back(item);
+        if (item->type == mvAppItemType::mvHandlerRegistry) registry.handlerRegistryRoots.push_back(item);
+        if (item->type == mvAppItemType::mvTextureRegistry) registry.textureRegistryRoots.push_back(item);
+        if (item->type == mvAppItemType::mvValueRegistry) registry.valueRegistryRoots.push_back(item);
+        if (item->type == mvAppItemType::mvTheme) registry.themeRegistryRoots.push_back(item);
+        if (item->type == mvAppItemType::mvTemplateRegistry) registry.itemTemplatesRoots.push_back(item);
+        if (item->type == mvAppItemType::mvItemHandlerRegistry) registry.itemHandlerRegistryRoots.push_back(item);
+        if (item->type == mvAppItemType::mvViewportDrawlist) registry.viewportDrawlistRoots.push_back(item);
 
         return true;
+    }
+
+    mv_internal mvAppItem*
+    GetChild(mvAppItem* rootitem, mvUUID uuid)
+    {
+
+        if (rootitem->uuid == uuid)
+            return rootitem;
+
+        if (rootitem->config.searchLast)
+        {
+            if (rootitem->config.searchDelayed)
+                rootitem->config.searchDelayed = false;
+            else
+            {
+                rootitem->config.searchDelayed = true;
+                DelaySearch(*GContext->itemRegistry, rootitem);
+            }
+        }
+
+        for (auto& childset : rootitem->childslots)
+        {
+            for (auto& childitem : childset)
+            {
+                if (childitem->uuid == uuid)
+                    return childitem.get();
+
+                auto child = GetChild(childitem.get(), uuid);
+                if (child)
+                    return child;
+            }
+        }
+
+        return nullptr;
+    }
+
+    mv_internal mvRef<mvAppItem>
+    GetChildRef(mvAppItem* rootitem, mvUUID uuid)
+    {
+
+        for (auto& childset : rootitem->childslots)
+        {
+            for (auto& item : childset)
+            {
+                if (item->uuid == uuid)
+                    return item;
+
+                auto child = GetChildRef(item.get(), uuid);
+                if (child)
+                    return child;
+            }
+        }
+
+        return nullptr;
     }
 
     mv_internal mvAppItem*
@@ -268,13 +696,13 @@ namespace Marvel {
     {
         for (auto& root : roots)
         {
-            if (root->_uuid == uuid)
+            if (root->uuid == uuid)
             {
                 CacheItem(registry, root.get());
                 return root.get();
             }
 
-            mvAppItem* child = root->getChild(uuid);
+            mvAppItem* child = GetChild(root.get(), uuid);
             if (child)
             {
                 CacheItem(registry, child);
@@ -292,10 +720,10 @@ namespace Marvel {
 
         for (auto& root : roots)
         {
-            if (root->_uuid == uuid)
+            if (root->uuid == uuid)
                 return root;
 
-            auto child = root->getChildRef(uuid);
+            auto child = GetChildRef(root.get(), uuid);
             if (child)
                 return child;
         }
@@ -310,7 +738,7 @@ namespace Marvel {
         b8 exists = false;
         for (const auto& debug : registry.debugWindows)
         {
-            if (debug->_uuid == uuid)
+            if (debug->uuid == uuid)
             {
                 exists = true;
                 break;
@@ -326,7 +754,7 @@ namespace Marvel {
 
         for (auto& debug : oldWindows)
         {
-            if (debug->_uuid != uuid)
+            if (debug->uuid != uuid)
                 registry.debugWindows.push_back(debug);
         }
     }
@@ -354,11 +782,11 @@ namespace Marvel {
         mvAppItem* item = GetItem(registry, uuid);
         if (item)
         {
-            if (item->_parentPtr)
+            if (item->info.parentPtr)
             {
-                mvAppItem* currentAncestor = item->_parentPtr;
-                while (!(GetEntityDesciptionFlags(currentAncestor->_type) & MV_ITEM_DESC_ROOT))
-                    currentAncestor = currentAncestor->_parentPtr;
+                mvAppItem* currentAncestor = item->info.parentPtr;
+                while (!(GetEntityDesciptionFlags(currentAncestor->type) & MV_ITEM_DESC_ROOT))
+                    currentAncestor = currentAncestor->info.parentPtr;
 
                 return currentAncestor;
             }
@@ -382,19 +810,23 @@ namespace Marvel {
             {
                 if (slot > -1 && slot < 4)
                 {
-                    item->_children[slot].clear();
-                    item->_children[slot].shrink_to_fit();
+                    item->childslots[slot].clear();
+                    item->childslots[slot].shrink_to_fit();
                 }
                 else
                 {
                     for(size_t i = 0; i < 4; i++)
                     {
-                        item->_children[i].clear();
-                        item->_children[i].shrink_to_fit();
+                        item->childslots[i].clear();
+                        item->childslots[i].shrink_to_fit();
                     }
                 }
                 
-                item->onChildrenRemoved();
+                if(item->type == mvAppItemType::mvTable)
+                    static_cast<mvTable*>(item)->onChildrenRemoved();
+                else if (item->type == mvAppItemType::mvTextureRegistry)
+                    static_cast<mvTextureRegistry*>(item)->onChildrenRemoved();
+
                 MV_ITEM_REGISTRY_INFO("Item found and it's children deleted.");
                 return true;
             }
@@ -442,7 +874,7 @@ namespace Marvel {
 
         if(registry.capturedItem)
         {
-            if(registry.capturedItem->_uuid == uuid)
+            if(registry.capturedItem->uuid == uuid)
             {
                 child = registry.capturedItem;
                 movedItem = true;
@@ -575,7 +1007,7 @@ namespace Marvel {
 
         for (auto& root : registry.fontRegistryRoots)
         {
-            if (root->_show)
+            if (root->config.show)
                 root->draw(nullptr, 0.0f, 0.0f);
         }
 
@@ -586,7 +1018,7 @@ namespace Marvel {
 
             for (auto& root : registry.fontRegistryRoots)
             {
-                for (auto& font : root->_children[1])
+                for (auto& font : root->childslots[1])
                 {
                     if (static_cast<mvFont*>(font.get())->_default)
                     {
@@ -601,7 +1033,7 @@ namespace Marvel {
 
         for (auto& root : registry.handlerRegistryRoots)
         {
-            if (root->_show)
+            if (root->config.show)
                 root->draw(nullptr, 0.0f, 0.0f);
         }
 
@@ -613,7 +1045,7 @@ namespace Marvel {
 
         for (auto& root : registry.themeRegistryRoots)
         {
-            if(root->_show)
+            if(root->config.show)
                 root->draw(nullptr, 0.0f, 0.0f);
         }
 
@@ -631,7 +1063,7 @@ namespace Marvel {
 
         for (auto& root : registry.themeRegistryRoots)
         {
-            if (root->_show)
+            if (root->config.show)
                 root->customAction();
         }
 
@@ -639,85 +1071,83 @@ namespace Marvel {
         {
             ImGui::SetNextWindowSize(ImVec2(500.0f, 500.0f), ImGuiCond_FirstUseEver);
 
-            if (!ImGui::Begin(root->_specifiedLabel.c_str(), &root->_showDebug))
+            if (!ImGui::Begin(root->config.specifiedLabel.c_str(), &root->info.showDebug))
             {
                 ImGui::End();
 
-                if (!root->_showDebug)
-                    RemoveDebugWindow(*GContext->itemRegistry, root->_uuid);
+                if (!root->info.showDebug)
+                    RemoveDebugWindow(*GContext->itemRegistry, root->uuid);
                 return;
             }
 
             mv_local_persist char ts[6] = "True";
             mv_local_persist char fs[6] = "False";
 
-            std::string width = std::to_string(root->_width);
-            std::string height = std::to_string(root->_height);
+            std::string width = std::to_string(root->config.width);
+            std::string height = std::to_string(root->config.height);
 
-            std::string sizex = std::to_string(root->_state.rectSize.x);
-            std::string sizey = std::to_string(root->_state.rectSize.y);
+            std::string sizex = std::to_string(root->state.rectSize.x);
+            std::string sizey = std::to_string(root->state.rectSize.y);
 
             ImGui::PushID(root.get());
-            DebugItem("Label:", root->_specifiedLabel.c_str());
-            DebugItem("ID:", std::to_string(root->_uuid).c_str());
-            DebugItem("Alias:", root->_alias.c_str());
-            DebugItem("Type:", GetEntityTypeString(root->_type));
-            DebugItem("Filter:", root->_filter.c_str());
-            DebugItem("Payload Type:", root->_payloadType.c_str());
-            DebugItem("Location:", std::to_string(root->_location).c_str());
-            DebugItem("Track Offset:", std::to_string(root->_trackOffset).c_str());
-            DebugItem("Container:", GetEntityDesciptionFlags(root->_type) & MV_ITEM_DESC_CONTAINER ? ts : fs);
+            DebugItem("Label:", root->config.specifiedLabel.c_str());
+            DebugItem("ID:", std::to_string(root->uuid).c_str());
+            DebugItem("Alias:", root->config.alias.c_str());
+            DebugItem("Type:", GetEntityTypeString(root->type));
+            DebugItem("Filter:", root->config.filter.c_str());
+            DebugItem("Payload Type:", root->config.payloadType.c_str());
+            DebugItem("Location:", std::to_string(root->info.location).c_str());
+            DebugItem("Track Offset:", std::to_string(root->config.trackOffset).c_str());
+            DebugItem("Container:", GetEntityDesciptionFlags(root->type) & MV_ITEM_DESC_CONTAINER ? ts : fs);
             DebugItem("Width:", width.c_str());
             DebugItem("Height:", height.c_str());
             DebugItem("Size x:", sizex.c_str());
             DebugItem("Size y:", sizey.c_str());
-            DebugItem("Show:", root->_show ? ts : fs);
-            DebugItem("Enabled:", root->_enabled ? ts : fs);
-            DebugItem("Tracked:", root->_tracked ? ts : fs);
-            DebugItem("Callback:", root->_callback ? ts : fs);
-            DebugItem("User Data:", root->_user_data ? ts : fs);
-            DebugItem("Drop Callback:", root->_dropCallback ? ts : fs);
-            DebugItem("Drag Callback:", root->_dragCallback ? ts : fs);
+            DebugItem("Show:", root->config.show ? ts : fs);
+            DebugItem("Enabled:", root->config.enabled ? ts : fs);
+            DebugItem("Tracked:", root->config.tracked ? ts : fs);
+            DebugItem("Callback:", root->config.callback ? ts : fs);
+            DebugItem("User Data:", root->config.user_data ? ts : fs);
+            DebugItem("Drop Callback:", root->config.dropCallback ? ts : fs);
+            DebugItem("Drag Callback:", root->config.dragCallback ? ts : fs);
 
             ImGui::Spacing();
             ImGui::Spacing();
             ImGui::Spacing();
             ImGui::Text("Bindings");
             ImGui::Separator();
-            DebugItem("Theme Bound:", root->_theme ? ts : fs);
-            DebugItem("Font Bound:", root->_font ? ts : fs);
-            DebugItem("Handlers Bound:", root->_handlerRegistry ? ts : fs);
+            DebugItem("Theme Bound:", root->theme ? ts : fs);
+            DebugItem("Font Bound:", root->font ? ts : fs);
+            DebugItem("Handlers Bound:", root->handlerRegistry ? ts : fs);
 
-            i32 applicableState = GetApplicableState(root->_type);
+            i32 applicableState = GetApplicableState(root->type);
             ImGui::Spacing();
             ImGui::Spacing();
             ImGui::Spacing();
             ImGui::Text("State");
             ImGui::Separator();
-            if (applicableState & MV_STATE_VISIBLE) DebugItem("Item Visible:", IsItemVisible(root->_state, 1) ? ts : fs);
-            if (applicableState & MV_STATE_HOVER) DebugItem("Item Hovered:", IsItemHovered(root->_state, 1) ? ts : fs);
-            if (applicableState & MV_STATE_ACTIVE) DebugItem("Item Active:", IsItemActive(root->_state, 1) ? ts : fs);
-            if (applicableState & MV_STATE_FOCUSED) DebugItem("Item Focused:", IsItemFocused(root->_state, 1) ? ts : fs);
+            if (applicableState & MV_STATE_VISIBLE) DebugItem("Item Visible:", IsItemVisible(root->state, 1) ? ts : fs);
+            if (applicableState & MV_STATE_HOVER) DebugItem("Item Hovered:", IsItemHovered(root->state, 1) ? ts : fs);
+            if (applicableState & MV_STATE_ACTIVE) DebugItem("Item Active:", IsItemActive(root->state, 1) ? ts : fs);
+            if (applicableState & MV_STATE_FOCUSED) DebugItem("Item Focused:", IsItemFocused(root->state, 1) ? ts : fs);
             if (applicableState & MV_STATE_CLICKED)
             {
-                DebugItem("Item Left Clicked:", IsItemLeftClicked(root->_state, 1) ? ts : fs);
-                DebugItem("Item Right Clicked:", IsItemRightClicked(root->_state, 1) ? ts : fs);
-                DebugItem("Item Middle Clicked:", IsItemMiddleClicked(root->_state, 1) ? ts : fs);
+                DebugItem("Item Left Clicked:", IsItemLeftClicked(root->state, 1) ? ts : fs);
+                DebugItem("Item Right Clicked:", IsItemRightClicked(root->state, 1) ? ts : fs);
+                DebugItem("Item Middle Clicked:", IsItemMiddleClicked(root->state, 1) ? ts : fs);
             }
-            if (applicableState & MV_STATE_EDITED) DebugItem("Item Edited:", IsItemEdited(root->_state, 1) ? ts : fs);
-            if (applicableState & MV_STATE_ACTIVATED) DebugItem("Item Activated:", IsItemActivated(root->_state, 1) ? ts : fs);
-            if (applicableState & MV_STATE_DEACTIVATED) DebugItem("Item Deactivated:", IsItemDeactivated(root->_state, 1) ? ts : fs);
-            if (applicableState & MV_STATE_DEACTIVATEDAE) DebugItem("Item DeactivatedAfterEdit:", IsItemDeactivatedAfterEdit(root->_state, 1) ? ts : fs);
-            if (applicableState & MV_STATE_TOGGLED_OPEN) DebugItem("Item ToggledOpen:", IsItemToogledOpen(root->_state, 1) ? ts : fs);
+            if (applicableState & MV_STATE_EDITED) DebugItem("Item Edited:", IsItemEdited(root->state, 1) ? ts : fs);
+            if (applicableState & MV_STATE_ACTIVATED) DebugItem("Item Activated:", IsItemActivated(root->state, 1) ? ts : fs);
+            if (applicableState & MV_STATE_DEACTIVATED) DebugItem("Item Deactivated:", IsItemDeactivated(root->state, 1) ? ts : fs);
+            if (applicableState & MV_STATE_DEACTIVATEDAE) DebugItem("Item DeactivatedAfterEdit:", IsItemDeactivatedAfterEdit(root->state, 1) ? ts : fs);
+            if (applicableState & MV_STATE_TOGGLED_OPEN) DebugItem("Item ToggledOpen:", IsItemToogledOpen(root->state, 1) ? ts : fs);
 
             ImGui::PopID();
 
-            root->renderSpecificDebugInfo();
-
             ImGui::End();
 
-            if (!root->_showDebug)
-                RemoveDebugWindow(*GContext->itemRegistry, root->_uuid);
+            if (!root->info.showDebug)
+                RemoveDebugWindow(*GContext->itemRegistry, root->uuid);
         }
 
     }
@@ -726,7 +1156,7 @@ namespace Marvel {
     ResetTheme(mvItemRegistry& registry)
     {
         for (auto& root : registry.themeRegistryRoots)
-            root->_show = false;
+            root->config.show = false;
     }
 
     void 
@@ -742,7 +1172,7 @@ namespace Marvel {
         // check captured
         if(registry.capturedItem)
         {
-            if(registry.capturedItem->_uuid == uuid)
+            if(registry.capturedItem->uuid == uuid)
                 return registry.capturedItem.get();
         }
 
@@ -772,7 +1202,7 @@ namespace Marvel {
 
         for (auto delayedItem : registry.delayedSearch)
         {
-            mvAppItem* child = delayedItem->getChild(uuid);
+            mvAppItem* child = GetChild(delayedItem, uuid);
             if (child)
             {
                 CacheItem(registry, child);
@@ -793,7 +1223,7 @@ namespace Marvel {
         // check captured
         if(registry.capturedItem)
         {
-            if(registry.capturedItem->_uuid == uuid)
+            if(registry.capturedItem->uuid == uuid)
                 return registry.capturedItem;
         }
         
@@ -825,7 +1255,7 @@ namespace Marvel {
             return nullptr;
         }
 
-        if (item->_type == mvAppItemType::mvWindowAppItem)
+        if (item->type == mvAppItemType::mvWindowAppItem)
             return static_cast<mvWindowAppItem*>(item);
 
         assert(false && "Item is not a window not found.");
@@ -879,41 +1309,41 @@ namespace Marvel {
   
             // this is a unique situation in that the caller always has the GIL
             registry.capturedItem = item;
-            mvRunCallback(registry.captureCallback, registry.capturedItem->_uuid, nullptr, nullptr);
+            mvRunCallback(registry.captureCallback, registry.capturedItem->uuid, nullptr, nullptr);
             Py_XDECREF(registry.captureCallback);
             registry.captureCallback = nullptr;
             return true;
         }
 
-        if (GetEntityDesciptionFlags(item->_type) & MV_ITEM_DESC_HANDLER && parent == 0)
-            parent = item->_parent;
+        if (GetEntityDesciptionFlags(item->type) & MV_ITEM_DESC_HANDLER && parent == 0)
+            parent = item->config.parent;
 
         if (item == nullptr)
             return false;
 
         // check if item is ok
-        if (!item->_state.ok)
+        if (!item->state.ok)
             return false;
 
         //---------------------------------------------------------------------------
         // STEP 0: updata "last" information
         //---------------------------------------------------------------------------
-        if (GetEntityDesciptionFlags(item->_type) & MV_ITEM_DESC_ROOT)
+        if (GetEntityDesciptionFlags(item->type) & MV_ITEM_DESC_ROOT)
         {
-            registry.lastRootAdded = item->_uuid;
-            registry.lastContainerAdded = item->_uuid;
+            registry.lastRootAdded = item->uuid;
+            registry.lastContainerAdded = item->uuid;
         }
-        else if (GetEntityDesciptionFlags(item->_type) & MV_ITEM_DESC_CONTAINER)
-            registry.lastContainerAdded = item->_uuid;
+        else if (GetEntityDesciptionFlags(item->type) & MV_ITEM_DESC_CONTAINER)
+            registry.lastContainerAdded = item->uuid;
 
-        registry.lastItemAdded = item->_uuid;
+        registry.lastItemAdded = item->uuid;
 
         CacheItem(registry, item.get());
 
         //---------------------------------------------------------------------------
         // STEP 1: check if an item with this name exists (NO LONGER NEEDED)
         //---------------------------------------------------------------------------
-        //if (getItem(item->_uuid))
+        //if (getItem(item->uuid))
         //{
         //  mvThrowPythonEr1ror(mvErrorCode::mvNon1e, "Item must have a unique name.");
         //  MV_ITEM_REGISTRY_WARN("Item must have a unique name.");
@@ -932,7 +1362,7 @@ namespace Marvel {
         //---------------------------------------------------------------------------
         // STEP 2: handle root case
         //---------------------------------------------------------------------------
-        if (GetEntityDesciptionFlags(item->_type) & MV_ITEM_DESC_ROOT)
+        if (GetEntityDesciptionFlags(item->type) & MV_ITEM_DESC_ROOT)
         {
 
             if (GContext->started)
@@ -952,7 +1382,7 @@ namespace Marvel {
 
             mvAppItem* beforeItem = GetItem(registry, before);
             if (beforeItem)
-                parentPtr = beforeItem->_parentPtr;
+                parentPtr = beforeItem->info.parentPtr;
             technique = AddTechnique::BEFORE;
         }
 
@@ -998,14 +1428,14 @@ namespace Marvel {
         // STEP 5: check if parent is a compatible type
         //---------------------------------------------------------------------------
         b8 isParentCompatible = false;
-        const std::vector<std::pair<std::string, i32>>* allowableParents = &GetAllowableParents(item->_type);
+        const std::vector<std::pair<std::string, i32>>* allowableParents = &GetAllowableParents(item->type);
 
         std::string acceptableParentTypes;
 
         for (const auto& compatibleParent : *allowableParents)
         {
             acceptableParentTypes.append(compatibleParent.first + "\n");
-            if ((i32)parentPtr->_type == compatibleParent.second)
+            if ((i32)parentPtr->type == compatibleParent.second)
             {
                 isParentCompatible = true;
                 break;
@@ -1016,7 +1446,7 @@ namespace Marvel {
         {
             if (allowableParents->empty())
             {
-                mvThrowPythonError(mvErrorCode::mvIncompatibleParent, GetEntityCommand(item->_type),
+                mvThrowPythonError(mvErrorCode::mvIncompatibleParent, GetEntityCommand(item->type),
                     "Incompatible parent. Item does can not have a parent.", item.get());
                 return false;
             }
@@ -1024,7 +1454,7 @@ namespace Marvel {
             if (!(*allowableParents)[0].second == (i32)mvAppItemType::All)
             {
 
-                mvThrowPythonError(mvErrorCode::mvIncompatibleParent, GetEntityCommand(item->_type),
+                mvThrowPythonError(mvErrorCode::mvIncompatibleParent, GetEntityCommand(item->type),
                     "Incompatible parent. Acceptable parents include:\t" + acceptableParentTypes, item.get());
 
                 assert(false);
@@ -1036,14 +1466,14 @@ namespace Marvel {
         // STEP 6: check if parent accepts our item (this isn't duplicate STEP 3)
         //---------------------------------------------------------------------------
         b8 amICompatible = false;
-        const std::vector<std::pair<std::string, i32>>* allowableChildren = &GetAllowableChildren(parentPtr->_type);
+        const std::vector<std::pair<std::string, i32>>* allowableChildren = &GetAllowableChildren(parentPtr->type);
 
         std::string acceptableChildTypes;
 
         for (const auto& compatibleChildren : *allowableChildren)
         {
             acceptableChildTypes.append(compatibleChildren.first + "\n");
-            if ((i32)item->_type == compatibleChildren.second)
+            if ((i32)item->type == compatibleChildren.second)
             {
                 amICompatible = true;
                 break;
@@ -1054,7 +1484,7 @@ namespace Marvel {
         {
             if (allowableChildren->empty())
             {
-                mvThrowPythonError(mvErrorCode::mvIncompatibleChild, GetEntityCommand(parentPtr->_type),
+                mvThrowPythonError(mvErrorCode::mvIncompatibleChild, GetEntityCommand(parentPtr->type),
                     "Incompatible child. Item does not accept children.", parentPtr);
                 return false;
             }
@@ -1062,7 +1492,7 @@ namespace Marvel {
             if (!(*allowableChildren)[0].second == (i32)mvAppItemType::All)
             {
 
-                mvThrowPythonError(mvErrorCode::mvIncompatibleChild, GetEntityCommand(parentPtr->_type),
+                mvThrowPythonError(mvErrorCode::mvIncompatibleChild, GetEntityCommand(parentPtr->type),
                     "Incompatible child. Acceptable children include:\t" + acceptableChildTypes, parentPtr);
 
                 assert(false);
@@ -1073,20 +1503,20 @@ namespace Marvel {
         //---------------------------------------------------------------------------
         // STEP 7: add items who require "after" adding (tooltip)
         //---------------------------------------------------------------------------
-        if (item->_type == mvAppItemType::mvTooltip)
+        if (item->type == mvAppItemType::mvTooltip)
             return AddItemAfter(registry, parent, item);
 
         //---------------------------------------------------------------------------
         // STEP 8: handle "before" and "after" style adding
         //---------------------------------------------------------------------------
         if (technique == AddTechnique::BEFORE || technique == AddTechnique::PARENT)
-            return parentPtr->addRuntimeChild(parent, before, item); // same for run/compile time
+            return AddRuntimeChild(parentPtr, parent, before, item); // same for run/compile time
 
         //---------------------------------------------------------------------------
         // STEP 9: handle "stack" style adding
         //---------------------------------------------------------------------------
         if(GContext->started)
-            return parentPtr->addRuntimeChild(parentPtr->_uuid, 0, item);
+            return AddRuntimeChild(parentPtr, parentPtr->uuid, 0, item);
         return AddItem(registry, item);
     }
 
@@ -1107,7 +1537,7 @@ namespace Marvel {
 
         mvAppItem* item = GetItem(registry, id);
         if (item)
-            item->_alias = alias;
+            item->config.alias = alias;
     }
 
     void 
@@ -1126,7 +1556,7 @@ namespace Marvel {
 
         mvAppItem* item = GetItem(registry, registry.aliases[alias]);
         if (item)
-            item->_alias.clear();
+            item->config.alias.clear();
 
         if (itemTriggered)
         {

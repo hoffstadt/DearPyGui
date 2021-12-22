@@ -22,15 +22,16 @@
 #include "containers/mvDragPayload.h"
 #include "mvPyObject.h"
 #include "fonts/mvFont.h"
+#include "AppItems/widget_handlers/mvItemHandlerRegistry.h"
 
 namespace Marvel {
 
     mvPlot::mvPlot(mvUUID uuid)
         : mvAppItem(uuid)
     {
-        //_label = "Plot###" + std::to_string(_uuid);
-        _width = -1;
-        _height = -1;
+        //_label = "Plot###" + std::to_string(uuid);
+        config.width = -1;
+        config.height = -1;
     }
 
     void mvPlot::applySpecificTemplate(mvAppItem* item)
@@ -54,10 +55,10 @@ namespace Marvel {
 
     void mvPlot::onChildAdd(mvRef<mvAppItem> item)
     {
-        if (item->_type == mvAppItemType::mvPlotLegend)
+        if (item->type == mvAppItemType::mvPlotLegend)
             _flags &= ~ImPlotFlags_NoLegend;
 
-        if (item->_type == mvAppItemType::mvPlotAxis)
+        if (item->type == mvAppItemType::mvPlotAxis)
         {
             updateFlags();
             updateAxesNames();
@@ -67,18 +68,18 @@ namespace Marvel {
     void mvPlot::onChildRemoved(mvRef<mvAppItem> item)
     {
 
-        if (item->_type == mvAppItemType::mvPlotLegend)
+        if (item->type == mvAppItemType::mvPlotLegend)
             _flags |= ImPlotFlags_NoLegend;
 
-        if (item->_type == mvAppItemType::mvPlotAxis)
+        if (item->type == mvAppItemType::mvPlotAxis)
             updateFlags();
     }
 
     void mvPlot::updateFlags()
     {
-        for (size_t i = 0; i < _children[1].size(); i++)
+        for (size_t i = 0; i < childslots[1].size(); i++)
         {
-            auto child = static_cast<mvPlotAxis*>(_children[1][i].get());
+            auto child = static_cast<mvPlotAxis*>(childslots[1][i].get());
             switch (i)
             {
             case(0):
@@ -91,7 +92,7 @@ namespace Marvel {
 
             case(2):
                 _y1flags = child->getFlags();
-                if (child->_show)
+                if (child->config.show)
                     addFlag(ImPlotFlags_YAxis2);
                 else
                     removeFlag(ImPlotFlags_YAxis2);
@@ -99,7 +100,7 @@ namespace Marvel {
 
             case(3):
                 _y2flags = child->getFlags();
-                if (child->_show)
+                if (child->config.show)
                     addFlag(ImPlotFlags_YAxis3);
                 else
                     removeFlag(ImPlotFlags_YAxis3);
@@ -120,29 +121,29 @@ namespace Marvel {
         _y2axisName.clear();
         _y3axisName.clear();
 
-        for (size_t i = 0; i < _children[1].size(); i++)
+        for (size_t i = 0; i < childslots[1].size(); i++)
         {
-            auto axis = _children[1][i].get();
+            auto axis = childslots[1][i].get();
             switch (i)
             {
             case(0):
-                _xaxisName = axis->_specifiedLabel;
+                _xaxisName = axis->config.specifiedLabel;
                 break;
 
             case(1):
-                _y1axisName = axis->_specifiedLabel;
+                _y1axisName = axis->config.specifiedLabel;
                 break;
 
             case(2):
-                _y2axisName = axis->_specifiedLabel;
+                _y2axisName = axis->config.specifiedLabel;
                 break;
 
             case(3):
-                _y3axisName = axis->_specifiedLabel;
+                _y3axisName = axis->config.specifiedLabel;
                 break;
 
             default:
-                _y1axisName = axis->_specifiedLabel;
+                _y1axisName = axis->config.specifiedLabel;
                 break;
             }
         }
@@ -159,23 +160,23 @@ namespace Marvel {
     void mvPlot::draw(ImDrawList* drawlist, float x, float y)
     {
 
-        if (!_show)
+        if (!config.show)
             return;
 
         // cache old cursor position
         ImVec2 previousCursorPos = ImGui::GetCursorPos();
 
         // set cursor position if user set
-        if (_dirtyPos)
-            ImGui::SetCursorPos(_state.pos);
+        if (info.dirtyPos)
+            ImGui::SetCursorPos(state.pos);
 
         // update widget's position state
-        _state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
+        state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
 
         // push font if a font object is attached
-        if (_font)
+        if (font)
         {
-            ImFont* fontptr = static_cast<mvFont*>(_font.get())->getFontPtr();
+            ImFont* fontptr = static_cast<mvFont*>(font.get())->getFontPtr();
             ImGui::PushFont(fontptr);
         }
 
@@ -184,7 +185,7 @@ namespace Marvel {
 
         if (_newColorMap)
         {
-            ImPlot::BustColorCache(_internalLabel.c_str());
+            ImPlot::BustColorCache(info.internalLabel.c_str());
             _newColorMap = false;
         }
 
@@ -206,10 +207,10 @@ namespace Marvel {
         if (_query_mod != -1) ImPlot::GetInputMap().QueryMod = _query_mod;
 
         // gives axes change to make changes to ticks, limits, etc.
-        for (auto& item : _children[1])
+        for (auto& item : childslots[1])
         {
             // skip item if it's not shown
-            if (!item->_show)
+            if (!item->config.show)
                 continue;
             item->customAction();
         }
@@ -224,10 +225,10 @@ namespace Marvel {
             _axisfitDirty[3] = false;
         }
 
-        if (ImPlot::BeginPlot(_internalLabel.c_str(), 
+        if (ImPlot::BeginPlot(info.internalLabel.c_str(), 
             _xaxisName.empty() ? nullptr : _xaxisName.c_str(), 
             _y1axisName.empty() ? nullptr : _y1axisName.c_str(),
-            ImVec2((float)_width, (float)_height), 
+            ImVec2((float)config.width, (float)config.height),
             _flags, _xflags, _yflags, _y1flags, _y2flags, 
             _y2axisName.empty() ? nullptr : _y2axisName.c_str(), 
             _y3axisName.empty() ? nullptr : _y3axisName.c_str()))
@@ -235,26 +236,26 @@ namespace Marvel {
 
             auto context = ImPlot::GetCurrentContext();
             // legend, drag point and lines
-            for (auto& item : _children[0])
+            for (auto& item : childslots[0])
                 item->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
 
             // axes
-            for (auto& item : _children[1])
+            for (auto& item : childslots[1])
                 item->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
 
             ImPlot::PushPlotClipRect();
             
             // drawings
-            for (auto& item : _children[2])
+            for (auto& item : childslots[2])
             {
                 // skip item if it's not shown
-                if (!item->_show)
+                if (!item->config.show)
                     continue;
                 
                 //item->draw(ImPlot::GetPlotDrawList(), ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
                 item->draw(ImPlot::GetPlotDrawList(), 0.0f, 0.0f);
                 
-                UpdateAppItemState(item->_state);
+                UpdateAppItemState(item->state);
             }
 
             ImPlot::PopPlotClipRect();
@@ -273,17 +274,17 @@ namespace Marvel {
                 _queryArea[3] = area.Y.Max;
             }
 
-            if (_callback != nullptr && _queried)
+            if (config.callback != nullptr && _queried)
             {
 
-                if (_alias.empty())
+                if (config.alias.empty())
                     mvSubmitCallback([=]() {
                         PyObject* area = PyTuple_New(4);
                         PyTuple_SetItem(area, 0, PyFloat_FromDouble(_queryArea[0]));
                         PyTuple_SetItem(area, 1, PyFloat_FromDouble(_queryArea[1]));
                         PyTuple_SetItem(area, 2, PyFloat_FromDouble(_queryArea[2]));
                         PyTuple_SetItem(area, 3, PyFloat_FromDouble(_queryArea[3]));
-                        mvAddCallback(_callback, _uuid, area, _user_data);
+                        mvAddCallback(config.callback, uuid, area, config.user_data);
                         });
                 else
                     mvSubmitCallback([=]() {
@@ -292,7 +293,7 @@ namespace Marvel {
                     PyTuple_SetItem(area, 1, PyFloat_FromDouble(_queryArea[1]));
                     PyTuple_SetItem(area, 2, PyFloat_FromDouble(_queryArea[2]));
                     PyTuple_SetItem(area, 3, PyFloat_FromDouble(_queryArea[3]));
-                    mvAddCallback(_callback, _alias, area, _user_data);
+                    mvAddCallback(config.callback, config.alias, area, config.user_data);
                         });
             }
 
@@ -320,15 +321,15 @@ namespace Marvel {
                 GContext->input.mousePos.y = (int)y;
 
 
-                if (GContext->itemRegistry->activeWindow != _uuid)
-                    GContext->itemRegistry->activeWindow = _uuid;
+                if (GContext->itemRegistry->activeWindow != uuid)
+                    GContext->itemRegistry->activeWindow = uuid;
 
             }
 
             // TODO: find a better way to handle this
-            for (auto& item : _children[0])
+            for (auto& item : childslots[0])
             {
-                if(item->_type == mvAppItemType::mvPlotLegend)
+                if(item->type == mvAppItemType::mvPlotLegend)
                 {
                     auto legend = static_cast<mvPlotLegend*>(item.get());
                     legend->_legendLocation = context->CurrentPlot->Items.Legend.Location;
@@ -344,28 +345,28 @@ namespace Marvel {
         }
 
         // set cursor position to cached position
-        if (_dirtyPos)
+        if (info.dirtyPos)
             ImGui::SetCursorPos(previousCursorPos);
 
         ImPlot::GetInputMap() = _originalMap;
 
-        UpdateAppItemState(_state);
+        UpdateAppItemState(state);
 
-        if (_font)
+        if (font)
         {
             ImGui::PopFont();
         }
 
-        if (_theme)
+        if (theme)
         {
-            static_cast<mvTheme*>(_theme.get())->customAction();
+            theme->pop_theme_components();
         }
 
-        if (_handlerRegistry)
-            _handlerRegistry->customAction(&_state);
+        if (handlerRegistry)
+            handlerRegistry->checkEvents(&state);
 
         // drag drop
-        for (auto& item : _children[3])
+        for (auto& item : childslots[3])
             item->draw(nullptr, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
     }
 

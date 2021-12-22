@@ -8,6 +8,7 @@
 #include "mvLog.h"
 #include "mvPythonExceptions.h"
 #include "mvPyObject.h"
+#include "AppItems/widget_handlers/mvItemHandlerRegistry.h"
 
 namespace Marvel {
 
@@ -72,24 +73,24 @@ namespace Marvel {
 
     void mvNodeEditor::onChildRemoved(mvRef<mvAppItem> item)
     {
-        if (item->_type == mvAppItemType::mvNode)
+        if (item->type == mvAppItemType::mvNode)
         {
 
-            for (const auto& otherchild : item->_children[1])
+            for (const auto& otherchild : item->childslots[1])
             {
                 int attr_id = static_cast<mvNodeAttribute*>(otherchild.get())->getId();
 
-                for (const auto& child : _children[0])
+                for (const auto& child : childslots[0])
                 {
-                    if (child->_type == mvAppItemType::mvNodeLink)
+                    if (child->type == mvAppItemType::mvNodeLink)
                     {
 
                         int i1 = static_cast<mvNodeLink*>(child.get())->getId1();
                         int i2 = static_cast<mvNodeLink*>(child.get())->getId2();
                         if (i1 == attr_id || i2 == attr_id)
                         {
-                            DeleteItem(*GContext->itemRegistry, child->_uuid);
-                            CleanUpItem(*GContext->itemRegistry, child->_uuid);
+                            DeleteItem(*GContext->itemRegistry, child->uuid);
+                            CleanUpItem(*GContext->itemRegistry, child->uuid);
                         }   
                     }
                 }
@@ -102,13 +103,13 @@ namespace Marvel {
         std::vector<mvUUID> result;
         for (const auto& item : _selectedNodes)
         {
-            for (const auto& child : _children[1])
+            for (const auto& child : childslots[1])
             {
                 int i1 = item;
                 int i2 = static_cast<mvNode*>(child.get())->getId();
                 //if (static_cast<mvNode*>(child.get())->getId() == item)
                 if (i1 == i2)
-                    result.push_back(child->_uuid);
+                    result.push_back(child->uuid);
             }
         }
 
@@ -120,14 +121,14 @@ namespace Marvel {
         std::vector<mvUUID> result;
         for (const auto& item : _selectedLinks)
         {
-            for (const auto& child : _children[0])
+            for (const auto& child : childslots[0])
             {
-                if (child->_type == mvAppItemType::mvNodeLink)
+                if (child->type == mvAppItemType::mvNodeLink)
                 {
                     int i1 = item;
                     int i2 = static_cast<mvNodeLink*>(child.get())->getId();
                     if (i1 == i2)
-                        result.push_back(child->_uuid);
+                        result.push_back(child->uuid);
                 }
             }
         }
@@ -137,20 +138,20 @@ namespace Marvel {
 
     void mvNodeEditor::draw(ImDrawList* drawlist, float x, float y)
     {
-        ScopedID id(_uuid);
+        ScopedID id(uuid);
         imnodes::EditorContextSet(_context);
 
-        bool ret = ImGui::BeginChild(_internalLabel.c_str(), ImVec2((float)_width, (float)_height), false, _windowflags);
+        bool ret = ImGui::BeginChild(info.internalLabel.c_str(), ImVec2((float)config.width, (float)config.height), false, _windowflags);
 
-        for (auto& item : _children[1])
+        for (auto& item : childslots[1])
         {
             // skip nodes
-            if (item->_type != mvAppItemType::mvMenuBar)
+            if (item->type != mvAppItemType::mvMenuBar)
                 continue;
 
             // set item width
-            if (item->_width != 0)
-                ImGui::SetNextItemWidth((float)item->_width);
+            if (item->config.width != 0)
+                ImGui::SetNextItemWidth((float)item->config.width);
 
             item->draw(drawlist, x, y);
 
@@ -176,32 +177,32 @@ namespace Marvel {
         }
 
         // build links
-        for (auto& item : _children[0])
+        for (auto& item : childslots[0])
             item->draw(drawlist, x, y);
 
         // draw nodes
-        for (auto& item : _children[1])
+        for (auto& item : childslots[1])
         {
             // skip menu bars
-            if (item->_type != mvAppItemType::mvNode)
+            if (item->type != mvAppItemType::mvNode)
                 continue;
 
             // set item width
-            if (item->_width != 0)
-                ImGui::SetNextItemWidth((float)item->_width);
+            if (item->config.width != 0)
+                ImGui::SetNextItemWidth((float)item->config.width);
 
             item->draw(drawlist, x, y);
         }
 
-        _state.lastFrameUpdate = GContext->frame;
-        _state.hovered = imnodes::IsEditorHovered();
-        _state.visible = ret;
-        _state.rectSize = { imnodes::mvEditorGetSize().Max.x - imnodes::mvEditorGetSize().Min.x, imnodes::mvEditorGetSize().Max.y - imnodes::mvEditorGetSize().Min.y };
+        state.lastFrameUpdate = GContext->frame;
+        state.hovered = imnodes::IsEditorHovered();
+        state.visible = ret;
+        state.rectSize = { imnodes::mvEditorGetSize().Max.x - imnodes::mvEditorGetSize().Min.x, imnodes::mvEditorGetSize().Max.y - imnodes::mvEditorGetSize().Min.y };
         imnodes::EndNodeEditor();
         imnodes::PopAttributeFlag();
 
         // post draw for links
-        for (auto& item : _children[0])
+        for (auto& item : childslots[0])
             item->customAction();
 
         int nodeHovered = -1;
@@ -214,36 +215,36 @@ namespace Marvel {
         bool anyPinHovered = imnodes::IsPinHovered(&pinHovered);
         bool anyAttrActive = imnodes::IsAnyAttributeActive(&attrActive);
 
-        for (auto& child : _children[0])
+        for (auto& child : childslots[0])
         {
-            child->_state.lastFrameUpdate = GContext->frame;
-            child->_state.hovered = false;
+            child->state.lastFrameUpdate = GContext->frame;
+            child->state.hovered = false;
 
             if (anyLinkHovered && linkHovered == static_cast<mvNodeLink*>(child.get())->getId())
-                child->_state.hovered = true;
+                child->state.hovered = true;
 
         }
 
-        for (auto& child : _children[1])
+        for (auto& child : childslots[1])
         {
-            child->_state.lastFrameUpdate = GContext->frame;
-            child->_state.hovered = false;
+            child->state.lastFrameUpdate = GContext->frame;
+            child->state.hovered = false;
 
             ImVec2 size = imnodes::GetNodeDimensions(static_cast<mvNode*>(child.get())->getId());
-            child->_state.rectSize = { size.x, size.y };
+            child->state.rectSize = { size.x, size.y };
 
             if (anyNodeHovered && nodeHovered == static_cast<mvNode*>(child.get())->getId())
-                child->_state.hovered = true;
+                child->state.hovered = true;
 
-            for (auto& grandchild : child->_children[1])
+            for (auto& grandchild : child->childslots[1])
             {
-                grandchild->_state.lastFrameUpdate = GContext->frame;
-                grandchild->_state.hovered = false;
+                grandchild->state.lastFrameUpdate = GContext->frame;
+                grandchild->state.hovered = false;
 
                 if (anyPinHovered && pinHovered == static_cast<mvNodeAttribute*>(grandchild.get())->getId())
-                    grandchild->_state.hovered = true;
+                    grandchild->state.hovered = true;
                 if (anyAttrActive && attrActive == static_cast<mvNodeAttribute*>(grandchild.get())->getId())
-                    grandchild->_state.active = true;
+                    grandchild->state.active = true;
             }
         }
         
@@ -273,38 +274,38 @@ namespace Marvel {
         if (imnodes::IsLinkCreated(&start_attr, &end_attr))
         {
             mvUUID node1, node2;
-            for (const auto& child : _children[1])
+            for (const auto& child : childslots[1])
             {
 
                 // skip menu bars
-                if (child->_type != mvAppItemType::mvNode)
+                if (child->type != mvAppItemType::mvNode)
                     continue;
 
-                for (const auto& grandchild : child->_children[1])
+                for (const auto& grandchild : child->childslots[1])
                 {
                     if (static_cast<mvNodeAttribute*>(grandchild.get())->getId() == start_attr)
-                        node1 = grandchild->_uuid;
+                        node1 = grandchild->uuid;
 
                     if (static_cast<mvNodeAttribute*>(grandchild.get())->getId() == end_attr)
-                        node2 = grandchild->_uuid;
+                        node2 = grandchild->uuid;
                 }
             }
 
-            if (_callback)
+            if (config.callback)
             {
-                if (_alias.empty())
+                if (config.alias.empty())
                     mvSubmitCallback([=]() {
                         PyObject* link = PyTuple_New(2);
                         PyTuple_SetItem(link, 0, ToPyUUID(node1));
                         PyTuple_SetItem(link, 1, ToPyUUID(node2));
-                        mvAddCallback(_callback, _uuid, link, _user_data);
+                        mvAddCallback(config.callback, uuid, link, config.user_data);
                         });
                 else
                     mvSubmitCallback([=]() {
                         PyObject* link = PyTuple_New(2);
                         PyTuple_SetItem(link, 0, ToPyUUID(node1));
                         PyTuple_SetItem(link, 1, ToPyUUID(node2));
-                        mvAddCallback(_callback, _alias, link, _user_data);
+                        mvAddCallback(config.callback, config.alias, link, config.user_data);
                         });
             }
         }
@@ -313,36 +314,36 @@ namespace Marvel {
         if (imnodes::IsLinkDestroyed(&destroyed_attr))
         {
             mvUUID name = 0;
-            for (auto& item : _children[0])
+            for (auto& item : childslots[0])
             {
-                if (item->_type == mvAppItemType::mvNodeLink)
+                if (item->type == mvAppItemType::mvNodeLink)
                 {
                     if (static_cast<const mvNodeLink*>(item.get())->_id0 == destroyed_attr)
                     {
-                        name = item->_uuid;
+                        name = item->uuid;
                         break;
                     }
                 }
             }
             if (_delinkCallback)
             {
-                if (_alias.empty())
+                if (config.alias.empty())
                     mvSubmitCallback([=]() {
                         PyObject* link = ToPyUUID(name);
-                        mvAddCallback(_delinkCallback, _uuid, link, _user_data);
+                        mvAddCallback(_delinkCallback, uuid, link, config.user_data);
                         });
                 else
                     mvSubmitCallback([=]() {
                         PyObject* link = ToPyUUID(name);
-                        mvAddCallback(_delinkCallback, _alias, link, _user_data);
+                        mvAddCallback(_delinkCallback, config.alias, link, config.user_data);
                             });
             }
         }
 
         ImGui::EndChild();
 
-        if (_handlerRegistry)
-            _handlerRegistry->customAction(&_state);
+        if (handlerRegistry)
+            handlerRegistry->checkEvents(&state);
     }
 
 }

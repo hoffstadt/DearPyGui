@@ -20,10 +20,10 @@ namespace Marvel {
 		{
 			mvSubmitCallback([=]()
 				{
-					if (_alias.empty())
-						mvRunCallback(getCallback(false), _uuid, GetPyNone(), _user_data);
+					if(config.alias.empty())
+						mvRunCallback(getCallback(false), uuid, GetPyNone(), config.user_data);
 					else
-						mvRunCallback(getCallback(false), _alias, GetPyNone(), _user_data);
+						mvRunCallback(getCallback(false), config.alias, GetPyNone(), config.user_data);
 				});
 		}
 	}

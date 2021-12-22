@@ -24,18 +24,18 @@ namespace Marvel {
 
 	void mvDrawCircle::draw(ImDrawList* drawlist, float x, float y)
 	{
-		mvVec4  tcenter = _transform * _center;
+		mvVec4  tcenter = drawInfo->transform * _center;
 
-		if (_perspectiveDivide)
+		if (drawInfo->perspectiveDivide)
 		{
 			tcenter.x = tcenter.x / tcenter.w;
 			tcenter.y = tcenter.y / tcenter.w;
 			tcenter.z = tcenter.z / tcenter.w;
 		}
 
-		if (_depthClipping)
+		if (drawInfo->depthClipping)
 		{
-			if (mvClipPoint(_clipViewport, tcenter)) return;
+			if (mvClipPoint(drawInfo->clipViewport, tcenter)) return;
 		}
 
 		if (ImPlot::GetCurrentContext()->CurrentPlot)
@@ -58,7 +58,7 @@ namespace Marvel {
 
 	void mvDrawCircle::handleSpecificRequiredArgs(PyObject* dict)
 	{
-		if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(_type)], dict))
+		if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)

@@ -24,11 +24,11 @@ namespace Marvel {
 
 	void mvDrawTriangle::draw(ImDrawList* drawlist, float x, float y)
 	{
-		mvVec4  tp1 = _transform * _p1;
-		mvVec4  tp2 = _transform * _p2;
-		mvVec4  tp3 = _transform * _p3;
+		mvVec4  tp1 = drawInfo->transform * _p1;
+		mvVec4  tp2 = drawInfo->transform * _p2;
+		mvVec4  tp3 = drawInfo->transform * _p3;
 
-		if (_perspectiveDivide)
+		if (drawInfo->perspectiveDivide)
 		{
 			tp1.x = tp1.x / tp1.w;
 			tp2.x = tp2.x / tp2.w;
@@ -43,14 +43,14 @@ namespace Marvel {
 			tp3.z = tp3.z / tp3.w;
 		}
 
-		if (_depthClipping)
+		if (drawInfo->depthClipping)
 		{
-			if (mvClipPoint(_clipViewport, tp1)) return;
-			if (mvClipPoint(_clipViewport, tp2)) return;
-			if (mvClipPoint(_clipViewport, tp3)) return;
+			if (mvClipPoint(drawInfo->clipViewport, tp1)) return;
+			if (mvClipPoint(drawInfo->clipViewport, tp2)) return;
+			if (mvClipPoint(drawInfo->clipViewport, tp3)) return;
 		}
 
-		if (_cullMode == 1) // backface
+		if (drawInfo->cullMode == 1) // backface
 		{
 			mvVec3 n = mvCross(tp2 - tp1, tp3 - tp2);
 
@@ -58,7 +58,7 @@ namespace Marvel {
 				return;
 		}
 
-		else if (_cullMode == 2) // frontface
+		else if (drawInfo->cullMode == 2) // frontface
 		{
 			mvVec3 n = mvCross(tp2 - tp1, tp3 - tp2);
 
@@ -87,7 +87,7 @@ namespace Marvel {
 
 	void mvDrawTriangle::handleSpecificRequiredArgs(PyObject* dict)
 	{
-		if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(_type)], dict))
+		if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)
@@ -127,7 +127,7 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "color")) _color = ToColor(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "fill")) _fill = ToColor(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "thickness")) _thickness = ToFloat(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "cull_mode")) _cullMode = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "cull_mode")) drawInfo->cullMode = ToInt(item);
 
 		_p1.w = 1.0f;
 		_p2.w = 1.0f;

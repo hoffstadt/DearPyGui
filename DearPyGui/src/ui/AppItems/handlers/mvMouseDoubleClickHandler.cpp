@@ -29,10 +29,10 @@ namespace Marvel {
 				{
 					mvSubmitCallback([=]()
 						{
-							if (_alias.empty())
-								mvRunCallback(getCallback(false), _uuid, ToPyInt(i), _user_data);
+							if(config.alias.empty())
+								mvRunCallback(getCallback(false), uuid, ToPyInt(i), config.user_data);
 							else
-								mvRunCallback(getCallback(false), _alias, ToPyInt(i), _user_data);
+								mvRunCallback(getCallback(false), config.alias, ToPyInt(i), config.user_data);
 						});
 				}
 			}
@@ -42,17 +42,17 @@ namespace Marvel {
 		{
 			mvSubmitCallback([=]()
 				{
-					if (_alias.empty())
-						mvRunCallback(getCallback(false), _uuid, ToPyInt(_button), _user_data);
+					if(config.alias.empty())
+						mvRunCallback(getCallback(false), uuid, ToPyInt(_button), config.user_data);
 					else
-						mvRunCallback(getCallback(false), _alias, ToPyInt(_button), _user_data);
+						mvRunCallback(getCallback(false), config.alias, ToPyInt(_button), config.user_data);
 				});
 		}
 	}
 
 	void mvMouseDoubleClickHandler::handleSpecificPositionalArgs(PyObject* dict)
 	{
-		if (!VerifyPositionalArguments(GetParsers()[GetEntityCommand(_type)], dict))
+		if (!VerifyPositionalArguments(GetParsers()[GetEntityCommand(type)], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)

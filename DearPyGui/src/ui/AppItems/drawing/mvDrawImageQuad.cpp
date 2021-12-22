@@ -36,24 +36,24 @@ namespace Marvel {
 			if (_internalTexture)
 				_texture->draw(drawlist, x, y);
 
-			if (!_texture->_state.ok)
+			if (!_texture->state.ok)
 				return;
 
 			void* texture = nullptr;
 
-			if (_texture->_type == mvAppItemType::mvStaticTexture)
+			if (_texture->type == mvAppItemType::mvStaticTexture)
 				texture = static_cast<mvStaticTexture*>(_texture.get())->getRawTexture();
-			else if (_texture->_type == mvAppItemType::mvRawTexture)
+			else if (_texture->type == mvAppItemType::mvRawTexture)
 				texture = static_cast<mvRawTexture*>(_texture.get())->getRawTexture();
 			else
 				texture = static_cast<mvDynamicTexture*>(_texture.get())->getRawTexture();
 
-			mvVec4  tp1 = _transform * _p1;
-			mvVec4  tp2 = _transform * _p2;
-			mvVec4  tp3 = _transform * _p3;
-			mvVec4  tp4 = _transform * _p4;
+			mvVec4  tp1 = drawInfo->transform * _p1;
+			mvVec4  tp2 = drawInfo->transform * _p2;
+			mvVec4  tp3 = drawInfo->transform * _p3;
+			mvVec4  tp4 = drawInfo->transform * _p4;
 
-			if (_perspectiveDivide)
+			if (drawInfo->perspectiveDivide)
 			{
 				tp1.x = tp1.x / tp1.w;
 				tp2.x = tp2.x / tp2.w;
@@ -71,12 +71,12 @@ namespace Marvel {
 				tp4.z = tp4.z / tp4.w;
 			}
 
-			if (_depthClipping)
+			if (drawInfo->depthClipping)
 			{
-				if (mvClipPoint(_clipViewport, tp1)) return;
-				if (mvClipPoint(_clipViewport, tp2)) return;
-				if (mvClipPoint(_clipViewport, tp3)) return;
-				if (mvClipPoint(_clipViewport, tp4)) return;
+				if (mvClipPoint(drawInfo->clipViewport, tp1)) return;
+				if (mvClipPoint(drawInfo->clipViewport, tp2)) return;
+				if (mvClipPoint(drawInfo->clipViewport, tp3)) return;
+				if (mvClipPoint(drawInfo->clipViewport, tp4)) return;
 			}
 
 			if (ImPlot::GetCurrentContext()->CurrentPlot)
@@ -93,7 +93,7 @@ namespace Marvel {
 
 	void mvDrawImageQuad::handleSpecificRequiredArgs(PyObject* dict)
 	{
-		if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(_type)], dict))
+		if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)
@@ -115,7 +115,7 @@ namespace Marvel {
 				}
 				else
 				{
-					mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(_type), "Texture not found.", this);
+					mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(type), "Texture not found.", this);
 					break;
 				}
 			}
@@ -175,7 +175,7 @@ namespace Marvel {
             }
             else
             {
-                mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(_type), "Texture not found.", this);
+                mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(type), "Texture not found.", this);
 			}
         }
 

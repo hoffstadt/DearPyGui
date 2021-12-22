@@ -13,12 +13,14 @@ namespace Marvel {
 
         explicit mvThemeStyle(mvUUID uuid);
 
-        void draw(ImDrawList* drawlist, float x, float y) override;
-        void customAction(void* data = nullptr) override;
+        void draw(ImDrawList* drawlist, float x, float y) override { assert(false); }
         void handleSpecificPositionalArgs(PyObject* dict) override;
         void handleSpecificKeywordArgs(PyObject* dict) override;
         void getSpecificConfiguration(PyObject* dict) override;
         void applySpecificTemplate(mvAppItem* item) override;
+
+        void push_theme_style();
+        void pop_theme_style();
 
         // values
         void setDataSource(mvUUID dataSource) override;

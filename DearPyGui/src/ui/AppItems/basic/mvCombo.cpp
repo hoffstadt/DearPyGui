@@ -7,6 +7,7 @@
 #include "AppItems/themes/mvTheme.h"
 #include "AppItems/containers/mvDragPayload.h"
 #include "mvPyObject.h"
+#include "AppItems/widget_handlers/mvItemHandlerRegistry.h"
 
 namespace Marvel {
 
@@ -28,8 +29,8 @@ namespace Marvel {
 
 	void mvCombo::setDataSource(mvUUID dataSource)
 	{
-		if (dataSource == _source) return;
-		_source = dataSource;
+		if (dataSource == config.source) return;
+		config.source = dataSource;
 
 		mvAppItem* item = GetItem((*GContext->itemRegistry), dataSource);
 		if (!item)
@@ -38,7 +39,7 @@ namespace Marvel {
 				"Source item not found: " + std::to_string(dataSource), this);
 			return;
 		}
-		if (GetEntityValueType(item->_type) != GetEntityValueType(_type))
+		if (GetEntityValueType(item->type) != GetEntityValueType(type))
 		{
 			mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
 				"Values types do not match: " + std::to_string(dataSource), this);
@@ -54,38 +55,38 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 
 		// show/hide
-		if (!_show)
+		if (!config.show)
 			return;
 
 		// focusing
-		if (_focusNextFrame)
+		if (info.focusNextFrame)
 		{
 			ImGui::SetKeyboardFocusHere();
-			_focusNextFrame = false;
+			info.focusNextFrame = false;
 		}
 
 		// cache old cursor position
 		ImVec2 previousCursorPos = ImGui::GetCursorPos();
 
 		// set cursor position if user set
-		if (_dirtyPos)
-			ImGui::SetCursorPos(_state.pos);
+		if (info.dirtyPos)
+			ImGui::SetCursorPos(state.pos);
 
 		// update widget's position state
-		_state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
+		state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
 
 		// set item width
-		if (_width != 0)
-			ImGui::SetNextItemWidth((float)_width);
+		if (config.width != 0)
+			ImGui::SetNextItemWidth((float)config.width);
 
 		// set indent
-		if (_indent > 0.0f)
-			ImGui::Indent(_indent);
+		if (config.indent > 0.0f)
+			ImGui::Indent(config.indent);
 
 		// push font if a font object is attached
-		if (_font)
+		if (font)
 		{
-			ImFont* fontptr = static_cast<mvFont*>(_font.get())->getFontPtr();
+			ImFont* fontptr = static_cast<mvFont*>(font.get())->getFontPtr();
 			ImGui::PushFont(fontptr);
 		}
 
@@ -96,42 +97,41 @@ namespace Marvel {
 		// draw
 		//-----------------------------------------------------------------------------
 		{
-			ScopedID id(_uuid);
+			ScopedID id(uuid);
 
 			static std::vector<std::string> disabled_items{};
 
 			// The second parameter is the label previewed before opening the combo.
-			bool activated = ImGui::BeginCombo(_internalLabel.c_str(), _value->c_str(), _flags);
-			UpdateAppItemState(_state);
+			bool activated = ImGui::BeginCombo(info.internalLabel.c_str(), _value->c_str(), _flags);
+			UpdateAppItemState(state);
 
 			if(activated)
 			{
 
-				for (const auto& name : _enabled ? _items : disabled_items)
+				for (const auto& name : config.enabled ? _items : disabled_items)
 				{
 					bool is_selected = (*_value == name);
 					if (ImGui::Selectable((name).c_str(), is_selected))
 					{
-						if (_enabled) { *_value = name; }
+						if (config.enabled) { *_value = name; }
 
 						auto value = *_value;
 
-						if(_alias.empty())
+						if(config.alias.empty())
 							mvSubmitCallback([=]() {
-								mvAddCallback(getCallback(false), _uuid, ToPyString(value), _user_data);
+								mvAddCallback(getCallback(false), uuid, ToPyString(value), config.user_data);
 								});
 						else
 							mvSubmitCallback([=]() {
-								mvAddCallback(getCallback(false), _alias, ToPyString(value), _user_data);
+								mvAddCallback(getCallback(false), config.alias, ToPyString(value), config.user_data);
 									});
 
 
 					}
 
-
-					if (ImGui::IsItemEdited())_state.edited = true;
-					if (ImGui::IsItemDeactivated())_state.deactivated = true;
-					if (ImGui::IsItemDeactivatedAfterEdit())_state.deactivatedAfterEdit = true;
+					state.edited = ImGui::IsItemEdited();
+					state.deactivated = ImGui::IsItemDeactivated();
+					state.deactivatedAfterEdit = ImGui::IsItemDeactivatedAfterEdit();
 
 					// Set the initial focus when opening the combo (scrolling + for keyboard navigation support in the upcoming navigation branch)
 					if (is_selected)
@@ -147,21 +147,21 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 
 		// set cursor position to cached position
-		if (_dirtyPos)
+		if (info.dirtyPos)
 			ImGui::SetCursorPos(previousCursorPos);
 
-		if (_indent > 0.0f)
-			ImGui::Unindent(_indent);
+		if (config.indent > 0.0f)
+			ImGui::Unindent(config.indent);
 
 		// pop font off stack
-		if (_font)
+		if (font)
 			ImGui::PopFont();
 
 		// handle popping themes
 		cleanup_local_theming(this);
 
-		if (_handlerRegistry)
-			_handlerRegistry->customAction(&_state);
+		if (handlerRegistry)
+			handlerRegistry->checkEvents(&state);
 
 		// handle drag & drop if used
 		apply_drag_drop(this);
@@ -170,7 +170,7 @@ namespace Marvel {
 	void mvCombo::applySpecificTemplate(mvAppItem* item)
 	{
 		auto titem = static_cast<mvCombo*>(item);
-		if(_source != 0) _value = titem->_value;
+		if (config.source != 0) _value = titem->_value;
 		_disabled_value = titem->_disabled_value;
 		_flags = titem->_flags;
 		_items = titem->_items;
@@ -180,7 +180,7 @@ namespace Marvel {
 
 	void mvCombo::handleSpecificPositionalArgs(PyObject* dict)
 	{
-		if (!VerifyPositionalArguments(GetParsers()[GetEntityCommand(_type)], dict))
+		if (!VerifyPositionalArguments(GetParsers()[GetEntityCommand(type)], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)

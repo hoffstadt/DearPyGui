@@ -6,6 +6,7 @@
 #include "AppItems/fonts/mvFont.h"
 #include "AppItems/themes/mvTheme.h"
 #include "AppItems/containers/mvDragPayload.h"
+#include "AppItems/widget_handlers/mvItemHandlerRegistry.h"
 
 namespace Marvel {
 
@@ -18,7 +19,7 @@ namespace Marvel {
     void mvTab::applySpecificTemplate(mvAppItem* item)
     {
         auto titem = static_cast<mvTab*>(item);
-        if (_source != 0) _value = titem->_value;
+        if (config.source != 0) _value = titem->_value;
         _disabled_value = titem->_disabled_value;
         _closable = titem->_closable;
         _flags = titem->_flags;
@@ -46,8 +47,8 @@ namespace Marvel {
 
     void mvTab::setDataSource(mvUUID dataSource)
     {
-        if (dataSource == _source) return;
-        _source = dataSource;
+        if (dataSource == config.source) return;
+        config.source = dataSource;
 
         mvAppItem* item = GetItem((*GContext->itemRegistry), dataSource);
         if (!item)
@@ -56,7 +57,7 @@ namespace Marvel {
                 "Source item not found: " + std::to_string(dataSource), this);
             return;
         }
-        if (GetEntityValueType(item->_type) != GetEntityValueType(_type))
+        if (GetEntityValueType(item->type) != GetEntityValueType(type))
         {
             mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
                 "Values types do not match: " + std::to_string(dataSource), this);
@@ -74,38 +75,38 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
 
         // show/hide
-        if (!_show)
+        if (!config.show)
             return;
 
         // focusing
-        if (_focusNextFrame)
+        if (info.focusNextFrame)
         {
             ImGui::SetKeyboardFocusHere();
-            _focusNextFrame = false;
+            info.focusNextFrame = false;
         }
 
         // cache old cursor position
         ImVec2 previousCursorPos = ImGui::GetCursorPos();
 
         // set cursor position if user set
-        if (_dirtyPos)
-            ImGui::SetCursorPos(_state.pos);
+        if (info.dirtyPos)
+            ImGui::SetCursorPos(state.pos);
 
         // update widget's position state
-        _state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
+        state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
 
         // set item width
-        if (_width != 0)
-            ImGui::SetNextItemWidth((float)_width);
+        if (config.width != 0)
+            ImGui::SetNextItemWidth((float)config.width);
 
         // set indent
-        if (_indent > 0.0f)
-            ImGui::Indent(_indent);
+        if (config.indent > 0.0f)
+            ImGui::Indent(config.indent);
 
         // push font if a font object is attached
-        if (_font)
+        if (font)
         {
-            ImFont* fontptr = static_cast<mvFont*>(_font.get())->getFontPtr();
+            ImFont* fontptr = static_cast<mvFont*>(font.get())->getFontPtr();
             ImGui::PushFont(fontptr);
         }
 
@@ -117,41 +118,41 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         {
 
-            ScopedID id(_uuid);
+            ScopedID id(uuid);
 
             // cast parent to mvTabBar
-            auto parent = (mvTabBar*)_parentPtr;
+            auto parent = (mvTabBar*)info.parentPtr;
 
             // check if this is first tab
             if (parent->getSpecificValue() == 0)
             {
                 // set mvTabBar value to the first tab name
-                parent->setValue(_uuid);
+                parent->setValue(uuid);
                 *_value = true;
             }
             
-            _state.lastFrameUpdate = GContext->frame;
+            state.lastFrameUpdate = GContext->frame;
             // create tab item and see if it is selected
-            if (ImGui::BeginTabItem(_internalLabel.c_str(), _closable ? &_show : nullptr, _flags))
+            if (ImGui::BeginTabItem(info.internalLabel.c_str(), _closable ? &config.show : nullptr, _flags))
             {
 
-                _state.hovered = ImGui::IsItemHovered();
-                _state.active = ImGui::IsItemActive();
-                _state.leftclicked = ImGui::IsItemClicked();
-                _state.rightclicked = ImGui::IsItemClicked(1);
-                _state.middleclicked = ImGui::IsItemClicked(2);
-                _state.visible = ImGui::IsItemVisible();
-                _state.activated = ImGui::IsItemActivated();
-                _state.deactivated = ImGui::IsItemDeactivated();
-                _state.rectMin = { ImGui::GetItemRectMin().x, ImGui::GetItemRectMin().y };
-                _state.rectMax = { ImGui::GetItemRectMax().x, ImGui::GetItemRectMax().y };
-                _state.rectSize = { ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y };
-                _state.contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
+                state.hovered = ImGui::IsItemHovered();
+                state.active = ImGui::IsItemActive();
+                state.leftclicked = ImGui::IsItemClicked();
+                state.rightclicked = ImGui::IsItemClicked(1);
+                state.middleclicked = ImGui::IsItemClicked(2);
+                state.visible = ImGui::IsItemVisible();
+                state.activated = ImGui::IsItemActivated();
+                state.deactivated = ImGui::IsItemDeactivated();
+                state.rectMin = { ImGui::GetItemRectMin().x, ImGui::GetItemRectMin().y };
+                state.rectMax = { ImGui::GetItemRectMax().x, ImGui::GetItemRectMax().y };
+                state.rectSize = { ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y };
+                state.contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
         
                 // set other tab's value false
-                for (auto& child : parent->_children[1])
+                for (auto& child : parent->childslots[1])
                 {
-                    if (child->_type == mvAppItemType::mvTab)
+                    if (child->type == mvAppItemType::mvTab)
                         *((mvTab*)child.get())->_value = false;
                 }
 
@@ -159,19 +160,19 @@ namespace Marvel {
                 *_value = true;
 
                 // run call back if it exists
-                if (parent->getSpecificValue() != _uuid)
+                if (parent->getSpecificValue() != uuid)
                 {
                     mvSubmitCallback([=]() {
-                        if(parent->_alias.empty())
-                            mvAddCallback(parent->getCallback(), parent->_uuid, ToPyUUID(_uuid), parent->_user_data);
+                        if(parent->config.alias.empty())
+                            mvAddCallback(parent->getCallback(), parent->uuid, ToPyUUID(uuid), parent->config.user_data);
                         else
-                            mvAddCallback(parent->getCallback(), parent->_alias, ToPyUUID(_uuid), parent->_user_data);
+                            mvAddCallback(parent->getCallback(), parent->config.alias, ToPyUUID(uuid), parent->config.user_data);
                         });
                 }
 
-                parent->setValue(_uuid);
+                parent->setValue(uuid);
 
-                for (auto& item : _children[1])
+                for (auto& item : childslots[1])
                     item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 
                 ImGui::EndTabItem();
@@ -179,18 +180,18 @@ namespace Marvel {
 
             else
             {
-                _state.hovered = ImGui::IsItemHovered();
-                _state.active = ImGui::IsItemActive();
-                _state.leftclicked = ImGui::IsItemClicked();
-                _state.rightclicked = ImGui::IsItemClicked(1);
-                _state.middleclicked = ImGui::IsItemClicked(2);
-                _state.visible = ImGui::IsItemVisible();
-                _state.activated = ImGui::IsItemActivated();
-                _state.deactivated = ImGui::IsItemDeactivated();
-                _state.rectMin = { ImGui::GetItemRectMin().x, ImGui::GetItemRectMin().y };
-                _state.rectMax = { ImGui::GetItemRectMax().x, ImGui::GetItemRectMax().y };
-                _state.rectSize = { ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y };
-                _state.contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
+                state.hovered = ImGui::IsItemHovered();
+                state.active = ImGui::IsItemActive();
+                state.leftclicked = ImGui::IsItemClicked();
+                state.rightclicked = ImGui::IsItemClicked(1);
+                state.middleclicked = ImGui::IsItemClicked(2);
+                state.visible = ImGui::IsItemVisible();
+                state.activated = ImGui::IsItemActivated();
+                state.deactivated = ImGui::IsItemDeactivated();
+                state.rectMin = { ImGui::GetItemRectMin().x, ImGui::GetItemRectMin().y };
+                state.rectMax = { ImGui::GetItemRectMax().x, ImGui::GetItemRectMax().y };
+                state.rectSize = { ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y };
+                state.contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
             }
         }
 
@@ -199,21 +200,21 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
 
         // set cursor position to cached position
-        if (_dirtyPos)
+        if (info.dirtyPos)
             ImGui::SetCursorPos(previousCursorPos);
 
-        if (_indent > 0.0f)
-            ImGui::Unindent(_indent);
+        if (config.indent > 0.0f)
+            ImGui::Unindent(config.indent);
 
         // pop font off stack
-        if (_font)
+        if (font)
             ImGui::PopFont();
 
         // handle popping themes
         cleanup_local_theming(this);
 
-        if (_handlerRegistry)
-            _handlerRegistry->customAction(&_state);
+        if (handlerRegistry)
+            handlerRegistry->checkEvents(&state);
 
         // handle drag & drop if used
         apply_drag_drop(this);

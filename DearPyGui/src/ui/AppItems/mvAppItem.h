@@ -24,6 +24,9 @@ namespace Marvel {
     // forward declarations
     class mvThemeManager;
     class mvAppItem;
+    class mvItemHandlerRegistry;
+    class mvTheme;
+    class mvThemeComponent;
 
     //-----------------------------------------------------------------------------
     // mvAppItemType
@@ -51,7 +54,8 @@ namespace Marvel {
         MV_ITEM_DESC_DEFAULT     = 0,
         MV_ITEM_DESC_ROOT        = 1 << 1,
         MV_ITEM_DESC_CONTAINER   = 1 << 2,
-        MV_ITEM_DESC_HANDLER     = 1 << 3 // todo: rename descriptively
+        MV_ITEM_DESC_HANDLER     = 1 << 3, // todo: rename descriptively
+        MV_ITEM_DESC_DRAW_CMP    = 1 << 4  // has draw component
     };
 
     enum class mvLibType {
@@ -75,15 +79,92 @@ namespace Marvel {
     i32                                             GetApplicableState              (mvAppItemType type);
     const std::vector<std::pair<std::string, i32>>& GetAllowableParents             (mvAppItemType type);
     const std::vector<std::pair<std::string, i32>>& GetAllowableChildren            (mvAppItemType type);
-    mvRef<mvAppItem>&                               GetClassThemeComponent          (mvAppItemType type);
-    mvRef<mvAppItem>&                               GetDisabledClassThemeComponent  (mvAppItemType type);
+    mvRef<mvThemeComponent>&                        GetClassThemeComponent          (mvAppItemType type);
+    mvRef<mvThemeComponent>&                        GetDisabledClassThemeComponent  (mvAppItemType type);
     mvPythonParser                                  GetEntityParser                 (mvAppItemType type);
+
+    struct mvAppItemInfo
+    {
+        std::string internalLabel; // label passed into imgui
+         mvAppItem* parentPtr = nullptr;
+        i32         location = -1;
+        b8          showDebug = false;
+        
+        // next frame triggers
+        b8 focusNextFrame           = false;
+        b8 triggerAlternativeAction = false;
+        b8 shownLastFrame           = false;
+        b8 hiddenLastFrame          = false;
+        b8 enabledLastFrame         = false;
+        b8 disabledLastFrame        = false;
+
+        // previous frame cache
+        ImVec2 previousCursorPos = { 0.0f, 0.0f };
+
+        // dirty flags
+        b8 dirty_size = true;
+        b8 dirtyPos   = false;
+    };
+
+    struct mvAppItemConfig
+    {
+        mvUUID      source = 0;
+        mvUUID      parent = 0;
+        std::string specifiedLabel;
+        std::string filter;
+        std::string alias;
+        std::string payloadType = "$$DPG_PAYLOAD";
+        i32         width = 0;
+        i32         height = 0;
+        f32         indent = -1.0f;
+        f32         trackOffset = 0.5f; // 0.0f:top, 0.5f:center, 1.0f:bottom
+        b8          show = true;
+        b8          enabled = true;
+        b8          searchLast = false;
+        b8          searchDelayed = false;
+        b8          useInternalLabel = true; // when false, will use specificed label
+        b8          tracked = false;
+        PyObject*   callback = nullptr;
+        PyObject*   user_data = nullptr;
+        PyObject*   dragCallback = nullptr;
+        PyObject*   dropCallback = nullptr;
+    };
+
+    struct mvAppItemDrawInfo
+    {
+        mvMat4 transform         = mvIdentityMat4();
+        mvMat4 appliedTransform  = mvIdentityMat4(); // only used by nodes
+        long   cullMode          = 0; // mvCullMode_None
+        b8     perspectiveDivide = false;
+        b8     depthClipping     = false;
+        f32    clipViewport[6]   = { 0.0f, 0.0f, 1.0f, 1.0f, -1.0f, 1.0f }; // top leftx, top lefty, width, height, min depth, maxdepth
+    };
 
     //-----------------------------------------------------------------------------
     // mvAppItem
     //-----------------------------------------------------------------------------
     class mvAppItem
     {
+
+    public:
+
+        mvAppItemType                type = mvAppItemType::None;
+        mvUUID                       uuid = 0;
+        mvAppItemState               state;
+        mvAppItemInfo                info{};
+        mvAppItemConfig              config{};
+        mvRef<mvItemHandlerRegistry> handlerRegistry = nullptr;
+        mvRef<mvAppItem>             font = nullptr;
+        mvRef<mvTheme>               theme = nullptr;
+        mvRef<mvAppItemDrawInfo>     drawInfo = nullptr;
+
+        // slots
+        //   * 0 : mvFileExtension, mvFontRangeHint, mvNodeLink, mvAnnotation
+        //         mvDragLine, mvDragPoint, mvLegend, mvTableColumn
+        //   * 1 : Most widgets
+        //   * 2 : Draw Commands
+        //   * 3 : mvDragPayload
+        std::vector<mvRef<mvAppItem>> childslots[4] = { {}, {}, {}, {} };
 
     public:
 
@@ -101,12 +182,6 @@ namespace Marvel {
         // other than drawing.
         //-----------------------------------------------------------------------------
         virtual void customAction(void* data = nullptr) {};
-        virtual void alternativeCustomAction(void* data = nullptr) {};
-
-        //-----------------------------------------------------------------------------
-        // shows information in either the debug window or a separate window
-        //-----------------------------------------------------------------------------
-        virtual void renderSpecificDebugInfo() {} // for the debug tool
 
         //-----------------------------------------------------------------------------
         // These methods handle setting the widget's value using PyObject*'s or
@@ -134,8 +209,6 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         virtual void onChildAdd    (mvRef<mvAppItem> item) {}
         virtual void onChildRemoved(mvRef<mvAppItem> item) {}
-        virtual void onChildrenRemoved() {}
-        virtual void onBind(mvAppItem* item) {}
 
         //-----------------------------------------------------------------------------
         // callbacks
@@ -146,99 +219,7 @@ namespace Marvel {
         // config setters
         //-----------------------------------------------------------------------------
         virtual void setDataSource(mvUUID value);
-
-        mvAppItem*       getChild(mvUUID uuid);      // will return nullptr if not found
-        mvRef<mvAppItem> getChildRef(mvUUID uuid);      // will return nullptr if not found
-
-        // runtime modifications
-        bool             addItem(mvRef<mvAppItem> item);
-        bool             addRuntimeChild(mvUUID parent, mvUUID before, mvRef<mvAppItem> item);
-        bool             addChildAfter(mvUUID prev, mvRef<mvAppItem> item);
-        bool             deleteChild(mvUUID uuid);
-        bool             moveChildUp(mvUUID uuid);
-        bool             moveChildDown(mvUUID uuid);
-        mvRef<mvAppItem> stealChild(mvUUID uuid); // steals a child (used for moving)
        
-    public:
-
-        mvAppItemType  _type = mvAppItemType::None;
-        mvUUID         _uuid = 0;
-        std::string    _internalLabel; // label passed into imgui
-        mvAppItem*     _parentPtr = nullptr;
-        mvAppItemState _state;
-        i32            _location = -1;
-        b8             _showDebug = false;
-        
-        // next frame triggers
-        b8 _focusNextFrame = false;
-        b8 _triggerAlternativeAction = false;
-        b8 _shownLastFrame = false;
-        b8 _hiddenLastFrame = false;
-        b8 _enabledLastFrame = false;
-        b8 _disabledLastFrame = false;
-
-        // previous frame cache
-        ImVec2 _previousCursorPos = { 0.0f, 0.0f };
-
-        // dirty flags
-        b8 _dirty_size = true;
-        b8 _dirtyPos = false;
-
-        // slots
-        //   * 0 : mvFileExtension, mvFontRangeHint, mvNodeLink, mvAnnotation
-        //         mvDragLine, mvDragPoint, mvLegend, mvTableColumn
-        //   * 1 : Most widgets
-        //   * 2 : Draw Commands
-        //   * 3 : mvDragPayload
-        std::vector<mvRef<mvAppItem>> _children[4] = { {}, {}, {}, {} };
-
-        // item handler registry
-        mvRef<mvAppItem> _handlerRegistry = nullptr;
-
-        // font
-        mvRef<mvAppItem> _font = nullptr;
-
-        // theme
-        mvRef<mvAppItem> _theme = nullptr;
-
-        // drag & drop
-        PyObject* _dragCallback = nullptr;
-        PyObject* _dropCallback = nullptr;
-        std::string _payloadType = "$$DPG_PAYLOAD";
-
-        // config
-        mvUUID      _source = 0;
-        std::string _specifiedLabel;
-        mvUUID      _parent = 0;
-        mvUUID      _before = 0;
-        std::string _filter;
-        i32         _width = 0;
-        i32         _height = 0;
-        f32         _indent = -1.0f;
-        b8          _show = true;
-        b8          _enabled = true;
-        PyObject*   _callback = nullptr;
-        PyObject*   _user_data = nullptr;
-        b8          _tracked = false;
-        f32         _trackOffset = 0.5f; // 0.0f:top, 0.5f:center, 1.0f:bottom
-        b8          _searchLast = false;
-        b8          _searchDelayed = false;
-        b8          _useInternalLabel = true; // when false, will use specificed label
-        std::string _alias;
-
-        // only for draw cmds and layers (unfortunately this is the best place
-        // to put it for the moment.
-        mvMat4 _transform = mvIdentityMat4();
-
-        // only used by nodes
-        mvMat4 _appliedTransform = mvIdentityMat4();
-
-        // only used by draw items
-        long    _cullMode = 0; // mvCullMode_None
-        b8      _perspectiveDivide = false;
-        b8      _depthClipping = false;
-        f32     _clipViewport[6] = { 0.0f, 0.0f, 1.0f, 1.0f, -1.0f, 1.0f }; // top leftx, top lefty, width, height, min depth, maxdepth
-
     };
 
     inline b8 mvClipPoint(f32 clipViewport[6], mvVec4& point)

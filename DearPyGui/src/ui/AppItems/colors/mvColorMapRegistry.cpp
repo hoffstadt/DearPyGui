@@ -8,19 +8,19 @@ namespace Marvel {
 		:
 		mvAppItem(uuid)
 	{
-		_show = false;
+		config.show = false;
 	}
 
 	void mvColorMapRegistry::draw(ImDrawList* drawlist, float x, float y)
 	{
 
-		if (!_show)
+		if (!config.show)
 			return;
 
 		ImGui::PushID(this);
 
 		ImGui::SetNextWindowSize(ImVec2(500, 500), ImGuiCond_FirstUseEver);
-		if (ImGui::Begin(_internalLabel.c_str(), &_show))
+		if (ImGui::Begin(info.internalLabel.c_str(), &config.show))
 		{
 			ImGui::Text("Builtin:");
 			for (int i = 0; i < 16; i++)
@@ -28,7 +28,7 @@ namespace Marvel {
 
 			ImGui::Text("User:");
 
-			for (auto& item : _children[1])
+			for (auto& item : childslots[1])
 				item->draw(drawlist, 0.0f, 0.0f);
 			
 		}

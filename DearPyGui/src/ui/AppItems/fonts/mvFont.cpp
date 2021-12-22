@@ -23,7 +23,7 @@ namespace Marvel {
 
 	void mvFont::customAction(void* data)
 	{
-		if (!_state.ok)
+		if (!state.ok)
 			return;
 
 		ImGuiIO& io = ImGui::GetIO();
@@ -48,10 +48,10 @@ namespace Marvel {
 			io.FontDefault = _fontPtr;
 
 		// check ranges
-		for (const auto& range : _children[1])
+		for (const auto& range : childslots[1])
 		{
 
-			if (range->_type == mvAppItemType::mvCharRemap)
+			if (range->type == mvAppItemType::mvCharRemap)
 			{
 				const auto rangePtr = static_cast<const mvCharRemap*>(range.get());
 
@@ -64,7 +64,7 @@ namespace Marvel {
 	void mvFont::draw(ImDrawList* drawlist, float x, float y)
 	{
 
-		if (!_state.ok)
+		if (!state.ok)
 			return;
 
 		ImFontGlyphRangesBuilder builder;
@@ -72,10 +72,10 @@ namespace Marvel {
 		static ImFontAtlas atlas;
 
 		// check hints
-		if(_children[0].empty())
+		if(childslots[0].empty())
 			builder.AddRanges(atlas.GetGlyphRangesDefault());
 
-		for (const auto& hint : _children[0])
+		for (const auto& hint : childslots[0])
 		{
 			int hintSelection = static_cast<mvFontRangeHint*>(hint.get())->getHint();
 
@@ -109,15 +109,15 @@ namespace Marvel {
 		}
 
 		// check ranges and chars
-		for (const auto& range : _children[1])
+		for (const auto& range : childslots[1])
 		{
-			if (range->_type == mvAppItemType::mvFontRange)
+			if (range->type == mvAppItemType::mvFontRange)
 			{
 				const auto rangePtr = static_cast<const mvFontRange*>(range.get());
 				builder.AddRanges(rangePtr->getRange().data());
 			}
 
-			else if (range->_type == mvAppItemType::mvFontChars)
+			else if (range->type == mvAppItemType::mvFontChars)
 			{
 				const auto rangePtr = static_cast<const mvFontChars*>(range.get());
 
@@ -138,7 +138,7 @@ namespace Marvel {
 
 	void mvFont::handleSpecificRequiredArgs(PyObject* dict)
 	{
-		if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(_type)], dict))
+		if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)
@@ -155,7 +155,7 @@ namespace Marvel {
 					ifile.close();
 				else
 				{
-					_state.ok = false;
+					state.ok = false;
 					mvThrowPythonError(mvErrorCode::mvNone, "Font file could not be found");
 				}
 				break;

@@ -15,9 +15,9 @@ namespace Marvel {
 
 	void mvTableCell::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ScopedID id(_uuid);
+		ScopedID id(uuid);
 
-		for (auto& item : _children[1])
+		for (auto& item : childslots[1])
 			item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 	}
 

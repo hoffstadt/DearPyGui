@@ -35,8 +35,8 @@ namespace Marvel {
 
 	void mvAnnotation::setDataSource(mvUUID dataSource)
 	{
-		if (dataSource == _source) return;
-		_source = dataSource;
+		if (dataSource == config.source) return;
+		config.source = dataSource;
 
 		mvAppItem* item = GetItem((*GContext->itemRegistry), dataSource);
 		if (!item)
@@ -45,7 +45,7 @@ namespace Marvel {
 				"Source item not found: " + std::to_string(dataSource), this);
 			return;
 		}
-		if (GetEntityValueType(item->_type) != GetEntityValueType(_type))
+		if (GetEntityValueType(item->type) != GetEntityValueType(type))
 		{
 			mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
 				"Values types do not match: " + std::to_string(dataSource), this);
@@ -56,15 +56,15 @@ namespace Marvel {
 
 	void mvAnnotation::draw(ImDrawList* drawlist, float x, float y)
 	{
-		if (!_show)
+		if (!config.show)
 			return;
 
-		ScopedID id(_uuid);
+		ScopedID id(uuid);
 
 		if (_clamped)
-			ImPlot::AnnotateClamped((*_value.get())[0], (*_value.get())[1], _pixOffset, _color.toVec4(), "%s", _specifiedLabel.c_str());
+			ImPlot::AnnotateClamped((*_value.get())[0], (*_value.get())[1], _pixOffset, _color.toVec4(), "%s", config.specifiedLabel.c_str());
 		else
-			ImPlot::Annotate((*_value.get())[0], (*_value.get())[1], _pixOffset, _color.toVec4(), "%s", _specifiedLabel.c_str());
+			ImPlot::Annotate((*_value.get())[0], (*_value.get())[1], _pixOffset, _color.toVec4(), "%s", config.specifiedLabel.c_str());
 
 	}
 
@@ -97,7 +97,7 @@ namespace Marvel {
 	void mvAnnotation::applySpecificTemplate(mvAppItem* item)
 	{
 		auto titem = static_cast<mvAnnotation*>(item);
-		if(_source != 0) _value = titem->_value;
+		if (config.source != 0) _value = titem->_value;
 		_disabled_value[0] = titem->_disabled_value[0];
 		_disabled_value[1] = titem->_disabled_value[1];
 		_disabled_value[2] = titem->_disabled_value[2];

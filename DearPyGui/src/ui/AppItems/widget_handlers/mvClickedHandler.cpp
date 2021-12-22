@@ -25,10 +25,10 @@ namespace Marvel {
                     mvPyObject pArgs(PyTuple_New(2));
                     PyTuple_SetItem(pArgs, 0, ToPyInt(0));
                     PyTuple_SetItem(pArgs, 1, ToPyUUID(state->parent)); // steals data, so don't deref
-                    if (_alias.empty())
-                        mvRunCallback(getCallback(false), _uuid, pArgs, _user_data);
+                    if(config.alias.empty())
+                        mvRunCallback(getCallback(false), uuid, pArgs, config.user_data);
                     else
-                        mvRunCallback(getCallback(false), _alias, pArgs, _user_data);
+                        mvRunCallback(getCallback(false), config.alias, pArgs, config.user_data);
                     });
             }
 
@@ -40,10 +40,10 @@ namespace Marvel {
                     mvPyObject pArgs(PyTuple_New(2));
                     PyTuple_SetItem(pArgs, 0, ToPyInt(1));
                     PyTuple_SetItem(pArgs, 1, ToPyUUID(state->parent)); // steals data, so don't deref
-                    if (_alias.empty())
-                        mvRunCallback(getCallback(false), _uuid, pArgs, _user_data);
+                    if(config.alias.empty())
+                        mvRunCallback(getCallback(false), uuid, pArgs, config.user_data);
                     else
-                        mvRunCallback(getCallback(false), _alias, pArgs, _user_data);
+                        mvRunCallback(getCallback(false), config.alias, pArgs, config.user_data);
                     });
             }
 
@@ -55,10 +55,10 @@ namespace Marvel {
                         mvPyObject pArgs(PyTuple_New(2));
                         PyTuple_SetItem(pArgs, 0, ToPyInt(2));
                         PyTuple_SetItem(pArgs, 1, ToPyUUID(state->parent)); // steals data, so don't deref
-                        if (_alias.empty())
-                            mvRunCallback(getCallback(false), _uuid, pArgs, _user_data);
+                        if(config.alias.empty())
+                            mvRunCallback(getCallback(false), uuid, pArgs, config.user_data);
                         else
-                            mvRunCallback(getCallback(false), _alias, pArgs, _user_data);
+                            mvRunCallback(getCallback(false), config.alias, pArgs, config.user_data);
                     });
             }
 
@@ -66,7 +66,7 @@ namespace Marvel {
 
     void mvClickedHandler::handleSpecificRequiredArgs(PyObject* dict)
     {
-        if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(_type)], dict))
+        if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
             return;
 
         for (int i = 0; i < PyTuple_Size(dict); i++)

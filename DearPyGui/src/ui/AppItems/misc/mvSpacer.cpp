@@ -10,10 +10,10 @@ namespace Marvel {
 
     void mvSpacer::draw(ImDrawList* drawlist, float x, float y)
     {
-        if(_width == 0 && _height == 0)
+        if(config.width == 0 && config.height == 0)
             ImGui::Spacing();
         else
-            ImGui::Dummy({ (float)_width, (float)_height });
+            ImGui::Dummy({ (float)config.width, (float)config.height });
     }
 
 }

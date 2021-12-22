@@ -25,12 +25,12 @@ namespace Marvel {
 
 	void mvDrawBezierCubic::draw(ImDrawList* drawlist, float x, float y)
 	{
-		mvVec4  tp1 = _transform * _p1;
-		mvVec4  tp2 = _transform * _p2;
-		mvVec4  tp3 = _transform * _p3;
-		mvVec4  tp4 = _transform * _p4;
+		mvVec4  tp1 = drawInfo->transform * _p1;
+		mvVec4  tp2 = drawInfo->transform * _p2;
+		mvVec4  tp3 = drawInfo->transform * _p3;
+		mvVec4  tp4 = drawInfo->transform * _p4;
 
-		if (_perspectiveDivide)
+		if (drawInfo->perspectiveDivide)
 		{
 			tp1.x = tp1.x / tp1.w;
 			tp2.x = tp2.x / tp2.w;
@@ -49,12 +49,12 @@ namespace Marvel {
 		}
 
 
-		if (_depthClipping)
+		if (drawInfo->depthClipping)
 		{
-			if (mvClipPoint(_clipViewport, tp1)) return;
-			if (mvClipPoint(_clipViewport, tp2)) return;
-			if (mvClipPoint(_clipViewport, tp3)) return;
-			if (mvClipPoint(_clipViewport, tp4)) return;
+			if (mvClipPoint(drawInfo->clipViewport, tp1)) return;
+			if (mvClipPoint(drawInfo->clipViewport, tp2)) return;
+			if (mvClipPoint(drawInfo->clipViewport, tp3)) return;
+			if (mvClipPoint(drawInfo->clipViewport, tp4)) return;
 		}
 
 		if (ImPlot::GetCurrentContext()->CurrentPlot)
@@ -69,7 +69,7 @@ namespace Marvel {
 
 	void mvDrawBezierCubic::handleSpecificRequiredArgs(PyObject* dict)
 	{
-		if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(_type)], dict))
+		if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)

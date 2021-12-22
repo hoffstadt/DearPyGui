@@ -33,12 +33,12 @@ namespace Marvel {
 				{
 					mvSubmitCallback([=]()
 						{
-							if (_alias.empty())
-								mvRunCallback(getCallback(false), _uuid,
-									ToPyMTrip(i, ImGui::GetMouseDragDelta(i).x, ImGui::GetMouseDragDelta(i).y), _user_data);
+							if(config.alias.empty())
+								mvRunCallback(getCallback(false), uuid,
+									ToPyMTrip(i, ImGui::GetMouseDragDelta(i).x, ImGui::GetMouseDragDelta(i).y), config.user_data);
 							else
-								mvRunCallback(getCallback(false), _alias,
-									ToPyMTrip(i, ImGui::GetMouseDragDelta(i).x, ImGui::GetMouseDragDelta(i).y), _user_data);
+								mvRunCallback(getCallback(false), config.alias,
+									ToPyMTrip(i, ImGui::GetMouseDragDelta(i).x, ImGui::GetMouseDragDelta(i).y), config.user_data);
 						});
 				}
 			}
@@ -50,19 +50,19 @@ namespace Marvel {
 				ImGui::ResetMouseDragDelta(_button);
 			mvSubmitCallback([=]()
 				{
-					if (_alias.empty())
-						mvRunCallback(getCallback(false), _uuid,
-							ToPyMTrip(_button, ImGui::GetMouseDragDelta(_button).x, ImGui::GetMouseDragDelta(_button).y), _user_data);
+					if(config.alias.empty())
+						mvRunCallback(getCallback(false), uuid,
+							ToPyMTrip(_button, ImGui::GetMouseDragDelta(_button).x, ImGui::GetMouseDragDelta(_button).y), config.user_data);
 					else
-						mvRunCallback(getCallback(false), _alias,
-							ToPyMTrip(_button, ImGui::GetMouseDragDelta(_button).x, ImGui::GetMouseDragDelta(_button).y), _user_data);
+						mvRunCallback(getCallback(false), config.alias,
+							ToPyMTrip(_button, ImGui::GetMouseDragDelta(_button).x, ImGui::GetMouseDragDelta(_button).y), config.user_data);
 				});
 		}
 	}
 
 	void mvMouseDragHandler::handleSpecificPositionalArgs(PyObject* dict)
 	{
-		if (!VerifyPositionalArguments(GetParsers()[GetEntityCommand(_type)], dict))
+		if (!VerifyPositionalArguments(GetParsers()[GetEntityCommand(type)], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)

@@ -16,7 +16,7 @@ namespace Marvel {
 			//float FontSize = ImGui::GetFontSize(); // = Base Font Size * Current Window Scale
 			//ImGuiStyle currentStyle = ImGui::GetStyle(); // = Padding for the Top and Bottom
 			//_height = int(currentStyle.FramePadding.y * 2 + FontSize);
-			_height = 21;
+			config.height = 21;
 		}
 
 	void mvMenuBar::draw(ImDrawList* drawlist, float x, float y)
@@ -25,10 +25,10 @@ namespace Marvel {
 		if (ImGui::BeginMenuBar())
 		{
 
-			_state.lastFrameUpdate = GContext->frame;
-			_state.visible = true;
+			state.lastFrameUpdate = GContext->frame;
+			state.visible = true;
 	
-			for (auto& item : _children[1])
+			for (auto& item : childslots[1])
 				item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 
 			ImGui::EndMenuBar();

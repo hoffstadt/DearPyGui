@@ -16,23 +16,23 @@ namespace Marvel {
 
 	void mvDragLine::draw(ImDrawList* drawlist, float x, float y)
 	{
-		if (!_show)
+		if (!config.show)
 			return;
 
-		ScopedID id(_uuid);
+		ScopedID id(uuid);
 
 		if (_vertical)
 		{
-			if (ImPlot::DragLineX(_specifiedLabel.c_str(), _value.get(), _show_label, _color, _thickness))
+			if (ImPlot::DragLineX(config.specifiedLabel.c_str(), _value.get(), _show_label, _color, _thickness))
 			{
-				mvAddCallback(_callback, _uuid, nullptr, _user_data);
+				mvAddCallback(config.callback, uuid, nullptr, config.user_data);
 			}
 		}
 		else
 		{
-			if (ImPlot::DragLineY(_specifiedLabel.c_str(), _value.get(), _show_label, _color, _thickness))
+			if (ImPlot::DragLineY(config.specifiedLabel.c_str(), _value.get(), _show_label, _color, _thickness))
 			{
-				mvAddCallback(_callback, _uuid, nullptr, _user_data);
+				mvAddCallback(config.callback, uuid, nullptr, config.user_data);
 			}
 		}
 
@@ -50,8 +50,8 @@ namespace Marvel {
 
 	void mvDragLine::setDataSource(mvUUID dataSource)
 	{
-		if (dataSource == _source) return;
-		_source = dataSource;
+		if (dataSource == config.source) return;
+		config.source = dataSource;
 
 		mvAppItem* item = GetItem((*GContext->itemRegistry), dataSource);
 		if (!item)
@@ -60,7 +60,7 @@ namespace Marvel {
 				"Source item not found: " + std::to_string(dataSource), this);
 			return;
 		}
-		if (GetEntityValueType(item->_type) != GetEntityValueType(_type))
+		if (GetEntityValueType(item->type) != GetEntityValueType(type))
 		{
 			mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
 				"Values types do not match: " + std::to_string(dataSource), this);
@@ -100,7 +100,7 @@ namespace Marvel {
 	void mvDragLine::applySpecificTemplate(mvAppItem* item)
 	{
 		auto titem = static_cast<mvDragLine*>(item);
-		if(_source != 0) _value = titem->_value;
+		if (config.source != 0) _value = titem->_value;
 		_disabled_value = titem->_disabled_value;
 		_show_label = titem->_show_label;
 		_color = titem->_color;

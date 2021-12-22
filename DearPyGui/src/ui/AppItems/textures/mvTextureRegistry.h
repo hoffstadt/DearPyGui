@@ -15,7 +15,7 @@ namespace Marvel {
 
         void draw(ImDrawList* drawlist, float x, float y) override;
         void onChildRemoved(mvRef<mvAppItem> item) override;
-        void onChildrenRemoved() override;
+        void onChildrenRemoved();
 
     private:
 

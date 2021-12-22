@@ -10,16 +10,16 @@ namespace Marvel {
 		:
 		mvAppItem(uuid)
 	{
-		_show = false;
+		config.show = false;
 	}
 
 	void mvTextureRegistry::draw(ImDrawList* drawlist, float x, float y)
 	{
 
-		for (auto& item : _children[1])
+		for (auto& item : childslots[1])
 			item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 
-		if (_show)
+		if (config.show)
 			show_debugger();
 
 	}
@@ -39,7 +39,7 @@ namespace Marvel {
 		ImGui::PushID(this);
 
 		ImGui::SetNextWindowSize(ImVec2(500, 500), ImGuiCond_FirstUseEver);
-		if (ImGui::Begin(_internalLabel.c_str(), &_show))
+		if (ImGui::Begin(info.internalLabel.c_str(), &config.show))
 		{
 
 			ImGui::Text("Textures");
@@ -47,18 +47,18 @@ namespace Marvel {
 			ImGui::BeginChild("##TextureStorageChild", ImVec2(400, 0), true, ImGuiWindowFlags_AlwaysVerticalScrollbar);
 
 			int index = 0;
-			for (auto& texture : _children[1])
+			for (auto& texture : childslots[1])
 			{
 				bool status = false;
 				void* textureRaw = nullptr;
-				if(texture->_type == mvAppItemType::mvStaticTexture)
+				if(texture->type == mvAppItemType::mvStaticTexture)
 					textureRaw = static_cast<mvStaticTexture*>(texture.get())->getRawTexture();
 				else
 					textureRaw = static_cast<mvDynamicTexture*>(texture.get())->getRawTexture();
 
 				ImGui::Image(textureRaw, ImVec2(25, 25));
 				ImGui::SameLine();
-				if (ImGui::Selectable(texture->_internalLabel.c_str(), &status))
+				if (ImGui::Selectable(texture->info.internalLabel.c_str(), &status))
 					_selection = index;
 
 				++index;
@@ -72,27 +72,27 @@ namespace Marvel {
 				ImGui::BeginGroup();
 
 				ImGui::BeginGroup();
-				ImGui::Text("Width: %d", _children[1][_selection]->_width);
-				ImGui::Text("Height: %d", _children[1][_selection]->_height);
-				ImGui::Text("Type: %s", _children[1][_selection]->_type == mvAppItemType::mvStaticTexture ? "static" : "dynamic");
+				ImGui::Text("Width: %d", childslots[1][_selection]->config.width);
+				ImGui::Text("Height: %d", childslots[1][_selection]->config.height);
+				ImGui::Text("Type: %s", childslots[1][_selection]->type == mvAppItemType::mvStaticTexture ? "static" : "dynamic");
 				ImGui::EndGroup();
 
 				ImGui::SameLine();
 
 				void* textureRaw = nullptr;
-				if (_children[1][_selection]->_type == mvAppItemType::mvStaticTexture)
-					textureRaw = static_cast<mvStaticTexture*>(_children[1][_selection].get())->getRawTexture();
+				if (childslots[1][_selection]->type == mvAppItemType::mvStaticTexture)
+					textureRaw = static_cast<mvStaticTexture*>(childslots[1][_selection].get())->getRawTexture();
 				else
-					textureRaw = static_cast<mvDynamicTexture*>(_children[1][_selection].get())->getRawTexture();
+					textureRaw = static_cast<mvDynamicTexture*>(childslots[1][_selection].get())->getRawTexture();
 
-				ImGui::Image(textureRaw, ImVec2((float)_children[1][_selection]->_width, (float)_children[1][_selection]->_height));
+				ImGui::Image(textureRaw, ImVec2((float)childslots[1][_selection]->config.width, (float)childslots[1][_selection]->config.height));
 
 				ImPlot::PushStyleColor(ImPlotCol_FrameBg, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
 				if (ImPlot::BeginPlot("##texture plot", 0, 0, ImVec2(-1, -1),
 					ImPlotFlags_NoTitle | ImPlotFlags_NoLegend | ImPlotFlags_NoMenus | ImPlotFlags_Equal))
 				{
-					ImPlot::PlotImage(_children[1][_selection]->_internalLabel.c_str(), textureRaw, ImPlotPoint(0.0, 0.0),
-						ImPlotPoint(_children[1][_selection]->_width, _children[1][_selection]->_height));
+					ImPlot::PlotImage(childslots[1][_selection]->info.internalLabel.c_str(), textureRaw, ImPlotPoint(0.0, 0.0),
+						ImPlotPoint(childslots[1][_selection]->config.width, childslots[1][_selection]->config.height));
 					ImPlot::EndPlot();
 				}
 				ImPlot::PopStyleColor();

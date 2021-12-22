@@ -35,8 +35,8 @@ namespace Marvel {
 
 	void mvDragPoint::setDataSource(mvUUID dataSource)
 	{
-		if (dataSource == _source) return;
-		_source = dataSource;
+		if (dataSource == config.source) return;
+		config.source = dataSource;
 
 		mvAppItem* item = GetItem((*GContext->itemRegistry), dataSource);
 		if (!item)
@@ -45,7 +45,7 @@ namespace Marvel {
 				"Source item not found: " + std::to_string(dataSource), this);
 			return;
 		}
-		if (GetEntityValueType(item->_type) != GetEntityValueType(_type))
+		if (GetEntityValueType(item->type) != GetEntityValueType(type))
 		{
 			mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
 				"Values types do not match: " + std::to_string(dataSource), this);
@@ -56,21 +56,21 @@ namespace Marvel {
 
 	void mvDragPoint::draw(ImDrawList* drawlist, float x, float y)
 	{
-		if (!_show)
+		if (!config.show)
 			return;
 
-		ScopedID id(_uuid);
+		ScopedID id(uuid);
 
 		static double dummyx = (*_value.get())[0];
 		static double dummyy = (*_value.get())[1];
 		dummyx = (*_value.get())[0];
 		dummyy = (*_value.get())[1];
 
-		if (ImPlot::DragPoint(_specifiedLabel.c_str(), &dummyx, &dummyy, _show_label, _color, _radius))
+		if (ImPlot::DragPoint(config.specifiedLabel.c_str(), &dummyx, &dummyy, _show_label, _color, _radius))
 		{
 			(*_value.get())[0] = dummyx;
 			(*_value.get())[1] = dummyy;
-			mvAddCallback(_callback, _uuid, nullptr, _user_data);
+			mvAddCallback(config.callback, uuid, nullptr, config.user_data);
 		}
 
 	}
@@ -103,7 +103,7 @@ namespace Marvel {
 	void mvDragPoint::applySpecificTemplate(mvAppItem* item)
 	{
 		auto titem = static_cast<mvDragPoint*>(item);
-		if(_source != 0) _value = titem->_value;
+		if (config.source != 0) _value = titem->_value;
 		_disabled_value[0] = titem->_disabled_value[0];
 		_disabled_value[1] = titem->_disabled_value[1];
 		_disabled_value[2] = titem->_disabled_value[2];

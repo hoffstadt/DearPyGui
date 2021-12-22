@@ -16,14 +16,14 @@ namespace Marvel {
 	void mvDrawlist::applySpecificTemplate(mvAppItem* item)
 	{
 		auto titem = static_cast<mvDrawlist*>(item);
-		_width = titem->_width;
-		_height = titem->_height;
+		config.width = titem->config.width;
+		config.height = titem->config.height;
 	}
 
 	void mvDrawlist::draw(ImDrawList* drawlist, float x, float y)
 	{
 
-		if (!_show)
+		if (!config.show)
 			return;
 
 		_startx = (float)ImGui::GetCursorScreenPos().x;
@@ -31,33 +31,33 @@ namespace Marvel {
 
 		ImDrawList* internal_drawlist = ImGui::GetWindowDrawList();
 
-		ImGui::PushClipRect({ _startx, _starty }, { _startx + (float)_width, _starty + (float)_height }, true);
+		ImGui::PushClipRect({ _startx, _starty }, { _startx + (float)config.width, _starty + (float)config.height }, true);
 
-		for (auto& item : _children[2])
+		for (auto& item : childslots[2])
 		{
 			// skip item if it's not shown
-			if (!item->_show)
+			if (!item->config.show)
 				continue;
 
 			item->draw(internal_drawlist, _startx, _starty);
 
-			UpdateAppItemState(item->_state);
+			UpdateAppItemState(item->state);
 		}
 
 		ImGui::PopClipRect();
 
-		if (ImGui::InvisibleButton(_internalLabel.c_str(), ImVec2((float)_width, (float)_height), ImGuiButtonFlags_MouseButtonLeft | ImGuiButtonFlags_MouseButtonRight | ImGuiButtonFlags_MouseButtonMiddle))
+		if (ImGui::InvisibleButton(info.internalLabel.c_str(), ImVec2((float)config.width, (float)config.height), ImGuiButtonFlags_MouseButtonLeft | ImGuiButtonFlags_MouseButtonRight | ImGuiButtonFlags_MouseButtonMiddle))
 		{
-			if(_alias.empty())
-				mvAddCallback(getCallback(false), _uuid, nullptr, _user_data);
+			if(config.alias.empty())
+				mvAddCallback(getCallback(false), uuid, nullptr, config.user_data);
 			else
-				mvAddCallback(getCallback(false), _alias, nullptr, _user_data);
+				mvAddCallback(getCallback(false), config.alias, nullptr, config.user_data);
 		}
 
-		UpdateAppItemState(_state);
+		UpdateAppItemState(state);
 
-		if (_handlerRegistry)
-			_handlerRegistry->customAction(&_state);
+		if (handlerRegistry)
+			handlerRegistry->checkEvents(&state);
 
 		if (ImGui::IsItemHovered())
 		{
@@ -69,7 +69,7 @@ namespace Marvel {
 
 	void mvDrawlist::handleSpecificRequiredArgs(PyObject* dict)
 	{
-		if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(_type)], dict))
+		if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)
@@ -78,11 +78,11 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				_width = ToInt(item);
+				config.width = ToInt(item);
 				break;
 
 			case 1:
-				_height = ToInt(item);
+				config.height = ToInt(item);
 				break;
 
 			default:
@@ -97,8 +97,8 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "width", mvPyObject(ToPyInt(_width)));
-		PyDict_SetItemString(dict, "height", mvPyObject(ToPyInt(_height)));
+		PyDict_SetItemString(dict, "width", mvPyObject(ToPyInt(config.width)));
+		PyDict_SetItemString(dict, "height", mvPyObject(ToPyInt(config.height)));
 	}
 
 }

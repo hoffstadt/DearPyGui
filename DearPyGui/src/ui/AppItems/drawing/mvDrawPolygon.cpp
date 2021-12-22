@@ -31,9 +31,9 @@ namespace Marvel {
 		finalpoints.reserve(_points.size());
 
 		for (auto& point : points)
-			point = _transform * point;
+			point = drawInfo->transform * point;
 
-		if (_perspectiveDivide)
+		if (drawInfo->perspectiveDivide)
 		{
 
 			for (auto& point : points)
@@ -44,10 +44,10 @@ namespace Marvel {
 			}
 		}
 
-		if (_depthClipping)
+		if (drawInfo->depthClipping)
 		{
 			for(auto& point : points)
-				if (mvClipPoint(_clipViewport, point)) return;
+				if (mvClipPoint(drawInfo->clipViewport, point)) return;
 		}
 
 		if (ImPlot::GetCurrentContext()->CurrentPlot)
@@ -154,7 +154,7 @@ namespace Marvel {
 
 	void mvDrawPolygon::handleSpecificRequiredArgs(PyObject* dict)
 	{
-		if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(_type)], dict))
+		if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)

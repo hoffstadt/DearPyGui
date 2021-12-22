@@ -41,8 +41,8 @@ namespace Marvel {
 
 	void mvTabBar::setDataSource(mvUUID dataSource)
 	{
-		if (dataSource == _source) return;
-		_source = dataSource;
+		if (dataSource == config.source) return;
+		config.source = dataSource;
 
 		mvAppItem* item = GetItem((*GContext->itemRegistry), dataSource);
 		if (!item)
@@ -51,7 +51,7 @@ namespace Marvel {
 				"Source item not found: " + std::to_string(dataSource), this);
 			return;
 		}
-		if (GetEntityValueType(item->_type) != GetEntityValueType(_type))
+		if (GetEntityValueType(item->type) != GetEntityValueType(type))
 		{
 			mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
 				"Values types do not match: " + std::to_string(dataSource), this);
@@ -63,28 +63,28 @@ namespace Marvel {
 	void mvTabBar::draw(ImDrawList* drawlist, float x, float y)
 	{
 
-        if(!_show)
+        if (!config.show)
             return;
         
-		ScopedID id(_uuid);
+		ScopedID id(uuid);
 
 		ImGui::BeginGroup();
 
-		if (ImGui::BeginTabBar(_internalLabel.c_str(), _flags))
+		if (ImGui::BeginTabBar(info.internalLabel.c_str(), _flags))
 		{
 
-            _state.lastFrameUpdate = GContext->frame;
-            _state.visible = true; // BeginTabBar(...) only reaches this if visible
+            state.lastFrameUpdate = GContext->frame;
+            state.visible = true; // BeginTabBar(...) only reaches this if visible
             
-			for (auto& item : _children[1])
+			for (auto& item : childslots[1])
 			{
 
-				if (*_value == item->_uuid && _lastValue != *_value)
+				if (*_value == item->uuid && _lastValue != *_value)
 					static_cast<mvTab*>(item.get())->addFlag(ImGuiTabItemFlags_SetSelected);
 
 				item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 
-				if (*_value == item->_uuid)
+				if (*_value == item->uuid)
 					static_cast<mvTab*>(item.get())->removeFlag(ImGuiTabItemFlags_SetSelected);
 			}
 

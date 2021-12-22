@@ -36,7 +36,7 @@ namespace Marvel {
 				_value = buffer_info.buf;
 				if (_value == nullptr)
 				{
-					mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(_type), "Texture data not valid", this);
+					mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(type), "Texture data not valid", this);
 				}
 			}
 			PyBuffer_Release(&buffer_info);
@@ -58,7 +58,7 @@ namespace Marvel {
 	void mvRawTexture::applySpecificTemplate(mvAppItem* item)
 	{
 		auto titem = static_cast<mvRawTexture*>(item);
-		if(_source != 0) _value = titem->_value;
+		if (config.source != 0) _value = titem->_value;
 		_buffer = titem->_buffer;
 		_texture = titem->_texture;
 		_dirty = titem->_dirty;
@@ -80,7 +80,7 @@ namespace Marvel {
 				_texture = LoadTextureFromArrayRaw(_permWidth, _permHeight, (float*)_value, _components);
 
 			if (_texture == nullptr)
-				_state.ok = false;
+				state.ok = false;
 
 			_dirty = false;
 			return;
@@ -93,9 +93,9 @@ namespace Marvel {
 
 	void mvRawTexture::handleSpecificRequiredArgs(PyObject* dict)
 	{
-		if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(_type)], dict))
+		if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
 		{
-			mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(_type), "Texture data not valid", this);
+			mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(type), "Texture data not valid", this);
 			return;
 		}
 
@@ -106,12 +106,12 @@ namespace Marvel {
 			{
 			case 0:
 				_permWidth = ToInt(item);
-				_width = _permWidth;
+				config.width = _permWidth;
 				break;
 
 			case 1:
 				_permHeight = ToInt(item);
-				_height = _permHeight;
+				config.height = _permHeight;
 				break;
 
 			case 2:

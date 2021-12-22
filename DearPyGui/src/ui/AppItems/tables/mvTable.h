@@ -17,7 +17,7 @@ namespace Marvel {
         void getSpecificConfiguration(PyObject* dict) override;
         void onChildAdd(mvRef<mvAppItem> item) override;
         void onChildRemoved(mvRef<mvAppItem> item) override;
-        void onChildrenRemoved() override;
+        void onChildrenRemoved();
         void applySpecificTemplate(mvAppItem* item) override;
 
         // values

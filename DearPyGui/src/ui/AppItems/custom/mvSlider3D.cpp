@@ -3,6 +3,7 @@
 #include "AppItems/fonts/mvFont.h"
 #include "AppItems/themes/mvTheme.h"
 #include "AppItems/containers/mvDragPayload.h"
+#include "AppItems/widget_handlers/mvItemHandlerRegistry.h"
 
 namespace Marvel {
 
@@ -14,7 +15,7 @@ namespace Marvel {
 	void mvSlider3D::applySpecificTemplate(mvAppItem* item)
 	{
 		auto titem = static_cast<mvSlider3D*>(item);
-		if (_source != 0) _value = titem->_value;
+		if (config.source != 0) _value = titem->_value;
 		_disabled_value[0] = titem->_disabled_value[0];
 		_disabled_value[1] = titem->_disabled_value[1];
 		_disabled_value[2] = titem->_disabled_value[2];
@@ -374,38 +375,38 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 
 		// show/hide
-		if (!_show)
+		if (!config.show)
 			return;
 
 		// focusing
-		if (_focusNextFrame)
+		if (info.focusNextFrame)
 		{
 			ImGui::SetKeyboardFocusHere();
-			_focusNextFrame = false;
+			info.focusNextFrame = false;
 		}
 
 		// cache old cursor position
 		ImVec2 previousCursorPos = ImGui::GetCursorPos();
 
 		// set cursor position if user set
-		if (_dirtyPos)
-			ImGui::SetCursorPos(_state.pos);
+		if (info.dirtyPos)
+			ImGui::SetCursorPos(state.pos);
 
 		// update widget's position state
-		_state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
+		state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
 
 		// set item width
-		if (_width != 0)
-			ImGui::SetNextItemWidth((float)_width);
+		if (config.width != 0)
+			ImGui::SetNextItemWidth((float)config.width);
 
 		// set indent
-		if (_indent > 0.0f)
-			ImGui::Indent(_indent);
+		if (config.indent > 0.0f)
+			ImGui::Indent(config.indent);
 
 		// push font if a font object is attached
-		if (_font)
+		if (font)
 		{
-			ImFont* fontptr = static_cast<mvFont*>(_font.get())->getFontPtr();
+			ImFont* fontptr = static_cast<mvFont*>(font.get())->getFontPtr();
 			ImGui::PushFont(fontptr);
 		}
 
@@ -416,17 +417,17 @@ namespace Marvel {
 		// draw
 		//-----------------------------------------------------------------------------
 		{
-			ScopedID id(_uuid);
+			ScopedID id(uuid);
 
-			if(SliderScalar3D(_specifiedLabel.c_str(), &(*_value)[0], &(*_value)[1], &(*_value)[2], _minX, _maxX, _minY, _maxY, _minZ, _maxZ, _scale))
+			if(SliderScalar3D(config.specifiedLabel.c_str(), &(*_value)[0], &(*_value)[1], &(*_value)[2], _minX, _maxX, _minY, _maxY, _minZ, _maxZ, _scale))
 			{
 				auto value = *_value;
 				mvSubmitCallback([=]() {
 
-					if(_alias.empty())
-						mvAddCallback(getCallback(false), _uuid, ToPyFloatList(value.data(), (int)value.size()), _user_data);
+					if(config.alias.empty())
+						mvAddCallback(getCallback(false), uuid, ToPyFloatList(value.data(), (int)value.size()), config.user_data);
 					else
-						mvAddCallback(getCallback(false), _alias, ToPyFloatList(value.data(), (int)value.size()), _user_data);
+						mvAddCallback(getCallback(false), config.alias, ToPyFloatList(value.data(), (int)value.size()), config.user_data);
 					});
 			}
 		}
@@ -434,28 +435,28 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		// update state
 		//-----------------------------------------------------------------------------
-		UpdateAppItemState(_state);
+		UpdateAppItemState(state);
 
 		//-----------------------------------------------------------------------------
 		// post draw
 		//-----------------------------------------------------------------------------
 
 		// set cursor position to cached position
-		if (_dirtyPos)
+		if (info.dirtyPos)
 			ImGui::SetCursorPos(previousCursorPos);
 
-		if (_indent > 0.0f)
-			ImGui::Unindent(_indent);
+		if (config.indent > 0.0f)
+			ImGui::Unindent(config.indent);
 
 		// pop font off stack
-		if (_font)
+		if (font)
 			ImGui::PopFont();
 
 		// handle popping themes
 		cleanup_local_theming(this);
 
-		if (_handlerRegistry)
-			_handlerRegistry->customAction(&_state);
+		if (handlerRegistry)
+			handlerRegistry->checkEvents(&state);
 
 		// handle drag & drop if used
 		apply_drag_drop(this);
@@ -482,8 +483,8 @@ namespace Marvel {
 
 	void mvSlider3D::setDataSource(mvUUID dataSource)
 	{
-		if (dataSource == _source) return;
-		_source = dataSource;
+		if (dataSource == config.source) return;
+		config.source = dataSource;
 
 		mvAppItem* item = GetItem((*GContext->itemRegistry), dataSource);
 		if (!item)
@@ -492,7 +493,7 @@ namespace Marvel {
 				"Source item not found: " + std::to_string(dataSource), this);
 			return;
 		}
-		if (GetEntityValueType(item->_type) != GetEntityValueType(_type))
+		if (GetEntityValueType(item->type) != GetEntityValueType(type))
 		{
 			mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
 				"Values types do not match: " + std::to_string(dataSource), this);

@@ -23,23 +23,23 @@ namespace Marvel {
 
 	void mvDrawText::draw(ImDrawList* drawlist, float x, float y)
 	{
-		mvVec4  tpos = _transform * _pos;
+		mvVec4  tpos = drawInfo->transform * _pos;
 
-		if (_perspectiveDivide)
+		if (drawInfo->perspectiveDivide)
 		{
 			tpos.x = tpos.x / tpos.w;
 			tpos.y = tpos.y / tpos.w;
 			tpos.z = tpos.z / tpos.w;
 		}
 
-		if (_depthClipping)
+		if (drawInfo->depthClipping)
 		{
-			if (mvClipPoint(_clipViewport, tpos)) return;
+			if (mvClipPoint(drawInfo->clipViewport, tpos)) return;
 		}
 
 		ImFont* fontptr = ImGui::GetFont();
-		if (_font)
-			fontptr = static_cast<mvFont*>(_font.get())->getFontPtr();
+		if (font)
+			fontptr = static_cast<mvFont*>(font.get())->getFontPtr();
 
 		if (ImPlot::GetCurrentContext()->CurrentPlot)
 			drawlist->AddText(fontptr, ImPlot::GetCurrentContext()->Mx * (float)_size, ImPlot::PlotToPixels(tpos), _color, _text.c_str());
@@ -52,7 +52,7 @@ namespace Marvel {
 
 	void mvDrawText::handleSpecificRequiredArgs(PyObject* dict)
 	{
-		if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(_type)], dict))
+		if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)

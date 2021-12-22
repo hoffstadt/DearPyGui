@@ -21,7 +21,7 @@ namespace Marvel {
 	void mvDynamicTexture::applySpecificTemplate(mvAppItem* item)
 	{
 		auto titem = static_cast<mvDynamicTexture*>(item);
-		if(_source != 0) _value = titem->_value;
+		if (config.source != 0) _value = titem->_value;
 		_texture = titem->_texture;
 		_permWidth = titem->_permWidth;
 		_permHeight = titem->_permHeight;
@@ -40,8 +40,8 @@ namespace Marvel {
 
 	void mvDynamicTexture::setDataSource(mvUUID dataSource)
 	{
-		if (dataSource == _source) return;
-		_source = dataSource;
+		if (dataSource == config.source) return;
+		config.source = dataSource;
 
 		mvAppItem* item = GetItem((*GContext->itemRegistry), dataSource);
 		if (!item)
@@ -50,7 +50,7 @@ namespace Marvel {
 				"Source item not found: " + std::to_string(dataSource), this);
 			return;
 		}
-		if (GetEntityValueType(item->_type) != GetEntityValueType(_type))
+		if (GetEntityValueType(item->type) != GetEntityValueType(type))
 		{
 			mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
 				"Values types do not match: " + std::to_string(dataSource), this);
@@ -67,7 +67,7 @@ namespace Marvel {
 			_texture = LoadTextureFromArrayDynamic(_permWidth, _permHeight, _value->data());
 
 			if (_texture == nullptr)
-				_state.ok = false;
+				state.ok = false;
 
 			_dirty = false;
 			return;
@@ -79,7 +79,7 @@ namespace Marvel {
 
 	void mvDynamicTexture::handleSpecificRequiredArgs(PyObject* dict)
 	{
-		if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(_type)], dict))
+		if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)
@@ -89,12 +89,12 @@ namespace Marvel {
 			{
 			case 0:
 				_permWidth = ToInt(item);
-				_width = _permWidth;
+				config.width = _permWidth;
 				break;
 
 			case 1:
 				_permHeight = ToInt(item);
-				_height = _permHeight;
+				config.height = _permHeight;
 				break;
 
 			case 2:

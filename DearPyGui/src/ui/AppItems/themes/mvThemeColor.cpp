@@ -15,7 +15,7 @@ namespace Marvel {
 	{
 	}
 
-	void mvThemeColor::draw(ImDrawList* drawlist, float x, float y)
+	void mvThemeColor::push_theme_color()
 	{
 		ImVec4 color = ImVec4((*_value)[0], (*_value)[1], (*_value)[2], (*_value)[3]);
 
@@ -32,7 +32,7 @@ namespace Marvel {
 			imnodes::PushColorStyle((imnodes::ColorStyle)_targetColor, ImGui::ColorConvertFloat4ToU32(color));
 	}
 
-	void mvThemeColor::customAction(void* data)
+	void mvThemeColor::pop_theme_color()
 	{
 		if (_libType == mvLibType::MV_IMGUI)
 			ImGui::PopStyleColor();
@@ -44,7 +44,7 @@ namespace Marvel {
 
 	void mvThemeColor::handleSpecificPositionalArgs(PyObject* dict)
 	{
-		if (!VerifyPositionalArguments(GetParsers()[GetEntityCommand(_type)], dict))
+		if (!VerifyPositionalArguments(GetParsers()[GetEntityCommand(type)], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)
@@ -79,7 +79,7 @@ namespace Marvel {
 
 			if (_targetColor >= ImGuiCol_COUNT || _targetColor < 0)
 			{
-				_state.ok = false;
+				state.ok = false;
 				mvThrowPythonError(mvErrorCode::mvNone, "Style target out of range.");
 				MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
 				assert(false);
@@ -90,7 +90,7 @@ namespace Marvel {
 		{
 			if (_targetColor >= ImPlotCol_COUNT || _targetColor < 0)
 			{
-				_state.ok = false;
+				state.ok = false;
 				mvThrowPythonError(mvErrorCode::mvNone, "Style target out of range.");
 				MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
 				assert(false);
@@ -101,7 +101,7 @@ namespace Marvel {
 		{
 			if (_targetColor >= imnodes::ColorStyle_Count || _targetColor < 0)
 			{
-				_state.ok = false;
+				state.ok = false;
 				mvThrowPythonError(mvErrorCode::mvNone, "Style target out of range.");
 				MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
 				assert(false);
@@ -146,14 +146,14 @@ namespace Marvel {
 		else
 			_value = std::make_shared<std::array<float, 4>>(temp_array);
 
-		if (_parentPtr)
-			_parentPtr->_triggerAlternativeAction = true;
+		if (info.parentPtr)
+			info.parentPtr->info.triggerAlternativeAction = true;
 	}
 
 	void mvThemeColor::setDataSource(mvUUID dataSource)
 	{
-		if (dataSource == _source) return;
-		_source = dataSource;
+		if (dataSource == config.source) return;
+		config.source = dataSource;
 
 		mvAppItem* item = GetItem((*GContext->itemRegistry), dataSource);
 		if (!item)
@@ -162,7 +162,7 @@ namespace Marvel {
 				"Source item not found: " + std::to_string(dataSource), this);
 			return;
 		}
-		if (GetEntityValueType(item->_type) != GetEntityValueType(_type))
+		if (GetEntityValueType(item->type) != GetEntityValueType(type))
 		{
 			mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
 				"Values types do not match: " + std::to_string(dataSource), this);
@@ -174,7 +174,7 @@ namespace Marvel {
 	void mvThemeColor::applySpecificTemplate(mvAppItem* item)
 	{
 		auto titem = static_cast<mvThemeColor*>(item);
-		if (_source != 0) _value = titem->_value;
+		if (config.source != 0) _value = titem->_value;
 		_targetColor = titem->_targetColor;
 		_libType = titem->_libType;
 	}

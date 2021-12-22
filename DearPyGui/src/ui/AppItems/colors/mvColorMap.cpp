@@ -26,7 +26,7 @@ namespace Marvel {
 
     void mvColorMap::handleSpecificRequiredArgs(PyObject* dict)
     {
-        if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(_type)], dict))
+        if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
             return;
 
         for (int i = 0; i < PyTuple_Size(dict); i++)
@@ -63,14 +63,14 @@ namespace Marvel {
             }
         }
 
-        _colorMap = ImPlot::AddColormap(_internalLabel.c_str(), _colors.data(), (int)_colors.size(), _qualitative);
+        _colorMap = ImPlot::AddColormap(info.internalLabel.c_str(), _colors.data(), (int)_colors.size(), _qualitative);
     }
 
     void mvColorMap::draw(ImDrawList* drawlist, float x, float y)
     {
-        ScopedID id(_uuid);
+        ScopedID id(uuid);
 
-        ImPlot::ColormapButton(_internalLabel.c_str(), ImVec2(-1.0f, 0.0f), _colorMap);
+        ImPlot::ColormapButton(info.internalLabel.c_str(), ImVec2(-1.0f, 0.0f), _colorMap);
     }
 
 

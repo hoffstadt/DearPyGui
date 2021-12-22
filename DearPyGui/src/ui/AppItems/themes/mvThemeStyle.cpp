@@ -124,14 +124,14 @@ namespace Marvel {
 		else
 			_value = std::make_shared<std::array<float, 4>>(temp_array);
 
-		if (_parentPtr)
-			_parentPtr->_triggerAlternativeAction = true;
+		if (info.parentPtr)
+			info.parentPtr->info.triggerAlternativeAction = true;
 	}
 
 	void mvThemeStyle::setDataSource(mvUUID dataSource)
 	{
-		if (dataSource == _source) return;
-		_source = dataSource;
+		if (dataSource == config.source) return;
+		config.source = dataSource;
 
 		mvAppItem* item = GetItem((*GContext->itemRegistry), dataSource);
 		if (!item)
@@ -140,7 +140,7 @@ namespace Marvel {
 				"Source item not found: " + std::to_string(dataSource), this);
 			return;
 		}
-		if (GetEntityValueType(item->_type) != GetEntityValueType(_type))
+		if (GetEntityValueType(item->type) != GetEntityValueType(type))
 		{
 			mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
 				"Values types do not match: " + std::to_string(dataSource), this);
@@ -149,7 +149,7 @@ namespace Marvel {
 		_value = *static_cast<std::shared_ptr<std::array<float, 4>>*>(item->getValue());
 	}
 
-	void mvThemeStyle::draw(ImDrawList* drawlist, float x, float y)
+	void mvThemeStyle::push_theme_style()
 	{
 		if (_libType == mvLibType::MV_IMGUI)
 		{
@@ -173,7 +173,7 @@ namespace Marvel {
 			imnodes::PushStyleVar((imnodes::StyleVar)_targetStyle, (*_value)[0]);
 	}
 
-	void mvThemeStyle::customAction(void* data)
+	void mvThemeStyle::pop_theme_style()
 	{
 		if (_libType == mvLibType::MV_IMGUI)
 			ImGui::PopStyleVar();
@@ -185,7 +185,7 @@ namespace Marvel {
 
 	void mvThemeStyle::handleSpecificPositionalArgs(PyObject* dict)
 	{
-		if (!VerifyPositionalArguments(GetParsers()[GetEntityCommand(_type)], dict))
+		if (!VerifyPositionalArguments(GetParsers()[GetEntityCommand(type)], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)
@@ -224,7 +224,7 @@ namespace Marvel {
 		{
 			if (_targetStyle >= ImGuiStyleVar_COUNT || _targetStyle < 0)
 			{
-				_state.ok = false;
+				state.ok = false;
 				mvThrowPythonError(mvErrorCode::mvNone, "");
 				MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
 			}
@@ -234,7 +234,7 @@ namespace Marvel {
 		{
 			if (_targetStyle >= ImPlotStyleVar_COUNT || _targetStyle < 0)
 			{
-				_state.ok = false;
+				state.ok = false;
 				mvThrowPythonError(mvErrorCode::mvNone, "");
 				MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
 			}
@@ -244,7 +244,7 @@ namespace Marvel {
 		{
 			if (_targetStyle >= 14 || _targetStyle < 0)
 			{
-				_state.ok = false;
+				state.ok = false;
 				mvThrowPythonError(mvErrorCode::mvNone, "");
 				MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
 			}
@@ -266,7 +266,7 @@ namespace Marvel {
 	void mvThemeStyle::applySpecificTemplate(mvAppItem* item)
 	{
 		auto titem = static_cast<mvThemeStyle*>(item);
-		if (_source != 0) _value = titem->_value;
+		if (config.source != 0) _value = titem->_value;
 		_targetStyle = titem->_targetStyle;
 		_libType = titem->_libType;
 	}

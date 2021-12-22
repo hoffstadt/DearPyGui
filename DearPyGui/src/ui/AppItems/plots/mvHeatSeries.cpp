@@ -28,8 +28,8 @@ namespace Marvel {
 
 	void mvHeatSeries::setDataSource(mvUUID dataSource)
 	{
-		if (dataSource == _source) return;
-		_source = dataSource;
+		if (dataSource == config.source) return;
+		config.source = dataSource;
 
 		mvAppItem* item = GetItem((*GContext->itemRegistry), dataSource);
 		if (!item)
@@ -38,7 +38,7 @@ namespace Marvel {
 				"Source item not found: " + std::to_string(dataSource), this);
 			return;
 		}
-		if (GetEntityValueType(item->_type) != GetEntityValueType(_type))
+		if (GetEntityValueType(item->type) != GetEntityValueType(type))
 		{
 			mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
 				"Values types do not match: " + std::to_string(dataSource), this);
@@ -53,13 +53,13 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		// pre draw
 		//-----------------------------------------------------------------------------
-		if (!_show)
+		if (!config.show)
 			return;
 
 		// push font if a font object is attached
-		if (_font)
+		if (font)
 		{
-			ImFont* fontptr = static_cast<mvFont*>(_font.get())->getFontPtr();
+			ImFont* fontptr = static_cast<mvFont*>(font.get())->getFontPtr();
 			ImGui::PushFont(fontptr);
 		}
 
@@ -76,21 +76,21 @@ namespace Marvel {
 			xptr = &(*_value.get())[0];
 
 
-			ImPlot::PlotHeatmap(_internalLabel.c_str(), xptr->data(), _rows, _cols, _scale_min, _scale_max,
+			ImPlot::PlotHeatmap(info.internalLabel.c_str(), xptr->data(), _rows, _cols, _scale_min, _scale_max,
 				_format.c_str(), { _bounds_min.x, _bounds_min.y }, { _bounds_max.x, _bounds_max.y });
 
 			// Begin a popup for a legend entry.
-			if (ImPlot::BeginLegendPopup(_internalLabel.c_str(), 1))
+			if (ImPlot::BeginLegendPopup(info.internalLabel.c_str(), 1))
 			{
-				for (auto& childset : _children)
+				for (auto& childset : childslots)
 				{
 					for (auto& item : childset)
 					{
 						// skip item if it's not shown
-						if (!item->_show)
+						if (!item->config.show)
 							continue;
 						item->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
-						UpdateAppItemState(item->_state);
+						UpdateAppItemState(item->state);
 					}
 				}
 				ImPlot::EndLegendPopup();
@@ -108,7 +108,7 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 
 		// pop font off stack
-		if (_font)
+		if (font)
 			ImGui::PopFont();
 
 		// handle popping themes
@@ -117,7 +117,7 @@ namespace Marvel {
 
 	void mvHeatSeries::handleSpecificRequiredArgs(PyObject* dict)
 	{
-		if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(_type)], dict))
+		if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)
@@ -196,7 +196,7 @@ namespace Marvel {
 	void mvHeatSeries::applySpecificTemplate(mvAppItem* item)
 	{
 		auto titem = static_cast<mvHeatSeries*>(item);
-		if(_source != 0) _value = titem->_value;
+		if (config.source != 0) _value = titem->_value;
 		_rows = titem->_rows;
 		_cols = titem->_cols;
 		_scale_min = titem->_scale_min;

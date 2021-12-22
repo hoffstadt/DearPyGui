@@ -9,6 +9,7 @@
 #include "AppItems/themes/mvTheme.h"
 #include "AppItems/containers/mvDragPayload.h"
 #include "mvPyObject.h"
+#include "AppItems/widget_handlers/mvItemHandlerRegistry.h"
 
 namespace Marvel {
 
@@ -22,7 +23,7 @@ namespace Marvel {
 
 	void mvNodeLink::handleSpecificRequiredArgs(PyObject* dict)
 	{
-		if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(_type)], dict))
+		if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)
@@ -34,14 +35,14 @@ namespace Marvel {
 			{
 				mvUUID node1 = GetIDFromPyObject(item);
 				mvAppItem* node = GetItem(*GContext->itemRegistry, node1);
-				if (node->_type == mvAppItemType::mvNodeAttribute)
+				if (node->type == mvAppItemType::mvNodeAttribute)
 				{
 					_id1uuid = node1;
 					_id1 = static_cast<const mvNodeAttribute*>(node)->getId();
 				}
 				else
 				{
-					mvThrowPythonError(mvErrorCode::mvIncompatibleType, GetEntityCommand(_type),
+					mvThrowPythonError(mvErrorCode::mvIncompatibleType, GetEntityCommand(type),
 						"Incompatible type. Expected types include: mvNode", node);
 					MV_ITEM_REGISTRY_ERROR("Nodes must be nodes. duh");
 					assert(false);
@@ -54,14 +55,14 @@ namespace Marvel {
 			{
 				mvUUID node2 = GetIDFromPyObject(item);
 				mvAppItem* node = GetItem(*GContext->itemRegistry, node2);
-				if (node->_type == mvAppItemType::mvNodeAttribute)
+				if (node->type == mvAppItemType::mvNodeAttribute)
 				{
 					_id2uuid = node2;
 					_id2 = static_cast<const mvNodeAttribute*>(node)->getId();
 				}
 				else
 				{
-					mvThrowPythonError(mvErrorCode::mvIncompatibleType, GetEntityCommand(_type),
+					mvThrowPythonError(mvErrorCode::mvIncompatibleType, GetEntityCommand(type),
 						"Incompatible type. Expected types include: mvNode", node);
 					MV_ITEM_REGISTRY_ERROR("Nodes must be nodes. duh");
 					assert(false);
@@ -78,8 +79,8 @@ namespace Marvel {
 
 	void mvNodeLink::customAction(void* data)
 	{
-		if (_handlerRegistry)
-			_handlerRegistry->customAction(data);
+		if (handlerRegistry)
+			handlerRegistry->checkEvents(data);
 	}
 
 	void mvNodeLink::draw(ImDrawList* drawlist, float x, float y)
@@ -90,12 +91,12 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 
 		// show/hide
-		if (!_show)
+		if (!config.show)
 			return;
 
 		// set item width
-		if (_width != 0)
-			ImGui::SetNextItemWidth((float)_width);
+		if (config.width != 0)
+			ImGui::SetNextItemWidth((float)config.width);
 
 		// themes
 		apply_local_theming(this);
@@ -103,21 +104,21 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		// draw
 		//-----------------------------------------------------------------------------
-		ScopedID id(_uuid);
+		ScopedID id(uuid);
 
 		imnodes::Link(_id0, _id1, _id2);
 
 		//-----------------------------------------------------------------------------
 		// post draw
 		//-----------------------------------------------------------------------------
-		_state.lastFrameUpdate = GContext->frame;
+		state.lastFrameUpdate = GContext->frame;
 
 		//-----------------------------------------------------------------------------
 		// update state
 		//   * only update if applicable
 		//-----------------------------------------------------------------------------
 		//_state.hovered = imnodes::IsLinkHovered(&_id);
-		_state.visible = ImGui::IsItemVisible();
+		state.visible = ImGui::IsItemVisible();
 		//_state.active = imnodes::IsLinkStarted(&_id);
 		//_state.deactivated = imnodes::IsLinkDropped(&_id);
 

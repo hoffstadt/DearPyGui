@@ -35,21 +35,21 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 
 		// show/hide
-		if (!_show)
+		if (!config.show)
 			return;
 
 		// set item width
-		if (_width != 0)
-			ImGui::SetNextItemWidth((float)_width);
+		if (config.width != 0)
+			ImGui::SetNextItemWidth((float)config.width);
 
 		// indent (for children
-		if (_indent > 0.0f)
-			ImGui::Indent(_indent);
+		if (config.indent > 0.0f)
+			ImGui::Indent(config.indent);
 
 		// push font if a font object is attached
-		if (_font)
+		if (font)
 		{
-			ImFont* fontptr = static_cast<mvFont*>(_font.get())->getFontPtr();
+			ImFont* fontptr = static_cast<mvFont*>(font.get())->getFontPtr();
 			ImGui::PushFont(fontptr);
 		}
 
@@ -60,7 +60,7 @@ namespace Marvel {
 		// draw
 		//-----------------------------------------------------------------------------
 		{
-			ScopedID id(_uuid);
+			ScopedID id(uuid);
 
 			if (_attrType == mvNodeAttribute::AttributeType::mvAttr_Static)
 				imnodes::BeginStaticAttribute((int)_id);
@@ -69,34 +69,34 @@ namespace Marvel {
 			else
 				imnodes::BeginInputAttribute((int)_id, _shape);
 
-			for (auto& item : _children[1])
+			for (auto& item : childslots[1])
 			{
 				// skip item if it's not shown
-				if (!item->_show)
+				if (!item->config.show)
 					continue;
 
 				// set item width
-				if (item->_width != 0)
-					ImGui::SetNextItemWidth((float)item->_width);
+				if (item->config.width != 0)
+					ImGui::SetNextItemWidth((float)item->config.width);
 
-				if (item->_focusNextFrame)
+				if (item->info.focusNextFrame)
 				{
 					ImGui::SetKeyboardFocusHere();
-					item->_focusNextFrame = false;
+					item->info.focusNextFrame = false;
 				}
 
 				auto oldCursorPos = ImGui::GetCursorPos();
-				if (item->_dirtyPos)
-					ImGui::SetCursorPos(item->_state.pos);
+				if (item->info.dirtyPos)
+					ImGui::SetCursorPos(item->state.pos);
 
-				item->_state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
+				item->state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
 
 				item->draw(drawlist, x, y);
 
-				if (item->_dirtyPos)
+				if (item->info.dirtyPos)
 					ImGui::SetCursorPos(oldCursorPos);
 
-				UpdateAppItemState(item->_state);
+				UpdateAppItemState(item->state);
 			}
 
 			if (_attrType == mvNodeAttribute::AttributeType::mvAttr_Static)
@@ -109,11 +109,11 @@ namespace Marvel {
 		}
 
 		// undo indents
-		if (_indent > 0.0f)
-			ImGui::Unindent(_indent);
+		if (config.indent > 0.0f)
+			ImGui::Unindent(config.indent);
 
 		// pop font off stack
-		if (_font)
+		if (font)
 			ImGui::PopFont();
 
 		// handle popping themes

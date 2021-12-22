@@ -33,13 +33,13 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 
 		// show/hide
-		if (!_show)
+		if (!config.show)
 			return;
 
 		// push font if a font object is attached
-		if (_font)
+		if (font)
 		{
-			ImFont* fontptr = static_cast<mvFont*>(_font.get())->getFontPtr();
+			ImFont* fontptr = static_cast<mvFont*>(font.get())->getFontPtr();
 			ImGui::PushFont(fontptr);
 		}
 
@@ -47,20 +47,20 @@ namespace Marvel {
 		apply_local_theming(this);
 
 		{
-			ScopedID id(_uuid);
+			ScopedID id(uuid);
 
 			if (_columns == 0)
 				return;
 
 			auto row_renderer = [&](mvAppItem* row)
 			{
-				ImGui::TableNextRow(0, (float)row->_height);
+				ImGui::TableNextRow(0, (float)row->config.height);
 
-				row->_state.lastFrameUpdate = GContext->frame;
-				row->_state.visible = true;
+				row->state.lastFrameUpdate = GContext->frame;
+				row->state.visible = true;
 
 				//int row_index = ImGui::TableGetRowIndex() + _tableHeader ? 1 : 0;
-				int row_index = row->_location;
+				int row_index = row->info.location;
 
 				if (_rowColorsSet[row_index])
 					ImGui::TableSetBgColor(ImGuiTableBgTarget_RowBg0, _rowColors[row_index]);
@@ -69,11 +69,11 @@ namespace Marvel {
 					ImGui::TableSetBgColor(ImGuiTableBgTarget_RowBg1, _rowSelectionColors[row_index]);
 
 				int column_index = -1;
-				for (auto& cell : row->_children[1])
+				for (auto& cell : row->childslots[1])
 				{
 
 					// if tooltip, do not move column index
-					if (cell->_type == mvAppItemType::mvTooltip)
+					if (cell->type == mvAppItemType::mvTooltip)
 					{
 						cell->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 						continue;
@@ -93,19 +93,19 @@ namespace Marvel {
 				}
 			};
 
-			if (ImGui::BeginTable(_internalLabel.c_str(), _columns, _flags,
-				ImVec2((float)_width, (float)_height), (float)_inner_width))
+			if (ImGui::BeginTable(info.internalLabel.c_str(), _columns, _flags,
+				ImVec2((float)config.width, (float)config.height), (float)_inner_width))
 			{
-				_state.lastFrameUpdate = GContext->frame;
-				_state.visible = true;
+				state.lastFrameUpdate = GContext->frame;
+				state.visible = true;
 
 				ImGui::TableSetupScrollFreeze(_freezeColumns, _freezeRows);
 
 				// columns
-				for (auto& item : _children[0])
+				for (auto& item : childslots[0])
 				{
 					// skip item if it's not shown
-					if (!item->_show)
+					if (!item->config.show)
 						continue;
 
 					item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
@@ -119,14 +119,14 @@ namespace Marvel {
 					if (sorts_specs->SpecsDirty)
 					{
 						if (sorts_specs->SpecsCount == 0)
-							mvAddCallback(getCallback(false), _uuid, GetPyNone(), _user_data);
+							mvAddCallback(getCallback(false), uuid, GetPyNone(), config.user_data);
 						else
 						{
 
 							// generate id map for columns
 							std::unordered_map<ImGuiID, mvUUID> idMap;
-							for (size_t i = 0; i < _children[0].size(); i++)
-								idMap[static_cast<mvTableColumn*>(_children[0][i].get())->_id] = _children[0][i]->_uuid;
+							for (size_t i = 0; i < childslots[0].size(); i++)
+								idMap[static_cast<mvTableColumn*>(childslots[0][i].get())->_id] = childslots[0][i]->uuid;
 
 							std::vector<SortSpec> specs;
 							for (int i = 0; i < sorts_specs->SpecsCount; i++)
@@ -145,10 +145,10 @@ namespace Marvel {
 									PyList_SetItem(pySpec, i, pySingleSpec);
 								}
 
-								if (_alias.empty())
-									mvRunCallback(getCallback(false), _uuid, pySpec, _user_data);
+								if (config.alias.empty())
+									mvRunCallback(getCallback(false), uuid, pySpec, config.user_data);
 								else
-									mvRunCallback(getCallback(false), _alias, pySpec, _user_data);
+									mvRunCallback(getCallback(false), config.alias, pySpec, config.user_data);
 								Py_XDECREF(pySpec);
 								});
 						}
@@ -161,9 +161,9 @@ namespace Marvel {
 
 					if (_imguiFilter.IsActive())
 					{
-						for (auto& row : _children[1])
+						for (auto& row : childslots[1])
 						{
-							if (!_imguiFilter.PassFilter(row->_filter.c_str()))
+							if (!_imguiFilter.PassFilter(row->config.filter.c_str()))
 								continue;
 							row_renderer(row.get());
 						}
@@ -172,31 +172,31 @@ namespace Marvel {
 					else if (_useClipper)
 					{
 						ImGuiListClipper clipper;
-						clipper.Begin((int)_children[1].size());
+						clipper.Begin((int)childslots[1].size());
 
 						while (clipper.Step())
 						{
 							for (int row_n = clipper.DisplayStart; row_n < clipper.DisplayEnd; row_n++)
-								row_renderer(_children[1][row_n].get());
+								row_renderer(childslots[1][row_n].get());
 
 						}
 						clipper.End();
 					}
 					else
 					{
-						for (auto& row : _children[1])
+						for (auto& row : childslots[1])
 							row_renderer(row.get());
 					}
 				}
 
 				// columns
 				int columnnum = 0;
-				for (auto& item : _children[0])
+				for (auto& item : childslots[0])
 				{
 					ImGuiTableColumnFlags flags = ImGui::TableGetColumnFlags(columnnum);
-					item->_state.lastFrameUpdate = GContext->frame;
-					item->_state.visible = flags & ImGuiTableColumnFlags_IsVisible;
-					item->_state.hovered = flags & ImGuiTableColumnFlags_IsHovered;
+					item->state.lastFrameUpdate = GContext->frame;
+					item->state.visible = flags & ImGuiTableColumnFlags_IsVisible;
+					item->state.hovered = flags & ImGuiTableColumnFlags_IsHovered;
 					columnnum++;
 				}
 
@@ -209,7 +209,7 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 
 		// pop font off stack
-		if (_font)
+		if (font)
 			ImGui::PopFont();
 
 		// handle popping themes
@@ -220,14 +220,14 @@ namespace Marvel {
 	void mvTable::onChildAdd(mvRef<mvAppItem> item)
 	{
 
-		if (item->_type == mvAppItemType::mvTableColumn)
+		if (item->type == mvAppItemType::mvTableColumn)
 		{
 			_columns++;
 			_columnColors.push_back(ImGui::ColorConvertFloat4ToU32(ImVec4(0.0f, 0.0f, 0.0f, 0.0f)));
 			_columnColorsSet.push_back(false);
 		}
 
-		else if (item->_type == mvAppItemType::mvTableRow)
+		else if (item->type == mvAppItemType::mvTableRow)
 		{
 			_rows++;
 			_rowColors.push_back(ImGui::ColorConvertFloat4ToU32(ImVec4(0.0f, 0.0f, 0.0f, 0.0f)));
@@ -247,9 +247,9 @@ namespace Marvel {
 
 	void mvTable::onChildRemoved(mvRef<mvAppItem> item)
 	{
-		if (item->_type == mvAppItemType::mvTableColumn)
+		if (item->type == mvAppItemType::mvTableColumn)
 			_columns--;
-		else if (item->_type == mvAppItemType::mvTableRow)
+		else if (item->type == mvAppItemType::mvTableRow)
 			_rows--;
 
 
@@ -287,8 +287,8 @@ namespace Marvel {
 
 	void mvTable::onChildrenRemoved()
 	{
-		_columns = (int)_children[0].size();
-		_rows = (int)_children[1].size();
+		_columns = (int)childslots[0].size();
+		_rows = (int)childslots[1].size();
 
 		_columnColors.clear();
 		_columnColorsSet.clear();

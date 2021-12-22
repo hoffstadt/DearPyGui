@@ -15,10 +15,12 @@ namespace Marvel {
 
         explicit mvTheme(mvUUID uuid);
 
-        void draw(ImDrawList* drawlist, float x, float y) override;
-        void customAction(void* data = nullptr) override;
+        void draw(ImDrawList* drawlist, float x, float y) override { assert(false); }
         void setSpecificType(int specificType) { _specificType = specificType; }
         void setSpecificEnabled(int enabled) { _specificEnabled = enabled; }
+
+        void push_theme_components();
+        void pop_theme_components();
 
     public:
 

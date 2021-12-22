@@ -11,7 +11,7 @@ namespace Marvel {
 
 		// has to be showed that way it can check for hovering
 		// otherwise it will never show
-		_show = true;
+		config.show = true;
 		
 	}
 
@@ -21,12 +21,12 @@ namespace Marvel {
 		{
 			ImGui::BeginTooltip();
 
-			_state.lastFrameUpdate = GContext->frame;
-			_state.visible = true;
-			_state.contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
-			_state.rectSize = { ImGui::GetWindowSize().x, ImGui::GetWindowSize().y };
+			state.lastFrameUpdate = GContext->frame;
+			state.visible = true;
+			state.contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
+			state.rectSize = { ImGui::GetWindowSize().x, ImGui::GetWindowSize().y };
 
-			for (auto& item : _children[1])
+			for (auto& item : childslots[1])
 				item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 
 			ImGui::EndTooltip();
@@ -36,7 +36,7 @@ namespace Marvel {
 
 	void mvTooltip::handleSpecificRequiredArgs(PyObject* dict)
 	{
-		if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(_type)], dict))
+		if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)
@@ -45,7 +45,7 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				_parent = GetIDFromPyObject(item);
+				config.parent = GetIDFromPyObject(item);
 				break;
 
 			default:

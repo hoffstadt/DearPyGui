@@ -16,7 +16,7 @@ namespace Marvel {
 
 	mvStaticTexture::~mvStaticTexture()
 	{
-		if (_uuid == MV_ATLAS_UUID)
+		if (uuid == MV_ATLAS_UUID)
 			return;
 		//UnloadTexture(_name);
 		FreeTexture(_texture);
@@ -25,7 +25,7 @@ namespace Marvel {
 	void mvStaticTexture::applySpecificTemplate(mvAppItem* item)
 	{
 		auto titem = static_cast<mvStaticTexture*>(item);
-		if(_source != 0) _value = titem->_value;
+		if (config.source != 0) _value = titem->_value;
 		_texture = titem->_texture;
 		_dirty = titem->_dirty;
 		_permWidth = titem->_permWidth;
@@ -37,21 +37,21 @@ namespace Marvel {
 		if (!_dirty)
 			return;
 
-		if (!_state.ok)
+		if (!state.ok)
 			return;
 
-		if (_uuid == MV_ATLAS_UUID)
+		if (uuid == MV_ATLAS_UUID)
 		{
 			_texture = ImGui::GetIO().Fonts->TexID;
-			_width = ImGui::GetIO().Fonts->TexWidth;
-			_height = ImGui::GetIO().Fonts->TexHeight;
+			config.width = ImGui::GetIO().Fonts->TexWidth;
+			config.height = ImGui::GetIO().Fonts->TexHeight;
 		}
 		else
 			_texture = LoadTextureFromArray(_permWidth, _permHeight, _value->data());
 
 		if (_texture == nullptr)
 		{
-			_state.ok = false;
+			state.ok = false;
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "add_static_texture",
 				"Texture data can not be found.", this);
 		}
@@ -62,7 +62,7 @@ namespace Marvel {
 
 	void mvStaticTexture::handleSpecificRequiredArgs(PyObject* dict)
 	{
-		if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(_type)], dict))
+		if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)
@@ -72,12 +72,12 @@ namespace Marvel {
 			{
 			case 0:
 				_permWidth = ToInt(item);
-				_width = _permWidth;
+				config.width = _permWidth;
 				break;
 
 			case 1:
 				_permHeight = ToInt(item);
-				_height = _permHeight;
+				config.height = _permHeight;
 				break;
 
 			case 2:
@@ -102,8 +102,8 @@ namespace Marvel {
 
 	void mvStaticTexture::setDataSource(mvUUID dataSource)
 	{
-		if (dataSource == _source) return;
-		_source = dataSource;
+		if (dataSource == config.source) return;
+		config.source = dataSource;
 
 		mvAppItem* item = GetItem((*GContext->itemRegistry), dataSource);
 		if (!item)
@@ -112,7 +112,7 @@ namespace Marvel {
 				"Source item not found: " + std::to_string(dataSource), this);
 			return;
 		}
-		if (GetEntityValueType(item->_type) != GetEntityValueType(_type))
+		if (GetEntityValueType(item->type) != GetEntityValueType(type))
 		{
 			mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
 				"Values types do not match: " + std::to_string(dataSource), this);

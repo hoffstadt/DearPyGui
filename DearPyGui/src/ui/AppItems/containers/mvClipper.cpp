@@ -11,22 +11,22 @@ namespace Marvel {
 
 	void mvClipper::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ScopedID id(_uuid);
+		ScopedID id(uuid);
 
-		if (_width != 0)
-			ImGui::PushItemWidth((float)_width);
+		if (config.width != 0)
+			ImGui::PushItemWidth((float)config.width);
 
 
 		ImGuiListClipper clipper;
-		clipper.Begin((int)_children[1].size());
+		clipper.Begin((int)childslots[1].size());
 
 		while (clipper.Step())
 		{
 			for (int row_n = clipper.DisplayStart; row_n < clipper.DisplayEnd; row_n++)
-				_children[1][row_n]->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
+				childslots[1][row_n]->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 		}
 		clipper.End();
-		if (_width != 0)
+		if (config.width != 0)
 			ImGui::PopItemWidth();
 	}
 

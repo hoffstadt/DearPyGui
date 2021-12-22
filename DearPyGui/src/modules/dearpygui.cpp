@@ -428,20 +428,24 @@ namespace Marvel {
 
 		item = CreateEntity(type, id);
 
+		i32 flags = GetEntityDesciptionFlags(type);
+		if (flags & MV_ITEM_DESC_DRAW_CMP)
+			item->drawInfo = CreateRef<mvAppItemDrawInfo>();
+
 		// register alias if present
 		if (!alias.empty())
 		{
-			RemoveAlias(*GContext->itemRegistry, item->_alias, true);
-			item->_alias = alias;
-			AddAlias(*GContext->itemRegistry, item->_alias, item->_uuid);
+			RemoveAlias(*GContext->itemRegistry, item->config.alias, true);
+			item->config.alias = alias;
+			AddAlias(*GContext->itemRegistry, item->config.alias, item->uuid);
 		}
 
 		// if template registry is bound, attempt to use it
 		if (GContext->itemRegistry->boundedTemplateRegistry)
 		{
-			for (auto& tempItem : GContext->itemRegistry->boundedTemplateRegistry->_children[GetEntityTargetSlot(item->_type)])
+			for (auto& tempItem : GContext->itemRegistry->boundedTemplateRegistry->childslots[GetEntityTargetSlot(item->type)])
 			{
-				if (tempItem->_type == item->_type)
+				if (tempItem->type == item->type)
 				{
 					item->applyTemplate(tempItem.get());
 					break;
@@ -463,10 +467,10 @@ namespace Marvel {
 		AddItemWithRuntimeChecks((*GContext->itemRegistry), item, parent, before);
 
 		// return raw UUID if alias not used
-		if (item->_alias.empty())
+		if (item->config.alias.empty())
 			return Py_BuildValue("K", id);
 
-		return ToPyString(item->_alias);
+		return ToPyString(item->config.alias);
 	}
 
 	#define X(el) static PyObject* el##_command(PyObject* self, PyObject* args, PyObject* kwargs){return common_constructor(GetEntityCommand(mvAppItemType::el), mvAppItemType::el, self, args, kwargs);}

@@ -14,8 +14,8 @@ namespace Marvel {
 
     void mvIntValue::setDataSource(mvUUID dataSource)
     {
-        if (dataSource == _source) return;
-        _source = dataSource;
+        if (dataSource == config.source) return;
+        config.source = dataSource;
 
         mvAppItem* item = GetItem((*GContext->itemRegistry), dataSource);
         if (!item)
@@ -24,7 +24,7 @@ namespace Marvel {
                 "Source item not found: " + std::to_string(dataSource), this);
             return;
         }
-        if (GetEntityValueType(item->_type) != GetEntityValueType(_type))
+        if (GetEntityValueType(item->type) != GetEntityValueType(type))
         {
             mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
                 "Values types do not match: " + std::to_string(dataSource), this);

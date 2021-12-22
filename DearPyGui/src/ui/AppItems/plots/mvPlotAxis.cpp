@@ -20,7 +20,7 @@ namespace Marvel {
     {
         if (_setLimits || _dirty)
         {
-            switch (_location)
+            switch (info.location)
             {
             case(0):
                 ImPlot::SetNextPlotLimitsX(_limits.x, _limits.y, ImGuiCond_Always);
@@ -50,7 +50,7 @@ namespace Marvel {
         if (!_labels.empty())
         {
             // TODO: Checks
-            if(_location == 0)
+            if(info.location == 0)
                 ImPlot::SetNextPlotTicksX(_labelLocations.data(), (int)_labels.size(), _clabels.data());
             else
                 ImPlot::SetNextPlotTicksY(_labelLocations.data(), (int)_labels.size(), _clabels.data());
@@ -60,21 +60,21 @@ namespace Marvel {
     void mvPlotAxis::draw(ImDrawList* drawlist, float x, float y)
     {
 
-        if (!_show)
+        if (!config.show)
             return;
 
         // todo: add check
         if(_axis != 0)
-            ImPlot::SetPlotYAxis(_location - 1);
+            ImPlot::SetPlotYAxis(info.location - 1);
 
-        for (auto& item : _children[1])
+        for (auto& item : childslots[1])
             item->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
 
         // x axis
         if (_axis == 0)
         {
-            _limits_actual.x = (float)ImPlot::GetPlotLimits(_location).X.Min;
-            _limits_actual.y = (float)ImPlot::GetPlotLimits(_location).X.Max;
+            _limits_actual.x = (float)ImPlot::GetPlotLimits(info.location).X.Min;
+            _limits_actual.y = (float)ImPlot::GetPlotLimits(info.location).X.Max;
             auto context = ImPlot::GetCurrentContext();
             _flags = context->CurrentPlot->XAxis.Flags;
 
@@ -83,44 +83,44 @@ namespace Marvel {
         // y axis
         else
         {
-            _limits_actual.x = (float)ImPlot::GetPlotLimits(_location -1).Y.Min;
-            _limits_actual.y = (float)ImPlot::GetPlotLimits(_location -1).Y.Max;
+            _limits_actual.x = (float)ImPlot::GetPlotLimits(info.location -1).Y.Min;
+            _limits_actual.y = (float)ImPlot::GetPlotLimits(info.location -1).Y.Max;
             auto context = ImPlot::GetCurrentContext();
-            _flags = context->CurrentPlot->YAxis[_location-1].Flags;
+            _flags = context->CurrentPlot->YAxis[info.location-1].Flags;
         }
 
 
-        UpdateAppItemState(_state);
+        UpdateAppItemState(state);
 
-        if (_font)
+        if (font)
         {
             ImGui::PopFont();
         }
 
-        if (_theme)
+        if (theme)
         {
-            static_cast<mvTheme*>(_theme.get())->customAction();
+            static_cast<mvTheme*>(theme.get())->customAction();
         }
 
-        if (_dropCallback)
+        if (config.dropCallback)
         {
-            ScopedID id(_uuid);
-            if (_location == 0 && ImPlot::BeginDragDropTargetX())
+            ScopedID id(uuid);
+            if (info.location == 0 && ImPlot::BeginDragDropTargetX())
             {
-                if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(_payloadType.c_str()))
+                if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(config.payloadType.c_str()))
                 {
                     auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
-                    mvAddCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
+                    mvAddCallback(config.dropCallback, uuid, payloadActual->getDragData(), nullptr);
                 }
 
                 ImPlot::EndDragDropTarget();
             }
-            else if (ImPlot::BeginDragDropTargetY(_location - 1))
+            else if (ImPlot::BeginDragDropTargetY(info.location - 1))
             {
-                if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(_payloadType.c_str()))
+                if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(config.payloadType.c_str()))
                 {
                     auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
-                    mvAddCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
+                    mvAddCallback(config.dropCallback, uuid, payloadActual->getDragData(), nullptr);
                 }
 
                 ImPlot::EndDragDropTarget();
@@ -131,8 +131,8 @@ namespace Marvel {
 
     void mvPlotAxis::fitAxisData()
     {
-        static_cast<mvPlot*>(_parentPtr)->_fitDirty = true;
-        static_cast<mvPlot*>(_parentPtr)->_axisfitDirty[_location] = true;
+        static_cast<mvPlot*>(info.parentPtr)->_fitDirty = true;
+        static_cast<mvPlot*>(info.parentPtr)->_axisfitDirty[info.location] = true;
     }
 
     void mvPlotAxis::handleSpecificKeywordArgs(PyObject* dict)
@@ -156,32 +156,32 @@ namespace Marvel {
         flagop("lock_max", ImPlotAxisFlags_LockMax, _flags);
         flagop("time", ImPlotAxisFlags_Time, _flags);
         
-        if (_parentPtr)
+        if (info.parentPtr)
         {
-            static_cast<mvPlot*>(_parentPtr)->updateFlags();
-            static_cast<mvPlot*>(_parentPtr)->updateAxesNames();
+            static_cast<mvPlot*>(info.parentPtr)->updateFlags();
+            static_cast<mvPlot*>(info.parentPtr)->updateAxesNames();
         }
 
-        if (_shownLastFrame)
+        if (info.shownLastFrame)
         {
-            _shownLastFrame = false;
-            if (auto plot = static_cast<mvPlot*>(_parentPtr))
+            info.shownLastFrame = false;
+            if (auto plot = static_cast<mvPlot*>(info.parentPtr))
                 plot->removeFlag(ImPlotFlags_NoLegend);
-            _show = true;
+            config.show = true;
         }
 
-        if (_hiddenLastFrame)
+        if (info.hiddenLastFrame)
         {
-            _hiddenLastFrame = false;
-            if (auto plot = static_cast<mvPlot*>(_parentPtr))
+            info.hiddenLastFrame = false;
+            if (auto plot = static_cast<mvPlot*>(info.parentPtr))
                 plot->addFlag(ImPlotFlags_NoLegend);
-            _show = false;
+            config.show = false;
         }
     }
 
     void mvPlotAxis::handleSpecificRequiredArgs(PyObject* dict)
     {
-        if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(_type)], dict))
+        if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
             return;
 
         for (int i = 0; i < PyTuple_Size(dict); i++)
