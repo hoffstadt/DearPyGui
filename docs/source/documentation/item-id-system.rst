@@ -19,7 +19,7 @@ Tags allow for modification of the associated item at runtime.
     unique_id = 0 # to be filled out later
 
     def callback():
-        print(dpg.get_value(unique_tag))
+        print(dpg.get_value(unique_id))
 
     with dpg.window(label="Example"):
         dpg.add_button(label="Press me (print to output)", callback=callback)
