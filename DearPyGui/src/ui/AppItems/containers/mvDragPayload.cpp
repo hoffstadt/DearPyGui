@@ -4,6 +4,53 @@
 
 namespace Marvel {
 
+	void 
+	apply_drag_drop(mvAppItem* item)
+	{
+		for (auto& item :item-> _children[3])
+			item->draw(nullptr, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
+
+		if (item->_dropCallback)
+		{
+			ScopedID id(item->_uuid);
+			if (ImGui::BeginDragDropTarget())
+			{
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(item->_payloadType.c_str()))
+				{
+					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
+					if (item->_alias.empty())
+						mvAddCallback(item->_dropCallback, item->_uuid, payloadActual->getDragData(), nullptr);
+					else
+						mvAddCallback(item->_dropCallback, item->_alias, payloadActual->getDragData(), nullptr);
+				}
+
+				ImGui::EndDragDropTarget();
+			}
+		}
+	}
+
+	void
+	apply_drag_drop_nodraw(mvAppItem* item)
+	{
+		if (item->_dropCallback)
+		{
+			ScopedID id(item->_uuid);
+			if (ImGui::BeginDragDropTarget())
+			{
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(item->_payloadType.c_str()))
+				{
+					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
+					if (item->_alias.empty())
+						mvAddCallback(item->_dropCallback, item->_uuid, payloadActual->getDragData(), nullptr);
+					else
+						mvAddCallback(item->_dropCallback, item->_alias, payloadActual->getDragData(), nullptr);
+				}
+
+				ImGui::EndDragDropTarget();
+			}
+		}
+	}
+
 	mvDragPayload::mvDragPayload(mvUUID uuid)
 		: mvAppItem(uuid)
 	{

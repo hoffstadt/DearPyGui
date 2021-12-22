@@ -4,6 +4,9 @@
 
 namespace Marvel {
 
+    void apply_drag_drop(mvAppItem* item);
+    void apply_drag_drop_nodraw(mvAppItem* item);
+
     class mvDragPayload : public mvAppItem
     {
 

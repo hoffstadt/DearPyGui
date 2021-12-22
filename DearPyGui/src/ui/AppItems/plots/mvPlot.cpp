@@ -303,25 +303,7 @@ namespace Marvel {
             }
 
             // todo: resolve clipping
-            
-
-            if (_dropCallback)
-            {
-                ScopedID id(_uuid);
-                if (ImPlot::BeginDragDropTarget())
-                {
-                    if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(_payloadType.c_str()))
-                    {
-                        auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
-                        if (_alias.empty())
-                            mvAddCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
-                        else
-                            mvAddCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
-                    }
-
-                    ImPlot::EndDragDropTarget();
-                }
-            }
+            apply_drag_drop_nodraw(this);
 
             // update state
 

@@ -116,28 +116,8 @@ namespace Marvel {
 		if (_handlerRegistry)
 			_handlerRegistry->customAction(&_state);
 
-		// handle drag & drop payloads
-		for (auto& item : _children[3])
-			item->draw(nullptr, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-
 		// handle drag & drop if used
-		if (_dropCallback)
-		{
-			ScopedID id(_uuid);
-			if (ImGui::BeginDragDropTarget())
-			{
-				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(_payloadType.c_str()))
-				{
-					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
-					if (_alias.empty())
-						mvAddCallback(_dropCallback,_uuid, payloadActual->getDragData(), _user_data);
-					else
-						mvAddCallback(_dropCallback,_alias, payloadActual->getDragData(), _user_data);
-				}
-
-				ImGui::EndDragDropTarget();
-			}
-		}
+		apply_drag_drop(this);
 	}
 
 	PyObject* mvCheckbox::getPyValue()
