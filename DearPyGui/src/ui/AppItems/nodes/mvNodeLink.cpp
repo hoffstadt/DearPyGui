@@ -98,23 +98,7 @@ namespace Marvel {
 			ImGui::SetNextItemWidth((float)_width);
 
 		// themes
-		if (_enabled)
-		{
-			if (auto classTheme = GetClassThemeComponent(_type))
-				static_cast<mvThemeComponent*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
-		}
-		else
-		{
-			if (auto classTheme = GetDisabledClassThemeComponent(_type))
-				static_cast<mvThemeComponent*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
-		}
-
-		if (_theme)
-		{
-			static_cast<mvTheme*>(_theme.get())->setSpecificEnabled(_enabled);
-			static_cast<mvTheme*>(_theme.get())->setSpecificType((int)_type);
-			static_cast<mvTheme*>(_theme.get())->draw(nullptr, 0.0f, 0.0f);
-		}
+		apply_local_theming(this);
 
 		//-----------------------------------------------------------------------------
 		// draw

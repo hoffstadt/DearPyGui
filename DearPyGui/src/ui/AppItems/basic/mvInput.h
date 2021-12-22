@@ -4,7 +4,7 @@
 #include <array>
 #include "mvItemRegistry.h"
 #include "mvContext.h"
-#include "mvModule_DearPyGui.h"
+#include "dearpygui.h"
 
 //-----------------------------------------------------------------------------
 // Widget Index

@@ -1,5 +1,5 @@
 #include "mvContext.h"
-#include "mvModule_DearPyGui.h"
+#include "dearpygui.h"
 #include "mvViewport.h"
 #include "mvCallbackRegistry.h"
 #include <thread>
@@ -13,7 +13,6 @@
 #include "mvPythonExceptions.h"
 #include "mvGlobalIntepreterLock.h"
 #include <frameobject.h>
-#include "mvModule_DearPyGui.h"
 #include "mvLog.h"
 #include "mvToolManager.h"
 #include <imnodes.h>

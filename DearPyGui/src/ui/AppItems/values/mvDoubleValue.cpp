@@ -1,7 +1,7 @@
 #include "mvDoubleValue.h"
 #include <utility>
 #include "mvContext.h"
-#include "mvModule_DearPyGui.h"
+#include "dearpygui.h"
 #include <string>
 #include "mvPythonExceptions.h"
 

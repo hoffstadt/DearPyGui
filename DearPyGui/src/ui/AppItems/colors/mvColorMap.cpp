@@ -1,7 +1,7 @@
 #include "mvColorMap.h"
 #include <utility>
 #include "mvContext.h"
-#include "mvModule_DearPyGui.h"
+#include "dearpygui.h"
 #include <string>
 #include "mvItemRegistry.h"
 #include <implot.h>

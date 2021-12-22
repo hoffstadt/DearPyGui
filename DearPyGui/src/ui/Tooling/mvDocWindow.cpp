@@ -1,7 +1,7 @@
 #include <map>
 #include "mvPythonParser.h"
 #include "mvDocWindow.h"
-#include "mvModule_DearPyGui.h"
+#include "dearpygui.h"
 
 namespace Marvel {
 

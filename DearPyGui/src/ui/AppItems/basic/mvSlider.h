@@ -3,7 +3,7 @@
 #include <string>
 #include <array>
 #include "mvItemRegistry.h"
-#include "mvModule_DearPyGui.h"
+#include "dearpygui.h"
 
 //-----------------------------------------------------------------------------
 // Widget Index

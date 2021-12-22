@@ -7,9 +7,9 @@ set(MARVEL_SOURCES
 	"src/core/mvProfiler.cpp"
 
 	# modules
-	"$<$<PLATFORM_ID:Windows>:src/modules/mvModule_DearPyGui.cpp>"
-	"$<$<PLATFORM_ID:Linux>:src/modules/mvModule_DearPyGui.cpp>"
-	"$<$<PLATFORM_ID:Darwin>:src/modules/mvModule_DearPyGui.mm>"
+	"$<$<PLATFORM_ID:Windows>:src/modules/dearpygui.cpp>"
+	"$<$<PLATFORM_ID:Linux>:src/modules/dearpygui.cpp>"
+	"$<$<PLATFORM_ID:Darwin>:src/modules/dearpygui.mm>"
 
 
 	# platform

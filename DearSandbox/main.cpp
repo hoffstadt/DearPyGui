@@ -1,6 +1,6 @@
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
-#include "mvModule_DearPyGui.h"
+#include "dearpygui.h"
 #include "mvContext.h"
 #include <Windows.h>
 #include <iostream>

@@ -2,7 +2,7 @@
 #include "mvContext.h"
 #include <misc/cpp/imgui_stdlib.h>
 #include "mvItemRegistry.h"
-#include "mvModule_DearPyGui.h"
+#include "dearpygui.h"
 
 namespace Marvel {
 

@@ -1,6 +1,6 @@
 #include "mvPythonParser.h"
 #include "mvAppItemCommons.h"
-#include "mvModule_DearPyGui.h"
+#include "dearpygui.h"
 #include "mvContext.h"
 #include <utility>
 #include <ctime>

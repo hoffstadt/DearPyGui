@@ -1555,7 +1555,7 @@ namespace Marvel {
     mvRef<mvAppItem>
     CreateEntity(mvAppItemType type, mvUUID id)
     {
-        #define X(el) case mvAppItemType::el: return CreateRef<el>(id);
+        #define X(el) case mvAppItemType::el: {auto item = CreateRef<el>(id); item->_type = mvAppItemType::el; return item;};
         switch (type)
         {
             MV_ITEM_TYPES

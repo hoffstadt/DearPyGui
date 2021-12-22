@@ -11,7 +11,7 @@ namespace Marvel {
 
 	PyMODINIT_FUNC PyInit__dearpygui(void);
 
-	const std::map<std::string, mvPythonParser>&     GetModuleParsers();
+	const std::map<std::string, mvPythonParser>& GetModuleParsers();
 	const std::vector<std::pair<std::string, long>>& GetModuleConstants();
 
 }

@@ -5,6 +5,9 @@
 
 namespace Marvel {
 
+    void apply_local_theming  (mvAppItem* item);
+    void cleanup_local_theming(mvAppItem* item);
+
     class mvTheme : public mvAppItem
     {
 
@@ -23,4 +26,5 @@ namespace Marvel {
         bool _specificEnabled = true;
 
     };
+
 }

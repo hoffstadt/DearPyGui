@@ -51,10 +51,6 @@ namespace Marvel {
     void             DelaySearch             (mvItemRegistry& registry, mvAppItem* item);
     b8               AddItemWithRuntimeChecks(mvItemRegistry& registry, mvRef<mvAppItem> item, mvUUID parent, mvUUID before);
     void             ResetTheme              (mvItemRegistry& registry);
-    void             TryBoundTemplateRegistry(mvItemRegistry& registry, mvAppItem* item);
-
-    // retrieves parent, before, uuid from user input when creating an item
-    std::tuple<mvUUID, mvUUID, std::string> GetNameFromArgs(mvUUID& name, PyObject* args, PyObject* kwargs);
 
     //-----------------------------------------------------------------------------
     // mvItemRegistry
