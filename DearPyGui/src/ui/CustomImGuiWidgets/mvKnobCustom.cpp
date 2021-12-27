@@ -14,7 +14,7 @@ namespace Marvel {
         float radius_outer = 20.0f;
         ImVec2 pos = ImGui::GetCursorScreenPos();
         ImVec2 center = ImVec2(pos.x + radius_outer, pos.y + radius_outer);
-        float line_height = ImGui::GetTextLineHeight();
+        float line_height = (strlen(label)) ? ImGui::GetTextLineHeight() : 0;
         ImDrawList* draw_list = ImGui::GetWindowDrawList();
 
         float ANGLE_MIN = 3.141592f * 0.75f;
