@@ -12,8 +12,7 @@ namespace Marvel {
         explicit mvFontRegistry(mvUUID uuid);
 
         void draw(ImDrawList* drawlist, float x, float y) override;
-        void customAction(void* data = nullptr) override;
-        void onChildAdd(mvRef<mvAppItem> item) override { config.show = true; }
+        void onChildAdd(mvRef<mvAppItem> item) { config.show = true; }
 
         bool isInvalid() const { return _dirty; }
         void resetFont();

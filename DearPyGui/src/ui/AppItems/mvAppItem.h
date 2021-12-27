@@ -82,6 +82,8 @@ namespace Marvel {
     mvRef<mvThemeComponent>&                        GetClassThemeComponent          (mvAppItemType type);
     mvRef<mvThemeComponent>&                        GetDisabledClassThemeComponent  (mvAppItemType type);
     mvPythonParser                                  GetEntityParser                 (mvAppItemType type);
+    void                                            OnChildAdded                    (mvAppItem* item, mvRef<mvAppItem> child);
+    void                                            OnChildRemoved                  (mvAppItem* item, mvRef<mvAppItem> child);
 
     struct mvAppItemInfo
     {
@@ -202,13 +204,6 @@ namespace Marvel {
         virtual void handleSpecificKeywordArgs   (PyObject* dict)  {} // called by handleKeywordArgs
         virtual void getSpecificConfiguration    (PyObject* dict)  {}
         virtual void applySpecificTemplate       (mvAppItem* item) {}
-
-        //-----------------------------------------------------------------------------
-        // These methods can be optionally overridden if your widget needs to be
-        // notified when children are added/removed (i.e. tables, node editor)
-        //-----------------------------------------------------------------------------
-        virtual void onChildAdd    (mvRef<mvAppItem> item) {}
-        virtual void onChildRemoved(mvRef<mvAppItem> item) {}
 
         //-----------------------------------------------------------------------------
         // callbacks

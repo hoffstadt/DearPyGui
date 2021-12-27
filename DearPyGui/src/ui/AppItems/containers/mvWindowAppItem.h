@@ -23,8 +23,8 @@ namespace Marvel {
         void setWindowAsMainStatus(bool value);
         void draw                 (ImDrawList* drawlist, float x, float y) override;
         bool getWindowAsMainStatus() const { return _mainWindow; }
-        void onChildAdd(mvRef<mvAppItem> item) override;
-        void onChildRemoved(mvRef<mvAppItem> item) override;
+        void onChildAdd(mvRef<mvAppItem> item);
+        void onChildRemoved(mvRef<mvAppItem> item);
         void handleSpecificKeywordArgs(PyObject* dict) override;
         void getSpecificConfiguration(PyObject* dict) override;
         void applySpecificTemplate(mvAppItem* item) override;

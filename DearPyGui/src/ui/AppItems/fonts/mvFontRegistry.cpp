@@ -37,16 +37,4 @@ namespace Marvel {
 		config.show = false;
 	}
 
-	void mvFontRegistry::customAction(void* data)
-	{
-		ImGuiIO& io = ImGui::GetIO();
-		io.Fonts->Clear();
-		io.FontDefault = io.Fonts->AddFontDefault();
-
-		for (auto& item : childslots[1])
-		{
-			item->customAction(data);
-		}
-	}
-
 }

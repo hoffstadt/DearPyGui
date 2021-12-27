@@ -120,7 +120,7 @@ namespace Marvel {
                     if (child->uuid == uuid)
                     {
                         itemDeleted = true;
-                        item->onChildRemoved(child);
+                        OnChildRemoved(item, child);
                         continue;
                     }
 
@@ -227,7 +227,7 @@ namespace Marvel {
                     if (child->uuid == uuid)
                     {
                         stolenChild = child;
-                        item->onChildRemoved(child);
+                        OnChildRemoved(item, child);
                         continue;
                     }
 
@@ -396,7 +396,7 @@ namespace Marvel {
                     i32 targetSlot = GetEntityTargetSlot(item->type);
                     item->info.location = (i32)rootitem->childslots[targetSlot].size();
                     rootitem->childslots[targetSlot].push_back(item);
-                    rootitem->onChildAdd(item);
+                    OnChildAdded(rootitem, item);
                     item->info.parentPtr = rootitem;
                     item->config.parent = rootitem->uuid;
                     return true;
@@ -448,7 +448,7 @@ namespace Marvel {
                         if (child->uuid == before)
                         {
                             children.push_back(item);
-                            rootitem->onChildAdd(item);
+                            OnChildAdded(rootitem, item);
                         }
                         children.push_back(child);
 
@@ -476,7 +476,6 @@ namespace Marvel {
 
         return false;
     }
-
 
     mv_internal b8
     AddRuntimeChildRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID parent, mvUUID before, mvRef<mvAppItem> item)
@@ -527,7 +526,7 @@ namespace Marvel {
                 if (child->uuid == prev)
                 {
                     parent->childslots[targetSlot].push_back(item);
-                    parent->onChildAdd(item);
+                    OnChildAdded(parent, item);
                 }
             }
 
@@ -591,7 +590,7 @@ namespace Marvel {
         i32 targetSlot = GetEntityTargetSlot(item->type);
         item->info.location = (i32)parentitem->childslots[targetSlot].size();
         parentitem->childslots[targetSlot].push_back(item);
-        parentitem->onChildAdd(item);
+        OnChildAdded(parentitem, item);
         return true;
     }
 
@@ -824,8 +823,6 @@ namespace Marvel {
                 
                 if(item->type == mvAppItemType::mvTable)
                     static_cast<mvTable*>(item)->onChildrenRemoved();
-                else if (item->type == mvAppItemType::mvTextureRegistry)
-                    static_cast<mvTextureRegistry*>(item)->onChildrenRemoved();
 
                 MV_ITEM_REGISTRY_INFO("Item found and it's children deleted.");
                 return true;

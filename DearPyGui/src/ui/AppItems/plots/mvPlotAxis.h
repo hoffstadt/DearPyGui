@@ -13,8 +13,8 @@ namespace Marvel {
 
         void draw(ImDrawList* drawlist, float x, float y) override;
         void customAction(void* data = nullptr) override;
-        void onChildRemoved(mvRef<mvAppItem> item) override;
-        void onChildAdd(mvRef<mvAppItem> item) override;
+        void onChildRemoved(mvRef<mvAppItem> item);
+        void onChildAdd(mvRef<mvAppItem> item);
         void handleSpecificKeywordArgs(PyObject* dict) override;
         void handleSpecificRequiredArgs(PyObject* args) override;
         void getSpecificConfiguration(PyObject* dict) override;

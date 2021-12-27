@@ -18,8 +18,8 @@ namespace Marvel {
 
         void draw (ImDrawList* drawlist, float x, float y) override;
 
-        void onChildRemoved(mvRef<mvAppItem> item) override;
-        void onChildAdd(mvRef<mvAppItem> item) override;
+        void onChildRemoved(mvRef<mvAppItem> item);
+        void onChildAdd(mvRef<mvAppItem> item);
 
         void addFlag(ImPlotSubplotFlags flag);
         void removeFlag(ImPlotSubplotFlags flag);

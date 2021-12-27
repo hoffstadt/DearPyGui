@@ -159,7 +159,16 @@ namespace Marvel {
 		auto& roots = GContext->itemRegistry->fontRegistryRoots;
 
 		if (!roots.empty())
-			roots[0]->customAction();
+		{
+			ImGuiIO& io = ImGui::GetIO();
+			io.Fonts->Clear();
+			io.FontDefault = io.Fonts->AddFontDefault();
+
+			for (auto& item : roots[0]->childslots[1])
+			{
+				item->customAction(nullptr);
+			}
+		}
 
 		_dirty = false;
 

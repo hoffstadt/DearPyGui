@@ -42,8 +42,6 @@ namespace Marvel {
 
         if (type == mvAppItemType::mvTable)
             static_cast<mvTable*>(this)->onChildrenRemoved();
-        else if (type == mvAppItemType::mvTextureRegistry)
-            static_cast<mvTextureRegistry*>(this)->onChildrenRemoved();
 
         mvGlobalIntepreterLock gil;
         if (config.callback) Py_DECREF(config.callback);
@@ -5046,5 +5044,105 @@ namespace Marvel {
         }
 
         return FinalizeParser(setup, args);
+    }
+
+    void
+    OnChildAdded(mvAppItem* item, mvRef<mvAppItem> child)
+    {
+        switch (item->type)
+        {
+
+        case mvAppItemType::mvWindowAppItem:
+        {
+            mvWindowAppItem* actualItem = (mvWindowAppItem*)item;
+            actualItem->onChildAdd(child);
+            return;
+        }
+
+        case mvAppItemType::mvFontRegistry:
+        {
+            mvFontRegistry* actualItem = (mvFontRegistry*)item;
+            actualItem->onChildAdd(child);
+            return;
+        }
+
+        case mvAppItemType::mvPlot:
+        {
+            mvPlot* actualItem = (mvPlot*)item;
+            actualItem->onChildAdd(child);
+            return;
+        }
+
+        case mvAppItemType::mvPlotAxis:
+        {
+            mvPlotAxis* actualItem = (mvPlotAxis*)item;
+            actualItem->onChildAdd(child);
+            return;
+        }
+
+        case mvAppItemType::mvSubPlots:
+        {
+            mvSubPlots* actualItem = (mvSubPlots*)item;
+            actualItem->onChildAdd(child);
+            return;
+        }
+
+        case mvAppItemType::mvTable:
+        {
+            mvTable* actualItem = (mvTable*)item;
+            actualItem->onChildAdd(child);
+            return;
+        }
+        }
+    }
+    
+    void
+    OnChildRemoved(mvAppItem* item, mvRef<mvAppItem> child)
+    {
+        switch (item->type)
+        {
+
+        case mvAppItemType::mvWindowAppItem:
+        {
+            mvWindowAppItem* actualItem = (mvWindowAppItem*)item;
+            actualItem->onChildRemoved(child);
+            return;
+        }
+
+        case mvAppItemType::mvNodeEditor:
+        {
+            mvNodeEditor* actualItem = (mvNodeEditor*)item;
+            actualItem->onChildRemoved(child);
+            return;
+        }
+
+        case mvAppItemType::mvPlot:
+        {
+            mvPlot* actualItem = (mvPlot*)item;
+            actualItem->onChildRemoved(child);
+            return;
+        }
+
+        case mvAppItemType::mvPlotAxis:
+        {
+            mvPlotAxis* actualItem = (mvPlotAxis*)item;
+            actualItem->onChildRemoved(child);
+            return;
+        }
+
+        case mvAppItemType::mvSubPlots:
+        {
+            mvSubPlots* actualItem = (mvSubPlots*)item;
+            actualItem->onChildRemoved(child);
+            return;
+        }
+
+        case mvAppItemType::mvTable:
+        {
+            mvTable* actualItem = (mvTable*)item;
+            actualItem->onChildRemoved(child);
+            return;
+        }
+        }
     }
 }

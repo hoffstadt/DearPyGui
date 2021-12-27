@@ -31,8 +31,8 @@ namespace Marvel {
         
         ImPlotFlags        getFlags         () const { return _flags; }
 
-        void onChildRemoved(mvRef<mvAppItem> item) override;
-        void onChildAdd(mvRef<mvAppItem> item) override;
+        void onChildRemoved(mvRef<mvAppItem> item);
+        void onChildAdd(mvRef<mvAppItem> item);
         void handleSpecificKeywordArgs(PyObject* dict) override;
         void getSpecificConfiguration(PyObject* dict) override;
         void applySpecificTemplate(mvAppItem* item) override;
