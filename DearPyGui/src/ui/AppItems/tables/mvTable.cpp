@@ -185,7 +185,10 @@ namespace Marvel {
 					else
 					{
 						for (auto& row : childslots[1])
-							row_renderer(row.get());
+						{
+							if (row->config.show)
+								row_renderer(row.get());
+						}
 					}
 				}
 
