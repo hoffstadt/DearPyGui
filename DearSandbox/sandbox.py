@@ -3,6 +3,7 @@ import dearpygui.demo as demo
 from dearpygui_ext.logger import mvLogger
 
 dpg.create_context()
+#dpg.configure_app(manual_callback_management=True)
 dpg.create_viewport()
 dpg.setup_dearpygui()
 
@@ -24,6 +25,7 @@ demo.show_demo()
 # main loop
 dpg.show_viewport()
 while dpg.is_dearpygui_running():
+    #dpg.run_callbacks(dpg.get_callback_queue())
     dpg.render_dearpygui_frame()  
 
 dpg.destroy_context()

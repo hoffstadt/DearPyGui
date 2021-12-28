@@ -47,6 +47,22 @@ from dearpygui._dearpygui import mvMat4
 # Helper Commands
 ########################################################################################################################
 
+def run_callbacks(jobs):
+    """ New in 1.2. Runs callbacks from the callback queue and checks arguments. """
+
+    if jobs is None:
+        pass
+    else:
+        for job in jobs:
+            if job[0] is None:
+                pass
+            else:
+                sig = inspect.signature(job[0])
+                args = []
+                for arg in range(len(sig.parameters)):
+                    args.append(job[arg+1])
+                job[0](*args)
+
 def get_major_version():
     """ return Dear PyGui Major Version """
     return internal_dpg.get_app_configuration()["major_version"]
@@ -70,7 +86,6 @@ def configure_app(**kwargs) -> None:
 def configure_viewport(item : Union[int, str], **kwargs) -> None:
 	"""Configures a viewport after creation."""
 	internal_dpg.configure_viewport(item, **kwargs)
-
 
 def start_dearpygui():
     """Prepares viewport (if not done already). sets up, cleans up, and runs main event loop.
@@ -7820,6 +7835,16 @@ def get_axis_limits(axis : Union[int, str], **kwargs) -> Union[List[float], Tupl
 	"""
 
 	return internal_dpg.get_axis_limits(axis, **kwargs)
+
+def get_callback_queue(**kwargs) -> Any:
+	"""	 New in 1.2. Returns and clears callback queue.
+
+	Args:
+	Returns:
+		Any
+	"""
+
+	return internal_dpg.get_callback_queue(**kwargs)
 
 def get_colormap_color(colormap : Union[int, str], index : int, **kwargs) -> Union[List[int], Tuple[int, ...]]:
 	"""	 Returns a color from a colormap given an index >= 0. (ex. 0 will be the first color in the color list of the color map) Modulo will be performed against the number of items in the color list.

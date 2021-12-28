@@ -66,6 +66,18 @@ namespace Marvel {
 			return;
 		}
 
+		if (GContext->IO.manualCallbacks)
+		{
+			if (callable != nullptr)
+				Py_XINCREF(callable);
+			if (app_data != nullptr)
+				Py_XINCREF(app_data);
+			if (user_data != nullptr)
+				Py_XINCREF(user_data);
+			GContext->callbackRegistry->jobs.push_back({ sender, callable, app_data, user_data });
+			return;
+		}
+
 		mvSubmitCallback([=]() {
 			mvRunCallback(callable, sender, app_data, user_data);
 			});
@@ -76,11 +88,24 @@ namespace Marvel {
 
 		if (GContext->callbackRegistry->callCount > GContext->callbackRegistry->maxNumberOfCalls)
 		{
+
 			if (app_data != nullptr)
 				Py_XDECREF(app_data);
 			if (user_data != nullptr)
 				Py_XDECREF(user_data);
 			assert(false);
+			return;
+		}
+
+		if (GContext->IO.manualCallbacks)
+		{
+			if (callable != nullptr)
+				Py_XINCREF(callable);
+			if (app_data != nullptr)
+				Py_XINCREF(app_data);
+			if (user_data != nullptr)
+				Py_XINCREF(user_data);
+			GContext->callbackRegistry->jobs.push_back({ 0, callable, app_data, user_data, sender });
 			return;
 		}
 

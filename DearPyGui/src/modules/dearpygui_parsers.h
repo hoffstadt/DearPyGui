@@ -496,6 +496,7 @@ namespace Marvel {
 			args.push_back({ mvPyDataType::Bool, "skip_positional_args", mvArgType::KEYWORD_ARG, "False" });
 			args.push_back({ mvPyDataType::Bool, "skip_keyword_args", mvArgType::KEYWORD_ARG, "False" });
 			args.push_back({ mvPyDataType::Bool, "wait_for_input", mvArgType::KEYWORD_ARG, "False", "New in 1.1. Only update when user input occurs" });
+			args.push_back({ mvPyDataType::Bool, "manual_callback_management", mvArgType::KEYWORD_ARG, "False", "New in 1.2"});
 
 			mvPythonParserSetup setup;
 			setup.about = "Configures app.";
@@ -1822,6 +1823,18 @@ namespace Marvel {
 			mvPythonParser parser = FinalizeParser(setup, args);
 
 			parsers.insert({ "show_tool", parser });
+		}
+
+		{
+			std::vector<mvPythonDataElement> args;
+
+			mvPythonParserSetup setup;
+			setup.about = "New in 1.2. Returns and clears callback queue.";
+			setup.category = { "General" };
+			setup.returnType = mvPyDataType::Object;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
+			parsers.insert({ "get_callback_queue", parser });
 		}
 	}
 }
