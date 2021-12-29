@@ -99,6 +99,9 @@ namespace Marvel {
         b8 skipRequiredArgs = false;
         b8 skipPositionalArgs = false;
         b8 skipKeywordArgs = false;
+
+        // callback registry
+        b8 manualCallbacks = false;
     };
 
     struct mvContext

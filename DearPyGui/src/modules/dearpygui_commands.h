@@ -2388,6 +2388,7 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(kwargs, "skip_required_args")) GContext->IO.skipRequiredArgs = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(kwargs, "auto_save_init_file")) GContext->IO.autoSaveIniFile = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(kwargs, "wait_for_input")) GContext->IO.waitForInput = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(kwargs, "manual_callback_management")) GContext->IO.manualCallbacks = ToBool(item);
 
 		if (PyObject* item = PyDict_GetItemString(kwargs, "init_file")) GContext->IO.iniFile = ToString(item);
 		if (PyObject* item = PyDict_GetItemString(kwargs, "device_name")) GContext->IO.info_device_name = ToString(item);
@@ -2419,6 +2420,7 @@ namespace Marvel {
 		PyDict_SetItemString(pdict, "skip_required_args", mvPyObject(ToPyBool(GContext->IO.skipRequiredArgs)));
 		PyDict_SetItemString(pdict, "auto_save_init_file", mvPyObject(ToPyBool(GContext->IO.autoSaveIniFile)));
 		PyDict_SetItemString(pdict, "wait_for_input", mvPyObject(ToPyBool(GContext->IO.waitForInput)));
+		PyDict_SetItemString(pdict, "manual_callback_management", mvPyObject(ToPyBool(GContext->IO.manualCallbacks)));
 		return pdict;
 	}
 
@@ -3801,4 +3803,40 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
+	mv_internal mv_python_function
+	get_callback_queue(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		if (GContext->callbackRegistry->jobs.empty())
+			return GetPyNone();
+
+		PyObject* pArgs = PyTuple_New(GContext->callbackRegistry->jobs.size());
+		for (int i = 0; i < GContext->callbackRegistry->jobs.size(); i++)
+		{
+			PyObject* job = PyTuple_New(4);
+			if (GContext->callbackRegistry->jobs[i].callback)
+				PyTuple_SetItem(job, 0, GContext->callbackRegistry->jobs[i].callback);
+			else
+				PyTuple_SetItem(job, 0, GetPyNone());
+
+			if(GContext->callbackRegistry->jobs[i].sender == 0)
+				PyTuple_SetItem(job, 1, ToPyString(GContext->callbackRegistry->jobs[i].sender_str));
+			else
+				PyTuple_SetItem(job, 1, ToPyUUID(GContext->callbackRegistry->jobs[i].sender));
+
+			if (GContext->callbackRegistry->jobs[i].app_data)
+				PyTuple_SetItem(job, 2, GContext->callbackRegistry->jobs[i].app_data); // steals data, so don't deref
+			else
+				PyTuple_SetItem(job, 2, GetPyNone());
+
+			if (GContext->callbackRegistry->jobs[i].user_data)
+				PyTuple_SetItem(job, 3, GContext->callbackRegistry->jobs[i].user_data); // steals data, so don't deref
+			else
+				PyTuple_SetItem(job, 3, GetPyNone());
+
+			PyTuple_SetItem(pArgs, i, job);
+		}
+
+		GContext->callbackRegistry->jobs.clear();
+		return pArgs;
+	}
 }

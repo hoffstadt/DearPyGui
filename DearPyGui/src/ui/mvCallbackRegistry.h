@@ -1,6 +1,7 @@
 #pragma once
 
 #include <mutex>
+#include <vector>
 #include "mvThreadPool.h"
 #include "mvContext.h"
 
@@ -14,10 +15,20 @@ namespace Marvel {
 		return callback;
 	}
 
+	struct mvCallbackJob
+	{
+		mvUUID      sender    = 0;
+		PyObject*   callback  = nullptr;
+		PyObject*   app_data  = nullptr;
+		PyObject*   user_data = nullptr;
+		std::string sender_str;
+	};
+
 	struct mvCallbackRegistry
 	{
 		const i32 maxNumberOfCalls = 50;
 
+		std::vector<mvCallbackJob> jobs;
 		mvQueue<mvFunctionWrapper> tasks;
 		mvQueue<mvFunctionWrapper> calls;
 		std::atomic<b8>            running = false;
@@ -38,7 +49,6 @@ namespace Marvel {
 	void mvAddCallback(PyObject* callback, mvUUID sender, PyObject* app_data, PyObject* user_data);
 	void mvAddCallback(PyObject* callback, const std::string& sender, PyObject* app_data, PyObject* user_data);
 	bool mvRunCallbacks();
-
 
 	template<typename F, typename ...Args>
 	std::future<typename std::invoke_result<F, Args...>::type> mvSubmitTask(F f)
