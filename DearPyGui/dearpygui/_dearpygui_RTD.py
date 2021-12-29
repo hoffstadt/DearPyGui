@@ -1381,8 +1381,8 @@ def add_child(**kwargs):
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		border (bool, optional): Shows/Hides the border around the sides.
-		autosize_x (bool, optional): Autosize the window to fit it's items in the x.
-		autosize_y (bool, optional): Autosize the window to fit it's items in the y.
+		autosize_x (bool, optional): Autosize the window to fit it's parent in the x.
+		autosize_y (bool, optional): Autosize the window to fit it's parent in the y.
 		no_scrollbar (bool, optional):  Disable scrollbars (window can still scroll with mouse or programmatically).
 		horizontal_scrollbar (bool, optional): Allow horizontal scrollbar to appear (off by default).
 		menubar (bool, optional): Shows/Hides the menubar at the top.
@@ -1417,8 +1417,8 @@ def child(**kwargs):
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		border (bool, optional): Shows/Hides the border around the sides.
-		autosize_x (bool, optional): Autosize the window to fit it's items in the x.
-		autosize_y (bool, optional): Autosize the window to fit it's items in the y.
+		autosize_x (bool, optional): Autosize the window to fit it's parent in the x.
+		autosize_y (bool, optional): Autosize the window to fit it's parent in the y.
 		no_scrollbar (bool, optional):  Disable scrollbars (window can still scroll with mouse or programmatically).
 		horizontal_scrollbar (bool, optional): Allow horizontal scrollbar to appear (off by default).
 		menubar (bool, optional): Shows/Hides the menubar at the top.
@@ -1474,8 +1474,8 @@ def child_window(**kwargs):
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		border (bool, optional): Shows/Hides the border around the sides.
-		autosize_x (bool, optional): Autosize the window to fit it's items in the x.
-		autosize_y (bool, optional): Autosize the window to fit it's items in the y.
+		autosize_x (bool, optional): Autosize the window to fit it's parent in the x.
+		autosize_y (bool, optional): Autosize the window to fit it's parent in the y.
 		no_scrollbar (bool, optional):  Disable scrollbars (window can still scroll with mouse or programmatically).
 		horizontal_scrollbar (bool, optional): Allow horizontal scrollbar to appear (off by default).
 		menubar (bool, optional): Shows/Hides the menubar at the top.
@@ -2875,8 +2875,8 @@ def add_child_window(**kwargs):
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		border (bool, optional): Shows/Hides the border around the sides.
-		autosize_x (bool, optional): Autosize the window to fit it's items in the x.
-		autosize_y (bool, optional): Autosize the window to fit it's items in the y.
+		autosize_x (bool, optional): Autosize the window to fit it's parent in the x.
+		autosize_y (bool, optional): Autosize the window to fit it's parent in the y.
 		no_scrollbar (bool, optional):  Disable scrollbars (window can still scroll with mouse or programmatically).
 		horizontal_scrollbar (bool, optional): Allow horizontal scrollbar to appear (off by default).
 		menubar (bool, optional): Shows/Hides the menubar at the top.
