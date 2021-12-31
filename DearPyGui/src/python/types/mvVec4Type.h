@@ -7,7 +7,6 @@ int        PymvVec4_init       (PymvVec4* self, PyObject* args, PyObject* kwds);
 
 void       PymvVec4_dealloc    (PymvVec4* self); // called when deallocated
 PyObject*  PymvVec4_str        (PymvVec4* self); // string interface
-int        PymvVec4_getbuffer  (PyObject* obj, Py_buffer* view, int flags); // buffer interface function
 Py_ssize_t PymvVec4_getLength  (PyObject* obj);
 PyObject*  PymvVec4_getItem    (PyObject* obj, Py_ssize_t index);
 int        PymvVec4_setItem    (PyObject* obj, Py_ssize_t index, PyObject* value);
@@ -17,10 +16,6 @@ PyObject* PymvVec4_add     (PyObject* left, PyObject* right);
 PyObject* PymvVec4_subtract(PyObject* left, PyObject* right);
 PyObject* PymvVec4_multiply(PyObject* left, PyObject* right);
 
-static PyBufferProcs PymvVec4_as_buffer = {
-    (getbufferproc)PymvVec4_getbuffer,
-    (releasebufferproc)0,
-};
 static PyNumberMethods PymvVec4_as_number = {
      (binaryfunc)PymvVec4_add,      // nb_add;
      (binaryfunc)PymvVec4_subtract, // nb_subtract;
@@ -92,7 +87,7 @@ static PyTypeObject PymvVec4Type = {
     (reprfunc)PymvVec4_str,        /* tp_str */
     0,                             /* tp_getattro */
     0,                             /* tp_setattro */
-    &PymvVec4_as_buffer,           /* tp_as_buffer */
+    0,                             /* tp_as_buffer */
     Py_TPFLAGS_DEFAULT,            /* tp_flags */
     "mvVec4 object",               /* tp_doc */
     0,                             /* tp_traverse */

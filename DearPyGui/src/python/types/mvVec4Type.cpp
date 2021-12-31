@@ -55,35 +55,6 @@ PymvVec4_str(PymvVec4* self)
 	return ret;
 }
 
-int 
-PymvVec4_getbuffer(PyObject* obj, Py_buffer* view, int flags)
-{
-	if (view == nullptr) {
-		PyErr_SetString(PyExc_ValueError, "NULL view in getbuffer");
-		return -1;
-	}
-	
-	mv_local_persist Py_ssize_t arrayLength = 4;
-
-	auto self = (PymvVec4*)obj;
-	view->obj = (PyObject*)self;
-	view->buf = (void*)&self->vec4.x;
-	view->len = 4 * sizeof(float);
-	view->readonly = 0;
-	view->itemsize = sizeof(float);
-	//view->format = (char*)(PyBUF_CONTIG_RO | PyBUF_FORMAT);  // float
-	static char format[] = "f";
-	view->format = format;  // float
-	view->ndim = 1;
-	view->shape = (Py_ssize_t*)&arrayLength;  // length-1 sequence of dimensions
-	view->strides = &view->itemsize;  // for the simple case we can do this
-	view->suboffsets = nullptr;
-	view->internal = nullptr;
-
-	Py_INCREF(self);  // need to increase the reference count
-	return 0;
-}
-
 Py_ssize_t 
 PymvVec4_getLength(PyObject* obj)
 {
