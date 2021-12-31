@@ -43,6 +43,7 @@ namespace Marvel {
         _windowflags = titem->_windowflags;
         _oldWindowflags = titem->_oldWindowflags;
         _modal = titem->_modal;
+        _no_open_over_existing_popup = titem->_no_open_over_existing_popup;
         _popup = titem->_popup;
         _autosize = titem->_autosize;
         _no_resize = titem->_no_resize;
