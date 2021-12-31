@@ -37,7 +37,6 @@ namespace Marvel {
         for (auto& childset : childslots)
         {
             childset.clear();
-            childset.shrink_to_fit();
         }
 
         if (type == mvAppItemType::mvTable)

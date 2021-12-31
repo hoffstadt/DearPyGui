@@ -300,13 +300,6 @@ namespace Marvel {
 		_rowSelectionColors.clear();
 		_rowSelectionColorsSet.clear();
 
-		_columnColors.shrink_to_fit();
-		_columnColorsSet.shrink_to_fit();
-		_rowColors.shrink_to_fit();
-		_rowColorsSet.shrink_to_fit();
-		_rowSelectionColors.shrink_to_fit();
-		_rowSelectionColorsSet.shrink_to_fit();
-
 		for (int i = 0; i < _columns; i++)
 		{
 			_columnColors.push_back(ImGui::ColorConvertFloat4ToU32(ImVec4(0.0f, 0.0f, 0.0f, 0.0f)));

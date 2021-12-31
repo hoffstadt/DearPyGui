@@ -810,14 +810,12 @@ namespace Marvel {
                 if (slot > -1 && slot < 4)
                 {
                     item->childslots[slot].clear();
-                    item->childslots[slot].shrink_to_fit();
                 }
                 else
                 {
                     for(size_t i = 0; i < 4; i++)
                     {
                         item->childslots[i].clear();
-                        item->childslots[i].shrink_to_fit();
                     }
                 }
                 
