@@ -186,7 +186,7 @@ namespace Marvel {
             if (info.shownLastFrame)
             {
                 info.shownLastFrame = false;
-                ImGui::OpenPopup(info.internalLabel.c_str(), ImGuiPopupFlags_NoOpenOverExistingPopup);
+                ImGui::OpenPopup(info.internalLabel.c_str(), _no_open_over_existing_popup ? ImGuiPopupFlags_NoOpenOverExistingPopup : ImGuiPopupFlags_None);
             }
             
             if (!ImGui::BeginPopupModal(info.internalLabel.c_str(), _no_close ? nullptr : &config.show, _windowflags))
@@ -216,7 +216,7 @@ namespace Marvel {
             if (info.shownLastFrame)
             {
                 info.shownLastFrame = false;
-                ImGui::OpenPopup(info.internalLabel.c_str(), ImGuiPopupFlags_NoOpenOverExistingPopup);
+                ImGui::OpenPopup(info.internalLabel.c_str(), _no_open_over_existing_popup ? ImGuiPopupFlags_NoOpenOverExistingPopup : ImGuiPopupFlags_None);
             }
 
             if (!ImGui::BeginPopup(info.internalLabel.c_str(), _windowflags))
@@ -406,6 +406,7 @@ namespace Marvel {
             info.dirty_size = true;
         }
 
+        if (PyObject* item = PyDict_GetItemString(dict, "no_open_over_existing_popup")) _no_open_over_existing_popup = ToBool(item);
         if (PyObject* item = PyDict_GetItemString(dict, "no_close")) _no_close = ToBool(item);
         if (PyObject* item = PyDict_GetItemString(dict, "collapsed"))
         {
@@ -468,6 +469,7 @@ namespace Marvel {
         if (dict == nullptr)
             return;
          
+        PyDict_SetItemString(dict, "no_open_over_existing_popup", mvPyObject(ToPyBool(_no_open_over_existing_popup)));
         PyDict_SetItemString(dict, "modal", mvPyObject(ToPyBool(_modal)));
         PyDict_SetItemString(dict, "popup", mvPyObject(ToPyBool(_popup)));
         PyDict_SetItemString(dict, "no_close", mvPyObject(ToPyBool(_no_close)));
