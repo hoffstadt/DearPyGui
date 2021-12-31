@@ -58,6 +58,7 @@ namespace Marvel {
         bool             _no_close = false;
         bool             _no_background = false;
         bool             _collapsed = false;
+        bool             _no_open_over_existing_popup = true;
         PyObject*        _on_close = nullptr;
         mvVec2           _min_size = { 100.0f, 100.0f };
         mvVec2           _max_size = { 30000.0f, 30000.0f };
