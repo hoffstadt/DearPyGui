@@ -87,3 +87,45 @@ User data can be any python object.
     dpg.show_viewport()
     dpg.start_dearpygui()
     dpg.destroy_context()
+
+Debugging Callbacks (new in 1.2)
+--------------------------------
+
+Because callbacks are not ran on the main thread, debugging can be a hastle.
+In 1.2 we added a few utilities to help with this. 
+
+By default, Dear PyGui handles the callbacks internally on a worker thread. This allows for 
+optimizations and steady framerates. However, to help with debugging, you can set the new 
+**manual_callback_management** key to **True** with :py:func:`configure_app <dearpygui.dearpygui.configure_app>`. 
+This will prevent Dear PyGui from handling the callbacks. Instead the callbacks and arguments will be stored.
+You can then retrieve (and clear) them by calling :py:func:`get_callback_queue <dearpygui.dearpygui.get_callback_queue>` within
+your main event loop. This will return a list of "Jobs". A "Job" is just list with the first item being the callable and
+the remaining items (up to 3) being the typical arguments. We have also provided :py:func:`run_callbacks <dearpygui.dearpygui.run_callbacks>` 
+to properly handle the jobs for simple usage.
+
+Below is a simple example
+
+.. code-block:: python
+
+    import dearpygui.dearpygui as dpg
+    
+    dpg.create_context()
+    dpg.configure_app(manual_callback_management=True)
+    dpg.create_viewport()
+    dpg.setup_dearpygui()
+    
+    def callback(sender, app_data, user_data):
+        print("Called on the main thread!")
+    
+    with dpg.window(label="Tutorial"):
+        dpg.add_button(label="Press me", callback=callback)
+    
+    
+    # main loop
+    dpg.show_viewport()
+    while dpg.is_dearpygui_running():
+        jobs = dpg.get_callback_queue() # retrieves and clears queue
+        dpg.run_callbacks(jobs)
+        dpg.render_dearpygui_frame()  
+    
+    dpg.destroy_context()
