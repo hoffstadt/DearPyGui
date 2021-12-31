@@ -7,7 +7,6 @@ int        PymvMat4_init       (PymvMat4* self, PyObject* args, PyObject* kwds);
 
 void       PymvMat4_dealloc    (PymvMat4* self); // called when deallocated
 PyObject*  PymvMat4_str        (PymvMat4* self); // string interface
-int        PymvMat4_getbuffer  (PyObject* obj, Py_buffer* view, int flags); // buffer interface function
 Py_ssize_t PymvMat4_getLength  (PyObject* obj);
 PyObject*  PymvMat4_getItem    (PyObject* obj, Py_ssize_t index);
 int        PymvMat4_setItem    (PyObject* obj, Py_ssize_t index, PyObject* value);
@@ -17,10 +16,6 @@ PyObject* PymvMat4_add(PyObject* left, PyObject* right);
 PyObject* PymvMat4_subtract(PyObject* left, PyObject* right);
 PyObject* PymvMat4_multiply(PyObject* left, PyObject* right);
 
-static PyBufferProcs PymvMat4_as_buffer = {
-    (getbufferproc)PymvMat4_getbuffer,
-    (releasebufferproc)0,
-};
 static PyNumberMethods PymvMat4_as_number = {
      (binaryfunc)PymvMat4_add,      // nb_add;
      (binaryfunc)PymvMat4_subtract, // nb_subtract;
@@ -92,7 +87,7 @@ static PyTypeObject PymvMat4Type = {
     (reprfunc)PymvMat4_str,        /* tp_str */
     0,                             /* tp_getattro */
     0,                             /* tp_setattro */
-    &PymvMat4_as_buffer,           /* tp_as_buffer */
+    0,                             /* tp_as_buffer */
     Py_TPFLAGS_DEFAULT,            /* tp_flags */
     "mvMat4 object",               /* tp_doc */
     0,                             /* tp_traverse */
