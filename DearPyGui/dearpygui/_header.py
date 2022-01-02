@@ -52,7 +52,7 @@ def get_major_version():
     return internal_dpg.get_app_configuration()["major_version"]
 
 def get_minor_version():
-    """ return Dear PyGui Major Version """
+    """ return Dear PyGui Minor Version """
     return internal_dpg.get_app_configuration()["minor_version"]
 
 def get_dearpygui_version():
