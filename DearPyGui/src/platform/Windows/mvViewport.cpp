@@ -324,8 +324,18 @@ namespace Marvel {
 
 				viewport->actualWidth = awidth;
 				viewport->actualHeight = aheight;
-				viewport->clientWidth = cwidth;
-				viewport->clientHeight = cheight;
+
+
+				if (viewport->decorated)
+				{
+					GContext->viewport->clientHeight = cheight;
+					GContext->viewport->clientWidth = cwidth;
+				}
+				else
+				{
+					GContext->viewport->clientHeight = cheight + 39;
+					GContext->viewport->clientWidth = cwidth + 16;
+				}
 
 				mvOnResize();
 
@@ -438,6 +448,17 @@ namespace Marvel {
 
 		GContext->viewport->clientHeight = viewport->actualHeight;
 		GContext->viewport->clientWidth = viewport->actualWidth;
+
+		//if (viewport->decorated)
+		//{
+		//	GContext->viewport->clientHeight = viewport->actualHeight;
+		//	GContext->viewport->clientWidth = viewport->actualWidth;
+		//}
+		//else
+		//{
+		//	GContext->viewport->clientHeight = viewport->actualHeight + 0;
+		//	GContext->viewport->clientWidth = viewport->actualWidth + 0;
+		//}
 
 
 		if (!viewport->small_icon.empty())
