@@ -1041,7 +1041,7 @@ namespace Marvel {
         for (auto& root : registry.themeRegistryRoots)
         {
             if(root->config.show)
-                root->draw(nullptr, 0.0f, 0.0f);
+                ((mvTheme*)root.get())->push_theme_components();
         }
 
         for (auto& root : registry.colormapRoots)
@@ -1059,7 +1059,7 @@ namespace Marvel {
         for (auto& root : registry.themeRegistryRoots)
         {
             if (root->config.show)
-                root->customAction();
+                ((mvTheme*)root.get())->pop_theme_components();
         }
 
         for (auto& root : registry.debugWindows)
