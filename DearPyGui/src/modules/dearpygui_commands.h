@@ -2220,10 +2220,16 @@ namespace Marvel {
 	{
 		MV_PROFILE_SCOPE("Frame")
 
-			Py_BEGIN_ALLOW_THREADS;
+		Py_BEGIN_ALLOW_THREADS;
 		auto window = GContext->viewport;
 		mvRenderFrame();
 		Py_END_ALLOW_THREADS;
+
+		if (GContext->viewport->resized)
+		{
+			mvOnResize();
+			GContext->viewport->resized = false;
+		}
 
 		return GetPyNone();
 	}

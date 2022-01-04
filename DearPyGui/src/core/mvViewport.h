@@ -21,6 +21,7 @@ namespace Marvel {
 	{
 		b8 running = true;
 		b8 shown = false;
+		b8 resized = false;
 
 		std::string title = "Dear PyGui";
 		std::string small_icon;

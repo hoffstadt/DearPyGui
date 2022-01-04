@@ -35,7 +35,7 @@ namespace Marvel {
         GContext->viewport->clientHeight = height;
         GContext->viewport->actualWidth = width;
         GContext->viewport->clientWidth = width;
-        mvOnResize();
+        GContext->viewport->resized = true;
     }
 
     mv_internal void

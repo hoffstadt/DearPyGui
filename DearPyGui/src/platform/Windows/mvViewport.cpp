@@ -336,8 +336,9 @@ namespace Marvel {
 					GContext->viewport->clientHeight = cheight + 39;
 					GContext->viewport->clientWidth = cwidth + 16;
 				}
-
-				mvOnResize();
+				
+				GContext->viewport->resized = true;
+				//mvOnResize();
 
 				// I believe this are only used for the error logger
 				viewport->width = (UINT)LOWORD(lParam);
@@ -448,18 +449,6 @@ namespace Marvel {
 
 		GContext->viewport->clientHeight = viewport->actualHeight;
 		GContext->viewport->clientWidth = viewport->actualWidth;
-
-		//if (viewport->decorated)
-		//{
-		//	GContext->viewport->clientHeight = viewport->actualHeight;
-		//	GContext->viewport->clientWidth = viewport->actualWidth;
-		//}
-		//else
-		//{
-		//	GContext->viewport->clientHeight = viewport->actualHeight + 0;
-		//	GContext->viewport->clientWidth = viewport->actualWidth + 0;
-		//}
-
 
 		if (!viewport->small_icon.empty())
 		{
