@@ -297,8 +297,8 @@ namespace Marvel {
 		}
 
 		case WM_MOVE:
-			viewport->xpos = (int)(short)LOWORD(lParam);   // horizontal position 
-			viewport->ypos = (int)(short)HIWORD(lParam);   // vertical position 
+			viewport->xpos = (int)(short)LOWORD(lParam)-8;   // horizontal position 
+			viewport->ypos = (int)(short)HIWORD(lParam)-31;   // vertical position 
 			break;
 
 		case WM_SIZE:
