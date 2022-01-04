@@ -96,6 +96,9 @@ namespace Marvel {
         glfwSetWindowPos(ghandle, viewport->xpos, viewport->ypos);
         glfwSetWindowSizeLimits(ghandle, (int)viewport->minwidth, (int)viewport->minheight, (int)viewport->maxwidth, (int)viewport->maxheight);
 
+        GContext->viewport->clientHeight = viewport->actualHeight;
+        GContext->viewport->clientWidth = viewport->actualWidth;
+
         gdevice = MTLCreateSystemDefaultDevice();
         gcommandQueue = [gdevice newCommandQueue];
 

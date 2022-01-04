@@ -436,6 +436,10 @@ namespace Marvel {
 			gmodes,
 			viewport->xpos, viewport->ypos, viewport->actualWidth, viewport->actualHeight, nullptr, nullptr, gwc.hInstance, nullptr);
 
+		GContext->viewport->clientHeight = viewport->actualHeight;
+		GContext->viewport->clientWidth = viewport->actualWidth;
+
+
 		if (!viewport->small_icon.empty())
 		{
 			HANDLE hIcon = LoadImage(0, _T(viewport->small_icon.c_str()), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE | LR_LOADFROMFILE);
