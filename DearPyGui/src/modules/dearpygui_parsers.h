@@ -1836,5 +1836,30 @@ namespace Marvel {
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers.insert({ "get_callback_queue", parser });
 		}
+
+		{
+			std::vector<mvPythonDataElement> args;
+
+			mvPythonParserSetup setup;
+			setup.about = "New in 1.3. Sets the clipboard text.";
+			setup.category = { "General" };
+
+			args.push_back({ mvPyDataType::String, "text" });
+
+			mvPythonParser parser = FinalizeParser(setup, args);
+			parsers.insert({ "set_clipboard_text", parser });
+		}
+
+		{
+			std::vector<mvPythonDataElement> args;
+
+			mvPythonParserSetup setup;
+			setup.about = "New in 1.3. Gets the clipboard text.";
+			setup.category = { "General" };
+			setup.returnType = mvPyDataType::String;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
+			parsers.insert({ "get_clipboard_text", parser });
+		}
 	}
 }
