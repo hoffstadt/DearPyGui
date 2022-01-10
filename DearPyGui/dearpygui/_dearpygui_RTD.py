@@ -7022,6 +7022,16 @@ def get_callback_queue():
 
 	return internal_dpg.get_callback_queue()
 
+def get_clipboard_text():
+	"""	 New in 1.3. Gets the clipboard text.
+
+	Args:
+	Returns:
+		str
+	"""
+
+	return internal_dpg.get_clipboard_text()
+
 def get_colormap_color(colormap, index):
 	"""	 Returns a color from a colormap given an index >= 0. (ex. 0 will be the first color in the color list of the color map) Modulo will be performed against the number of items in the color list.
 
@@ -7780,6 +7790,17 @@ def set_clip_space(item, top_left_x, top_left_y, width, height, min_depth, max_d
 	"""
 
 	return internal_dpg.set_clip_space(item, top_left_x, top_left_y, width, height, min_depth, max_depth)
+
+def set_clipboard_text(text):
+	"""	 New in 1.3. Sets the clipboard text.
+
+	Args:
+		text (str): 
+	Returns:
+		None
+	"""
+
+	return internal_dpg.set_clipboard_text(text)
 
 def set_exit_callback(callback):
 	"""	 Sets a callback to run on last frame.

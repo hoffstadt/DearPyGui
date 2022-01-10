@@ -3845,4 +3845,32 @@ namespace Marvel {
 		GContext->callbackRegistry->jobs.clear();
 		return pArgs;
 	}
+
+	mv_internal mv_python_function
+	set_clipboard_text(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+
+		const char* text;
+
+		if (!Parse((GetParsers())["set_clipboard_text"], args, kwargs, __FUNCTION__,
+			&text))
+			return GetPyNone();
+
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+
+		ImGui::SetClipboardText(text);
+
+		return GetPyNone();
+	}
+
+	mv_internal mv_python_function
+	get_clipboard_text(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+
+		const char* text = ImGui::GetClipboardText();
+
+		return ToPyString(text);
+	}
 }

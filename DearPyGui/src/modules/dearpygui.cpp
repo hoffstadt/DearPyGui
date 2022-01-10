@@ -607,6 +607,8 @@ namespace Marvel {
 		MV_ADD_COMMAND(is_key_released);
 		MV_ADD_COMMAND(is_key_down);
 		MV_ADD_COMMAND(get_callback_queue);
+		MV_ADD_COMMAND(set_clipboard_text);
+		MV_ADD_COMMAND(get_clipboard_text);
 
 		// item registry
 		MV_ADD_COMMAND(focus_item);

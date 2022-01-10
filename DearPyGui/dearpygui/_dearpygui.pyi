@@ -794,6 +794,10 @@ def get_callback_queue() -> Any:
 	"""New in 1.2. Returns and clears callback queue."""
 	...
 
+def get_clipboard_text() -> str:
+	"""New in 1.3. Gets the clipboard text."""
+	...
+
 def get_colormap_color(colormap : Union[int, str], index : int) -> Union[List[int], Tuple[int, ...]]:
 	"""Returns a color from a colormap given an index >= 0. (ex. 0 will be the first color in the color list of the color map) Modulo will be performed against the number of items in the color list."""
 	...
@@ -1064,6 +1068,10 @@ def set_axis_ticks(axis : Union[int, str], label_pairs : Any) -> None:
 
 def set_clip_space(item : Union[int, str], top_left_x : float, top_left_y : float, width : float, height : float, min_depth : float, max_depth : float) -> None:
 	"""New in 1.1. Set the clip space for depth clipping and 'viewport' transformation."""
+	...
+
+def set_clipboard_text(text : str) -> None:
+	"""New in 1.3. Sets the clipboard text."""
 	...
 
 def set_exit_callback(callback : Callable) -> str:
