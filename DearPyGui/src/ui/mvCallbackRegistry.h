@@ -35,11 +35,14 @@ namespace Marvel {
 		std::atomic<i32>           callCount = 0;
 
 		// callbacks
-		PyObject* resizeCallback = nullptr;
-		PyObject* onCloseCallback = nullptr;
+		PyObject* resizeCallback          = nullptr;
+		PyObject* onCloseCallback         = nullptr;
+		PyObject* resizeCallbackUserData  = nullptr;
+		PyObject* onCloseCallbackUserData = nullptr;
 
 		i32 highestFrame = 0;
 		std::unordered_map<i32, PyObject*> frameCallbacks;
+		std::unordered_map<i32, PyObject*> frameCallbacksUserData;
 	};
 
 	void mvFrameCallback(i32 frame);

@@ -618,7 +618,7 @@ def bind_theme(theme : Union[int, str]) -> None:
 	"""Binds a global theme."""
 	...
 
-def capture_next_item(callback : Callable) -> None:
+def capture_next_item(callback : Callable, *, user_data: Any ='') -> None:
 	"""Captures the next item."""
 	...
 
@@ -1074,11 +1074,11 @@ def set_clipboard_text(text : str) -> None:
 	"""New in 1.3. Sets the clipboard text."""
 	...
 
-def set_exit_callback(callback : Callable) -> str:
+def set_exit_callback(callback : Callable, *, user_data: Any ='') -> str:
 	"""Sets a callback to run on last frame."""
 	...
 
-def set_frame_callback(frame : int, callback : Callable) -> str:
+def set_frame_callback(frame : int, callback : Callable, *, user_data: Any ='') -> str:
 	"""Sets a callback to run on first frame."""
 	...
 
@@ -1106,7 +1106,7 @@ def set_value(item : Union[int, str], value : Any) -> None:
 	"""Set's an item's value."""
 	...
 
-def set_viewport_resize_callback(callback : Callable) -> str:
+def set_viewport_resize_callback(callback : Callable, *, user_data: Any ='') -> str:
 	"""Sets a callback to run on viewport resize."""
 	...
 
