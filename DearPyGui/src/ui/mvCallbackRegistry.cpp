@@ -31,7 +31,8 @@ namespace Marvel {
 		if (GContext->callbackRegistry->frameCallbacks.count(frame) == 0)
 			return;
 
-		mvAddCallback(GContext->callbackRegistry->frameCallbacks[frame], frame, nullptr, nullptr);
+		mvAddCallback(GContext->callbackRegistry->frameCallbacks[frame], frame, nullptr,
+			GContext->callbackRegistry->frameCallbacksUserData[frame]);
 	}
 
 	bool mvRunCallbacks()

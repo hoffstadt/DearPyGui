@@ -91,6 +91,7 @@ namespace Marvel {
         std::vector<mvRef<mvAppItem>>           debugWindows;
         mvRef<mvAppItem>                        capturedItem = nullptr;
         PyObject*                               captureCallback = nullptr;
+        PyObject*                               captureCallbackUserData = nullptr;
 
         // roots
         std::vector<mvRef<mvAppItem>> colormapRoots;

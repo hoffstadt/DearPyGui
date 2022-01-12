@@ -6366,16 +6366,17 @@ def bind_theme(theme):
 
 	return internal_dpg.bind_theme(theme)
 
-def capture_next_item(callback):
+def capture_next_item(callback, **kwargs):
 	"""	 Captures the next item.
 
 	Args:
 		callback (Callable): 
+		user_data (Any, optional): New in 1.3. Optional user data to send to the callback
 	Returns:
 		None
 	"""
 
-	return internal_dpg.capture_next_item(callback)
+	return internal_dpg.capture_next_item(callback, **kwargs)
 
 def clear_selected_links(node_editor):
 	"""	 Clears a node editor's selected links.
@@ -7802,28 +7803,30 @@ def set_clipboard_text(text):
 
 	return internal_dpg.set_clipboard_text(text)
 
-def set_exit_callback(callback):
+def set_exit_callback(callback, **kwargs):
 	"""	 Sets a callback to run on last frame.
 
 	Args:
 		callback (Callable): 
+		user_data (Any, optional): New in 1.3. Optional user data to send to the callback
 	Returns:
 		str
 	"""
 
-	return internal_dpg.set_exit_callback(callback)
+	return internal_dpg.set_exit_callback(callback, **kwargs)
 
-def set_frame_callback(frame, callback):
+def set_frame_callback(frame, callback, **kwargs):
 	"""	 Sets a callback to run on first frame.
 
 	Args:
 		frame (int): 
 		callback (Callable): 
+		user_data (Any, optional): New in 1.3. Optional user data to send to the callback
 	Returns:
 		str
 	"""
 
-	return internal_dpg.set_frame_callback(frame, callback)
+	return internal_dpg.set_frame_callback(frame, callback, **kwargs)
 
 def set_global_font_scale(scale):
 	"""	 Sets global font scale.
@@ -7898,16 +7901,17 @@ def set_value(item, value):
 
 	return internal_dpg.set_value(item, value)
 
-def set_viewport_resize_callback(callback):
+def set_viewport_resize_callback(callback, **kwargs):
 	"""	 Sets a callback to run on viewport resize.
 
 	Args:
 		callback (Callable): 
+		user_data (Any, optional): New in 1.3. Optional user data to send to the callback
 	Returns:
 		str
 	"""
 
-	return internal_dpg.set_viewport_resize_callback(callback)
+	return internal_dpg.set_viewport_resize_callback(callback, **kwargs)
 
 def set_x_scroll(item, value):
 	"""	 Undocumented

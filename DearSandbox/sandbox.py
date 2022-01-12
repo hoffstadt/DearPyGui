@@ -22,6 +22,8 @@ with dpg.font_registry():
 
 demo.show_demo()
 
+dpg.set_frame_callback(23, lambda s, a, u: print(s, a, u), user_data=7)
+
 # main loop
 dpg.show_viewport()
 while dpg.is_dearpygui_running():

@@ -25,6 +25,7 @@ namespace Marvel {
 			std::vector<mvPythonDataElement> args;
 			args.push_back({ mvPyDataType::Integer, "frame" });
 			args.push_back({ mvPyDataType::Callable, "callback" });
+			args.push_back({ mvPyDataType::Object, "user_data", mvArgType::KEYWORD_ARG, "None", "New in 1.3. Optional user data to send to the callback"});
 
 			mvPythonParserSetup setup;
 			setup.about = "Sets a callback to run on first frame.";
@@ -38,6 +39,7 @@ namespace Marvel {
 		{
 			std::vector<mvPythonDataElement> args;
 			args.push_back({ mvPyDataType::Callable, "callback" });
+			args.push_back({ mvPyDataType::Object, "user_data", mvArgType::KEYWORD_ARG, "None", "New in 1.3. Optional user data to send to the callback" });
 
 			mvPythonParserSetup setup;
 			setup.about = "Sets a callback to run on last frame.";
@@ -51,6 +53,7 @@ namespace Marvel {
 		{
 			std::vector<mvPythonDataElement> args;
 			args.push_back({ mvPyDataType::Callable, "callback" });
+			args.push_back({ mvPyDataType::Object, "user_data", mvArgType::KEYWORD_ARG, "None", "New in 1.3. Optional user data to send to the callback" });
 
 			mvPythonParserSetup setup;
 			setup.about = "Sets a callback to run on viewport resize.";
@@ -873,6 +876,7 @@ namespace Marvel {
 		{
 			std::vector<mvPythonDataElement> args;
 			args.push_back({ mvPyDataType::Callable, "callback" });
+			args.push_back({ mvPyDataType::Object, "user_data", mvArgType::KEYWORD_ARG, "None", "New in 1.3. Optional user data to send to the callback" });
 
 			mvPythonParserSetup setup;
 			setup.about = "Captures the next item.";
