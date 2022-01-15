@@ -78,8 +78,10 @@ namespace Marvel {
 			if (_color.r >= 0.0f)
 				ImGui::PushStyleColor(ImGuiCol_Text, _color.toVec4());
 
-			if (_wrap >= 0)
+			if (_wrap == 0)
 				ImGui::PushTextWrapPos((float)_wrap);
+			else if (_wrap > 0)
+				ImGui::PushTextWrapPos(ImGui::GetCursorPosX() + (float)_wrap);
 
 			if (_bullet)
 				ImGui::Bullet();
@@ -95,10 +97,8 @@ namespace Marvel {
 			state.middleclicked = ImGui::IsItemClicked(2);
 			state.contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
 
-			if (_wrap == 0)
-				ImGui::PushTextWrapPos((float)_wrap);
-			else if (_wrap > 0)
-				ImGui::PushTextWrapPos(ImGui::GetCursorPosX() + (float)_wrap);
+			if (_wrap >= 0)
+				ImGui::PopTextWrapPos();
 
 			if (_color.r >= 0.0f)
 				ImGui::PopStyleColor();
