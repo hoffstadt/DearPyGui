@@ -208,6 +208,9 @@ namespace Marvel {
                 else
                     mvAddCallback(_on_close, config.alias, nullptr, config.user_data);
                 
+                // handle popping themes
+                cleanup_local_theming(this);
+
                 return;
             }
         }
@@ -224,6 +227,9 @@ namespace Marvel {
             {
                 if (_mainWindow)
                     ImGui::PopStyleVar();
+
+                // handle popping themes
+                cleanup_local_theming(this);
                 return;
             }
         }
@@ -236,6 +242,10 @@ namespace Marvel {
                     ImGui::PopStyleVar();
 
                 ImGui::End();
+
+                // handle popping themes
+                cleanup_local_theming(this);
+
                 return;
             }
         }
