@@ -81,6 +81,9 @@ namespace Marvel {
 
 					column_index++;
 
+					if (column_index >= _columns)
+						break;
+
 					ImGui::TableSetColumnIndex(column_index);
 
 					if (_columnColorsSet[column_index])
@@ -228,6 +231,15 @@ namespace Marvel {
 			_columns++;
 			_columnColors.push_back(ImGui::ColorConvertFloat4ToU32(ImVec4(0.0f, 0.0f, 0.0f, 0.0f)));
 			_columnColorsSet.push_back(false);
+
+			for (int i = 0; i < childslots[1].size(); i++)
+			{
+				while (_cellColors[i].size() <= _columns)
+				{
+					_cellColorsSet[i].push_back(false);
+					_cellColors[i].push_back(ImGui::ColorConvertFloat4ToU32(ImVec4(0.0f, 0.0f, 0.0f, 0.0f)));
+				}
+			}
 		}
 
 		else if (item->type == mvAppItemType::mvTableRow)
