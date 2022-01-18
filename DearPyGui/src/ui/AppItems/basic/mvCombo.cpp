@@ -19,12 +19,12 @@ namespace Marvel {
 
 	PyObject* mvCombo::getPyValue()
 	{
-		return ToPyString(*_value);
+		return ToPyString(*value);
 	}
 
 	void mvCombo::setPyValue(PyObject* value)
 	{
-		*_value = ToString(value);
+		*this->value = ToString(value);
 	}
 
 	void mvCombo::setDataSource(mvUUID dataSource)
@@ -45,7 +45,7 @@ namespace Marvel {
 				"Values types do not match: " + std::to_string(dataSource), this);
 			return;
 		}
-		_value = *static_cast<std::shared_ptr<std::string>*>(item->getValue());
+		value = *static_cast<std::shared_ptr<std::string>*>(item->getValue());
 	}
 
 	void mvCombo::draw(ImDrawList* drawlist, float x, float y)
@@ -102,20 +102,20 @@ namespace Marvel {
 			static std::vector<std::string> disabled_items{};
 
 			// The second parameter is the label previewed before opening the combo.
-			bool activated = ImGui::BeginCombo(info.internalLabel.c_str(), _value->c_str(), _flags);
+			bool activated = ImGui::BeginCombo(info.internalLabel.c_str(), value->c_str(), configData.flags);
 			UpdateAppItemState(state);
 
 			if(activated)
 			{
 
-				for (const auto& name : config.enabled ? _items : disabled_items)
+				for (const auto& name : config.enabled ? configData.items : disabled_items)
 				{
-					bool is_selected = (*_value == name);
+					bool is_selected = (*value == name);
 					if (ImGui::Selectable((name).c_str(), is_selected))
 					{
-						if (config.enabled) { *_value = name; }
+						if (config.enabled) { *value = name; }
 
-						auto value = *_value;
+						auto value = *this->value;
 
 						if(config.alias.empty())
 							mvSubmitCallback([=]() {
@@ -170,12 +170,12 @@ namespace Marvel {
 	void mvCombo::applySpecificTemplate(mvAppItem* item)
 	{
 		auto titem = static_cast<mvCombo*>(item);
-		if (config.source != 0) _value = titem->_value;
-		_disabled_value = titem->_disabled_value;
-		_flags = titem->_flags;
-		_items = titem->_items;
-		_popup_align_left = titem->_popup_align_left;
-		_no_preview = titem->_no_preview;
+		if (config.source != 0) value = titem->value;
+		disabled_value = titem->disabled_value;
+		configData.flags = titem->configData.flags;
+		configData.items = titem->configData.items;
+		configData.popup_align_left = titem->configData.popup_align_left;
+		configData.no_preview = titem->configData.no_preview;
 	}
 
 	void mvCombo::handleSpecificPositionalArgs(PyObject* dict)
@@ -189,7 +189,7 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				_items = ToStringVect(item);
+				configData.items = ToStringVect(item);
 				break;
 
 			default:
@@ -203,20 +203,20 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "items")) _items = ToStringVect(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "items")) configData.items = ToStringVect(item);
 
 		if (PyObject* item = PyDict_GetItemString(dict, "height_mode"))
 		{
 			long height_mode = (long)ToUUID(item);
 
-			if (height_mode == (long)mvCombo::ComboHeightMode::mvComboHeight_Small)
-				_flags = ImGuiComboFlags_HeightSmall;
-			else if (height_mode == (long)mvCombo::ComboHeightMode::mvComboHeight_Regular)
-				_flags = ImGuiComboFlags_HeightRegular;
-			else if (height_mode == (long)mvCombo::ComboHeightMode::mvComboHeight_Large)
-				_flags = ImGuiComboFlags_HeightLarge;
+			if (height_mode == (long)mvComboHeightMode::mvComboHeight_Small)
+				configData.flags = ImGuiComboFlags_HeightSmall;
+			else if (height_mode == (long)mvComboHeightMode::mvComboHeight_Regular)
+				configData.flags = ImGuiComboFlags_HeightRegular;
+			else if (height_mode == (long)mvComboHeightMode::mvComboHeight_Large)
+				configData.flags = ImGuiComboFlags_HeightLarge;
 			else
-				_flags = ImGuiComboFlags_HeightLargest;
+				configData.flags = ImGuiComboFlags_HeightLargest;
 		}
 
 		// helpers for bit flipping
@@ -225,9 +225,9 @@ namespace Marvel {
 			if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
 		};
 
-		flagop("popup_align_left", ImGuiComboFlags_PopupAlignLeft, _flags);
-		flagop("no_arrow_button", ImGuiComboFlags_NoArrowButton, _flags);
-		flagop("no_preview", ImGuiComboFlags_NoPreview, _flags);
+		flagop("popup_align_left", ImGuiComboFlags_PopupAlignLeft, configData.flags);
+		flagop("no_arrow_button", ImGuiComboFlags_NoArrowButton, configData.flags);
+		flagop("no_preview", ImGuiComboFlags_NoPreview, configData.flags);
 
 	}
 
@@ -242,22 +242,22 @@ namespace Marvel {
 			mvPyObject py_value = ToPyBool(flags & flag);
 			PyDict_SetItemString(dict, keyword, py_value);
 		};
-		checkbitset("popup_align_left", ImGuiComboFlags_PopupAlignLeft, _flags);
-		checkbitset("no_arrow_button", ImGuiComboFlags_NoArrowButton, _flags);
-		checkbitset("no_preview", ImGuiComboFlags_NoPreview, _flags);
+		checkbitset("popup_align_left", ImGuiComboFlags_PopupAlignLeft, configData.flags);
+		checkbitset("no_arrow_button", ImGuiComboFlags_NoArrowButton, configData.flags);
+		checkbitset("no_preview", ImGuiComboFlags_NoPreview, configData.flags);
 
 		mvUUID mode;
-		if (_flags & ImGuiComboFlags_HeightSmall)
-			mode = (long)mvCombo::ComboHeightMode::mvComboHeight_Small;
-		else if (_flags & ImGuiComboFlags_HeightRegular)
-			mode = (long)mvCombo::ComboHeightMode::mvComboHeight_Regular;
-		else if (_flags & ImGuiComboFlags_HeightLarge)
-			mode = (long)mvCombo::ComboHeightMode::mvComboHeight_Large;
+		if (configData.flags & ImGuiComboFlags_HeightSmall)
+			mode = (long)mvComboHeightMode::mvComboHeight_Small;
+		else if (configData.flags & ImGuiComboFlags_HeightRegular)
+			mode = (long)mvComboHeightMode::mvComboHeight_Regular;
+		else if (configData.flags & ImGuiComboFlags_HeightLarge)
+			mode = (long)mvComboHeightMode::mvComboHeight_Large;
 		else
-			mode = (long)mvCombo::ComboHeightMode::mvComboHeight_Largest;
+			mode = (long)mvComboHeightMode::mvComboHeight_Largest;
 
 		mvPyObject py_height_mode = ToPyLong(mode);
-		mvPyObject py_items = ToPyList(_items);
+		mvPyObject py_items = ToPyList(configData.items);
 		PyDict_SetItemString(dict, "height_mode", py_height_mode);
 		PyDict_SetItemString(dict, "items", py_items);
 	}

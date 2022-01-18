@@ -4,15 +4,24 @@
 
 namespace Marvel {
 
+    enum class mvComboHeightMode 
+    {
+        mvComboHeight_Small = 0L,
+        mvComboHeight_Regular,
+        mvComboHeight_Large,
+        mvComboHeight_Largest
+    };
+
+    struct mvComboConfig
+    {
+        ImGuiComboFlags          flags = ImGuiComboFlags_None;
+        std::vector<std::string> items;
+        bool                     popup_align_left = false;
+        bool                     no_preview = false;
+    };
+
     class mvCombo : public mvAppItem
     {
-
-        enum class ComboHeightMode {
-            mvComboHeight_Small = 0L,
-            mvComboHeight_Regular,
-            mvComboHeight_Large,
-            mvComboHeight_Largest
-        };
 
     public:
 
@@ -26,18 +35,13 @@ namespace Marvel {
 
         // values
         void setDataSource(mvUUID dataSource) override;
-        void* getValue() override { return &_value; }
+        void* getValue() override { return &value; }
         PyObject* getPyValue() override;
         void setPyValue(PyObject* value) override;
 
-    private:
-
-        mvRef<std::string>       _value = CreateRef<std::string>("");
-        std::string              _disabled_value = "";
-        ImGuiComboFlags          _flags = ImGuiComboFlags_None;
-        std::vector<std::string> _items;
-        bool                     _popup_align_left = false;
-        bool                     _no_preview = false;
+        mvRef<std::string> value = CreateRef<std::string>("");
+        std::string        disabled_value = "";
+        mvComboConfig      configData{};
     };
 
 }

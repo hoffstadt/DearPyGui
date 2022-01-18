@@ -4,6 +4,13 @@
 
 namespace Marvel {
 
+    struct mvButtonConfig
+    {
+        ImGuiDir direction    = ImGuiDir_Up;
+        bool     small_button = false;
+        bool     arrow        = false;
+    };
+
     class mvButton : public mvAppItem
     {
     public:
@@ -15,11 +22,7 @@ namespace Marvel {
         void getSpecificConfiguration(PyObject* dict) override;
         void applySpecificTemplate(mvAppItem* item) override;
 
-    private:
-
-        ImGuiDir _direction    = ImGuiDir_Up;
-        bool     _small_button = false;
-        bool     _arrow        = false;
+        mvButtonConfig configData{};
 
     };
 

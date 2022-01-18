@@ -21,23 +21,23 @@ namespace Marvel {
     void mvDragFloatMulti::applySpecificTemplate(mvAppItem* item)
     {
         auto titem = static_cast<mvDragFloatMulti*>(item);
-        if (config.source != 0) _value = titem->_value;
-        _disabled_value[0] = titem->_disabled_value[0];
-        _disabled_value[1] = titem->_disabled_value[1];
-        _disabled_value[2] = titem->_disabled_value[2];
-        _disabled_value[3] = titem->_disabled_value[3];
-       _speed = titem->_speed;
-       _min = titem->_min;
-       _max = titem->_max;
-       _format = titem->_format;
-       _flags = titem->_flags;
-       _stor_flags = titem->_stor_flags;
-       _size = titem->_size;
+        if (config.source != 0) value = titem->value;
+        disabled_value[0] = titem->disabled_value[0];
+        disabled_value[1] = titem->disabled_value[1];
+        disabled_value[2] = titem->disabled_value[2];
+        disabled_value[3] = titem->disabled_value[3];
+        configData.speed = titem->configData.speed;
+        configData.minv = titem->configData.minv;
+        configData.maxv = titem->configData.maxv;
+        configData.format = titem->configData.format;
+        configData.flags = titem->configData.flags;
+        configData.stor_flags = titem->configData.stor_flags;
+        configData.size = titem->configData.size;
     }
 
     PyObject* mvDragFloatMulti::getPyValue()
     {
-        return ToPyFloatList(_value->data(), 4);
+        return ToPyFloatList(value->data(), 4);
     }
 
     void mvDragFloatMulti::setPyValue(PyObject* value)
@@ -48,10 +48,10 @@ namespace Marvel {
         std::array<float, 4> temp_array;
         for (size_t i = 0; i < temp_array.size(); i++)
             temp_array[i] = temp[i];
-        if (_value)
-            *_value = temp_array;
+        if (this->value)
+            *this->value = temp_array;
         else
-            _value = std::make_shared<std::array<float, 4>>(temp_array);
+            this->value = std::make_shared<std::array<float, 4>>(temp_array);
     }
 
     void mvDragFloatMulti::setDataSource(mvUUID dataSource)
@@ -72,7 +72,7 @@ namespace Marvel {
                 "Values types do not match: " + std::to_string(dataSource), this);
             return;
         }
-        _value = *static_cast<std::shared_ptr<std::array<float, 4>>*>(item->getValue());
+        this->value = *static_cast<std::shared_ptr<std::array<float, 4>>*>(item->getValue());
     }
 
     void mvDragFloatMulti::draw(ImDrawList* drawlist, float x, float y)
@@ -129,18 +129,18 @@ namespace Marvel {
 
             bool activated = false;
 
-            if(!config.enabled) std::copy(_value->data(), _value->data() + 2, _disabled_value);
+            if(!config.enabled) std::copy(this->value->data(), this->value->data() + 2, this->disabled_value);
 
-            switch (_size)
+            switch (configData.size)
             {
             case 2:
-                activated = ImGui::DragFloat2(info.internalLabel.c_str(), config.enabled ? _value->data() : &_disabled_value[0], _speed, _min, _max, _format.c_str(), _flags);
+                activated = ImGui::DragFloat2(info.internalLabel.c_str(), config.enabled ? value->data() : &disabled_value[0], configData.speed, configData.minv, configData.maxv, configData.format.c_str(), configData.flags);
                 break;
             case 3:
-                activated = ImGui::DragFloat3(info.internalLabel.c_str(), config.enabled ? _value->data() : &_disabled_value[0], _speed, _min, _max, _format.c_str(), _flags);
+                activated = ImGui::DragFloat3(info.internalLabel.c_str(), config.enabled ? value->data() : &disabled_value[0], configData.speed, configData.minv, configData.maxv, configData.format.c_str(), configData.flags);
                 break;
             case 4:
-                activated = ImGui::DragFloat4(info.internalLabel.c_str(), config.enabled ? _value->data() : &_disabled_value[0], _speed, _min, _max, _format.c_str(), _flags);
+                activated = ImGui::DragFloat4(info.internalLabel.c_str(), config.enabled ? value->data() : &disabled_value[0], configData.speed, configData.minv, configData.maxv, configData.format.c_str(), configData.flags);
                 break;
             default:
                 break;
@@ -148,7 +148,7 @@ namespace Marvel {
 
             if (activated)
             {
-                auto value = *_value;
+                auto value = *this->value;
                 if(config.alias.empty())
                     mvSubmitCallback([=]() {
                     mvAddCallback(getCallback(false), uuid, ToPyFloatList(value.data(), (int)value.size()), config.user_data);
@@ -194,11 +194,11 @@ namespace Marvel {
         if (dict == nullptr)
             return;
 
-        if (PyObject* item = PyDict_GetItemString(dict, "format")) _format = ToString(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "speed")) _speed = ToFloat(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) _min = ToFloat(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) _max = ToFloat(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "size")) _size = ToInt(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "format")) configData.format = ToString(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "speed")) configData.speed = ToFloat(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) configData.minv = ToFloat(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) configData.maxv = ToFloat(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "size")) configData.size = ToInt(item);
 
         // helper for bit flipping
         auto flagop = [dict](const char* keyword, int flag, int& flags)
@@ -207,22 +207,22 @@ namespace Marvel {
         };
 
         // flags
-        flagop("clamped", ImGuiSliderFlags_ClampOnInput, _flags);
-        flagop("clamped", ImGuiSliderFlags_ClampOnInput, _stor_flags);
-        flagop("no_input", ImGuiSliderFlags_NoInput, _flags);
-        flagop("no_input", ImGuiSliderFlags_NoInput, _stor_flags);
+        flagop("clamped", ImGuiSliderFlags_ClampOnInput, configData.flags);
+        flagop("clamped", ImGuiSliderFlags_ClampOnInput, configData.stor_flags);
+        flagop("no_input", ImGuiSliderFlags_NoInput, configData.flags);
+        flagop("no_input", ImGuiSliderFlags_NoInput, configData.stor_flags);
 
         if (info.enabledLastFrame)
         {
             info.enabledLastFrame = false;
-            _flags = _stor_flags;
+            configData.flags = configData.stor_flags;
         }
 
         if (info.disabledLastFrame)
         {
             info.disabledLastFrame = false;
-            _stor_flags = _flags;
-            _flags |= ImGuiSliderFlags_NoInput;
+            configData.stor_flags = configData.flags;
+            configData.flags |= ImGuiSliderFlags_NoInput;
         }
 
     }
@@ -232,11 +232,11 @@ namespace Marvel {
         if (dict == nullptr)
             return;
 
-        mvPyObject py_format = ToPyString(_format);
-        mvPyObject py_speed = ToPyFloat(_speed);
-        mvPyObject py_min_value = ToPyFloat(_min);
-        mvPyObject py_max_value = ToPyFloat(_max);
-        mvPyObject py_size = ToPyInt(_size);
+        mvPyObject py_format = ToPyString(configData.format);
+        mvPyObject py_speed = ToPyFloat(configData.speed);
+        mvPyObject py_min_value = ToPyFloat(configData.minv);
+        mvPyObject py_max_value = ToPyFloat(configData.maxv);
+        mvPyObject py_size = ToPyInt(configData.size);
 
         PyDict_SetItemString(dict, "format", py_format);
         PyDict_SetItemString(dict, "speed", py_speed);
@@ -252,8 +252,8 @@ namespace Marvel {
         };
 
         // window flags
-        checkbitset("clamped", ImGuiSliderFlags_ClampOnInput, _flags);
-        checkbitset("no_input", ImGuiSliderFlags_NoInput, _flags);
+        checkbitset("clamped", ImGuiSliderFlags_ClampOnInput, configData.flags);
+        checkbitset("no_input", ImGuiSliderFlags_NoInput, configData.flags);
 
     }
 
@@ -265,23 +265,23 @@ namespace Marvel {
     void mvDragIntMulti::applySpecificTemplate(mvAppItem* item)
     {
         auto titem = static_cast<mvDragIntMulti*>(item);
-        if (config.source != 0) _value = titem->_value;
-        _disabled_value[0] = titem->_disabled_value[0];
-        _disabled_value[1] = titem->_disabled_value[1];
-        _disabled_value[2] = titem->_disabled_value[2];
-        _disabled_value[3] = titem->_disabled_value[3];
-        _speed = titem->_speed;
-        _min = titem->_min;
-        _max = titem->_max;
-        _format = titem->_format;
-        _flags = titem->_flags;
-        _stor_flags = titem->_stor_flags;
-        _size = titem->_size;
+        if (config.source != 0) value = titem->value;
+        disabled_value[0] = titem->disabled_value[0];
+        disabled_value[1] = titem->disabled_value[1];
+        disabled_value[2] = titem->disabled_value[2];
+        disabled_value[3] = titem->disabled_value[3];
+        configData.speed = titem->configData.speed;
+        configData.minv = titem->configData.minv;
+        configData.maxv = titem->configData.maxv;
+        configData.format = titem->configData.format;
+        configData.flags = titem->configData.flags;
+        configData.stor_flags = titem->configData.stor_flags;
+        configData.size = titem->configData.size;
     }
 
     PyObject* mvDragIntMulti::getPyValue()
     {
-        return ToPyIntList(_value->data(), 4);
+        return ToPyIntList(value->data(), 4);
     }
 
     void mvDragIntMulti::setPyValue(PyObject* value)
@@ -292,10 +292,10 @@ namespace Marvel {
         std::array<int, 4> temp_array;
         for (size_t i = 0; i < temp_array.size(); i++)
             temp_array[i] = temp[i];
-        if (_value)
-            *_value = temp_array;
+        if (this->value)
+            *this->value = temp_array;
         else
-            _value = std::make_shared<std::array<int, 4>>(temp_array);
+            this->value = std::make_shared<std::array<int, 4>>(temp_array);
     }
 
     void mvDragIntMulti::setDataSource(mvUUID dataSource)
@@ -316,7 +316,7 @@ namespace Marvel {
                 "Values types do not match: " + std::to_string(dataSource), this);
             return;
         }
-        _value = *static_cast<std::shared_ptr<std::array<int, 4>>*>(item->getValue());
+        value = *static_cast<std::shared_ptr<std::array<int, 4>>*>(item->getValue());
     }
 
     void mvDragIntMulti::draw(ImDrawList* drawlist, float x, float y)
@@ -375,18 +375,18 @@ namespace Marvel {
 
             bool activated = false;
 
-            if(!config.enabled) std::copy(_value->data(), _value->data() + 2, _disabled_value);
+            if(!config.enabled) std::copy(value->data(), value->data() + 2, disabled_value);
 
-            switch (_size)
+            switch (configData.size)
             {
             case 2:
-                activated = ImGui::DragInt2(info.internalLabel.c_str(), config.enabled ? _value->data() : &_disabled_value[0], _speed, _min, _max, _format.c_str(), _flags);
+                activated = ImGui::DragInt2(info.internalLabel.c_str(), config.enabled ? value->data() : &disabled_value[0], configData.speed, configData.minv, configData.maxv, configData.format.c_str(), configData.flags);
                 break;
             case 3:
-                activated = ImGui::DragInt3(info.internalLabel.c_str(), config.enabled ? _value->data() : &_disabled_value[0], _speed, _min, _max, _format.c_str(), _flags);
+                activated = ImGui::DragInt3(info.internalLabel.c_str(), config.enabled ? value->data() : &disabled_value[0], configData.speed, configData.minv, configData.maxv, configData.format.c_str(), configData.flags);
                 break;
             case 4:
-                activated = ImGui::DragInt4(info.internalLabel.c_str(), config.enabled ? _value->data() : &_disabled_value[0], _speed, _min, _max, _format.c_str(), _flags);
+                activated = ImGui::DragInt4(info.internalLabel.c_str(), config.enabled ? value->data() : &disabled_value[0], configData.speed, configData.minv, configData.maxv, configData.format.c_str(), configData.flags);
                 break;
             default:
                 break;
@@ -394,7 +394,7 @@ namespace Marvel {
 
             if (activated)
             {
-                auto value = *_value;
+                auto value = *this->value;
                 if(config.alias.empty())
                     mvSubmitCallback([=]() {
                     mvAddCallback(getCallback(false), uuid, ToPyIntList(value.data(), (int)value.size()), config.user_data);
@@ -441,11 +441,11 @@ namespace Marvel {
         if (dict == nullptr)
             return;
 
-        if (PyObject* item = PyDict_GetItemString(dict, "format")) _format = ToString(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "speed")) _speed = ToFloat(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) _min = ToInt(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) _max = ToInt(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "size")) _size = ToInt(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "format")) configData.format = ToString(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "speed")) configData.speed = ToFloat(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) configData.minv = ToInt(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) configData.maxv = ToInt(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "size")) configData.size = ToInt(item);
 
         // helper for bit flipping
         auto flagop = [dict](const char* keyword, int flag, int& flags)
@@ -454,22 +454,22 @@ namespace Marvel {
         };
 
         // flags
-        flagop("clamped", ImGuiSliderFlags_ClampOnInput, _flags);
-        flagop("clamped", ImGuiSliderFlags_ClampOnInput, _stor_flags);
-        flagop("no_input", ImGuiSliderFlags_NoInput, _flags);
-        flagop("no_input", ImGuiSliderFlags_NoInput, _stor_flags);
+        flagop("clamped", ImGuiSliderFlags_ClampOnInput, configData.flags);
+        flagop("clamped", ImGuiSliderFlags_ClampOnInput, configData.stor_flags);
+        flagop("no_input", ImGuiSliderFlags_NoInput, configData.flags);
+        flagop("no_input", ImGuiSliderFlags_NoInput, configData.stor_flags);
 
         if (info.enabledLastFrame)
         {
             info.enabledLastFrame = false;
-            _flags = _stor_flags;
+            configData.flags = configData.stor_flags;
         }
 
         if (info.disabledLastFrame)
         {
             info.disabledLastFrame = false;
-            _stor_flags = _flags;
-            _flags |= ImGuiSliderFlags_NoInput;
+            configData.stor_flags = configData.flags;
+            configData.flags |= ImGuiSliderFlags_NoInput;
         }
 
     }
@@ -479,11 +479,11 @@ namespace Marvel {
         if (dict == nullptr)
             return;
 
-        mvPyObject py_format = ToPyString(_format);
-        mvPyObject py_speed = ToPyFloat(_speed);
-        mvPyObject py_min_value = ToPyInt(_min);
-        mvPyObject py_max_value = ToPyInt(_max);
-        mvPyObject py_size = ToPyInt(_size);
+        mvPyObject py_format = ToPyString(configData.format);
+        mvPyObject py_speed = ToPyFloat(configData.speed);
+        mvPyObject py_min_value = ToPyInt(configData.minv);
+        mvPyObject py_max_value = ToPyInt(configData.maxv);
+        mvPyObject py_size = ToPyInt(configData.size);
 
         PyDict_SetItemString(dict, "format", py_format);
         PyDict_SetItemString(dict, "speed", py_speed);
@@ -499,8 +499,8 @@ namespace Marvel {
         };
 
         // window flags
-        checkbitset("clamped", ImGuiSliderFlags_ClampOnInput, _flags);
-        checkbitset("no_input", ImGuiSliderFlags_NoInput, _flags);
+        checkbitset("clamped", ImGuiSliderFlags_ClampOnInput, configData.flags);
+        checkbitset("no_input", ImGuiSliderFlags_NoInput, configData.flags);
 
     }
 
@@ -512,24 +512,24 @@ namespace Marvel {
     void mvDragFloat::applySpecificTemplate(mvAppItem* item)
     {
         auto titem = static_cast<mvDragFloat*>(item);
-        if (config.source != 0) _value = titem->_value;
-        _disabled_value = titem->_disabled_value;
-        _speed = titem->_speed;
-        _min = titem->_min;
-        _max = titem->_max;
-        _format = titem->_format;
-        _flags = titem->_flags;
-        _stor_flags = titem->_stor_flags;
+        if (config.source != 0) value = titem->value;
+        disabled_value = titem->disabled_value;
+        configData.speed = titem->configData.speed;
+        configData.minv = titem->configData.minv;
+        configData.maxv = titem->configData.maxv;
+        configData.format = titem->configData.format;
+        configData.flags = titem->configData.flags;
+        configData.stor_flags = titem->configData.stor_flags;
     }
 
     PyObject* mvDragFloat::getPyValue()
     {
-        return ToPyFloat(*_value);
+        return ToPyFloat(*value);
     }
 
     void mvDragFloat::setPyValue(PyObject* value)
     {
-        *_value = ToFloat(value);
+        *this->value = ToFloat(value);
     }
 
     void mvDragFloat::setDataSource(mvUUID dataSource)
@@ -550,7 +550,7 @@ namespace Marvel {
                 "Values types do not match: " + std::to_string(dataSource), this);
             return;
         }
-        _value = *static_cast<std::shared_ptr<float>*>(item->getValue());
+        value = *static_cast<std::shared_ptr<float>*>(item->getValue());
     }
 
     void mvDragFloat::draw(ImDrawList* drawlist, float x, float y)
@@ -606,11 +606,11 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         {
 
-            if(!config.enabled) _disabled_value = *_value;
+            if(!config.enabled) disabled_value = *value;
 
-            if (ImGui::DragFloat(info.internalLabel.c_str(), config.enabled ? _value.get() : &_disabled_value, _speed, _min, _max, _format.c_str(), _flags))
+            if (ImGui::DragFloat(info.internalLabel.c_str(), config.enabled ? value.get() : &disabled_value, configData.speed, configData.minv, configData.maxv, configData.format.c_str(), configData.flags))
             {
-                auto value = *_value;
+                auto value = *this->value;
 
                 if(config.alias.empty())
                     mvSubmitCallback([=]() {
@@ -661,14 +661,14 @@ namespace Marvel {
     void mvDragInt::applySpecificTemplate(mvAppItem* item)
     {
         auto titem = static_cast<mvDragInt*>(item);
-        if (config.source != 0) _value = titem->_value;
-        _disabled_value = titem->_disabled_value;
-        _speed = titem->_speed;
-        _min = titem->_min;
-        _max = titem->_max;
-        _format = titem->_format;
-        _flags = titem->_flags;
-        _stor_flags = titem->_stor_flags;
+        if (config.source != 0) value = titem->value;
+        disabled_value = titem->disabled_value;
+        configData.speed = titem->configData.speed;
+        configData.minv = titem->configData.minv;
+        configData.maxv = titem->configData.maxv;
+        configData.format = titem->configData.format;
+        configData.flags = titem->configData.flags;
+        configData.stor_flags = titem->configData.stor_flags;
     }
 
     void mvDragInt::setDataSource(mvUUID dataSource)
@@ -689,17 +689,17 @@ namespace Marvel {
                 "Values types do not match: " + std::to_string(dataSource), this);
             return;
         }
-        _value = *static_cast<std::shared_ptr<int>*>(item->getValue());
+        value = *static_cast<std::shared_ptr<int>*>(item->getValue());
     }
 
     PyObject* mvDragInt::getPyValue()
     {
-        return ToPyInt(*_value);
+        return ToPyInt(*value);
     }
 
     void mvDragInt::setPyValue(PyObject* value)
     {
-        *_value = ToInt(value);
+        *this->value = ToInt(value);
     }
 
     void mvDragInt::draw(ImDrawList* drawlist, float x, float y)
@@ -755,11 +755,11 @@ namespace Marvel {
 
             ScopedID id(uuid);
 
-            if(!config.enabled) _disabled_value = *_value;
+            if(!config.enabled) disabled_value = *value;
 
-            if (ImGui::DragInt(info.internalLabel.c_str(), config.enabled ? _value.get() : &_disabled_value, _speed, _min, _max, _format.c_str(), _flags))
+            if (ImGui::DragInt(info.internalLabel.c_str(), config.enabled ? value.get() : &disabled_value, configData.speed, configData.minv, configData.maxv, configData.format.c_str(), configData.flags))
             {
-                auto value = *_value;
+                auto value = *this->value;
                 if(config.alias.empty())
                     mvSubmitCallback([=]() {
                     mvAddCallback(getCallback(false), uuid, ToPyInt(value), config.user_data);
@@ -806,10 +806,10 @@ namespace Marvel {
         if (dict == nullptr)
             return;
 
-        if (PyObject* item = PyDict_GetItemString(dict, "format")) _format = ToString(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "speed")) _speed = ToFloat(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) _min = ToFloat(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) _max = ToFloat(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "format")) configData.format = ToString(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "speed")) configData.speed = ToFloat(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) configData.minv = ToFloat(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) configData.maxv = ToFloat(item);
 
         // helper for bit flipping
         auto flagop = [dict](const char* keyword, int flag, int& flags)
@@ -818,22 +818,22 @@ namespace Marvel {
         };
 
         // flags
-        flagop("clamped", ImGuiSliderFlags_ClampOnInput, _flags);
-        flagop("clamped", ImGuiSliderFlags_ClampOnInput, _stor_flags);
-        flagop("no_input", ImGuiSliderFlags_NoInput, _flags);
-        flagop("no_input", ImGuiSliderFlags_NoInput, _stor_flags);
+        flagop("clamped", ImGuiSliderFlags_ClampOnInput, configData.flags);
+        flagop("clamped", ImGuiSliderFlags_ClampOnInput, configData.stor_flags);
+        flagop("no_input", ImGuiSliderFlags_NoInput, configData.flags);
+        flagop("no_input", ImGuiSliderFlags_NoInput, configData.stor_flags);
 
         if (info.enabledLastFrame)
         {
             info.enabledLastFrame = false;
-            _flags = _stor_flags;
+            configData.flags = configData.stor_flags;
         }
 
         if (info.disabledLastFrame)
         {
             info.disabledLastFrame = false;
-            _stor_flags = _flags;
-            _flags |= ImGuiSliderFlags_NoInput;
+            configData.stor_flags = configData.flags;
+            configData.flags |= ImGuiSliderFlags_NoInput;
         }
 
     }
@@ -843,10 +843,10 @@ namespace Marvel {
         if (dict == nullptr)
             return;
 
-        mvPyObject py_format = ToPyString(_format);
-        mvPyObject py_speed = ToPyFloat(_speed);
-        mvPyObject py_min_value = ToPyFloat(_min);
-        mvPyObject py_max_value = ToPyFloat(_max);
+        mvPyObject py_format = ToPyString(configData.format);
+        mvPyObject py_speed = ToPyFloat(configData.speed);
+        mvPyObject py_min_value = ToPyFloat(configData.minv);
+        mvPyObject py_max_value = ToPyFloat(configData.maxv);
 
         PyDict_SetItemString(dict, "format", py_format);
         PyDict_SetItemString(dict, "speed", py_speed);
@@ -861,8 +861,8 @@ namespace Marvel {
         };
 
         // window flags
-        checkbitset("clamped", ImGuiSliderFlags_ClampOnInput, _flags);
-        checkbitset("no_input", ImGuiSliderFlags_NoInput, _flags);
+        checkbitset("clamped", ImGuiSliderFlags_ClampOnInput, configData.flags);
+        checkbitset("no_input", ImGuiSliderFlags_NoInput, configData.flags);
 
     }
 
@@ -871,10 +871,10 @@ namespace Marvel {
         if (dict == nullptr)
             return;
 
-        if (PyObject* item = PyDict_GetItemString(dict, "format")) _format = ToString(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "speed")) _speed = ToFloat(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) _min = ToInt(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) _max = ToInt(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "format")) configData.format = ToString(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "speed")) configData.speed = ToFloat(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) configData.minv = ToInt(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) configData.maxv = ToInt(item);
 
         // helper for bit flipping
         auto flagop = [dict](const char* keyword, int flag, int& flags)
@@ -883,22 +883,22 @@ namespace Marvel {
         };
 
         // flags
-        flagop("clamped", ImGuiSliderFlags_ClampOnInput, _flags);
-        flagop("clamped", ImGuiSliderFlags_ClampOnInput, _stor_flags);
-        flagop("no_input", ImGuiSliderFlags_NoInput, _flags);
-        flagop("no_input", ImGuiSliderFlags_NoInput, _stor_flags);
+        flagop("clamped", ImGuiSliderFlags_ClampOnInput, configData.flags);
+        flagop("clamped", ImGuiSliderFlags_ClampOnInput, configData.stor_flags);
+        flagop("no_input", ImGuiSliderFlags_NoInput, configData.flags);
+        flagop("no_input", ImGuiSliderFlags_NoInput, configData.stor_flags);
 
         if (info.enabledLastFrame)
         {
             info.enabledLastFrame = false;
-            _flags = _stor_flags;
+            configData.flags = configData.stor_flags;
         }
 
         if (info.disabledLastFrame)
         {
             info.disabledLastFrame = false;
-            _stor_flags = _flags;
-            _flags |= ImGuiSliderFlags_NoInput;
+            configData.stor_flags = configData.flags;
+            configData.flags |= ImGuiSliderFlags_NoInput;
         }
     }
 
@@ -907,10 +907,10 @@ namespace Marvel {
         if (dict == nullptr)
             return;
 
-        mvPyObject py_format = ToPyString(_format);
-        mvPyObject py_speed = ToPyFloat(_speed);
-        mvPyObject py_min_value = ToPyInt(_min);
-        mvPyObject py_max_value = ToPyInt(_max);
+        mvPyObject py_format = ToPyString(configData.format);
+        mvPyObject py_speed = ToPyFloat(configData.speed);
+        mvPyObject py_min_value = ToPyInt(configData.minv);
+        mvPyObject py_max_value = ToPyInt(configData.maxv);
 
         PyDict_SetItemString(dict, "format", py_format);
         PyDict_SetItemString(dict, "speed", py_speed);
@@ -925,8 +925,8 @@ namespace Marvel {
         };
 
         // window flags
-        checkbitset("clamped", ImGuiSliderFlags_ClampOnInput, _flags);
-        checkbitset("no_input", ImGuiSliderFlags_NoInput, _flags);
+        checkbitset("clamped", ImGuiSliderFlags_ClampOnInput, configData.flags);
+        checkbitset("no_input", ImGuiSliderFlags_NoInput, configData.flags);
 
     }
 

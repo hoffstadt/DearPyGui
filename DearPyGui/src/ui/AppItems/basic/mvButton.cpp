@@ -72,11 +72,11 @@ namespace Marvel {
 
 			bool activated = false;
 
-			if (_small_button)
+			if (configData.small_button)
 				activated = ImGui::SmallButton(info.internalLabel.c_str());
 
-			else if (_arrow)
-				activated = ImGui::ArrowButton(info.internalLabel.c_str(), _direction);
+			else if (configData.arrow)
+				activated = ImGui::ArrowButton(info.internalLabel.c_str(), configData.direction);
 
 			else
 				activated = ImGui::Button(info.internalLabel.c_str(), ImVec2((float)config.width, (float)config.height));
@@ -123,9 +123,9 @@ namespace Marvel {
 	void mvButton::applySpecificTemplate(mvAppItem* item)
 	{
 		auto titem = static_cast<mvButton*>(item);
-		_direction = titem->_direction;
-		_small_button = titem->_small_button;
-		_arrow = titem->_arrow;
+		configData.direction = titem->configData.direction;
+		configData.small_button = titem->configData.small_button;
+		configData.arrow = titem->configData.arrow;
 	}
 
 	void mvButton::handleSpecificKeywordArgs(PyObject* dict)
@@ -133,12 +133,12 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "small")) _small_button = ToBool(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "arrow")) _arrow = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "small")) configData.small_button = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "arrow")) configData.arrow = ToBool(item);
 
 		if (PyObject* item = PyDict_GetItemString(dict, "direction"))
 		{
-			_direction = ToInt(item);
+			configData.direction = ToInt(item);
 		}
 
 	}
@@ -148,9 +148,9 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		mvPyObject py_small = ToPyBool(_small_button);
-		mvPyObject py_arrow = ToPyBool(_arrow);
-		mvPyObject py_direction = ToPyInt(_direction);
+		mvPyObject py_small = ToPyBool(configData.small_button);
+		mvPyObject py_arrow = ToPyBool(configData.arrow);
+		mvPyObject py_direction = ToPyInt(configData.direction);
 
 		PyDict_SetItemString(dict, "small", py_small);
 		PyDict_SetItemString(dict, "arrow", py_arrow);

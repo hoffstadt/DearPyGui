@@ -58,7 +58,8 @@ namespace Marvel {
         MV_ITEM_DESC_DRAW_CMP    = 1 << 4  // has draw component
     };
 
-    enum class mvLibType {
+    enum class mvLibType
+    {
         MV_IMGUI = 0,
         MV_IMPLOT = 1,
         MV_IMNODES = 2

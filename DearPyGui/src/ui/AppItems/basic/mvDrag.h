@@ -21,6 +21,17 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvDragFloat
     //-----------------------------------------------------------------------------
+
+    struct mvDragFloatConfig
+    {
+        float               speed = 1.0f;
+        float               minv = 0.0f;
+        float               maxv = 100.0f;
+        std::string         format = "%.3f";
+        ImGuiInputTextFlags flags = ImGuiSliderFlags_None;
+        ImGuiInputTextFlags stor_flags = ImGuiSliderFlags_None;
+    };
+
     class mvDragFloat : public mvAppItem
     {
 
@@ -35,26 +46,30 @@ namespace Marvel {
 
         // values
         void setDataSource(mvUUID dataSource) override;
-        void* getValue() override { return &_value; }
+        void* getValue() override { return &value; }
         PyObject* getPyValue() override;
         void setPyValue(PyObject* value) override;
 
-    private:
-
-        mvRef<float>        _value = CreateRef<float>(0.0f);
-        float               _disabled_value = 0.0f;
-        float               _speed = 1.0f;
-        float               _min = 0.0f;
-        float               _max = 100.0f;
-        std::string         _format = "%.3f";
-        ImGuiInputTextFlags _flags = ImGuiSliderFlags_None;
-        ImGuiInputTextFlags _stor_flags = ImGuiSliderFlags_None;
+        mvRef<float>      value = CreateRef<float>(0.0f);
+        float             disabled_value = 0.0f;
+        mvDragFloatConfig configData{};
 
     };
 
     //-----------------------------------------------------------------------------
     // mvDragFloatMulti
     //-----------------------------------------------------------------------------
+    struct mvDragFloatMultiConfig
+    {
+        float               speed = 1.0f;
+        float               minv = 0.0f;
+        float               maxv = 100.0f;
+        std::string         format = "%.3f";
+        ImGuiInputTextFlags flags = ImGuiSliderFlags_None;
+        ImGuiInputTextFlags stor_flags = ImGuiSliderFlags_None;
+        int                 size = 4;
+    };
+
     class mvDragFloatMulti : public mvAppItem
     {
 
@@ -69,26 +84,31 @@ namespace Marvel {
         
         // values
         void setDataSource(mvUUID dataSource) override;
-        void* getValue() override { return &_value; }
+        void* getValue() override { return &value; }
         PyObject* getPyValue() override;
         void setPyValue(PyObject* value) override;
 
     private:
 
-        mvRef<std::array<float, 4>> _value = CreateRef<std::array<float, 4>>(std::array<float, 4>{0.0f, 0.0f, 0.0f, 0.0f});
-        float                       _disabled_value[4]{};
-        float                       _speed = 1.0f;
-        float                       _min = 0.0f;
-        float                       _max = 100.0f;
-        std::string                 _format = "%.3f";
-        ImGuiInputTextFlags         _flags = ImGuiSliderFlags_None;
-        ImGuiInputTextFlags         _stor_flags = ImGuiSliderFlags_None;
-        int                         _size = 4;
+        mvRef<std::array<float, 4>> value = CreateRef<std::array<float, 4>>(std::array<float, 4>{0.0f, 0.0f, 0.0f, 0.0f});
+        float                       disabled_value[4]{};
+        mvDragFloatMultiConfig      configData{};
+
     };
 
     //-----------------------------------------------------------------------------
     // mvDragInt
     //----------------------------------------------------------------------------- 
+    struct mvDragIntConfig
+    {
+        float               speed = 1.0f;
+        int                 minv = 0;
+        int                 maxv = 100;
+        std::string         format = "%d";
+        ImGuiInputTextFlags flags = ImGuiSliderFlags_None;
+        ImGuiInputTextFlags stor_flags = ImGuiSliderFlags_None;
+    };
+
     class mvDragInt : public mvAppItem
     {
 
@@ -103,26 +123,32 @@ namespace Marvel {
 
         // values
         void setDataSource(mvUUID dataSource) override;
-        void* getValue() override { return &_value; }
+        void* getValue() override { return &value; }
         PyObject* getPyValue() override;
         void setPyValue(PyObject* value) override;
 
     private:
 
-        mvRef<int>          _value = CreateRef<int>(0);
-        int                 _disabled_value = 0;
-        float               _speed = 1.0f;
-        int                 _min = 0;
-        int                 _max = 100;
-        std::string         _format = "%d";
-        ImGuiInputTextFlags _flags = ImGuiSliderFlags_None;
-        ImGuiInputTextFlags _stor_flags = ImGuiSliderFlags_None;
+        mvRef<int>      value = CreateRef<int>(0);
+        int             disabled_value = 0;
+        mvDragIntConfig configData{};
 
     };
 
     //-----------------------------------------------------------------------------
     // mvDragIntMulti
     //-----------------------------------------------------------------------------
+    struct mvDragIntMultiConfig
+    {
+        float               speed = 1.0f;
+        int                 minv = 0;
+        int                 maxv = 100;
+        std::string         format = "%d";
+        ImGuiInputTextFlags flags = ImGuiSliderFlags_None;
+        ImGuiInputTextFlags stor_flags = ImGuiSliderFlags_None;
+        int                 size = 4;
+    };
+
     class mvDragIntMulti : public mvAppItem
     {
 
@@ -137,20 +163,15 @@ namespace Marvel {
 
         // values
         void setDataSource(mvUUID dataSource) override;
-        void* getValue() override { return &_value; }
+        void* getValue() override { return &value; }
         PyObject* getPyValue() override;
         void setPyValue(PyObject* value) override;
 
     private:
 
-        mvRef<std::array<int, 4>> _value = CreateRef<std::array<int, 4>>(std::array<int, 4>{0, 0, 0, 0});
-        int                       _disabled_value[4]{};
-        float                     _speed = 1.0f;
-        int                       _min = 0;
-        int                       _max = 100;
-        std::string               _format = "%d";
-        ImGuiInputTextFlags       _flags = ImGuiSliderFlags_None;
-        ImGuiInputTextFlags       _stor_flags = ImGuiSliderFlags_None;
-        int                       _size = 4;
+        mvRef<std::array<int, 4>> value = CreateRef<std::array<int, 4>>(std::array<int, 4>{0, 0, 0, 0});
+        int                       disabled_value[4]{};
+        mvDragIntMultiConfig      configData{};
+
     };
 }

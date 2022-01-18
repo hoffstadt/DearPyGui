@@ -19,8 +19,8 @@ namespace Marvel {
 	void mvCheckbox::applySpecificTemplate(mvAppItem* item)
 	{
 		auto titem = static_cast<mvCheckbox*>(item);
-		if (config.source != 0) _value = titem->_value;
-		_disabled_value = titem->_disabled_value;
+		if (config.source != 0) value = titem->value;
+		disabled_value = titem->disabled_value;
 	}
 
 	void mvCheckbox::draw(ImDrawList* drawlist, float x, float y)
@@ -75,11 +75,11 @@ namespace Marvel {
 			// push imgui id to prevent name collisions
 			ScopedID id(uuid);
 
-			if(!config.enabled) _disabled_value = *_value;
+			if(!config.enabled) disabled_value = *value;
 
-			if (ImGui::Checkbox(info.internalLabel.c_str(), config.enabled ? _value.get() : &_disabled_value))
+			if (ImGui::Checkbox(info.internalLabel.c_str(), config.enabled ? value.get() : &disabled_value))
 			{
-				bool value = *_value;
+				bool value = *this->value;
 
 				if(config.alias.empty())
 					mvSubmitCallback([=]() {
@@ -123,12 +123,12 @@ namespace Marvel {
 
 	PyObject* mvCheckbox::getPyValue()
 	{
-		return ToPyBool(*_value);
+		return ToPyBool(*value);
 	}
 
 	void mvCheckbox::setPyValue(PyObject* value)
 	{
-		*_value = ToBool(value);
+		*this->value = ToBool(value);
 	}
 
 	void mvCheckbox::setDataSource(mvUUID dataSource)
@@ -149,7 +149,7 @@ namespace Marvel {
 				"Values types do not match: " + std::to_string(dataSource), this);
 			return;
 		}
-		_value = *static_cast<std::shared_ptr<bool>*>(item->getValue());
+		value = *static_cast<std::shared_ptr<bool>*>(item->getValue());
 	}
 
 }
