@@ -22,19 +22,6 @@ target_sources(PureImgui
 		"../DearPyGui/vendor/implot/implot_demo.cpp"
 
 		# imgui
-		"../Dependencies/imgui/imgui.cpp"
-		"../Dependencies/imgui/imgui_demo.cpp"
-		"../Dependencies/imgui/imgui_draw.cpp"
-		"../Dependencies/imgui/imgui_widgets.cpp"
-		"../Dependencies/imgui/imgui_tables.cpp"
-		"$<$<PLATFORM_ID:Windows>:../Dependencies/imgui/misc/freetype/imgui_freetype.cpp>"
-		"$<$<PLATFORM_ID:Windows>:../Dependencies/imgui/backends/imgui_impl_win32.cpp>"
-		"$<$<PLATFORM_ID:Windows>:../Dependencies/imgui/backends/imgui_impl_dx11.cpp>"
-		"$<$<PLATFORM_ID:Darwin>:../Dependencies/imgui/backends/imgui_impl_metal.mm>"
-		"$<$<PLATFORM_ID:Darwin>:../Dependencies/imgui/backends/imgui_impl_glfw.cpp>"
-		"$<$<PLATFORM_ID:Darwin>:../Dependencies/imgui/misc/freetype/imgui_freetype.cpp>"
-		"$<$<PLATFORM_ID:Linux>:../Dependencies/imgui/backends/imgui_impl_glfw.cpp>"
-		"$<$<PLATFORM_ID:Linux>:../Dependencies/imgui/backends/imgui_impl_opengl3.cpp>"
 		"$<$<PLATFORM_ID:Linux>:../Dependencies/imgui/examples/libs/gl3w/GL/gl3w.c>"
 )
 
@@ -68,10 +55,6 @@ target_include_directories(PureImgui
 		"../Dependencies/glfw/include/"
 		"../Dependencies/glfw/deps/"
 		"../Dependencies/gl3w/"
-		"../Dependencies/imgui/"
-		"../Dependencies/imgui/misc/freetype/"
-		"../Dependencies/imgui/backends/"
-		"../Dependencies/imgui/examples/libs/gl3w"
 		"../DearPyGui/vendor/implot/"
 		"../DearPyGui/vendor/stb/"
 		"../DearPyGui/vendor/imnodes/"
@@ -80,7 +63,7 @@ target_include_directories(PureImgui
 target_link_libraries(PureImgui
 
 	PRIVATE
-		
+		${IMGUI_LIBRARIES}		
 		freetype
 		$<$<PLATFORM_ID:Linux>:GL>
 		$<$<PLATFORM_ID:Linux>:glfw>

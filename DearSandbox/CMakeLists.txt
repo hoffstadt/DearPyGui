@@ -30,8 +30,7 @@ target_include_directories(DearSandbox
 
 		"$<$<PLATFORM_ID:Linux>:${CMAKE_SOURCE_DIR}/Dependencies/cpython/build/debug/include/python3.9d/>"
 		"$<$<PLATFORM_ID:Windows>:${CMAKE_SOURCE_DIR}/Dependencies/cpython/PC/>"
-		"../Dependencies/imgui/"
-		"../Dependencies/imgui/backends/"
+		${IMGUI_INCLUDE_DIRS}
 		"../DearPyGui/vendor/implot/"
 		"../DearPyGui/src/"
 		"../DearPyGui/src/ui/"
@@ -90,5 +89,6 @@ else() # Linux
 			"-lcrypt -lpthread -ldl -lutil -lm"
 			coreemb
 			python3.9d
+			${IMGUI_LIBRARIES}
 	)
 endif()

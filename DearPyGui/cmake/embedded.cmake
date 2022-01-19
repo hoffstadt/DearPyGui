@@ -10,7 +10,7 @@ set_target_properties(coreemb
   RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}$<$<CONFIG:Release>:/cmake-build-release/>$<$<CONFIG:Debug>:/cmake-build-debug/>DearPyGui/"
   )
 
-target_include_directories(coreemb PRIVATE ${MARVEL_INCLUDE_DIR})
+target_include_directories(coreemb PRIVATE ${MARVEL_INCLUDE_DIR} ${IMGUI_INCLUDE_DIRS})
 
 target_compile_definitions(coreemb
 	PUBLIC
@@ -32,7 +32,7 @@ if(WIN32)
 	target_link_directories(coreemb PRIVATE "../Dependencies/cpython/PCbuild/amd64/")
 
 	# Add libraries to link to
-	target_link_libraries(coreemb PUBLIC d3d11 dxgi freetype $<$<CONFIG:Debug>:python39_d> $<$<CONFIG:Release>:python39>)
+	target_link_libraries(coreemb PUBLIC d3d11 dxgi freetype $<$<CONFIG:Debug>:python39_d> $<$<CONFIG:Release>:python39> ${IMGUI_LIBRARIES})
 	
 ###############################################################################
 # Apple Specifics
@@ -53,6 +53,7 @@ elseif(APPLE)
 
 			glfw
 			freetype
+			${IMGUI_LIBRARIES}
 			"-framework Metal"
 			"-framework MetalKit"
 			"-framework Cocoa"
@@ -77,6 +78,8 @@ else() # Linux
 	set_property(TARGET coreemb APPEND_STRING PROPERTY COMPILE_FLAGS "-fPIC -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall")
 	
 	# Add libraries to link to
-	target_link_libraries(coreemb PRIVATE "-lcrypt -lpthread -ldl -lutil -lm" GL glfw python3.9d freetype)
+==== BASE ====
+	target_link_libraries(coreemb PRIVATE "-lcrypt -lpthread -ldl -lutil -lm" GL glfw Python::Module freetype)
+==== BASE ====
 
 endif()

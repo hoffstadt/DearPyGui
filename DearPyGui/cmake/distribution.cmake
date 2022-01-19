@@ -20,6 +20,7 @@ target_include_directories(_dearpygui
 		PRIVATE 
 			${Python_INCLUDE_DIRS}
 			${MARVEL_INCLUDE_DIR}
+			${IMGUI_INCLUDE_DIRS}
 	)
 
 target_link_directories(_dearpygui 
@@ -38,7 +39,7 @@ if(WIN32)
 
 	set_target_properties(_dearpygui PROPERTIES SUFFIX ".pyd")
 	set_target_properties(_dearpygui PROPERTIES PREFIX "")
-	target_link_libraries(_dearpygui PUBLIC d3d11 dxgi ${Python_LIBRARIES} freetype)
+	target_link_libraries(_dearpygui PUBLIC d3d11 dxgi ${Python_LIBRARIES} freetype ${IMGUI_LIBRARIES})
 
 elseif(APPLE)
 
@@ -53,6 +54,7 @@ elseif(APPLE)
 
 			glfw
 			freetype
+			${IMGUI_LIBRARIES}
 			"-undefined dynamic_lookup"
 			"-framework Metal"
 			"-framework MetalKit"
@@ -73,6 +75,7 @@ else() # Linux
 			"-fPIC -lcrypt -lpthread -ldl  -lutil -lm"
 			GL
 			glfw
+			${IMGUI_LIBRARIES}
 	)
 
 endif()

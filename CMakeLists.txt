@@ -18,6 +18,9 @@ else() # Linux
 	add_definitions(-DCUSTOM_IMGUIFILEDIALOG_CONFIG="ImGuiFileDialogConfigUnix.h")
 endif()
 
+find_package(PkgConfig)
+pkg_check_modules(IMGUI REQUIRED imgui)
+
 # various settings
 add_definitions(
     -D_CRT_SECURE_NO_WARNINGS 
