@@ -65,8 +65,7 @@ target_include_directories(PureImgui
 
 		"src/"
 		"../DearPyGui/vendor/ImGuiFileDialog/"
-		"../Dependencies/glfw/include/"
-		"../Dependencies/glfw/deps/"
+		${GLFW_INCLUDE_DIR}
 		"../Dependencies/gl3w/"
 		"../Dependencies/imgui/"
 		"../Dependencies/imgui/misc/freetype/"
@@ -80,7 +79,7 @@ target_include_directories(PureImgui
 target_link_libraries(PureImgui
 
 	PRIVATE
-		
+		${GLFW_LIBRARIES}
 		freetype
 		$<$<PLATFORM_ID:Linux>:GL>
 		$<$<PLATFORM_ID:Linux>:glfw>

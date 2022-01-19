@@ -2,6 +2,9 @@
 
 project ("DearPyGui")
 
+set(OUR_CMAKE_MODULES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/DearPyGui/cmake")
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${OUR_CMAKE_MODULES_DIR}")
+
 if(WIN32)
     add_definitions(-DIMGUI_USER_CONFIG="mvImGuiConfig.h")
     add_definitions(-DMV_PLATFORM="windows")

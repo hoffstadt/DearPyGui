@@ -6,10 +6,6 @@
 	path = Dependencies/cpython
 	url = https://github.com/python/cpython
 	branch = master
-[submodule "Dependencies/glfw"]
-	path = Dependencies/glfw
-	url = https://github.com/glfw/glfw
-	branch = master
 [submodule "Dependencies/freetype"]
 	path = Dependencies/freetype
 	url = https://gitlab.freedesktop.org/freetype/freetype
