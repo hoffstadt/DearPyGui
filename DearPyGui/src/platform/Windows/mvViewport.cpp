@@ -290,6 +290,44 @@ namespace Marvel {
 		case WM_PAINT:
 			if (GContext->frame > 0)
 			{
+
+				RECT rect;
+				RECT crect;
+				int awidth = 0;
+				int aheight = 0;
+				int cwidth = 0;
+				int cheight = 0;
+				if (GetWindowRect(hWnd, &rect))
+				{
+					awidth = rect.right - rect.left;
+					aheight = rect.bottom - rect.top;
+				}
+
+				if (GetClientRect(hWnd, &crect))
+				{
+					cwidth = crect.right - crect.left;
+					cheight = crect.bottom - crect.top;
+				}
+
+				viewport->actualWidth = awidth;
+				viewport->actualHeight = aheight;
+
+
+				if (viewport->decorated)
+				{
+					GContext->viewport->clientHeight = cheight;
+					GContext->viewport->clientWidth = cwidth;
+				}
+				else
+				{
+					GContext->viewport->clientHeight = cheight + 39;
+					GContext->viewport->clientWidth = cwidth + 16;
+				}
+
+				//GContext->viewport->resized = true;
+				mvOnResize();
+				GContext->viewport->resized = false;
+
 				if (mvToolManager::GetFontManager().isInvalid())
 				{
 					mvToolManager::GetFontManager().rebuildAtlas();
