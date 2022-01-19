@@ -286,6 +286,25 @@ namespace Marvel {
 
 		switch (msg)
 		{
+
+		case WM_PAINT:
+			if (GContext->frame > 0)
+			{
+				if (mvToolManager::GetFontManager().isInvalid())
+				{
+					mvToolManager::GetFontManager().rebuildAtlas();
+					ImGui_ImplDX11_InvalidateDeviceObjects();
+					mvToolManager::GetFontManager().updateAtlas();
+				}
+				// Start the Dear ImGui frame
+				ImGui_ImplDX11_NewFrame();
+				ImGui_ImplWin32_NewFrame();
+				ImGui::NewFrame();
+				Render();
+				mvPostrender();
+			}
+			break;
+
 		case WM_GETMINMAXINFO:
 		{
 			LPMINMAXINFO lpMMI = (LPMINMAXINFO)lParam;
