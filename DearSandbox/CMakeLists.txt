@@ -57,7 +57,7 @@ target_compile_definitions(DearSandbox
 if (WIN32)
 
 	target_link_directories(DearSandbox PRIVATE "../Dependencies/cpython/PCbuild/amd64/")
-	target_link_libraries(DearSandbox PUBLIC coreemb $<$<CONFIG:Debug>:python39_d> $<$<CONFIG:Release>:python39>)
+	target_link_libraries(DearSandbox PUBLIC coreemb Python::Module)
 
 	add_custom_command(TARGET DearSandbox PRE_BUILD
 						COMMAND ${CMAKE_COMMAND} -E copy_if_different
@@ -74,7 +74,7 @@ elseif(APPLE)
 
     target_link_directories(DearSandbox PRIVATE ../Dependencies/cpython/build/debug/lib)
 
-	target_link_libraries(DearSandbox PUBLIC coreemb -ldl "-framework CoreFoundation" "python3.9d")
+	target_link_libraries(DearSandbox PUBLIC coreemb -ldl "-framework CoreFoundation" Python::Module)
 
 	file(GLOB PYTHON_LIBS_PATH "../Dependencies/cpython/build/debug/lib/python*")
 
@@ -89,6 +89,6 @@ else() # Linux
 		PUBLIC
 			"-lcrypt -lpthread -ldl -lutil -lm"
 			coreemb
-			python3.9d
+			Python::Module
 	)
 endif()

@@ -18,6 +18,8 @@ else() # Linux
 	add_definitions(-DCUSTOM_IMGUIFILEDIALOG_CONFIG="ImGuiFileDialogConfigUnix.h")
 endif()
 
+find_package(Python COMPONENTS Interpreter Development)
+
 # various settings
 add_definitions(
     -D_CRT_SECURE_NO_WARNINGS 

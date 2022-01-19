@@ -32,7 +32,7 @@ if(WIN32)
 	target_link_directories(coreemb PRIVATE "../Dependencies/cpython/PCbuild/amd64/")
 
 	# Add libraries to link to
-	target_link_libraries(coreemb PUBLIC d3d11 dxgi freetype $<$<CONFIG:Debug>:python39_d> $<$<CONFIG:Release>:python39>)
+	target_link_libraries(coreemb PUBLIC d3d11 dxgi freetype Python::Module)
 	
 ###############################################################################
 # Apple Specifics
@@ -77,6 +77,6 @@ else() # Linux
 	set_property(TARGET coreemb APPEND_STRING PROPERTY COMPILE_FLAGS "-fPIC -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall")
 	
 	# Add libraries to link to
-	target_link_libraries(coreemb PRIVATE "-lcrypt -lpthread -ldl -lutil -lm" GL glfw python3.9d freetype)
+	target_link_libraries(coreemb PRIVATE "-lcrypt -lpthread -ldl -lutil -lm" GL glfw Python::Module freetype)
 
 endif()
