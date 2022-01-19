@@ -39,8 +39,11 @@ set(MVDIST_ONLY ${MVDIST_ONLY})
 if(MVDIST_ONLY)
     add_definitions(-DMVDIST_ONLY)
 else()
-    add_subdirectory ("ImguiTesting")
-    add_definitions(-DMV_LOG)
+    option(<WITH_TESTS> "Build tests" ON)
+    if(WITH_TESTS)
+        add_subdirectory ("ImguiTesting")
+        add_definitions(-DMV_LOG)
+    endif()
 endif()
 
 # runs python tests
