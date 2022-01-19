@@ -64,6 +64,13 @@ class DPGBuildCommand(distutils.cmd.Command):
         self.announce('Using readthedocs hack',level=distutils.log.INFO)
         return
 
+    if get_platform() in {"Linux", "OS X"}:
+        nj = shutil.which("ninja")
+        if nj:
+            generator = "-GNinja"
+        else:
+            generator = ""
+
     if get_platform() == "Windows":
         command = [r'set PATH="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin";"C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin";"C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin";%PATH% && ']
         command.append("mkdir cmake-build-local && ")
@@ -80,7 +87,7 @@ class DPGBuildCommand(distutils.cmd.Command):
     elif get_platform() == "Linux":
         command = ["mkdir cmake-build-local; "]
         command.append("cd cmake-build-local; ")
-        command.append('cmake .. -DMVDIST_ONLY=True -DMVDPG_VERSION='+version_number()+ " -DMV_PY_VERSION="+ str(sys.version_info[0]) + "." + str(sys.version_info[1])+"; ")
+        command.append('cmake .. ' + generator + ' -DMVDIST_ONLY=True -DMVDPG_VERSION='+version_number()+ " -DMV_PY_VERSION="+ str(sys.version_info[0]) + "." + str(sys.version_info[1])+"; ")
         command.append("cd ..; cmake --build cmake-build-local --config Release")
         self.announce('Running command: %s' % "Dear PyGui Build for Linux",level=distutils.log.INFO)
         subprocess.check_call(''.join(command), shell=True)
@@ -90,7 +97,7 @@ class DPGBuildCommand(distutils.cmd.Command):
     elif get_platform() == "OS X":
         command = ["mkdir cmake-build-local; "]
         command.append("cd cmake-build-local; ")
-        command.append('cmake .. -DMVDIST_ONLY=True -DMVDPG_VERSION='+version_number()+ " -DMV_PY_VERSION="+ str(sys.version_info[0]) + "." + str(sys.version_info[1])+"; ")
+        command.append('cmake .. ' + generator + ' -DMVDIST_ONLY=True -DMVDPG_VERSION='+version_number()+ " -DMV_PY_VERSION="+ str(sys.version_info[0]) + "." + str(sys.version_info[1])+"; ")
         command.append("cd ..; cmake --build cmake-build-local --config Release")
         self.announce('Running command: %s' % "Dear PyGui Build for OS X",level=distutils.log.INFO)
         subprocess.check_call(''.join(command), shell=True)
