@@ -47,6 +47,10 @@ Ensure you have at least Python 3.6 64bit.
  pip install dearpygui
  or
  pip3 install dearpygui
+ or
+ python -m pip install dearpygui
+ or
+ python3 -m pip install dearpygui
  ```
  
 
