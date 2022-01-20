@@ -137,6 +137,9 @@ namespace Marvel {
 		ImVec2 pos = imnodes::GetNodeGridSpacePos((int)_id);
 
 		state.pos = { pos.x , pos.y };
+		state.rectSize = {ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y};
+		state.rectMax = {ImGui::GetItemRectMax().x, ImGui::GetItemRectMax().y};
+		state.rectMin = {ImGui::GetItemRectMin().x, ImGui::GetItemRectMin().y};
 
 		// undo indents
 		if (config.indent > 0.0f)

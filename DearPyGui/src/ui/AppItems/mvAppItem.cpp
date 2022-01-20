@@ -761,6 +761,8 @@ namespace Marvel {
         case mvAppItemType::mvSlider3D:
         case mvAppItemType::mvTimePicker:
         case mvAppItemType::mvDrawlist:
+        case mvAppItemType::mvNode:
+        case mvAppItemType::mvNodeEditor:
         case mvAppItemType::mvPlot:
         case mvAppItemType::mvButton: return true;
         default: return false;
