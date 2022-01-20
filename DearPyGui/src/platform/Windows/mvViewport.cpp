@@ -367,9 +367,13 @@ namespace Marvel {
 		}
 
 		case WM_MOVING:
-			viewport->xpos = (int)(short)LOWORD(lParam);   // horizontal position 
-			viewport->ypos = (int)(short)HIWORD(lParam);   // vertical position 
+		{
+			int horizontal_shift = get_horizontal_shift(ghandle);
+			RECT rect = *(RECT*)(lParam);
+			viewport->xpos = rect.left + horizontal_shift;
+			viewport->ypos = rect.top;
 			break;
+		}
 
 		case WM_SIZE:
 			if (gdevice != nullptr && wParam != SIZE_MINIMIZED)
