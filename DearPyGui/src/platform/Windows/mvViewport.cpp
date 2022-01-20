@@ -13,6 +13,7 @@
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
 #include <tchar.h>
+#include <dwmapi.h>
 
 ID3D11Device*                   gdevice = nullptr;
 ID3D11DeviceContext*            gdeviceContext = nullptr;
@@ -29,6 +30,17 @@ static WORD                     glang_id;
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 namespace Marvel {
+
+	mv_internal int 
+	get_horizontal_shift(const HWND window_handle)
+	{
+		RECT window_rectangle, frame_rectangle;
+		GetWindowRect(window_handle, &window_rectangle);
+		DwmGetWindowAttribute(window_handle,
+			DWMWA_EXTENDED_FRAME_BOUNDS, &frame_rectangle, sizeof(RECT));
+
+		return frame_rectangle.left - window_rectangle.left;
+	}
 
 	mv_internal std::vector <IDXGIAdapter*>
 	EnumerateAdapters()
@@ -194,7 +206,8 @@ namespace Marvel {
 
 		if (viewport->posDirty)
 		{
-			SetWindowPos(ghandle, viewport->alwaysOnTop ? HWND_TOPMOST : HWND_TOP, viewport->xpos, viewport->ypos, 0, 0, SWP_SHOWWINDOW | SWP_NOSIZE);
+			int horizontal_shift = get_horizontal_shift(ghandle);
+			SetWindowPos(ghandle, viewport->alwaysOnTop ? HWND_TOPMOST : HWND_TOP, viewport->xpos-horizontal_shift, viewport->ypos, 0, 0, SWP_SHOWWINDOW | SWP_NOSIZE);
 			viewport->posDirty = false;
 		}
 

@@ -38,7 +38,7 @@ if(WIN32)
 
 	set_target_properties(_dearpygui PROPERTIES SUFFIX ".pyd")
 	set_target_properties(_dearpygui PROPERTIES PREFIX "")
-	target_link_libraries(_dearpygui PUBLIC d3d11 dxgi ${Python_LIBRARIES} freetype)
+	target_link_libraries(_dearpygui PUBLIC d3d11 dxgi dwmapi ${Python_LIBRARIES} freetype)
 
 elseif(APPLE)
 
