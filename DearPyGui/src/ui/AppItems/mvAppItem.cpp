@@ -4032,6 +4032,7 @@ namespace Marvel {
                 MV_PARSER_ARG_SOURCE |
                 MV_PARSER_ARG_CALLBACK |
                 MV_PARSER_ARG_SHOW |
+                MV_PARSER_ARG_ENABLED |
                 MV_PARSER_ARG_FILTER |
                 MV_PARSER_ARG_DROP_CALLBACK |
                 MV_PARSER_ARG_DRAG_CALLBACK |
