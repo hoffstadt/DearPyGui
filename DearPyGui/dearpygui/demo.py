@@ -1176,11 +1176,26 @@ def show_demo():
             
             with dpg.tree_node(label="Popups"):
 
-                dpg.add_text("When a popup is active, it inhibits interacting with windows that are behind the popup. Clicking outside the popup closes it.")
+                dpg.add_text("This is a light wrapper over a window.", bullet=True)
+                dpg.add_text("For more control over a modal|popup window use a normal window with the modal|popup keyword and set the item handler and mouse events manually.", bullet=True)
+                dpg.add_text("By default a popup will shrink fit the items it contains.This is useful for context windows, and simple modal window popups.", bullet=True)
+                dpg.add_text("When a popup is active, it inhibits interacting with windows that are behind the popup. Clicking outside the popup closes it.", bullet=True)
                 with dpg.group(horizontal=True):
-                    b = dpg.add_button(label="Select..")
+                    b = dpg.add_button(label="Right Click...")
                     t = dpg.add_text("<None>")
                     with dpg.popup(b, tag="__demo_popup1"):
+                        dpg.add_text("Aquariam")
+                        dpg.add_separator()
+                        dpg.add_selectable(label="Bream", user_data=[t, "Bream"], callback=lambda s, a, u: dpg.set_value(u[0], u[1]))
+                        dpg.add_selectable(label="Haddock", user_data=[t, "Haddock"], callback=lambda s, a, u: dpg.set_value(u[0], u[1]))
+                        dpg.add_selectable(label="Mackerel", user_data=[t, "Mackerel"], callback=lambda s, a, u: dpg.set_value(u[0], u[1]))
+                        dpg.add_selectable(label="Pollock", user_data=[t, "Pollock"], callback=lambda s, a, u: dpg.set_value(u[0], u[1]))
+                        dpg.add_selectable(label="Tilefish", user_data=[t, "Tilefish"], callback=lambda s, a, u: dpg.set_value(u[0], u[1]))
+                dpg.add_text("A Popup with minimum size that cannot be moved", bullet=True)
+                with dpg.group(horizontal=True):
+                    b = dpg.add_button(label="Right Click...")
+                    t = dpg.add_text("<None>")
+                    with dpg.popup(b, tag="__demo_popup2", no_move=True, min_size=[300,400]):
                         dpg.add_text("Aquariam")
                         dpg.add_separator()
                         dpg.add_selectable(label="Bream", user_data=[t, "Bream"], callback=lambda s, a, u: dpg.set_value(u[0], u[1]))
@@ -1191,14 +1206,15 @@ def show_demo():
 
             with dpg.tree_node(label="Modals"):
                 dpg.add_text("Modal windows are like popups but the user cannot close them by clicking outside.")
-                dpg.add_button(label="Delete..")
-                with dpg.popup(dpg.last_item(), modal=True, mousebutton=dpg.mvMouseButton_Left, tag="__demo_popup2"):
+                dpg.add_text("This popup uses left click")
+                dpg.add_button(label="Left Click...")
+                with dpg.popup(dpg.last_item(), modal=True, mousebutton=dpg.mvMouseButton_Left, tag="__demo_popup3"):
                     dpg.add_text("All those beautiful files will be deleted.\nThis operation cannot be undone!")
                     dpg.add_separator()
                     dpg.add_checkbox(label="Don't ask me next time")
                     with dpg.group(horizontal=True):
-                        dpg.add_button(label="OK", width=75, callback=lambda: dpg.configure_item("__demo_popup2", show=False))
-                        dpg.add_button(label="Cancel", width=75, callback=lambda: dpg.configure_item("__demo_popup2", show=False))
+                        dpg.add_button(label="OK", width=75, callback=lambda: dpg.configure_item("__demo_popup3", show=False))
+                        dpg.add_button(label="Cancel", width=75, callback=lambda: dpg.configure_item("__demo_popup3", show=False))
 
             with dpg.tree_node(label="File/Directory Selector"):
 

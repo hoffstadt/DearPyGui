@@ -112,8 +112,25 @@ def mutex():
 
 
 @contextmanager
-def popup(parent: Union[int, str], mousebutton: int = internal_dpg.mvMouseButton_Right, modal: bool = False, tag:Union[int, str] = 0) -> int:
-    """ Popup widget. """    
+def popup(parent: Union[int, str], mousebutton: int = internal_dpg.mvMouseButton_Right, modal: bool=False, tag:Union[int, str]=0, min_size:Union[List[int], Tuple[int, ...]]=[100,100], max_size: Union[List[int], Tuple[int, ...]] =[30000, 30000], no_move: bool=False, no_background: bool=False) -> int:
+    """A window that will be displayed when a parent item is hovered and the corresponding mouse button has been clicked. By default a popup will shrink fit the items it contains.
+    This is useful for context windows, and simple modal window popups.
+    When popups are used a modal they have more avaliable settings (i.e. title, resize, width, height) These
+    can be set by using configure item. 
+    This is a light wrapper over window. For more control over a modal|popup window use a normal window with the modal|popup keyword 
+    and set the item handler and mouse events manually.
+
+    Args:
+        parent: The UI item that will need to be hovered.
+        **mousebutton: The mouse button that will trigger the window to popup.
+        **modal: Will force the user to interact with the popup.
+        **min_size: Will not open when hovering items, only when hovering empty space.
+        **max_size: Will not open when hovering items, only when hovering empty space.
+        **no_move: Will not open when hovering items, only when hovering empty space.
+
+    Returns:
+        item's uuid
+    """
     try:
         if tag == 0:
             _internal_popup_id = internal_dpg.generate_uuid()
@@ -123,9 +140,9 @@ def popup(parent: Union[int, str], mousebutton: int = internal_dpg.mvMouseButton
         internal_dpg.add_item_clicked_handler(mousebutton, parent=internal_dpg.last_item(), callback=lambda: internal_dpg.configure_item(_internal_popup_id, show=True))
         internal_dpg.bind_item_handler_registry(parent, _handler_reg_id)
         if modal:
-            internal_dpg.add_window(modal=True, show=False, tag=_internal_popup_id, autosize=True)
+            internal_dpg.add_window(modal=True, show=False, tag=_internal_popup_id, autosize=True, min_size=min_size, max_size=max_size, no_move=no_move, no_background=no_background)
         else:
-            internal_dpg.add_window(popup=True, show=False, tag=_internal_popup_id, autosize=True)
+            internal_dpg.add_window(popup=True, show=False, tag=_internal_popup_id, autosize=True, min_size=min_size, max_size=max_size, no_move=no_move, no_background=no_background)
         internal_dpg.push_container_stack(internal_dpg.last_container())
         yield _internal_popup_id
 
