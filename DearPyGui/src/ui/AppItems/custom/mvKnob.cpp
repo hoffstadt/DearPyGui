@@ -76,7 +76,9 @@ namespace Marvel {
 
         ScopedID id(uuid);
 
-        if (KnobFloat(config.specifiedLabel.c_str(), _value.get(), _min, _max, _step))
+        if (!config.enabled) _disabled_value = *_value;
+
+        if (KnobFloat(config.specifiedLabel.c_str(), config.enabled ? _value.get() : &_disabled_value, _min, _max, _step))
         {
             auto value = *_value;
             mvSubmitCallback([=]() {

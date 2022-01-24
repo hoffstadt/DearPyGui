@@ -4627,6 +4627,7 @@ def add_knob_float(**kwargs):
 		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
+		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
