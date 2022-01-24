@@ -108,9 +108,10 @@ def popup(parent: Union[int, str], mousebutton: int = internal_dpg.mvMouseButton
         parent: The UI item that will need to be hovered.
         **mousebutton: The mouse button that will trigger the window to popup.
         **modal: Will force the user to interact with the popup.
-        **min_size: Will not open when hovering items, only when hovering empty space.
-        **max_size: Will not open when hovering items, only when hovering empty space.
-        **no_move: Will not open when hovering items, only when hovering empty space.
+        **min_size: New in 1.4. Minimum window size.
+        **max_size: New in 1.4. Maximum window size.
+        **no_move: New in 1.4. Prevents the window from moving based on user input.
+        **no_background: New in 1.4. Sets Background and border alpha to transparent.
 
     Returns:
         item's uuid
