@@ -42,9 +42,9 @@ namespace Marvel {
 				bool status = false;
 				void* textureRaw = nullptr;
 				if(texture->type == mvAppItemType::mvStaticTexture)
-					textureRaw = static_cast<mvStaticTexture*>(texture.get())->getRawTexture();
+					textureRaw = static_cast<mvStaticTexture*>(texture.get())->_texture;
 				else
-					textureRaw = static_cast<mvDynamicTexture*>(texture.get())->getRawTexture();
+					textureRaw = static_cast<mvDynamicTexture*>(texture.get())->_texture;
 
 				ImGui::Image(textureRaw, ImVec2(25, 25));
 				ImGui::SameLine();
@@ -74,9 +74,9 @@ namespace Marvel {
 
 					void* textureRaw = nullptr;
 					if (childslots[1][_selection]->type == mvAppItemType::mvStaticTexture)
-						textureRaw = static_cast<mvStaticTexture*>(childslots[1][_selection].get())->getRawTexture();
+						textureRaw = static_cast<mvStaticTexture*>(childslots[1][_selection].get())->_texture;
 					else
-						textureRaw = static_cast<mvDynamicTexture*>(childslots[1][_selection].get())->getRawTexture();
+						textureRaw = static_cast<mvDynamicTexture*>(childslots[1][_selection].get())->_texture;
 
 					ImGui::Image(textureRaw, ImVec2((float)childslots[1][_selection]->config.width, (float)childslots[1][_selection]->config.height));
 

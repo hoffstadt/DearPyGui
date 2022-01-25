@@ -8138,6 +8138,11 @@ def unstage(item):
 # Constants #
 ##########################################################
 
+mvGraphicsBackend_D3D11=internal_dpg.mvGraphicsBackend_D3D11
+mvGraphicsBackend_D3D12=internal_dpg.mvGraphicsBackend_D3D12
+mvGraphicsBackend_VULKAN=internal_dpg.mvGraphicsBackend_VULKAN
+mvGraphicsBackend_METAL=internal_dpg.mvGraphicsBackend_METAL
+mvGraphicsBackend_OPENGL=internal_dpg.mvGraphicsBackend_OPENGL
 mvMouseButton_Left=internal_dpg.mvMouseButton_Left
 mvMouseButton_Right=internal_dpg.mvMouseButton_Right
 mvMouseButton_Middle=internal_dpg.mvMouseButton_Middle

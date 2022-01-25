@@ -226,6 +226,15 @@ namespace Marvel {
     {
 
         //-----------------------------------------------------------------------------
+        // Graphics Backends
+        //-----------------------------------------------------------------------------
+        constants.emplace_back("mvGraphicsBackend_D3D11",  0);
+        constants.emplace_back("mvGraphicsBackend_D3D12",  1);
+        constants.emplace_back("mvGraphicsBackend_VULKAN", 2);
+        constants.emplace_back("mvGraphicsBackend_METAL",  3);
+        constants.emplace_back("mvGraphicsBackend_OPENGL", 4);
+
+        //-----------------------------------------------------------------------------
         // Mouse Codes
         //-----------------------------------------------------------------------------
         constants.emplace_back("mvMouseButton_Left", 0);

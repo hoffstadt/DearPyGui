@@ -12,6 +12,7 @@
 #include "cpp.hint"
 #include <imgui.h>
 #include "mvCallbackRegistry.h"
+#include "mvGraphics.h"
 
 struct GLFWwindow;
 
@@ -53,16 +54,18 @@ namespace Marvel {
 		i32 xpos         = 100;
 		i32 ypos         = 100;
 
+		void* platformSpecifics = nullptr; // platform specifics
+
 	};
 
-	mvViewport* mvCreateViewport(u32 width, u32 height);
-	void        mvCleanupViewport();
-	void        mvShowViewport(b8 minimized, b8 maximized);
-	void        mvMaximizeViewport();
-	void        mvMinimizeViewport();
-	void        mvRestoreViewport();
+	mvViewport* mvCreateViewport  (u32 width, u32 height);
+	void        mvCleanupViewport (mvViewport& viewport);
+	void        mvShowViewport    (mvViewport& viewport, b8 minimized, b8 maximized);
+	void        mvMaximizeViewport(mvViewport& viewport);
+	void        mvMinimizeViewport(mvViewport& viewport);
+	void        mvRestoreViewport (mvViewport& viewport);
 	void        mvRenderFrame();
-    void        mvToggleFullScreen();
+    void        mvToggleFullScreen(mvViewport& viewport);
 
 	static void mvOnResize()
 	{

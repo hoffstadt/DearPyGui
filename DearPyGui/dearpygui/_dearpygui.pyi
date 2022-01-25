@@ -1182,6 +1182,11 @@ def unstage(item : Union[int, str]) -> None:
 	"""Unstages an item."""
 	...
 
+mvGraphicsBackend_D3D11=0
+mvGraphicsBackend_D3D12=0
+mvGraphicsBackend_VULKAN=0
+mvGraphicsBackend_METAL=0
+mvGraphicsBackend_OPENGL=0
 mvMouseButton_Left=0
 mvMouseButton_Right=0
 mvMouseButton_Middle=0

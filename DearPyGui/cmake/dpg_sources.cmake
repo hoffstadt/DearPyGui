@@ -15,6 +15,7 @@ set(MARVEL_SOURCES
 	# platform
 	"$<$<PLATFORM_ID:Windows>:src/platform/Windows/mvViewport.cpp>"
 	"$<$<PLATFORM_ID:Windows>:src/platform/Windows/mvUtilities.cpp>"
+	"$<$<PLATFORM_ID:Windows>:src/platform/Windows/mvGraphics.cpp>"
 
 	"$<$<PLATFORM_ID:Darwin>:src/platform/Apple/mvViewport.mm>"
 	"$<$<PLATFORM_ID:Darwin>:src/platform/Apple/mvUtilities.mm>"
@@ -234,6 +235,7 @@ set(MARVEL_INCLUDE_DIR
 	"vendor/ImGuiFileDialog"
 	"src/"
 	"src/core"
+	"src/renderer"
 	"src/ui"
 	"src/modules"
 	"src/python/types"

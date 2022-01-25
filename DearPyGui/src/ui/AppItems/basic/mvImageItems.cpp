@@ -96,11 +96,11 @@ namespace Marvel {
 				void* texture = nullptr;
 
 				if (_texture->type == mvAppItemType::mvStaticTexture)
-					texture = static_cast<mvStaticTexture*>(_texture.get())->getRawTexture();
+					texture = static_cast<mvStaticTexture*>(_texture.get())->_texture;
 				else if (_texture->type == mvAppItemType::mvRawTexture)
-					texture = static_cast<mvRawTexture*>(_texture.get())->getRawTexture();
+					texture = static_cast<mvRawTexture*>(_texture.get())->_texture;
 				else
-					texture = static_cast<mvDynamicTexture*>(_texture.get())->getRawTexture();
+					texture = static_cast<mvDynamicTexture*>(_texture.get())->_texture;
 
 				ImGui::Image(texture, ImVec2((float)config.width, (float)config.height), ImVec2(_uv_min.x, _uv_min.y), ImVec2(_uv_max.x, _uv_max.y),
 					ImVec4((float)_tintColor.r, (float)_tintColor.g, (float)_tintColor.b, (float)_tintColor.a),
@@ -315,11 +315,11 @@ namespace Marvel {
 				void* texture = nullptr;
 
 				if (_texture->type == mvAppItemType::mvStaticTexture)
-					texture = static_cast<mvStaticTexture*>(_texture.get())->getRawTexture();
+					texture = static_cast<mvStaticTexture*>(_texture.get())->_texture;
 				else if (_texture->type == mvAppItemType::mvRawTexture)
-					texture = static_cast<mvRawTexture*>(_texture.get())->getRawTexture();
+					texture = static_cast<mvRawTexture*>(_texture.get())->_texture;
 				else
-					texture = static_cast<mvDynamicTexture*>(_texture.get())->getRawTexture();
+					texture = static_cast<mvDynamicTexture*>(_texture.get())->_texture;
 
 				ImGui::PushID(uuid);
 				if (ImGui::ImageButton(texture, ImVec2((float)config.width, (float)config.height),
