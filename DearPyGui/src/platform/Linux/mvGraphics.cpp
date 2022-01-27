@@ -33,7 +33,7 @@ namespace Marvel {
     present(mvGraphics& graphics, mvColor& clearColor, bool vsync)
     {
         mvViewport* viewport = GContext->viewport;
-        auto viewportData = (mvViewportData*)viewport.platformSpecifics;
+        auto viewportData = (mvViewportData*)viewport->platformSpecifics;
 
         glfwGetWindowPos(viewportData->handle, &viewport->xpos, &viewport->ypos);
 
