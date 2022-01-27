@@ -27,9 +27,7 @@ namespace Marvel {
         PyObject* getPyValue() override;
         void setPyValue(PyObject* value) override;
 
-        void* getRawTexture() { return _texture; }
-
-    private:
+    public:
 
         PyObject*     _buffer = nullptr;
         void*         _value = nullptr;

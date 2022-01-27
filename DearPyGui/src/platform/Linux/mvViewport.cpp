@@ -1,7 +1,6 @@
 #include "mvViewport.h"
 #include "mvFontManager.h"
-#include <GL/gl3w.h>
-#include <GLFW/glfw3.h>
+#include "mvLinuxSpecifics.h"
 #include "implot.h"
 #include "imgui.h"
 #include "imnodes.h"
@@ -103,67 +102,51 @@ namespace Marvel {
 
     }
 
-    mv_internal void
-    mvPostrender()
-    {
-        mvViewport* viewport = GContext->viewport;
-
-        glfwGetWindowPos(ghandle, &viewport->xpos, &viewport->ypos);
-
-        glfwSwapInterval(viewport->vsync ? 1 : 0); // Enable vsync
-
-        // Rendering
-        ImGui::Render();
-        int display_w, display_h;
-        glfwGetFramebufferSize(ghandle, &display_w, &display_h);
-
-        glViewport(0, 0, display_w, display_h);
-        glClearColor(viewport->clearColor.r, viewport->clearColor.g, viewport->clearColor.b, viewport->clearColor.a);
-        glClear(GL_COLOR_BUFFER_BIT);
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
-        glfwSwapBuffers(ghandle);
-    }
-
     mv_impl mvViewport*
     mvCreateViewport(unsigned width, unsigned height)
     {
         mvViewport* viewport = new mvViewport();
         viewport->width = width;
         viewport->height = height;
+        viewport->platformSpecifics = new mvViewportData();
         return viewport;
     }
 
     mv_impl void
-    mvCleanupViewport()
+    mvCleanupViewport(mvViewport& viewport)
     {
+        auto viewportData = (mvViewportData*)viewport.platformSpecifics;
+
         // Cleanup
         ImGui_ImplOpenGL3_Shutdown();
         ImGui_ImplGlfw_Shutdown();
 
-        glfwDestroyWindow(ghandle);
+        glfwDestroyWindow(viewportData->handle);
         glfwTerminate();
         GContext->started = false;
+
+        delete viewportData;
+        viewportData = nullptr;
     }
 
     mv_impl void
-    mvShowViewport(bool minimized, bool maximized)
+    mvShowViewport(mvViewport& viewport, bool minimized, bool maximized)
     {
-        mvViewport* viewport = GContext->viewport;
+        auto viewportData = (mvViewportData*)viewport.platformSpecifics;
 
         // Setup window
         glfwSetErrorCallback(glfw_error_callback);
         glfwInit();
 
-        if (!viewport->resizable)
+        if (!viewport.resizable)
             glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
-        if (viewport->alwaysOnTop)
+        if (viewport.alwaysOnTop)
             glfwWindowHint(GLFW_FLOATING, GLFW_TRUE);
         if (maximized)
             glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);
         else if (minimized)
             glfwWindowHint(GLFW_AUTO_ICONIFY, GLFW_TRUE);
-        if (!viewport->decorated)
+        if (!viewport.decorated)
             glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
 
         // Create window with graphics context
@@ -171,29 +154,29 @@ namespace Marvel {
         const char* glsl_version = "#version 130";
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
-        ghandle = glfwCreateWindow(viewport->actualWidth, viewport->actualHeight, viewport->title.c_str(), nullptr, nullptr);
-        glfwSetWindowPos(ghandle, viewport->xpos, viewport->ypos);
-        glfwSetWindowSizeLimits(ghandle, (int)viewport->minwidth, (int)viewport->minheight, (int)viewport->maxwidth, (int)viewport->maxheight);
+        viewportData->handle = glfwCreateWindow(viewport.actualWidth, viewport.actualHeight, viewport.title.c_str(), nullptr, nullptr);
+        glfwSetWindowPos(viewportData->handle, viewport.xpos, viewport.ypos);
+        glfwSetWindowSizeLimits(viewportData->handle, (int)viewport.minwidth, (int)viewport.minheight, (int)viewport.maxwidth, (int)viewport.maxheight);
 
-        GContext->viewport->clientHeight = viewport->actualHeight;
-        GContext->viewport->clientWidth = viewport->actualWidth;
+        viewport.clientHeight = viewport.actualHeight;
+        viewport.clientWidth = viewport.actualWidth;
 
         std::vector<GLFWimage> images;
 
-        if (!viewport->small_icon.empty())
+        if (!viewport.small_icon.empty())
         {
             int image_width, image_height;
-            unsigned char* image_data = stbi_load(viewport->small_icon.c_str(), &image_width, &image_height, nullptr, 4);
+            unsigned char* image_data = stbi_load(viewport.small_icon.c_str(), &image_width, &image_height, nullptr, 4);
             if (image_data)
             {
                 images.push_back({ image_width, image_height, image_data });
             }
         }
 
-        if (!viewport->large_icon.empty())
+        if (!viewport.large_icon.empty())
         {
             int image_width, image_height;
-            unsigned char* image_data = stbi_load(viewport->large_icon.c_str(), &image_width, &image_height, nullptr, 4);
+            unsigned char* image_data = stbi_load(viewport.large_icon.c_str(), &image_width, &image_height, nullptr, 4);
             if (image_data)
             {
                 images.push_back({ image_width, image_height, image_data });
@@ -201,9 +184,9 @@ namespace Marvel {
         }
 
         if (!images.empty())
-            glfwSetWindowIcon(ghandle, images.size(), images.data());
+            glfwSetWindowIcon(viewportData->handle, images.size(), images.data());
 
-        glfwMakeContextCurrent(ghandle);
+        glfwMakeContextCurrent(viewportData->handle);
 
         gl3wInit();
 
@@ -233,30 +216,33 @@ namespace Marvel {
         SetDefaultTheme();
 
         // Setup Platform/Renderer bindings
-        ImGui_ImplGlfw_InitForOpenGL(ghandle, true);
-        ImGui_ImplOpenGL3_Init(glsl_version);
+        ImGui_ImplGlfw_InitForOpenGL(viewportData->handle, true);
+        
 
         // Setup callbacks
-        glfwSetWindowSizeCallback(ghandle, window_size_callback);
-        glfwSetWindowCloseCallback(ghandle, window_close_callback);
+        glfwSetWindowSizeCallback(viewportData->handle, window_size_callback);
+        glfwSetWindowCloseCallback(viewportData->handle, window_close_callback);
     }
     
     mv_impl void
-    mvMaximizeViewport()
+    mvMaximizeViewport(mvViewport& viewport)
     {
-        glfwMaximizeWindow(ghandle);
+        auto viewportData = (mvViewportData*)viewport.platformSpecifics;
+        glfwMaximizeWindow(viewportData->handle);
     }
 
     mv_impl void
-    mvMinimizeViewport()
+    mvMinimizeViewport(mvViewport& viewport)
     {
-        glfwIconifyWindow(ghandle);
+        auto viewportData = (mvViewportData*)viewport.platformSpecifics;
+        glfwIconifyWindow(viewportData->handle);
     }
 
     mv_impl void
-    mvRestoreViewport()
+    mvRestoreViewport(mvViewport& viewport)
     {
-        glfwRestoreWindow(ghandle);
+        auto viewportData = (mvViewportData*)viewport.platformSpecifics;
+        glfwRestoreWindow(viewportData->handle);
     }
 
     mv_impl void
@@ -269,38 +255,40 @@ namespace Marvel {
 
         Render();
 
-        mvPostrender();
+        present(GContext->graphics, GContext->viewport->clearColor, GContext->viewport->vsync);
     }
 
     mv_impl void
-    mvToggleFullScreen()
+    mvToggleFullScreen(mvViewport& viewport)
     {
         mv_local_persist size_t storedWidth = 0;
         mv_local_persist size_t storedHeight = 0;
         mv_local_persist int    storedXPos = 0;
         mv_local_persist int    storedYPos = 0;
 
+        auto viewportData = (mvViewportData*)viewport.platformSpecifics;
+
         GLFWmonitor* monitor = glfwGetPrimaryMonitor();
         const GLFWvidmode* mode = glfwGetVideoMode(monitor);
         int framerate = -1;
-        if (GContext->viewport->vsync)
+        if (viewport.vsync)
         {
             framerate = mode->refreshRate;
         }
 
-        if (GContext->viewport->fullScreen)
+        if (viewport.fullScreen)
         {
-            glfwSetWindowMonitor(ghandle, nullptr, storedXPos, storedYPos, storedWidth, storedHeight, framerate);
-            GContext->viewport->fullScreen = false;
+            glfwSetWindowMonitor(viewportData->handle, nullptr, storedXPos, storedYPos, storedWidth, storedHeight, framerate);
+            viewport.fullScreen = false;
         }
         else
         {
-            storedWidth = (size_t)GContext->viewport->actualWidth;
-            storedHeight = (size_t)GContext->viewport->actualHeight;
-            storedXPos = GContext->viewport->xpos;
-            storedYPos = GContext->viewport->ypos;
-            glfwSetWindowMonitor(ghandle, monitor, 0, 0, mode->width, mode->height, framerate);
-            GContext->viewport->fullScreen = true;
+            storedWidth = (size_t)viewport.actualWidth;
+            storedHeight = (size_t)viewport.actualHeight;
+            storedXPos = viewport.xpos;
+            storedYPos = viewport.ypos;
+            glfwSetWindowMonitor(viewportData->handle, monitor, 0, 0, mode->width, mode->height, framerate);
+            viewport.fullScreen = true;
         }
     }
 

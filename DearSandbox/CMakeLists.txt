@@ -37,6 +37,7 @@ target_include_directories(DearSandbox
 		"../DearPyGui/src/ui/"
 		"../DearPyGui/src/modules/"
 		"../DearPyGui/src/core/"
+		"../DearPyGui/src/renderer/"
 		"../DearPyGui/src/python/types"
 		"../DearPyGui/src/python/utilities"
 		"../DearPyGui/src/ui/AppItems"

@@ -2008,7 +2008,9 @@ namespace Marvel {
 		mvViewport* viewport = GContext->viewport;
 		if (viewport)
 		{
-			mvShowViewport(minimized, maximized);
+			mvShowViewport(*viewport, minimized, maximized);
+			mvGraphicsSpec spec{}; // not used yet
+			GContext->graphics = setup_graphics(*viewport, spec);
 			viewport->shown = true;
 		}
 		else
@@ -2054,7 +2056,7 @@ namespace Marvel {
 		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 		mvSubmitTask([=]()
 			{
-				mvMaximizeViewport();
+				mvMaximizeViewport(*GContext->viewport);
 			});
 
 		return GetPyNone();
@@ -2066,7 +2068,7 @@ namespace Marvel {
 		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 		mvSubmitTask([=]()
 			{
-				mvMinimizeViewport();
+				mvMinimizeViewport(*GContext->viewport);
 			});
 
 		return GetPyNone();
@@ -2078,7 +2080,7 @@ namespace Marvel {
 		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 		mvSubmitTask([=]()
 			{
-				mvToggleFullScreen();
+				mvToggleFullScreen(*GContext->viewport);
 			});
 
 		return GetPyNone();

@@ -8976,6 +8976,11 @@ def unstage(item : Union[int, str], **kwargs) -> None:
 # Constants #
 ##########################################################
 
+mvGraphicsBackend_D3D11=internal_dpg.mvGraphicsBackend_D3D11
+mvGraphicsBackend_D3D12=internal_dpg.mvGraphicsBackend_D3D12
+mvGraphicsBackend_VULKAN=internal_dpg.mvGraphicsBackend_VULKAN
+mvGraphicsBackend_METAL=internal_dpg.mvGraphicsBackend_METAL
+mvGraphicsBackend_OPENGL=internal_dpg.mvGraphicsBackend_OPENGL
 mvMouseButton_Left=internal_dpg.mvMouseButton_Left
 mvMouseButton_Right=internal_dpg.mvMouseButton_Right
 mvMouseButton_Middle=internal_dpg.mvMouseButton_Middle
@@ -9086,6 +9091,7 @@ mvKey_F20=internal_dpg.mvKey_F20
 mvKey_F21=internal_dpg.mvKey_F21
 mvKey_F22=internal_dpg.mvKey_F22
 mvKey_F23=internal_dpg.mvKey_F23
+mvKey_F24=internal_dpg.mvKey_F24
 mvKey_F24=internal_dpg.mvKey_F24
 mvKey_NumLock=internal_dpg.mvKey_NumLock
 mvKey_ScrollLock=internal_dpg.mvKey_ScrollLock

@@ -13,6 +13,7 @@
 #include "cpp.hint"
 #include "mvPythonParser.h"
 #include "mvTypes.h"
+#include "mvGraphics.h"
 
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
@@ -117,6 +118,7 @@ namespace Marvel {
         i32                 framerate = 0;      // frame rate
         mvUUID              id = MV_START_UUID; // current ID
         mvViewport*         viewport = nullptr;
+        mvGraphics          graphics;
         b8                  resetTheme = false;
         mvIO                IO;
         mvItemRegistry*     itemRegistry = nullptr;

@@ -82,11 +82,11 @@ namespace Marvel {
 				void* texture = nullptr;
 
 				if (_texture->type == mvAppItemType::mvStaticTexture)
-					texture = static_cast<mvStaticTexture*>(_texture.get())->getRawTexture();
+					texture = static_cast<mvStaticTexture*>(_texture.get())->_texture;
 				else if (_texture->type == mvAppItemType::mvRawTexture)
-					texture = static_cast<mvRawTexture*>(_texture.get())->getRawTexture();
+					texture = static_cast<mvRawTexture*>(_texture.get())->_texture;
 				else
-					texture = static_cast<mvDynamicTexture*>(_texture.get())->getRawTexture();
+					texture = static_cast<mvDynamicTexture*>(_texture.get())->_texture;
 
 				ImPlot::PlotImage(info.internalLabel.c_str(), texture, _bounds_min, _bounds_max, _uv_min, _uv_max, _tintColor);
 

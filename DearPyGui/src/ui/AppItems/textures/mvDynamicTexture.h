@@ -24,9 +24,7 @@ namespace Marvel {
         PyObject* getPyValue() override;
         void setPyValue(PyObject* value) override;
         
-        void* getRawTexture() { return _texture; }
-
-    private:
+    public:
 
         mvRef<std::vector<float>> _value = CreateRef<std::vector<float>>(std::vector<float>{0.0f});
         void*                     _texture = nullptr;
