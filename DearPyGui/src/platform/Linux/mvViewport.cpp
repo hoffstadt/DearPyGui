@@ -228,7 +228,7 @@ namespace Marvel {
     mvMaximizeViewport(mvViewport& viewport)
     {
         auto viewportData = (mvViewportData*)viewport.platformSpecifics;
-        glfwMaximizeWindow(viewportData.handle);
+        glfwMaximizeWindow(viewportData->handle);
     }
 
     mv_impl void
