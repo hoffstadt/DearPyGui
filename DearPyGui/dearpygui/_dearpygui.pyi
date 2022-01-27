@@ -1298,6 +1298,7 @@ mvKey_F21=0
 mvKey_F22=0
 mvKey_F23=0
 mvKey_F24=0
+mvKey_F24=0
 mvKey_NumLock=0
 mvKey_ScrollLock=0
 mvKey_LShift=0

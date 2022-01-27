@@ -9,24 +9,26 @@
 #include <Quartz/Quartz.h>
 #include <simd/simd.h>
 #include <vector>
+#include "mvAppleSpecifics.h"
 
 // this is necessary to keep objective-c's reference counts
 // from reaching 0.
 static std::vector<std::pair<id<MTLTexture>, id<MTLTexture>>> g_textures;
-extern id <MTLDevice> gdevice;
 
 namespace Marvel {
     
     mv_impl void*
     LoadTextureFromArray(unsigned width, unsigned height, float* data)
     {
+        mvGraphics& graphics = GContext->graphics;
+        auto graphicsData = (mvGraphics_Metal*)graphics.backendSpecifics;
 
         MTLTextureDescriptor *textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatRGBA32Float width:width height:height mipmapped:NO];
 
         textureDescriptor.usage = MTLTextureUsageShaderRead;
         textureDescriptor.storageMode = MTLStorageModeManaged;
 
-        id <MTLTexture> texture = [gdevice newTextureWithDescriptor:textureDescriptor];
+        id <MTLTexture> texture = [graphicsData->device newTextureWithDescriptor:textureDescriptor];
         [texture replaceRegion:MTLRegionMake2D(0, 0, width, height) mipmapLevel:0 withBytes:data bytesPerRow:width * 4 * 4];
 
         g_textures.push_back({texture, texture});
@@ -37,13 +39,15 @@ namespace Marvel {
     mv_impl void*
     LoadTextureFromArrayDynamic(unsigned width, unsigned height, float* data)
     {
+        mvGraphics& graphics = GContext->graphics;
+        auto graphicsData = (mvGraphics_Metal*)graphics.backendSpecifics;
 
         MTLTextureDescriptor *textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatRGBA32Float width:width height:height mipmapped:NO];
 
         textureDescriptor.usage = MTLTextureUsageShaderRead;
         textureDescriptor.storageMode = MTLStorageModeManaged;
 
-        id <MTLTexture> texture = [gdevice newTextureWithDescriptor:textureDescriptor];
+        id <MTLTexture> texture = [graphicsData->device newTextureWithDescriptor:textureDescriptor];
         [texture replaceRegion:MTLRegionMake2D(0, 0, width, height) mipmapLevel:0 withBytes:data bytesPerRow:width * 4 * 4];
 
         g_textures.push_back({texture, texture});
@@ -54,12 +58,15 @@ namespace Marvel {
     mv_impl void*
     LoadTextureFromArrayRaw(unsigned width, unsigned height, float* data, int components)
     {
+        mvGraphics& graphics = GContext->graphics;
+        auto graphicsData = (mvGraphics_Metal*)graphics.backendSpecifics;
+
         MTLTextureDescriptor *textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatRGBA32Float width:width height:height mipmapped:NO];
 
         textureDescriptor.usage = MTLTextureUsageShaderRead;
         textureDescriptor.storageMode = MTLStorageModeManaged;
 
-        id <MTLTexture> texture = [gdevice newTextureWithDescriptor:textureDescriptor];
+        id <MTLTexture> texture = [graphicsData->device newTextureWithDescriptor:textureDescriptor];
         [texture replaceRegion:MTLRegionMake2D(0, 0, width, height) mipmapLevel:0 withBytes:data bytesPerRow:width * 4 * 4];
 
         g_textures.push_back({texture, texture});
@@ -70,6 +77,8 @@ namespace Marvel {
     mv_impl void*
     LoadTextureFromFile(const char* filename, int& width, int& height)
     {
+        mvGraphics& graphics = GContext->graphics;
+        auto graphicsData = (mvGraphics_Metal*)graphics.backendSpecifics;
 
         unsigned char* image_data = stbi_load(filename, &width, &height, nullptr, 4);
         if (image_data == nullptr)
@@ -82,7 +91,7 @@ namespace Marvel {
         textureDescriptor.usage = MTLTextureUsageShaderRead;
         textureDescriptor.storageMode = MTLStorageModeManaged;
 
-        id <MTLTexture> texture = [gdevice newTextureWithDescriptor:textureDescriptor];
+        id <MTLTexture> texture = [graphicsData->device newTextureWithDescriptor:textureDescriptor];
         [texture replaceRegion:MTLRegionMake2D(0, 0, width, height) mipmapLevel:0 withBytes:image_data bytesPerRow:width * 4];
 
         g_textures.push_back({texture, texture});

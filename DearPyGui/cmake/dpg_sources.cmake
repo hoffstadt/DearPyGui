@@ -19,6 +19,7 @@ set(MARVEL_SOURCES
 
 	"$<$<PLATFORM_ID:Darwin>:src/platform/Apple/mvViewport.mm>"
 	"$<$<PLATFORM_ID:Darwin>:src/platform/Apple/mvUtilities.mm>"
+	"$<$<PLATFORM_ID:Darwin>:src/platform/Apple/mvGraphics.mm>"
 
 	"$<$<PLATFORM_ID:Linux>:src/platform/Linux/mvUtilities.cpp>"
 	"$<$<PLATFORM_ID:Linux>:src/platform/Linux/mvViewport.cpp>"
