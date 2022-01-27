@@ -23,6 +23,7 @@ set(MARVEL_SOURCES
 
 	"$<$<PLATFORM_ID:Linux>:src/platform/Linux/mvUtilities.cpp>"
 	"$<$<PLATFORM_ID:Linux>:src/platform/Linux/mvViewport.cpp>"
+	"$<$<PLATFORM_ID:Linux>:src/platform/Linux/mvGraphics.cpp>"
 
 	# python
 	"src/python/utilities/mvPyObject.cpp"
