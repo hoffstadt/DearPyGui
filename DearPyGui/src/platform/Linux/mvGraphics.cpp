@@ -10,7 +10,6 @@ namespace Marvel {
     setup_graphics(mvViewport& viewport, mvGraphicsSpec spec)
     {
         mvGraphics graphics{};
-        graphics.backendSpecifics = nullptr;
         auto viewportData = (mvViewportData*)viewport.platformSpecifics;
         const char* glsl_version = "#version 130";
         ImGui_ImplOpenGL3_Init(glsl_version);
