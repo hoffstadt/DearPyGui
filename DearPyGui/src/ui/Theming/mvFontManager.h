@@ -9,36 +9,32 @@
 
 struct ImFont;
 
-namespace Marvel {
+class mvFontManager : public mvToolWindow
+{
 
-	class mvFontManager : public mvToolWindow
-	{
+public:
 
-	public:
+	void   rebuildAtlas();
+	void   updateAtlas();
+	bool   isInvalid() const;
+	float& getGlobalFontScale() { return _globalFontScale; }
+	void   setGlobalFontScale(float scale);
+	void   resetDefault() { _resetDefault = true; }
 
-		void   rebuildAtlas();
-		void   updateAtlas();
-		bool   isInvalid() const;
-		float& getGlobalFontScale() { return _globalFontScale; }
-		void   setGlobalFontScale(float scale);
-		void   resetDefault() { _resetDefault = true; }
+	mvUUID getUUID() const override { return MV_TOOL_FONT_UUID; }
+	const char* getTitle() const override { return "Font Manager"; }
 
-		mvUUID getUUID() const override { return MV_TOOL_FONT_UUID; }
-		const char* getTitle() const override { return "Font Manager"; }
+protected:
 
-	protected:
+	void drawWidgets() override;
 
-		void drawWidgets() override;
+public:
 
-	public:
+	// default
+	ImFont*           _font = nullptr;
+	bool              _dirty = false;
+	float             _globalFontScale = 1.0f;
+	bool              _resetDefault = false;
+	bool              _newDefault = false;
 
-		// default
-		ImFont*           _font = nullptr;
-		bool              _dirty = false;
-		float             _globalFontScale = 1.0f;
-		bool              _resetDefault = false;
-		bool              _newDefault = false;
-
-	};
-
-}
+};

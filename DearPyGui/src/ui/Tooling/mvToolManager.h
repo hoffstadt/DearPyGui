@@ -5,27 +5,23 @@
 #include "cpp.hint"
 #include "mvToolWindow.h"
 
-namespace Marvel{
+class mvFontManager;
 
-	class mvFontManager;
+class mvToolManager
+{
 
-	class mvToolManager
-	{
+public:
 
-	public:
+	static void Draw();
+	static void Reset();
 
-		static void Draw();
-		static void Reset();
+	static void ShowTool(mvUUID name);
 
-		static void ShowTool(mvUUID name);
-
-		static mvFontManager& GetFontManager();
+	static mvFontManager& GetFontManager();
 
 
-	private:
+private:
 
-		static std::vector<mvRef<mvToolWindow>> s_tools;
+	static std::vector<mvRef<mvToolWindow>> s_tools;
 
-	};
-
-}
+};

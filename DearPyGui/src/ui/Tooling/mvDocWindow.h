@@ -4,40 +4,36 @@
 #include <vector>
 #include "mvToolWindow.h"
 
-namespace Marvel {
+class mvDocWindow final : public mvToolWindow
+{
 
-    class mvDocWindow final : public mvToolWindow
-    {
+public:
 
-    public:
+    mvDocWindow();
 
-        mvDocWindow();
+	[[nodiscard]] mvUUID getUUID() const override { return MV_TOOL_DOC_UUID; }
+    [[nodiscard]] const char* getTitle() const override { return "Internal Documentation"; }
 
-		[[nodiscard]] mvUUID getUUID() const override { return MV_TOOL_DOC_UUID; }
-        [[nodiscard]] const char* getTitle() const override { return "Internal Documentation"; }
+protected:
 
-    protected:
+    void drawWidgets() override;
 
-        void drawWidgets() override;
+private:
 
-	private:
+	void setup();
 
-		void setup();
+	int categorySelection = 0;
+	const char* m_doc = "None";
 
-		int categorySelection = 0;
-		const char* m_doc = "None";
+	std::vector<const char*> m_categories;
 
-		std::vector<const char*> m_categories;
+	std::unordered_map<std::string, std::vector<const char*>> m_commandCategories;
+	std::unordered_map<std::string, std::vector<const char*>> m_docCategories;
 
-		std::unordered_map<std::string, std::vector<const char*>> m_commandCategories;
-		std::unordered_map<std::string, std::vector<const char*>> m_docCategories;
+	std::vector<const char*> m_cconstants;
 
-		std::vector<const char*> m_cconstants;
+	std::vector<std::pair<std::string, std::string>> m_commands;
 
-		std::vector<std::pair<std::string, std::string>> m_commands;
+	std::vector<std::string> m_constantsValues;
 
-		std::vector<std::string> m_constantsValues;
-
-    };
-
-}
+};

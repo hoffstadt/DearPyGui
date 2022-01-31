@@ -2,24 +2,20 @@
 
 #include "mvItemRegistry.h"
 
-namespace Marvel {
+class mvFilterSet : public mvAppItem
+{
 
-    class mvFilterSet : public mvAppItem
-    {
+public:
 
-    public:
+    explicit mvFilterSet(mvUUID uuid);
 
-        explicit mvFilterSet(mvUUID uuid);
+    void draw(ImDrawList* drawlist, float x, float y) override;
 
-        void draw(ImDrawList* drawlist, float x, float y) override;
+    // values
+    void setPyValue(PyObject* value) override;
+    PyObject* getPyValue() override;
 
-        // values
-        void setPyValue(PyObject* value) override;
-        PyObject* getPyValue() override;
+private:
 
-    private:
-
-        ImGuiTextFilter _imguiFilter;
-    };
-
-}
+    ImGuiTextFilter _imguiFilter;
+};

@@ -10,9 +10,26 @@
 #include "mvProfiler.h"
 #include "mvItemRegistry.h"
 
-namespace Marvel {
+std::vector<mvRef<mvToolWindow>> mvToolManager::s_tools = {
+	std::make_shared<mvFontManager>(),
+	std::make_shared<mvAboutWindow>(),
+	std::make_shared<mvDocWindow>(),
+	std::make_shared<mvMetricsWindow>(),
+	std::make_shared<mvStyleWindow>(),
+	std::make_shared<mvDebugWindow>(),
+	std::make_shared<mvLayoutWindow>(),
+};
 
-	std::vector<mvRef<mvToolWindow>> mvToolManager::s_tools = {
+mvFontManager& mvToolManager::GetFontManager()
+{
+	return *static_cast<mvFontManager*>(s_tools[0].get());
+}
+
+void mvToolManager::Reset()
+{
+	s_tools.clear();
+
+	s_tools = {
 		std::make_shared<mvFontManager>(),
 		std::make_shared<mvAboutWindow>(),
 		std::make_shared<mvDocWindow>(),
@@ -21,45 +38,24 @@ namespace Marvel {
 		std::make_shared<mvDebugWindow>(),
 		std::make_shared<mvLayoutWindow>(),
 	};
+}
 
-	mvFontManager& mvToolManager::GetFontManager()
+void mvToolManager::Draw()
+{
+	MV_PROFILE_SCOPE("Tool rendering")
+
+	for (auto& tool : s_tools)
+		tool->draw();
+}
+
+void mvToolManager::ShowTool(mvUUID name)
+{
+	for (auto& tool : s_tools)
 	{
-		return *static_cast<mvFontManager*>(s_tools[0].get());
-	}
-
-	void mvToolManager::Reset()
-	{
-		s_tools.clear();
-
-		s_tools = {
-			std::make_shared<mvFontManager>(),
-			std::make_shared<mvAboutWindow>(),
-			std::make_shared<mvDocWindow>(),
-			std::make_shared<mvMetricsWindow>(),
-			std::make_shared<mvStyleWindow>(),
-			std::make_shared<mvDebugWindow>(),
-			std::make_shared<mvLayoutWindow>(),
-		};
-	}
-
-	void mvToolManager::Draw()
-	{
-		MV_PROFILE_SCOPE("Tool rendering")
-
-		for (auto& tool : s_tools)
-			tool->draw();
-	}
-
-	void mvToolManager::ShowTool(mvUUID name)
-	{
-		for (auto& tool : s_tools)
+		if (tool->getUUID() == name)
 		{
-			if (tool->getUUID() == name)
-			{
-				tool->m_show = true;
-				return;
-			}
+			tool->m_show = true;
+			return;
 		}
 	}
-
 }

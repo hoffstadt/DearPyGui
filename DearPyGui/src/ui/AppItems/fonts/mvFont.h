@@ -2,31 +2,27 @@
 
 #include "mvItemRegistry.h"
 
-namespace Marvel {
+class mvFont : public mvAppItem
+{
 
-    class mvFont : public mvAppItem
-    {
+public:
 
-    public:
+    explicit mvFont(mvUUID uuid);
 
-        explicit mvFont(mvUUID uuid);
+    void draw(ImDrawList* drawlist, float x, float y) override;
+    void customAction(void* data = nullptr) override;
+    void handleSpecificRequiredArgs(PyObject* dict) override;
+    ImFont* getFontPtr() { return _fontPtr; }
 
-        void draw(ImDrawList* drawlist, float x, float y) override;
-        void customAction(void* data = nullptr) override;
-        void handleSpecificRequiredArgs(PyObject* dict) override;
-        ImFont* getFontPtr() { return _fontPtr; }
+public:
 
-    public:
+    // config
+    std::string _file;
+    float       _size = 13.0f;
+    bool        _default = false;
 
-        // config
-        std::string _file;
-        float       _size = 13.0f;
-        bool        _default = false;
+    // finalized
+    ImFont* _fontPtr = nullptr;
+    ImVector<ImWchar> _ranges;
 
-        // finalized
-        ImFont* _fontPtr = nullptr;
-        ImVector<ImWchar> _ranges;
-
-    };
-
-}
+};

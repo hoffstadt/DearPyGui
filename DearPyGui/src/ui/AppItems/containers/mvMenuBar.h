@@ -3,17 +3,13 @@
 #include "mvAppItem.h"
 #include "mvItemRegistry.h"
 
-namespace Marvel {
+class mvMenuBar : public mvAppItem
+{
 
-    class mvMenuBar : public mvAppItem
-    {
+public:
 
-    public:
+    explicit mvMenuBar(mvUUID uuid);
 
-        explicit mvMenuBar(mvUUID uuid);
+    void draw(ImDrawList* drawlist, float x, float y) override;
 
-        void draw(ImDrawList* drawlist, float x, float y) override;
-
-    };
-
-}
+};

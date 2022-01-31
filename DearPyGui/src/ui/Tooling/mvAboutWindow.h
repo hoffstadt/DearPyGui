@@ -2,22 +2,18 @@
 
 #include "mvToolWindow.h"
 
-namespace Marvel {
+class mvAboutWindow final : public mvToolWindow
+{
 
-    class mvAboutWindow final : public mvToolWindow
-    {
+public:
 
-    public:
+    mvAboutWindow();
 
-        mvAboutWindow();
+    [[nodiscard]] mvUUID getUUID() const override { return MV_TOOL_ABOUT_UUID; }
+    [[nodiscard]] const char* getTitle() const override { return "About Dear PyGui"; }
 
-        [[nodiscard]] mvUUID getUUID() const override { return MV_TOOL_ABOUT_UUID; }
-        [[nodiscard]] const char* getTitle() const override { return "About Dear PyGui"; }
+protected:
 
-    protected:
+    void drawWidgets() override;
 
-        void drawWidgets() override;
-
-    };
-
-}
+};

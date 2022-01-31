@@ -2,26 +2,22 @@
 
 #include "mvItemRegistry.h"
 
-namespace Marvel {
+class mvMouseDragHandler : public mvAppItem
+{
 
-    class mvMouseDragHandler : public mvAppItem
-    {
+public:
 
-    public:
+    explicit mvMouseDragHandler(mvUUID uuid);
 
-        explicit mvMouseDragHandler(mvUUID uuid);
+    void draw(ImDrawList* drawlist, float x, float y) override;
+    void handleSpecificPositionalArgs(PyObject* dict) override;
+    void handleSpecificKeywordArgs(PyObject* dict) override;
+    void getSpecificConfiguration(PyObject* dict) override;
+    void applySpecificTemplate(mvAppItem* item) override;
 
-        void draw(ImDrawList* drawlist, float x, float y) override;
-        void handleSpecificPositionalArgs(PyObject* dict) override;
-        void handleSpecificKeywordArgs(PyObject* dict) override;
-        void getSpecificConfiguration(PyObject* dict) override;
-        void applySpecificTemplate(mvAppItem* item) override;
+private:
 
-    private:
+    int   _button = -1;
+    float _threshold = 10.0f;
 
-        int   _button = -1;
-        float _threshold = 10.0f;
-
-    };
-
-}
+};

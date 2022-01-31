@@ -3,34 +3,30 @@
 #include <array>
 #include "mvItemRegistry.h"
 
-namespace Marvel {
+class mvDragPoint : public mvAppItem
+{
 
-    class mvDragPoint : public mvAppItem
-    {
+public:
 
-    public:
+    explicit mvDragPoint(mvUUID uuid);
 
-        explicit mvDragPoint(mvUUID uuid);
-
-        void draw(ImDrawList* drawlist, float x, float y) override;
-        void handleSpecificKeywordArgs(PyObject* dict) override;
-        void getSpecificConfiguration(PyObject* dict) override;
-        void applySpecificTemplate(mvAppItem* item) override;
+    void draw(ImDrawList* drawlist, float x, float y) override;
+    void handleSpecificKeywordArgs(PyObject* dict) override;
+    void getSpecificConfiguration(PyObject* dict) override;
+    void applySpecificTemplate(mvAppItem* item) override;
         
-        // values
-        void setDataSource(mvUUID dataSource) override;
-        void* getValue() override { return &_value; }
-        PyObject* getPyValue() override;
-        void setPyValue(PyObject* value) override;
+    // values
+    void setDataSource(mvUUID dataSource) override;
+    void* getValue() override { return &_value; }
+    PyObject* getPyValue() override;
+    void setPyValue(PyObject* value) override;
 
-    private:
+private:
 
-        mvRef<std::array<double, 4>> _value = CreateRef<std::array<double, 4>>(std::array<double, 4>{0.0, 0.0, 0.0, 0.0});
-        double                       _disabled_value[4]{};
-        bool                         _show_label = true;
-        mvColor                      _color = mvColor(0.0f, 0.0f, 0.0f, -1.0f);
-        float                        _radius = 4.0f;
+    mvRef<std::array<double, 4>> _value = CreateRef<std::array<double, 4>>(std::array<double, 4>{0.0, 0.0, 0.0, 0.0});
+    double                       _disabled_value[4]{};
+    bool                         _show_label = true;
+    mvColor                      _color = mvColor(0.0f, 0.0f, 0.0f, -1.0f);
+    float                        _radius = 4.0f;
 
-    };
-
-}
+};

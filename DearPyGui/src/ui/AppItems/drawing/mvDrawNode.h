@@ -3,19 +3,15 @@
 #include "mvAppItem.h"
 #include "mvItemRegistry.h"
 
-namespace Marvel {
+class mvDrawNode : public mvAppItem
+{
 
-    class mvDrawNode : public mvAppItem
-    {
+public:
 
-    public:
+    explicit mvDrawNode(mvUUID uuid);
+    ~mvDrawNode();
 
-        explicit mvDrawNode(mvUUID uuid);
-        ~mvDrawNode();
-
-        void draw(ImDrawList* drawlist, float x, float y) override;
-        void handleSpecificKeywordArgs(PyObject* dict) override;
-        void getSpecificConfiguration(PyObject* dict) override;
-    };
-
-}
+    void draw(ImDrawList* drawlist, float x, float y) override;
+    void handleSpecificKeywordArgs(PyObject* dict) override;
+    void getSpecificConfiguration(PyObject* dict) override;
+};

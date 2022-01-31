@@ -5,17 +5,13 @@
 #include "dearpygui.h"
 #include "cpp.hint"
 
-namespace Marvel {
+class mvColorMapRegistry : public mvAppItem
+{
 
-    class mvColorMapRegistry : public mvAppItem
-    {
+public:
 
-    public:
+    explicit mvColorMapRegistry(mvUUID uuid);
 
-        explicit mvColorMapRegistry(mvUUID uuid);
+    void draw(ImDrawList* drawlist, float x, float y) override;
 
-        void draw(ImDrawList* drawlist, float x, float y) override;
-
-    };
-
-}
+};

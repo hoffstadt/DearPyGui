@@ -5,12 +5,8 @@
 #include "mvItemRegistry.h"
 #include "mvPythonExceptions.h"
 
-namespace Marvel {
-
-	mvTableRow::mvTableRow(mvUUID uuid)
-		: mvAppItem(uuid)
-	{
-
-	}
+mvTableRow::mvTableRow(mvUUID uuid)
+	: mvAppItem(uuid)
+{
 
 }

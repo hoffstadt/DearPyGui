@@ -2,18 +2,14 @@
 
 #include "mvItemRegistry.h"
 
-namespace Marvel {
+class mvResizeHandler : public mvAppItem
+{
 
-    class mvResizeHandler : public mvAppItem
-    {
+public:
 
-    public:
+    explicit mvResizeHandler(mvUUID uuid);
 
-        explicit mvResizeHandler(mvUUID uuid);
+    void draw(ImDrawList* drawlist, float x, float y) override {}
+    void customAction(void* data = nullptr) override;
 
-        void draw(ImDrawList* drawlist, float x, float y) override {}
-        void customAction(void* data = nullptr) override;
-
-    };
-
-}
+};

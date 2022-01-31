@@ -3,26 +3,22 @@
 #include "mvToolWindow.h"
 #include "mvAppItem.h"
 
-namespace Marvel {
+class mvDebugWindow final : public mvToolWindow
+{
 
-    class mvDebugWindow final : public mvToolWindow
-    {
+public:
 
-    public:
+    mvDebugWindow();
 
-        mvDebugWindow();
+    [[nodiscard]] mvUUID getUUID() const override { return MV_TOOL_DEBUG_UUID; }
+    [[nodiscard]] const char* getTitle() const override { return "Dear PyGui Debug"; }
 
-        [[nodiscard]] mvUUID getUUID() const override { return MV_TOOL_DEBUG_UUID; }
-        [[nodiscard]] const char* getTitle() const override { return "Dear PyGui Debug"; }
+protected:
 
-    protected:
+    void drawWidgets() override;
 
-        void drawWidgets() override;
+private:
 
-    private:
+    std::vector<std::pair<std::string, std::string>> m_commands;
 
-        std::vector<std::pair<std::string, std::string>> m_commands;
-
-    };
-
-}
+};

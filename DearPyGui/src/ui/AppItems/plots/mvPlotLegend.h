@@ -2,26 +2,22 @@
 
 #include "mvItemRegistry.h"
 
-namespace Marvel {
+class mvPlotLegend : public mvAppItem
+{
 
-    class mvPlotLegend : public mvAppItem
-    {
+public:
 
-    public:
+    explicit mvPlotLegend(mvUUID uuid);
 
-        explicit mvPlotLegend(mvUUID uuid);
+    void draw(ImDrawList* drawlist, float x, float y) override;
+    void handleSpecificKeywordArgs(PyObject* dict) override;
+    void applySpecificTemplate(mvAppItem* item) override;
+    void getSpecificConfiguration(PyObject* dict) override;
 
-        void draw(ImDrawList* drawlist, float x, float y) override;
-        void handleSpecificKeywordArgs(PyObject* dict) override;
-        void applySpecificTemplate(mvAppItem* item) override;
-        void getSpecificConfiguration(PyObject* dict) override;
+public:
 
-    public:
-
-        ImPlotLocation _legendLocation = ImPlotLocation_NorthWest;
-        bool           _horizontal = false;
-        bool           _outside = false;
-        bool           _dirty = true;
-    };
-
-}
+    ImPlotLocation _legendLocation = ImPlotLocation_NorthWest;
+    bool           _horizontal = false;
+    bool           _outside = false;
+    bool           _dirty = true;
+};

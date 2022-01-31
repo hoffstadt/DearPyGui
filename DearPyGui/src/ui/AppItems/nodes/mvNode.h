@@ -5,27 +5,23 @@
 #include <stdint.h>
 #include <imnodes.h>
 
-namespace Marvel {
+class mvNode : public mvAppItem
+{
 
-    class mvNode : public mvAppItem
-    {
+public:
 
-    public:
+    explicit mvNode(mvUUID uuid);
 
-        explicit mvNode(mvUUID uuid);
+    void draw(ImDrawList* drawlist, float x, float y) override;
+    void handleSpecificKeywordArgs(PyObject* dict) override;
+    void getSpecificConfiguration(PyObject* dict) override;
+    void applySpecificTemplate(mvAppItem* item) override;
 
-        void draw(ImDrawList* drawlist, float x, float y) override;
-        void handleSpecificKeywordArgs(PyObject* dict) override;
-        void getSpecificConfiguration(PyObject* dict) override;
-        void applySpecificTemplate(mvAppItem* item) override;
+    int getId() const {return _id;}
 
-        int getId() const {return _id;}
+public:
 
-    public:
-
-        int _id = 0;
-        bool _draggable = true;
+    int _id = 0;
+    bool _draggable = true;
         
-    };
-
-}
+};

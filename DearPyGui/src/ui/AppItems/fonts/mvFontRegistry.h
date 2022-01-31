@@ -2,25 +2,21 @@
 
 #include "mvItemRegistry.h"
 
-namespace Marvel {
+class mvFontRegistry : public mvAppItem
+{
 
-    class mvFontRegistry : public mvAppItem
-    {
+public:
 
-    public:
+    explicit mvFontRegistry(mvUUID uuid);
 
-        explicit mvFontRegistry(mvUUID uuid);
+    void draw(ImDrawList* drawlist, float x, float y) override;
+    void onChildAdd(mvRef<mvAppItem> item) { config.show = true; }
 
-        void draw(ImDrawList* drawlist, float x, float y) override;
-        void onChildAdd(mvRef<mvAppItem> item) { config.show = true; }
+    bool isInvalid() const { return _dirty; }
+    void resetFont();
 
-        bool isInvalid() const { return _dirty; }
-        void resetFont();
+private:
 
-    private:
+    bool _dirty = true;
 
-        bool _dirty = true;
-
-    };
-
-}
+};

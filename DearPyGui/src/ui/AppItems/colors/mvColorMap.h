@@ -5,25 +5,21 @@
 #include "dearpygui.h"
 #include <string>
 
-namespace Marvel {
+class mvColorMap : public mvAppItem
+{
 
-    class mvColorMap : public mvAppItem
-    {
+public:
 
-    public:
+    explicit mvColorMap(mvUUID uuid);
 
-        explicit mvColorMap(mvUUID uuid);
+    void draw(ImDrawList* drawlist, float x, float y) override;
+    void handleSpecificRequiredArgs(PyObject* args) override;
+    void applySpecificTemplate(mvAppItem* item) override;
+    ImPlotColormap getColorMap() const { return _colorMap; }
 
-        void draw(ImDrawList* drawlist, float x, float y) override;
-        void handleSpecificRequiredArgs(PyObject* args) override;
-        void applySpecificTemplate(mvAppItem* item) override;
-        ImPlotColormap getColorMap() const { return _colorMap; }
+public:
 
-    public:
-
-        ImPlotColormap      _colorMap = -1;
-        bool                _qualitative = true;
-        std::vector<ImVec4> _colors;
-    };
-
-}
+    ImPlotColormap      _colorMap = -1;
+    bool                _qualitative = true;
+    std::vector<ImVec4> _colors;
+};

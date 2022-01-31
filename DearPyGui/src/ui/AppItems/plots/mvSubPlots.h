@@ -7,37 +7,33 @@
 #include <utility>
 #include "mvCore.h"
 
-namespace Marvel {
+class mvSubPlots : public mvAppItem
+{
 
-    class mvSubPlots : public mvAppItem
-    {
+public:
 
-    public:
+    explicit mvSubPlots(mvUUID uuid);
 
-        explicit mvSubPlots(mvUUID uuid);
+    void draw (ImDrawList* drawlist, float x, float y) override;
 
-        void draw (ImDrawList* drawlist, float x, float y) override;
+    void onChildRemoved(mvRef<mvAppItem> item);
+    void onChildAdd(mvRef<mvAppItem> item);
 
-        void onChildRemoved(mvRef<mvAppItem> item);
-        void onChildAdd(mvRef<mvAppItem> item);
+    void addFlag(ImPlotSubplotFlags flag);
+    void removeFlag(ImPlotSubplotFlags flag);
 
-        void addFlag(ImPlotSubplotFlags flag);
-        void removeFlag(ImPlotSubplotFlags flag);
+    void handleSpecificRequiredArgs(PyObject* args) override;
+    void handleSpecificKeywordArgs(PyObject* dict) override;
+    void getSpecificConfiguration(PyObject* dict) override;
+    void applySpecificTemplate(mvAppItem* item) override;
 
-        void handleSpecificRequiredArgs(PyObject* args) override;
-        void handleSpecificKeywordArgs(PyObject* dict) override;
-        void getSpecificConfiguration(PyObject* dict) override;
-        void applySpecificTemplate(mvAppItem* item) override;
+private:
 
-    private:
-
-        int _rows = 1;
-        int _cols = 1;
-        std::vector<float> _row_ratios;
-        std::vector<float> _col_ratios;
-        ImPlotSubplotFlags _flags = ImPlotSubplotFlags_None;
+    int _rows = 1;
+    int _cols = 1;
+    std::vector<float> _row_ratios;
+    std::vector<float> _col_ratios;
+    ImPlotSubplotFlags _flags = ImPlotSubplotFlags_None;
 
     
-    };
-
-}
+};

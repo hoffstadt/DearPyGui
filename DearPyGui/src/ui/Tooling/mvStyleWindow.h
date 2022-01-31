@@ -2,22 +2,18 @@
 
 #include "mvToolWindow.h"
 
-namespace Marvel {
+class mvStyleWindow final : public mvToolWindow
+{
 
-    class mvStyleWindow final : public mvToolWindow
-    {
+public:
 
-    public:
+    mvStyleWindow();
 
-        mvStyleWindow();
+    [[nodiscard]] mvUUID getUUID() const override { return MV_TOOL_STYLE_UUID; }
+    [[nodiscard]] const char* getTitle() const override { return "Style Editor (Default Theme)"; }
 
-        [[nodiscard]] mvUUID getUUID() const override { return MV_TOOL_STYLE_UUID; }
-        [[nodiscard]] const char* getTitle() const override { return "Style Editor (Default Theme)"; }
+protected:
 
-    protected:
+    void drawWidgets() override;
 
-        void drawWidgets() override;
-
-    };
-
-}
+};

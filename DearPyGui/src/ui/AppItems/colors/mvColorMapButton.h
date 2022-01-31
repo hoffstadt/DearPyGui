@@ -3,23 +3,19 @@
 #include <array>
 #include "mvItemRegistry.h"
 
-namespace Marvel {
+class mvColorMapButton : public mvAppItem
+{
 
-	class mvColorMapButton : public mvAppItem
-	{
+public:
 
-	public:
+	explicit mvColorMapButton(mvUUID uuid);
 
-		explicit mvColorMapButton(mvUUID uuid);
+	void draw(ImDrawList* drawlist, float x, float y) override;
+	void applySpecificTemplate(mvAppItem* item) override;
+	void setColorMap(ImPlotColormap colormap) { _colormap = colormap; }
 
-		void draw(ImDrawList* drawlist, float x, float y) override;
-		void applySpecificTemplate(mvAppItem* item) override;
-		void setColorMap(ImPlotColormap colormap) { _colormap = colormap; }
+private:
 
-	private:
+	ImPlotColormap  _colormap = 0;
 
-		ImPlotColormap  _colormap = 0;
-
-	};
-
-}
+};

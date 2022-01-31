@@ -13,283 +13,279 @@
 
 static GLFWwindow* ghandle = nullptr;
 
-namespace Marvel {
+mv_internal void
+glfw_error_callback(int error, const char* description)
+{
+    fprintf(stderr, "Glfw Error %d: %s\n", error, description);
+}
 
-    mv_internal void
-    glfw_error_callback(int error, const char* description)
+mv_internal void
+window_close_callback(GLFWwindow* window)
+{
+    GContext->started = false;
+}
+
+mv_internal void
+window_size_callback(GLFWwindow* window, int width, int height)
+{
+    GContext->viewport->actualHeight = height;
+    GContext->viewport->clientHeight = height;
+    GContext->viewport->actualWidth = width;
+    GContext->viewport->clientWidth = width;
+    GContext->viewport->resized = true;
+}
+
+mv_internal void
+mvPrerender()
+{
+    mvViewport* viewport = GContext->viewport;
+
+    viewport->running = !glfwWindowShouldClose(ghandle);
+
+    if (viewport->posDirty)
     {
-        fprintf(stderr, "Glfw Error %d: %s\n", error, description);
+        glfwSetWindowPos(ghandle, viewport->xpos, viewport->ypos);
+        viewport->posDirty = false;
     }
 
-    mv_internal void
-    window_close_callback(GLFWwindow* window)
+    if (viewport->sizeDirty)
     {
-        GContext->started = false;
+        glfwSetWindowSizeLimits(ghandle, (int)viewport->minwidth, (int)viewport->minheight, (int)viewport->maxwidth, (int)viewport->maxheight);
+        glfwSetWindowSize(ghandle, viewport->actualWidth, viewport->actualHeight);
+        viewport->sizeDirty = false;
     }
 
-    mv_internal void
-    window_size_callback(GLFWwindow* window, int width, int height)
+    if (viewport->modesDirty)
     {
-        GContext->viewport->actualHeight = height;
-        GContext->viewport->clientHeight = height;
-        GContext->viewport->actualWidth = width;
-        GContext->viewport->clientWidth = width;
-        GContext->viewport->resized = true;
+        glfwSetWindowAttrib(ghandle, GLFW_RESIZABLE, viewport->resizable ? GLFW_TRUE : GLFW_FALSE);
+        glfwSetWindowAttrib(ghandle, GLFW_DECORATED, viewport->decorated ? GLFW_TRUE : GLFW_FALSE);
+        glfwSetWindowAttrib(ghandle, GLFW_FLOATING, viewport->alwaysOnTop ? GLFW_TRUE : GLFW_FALSE);
+        viewport->modesDirty = false;
     }
 
-    mv_internal void
-    mvPrerender()
+    if (viewport->titleDirty)
     {
-        mvViewport* viewport = GContext->viewport;
-
-        viewport->running = !glfwWindowShouldClose(ghandle);
-
-        if (viewport->posDirty)
-        {
-            glfwSetWindowPos(ghandle, viewport->xpos, viewport->ypos);
-            viewport->posDirty = false;
-        }
-
-        if (viewport->sizeDirty)
-        {
-            glfwSetWindowSizeLimits(ghandle, (int)viewport->minwidth, (int)viewport->minheight, (int)viewport->maxwidth, (int)viewport->maxheight);
-            glfwSetWindowSize(ghandle, viewport->actualWidth, viewport->actualHeight);
-            viewport->sizeDirty = false;
-        }
-
-        if (viewport->modesDirty)
-        {
-            glfwSetWindowAttrib(ghandle, GLFW_RESIZABLE, viewport->resizable ? GLFW_TRUE : GLFW_FALSE);
-            glfwSetWindowAttrib(ghandle, GLFW_DECORATED, viewport->decorated ? GLFW_TRUE : GLFW_FALSE);
-            glfwSetWindowAttrib(ghandle, GLFW_FLOATING, viewport->alwaysOnTop ? GLFW_TRUE : GLFW_FALSE);
-            viewport->modesDirty = false;
-        }
-
-        if (viewport->titleDirty)
-        {
-            glfwSetWindowTitle(ghandle, viewport->title.c_str());
-            viewport->titleDirty = false;
-        }
-
-        if (glfwGetWindowAttrib(ghandle, GLFW_ICONIFIED))
-        {
-            glfwWaitEvents();
-            return;
-        }
-
-        // Poll and handle events (inputs, window resize, etc.)
-        // You can read the io.WantCaptureMouse, io.WantCaptureKeyboard flags to tell if dear imgui wants to use your inputs.
-        // - When io.WantCaptureMouse is true, do not dispatch mouse input data to your main application.
-        // - When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main application.
-        // Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
-
-        if (GContext->IO.waitForInput)
-            glfwWaitEvents();
-        else
-            glfwPollEvents();
-
-        if (mvToolManager::GetFontManager().isInvalid())
-        {
-            mvToolManager::GetFontManager().rebuildAtlas();
-            ImGui_ImplOpenGL3_DestroyDeviceObjects();
-            mvToolManager::GetFontManager().updateAtlas();
-        }
-
-        // Start the Dear ImGui frame
-        ImGui_ImplOpenGL3_NewFrame();
-        ImGui_ImplGlfw_NewFrame();
-        ImGui::NewFrame();
-
+        glfwSetWindowTitle(ghandle, viewport->title.c_str());
+        viewport->titleDirty = false;
     }
 
-    mv_impl mvViewport*
-    mvCreateViewport(unsigned width, unsigned height)
+    if (glfwGetWindowAttrib(ghandle, GLFW_ICONIFIED))
     {
-        mvViewport* viewport = new mvViewport();
-        viewport->width = width;
-        viewport->height = height;
-        viewport->platformSpecifics = new mvViewportData();
-        return viewport;
+        glfwWaitEvents();
+        return;
     }
 
-    mv_impl void
-    mvCleanupViewport(mvViewport& viewport)
+    // Poll and handle events (inputs, window resize, etc.)
+    // You can read the io.WantCaptureMouse, io.WantCaptureKeyboard flags to tell if dear imgui wants to use your inputs.
+    // - When io.WantCaptureMouse is true, do not dispatch mouse input data to your main application.
+    // - When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main application.
+    // Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
+
+    if (GContext->IO.waitForInput)
+        glfwWaitEvents();
+    else
+        glfwPollEvents();
+
+    if (mvToolManager::GetFontManager().isInvalid())
     {
-        auto viewportData = (mvViewportData*)viewport.platformSpecifics;
-
-        // Cleanup
-        ImGui_ImplOpenGL3_Shutdown();
-        ImGui_ImplGlfw_Shutdown();
-
-        glfwDestroyWindow(viewportData->handle);
-        glfwTerminate();
-        GContext->started = false;
-
-        delete viewportData;
-        viewportData = nullptr;
+        mvToolManager::GetFontManager().rebuildAtlas();
+        ImGui_ImplOpenGL3_DestroyDeviceObjects();
+        mvToolManager::GetFontManager().updateAtlas();
     }
 
-    mv_impl void
-    mvShowViewport(mvViewport& viewport, bool minimized, bool maximized)
+    // Start the Dear ImGui frame
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui_ImplGlfw_NewFrame();
+    ImGui::NewFrame();
+
+}
+
+mv_impl mvViewport*
+mvCreateViewport(unsigned width, unsigned height)
+{
+    mvViewport* viewport = new mvViewport();
+    viewport->width = width;
+    viewport->height = height;
+    viewport->platformSpecifics = new mvViewportData();
+    return viewport;
+}
+
+mv_impl void
+mvCleanupViewport(mvViewport& viewport)
+{
+    auto viewportData = (mvViewportData*)viewport.platformSpecifics;
+
+    // Cleanup
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+
+    glfwDestroyWindow(viewportData->handle);
+    glfwTerminate();
+    GContext->started = false;
+
+    delete viewportData;
+    viewportData = nullptr;
+}
+
+mv_impl void
+mvShowViewport(mvViewport& viewport, bool minimized, bool maximized)
+{
+    auto viewportData = (mvViewportData*)viewport.platformSpecifics;
+
+    // Setup window
+    glfwSetErrorCallback(glfw_error_callback);
+    glfwInit();
+
+    if (!viewport.resizable)
+        glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+    if (viewport.alwaysOnTop)
+        glfwWindowHint(GLFW_FLOATING, GLFW_TRUE);
+    if (maximized)
+        glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);
+    else if (minimized)
+        glfwWindowHint(GLFW_AUTO_ICONIFY, GLFW_TRUE);
+    if (!viewport.decorated)
+        glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
+
+    // Create window with graphics context
+    // GL 3.0 + GLSL 130
+    const char* glsl_version = "#version 130";
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+    viewportData->handle = glfwCreateWindow(viewport.actualWidth, viewport.actualHeight, viewport.title.c_str(), nullptr, nullptr);
+    glfwSetWindowPos(viewportData->handle, viewport.xpos, viewport.ypos);
+    glfwSetWindowSizeLimits(viewportData->handle, (int)viewport.minwidth, (int)viewport.minheight, (int)viewport.maxwidth, (int)viewport.maxheight);
+
+    viewport.clientHeight = viewport.actualHeight;
+    viewport.clientWidth = viewport.actualWidth;
+
+    std::vector<GLFWimage> images;
+
+    if (!viewport.small_icon.empty())
     {
-        auto viewportData = (mvViewportData*)viewport.platformSpecifics;
-
-        // Setup window
-        glfwSetErrorCallback(glfw_error_callback);
-        glfwInit();
-
-        if (!viewport.resizable)
-            glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
-        if (viewport.alwaysOnTop)
-            glfwWindowHint(GLFW_FLOATING, GLFW_TRUE);
-        if (maximized)
-            glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);
-        else if (minimized)
-            glfwWindowHint(GLFW_AUTO_ICONIFY, GLFW_TRUE);
-        if (!viewport.decorated)
-            glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
-
-        // Create window with graphics context
-        // GL 3.0 + GLSL 130
-        const char* glsl_version = "#version 130";
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
-        viewportData->handle = glfwCreateWindow(viewport.actualWidth, viewport.actualHeight, viewport.title.c_str(), nullptr, nullptr);
-        glfwSetWindowPos(viewportData->handle, viewport.xpos, viewport.ypos);
-        glfwSetWindowSizeLimits(viewportData->handle, (int)viewport.minwidth, (int)viewport.minheight, (int)viewport.maxwidth, (int)viewport.maxheight);
-
-        viewport.clientHeight = viewport.actualHeight;
-        viewport.clientWidth = viewport.actualWidth;
-
-        std::vector<GLFWimage> images;
-
-        if (!viewport.small_icon.empty())
+        int image_width, image_height;
+        unsigned char* image_data = stbi_load(viewport.small_icon.c_str(), &image_width, &image_height, nullptr, 4);
+        if (image_data)
         {
-            int image_width, image_height;
-            unsigned char* image_data = stbi_load(viewport.small_icon.c_str(), &image_width, &image_height, nullptr, 4);
-            if (image_data)
-            {
-                images.push_back({ image_width, image_height, image_data });
-            }
+            images.push_back({ image_width, image_height, image_data });
         }
+    }
 
-        if (!viewport.large_icon.empty())
+    if (!viewport.large_icon.empty())
+    {
+        int image_width, image_height;
+        unsigned char* image_data = stbi_load(viewport.large_icon.c_str(), &image_width, &image_height, nullptr, 4);
+        if (image_data)
         {
-            int image_width, image_height;
-            unsigned char* image_data = stbi_load(viewport.large_icon.c_str(), &image_width, &image_height, nullptr, 4);
-            if (image_data)
-            {
-                images.push_back({ image_width, image_height, image_data });
-            }
+            images.push_back({ image_width, image_height, image_data });
         }
+    }
 
-        if (!images.empty())
-            glfwSetWindowIcon(viewportData->handle, images.size(), images.data());
+    if (!images.empty())
+        glfwSetWindowIcon(viewportData->handle, images.size(), images.data());
 
-        glfwMakeContextCurrent(viewportData->handle);
+    glfwMakeContextCurrent(viewportData->handle);
 
-        gl3wInit();
+    gl3wInit();
 
-        ImGuiIO& io = ImGui::GetIO(); (void)io;
-        io.ConfigWindowsMoveFromTitleBarOnly = true;
+    ImGuiIO& io = ImGui::GetIO(); (void)io;
+    io.ConfigWindowsMoveFromTitleBarOnly = true;
 
-        if (GContext->IO.loadIniFile)
-        {
-            ImGui::LoadIniSettingsFromDisk(GContext->IO.iniFile.c_str());
+    if (GContext->IO.loadIniFile)
+    {
+        ImGui::LoadIniSettingsFromDisk(GContext->IO.iniFile.c_str());
+        io.IniFilename = nullptr;
+        if (GContext->IO.autoSaveIniFile)
+            io.IniFilename = GContext->IO.iniFile.c_str();
+    }
+    else
+    {
+        if (GContext->IO.iniFile.empty())
             io.IniFilename = nullptr;
-            if (GContext->IO.autoSaveIniFile)
-                io.IniFilename = GContext->IO.iniFile.c_str();
-        }
         else
-        {
-            if (GContext->IO.iniFile.empty())
-                io.IniFilename = nullptr;
-            else
-                io.IniFilename = GContext->IO.iniFile.c_str();
-        }
+            io.IniFilename = GContext->IO.iniFile.c_str();
+    }
 
-        if (GContext->IO.docking)
-            io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+    if (GContext->IO.docking)
+        io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
-        // Setup style
-        ImGui::StyleColorsDark();
-        SetDefaultTheme();
+    // Setup style
+    ImGui::StyleColorsDark();
+    SetDefaultTheme();
 
-        // Setup Platform/Renderer bindings
-        ImGui_ImplGlfw_InitForOpenGL(viewportData->handle, true);
+    // Setup Platform/Renderer bindings
+    ImGui_ImplGlfw_InitForOpenGL(viewportData->handle, true);
         
 
-        // Setup callbacks
-        glfwSetWindowSizeCallback(viewportData->handle, window_size_callback);
-        glfwSetWindowCloseCallback(viewportData->handle, window_close_callback);
-    }
+    // Setup callbacks
+    glfwSetWindowSizeCallback(viewportData->handle, window_size_callback);
+    glfwSetWindowCloseCallback(viewportData->handle, window_close_callback);
+}
     
-    mv_impl void
-    mvMaximizeViewport(mvViewport& viewport)
+mv_impl void
+mvMaximizeViewport(mvViewport& viewport)
+{
+    auto viewportData = (mvViewportData*)viewport.platformSpecifics;
+    glfwMaximizeWindow(viewportData->handle);
+}
+
+mv_impl void
+mvMinimizeViewport(mvViewport& viewport)
+{
+    auto viewportData = (mvViewportData*)viewport.platformSpecifics;
+    glfwIconifyWindow(viewportData->handle);
+}
+
+mv_impl void
+mvRestoreViewport(mvViewport& viewport)
+{
+    auto viewportData = (mvViewportData*)viewport.platformSpecifics;
+    glfwRestoreWindow(viewportData->handle);
+}
+
+mv_impl void
+mvRenderFrame()
+{
+    mvPrerender();
+
+    if (GImGui->CurrentWindow == nullptr)
+        return;
+
+    Render();
+
+    present(GContext->graphics, GContext->viewport->clearColor, GContext->viewport->vsync);
+}
+
+mv_impl void
+mvToggleFullScreen(mvViewport& viewport)
+{
+    mv_local_persist size_t storedWidth = 0;
+    mv_local_persist size_t storedHeight = 0;
+    mv_local_persist int    storedXPos = 0;
+    mv_local_persist int    storedYPos = 0;
+
+    auto viewportData = (mvViewportData*)viewport.platformSpecifics;
+
+    GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+    const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+    int framerate = -1;
+    if (viewport.vsync)
     {
-        auto viewportData = (mvViewportData*)viewport.platformSpecifics;
-        glfwMaximizeWindow(viewportData->handle);
+        framerate = mode->refreshRate;
     }
 
-    mv_impl void
-    mvMinimizeViewport(mvViewport& viewport)
+    if (viewport.fullScreen)
     {
-        auto viewportData = (mvViewportData*)viewport.platformSpecifics;
-        glfwIconifyWindow(viewportData->handle);
+        glfwSetWindowMonitor(viewportData->handle, nullptr, storedXPos, storedYPos, storedWidth, storedHeight, framerate);
+        viewport.fullScreen = false;
     }
-
-    mv_impl void
-    mvRestoreViewport(mvViewport& viewport)
+    else
     {
-        auto viewportData = (mvViewportData*)viewport.platformSpecifics;
-        glfwRestoreWindow(viewportData->handle);
+        storedWidth = (size_t)viewport.actualWidth;
+        storedHeight = (size_t)viewport.actualHeight;
+        storedXPos = viewport.xpos;
+        storedYPos = viewport.ypos;
+        glfwSetWindowMonitor(viewportData->handle, monitor, 0, 0, mode->width, mode->height, framerate);
+        viewport.fullScreen = true;
     }
-
-    mv_impl void
-    mvRenderFrame()
-    {
-        mvPrerender();
-
-        if (GImGui->CurrentWindow == nullptr)
-            return;
-
-        Render();
-
-        present(GContext->graphics, GContext->viewport->clearColor, GContext->viewport->vsync);
-    }
-
-    mv_impl void
-    mvToggleFullScreen(mvViewport& viewport)
-    {
-        mv_local_persist size_t storedWidth = 0;
-        mv_local_persist size_t storedHeight = 0;
-        mv_local_persist int    storedXPos = 0;
-        mv_local_persist int    storedYPos = 0;
-
-        auto viewportData = (mvViewportData*)viewport.platformSpecifics;
-
-        GLFWmonitor* monitor = glfwGetPrimaryMonitor();
-        const GLFWvidmode* mode = glfwGetVideoMode(monitor);
-        int framerate = -1;
-        if (viewport.vsync)
-        {
-            framerate = mode->refreshRate;
-        }
-
-        if (viewport.fullScreen)
-        {
-            glfwSetWindowMonitor(viewportData->handle, nullptr, storedXPos, storedYPos, storedWidth, storedHeight, framerate);
-            viewport.fullScreen = false;
-        }
-        else
-        {
-            storedWidth = (size_t)viewport.actualWidth;
-            storedHeight = (size_t)viewport.actualHeight;
-            storedXPos = viewport.xpos;
-            storedYPos = viewport.ypos;
-            glfwSetWindowMonitor(viewportData->handle, monitor, 0, 0, mode->width, mode->height, framerate);
-            viewport.fullScreen = true;
-        }
-    }
-
 }

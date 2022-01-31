@@ -2,11 +2,7 @@
 #include "mvContext.h"
 #include "mvItemRegistry.h"
 
-namespace Marvel {
-
-	mvStage::mvStage(mvUUID uuid)
-		: mvAppItem(uuid)
-	{
-	}
-
+mvStage::mvStage(mvUUID uuid)
+	: mvAppItem(uuid)
+{
 }

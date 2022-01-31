@@ -4,17 +4,13 @@
 #include "mvItemRegistry.h"
 #include <stdint.h>
 
-namespace Marvel {
+class mvTableCell : public mvAppItem
+{
 
-    class mvTableCell : public mvAppItem
-    {
+public:
 
-    public:
+    explicit mvTableCell(mvUUID uuid);
 
-        explicit mvTableCell(mvUUID uuid);
+    void draw(ImDrawList* drawlist, float x, float y) override;
 
-        void draw(ImDrawList* drawlist, float x, float y) override;
-
-    };
-
-}
+};

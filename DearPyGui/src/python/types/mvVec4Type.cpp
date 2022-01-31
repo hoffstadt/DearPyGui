@@ -151,8 +151,6 @@ PyObject* PymvVec4_multiply(PyObject* left, PyObject* right)
 	//PymvVec4* leftVect = (PymvVec4*)left;
 	//PymvVec4* rightVect = (PymvVec4*)right;
 
-	using namespace Marvel;
-
 	if (isPyObject_Float(left))
 	{
 		float value = ToFloat(left);

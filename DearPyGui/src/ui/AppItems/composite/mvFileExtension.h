@@ -4,28 +4,24 @@
 #include "mvContext.h"
 #include "mvItemRegistry.h"
 
-namespace Marvel {
+class mvFileExtension : public mvAppItem
+{
 
-    class mvFileExtension : public mvAppItem
-    {
+public:
 
-    public:
+    explicit mvFileExtension(mvUUID uuid);
 
-        explicit mvFileExtension(mvUUID uuid);
+    void draw(ImDrawList* drawlist, float x, float y) override;
+    void handleSpecificRequiredArgs(PyObject* args) override;
+    void handleSpecificKeywordArgs(PyObject* dict) override;
+    void getSpecificConfiguration(PyObject* dict) override;
+    void applySpecificTemplate(mvAppItem* item) override;
 
-        void draw(ImDrawList* drawlist, float x, float y) override;
-        void handleSpecificRequiredArgs(PyObject* args) override;
-        void handleSpecificKeywordArgs(PyObject* dict) override;
-        void getSpecificConfiguration(PyObject* dict) override;
-        void applySpecificTemplate(mvAppItem* item) override;
+    const std::string& getFilter() { return _extension; }
 
-        const std::string& getFilter() { return _extension; }
+public:
 
-    public:
-
-        std::string _extension;
-        std::string _customText;
-        mvColor     _color = {-1.0f, 0.0f, 0.0f, 1.0f};
-    };
-
-}
+    std::string _extension;
+    std::string _customText;
+    mvColor     _color = {-1.0f, 0.0f, 0.0f, 1.0f};
+};

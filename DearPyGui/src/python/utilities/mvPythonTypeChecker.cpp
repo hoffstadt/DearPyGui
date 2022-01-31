@@ -2,294 +2,290 @@
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
 
-namespace Marvel {
+bool
+isPyObject_Any(PyObject* obj)
+{
+	return obj != nullptr;
+}
 
-	bool
-	isPyObject_Any(PyObject* obj)
+bool
+isPyObject_String(PyObject* obj)
+{
+	if (obj == nullptr)
+		return false;
+
+	if (PyUnicode_Check(obj))
+		return true;
+	else
 	{
-		return obj != nullptr;
+		PyObject* str = PyObject_Str(obj);
+		if (str == nullptr)
+			return false;
+		Py_XDECREF(str);
 	}
 
-	bool
-	isPyObject_String(PyObject* obj)
-	{
-		if (obj == nullptr)
-			return false;
+	return true;
+}
 
-		if (PyUnicode_Check(obj))
-			return true;
-		else
+bool
+isPyObject_Int(PyObject* obj)
+{
+	if (obj == nullptr)
+		return false;
+
+	if (!PyNumber_Check(obj))
+		return false;
+	return true;
+}
+
+bool
+isPyObject_Float(PyObject* obj)
+{
+	if (obj == nullptr)
+		return false;
+
+	if (!PyNumber_Check(obj))
+		return false;
+	return true;
+}
+
+bool
+isPyObject_Bool(PyObject* obj)
+{
+	if (obj == nullptr)
+		return false;
+
+	if (!PyBool_Check(obj))
+		return false;
+	return true;
+}
+
+bool
+isPyObject_StringList(PyObject* obj)
+{
+	if (obj == nullptr)
+		return false;
+
+	if (PyTuple_Check(obj))
+	{
+		if (PyTuple_Size(obj) > 1)
 		{
-			PyObject* str = PyObject_Str(obj);
-			if (str == nullptr)
-				return false;
-			Py_XDECREF(str);
+			PyObject* item = PyTuple_GetItem(obj, 0);
+			if (PyUnicode_Check(item))
+				return true;
+			else
+				return isPyObject_String(item);
+		}
+
+		return true;
+	}
+	else if (PyList_Check(obj))
+	{
+		if (PyList_Size(obj) > 1)
+		{
+			PyObject* item = PyList_GetItem(obj, 0);
+			if (PyUnicode_Check(item))
+				return true;
+			else
+				return isPyObject_String(item);
 		}
 
 		return true;
 	}
 
-	bool
-	isPyObject_Int(PyObject* obj)
-	{
-		if (obj == nullptr)
-			return false;
+	return false;
+}
 
-		if (!PyNumber_Check(obj))
-			return false;
+bool
+isPyObject_ListStringList(PyObject* obj)
+{
+	if (obj == nullptr)
+		return false;
+
+	if (PyTuple_Check(obj))
+	{
+		if (PyTuple_Size(obj) > 1)
+		{
+			PyObject* item = PyTuple_GetItem(obj, 0);
+			return isPyObject_StringList(item);
+		}
+
+		return true;
+	}
+	else if (PyList_Check(obj))
+	{
+		if (PyList_Size(obj) > 1)
+		{
+			PyObject* item = PyList_GetItem(obj, 0);
+			return isPyObject_StringList(item);
+		}
+
 		return true;
 	}
 
-	bool
-	isPyObject_Float(PyObject* obj)
-	{
-		if (obj == nullptr)
-			return false;
+	return false;
+}
 
-		if (!PyNumber_Check(obj))
-			return false;
+bool
+isPyObject_FloatList(PyObject* obj)
+{
+	if (obj == nullptr)
+		return false;
+
+	if (PyTuple_Check(obj))
+	{
+		if (PyTuple_Size(obj) > 1)
+		{
+			PyObject* item = PyTuple_GetItem(obj, 0);
+			return isPyObject_Float(item);
+		}
+
+		return true;
+	}
+	else if (PyList_Check(obj))
+	{
+		if (PyList_Size(obj) > 1)
+		{
+			PyObject* item = PyList_GetItem(obj, 0);
+			return isPyObject_Float(item);
+		}
+
 		return true;
 	}
 
-	bool
-	isPyObject_Bool(PyObject* obj)
+	else if (PyObject_CheckBuffer(obj))
 	{
-		if (obj == nullptr)
-			return false;
-
-		if (!PyBool_Check(obj))
-			return false;
 		return true;
 	}
 
-	bool
-	isPyObject_StringList(PyObject* obj)
-	{
-		if (obj == nullptr)
-			return false;
+	return false;
+}
 
-		if (PyTuple_Check(obj))
-		{
-			if (PyTuple_Size(obj) > 1)
-			{
-				PyObject* item = PyTuple_GetItem(obj, 0);
-				if (PyUnicode_Check(item))
-					return true;
-				else
-					return isPyObject_String(item);
-			}
-
-			return true;
-		}
-		else if (PyList_Check(obj))
-		{
-			if (PyList_Size(obj) > 1)
-			{
-				PyObject* item = PyList_GetItem(obj, 0);
-				if (PyUnicode_Check(item))
-					return true;
-				else
-					return isPyObject_String(item);
-			}
-
-			return true;
-		}
-
+bool
+isPyObject_ListFloatList(PyObject* obj)
+{
+	if (obj == nullptr)
 		return false;
+
+	if (PyTuple_Check(obj))
+	{
+		if (PyTuple_Size(obj) > 1)
+		{
+			PyObject* item = PyTuple_GetItem(obj, 0);
+			return isPyObject_FloatList(item);
+		}
+
+		return true;
+	}
+	else if (PyList_Check(obj))
+	{
+		if (PyList_Size(obj) > 1)
+		{
+			PyObject* item = PyList_GetItem(obj, 0);
+			return isPyObject_FloatList(item);
+		}
+
+		return true;
 	}
 
-	bool
-	isPyObject_ListStringList(PyObject* obj)
-	{
-		if (obj == nullptr)
-			return false;
+	return false;
+}
 
-		if (PyTuple_Check(obj))
-		{
-			if (PyTuple_Size(obj) > 1)
-			{
-				PyObject* item = PyTuple_GetItem(obj, 0);
-				return isPyObject_StringList(item);
-			}
-
-			return true;
-		}
-		else if (PyList_Check(obj))
-		{
-			if (PyList_Size(obj) > 1)
-			{
-				PyObject* item = PyList_GetItem(obj, 0);
-				return isPyObject_StringList(item);
-			}
-
-			return true;
-		}
-
+bool
+isPyObject_IntList(PyObject* obj)
+{
+	if (obj == nullptr)
 		return false;
+
+	if (PyTuple_Check(obj))
+	{
+		if (PyTuple_Size(obj) > 1)
+		{
+			PyObject* item = PyTuple_GetItem(obj, 0);
+			return isPyObject_Int(item);
+		}
+
+		return true;
+	}
+	else if (PyList_Check(obj))
+	{
+		if (PyList_Size(obj) > 1)
+		{
+			PyObject* item = PyList_GetItem(obj, 0);
+			return isPyObject_Int(item);
+		}
+
+		return true;
 	}
 
-	bool
-	isPyObject_FloatList(PyObject* obj)
+	else if (PyObject_CheckBuffer(obj))
 	{
-		if (obj == nullptr)
-			return false;
-
-		if (PyTuple_Check(obj))
-		{
-			if (PyTuple_Size(obj) > 1)
-			{
-				PyObject* item = PyTuple_GetItem(obj, 0);
-				return isPyObject_Float(item);
-			}
-
-			return true;
-		}
-		else if (PyList_Check(obj))
-		{
-			if (PyList_Size(obj) > 1)
-			{
-				PyObject* item = PyList_GetItem(obj, 0);
-				return isPyObject_Float(item);
-			}
-
-			return true;
-		}
-
-		else if (PyObject_CheckBuffer(obj))
-		{
-			return true;
-		}
-
-		return false;
+		return true;
 	}
 
-	bool
-	isPyObject_ListFloatList(PyObject* obj)
-	{
-		if (obj == nullptr)
-			return false;
+	return false;
+}
 
-		if (PyTuple_Check(obj))
-		{
-			if (PyTuple_Size(obj) > 1)
-			{
-				PyObject* item = PyTuple_GetItem(obj, 0);
-				return isPyObject_FloatList(item);
-			}
-
-			return true;
-		}
-		else if (PyList_Check(obj))
-		{
-			if (PyList_Size(obj) > 1)
-			{
-				PyObject* item = PyList_GetItem(obj, 0);
-				return isPyObject_FloatList(item);
-			}
-
-			return true;
-		}
-
+bool
+isPyObject_ListIntList(PyObject* obj)
+{
+	if (obj == nullptr)
 		return false;
+
+	if (PyTuple_Check(obj))
+	{
+		if (PyTuple_Size(obj) > 1)
+		{
+			PyObject* item = PyTuple_GetItem(obj, 0);
+			return isPyObject_IntList(item);
+		}
+
+		return true;
+	}
+	else if (PyList_Check(obj))
+	{
+		if (PyList_Size(obj) > 1)
+		{
+			PyObject* item = PyList_GetItem(obj, 0);
+			return isPyObject_IntList(item);
+		}
+
+		return true;
 	}
 
-	bool
-	isPyObject_IntList(PyObject* obj)
-	{
-		if (obj == nullptr)
-			return false;
+	return false;
+}
 
-		if (PyTuple_Check(obj))
-		{
-			if (PyTuple_Size(obj) > 1)
-			{
-				PyObject* item = PyTuple_GetItem(obj, 0);
-				return isPyObject_Int(item);
-			}
-
-			return true;
-		}
-		else if (PyList_Check(obj))
-		{
-			if (PyList_Size(obj) > 1)
-			{
-				PyObject* item = PyList_GetItem(obj, 0);
-				return isPyObject_Int(item);
-			}
-
-			return true;
-		}
-
-		else if (PyObject_CheckBuffer(obj))
-		{
-			return true;
-		}
-
+bool
+isPyObject_Double(PyObject* obj)
+{
+	if (obj == nullptr)
 		return false;
-	}
 
-	bool
-	isPyObject_ListIntList(PyObject* obj)
-	{
-		if (obj == nullptr)
-			return false;
+	if (PyFloat_Check(obj))
+		return true;
 
-		if (PyTuple_Check(obj))
-		{
-			if (PyTuple_Size(obj) > 1)
-			{
-				PyObject* item = PyTuple_GetItem(obj, 0);
-				return isPyObject_IntList(item);
-			}
+	return false;
+}
 
-			return true;
-		}
-		else if (PyList_Check(obj))
-		{
-			if (PyList_Size(obj) > 1)
-			{
-				PyObject* item = PyList_GetItem(obj, 0);
-				return isPyObject_IntList(item);
-			}
-
-			return true;
-		}
-
+bool
+isPyObject_Callable(PyObject* obj)
+{
+	if (obj == nullptr)
 		return false;
-	}
 
-	bool
-	isPyObject_Double(PyObject* obj)
-	{
-		if (obj == nullptr)
-			return false;
+	if (PyCallable_Check(obj))
+		return true;
+	return false;
+}
 
-		if (PyFloat_Check(obj))
-			return true;
-
+bool
+isPyObject_Dict(PyObject* obj)
+{
+	if (obj == nullptr)
 		return false;
-	}
 
-	bool
-	isPyObject_Callable(PyObject* obj)
-	{
-		if (obj == nullptr)
-			return false;
-
-		if (PyCallable_Check(obj))
-			return true;
-		return false;
-	}
-
-	bool
-	isPyObject_Dict(PyObject* obj)
-	{
-		if (obj == nullptr)
-			return false;
-
-		if (PyDict_Check(obj))
-			return true;
-		return false;
-	}
-
+	if (PyDict_Check(obj))
+		return true;
+	return false;
 }

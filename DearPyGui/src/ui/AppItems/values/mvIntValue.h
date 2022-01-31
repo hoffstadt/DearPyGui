@@ -2,28 +2,24 @@
 
 #include "mvItemRegistry.h"
 
-namespace Marvel {
+class mvIntValue : public mvAppItem
+{
 
-    class mvIntValue : public mvAppItem
-    {
+public:
 
-    public:
+    explicit mvIntValue(mvUUID uuid);
 
-        explicit mvIntValue(mvUUID uuid);
+    void draw(ImDrawList* drawlist, float x, float y) override {}
 
-        void draw(ImDrawList* drawlist, float x, float y) override {}
+    // values
+    void setDataSource(mvUUID dataSource) override;
+    void* getValue() override { return &_value; }
+    PyObject* getPyValue() override;
+    void setPyValue(PyObject* value) override;
 
-        // values
-        void setDataSource(mvUUID dataSource) override;
-        void* getValue() override { return &_value; }
-        PyObject* getPyValue() override;
-        void setPyValue(PyObject* value) override;
+private:
 
-    private:
+    mvRef<int> _value = CreateRef<int>(0);
+    int        _disabled_value = 0;
 
-        mvRef<int> _value = CreateRef<int>(0);
-        int        _disabled_value = 0;
-
-    };
-
-}
+};

@@ -5,38 +5,34 @@
 #include <stdint.h>
 #include <imnodes.h>
 
-namespace Marvel {
+class mvNodeEditor : public mvAppItem
+{
 
-    class mvNodeEditor : public mvAppItem
-    {
+public:
 
-    public:
+    explicit mvNodeEditor(mvUUID uuid);
+    ~mvNodeEditor();
 
-        explicit mvNodeEditor(mvUUID uuid);
-        ~mvNodeEditor();
+    void draw(ImDrawList* drawlist, float x, float y) override;
+    void handleSpecificKeywordArgs(PyObject* dict) override;
+    void getSpecificConfiguration(PyObject* dict) override;
+    void onChildRemoved(mvRef<mvAppItem> item);
 
-        void draw(ImDrawList* drawlist, float x, float y) override;
-        void handleSpecificKeywordArgs(PyObject* dict) override;
-        void getSpecificConfiguration(PyObject* dict) override;
-        void onChildRemoved(mvRef<mvAppItem> item);
+    std::vector<mvUUID> getSelectedNodes() const;
+    std::vector<mvUUID> getSelectedLinks() const;
+    void clearNodes() { _clearNodes = true; }
+    void clearLinks() { _clearLinks = true; }
 
-        std::vector<mvUUID> getSelectedNodes() const;
-        std::vector<mvUUID> getSelectedLinks() const;
-        void clearNodes() { _clearNodes = true; }
-        void clearLinks() { _clearLinks = true; }
+private:
 
-    private:
+    ImGuiWindowFlags _windowflags = ImGuiWindowFlags_NoSavedSettings;
+    std::vector<int> _selectedNodes;
+    std::vector<int> _selectedLinks;
 
-        ImGuiWindowFlags _windowflags = ImGuiWindowFlags_NoSavedSettings;
-        std::vector<int> _selectedNodes;
-        std::vector<int> _selectedLinks;
+    bool _clearNodes = false;
+    bool _clearLinks = false;
 
-        bool _clearNodes = false;
-        bool _clearLinks = false;
-
-        PyObject* _delinkCallback = nullptr;
-        imnodes::EditorContext* _context = nullptr;
+    PyObject* _delinkCallback = nullptr;
+    imnodes::EditorContext* _context = nullptr;
         
-    };
-
-}
+};

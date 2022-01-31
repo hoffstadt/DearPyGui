@@ -2,25 +2,21 @@
 
 #include "mvItemRegistry.h"
 
-namespace Marvel {
+class mvCharRemap : public mvAppItem
+{
 
-    class mvCharRemap : public mvAppItem
-    {
+public:
 
-    public:
+    explicit mvCharRemap(mvUUID uuid);
 
-        explicit mvCharRemap(mvUUID uuid);
+    void draw(ImDrawList* drawlist, float x, float y) override {}
+    void handleSpecificRequiredArgs(PyObject* dict) override;
+    int getSourceChar() const { return _source; }
+    int getTargetChar() const { return _target; }
 
-        void draw(ImDrawList* drawlist, float x, float y) override {}
-        void handleSpecificRequiredArgs(PyObject* dict) override;
-        int getSourceChar() const { return _source; }
-        int getTargetChar() const { return _target; }
-
-    private:
+private:
         
-        int _source = 0;
-        int _target = 0;
+    int _source = 0;
+    int _target = 0;
 
-    };
-
-}
+};

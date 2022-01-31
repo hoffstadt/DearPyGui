@@ -1,40 +1,34 @@
 #pragma once
 
-namespace Marvel {
+// forward declarations
+struct mvGraphics;
+struct mvDevice;
+struct mvTexture;
+struct mvTextureSpec;
 
-    // forward declarations
-    struct mvGraphics;
-    struct mvDevice;
-    struct mvTexture;
-    struct mvTextureSpec;
+enum class mvTextureFormat
+{
+    RGBA32F,
+    RGB32F,
+    RGBA8,
+    RGB8,
+};
 
-    //mvTexture load_texture(mvGraphics& graphics, mvTextureSpec& spec);
+enum class mvTextureUsage
+{
+    STATIC,  // typically, GPU access only
+    DYNAMIC, // typically, CPU/GPU access
+    RAW,     // typically, same as dynamic but no python type checks
+};
 
-    enum class mvTextureFormat
-    {
-        RGBA32F,
-        RGB32F,
-        RGBA8,
-        RGB8,
-    };
+struct mvTextureSpec
+{
+    mvTextureFormat format = mvTextureFormat::RGBA32F;
+    mvTextureUsage usage = mvTextureUsage::STATIC;
+};
 
-    enum class mvTextureUsage
-    {
-        STATIC,  // typically, GPU access only
-        DYNAMIC, // typically, CPU/GPU access
-        RAW,     // typically, same as dynamic but no python type checks
-    };
-
-    struct mvTextureSpec
-    {
-        mvTextureFormat format = mvTextureFormat::RGBA32F;
-        mvTextureUsage usage = mvTextureUsage::STATIC;
-    };
-
-    struct mvTexture
-    {
-        mvTextureSpec spec;
-        void* resouce = nullptr;
-    };
-
-}
+struct mvTexture
+{
+    mvTextureSpec spec;
+    void* resouce = nullptr;
+};
