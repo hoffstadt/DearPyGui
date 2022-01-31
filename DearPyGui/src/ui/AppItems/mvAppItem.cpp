@@ -879,8 +879,8 @@ CanItemTypeHaveContAvail(mvAppItemType type)
 
 }
 
-i32
-GetApplicableState(mvAppItemType type)
+int
+DearPyGui::GetApplicableState(mvAppItemType type)
 {
     i32 applicableState = MV_STATE_NONE;
     if(CanItemTypeBeHovered(type)) applicableState |= MV_STATE_HOVER;
@@ -901,8 +901,8 @@ GetApplicableState(mvAppItemType type)
     return applicableState;
 }
 
-i32 
-GetEntityDesciptionFlags(mvAppItemType type)
+int 
+DearPyGui::GetEntityDesciptionFlags(mvAppItemType type)
 {
     switch (type)
     {
@@ -998,8 +998,8 @@ GetEntityDesciptionFlags(mvAppItemType type)
     }
 }
 
-i32
-GetEntityTargetSlot(mvAppItemType type)
+int
+DearPyGui::GetEntityTargetSlot(mvAppItemType type)
 {
     switch (type)
     {
@@ -1036,7 +1036,7 @@ GetEntityTargetSlot(mvAppItemType type)
 }
 
 StorageValueTypes
-GetEntityValueType(mvAppItemType type)
+DearPyGui::GetEntityValueType(mvAppItemType type)
 {
     switch (type)
     {
@@ -1131,7 +1131,7 @@ GetEntityValueType(mvAppItemType type)
 }
 
 const char* 
-GetEntityTypeString(mvAppItemType type)
+DearPyGui::GetEntityTypeString(mvAppItemType type)
 {
     #define X(el) "mvAppItemType::" #el,
     mv_local_persist const char* entity_type_strings[(size_t)mvAppItemType::ItemTypeCount] =
@@ -1144,7 +1144,7 @@ GetEntityTypeString(mvAppItemType type)
 }
 
 mvRef<mvAppItem>
-CreateEntity(mvAppItemType type, mvUUID id)
+DearPyGui::CreateEntity(mvAppItemType type, mvUUID id)
 {
     #define X(el) case mvAppItemType::el: {auto item = CreateRef<el>(id); item->type = mvAppItemType::el; return item;};
     switch (type)
@@ -1156,7 +1156,7 @@ CreateEntity(mvAppItemType type, mvUUID id)
 }
 
 const std::vector<std::pair<std::string, i32>>& 
-GetAllowableParents(mvAppItemType type)
+DearPyGui::GetAllowableParents(mvAppItemType type)
 {
 
     // TODO: possibly index into array instead of switch
@@ -1461,7 +1461,7 @@ GetAllowableParents(mvAppItemType type)
 }
 
 const std::vector<std::pair<std::string, i32>>&
-GetAllowableChildren(mvAppItemType type)
+DearPyGui::GetAllowableChildren(mvAppItemType type)
 {
 
     // TODO: possibly index into array instead of switch
@@ -1701,7 +1701,7 @@ GetAllowableChildren(mvAppItemType type)
 }
 
 mvRef<mvThemeComponent>&
-GetClassThemeComponent(mvAppItemType type)
+DearPyGui::GetClassThemeComponent(mvAppItemType type)
 {
     #define X(el) case mvAppItemType::el: { mv_local_persist mvRef<mvThemeComponent> s_class_theme = nullptr; return s_class_theme; }
     switch (type)
@@ -1717,7 +1717,7 @@ GetClassThemeComponent(mvAppItemType type)
 }
 
 mvRef<mvThemeComponent>&
-GetDisabledClassThemeComponent(mvAppItemType type)
+DearPyGui::GetDisabledClassThemeComponent(mvAppItemType type)
 {
     #define X(el) case mvAppItemType::el: { mv_local_persist mvRef<mvThemeComponent> s_class_theme = nullptr; return s_class_theme; }
     switch (type)
@@ -1733,7 +1733,7 @@ GetDisabledClassThemeComponent(mvAppItemType type)
 }
 
 mvPythonParser
-GetEntityParser(mvAppItemType type)
+DearPyGui::GetEntityParser(mvAppItemType type)
 {
     std::vector<mvPythonDataElement> args;
     mvPythonParserSetup setup;
@@ -5048,7 +5048,7 @@ GetEntityParser(mvAppItemType type)
 }
 
 void
-OnChildAdded(mvAppItem* item, mvRef<mvAppItem> child)
+DearPyGui::OnChildAdded(mvAppItem* item, mvRef<mvAppItem> child)
 {
     switch (item->type)
     {
@@ -5098,7 +5098,7 @@ OnChildAdded(mvAppItem* item, mvRef<mvAppItem> child)
 }
     
 void
-OnChildRemoved(mvAppItem* item, mvRef<mvAppItem> child)
+DearPyGui::OnChildRemoved(mvAppItem* item, mvRef<mvAppItem> child)
 {
     switch (item->type)
     {

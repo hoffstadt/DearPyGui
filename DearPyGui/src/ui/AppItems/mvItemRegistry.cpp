@@ -56,7 +56,7 @@ TopParent(mvItemRegistry& registry)
 mv_internal void
 CacheItem(mvItemRegistry& registry, mvAppItem* item)
 {
-    if (GetEntityDesciptionFlags(item->type) & MV_ITEM_DESC_CONTAINER)
+    if (DearPyGui::GetEntityDesciptionFlags(item->type) & MV_ITEM_DESC_CONTAINER)
     {
         registry.cachedContainersID[registry.cachedContainerIndex] = item->uuid;
         registry.cachedContainersPTR[registry.cachedContainerIndex] = item;
@@ -118,7 +118,7 @@ DeleteChild(mvAppItem* item, mvUUID uuid)
                 if (child->uuid == uuid)
                 {
                     itemDeleted = true;
-                    OnChildRemoved(item, child);
+                    DearPyGui::OnChildRemoved(item, child);
                     continue;
                 }
 
@@ -206,7 +206,7 @@ StealChild(mvAppItem* item, mvUUID uuid)
                 break;
             }
 
-            if (GetEntityDesciptionFlags(child->type) & MV_ITEM_DESC_CONTAINER)
+            if (DearPyGui::GetEntityDesciptionFlags(child->type) & MV_ITEM_DESC_CONTAINER)
             {
                 stolenChild = StealChild(child.get(), uuid);
                 if (stolenChild)
@@ -225,7 +225,7 @@ StealChild(mvAppItem* item, mvUUID uuid)
                 if (child->uuid == uuid)
                 {
                     stolenChild = child;
-                    OnChildRemoved(item, child);
+                    DearPyGui::OnChildRemoved(item, child);
                     continue;
                 }
 
@@ -276,7 +276,7 @@ MoveChildUp(mvAppItem* item, mvUUID uuid)
                 break;
             }
 
-            if (GetEntityDesciptionFlags(childset[i]->type) & MV_ITEM_DESC_CONTAINER)
+            if (DearPyGui::GetEntityDesciptionFlags(childset[i]->type) & MV_ITEM_DESC_CONTAINER)
             {
                 found = MoveChildUp(childset[i].get(), uuid);
                 if (found)
@@ -335,7 +335,7 @@ MoveChildDown(mvAppItem* item, mvUUID uuid)
                 break;
             }
 
-            if (GetEntityDesciptionFlags(childset[i]->type) & MV_ITEM_DESC_CONTAINER)
+            if (DearPyGui::GetEntityDesciptionFlags(childset[i]->type) & MV_ITEM_DESC_CONTAINER)
             {
                 found = MoveChildDown(childset[i].get(), uuid);
                 if (found)
@@ -391,10 +391,10 @@ AddRuntimeChild(mvAppItem* rootitem, mvUUID parent, mvUUID before, mvRef<mvAppIt
 
             if (rootitem->uuid == parent)
             {
-                i32 targetSlot = GetEntityTargetSlot(item->type);
+                i32 targetSlot = DearPyGui::GetEntityTargetSlot(item->type);
                 item->info.location = (i32)rootitem->childslots[targetSlot].size();
                 rootitem->childslots[targetSlot].push_back(item);
-                OnChildAdded(rootitem, item);
+                DearPyGui::OnChildAdded(rootitem, item);
                 item->info.parentPtr = rootitem;
                 item->config.parent = rootitem->uuid;
                 return true;
@@ -405,8 +405,8 @@ AddRuntimeChild(mvAppItem* rootitem, mvUUID parent, mvUUID before, mvRef<mvAppIt
             {
                 for (auto& child : childslot)
                 {
-                    if (GetEntityDesciptionFlags(child->type) & MV_ITEM_DESC_CONTAINER
-                        || GetEntityDesciptionFlags(item->type) & MV_ITEM_DESC_HANDLER)
+                    if (DearPyGui::GetEntityDesciptionFlags(child->type) & MV_ITEM_DESC_CONTAINER
+                        || DearPyGui::GetEntityDesciptionFlags(item->type) & MV_ITEM_DESC_HANDLER)
                     {
                         // parent found
                         if (AddRuntimeChild(child.get(), parent, before, item))
@@ -446,7 +446,7 @@ AddRuntimeChild(mvAppItem* rootitem, mvUUID parent, mvUUID before, mvRef<mvAppIt
                     if (child->uuid == before)
                     {
                         children.push_back(item);
-                        OnChildAdded(rootitem, item);
+                        DearPyGui::OnChildAdded(rootitem, item);
                     }
                     children.push_back(child);
 
@@ -461,8 +461,8 @@ AddRuntimeChild(mvAppItem* rootitem, mvUUID parent, mvUUID before, mvRef<mvAppIt
         // check children
         for (auto& child : children)
         {
-            if (GetEntityDesciptionFlags(child->type) & MV_ITEM_DESC_CONTAINER
-                || GetEntityDesciptionFlags(item->type) & MV_ITEM_DESC_HANDLER)
+            if (DearPyGui::GetEntityDesciptionFlags(child->type) & MV_ITEM_DESC_CONTAINER
+                || DearPyGui::GetEntityDesciptionFlags(item->type) & MV_ITEM_DESC_HANDLER)
             {
                 // parent found
                 if (AddRuntimeChild(child.get(), parent, before, item))
@@ -514,7 +514,7 @@ AddChildAfter(mvAppItem* parent, mvUUID prev, mvRef<mvAppItem> item)
     // prev item is in this container
     if (prevFound)
     {
-        i32 targetSlot = GetEntityTargetSlot(item->type);
+        i32 targetSlot = DearPyGui::GetEntityTargetSlot(item->type);
         std::vector<mvRef<mvAppItem>> oldchildren = parent->childslots[targetSlot];
         parent->childslots[targetSlot].clear();
 
@@ -524,7 +524,7 @@ AddChildAfter(mvAppItem* parent, mvUUID prev, mvRef<mvAppItem> item)
             if (child->uuid == prev)
             {
                 parent->childslots[targetSlot].push_back(item);
-                OnChildAdded(parent, item);
+                DearPyGui::OnChildAdded(parent, item);
             }
         }
 
@@ -585,10 +585,10 @@ AddItem(mvItemRegistry& registry, mvRef<mvAppItem> item)
 {
     mvAppItem* parentitem = TopParent(registry);
     item->info.parentPtr = parentitem;
-    i32 targetSlot = GetEntityTargetSlot(item->type);
+    i32 targetSlot = DearPyGui::GetEntityTargetSlot(item->type);
     item->info.location = (i32)parentitem->childslots[targetSlot].size();
     parentitem->childslots[targetSlot].push_back(item);
-    OnChildAdded(parentitem, item);
+    DearPyGui::OnChildAdded(parentitem, item);
     return true;
 }
 
@@ -782,7 +782,7 @@ GetItemRoot(mvItemRegistry& registry, mvUUID uuid)
         if (item->info.parentPtr)
         {
             mvAppItem* currentAncestor = item->info.parentPtr;
-            while (!(GetEntityDesciptionFlags(currentAncestor->type) & MV_ITEM_DESC_ROOT))
+            while (!(DearPyGui::GetEntityDesciptionFlags(currentAncestor->type) & MV_ITEM_DESC_ROOT))
                 currentAncestor = currentAncestor->info.parentPtr;
 
             return currentAncestor;
@@ -1086,12 +1086,12 @@ RenderItemRegistry(mvItemRegistry& registry)
         DebugItem("Label:", root->config.specifiedLabel.c_str());
         DebugItem("ID:", std::to_string(root->uuid).c_str());
         DebugItem("Alias:", root->config.alias.c_str());
-        DebugItem("Type:", GetEntityTypeString(root->type));
+        DebugItem("Type:", DearPyGui::GetEntityTypeString(root->type));
         DebugItem("Filter:", root->config.filter.c_str());
         DebugItem("Payload Type:", root->config.payloadType.c_str());
         DebugItem("Location:", std::to_string(root->info.location).c_str());
         DebugItem("Track Offset:", std::to_string(root->config.trackOffset).c_str());
-        DebugItem("Container:", GetEntityDesciptionFlags(root->type) & MV_ITEM_DESC_CONTAINER ? ts : fs);
+        DebugItem("Container:", DearPyGui::GetEntityDesciptionFlags(root->type) & MV_ITEM_DESC_CONTAINER ? ts : fs);
         DebugItem("Width:", width.c_str());
         DebugItem("Height:", height.c_str());
         DebugItem("Size x:", sizex.c_str());
@@ -1113,7 +1113,7 @@ RenderItemRegistry(mvItemRegistry& registry)
         DebugItem("Font Bound:", root->font ? ts : fs);
         DebugItem("Handlers Bound:", root->handlerRegistry ? ts : fs);
 
-        i32 applicableState = GetApplicableState(root->type);
+        i32 applicableState = DearPyGui::GetApplicableState(root->type);
         ImGui::Spacing();
         ImGui::Spacing();
         ImGui::Spacing();
@@ -1308,7 +1308,7 @@ AddItemWithRuntimeChecks(mvItemRegistry& registry, mvRef<mvAppItem> item, mvUUID
         return true;
     }
 
-    if (GetEntityDesciptionFlags(item->type) & MV_ITEM_DESC_HANDLER && parent == 0)
+    if (DearPyGui::GetEntityDesciptionFlags(item->type) & MV_ITEM_DESC_HANDLER && parent == 0)
         parent = item->config.parent;
 
     if (item == nullptr)
@@ -1321,12 +1321,12 @@ AddItemWithRuntimeChecks(mvItemRegistry& registry, mvRef<mvAppItem> item, mvUUID
     //---------------------------------------------------------------------------
     // STEP 0: updata "last" information
     //---------------------------------------------------------------------------
-    if (GetEntityDesciptionFlags(item->type) & MV_ITEM_DESC_ROOT)
+    if (DearPyGui::GetEntityDesciptionFlags(item->type) & MV_ITEM_DESC_ROOT)
     {
         registry.lastRootAdded = item->uuid;
         registry.lastContainerAdded = item->uuid;
     }
-    else if (GetEntityDesciptionFlags(item->type) & MV_ITEM_DESC_CONTAINER)
+    else if (DearPyGui::GetEntityDesciptionFlags(item->type) & MV_ITEM_DESC_CONTAINER)
         registry.lastContainerAdded = item->uuid;
 
     registry.lastItemAdded = item->uuid;
@@ -1355,7 +1355,7 @@ AddItemWithRuntimeChecks(mvItemRegistry& registry, mvRef<mvAppItem> item, mvUUID
     //---------------------------------------------------------------------------
     // STEP 2: handle root case
     //---------------------------------------------------------------------------
-    if (GetEntityDesciptionFlags(item->type) & MV_ITEM_DESC_ROOT)
+    if (DearPyGui::GetEntityDesciptionFlags(item->type) & MV_ITEM_DESC_ROOT)
     {
 
         if (GContext->started)
@@ -1421,7 +1421,7 @@ AddItemWithRuntimeChecks(mvItemRegistry& registry, mvRef<mvAppItem> item, mvUUID
     // STEP 5: check if parent is a compatible type
     //---------------------------------------------------------------------------
     b8 isParentCompatible = false;
-    const std::vector<std::pair<std::string, i32>>* allowableParents = &GetAllowableParents(item->type);
+    const std::vector<std::pair<std::string, i32>>* allowableParents = &DearPyGui::GetAllowableParents(item->type);
 
     std::string acceptableParentTypes;
 
@@ -1459,7 +1459,7 @@ AddItemWithRuntimeChecks(mvItemRegistry& registry, mvRef<mvAppItem> item, mvUUID
     // STEP 6: check if parent accepts our item (this isn't duplicate STEP 3)
     //---------------------------------------------------------------------------
     b8 amICompatible = false;
-    const std::vector<std::pair<std::string, i32>>* allowableChildren = &GetAllowableChildren(parentPtr->type);
+    const std::vector<std::pair<std::string, i32>>* allowableChildren = &DearPyGui::GetAllowableChildren(parentPtr->type);
 
     std::string acceptableChildTypes;
 

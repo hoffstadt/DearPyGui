@@ -11,12 +11,12 @@ apply_local_theming(mvAppItem* item)
 {
 	if (item->config.enabled)
 	{
-		if (auto classTheme = GetClassThemeComponent(item->type))
+		if (auto classTheme = DearPyGui::GetClassThemeComponent(item->type))
 			classTheme->push_theme_items();
 	}
 	else
 	{
-		if (auto classTheme = GetDisabledClassThemeComponent(item->type))
+		if (auto classTheme = DearPyGui::GetDisabledClassThemeComponent(item->type))
 			classTheme->push_theme_items();
 	}
 
@@ -33,12 +33,12 @@ cleanup_local_theming(mvAppItem* item)
 {
 	if (item->config.enabled)
 	{
-		if (auto classTheme = GetClassThemeComponent(item->type))
+		if (auto classTheme = DearPyGui::GetClassThemeComponent(item->type))
 			classTheme->pop_theme_items();
 	}
 	else
 	{
-		if (auto classTheme = GetDisabledClassThemeComponent(item->type))
+		if (auto classTheme = DearPyGui::GetDisabledClassThemeComponent(item->type))
 			classTheme->pop_theme_items();
 	}
 

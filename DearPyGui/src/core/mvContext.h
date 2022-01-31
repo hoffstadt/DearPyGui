@@ -79,28 +79,28 @@ struct mvInput
 struct mvIO
 {
 
-    b8 docking = false;
-    b8 dockingViewport = false;
+    bool docking = false;
+    bool dockingViewport = false;
 
     std::string iniFile;
-    b8          loadIniFile = false;
-    b8          autoSaveIniFile = false;
-    b8          waitForInput = false;
+    bool        loadIniFile = false;
+    bool        autoSaveIniFile = false;
+    bool        waitForInput = false;
 
     // GPU selection
-    b8          info_auto_device = false;
-    i32         info_device = -1;
+    bool        info_auto_device = false;
+    int         info_device = -1;
     std::string info_device_name;
 
     // item registry
-    b8 allowAliasOverwrites = false;
-    b8 manualAliasManagement = false;
-    b8 skipRequiredArgs = false;
-    b8 skipPositionalArgs = false;
-    b8 skipKeywordArgs = false;
+    bool allowAliasOverwrites = false;
+    bool manualAliasManagement = false;
+    bool skipRequiredArgs = false;
+    bool skipPositionalArgs = false;
+    bool skipKeywordArgs = false;
 
     // callback registry
-    b8 manualCallbacks = false;
+    bool manualCallbacks = false;
 };
 
 struct mvContext
@@ -109,15 +109,15 @@ struct mvContext
     std::atomic_bool    manualMutexControl = false;
     std::atomic_bool    started            = false;
     std::mutex          mutex;
-    std::future<b8>     future;
-    f32                 deltaTime = 0.0f;   // time since last frame
-    f64                 time      = 0.0;    // total time since starting
-    i32                 frame     = 0;      // frame count
-    i32                 framerate = 0;      // frame rate
+    std::future<bool>   future;
+    float               deltaTime = 0.0f;   // time since last frame
+    double              time      = 0.0;    // total time since starting
+    int                 frame     = 0;      // frame count
+    int                 framerate = 0;      // frame rate
     mvUUID              id = MV_START_UUID; // current ID
     mvViewport*         viewport = nullptr;
     mvGraphics          graphics;
-    b8                  resetTheme = false;
+    bool                resetTheme = false;
     mvIO                IO;
     mvItemRegistry*     itemRegistry = nullptr;
     mvCallbackRegistry* callbackRegistry = nullptr;

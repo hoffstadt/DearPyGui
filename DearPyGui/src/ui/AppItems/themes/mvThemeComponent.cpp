@@ -53,8 +53,8 @@ void mvThemeComponent::handleSpecificPositionalArgs(PyObject* dict)
         case 0:
         {
             _specificType = ToInt(item);
-            _specificComponentPtr = &GetClassThemeComponent((mvAppItemType)_specificType);
-            _specificDisabledComponentPtr = &GetDisabledClassThemeComponent((mvAppItemType)_specificType);
+            _specificComponentPtr = &DearPyGui::GetClassThemeComponent((mvAppItemType)_specificType);
+            _specificDisabledComponentPtr = &DearPyGui::GetDisabledClassThemeComponent((mvAppItemType)_specificType);
 
             if (_specificType == (int)mvAppItemType::All)
             {

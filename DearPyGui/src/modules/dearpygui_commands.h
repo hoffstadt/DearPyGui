@@ -2311,7 +2311,7 @@ destroy_context(PyObject* self, PyObject* args, PyObject* kwargs)
 
 
 		//#define X(el) el::s_class_theme_component = nullptr; el::s_class_theme_disabled_component = nullptr;
-		#define X(el) GetClassThemeComponent(mvAppItemType::el) = nullptr; GetDisabledClassThemeComponent(mvAppItemType::el) = nullptr;
+		#define X(el) DearPyGui::GetClassThemeComponent(mvAppItemType::el) = nullptr; DearPyGui::GetDisabledClassThemeComponent(mvAppItemType::el) = nullptr;
 		MV_ITEM_TYPES
 		#undef X
 
@@ -2670,7 +2670,7 @@ push_container_stack(PyObject* self, PyObject* args, PyObject* kwargs)
 	mvAppItem* parent = GetItem((*GContext->itemRegistry), item);
 	if (parent)
 	{
-		if (GetEntityDesciptionFlags(parent->type) & MV_ITEM_DESC_CONTAINER)
+		if (DearPyGui::GetEntityDesciptionFlags(parent->type) & MV_ITEM_DESC_CONTAINER)
 		{
 			GContext->itemRegistry->containers.push(parent);
 			return ToPyBool(true);
@@ -2950,19 +2950,19 @@ GetAllItemsRoot(std::vector<mvRef<mvAppItem>>& roots, std::vector<mvUUID>& child
 		for (auto& child : children0)
 		{
 			childList.emplace_back(child->uuid);
-			if (GetEntityDesciptionFlags(child->type) & MV_ITEM_DESC_CONTAINER)
+			if (DearPyGui::GetEntityDesciptionFlags(child->type) & MV_ITEM_DESC_CONTAINER)
 				ChildRetriever(child);
 		}
 		for (auto& child : children1)
 		{
 			childList.emplace_back(child->uuid);
-			if (GetEntityDesciptionFlags(child->type) & MV_ITEM_DESC_CONTAINER)
+			if (DearPyGui::GetEntityDesciptionFlags(child->type) & MV_ITEM_DESC_CONTAINER)
 				ChildRetriever(child);
 		}
 		for (auto& child : children2)
 		{
 			childList.emplace_back(child->uuid);
-			if (GetEntityDesciptionFlags(child->type) & MV_ITEM_DESC_CONTAINER)
+			if (DearPyGui::GetEntityDesciptionFlags(child->type) & MV_ITEM_DESC_CONTAINER)
 				ChildRetriever(child);
 		}
 
@@ -3265,8 +3265,8 @@ get_item_info(PyObject* self, PyObject* args, PyObject* kwargs)
 			PyDict_SetItemString(pdict, "children", mvPyObject(pyChildren));
 		}
 
-		PyDict_SetItemString(pdict, "type", mvPyObject(ToPyString(GetEntityTypeString(appitem->type))));
-		PyDict_SetItemString(pdict, "target", mvPyObject(ToPyInt(GetEntityTargetSlot(appitem->type))));
+		PyDict_SetItemString(pdict, "type", mvPyObject(ToPyString(DearPyGui::GetEntityTypeString(appitem->type))));
+		PyDict_SetItemString(pdict, "target", mvPyObject(ToPyInt(DearPyGui::GetEntityTargetSlot(appitem->type))));
 
 		if (appitem->info.parentPtr)
 			PyDict_SetItemString(pdict, "parent", mvPyObject(ToPyUUID(appitem->info.parentPtr->uuid)));
@@ -3283,12 +3283,12 @@ get_item_info(PyObject* self, PyObject* args, PyObject* kwargs)
 		else
 			PyDict_SetItemString(pdict, "font", mvPyObject(GetPyNone()));
 
-		if (GetEntityDesciptionFlags(appitem->type) & MV_ITEM_DESC_CONTAINER)
+		if (DearPyGui::GetEntityDesciptionFlags(appitem->type) & MV_ITEM_DESC_CONTAINER)
 			PyDict_SetItemString(pdict, "container", mvPyObject(ToPyBool(true)));
 		else
 			PyDict_SetItemString(pdict, "container", mvPyObject(ToPyBool(false)));
 
-		i32 applicableState = GetApplicableState(appitem->type);
+		i32 applicableState = DearPyGui::GetApplicableState(appitem->type);
 		PyDict_SetItemString(pdict, "hover_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_HOVER)));
 		PyDict_SetItemString(pdict, "active_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_ACTIVE)));
 		PyDict_SetItemString(pdict, "focus_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_FOCUSED)));
@@ -3643,7 +3643,7 @@ get_item_state(PyObject* self, PyObject* args, PyObject* kwargs)
 	PyObject* pdict = PyDict_New();
 
 	if (appitem)
-		FillAppItemState(pdict, appitem->state, GetApplicableState(appitem->type));
+		FillAppItemState(pdict, appitem->state, DearPyGui::GetApplicableState(appitem->type));
 	else
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, "get_item_state",
 			"Item not found: " + std::to_string(item), nullptr);

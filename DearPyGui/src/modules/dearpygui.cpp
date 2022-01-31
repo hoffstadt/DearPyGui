@@ -27,7 +27,7 @@ GetModuleParsers()
 
 	if (parsers.empty())
 	{
-		#define X(el) parsers.insert({GetEntityCommand(mvAppItemType::el), GetEntityParser(mvAppItemType::el)});
+		#define X(el) parsers.insert({GetEntityCommand(mvAppItemType::el), DearPyGui::GetEntityParser(mvAppItemType::el)});
 		MV_ITEM_TYPES
 		#undef X
 
@@ -424,9 +424,9 @@ common_constructor(const char* command, mvAppItemType type, PyObject* self, PyOb
 	if (id == 0)
 		id = GenerateUUID();
 
-	item = CreateEntity(type, id);
+	item = DearPyGui::CreateEntity(type, id);
 
-	i32 flags = GetEntityDesciptionFlags(type);
+	i32 flags = DearPyGui::GetEntityDesciptionFlags(type);
 	if (flags & MV_ITEM_DESC_DRAW_CMP)
 		item->drawInfo = CreateRef<mvAppItemDrawInfo>();
 
@@ -441,7 +441,7 @@ common_constructor(const char* command, mvAppItemType type, PyObject* self, PyOb
 	// if template registry is bound, attempt to use it
 	if (GContext->itemRegistry->boundedTemplateRegistry)
 	{
-		for (auto& tempItem : GContext->itemRegistry->boundedTemplateRegistry->childslots[GetEntityTargetSlot(item->type)])
+		for (auto& tempItem : GContext->itemRegistry->boundedTemplateRegistry->childslots[DearPyGui::GetEntityTargetSlot(item->type)])
 		{
 			if (tempItem->type == item->type)
 			{

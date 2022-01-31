@@ -70,41 +70,44 @@ struct ScopedID
     ~ScopedID() { ImGui::PopID(); }
 };
 
-mvRef<mvAppItem>                                CreateEntity                    (mvAppItemType type, mvUUID id);
-i32                                             GetEntityDesciptionFlags        (mvAppItemType type);
-i32                                             GetEntityTargetSlot             (mvAppItemType type);
-StorageValueTypes                               GetEntityValueType              (mvAppItemType type);
-const char*                                     GetEntityTypeString             (mvAppItemType type);
-i32                                             GetApplicableState              (mvAppItemType type);
-const std::vector<std::pair<std::string, i32>>& GetAllowableParents             (mvAppItemType type);
-const std::vector<std::pair<std::string, i32>>& GetAllowableChildren            (mvAppItemType type);
-mvRef<mvThemeComponent>&                        GetClassThemeComponent          (mvAppItemType type);
-mvRef<mvThemeComponent>&                        GetDisabledClassThemeComponent  (mvAppItemType type);
-mvPythonParser                                  GetEntityParser                 (mvAppItemType type);
-void                                            OnChildAdded                    (mvAppItem* item, mvRef<mvAppItem> child);
-void                                            OnChildRemoved                  (mvAppItem* item, mvRef<mvAppItem> child);
+namespace DearPyGui
+{
+    mvRef<mvAppItem>                                CreateEntity                    (mvAppItemType type, mvUUID id);
+    int                                             GetEntityDesciptionFlags        (mvAppItemType type);
+    int                                             GetEntityTargetSlot             (mvAppItemType type);
+    StorageValueTypes                               GetEntityValueType              (mvAppItemType type);
+    const char*                                     GetEntityTypeString             (mvAppItemType type);
+    int                                             GetApplicableState              (mvAppItemType type);
+    const std::vector<std::pair<std::string, i32>>& GetAllowableParents             (mvAppItemType type);
+    const std::vector<std::pair<std::string, i32>>& GetAllowableChildren            (mvAppItemType type);
+    mvRef<mvThemeComponent>&                        GetClassThemeComponent          (mvAppItemType type);
+    mvRef<mvThemeComponent>&                        GetDisabledClassThemeComponent  (mvAppItemType type);
+    mvPythonParser                                  GetEntityParser                 (mvAppItemType type);
+    void                                            OnChildAdded                    (mvAppItem* item, mvRef<mvAppItem> child);
+    void                                            OnChildRemoved                  (mvAppItem* item, mvRef<mvAppItem> child);
+}
 
 struct mvAppItemInfo
 {
     std::string internalLabel; // label passed into imgui
     mvAppItem*  parentPtr = nullptr;
-    i32         location = -1;
-    b8          showDebug = false;
+    int         location = -1;
+    bool        showDebug = false;
         
     // next frame triggers
-    b8 focusNextFrame           = false;
-    b8 triggerAlternativeAction = false;
-    b8 shownLastFrame           = false;
-    b8 hiddenLastFrame          = false;
-    b8 enabledLastFrame         = false;
-    b8 disabledLastFrame        = false;
+    bool focusNextFrame           = false;
+    bool triggerAlternativeAction = false;
+    bool shownLastFrame           = false;
+    bool hiddenLastFrame          = false;
+    bool enabledLastFrame         = false;
+    bool disabledLastFrame        = false;
 
     // previous frame cache
     ImVec2 previousCursorPos = { 0.0f, 0.0f };
 
     // dirty flags
-    b8 dirty_size = true;
-    b8 dirtyPos   = false;
+    bool dirty_size = true;
+    bool dirtyPos   = false;
 };
 
 struct mvAppItemConfig
@@ -115,20 +118,20 @@ struct mvAppItemConfig
     std::string filter;
     std::string alias;
     std::string payloadType = "$$DPG_PAYLOAD";
-    i32         width = 0;
-    i32         height = 0;
-    f32         indent = -1.0f;
-    f32         trackOffset = 0.5f; // 0.0f:top, 0.5f:center, 1.0f:bottom
-    b8          show = true;
-    b8          enabled = true;
-    b8          searchLast = false;
-    b8          searchDelayed = false;
-    b8          useInternalLabel = true; // when false, will use specificed label
-    b8          tracked = false;
-    PyObject*   callback = nullptr;
-    PyObject*   user_data = nullptr;
-    PyObject*   dragCallback = nullptr;
-    PyObject*   dropCallback = nullptr;
+    int         width = 0;
+    int         height = 0;
+    float       indent = -1.0f;
+    float       trackOffset = 0.5f; // 0.0f:top, 0.5f:center, 1.0f:bottom
+    bool        show             = true;
+    bool        enabled          = true;
+    bool        searchLast       = false;
+    bool        searchDelayed    = false;
+    bool        useInternalLabel = true; // when false, will use specificed label
+    bool        tracked          = false;
+    PyObject*   callback         = nullptr;
+    PyObject*   user_data        = nullptr;
+    PyObject*   dragCallback     = nullptr;
+    PyObject*   dropCallback     = nullptr;
 };
 
 struct mvAppItemDrawInfo
@@ -136,9 +139,9 @@ struct mvAppItemDrawInfo
     mvMat4 transform         = mvIdentityMat4();
     mvMat4 appliedTransform  = mvIdentityMat4(); // only used by nodes
     long   cullMode          = 0; // mvCullMode_None
-    b8     perspectiveDivide = false;
-    b8     depthClipping     = false;
-    f32    clipViewport[6]   = { 0.0f, 0.0f, 1.0f, 1.0f, -1.0f, 1.0f }; // top leftx, top lefty, width, height, min depth, maxdepth
+    bool   perspectiveDivide = false;
+    bool   depthClipping     = false;
+    float  clipViewport[6]   = { 0.0f, 0.0f, 1.0f, 1.0f, -1.0f, 1.0f }; // top leftx, top lefty, width, height, min depth, maxdepth
 };
 
 //-----------------------------------------------------------------------------
@@ -216,7 +219,7 @@ public:
        
 };
 
-inline b8 mvClipPoint(f32 clipViewport[6], mvVec4& point)
+inline bool mvClipPoint(float clipViewport[6], mvVec4& point)
 {
 
     if (point.x < clipViewport[0]) return true;

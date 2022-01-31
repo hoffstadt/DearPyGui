@@ -29,7 +29,7 @@ mvThrowPythonError(mvErrorCode code, const std::string& command, const std::stri
 			command.c_str(),
 			item->uuid,
 			item->config.specifiedLabel.c_str(),
-			GetEntityTypeString(item->type),
+			DearPyGui::GetEntityTypeString(item->type),
 			message.c_str());
 	}
 	else

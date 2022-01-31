@@ -50,7 +50,7 @@ void mvInputText::setDataSource(mvUUID dataSource)
             "Source item not found: " + std::to_string(dataSource), this);
         return;
     }
-    if (GetEntityValueType(item->type) != GetEntityValueType(type))
+    if (DearPyGui::GetEntityValueType(item->type) != DearPyGui::GetEntityValueType(type))
     {
         mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
             "Values types do not match: " + std::to_string(dataSource), this);
@@ -293,7 +293,7 @@ void mvInputIntMulti::setDataSource(mvUUID dataSource)
             "Source item not found: " + std::to_string(dataSource), this);
         return;
     }
-    if (GetEntityValueType(item->type) != GetEntityValueType(type))
+    if (DearPyGui::GetEntityValueType(item->type) != DearPyGui::GetEntityValueType(type))
     {
         mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
             "Values types do not match: " + std::to_string(dataSource), this);
@@ -506,7 +506,7 @@ void mvInputFloatMulti::setDataSource(mvUUID dataSource)
             "Source item not found: " + std::to_string(dataSource), this);
         return;
     }
-    if (GetEntityValueType(item->type) != GetEntityValueType(type))
+    if (DearPyGui::GetEntityValueType(item->type) != DearPyGui::GetEntityValueType(type))
     {
         mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
             "Values types do not match: " + std::to_string(dataSource), this);
@@ -828,7 +828,7 @@ void mvInputInt::setDataSource(mvUUID dataSource)
             "Source item not found: " + std::to_string(dataSource), this);
         return;
     }
-    if (GetEntityValueType(item->type) != GetEntityValueType(type))
+    if (DearPyGui::GetEntityValueType(item->type) != DearPyGui::GetEntityValueType(type))
     {
         mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
             "Values types do not match: " + std::to_string(dataSource), this);
@@ -1017,7 +1017,7 @@ void mvInputFloat::setDataSource(mvUUID dataSource)
             "Source item not found: " + std::to_string(dataSource), this);
         return;
     }
-    if (GetEntityValueType(item->type) != GetEntityValueType(type))
+    if (DearPyGui::GetEntityValueType(item->type) != DearPyGui::GetEntityValueType(type))
     {
         mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
             "Values types do not match: " + std::to_string(dataSource), this);

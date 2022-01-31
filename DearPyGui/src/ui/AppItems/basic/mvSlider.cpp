@@ -63,7 +63,7 @@ void mvSliderFloatMulti::setDataSource(mvUUID dataSource)
             "Source item not found: " + std::to_string(dataSource), this);
         return;
     }
-    if (GetEntityValueType(item->type) != GetEntityValueType(type))
+    if (DearPyGui::GetEntityValueType(item->type) != DearPyGui::GetEntityValueType(type))
     {
         mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
             "Values types do not match: " + std::to_string(dataSource), this);
@@ -240,7 +240,7 @@ void mvSliderIntMulti::setDataSource(mvUUID dataSource)
             "Source item not found: " + std::to_string(dataSource), this);
         return;
     }
-    if (GetEntityValueType(item->type) != GetEntityValueType(type))
+    if (DearPyGui::GetEntityValueType(item->type) != DearPyGui::GetEntityValueType(type))
     {
         mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
             "Values types do not match: " + std::to_string(dataSource), this);
@@ -523,7 +523,7 @@ void mvSliderFloat::setDataSource(mvUUID dataSource)
             "Source item not found: " + std::to_string(dataSource), this);
         return;
     }
-    if (GetEntityValueType(item->type) != GetEntityValueType(type))
+    if (DearPyGui::GetEntityValueType(item->type) != DearPyGui::GetEntityValueType(type))
     {
         mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
             "Values types do not match: " + std::to_string(dataSource), this);
@@ -686,7 +686,7 @@ void mvSliderInt::setDataSource(mvUUID dataSource)
             "Source item not found: " + std::to_string(dataSource), this);
         return;
     }
-    if (GetEntityValueType(item->type) != GetEntityValueType(type))
+    if (DearPyGui::GetEntityValueType(item->type) != DearPyGui::GetEntityValueType(type))
     {
         mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
             "Values types do not match: " + std::to_string(dataSource), this);

@@ -39,11 +39,11 @@ void mvLayoutWindow::renderTreeNode(mvRef<mvAppItem>& item)
     // build up flags for current node
     const auto node_flags = ImGuiTreeNodeFlags_OpenOnArrow
         | ((item->uuid == m_selectedItem) ? ImGuiTreeNodeFlags_Selected : 0)
-        | (GetEntityDesciptionFlags(item->type) & MV_ITEM_DESC_CONTAINER ? 0 : ImGuiTreeNodeFlags_Leaf);
+        | (DearPyGui::GetEntityDesciptionFlags(item->type) & MV_ITEM_DESC_CONTAINER ? 0 : ImGuiTreeNodeFlags_Leaf);
 
     // render this node
     ImGui::PushID(item.get());
-    std::string labelToShow = GetEntityTypeString(item->type);
+    std::string labelToShow = DearPyGui::GetEntityTypeString(item->type);
     if (!item->config.alias.empty())
         labelToShow = item->config.alias;
     else if (!item->config.specifiedLabel.empty())
@@ -69,7 +69,7 @@ void mvLayoutWindow::renderTreeNode(mvRef<mvAppItem>& item)
         m_dirtyNodes = true;
     }
 
-    if (!(GetEntityDesciptionFlags(item->type) & MV_ITEM_DESC_CONTAINER))
+    if (!(DearPyGui::GetEntityDesciptionFlags(item->type) & MV_ITEM_DESC_CONTAINER))
     {
         if(expanded)
             ImGui::TreePop();
@@ -185,12 +185,12 @@ void mvLayoutWindow::drawWidgets()
     DebugItem("Label:", _itemref->config.specifiedLabel.c_str());
     DebugItem("ID:", std::to_string(_itemref->uuid).c_str());
     DebugItem("Alias:", _itemref->config.alias.c_str());
-    DebugItem("Type:", GetEntityTypeString(_itemref->type));
+    DebugItem("Type:", DearPyGui::GetEntityTypeString(_itemref->type));
     DebugItem("Filter:", _itemref->config.filter.c_str());
     DebugItem("Payload Type:", _itemref->config.payloadType.c_str());
     DebugItem("Location:", std::to_string(_itemref->info.location).c_str());
     DebugItem("Track Offset:", std::to_string(_itemref->config.trackOffset).c_str());
-    DebugItem("Container:", GetEntityDesciptionFlags(_itemref->type) & MV_ITEM_DESC_CONTAINER ? ts : fs);
+    DebugItem("Container:", DearPyGui::GetEntityDesciptionFlags(_itemref->type) & MV_ITEM_DESC_CONTAINER ? ts : fs);
     DebugItem("Width:", width.c_str());
     DebugItem("Height:", height.c_str());
     DebugItem("Size x:", sizex.c_str());
@@ -212,7 +212,7 @@ void mvLayoutWindow::drawWidgets()
     DebugItem("Font Bound:", _itemref->font ? ts : fs);
     DebugItem("Handlers Bound:", _itemref->handlerRegistry ? ts : fs);
 
-    int applicableState = GetApplicableState(_itemref->type);
+    int applicableState = DearPyGui::GetApplicableState(_itemref->type);
     ImGui::Spacing();
     ImGui::Spacing();
     ImGui::Spacing();

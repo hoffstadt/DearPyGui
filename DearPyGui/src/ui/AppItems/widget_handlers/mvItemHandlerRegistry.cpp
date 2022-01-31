@@ -22,7 +22,7 @@ void mvItemHandlerRegistry::checkEvents(void* data)
 void mvItemHandlerRegistry::onBind(mvAppItem* item)
 {
 
-	auto applicableState = GetApplicableState(item->type);
+	auto applicableState = DearPyGui::GetApplicableState(item->type);
 
 	for (auto& handler : childslots[1])
 	{

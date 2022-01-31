@@ -60,8 +60,6 @@ void             ResetTheme              (mvItemRegistry& registry);
 //         * creates the "standard" windows on startup (debug, about, etc.)
 //-----------------------------------------------------------------------------
 
-
-
 struct mvItemRegistry
 {
 
