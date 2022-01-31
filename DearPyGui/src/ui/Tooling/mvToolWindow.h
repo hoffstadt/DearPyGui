@@ -4,40 +4,36 @@
 #include <imgui.h>
 #include "mvCore.h"
 
-namespace Marvel {
+class mvToolWindow
+{
 
-    class mvToolWindow
-    {
+    friend class mvToolManager;
 
-        friend class mvToolManager;
+public:
 
-    public:
+    [[nodiscard]] virtual mvUUID getUUID() const = 0;
+    [[nodiscard]] virtual const char* getTitle() const = 0;
 
-        [[nodiscard]] virtual mvUUID getUUID() const = 0;
-        [[nodiscard]] virtual const char* getTitle() const = 0;
+    void draw();
 
-        void draw();
+    void setXPos  (int pos);
+    void setYPos  (int pos);
+    void setWidth (int width);
+    void setHeight(int height);
 
-        void setXPos  (int pos);
-        void setYPos  (int pos);
-        void setWidth (int width);
-        void setHeight(int height);
+protected:
 
-    protected:
+    virtual void drawWidgets() = 0;
 
-        virtual void drawWidgets() = 0;
+protected:
 
-    protected:
+    ImGuiWindowFlags m_windowflags = ImGuiWindowFlags_NoSavedSettings;
+    bool             m_show = false;
+    bool             m_dirtySize = true;
+    bool             m_dirtyPos = true;
+    int              m_xpos = 200;
+    int              m_ypos = 200;
+    int              m_width = 500;
+    int              m_height = 500;
 
-        ImGuiWindowFlags m_windowflags = ImGuiWindowFlags_NoSavedSettings;
-        bool             m_show = false;
-        bool             m_dirtySize = true;
-        bool             m_dirtyPos = true;
-        int              m_xpos = 200;
-        int              m_ypos = 200;
-        int              m_width = 500;
-        int              m_height = 500;
-
-    };
-
-}
+};

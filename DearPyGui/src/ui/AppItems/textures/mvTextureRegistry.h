@@ -4,21 +4,17 @@
 #include "dearpygui.h"
 #include "cpp.hint"
 
-namespace Marvel {
+class mvTextureRegistry : public mvAppItem
+{
 
-    class mvTextureRegistry : public mvAppItem
-    {
+public:
 
-    public:
+    explicit mvTextureRegistry(mvUUID uuid);
 
-        explicit mvTextureRegistry(mvUUID uuid);
+    void draw(ImDrawList* drawlist, float x, float y) override;
+    void show_debugger();
 
-        void draw(ImDrawList* drawlist, float x, float y) override;
-        void show_debugger();
+private:
 
-    private:
-
-        int _selection = -1;
-    };
-
-}
+    int _selection = -1;
+};

@@ -2,17 +2,13 @@
 
 #include "mvItemRegistry.h"
 
-namespace Marvel {
+class mvMouseWheelHandler : public mvAppItem
+{
 
-    class mvMouseWheelHandler : public mvAppItem
-    {
+public:
 
-    public:
+    explicit mvMouseWheelHandler(mvUUID uuid);
 
-        explicit mvMouseWheelHandler(mvUUID uuid);
+    void draw(ImDrawList* drawlist, float x, float y) override;
 
-        void draw(ImDrawList* drawlist, float x, float y) override;
-
-    };
-
-}
+};

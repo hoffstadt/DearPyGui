@@ -2,40 +2,36 @@
 
 #include "mvPlot.h"
 
-namespace Marvel {
+class mvAreaSeries : public mvAppItem
+{
 
-    class mvAreaSeries : public mvAppItem
-    {
+public:
 
-    public:
+    explicit mvAreaSeries(mvUUID uuid);
 
-        explicit mvAreaSeries(mvUUID uuid);
+    void draw(ImDrawList* drawlist, float x, float y) override;
+    void handleSpecificRequiredArgs(PyObject* args) override;
+    void handleSpecificKeywordArgs(PyObject* dict) override;
+    void getSpecificConfiguration(PyObject* dict) override;
+    void applySpecificTemplate(mvAppItem* item) override;
 
-        void draw(ImDrawList* drawlist, float x, float y) override;
-        void handleSpecificRequiredArgs(PyObject* args) override;
-        void handleSpecificKeywordArgs(PyObject* dict) override;
-        void getSpecificConfiguration(PyObject* dict) override;
-        void applySpecificTemplate(mvAppItem* item) override;
+    // values
+    void setDataSource(mvUUID dataSource) override;
+    void* getValue() override { return &_value; }
+    PyObject* getPyValue() override;
+    void setPyValue(PyObject* value) override;
 
-        // values
-        void setDataSource(mvUUID dataSource) override;
-        void* getValue() override { return &_value; }
-        PyObject* getPyValue() override;
-        void setPyValue(PyObject* value) override;
+private:
 
-    private:
+    void drawPolygon();
 
-        void drawPolygon();
+private:
 
-    private:
-
-        mvColor _fill = MV_DEFAULT_COLOR;
-        mvRef<std::vector<std::vector<double>>> _value = CreateRef<std::vector<std::vector<double>>>(
-            std::vector<std::vector<double>>{ std::vector<double>{},
-            std::vector<double>{},
-            std::vector<double>{},
-            std::vector<double>{},
-            std::vector<double>{} });
-    };
-
-}
+    mvColor _fill = MV_DEFAULT_COLOR;
+    mvRef<std::vector<std::vector<double>>> _value = CreateRef<std::vector<std::vector<double>>>(
+        std::vector<std::vector<double>>{ std::vector<double>{},
+        std::vector<double>{},
+        std::vector<double>{},
+        std::vector<double>{},
+        std::vector<double>{} });
+};

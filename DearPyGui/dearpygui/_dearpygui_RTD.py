@@ -8254,7 +8254,6 @@ mvKey_F21=internal_dpg.mvKey_F21
 mvKey_F22=internal_dpg.mvKey_F22
 mvKey_F23=internal_dpg.mvKey_F23
 mvKey_F24=internal_dpg.mvKey_F24
-mvKey_F24=internal_dpg.mvKey_F24
 mvKey_NumLock=internal_dpg.mvKey_NumLock
 mvKey_ScrollLock=internal_dpg.mvKey_ScrollLock
 mvKey_LShift=internal_dpg.mvKey_LShift

@@ -2,18 +2,14 @@
 
 #include "mvItemRegistry.h"
 
-namespace Marvel {
+class mvActiveHandler : public mvAppItem
+{
 
-    class mvActiveHandler : public mvAppItem
-    {
+public:
 
-    public:
+    explicit mvActiveHandler(mvUUID uuid);
 
-        explicit mvActiveHandler(mvUUID uuid);
+    void draw(ImDrawList* drawlist, float x, float y) override {}
+    void customAction(void* data = nullptr) override;
 
-        void draw(ImDrawList* drawlist, float x, float y) override {}
-        void customAction(void* data = nullptr) override;
-
-    };
-
-}
+};

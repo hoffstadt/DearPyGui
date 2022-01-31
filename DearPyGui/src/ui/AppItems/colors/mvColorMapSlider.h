@@ -3,31 +3,27 @@
 #include <array>
 #include "mvItemRegistry.h"
 
-namespace Marvel {
+class mvColorMapSlider : public mvAppItem
+{
 
-    class mvColorMapSlider : public mvAppItem
-    {
+public:
 
-    public:
+    explicit mvColorMapSlider(mvUUID uuid);
 
-        explicit mvColorMapSlider(mvUUID uuid);
+    void draw(ImDrawList* drawlist, float x, float y) override;
+    void applySpecificTemplate(mvAppItem* item) override;
+    void setColorMap(ImPlotColormap colormap) { _colormap = colormap; }
 
-        void draw(ImDrawList* drawlist, float x, float y) override;
-        void applySpecificTemplate(mvAppItem* item) override;
-        void setColorMap(ImPlotColormap colormap) { _colormap = colormap; }
+    // values
+    void setDataSource(mvUUID dataSource) override;
+    void* getValue() override { return &_value; }
+    PyObject* getPyValue() override;
+    void setPyValue(PyObject* value) override;
 
-        // values
-        void setDataSource(mvUUID dataSource) override;
-        void* getValue() override { return &_value; }
-        PyObject* getPyValue() override;
-        void setPyValue(PyObject* value) override;
+private:
 
-    private:
+    mvRef<float>    _value = CreateRef<float>(0.0f);
+    ImVec4          _color = ImVec4(0.0f, 0.0f, 0.0f, 1.0f);
+    ImPlotColormap  _colormap = 0;
 
-        mvRef<float>    _value = CreateRef<float>(0.0f);
-        ImVec4          _color = ImVec4(0.0f, 0.0f, 0.0f, 1.0f);
-        ImPlotColormap  _colormap = 0;
-
-    };
-
-}
+};

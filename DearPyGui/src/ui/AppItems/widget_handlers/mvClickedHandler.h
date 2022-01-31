@@ -2,26 +2,22 @@
 
 #include "mvItemRegistry.h"
 
-namespace Marvel {
+class mvClickedHandler : public mvAppItem
+{
 
-    class mvClickedHandler : public mvAppItem
-    {
+public:
 
-    public:
+    explicit mvClickedHandler(mvUUID uuid);
 
-        explicit mvClickedHandler(mvUUID uuid);
+    void draw(ImDrawList* drawlist, float x, float y) override {}
+    void customAction(void* data = nullptr) override;
+    void handleSpecificRequiredArgs(PyObject* dict) override;
+    void handleSpecificKeywordArgs(PyObject* dict) override;
+    void getSpecificConfiguration(PyObject* dict) override;
+    void applySpecificTemplate(mvAppItem* item) override;
 
-        void draw(ImDrawList* drawlist, float x, float y) override {}
-        void customAction(void* data = nullptr) override;
-        void handleSpecificRequiredArgs(PyObject* dict) override;
-        void handleSpecificKeywordArgs(PyObject* dict) override;
-        void getSpecificConfiguration(PyObject* dict) override;
-        void applySpecificTemplate(mvAppItem* item) override;
+private:
 
-    private:
+    int _button = -1;
 
-        int _button = -1;
-
-    };
-
-}
+};

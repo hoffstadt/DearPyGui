@@ -2,18 +2,14 @@
 
 #include "mvItemRegistry.h"
 
-namespace Marvel {
+class mvTooltip : public mvAppItem
+{
 
-    class mvTooltip : public mvAppItem
-    {
+public:
 
-    public:
+    explicit mvTooltip(mvUUID uuid);
 
-        explicit mvTooltip(mvUUID uuid);
+    void draw(ImDrawList* drawlist, float x, float y) override;
+    void handleSpecificRequiredArgs(PyObject* dict) override;
 
-        void draw(ImDrawList* drawlist, float x, float y) override;
-        void handleSpecificRequiredArgs(PyObject* dict) override;
-
-    };
-
-}
+};

@@ -2,17 +2,13 @@
 
 #include "mvItemRegistry.h"
 
-namespace Marvel {
+class mvSpacer : public mvAppItem
+{
 
-    class mvSpacer : public mvAppItem
-    {
+public:
 
-    public:
+    explicit mvSpacer(mvUUID uuid);
 
-        explicit mvSpacer(mvUUID uuid);
+    void draw(ImDrawList* drawlist, float x, float y) override;
 
-        void draw(ImDrawList* drawlist, float x, float y) override;
-
-    };
-
-}
+};

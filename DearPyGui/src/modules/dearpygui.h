@@ -7,11 +7,7 @@
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
 
-namespace Marvel {
+PyMODINIT_FUNC PyInit__dearpygui(void);
 
-	PyMODINIT_FUNC PyInit__dearpygui(void);
-
-	const std::map<std::string, mvPythonParser>& GetModuleParsers();
-	const std::vector<std::pair<std::string, long>>& GetModuleConstants();
-
-}
+const std::map<std::string, mvPythonParser>& GetModuleParsers();
+const std::vector<std::pair<std::string, long>>& GetModuleConstants();

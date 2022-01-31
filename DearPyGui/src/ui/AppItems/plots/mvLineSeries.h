@@ -2,34 +2,30 @@
 
 #include "mvPlot.h"
 
-namespace Marvel {
+class mvLineSeries : public mvAppItem
+{
 
-	class mvLineSeries : public mvAppItem
-	{
+public:
 
-	public:
+	explicit mvLineSeries(mvUUID uuid);
 
-		explicit mvLineSeries(mvUUID uuid);
+	void draw(ImDrawList* drawlist, float x, float y) override;
+	void setDataSource(mvUUID dataSource) override;
+	void* getValue() override { return &_value; }
+	PyObject* getPyValue() override;
+	void setPyValue(PyObject* value) override;
+	void handleSpecificRequiredArgs(PyObject* args) override;
+	void handleSpecificKeywordArgs(PyObject* dict) override;
+	void getSpecificConfiguration(PyObject* dict) override;
+	void applySpecificTemplate(mvAppItem* item) override;
 
-		void draw(ImDrawList* drawlist, float x, float y) override;
-		void setDataSource(mvUUID dataSource) override;
-		void* getValue() override { return &_value; }
-		PyObject* getPyValue() override;
-		void setPyValue(PyObject* value) override;
-		void handleSpecificRequiredArgs(PyObject* args) override;
-		void handleSpecificKeywordArgs(PyObject* dict) override;
-		void getSpecificConfiguration(PyObject* dict) override;
-		void applySpecificTemplate(mvAppItem* item) override;
+private:
 
-	private:
+	mvRef<std::vector<std::vector<double>>> _value = CreateRef<std::vector<std::vector<double>>>(
+		std::vector<std::vector<double>>{ std::vector<double>{},
+		std::vector<double>{},
+		std::vector<double>{},
+		std::vector<double>{},
+		std::vector<double>{} });
 
-		mvRef<std::vector<std::vector<double>>> _value = CreateRef<std::vector<std::vector<double>>>(
-			std::vector<std::vector<double>>{ std::vector<double>{},
-			std::vector<double>{},
-			std::vector<double>{},
-			std::vector<double>{},
-			std::vector<double>{} });
-
-	};
-
-}
+};

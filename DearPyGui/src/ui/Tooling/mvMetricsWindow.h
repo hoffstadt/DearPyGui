@@ -2,22 +2,18 @@
 
 #include "mvToolWindow.h"
 
-namespace Marvel {
+class mvMetricsWindow final : public mvToolWindow
+{
 
-    class mvMetricsWindow final : public mvToolWindow
-    {
+public:
 
-    public:
+    mvMetricsWindow();
 
-        mvMetricsWindow();
+    [[nodiscard]] mvUUID getUUID() const override { return MV_TOOL_METRICS_UUID; }
+    [[nodiscard]] const char* getTitle() const override { return "Metrics"; }
 
-        [[nodiscard]] mvUUID getUUID() const override { return MV_TOOL_METRICS_UUID; }
-        [[nodiscard]] const char* getTitle() const override { return "Metrics"; }
+protected:
 
-    protected:
+    void drawWidgets() override;
 
-        void drawWidgets() override;
-
-    };
-
-}
+};

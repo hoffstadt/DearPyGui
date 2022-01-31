@@ -7,8 +7,6 @@
 #include <string>
 #include <sstream>
 
-using namespace Marvel;
-
 void runTest(std::string test)
 {
 	auto ss = std::ostringstream{};

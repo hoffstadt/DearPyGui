@@ -5,20 +5,16 @@
 #include "mvItemRegistry.h"
 #include "mvPythonExceptions.h"
 
-namespace Marvel {
+mvTableCell::mvTableCell(mvUUID uuid)
+	: mvAppItem(uuid)
+{
 
-	mvTableCell::mvTableCell(mvUUID uuid)
-		: mvAppItem(uuid)
-	{
+}
 
-	}
+void mvTableCell::draw(ImDrawList* drawlist, float x, float y)
+{
+	ScopedID id(uuid);
 
-	void mvTableCell::draw(ImDrawList* drawlist, float x, float y)
-	{
-		ScopedID id(uuid);
-
-		for (auto& item : childslots[1])
-			item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-	}
-
+	for (auto& item : childslots[1])
+		item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 }

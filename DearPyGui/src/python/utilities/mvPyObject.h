@@ -8,35 +8,31 @@ struct _object;
 typedef _object PyObject;
 #endif
 
-namespace Marvel {
+class mvPyObject
+{
 
-	class mvPyObject
-	{
+public:
 
-	public:
+	mvPyObject(PyObject* rawObject, bool borrowed=false);
+	mvPyObject(mvPyObject&& other);
+	mvPyObject& operator=(mvPyObject&& other);
 
-		mvPyObject(PyObject* rawObject, bool borrowed=false);
-		mvPyObject(mvPyObject&& other);
-		mvPyObject& operator=(mvPyObject&& other);
+	mvPyObject(const mvPyObject& other) = delete;
+	mvPyObject& operator=(mvPyObject& other) = delete;
 
-		mvPyObject(const mvPyObject& other) = delete;
-		mvPyObject& operator=(mvPyObject& other) = delete;
+	~mvPyObject();
 
-		~mvPyObject();
+	void addRef();
+	void delRef();
+	bool isOk() const { return m_ok; }
 
-		void addRef();
-		void delRef();
-		bool isOk() const { return m_ok; }
+	operator PyObject* ();
 
-		operator PyObject* ();
+private:
 
-	private:
+	PyObject* m_rawObject;
+	bool      m_borrowed;
+	bool      m_ok;
+	bool      m_del = false;
 
-		PyObject* m_rawObject;
-		bool      m_borrowed;
-		bool      m_ok;
-		bool      m_del = false;
-
-	};
-
-}
+};

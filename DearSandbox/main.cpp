@@ -12,7 +12,6 @@
 #include "mvLog.h"
 
 namespace fs = std::filesystem;
-using namespace Marvel;
 
 void runTest(std::string test)
 {

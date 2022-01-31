@@ -5,36 +5,32 @@
 #include "mvToolManager.h"
 #include "mvFontManager.h"
 
-namespace Marvel {
+mvFontRegistry::mvFontRegistry(mvUUID uuid)
+	:
+	mvAppItem(uuid)
+{
+	config.show = true;
+}
 
-	mvFontRegistry::mvFontRegistry(mvUUID uuid)
-		:
-		mvAppItem(uuid)
+void mvFontRegistry::resetFont()
+{
+	for (auto& item : childslots[1])
 	{
-		config.show = true;
+		static_cast<mvFont*>(item.get())->_default = false;
 	}
 
-	void mvFontRegistry::resetFont()
+	mvToolManager::GetFontManager()._resetDefault = true;
+}
+
+void mvFontRegistry::draw(ImDrawList* drawlist, float x, float y)
+{
+	//ImGuiIO& io = ImGui::GetIO();
+	//io.Fonts->Clear();
+	//io.FontDefault = io.Fonts->AddFontDefault();
+
+	for (auto& item : childslots[1])
 	{
-		for (auto& item : childslots[1])
-		{
-			static_cast<mvFont*>(item.get())->_default = false;
-		}
-
-		mvToolManager::GetFontManager()._resetDefault = true;
+		item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 	}
-
-	void mvFontRegistry::draw(ImDrawList* drawlist, float x, float y)
-	{
-		//ImGuiIO& io = ImGui::GetIO();
-		//io.Fonts->Clear();
-		//io.FontDefault = io.Fonts->AddFontDefault();
-
-		for (auto& item : childslots[1])
-		{
-			item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-		}
-		config.show = false;
-	}
-
+	config.show = false;
 }

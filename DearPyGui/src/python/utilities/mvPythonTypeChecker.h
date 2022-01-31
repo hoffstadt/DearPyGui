@@ -8,21 +8,17 @@ struct _object;
 typedef _object PyObject;
 #endif
 
-namespace Marvel{
-
-    bool isPyObject_String        (PyObject* obj);
-    bool isPyObject_Int           (PyObject* obj);
-    bool isPyObject_Float         (PyObject* obj);
-    bool isPyObject_Bool          (PyObject* obj);
-    bool isPyObject_StringList    (PyObject* obj);
-    bool isPyObject_ListStringList(PyObject* obj);
-    bool isPyObject_FloatList     (PyObject* obj);
-    bool isPyObject_ListFloatList (PyObject* obj);
-    bool isPyObject_IntList       (PyObject* obj);
-    bool isPyObject_ListIntList   (PyObject* obj);
-    bool isPyObject_Double        (PyObject* obj);
-    bool isPyObject_Callable      (PyObject* obj);
-    bool isPyObject_Dict          (PyObject* obj);
-    bool isPyObject_Any           (PyObject* obj);
-
-}
+bool isPyObject_String        (PyObject* obj);
+bool isPyObject_Int           (PyObject* obj);
+bool isPyObject_Float         (PyObject* obj);
+bool isPyObject_Bool          (PyObject* obj);
+bool isPyObject_StringList    (PyObject* obj);
+bool isPyObject_ListStringList(PyObject* obj);
+bool isPyObject_FloatList     (PyObject* obj);
+bool isPyObject_ListFloatList (PyObject* obj);
+bool isPyObject_IntList       (PyObject* obj);
+bool isPyObject_ListIntList   (PyObject* obj);
+bool isPyObject_Double        (PyObject* obj);
+bool isPyObject_Callable      (PyObject* obj);
+bool isPyObject_Dict          (PyObject* obj);
+bool isPyObject_Any           (PyObject* obj);

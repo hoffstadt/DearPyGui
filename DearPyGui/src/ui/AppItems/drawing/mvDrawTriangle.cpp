@@ -3,8 +3,6 @@
 #include "mvItemRegistry.h"
 #include "mvPythonExceptions.h"
 
-namespace Marvel {
-
 	mvDrawTriangle::mvDrawTriangle(mvUUID uuid)
 		:
 		mvAppItem(uuid)
@@ -146,5 +144,3 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "fill", mvPyObject(ToPyColor(_fill)));
 		PyDict_SetItemString(dict, "thickness", mvPyObject(ToPyFloat(_thickness)));
 	}
-
-}
