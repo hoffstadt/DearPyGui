@@ -39,7 +39,6 @@ set(MVDIST_ONLY ${MVDIST_ONLY})
 if(MVDIST_ONLY)
     add_definitions(-DMVDIST_ONLY)
 else()
-    add_subdirectory ("ImguiTesting")
     add_definitions(-DMV_LOG)
 endif()
 
