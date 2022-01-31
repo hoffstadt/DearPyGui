@@ -139,32 +139,17 @@ void mvFont::handleSpecificRequiredArgs(PyObject* dict)
 	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
 		return;
 
-	for (int i = 0; i < PyTuple_Size(dict); i++)
+	_file = ToString(PyTuple_GetItem(dict, 0));
+	std::ifstream ifile;
+	ifile.open(_file);
+	if (ifile)
+		ifile.close();
+	else
 	{
-		PyObject* item = PyTuple_GetItem(dict, i);
-		switch (i)
-		{
-		case 0:
-		{
-			_file = ToString(item);
-			std::ifstream ifile;
-			ifile.open(_file);
-			if (ifile)
-				ifile.close();
-			else
-			{
-				state.ok = false;
-				mvThrowPythonError(mvErrorCode::mvNone, "Font file could not be found");
-			}
-			break;
-		}
-
-		case 1:
-			_size = ToFloat(item);
-			break;
-
-		default:
-			break;
-		}
+		state.ok = false;
+		mvThrowPythonError(mvErrorCode::mvNone, "Font file could not be found");
 	}
+
+	_size = ToFloat(PyTuple_GetItem(dict, 1));
+
 }

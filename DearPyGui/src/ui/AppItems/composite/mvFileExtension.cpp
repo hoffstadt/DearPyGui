@@ -32,20 +32,8 @@ void mvFileExtension::handleSpecificRequiredArgs(PyObject* dict)
 {
 	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
 		return;
+	_extension = ToString(PyTuple_GetItem(dict, 0));
 
-	for (int i = 0; i < PyTuple_Size(dict); i++)
-	{
-		PyObject* item = PyTuple_GetItem(dict, i);
-		switch (i)
-		{
-		case 0:
-			_extension = ToString(item);
-			break;
-
-		default:
-			break;
-		}
-	}
 }
 
 void mvFileExtension::handleSpecificKeywordArgs(PyObject* dict)

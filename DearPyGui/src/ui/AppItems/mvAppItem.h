@@ -87,7 +87,7 @@ void                                            OnChildRemoved                  
 struct mvAppItemInfo
 {
     std::string internalLabel; // label passed into imgui
-        mvAppItem* parentPtr = nullptr;
+    mvAppItem*  parentPtr = nullptr;
     i32         location = -1;
     b8          showDebug = false;
         

@@ -118,38 +118,15 @@ void mvPieSeries::handleSpecificRequiredArgs(PyObject* dict)
 	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
 		return;
 
-	for (int i = 0; i < PyTuple_Size(dict); i++)
-	{
-		PyObject* item = PyTuple_GetItem(dict, i);
-		switch (i)
-		{
-		case 0:
-			_x = ToDouble(item);
-			break;
+	_x = ToDouble(PyTuple_GetItem(dict, 0));
+	_y = ToDouble(PyTuple_GetItem(dict, 1));
+	_radius = ToDouble(PyTuple_GetItem(dict, 2));
+	(*_value)[0] = ToDoubleVect(PyTuple_GetItem(dict, 3));
+	_labels = ToStringVect(PyTuple_GetItem(dict, 4));
+	_clabels.clear();
+	for (const auto& label : _labels)
+		_clabels.push_back(label.c_str());
 
-		case 1:
-			_y = ToDouble(item);
-			break;
-
-		case 2:
-			_radius = ToDouble(item);
-			break;
-
-		case 3:
-			(*_value)[0] = ToDoubleVect(item);
-			break;
-
-		case 4:
-			_labels = ToStringVect(item);
-			_clabels.clear();
-			for (const auto& label : _labels)
-				_clabels.push_back(label.c_str());
-			break;
-
-		default:
-			break;
-		}
-	}
 }
 
 void mvPieSeries::handleSpecificKeywordArgs(PyObject* dict)

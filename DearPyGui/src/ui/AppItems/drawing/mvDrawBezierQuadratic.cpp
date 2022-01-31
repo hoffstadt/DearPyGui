@@ -63,30 +63,12 @@ void mvDrawBezierQuadratic::handleSpecificRequiredArgs(PyObject* dict)
 	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
 		return;
 
-	for (int i = 0; i < PyTuple_Size(dict); i++)
-	{
-		PyObject* item = PyTuple_GetItem(dict, i);
-		switch (i)
-		{
-		case 0:
-			_p1 = ToVec4(item);
-			_p1.w = 1.0f;
-			break;
-
-		case 1:
-			_p2 = ToVec4(item);
-			_p2.w = 1.0f;
-			break;
-
-		case 2:
-			_p3 = ToVec4(item);
-			_p3.w = 1.0f;
-			break;
-
-		default:
-			break;
-		}
-	}
+	_p1 = ToVec4(PyTuple_GetItem(dict, 0));
+	_p2 = ToVec4(PyTuple_GetItem(dict, 1));
+	_p3 = ToVec4(PyTuple_GetItem(dict, 2));
+	_p1.w = 1.0f;
+	_p2.w = 1.0f;
+	_p3.w = 1.0f;
 }
 
 void mvDrawBezierQuadratic::handleSpecificKeywordArgs(PyObject* dict)

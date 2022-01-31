@@ -24,14 +24,8 @@ void mvNodeLink::handleSpecificRequiredArgs(PyObject* dict)
 	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
 		return;
 
-	for (int i = 0; i < PyTuple_Size(dict); i++)
-	{
-		PyObject* item = PyTuple_GetItem(dict, i);
-		switch (i)
+		mvUUID node1 = GetIDFromPyObject(PyTuple_GetItem(dict, 0));
 		{
-		case 0:
-		{
-			mvUUID node1 = GetIDFromPyObject(item);
 			mvAppItem* node = GetItem(*GContext->itemRegistry, node1);
 			if (node->type == mvAppItemType::mvNodeAttribute)
 			{
@@ -46,12 +40,10 @@ void mvNodeLink::handleSpecificRequiredArgs(PyObject* dict)
 				assert(false);
 				return;
 			}
-			break;
 		}
 
-		case 1:
+		mvUUID node2 = GetIDFromPyObject(PyTuple_GetItem(dict, 1));
 		{
-			mvUUID node2 = GetIDFromPyObject(item);
 			mvAppItem* node = GetItem(*GContext->itemRegistry, node2);
 			if (node->type == mvAppItemType::mvNodeAttribute)
 			{
@@ -66,13 +58,8 @@ void mvNodeLink::handleSpecificRequiredArgs(PyObject* dict)
 				assert(false);
 				return;
 			}
-			break;
 		}
 
-		default:
-			break;
-		}
-	}
 }
 
 void mvNodeLink::customAction(void* data)

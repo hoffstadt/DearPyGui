@@ -127,24 +127,9 @@ void mvShadeSeries::handleSpecificRequiredArgs(PyObject* dict)
 	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
 		return;
 
-	for (int i = 0; i < PyTuple_Size(dict); i++)
-	{
-		PyObject* item = PyTuple_GetItem(dict, i);
-		switch (i)
-		{
-		case 0:
-			(*_value)[0] = ToDoubleVect(item);
-			break;
-
-		case 1:
-			(*_value)[1] = ToDoubleVect(item);
-			(*_value)[2] = ToDoubleVect(item);
-			break;
-
-		default:
-			break;
-		}
-	}
+	(*_value)[0] = ToDoubleVect(PyTuple_GetItem(dict, 0));
+	(*_value)[1] = ToDoubleVect(PyTuple_GetItem(dict, 1));
+	(*_value)[2] = (*_value)[1];
 
 	for (auto& item : (*_value)[2])
 		item = 0.0;

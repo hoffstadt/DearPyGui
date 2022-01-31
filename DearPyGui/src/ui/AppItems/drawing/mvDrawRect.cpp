@@ -82,25 +82,10 @@ void mvDrawRect::handleSpecificRequiredArgs(PyObject* dict)
 	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
 		return;
 
-	for (int i = 0; i < PyTuple_Size(dict); i++)
-	{
-		PyObject* item = PyTuple_GetItem(dict, i);
-		switch (i)
-		{
-		case 0:
-			_pmin = ToVec4(item);
-			_pmin.w = 1.0f;
-			break;
-
-		case 1:
-			_pmax = ToVec4(item);
-			_pmax.w = 1.0f;
-			break;
-
-		default:
-			break;
-		}
-	}
+	_pmin = ToVec4(PyTuple_GetItem(dict, 0));
+	_pmax = ToVec4(PyTuple_GetItem(dict, 1));
+	_pmin.w = 1.0f;
+	_pmax.w = 1.0f;
 }
 
 void mvDrawRect::handleSpecificKeywordArgs(PyObject* dict)

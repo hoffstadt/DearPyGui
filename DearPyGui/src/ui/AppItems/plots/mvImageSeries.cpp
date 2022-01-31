@@ -131,50 +131,25 @@ void mvImageSeries::handleSpecificRequiredArgs(PyObject* dict)
 	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
 		return;
 
-	for (int i = 0; i < PyTuple_Size(dict); i++)
+	_textureUUID = GetIDFromPyObject(PyTuple_GetItem(dict, 0));
+	auto resultmin = ToPoint(PyTuple_GetItem(dict, 1));
+	auto resultmax = ToPoint(PyTuple_GetItem(dict, 2));
+	_bounds_min.x = resultmin.x;
+	_bounds_min.y = resultmin.y;
+	_bounds_max.x = resultmax.x;
+	_bounds_max.y = resultmax.y;
+	_texture = GetRefItem(*GContext->itemRegistry, _textureUUID);
+	if (_texture)
 	{
-		PyObject* item = PyTuple_GetItem(dict, i);
-		switch (i)
-		{
-		case 0:
-		{
-			_textureUUID = GetIDFromPyObject(item);
-			_texture = GetRefItem(*GContext->itemRegistry, _textureUUID);
-			if (_texture)
-				break;
-			else if (_textureUUID == MV_ATLAS_UUID)
-			{
-				_texture = std::make_shared<mvStaticTexture>(_textureUUID);
-				_internalTexture = true;
-				break;
-			}
-			else
-			{
-				mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(type), "Texture not found.", this);
-				break;
-			}
-		}
-
-		case 1:
-		{
-			auto result = ToPoint(item);
-			_bounds_min.x = result.x;
-			_bounds_min.y = result.y;
-			break;
-		}
-
-		case 2:
-		{
-			auto result = ToPoint(item);
-			_bounds_max.x = result.x;
-			_bounds_max.y = result.y;
-			break;
-		}
-
-		default:
-			break;
-		}
 	}
+	else if (_textureUUID == MV_ATLAS_UUID)
+	{
+		_texture = std::make_shared<mvStaticTexture>(_textureUUID);
+		_internalTexture = true;
+	}
+	else
+		mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(type), "Texture not found.", this);
+
 }
 
 void mvImageSeries::handleSpecificKeywordArgs(PyObject* dict)

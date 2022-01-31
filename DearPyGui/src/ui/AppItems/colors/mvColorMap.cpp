@@ -27,40 +27,24 @@ void mvColorMap::handleSpecificRequiredArgs(PyObject* dict)
     if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
         return;
 
-    for (int i = 0; i < PyTuple_Size(dict); i++)
+
+    auto rawColors = ToVectVectInt(PyTuple_GetItem(dict, 0));
+    for (const auto& color : rawColors)
     {
-        PyObject* item = PyTuple_GetItem(dict, i);
-        switch (i)
-        {
-        case 0:
-        {
-            auto rawColors = ToVectVectInt(item);
-            for (const auto& color : rawColors)
-            {
 
-                std::vector<float> c;
+        std::vector<float> c;
                     
-                for (int j = 0; j < color.size(); j++)
-                    c.push_back((float)color[j] / 255.0f);
+        for (int j = 0; j < color.size(); j++)
+            c.push_back((float)color[j] / 255.0f);
 
-                while (c.size() < 4)
-                    c.push_back(1.0f);
+        while (c.size() < 4)
+            c.push_back(1.0f);
 
-                _colors.push_back(ImVec4(c[0], c[1], c[2], c[3]));
+        _colors.push_back(ImVec4(c[0], c[1], c[2], c[3]));
                     
-            }
-            break;
-        }
-
-        case 1:
-            _qualitative = ToBool(item);
-            break;
-
-        default:
-            break;
-        }
     }
 
+    _qualitative = ToBool(PyTuple_GetItem(dict, 1));
     _colorMap = ImPlot::AddColormap(info.internalLabel.c_str(), _colors.data(), (int)_colors.size(), _qualitative);
 }
 

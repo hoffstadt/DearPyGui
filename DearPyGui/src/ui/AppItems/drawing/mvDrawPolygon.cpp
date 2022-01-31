@@ -155,20 +155,7 @@ void mvDrawPolygon::handleSpecificRequiredArgs(PyObject* dict)
 	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
 		return;
 
-	for (int i = 0; i < PyTuple_Size(dict); i++)
-	{
-		PyObject* item = PyTuple_GetItem(dict, i);
-		switch (i)
-		{
-		case 0:
-			_points = ToVectVec4(item);
-			break;
-
-		default:
-			break;
-		}
-	}
-
+	_points = ToVectVec4(PyTuple_GetItem(dict, 0));
 	for (auto& point : _points)
 		point.w = 1.0f;
 }

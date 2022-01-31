@@ -92,23 +92,8 @@ void mvSubPlots::handleSpecificRequiredArgs(PyObject* dict)
 	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
 		return;
 
-	for (int i = 0; i < PyTuple_Size(dict); i++)
-	{
-		PyObject* item = PyTuple_GetItem(dict, i);
-		switch (i)
-		{
-		case 0:
-			_rows = ToInt(item);
-			break;
-
-		case 1:
-			_cols = ToInt(item);
-			break;
-
-		default:
-			break;
-		}
-	}
+	_rows = ToInt(PyTuple_GetItem(dict, 0));
+	_cols = ToInt(PyTuple_GetItem(dict, 1));
 }
 
 void mvSubPlots::handleSpecificKeywordArgs(PyObject* dict)

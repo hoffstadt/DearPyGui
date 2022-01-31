@@ -202,35 +202,11 @@ void mvCandleSeries::handleSpecificRequiredArgs(PyObject* dict)
 	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
 		return;
 
-	for (int i = 0; i < PyTuple_Size(dict); i++)
-	{
-		PyObject* item = PyTuple_GetItem(dict, i);
-		switch (i)
-		{
-		case 0:
-			(*_value)[0] = ToDoubleVect(item);
-			break;
-
-		case 1:
-			(*_value)[1] = ToDoubleVect(item);
-			break;
-
-		case 2:
-			(*_value)[2] = ToDoubleVect(item);
-			break;
-
-		case 3:
-			(*_value)[3] = ToDoubleVect(item);
-			break;
-
-		case 4:
-			(*_value)[4] = ToDoubleVect(item);
-			break;
-
-		default:
-			break;
-		}
-	}
+	(*_value)[0] = ToDoubleVect(PyTuple_GetItem(dict, 0));
+	(*_value)[1] = ToDoubleVect(PyTuple_GetItem(dict, 1));
+	(*_value)[2] = ToDoubleVect(PyTuple_GetItem(dict, 2));
+	(*_value)[3] = ToDoubleVect(PyTuple_GetItem(dict, 3));
+	(*_value)[4] = ToDoubleVect(PyTuple_GetItem(dict, 4));
 }
 
 void mvCandleSeries::handleSpecificKeywordArgs(PyObject* dict)
@@ -242,7 +218,6 @@ void mvCandleSeries::handleSpecificKeywordArgs(PyObject* dict)
 	if (PyObject* item = PyDict_GetItemString(dict, "bear_color")) _bearColor = ToColor(item);
 	if (PyObject* item = PyDict_GetItemString(dict, "weight")) _weight = ToFloat(item);
 	if (PyObject* item = PyDict_GetItemString(dict, "tooltip")) _tooltip = ToBool(item);
-
 	if (PyObject* item = PyDict_GetItemString(dict, "dates")) { (*_value)[0] = ToDoubleVect(item); }
 	if (PyObject* item = PyDict_GetItemString(dict, "opens")) { (*_value)[1] = ToDoubleVect(item); }
 	if (PyObject* item = PyDict_GetItemString(dict, "closes")) { (*_value)[2] = ToDoubleVect(item); }

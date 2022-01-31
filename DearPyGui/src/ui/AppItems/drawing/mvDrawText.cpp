@@ -53,24 +53,10 @@ void mvDrawText::handleSpecificRequiredArgs(PyObject* dict)
 	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
 		return;
 
-	for (int i = 0; i < PyTuple_Size(dict); i++)
-	{
-		PyObject* item = PyTuple_GetItem(dict, i);
-		switch (i)
-		{
-		case 0:
-			_pos = ToVec4(item);
-			_pos.w = 1.0f;
-			break;
+	_pos = ToVec4(PyTuple_GetItem(dict, 0));
+	_pos.w = 1.0f;
+	_text = ToString(PyTuple_GetItem(dict, 1));
 
-		case 1:
-			_text = ToString(item);
-			break;
-
-		default:
-			break;
-		}
-	}
 }
 
 void mvDrawText::handleSpecificKeywordArgs(PyObject* dict)

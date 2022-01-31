@@ -94,54 +94,36 @@ void mvDrawImageQuad::handleSpecificRequiredArgs(PyObject* dict)
 	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
 		return;
 
-	for (int i = 0; i < PyTuple_Size(dict); i++)
+	_textureUUID = GetIDFromPyObject(PyTuple_GetItem(dict, 0));
+	_texture = GetRefItem(*GContext->itemRegistry, _textureUUID);
+	if (_texture)
 	{
-		PyObject* item = PyTuple_GetItem(dict, i);
-		switch (i)
-		{
-		case 0:
-		{
-			_textureUUID = GetIDFromPyObject(item);
-			_texture = GetRefItem(*GContext->itemRegistry, _textureUUID);
-			if (_texture)
-				break;
-			else if (_textureUUID == MV_ATLAS_UUID)
-			{
-				_texture = std::make_shared<mvStaticTexture>(_textureUUID);
-				_internalTexture = true;
-				break;
-			}
-			else
-			{
-				mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(type), "Texture not found.", this);
-				break;
-			}
-		}
-
-		case 1:
-			_p1 = ToVec4(item);
-			_p1.w = 1.0f;
-			break;
-
-		case 2:
-			_p2 = ToVec4(item);
-			_p2.w = 1.0f;
-			break;
-
-		case 3:
-			_p3 = ToVec4(item);
-			_p3.w = 1.0f;
-			break;
-
-		case 4:
-			_p4 = ToVec4(item);
-			_p4.w = 1.0f;
-			break;
-
-		default:
-			break;
-		}
+		_p1 = ToVec4(PyTuple_GetItem(dict, 1));
+		_p1.w = 1.0f;
+		_p2 = ToVec4(PyTuple_GetItem(dict, 2));
+		_p2.w = 1.0f;
+		_p3 = ToVec4(PyTuple_GetItem(dict, 3));
+		_p3.w = 1.0f;
+		_p4 = ToVec4(PyTuple_GetItem(dict, 4));
+		_p4.w = 1.0f;
 	}
+	else if (_textureUUID == MV_ATLAS_UUID)
+	{
+		_texture = std::make_shared<mvStaticTexture>(_textureUUID);
+		_internalTexture = true;
+	}
+	else
+		mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(type), "Texture not found.", this);
+
+	_p1 = ToVec4(PyTuple_GetItem(dict, 1));
+	_p1.w = 1.0f;
+	_p2 = ToVec4(PyTuple_GetItem(dict, 2));
+	_p2.w = 1.0f;
+	_p3 = ToVec4(PyTuple_GetItem(dict, 3));
+	_p3.w = 1.0f;
+	_p4 = ToVec4(PyTuple_GetItem(dict, 4));
+	_p4.w = 1.0f;
+
 }
 
 void mvDrawImageQuad::handleSpecificKeywordArgs(PyObject* dict)

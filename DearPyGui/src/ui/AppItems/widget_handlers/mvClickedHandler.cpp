@@ -67,20 +67,7 @@ void mvClickedHandler::handleSpecificRequiredArgs(PyObject* dict)
     if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
         return;
 
-    for (int i = 0; i < PyTuple_Size(dict); i++)
-    {
-        PyObject* item = PyTuple_GetItem(dict, i);
-        switch (i)
-        {
-            
-        case 0:
-            _button = ToInt(item);
-            break;
-
-        default:
-            break;
-        }
-    }
+    _button = ToInt(PyTuple_GetItem(dict, 0));
 }
 
 void mvClickedHandler::handleSpecificKeywordArgs(PyObject* dict)

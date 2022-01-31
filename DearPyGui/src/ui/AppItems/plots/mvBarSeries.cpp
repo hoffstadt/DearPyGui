@@ -121,23 +121,8 @@ void mvBarSeries::handleSpecificRequiredArgs(PyObject* dict)
 	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
 		return;
 
-	for (int i = 0; i < PyTuple_Size(dict); i++)
-	{
-		PyObject* item = PyTuple_GetItem(dict, i);
-		switch (i)
-		{
-		case 0:
-			(*_value)[0] = ToDoubleVect(item);
-			break;
-
-		case 1:
-			(*_value)[1] = ToDoubleVect(item);
-			break;
-
-		default:
-			break;
-		}
-	}
+	(*_value)[0] = ToDoubleVect(PyTuple_GetItem(dict, 0));
+	(*_value)[1] = ToDoubleVect(PyTuple_GetItem(dict, 1));
 }
 
 void mvBarSeries::handleSpecificKeywordArgs(PyObject* dict)
@@ -147,7 +132,6 @@ void mvBarSeries::handleSpecificKeywordArgs(PyObject* dict)
 
 	if (PyObject* item = PyDict_GetItemString(dict, "horizontal")) _horizontal= ToBool(item);
 	if (PyObject* item = PyDict_GetItemString(dict, "weight")) _weight= ToFloat(item);
-
 	if (PyObject* item = PyDict_GetItemString(dict, "x")) { (*_value)[0] = ToDoubleVect(item); }
 	if (PyObject* item = PyDict_GetItemString(dict, "y")) { (*_value)[1] = ToDoubleVect(item); }
 

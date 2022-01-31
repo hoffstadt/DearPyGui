@@ -154,34 +154,17 @@ void mvImage::handleSpecificRequiredArgs(PyObject* dict)
 	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
 		return;
 
-	for (int i = 0; i < PyTuple_Size(dict); i++)
+	_textureUUID = GetIDFromPyObject(PyTuple_GetItem(dict, 0));
+	_texture = GetRefItem(*GContext->itemRegistry, _textureUUID);
+	if (_texture)
+		return;
+	else if (_textureUUID == MV_ATLAS_UUID)
 	{
-		PyObject* item = PyTuple_GetItem(dict, i);
-		switch (i)
-		{
-		case 0:
-		{
-			_textureUUID = GetIDFromPyObject(item);
-			_texture = GetRefItem(*GContext->itemRegistry, _textureUUID);
-			if (_texture)
-				break;
-			else if (_textureUUID == MV_ATLAS_UUID)
-			{
-				_texture = std::make_shared<mvStaticTexture>(_textureUUID);
-				_internalTexture = true;
-				break;
-			}
-			else
-			{
-				mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(type), "Texture not found.", this);
-				break;
-			}
-		}
-
-		default:
-			break;
-		}
+		_texture = std::make_shared<mvStaticTexture>(_textureUUID);
+		_internalTexture = true;
 	}
+	else
+		mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(type), "Texture not found.", this);
 }
 
 void mvImage::handleSpecificKeywordArgs(PyObject* dict)
@@ -368,36 +351,17 @@ void mvImageButton::handleSpecificRequiredArgs(PyObject* dict)
 	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
 		return;
 
-	for (int i = 0; i < PyTuple_Size(dict); i++)
+	_textureUUID = GetIDFromPyObject(PyTuple_GetItem(dict, 0));
+	_texture = GetRefItem(*GContext->itemRegistry, _textureUUID);
+	if (_texture)
+		return;
+	else if (_textureUUID == MV_ATLAS_UUID)
 	{
-		PyObject* item = PyTuple_GetItem(dict, i);
-		switch (i)
-		{
-		case 0:
-		{
-			_textureUUID = GetIDFromPyObject(item);
-			_texture = GetRefItem(*GContext->itemRegistry, _textureUUID);
-			if (_texture)
-				break;
-			else if (_textureUUID == MV_ATLAS_UUID)
-			{
-				_texture = std::make_shared<mvStaticTexture>(_textureUUID);
-				_internalTexture = true;
-				break;
-			}
-			else
-			{
-				mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(type), "Texture not found.", this);
-				break;
-			}
-		}
-
-		default:
-			break;
-		}
+		_texture = std::make_shared<mvStaticTexture>(_textureUUID);
+		_internalTexture = true;
 	}
-
-
+	else
+		mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(type), "Texture not found.", this);
 }
 
 void mvImageButton::handleSpecificKeywordArgs(PyObject* dict)

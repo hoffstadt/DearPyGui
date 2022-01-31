@@ -25,21 +25,8 @@ void mvFontChars::handleSpecificRequiredArgs(PyObject* dict)
 	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
 		return;
 
-	for (int i = 0; i < PyTuple_Size(dict); i++)
-	{
-		PyObject* item = PyTuple_GetItem(dict, i);
-		switch (i)
-		{
-		case 0:
-		{
-			auto charVect = ToIntVect(item);
-			for (auto& item : charVect)
-				_chars.push_back((ImWchar)item);
-			break;
-		}
+	auto charVect = ToIntVect(PyTuple_GetItem(dict, 0));
+	for (auto& item : charVect)
+		_chars.push_back((ImWchar)item);
 
-		default:
-			break;
-		}
-	}
 }

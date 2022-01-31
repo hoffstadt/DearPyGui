@@ -182,21 +182,9 @@ void mvPlotAxis::handleSpecificRequiredArgs(PyObject* dict)
     if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
         return;
 
-    for (int i = 0; i < PyTuple_Size(dict); i++)
-    {
-        PyObject* item = PyTuple_GetItem(dict, i);
-        switch (i)
-        {
-        case 0:
-            _axis = ToInt(item);
-            if (_axis > 1)
-                _axis = 1;
-            break;
-
-        default:
-            break;
-        }
-    }
+    _axis = ToInt(PyTuple_GetItem(dict, 0));
+    if (_axis > 1)
+        _axis = 1;
 }
 
 void mvPlotAxis::getSpecificConfiguration(PyObject* dict)

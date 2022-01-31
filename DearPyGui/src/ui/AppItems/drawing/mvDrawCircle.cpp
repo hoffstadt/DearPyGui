@@ -59,24 +59,9 @@ void mvDrawCircle::handleSpecificRequiredArgs(PyObject* dict)
 	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
 		return;
 
-	for (int i = 0; i < PyTuple_Size(dict); i++)
-	{
-		PyObject* item = PyTuple_GetItem(dict, i);
-		switch (i)
-		{
-		case 0:
-			_center = ToVec4(item);
-			_center.w = 1.0f;
-			break;
-
-		case 1:
-			_radius = ToFloat(item);
-			break;
-
-		default:
-			break;
-		}
-	}
+	_center = ToVec4(PyTuple_GetItem(dict, 0));
+	_center.w = 1.0f;
+	_radius = ToFloat(PyTuple_GetItem(dict, 1));
 }
 
 void mvDrawCircle::handleSpecificKeywordArgs(PyObject* dict)

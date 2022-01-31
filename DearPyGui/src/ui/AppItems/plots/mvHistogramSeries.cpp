@@ -118,19 +118,7 @@ void mvHistogramSeries::handleSpecificRequiredArgs(PyObject* dict)
 	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
 		return;
 
-	for (int i = 0; i < PyTuple_Size(dict); i++)
-	{
-		PyObject* item = PyTuple_GetItem(dict, i);
-		switch (i)
-		{
-		case 0:
-			(*_value)[0] = ToDoubleVect(item);
-			break;
-
-		default:
-			break;
-		}
-	}
+	(*_value)[0] = ToDoubleVect(PyTuple_GetItem(dict, 0));
 }
 
 void mvHistogramSeries::handleSpecificKeywordArgs(PyObject* dict)

@@ -97,29 +97,11 @@ void mvRawTexture::handleSpecificRequiredArgs(PyObject* dict)
 		return;
 	}
 
-	for (int i = 0; i < PyTuple_Size(dict); i++)
-	{
-		PyObject* item = PyTuple_GetItem(dict, i);
-		switch (i)
-		{
-		case 0:
-			_permWidth = ToInt(item);
-			config.width = _permWidth;
-			break;
-
-		case 1:
-			_permHeight = ToInt(item);
-			config.height = _permHeight;
-			break;
-
-		case 2:
-			setPyValue(item);
-			break;
-
-		default:
-			break;
-		}
-	}
+	_permWidth = ToInt(PyTuple_GetItem(dict, 0));
+	config.width = _permWidth;
+	_permHeight = ToInt(PyTuple_GetItem(dict, 1));
+	config.height = _permHeight;
+	setPyValue(PyTuple_GetItem(dict, 2));
 }
 
 void mvRawTexture::handleSpecificKeywordArgs(PyObject* dict)
