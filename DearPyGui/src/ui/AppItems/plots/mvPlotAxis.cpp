@@ -3,16 +3,10 @@
 #include "mvContext.h"
 #include "mvItemRegistry.h"
 #include "mvLog.h"
-#include "themes/mvTheme.h"
+#include "mvThemes.h"
 #include "mvPythonExceptions.h"
 #include "mvPlot.h"
 #include "containers/mvDragPayload.h"
-
-mvPlotAxis::mvPlotAxis(mvUUID uuid)
-    : 
-    mvAppItem(uuid)
-{
-}
 
 void mvPlotAxis::customAction(void* data)
 {

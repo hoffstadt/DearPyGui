@@ -25,7 +25,7 @@ class mvInputText : public mvAppItem
 
 public:
 
-    explicit mvInputText(mvUUID uuid);
+    explicit mvInputText(mvUUID uuid) : mvAppItem(uuid) {}
 
     void draw(ImDrawList* drawlist, float x, float y) override;
     void handleSpecificKeywordArgs(PyObject* dict) override;

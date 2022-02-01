@@ -7,7 +7,7 @@ class mvFilterSet : public mvAppItem
 
 public:
 
-    explicit mvFilterSet(mvUUID uuid);
+    explicit mvFilterSet(mvUUID uuid) : mvAppItem(uuid) {}
 
     void draw(ImDrawList* drawlist, float x, float y) override;
 

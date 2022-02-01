@@ -7,11 +7,6 @@
 #include "mvPythonExceptions.h"
 #include "mvPyObject.h"
 
-mvDragPoint::mvDragPoint(mvUUID uuid)
-	: mvAppItem(uuid)
-{
-}
-
 PyObject* mvDragPoint::getPyValue()
 {
 	return ToPyFloatList(_value->data(), 4);

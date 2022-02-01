@@ -2,10 +2,10 @@
 #include "mvContext.h"
 #include "mvItemRegistry.h"
 #include "mvPythonExceptions.h"
-#include "fonts/mvFont.h"
-#include "themes/mvTheme.h"
+#include "mvFontItems.h"
+#include "mvThemes.h"
 #include "containers/mvDragPayload.h"
-#include "AppItems/widget_handlers/mvItemHandlerRegistry.h"
+#include "AppItems/mvItemHandlers.h"
 
 mvText::mvText(mvUUID uuid)
 	: 

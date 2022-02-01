@@ -8,7 +8,7 @@ class mvAnnotation : public mvAppItem
 
 public:
 
-    explicit mvAnnotation(mvUUID uuid);
+    explicit mvAnnotation(mvUUID uuid) : mvAppItem(uuid) {}
 
     void draw(ImDrawList* drawlist, float x, float y) override;
     void handleSpecificKeywordArgs(PyObject* dict) override;

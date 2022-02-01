@@ -8,7 +8,7 @@ class mvDragPoint : public mvAppItem
 
 public:
 
-    explicit mvDragPoint(mvUUID uuid);
+    explicit mvDragPoint(mvUUID uuid) : mvAppItem(uuid) {}
 
     void draw(ImDrawList* drawlist, float x, float y) override;
     void handleSpecificKeywordArgs(PyObject* dict) override;

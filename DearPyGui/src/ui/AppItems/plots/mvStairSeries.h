@@ -7,7 +7,7 @@ class mvStairSeries : public mvAppItem
 
 public:
 
-    explicit mvStairSeries(mvUUID uuid);
+    explicit mvStairSeries(mvUUID uuid) : mvAppItem(uuid) {}
 
     void draw(ImDrawList* drawlist, float x, float y) override;
     void handleSpecificRequiredArgs(PyObject* args) override;

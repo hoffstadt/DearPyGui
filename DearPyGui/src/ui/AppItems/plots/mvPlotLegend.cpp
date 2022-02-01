@@ -3,17 +3,11 @@
 #include "mvContext.h"
 #include "mvItemRegistry.h"
 #include "mvLog.h"
-#include "themes/mvTheme.h"
+#include "mvThemes.h"
 #include "mvPythonExceptions.h"
 #include "mvPlot.h"
 #include "mvSubPlots.h"
 #include "containers/mvDragPayload.h"
-
-mvPlotLegend::mvPlotLegend(mvUUID uuid)
-    : 
-    mvAppItem(uuid)
-{
-}
 
 void mvPlotLegend::draw(ImDrawList* drawlist, float x, float y)
 {

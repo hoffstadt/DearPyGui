@@ -8,7 +8,7 @@ class mvMenuItem : public mvAppItem
 
 public:
 
-    explicit mvMenuItem(mvUUID uuid);
+    explicit mvMenuItem(mvUUID uuid) : mvAppItem(uuid) {}
 
     void draw(ImDrawList* drawlist, float x, float y) override;
     void handleSpecificKeywordArgs(PyObject* dict) override;

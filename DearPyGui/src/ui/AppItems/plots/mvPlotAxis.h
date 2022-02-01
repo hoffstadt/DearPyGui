@@ -7,7 +7,7 @@ class mvPlotAxis : public mvAppItem
 
 public:
 
-    explicit mvPlotAxis(mvUUID uuid);
+    explicit mvPlotAxis(mvUUID uuid) : mvAppItem(uuid) {}
 
     void draw(ImDrawList* drawlist, float x, float y) override;
     void customAction(void* data = nullptr) override;

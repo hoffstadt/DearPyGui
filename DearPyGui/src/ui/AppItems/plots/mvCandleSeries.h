@@ -7,7 +7,7 @@ class mvCandleSeries : public mvAppItem
 
 public:
 
-    explicit mvCandleSeries(mvUUID uuid);
+    explicit mvCandleSeries(mvUUID uuid) : mvAppItem(uuid) {}
 
     void draw(ImDrawList* drawlist, float x, float y) override;
     void handleSpecificRequiredArgs(PyObject* args) override;

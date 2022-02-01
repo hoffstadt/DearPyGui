@@ -6,7 +6,7 @@ class mvCollapsingHeader : public mvAppItem
 {
 public:
 
-    explicit mvCollapsingHeader(mvUUID uuid);
+    explicit mvCollapsingHeader(mvUUID uuid) : mvAppItem(uuid) {}
 
     void draw(ImDrawList* drawlist, float x, float y) override;
     void handleSpecificKeywordArgs(PyObject* dict) override;

@@ -1,15 +1,10 @@
 #include "mvKnob.h"
 #include "mvKnobCustom.h"
 #include "mvPythonExceptions.h"
-#include "AppItems/fonts/mvFont.h"
-#include "AppItems/themes/mvTheme.h"
+#include "AppItems/mvFontItems.h"
+#include "AppItems/mvThemes.h"
 #include "AppItems/containers/mvDragPayload.h"
-#include "AppItems/widget_handlers/mvItemHandlerRegistry.h"
-
-mvKnobFloat::mvKnobFloat(mvUUID uuid)
-    : mvAppItem(uuid)
-{
-}
+#include "AppItems/mvItemHandlers.h"
 
 void mvKnobFloat::applySpecificTemplate(mvAppItem* item)
 {

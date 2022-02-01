@@ -4,12 +4,6 @@
 #include "mvPythonExceptions.h"
 #include "mvLog.h"
 
-mvFileExtension::mvFileExtension(mvUUID uuid)
-	: 
-	mvAppItem(uuid)
-{
-}
-
 void mvFileExtension::applySpecificTemplate(mvAppItem* item)
 {
 	auto titem = static_cast<mvFileExtension*>(item);

@@ -7,7 +7,7 @@ class mvListbox : public mvAppItem
 
 public:
 
-    explicit mvListbox(mvUUID uuid);
+    explicit mvListbox(mvUUID uuid) : mvAppItem(uuid) {}
 
     void draw(ImDrawList* drawlist, float x, float y) override;
     void handleSpecificPositionalArgs(PyObject* dict) override;

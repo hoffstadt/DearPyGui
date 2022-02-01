@@ -7,7 +7,7 @@ class mvLineSeries : public mvAppItem
 
 public:
 
-	explicit mvLineSeries(mvUUID uuid);
+	explicit mvLineSeries(mvUUID uuid) : mvAppItem(uuid) {}
 
 	void draw(ImDrawList* drawlist, float x, float y) override;
 	void setDataSource(mvUUID dataSource) override;

@@ -5,15 +5,10 @@
 #include <misc/cpp/imgui_stdlib.h>
 #include "mvItemRegistry.h"
 #include "mvPythonExceptions.h"
-#include "AppItems/fonts/mvFont.h"
-#include "AppItems/themes/mvTheme.h"
+#include "AppItems/mvFontItems.h"
+#include "AppItems/mvThemes.h"
 #include "AppItems/containers/mvDragPayload.h"
-#include "AppItems/widget_handlers/mvItemHandlerRegistry.h"
-
-mvDatePicker::mvDatePicker(mvUUID uuid)
-	: mvAppItem(uuid)
-{
-}
+#include "AppItems/mvItemHandlers.h"
 
 void mvDatePicker::applySpecificTemplate(mvAppItem* item)
 {

@@ -7,7 +7,7 @@ class mvTreeNode : public mvAppItem
 
 public:
 
-    explicit mvTreeNode(mvUUID uuid);
+    explicit mvTreeNode(mvUUID uuid) : mvAppItem(uuid) {}
 
     void draw(ImDrawList* drawlist, float x, float y) override;
     void handleSpecificKeywordArgs(PyObject* dict) override;

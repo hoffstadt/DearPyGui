@@ -7,7 +7,7 @@ class mvShadeSeries : public mvAppItem
 
 public:
 
-    explicit mvShadeSeries(mvUUID uuid);
+    explicit mvShadeSeries(mvUUID uuid) : mvAppItem(uuid) {}
 
     void draw(ImDrawList* drawlist, float x, float y) override;
     void handleSpecificRequiredArgs(PyObject* args) override;

@@ -21,6 +21,7 @@ struct mvContext;
 // forward declarations - item configs
 //-----------------------------------------------------------------------------
 struct mvButtonConfig;
+struct mvCheckboxConfig;
 struct mvComboConfig;
 struct mvDragFloatConfig;
 struct mvDragIntConfig;

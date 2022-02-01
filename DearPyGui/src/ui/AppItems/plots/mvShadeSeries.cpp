@@ -4,14 +4,9 @@
 #include "mvContext.h"
 #include "mvItemRegistry.h"
 #include "mvPythonExceptions.h"
-#include "AppItems/fonts/mvFont.h"
-#include "AppItems/themes/mvTheme.h"
+#include "AppItems/mvFontItems.h"
+#include "AppItems/mvThemes.h"
 #include "AppItems/containers/mvDragPayload.h"
-
-mvShadeSeries::mvShadeSeries(mvUUID uuid)
-	: mvAppItem(uuid)
-{
-}
 
 void mvShadeSeries::applySpecificTemplate(mvAppItem* item)
 {

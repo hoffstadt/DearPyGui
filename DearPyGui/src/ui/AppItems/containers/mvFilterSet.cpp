@@ -2,11 +2,6 @@
 #include "mvContext.h"
 #include "mvItemRegistry.h"
 
-mvFilterSet::mvFilterSet(mvUUID uuid)
-	: mvAppItem(uuid)
-{
-}
-
 PyObject* mvFilterSet::getPyValue()
 {
 	return ToPyString(std::string(_imguiFilter.InputBuf));

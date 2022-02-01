@@ -7,7 +7,7 @@ class mvErrorSeries : public mvAppItem
 
 public:
 
-    explicit mvErrorSeries(mvUUID uuid);
+    explicit mvErrorSeries(mvUUID uuid) : mvAppItem(uuid) {}
 
     void draw(ImDrawList* drawlist, float x, float y) override;
     void handleSpecificRequiredArgs(PyObject* args) override;

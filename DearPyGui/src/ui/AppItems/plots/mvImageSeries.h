@@ -1,16 +1,14 @@
 #pragma once
 
 #include "mvPlot.h"
-#include "textures/mvStaticTexture.h"
-#include "textures/mvDynamicTexture.h"
-#include "textures/mvRawTexture.h"
+#include "mvTextureItems.h"
 
 class mvImageSeries : public mvAppItem
 {
 
 public:
 
-    explicit mvImageSeries(mvUUID uuid);
+    explicit mvImageSeries(mvUUID uuid) : mvAppItem(uuid) {}
 
     void draw(ImDrawList* drawlist, float x, float y) override;
     void handleSpecificRequiredArgs(PyObject* args) override;

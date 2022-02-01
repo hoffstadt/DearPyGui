@@ -9,11 +9,6 @@
 #include "mvLog.h"
 #include "mvAppItemCommons.h"
 
-mvColorMap::mvColorMap(mvUUID uuid)
-    : mvAppItem(uuid)
-{ 
-}
-
 void mvColorMap::applySpecificTemplate(mvAppItem* item)
 {
     auto titem = static_cast<mvColorMap*>(item);

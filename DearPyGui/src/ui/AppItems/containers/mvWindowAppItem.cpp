@@ -4,9 +4,9 @@
 #include "mvLog.h"
 #include "mvPythonExceptions.h"
 #include "mvChild.h"
-#include "fonts/mvFont.h"
-#include "themes/mvTheme.h"
-#include "AppItems/widget_handlers/mvItemHandlerRegistry.h"
+#include "mvFontItems.h"
+#include "mvThemes.h"
+#include "AppItems/mvItemHandlers.h"
 
 mvWindowAppItem::mvWindowAppItem(mvUUID uuid, bool mainWindow)
     : mvAppItem(uuid), _mainWindow(mainWindow)

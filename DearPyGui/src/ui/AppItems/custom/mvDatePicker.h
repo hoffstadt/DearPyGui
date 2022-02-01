@@ -12,7 +12,7 @@ class mvDatePicker : public mvAppItem
 
 public:
 
-    explicit mvDatePicker(mvUUID uuid);
+    explicit mvDatePicker(mvUUID uuid) : mvAppItem(uuid) {}
 
     void draw(ImDrawList* drawlist, float x, float y) override;
     void handleSpecificKeywordArgs(PyObject* dict) override;

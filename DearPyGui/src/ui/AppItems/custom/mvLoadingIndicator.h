@@ -7,7 +7,7 @@ class mvLoadingIndicator : public mvAppItem
 
 public:
 
-    explicit mvLoadingIndicator(mvUUID uuid);
+    explicit mvLoadingIndicator(mvUUID uuid) : mvAppItem(uuid) {}
 
     void draw(ImDrawList* drawlist, float x, float y) override;
     void handleSpecificKeywordArgs(PyObject* dict) override;

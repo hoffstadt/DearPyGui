@@ -6,16 +6,10 @@
 #include <string>
 #include "mvItemRegistry.h"
 #include "mvPythonExceptions.h"
-#include "AppItems/fonts/mvFont.h"
-#include "AppItems/themes/mvTheme.h"
+#include "AppItems/mvFontItems.h"
+#include "AppItems/mvThemes.h"
 #include "AppItems/containers/mvDragPayload.h"
-#include "AppItems/widget_handlers/mvItemHandlerRegistry.h"
-
-mvInputText::mvInputText(mvUUID uuid)
-    :
-    mvAppItem(uuid)
-{
-}
+#include "AppItems/mvItemHandlers.h"
 
 void mvInputText::applySpecificTemplate(mvAppItem* item)
 {

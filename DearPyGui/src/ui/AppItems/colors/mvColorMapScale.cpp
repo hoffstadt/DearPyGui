@@ -7,15 +7,10 @@
 #include <implot.h>
 #include "mvPythonExceptions.h"
 #include "mvAppItemCommons.h"
-#include "AppItems/fonts/mvFont.h"
-#include "AppItems/themes/mvTheme.h"
+#include "mvFontItems.h"
+#include "AppItems/mvThemes.h"
 #include "AppItems/containers/mvDragPayload.h"
-#include "AppItems/widget_handlers/mvItemHandlerRegistry.h"
-
-mvColorMapScale::mvColorMapScale(mvUUID uuid)
-    : mvAppItem(uuid)
-{
-}
+#include "AppItems/mvItemHandlers.h"
 
 void mvColorMapScale::applySpecificTemplate(mvAppItem* item)
 {

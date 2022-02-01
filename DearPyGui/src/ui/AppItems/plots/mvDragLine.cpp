@@ -7,11 +7,6 @@
 #include "mvPythonExceptions.h"
 #include "mvPyObject.h"
 
-mvDragLine::mvDragLine(mvUUID uuid)
-	: mvAppItem(uuid)
-{
-}
-
 void mvDragLine::draw(ImDrawList* drawlist, float x, float y)
 {
 	if (!config.show)

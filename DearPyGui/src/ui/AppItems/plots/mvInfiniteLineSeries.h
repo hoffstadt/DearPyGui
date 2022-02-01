@@ -18,7 +18,7 @@ class mvVLineSeries : public mvAppItem
 
 public:
 
-    explicit mvVLineSeries(mvUUID uuid);
+    explicit mvVLineSeries(mvUUID uuid) : mvAppItem(uuid) {}
 
     void draw(ImDrawList* drawlist, float x, float y) override;
     void handleSpecificRequiredArgs(PyObject* args) override;
@@ -51,7 +51,7 @@ class mvHLineSeries : public mvAppItem
 
 public:
 
-    explicit mvHLineSeries(mvUUID uuid);
+    explicit mvHLineSeries(mvUUID uuid) : mvAppItem(uuid) {}
 
     void draw(ImDrawList* drawlist, float x, float y) override;
     void handleSpecificRequiredArgs(PyObject* args) override;

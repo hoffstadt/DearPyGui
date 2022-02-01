@@ -10,7 +10,7 @@ class mvColorMapScale : public mvAppItem
 
 public:
 
-    explicit mvColorMapScale(mvUUID uuid);
+    explicit mvColorMapScale(mvUUID uuid) : mvAppItem(uuid) {}
 
     void draw(ImDrawList* drawlist, float x, float y) override;
     void handleSpecificKeywordArgs(PyObject* dict) override;

@@ -5,12 +5,6 @@
 #include "mvTab.h"
 #include "mvPythonExceptions.h"
 
-mvTabBar::mvTabBar(mvUUID uuid)
-	:
-	mvAppItem(uuid)
-{
-}
-
 void mvTabBar::applySpecificTemplate(mvAppItem* item)
 {
 	auto titem = static_cast<mvTabBar*>(item);

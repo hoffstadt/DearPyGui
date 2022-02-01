@@ -8,7 +8,7 @@ class mvColorMapSlider : public mvAppItem
 
 public:
 
-    explicit mvColorMapSlider(mvUUID uuid);
+    explicit mvColorMapSlider(mvUUID uuid) : mvAppItem(uuid) {}
 
     void draw(ImDrawList* drawlist, float x, float y) override;
     void applySpecificTemplate(mvAppItem* item) override;

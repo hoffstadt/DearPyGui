@@ -7,7 +7,7 @@ class mvPieSeries : public mvAppItem
 
 public:
 
-    explicit mvPieSeries(mvUUID uuid);
+    explicit mvPieSeries(mvUUID uuid) : mvAppItem(uuid) {}
 
     void draw(ImDrawList* drawlist, float x, float y) override;
     void handleSpecificRequiredArgs(PyObject* args) override;

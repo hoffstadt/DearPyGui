@@ -7,7 +7,7 @@ class mvTabBar : public mvAppItem
 
 public:
 
-    explicit mvTabBar(mvUUID uuid);
+    explicit mvTabBar(mvUUID uuid) : mvAppItem(uuid) {}
 
     void draw(ImDrawList* drawlist, float x, float y) override;
     void handleSpecificKeywordArgs(PyObject* dict) override;

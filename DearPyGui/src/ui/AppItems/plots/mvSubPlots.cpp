@@ -18,7 +18,7 @@
 #include "mvStemSeries.h"
 #include "mvPythonExceptions.h"
 #include "mvPlotAxis.h"
-#include "themes/mvTheme.h"
+#include "mvThemes.h"
 #include "containers/mvDragPayload.h"
 #include "mvPyObject.h"
 

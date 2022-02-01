@@ -7,7 +7,7 @@ class mvProgressBar : public mvAppItem
 
 public:
 
-    explicit mvProgressBar(mvUUID uuid);
+    explicit mvProgressBar(mvUUID uuid) : mvAppItem(uuid) {}
 
     void draw(ImDrawList* drawlist, float x, float y) override;
     void handleSpecificKeywordArgs(PyObject* dict) override;

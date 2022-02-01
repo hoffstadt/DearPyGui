@@ -6,15 +6,10 @@
 #include <string>
 #include "mvItemRegistry.h"
 #include "mvPythonExceptions.h"
-#include "AppItems/fonts/mvFont.h"
-#include "AppItems/themes/mvTheme.h"
+#include "AppItems/mvFontItems.h"
+#include "AppItems/mvThemes.h"
 #include "AppItems/containers/mvDragPayload.h"
-#include "AppItems/widget_handlers/mvItemHandlerRegistry.h"
-
-mvSliderFloatMulti::mvSliderFloatMulti(mvUUID uuid)
-    : mvAppItem(uuid)
-{
-}
+#include "AppItems/mvItemHandlers.h"
 
 void mvSliderFloatMulti::applySpecificTemplate(mvAppItem* item)
 {
@@ -186,11 +181,6 @@ void mvSliderFloatMulti::draw(ImDrawList* drawlist, float x, float y)
 
     // handle drag & drop if used
     apply_drag_drop(this);
-}
-
-mvSliderIntMulti::mvSliderIntMulti(mvUUID uuid)
-    : mvAppItem(uuid)
-{
 }
 
 void mvSliderIntMulti::applySpecificTemplate(mvAppItem* item)
@@ -483,11 +473,6 @@ void mvSliderIntMulti::getSpecificConfiguration(PyObject* dict)
 
 }
 
-mvSliderFloat::mvSliderFloat(mvUUID uuid)
-    : mvAppItem(uuid)
-{
-}
-
 void mvSliderFloat::applySpecificTemplate(mvAppItem* item)
 {
     auto titem = static_cast<mvSliderFloat*>(item);
@@ -654,11 +639,6 @@ void mvSliderFloat::draw(ImDrawList* drawlist, float x, float y)
 
     // handle drag & drop if used
     apply_drag_drop(this);
-}
-
-mvSliderInt::mvSliderInt(mvUUID uuid)
-    : mvAppItem(uuid)
-{
 }
 
 void mvSliderInt::applySpecificTemplate(mvAppItem* item)

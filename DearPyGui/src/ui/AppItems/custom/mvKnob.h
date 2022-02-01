@@ -10,7 +10,7 @@ class mvKnobFloat : public mvAppItem
 
 public:
 
-    explicit mvKnobFloat(mvUUID uuid);
+    explicit mvKnobFloat(mvUUID uuid) : mvAppItem(uuid) {}
 
     void draw(ImDrawList* drawlist, float x, float y) override;
     void handleSpecificKeywordArgs(PyObject* dict) override;

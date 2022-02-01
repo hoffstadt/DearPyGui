@@ -11,7 +11,7 @@ class mvSlider3D : public mvAppItem
 
 public:
 
-    explicit mvSlider3D(mvUUID uuid);
+    explicit mvSlider3D(mvUUID uuid) : mvAppItem(uuid) {}
 
     void draw(ImDrawList* drawlist, float x, float y) override;
     void handleSpecificKeywordArgs(PyObject* dict) override;

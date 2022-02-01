@@ -8,7 +8,7 @@ class mvColorEdit : public mvAppItem
 
 public:
 
-    explicit mvColorEdit(mvUUID uuid);
+    explicit mvColorEdit(mvUUID uuid) : mvAppItem(uuid) {}
 
     void draw(ImDrawList* drawlist, float x, float y) override;
     void handleSpecificPositionalArgs(PyObject* dict) override;

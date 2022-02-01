@@ -7,7 +7,7 @@ class mvPlotLegend : public mvAppItem
 
 public:
 
-    explicit mvPlotLegend(mvUUID uuid);
+    explicit mvPlotLegend(mvUUID uuid) : mvAppItem(uuid) {}
 
     void draw(ImDrawList* drawlist, float x, float y) override;
     void handleSpecificKeywordArgs(PyObject* dict) override;

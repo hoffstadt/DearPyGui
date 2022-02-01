@@ -7,7 +7,7 @@ class mvScatterSeries : public mvAppItem
 
 public:
 
-    explicit mvScatterSeries(mvUUID uuid);
+    explicit mvScatterSeries(mvUUID uuid) : mvAppItem(uuid) {}
 
     void draw(ImDrawList* drawlist, float x, float y) override;
     void setDataSource(mvUUID dataSource) override;

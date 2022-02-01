@@ -7,11 +7,6 @@
 #include "mvPythonExceptions.h"
 #include "mvPyObject.h"
 
-mvAnnotation::mvAnnotation(mvUUID uuid)
-	: mvAppItem(uuid)
-{
-}
-
 PyObject* mvAnnotation::getPyValue()
 {
 	return ToPyFloatList(_value->data(), 4);

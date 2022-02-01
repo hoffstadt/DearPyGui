@@ -8,7 +8,7 @@ class mvColorPicker : public mvAppItem
 
 public:
 
-    explicit mvColorPicker(mvUUID uuid);
+    explicit mvColorPicker(mvUUID uuid) : mvAppItem(uuid) {}
 
     void draw(ImDrawList* drawlist, float x, float y) override;
     void handleSpecificPositionalArgs(PyObject* dict) override;

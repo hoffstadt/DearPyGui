@@ -49,11 +49,6 @@ apply_drag_drop_nodraw(mvAppItem* item)
 	}
 }
 
-mvDragPayload::mvDragPayload(mvUUID uuid)
-	: mvAppItem(uuid)
-{
-}
-
 void mvDragPayload::applySpecificTemplate(mvAppItem* item)
 {
 	auto titem = static_cast<mvDragPayload*>(item);

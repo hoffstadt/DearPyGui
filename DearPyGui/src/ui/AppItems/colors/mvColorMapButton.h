@@ -8,7 +8,7 @@ class mvColorMapButton : public mvAppItem
 
 public:
 
-	explicit mvColorMapButton(mvUUID uuid);
+	explicit mvColorMapButton(mvUUID uuid) : mvAppItem(uuid) {}
 
 	void draw(ImDrawList* drawlist, float x, float y) override;
 	void applySpecificTemplate(mvAppItem* item) override;

@@ -4,14 +4,9 @@
 #include "mvContext.h"
 #include "mvItemRegistry.h"
 #include "mvPythonExceptions.h"
-#include "AppItems/fonts/mvFont.h"
-#include "AppItems/themes/mvTheme.h"
+#include "AppItems/mvFontItems.h"
+#include "AppItems/mvThemes.h"
 #include "AppItems/containers/mvDragPayload.h"
-
-mvVLineSeries::mvVLineSeries(mvUUID uuid)
-	: mvAppItem(uuid)
-{
-}
 
 PyObject* mvVLineSeries::getPyValue()
 {
@@ -136,11 +131,6 @@ void mvVLineSeries::applySpecificTemplate(mvAppItem* item)
 {
 	auto titem = static_cast<mvVLineSeries*>(item);
 	if (config.source != 0) _value = titem->_value;
-}
-
-mvHLineSeries::mvHLineSeries(mvUUID uuid)
-	: mvAppItem(uuid)
-{
 }
 
 PyObject* mvHLineSeries::getPyValue()

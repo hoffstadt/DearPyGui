@@ -7,7 +7,7 @@ class mvTimePicker : public mvAppItem
 
 public:
 
-    explicit mvTimePicker(mvUUID uuid);
+    explicit mvTimePicker(mvUUID uuid) : mvAppItem(uuid) {}
 
     void draw(ImDrawList* drawlist, float x, float y)override;
     void handleSpecificKeywordArgs(PyObject* dict) override;

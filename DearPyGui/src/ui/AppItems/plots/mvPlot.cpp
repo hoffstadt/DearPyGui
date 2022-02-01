@@ -18,11 +18,11 @@
 #include "mvStemSeries.h"
 #include "mvPythonExceptions.h"
 #include "mvPlotAxis.h"
-#include "themes/mvTheme.h"
+#include "mvThemes.h"
 #include "containers/mvDragPayload.h"
 #include "mvPyObject.h"
-#include "fonts/mvFont.h"
-#include "AppItems/widget_handlers/mvItemHandlerRegistry.h"
+#include "mvFontItems.h"
+#include "AppItems/mvItemHandlers.h"
 
 mvPlot::mvPlot(mvUUID uuid)
     : mvAppItem(uuid)

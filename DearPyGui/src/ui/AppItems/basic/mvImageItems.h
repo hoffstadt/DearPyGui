@@ -4,9 +4,7 @@
 #include <array>
 #include "mvAppItem.h"
 #include "mvItemRegistry.h"
-#include "textures/mvStaticTexture.h"
-#include "textures/mvDynamicTexture.h"
-#include "textures/mvRawTexture.h"
+#include "mvTextureItems.h"
 
 //-----------------------------------------------------------------------------
 // Widget Index
@@ -59,7 +57,7 @@ class mvImageButton : public mvAppItem
 
 public:
 
-    explicit mvImageButton(mvUUID uuid);
+    explicit mvImageButton(mvUUID uuid) : mvAppItem(uuid) {}
 
     void draw(ImDrawList* drawlist, float x, float y) override;
     void handleSpecificRequiredArgs(PyObject* dict) override;

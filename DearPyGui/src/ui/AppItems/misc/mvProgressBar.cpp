@@ -4,15 +4,10 @@
 #include "mvItemRegistry.h"
 #include "mvPythonExceptions.h"
 #include "mvPyObject.h"
-#include "AppItems/fonts/mvFont.h"
-#include "AppItems/themes/mvTheme.h"
+#include "AppItems/mvFontItems.h"
+#include "AppItems/mvThemes.h"
 #include "AppItems/containers/mvDragPayload.h"
-#include "AppItems/widget_handlers/mvItemHandlerRegistry.h"
-
-mvProgressBar::mvProgressBar(mvUUID uuid)
-	: mvAppItem(uuid)
-{
-}
+#include "AppItems/mvItemHandlers.h"
 
 void mvProgressBar::applySpecificTemplate(mvAppItem* item)
 {

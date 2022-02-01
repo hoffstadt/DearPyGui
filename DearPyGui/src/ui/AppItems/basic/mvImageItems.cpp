@@ -2,10 +2,10 @@
 #include "mvItemRegistry.h"
 #include "mvContext.h"
 #include "mvPythonExceptions.h"
-#include "AppItems/fonts/mvFont.h"
-#include "AppItems/themes/mvTheme.h"
+#include "AppItems/mvFontItems.h"
+#include "AppItems/mvThemes.h"
 #include "AppItems/containers/mvDragPayload.h"
-#include "AppItems/widget_handlers/mvItemHandlerRegistry.h"
+#include "AppItems/mvItemHandlers.h"
 
 mvImage::mvImage(mvUUID uuid)
 	: mvAppItem(uuid)
@@ -206,11 +206,6 @@ void mvImage::getSpecificConfiguration(PyObject* dict)
 	PyDict_SetItemString(dict, "tint_color", mvPyObject(ToPyColor(_tintColor)));
 	PyDict_SetItemString(dict, "border_color", mvPyObject(ToPyColor(_borderColor)));
 	PyDict_SetItemString(dict, "texture_tag", mvPyObject(ToPyUUID(_textureUUID)));
-}
-
-mvImageButton::mvImageButton(mvUUID uuid)
-	: mvAppItem(uuid)
-{
 }
 
 void mvImageButton::applySpecificTemplate(mvAppItem* item)

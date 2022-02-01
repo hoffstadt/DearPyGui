@@ -10,7 +10,7 @@
 #include "mvViewport.h"
 #include "mvPythonExceptions.h"
 #include <frameobject.h>
-#include "textures/mvStaticTexture.h"
+#include "mvTextureItems.h"
 #include <CustomFont.cpp>
 #include <CustomFont.h>
 

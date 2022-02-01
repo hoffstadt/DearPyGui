@@ -7,7 +7,7 @@ class mvTabButton : public mvAppItem
 
 public:
 
-    explicit mvTabButton(mvUUID uuid);
+    explicit mvTabButton(mvUUID uuid) : mvAppItem(uuid) {}
 
     void draw(ImDrawList* drawlist, float x, float y) override;
     void handleSpecificKeywordArgs(PyObject* dict) override;

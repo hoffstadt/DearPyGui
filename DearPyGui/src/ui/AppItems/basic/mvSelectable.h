@@ -7,7 +7,7 @@ class mvSelectable : public mvAppItem
 
 public:
 
-    explicit mvSelectable(mvUUID uuid);
+    explicit mvSelectable(mvUUID uuid) : mvAppItem(uuid) {}
 
     void draw(ImDrawList* drawlist, float x, float y) override;
     void handleSpecificKeywordArgs(PyObject* dict) override;

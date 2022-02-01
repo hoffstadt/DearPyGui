@@ -4,14 +4,9 @@
 #include "mvContext.h"
 #include "mvItemRegistry.h"
 #include "mvPythonExceptions.h"
-#include "AppItems/fonts/mvFont.h"
-#include "AppItems/themes/mvTheme.h"
+#include "AppItems/mvFontItems.h"
+#include "AppItems/mvThemes.h"
 #include "AppItems/containers/mvDragPayload.h"
-
-mvLineSeries::mvLineSeries(mvUUID uuid)
-	: mvAppItem(uuid)
-{
-}
 
 PyObject* mvLineSeries::getPyValue()
 {

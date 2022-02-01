@@ -7,7 +7,7 @@ class mvGroup : public mvAppItem
 
 public:
 
-    explicit mvGroup(mvUUID uuid);
+    explicit mvGroup(mvUUID uuid) : mvAppItem(uuid) {}
 
     void draw(ImDrawList* drawlist, float x, float y) override;
     void handleSpecificKeywordArgs(PyObject* dict) override;

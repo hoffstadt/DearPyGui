@@ -7,7 +7,7 @@ class mv2dHistogramSeries : public mvAppItem
 
 public:
 
-    explicit mv2dHistogramSeries(mvUUID uuid);
+    explicit mv2dHistogramSeries(mvUUID uuid) : mvAppItem(uuid) {}
 
     void draw(ImDrawList* drawlist, float x, float y) override;
     void handleSpecificRequiredArgs(PyObject* args) override;

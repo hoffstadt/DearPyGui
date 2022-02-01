@@ -7,7 +7,7 @@ class mvChildWindow : public mvAppItem
 
 public:
 
-    explicit mvChildWindow(mvUUID uuid);
+    explicit mvChildWindow(mvUUID uuid) : mvAppItem(uuid) {}
 
     void draw(ImDrawList* drawlist, float x, float y) override;
     void handleSpecificKeywordArgs(PyObject* dict) override;

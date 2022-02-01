@@ -7,7 +7,7 @@ class mvRadioButton : public mvAppItem
 
 public:
 
-    explicit mvRadioButton(mvUUID uuid);
+    explicit mvRadioButton(mvUUID uuid) : mvAppItem(uuid) {}
 
     void draw(ImDrawList* drawlist, float x, float y) override;
     void handleSpecificPositionalArgs(PyObject* dict) override;

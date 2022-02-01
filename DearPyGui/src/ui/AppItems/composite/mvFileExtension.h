@@ -9,7 +9,7 @@ class mvFileExtension : public mvAppItem
 
 public:
 
-    explicit mvFileExtension(mvUUID uuid);
+    explicit mvFileExtension(mvUUID uuid) : mvAppItem(uuid) {}
 
     void draw(ImDrawList* drawlist, float x, float y) override;
     void handleSpecificRequiredArgs(PyObject* args) override;

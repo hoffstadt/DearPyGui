@@ -23,7 +23,7 @@ class mvSliderFloat : public mvAppItem
 
 public:
 
-    explicit mvSliderFloat(mvUUID uuid);
+    explicit mvSliderFloat(mvUUID uuid) : mvAppItem(uuid) {}
 
     void draw(ImDrawList* drawlist, float x, float y) override;
     void handleSpecificKeywordArgs(PyObject* dict) override;
@@ -57,7 +57,7 @@ class mvSliderFloatMulti : public mvAppItem
 
 public:
 
-    explicit mvSliderFloatMulti(mvUUID uuid);
+    explicit mvSliderFloatMulti(mvUUID uuid) : mvAppItem(uuid) {}
         
     void draw(ImDrawList* drawlist, float x, float y) override;
     void handleSpecificKeywordArgs(PyObject* dict) override;
@@ -90,7 +90,7 @@ class mvSliderInt : public mvAppItem
 
 public:
 
-    explicit mvSliderInt(mvUUID uuid);
+    explicit mvSliderInt(mvUUID uuid) : mvAppItem(uuid) {}
 
     void draw(ImDrawList* drawlist, float x, float y) override;
     void handleSpecificKeywordArgs(PyObject* dict) override;
@@ -123,7 +123,7 @@ class mvSliderIntMulti : public mvAppItem
 
 public:
 
-    explicit mvSliderIntMulti(mvUUID uuid);
+    explicit mvSliderIntMulti(mvUUID uuid) : mvAppItem(uuid) {}
         
     void draw(ImDrawList* drawlist, float x, float y) override;
     void handleSpecificKeywordArgs(PyObject* dict) override;

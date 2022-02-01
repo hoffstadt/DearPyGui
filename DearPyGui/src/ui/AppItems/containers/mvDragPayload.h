@@ -10,7 +10,7 @@ class mvDragPayload : public mvAppItem
 
 public:
 
-    explicit mvDragPayload(mvUUID uuid);
+    explicit mvDragPayload(mvUUID uuid) : mvAppItem(uuid) {}
 
     void draw(ImDrawList* drawlist, float x, float y) override;
     void handleSpecificKeywordArgs(PyObject* dict) override;

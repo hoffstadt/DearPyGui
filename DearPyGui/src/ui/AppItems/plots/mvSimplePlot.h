@@ -8,7 +8,7 @@ class mvSimplePlot : public mvAppItem
 
 public:
 
-    explicit mvSimplePlot(mvUUID uuid);
+    explicit mvSimplePlot(mvUUID uuid) : mvAppItem(uuid) {}
 
     void draw(ImDrawList* drawlist, float x, float y) override;
     void handleSpecificKeywordArgs(PyObject* dict) override;
