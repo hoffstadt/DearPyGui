@@ -168,6 +168,94 @@ DearPyGui::fill_configuration_dict(const mvDragFloatMultiConfig& inConfig, PyObj
 	checkbitset("no_input", ImGuiSliderFlags_NoInput, inConfig.flags);
 }
 
+void
+DearPyGui::fill_configuration_dict(const mvSliderIntConfig& inConfig, PyObject* outDict)
+{
+	if (outDict == nullptr)
+		return;
+
+	PyDict_SetItemString(outDict, "format", mvPyObject(ToPyString(inConfig.format)));
+	PyDict_SetItemString(outDict, "vertical", mvPyObject(ToPyBool(inConfig.vertical)));
+	PyDict_SetItemString(outDict, "min_value", mvPyObject(ToPyInt(inConfig.minv)));
+	PyDict_SetItemString(outDict, "max_value", mvPyObject(ToPyInt(inConfig.maxv)));
+
+	// helper to check and set bit
+	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)
+	{
+		PyDict_SetItemString(outDict, keyword, mvPyObject(ToPyBool(flags & flag)));
+	};
+
+	// window flags
+	checkbitset("clamped", ImGuiSliderFlags_ClampOnInput, inConfig.flags);
+	checkbitset("no_input", ImGuiSliderFlags_NoInput, inConfig.flags);
+}
+
+void
+DearPyGui::fill_configuration_dict(const mvSliderIntMultiConfig& inConfig, PyObject* outDict)
+{
+	if (outDict == nullptr)
+		return;
+
+	PyDict_SetItemString(outDict, "format", mvPyObject(ToPyString(inConfig.format)));
+	PyDict_SetItemString(outDict, "min_value", mvPyObject(ToPyInt(inConfig.minv)));
+	PyDict_SetItemString(outDict, "max_value", mvPyObject(ToPyInt(inConfig.maxv)));
+	PyDict_SetItemString(outDict, "size", mvPyObject(ToPyInt(inConfig.size)));
+
+	// helper to check and set bit
+	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)
+	{
+		PyDict_SetItemString(outDict, keyword, mvPyObject(ToPyBool(flags & flag)));
+	};
+
+	// window flags
+	checkbitset("clamped", ImGuiSliderFlags_ClampOnInput, inConfig.flags);
+	checkbitset("no_input", ImGuiSliderFlags_NoInput, inConfig.flags);
+}
+
+void
+DearPyGui::fill_configuration_dict(const mvSliderFloatConfig& inConfig, PyObject* outDict)
+{
+	if (outDict == nullptr)
+		return;
+
+	PyDict_SetItemString(outDict, "format", mvPyObject(ToPyString(inConfig.format)));
+	PyDict_SetItemString(outDict, "vertical", mvPyObject(ToPyBool(inConfig.vertical)));
+	PyDict_SetItemString(outDict, "min_value", mvPyObject(ToPyFloat(inConfig.minv)));
+	PyDict_SetItemString(outDict, "max_value", mvPyObject(ToPyFloat(inConfig.maxv)));
+
+	// helper to check and set bit
+	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)
+	{
+		PyDict_SetItemString(outDict, keyword, mvPyObject(ToPyBool(flags & flag)));
+	};
+
+	// window flags
+	checkbitset("clamped", ImGuiSliderFlags_ClampOnInput, inConfig.flags);
+	checkbitset("no_input", ImGuiSliderFlags_NoInput, inConfig.flags);
+}
+
+void
+DearPyGui::fill_configuration_dict(const mvSliderFloatMultiConfig& inConfig, PyObject* outDict)
+{
+	if (outDict == nullptr)
+		return;
+
+	PyDict_SetItemString(outDict, "format", mvPyObject(ToPyString(inConfig.format)));
+	PyDict_SetItemString(outDict, "min_value", mvPyObject(ToPyFloat(inConfig.minv)));
+	PyDict_SetItemString(outDict, "max_value", mvPyObject(ToPyFloat(inConfig.maxv)));
+	PyDict_SetItemString(outDict, "size", mvPyObject(ToPyInt(inConfig.size)));
+
+	// helper to check and set bit
+	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)
+	{
+		PyDict_SetItemString(outDict, keyword, mvPyObject(ToPyBool(flags & flag)));
+	};
+
+	// window flags
+	checkbitset("clamped", ImGuiSliderFlags_ClampOnInput, inConfig.flags);
+	checkbitset("no_input", ImGuiSliderFlags_NoInput, inConfig.flags);
+}
+
 //-----------------------------------------------------------------------------
 // [SECTION] configure_item(...) specifics
 //-----------------------------------------------------------------------------
@@ -359,6 +447,156 @@ DearPyGui::set_configuration(PyObject* inDict, mvDragFloatMultiConfig& outConfig
 	}
 }
 
+void
+DearPyGui::set_configuration(PyObject* inDict, mvSliderIntConfig& outConfig, mvAppItemInfo& info)
+{
+	if (inDict == nullptr)
+		return;
+
+	if (PyObject* item = PyDict_GetItemString(inDict, "format")) outConfig.format = ToString(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "vertical")) outConfig.vertical = ToBool(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "min_value")) outConfig.minv = ToInt(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "max_value")) outConfig.maxv = ToInt(item);
+
+	// helper for bit flipping
+	auto flagop = [inDict](const char* keyword, int flag, int& flags)
+	{
+		if (PyObject* item = PyDict_GetItemString(inDict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+	};
+
+	// flags
+	flagop("clamped", ImGuiSliderFlags_ClampOnInput, outConfig.flags);
+	flagop("clamped", ImGuiSliderFlags_ClampOnInput, outConfig.stor_flags);
+	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.flags);
+	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.stor_flags);
+
+	if (info.enabledLastFrame)
+	{
+		info.enabledLastFrame = false;
+		outConfig.flags = outConfig.stor_flags;
+	}
+
+	if (info.disabledLastFrame)
+	{
+		info.disabledLastFrame = false;
+		outConfig.stor_flags = outConfig.flags;
+		outConfig.flags |= ImGuiSliderFlags_NoInput;
+	}
+}
+
+void
+DearPyGui::set_configuration(PyObject* inDict, mvSliderIntMultiConfig& outConfig, mvAppItemInfo& info)
+{
+	if (inDict == nullptr)
+		return;
+
+	if (PyObject* item = PyDict_GetItemString(inDict, "format"))    outConfig.format = ToString(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "min_value")) outConfig.minv = ToInt(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "max_value")) outConfig.maxv = ToInt(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "size"))      outConfig.size = ToInt(item);
+
+	// helper for bit flipping
+	auto flagop = [inDict](const char* keyword, int flag, int& flags)
+	{
+		if (PyObject* item = PyDict_GetItemString(inDict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+	};
+
+	// flags
+	flagop("clamped", ImGuiSliderFlags_ClampOnInput, outConfig.flags);
+	flagop("clamped", ImGuiSliderFlags_ClampOnInput, outConfig.stor_flags);
+	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.flags);
+	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.stor_flags);
+
+	if (info.enabledLastFrame)
+	{
+		info.enabledLastFrame = false;
+		outConfig.flags = outConfig.stor_flags;
+	}
+
+	if (info.disabledLastFrame)
+	{
+		info.disabledLastFrame = false;
+		outConfig.stor_flags = outConfig.flags;
+		outConfig.flags |= ImGuiSliderFlags_NoInput;
+	}
+}
+
+void
+DearPyGui::set_configuration(PyObject* inDict, mvSliderFloatConfig& outConfig, mvAppItemInfo& info)
+{
+	if (inDict == nullptr)
+		return;
+
+	if (PyObject* item = PyDict_GetItemString(inDict, "format")) outConfig.format = ToString(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "vertical")) outConfig.vertical = ToBool(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "min_value")) outConfig.minv = ToFloat(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "max_value")) outConfig.maxv = ToFloat(item);
+
+	// helper for bit flipping
+	auto flagop = [inDict](const char* keyword, int flag, int& flags)
+	{
+		if (PyObject* item = PyDict_GetItemString(inDict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+	};
+
+	// flags
+	flagop("clamped", ImGuiSliderFlags_ClampOnInput, outConfig.flags);
+	flagop("clamped", ImGuiSliderFlags_ClampOnInput, outConfig.stor_flags);
+	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.flags);
+	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.stor_flags);
+
+	if (info.enabledLastFrame)
+	{
+		info.enabledLastFrame = false;
+		outConfig.flags = outConfig.stor_flags;
+	}
+
+	if (info.disabledLastFrame)
+	{
+		info.disabledLastFrame = false;
+		outConfig.stor_flags = outConfig.flags;
+		outConfig.flags |= ImGuiSliderFlags_NoInput;
+	}
+}
+
+void
+DearPyGui::set_configuration(PyObject* inDict, mvSliderFloatMultiConfig& outConfig, mvAppItemInfo& info)
+{
+
+	if (inDict == nullptr)
+		return;
+
+	if (PyObject* item = PyDict_GetItemString(inDict, "format"))    outConfig.format = ToString(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "min_value")) outConfig.minv = ToFloat(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "max_value")) outConfig.maxv = ToFloat(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "size"))      outConfig.size = ToInt(item);
+
+	// helper for bit flipping
+	auto flagop = [inDict](const char* keyword, int flag, int& flags)
+	{
+		if (PyObject* item = PyDict_GetItemString(inDict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+	};
+
+	// flags
+	flagop("clamped", ImGuiSliderFlags_ClampOnInput, outConfig.flags);
+	flagop("clamped", ImGuiSliderFlags_ClampOnInput, outConfig.stor_flags);
+	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.flags);
+	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.stor_flags);
+
+	if (info.enabledLastFrame)
+	{
+		info.enabledLastFrame = false;
+		outConfig.flags = outConfig.stor_flags;
+	}
+
+	if (info.disabledLastFrame)
+	{
+		info.disabledLastFrame = false;
+		outConfig.stor_flags = outConfig.flags;
+		outConfig.flags |= ImGuiSliderFlags_NoInput;
+	}
+
+}
+
 //-----------------------------------------------------------------------------
 // [SECTION] positional args specifics
 //-----------------------------------------------------------------------------
@@ -518,6 +756,94 @@ DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mvDragFloatMultiC
 	outConfig.value = *static_cast<std::shared_ptr<std::array<float, 4>>*>(srcItem->getValue());
 }
 
+void
+DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mvSliderFloatConfig& outConfig)
+{
+	if (dataSource == item.config.source) return;
+	item.config.source = dataSource;
+
+	mvAppItem* srcItem = GetItem((*GContext->itemRegistry), dataSource);
+	if (!srcItem)
+	{
+		mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
+			"Source item not found: " + std::to_string(dataSource), &item);
+		return;
+	}
+	if (DearPyGui::GetEntityValueType(srcItem->type) != DearPyGui::GetEntityValueType(item.type))
+	{
+		mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
+			"Values types do not match: " + std::to_string(dataSource), &item);
+		return;
+	}
+	outConfig.value = *static_cast<std::shared_ptr<float>*>(srcItem->getValue());
+}
+
+void
+DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mvSliderFloatMultiConfig& outConfig)
+{
+	if (dataSource == item.config.source) return;
+	item.config.source = dataSource;
+
+	mvAppItem* srcItem = GetItem((*GContext->itemRegistry), dataSource);
+	if (!srcItem)
+	{
+		mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
+			"Source item not found: " + std::to_string(dataSource), &item);
+		return;
+	}
+	if (DearPyGui::GetEntityValueType(srcItem->type) != DearPyGui::GetEntityValueType(item.type))
+	{
+		mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
+			"Values types do not match: " + std::to_string(dataSource), &item);
+		return;
+	}
+	outConfig.value = *static_cast<std::shared_ptr<std::array<float, 4>>*>(srcItem->getValue());
+}
+
+void
+DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mvSliderIntConfig& outConfig)
+{
+	if (dataSource == item.config.source) return;
+	item.config.source = dataSource;
+
+	mvAppItem* srcItem = GetItem((*GContext->itemRegistry), dataSource);
+	if (!srcItem)
+	{
+		mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
+			"Source item not found: " + std::to_string(dataSource), &item);
+		return;
+	}
+	if (DearPyGui::GetEntityValueType(srcItem->type) != DearPyGui::GetEntityValueType(item.type))
+	{
+		mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
+			"Values types do not match: " + std::to_string(dataSource), &item);
+		return;
+	}
+	outConfig.value = *static_cast<std::shared_ptr<int>*>(srcItem->getValue());
+}
+
+void
+DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mvSliderIntMultiConfig& outConfig)
+{
+	if (dataSource == item.config.source) return;
+	item.config.source = dataSource;
+
+	mvAppItem* srcItem = GetItem((*GContext->itemRegistry), dataSource);
+	if (!srcItem)
+	{
+		mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
+			"Source item not found: " + std::to_string(dataSource), &item);
+		return;
+	}
+	if (DearPyGui::GetEntityValueType(srcItem->type) != DearPyGui::GetEntityValueType(item.type))
+	{
+		mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
+			"Values types do not match: " + std::to_string(dataSource), &item);
+		return;
+	}
+	outConfig.value = *static_cast<std::shared_ptr<std::array<int, 4>>*>(srcItem->getValue());
+}
+
 //-----------------------------------------------------------------------------
 // [SECTION] template specifics
 //-----------------------------------------------------------------------------
@@ -599,6 +925,64 @@ DearPyGui::apply_template(const mvDragFloatMultiConfig& sourceConfig, mvDragFloa
 	dstConfig.disabled_value[2] = sourceConfig.disabled_value[2];
 	dstConfig.disabled_value[3] = sourceConfig.disabled_value[3];
 	dstConfig.speed = sourceConfig.speed;
+	dstConfig.minv = sourceConfig.minv;
+	dstConfig.maxv = sourceConfig.maxv;
+	dstConfig.format = sourceConfig.format;
+	dstConfig.flags = sourceConfig.flags;
+	dstConfig.stor_flags = sourceConfig.stor_flags;
+	dstConfig.size = sourceConfig.size;
+}
+
+void
+DearPyGui::apply_template(const mvSliderFloatConfig& sourceConfig, mvSliderFloatConfig& dstConfig)
+{
+	dstConfig.value = sourceConfig.value;
+	dstConfig.disabled_value = sourceConfig.disabled_value;
+	dstConfig.minv = sourceConfig.minv;
+	dstConfig.maxv = sourceConfig.maxv;
+	dstConfig.format = sourceConfig.format;
+	dstConfig.vertical = sourceConfig.vertical;
+	dstConfig.flags = sourceConfig.flags;
+	dstConfig.stor_flags = sourceConfig.stor_flags;
+}
+
+void
+DearPyGui::apply_template(const mvSliderFloatMultiConfig& sourceConfig, mvSliderFloatMultiConfig& dstConfig)
+{
+	dstConfig.value = sourceConfig.value;
+	dstConfig.disabled_value[0] = sourceConfig.disabled_value[0];
+	dstConfig.disabled_value[1] = sourceConfig.disabled_value[1];
+	dstConfig.disabled_value[2] = sourceConfig.disabled_value[2];
+	dstConfig.disabled_value[3] = sourceConfig.disabled_value[3];
+	dstConfig.minv = sourceConfig.minv;
+	dstConfig.maxv = sourceConfig.maxv;
+	dstConfig.format = sourceConfig.format;
+	dstConfig.flags = sourceConfig.flags;
+	dstConfig.stor_flags = sourceConfig.stor_flags;
+	dstConfig.size = sourceConfig.size;
+}
+
+void
+DearPyGui::apply_template(const mvSliderIntConfig& sourceConfig, mvSliderIntConfig& dstConfig)
+{
+	dstConfig.value = sourceConfig.value;
+	dstConfig.disabled_value = sourceConfig.disabled_value;
+	dstConfig.minv = sourceConfig.minv;
+	dstConfig.maxv = sourceConfig.maxv;
+	dstConfig.format = sourceConfig.format;
+	dstConfig.vertical = sourceConfig.vertical;
+	dstConfig.flags = sourceConfig.flags;
+	dstConfig.stor_flags = sourceConfig.stor_flags;
+}
+
+void
+DearPyGui::apply_template(const mvSliderIntMultiConfig& sourceConfig, mvSliderIntMultiConfig& dstConfig)
+{
+	dstConfig.value = sourceConfig.value;
+	dstConfig.disabled_value[0] = sourceConfig.disabled_value[0];
+	dstConfig.disabled_value[1] = sourceConfig.disabled_value[1];
+	dstConfig.disabled_value[2] = sourceConfig.disabled_value[2];
+	dstConfig.disabled_value[3] = sourceConfig.disabled_value[3];
 	dstConfig.minv = sourceConfig.minv;
 	dstConfig.maxv = sourceConfig.maxv;
 	dstConfig.format = sourceConfig.format;
@@ -1352,6 +1736,462 @@ DearPyGui::draw_drag_floatx(ImDrawList* drawlist, mvAppItem& item, mvDragFloatMu
 }
 
 void
+DearPyGui::draw_slider_float(ImDrawList* drawlist, mvAppItem& item, mvSliderFloatConfig& config)
+{
+	//-----------------------------------------------------------------------------
+	// pre draw
+	//-----------------------------------------------------------------------------
+
+	// show/hide
+	if (!item.config.show)
+		return;
+
+	// focusing
+	if (item.info.focusNextFrame)
+	{
+		ImGui::SetKeyboardFocusHere();
+		item.info.focusNextFrame = false;
+	}
+
+	// cache old cursor position
+	ImVec2 previousCursorPos = ImGui::GetCursorPos();
+
+	// set cursor position if user set
+	if (item.info.dirtyPos)
+		ImGui::SetCursorPos(item.state.pos);
+
+	// update widget's position state
+	item.state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
+
+	// set item width
+	if (item.config.width != 0)
+		ImGui::SetNextItemWidth((float)item.config.width);
+
+	// set indent
+	if (item.config.indent > 0.0f)
+		ImGui::Indent(item.config.indent);
+
+	// push font if a font object is attached
+	if (item.font)
+	{
+		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
+		ImGui::PushFont(fontptr);
+	}
+
+	// themes
+	apply_local_theming(&item);
+
+	//-----------------------------------------------------------------------------
+	// draw
+	//-----------------------------------------------------------------------------
+	{
+		ScopedID id(item.uuid);
+
+		if (!item.config.enabled) config.disabled_value = *config.value;
+
+		if (config.vertical)
+		{
+			if ((float)item.config.height < 1.0f)
+				item.config.height = 100;
+			if ((float)item.config.width < 1.0f)
+				item.config.width = 20;
+
+			if (ImGui::VSliderFloat(item.info.internalLabel.c_str(), ImVec2((float)item.config.width, (float)item.config.height), item.config.enabled ? config.value.get() : &config.disabled_value, config.minv, config.maxv, config.format.c_str()))
+			{
+				auto value = *config.value;
+
+				if (item.config.alias.empty())
+					mvSubmitCallback([&item, value]() { mvAddCallback(item.getCallback(false), item.uuid, ToPyFloat(value), item.config.user_data);});
+				else
+					mvSubmitCallback([&item, value]() { mvAddCallback(item.getCallback(false), item.config.alias, ToPyFloat(value), item.config.user_data);});
+			}
+
+		}
+		else
+		{
+			if (ImGui::SliderFloat(item.info.internalLabel.c_str(), item.config.enabled ? config.value.get() : &config.disabled_value, config.minv, config.maxv, config.format.c_str(), config.flags))
+			{
+				auto value = *config.value;
+				if (item.config.alias.empty())
+					mvSubmitCallback([&item, value]() {mvAddCallback(item.getCallback(false), item.uuid, ToPyFloat(value), item.config.user_data);});
+				else
+					mvSubmitCallback([&item, value]() {mvAddCallback(item.getCallback(false), item.config.alias, ToPyFloat(value), item.config.user_data);});
+			}
+
+		}
+	}
+
+	//-----------------------------------------------------------------------------
+	// update state
+	//-----------------------------------------------------------------------------
+	UpdateAppItemState(item.state);
+
+	//-----------------------------------------------------------------------------
+	// post draw
+	//-----------------------------------------------------------------------------
+
+	// set cursor position to cached position
+	if (item.info.dirtyPos)
+		ImGui::SetCursorPos(previousCursorPos);
+
+	if (item.config.indent > 0.0f)
+		ImGui::Unindent(item.config.indent);
+
+	// pop font off stack
+	if (item.font)
+		ImGui::PopFont();
+
+	// handle popping themes
+	cleanup_local_theming(&item);
+
+	if (item.handlerRegistry)
+		item.handlerRegistry->checkEvents(&item.state);
+
+	// handle drag & drop if used
+	apply_drag_drop(&item);
+}
+
+void
+DearPyGui::draw_slider_floatx(ImDrawList* drawlist, mvAppItem& item, mvSliderFloatMultiConfig& config)
+{
+	//-----------------------------------------------------------------------------
+	// pre draw
+	//-----------------------------------------------------------------------------
+
+	// show/hide
+	if (!item.config.show)
+		return;
+
+	// focusing
+	if (item.info.focusNextFrame)
+	{
+		ImGui::SetKeyboardFocusHere();
+		item.info.focusNextFrame = false;
+	}
+
+	// cache old cursor position
+	ImVec2 previousCursorPos = ImGui::GetCursorPos();
+
+	// set cursor position if user set
+	if (item.info.dirtyPos)
+		ImGui::SetCursorPos(item.state.pos);
+
+	// update widget's position state
+	item.state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
+
+	// set item width
+	if (item.config.width != 0)
+		ImGui::SetNextItemWidth((float)item.config.width);
+
+	// set indent
+	if (item.config.indent > 0.0f)
+		ImGui::Indent(item.config.indent);
+
+	// push font if a font object is attached
+	if (item.font)
+	{
+		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
+		ImGui::PushFont(fontptr);
+	}
+
+	// themes
+	apply_local_theming(&item);
+
+	//-----------------------------------------------------------------------------
+	// draw
+	//-----------------------------------------------------------------------------
+	{
+		ScopedID id(item.uuid);
+
+		bool activated = false;
+
+		if (!item.config.enabled) std::copy(config.value->data(), config.value->data() + 4, config.disabled_value);
+
+		switch (config.size)
+		{
+		case 2:
+			activated = ImGui::SliderFloat2(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.minv, config.maxv, config.format.c_str(), config.flags);
+			break;
+		case 3:
+			activated = ImGui::SliderFloat3(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.minv, config.maxv, config.format.c_str(), config.flags);
+			break;
+		case 4:
+			activated = ImGui::SliderFloat4(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.minv, config.maxv, config.format.c_str(), config.flags);
+			break;
+		default:
+			break;
+		}
+
+		if (activated)
+		{
+			auto value = *config.value;
+
+			if (item.config.alias.empty())
+				mvSubmitCallback([&item, value]() {mvAddCallback(item.getCallback(false), item.uuid, ToPyFloatList(value.data(), (int)value.size()), item.config.user_data);});
+			else
+				mvSubmitCallback([&item, value]() {mvAddCallback(item.getCallback(false), item.config.alias, ToPyFloatList(value.data(), (int)value.size()), item.config.user_data);});
+		}
+	}
+
+	//-----------------------------------------------------------------------------
+	// update state
+	//-----------------------------------------------------------------------------
+	UpdateAppItemState(item.state);
+
+	//-----------------------------------------------------------------------------
+	// post draw
+	//-----------------------------------------------------------------------------
+
+	// set cursor position to cached position
+	if (item.info.dirtyPos)
+		ImGui::SetCursorPos(previousCursorPos);
+
+	if (item.config.indent > 0.0f)
+		ImGui::Unindent(item.config.indent);
+
+	// pop font off stack
+	if (item.font)
+		ImGui::PopFont();
+
+	// handle popping themes
+	cleanup_local_theming(&item);
+
+	if (item.handlerRegistry)
+		item.handlerRegistry->checkEvents(&item.state);
+
+	// handle drag & drop if used
+	apply_drag_drop(&item);
+}
+
+void
+DearPyGui::draw_slider_int(ImDrawList* drawlist, mvAppItem& item, mvSliderIntConfig& config)
+{
+	//-----------------------------------------------------------------------------
+	// pre draw
+	//-----------------------------------------------------------------------------
+
+	// show/hide
+	if (!item.config.show)
+		return;
+
+	// focusing
+	if (item.info.focusNextFrame)
+	{
+		ImGui::SetKeyboardFocusHere();
+		item.info.focusNextFrame = false;
+	}
+
+	// cache old cursor position
+	ImVec2 previousCursorPos = ImGui::GetCursorPos();
+
+	// set cursor position if user set
+	if (item.info.dirtyPos)
+		ImGui::SetCursorPos(item.state.pos);
+
+	// update widget's position state
+	item.state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
+
+	// set item width
+	if (item.config.width != 0)
+		ImGui::SetNextItemWidth((float)item.config.width);
+
+	// set indent
+	if (item.config.indent > 0.0f)
+		ImGui::Indent(item.config.indent);
+
+	// push font if a font object is attached
+	if (item.font)
+	{
+		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
+		ImGui::PushFont(fontptr);
+	}
+
+	// themes
+	apply_local_theming(&item);
+
+	//-----------------------------------------------------------------------------
+	// draw
+	//-----------------------------------------------------------------------------
+	{
+		ScopedID id(item.uuid);
+
+		if (!item.config.enabled) config.disabled_value = *config.value;
+
+		if (config.vertical)
+		{
+			if ((float)item.config.height < 1.0f)
+				item.config.height = 100;
+			if ((float)item.config.width < 1.0f)
+				item.config.width = 20;
+
+			if (ImGui::VSliderInt(item.info.internalLabel.c_str(), ImVec2((float)item.config.width, (float)item.config.height), item.config.enabled ? config.value.get() : &config.disabled_value, config.minv, config.maxv, config.format.c_str()))
+			{
+				auto value = *config.value;
+
+				if (item.config.alias.empty())
+					mvSubmitCallback([&item, value]() { mvAddCallback(item.getCallback(false), item.uuid, ToPyInt(value), item.config.user_data);});
+				else
+					mvSubmitCallback([&item, value]() { mvAddCallback(item.getCallback(false), item.config.alias, ToPyInt(value), item.config.user_data);});
+			}
+
+		}
+		else
+		{
+			if (ImGui::SliderInt(item.info.internalLabel.c_str(), item.config.enabled ? config.value.get() : &config.disabled_value, config.minv, config.maxv, config.format.c_str(), config.flags))
+			{
+				auto value = *config.value;
+				if (item.config.alias.empty())
+					mvSubmitCallback([&item, value]() {mvAddCallback(item.getCallback(false), item.uuid, ToPyInt(value), item.config.user_data);});
+				else
+					mvSubmitCallback([&item, value]() {mvAddCallback(item.getCallback(false), item.config.alias, ToPyInt(value), item.config.user_data);});
+			}
+
+		}
+	}
+
+	//-----------------------------------------------------------------------------
+	// update state
+	//-----------------------------------------------------------------------------
+	UpdateAppItemState(item.state);
+
+	//-----------------------------------------------------------------------------
+	// post draw
+	//-----------------------------------------------------------------------------
+
+	// set cursor position to cached position
+	if (item.info.dirtyPos)
+		ImGui::SetCursorPos(previousCursorPos);
+
+	if (item.config.indent > 0.0f)
+		ImGui::Unindent(item.config.indent);
+
+	// pop font off stack
+	if (item.font)
+		ImGui::PopFont();
+
+	// handle popping themes
+	cleanup_local_theming(&item);
+
+	if (item.handlerRegistry)
+		item.handlerRegistry->checkEvents(&item.state);
+
+	// handle drag & drop if used
+	apply_drag_drop(&item);
+}
+
+void
+DearPyGui::draw_slider_intx(ImDrawList* drawlist, mvAppItem& item, mvSliderIntMultiConfig& config)
+{
+	//-----------------------------------------------------------------------------
+	// pre draw
+	//-----------------------------------------------------------------------------
+
+	// show/hide
+	if (!item.config.show)
+		return;
+
+	// focusing
+	if (item.info.focusNextFrame)
+	{
+		ImGui::SetKeyboardFocusHere();
+		item.info.focusNextFrame = false;
+	}
+
+	// cache old cursor position
+	ImVec2 previousCursorPos = ImGui::GetCursorPos();
+
+	// set cursor position if user set
+	if (item.info.dirtyPos)
+		ImGui::SetCursorPos(item.state.pos);
+
+	// update widget's position state
+	item.state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
+
+	// set item width
+	if (item.config.width != 0)
+		ImGui::SetNextItemWidth((float)item.config.width);
+
+	// set indent
+	if (item.config.indent > 0.0f)
+		ImGui::Indent(item.config.indent);
+
+	// push font if a font object is attached
+	if (item.font)
+	{
+		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
+		ImGui::PushFont(fontptr);
+	}
+
+	// themes
+	apply_local_theming(&item);
+
+	//-----------------------------------------------------------------------------
+	// draw
+	//-----------------------------------------------------------------------------
+	{
+		ScopedID id(item.uuid);
+
+		bool activated = false;
+
+		if (!item.config.enabled) std::copy(config.value->data(), config.value->data() + 4, config.disabled_value);
+
+		switch (config.size)
+		{
+		case 2:
+			activated = ImGui::SliderInt2(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.minv, config.maxv, config.format.c_str(), config.flags);
+			break;
+		case 3:
+			activated = ImGui::SliderInt3(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.minv, config.maxv, config.format.c_str(), config.flags);
+			break;
+		case 4:
+			activated = ImGui::SliderInt4(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.minv, config.maxv, config.format.c_str(), config.flags);
+			break;
+		default:
+			break;
+		}
+
+		if (activated)
+		{
+			auto value = *config.value;
+
+			if (item.config.alias.empty())
+				mvSubmitCallback([&item, value]() {mvAddCallback(item.getCallback(false), item.uuid, ToPyIntList(value.data(), (int)value.size()), item.config.user_data); });
+			else
+				mvSubmitCallback([&item, value]() {mvAddCallback(item.getCallback(false), item.config.alias, ToPyIntList(value.data(), (int)value.size()), item.config.user_data); });
+		}
+	}
+
+	//-----------------------------------------------------------------------------
+	// update state
+	//-----------------------------------------------------------------------------
+	UpdateAppItemState(item.state);
+
+	//-----------------------------------------------------------------------------
+	// post draw
+	//-----------------------------------------------------------------------------
+
+	// set cursor position to cached position
+	if (item.info.dirtyPos)
+		ImGui::SetCursorPos(previousCursorPos);
+
+	if (item.config.indent > 0.0f)
+		ImGui::Unindent(item.config.indent);
+
+	// pop font off stack
+	if (item.font)
+		ImGui::PopFont();
+
+	// handle popping themes
+	cleanup_local_theming(&item);
+
+	if (item.handlerRegistry)
+		item.handlerRegistry->checkEvents(&item.state);
+
+	// handle drag & drop if used
+	apply_drag_drop(&item);
+}
+
+void
 DearPyGui::draw_separator(ImDrawList* drawlist, mvAppItem& item)
 { 
 	ImGui::Separator(); 
@@ -1430,4 +2270,32 @@ void mvDragFloatMulti::setPyValue(PyObject* value)
 		*configData.value = temp_array;
 	else
 		configData.value = std::make_shared<std::array<float, 4>>(temp_array);
+}
+
+void mvSliderFloatMulti::setPyValue(PyObject* value)
+{
+	std::vector<float> temp = ToFloatVect(value);
+	while (temp.size() < 4)
+		temp.push_back(0.0f);
+	std::array<float, 4> temp_array;
+	for (size_t i = 0; i < temp_array.size(); i++)
+		temp_array[i] = temp[i];
+	if (configData.value)
+		*configData.value = temp_array;
+	else
+		configData.value = std::make_shared<std::array<float, 4>>(temp_array);
+}
+
+void mvSliderIntMulti::setPyValue(PyObject* value)
+{
+	std::vector<int> temp = ToIntVect(value);
+	while (temp.size() < 4)
+		temp.push_back(0);
+	std::array<int, 4> temp_array;
+	for (size_t i = 0; i < temp_array.size(); i++)
+		temp_array[i] = temp[i];
+	if (configData.value)
+		*configData.value = temp_array;
+	else
+		configData.value = std::make_shared<std::array<int, 4>>(temp_array);
 }

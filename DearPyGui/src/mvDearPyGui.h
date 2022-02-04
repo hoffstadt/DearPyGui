@@ -27,3 +27,7 @@ struct mvDragFloatConfig;
 struct mvDragIntConfig;
 struct mvDragFloatMultiConfig;
 struct mvDragIntMultiConfig;
+struct mvSliderIntConfig;
+struct mvSliderFloatConfig;
+struct mvSliderFloatMultiConfig;
+struct mvSliderIntMultiConfig;

@@ -15,7 +15,6 @@
 #include "basic/mvListbox.h"
 #include "basic/mvSelectable.h"
 #include "basic/mvInput.h"
-#include "basic/mvSlider.h"
 #include "basic/mvText.h"
 #include "basic/mvTabButton.h"
 #include "basic/mvMenuItem.h"
