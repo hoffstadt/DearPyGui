@@ -31,3 +31,4 @@ struct mvSliderIntConfig;
 struct mvSliderFloatConfig;
 struct mvSliderFloatMultiConfig;
 struct mvSliderIntMultiConfig;
+struct mvListboxConfig;
