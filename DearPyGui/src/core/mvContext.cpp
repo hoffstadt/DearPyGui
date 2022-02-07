@@ -352,6 +352,7 @@ InsertConstants_mvContext(std::vector<std::pair<std::string, long>>& constants)
     constants.emplace_back("mvKey_F22", 0x85);
     constants.emplace_back("mvKey_F23", 0x86);
     constants.emplace_back("mvKey_F24", 0x87);
+    constants.emplace_back("mvKey_F24", 0x88);
     constants.emplace_back("mvKey_NumLock", 0x90);
     constants.emplace_back("mvKey_ScrollLock", 0x91);
     constants.emplace_back("mvKey_LShift", 0xA0);
@@ -460,7 +461,7 @@ InsertConstants_mvContext(std::vector<std::pair<std::string, long>>& constants)
     constants.emplace_back("mvKey_F22", 311);
     constants.emplace_back("mvKey_F23", 312);
     constants.emplace_back("mvKey_F24", 313);
-    constants.emplace_back("mvKey_F24", 314);
+    constants.emplace_back("mvKey_F25", 314);
     constants.emplace_back("mvKey_NumLock", 282);
     constants.emplace_back("mvKey_ScrollLock", 281);
     constants.emplace_back("mvKey_LShift", 340);
