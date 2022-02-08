@@ -18,6 +18,7 @@ namespace DearPyGui
     void fill_configuration_dict(const mvSliderFloatConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvSliderFloatMultiConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvListboxConfig& inConfig, PyObject* outDict);
+    void fill_configuration_dict(const mvRadioButtonConfig& inConfig, PyObject* outDict);
 
     // specific part of `configure_item(...)`
     void set_configuration(PyObject* inDict, mvButtonConfig& outConfig);
@@ -31,10 +32,12 @@ namespace DearPyGui
     void set_configuration(PyObject* inDict, mvSliderFloatConfig& outConfig, mvAppItemInfo& info);
     void set_configuration(PyObject* inDict, mvSliderFloatMultiConfig& outConfig, mvAppItemInfo& info);
     void set_configuration(PyObject* inDict, mvListboxConfig& outConfig, mvAppItemInfo& info);
+    void set_configuration(PyObject* inDict, mvRadioButtonConfig& outConfig);
 
     // positional args TODO: combine with above
     void set_positional_configuration(PyObject* inDict, mvComboConfig& outConfig);
     void set_positional_configuration(PyObject* inDict, mvListboxConfig& outConfig);
+    void set_positional_configuration(PyObject* inDict, mvRadioButtonConfig& outConfig);
 
     // data source handling
     void set_data_source(mvAppItem& item, mvUUID dataSource, mvComboConfig& outConfig);
@@ -48,6 +51,7 @@ namespace DearPyGui
     void set_data_source(mvAppItem& item, mvUUID dataSource, mvSliderIntConfig& outConfig);
     void set_data_source(mvAppItem& item, mvUUID dataSource, mvSliderIntMultiConfig& outConfig);
     void set_data_source(mvAppItem& item, mvUUID dataSource, mvListboxConfig& outConfig);
+    void set_data_source(mvAppItem& item, mvUUID dataSource, mvRadioButtonConfig& outConfig);
 
     // template specifics
     void apply_template(const mvButtonConfig& sourceConfig, mvButtonConfig& dstConfig);
@@ -62,6 +66,7 @@ namespace DearPyGui
     void apply_template(const mvSliderIntConfig& sourceConfig, mvSliderIntConfig& dstConfig);
     void apply_template(const mvSliderIntMultiConfig& sourceConfig, mvSliderIntMultiConfig& dstConfig);
     void apply_template(const mvListboxConfig& sourceConfig, mvListboxConfig& dstConfig);
+    void apply_template(const mvRadioButtonConfig& sourceConfig, mvRadioButtonConfig& dstConfig);
 
 
     // draw commands
@@ -77,6 +82,7 @@ namespace DearPyGui
     void draw_slider_int   (ImDrawList* drawlist, mvAppItem& item, mvSliderIntConfig& config);
     void draw_slider_intx  (ImDrawList* drawlist, mvAppItem& item, mvSliderIntMultiConfig& config);
     void draw_listbox      (ImDrawList* drawlist, mvAppItem& item, mvListboxConfig& config);
+    void draw_radio_button (ImDrawList* drawlist, mvAppItem& item, mvRadioButtonConfig& config);
     void draw_separator    (ImDrawList* drawlist, mvAppItem& item);
     void draw_spacer       (ImDrawList* drawlist, mvAppItem& item);
     void draw_menubar      (ImDrawList* drawlist, mvAppItem& item);
@@ -221,6 +227,16 @@ struct mvListboxConfig
     int                      disabledindex = 0;
     mvRef<std::string>       value = CreateRef<std::string>("");
     std::string              disabled_value;
+};
+
+struct mvRadioButtonConfig
+{
+    std::vector<std::string> itemnames;
+    bool                     horizontal = false;
+    int                      index = 0;
+    int                      disabledindex = 0;
+    mvRef<std::string>       value = CreateRef<std::string>("");
+    std::string              disabled_value = "";
 };
 
 //-----------------------------------------------------------------------------
@@ -403,6 +419,22 @@ public:
     void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
     void* getValue() override { return &configData.value; }
     PyObject* getPyValue() override {return ToPyString(*configData.value);}
+};
+
+class mvRadioButton : public mvAppItem
+{
+public:
+    mvRadioButtonConfig configData{};
+    explicit mvRadioButton(mvUUID uuid) : mvAppItem(uuid) {}
+    void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_radio_button(drawlist, *this, configData); }
+    void handleSpecificPositionalArgs(PyObject* dict) override { DearPyGui::set_positional_configuration(dict, configData); }
+    void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
+    void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
+    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvRadioButton*>(item); DearPyGui::apply_template(titem->configData, configData); }
+    void setPyValue(PyObject* value) override;
+    void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
+    void* getValue() override { return &configData.value; }
+    PyObject* getPyValue() override { return ToPyString(*configData.value); }
 };
 
 class mvSeparator : public mvAppItem

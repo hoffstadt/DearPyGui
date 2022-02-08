@@ -11,7 +11,6 @@
 #include "mvTextureItems.h"
 #include "mvFontItems.h"
 
-#include "basic/mvRadioButton.h"
 #include "basic/mvSelectable.h"
 #include "basic/mvInput.h"
 #include "basic/mvText.h"

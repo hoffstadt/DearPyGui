@@ -65,7 +65,6 @@ set(MARVEL_SOURCES
 	"src/ui/AppItems/basic/mvMenuItem.cpp"
 	"src/ui/AppItems/basic/mvText.cpp"
 	"src/ui/AppItems/basic/mvImageItems.cpp"
-	"src/ui/AppItems/basic/mvRadioButton.cpp"
 	"src/ui/AppItems/basic/mvSelectable.cpp"
 	"src/ui/AppItems/basic/mvTabButton.cpp"
 	"src/ui/AppItems/basic/mvInput.cpp"

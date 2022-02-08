@@ -265,6 +265,16 @@ DearPyGui::fill_configuration_dict(const mvListboxConfig& inConfig, PyObject* ou
     PyDict_SetItemString(outDict, "num_items", mvPyObject(ToPyInt(inConfig.itemsHeight)));
 }
 
+void
+DearPyGui::fill_configuration_dict(const mvRadioButtonConfig& inConfig, PyObject* outDict)
+{
+	if (outDict == nullptr)
+		return;
+
+	PyDict_SetItemString(outDict, "items", mvPyObject(ToPyList(inConfig.itemnames)));
+	PyDict_SetItemString(outDict, "horizontal", mvPyObject(ToPyBool(inConfig.horizontal)));
+}
+
 //-----------------------------------------------------------------------------
 // [SECTION] configure_item(...) specifics
 //-----------------------------------------------------------------------------
@@ -643,6 +653,36 @@ DearPyGui::set_configuration(PyObject* inDict, mvListboxConfig& outConfig, mvApp
     }
 }
 
+void
+DearPyGui::set_configuration(PyObject* inDict, mvRadioButtonConfig& outConfig)
+{
+	if (inDict == nullptr)
+		return;
+
+	if (PyObject* item = PyDict_GetItemString(inDict, "items"))
+	{
+		outConfig.itemnames = ToStringVect(item);
+
+		// update index
+		outConfig.index = 0;
+		outConfig.disabledindex = 0;
+
+		int index = 0;
+		for (const auto& name : outConfig.itemnames)
+		{
+			if (name == *outConfig.value)
+			{
+				outConfig.index = index;
+				outConfig.disabledindex = index;
+				break;
+			}
+			index++;
+		}
+
+	}
+	if (PyObject* item = PyDict_GetItemString(inDict, "horizontal")) outConfig.horizontal = ToBool(item);
+}
+
 //-----------------------------------------------------------------------------
 // [SECTION] positional args specifics
 //-----------------------------------------------------------------------------
@@ -686,6 +726,27 @@ DearPyGui::set_positional_configuration(PyObject* inDict, mvListboxConfig& outCo
                 break;
         }
     }
+}
+
+void
+DearPyGui::set_positional_configuration(PyObject* inDict, mvRadioButtonConfig& outConfig)
+{
+	if (!VerifyPositionalArguments(GetParsers()[GetEntityCommand(mvAppItemType::mvRadioButton)], inDict))
+		return;
+
+	for (int i = 0; i < PyTuple_Size(inDict); i++)
+	{
+		PyObject* item = PyTuple_GetItem(inDict, i);
+		switch (i)
+		{
+		case 0:
+			outConfig.itemnames = ToStringVect(item);
+			break;
+
+		default:
+			break;
+		}
+	}
 }
 
 //-----------------------------------------------------------------------------
@@ -933,6 +994,28 @@ DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mvListboxConfig& 
     outConfig.value = *static_cast<std::shared_ptr<std::string>*>(srcItem->getValue());
 }
 
+void
+DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mvRadioButtonConfig& outConfig)
+{
+	if (dataSource == item.config.source) return;
+	item.config.source = dataSource;
+
+	mvAppItem* srcItem = GetItem((*GContext->itemRegistry), dataSource);
+	if (!srcItem)
+	{
+		mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
+			"Source item not found: " + std::to_string(dataSource), &item);
+		return;
+	}
+	if (DearPyGui::GetEntityValueType(srcItem->type) != DearPyGui::GetEntityValueType(item.type))
+	{
+		mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
+			"Values types do not match: " + std::to_string(dataSource), &item);
+		return;
+	}
+	outConfig.value = *static_cast<std::shared_ptr<std::string>*>(srcItem->getValue());
+}
+
 //-----------------------------------------------------------------------------
 // [SECTION] template specifics
 //-----------------------------------------------------------------------------
@@ -1090,6 +1173,17 @@ DearPyGui::apply_template(const mvListboxConfig& sourceConfig, mvListboxConfig& 
     dstConfig.charNames = sourceConfig.charNames;
     dstConfig.index = sourceConfig.index;
     dstConfig.disabledindex = sourceConfig.disabledindex;
+}
+
+void
+DearPyGui::apply_template(const mvRadioButtonConfig& sourceConfig, mvRadioButtonConfig& dstConfig)
+{
+	dstConfig.value = sourceConfig.value;
+	dstConfig.disabled_value = sourceConfig.disabled_value;
+	dstConfig.itemnames = sourceConfig.itemnames;
+	dstConfig.horizontal = sourceConfig.horizontal;
+	dstConfig.index = sourceConfig.index;
+	dstConfig.disabledindex = sourceConfig.disabledindex;
 }
 
 //-----------------------------------------------------------------------------
@@ -2405,6 +2499,136 @@ DearPyGui::draw_listbox(ImDrawList *drawlist, mvAppItem &item, mvListboxConfig &
 }
 
 void
+DearPyGui::draw_radio_button(ImDrawList* drawlist, mvAppItem& item, mvRadioButtonConfig& config)
+{
+	//-----------------------------------------------------------------------------
+	// pre draw
+	//-----------------------------------------------------------------------------
+
+	// show/hide
+	if (!item.config.show)
+		return;
+
+	// focusing
+	if (item.info.focusNextFrame)
+	{
+		ImGui::SetKeyboardFocusHere();
+		item.info.focusNextFrame = false;
+	}
+
+	// cache old cursor position
+	ImVec2 previousCursorPos = ImGui::GetCursorPos();
+
+	// set cursor position if user set
+	if (item.info.dirtyPos)
+		ImGui::SetCursorPos(item.state.pos);
+
+	// update widget's position state
+	item.state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
+
+	// set item width
+	if (item.config.width != 0)
+		ImGui::SetNextItemWidth((float)item.config.width);
+
+	// set indent
+	if (item.config.indent > 0.0f)
+		ImGui::Indent(item.config.indent);
+
+	// push font if a font object is attached
+	if (item.font)
+	{
+		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
+		ImGui::PushFont(fontptr);
+	}
+
+	// themes
+	apply_local_theming(&item);
+
+	//-----------------------------------------------------------------------------
+	// draw
+	//-----------------------------------------------------------------------------
+	{
+
+		ImGui::BeginGroup();
+
+		ScopedID id(item.uuid);
+
+		if (!item.config.enabled)
+		{
+			config.disabled_value = *config.value;
+			config.disabledindex = config.index;
+		}
+
+		for (size_t i = 0; i < config.itemnames.size(); i++)
+		{
+			if (config.horizontal && i != 0)
+				ImGui::SameLine();
+
+			if (ImGui::RadioButton(config.itemnames[i].c_str(), item.config.enabled ? &config.index : &config.disabledindex, (int)i))
+			{
+				*config.value = config.itemnames[config.index];
+				config.disabled_value = config.itemnames[config.index];
+				auto value = *config.value;
+
+				if (item.config.alias.empty())
+					mvSubmitCallback([&item, value]() {mvAddCallback(item.getCallback(false), item.uuid, ToPyString(value), item.config.user_data);});
+				else
+					mvSubmitCallback([&item, value]() { mvAddCallback(item.getCallback(false), item.config.alias, ToPyString(value), item.config.user_data);});
+			}
+
+			item.state.edited = ImGui::IsItemEdited();
+		}
+
+		ImGui::EndGroup();
+
+	}
+
+	//-----------------------------------------------------------------------------
+	// update state
+	//-----------------------------------------------------------------------------
+	item.state.lastFrameUpdate = GContext->frame;
+	item.state.hovered = ImGui::IsItemHovered();
+	item.state.active = ImGui::IsItemActive();
+	item.state.focused = ImGui::IsItemFocused();
+	item.state.leftclicked = ImGui::IsItemClicked();
+	item.state.rightclicked = ImGui::IsItemClicked(1);
+	item.state.middleclicked = ImGui::IsItemClicked(2);
+	item.state.visible = ImGui::IsItemVisible();
+	item.state.activated = ImGui::IsItemActivated();
+	item.state.deactivated = ImGui::IsItemDeactivated();
+	item.state.deactivatedAfterEdit = ImGui::IsItemDeactivatedAfterEdit();
+	item.state.toggledOpen = ImGui::IsItemToggledOpen();
+	item.state.rectMin = { ImGui::GetItemRectMin().x, ImGui::GetItemRectMin().y };
+	item.state.rectMax = { ImGui::GetItemRectMax().x, ImGui::GetItemRectMax().y };
+	item.state.rectSize = { ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y };
+	item.state.contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
+
+	//-----------------------------------------------------------------------------
+	// post draw
+	//-----------------------------------------------------------------------------
+
+	// set cursor position to cached position
+	if (item.info.dirtyPos)
+		ImGui::SetCursorPos(previousCursorPos);
+
+	if (item.config.indent > 0.0f)
+		ImGui::Unindent(item.config.indent);
+
+	// pop font off stack
+	if (item.font)
+		ImGui::PopFont();
+
+	// handle popping themes
+	cleanup_local_theming(&item);
+
+	if (item.handlerRegistry)
+		item.handlerRegistry->checkEvents(&item.state);
+
+	// handle drag & drop if used
+	apply_drag_drop(&item);
+}
+
+void
 DearPyGui::draw_separator(ImDrawList* drawlist, mvAppItem& item)
 { 
 	ImGui::Separator(); 
@@ -2457,7 +2681,8 @@ DearPyGui::draw_clipper(ImDrawList* drawlist, mvAppItem& item)
 		ImGui::PopItemWidth();
 }
 
-void mvDragIntMulti::setPyValue(PyObject* value)
+void 
+mvDragIntMulti::setPyValue(PyObject* value)
 {
 	std::vector<int> temp = ToIntVect(value);
 	while (temp.size() < 4)
@@ -2471,7 +2696,8 @@ void mvDragIntMulti::setPyValue(PyObject* value)
 		configData.value = std::make_shared<std::array<int, 4>>(temp_array);
 }
 
-void mvDragFloatMulti::setPyValue(PyObject* value)
+void 
+mvDragFloatMulti::setPyValue(PyObject* value)
 {
 	std::vector<float> temp = ToFloatVect(value);
 	while (temp.size() < 4)
@@ -2485,7 +2711,8 @@ void mvDragFloatMulti::setPyValue(PyObject* value)
 		configData.value = std::make_shared<std::array<float, 4>>(temp_array);
 }
 
-void mvSliderFloatMulti::setPyValue(PyObject* value)
+void
+mvSliderFloatMulti::setPyValue(PyObject* value)
 {
 	std::vector<float> temp = ToFloatVect(value);
 	while (temp.size() < 4)
@@ -2499,7 +2726,8 @@ void mvSliderFloatMulti::setPyValue(PyObject* value)
 		configData.value = std::make_shared<std::array<float, 4>>(temp_array);
 }
 
-void mvSliderIntMulti::setPyValue(PyObject* value)
+void 
+mvSliderIntMulti::setPyValue(PyObject* value)
 {
 	std::vector<int> temp = ToIntVect(value);
 	while (temp.size() < 4)
@@ -2532,4 +2760,26 @@ mvListbox::setPyValue(PyObject *value)
         }
         index++;
     }
+}
+
+void
+mvRadioButton::setPyValue(PyObject* value)
+{
+	*configData.value = ToString(value);
+
+	// update index
+	configData.index = 0;
+	configData.disabledindex = 0;
+
+	int index = 0;
+	for (const auto& name : configData.itemnames)
+	{
+		if (name == *configData.value)
+		{
+			configData.index = index;
+			configData.disabledindex = index;
+			break;
+		}
+		index++;
+	}
 }
