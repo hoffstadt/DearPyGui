@@ -67,7 +67,6 @@ set(MARVEL_SOURCES
 	"src/ui/AppItems/basic/mvImageItems.cpp"
 	"src/ui/AppItems/basic/mvSelectable.cpp"
 	"src/ui/AppItems/basic/mvTabButton.cpp"
-	"src/ui/AppItems/basic/mvInput.cpp"
 	"src/ui/AppItems/colors/mvColorButton.cpp"
 	"src/ui/AppItems/colors/mvColorEdit.cpp"
 	"src/ui/AppItems/colors/mvColorPicker.cpp"

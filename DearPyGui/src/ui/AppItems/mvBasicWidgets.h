@@ -19,6 +19,11 @@ namespace DearPyGui
     void fill_configuration_dict(const mvSliderFloatMultiConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvListboxConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvRadioButtonConfig& inConfig, PyObject* outDict);
+    void fill_configuration_dict(const mvInputTextConfig& inConfig, PyObject* outDict);
+    void fill_configuration_dict(const mvInputIntConfig& inConfig, PyObject* outDict);
+    void fill_configuration_dict(const mvInputFloatConfig& inConfig, PyObject* outDict);
+    void fill_configuration_dict(const mvInputFloatMultiConfig& inConfig, PyObject* outDict);
+    void fill_configuration_dict(const mvInputIntMultiConfig& inConfig, PyObject* outDict);
 
     // specific part of `configure_item(...)`
     void set_configuration(PyObject* inDict, mvButtonConfig& outConfig);
@@ -32,7 +37,12 @@ namespace DearPyGui
     void set_configuration(PyObject* inDict, mvSliderFloatConfig& outConfig, mvAppItemInfo& info);
     void set_configuration(PyObject* inDict, mvSliderFloatMultiConfig& outConfig, mvAppItemInfo& info);
     void set_configuration(PyObject* inDict, mvListboxConfig& outConfig, mvAppItemInfo& info);
-    void set_configuration(PyObject* inDict, mvRadioButtonConfig& outConfig);
+    void set_configuration(PyObject* inDict, mvRadioButtonConfig& outConfig);    
+    void set_configuration(PyObject* inDict, mvInputTextConfig& outConfig, mvAppItemInfo& info);
+    void set_configuration(PyObject* inDict, mvInputIntConfig& outConfig, mvAppItemInfo& info);
+    void set_configuration(PyObject* inDict, mvInputFloatConfig& outConfig, mvAppItemInfo& info);
+    void set_configuration(PyObject* inDict, mvInputFloatMultiConfig& outConfig, mvAppItemInfo& info);
+    void set_configuration(PyObject* inDict, mvInputIntMultiConfig& outConfig, mvAppItemInfo& info);
 
     // positional args TODO: combine with above
     void set_positional_configuration(PyObject* inDict, mvComboConfig& outConfig);
@@ -51,7 +61,12 @@ namespace DearPyGui
     void set_data_source(mvAppItem& item, mvUUID dataSource, mvSliderIntConfig& outConfig);
     void set_data_source(mvAppItem& item, mvUUID dataSource, mvSliderIntMultiConfig& outConfig);
     void set_data_source(mvAppItem& item, mvUUID dataSource, mvListboxConfig& outConfig);
-    void set_data_source(mvAppItem& item, mvUUID dataSource, mvRadioButtonConfig& outConfig);
+    void set_data_source(mvAppItem& item, mvUUID dataSource, mvRadioButtonConfig& outConfig); 
+    void set_data_source(mvAppItem& item, mvUUID dataSource, mvInputTextConfig& outConfig);
+    void set_data_source(mvAppItem& item, mvUUID dataSource, mvInputIntConfig& outConfig);
+    void set_data_source(mvAppItem& item, mvUUID dataSource, mvInputFloatConfig& outConfig);
+    void set_data_source(mvAppItem& item, mvUUID dataSource, mvInputFloatMultiConfig& outConfig);
+    void set_data_source(mvAppItem& item, mvUUID dataSource, mvInputIntMultiConfig& outConfig);
 
     // template specifics
     void apply_template(const mvButtonConfig& sourceConfig, mvButtonConfig& dstConfig);
@@ -67,6 +82,11 @@ namespace DearPyGui
     void apply_template(const mvSliderIntMultiConfig& sourceConfig, mvSliderIntMultiConfig& dstConfig);
     void apply_template(const mvListboxConfig& sourceConfig, mvListboxConfig& dstConfig);
     void apply_template(const mvRadioButtonConfig& sourceConfig, mvRadioButtonConfig& dstConfig);
+    void apply_template(const mvInputTextConfig& sourceConfig, mvInputTextConfig& dstConfig);
+    void apply_template(const mvInputIntConfig& sourceConfig, mvInputIntConfig& dstConfig);
+    void apply_template(const mvInputFloatConfig& sourceConfig, mvInputFloatConfig& dstConfig);
+    void apply_template(const mvInputFloatMultiConfig& sourceConfig, mvInputFloatMultiConfig& dstConfig);
+    void apply_template(const mvInputIntMultiConfig& sourceConfig, mvInputIntMultiConfig& dstConfig);
 
 
     // draw commands
@@ -83,10 +103,16 @@ namespace DearPyGui
     void draw_slider_intx  (ImDrawList* drawlist, mvAppItem& item, mvSliderIntMultiConfig& config);
     void draw_listbox      (ImDrawList* drawlist, mvAppItem& item, mvListboxConfig& config);
     void draw_radio_button (ImDrawList* drawlist, mvAppItem& item, mvRadioButtonConfig& config);
+    void draw_input_text   (ImDrawList* drawlist, mvAppItem& item, mvInputTextConfig& config);
+    void draw_input_float  (ImDrawList* drawlist, mvAppItem& item, mvInputFloatConfig& config);
+    void draw_input_floatx (ImDrawList* drawlist, mvAppItem& item, mvInputFloatMultiConfig& config);
+    void draw_input_int    (ImDrawList* drawlist, mvAppItem& item, mvInputIntConfig& config);
+    void draw_input_intx   (ImDrawList* drawlist, mvAppItem& item, mvInputIntMultiConfig& config);
     void draw_separator    (ImDrawList* drawlist, mvAppItem& item);
     void draw_spacer       (ImDrawList* drawlist, mvAppItem& item);
     void draw_menubar      (ImDrawList* drawlist, mvAppItem& item);
     void draw_clipper      (ImDrawList* drawlist, mvAppItem& item);
+    
 }
 
 enum class mvComboHeightMode
@@ -237,6 +263,76 @@ struct mvRadioButtonConfig
     int                      disabledindex = 0;
     mvRef<std::string>       value = CreateRef<std::string>("");
     std::string              disabled_value = "";
+};
+
+struct mvInputTextConfig
+{
+    std::string         hint;
+    bool                multiline = false;
+    ImGuiInputTextFlags flags = 0;
+    ImGuiInputTextFlags stor_flags = 0;
+    mvRef<std::string>  value = CreateRef<std::string>("");
+    std::string         disabled_value = "";
+};
+
+struct mvInputIntConfig
+{
+    int                 step = 1;
+    int                 step_fast = 100;
+    int                 minv = 0;
+    int                 maxv = 100;
+    bool                min_clamped = false;
+    bool                max_clamped = false;
+    ImGuiInputTextFlags flags = 0;
+    ImGuiInputTextFlags stor_flags = 0;
+    int                 last_value = 0;
+    mvRef<int>          value = CreateRef<int>(0);
+    int                 disabled_value = 0;
+};
+
+struct mvInputFloatConfig
+{
+    float               minv = 0.0f;
+    float               maxv = 100.0f;
+    bool                min_clamped = false;
+    bool                max_clamped = false;
+    std::string         format = "%.3f";
+    float               step = 0.1f;
+    float               step_fast = 1.0f;
+    ImGuiInputTextFlags flags = 0;
+    ImGuiInputTextFlags stor_flags = 0;
+    float               last_value = 0.0f;
+    mvRef<float>        value = CreateRef<float>(0.0f);
+    float               disabled_value = 0.0f;
+};
+
+struct mvInputFloatMultiConfig
+{
+    float                       minv = 0.0f;
+    float                       maxv = 100.0f;
+    bool                        min_clamped = false;
+    bool                        max_clamped = false;
+    std::string                 format = "%.3f";
+    ImGuiInputTextFlags         flags = 0;
+    ImGuiInputTextFlags         stor_flags = 0;
+    std::array<float, 4>        last_value = { 0.0f, 0.0f, 0.0f, 0.0f };
+    int                         size = 4;
+    mvRef<std::array<float, 4>> value = CreateRef<std::array<float, 4>>(std::array<float, 4>{0.0f, 0.0f, 0.0f, 0.0f});
+    float                       disabled_value[4]{};
+};
+
+struct mvInputIntMultiConfig
+{
+    int                       minv = 0;
+    int                       maxv = 100;
+    bool                      min_clamped = false;
+    bool                      max_clamped = false;
+    ImGuiInputTextFlags       flags = 0;
+    ImGuiInputTextFlags       stor_flags = 0;
+    std::array<int, 4>        last_value = { 0, 0, 0, 0 };
+    int                       size = 4;
+    mvRef<std::array<int, 4>> value = CreateRef<std::array<int, 4>>(std::array<int, 4>{0, 0, 0, 0});
+    int                       disabled_value[4]{};
 };
 
 //-----------------------------------------------------------------------------
@@ -435,6 +531,82 @@ public:
     void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
     void* getValue() override { return &configData.value; }
     PyObject* getPyValue() override { return ToPyString(*configData.value); }
+};
+
+class mvInputText : public mvAppItem
+{
+
+public:
+    mvInputTextConfig configData{};
+    explicit mvInputText(mvUUID uuid) : mvAppItem(uuid) {}
+    void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_input_text(drawlist, *this, configData); }
+    void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData, info); }
+    void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
+    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvInputText*>(item); DearPyGui::apply_template(titem->configData, configData); }
+    void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
+    void* getValue() override { return &configData.value; }
+    PyObject* getPyValue() override{ return ToPyString(*configData.value); }
+    void setPyValue(PyObject* value) override{ *configData.value = ToString(value); }
+};
+
+class mvInputInt : public mvAppItem
+{
+public:
+    mvInputIntConfig configData{};
+    explicit mvInputInt(mvUUID uuid) : mvAppItem(uuid) { configData.last_value = *configData.value; }
+    void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_input_int(drawlist, *this, configData); }
+    void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData, info); }
+    void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
+    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvInputInt*>(item); DearPyGui::apply_template(titem->configData, configData); }
+    void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
+    void* getValue() override { return &configData.value; }
+    PyObject* getPyValue() override{ return ToPyInt(*configData.value); }
+    void setPyValue(PyObject* value) override{ *configData.value = ToInt(value); configData.last_value = *configData.value;}
+};
+
+class mvInputIntMulti : public mvAppItem
+{
+public:
+    mvInputIntMultiConfig configData{};
+    explicit mvInputIntMulti(mvUUID uuid) : mvAppItem(uuid){ configData.last_value = *configData.value; }
+    void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_input_intx(drawlist, *this, configData); }
+    void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData, info); }
+    void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
+    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvInputIntMulti*>(item); DearPyGui::apply_template(titem->configData, configData); }
+    void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
+    void* getValue() override { return &configData.value; }
+    PyObject* getPyValue() override{ return ToPyIntList(configData.value->data(), 4); }
+    void setPyValue(PyObject* value) override;
+};
+
+class mvInputFloat : public mvAppItem
+{
+public:
+    mvInputFloatConfig configData{};
+    explicit mvInputFloat(mvUUID uuid) : mvAppItem(uuid) { configData.last_value = *configData.value; }
+    void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_input_float(drawlist, *this, configData); }
+    void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData, info); }
+    void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
+    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvInputFloat*>(item); DearPyGui::apply_template(titem->configData, configData); }
+    void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
+    void* getValue() override { return &configData.value; }
+    PyObject* getPyValue() override { return ToPyFloat(*configData.value); }
+    void setPyValue(PyObject* value) override { *configData.value = ToFloat(value); configData.last_value = *configData.value; }
+};
+
+class mvInputFloatMulti : public mvAppItem
+{
+public:
+    mvInputFloatMultiConfig configData{};
+    explicit mvInputFloatMulti(mvUUID uuid) : mvAppItem(uuid) { configData.last_value = *configData.value; }
+    void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_input_floatx(drawlist, *this, configData); }
+    void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData, info); }
+    void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
+    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvInputFloatMulti*>(item); DearPyGui::apply_template(titem->configData, configData); }
+    void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
+    void* getValue() override { return &configData.value; }
+    PyObject* getPyValue() override { return ToPyFloatList(configData.value->data(), 4); }
+    void setPyValue(PyObject* value) override;
 };
 
 class mvSeparator : public mvAppItem

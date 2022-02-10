@@ -33,3 +33,8 @@ struct mvSliderFloatMultiConfig;
 struct mvSliderIntMultiConfig;
 struct mvListboxConfig;
 struct mvRadioButtonConfig;
+struct mvInputTextConfig;
+struct mvInputIntConfig;
+struct mvInputFloatConfig;
+struct mvInputFloatMultiConfig;
+struct mvInputIntMultiConfig;
