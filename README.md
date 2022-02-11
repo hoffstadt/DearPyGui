@@ -17,7 +17,7 @@
 [![Deployment](https://github.com/hoffstadt/DearPyGui/actions/workflows/Deployment.yml/badge.svg?branch=master)](https://github.com/hoffstadt/DearPyGui/actions/workflows/Deployment.yml)
 [![Documentation Status](https://readthedocs.org/projects/dearpygui/badge/?version=latest)](https://dearpygui.readthedocs.io/en/latest/?badge=latest)
 
-**Dear PyGui** is a **simple to use (but powerful) Python GUI framework**. _Dear PyGui_ is **NOT** a wrapping of **[Dear ImGui](https://github.com/ocornut/imgui)** in the normal sense. It is a library built with _Dear ImGui_ which creates a unique retained mode API (as opposed to _Dear ImGui_'s immediate mode paradigm).
+**Dear PyGui** is a **simple to use (but powerful) Python GUI framework**. _Dear PyGui_ is **NOT** a wrapping of **[Dear ImGui](https://github.com/ocornut/imgui)** in the normal sense. It is a library built with _Dear ImGui_.
 
 <BR>![Themes](https://github.com/hoffstadt/DearPyGui/blob/assets/linuxthemes.PNG?raw=true)
 
@@ -31,7 +31,6 @@ the following platforms:
 | **macOS** | _Metal_ | [![PYPI](https://img.shields.io/pypi/v/dearpygui)](https://pypi.org/project/dearpygui/) |
 | **Linux** | _OpenGL 3_ | [![PYPI](https://img.shields.io/pypi/v/dearpygui)](https://pypi.org/project/dearpygui/) |
 | **Raspberry Pi 4** | _OpenGL ES_ | [![PYPI](https://img.shields.io/badge/pypi-v1.2-blue)](https://img.shields.io/badge/pypi-v1.2-blue) |
-
 
 In the same manner Dear ImGui provides a simple way to create tools for game developers, _Dear PyGui_ provides a 
 simple way for python developers to **create quick and powerful GUIs for scripts**.
