@@ -1077,6 +1077,7 @@ set_axis_ticks(PyObject* self, PyObject* args, PyObject* kwargs)
 		labels.emplace_back(item.first.c_str());
 		locations.emplace_back((double)item.second);
 	}
+	graph->resetYTicks();
 	graph->setYTicks(labels, locations);
 
 	return GetPyNone();
