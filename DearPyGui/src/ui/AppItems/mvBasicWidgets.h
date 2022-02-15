@@ -24,6 +24,9 @@ namespace DearPyGui
     void fill_configuration_dict(const mvInputFloatConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvInputFloatMultiConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvInputIntMultiConfig& inConfig, PyObject* outDict);
+    void fill_configuration_dict(const mvTextConfig& inConfig, PyObject* outDict);
+    void fill_configuration_dict(const mvSelectableConfig& inConfig, PyObject* outDict);
+    void fill_configuration_dict(const mvTabButtonConfig& inConfig, PyObject* outDict);
 
     // specific part of `configure_item(...)`
     void set_configuration(PyObject* inDict, mvButtonConfig& outConfig);
@@ -43,11 +46,15 @@ namespace DearPyGui
     void set_configuration(PyObject* inDict, mvInputFloatConfig& outConfig, mvAppItemInfo& info);
     void set_configuration(PyObject* inDict, mvInputFloatMultiConfig& outConfig, mvAppItemInfo& info);
     void set_configuration(PyObject* inDict, mvInputIntMultiConfig& outConfig, mvAppItemInfo& info);
+    void set_configuration(PyObject* inDict, mvTextConfig& outConfig);
+    void set_configuration(PyObject* inDict, mvSelectableConfig& outConfig, mvAppItemInfo& info);
+    void set_configuration(PyObject* inDict, mvTabButtonConfig& outConfig);
 
     // positional args TODO: combine with above
     void set_positional_configuration(PyObject* inDict, mvComboConfig& outConfig);
     void set_positional_configuration(PyObject* inDict, mvListboxConfig& outConfig);
     void set_positional_configuration(PyObject* inDict, mvRadioButtonConfig& outConfig);
+    void set_positional_configuration(PyObject* inDict, mvTextConfig& outConfig);
 
     // data source handling
     void set_data_source(mvAppItem& item, mvUUID dataSource, mvComboConfig& outConfig);
@@ -67,6 +74,8 @@ namespace DearPyGui
     void set_data_source(mvAppItem& item, mvUUID dataSource, mvInputFloatConfig& outConfig);
     void set_data_source(mvAppItem& item, mvUUID dataSource, mvInputFloatMultiConfig& outConfig);
     void set_data_source(mvAppItem& item, mvUUID dataSource, mvInputIntMultiConfig& outConfig);
+    void set_data_source(mvAppItem& item, mvUUID dataSource, mvTextConfig& outConfig);
+    void set_data_source(mvAppItem& item, mvUUID dataSource, mvSelectableConfig& outConfig);
 
     // template specifics
     void apply_template(const mvButtonConfig& sourceConfig, mvButtonConfig& dstConfig);
@@ -87,7 +96,9 @@ namespace DearPyGui
     void apply_template(const mvInputFloatConfig& sourceConfig, mvInputFloatConfig& dstConfig);
     void apply_template(const mvInputFloatMultiConfig& sourceConfig, mvInputFloatMultiConfig& dstConfig);
     void apply_template(const mvInputIntMultiConfig& sourceConfig, mvInputIntMultiConfig& dstConfig);
-
+    void apply_template(const mvTextConfig& sourceConfig, mvTextConfig& dstConfig);
+    void apply_template(const mvSelectableConfig& sourceConfig, mvSelectableConfig& dstConfig);
+    void apply_template(const mvTabButtonConfig& sourceConfig, mvTabButtonConfig& dstConfig);
 
     // draw commands
     void draw_button       (ImDrawList* drawlist, mvAppItem& item, const mvButtonConfig& config);
@@ -108,6 +119,9 @@ namespace DearPyGui
     void draw_input_floatx (ImDrawList* drawlist, mvAppItem& item, mvInputFloatMultiConfig& config);
     void draw_input_int    (ImDrawList* drawlist, mvAppItem& item, mvInputIntConfig& config);
     void draw_input_intx   (ImDrawList* drawlist, mvAppItem& item, mvInputIntMultiConfig& config);
+    void draw_text         (ImDrawList* drawlist, mvAppItem& item, mvTextConfig& config);
+    void draw_selectable   (ImDrawList* drawlist, mvAppItem& item, mvSelectableConfig& config);
+    void draw_tab_button   (ImDrawList* drawlist, mvAppItem& item, mvTabButtonConfig& config);
     void draw_separator    (ImDrawList* drawlist, mvAppItem& item);
     void draw_spacer       (ImDrawList* drawlist, mvAppItem& item);
     void draw_menubar      (ImDrawList* drawlist, mvAppItem& item);
@@ -333,6 +347,36 @@ struct mvInputIntMultiConfig
     int                       size = 4;
     mvRef<std::array<int, 4>> value = CreateRef<std::array<int, 4>>(std::array<int, 4>{0, 0, 0, 0});
     int                       disabled_value[4]{};
+};
+
+struct mvTextConfig
+{
+    mvColor            color = { -1.0f, 0.0f, 0.0f, 1.0f };
+    int                wrap = -1;
+    bool               bullet = false;
+    bool               show_label = false;
+    mvRef<std::string> value = CreateRef<std::string>("");
+    std::string        disabled_value = "";
+};
+
+struct mvSelectableConfig
+{
+    ImGuiSelectableFlags flags = ImGuiSelectableFlags_None;
+    mvRef<bool>          value = CreateRef<bool>(false);
+    bool                 disabled_value = false;
+};
+
+struct mvTabButtonConfig
+{
+    ImGuiTabItemFlags flags = ImGuiTabItemFlags_None;
+};
+
+struct mvMenuItemConfig
+{
+    std::string shortcut;
+    bool        check = false;
+    mvRef<bool> value = CreateRef<bool>(false);
+    bool        disabled_value = false;
 };
 
 //-----------------------------------------------------------------------------
@@ -607,6 +651,49 @@ public:
     void* getValue() override { return &configData.value; }
     PyObject* getPyValue() override { return ToPyFloatList(configData.value->data(), 4); }
     void setPyValue(PyObject* value) override;
+};
+
+class mvText : public mvAppItem
+{
+
+public:
+    mvTextConfig configData{};
+    explicit mvText(mvUUID uuid) : mvAppItem(uuid) { *configData.value = "Not Specified"; }
+    void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_text(drawlist, *this, configData); }
+    void handleSpecificPositionalArgs(PyObject* dict) override { DearPyGui::set_positional_configuration(dict, configData); }
+    void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
+    void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
+    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvText*>(item); DearPyGui::apply_template(titem->configData, configData); }
+    void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
+    void* getValue() override { return &configData.value; }
+    PyObject* getPyValue() override { return ToPyString(*configData.value); }
+    void setPyValue(PyObject* value) override { *configData.value = ToString(value); }
+};
+
+class mvSelectable : public mvAppItem
+{
+public:
+    mvSelectableConfig configData{};
+    explicit mvSelectable(mvUUID uuid) : mvAppItem(uuid) {}
+    void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_selectable(drawlist, *this, configData); }
+    void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData, info); }
+    void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
+    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvSelectable*>(item); DearPyGui::apply_template(titem->configData, configData); }
+    void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
+    void* getValue() override { return &configData.value; }
+    PyObject* getPyValue() override { return ToPyBool(*configData.value); }
+    void setPyValue(PyObject* value) override { *configData.value = ToBool(value); }
+};
+
+class mvTabButton : public mvAppItem
+{
+public:
+    mvTabButtonConfig configData{};
+    explicit mvTabButton(mvUUID uuid) : mvAppItem(uuid) {}
+    void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_tab_button(drawlist, *this, configData); }
+    void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
+    void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
+    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvTabButton*>(item); DearPyGui::apply_template(titem->configData, configData); }
 };
 
 class mvSeparator : public mvAppItem

@@ -38,3 +38,7 @@ struct mvInputIntConfig;
 struct mvInputFloatConfig;
 struct mvInputFloatMultiConfig;
 struct mvInputIntMultiConfig;
+struct mvTextConfig;
+struct mvSelectableConfig;
+struct mvTabButtonConfig;
+struct mvMenuItemConfig;

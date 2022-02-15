@@ -383,6 +383,55 @@ DearPyGui::fill_configuration_dict(const mvInputIntMultiConfig& inConfig, PyObje
 	PyDict_SetItemString(outDict, "size", mvPyObject(ToPyInt(inConfig.size)));
 }
 
+void
+DearPyGui::fill_configuration_dict(const mvTextConfig& inConfig, PyObject* outDict)
+{
+	if (outDict == nullptr)
+		return;
+
+	PyDict_SetItemString(outDict, "color", mvPyObject(ToPyColor(inConfig.color)));
+	PyDict_SetItemString(outDict, "wrap", mvPyObject(ToPyInt(inConfig.wrap)));
+	PyDict_SetItemString(outDict, "bullet", mvPyObject(ToPyBool(inConfig.bullet)));
+	PyDict_SetItemString(outDict, "show_label", mvPyObject(ToPyBool(inConfig.show_label)));
+}
+
+void
+DearPyGui::fill_configuration_dict(const mvSelectableConfig& inConfig, PyObject* outDict)
+{
+	if (outDict == nullptr)
+		return;
+
+
+	// helper to check and set bit
+	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags, bool flip)
+	{
+		PyDict_SetItemString(outDict, keyword, mvPyObject(ToPyBool(flags & flag)));
+	};
+
+	// window flags
+	checkbitset("span_columns", ImGuiSelectableFlags_SpanAllColumns, inConfig.flags, false);
+}
+
+void
+DearPyGui::fill_configuration_dict(const mvTabButtonConfig& inConfig, PyObject* outDict)
+{
+	if (outDict == nullptr)
+		return;
+
+
+	// helper to check and set bit
+	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)
+	{
+		PyDict_SetItemString(outDict, keyword, mvPyObject(ToPyBool(flags & flag)));
+	};
+
+	// window flags
+	checkbitset("no_reorder", ImGuiTabBarFlags_Reorderable, inConfig.flags);
+	checkbitset("leading", ImGuiTabItemFlags_Leading, inConfig.flags);
+	checkbitset("trailing", ImGuiTabItemFlags_Trailing, inConfig.flags);
+	checkbitset("no_tooltip", ImGuiTabItemFlags_NoTooltip, inConfig.flags);
+}
+
 //-----------------------------------------------------------------------------
 // [SECTION] configure_item(...) specifics
 //-----------------------------------------------------------------------------
@@ -1022,6 +1071,70 @@ DearPyGui::set_configuration(PyObject* inDict, mvInputIntMultiConfig& outConfig,
 	}
 }
 
+void
+DearPyGui::set_configuration(PyObject* inDict, mvTextConfig& outConfig)
+{
+	if (inDict == nullptr)
+		return;
+
+	if (PyObject* item = PyDict_GetItemString(inDict, "color")) outConfig.color = ToColor(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "wrap")) outConfig.wrap = ToInt(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "bullet")) outConfig.bullet = ToBool(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "show_label")) outConfig.show_label = ToBool(item);
+}
+
+void
+DearPyGui::set_configuration(PyObject* inDict, mvSelectableConfig& outConfig, mvAppItemInfo& info)
+{
+	if (inDict == nullptr)
+		return;
+
+
+	// helper for bit flipping
+	auto flagop = [inDict](const char* keyword, int flag, int& flags, bool flip)
+	{
+		if (PyObject* item = PyDict_GetItemString(inDict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+	};
+
+	// window flags
+	flagop("span_columns", ImGuiSelectableFlags_SpanAllColumns, outConfig.flags, false);
+
+	if (info.enabledLastFrame)
+	{
+		info.enabledLastFrame = false;
+		outConfig.flags &= ~ImGuiSelectableFlags_Disabled;
+	}
+
+	if (info.disabledLastFrame)
+	{
+		info.disabledLastFrame = false;
+		outConfig.flags |= ImGuiSelectableFlags_Disabled;
+	}
+}
+
+void
+DearPyGui::set_configuration(PyObject* inDict, mvTabButtonConfig& outConfig)
+{
+	if (inDict == nullptr)
+		return;
+
+
+	// helper for bit flipping
+	auto flagop = [inDict](const char* keyword, int flag, int& flags)
+	{
+		if (PyObject* item = PyDict_GetItemString(inDict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+	};
+
+	// window flags
+	flagop("no_reorder", ImGuiTabItemFlags_NoReorder, outConfig.flags);
+	flagop("leading", ImGuiTabItemFlags_Leading, outConfig.flags);
+	flagop("trailing", ImGuiTabItemFlags_Trailing, outConfig.flags);
+	flagop("no_tooltip", ImGuiTabItemFlags_NoTooltip, outConfig.flags);
+
+	if (outConfig.flags & ImGuiTabItemFlags_Leading && outConfig.flags & ImGuiTabItemFlags_Trailing)
+		outConfig.flags &= ~ImGuiTabItemFlags_Leading;
+}
+
 //-----------------------------------------------------------------------------
 // [SECTION] positional args specifics
 //-----------------------------------------------------------------------------
@@ -1081,6 +1194,27 @@ DearPyGui::set_positional_configuration(PyObject* inDict, mvRadioButtonConfig& o
 		{
 		case 0:
 			outConfig.itemnames = ToStringVect(item);
+			break;
+
+		default:
+			break;
+		}
+	}
+}
+
+void
+DearPyGui::set_positional_configuration(PyObject* inDict, mvTextConfig& outConfig)
+{
+	if (!VerifyPositionalArguments(GetParsers()[GetEntityCommand(mvAppItemType::mvText)], inDict))
+		return;
+
+	for (int i = 0; i < PyTuple_Size(inDict); i++)
+	{
+		PyObject* item = PyTuple_GetItem(inDict, i);
+		switch (i)
+		{
+		case 0:
+			*outConfig.value = ToString(item);
 			break;
 
 		default:
@@ -1467,6 +1601,49 @@ DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mvInputIntMultiCo
 	outConfig.value = *static_cast<std::shared_ptr<std::array<int, 4>>*>(srcItem->getValue());
 }
 
+void
+DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mvTextConfig& outConfig)
+{
+	if (dataSource == item.config.source) return;
+	item.config.source = dataSource;
+
+	mvAppItem* srcItem = GetItem((*GContext->itemRegistry), dataSource);
+	if (!srcItem)
+	{
+		mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
+			"Source item not found: " + std::to_string(dataSource), &item);
+		return;
+	}
+	if (DearPyGui::GetEntityValueType(srcItem->type) != DearPyGui::GetEntityValueType(item.type))
+	{
+		mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
+			"Values types do not match: " + std::to_string(dataSource), &item);
+		return;
+	}
+	outConfig.value = *static_cast<std::shared_ptr<std::string>*>(srcItem->getValue());
+}
+
+void
+DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mvSelectableConfig& outConfig)
+{
+	if (dataSource == item.config.source) return;
+	item.config.source = dataSource;
+
+	mvAppItem* srcItem = GetItem((*GContext->itemRegistry), dataSource);
+	if (!srcItem)
+	{
+		mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
+			"Source item not found: " + std::to_string(dataSource), &item);
+		return;
+	}
+	if (DearPyGui::GetEntityValueType(srcItem->type) != DearPyGui::GetEntityValueType(item.type))
+	{
+		mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
+			"Values types do not match: " + std::to_string(dataSource), &item);
+		return;
+	}
+	outConfig.value = *static_cast<std::shared_ptr<bool>*>(srcItem->getValue());
+}
 
 //-----------------------------------------------------------------------------
 // [SECTION] template specifics
@@ -1718,6 +1895,31 @@ DearPyGui::apply_template(const mvInputIntMultiConfig& sourceConfig, mvInputIntM
 	dstConfig.stor_flags = sourceConfig.stor_flags;
 	dstConfig.last_value = sourceConfig.last_value;
 	dstConfig.size = sourceConfig.size;
+}
+
+void
+DearPyGui::apply_template(const mvTextConfig& sourceConfig, mvTextConfig& dstConfig)
+{
+	dstConfig.value = sourceConfig.value;
+	dstConfig.disabled_value = sourceConfig.disabled_value;
+	dstConfig.color = sourceConfig.color;
+	dstConfig.wrap = sourceConfig.wrap;
+	dstConfig.bullet = sourceConfig.bullet;
+	dstConfig.show_label = sourceConfig.show_label;
+}
+
+void
+DearPyGui::apply_template(const mvSelectableConfig& sourceConfig, mvSelectableConfig& dstConfig)
+{
+	dstConfig.value = sourceConfig.value;
+	dstConfig.disabled_value = sourceConfig.disabled_value;
+	dstConfig.flags = sourceConfig.flags;
+}
+
+void
+DearPyGui::apply_template(const mvTabButtonConfig& sourceConfig, mvTabButtonConfig& dstConfig)
+{
+	dstConfig.flags = sourceConfig.flags;
 }
 
 //-----------------------------------------------------------------------------
@@ -3784,6 +3986,305 @@ DearPyGui::draw_input_intx(ImDrawList* drawlist, mvAppItem& item, mvInputIntMult
 					mvAddCallback(item.getCallback(false), item.config.alias, ToPyIntList(value.data(), (int)value.size()), item.config.user_data);
 						});
 			}
+		}
+	}
+
+	//-----------------------------------------------------------------------------
+	// update state
+	//-----------------------------------------------------------------------------
+	UpdateAppItemState(item.state);
+
+	//-----------------------------------------------------------------------------
+	// post draw
+	//-----------------------------------------------------------------------------
+
+	// set cursor position to cached position
+	if (item.info.dirtyPos)
+		ImGui::SetCursorPos(previousCursorPos);
+
+	if (item.config.indent > 0.0f)
+		ImGui::Unindent(item.config.indent);
+
+	// pop font off stack
+	if (item.font)
+		ImGui::PopFont();
+
+	// handle popping themes
+	cleanup_local_theming(&item);
+
+	if (item.handlerRegistry)
+		item.handlerRegistry->checkEvents(&item.state);
+
+	// handle drag & drop if used
+	apply_drag_drop(&item);
+}
+
+void
+DearPyGui::draw_text(ImDrawList* drawlist, mvAppItem& item, mvTextConfig& config)
+{
+	//-----------------------------------------------------------------------------
+	// predraw
+	//-----------------------------------------------------------------------------
+	if (!item.config.show)
+		return;
+
+	if (item.info.focusNextFrame)
+	{
+		ImGui::SetKeyboardFocusHere();
+		item.info.focusNextFrame = false;
+	}
+
+	item.info.previousCursorPos = ImGui::GetCursorPos();
+	if (item.info.dirtyPos)
+		ImGui::SetCursorPos(item.state.pos);
+
+	item.state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
+
+	// set item width
+	if (item.config.width != 0)
+		ImGui::SetNextItemWidth((float)item.config.width);
+
+	if (item.config.indent > 0.0f)
+		ImGui::Indent(item.config.indent);
+
+	if (item.font)
+	{
+		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
+		ImGui::PushFont(fontptr);
+	}
+
+	// themes
+	apply_local_theming(&item);
+
+	//-----------------------------------------------------------------------------
+	// draw
+	//-----------------------------------------------------------------------------
+	{
+		// this fixes the vertical text alignment issue according it DearImGui issue #2317
+		ImGui::AlignTextToFramePadding();
+
+		const ImGuiStyle& style = ImGui::GetStyle();
+		const float w = ImGui::CalcItemWidth();
+		const float textVertCenter = ImGui::GetCursorPosY();
+		const float valueEndX = ImGui::GetCursorPosX() + w;
+
+		if (config.color.r >= 0.0f)
+			ImGui::PushStyleColor(ImGuiCol_Text, config.color.toVec4());
+
+		if (config.wrap == 0)
+			ImGui::PushTextWrapPos((float)config.wrap);
+		else if (config.wrap > 0)
+			ImGui::PushTextWrapPos(ImGui::GetCursorPosX() + (float)config.wrap);
+
+		if (config.bullet)
+			ImGui::Bullet();
+
+		//ImGui::Text("%s", _value.c_str());
+		ImGui::TextUnformatted(config.value->c_str()); // this doesn't have a buffer size limit
+
+		item.state.lastFrameUpdate = GContext->frame;
+		item.state.visible = ImGui::IsItemVisible();
+		item.state.hovered = ImGui::IsItemHovered();
+		item.state.leftclicked = ImGui::IsItemClicked(0);
+		item.state.rightclicked = ImGui::IsItemClicked(1);
+		item.state.middleclicked = ImGui::IsItemClicked(2);
+		item.state.contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
+
+		if (config.wrap >= 0)
+			ImGui::PopTextWrapPos();
+
+		if (config.color.r >= 0.0f)
+			ImGui::PopStyleColor();
+
+		if (config.show_label)
+		{
+			ImGui::SameLine();
+			ImGui::SetCursorPos({ valueEndX + style.ItemInnerSpacing.x, textVertCenter });
+			ImGui::TextUnformatted(item.config.specifiedLabel.c_str());
+
+			item.state.visible = ImGui::IsItemVisible();
+			item.state.hovered = ImGui::IsItemHovered();
+			item.state.leftclicked = ImGui::IsItemClicked(0);
+			item.state.rightclicked = ImGui::IsItemClicked(1);
+			item.state.middleclicked = ImGui::IsItemClicked(2);
+		}
+	}
+
+	//-----------------------------------------------------------------------------
+	// postdraw
+	//-----------------------------------------------------------------------------
+	if (item.info.dirtyPos)
+		ImGui::SetCursorPos(item.info.previousCursorPos);
+
+	if (item.config.indent > 0.0f)
+		ImGui::Unindent(item.config.indent);
+
+	if (item.font)
+	{
+		ImGui::PopFont();
+	}
+
+	// handle popping themes
+	cleanup_local_theming(&item);
+
+	if (item.handlerRegistry)
+		item.handlerRegistry->checkEvents(&item.state);
+
+	// handle drag & drop payloads
+	apply_drag_drop(&item);
+}
+
+void
+DearPyGui::draw_selectable(ImDrawList* drawlist, mvAppItem& item, mvSelectableConfig& config)
+{
+	//-----------------------------------------------------------------------------
+	// pre draw
+	//-----------------------------------------------------------------------------
+
+	// show/hide
+	if (!item.config.show)
+		return;
+
+	// focusing
+	if (item.info.focusNextFrame)
+	{
+		ImGui::SetKeyboardFocusHere();
+		item.info.focusNextFrame = false;
+	}
+
+	// cache old cursor position
+	ImVec2 previousCursorPos = ImGui::GetCursorPos();
+
+	// set cursor position if user set
+	if (item.info.dirtyPos)
+		ImGui::SetCursorPos(item.state.pos);
+
+	// update widget's position state
+	item.state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
+
+	// set item width
+	if (item.config.width != 0)
+		ImGui::SetNextItemWidth((float)item.config.width);
+
+	// set indent
+	if (item.config.indent > 0.0f)
+		ImGui::Indent(item.config.indent);
+
+	// push font if a font object is attached
+	if (item.font)
+	{
+		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
+		ImGui::PushFont(fontptr);
+	}
+
+	// themes
+	apply_local_theming(&item);
+
+	//-----------------------------------------------------------------------------
+	// draw
+	//-----------------------------------------------------------------------------
+	{
+		ScopedID id(item.uuid);
+
+		if (ImGui::Selectable(item.info.internalLabel.c_str(), config.value.get(), config.flags, ImVec2((float)item.config.width, (float)item.config.height)))
+		{
+			auto value = *config.value;
+
+			if (item.config.alias.empty())
+				mvSubmitCallback([&item, value]() { mvAddCallback(item.getCallback(false), item.uuid, ToPyBool(value), item.config.user_data);});
+			else
+				mvSubmitCallback([&item, value]() {mvAddCallback(item.getCallback(false), item.config.alias, ToPyBool(value), item.config.user_data);});
+		}
+	}
+
+	//-----------------------------------------------------------------------------
+	// update state
+	//-----------------------------------------------------------------------------
+	UpdateAppItemState(item.state);
+
+	//-----------------------------------------------------------------------------
+	// post draw
+	//-----------------------------------------------------------------------------
+
+	// set cursor position to cached position
+	if (item.info.dirtyPos)
+		ImGui::SetCursorPos(previousCursorPos);
+
+	if (item.config.indent > 0.0f)
+		ImGui::Unindent(item.config.indent);
+
+	// pop font off stack
+	if (item.font)
+		ImGui::PopFont();
+
+	// handle popping themes
+	cleanup_local_theming(&item);
+
+	if (item.handlerRegistry)
+		item.handlerRegistry->checkEvents(&item.state);
+
+	// handle drag & drop if used
+	apply_drag_drop(&item);
+}
+
+void
+DearPyGui::draw_tab_button(ImDrawList* drawlist, mvAppItem& item, mvTabButtonConfig& config)
+{
+	//-----------------------------------------------------------------------------
+	// pre draw
+	//-----------------------------------------------------------------------------
+
+	// show/hide
+	if (!item.config.show)
+		return;
+
+	// focusing
+	if (item.info.focusNextFrame)
+	{
+		ImGui::SetKeyboardFocusHere();
+		item.info.focusNextFrame = false;
+	}
+
+	// cache old cursor position
+	ImVec2 previousCursorPos = ImGui::GetCursorPos();
+
+	// set cursor position if user set
+	if (item.info.dirtyPos)
+		ImGui::SetCursorPos(item.state.pos);
+
+	// update widget's position state
+	item.state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
+
+	// set item width
+	if (item.config.width != 0)
+		ImGui::SetNextItemWidth((float)item.config.width);
+
+	// set indent
+	if (item.config.indent > 0.0f)
+		ImGui::Indent(item.config.indent);
+
+	// push font if a font object is attached
+	if (item.font)
+	{
+		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
+		ImGui::PushFont(fontptr);
+	}
+
+	// themes
+	apply_local_theming(&item);
+
+	//-----------------------------------------------------------------------------
+	// draw
+	//-----------------------------------------------------------------------------
+	{
+		ScopedID id(item.uuid);
+
+		if (ImGui::TabItemButton(item.info.internalLabel.c_str(), config.flags))
+		{
+			if (item.config.alias.empty())
+				mvAddCallback(item.getCallback(false), item.uuid, nullptr, item.config.user_data);
+			else
+				mvAddCallback(item.getCallback(false), item.config.alias, nullptr, item.config.user_data);
 		}
 	}
 
