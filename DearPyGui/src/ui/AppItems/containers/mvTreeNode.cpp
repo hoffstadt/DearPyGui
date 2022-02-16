@@ -89,6 +89,8 @@ void mvTreeNode::draw(ImDrawList* drawlist, float x, float y)
 	if (!*_value)
 	{
 		ImGui::EndGroup();
+		if (config.indent > 0.0f)
+			ImGui::Unindent(config.indent);
 		return;
 	}
 
