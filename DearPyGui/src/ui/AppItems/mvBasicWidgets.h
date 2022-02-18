@@ -27,6 +27,8 @@ namespace DearPyGui
     void fill_configuration_dict(const mvTextConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvSelectableConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvTabButtonConfig& inConfig, PyObject* outDict);
+    void fill_configuration_dict(const mvMenuItemConfig& inConfig, PyObject* outDict);
+    void fill_configuration_dict(const mvProgressBarConfig& inConfig, PyObject* outDict);
 
     // specific part of `configure_item(...)`
     void set_configuration(PyObject* inDict, mvButtonConfig& outConfig);
@@ -49,6 +51,8 @@ namespace DearPyGui
     void set_configuration(PyObject* inDict, mvTextConfig& outConfig);
     void set_configuration(PyObject* inDict, mvSelectableConfig& outConfig, mvAppItemInfo& info);
     void set_configuration(PyObject* inDict, mvTabButtonConfig& outConfig);
+    void set_configuration(PyObject* inDict, mvMenuItemConfig& outConfig);
+    void set_configuration(PyObject* inDict, mvProgressBarConfig& outConfig);
 
     // positional args TODO: combine with above
     void set_positional_configuration(PyObject* inDict, mvComboConfig& outConfig);
@@ -76,6 +80,8 @@ namespace DearPyGui
     void set_data_source(mvAppItem& item, mvUUID dataSource, mvInputIntMultiConfig& outConfig);
     void set_data_source(mvAppItem& item, mvUUID dataSource, mvTextConfig& outConfig);
     void set_data_source(mvAppItem& item, mvUUID dataSource, mvSelectableConfig& outConfig);
+    void set_data_source(mvAppItem& item, mvUUID dataSource, mvMenuItemConfig& outConfig);
+    void set_data_source(mvAppItem& item, mvUUID dataSource, mvProgressBarConfig& outConfig);
 
     // template specifics
     void apply_template(const mvButtonConfig& sourceConfig, mvButtonConfig& dstConfig);
@@ -99,6 +105,8 @@ namespace DearPyGui
     void apply_template(const mvTextConfig& sourceConfig, mvTextConfig& dstConfig);
     void apply_template(const mvSelectableConfig& sourceConfig, mvSelectableConfig& dstConfig);
     void apply_template(const mvTabButtonConfig& sourceConfig, mvTabButtonConfig& dstConfig);
+    void apply_template(const mvMenuItemConfig& sourceConfig, mvMenuItemConfig& dstConfig);
+    void apply_template(const mvProgressBarConfig& sourceConfig, mvProgressBarConfig& dstConfig);
 
     // draw commands
     void draw_button       (ImDrawList* drawlist, mvAppItem& item, const mvButtonConfig& config);
@@ -122,6 +130,8 @@ namespace DearPyGui
     void draw_text         (ImDrawList* drawlist, mvAppItem& item, mvTextConfig& config);
     void draw_selectable   (ImDrawList* drawlist, mvAppItem& item, mvSelectableConfig& config);
     void draw_tab_button   (ImDrawList* drawlist, mvAppItem& item, mvTabButtonConfig& config);
+    void draw_menu_item    (ImDrawList* drawlist, mvAppItem& item, mvMenuItemConfig& config);
+    void draw_progress_bar (ImDrawList* drawlist, mvAppItem& item, mvProgressBarConfig& config);
     void draw_separator    (ImDrawList* drawlist, mvAppItem& item);
     void draw_spacer       (ImDrawList* drawlist, mvAppItem& item);
     void draw_menubar      (ImDrawList* drawlist, mvAppItem& item);
@@ -377,6 +387,13 @@ struct mvMenuItemConfig
     bool        check = false;
     mvRef<bool> value = CreateRef<bool>(false);
     bool        disabled_value = false;
+};
+
+struct mvProgressBarConfig
+{
+    std::string  overlay;
+    mvRef<float> value = CreateRef<float>(0.0f);
+    float        disabled_value = 0.0f;
 };
 
 //-----------------------------------------------------------------------------
@@ -694,6 +711,37 @@ public:
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
     void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvTabButton*>(item); DearPyGui::apply_template(titem->configData, configData); }
+};
+
+class mvMenuItem : public mvAppItem
+{
+
+public:
+    mvMenuItemConfig configData{};
+    explicit mvMenuItem(mvUUID uuid) : mvAppItem(uuid) {}
+    void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_menu_item(drawlist, *this, configData); }
+    void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
+    void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
+    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvMenuItem*>(item); DearPyGui::apply_template(titem->configData, configData); }
+    void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
+    void* getValue() override { return &configData.value; }
+    PyObject* getPyValue() override { return ToPyBool(*configData.value); }
+    void setPyValue(PyObject* value) override { *configData.value = ToBool(value); }
+};
+
+class mvProgressBar : public mvAppItem
+{
+public:
+    mvProgressBarConfig configData{};
+    explicit mvProgressBar(mvUUID uuid) : mvAppItem(uuid) {}
+    void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_progress_bar(drawlist, *this, configData); }
+    void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
+    void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
+    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvProgressBar*>(item); DearPyGui::apply_template(titem->configData, configData); }
+    void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
+    void* getValue() override { return &configData.value; }
+    PyObject* getPyValue() override { return ToPyFloat(*configData.value); }
+    void setPyValue(PyObject* value) override { *configData.value = ToFloat(value); }
 };
 
 class mvSeparator : public mvAppItem

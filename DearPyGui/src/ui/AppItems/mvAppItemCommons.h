@@ -11,7 +11,6 @@
 #include "mvTextureItems.h"
 #include "mvFontItems.h"
 
-#include "basic/mvMenuItem.h"
 #include "basic/mvImageItems.h"
 
 #include "colors/mvColorButton.h"
@@ -22,8 +21,6 @@
 #include "colors/mvColorMapButton.h"
 #include "colors/mvColorMapRegistry.h"
 #include "colors/mvColorMapSlider.h"
-
-#include "misc/mvProgressBar.h"
 
 #include "containers/mvFilterSet.h"
 #include "containers/mvTreeNode.h"
