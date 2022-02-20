@@ -46,6 +46,7 @@ set(MARVEL_SOURCES
 	"src/ui/AppItems/mvValues.cpp"
 	"src/ui/AppItems/mvTextureItems.cpp"
 	"src/ui/AppItems/mvFontItems.cpp"
+	"src/ui/AppItems/mvColors.cpp"
 
 	"src/ui/mvCallbackRegistry.cpp"
 	"src/ui/CustomImGuiWidgets/mvKnobCustom.cpp"
@@ -63,7 +64,6 @@ set(MARVEL_SOURCES
 	"src/ui/AppItems/mvAppItem.cpp"
 	"src/ui/AppItems/mvItemRegistry.cpp"
 	"src/ui/AppItems/basic/mvImageItems.cpp"
-	"src/ui/AppItems/colors/mvColorButton.cpp"
 	"src/ui/AppItems/colors/mvColorEdit.cpp"
 	"src/ui/AppItems/colors/mvColorPicker.cpp"
 	"src/ui/AppItems/colors/mvColorMap.cpp"
