@@ -10,10 +10,10 @@
 #include "mvValues.h"
 #include "mvTextureItems.h"
 #include "mvFontItems.h"
+#include "mvColors.h"
 
 #include "basic/mvImageItems.h"
 
-#include "colors/mvColorButton.h"
 #include "colors/mvColorEdit.h"
 #include "colors/mvColorPicker.h"
 #include "colors/mvColorMapScale.h"

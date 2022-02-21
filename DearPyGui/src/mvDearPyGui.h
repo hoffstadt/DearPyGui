@@ -43,3 +43,4 @@ struct mvSelectableConfig;
 struct mvTabButtonConfig;
 struct mvMenuItemConfig;
 struct mvProgressBarConfig;
+struct mvColorButtonConfig;
