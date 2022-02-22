@@ -29,6 +29,8 @@ namespace DearPyGui
     void fill_configuration_dict(const mvTabButtonConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvMenuItemConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvProgressBarConfig& inConfig, PyObject* outDict);
+    void fill_configuration_dict(const mvImageConfig& inConfig, PyObject* outDict);
+    void fill_configuration_dict(const mvImageButtonConfig& inConfig, PyObject* outDict);
 
     // specific part of `configure_item(...)`
     void set_configuration(PyObject* inDict, mvButtonConfig& outConfig);
@@ -53,6 +55,12 @@ namespace DearPyGui
     void set_configuration(PyObject* inDict, mvTabButtonConfig& outConfig);
     void set_configuration(PyObject* inDict, mvMenuItemConfig& outConfig);
     void set_configuration(PyObject* inDict, mvProgressBarConfig& outConfig);
+    void set_configuration(PyObject* inDict, mvImageConfig& outConfig);
+    void set_configuration(PyObject* inDict, mvImageButtonConfig& outConfig);
+
+    // positional args TODO: combine with above
+    void set_required_configuration(PyObject* inDict, mvImageConfig& outConfig);
+    void set_required_configuration(PyObject* inDict, mvImageButtonConfig& outConfig);
 
     // positional args TODO: combine with above
     void set_positional_configuration(PyObject* inDict, mvComboConfig& outConfig);
@@ -107,6 +115,8 @@ namespace DearPyGui
     void apply_template(const mvTabButtonConfig& sourceConfig, mvTabButtonConfig& dstConfig);
     void apply_template(const mvMenuItemConfig& sourceConfig, mvMenuItemConfig& dstConfig);
     void apply_template(const mvProgressBarConfig& sourceConfig, mvProgressBarConfig& dstConfig);
+    void apply_template(const mvImageConfig& sourceConfig, mvImageConfig& dstConfig);
+    void apply_template(const mvImageButtonConfig& sourceConfig, mvImageButtonConfig& dstConfig);
 
     // draw commands
     void draw_button       (ImDrawList* drawlist, mvAppItem& item, const mvButtonConfig& config);
@@ -132,6 +142,8 @@ namespace DearPyGui
     void draw_tab_button   (ImDrawList* drawlist, mvAppItem& item, mvTabButtonConfig& config);
     void draw_menu_item    (ImDrawList* drawlist, mvAppItem& item, mvMenuItemConfig& config);
     void draw_progress_bar (ImDrawList* drawlist, mvAppItem& item, mvProgressBarConfig& config);
+    void draw_image        (ImDrawList* drawlist, mvAppItem& item, mvImageConfig& config);
+    void draw_image_button (ImDrawList* drawlist, mvAppItem& item, mvImageButtonConfig& config);
     void draw_separator    (ImDrawList* drawlist, mvAppItem& item);
     void draw_spacer       (ImDrawList* drawlist, mvAppItem& item);
     void draw_menubar      (ImDrawList* drawlist, mvAppItem& item);
@@ -394,6 +406,33 @@ struct mvProgressBarConfig
     std::string  overlay;
     mvRef<float> value = CreateRef<float>(0.0f);
     float        disabled_value = 0.0f;
+};
+
+struct mvImageConfig
+{
+    // pointer to existing item or internal
+    std::shared_ptr<mvAppItem> texture = nullptr;
+    mvUUID                     textureUUID = 0;
+    mvVec2                     uv_min = { 0.0f, 0.0f };
+    mvVec2                     uv_max = { 1.0f, 1.0f };
+    mvColor                    tintColor = { 1.0f, 1.0f, 1.0f, 1.0f };
+    mvColor                    borderColor = { 0.0f, 0.0f, 0.0f, 0.0f };
+    bool                       _internalTexture = false; // create a local texture if necessary
+};
+
+struct mvImageButtonConfig
+{
+    // pointer to existing item or internal
+    std::shared_ptr<mvAppItem> texture = nullptr;
+    mvUUID                     textureUUID = 0;
+    mvVec2	                   uv_min = { 0.0f, 0.0f };
+    mvVec2	                   uv_max = { 1.0f, 1.0f };
+    mvColor                    tintColor = { 1.0f, 1.0f, 1.0f, 1.0f };
+    mvColor                    backgroundColor = { 0.0f, 0.0f, 0.0f, 0.0f };
+    int                        framePadding = -1;
+    bool                       _internalTexture = false; // create a local texture if necessary
+
+
 };
 
 //-----------------------------------------------------------------------------
@@ -742,6 +781,30 @@ public:
     void* getValue() override { return &configData.value; }
     PyObject* getPyValue() override { return ToPyFloat(*configData.value); }
     void setPyValue(PyObject* value) override { *configData.value = ToFloat(value); }
+};
+
+class mvImage : public mvAppItem
+{
+public:
+    mvImageConfig configData{};
+    mvImage::mvImage(mvUUID uuid) : mvAppItem(uuid){ config.width = 0; config.height = 0;}
+    void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_image(drawlist, *this, configData); }
+    void handleSpecificRequiredArgs(PyObject* dict) override { DearPyGui::set_required_configuration(dict, configData); }
+    void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
+    void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
+    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvImage*>(item); DearPyGui::apply_template(titem->configData, configData); }
+};
+
+class mvImageButton : public mvAppItem
+{
+public:
+    mvImageButtonConfig configData{};
+    mvImageButton::mvImageButton(mvUUID uuid) : mvAppItem(uuid) {}
+    void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_image_button(drawlist, *this, configData); }
+    void handleSpecificRequiredArgs(PyObject* dict) override { DearPyGui::set_required_configuration(dict, configData); }
+    void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
+    void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
+    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvImageButton*>(item); DearPyGui::apply_template(titem->configData, configData); }
 };
 
 class mvSeparator : public mvAppItem

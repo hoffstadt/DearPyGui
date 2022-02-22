@@ -63,7 +63,6 @@ set(MARVEL_SOURCES
 	"src/ui/AppItems/mvAppItemState.cpp"
 	"src/ui/AppItems/mvAppItem.cpp"
 	"src/ui/AppItems/mvItemRegistry.cpp"
-	"src/ui/AppItems/basic/mvImageItems.cpp"
 	"src/ui/AppItems/colors/mvColorEdit.cpp"
 	"src/ui/AppItems/colors/mvColorPicker.cpp"
 	"src/ui/AppItems/colors/mvColorMap.cpp"

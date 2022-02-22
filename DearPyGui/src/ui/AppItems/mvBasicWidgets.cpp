@@ -6,6 +6,7 @@
 #include "AppItems/mvItemHandlers.h"
 #include "mvPythonExceptions.h"
 #include <misc/cpp/imgui_stdlib.h>
+#include "mvTextureItems.h"
 
 //-----------------------------------------------------------------------------
 // [SECTION] get_item_configuration(...) specifics
@@ -449,6 +450,33 @@ DearPyGui::fill_configuration_dict(const mvProgressBarConfig& inConfig, PyObject
 		return;
 
 	PyDict_SetItemString(outDict, "overlay", mvPyObject(ToPyString(inConfig.overlay)));
+}
+
+void
+DearPyGui::fill_configuration_dict(const mvImageConfig& inConfig, PyObject* outDict)
+{
+	if (outDict == nullptr)
+		return;
+
+	PyDict_SetItemString(outDict, "uv_min", mvPyObject(ToPyPair(inConfig.uv_min.x, inConfig.uv_min.y)));
+	PyDict_SetItemString(outDict, "uv_max", mvPyObject(ToPyPair(inConfig.uv_max.x, inConfig.uv_max.y)));
+	PyDict_SetItemString(outDict, "tint_color", mvPyObject(ToPyColor(inConfig.tintColor)));
+	PyDict_SetItemString(outDict, "border_color", mvPyObject(ToPyColor(inConfig.borderColor)));
+	PyDict_SetItemString(outDict, "texture_tag", mvPyObject(ToPyUUID(inConfig.textureUUID)));
+}
+
+void
+DearPyGui::fill_configuration_dict(const mvImageButtonConfig& inConfig, PyObject* outDict)
+{
+	if (outDict == nullptr)
+		return;
+
+	PyDict_SetItemString(outDict, "uv_min", mvPyObject(ToPyPair(inConfig.uv_min.x, inConfig.uv_min.y)));
+	PyDict_SetItemString(outDict, "uv_max", mvPyObject(ToPyPair(inConfig.uv_max.x, inConfig.uv_max.y)));
+	PyDict_SetItemString(outDict, "tint_color", mvPyObject(ToPyColor(inConfig.tintColor)));
+	PyDict_SetItemString(outDict, "background_color", mvPyObject(ToPyColor(inConfig.backgroundColor)));
+	PyDict_SetItemString(outDict, "texture_tag", mvPyObject(ToPyUUID(inConfig.textureUUID)));
+	PyDict_SetItemString(outDict, "frame_padding", mvPyObject(ToPyInt(inConfig.framePadding)));
 }
 
 //-----------------------------------------------------------------------------
@@ -1171,6 +1199,108 @@ DearPyGui::set_configuration(PyObject* inDict, mvProgressBarConfig& outConfig)
 		return;
 
 	if (PyObject* item = PyDict_GetItemString(inDict, "overlay")) outConfig.overlay = ToString(item);
+}
+
+void
+DearPyGui::set_configuration(PyObject* inDict, mvImageConfig& outConfig)
+{
+	if (inDict == nullptr)
+		return;
+
+	if (PyObject* item = PyDict_GetItemString(inDict, "uv_min")) outConfig.uv_min = ToVec2(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "uv_max")) outConfig.uv_max = ToVec2(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "tint_color")) outConfig.tintColor = ToColor(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "border_color")) outConfig.borderColor = ToColor(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "texture_tag"))
+	{
+		outConfig.textureUUID = GetIDFromPyObject(item);
+		outConfig.texture = GetRefItem(*GContext->itemRegistry, outConfig.textureUUID);
+		if (outConfig.textureUUID == MV_ATLAS_UUID)
+		{
+			outConfig.texture = std::make_shared<mvStaticTexture>(outConfig.textureUUID);
+			outConfig._internalTexture = true;
+		}
+		else if (outConfig.texture)
+		{
+			outConfig._internalTexture = false;
+		}
+		else
+		{
+			mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(mvAppItemType::mvImage), "Texture not found.", nullptr);
+		}
+	}
+}
+
+void
+DearPyGui::set_configuration(PyObject* inDict, mvImageButtonConfig& outConfig)
+{
+	if (inDict == nullptr)
+		return;
+
+	if (PyObject* item = PyDict_GetItemString(inDict, "uv_min")) outConfig.uv_min = ToVec2(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "uv_max")) outConfig.uv_max = ToVec2(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "tint_color")) outConfig.tintColor = ToColor(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "background_color")) outConfig.backgroundColor = ToColor(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "frame_padding")) outConfig.framePadding = ToInt(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "texture_tag"))
+	{
+		outConfig.textureUUID = GetIDFromPyObject(item);
+		outConfig.texture = GetRefItem(*GContext->itemRegistry, outConfig.textureUUID);
+		if (outConfig.textureUUID == MV_ATLAS_UUID)
+		{
+			outConfig.texture = std::make_shared<mvStaticTexture>(outConfig.textureUUID);
+			outConfig._internalTexture = true;
+		}
+		else if (outConfig.texture)
+		{
+			outConfig._internalTexture = false;
+		}
+		else
+		{
+			mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(mvAppItemType::mvImageButton), "Texture not found.", nullptr);
+		}
+	}
+}
+
+//-----------------------------------------------------------------------------
+// [SECTION] required args specifics
+//-----------------------------------------------------------------------------
+void
+DearPyGui::set_required_configuration(PyObject* inDict, mvImageConfig& outConfig)
+{
+	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(mvAppItemType::mvImage)], inDict))
+		return;
+
+	outConfig.textureUUID = GetIDFromPyObject(PyTuple_GetItem(inDict, 0));
+	outConfig.texture = GetRefItem(*GContext->itemRegistry, outConfig.textureUUID);
+	if (outConfig.texture)
+		return;
+	else if (outConfig.textureUUID == MV_ATLAS_UUID)
+	{
+		outConfig.texture = std::make_shared<mvStaticTexture>(outConfig.textureUUID);
+		outConfig._internalTexture = true;
+	}
+	else
+		mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(mvAppItemType::mvImage), "Texture not found.", nullptr);
+}
+
+void
+DearPyGui::set_required_configuration(PyObject* inDict, mvImageButtonConfig& outConfig)
+{
+	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(mvAppItemType::mvImageButton)], inDict))
+		return;
+
+	outConfig.textureUUID = GetIDFromPyObject(PyTuple_GetItem(inDict, 0));
+	outConfig.texture = GetRefItem(*GContext->itemRegistry, outConfig.textureUUID);
+	if (outConfig.texture)
+		return;
+	else if (outConfig.textureUUID == MV_ATLAS_UUID)
+	{
+		outConfig.texture = std::make_shared<mvStaticTexture>(outConfig.textureUUID);
+		outConfig._internalTexture = true;
+	}
+	else
+		mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(mvAppItemType::mvImageButton), "Texture not found.", nullptr);
 }
 
 //-----------------------------------------------------------------------------
@@ -2019,6 +2149,31 @@ DearPyGui::apply_template(const mvProgressBarConfig& sourceConfig, mvProgressBar
 	dstConfig.value = sourceConfig.value;
 	dstConfig.disabled_value = sourceConfig.disabled_value;
 	dstConfig.overlay = sourceConfig.overlay;
+}
+
+void
+DearPyGui::apply_template(const mvImageConfig& sourceConfig, mvImageConfig& dstConfig)
+{
+	dstConfig.textureUUID = sourceConfig.textureUUID;
+	dstConfig.uv_min = sourceConfig.uv_min;
+	dstConfig.uv_max = sourceConfig.uv_max;
+	dstConfig.tintColor = sourceConfig.tintColor;
+	dstConfig.borderColor = sourceConfig.borderColor;
+	dstConfig.texture = sourceConfig.texture;
+	dstConfig._internalTexture = sourceConfig._internalTexture;
+}
+
+void
+DearPyGui::apply_template(const mvImageButtonConfig& sourceConfig, mvImageButtonConfig& dstConfig)
+{
+	dstConfig.textureUUID = sourceConfig.textureUUID;
+	dstConfig.uv_min = sourceConfig.uv_min;
+	dstConfig.uv_max = sourceConfig.uv_max;
+	dstConfig.tintColor = sourceConfig.tintColor;
+	dstConfig.backgroundColor = sourceConfig.backgroundColor;
+	dstConfig.texture = sourceConfig.texture;
+	dstConfig._internalTexture = sourceConfig._internalTexture;
+	dstConfig.framePadding = sourceConfig.framePadding;
 }
 
 //-----------------------------------------------------------------------------
@@ -4575,6 +4730,238 @@ DearPyGui::draw_progress_bar(ImDrawList* drawlist, mvAppItem& item, mvProgressBa
 
 		ImGui::ProgressBar(*config.value, ImVec2((float)item.config.width, (float)item.config.height), config.overlay.c_str());
 
+	}
+
+	//-----------------------------------------------------------------------------
+	// update state
+	//-----------------------------------------------------------------------------
+	UpdateAppItemState(item.state);
+
+	//-----------------------------------------------------------------------------
+	// post draw
+	//-----------------------------------------------------------------------------
+
+	// set cursor position to cached position
+	if (item.info.dirtyPos)
+		ImGui::SetCursorPos(previousCursorPos);
+
+	if (item.config.indent > 0.0f)
+		ImGui::Unindent(item.config.indent);
+
+	// pop font off stack
+	if (item.font)
+		ImGui::PopFont();
+
+	// handle popping themes
+	cleanup_local_theming(&item);
+
+	if (item.handlerRegistry)
+		item.handlerRegistry->checkEvents(&item.state);
+
+	// handle drag & drop if used
+	apply_drag_drop(&item);
+}
+
+void
+DearPyGui::draw_image(ImDrawList* drawlist, mvAppItem& item, mvImageConfig& config)
+{
+	//-----------------------------------------------------------------------------
+	// pre draw
+	//-----------------------------------------------------------------------------
+
+	// show/hide
+	if (!item.config.show)
+		return;
+
+	// focusing
+	if (item.info.focusNextFrame)
+	{
+		ImGui::SetKeyboardFocusHere();
+		item.info.focusNextFrame = false;
+	}
+
+	// cache old cursor position
+	ImVec2 previousCursorPos = ImGui::GetCursorPos();
+
+	// set cursor position if user set
+	if (item.info.dirtyPos)
+		ImGui::SetCursorPos(item.state.pos);
+
+	// update widget's position state
+	item.state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
+
+	// set item width
+	if (item.config.width != 0)
+		ImGui::SetNextItemWidth((float)item.config.width);
+
+	// set indent
+	if (item.config.indent > 0.0f)
+		ImGui::Indent(item.config.indent);
+
+	// push font if a font object is attached
+	if (item.font)
+	{
+		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
+		ImGui::PushFont(fontptr);
+	}
+
+	// themes
+	apply_local_theming(&item);
+
+	//-----------------------------------------------------------------------------
+	// draw
+	//-----------------------------------------------------------------------------
+	{
+		if (config.texture)
+		{
+			if (config._internalTexture)
+				config.texture->draw(drawlist, 0.0f, 0.0f);
+
+			if (!config.texture->state.ok)
+				return;
+
+			// if width/height is not set by user, use texture dimensions
+			if (item.config.width == 0)
+				item.config.width = config.texture->config.width;
+
+			if (item.config.height == 0)
+				item.config.height = config.texture->config.height;
+
+			void* texture = nullptr;
+
+			if (config.texture->type == mvAppItemType::mvStaticTexture)
+				texture = static_cast<mvStaticTexture*>(config.texture.get())->_texture;
+			else if (config.texture->type == mvAppItemType::mvRawTexture)
+				texture = static_cast<mvRawTexture*>(config.texture.get())->_texture;
+			else
+				texture = static_cast<mvDynamicTexture*>(config.texture.get())->_texture;
+
+			ImGui::Image(texture, ImVec2((float)item.config.width, (float)item.config.height), ImVec2(config.uv_min.x, config.uv_min.y), ImVec2(config.uv_max.x, config.uv_max.y),
+				ImVec4((float)config.tintColor.r, (float)config.tintColor.g, (float)config.tintColor.b, (float)config.tintColor.a),
+				ImVec4((float)config.borderColor.r, (float)config.borderColor.g, (float)config.borderColor.b, (float)config.borderColor.a));
+
+		}
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// update state
+	//-----------------------------------------------------------------------------
+	UpdateAppItemState(item.state);
+
+	//-----------------------------------------------------------------------------
+	// post draw
+	//-----------------------------------------------------------------------------
+
+	// set cursor position to cached position
+	if (item.info.dirtyPos)
+		ImGui::SetCursorPos(previousCursorPos);
+
+	if (item.config.indent > 0.0f)
+		ImGui::Unindent(item.config.indent);
+
+	// pop font off stack
+	if (item.font)
+		ImGui::PopFont();
+
+	// handle popping themes
+	cleanup_local_theming(&item);
+
+	if (item.handlerRegistry)
+		item.handlerRegistry->checkEvents(&item.state);
+
+	// handle drag & drop if used
+	apply_drag_drop(&item);
+}
+
+void
+DearPyGui::draw_image_button(ImDrawList* drawlist, mvAppItem& item, mvImageButtonConfig& config)
+{
+	//-----------------------------------------------------------------------------
+	// pre draw
+	//-----------------------------------------------------------------------------
+
+	// show/hide
+	if (!item.config.show)
+		return;
+
+	// focusing
+	if (item.info.focusNextFrame)
+	{
+		ImGui::SetKeyboardFocusHere();
+		item.info.focusNextFrame = false;
+	}
+
+	// cache old cursor position
+	ImVec2 previousCursorPos = ImGui::GetCursorPos();
+
+	// set cursor position if user set
+	if (item.info.dirtyPos)
+		ImGui::SetCursorPos(item.state.pos);
+
+	// update widget's position state
+	item.state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
+
+	// set item width
+	if (item.config.width != 0)
+		ImGui::SetNextItemWidth((float)item.config.width);
+
+	// set indent
+	if (item.config.indent > 0.0f)
+		ImGui::Indent(item.config.indent);
+
+	// push font if a font object is attached
+	if (item.font)
+	{
+		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
+		ImGui::PushFont(fontptr);
+	}
+
+	// themes
+	apply_local_theming(&item);
+
+	//-----------------------------------------------------------------------------
+	// draw
+	//-----------------------------------------------------------------------------
+	{
+
+		if (config.texture)
+		{
+
+			if (config._internalTexture)
+				config.texture->draw(drawlist, 0.0f, 0.0f);
+
+			if (!config.texture->state.ok)
+				return;
+
+			// if width/height is not set by user, use texture dimensions
+			if (item.config.width == 0)
+				item.config.width = config.texture->config.width;
+
+			if (item.config.height == 0)
+				item.config.height = config.texture->config.height;
+
+			void* texture = nullptr;
+
+			if (config.texture->type == mvAppItemType::mvStaticTexture)
+				texture = static_cast<mvStaticTexture*>(config.texture.get())->_texture;
+			else if (config.texture->type == mvAppItemType::mvRawTexture)
+				texture = static_cast<mvRawTexture*>(config.texture.get())->_texture;
+			else
+				texture = static_cast<mvDynamicTexture*>(config.texture.get())->_texture;
+
+			ImGui::PushID(item.uuid);
+			if (ImGui::ImageButton(texture, ImVec2((float)item.config.width, (float)item.config.height),
+				ImVec2(config.uv_min.x, config.uv_min.y), ImVec2(config.uv_max.x, config.uv_max.y), config.framePadding,
+				config.backgroundColor, config.tintColor))
+			{
+				if (item.config.alias.empty())
+					mvAddCallback(item.getCallback(false), item.uuid, nullptr, item.config.user_data);
+				else
+					mvAddCallback(item.getCallback(false), item.config.alias, nullptr, item.config.user_data);
+			}
+			ImGui::PopID();
+		}
 	}
 
 	//-----------------------------------------------------------------------------
