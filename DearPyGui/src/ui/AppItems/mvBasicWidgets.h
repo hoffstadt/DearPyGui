@@ -787,7 +787,7 @@ class mvImage : public mvAppItem
 {
 public:
     mvImageConfig configData{};
-    mvImage::mvImage(mvUUID uuid) : mvAppItem(uuid){ config.width = 0; config.height = 0;}
+    mvImage(mvUUID uuid) : mvAppItem(uuid){ config.width = 0; config.height = 0;}
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_image(drawlist, *this, configData); }
     void handleSpecificRequiredArgs(PyObject* dict) override { DearPyGui::set_required_configuration(dict, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
@@ -799,7 +799,7 @@ class mvImageButton : public mvAppItem
 {
 public:
     mvImageButtonConfig configData{};
-    mvImageButton::mvImageButton(mvUUID uuid) : mvAppItem(uuid) {}
+    mvImageButton(mvUUID uuid) : mvAppItem(uuid) {}
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_image_button(drawlist, *this, configData); }
     void handleSpecificRequiredArgs(PyObject* dict) override { DearPyGui::set_required_configuration(dict, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
