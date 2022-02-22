@@ -9,7 +9,7 @@ What is DPG
 
 DPG is a simple, bloat-free, and powerful Python GUI framework.
 
-DPG is build with *Dear ImGui* and other extensions in order to create a unique
+DPG is built with *Dear ImGui* and other extensions in order to create a unique
 retained mode API, as opposed to Dear ImGui's immediate mode paradigm.
 
 Under the hood, DPG uses the immediate mode paradigm allowing for extremely
