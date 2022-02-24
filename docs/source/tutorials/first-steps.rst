@@ -19,7 +19,7 @@ Python 3.6 (64 bit) or above is required.
 First Run
 ---------
 
-Confirm the pip install by runing the code block below.
+Confirm the pip install by running the code block below.
 
 **Code:**
 
