@@ -89,16 +89,16 @@ void mvTreeNode::draw(ImDrawList* drawlist, float x, float y)
 	if (!*_value)
 	{
 		ImGui::EndGroup();
-		if (config.indent > 0.0f)
-			ImGui::Unindent(config.indent);
-		return;
+	}
+	else
+	{
+		for (auto& item : childslots[1])
+			item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
+
+		ImGui::TreePop();
+		ImGui::EndGroup();
 	}
 
-	for (auto& item : childslots[1])
-		item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-
-	ImGui::TreePop();
-	ImGui::EndGroup();
 	}
 
 	//-----------------------------------------------------------------------------
