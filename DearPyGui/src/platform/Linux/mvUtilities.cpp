@@ -12,6 +12,8 @@
 #include <GL/gl3w.h>
 #include <GLFW/glfw3.h>
 #include "mvContext.h"
+#include "mvLinuxSpecifics.h"
+#include "mvViewport.h"
 
 static std::unordered_map<GLuint, GLuint> PBO_ids;
 
@@ -28,6 +30,26 @@ UpdatePixels(GLubyte* dst, const float* data, int size)
     {
         ptr[i] = data[i];
     }
+}
+
+mv_impl void
+OutputFrameBuffer(const char* filepath)
+{
+    mvViewport* viewport = GContext->viewport;
+    auto viewportData = (mvViewportData*)viewport->platformSpecifics;
+
+    int display_w, display_h;
+    glfwGetFramebufferSize(viewportData->handle, &display_w, &display_h);
+
+    stbi_flip_vertically_on_write(true);
+    GLint ReadType = GL_UNSIGNED_BYTE;
+    GLint ReadFormat = GL_RGBA;
+    glGetIntegerv(GL_IMPLEMENTATION_COLOR_READ_TYPE, &ReadType);
+    glGetIntegerv(GL_IMPLEMENTATION_COLOR_READ_FORMAT, &ReadFormat);
+    auto data = (GLubyte*)malloc(4 * display_w * display_h);
+    glReadPixels(0, 0, display_w, display_h, ReadFormat,  ReadType, data);
+    stbi_write_png(filepath, display_w, display_h, 4, data, display_w*4);
+    free(data);
 }
 
 mv_impl void*

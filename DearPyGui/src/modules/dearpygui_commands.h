@@ -2291,7 +2291,11 @@ output_frame_buffer(PyObject* self, PyObject* args, PyObject* kwargs)
 	// TODO: support other formats
 	if (file[filepathLength - 3] == 'p' && file[filepathLength - 2] == 'n' && file[filepathLength - 1] == 'g')
 	{
-		OutputFrameBuffer(file);
+        std::string fileStored = file;
+        mvSubmitTask([fileStored](){
+            OutputFrameBuffer(fileStored.c_str());
+        });
+
 	}
 	else
 	{

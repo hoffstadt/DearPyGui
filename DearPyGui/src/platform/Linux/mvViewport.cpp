@@ -11,8 +11,6 @@
 #include <stb_image.h>
 #include "mvToolManager.h"
 
-static GLFWwindow* ghandle = nullptr;
-
 mv_internal void
 glfw_error_callback(int error, const char* description)
 {
@@ -39,37 +37,38 @@ mv_internal void
 mvPrerender()
 {
     mvViewport* viewport = GContext->viewport;
+    auto viewportData = (mvViewportData*)viewport->platformSpecifics;
 
-    viewport->running = !glfwWindowShouldClose(ghandle);
+    viewport->running = !glfwWindowShouldClose(viewportData->handle);
 
     if (viewport->posDirty)
     {
-        glfwSetWindowPos(ghandle, viewport->xpos, viewport->ypos);
+        glfwSetWindowPos(viewportData->handle, viewport->xpos, viewport->ypos);
         viewport->posDirty = false;
     }
 
     if (viewport->sizeDirty)
     {
-        glfwSetWindowSizeLimits(ghandle, (int)viewport->minwidth, (int)viewport->minheight, (int)viewport->maxwidth, (int)viewport->maxheight);
-        glfwSetWindowSize(ghandle, viewport->actualWidth, viewport->actualHeight);
+        glfwSetWindowSizeLimits(viewportData->handle, (int)viewport->minwidth, (int)viewport->minheight, (int)viewport->maxwidth, (int)viewport->maxheight);
+        glfwSetWindowSize(viewportData->handle, viewport->actualWidth, viewport->actualHeight);
         viewport->sizeDirty = false;
     }
 
     if (viewport->modesDirty)
     {
-        glfwSetWindowAttrib(ghandle, GLFW_RESIZABLE, viewport->resizable ? GLFW_TRUE : GLFW_FALSE);
-        glfwSetWindowAttrib(ghandle, GLFW_DECORATED, viewport->decorated ? GLFW_TRUE : GLFW_FALSE);
-        glfwSetWindowAttrib(ghandle, GLFW_FLOATING, viewport->alwaysOnTop ? GLFW_TRUE : GLFW_FALSE);
+        glfwSetWindowAttrib(viewportData->handle, GLFW_RESIZABLE, viewport->resizable ? GLFW_TRUE : GLFW_FALSE);
+        glfwSetWindowAttrib(viewportData->handle, GLFW_DECORATED, viewport->decorated ? GLFW_TRUE : GLFW_FALSE);
+        glfwSetWindowAttrib(viewportData->handle, GLFW_FLOATING, viewport->alwaysOnTop ? GLFW_TRUE : GLFW_FALSE);
         viewport->modesDirty = false;
     }
 
     if (viewport->titleDirty)
     {
-        glfwSetWindowTitle(ghandle, viewport->title.c_str());
+        glfwSetWindowTitle(viewportData->handle, viewport->title.c_str());
         viewport->titleDirty = false;
     }
 
-    if (glfwGetWindowAttrib(ghandle, GLFW_ICONIFIED))
+    if (glfwGetWindowAttrib(viewportData->handle, GLFW_ICONIFIED))
     {
         glfwWaitEvents();
         return;
