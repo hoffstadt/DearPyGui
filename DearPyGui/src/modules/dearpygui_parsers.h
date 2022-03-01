@@ -563,7 +563,7 @@ InsertParser_Block1(std::map<std::string, mvPythonParser>& parsers)
 
 	{
 		std::vector<mvPythonDataElement> args;
-		args.reserve(3);
+		args.reserve(5);
 		args.push_back({ mvPyDataType::String, "file" });
 		args.push_back({ mvPyDataType::Integer, "width" });
 		args.push_back({ mvPyDataType::Integer, "height" });
@@ -573,12 +573,27 @@ InsertParser_Block1(std::map<std::string, mvPythonParser>& parsers)
 		//args.push_back({ mvPyDataType::Integer, "quality", mvArgType::KEYWORD_ARG, "50", "Stride in bytes (only used for jpg)." });
 
 		mvPythonParserSetup setup;
-		setup.about = "Saves an image. Possible formats: png, bmp, tga, hdr, jpg.";
+		//setup.about = "Saves an image. Possible formats: png, bmp, tga, hdr, jpg.";
+		setup.about = "Saves an image. Possible formats: png.";
 		setup.category = { "Textures", "Utilities" };
-		setup.returnType = mvPyDataType::Object;
+		setup.returnType = mvPyDataType::None;
 
 		mvPythonParser parser = FinalizeParser(setup, args);
 		parsers.insert({ "save_image", parser });
+	}
+
+	{
+		std::vector<mvPythonDataElement> args;
+		args.reserve(1);
+		args.push_back({ mvPyDataType::String, "file" });
+
+		mvPythonParserSetup setup;
+		setup.about = "Outputs frame buffer as a png.";
+		setup.category = { "Textures", "Utilities" };
+		setup.returnType = mvPyDataType::None;
+
+		mvPythonParser parser = FinalizeParser(setup, args);
+		parsers.insert({ "output_frame_buffer", parser });
 	}
 
 	{

@@ -27,8 +27,9 @@ struct mvViewportData
 
 struct mvGraphics_D3D11
 {
-	ID3D11Device* device = nullptr;
-	ID3D11DeviceContext* deviceContext = nullptr;
-	IDXGISwapChain* swapChain = nullptr;
-	ID3D11RenderTargetView* target = nullptr;
+	ID3D11Device*           device        = nullptr;
+	ID3D11DeviceContext*    deviceContext = nullptr;
+	IDXGISwapChain*         swapChain     = nullptr;
+	ID3D11RenderTargetView* target        = nullptr;
+	ID3D11Texture2D*        backBuffer    = nullptr;
 };

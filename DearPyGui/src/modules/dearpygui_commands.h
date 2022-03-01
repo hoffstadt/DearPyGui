@@ -13,6 +13,7 @@
 #include "stb_image_write.h"
 #include "mvLog.h"
 #include "mvProfiler.h"
+#include "mvUtilities.h"
 
 mv_internal mv_python_function
 bind_colormap(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -2264,6 +2265,43 @@ save_image(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	return GetPyNone();
 }
+
+mv_internal mv_python_function
+output_frame_buffer(PyObject* self, PyObject* args, PyObject* kwargs)
+{
+	const char* file;
+
+	if (!Parse((GetParsers())["output_frame_buffer"], args, kwargs, __FUNCTION__,
+		&file))
+		return GetPyNone();
+
+
+	size_t filepathLength = strlen(file);
+
+	// most include atleast 4 chars ".png"
+	assert(filepathLength > 4 && "Invalid file for image");
+
+	// sanity checks
+	if (filepathLength < 5)
+	{
+		mvThrowPythonError(mvErrorCode::mvNone, "File path for 'output_frame_buffer(...)' must be of the form 'name.png'.");
+		return GetPyNone();
+	}
+
+	// TODO: support other formats
+	if (file[filepathLength - 3] == 'p' && file[filepathLength - 2] == 'n' && file[filepathLength - 1] == 'g')
+	{
+		OutputFrameBuffer(file);
+	}
+	else
+	{
+		mvThrowPythonError(mvErrorCode::mvNone, "File path for 'output_frame_buffer(...)' must be of the form 'name.png'.");
+		return GetPyNone();
+	}
+
+	return GetPyNone();
+}
+
 
 mv_internal mv_python_function
 is_dearpygui_running(PyObject* self, PyObject* args, PyObject* kwargs)

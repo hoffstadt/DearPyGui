@@ -2,10 +2,10 @@
 #include "mvViewport.h"
 
 #define STB_IMAGE_IMPLEMENTATION
-#include <stb_image.h>
+#include "stb_image.h"
 
 #define STB_IMAGE_WRITE_IMPLEMENTATION
-#include <stb_image_write.h>
+#include "stb_image_write.h"
 
 #include <shlobj.h>
 #include <shobjidl.h> 
@@ -20,6 +20,36 @@
 #include "mvWindowsSpecifics.h"
 
 namespace fs = std::filesystem;
+
+mv_impl void
+OutputFrameBuffer(const char* filepath)
+{
+    mvGraphics_D3D11* graphicsData = (mvGraphics_D3D11*)GContext->graphics.backendSpecifics;
+
+    D3D11_TEXTURE2D_DESC description;
+    graphicsData->backBuffer->GetDesc(&description);
+    description.BindFlags = 0;
+    description.CPUAccessFlags = D3D11_CPU_ACCESS_READ | D3D11_CPU_ACCESS_WRITE;
+    description.Usage = D3D11_USAGE_STAGING;
+
+
+    ID3D11Texture2D* stagingBuffer = nullptr;
+    graphicsData->device->CreateTexture2D(&description, nullptr, &stagingBuffer);
+
+    if (stagingBuffer)
+    {
+        graphicsData->deviceContext->CopyResource(stagingBuffer, graphicsData->backBuffer);
+        D3D11_MAPPED_SUBRESOURCE resource;
+        unsigned int subresource = D3D11CalcSubresource(0, 0, 0);
+        HRESULT hr = graphicsData->deviceContext->Map(stagingBuffer, subresource, D3D11_MAP_READ_WRITE, 0, &resource);
+        stbi_write_png(filepath, description.Width, description.Height, 4, resource.pData, resource.RowPitch);
+        stagingBuffer->Release();
+        stagingBuffer = nullptr;
+        return;
+    }
+    
+
+}
 
 mv_impl void*
 LoadTextureFromFile(const char* filename, int& width, int& height)
