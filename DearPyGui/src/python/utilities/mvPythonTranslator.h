@@ -85,6 +85,7 @@ std::vector<mvVec4>                              ToVectVec4           (PyObject*
 std::pair<std::vector<float>, std::vector<float>>ToPairVec            (PyObject* value, const std::string& message = "Type must be a list/tuple of two list/tuple.");
 std::vector<int>                                 ToIntVect            (PyObject* value, const std::string& message = "Type must be a list or tuple of integers.");
 std::vector<mvUUID>                              ToUUIDVect           (PyObject* value, const std::string& message = "Type must be a list or tuple of integers.");
+std::vector<unsigned char>                       ToUCharVect          (PyObject* value, const std::string& message = "Type must be a list or tuple of ints.");
 std::vector<float>                               ToFloatVect          (PyObject* value, const std::string& message = "Type must be a list or tuple of floats.");
 std::vector<double>                              ToDoubleVect         (PyObject* value, const std::string& message = "Type must be a list or tuple of doubles.");
 std::vector<std::string>                         ToStringVect         (PyObject* value, const std::string& message = "Type must be a list or tuple of strings.");

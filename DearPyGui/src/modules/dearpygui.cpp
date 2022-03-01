@@ -587,6 +587,7 @@ PyInit__dearpygui(void)
 	MV_ADD_COMMAND(generate_uuid);
 	MV_ADD_COMMAND(save_init_file);
 	MV_ADD_COMMAND(load_image);
+	MV_ADD_COMMAND(save_image);
 	MV_ADD_COMMAND(split_frame);
 	MV_ADD_COMMAND(get_frame_count);
 	MV_ADD_COMMAND(get_frame_rate);
