@@ -8484,6 +8484,17 @@ def move_item_up(item : Union[int, str], **kwargs) -> None:
 
 	return internal_dpg.move_item_up(item, **kwargs)
 
+def output_frame_buffer(file : str, **kwargs) -> None:
+	"""	 Outputs frame buffer as a png.
+
+	Args:
+		file (str): 
+	Returns:
+		None
+	"""
+
+	return internal_dpg.output_frame_buffer(file, **kwargs)
+
 def pop_container_stack(**kwargs) -> Union[int, str]:
 	"""	 Pops the top item off the parent stack and return its ID.
 
@@ -8572,6 +8583,21 @@ def sample_colormap(colormap : Union[int, str], t : float, **kwargs) -> Union[Li
 	"""
 
 	return internal_dpg.sample_colormap(colormap, t, **kwargs)
+
+def save_image(file : str, width : int, height : int, data : Any, *, components: int =4, **kwargs) -> None:
+	"""	 Saves an image. Possible formats: png.
+
+	Args:
+		file (str): 
+		width (int): 
+		height (int): 
+		data (Any): 
+		components (int, optional): 
+	Returns:
+		None
+	"""
+
+	return internal_dpg.save_image(file, width, height, data, components=components, **kwargs)
 
 def save_init_file(file : str, **kwargs) -> None:
 	"""	 Save dpg.ini file.

@@ -2254,14 +2254,14 @@ save_image(PyObject* self, PyObject* args, PyObject* kwargs)
 		return GetPyNone();
 	}
 
-	switch (imageType)
-	{
-	case MV_IMAGE_TYPE_PNG_:
-	{
+//	switch (imageType)
+//	{
+//	case MV_IMAGE_TYPE_PNG_:
+//	{
 		std::vector<unsigned char> convertedData = ToUCharVect(data);
 		int result = stbi_write_png(file, width, height, components, convertedData.data(), sizeof(unsigned char)*components*width);
-	}
-	}
+//	}
+//	}
 
 	return GetPyNone();
 }

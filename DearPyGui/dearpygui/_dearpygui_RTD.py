@@ -7658,6 +7658,17 @@ def move_item_up(item):
 
 	return internal_dpg.move_item_up(item)
 
+def output_frame_buffer(file):
+	"""	 Outputs frame buffer as a png.
+
+	Args:
+		file (str): 
+	Returns:
+		None
+	"""
+
+	return internal_dpg.output_frame_buffer(file)
+
 def pop_container_stack():
 	"""	 Pops the top item off the parent stack and return its ID.
 
@@ -7746,6 +7757,21 @@ def sample_colormap(colormap, t):
 	"""
 
 	return internal_dpg.sample_colormap(colormap, t)
+
+def save_image(file, width, height, data, **kwargs):
+	"""	 Saves an image. Possible formats: png.
+
+	Args:
+		file (str): 
+		width (int): 
+		height (int): 
+		data (Any): 
+		components (int, optional): 
+	Returns:
+		None
+	"""
+
+	return internal_dpg.save_image(file, width, height, data, **kwargs)
 
 def save_init_file(file):
 	"""	 Save dpg.ini file.

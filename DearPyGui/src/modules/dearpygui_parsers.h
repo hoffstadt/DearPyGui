@@ -576,7 +576,6 @@ InsertParser_Block1(std::map<std::string, mvPythonParser>& parsers)
 		//setup.about = "Saves an image. Possible formats: png, bmp, tga, hdr, jpg.";
 		setup.about = "Saves an image. Possible formats: png.";
 		setup.category = { "Textures", "Utilities" };
-		setup.returnType = mvPyDataType::None;
 
 		mvPythonParser parser = FinalizeParser(setup, args);
 		parsers.insert({ "save_image", parser });
@@ -590,7 +589,6 @@ InsertParser_Block1(std::map<std::string, mvPythonParser>& parsers)
 		mvPythonParserSetup setup;
 		setup.about = "Outputs frame buffer as a png.";
 		setup.category = { "Textures", "Utilities" };
-		setup.returnType = mvPyDataType::None;
 
 		mvPythonParser parser = FinalizeParser(setup, args);
 		parsers.insert({ "output_frame_buffer", parser });

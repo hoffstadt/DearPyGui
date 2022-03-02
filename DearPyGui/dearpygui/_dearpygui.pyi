@@ -1018,6 +1018,10 @@ def move_item_up(item : Union[int, str]) -> None:
 	"""Moves an item up."""
 	...
 
+def output_frame_buffer(file : str) -> None:
+	"""Outputs frame buffer as a png."""
+	...
+
 def pop_container_stack() -> Union[int, str]:
 	"""Pops the top item off the parent stack and return its ID."""
 	...
@@ -1048,6 +1052,10 @@ def reset_pos(item : Union[int, str]) -> None:
 
 def sample_colormap(colormap : Union[int, str], t : float) -> Union[List[int], Tuple[int, ...]]:
 	"""Returns a color from a colormap given t between 0.0-1.0."""
+	...
+
+def save_image(file : str, width : int, height : int, data : Any, *, components: int ='') -> None:
+	"""Saves an image. Possible formats: png."""
 	...
 
 def save_init_file(file : str) -> None:
