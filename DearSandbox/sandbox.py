@@ -22,9 +22,6 @@ with dpg.font_registry():
 
 demo.show_demo()
 
-with dpg.window(label="Testing Framebuffer Output"):
-    dpg.add_button(label="Output Framebuffer", callback=lambda:dpg.output_frame_buffer("C:/Users/Jonathan Hoffstadt/Desktop/Framebuffer.png"));
-
 # main loop
 dpg.show_viewport()
 while dpg.is_dearpygui_running():

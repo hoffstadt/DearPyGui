@@ -238,6 +238,8 @@ mvRenderFrame()
         id <MTLRenderCommandEncoder> renderEncoder = [commandBuffer renderCommandEncoderWithDescriptor:graphicsData->renderPassDescriptor];
         [renderEncoder pushDebugGroup:@"ImGui demo"];
 
+
+
         // Start the Dear ImGui frame
         ImGui_ImplMetal_NewFrame(graphicsData->renderPassDescriptor);
         ImGui_ImplGlfw_NewFrame();
@@ -256,7 +258,6 @@ mvRenderFrame()
 
         [commandBuffer presentDrawable:drawable];
         [commandBuffer commit];
-
     }
 }
 
