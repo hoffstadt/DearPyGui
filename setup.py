@@ -9,7 +9,7 @@ import sys
 import shutil
 import subprocess
 
-wip_version = "1.4a1"
+wip_version = "1.4.0"
 
 def version_number():
     """This function reads the version number which is populated by github actions"""
