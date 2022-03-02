@@ -2,7 +2,10 @@
 #include "mvViewport.h"
 
 #define STB_IMAGE_IMPLEMENTATION
-#include <stb_image.h>
+#include "stb_image.h"
+
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include "stb_image_write.h"
 
 #include <Metal/Metal.h>
 #include <MetalKit/MetalKit.h>
@@ -10,10 +13,17 @@
 #include <simd/simd.h>
 #include <vector>
 #include "mvAppleSpecifics.h"
+#include "mvPythonExceptions.h"
 
 // this is necessary to keep objective-c's reference counts
 // from reaching 0.
 static std::vector<std::pair<id<MTLTexture>, id<MTLTexture>>> g_textures;
+
+mv_impl void
+OutputFrameBuffer(const char* filepath)
+{
+    mvSubmitCallback([](){mvThrowPythonError(mvErrorCode::mvNone, "`output_frame_buffer(...)` has not been implemented for this platform yet.");});
+}
 
 mv_impl void*
 LoadTextureFromArray(unsigned width, unsigned height, float* data)

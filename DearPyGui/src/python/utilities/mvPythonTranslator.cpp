@@ -660,6 +660,58 @@ BufferViewFunctionsInt(Py_buffer& bufferView)
     }
 }
 
+std::vector<unsigned char>
+ToUCharVect(PyObject* value, const std::string& message)
+{
+    std::vector<unsigned char> items;
+    if (value == nullptr)
+        return items;
+
+    if (PyTuple_Check(value))
+    {
+        items.resize(PyTuple_Size(value));
+        for (Py_ssize_t i = 0; i < PyTuple_Size(value); ++i)
+        {
+            items[i] = (unsigned char)PyLong_AsLong(PyTuple_GetItem(value, i));
+        }
+    }
+
+    else if (PyList_Check(value))
+    {
+        items.resize(PyList_Size(value));
+        for (Py_ssize_t i = 0; i < PyList_Size(value); ++i)
+        {
+            items[i] = (unsigned char)PyLong_AsLong(PyList_GetItem(value, i));
+        }
+    }
+
+    else if (PyObject_CheckBuffer(value))
+    {
+
+
+        Py_buffer buffer_info;
+
+        if (!PyObject_GetBuffer(value, &buffer_info,
+            PyBUF_CONTIG_RO | PyBUF_FORMAT))
+        {
+            auto BufferViewer = BufferViewFunctionsInt(buffer_info);
+
+            for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; ++i)
+            {
+                items.emplace_back((unsigned char)BufferViewer(buffer_info, i));
+            }
+        }
+
+        PyBuffer_Release(&buffer_info);
+    }
+
+    else
+        mvThrowPythonError(mvErrorCode::mvWrongType, "Python value error. Must be List[int].");
+
+
+    return items;
+}
+
 std::vector<int> 
 ToIntVect(PyObject* value, const std::string& message)
 {
@@ -668,7 +720,6 @@ ToIntVect(PyObject* value, const std::string& message)
     if (value == nullptr)
         return items;
          
-
     if (PyTuple_Check(value))
     {
         items.resize(PyTuple_Size(value));

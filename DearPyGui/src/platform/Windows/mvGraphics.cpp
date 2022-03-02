@@ -105,10 +105,8 @@ setup_graphics(mvViewport& viewport, mvGraphicsSpec spec)
 	}
 
 	// create render target
-	ID3D11Texture2D* pBackBuffer;
-	graphicsData->swapChain->GetBuffer(0, IID_PPV_ARGS(&pBackBuffer));
-	graphicsData->device->CreateRenderTargetView(pBackBuffer, nullptr, &graphicsData->target);
-	pBackBuffer->Release();
+	graphicsData->swapChain->GetBuffer(0, IID_PPV_ARGS(&graphicsData->backBuffer));
+	graphicsData->device->CreateRenderTargetView(graphicsData->backBuffer, nullptr, &graphicsData->target);
 
 	graphics.ok = true;
 
@@ -128,6 +126,12 @@ cleanup_graphics(mvGraphics& graphics)
 	{
 		graphicsData->target->Release();
 		graphicsData->target = nullptr;
+	}
+
+	if (graphicsData->backBuffer)
+	{
+		graphicsData->backBuffer->Release();
+		graphicsData->backBuffer = nullptr;
 	}
 
 	if (graphicsData->swapChain)
@@ -158,19 +162,24 @@ resize_swapchain(mvGraphics& graphics, int width, int height)
 {
 	mvGraphics_D3D11* graphicsData = (mvGraphics_D3D11*)graphics.backendSpecifics;
 
+
 	if (graphicsData->target)
 	{
 		graphicsData->target->Release();
 		graphicsData->target = nullptr;
 	}
 
+	if (graphicsData->backBuffer)
+	{
+		graphicsData->backBuffer->Release();
+		graphicsData->backBuffer = nullptr;
+	}
+
 	graphicsData->swapChain->ResizeBuffers(0, (UINT)width, (UINT)height, DXGI_FORMAT_UNKNOWN, 0);
 
 	// recreate render target
-	ID3D11Texture2D* pBackBuffer;
-	graphicsData->swapChain->GetBuffer(0, IID_PPV_ARGS(&pBackBuffer));
-	graphicsData->device->CreateRenderTargetView(pBackBuffer, nullptr, &graphicsData->target);
-	pBackBuffer->Release();
+	graphicsData->swapChain->GetBuffer(0, IID_PPV_ARGS(&graphicsData->backBuffer));
+	graphicsData->device->CreateRenderTargetView(graphicsData->backBuffer, nullptr, &graphicsData->target);
 }
 
 void

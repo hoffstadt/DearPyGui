@@ -9,9 +9,11 @@
 #include "mvMat4Type.h"
 #include "mvPythonExceptions.h"
 #include "mvViewport.h"
-#include <stb_image.h>
+#include "stb_image.h"
+#include "stb_image_write.h"
 #include "mvLog.h"
 #include "mvProfiler.h"
+#include "mvUtilities.h"
 
 mv_internal mv_python_function
 bind_colormap(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -2197,6 +2199,115 @@ load_image(PyObject* self, PyObject* args, PyObject* kwargs)
 }
 
 mv_internal mv_python_function
+save_image(PyObject* self, PyObject* args, PyObject* kwargs)
+{
+	const char* file;
+	i32 width;
+	i32 height;
+	PyObject* data;
+	//i32 stride_in_bytes = 1;
+	i32 components = 4;
+	//i32 quality = 8;
+
+	if (!Parse((GetParsers())["save_image"], args, kwargs, __FUNCTION__,
+		&file, &width, &height, &data, &components))
+		return GetPyNone();
+
+	enum ImageType_
+	{
+		MV_IMAGE_TYPE_INVALID_,
+		MV_IMAGE_TYPE_PNG_,
+		MV_IMAGE_TYPE_BMP_,
+		MV_IMAGE_TYPE_TGA_,
+		MV_IMAGE_TYPE_HDR_,
+		MV_IMAGE_TYPE_JPG_
+	};
+
+	ImageType_ imageType = MV_IMAGE_TYPE_INVALID_;
+	size_t filepathLength = strlen(file);
+
+	// most include atleast 4 chars ".png"
+	assert(filepathLength > 4 && "Invalid file for image");
+	assert(components < 5 && components > 0);
+
+	// sanity checks
+	if (filepathLength < 5)
+	{
+		mvThrowPythonError(mvErrorCode::mvNone, "File path for 'save_image(...)' must be of the form 'name.png'.");
+		return GetPyNone();
+	}
+
+	if (components > 4 || components < 1)
+	{
+		mvThrowPythonError(mvErrorCode::mvNone, "Component count for 'save_image(...)' must be between 1 and 4.");
+		return GetPyNone();
+	}
+
+	// TODO: support other formats
+	if (file[filepathLength - 3] == 'p' && file[filepathLength - 2] == 'n' && file[filepathLength - 1] == 'g')
+	{
+		imageType = MV_IMAGE_TYPE_PNG_;
+	}
+	else
+	{
+		mvThrowPythonError(mvErrorCode::mvNone, "File path for 'save_image(...)' must be of the form 'name.png'.");
+		return GetPyNone();
+	}
+
+	switch (imageType)
+	{
+	case MV_IMAGE_TYPE_PNG_:
+	{
+		std::vector<unsigned char> convertedData = ToUCharVect(data);
+		int result = stbi_write_png(file, width, height, components, convertedData.data(), sizeof(unsigned char)*components*width);
+	}
+	}
+
+	return GetPyNone();
+}
+
+mv_internal mv_python_function
+output_frame_buffer(PyObject* self, PyObject* args, PyObject* kwargs)
+{
+	const char* file;
+
+	if (!Parse((GetParsers())["output_frame_buffer"], args, kwargs, __FUNCTION__,
+		&file))
+		return GetPyNone();
+
+
+	size_t filepathLength = strlen(file);
+
+	// most include atleast 4 chars ".png"
+	assert(filepathLength > 4 && "Invalid file for image");
+
+	// sanity checks
+	if (filepathLength < 5)
+	{
+		mvThrowPythonError(mvErrorCode::mvNone, "File path for 'output_frame_buffer(...)' must be of the form 'name.png'.");
+		return GetPyNone();
+	}
+
+	// TODO: support other formats
+	if (file[filepathLength - 3] == 'p' && file[filepathLength - 2] == 'n' && file[filepathLength - 1] == 'g')
+	{
+        std::string fileStored = file;
+        mvSubmitTask([fileStored](){
+            OutputFrameBuffer(fileStored.c_str());
+        });
+
+	}
+	else
+	{
+		mvThrowPythonError(mvErrorCode::mvNone, "File path for 'output_frame_buffer(...)' must be of the form 'name.png'.");
+		return GetPyNone();
+	}
+
+	return GetPyNone();
+}
+
+
+mv_internal mv_python_function
 is_dearpygui_running(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 	return ToPyBool(GContext->started);
@@ -2700,7 +2811,7 @@ set_primary_window(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	if (window)
 	{
-		if (window->getWindowAsMainStatus() == value)
+		if (window->getWindowAsMainStatus() == (bool)value)
 			return GetPyNone();
 		else
 			window->setWindowAsMainStatus(value);
