@@ -8485,7 +8485,7 @@ def move_item_up(item : Union[int, str], **kwargs) -> None:
 	return internal_dpg.move_item_up(item, **kwargs)
 
 def output_frame_buffer(file : str, **kwargs) -> None:
-	"""	 Outputs frame buffer as a png.
+	"""	 Outputs frame buffer as a png. Render loop must have been started.
 
 	Args:
 		file (str): 
@@ -8592,7 +8592,7 @@ def save_image(file : str, width : int, height : int, data : Any, *, components:
 		width (int): 
 		height (int): 
 		data (Any): 
-		components (int, optional): 
+		components (int, optional): Number of components (1-4). Default of 4.
 	Returns:
 		None
 	"""

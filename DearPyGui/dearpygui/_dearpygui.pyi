@@ -1019,7 +1019,7 @@ def move_item_up(item : Union[int, str]) -> None:
 	...
 
 def output_frame_buffer(file : str) -> None:
-	"""Outputs frame buffer as a png."""
+	"""Outputs frame buffer as a png. Render loop must have been started."""
 	...
 
 def pop_container_stack() -> Union[int, str]:

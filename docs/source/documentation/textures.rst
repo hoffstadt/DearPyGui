@@ -238,3 +238,57 @@ A simple example can be found below
     dpg.start_dearpygui()
     dpg.destroy_context()
 
+
+Saving Images
+--------------
+
+**New in 1.4**. DPG provides the function
+:py:func:`save_image <dearpygui.dearpygui.save_image>`
+for saving image data to a file.
+
+The image is a rectangle of pixels stored from left-to-right, top-to-bottom.
+Each pixel contains up to 4 components of data interleaved with 8-bits per
+channel, in the following order: 1=Y, 2=YA, 3=RGB, 4=RGBA. ( Y is monochrome color.)
+
+PNG creates output files with the same number of components as the input.
+The BMP format expands Y to RGB in the file format and does not
+output alpha.
+
+Additional options will will be released with v1.4.1.
+
+The accepted file types include:
+
+    * PNG
+    * JPG (new in v1.4.1)
+    * BMP (new in v1.4.1)
+    * TGA (new in v1.4.1)
+    * HDR (new in v1.4.1)
+
+File type is determined by extension. Must be lowercase (png, jpg, bmp, tga, hdr).
+
+A simple example can be found below
+
+.. code-block:: python
+
+    import dearpygui.dearpygui as dpg
+
+    dpg.create_context()
+    dpg.create_viewport()
+    dpg.setup_dearpygui()
+
+    width, height = 255, 255
+
+    data = []
+    for i in range(width*height):
+        data.append(255)
+        data.append(255)
+        data.append(0)
+
+    with dpg.window(label="Tutorial"):
+        dpg.add_button(label="Save Image", callback=lambda:dpg.save_image("newImage.png", width, height, data, components=3))
+
+    dpg.show_viewport()
+    while dpg.is_dearpygui_running():
+        dpg.render_dearpygui_frame()
+
+    dpg.destroy_context()

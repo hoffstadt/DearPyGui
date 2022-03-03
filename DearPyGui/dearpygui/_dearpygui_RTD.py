@@ -7659,7 +7659,7 @@ def move_item_up(item):
 	return internal_dpg.move_item_up(item)
 
 def output_frame_buffer(file):
-	"""	 Outputs frame buffer as a png.
+	"""	 Outputs frame buffer as a png. Render loop must have been started.
 
 	Args:
 		file (str): 
@@ -7766,7 +7766,7 @@ def save_image(file, width, height, data, **kwargs):
 		width (int): 
 		height (int): 
 		data (Any): 
-		components (int, optional): 
+		components (int, optional): Number of components (1-4). Default of 4.
 	Returns:
 		None
 	"""
