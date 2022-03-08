@@ -2207,10 +2207,10 @@ save_image(PyObject* self, PyObject* args, PyObject* kwargs)
 	PyObject* data;
 	//i32 stride_in_bytes = 1;
 	i32 components = 4;
-	//i32 quality = 8;
+	i32 quality = 50;
 
 	if (!Parse((GetParsers())["save_image"], args, kwargs, __FUNCTION__,
-		&file, &width, &height, &data, &components))
+		&file, &width, &height, &data, &components, &quality))
 		return GetPyNone();
 
 	enum ImageType_
@@ -2229,6 +2229,7 @@ save_image(PyObject* self, PyObject* args, PyObject* kwargs)
 	// most include atleast 4 chars ".png"
 	assert(filepathLength > 4 && "Invalid file for image");
 	assert(components < 5 && components > 0);
+	assert(quality > 0 && quality < 101);
 
 	// sanity checks
 	if (filepathLength < 5)
@@ -2243,10 +2244,32 @@ save_image(PyObject* self, PyObject* args, PyObject* kwargs)
 		return GetPyNone();
 	}
 
-	// TODO: support other formats
+	if (quality < 1 || quality > 100)
+	{
+		mvThrowPythonError(mvErrorCode::mvNone, "Quality must be between 1 and 100.");
+		return GetPyNone();
+	}
+
+	// TODO: support other formats and make this better
 	if (file[filepathLength - 3] == 'p' && file[filepathLength - 2] == 'n' && file[filepathLength - 1] == 'g')
 	{
 		imageType = MV_IMAGE_TYPE_PNG_;
+	}
+	else if (file[filepathLength - 3] == 'b' && file[filepathLength - 2] == 'm' && file[filepathLength - 1] == 'p')
+	{
+		imageType = MV_IMAGE_TYPE_BMP_;
+	}
+	else if (file[filepathLength - 3] == 't' && file[filepathLength - 2] == 'g' && file[filepathLength - 1] == 'a')
+	{
+		imageType = MV_IMAGE_TYPE_TGA_;
+	}
+	else if (file[filepathLength - 3] == 'h' && file[filepathLength - 2] == 'd' && file[filepathLength - 1] == 'r')
+	{
+		imageType = MV_IMAGE_TYPE_HDR_;
+	}
+	else if (file[filepathLength - 3] == 'j' && file[filepathLength - 2] == 'p' && file[filepathLength - 1] == 'g')
+	{
+		imageType = MV_IMAGE_TYPE_JPG_;
 	}
 	else
 	{
@@ -2254,14 +2277,39 @@ save_image(PyObject* self, PyObject* args, PyObject* kwargs)
 		return GetPyNone();
 	}
 
-//	switch (imageType)
-//	{
-//	case MV_IMAGE_TYPE_PNG_:
-//	{
+	switch (imageType)
+	{
+	case MV_IMAGE_TYPE_PNG_:
+	{
 		std::vector<unsigned char> convertedData = ToUCharVect(data);
 		int result = stbi_write_png(file, width, height, components, convertedData.data(), sizeof(unsigned char)*components*width);
-//	}
-//	}
+		break;
+	}
+	case MV_IMAGE_TYPE_BMP_:
+	{
+		std::vector<unsigned char> convertedData = ToUCharVect(data);
+		int result = stbi_write_bmp(file, width, height, components, convertedData.data());
+		break;
+	}
+	case MV_IMAGE_TYPE_TGA_:
+	{
+		std::vector<unsigned char> convertedData = ToUCharVect(data);
+		int result = stbi_write_tga(file, width, height, components, convertedData.data());
+		break;
+	}
+	case MV_IMAGE_TYPE_HDR_:
+	{
+		std::vector<float> convertedData = ToFloatVect(data);
+		int result = stbi_write_hdr(file, width, height, components, convertedData.data());
+		break;
+	}
+	case MV_IMAGE_TYPE_JPG_:
+	{
+		std::vector<unsigned char> convertedData = ToUCharVect(data);
+		int result = stbi_write_jpg(file, width, height, components, convertedData.data(), quality);
+		break;
+	}
+	}
 
 	return GetPyNone();
 }

@@ -7759,7 +7759,7 @@ def sample_colormap(colormap, t):
 	return internal_dpg.sample_colormap(colormap, t)
 
 def save_image(file, width, height, data, **kwargs):
-	"""	 Saves an image. Possible formats: png.
+	"""	 Saves an image. Possible formats: png, bmp, tga, hdr, jpg.
 
 	Args:
 		file (str): 
@@ -7767,6 +7767,7 @@ def save_image(file, width, height, data, **kwargs):
 		height (int): 
 		data (Any): 
 		components (int, optional): Number of components (1-4). Default of 4.
+		quality (int, optional): Stride in bytes (only used for jpg).
 	Returns:
 		None
 	"""

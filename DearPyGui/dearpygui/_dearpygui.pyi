@@ -1054,8 +1054,8 @@ def sample_colormap(colormap : Union[int, str], t : float) -> Union[List[int], T
 	"""Returns a color from a colormap given t between 0.0-1.0."""
 	...
 
-def save_image(file : str, width : int, height : int, data : Any, *, components: int ='') -> None:
-	"""Saves an image. Possible formats: png."""
+def save_image(file : str, width : int, height : int, data : Any, *, components: int ='', quality: int ='') -> None:
+	"""Saves an image. Possible formats: png, bmp, tga, hdr, jpg."""
 	...
 
 def save_init_file(file : str) -> None:
