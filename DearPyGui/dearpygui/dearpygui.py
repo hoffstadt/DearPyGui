@@ -8584,8 +8584,8 @@ def sample_colormap(colormap : Union[int, str], t : float, **kwargs) -> Union[Li
 
 	return internal_dpg.sample_colormap(colormap, t, **kwargs)
 
-def save_image(file : str, width : int, height : int, data : Any, *, components: int =4, **kwargs) -> None:
-	"""	 Saves an image. Possible formats: png.
+def save_image(file : str, width : int, height : int, data : Any, *, components: int =4, quality: int =50, **kwargs) -> None:
+	"""	 Saves an image. Possible formats: png, bmp, tga, hdr, jpg.
 
 	Args:
 		file (str): 
@@ -8593,11 +8593,12 @@ def save_image(file : str, width : int, height : int, data : Any, *, components:
 		height (int): 
 		data (Any): 
 		components (int, optional): Number of components (1-4). Default of 4.
+		quality (int, optional): Stride in bytes (only used for jpg).
 	Returns:
 		None
 	"""
 
-	return internal_dpg.save_image(file, width, height, data, components=components, **kwargs)
+	return internal_dpg.save_image(file, width, height, data, components=components, quality=quality, **kwargs)
 
 def save_init_file(file : str, **kwargs) -> None:
 	"""	 Save dpg.ini file.

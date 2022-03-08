@@ -570,11 +570,10 @@ InsertParser_Block1(std::map<std::string, mvPythonParser>& parsers)
 		args.push_back({ mvPyDataType::Object, "data" });
 		args.push_back({ mvPyDataType::Integer, "components", mvArgType::KEYWORD_ARG, "4", "Number of components (1-4). Default of 4."});
 		//args.push_back({ mvPyDataType::Integer, "stride_in_bytes", mvArgType::KEYWORD_ARG, "1.0", "Stride in bytes (only used for png)." });
-		//args.push_back({ mvPyDataType::Integer, "quality", mvArgType::KEYWORD_ARG, "50", "Stride in bytes (only used for jpg)." });
+		args.push_back({ mvPyDataType::Integer, "quality", mvArgType::KEYWORD_ARG, "50", "Stride in bytes (only used for jpg)." });
 
 		mvPythonParserSetup setup;
-		//setup.about = "Saves an image. Possible formats: png, bmp, tga, hdr, jpg.";
-		setup.about = "Saves an image. Possible formats: png.";
+		setup.about = "Saves an image. Possible formats: png, bmp, tga, hdr, jpg.";
 		setup.category = { "Textures", "Utilities" };
 
 		mvPythonParser parser = FinalizeParser(setup, args);
