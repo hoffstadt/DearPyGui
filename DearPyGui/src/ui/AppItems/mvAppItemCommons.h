@@ -12,7 +12,6 @@
 #include "mvFontItems.h"
 #include "mvColors.h"
 
-#include "colors/mvColorEdit.h"
 #include "colors/mvColorPicker.h"
 #include "colors/mvColorMapScale.h"
 #include "colors/mvColorMap.h"
