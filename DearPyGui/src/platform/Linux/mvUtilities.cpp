@@ -17,6 +17,19 @@
 
 static std::unordered_map<GLuint, GLuint> PBO_ids;
 
+void setFiltering(int filtering){
+    if(filtering == Filtering::LINEAR)
+    {
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    }
+    else
+    {
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    }
+}
+
 mv_internal void
 UpdatePixels(GLubyte* dst, const float* data, int size)
 {
@@ -53,7 +66,7 @@ OutputFrameBuffer(const char* filepath)
 }
 
 mv_impl void*
-LoadTextureFromArray(unsigned width, unsigned height, float* data)
+LoadTextureFromArray(unsigned width, unsigned height, float* data, int filtering)
 {
 
     // Create a OpenGL texture identifier
@@ -62,9 +75,7 @@ LoadTextureFromArray(unsigned width, unsigned height, float* data)
     glBindTexture(GL_TEXTURE_2D, image_texture);
 
     // Setup filtering parameters for display
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
+    setFiltering(filtering);
     // Upload pixels into texture
     glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_FLOAT, data);
@@ -73,7 +84,7 @@ LoadTextureFromArray(unsigned width, unsigned height, float* data)
 }
 
 mv_impl void*
-LoadTextureFromArrayDynamic(unsigned width, unsigned height, float* data)
+LoadTextureFromArrayDynamic(unsigned width, unsigned height, float* data, int filtering)
 {
 
     // Create a OpenGL texture identifier
@@ -82,8 +93,7 @@ LoadTextureFromArrayDynamic(unsigned width, unsigned height, float* data)
     glBindTexture(GL_TEXTURE_2D, image_texture);
 
     // Setup filtering parameters for display
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    setFiltering(filtering);
 
     // Upload pixels into texture
     glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
@@ -100,7 +110,7 @@ LoadTextureFromArrayDynamic(unsigned width, unsigned height, float* data)
 }
 
 mv_impl void*
-LoadTextureFromArrayRaw(unsigned width, unsigned height, float* data, int components)
+LoadTextureFromArrayRaw(unsigned width, unsigned height, float* data, int components, int filtering)
 {
 
     // Create a OpenGL texture identifier
@@ -109,8 +119,7 @@ LoadTextureFromArrayRaw(unsigned width, unsigned height, float* data, int compon
     glBindTexture(GL_TEXTURE_2D, image_texture);
 
     // Setup filtering parameters for display
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    setFiltering(filtering);
 
     // Upload pixels into texture
     glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
@@ -130,7 +139,7 @@ LoadTextureFromArrayRaw(unsigned width, unsigned height, float* data, int compon
 }
 
 mv_impl void*
-LoadTextureFromFile(const char* filename, int& width, int& height)
+LoadTextureFromFile(const char* filename, int& width, int& height, int filtering)
 {
 
     // Load from file
@@ -146,8 +155,7 @@ LoadTextureFromFile(const char* filename, int& width, int& height)
     glBindTexture(GL_TEXTURE_2D, image_texture);
 
     // Setup filtering parameters for display
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    setFiltering(filtering);
 
     // Upload pixels into texture
     glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
@@ -179,7 +187,7 @@ FreeTexture(void* texture)
 }
 
 mv_impl void
-UpdateTexture(void* texture, unsigned width, unsigned height, std::vector<float>& data)
+UpdateTexture(void* texture, unsigned width, unsigned height, std::vector<float>& data, int filtering)
 {
     auto textureId = (GLuint)(size_t)texture;
 
@@ -191,7 +199,7 @@ UpdateTexture(void* texture, unsigned width, unsigned height, std::vector<float>
 
     // copy pixels from PBO to texture object
     // Use offset instead of ponter.
-    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_RGBA, GL_FLOAT, 0);
+    setFiltering(filtering);
 
     ///////////////////////////////////////////////////
 
@@ -226,7 +234,7 @@ UpdateTexture(void* texture, unsigned width, unsigned height, std::vector<float>
 }
 
 mv_impl void
-UpdateRawTexture(void* texture, unsigned width, unsigned height, float* data, int components)
+UpdateRawTexture(void* texture, unsigned width, unsigned height, float* data, int components, int filtering)
 {
     auto textureId = (GLuint)(size_t)texture;
 
@@ -243,6 +251,7 @@ UpdateRawTexture(void* texture, unsigned width, unsigned height, float* data, in
     else
         glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_RGB, GL_FLOAT, 0);
 
+    setFiltering(filtering);
     ///////////////////////////////////////////////////
 
     // start to modify pixel values ///////////////////

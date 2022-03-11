@@ -26,7 +26,7 @@ OutputFrameBuffer(const char* filepath)
 }
 
 mv_impl void*
-LoadTextureFromArray(unsigned width, unsigned height, float* data)
+LoadTextureFromArray(unsigned width, unsigned height, float* data, int filtering)
 {
     mvGraphics& graphics = GContext->graphics;
     auto graphicsData = (mvGraphics_Metal*)graphics.backendSpecifics;
@@ -45,7 +45,7 @@ LoadTextureFromArray(unsigned width, unsigned height, float* data)
 }
 
 mv_impl void*
-LoadTextureFromArrayDynamic(unsigned width, unsigned height, float* data)
+LoadTextureFromArrayDynamic(unsigned width, unsigned height, float* data, int filtering)
 {
     mvGraphics& graphics = GContext->graphics;
     auto graphicsData = (mvGraphics_Metal*)graphics.backendSpecifics;
@@ -64,7 +64,7 @@ LoadTextureFromArrayDynamic(unsigned width, unsigned height, float* data)
 }
 
 mv_impl void*
-LoadTextureFromArrayRaw(unsigned width, unsigned height, float* data, int components)
+LoadTextureFromArrayRaw(unsigned width, unsigned height, float* data, int components, int filtering)
 {
     mvGraphics& graphics = GContext->graphics;
     auto graphicsData = (mvGraphics_Metal*)graphics.backendSpecifics;
@@ -83,7 +83,7 @@ LoadTextureFromArrayRaw(unsigned width, unsigned height, float* data, int compon
 }
 
 mv_impl void*
-LoadTextureFromFile(const char* filename, int& width, int& height)
+LoadTextureFromFile(const char* filename, int& width, int& height, int filtering)
 {
     mvGraphics& graphics = GContext->graphics;
     auto graphicsData = (mvGraphics_Metal*)graphics.backendSpecifics;
@@ -130,13 +130,13 @@ FreeTexture(void* texture)
 }
 
 mv_impl void
-UpdateTexture(void* texture, unsigned width, unsigned height, std::vector<float>& data)
+UpdateTexture(void* texture, unsigned width, unsigned height, std::vector<float>& data, int filtering)
 {
     id <MTLTexture> out_srv = (__bridge id <MTLTexture>)texture;
     [out_srv replaceRegion:MTLRegionMake2D(0, 0, width, height) mipmapLevel:0 withBytes:data.data() bytesPerRow:width * 4 * 4];
 }
 
-    void UpdateRawTexture(void* texture, unsigned width, unsigned height, float* data, int components)
+    void UpdateRawTexture(void* texture, unsigned width, unsigned height, float* data, int components, int filtering)
 {
     id <MTLTexture> out_srv = (__bridge id <MTLTexture>)texture;
     [out_srv replaceRegion:MTLRegionMake2D(0, 0, width, height) mipmapLevel:0 withBytes:data bytesPerRow:width * components * 4];

@@ -3,6 +3,7 @@
 #include "mvItemRegistry.h"
 #include "dearpygui.h"
 #include "cpp.hint"
+#include "../../core/mvUtilities.h"
 
 class mvTextureRegistry : public mvAppItem
 {
@@ -29,6 +30,7 @@ public:
 
     void draw(ImDrawList* drawlist, float x, float y) override;
     void handleSpecificRequiredArgs(PyObject* dict) override;
+    void handleSpecificKeywordArgs(PyObject* dict) override;
     void applySpecificTemplate(mvAppItem* item) override;
 
     // values
@@ -44,6 +46,7 @@ public:
     mvRef<std::vector<float>> _value = CreateRef<std::vector<float>>(std::vector<float>{0.0f});
     void* _texture = nullptr;
     bool                      _dirty = true;
+    int                       _filtering = Filtering::LINEAR;
     int                       _permWidth = 0;
     int                       _permHeight = 0;
 
@@ -79,6 +82,7 @@ public:
     void* _texture = nullptr;
     bool          _dirty = true;
     ComponentType _componentType = ComponentType::MV_FLOAT_COMPONENT;
+    int           _filtering = Filtering::LINEAR;
     int           _components = 4;
     int           _permWidth = 0;
     int           _permHeight = 0;
@@ -110,6 +114,7 @@ public:
     mvRef<std::vector<float>> _value = CreateRef<std::vector<float>>(std::vector<float>{0.0f});
     void* _texture = nullptr;
     bool                      _dirty = true;
+    int                       _filtering = Filtering::LINEAR;
     int                       _permWidth = 0;
     int                       _permHeight = 0;
 

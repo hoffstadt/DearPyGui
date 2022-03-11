@@ -154,7 +154,7 @@ void mvDynamicTexture::draw(ImDrawList* drawlist, float x, float y)
 	if (_dirty)
 	{
 
-		_texture = LoadTextureFromArrayDynamic(_permWidth, _permHeight, _value->data());
+		_texture = LoadTextureFromArrayDynamic(_permWidth, _permHeight, _value->data(), _filtering);
 
 		if (_texture == nullptr)
 			state.ok = false;
@@ -163,7 +163,7 @@ void mvDynamicTexture::draw(ImDrawList* drawlist, float x, float y)
 		return;
 	}
 
-	UpdateTexture(_texture, _permWidth, _permHeight, *_value);
+	UpdateTexture(_texture, _permWidth, _permHeight, *_value, _filtering);
 
 }
 
@@ -183,6 +183,19 @@ void mvDynamicTexture::handleSpecificKeywordArgs(PyObject* dict)
 {
 	if (dict == nullptr)
 		return;
+	if (PyObject* item = PyDict_GetItemString(dict, "filtering"))
+	{
+		int filtering = ToInt(item);
+		if (filtering == 0)
+		{
+			_filtering = Filtering::LINEAR;
+		}
+		else if (filtering == 1)
+		{
+			_filtering = Filtering::NEAREST;
+		}
+	}
+
 
 }
 
@@ -241,6 +254,7 @@ void mvRawTexture::applySpecificTemplate(mvAppItem* item)
 	_dirty = titem->_dirty;
 	_componentType = titem->_componentType;
 	_components = titem->_components;
+	_filtering= titem->_filtering;
 	_permWidth = titem->_permWidth;
 	_permHeight = titem->_permHeight;
 }
@@ -254,7 +268,7 @@ void mvRawTexture::draw(ImDrawList* drawlist, float x, float y)
 			return;
 
 		if (_componentType == ComponentType::MV_FLOAT_COMPONENT)
-			_texture = LoadTextureFromArrayRaw(_permWidth, _permHeight, (float*)_value, _components);
+			_texture = LoadTextureFromArrayRaw(_permWidth, _permHeight, (float*)_value, _components, _filtering);
 
 		if (_texture == nullptr)
 			state.ok = false;
@@ -264,7 +278,7 @@ void mvRawTexture::draw(ImDrawList* drawlist, float x, float y)
 	}
 
 	if (_componentType == ComponentType::MV_FLOAT_COMPONENT)
-		UpdateRawTexture(_texture, _permWidth, _permHeight, (float*)_value, _components);
+		UpdateRawTexture(_texture, _permWidth, _permHeight, (float*)_value, _components, _filtering);
 
 }
 
@@ -300,6 +314,18 @@ void mvRawTexture::handleSpecificKeywordArgs(PyObject* dict)
 		{
 			_components = 3;
 			_componentType = mvRawTexture::ComponentType::MV_FLOAT_COMPONENT;
+		}
+	}
+	if (PyObject* item = PyDict_GetItemString(dict, "filtering"))
+	{
+		int filtering = ToInt(item);
+		if (filtering == 0)
+		{
+			_filtering = Filtering::LINEAR;
+		}
+		else if (filtering == 1)
+		{
+			_filtering = Filtering::NEAREST;
 		}
 	}
 }
@@ -343,7 +369,7 @@ void mvStaticTexture::draw(ImDrawList* drawlist, float x, float y)
 		config.height = ImGui::GetIO().Fonts->TexHeight;
 	}
 	else
-		_texture = LoadTextureFromArray(_permWidth, _permHeight, _value->data());
+		_texture = LoadTextureFromArray(_permWidth, _permHeight, _value->data(), _filtering);
 
 	if (_texture == nullptr)
 	{
@@ -366,6 +392,25 @@ void mvStaticTexture::handleSpecificRequiredArgs(PyObject* dict)
 	_permHeight = ToInt(PyTuple_GetItem(dict, 1));
 	config.height = _permHeight;
 	*_value = ToFloatVect(PyTuple_GetItem(dict, 2));
+}
+
+void mvStaticTexture::handleSpecificKeywordArgs(PyObject *dict)
+{
+    if (dict == nullptr)
+        return;
+	if (PyObject* item = PyDict_GetItemString(dict, "filtering"))
+	{
+		int filtering = ToInt(item);
+		if (filtering == 0)
+		{
+			_filtering = Filtering::LINEAR;
+		}
+		else if (filtering == 1)
+		{
+			_filtering = Filtering::NEAREST;
+		}
+	}
+
 }
 
 PyObject* mvStaticTexture::getPyValue()

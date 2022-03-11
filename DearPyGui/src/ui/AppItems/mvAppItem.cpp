@@ -4109,6 +4109,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Integer, "width" });
         args.push_back({ mvPyDataType::Integer, "height" });
         args.push_back({ mvPyDataType::FloatList, "default_value" });
+        args.push_back({ mvPyDataType::Integer, "filtering", mvArgType::KEYWORD_ARG, "internal_dpg.mvTexture_linear", "Texture filtering." });
         args.push_back({ mvPyDataType::UUID, "parent", mvArgType::KEYWORD_ARG, "internal_dpg.mvReservedUUID_2", "Parent to add this item to. (runtime adding)" });
 
         setup.about = "Adds a static texture.";
@@ -4124,6 +4125,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Integer, "width" });
         args.push_back({ mvPyDataType::Integer, "height" });
         args.push_back({ mvPyDataType::FloatList, "default_value" });
+        args.push_back({ mvPyDataType::Integer, "filtering", mvArgType::KEYWORD_ARG, "internal_dpg.mvTexture_linear", "Texture filtering." });
         args.push_back({ mvPyDataType::UUID, "parent", mvArgType::KEYWORD_ARG, "internal_dpg.mvReservedUUID_2", "Parent to add this item to. (runtime adding)" });
 
         setup.about = "Adds a dynamic texture.";
@@ -4874,6 +4876,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Integer, "height" });
         args.push_back({ mvPyDataType::FloatList, "default_value" });
         args.push_back({ mvPyDataType::Integer, "format", mvArgType::KEYWORD_ARG, "internal_dpg.mvFormat_Float_rgba", "Data format." });
+        args.push_back({ mvPyDataType::Integer, "filtering", mvArgType::KEYWORD_ARG, "internal_dpg.mvTexture_linear", "Texture filtering." });
         args.push_back({ mvPyDataType::UUID, "parent", mvArgType::KEYWORD_ARG, "internal_dpg.mvReservedUUID_2", "Parent to add this item to. (runtime adding)" });
 
         setup.about = "Adds a raw texture.";

@@ -150,7 +150,7 @@ def add_drawlist(width : int, height : int, *, label: str ='', user_data: Any ='
 	"""Adds a drawing canvas."""
 	...
 
-def add_dynamic_texture(width : int, height : int, default_value : Union[List[float], Tuple[float, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='') -> Union[int, str]:
+def add_dynamic_texture(width : int, height : int, default_value : Union[List[float], Tuple[float, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', filtering: int =internal_dpg.mvTexture_linear, parent: Union[int, str] ='') -> Union[int, str]:
 	"""Adds a dynamic texture."""
 	...
 
@@ -422,7 +422,7 @@ def add_radio_button(items : Union[List[str], Tuple[str, ...]] ='', *, label: st
 	"""Adds a set of radio buttons. If items keyword is empty, nothing will be shown."""
 	...
 
-def add_raw_texture(width : int, height : int, default_value : Union[List[float], Tuple[float, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', format: int ='', parent: Union[int, str] ='') -> Union[int, str]:
+def add_raw_texture(width : int, height : int, default_value : Union[List[float], Tuple[float, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', format: int ='', filtering: int =internal_dpg.mvTexture_linear, parent: Union[int, str] ='') -> Union[int, str]:
 	"""Adds a raw texture."""
 	...
 
@@ -478,7 +478,7 @@ def add_stair_series(x : Union[List[float], Tuple[float, ...]], y : Union[List[f
 	"""Adds a stair series to a plot."""
 	...
 
-def add_static_texture(width : int, height : int, default_value : Union[List[float], Tuple[float, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='') -> Union[int, str]:
+def add_static_texture(width : int, height : int, default_value : Union[List[float], Tuple[float, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', filtering: int =internal_dpg.mvTexture_linear, parent: Union[int, str] ='') -> Union[int, str]:
 	"""Adds a static texture."""
 	...
 
@@ -1452,6 +1452,8 @@ mvTable_SizingStretchProp=0
 mvTable_SizingStretchSame=0
 mvFormat_Float_rgba=0
 mvFormat_Float_rgb=0
+mvTexture_linear=0
+mvTexture_nearest=0
 mvThemeCat_Core=0
 mvThemeCat_Plots=0
 mvThemeCat_Nodes=0
