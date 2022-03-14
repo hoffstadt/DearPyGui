@@ -47,6 +47,7 @@ set(MARVEL_SOURCES
 	"src/ui/AppItems/mvTextureItems.cpp"
 	"src/ui/AppItems/mvFontItems.cpp"
 	"src/ui/AppItems/mvColors.cpp"
+	"src/ui/AppItems/mvPlotting.cpp"
 
 	"src/ui/mvCallbackRegistry.cpp"
 	"src/ui/CustomImGuiWidgets/mvKnobCustom.cpp"
@@ -101,7 +102,6 @@ set(MARVEL_SOURCES
 	"src/ui/AppItems/plots/mvScatterSeries.cpp"
 	"src/ui/AppItems/plots/mvStemSeries.cpp"
 	"src/ui/AppItems/plots/mvStairSeries.cpp"
-	"src/ui/AppItems/plots/mvBarSeries.cpp"
 	"src/ui/AppItems/plots/mvErrorSeries.cpp"
 	"src/ui/AppItems/plots/mvInfiniteLineSeries.cpp"
 	"src/ui/AppItems/plots/mvHeatSeries.cpp"

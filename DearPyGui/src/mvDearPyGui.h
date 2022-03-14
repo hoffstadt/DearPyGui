@@ -47,3 +47,4 @@ struct mvColorButtonConfig;
 struct mvImageConfig;
 struct mvImageButtonConfig;
 struct mvColorEditConfig;
+struct mvBarSeriesConfig;

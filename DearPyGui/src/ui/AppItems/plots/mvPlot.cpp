@@ -4,7 +4,6 @@
 #include "mvContext.h"
 #include "mvLog.h"
 #include "mvAreaSeries.h"
-#include "mvBarSeries.h"
 #include "mvCandleSeries.h"
 #include "mvErrorSeries.h"
 #include "mvHeatSeries.h"

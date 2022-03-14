@@ -11,6 +11,7 @@
 #include "mvTextureItems.h"
 #include "mvFontItems.h"
 #include "mvColors.h"
+#include "mvPlotting.h"
 
 #include "colors/mvColorPicker.h"
 #include "colors/mvColorMapScale.h"
@@ -51,7 +52,6 @@
 #include "plots/mvSubPlots.h"
 #include "plots/mvSimplePlot.h"
 #include "plots/mvLineSeries.h"
-#include "plots/mvBarSeries.h"
 #include "plots/mvScatterSeries.h"
 #include "plots/mvAreaSeries.h"
 #include "plots/mvStemSeries.h"
