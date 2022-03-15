@@ -78,7 +78,7 @@ dpg.destroy_context()
 
 ## Usage
  
-Using _Dear PyGui_ is a simple as creating a python script like the one below:
+Using _Dear PyGui_ is as simple as creating a python script like the one below:
 
 Code:
 ```Python
