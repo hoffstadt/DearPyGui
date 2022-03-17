@@ -41,7 +41,7 @@ simple way for python developers to **create quick and powerful GUIs for scripts
 
 ## Installation
 
-Ensure you have at least Python 3.6 64bit.
+Ensure you have at least Python 3.7 64bit.
  ```
  pip install dearpygui
  or
@@ -147,28 +147,8 @@ If you are having issues or want to help, here are some places you can go:
 ![GitHub Sponsors](https://img.shields.io/github/sponsors/hoffstadt?label=Github%20Sponsors)
 ![Open Collective](https://img.shields.io/opencollective/sponsors/dearpygui?label=Open%20Collective%20Sponsors)
 
- If you enjoy _Dear PyGui_ please consider becoming a [sponsor](https://github.com/hoffstadt/DearPyGui/wiki/Sponsors).
-
 Ongoing _Dear PyGui_ development is financially supported by users and private sponsors.
-
-These include:
-* 🏢 [Anthony Tanbakuchi](https://github.com/kuchi) _Corporate Sponsor_
-* 🏆 [Dean Keinan](https://github.com/deankeinan) _Partner Sponsor_
-* 🏆 [何凌锋](https://github.com/Hedaozi) _Partner Sponsor_
-* 🏆 [Anthony Doupe](https://github.com/Atlamillias) _Partner Sponsor_
-* 🏆 [Ray Heasman](https://github.com/rheasman) _Partner Sponsor_
-* 🏆 [Marco Studer](https://github.com/Mstpyt) _Partner Sponsor_
-* 🏆 [Scripts](https://github.com/scriptslol) _Partner Sponsor_
-* 🥇 [Caden Bloxham](https://github.com/cbxm) _Gold Sponsor_
-* 🥇 [Yan Zaretskiy](https://github.com/mindv0rtex) _Gold Sponsor_
-* 🥇 [Leron Gray](https://github.com/daddycocoaman) _Gold Sponsor_
-* 🥇 [Barney Mannerings](https://github.com/barnabee) _Gold Sponsor_
-* 🥇 [RB Blackstone](https://github.com/RBBlackstone) _Gold Sponsor_
-* 🥇 [Charles Ray](https://github.com/ray-5050) _Gold Sponsor_
-* 🥇 [Alexander G. Morano](https://github.com/Amorano) _Gold Sponsor_
-* 🥇 Johannes Kargl _Gold Sponsor_
-
-Thank you to all other [sponsors](https://github.com/hoffstadt/DearPyGui/wiki/Sponsors) for keeping this project moving forward!
+If you enjoy _Dear PyGui_ please consider becoming a [sponsor](https://github.com/hoffstadt/DearPyGui/wiki/Sponsors).
 
 <a href="https://www.buymeacoffee.com/DearPyGui"><img src="https://img.buymeacoffee.com/button-api/?text=Buy us a coffee&emoji=&slug=DearPyGui&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff"></a>
 

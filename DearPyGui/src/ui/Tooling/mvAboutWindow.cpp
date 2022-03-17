@@ -81,15 +81,6 @@ void mvAboutWindow::drawWidgets()
 
     ImGui::EndChild();
     ImGui::Separator();
-    ImGui::TextColored(ImVec4(0.0f, 1.0f, 1.0f, 1.0f), "Partners");
-    ImGui::BulletText("Anthony Tanbakuchi");
-    ImGui::BulletText("Dean Keinan");
-    ImGui::BulletText("He Lingfeng");
-    ImGui::BulletText("Anthony Doupe");
-    ImGui::BulletText("Ray Heasman");
-    ImGui::BulletText("Marco Studer");
-    ImGui::BulletText("Scripts");
-    ImGui::Separator();
     ImGui::TextColored(ImVec4(0.0f, 1.0f, 1.0f, 1.0f), "ImPlot");
     ImGui::Text("ImPlot Author, Evan Pezent.");
     ImGui::Separator();
