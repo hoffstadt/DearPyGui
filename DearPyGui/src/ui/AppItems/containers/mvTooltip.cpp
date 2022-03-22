@@ -14,7 +14,7 @@ mvTooltip::mvTooltip(mvUUID uuid)
 
 void mvTooltip::draw(ImDrawList* drawlist, float x, float y)
 {
-	if (ImGui::IsItemHovered())
+	if (ImGui::IsItemHovered() && config.show)
 	{
 		ImGui::BeginTooltip();
 
