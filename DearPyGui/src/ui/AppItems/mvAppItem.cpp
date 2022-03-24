@@ -1523,6 +1523,7 @@ DearPyGui::GetAllowableChildren(mvAppItemType type)
 
     case mvAppItemType::mvTable:
         MV_START_CHILDREN
+        MV_ADD_CHILD(mvAppItemType::mvTooltip),
         MV_ADD_CHILD(mvAppItemType::mvTableRow),
         MV_ADD_CHILD(mvAppItemType::mvTableColumn)
         MV_END_CHILDREN

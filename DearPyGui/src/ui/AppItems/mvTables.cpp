@@ -218,7 +218,7 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 
 			ImGui::TableSetupScrollFreeze(_freezeColumns, _freezeRows);
 
-			// columns
+			// setup columns
 			for (auto& item : childslots[0])
 			{
 				// skip item if it's not shown
@@ -229,7 +229,30 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 			}
 
 			if (_tableHeader)
-				ImGui::TableHeadersRow();
+			{
+				//ImGui::TableHeadersRow();
+				ImGui::TableNextRow(ImGuiTableRowFlags_Headers);
+				for (int column = 0; column < childslots[0].size(); column++)
+				{
+					ImGui::TableSetColumnIndex(column);
+					const char* column_name = ImGui::TableGetColumnName(column); // Retrieve name passed to TableSetupColumn()
+					ImGui::PushID(column);
+					ImGui::TableHeader(column_name);
+
+					if (childslots[2][column])
+					{
+						// columns
+						auto& item = childslots[2][column];
+						// skip item if it's not shown
+						if (!item->config.show)
+							continue;
+
+						item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
+					}
+					ImGui::PopID();
+				}
+
+			}
 
 			if (ImGuiTableSortSpecs* sorts_specs = ImGui::TableGetSortSpecs())
 			{
@@ -354,6 +377,7 @@ void mvTable::onChildAdd(mvRef<mvAppItem> item)
 				_cellColors[i].push_back(ImGui::ColorConvertFloat4ToU32(ImVec4(0.0f, 0.0f, 0.0f, 0.0f)));
 			}
 		}
+		childslots[2].push_back(nullptr);
 	}
 
 	else if (item->type == mvAppItemType::mvTableRow)
@@ -377,7 +401,10 @@ void mvTable::onChildAdd(mvRef<mvAppItem> item)
 void mvTable::onChildRemoved(mvRef<mvAppItem> item)
 {
 	if (item->type == mvAppItemType::mvTableColumn)
+	{
+		childslots[2][item->info.location] = nullptr;
 		_columns--;
+	}
 	else if (item->type == mvAppItemType::mvTableRow)
 		_rows--;
 
