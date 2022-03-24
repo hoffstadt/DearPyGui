@@ -656,6 +656,9 @@ GetChild(mvAppItem* rootitem, mvUUID uuid)
     {
         for (auto& childitem : childset)
         {
+            if (!childitem)
+                continue;
+
             if (childitem->uuid == uuid)
                 return childitem.get();
 
@@ -1497,7 +1500,17 @@ AddItemWithRuntimeChecks(mvItemRegistry& registry, mvRef<mvAppItem> item, mvUUID
     // STEP 7: add items who require "after" adding (tooltip)
     //---------------------------------------------------------------------------
     if (item->type == mvAppItemType::mvTooltip)
-        return AddItemAfter(registry, parent, item);
+    {
+        if (parentPtr->info.parentPtr->type == mvAppItemType::mvTable)
+        {
+            parentPtr->info.parentPtr->childslots[2][parentPtr->info.location] = item;
+            return true;
+        }
+        else
+        {
+            return AddItemAfter(registry, parent, item);
+        }
+    }
 
     //---------------------------------------------------------------------------
     // STEP 8: handle "before" and "after" style adding
