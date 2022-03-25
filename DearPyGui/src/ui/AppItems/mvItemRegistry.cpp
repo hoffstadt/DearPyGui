@@ -200,6 +200,9 @@ StealChild(mvAppItem* item, mvUUID uuid)
 
         for (auto& child : childset)
         {
+            if (!child)
+                continue;
+
             if (child->uuid == uuid)
             {
                 childfound = true;
@@ -405,6 +408,10 @@ AddRuntimeChild(mvAppItem* rootitem, mvUUID parent, mvUUID before, mvRef<mvAppIt
             {
                 for (auto& child : childslot)
                 {
+
+                    if (!child)
+                        continue;
+
                     if (DearPyGui::GetEntityDesciptionFlags(child->type) & MV_ITEM_DESC_CONTAINER
                         || DearPyGui::GetEntityDesciptionFlags(item->type) & MV_ITEM_DESC_HANDLER)
                     {
@@ -424,6 +431,8 @@ AddRuntimeChild(mvAppItem* rootitem, mvUUID parent, mvUUID before, mvRef<mvAppIt
             // check children
             for (auto& child : children)
             {
+                if (!child)
+                    continue;
 
                 if (child->uuid == before)
                 {
@@ -443,6 +452,9 @@ AddRuntimeChild(mvAppItem* rootitem, mvUUID parent, mvUUID before, mvRef<mvAppIt
 
                 for (auto& child : oldchildren)
                 {
+                    if (!child)
+                        continue;
+
                     if (child->uuid == before)
                     {
                         children.push_back(item);
@@ -461,6 +473,9 @@ AddRuntimeChild(mvAppItem* rootitem, mvUUID parent, mvUUID before, mvRef<mvAppIt
         // check children
         for (auto& child : children)
         {
+            if (!child)
+                continue;
+
             if (DearPyGui::GetEntityDesciptionFlags(child->type) & MV_ITEM_DESC_CONTAINER
                 || DearPyGui::GetEntityDesciptionFlags(item->type) & MV_ITEM_DESC_HANDLER)
             {
@@ -500,6 +515,8 @@ AddChildAfter(mvAppItem* parent, mvUUID prev, mvRef<mvAppItem> item)
     {
         for (auto& child : childslot)
         {
+            if (!child)
+                continue;
 
             if (child->uuid == prev)
             {
@@ -537,6 +554,9 @@ AddChildAfter(mvAppItem* parent, mvUUID prev, mvRef<mvAppItem> item)
     {
         for (auto& child : childslot)
         {
+            if (!child)
+                continue;
+
             // parent found
             if (AddChildAfter(child.get(), prev, item))
                 return true;
@@ -679,6 +699,10 @@ GetChildRef(mvAppItem* rootitem, mvUUID uuid)
     {
         for (auto& item : childset)
         {
+
+            if (!item)
+                continue;
+
             if (item->uuid == uuid)
                 return item;
 
