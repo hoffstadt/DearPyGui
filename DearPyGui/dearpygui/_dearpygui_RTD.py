@@ -2832,6 +2832,7 @@ def add_candle_series(dates, opens, closes, lows, highs, **kwargs):
 		bear_color (Union[List[int], Tuple[int, ...]], optional): 
 		weight (int, optional): 
 		tooltip (bool, optional): 
+		time_unit (int, optional): mvTimeUnit_* constants. Default mvTimeUnit_Day.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -8372,6 +8373,13 @@ mvTabOrder_Reorderable=internal_dpg.mvTabOrder_Reorderable
 mvTabOrder_Fixed=internal_dpg.mvTabOrder_Fixed
 mvTabOrder_Leading=internal_dpg.mvTabOrder_Leading
 mvTabOrder_Trailing=internal_dpg.mvTabOrder_Trailing
+mvTimeUnit_Us=internal_dpg.mvTimeUnit_Us
+mvTimeUnit_Ms=internal_dpg.mvTimeUnit_Ms
+mvTimeUnit_S=internal_dpg.mvTimeUnit_S
+mvTimeUnit_Min=internal_dpg.mvTimeUnit_Min
+mvTimeUnit_Hr=internal_dpg.mvTimeUnit_Hr
+mvTimeUnit_Mo=internal_dpg.mvTimeUnit_Mo
+mvTimeUnit_Yr=internal_dpg.mvTimeUnit_Yr
 mvDatePickerLevel_Day=internal_dpg.mvDatePickerLevel_Day
 mvDatePickerLevel_Month=internal_dpg.mvDatePickerLevel_Month
 mvDatePickerLevel_Year=internal_dpg.mvDatePickerLevel_Year

@@ -25,6 +25,7 @@ private:
 
     float _weight = 0.25f;
     bool _tooltip = true;
+    int _timeunit = ImPlotTimeUnit_Day;
     mvColor _bullColor = { 0, 255, 113, 255};
     mvColor _bearColor = { 218, 13, 79, 255 };
     mvRef<std::vector<std::vector<double>>> _value = CreateRef<std::vector<std::vector<double>>>(

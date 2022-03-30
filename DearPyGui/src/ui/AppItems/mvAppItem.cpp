@@ -3937,6 +3937,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::IntList, "bear_color", mvArgType::KEYWORD_ARG, "(218, 13, 79, 255)" });
         args.push_back({ mvPyDataType::Integer, "weight", mvArgType::KEYWORD_ARG, "0.25" });
         args.push_back({ mvPyDataType::Bool, "tooltip", mvArgType::KEYWORD_ARG, "True" });
+        args.push_back({ mvPyDataType::Integer, "time_unit", mvArgType::KEYWORD_ARG, "5", "mvTimeUnit_* constants. Default mvTimeUnit_Day."});
 
         setup.about = "Adds a candle series to a plot.";
         setup.category = { "Plotting", "Containers", "Widgets" };

@@ -1979,7 +1979,7 @@ def show_demo():
                             dpg.add_plot_legend()
                             xaxis = dpg.add_plot_axis(dpg.mvXAxis, label="Day", time=True)
                             with dpg.plot_axis(dpg.mvYAxis, label="USD"):
-                                dpg.add_candle_series(dates, opens, closes, lows, highs, label="GOOGL")
+                                dpg.add_candle_series(dates, opens, closes, lows, highs, label="GOOGL", time_unit=dpg.mvTimeUnit_Hr)
                                 dpg.fit_axis_data(dpg.top_container_stack())
                             dpg.fit_axis_data(xaxis)
 

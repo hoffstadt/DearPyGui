@@ -23,9 +23,9 @@ int BinarySearch(const T* arr, int l, int r, T x) {
 
 static void PlotCandlestick(const char* label_id, const double* xs, const double* opens,
     const double* closes, const double* lows, const double* highs, int count,
-    bool tooltip, float width_percent, const ImVec4& bullCol, const ImVec4& bearCol) {
+    bool tooltip, float width_percent, const ImVec4& bullCol, const ImVec4& bearCol, int time_unit) 
+{
 
-    // get ImGui window DrawList
     ImDrawList* draw_list = ImPlot::GetPlotDrawList();
     // calc real value width
     float half_width = count > 1 ? ((float)xs[1] - (float)xs[0]) * width_percent : width_percent;
@@ -33,7 +33,7 @@ static void PlotCandlestick(const char* label_id, const double* xs, const double
     // custom tool
     if (ImPlot::IsPlotHovered() && tooltip) {
         ImPlotPoint mouse = ImPlot::GetPlotMousePos();
-        mouse.x = ImPlot::RoundTime(ImPlotTime::FromDouble(mouse.x), ImPlotTimeUnit_Day).ToDouble();
+        mouse.x = ImPlot::RoundTime(ImPlotTime::FromDouble(mouse.x), time_unit).ToDouble();
         float  tool_l = ImPlot::PlotToPixels(mouse.x - half_width * 1.5, mouse.y).x;
         float  tool_r = ImPlot::PlotToPixels(mouse.x + half_width * 1.5, mouse.y).x;
         float  tool_t = ImPlot::GetPlotPos().y;
@@ -41,14 +41,47 @@ static void PlotCandlestick(const char* label_id, const double* xs, const double
         ImPlot::PushPlotClipRect();
         draw_list->AddRectFilled(ImVec2(tool_l, tool_t), ImVec2(tool_r, tool_b), IM_COL32(128, 128, 128, 64));
         ImPlot::PopPlotClipRect();
+
         // find mouse location index
         int idx = BinarySearch(xs, 0, count - 1, mouse.x);
-        // render tool tip (won't be affected by plot clip rect)
-        if (idx != -1) {
+
+        if (idx != -1) 
+		{
             ImGui::BeginTooltip();
-            char buff[32];
-            ImPlot::FormatDate(ImPlotTime::FromDouble(xs[idx]), buff, 32, ImPlotDateFmt_DayMoYr, ImPlot::GetStyle().UseISO8601);
-            ImGui::Text("Day:   %s", buff);
+			if (time_unit == ImPlotTimeUnit_Day)
+			{
+				char buff[32];
+				ImPlot::FormatDate(ImPlotTime::FromDouble(xs[idx]), buff, 32, ImPlotDateFmt_DayMoYr, ImPlot::GetStyle().UseISO8601);
+				ImGui::Text("Day:   %s", buff);
+			}
+			else if (time_unit == ImPlotTimeUnit_Us)
+			{
+				ImGui::Text("Microsecond: %d", xs[idx]);
+			}
+			else if (time_unit == ImPlotTimeUnit_Ms)
+			{
+				ImGui::Text("Millisecond: %d", xs[idx]);
+			}
+			else if (time_unit == ImPlotTimeUnit_S)
+			{
+				ImGui::Text("Second: %d", xs[idx]);
+			}
+			else if (time_unit == ImPlotTimeUnit_Min)
+			{
+				ImGui::Text("Minute: %d", xs[idx]);
+			}
+			else if (time_unit == ImPlotTimeUnit_Hr)
+			{
+				ImGui::Text("Hour: %d", xs[idx]);
+			}
+			else if (time_unit == ImPlotTimeUnit_Mo)
+			{
+				ImGui::Text("Month: %d", xs[idx]);
+			}
+			else if (time_unit == ImPlotTimeUnit_Yr)
+			{
+				ImGui::Text("Year: %d", xs[idx]);
+			}
             ImGui::Text("Open:  $%.2f", opens[idx]);
             ImGui::Text("Close: $%.2f", closes[idx]);
             ImGui::Text("Low:   $%.2f", lows[idx]);
@@ -152,7 +185,7 @@ void mvCandleSeries::draw(ImDrawList* drawlist, float x, float y)
 
 		PlotCandlestick(info.internalLabel.c_str(), datesptr->data(), openptr->data(), closeptr->data(),
 			lowptr->data(), highptr->data(), (int)datesptr->size(), _tooltip, _weight, _bullColor,
-			_bearColor);
+			_bearColor, _timeunit);
 
 		// Begin a popup for a legend entry.
 		if (ImPlot::BeginLegendPopup(info.internalLabel.c_str(), 1))
@@ -218,6 +251,7 @@ void mvCandleSeries::handleSpecificKeywordArgs(PyObject* dict)
 	if (PyObject* item = PyDict_GetItemString(dict, "closes")) { (*_value)[2] = ToDoubleVect(item); }
 	if (PyObject* item = PyDict_GetItemString(dict, "lows")) { (*_value)[3] = ToDoubleVect(item); }
 	if (PyObject* item = PyDict_GetItemString(dict, "highs")) { (*_value)[4] = ToDoubleVect(item); }
+	if (PyObject* item = PyDict_GetItemString(dict, "time_unit")) { _timeunit = ToUUID(item); }
 
 }
 
@@ -230,11 +264,13 @@ void mvCandleSeries::getSpecificConfiguration(PyObject* dict)
 	mvPyObject py_bear_color = ToPyColor(_bearColor);
 	mvPyObject py_weight = ToPyFloat(_weight);
 	mvPyObject py_tooltip = ToPyBool(_tooltip);
+	mvPyObject py_timeunit = ToPyLong(_timeunit);
 
 	PyDict_SetItemString(dict, "bull_color", py_bull_color);
 	PyDict_SetItemString(dict, "bear_color", py_bear_color);
 	PyDict_SetItemString(dict, "weight", py_weight);
 	PyDict_SetItemString(dict, "tooltip", py_tooltip);
+	PyDict_SetItemString(dict, "time_unit", py_timeunit);
 }
 
 void mvCandleSeries::applySpecificTemplate(mvAppItem* item)
