@@ -96,15 +96,18 @@ DeleteChild(mvAppItem* item, mvUUID uuid)
 
         for (auto& child : childset)
         {
-            if (child->uuid == uuid)
+            if (child)
             {
-                childfound = true;
-                break;
-            }
+                if (child->uuid == uuid)
+                {
+                    childfound = true;
+                    break;
+                }
 
-            itemDeleted = DeleteChild(child.get(), uuid);
-            if (itemDeleted)
-                break;
+                itemDeleted = DeleteChild(child.get(), uuid);
+                if (itemDeleted)
+                    break;
+            }
         }
 
         if (childfound)
@@ -115,11 +118,14 @@ DeleteChild(mvAppItem* item, mvUUID uuid)
 
             for (auto& child : oldchildren)
             {
-                if (child->uuid == uuid)
+                if (child)
                 {
-                    itemDeleted = true;
-                    DearPyGui::OnChildRemoved(item, child);
-                    continue;
+                    if (child->uuid == uuid)
+                    {
+                        itemDeleted = true;
+                        DearPyGui::OnChildRemoved(item, child);
+                        continue;
+                    }
                 }
 
                 childset.push_back(child);

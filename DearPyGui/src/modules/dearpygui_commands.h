@@ -3375,7 +3375,10 @@ GetItemChildren(mvItemRegistry& registry, mvUUID uuid)
 		{
 			std::vector<mvUUID> childSlot;
 			for (auto& child : children)
-				childSlot.emplace_back(child->uuid);
+			{
+				if (child)
+					childSlot.emplace_back(child->uuid);
+			}
 			childList.push_back(childSlot);
 		}
 
