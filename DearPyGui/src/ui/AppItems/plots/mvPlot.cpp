@@ -238,6 +238,8 @@ void mvPlot::draw(ImDrawList* drawlist, float x, float y)
             item->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
 
         ImPlot::PushPlotClipRect();
+
+        ImPlot::SetPlotYAxis(ImPlotYAxis_1); // draw items should use first plot axis
             
         // drawings
         for (auto& item : childslots[2])
