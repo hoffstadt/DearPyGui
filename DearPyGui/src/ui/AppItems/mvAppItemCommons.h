@@ -43,7 +43,6 @@
 #include "composite/mvFileExtension.h"
 
 #include "plots/mvPlot.h"
-#include "plots/mvPlotLegend.h"
 #include "plots/mvPlotAxis.h"
 #include "plots/mvDragPoint.h"
 #include "plots/mvDragLine.h"

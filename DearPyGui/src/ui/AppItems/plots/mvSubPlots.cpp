@@ -1,6 +1,6 @@
 #include <algorithm>
 #include "mvSubPlots.h"
-#include "mvPlotLegend.h"
+#include "mvPlotting.h"
 #include "mvContext.h"
 #include "mvLog.h"
 #include "mvAreaSeries.h"

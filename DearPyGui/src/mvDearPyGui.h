@@ -49,5 +49,6 @@ struct mvImageButtonConfig;
 struct mvColorEditConfig;
 
 // plots
+struct mvPlotLegendConfig;
 struct mvBasicSeriesConfig;
 struct mvBarSeriesConfig;

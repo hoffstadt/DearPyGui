@@ -6,10 +6,12 @@
 namespace DearPyGui
 {
     // specific part of `get_item_configuration(...)`
+    void fill_configuration_dict(const mvPlotLegendConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvBarSeriesConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvBasicSeriesConfig& inConfig, PyObject* outDict);
 
     // specific part of `configure_item(...)`
+    void set_configuration(PyObject* inDict, mvPlotLegendConfig& outConfig, mvAppItem& item);
     void set_configuration(PyObject* inDict, mvBarSeriesConfig& outConfig);
     void set_configuration(PyObject* inDict, mvBasicSeriesConfig& outConfig);
 
@@ -22,10 +24,12 @@ namespace DearPyGui
     void set_data_source(mvAppItem& item, mvUUID dataSource, mvBasicSeriesConfig& outConfig);
 
     // template specifics
+    void apply_template(const mvPlotLegendConfig& sourceConfig, mvPlotLegendConfig& dstConfig);
     void apply_template(const mvBarSeriesConfig& sourceConfig, mvBarSeriesConfig& dstConfig);
     void apply_template(const mvBasicSeriesConfig& sourceConfig, mvBasicSeriesConfig& dstConfig);
 
     // draw commands
+    void draw_plot_legend   (ImDrawList* drawlist, mvAppItem& item, mvPlotLegendConfig& config);
     void draw_bar_series    (ImDrawList* drawlist, mvAppItem& item, const mvBarSeriesConfig& config);
     void draw_line_series   (ImDrawList* drawlist, mvAppItem& item, const mvBasicSeriesConfig& config);
     void draw_scatter_series(ImDrawList* drawlist, mvAppItem& item, const mvBasicSeriesConfig& config);
@@ -55,9 +59,28 @@ struct mvBarSeriesConfig
         std::vector<double>{} });
 };
 
+struct mvPlotLegendConfig
+{
+    ImPlotLocation legendLocation = ImPlotLocation_NorthWest;
+    bool           horizontal = false;
+    bool           outside = false;
+    bool           dirty = true;
+};
+
 //-----------------------------------------------------------------------------
 // Old Classes, in the process of removing OOP crap
 //-----------------------------------------------------------------------------
+
+class mvPlotLegend : public mvAppItem
+{
+public:
+    mvPlotLegendConfig configData{};
+    explicit mvPlotLegend(mvUUID uuid) : mvAppItem(uuid) {}
+    void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_plot_legend(drawlist, *this, configData); }
+    void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData, *this); }
+    void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
+    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvPlotLegend*>(item); DearPyGui::apply_template(titem->configData, configData); }
+};
 
 class mvBarSeries : public mvAppItem
 {

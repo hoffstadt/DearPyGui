@@ -9,6 +9,47 @@
 #include "AppItems/mvThemes.h"
 #include "AppItems/containers/mvDragPayload.h"
 #include "mvPyObject.h"
+#include "AppItems/plots/mvPlot.h"
+#include "AppItems/plots/mvSubPlots.h"
+
+void
+DearPyGui::draw_plot_legend(ImDrawList* drawlist, mvAppItem& item, mvPlotLegendConfig& config)
+{
+	if (!item.config.show)
+		return;
+
+	if (config.dirty)
+	{
+		ImPlot::SetLegendLocation(config.legendLocation, config.horizontal ? ImPlotOrientation_Horizontal : ImPlotOrientation_Vertical, config.outside);
+		config.dirty = false;
+	}
+
+	UpdateAppItemState(item.state);
+
+	if (item.font)
+	{
+		ImGui::PopFont();
+	}
+
+	if (item.theme)
+	{
+		static_cast<mvTheme*>(item.theme.get())->customAction();
+	}
+
+	if (item.config.dropCallback)
+	{
+		if (ImPlot::BeginDragDropTargetLegend())
+		{
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(item.config.payloadType.c_str()))
+			{
+				auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
+				mvAddCallback(item.config.dropCallback, item.uuid, payloadActual->getDragData(), nullptr);
+			}
+
+			ImPlot::EndDragDropTarget();
+		}
+	}
+}
 
 void 
 DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mvBarSeriesConfig& outConfig)
@@ -419,6 +460,37 @@ DearPyGui::set_required_configuration(PyObject* inDict, mvBasicSeriesConfig& out
 }
 
 void
+DearPyGui::set_configuration(PyObject* inDict, mvPlotLegendConfig& outConfig, mvAppItem& item)
+{
+	if (inDict == nullptr)
+		return;
+
+	if (PyObject* item = PyDict_GetItemString(inDict, "location")) { outConfig.legendLocation = ToInt(item); outConfig.dirty = true; }
+	if (PyObject* item = PyDict_GetItemString(inDict, "horizontal")) { outConfig.horizontal = ToBool(item); outConfig.dirty = true; }
+	if (PyObject* item = PyDict_GetItemString(inDict, "outside")) { outConfig.outside = ToBool(item); outConfig.dirty = true; }
+
+	if (item.info.shownLastFrame)
+	{
+		item.info.shownLastFrame = false;
+		if (auto plot = static_cast<mvPlot*>(item.info.parentPtr))
+			plot->removeFlag(ImPlotFlags_NoLegend);
+		else if (auto plot = static_cast<mvSubPlots*>(item.info.parentPtr))
+			plot->removeFlag(ImPlotSubplotFlags_NoLegend);
+		item.config.show = true;
+	}
+
+	if (item.info.hiddenLastFrame)
+	{
+		item.info.hiddenLastFrame = false;
+		if (auto plot = static_cast<mvPlot*>(item.info.parentPtr))
+			plot->addFlag(ImPlotFlags_NoLegend);
+		else if (auto plot = static_cast<mvSubPlots*>(item.info.parentPtr))
+			plot->addFlag(ImPlotSubplotFlags_NoLegend);
+		item.config.show = false;
+	}
+}
+
+void
 DearPyGui::set_configuration(PyObject* inDict, mvBarSeriesConfig& outConfig)
 {
 	if (inDict == nullptr)
@@ -442,6 +514,18 @@ DearPyGui::set_configuration(PyObject* inDict, mvBasicSeriesConfig& outConfig)
 
 }
 
+void
+DearPyGui::fill_configuration_dict(const mvPlotLegendConfig& inConfig, PyObject* outDict)
+{
+	if (outDict == nullptr)
+		return;
+
+	PyDict_SetItemString(outDict, "location", mvPyObject(ToPyInt(inConfig.legendLocation)));
+	PyDict_SetItemString(outDict, "horizontal", mvPyObject(ToPyBool(inConfig.horizontal)));
+	PyDict_SetItemString(outDict, "outside", mvPyObject(ToPyBool(inConfig.outside)));
+
+}
+
 void 
 DearPyGui::fill_configuration_dict(const mvBarSeriesConfig& inConfig, PyObject* outDict)
 {
@@ -460,6 +544,14 @@ DearPyGui::fill_configuration_dict(const mvBasicSeriesConfig& inConfig, PyObject
 {
 	if (outDict == nullptr)
 		return;
+}
+
+void
+DearPyGui::apply_template(const mvPlotLegendConfig& sourceConfig, mvPlotLegendConfig& dstConfig)
+{
+	dstConfig.legendLocation = sourceConfig.legendLocation;
+	dstConfig.horizontal = sourceConfig.horizontal;
+	dstConfig.outside = sourceConfig.outside;
 }
 
 void 

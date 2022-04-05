@@ -91,7 +91,6 @@ set(MARVEL_SOURCES
 	"src/ui/AppItems/composite/mvFileExtension.cpp"	
 	"src/ui/AppItems/plots/mvSubPlots.cpp"
 	"src/ui/AppItems/plots/mvPlot.cpp"
-	"src/ui/AppItems/plots/mvPlotLegend.cpp"
 	"src/ui/AppItems/plots/mvPlotAxis.cpp"
 	"src/ui/AppItems/plots/mvAreaSeries.cpp"
 	"src/ui/AppItems/plots/mvDragPoint.cpp"
