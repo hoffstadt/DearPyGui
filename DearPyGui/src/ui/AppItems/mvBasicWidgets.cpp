@@ -1262,6 +1262,15 @@ DearPyGui::set_configuration(PyObject* inDict, mvImageButtonConfig& outConfig)
 	}
 }
 
+void
+DearPyGui::set_configuration(PyObject* inDict, mvTooltipConfig& outConfig, mvAppItemConfig& config)
+{
+	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(mvAppItemType::mvTooltip)], inDict))
+		return;
+
+	config.parent = GetIDFromPyObject(PyTuple_GetItem(inDict, 0));
+}
+
 //-----------------------------------------------------------------------------
 // [SECTION] required args specifics
 //-----------------------------------------------------------------------------
@@ -4995,6 +5004,42 @@ DearPyGui::draw_image_button(ImDrawList* drawlist, mvAppItem& item, mvImageButto
 }
 
 void
+DearPyGui::draw_filter_set(ImDrawList* drawlist, mvAppItem& item, mvFilterSetConfig& config)
+{
+	ScopedID id(item.uuid);
+
+	if (item.config.width != 0)
+		ImGui::PushItemWidth((float)item.config.width);
+
+	if (config.imguiFilter.IsActive())
+	{
+		for (auto& childset : item.childslots)
+		{
+			for (auto& child : childset)
+			{
+				if (!config.imguiFilter.PassFilter(child->config.filter.c_str()))
+					continue;
+
+				child->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
+			}
+		}
+
+	}
+	else
+	{
+
+		for (auto& childset : item.childslots)
+		{
+			for (auto& child : childset)
+				child->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
+		}
+	}
+
+	if (item.config.width != 0)
+		ImGui::PopItemWidth();
+}
+
+void
 DearPyGui::draw_separator(ImDrawList* drawlist, mvAppItem& item)
 { 
 	ImGui::Separator(); 
@@ -5025,6 +5070,19 @@ DearPyGui::draw_menubar(ImDrawList* drawlist, mvAppItem& item)
 	}
 }
 
+void 
+DearPyGui::draw_viewport_menubar(ImDrawList* drawlist, mvAppItem& item)
+{
+	if (ImGui::BeginMainMenuBar())
+	{
+
+		for (auto& item : item.childslots[1])
+			item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
+
+		ImGui::EndMainMenuBar();
+	}
+}
+
 void
 DearPyGui::draw_clipper(ImDrawList* drawlist, mvAppItem& item)
 {
@@ -5045,6 +5103,25 @@ DearPyGui::draw_clipper(ImDrawList* drawlist, mvAppItem& item)
 	clipper.End();
 	if (item.config.width != 0)
 		ImGui::PopItemWidth();
+}
+
+void
+DearPyGui::draw_tooltip(ImDrawList* drawlist, mvAppItem& item)
+{
+	if (ImGui::IsItemHovered() && item.config.show)
+	{
+		ImGui::BeginTooltip();
+
+		item.state.lastFrameUpdate = GContext->frame;
+		item.state.visible = true;
+		item.state.contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
+		item.state.rectSize = { ImGui::GetWindowSize().x, ImGui::GetWindowSize().y };
+
+		for (auto& item : item.childslots[1])
+			item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
+
+		ImGui::EndTooltip();
+	}
 }
 
 void 
@@ -5178,4 +5255,23 @@ mvInputFloatMulti::setPyValue(PyObject* value)
 		*configData.value = temp_array;
 	else
 		configData.value = std::make_shared<std::array<float, 4>>(temp_array);
+}
+
+void 
+mvFilterSet::setPyValue(PyObject* value)
+{
+	auto str_value = ToString(value);
+
+	int i = 0;
+	for (auto& character : str_value)
+	{
+		if (i > 254)
+			break;
+
+		configData.imguiFilter.InputBuf[i] = character;
+
+		++i;
+	}
+	configData.imguiFilter.InputBuf[i] = 0;
+	configData.imguiFilter.Build();
 }

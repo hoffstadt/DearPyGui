@@ -57,6 +57,7 @@ namespace DearPyGui
     void set_configuration(PyObject* inDict, mvProgressBarConfig& outConfig);
     void set_configuration(PyObject* inDict, mvImageConfig& outConfig);
     void set_configuration(PyObject* inDict, mvImageButtonConfig& outConfig);
+    void set_configuration(PyObject* inDict, mvTooltipConfig& outConfig, mvAppItemConfig& config);
 
     // positional args TODO: combine with above
     void set_required_configuration(PyObject* inDict, mvImageConfig& outConfig);
@@ -144,11 +145,13 @@ namespace DearPyGui
     void draw_progress_bar (ImDrawList* drawlist, mvAppItem& item, mvProgressBarConfig& config);
     void draw_image        (ImDrawList* drawlist, mvAppItem& item, mvImageConfig& config);
     void draw_image_button (ImDrawList* drawlist, mvAppItem& item, mvImageButtonConfig& config);
+    void draw_filter_set   (ImDrawList* drawlist, mvAppItem& item, mvFilterSetConfig& config);
     void draw_separator    (ImDrawList* drawlist, mvAppItem& item);
     void draw_spacer       (ImDrawList* drawlist, mvAppItem& item);
     void draw_menubar      (ImDrawList* drawlist, mvAppItem& item);
-    void draw_clipper      (ImDrawList* drawlist, mvAppItem& item);
-    
+    void draw_viewport_menubar(ImDrawList* drawlist, mvAppItem& item);
+    void draw_clipper      (ImDrawList* drawlist, mvAppItem& item);    
+    void draw_tooltip      (ImDrawList* drawlist, mvAppItem& item);    
 }
 
 enum class mvComboHeightMode
@@ -431,7 +434,15 @@ struct mvImageButtonConfig
     mvColor                    backgroundColor = { 0.0f, 0.0f, 0.0f, 0.0f };
     int                        framePadding = -1;
     bool                       _internalTexture = false; // create a local texture if necessary
+};
 
+struct mvFilterSetConfig
+{
+    ImGuiTextFilter imguiFilter;
+};
+
+struct mvTooltipConfig
+{
 
 };
 
@@ -807,6 +818,25 @@ public:
     void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvImageButton*>(item); DearPyGui::apply_template(titem->configData, configData); }
 };
 
+class mvFilterSet : public mvAppItem
+{
+public:
+    mvFilterSetConfig configData{};
+    explicit mvFilterSet(mvUUID uuid) : mvAppItem(uuid) {}
+    void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_filter_set(drawlist, *this, configData); }
+    void setPyValue(PyObject* value) override;
+    PyObject* getPyValue() override { return ToPyString(std::string(configData.imguiFilter.InputBuf)); }
+};
+
+class mvTooltip : public mvAppItem
+{
+public:
+    mvTooltipConfig configData{};
+    explicit mvTooltip(mvUUID uuid) : mvAppItem(uuid) { config.show = true; } //has to be shown to check hovering
+    void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_tooltip(drawlist, *this); }
+    void handleSpecificRequiredArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData, config); }
+};
+
 class mvSeparator : public mvAppItem
 {
 public:
@@ -827,6 +857,21 @@ class mvMenuBar : public mvAppItem
 public:
     explicit mvMenuBar(mvUUID uuid) : mvAppItem(uuid) { config.height = 21; } // TODO: fix
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_menubar(drawlist, *this); }
+};
+
+class mvViewportMenuBar : public mvAppItem
+{
+public:
+    explicit mvViewportMenuBar(mvUUID uuid) : mvAppItem(uuid)
+    {
+
+        // TODO use code below to set item height when font and scale systems are done
+        //float FontSize = ImGui::GetFontSize(); // = Base Font Size * Current Window Scale
+        //ImGuiStyle currentStyle = ImGui::GetStyle(); // = Padding for the Top and Bottom
+        //_height = int(currentStyle.FramePadding.y * 2 + FontSize);
+        config.height = 21;
+    }
+    void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_viewport_menubar(drawlist, *this); }
 };
 
 class mvStage : public mvAppItem
