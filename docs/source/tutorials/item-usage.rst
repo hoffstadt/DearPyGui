@@ -101,7 +101,7 @@ Each of these can be accessed by their corresponding function
 :py:func:`get_item_info <dearpygui.dearpygui.get_item_info>`
     keywords that reflect its information (item type, children, theme, ect)
 
-.. note:: configuration, state and info are been broken into
+.. note:: configuration, state and info are broken into
     separate commands that access each individual keyword,
     instead of returning the entire dictionary.
 
