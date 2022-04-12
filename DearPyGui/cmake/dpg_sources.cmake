@@ -92,14 +92,10 @@ set(MARVEL_SOURCES
 	"src/ui/AppItems/plots/mvAreaSeries.cpp"
 	"src/ui/AppItems/plots/mvAnnotation.cpp"
 	"src/ui/AppItems/plots/mvSimplePlot.cpp"
-	"src/ui/AppItems/plots/mvErrorSeries.cpp"
-	"src/ui/AppItems/plots/mvHeatSeries.cpp"
 	"src/ui/AppItems/plots/mvImageSeries.cpp"
 	"src/ui/AppItems/plots/mvPieSeries.cpp"
 	"src/ui/AppItems/plots/mvLabelSeries.cpp"
 	"src/ui/AppItems/plots/mvCandleSeries.cpp"
-	"src/ui/AppItems/plots/mvHistogramSeries.cpp"
-	"src/ui/AppItems/plots/mv2dHistogramSeries.cpp"
 
 	# imnodes
 	"vendor/imnodes/imnodes.cpp"

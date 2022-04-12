@@ -56,3 +56,7 @@ struct mvDragLineConfig;
 struct mvDragPointConfig;
 struct mvBasicSeriesConfig;
 struct mvBarSeriesConfig;
+struct mv2dHistogramSeriesConfig;
+struct mvHistogramSeriesConfig;
+struct mvErrorSeriesConfig;
+struct mvHeatSeriesConfig;

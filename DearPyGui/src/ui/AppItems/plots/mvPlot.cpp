@@ -5,8 +5,6 @@
 #include "mvLog.h"
 #include "mvAreaSeries.h"
 #include "mvCandleSeries.h"
-#include "mvErrorSeries.h"
-#include "mvHeatSeries.h"
 #include "mvImageSeries.h"
 #include "mvLabelSeries.h"
 #include "mvPieSeries.h"
