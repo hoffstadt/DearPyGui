@@ -60,3 +60,5 @@ struct mv2dHistogramSeriesConfig;
 struct mvHistogramSeriesConfig;
 struct mvErrorSeriesConfig;
 struct mvHeatSeriesConfig;
+struct mvPieSeriesConfig;
+struct mvLabelSeriesConfig;

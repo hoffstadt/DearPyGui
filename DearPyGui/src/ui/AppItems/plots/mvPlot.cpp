@@ -6,8 +6,6 @@
 #include "mvAreaSeries.h"
 #include "mvCandleSeries.h"
 #include "mvImageSeries.h"
-#include "mvLabelSeries.h"
-#include "mvPieSeries.h"
 #include "mvPythonExceptions.h"
 #include "mvPlotAxis.h"
 #include "mvThemes.h"

@@ -57,7 +57,7 @@ DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mvDragPointConfig
 }
 
 void 
-DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mvBarSeriesConfig& outConfig)
+DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mvRef<std::vector<std::vector<double>>>& outValue)
 {
 	if (dataSource == item.config.source) return;
 	item.config.source = dataSource;
@@ -75,117 +75,7 @@ DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mvBarSeriesConfig
 			"Values types do not match: " + std::to_string(dataSource), &item);
 		return;
 	}
-	outConfig.value = *static_cast<std::shared_ptr<std::vector<std::vector<double>>>*>(srcItem->getValue());
-}
-
-void
-DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mvBasicSeriesConfig& outConfig)
-{
-	if (dataSource == item.config.source) return;
-	item.config.source = dataSource;
-
-	mvAppItem* srcItem = GetItem((*GContext->itemRegistry), dataSource);
-	if (!srcItem)
-	{
-		mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
-			"Source item not found: " + std::to_string(dataSource), &item);
-		return;
-	}
-	if (DearPyGui::GetEntityValueType(srcItem->type) != DearPyGui::GetEntityValueType(item.type))
-	{
-		mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
-			"Values types do not match: " + std::to_string(dataSource), &item);
-		return;
-	}
-	outConfig.value = *static_cast<std::shared_ptr<std::vector<std::vector<double>>>*>(srcItem->getValue());
-}
-
-void
-DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mv2dHistogramSeriesConfig& outConfig)
-{
-	if (dataSource == item.config.source) return;
-	item.config.source = dataSource;
-
-	mvAppItem* srcItem = GetItem((*GContext->itemRegistry), dataSource);
-	if (!srcItem)
-	{
-		mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
-			"Source item not found: " + std::to_string(dataSource), &item);
-		return;
-	}
-	if (DearPyGui::GetEntityValueType(srcItem->type) != DearPyGui::GetEntityValueType(item.type))
-	{
-		mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
-			"Values types do not match: " + std::to_string(dataSource), &item);
-		return;
-	}
-	outConfig.value = *static_cast<std::shared_ptr<std::vector<std::vector<double>>>*>(srcItem->getValue());
-}
-
-void
-DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mvErrorSeriesConfig& outConfig)
-{
-	if (dataSource == item.config.source) return;
-	item.config.source = dataSource;
-
-	mvAppItem* srcItem = GetItem((*GContext->itemRegistry), dataSource);
-	if (!srcItem)
-	{
-		mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
-			"Source item not found: " + std::to_string(dataSource), &item);
-		return;
-	}
-	if (DearPyGui::GetEntityValueType(srcItem->type) != DearPyGui::GetEntityValueType(item.type))
-	{
-		mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
-			"Values types do not match: " + std::to_string(dataSource), &item);
-		return;
-	}
-	outConfig.value = *static_cast<std::shared_ptr<std::vector<std::vector<double>>>*>(srcItem->getValue());
-}
-
-void
-DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mvHeatSeriesConfig& outConfig)
-{
-	if (dataSource == item.config.source) return;
-	item.config.source = dataSource;
-
-	mvAppItem* srcItem = GetItem((*GContext->itemRegistry), dataSource);
-	if (!srcItem)
-	{
-		mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
-			"Source item not found: " + std::to_string(dataSource), &item);
-		return;
-	}
-	if (DearPyGui::GetEntityValueType(srcItem->type) != DearPyGui::GetEntityValueType(item.type))
-	{
-		mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
-			"Values types do not match: " + std::to_string(dataSource), &item);
-		return;
-	}
-	outConfig.value = *static_cast<std::shared_ptr<std::vector<std::vector<double>>>*>(srcItem->getValue());
-}
-
-void
-DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mvHistogramSeriesConfig& outConfig)
-{
-	if (dataSource == item.config.source) return;
-	item.config.source = dataSource;
-
-	mvAppItem* srcItem = GetItem((*GContext->itemRegistry), dataSource);
-	if (!srcItem)
-	{
-		mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
-			"Source item not found: " + std::to_string(dataSource), &item);
-		return;
-	}
-	if (DearPyGui::GetEntityValueType(srcItem->type) != DearPyGui::GetEntityValueType(item.type))
-	{
-		mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
-			"Values types do not match: " + std::to_string(dataSource), &item);
-		return;
-	}
-	outConfig.value = *static_cast<std::shared_ptr<std::vector<std::vector<double>>>*>(srcItem->getValue());
+	outValue = *static_cast<std::shared_ptr<std::vector<std::vector<double>>>*>(srcItem->getValue());
 }
 
 void
@@ -1099,6 +989,142 @@ DearPyGui::draw_histogram_series(ImDrawList* drawlist, mvAppItem& item, const mv
 	cleanup_local_theming(&item);
 }
 
+void
+DearPyGui::draw_pie_series(ImDrawList* drawlist, mvAppItem& item, const mvPieSeriesConfig& config)
+{
+	//-----------------------------------------------------------------------------
+	// pre draw
+	//-----------------------------------------------------------------------------
+	if (!item.config.show)
+		return;
+
+	// push font if a font object is attached
+	if (item.font)
+	{
+		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
+		ImGui::PushFont(fontptr);
+	}
+
+	// themes
+	apply_local_theming(&item);
+
+	//-----------------------------------------------------------------------------
+	// draw
+	//-----------------------------------------------------------------------------
+	{
+
+		static const std::vector<double>* xptr;
+
+		xptr = &(*config.value.get())[0];
+
+		ImPlot::PlotPieChart(config.clabels.data(), xptr->data(), (int)config.labels.size(),
+			config.x, config.y, config.radius, config.normalize, config.format.c_str(), config.angle);
+
+		// Begin a popup for a legend entry.
+		if (ImPlot::BeginLegendPopup(item.info.internalLabel.c_str(), 1))
+		{
+			for (auto& childset : item.childslots)
+			{
+				for (auto& item : childset)
+				{
+					// skip item if it's not shown
+					if (!item->config.show)
+						continue;
+					item->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
+					UpdateAppItemState(item->state);
+				}
+			}
+			ImPlot::EndLegendPopup();
+		}
+	}
+
+	//-----------------------------------------------------------------------------
+	// update state
+	//   * only update if applicable
+	//-----------------------------------------------------------------------------
+
+
+	//-----------------------------------------------------------------------------
+	// post draw
+	//-----------------------------------------------------------------------------
+
+	// pop font off stack
+	if (item.font)
+		ImGui::PopFont();
+
+	// handle popping themes
+	cleanup_local_theming(&item);
+}
+
+void
+DearPyGui::draw_label_series(ImDrawList* drawlist, mvAppItem& item, const mvLabelSeriesConfig& config)
+{
+	//-----------------------------------------------------------------------------
+	// pre draw
+	//-----------------------------------------------------------------------------
+	if (!item.config.show)
+		return;
+
+	// push font if a font object is attached
+	if (item.font)
+	{
+		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
+		ImGui::PushFont(fontptr);
+	}
+
+	// themes
+	apply_local_theming(&item);
+
+	//-----------------------------------------------------------------------------
+	// draw
+	//-----------------------------------------------------------------------------
+	{
+
+		static const std::vector<double>* xptr;
+		static const std::vector<double>* yptr;
+
+		xptr = &(*config.value.get())[0];
+		yptr = &(*config.value.get())[1];
+
+		ImPlot::PlotText(item.info.internalLabel.c_str(), (*xptr)[0], (*yptr)[0], config.vertical,
+			ImVec2((float)config.xoffset, (float)config.yoffset));
+
+		// Begin a popup for a legend entry.
+		if (ImPlot::BeginLegendPopup(item.info.internalLabel.c_str(), 1))
+		{
+			for (auto& childset : item.childslots)
+			{
+				for (auto& item : childset)
+				{
+					// skip item if it's not shown
+					if (!item->config.show)
+						continue;
+					item->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
+					UpdateAppItemState(item->state);
+				}
+			}
+			ImPlot::EndLegendPopup();
+		}
+	}
+
+	//-----------------------------------------------------------------------------
+	// update state
+	//   * only update if applicable
+	//-----------------------------------------------------------------------------
+
+
+	//-----------------------------------------------------------------------------
+	// post draw
+	//-----------------------------------------------------------------------------
+
+	// pop font off stack
+	if (item.font)
+		ImGui::PopFont();
+
+	// handle popping themes
+	cleanup_local_theming(&item);
+}
+
 void 
 DearPyGui::set_required_configuration(PyObject* inDict, mvBarSeriesConfig& outConfig)
 {
@@ -1161,6 +1187,32 @@ DearPyGui::set_required_configuration(PyObject* inDict, mvHistogramSeriesConfig&
 		return;
 
 	(*outConfig.value)[0] = ToDoubleVect(PyTuple_GetItem(inDict, 0));
+}
+
+void
+DearPyGui::set_required_configuration(PyObject* inDict, mvPieSeriesConfig& outConfig)
+{
+	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(mvAppItemType::mvPieSeries)], inDict))
+		return;
+
+	outConfig.x = ToDouble(PyTuple_GetItem(inDict, 0));
+	outConfig.y = ToDouble(PyTuple_GetItem(inDict, 1));
+	outConfig.radius = ToDouble(PyTuple_GetItem(inDict, 2));
+	(*outConfig.value)[0] = ToDoubleVect(PyTuple_GetItem(inDict, 3));
+	outConfig.labels = ToStringVect(PyTuple_GetItem(inDict, 4));
+	outConfig.clabels.clear();
+	for (const auto& label : outConfig.labels)
+		outConfig.clabels.push_back(label.c_str());
+}
+
+void
+DearPyGui::set_required_configuration(PyObject* inDict, mvLabelSeriesConfig& outConfig)
+{
+	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(mvAppItemType::mvPieSeries)], inDict))
+		return;
+
+	(*outConfig.value)[0] = ToDoubleVect(PyTuple_GetItem(inDict, 0));
+	(*outConfig.value)[1] = ToDoubleVect(PyTuple_GetItem(inDict, 1));
 }
 
 void
@@ -1314,6 +1366,45 @@ DearPyGui::set_configuration(PyObject* inDict, mvHistogramSeriesConfig& outConfi
 }
 
 void
+DearPyGui::set_configuration(PyObject* inDict, mvPieSeriesConfig& outConfig)
+{
+	if (inDict == nullptr)
+		return;
+
+	if (PyObject* item = PyDict_GetItemString(inDict, "format")) outConfig.format = ToString(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "x")) outConfig.x = ToDouble(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "y")) outConfig.y = ToDouble(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "radius")) outConfig.radius = ToDouble(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "angle")) outConfig.angle = ToDouble(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "normalize")) outConfig.normalize = ToBool(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "labels"))
+	{
+		outConfig.labels = ToStringVect(item);
+		outConfig.clabels.clear();
+		for (const auto& label : outConfig.labels)
+			outConfig.clabels.push_back(label.c_str());
+	}
+
+	if (PyObject* item = PyDict_GetItemString(inDict, "values")) { (*outConfig.value)[0] = ToDoubleVect(item); }
+
+}
+
+void
+DearPyGui::set_configuration(PyObject* inDict, mvLabelSeriesConfig& outConfig)
+{
+	if (inDict == nullptr)
+		return;
+
+	if (PyObject* item = PyDict_GetItemString(inDict, "vertical")) outConfig.vertical = ToBool(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "x_offset")) outConfig.xoffset = ToInt(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "y_offset")) outConfig.yoffset = ToInt(item);
+
+	if (PyObject* item = PyDict_GetItemString(inDict, "x")) { (*outConfig.value)[0] = ToDoubleVect(item); }
+	if (PyObject* item = PyDict_GetItemString(inDict, "y")) { (*outConfig.value)[1] = ToDoubleVect(item); }
+
+}
+
+void
 DearPyGui::fill_configuration_dict(const mvDragLineConfig& inConfig, PyObject* outDict)
 {
 	if (outDict == nullptr)
@@ -1433,6 +1524,32 @@ DearPyGui::fill_configuration_dict(const mvHistogramSeriesConfig& inConfig, PyOb
 }
 
 void
+DearPyGui::fill_configuration_dict(const mvPieSeriesConfig& inConfig, PyObject* outDict)
+{
+	if (outDict == nullptr)
+		return;
+
+	PyDict_SetItemString(outDict, "format", mvPyObject(ToPyString(inConfig.format)));
+	PyDict_SetItemString(outDict, "x", mvPyObject(ToPyDouble(inConfig.x)));
+	PyDict_SetItemString(outDict, "y", mvPyObject(ToPyDouble(inConfig.y)));
+	PyDict_SetItemString(outDict, "radius", mvPyObject(ToPyDouble(inConfig.radius)));
+	PyDict_SetItemString(outDict, "angle", mvPyObject(ToPyDouble(inConfig.angle)));
+	PyDict_SetItemString(outDict, "normalize", mvPyObject(ToPyBool(inConfig.normalize)));
+	PyDict_SetItemString(outDict, "labels", mvPyObject(ToPyList(inConfig.labels)));
+}
+
+void
+DearPyGui::fill_configuration_dict(const mvLabelSeriesConfig& inConfig, PyObject* outDict)
+{
+	if (outDict == nullptr)
+		return;
+
+	PyDict_SetItemString(outDict, "vertical", mvPyObject(ToPyBool(inConfig.vertical)));
+	PyDict_SetItemString(outDict, "x_offset", mvPyObject(ToPyInt(inConfig.xoffset)));
+	PyDict_SetItemString(outDict, "y_offset", mvPyObject(ToPyInt(inConfig.yoffset)));
+}
+
+void
 DearPyGui::apply_template(const mvDragLineConfig& sourceConfig, mvDragLineConfig& dstConfig)
 {
 	dstConfig.value = sourceConfig.value;
@@ -1523,6 +1640,29 @@ DearPyGui::apply_template(const mvHistogramSeriesConfig& sourceConfig, mvHistogr
 	dstConfig.min = sourceConfig.min;
 	dstConfig.max = sourceConfig.max;
 	dstConfig.barScale = sourceConfig.barScale;
+}
+
+void
+DearPyGui::apply_template(const mvPieSeriesConfig& sourceConfig, mvPieSeriesConfig& dstConfig)
+{
+	dstConfig.value = sourceConfig.value;
+	dstConfig.x = sourceConfig.x;
+	dstConfig.y = sourceConfig.y;
+	dstConfig.radius = sourceConfig.radius;
+	dstConfig.normalize = sourceConfig.normalize;
+	dstConfig.angle = sourceConfig.angle;
+	dstConfig.format = sourceConfig.format;
+	dstConfig.labels = sourceConfig.labels;
+	dstConfig.clabels = sourceConfig.clabels;
+}
+
+void
+DearPyGui::apply_template(const mvLabelSeriesConfig& sourceConfig, mvLabelSeriesConfig& dstConfig)
+{
+	dstConfig.value = sourceConfig.value;
+	dstConfig.xoffset = sourceConfig.xoffset;
+	dstConfig.yoffset = sourceConfig.yoffset;
+	dstConfig.vertical = sourceConfig.vertical;
 }
 
 //-----------------------------------------------------------------------------
