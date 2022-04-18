@@ -61,6 +61,51 @@ The built-in style editor allows you to experiment with all style options at run
 
 .. image:: https://github.com/hoffstadt/DearPyGui/blob/assets/readthedocs/style_editor_metrics.gif
 
+Item registry
+-------------
+
+**Code:**
+
+.. code-block:: python
+
+   import dearpygui.dearpygui as dpg
+
+   dpg.create_context()
+   dpg.create_viewport()
+   dpg.setup_dearpygui()
+
+   dpg.show_item_registry()
+
+   dpg.show_viewport()
+   dpg.start_dearpygui()
+   dpg.destroy_context()
+
+**Result:**
+
+.. image:: https://github.com/hoffstadt/DearPyGui/blob/assets/readthedocs/item_registry.gif?raw=true
+
+Font manager
+------------
+
+**Code:**
+
+.. code-block:: python
+
+   import dearpygui.dearpygui as dpg
+
+   dpg.create_context()
+   dpg.create_viewport()
+   dpg.setup_dearpygui()
+
+   dpg.show_font_manager()
+
+   dpg.show_viewport()
+   dpg.start_dearpygui()
+   dpg.destroy_context()
+
+**Result:**
+
+.. image:: https://raw.githubusercontent.com/hoffstadt/DearPyGui/assets/readthedocs/font_manager.png
 
 More Resources
 --------------
