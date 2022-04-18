@@ -106,6 +106,8 @@ Font manager
 **Result:**
 
 .. image:: https://raw.githubusercontent.com/hoffstadt/DearPyGui/assets/readthedocs/font_manager.png
+  :width: 400
+  :alt: Font manager
 
 More Resources
 --------------
