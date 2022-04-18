@@ -16,7 +16,7 @@ Project Information
 
 .. |inline sub for reddit|
     image:: https://img.shields.io/reddit/subreddit-subscribers/dearpygui?label=r%2Fdearpygui
-        :target: https://discord.com/invite/tyE7Gu4
+        :target: https://www.reddit.com/r/DearPyGui/
 
 .. _Github Discussions: https://github.com/hoffstadt/DearPyGui/discussions
 .. _Youtube: https://www.youtube.com/channel/UCF4mg5-bD7VUFAhAiyf7v0g
