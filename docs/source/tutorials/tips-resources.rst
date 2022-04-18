@@ -87,8 +87,10 @@ The item registry shows all items of a running application in a hierarchical str
 
 .. image:: https://github.com/hoffstadt/DearPyGui/blob/assets/readthedocs/item_registry.gif?raw=true
 
+
 Font manager
 ------------
+The font manager shows all loaded fonts and their appropriate sizes. It allows you to inspect all characters, or glyphs, that are loaded with each font file. 
 
 **Code:**
 
@@ -111,6 +113,7 @@ Font manager
 .. image:: https://raw.githubusercontent.com/hoffstadt/DearPyGui/assets/readthedocs/font_manager.png
   :width: 600
   :alt: Font manager
+  
 
 Runtime metrics
 --------------------------------
@@ -136,6 +139,7 @@ Runtime metrics show the performance of your app in real-time. Here is it shown 
 **Result:**
 
 .. image:: https://github.com/hoffstadt/DearPyGui/blob/assets/readthedocs/style_editor_metrics.gif
+  :alt: Style editor and runtime metrics tools
 
 More Resources
 --------------
