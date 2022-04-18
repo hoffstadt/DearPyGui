@@ -7,7 +7,7 @@ Tips & More Resources
 Developer Tools
 ---------------
 
-DPG contains several tools which can help debug applications.
+DPG includes several tools which can help develop and debug applications.
 
 **Code:**
 
