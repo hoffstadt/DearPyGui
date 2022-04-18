@@ -80,8 +80,11 @@ UpdateChildLocations(std::vector<mvRef<mvAppItem>>* children, i32 slots)
         i32 index = 0;
         for (auto& child : children[i])
         {
-            child->info.location = index;
-            index++;
+            if (child)
+            {
+                child->info.location = index;
+                index++;
+            }
         }
     }
 }
