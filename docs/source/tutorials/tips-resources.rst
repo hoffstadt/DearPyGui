@@ -39,7 +39,7 @@ DPG includes several tools which can help develop and debug applications.
 
 Style editor
 ------------
-he built-in style editor allows you to experiment with all style options at runtime to find the exact colors, padding, rounding and other style settings for your application. You can use the sliders to change the settings, which are applied to all items in your app, so you can immediately see what effect the changes have on your GUI.
+The built-in style editor allows you to experiment with all style options at runtime to find the exact colors, padding, rounding and other style settings for your application. You can use the sliders to change the settings, which are applied to all items in your app, so you can immediately see what effect the changes have on your GUI.
 
 **Code:**
 
