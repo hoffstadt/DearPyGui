@@ -100,7 +100,7 @@ struct mvColor
 		a = color.w;
 	}
 
-	operator ImU32()
+	operator ImU32() const
 	{
 		return ImGui::ColorConvertFloat4ToU32(toVec4());
 	}
@@ -110,7 +110,7 @@ struct mvColor
 		return &r;
 	}
 
-	operator ImVec4()
+	operator ImVec4() const
 	{
 		return { r, g, b, a };
 	}

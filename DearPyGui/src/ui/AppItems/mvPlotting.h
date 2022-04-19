@@ -18,6 +18,9 @@ namespace DearPyGui
     void fill_configuration_dict(const mvHistogramSeriesConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvPieSeriesConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvLabelSeriesConfig& inConfig, PyObject* outDict);
+    void fill_configuration_dict(const mvImageSeriesConfig& inConfig, PyObject* outDict);
+    void fill_configuration_dict(const mvAreaSeriesConfig& inConfig, PyObject* outDict);
+    void fill_configuration_dict(const mvCandleSeriesConfig& inConfig, PyObject* outDict);
 
     // specific part of `configure_item(...)`
     void set_configuration(PyObject* inDict, mvPlotLegendConfig& outConfig, mvAppItem& item);
@@ -31,16 +34,24 @@ namespace DearPyGui
     void set_configuration(PyObject* inDict, mvHistogramSeriesConfig& outConfig);
     void set_configuration(PyObject* inDict, mvPieSeriesConfig& outConfig);
     void set_configuration(PyObject* inDict, mvLabelSeriesConfig& outConfig);
+    void set_configuration(PyObject* inDict, mvImageSeriesConfig& outConfig);
+    void set_configuration(PyObject* inDict, mvAreaSeriesConfig& outConfig);
+    void set_configuration(PyObject* inDict, mvCandleSeriesConfig& outConfig);
 
     // positional args TODO: combine with above
-    void set_required_configuration(PyObject* inDict, mvBarSeriesConfig& outConfig);
-    void set_required_configuration(PyObject* inDict, mvBasicSeriesConfig& outConfig);
-    void set_required_configuration(PyObject* inDict, mv2dHistogramSeriesConfig& outConfig);
-    void set_required_configuration(PyObject* inDict, mvErrorSeriesConfig& outConfig);
-    void set_required_configuration(PyObject* inDict, mvHeatSeriesConfig& outConfig);
-    void set_required_configuration(PyObject* inDict, mvHistogramSeriesConfig& outConfig);
-    void set_required_configuration(PyObject* inDict, mvPieSeriesConfig& outConfig);
-    void set_required_configuration(PyObject* inDict, mvLabelSeriesConfig& outConfig);
+    void set_positional_configuration(PyObject* inDict, mvBarSeriesConfig& outConfig);
+    void set_positional_configuration(PyObject* inDict, mvBasicSeriesConfig& outConfig);
+    void set_positional_configuration(PyObject* inDict, mv2dHistogramSeriesConfig& outConfig);
+    void set_positional_configuration(PyObject* inDict, mvErrorSeriesConfig& outConfig);
+    void set_positional_configuration(PyObject* inDict, mvHeatSeriesConfig& outConfig);
+    void set_positional_configuration(PyObject* inDict, mvHistogramSeriesConfig& outConfig);
+    void set_positional_configuration(PyObject* inDict, mvPieSeriesConfig& outConfig);
+    void set_positional_configuration(PyObject* inDict, mvLabelSeriesConfig& outConfig);
+
+    // required args
+    void set_required_configuration(PyObject* inDict, mvImageSeriesConfig& outConfig);
+    void set_required_configuration(PyObject* inDict, mvAreaSeriesConfig& outConfig);
+    void set_required_configuration(PyObject* inDict, mvCandleSeriesConfig& outConfig);
 
     // data source handling
     void set_data_source(mvAppItem& item, mvUUID dataSource, mvDragLineConfig& outConfig);
@@ -59,6 +70,9 @@ namespace DearPyGui
     void apply_template(const mvHistogramSeriesConfig& sourceConfig, mvHistogramSeriesConfig& dstConfig);
     void apply_template(const mvPieSeriesConfig& sourceConfig, mvPieSeriesConfig& dstConfig);
     void apply_template(const mvLabelSeriesConfig& sourceConfig, mvLabelSeriesConfig& dstConfig);
+    void apply_template(const mvImageSeriesConfig& sourceConfig, mvImageSeriesConfig& dstConfig);
+    void apply_template(const mvAreaSeriesConfig& sourceConfig, mvAreaSeriesConfig& dstConfig);
+    void apply_template(const mvCandleSeriesConfig& sourceConfig, mvCandleSeriesConfig& dstConfig);
 
     // draw commands
     void draw_plot_legend       (ImDrawList* drawlist, mvAppItem& item, mvPlotLegendConfig& config);
@@ -78,6 +92,9 @@ namespace DearPyGui
     void draw_histogram_series  (ImDrawList* drawlist, mvAppItem& item, const mvHistogramSeriesConfig& config);
     void draw_pie_series        (ImDrawList* drawlist, mvAppItem& item, const mvPieSeriesConfig& config);
     void draw_label_series      (ImDrawList* drawlist, mvAppItem& item, const mvLabelSeriesConfig& config);
+    void draw_image_series      (ImDrawList* drawlist, mvAppItem& item, mvImageSeriesConfig& config);
+    void draw_area_series       (ImDrawList* drawlist, mvAppItem& item, const mvAreaSeriesConfig& config);
+    void draw_candle_series       (ImDrawList* drawlist, mvAppItem& item, const mvCandleSeriesConfig& config);
 }
 
 //-----------------------------------------------------------------------------
@@ -227,6 +244,54 @@ struct mvLabelSeriesConfig
         std::vector<double>{} });
 };
 
+struct mvImageSeriesConfig
+{
+    // config
+    mvUUID      textureUUID = 0;
+    mvPlotPoint bounds_min = { 0.0, 0.0 };
+    mvPlotPoint bounds_max = { 0.0, 0.0 };
+    mvVec2      uv_min = { 0.0f, 0.0f };
+    mvVec2      uv_max = { 1.0f, 1.0f };
+    mvColor     tintColor = { 1.0f, 1.0f, 1.0f, 1.0f };
+
+    // pointer to existing item or internal
+    std::shared_ptr<mvAppItem> _texture = nullptr;
+    bool _internalTexture = false; // create a local texture if necessary
+
+    mvRef<std::vector<std::vector<double>>> value = CreateRef<std::vector<std::vector<double>>>(
+        std::vector<std::vector<double>>{ std::vector<double>{},
+        std::vector<double>{},
+        std::vector<double>{},
+        std::vector<double>{},
+        std::vector<double>{} });
+};
+
+struct mvAreaSeriesConfig
+{
+    mvColor fill = MV_DEFAULT_COLOR;
+    mvRef<std::vector<std::vector<double>>> value = CreateRef<std::vector<std::vector<double>>>(
+        std::vector<std::vector<double>>{ std::vector<double>{},
+        std::vector<double>{},
+        std::vector<double>{},
+        std::vector<double>{},
+        std::vector<double>{} });
+};
+
+struct mvCandleSeriesConfig
+{
+    float   weight = 0.25f;
+    bool    tooltip = true;
+    int     timeunit = ImPlotTimeUnit_Day;
+    mvColor bullColor = { 0, 255, 113, 255 };
+    mvColor bearColor = { 218, 13, 79, 255 };
+    mvRef<std::vector<std::vector<double>>> value = CreateRef<std::vector<std::vector<double>>>(
+        std::vector<std::vector<double>>{ std::vector<double>{},
+        std::vector<double>{},
+        std::vector<double>{},
+        std::vector<double>{},
+        std::vector<double>{} });
+};
+
 //-----------------------------------------------------------------------------
 // Old Classes, in the process of removing OOP crap
 //-----------------------------------------------------------------------------
@@ -277,7 +342,7 @@ class mvBarSeries : public mvAppItem
 public:
     mvBarSeriesConfig configData{};
     explicit mvBarSeries(mvUUID uuid) : mvAppItem(uuid) {}
-    void handleSpecificPositionalArgs(PyObject* dict) override { DearPyGui::set_required_configuration(dict, configData); }
+    void handleSpecificPositionalArgs(PyObject* dict) override { DearPyGui::set_positional_configuration(dict, configData); }
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_bar_series(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
@@ -293,7 +358,7 @@ class mvLineSeries : public mvAppItem
 public:
     mvBasicSeriesConfig configData{};
     explicit mvLineSeries(mvUUID uuid) : mvAppItem(uuid) {}
-    void handleSpecificPositionalArgs(PyObject* dict) override { DearPyGui::set_required_configuration(dict, configData); }
+    void handleSpecificPositionalArgs(PyObject* dict) override { DearPyGui::set_positional_configuration(dict, configData); }
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_line_series(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
@@ -309,7 +374,7 @@ class mvScatterSeries : public mvAppItem
 public:
     mvBasicSeriesConfig configData{};
     explicit mvScatterSeries(mvUUID uuid) : mvAppItem(uuid) {}
-    void handleSpecificPositionalArgs(PyObject* dict) override { DearPyGui::set_required_configuration(dict, configData); }
+    void handleSpecificPositionalArgs(PyObject* dict) override { DearPyGui::set_positional_configuration(dict, configData); }
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_scatter_series(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
@@ -325,7 +390,7 @@ class mvShadeSeries : public mvAppItem
 public:
     mvBasicSeriesConfig configData{};
     explicit mvShadeSeries(mvUUID uuid) : mvAppItem(uuid) {}
-    void handleSpecificPositionalArgs(PyObject* dict) override { DearPyGui::set_required_configuration(dict, configData); }
+    void handleSpecificPositionalArgs(PyObject* dict) override { DearPyGui::set_positional_configuration(dict, configData); }
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_shade_series(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
@@ -341,7 +406,7 @@ class mvVLineSeries : public mvAppItem
 public:
     mvBasicSeriesConfig configData{};
     explicit mvVLineSeries(mvUUID uuid) : mvAppItem(uuid) {}
-    void handleSpecificPositionalArgs(PyObject* dict) override { DearPyGui::set_required_configuration(dict, configData); }
+    void handleSpecificPositionalArgs(PyObject* dict) override { DearPyGui::set_positional_configuration(dict, configData); }
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_vline_series(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
@@ -357,7 +422,7 @@ class mvHLineSeries : public mvAppItem
 public:
     mvBasicSeriesConfig configData{};
     explicit mvHLineSeries(mvUUID uuid) : mvAppItem(uuid) {}
-    void handleSpecificPositionalArgs(PyObject* dict) override { DearPyGui::set_required_configuration(dict, configData); }
+    void handleSpecificPositionalArgs(PyObject* dict) override { DearPyGui::set_positional_configuration(dict, configData); }
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_hline_series(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
@@ -373,7 +438,7 @@ class mvStairSeries : public mvAppItem
 public:
     mvBasicSeriesConfig configData{};
     explicit mvStairSeries(mvUUID uuid) : mvAppItem(uuid) {}
-    void handleSpecificPositionalArgs(PyObject* dict) override { DearPyGui::set_required_configuration(dict, configData); }
+    void handleSpecificPositionalArgs(PyObject* dict) override { DearPyGui::set_positional_configuration(dict, configData); }
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_stair_series(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
@@ -389,7 +454,7 @@ class mvStemSeries : public mvAppItem
 public:
     mvBasicSeriesConfig configData{};
     explicit mvStemSeries(mvUUID uuid) : mvAppItem(uuid) {}
-    void handleSpecificPositionalArgs(PyObject* dict) override { DearPyGui::set_required_configuration(dict, configData); }
+    void handleSpecificPositionalArgs(PyObject* dict) override { DearPyGui::set_positional_configuration(dict, configData); }
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_stem_series(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
@@ -405,7 +470,7 @@ class mv2dHistogramSeries : public mvAppItem
 public:
     mv2dHistogramSeriesConfig configData{};
     explicit mv2dHistogramSeries(mvUUID uuid) : mvAppItem(uuid) {}
-    void handleSpecificPositionalArgs(PyObject* dict) override { DearPyGui::set_required_configuration(dict, configData); }
+    void handleSpecificPositionalArgs(PyObject* dict) override { DearPyGui::set_positional_configuration(dict, configData); }
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_2dhistogram_series(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
@@ -421,7 +486,7 @@ class mvErrorSeries : public mvAppItem
 public:
     mvErrorSeriesConfig configData{};
     explicit mvErrorSeries(mvUUID uuid) : mvAppItem(uuid) {}
-    void handleSpecificPositionalArgs(PyObject* dict) override { DearPyGui::set_required_configuration(dict, configData); }
+    void handleSpecificPositionalArgs(PyObject* dict) override { DearPyGui::set_positional_configuration(dict, configData); }
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_error_series(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
@@ -437,7 +502,7 @@ class mvHeatSeries : public mvAppItem
 public:
     mvHeatSeriesConfig configData{};
     explicit mvHeatSeries(mvUUID uuid) : mvAppItem(uuid) {}
-    void handleSpecificPositionalArgs(PyObject* dict) override { DearPyGui::set_required_configuration(dict, configData); }
+    void handleSpecificPositionalArgs(PyObject* dict) override { DearPyGui::set_positional_configuration(dict, configData); }
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_heat_series(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
@@ -453,7 +518,7 @@ class mvHistogramSeries : public mvAppItem
 public:
     mvHistogramSeriesConfig configData{};
     explicit mvHistogramSeries(mvUUID uuid) : mvAppItem(uuid) {}
-    void handleSpecificPositionalArgs(PyObject* dict) override { DearPyGui::set_required_configuration(dict, configData); }
+    void handleSpecificPositionalArgs(PyObject* dict) override { DearPyGui::set_positional_configuration(dict, configData); }
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_histogram_series(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
@@ -469,7 +534,7 @@ class mvPieSeries : public mvAppItem
 public:
     mvPieSeriesConfig configData{};
     explicit mvPieSeries(mvUUID uuid) : mvAppItem(uuid) {}
-    void handleSpecificPositionalArgs(PyObject* dict) override { DearPyGui::set_required_configuration(dict, configData); }
+    void handleSpecificPositionalArgs(PyObject* dict) override { DearPyGui::set_positional_configuration(dict, configData); }
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_pie_series(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
@@ -485,11 +550,59 @@ class mvLabelSeries : public mvAppItem
 public:
     mvLabelSeriesConfig configData{};
     explicit mvLabelSeries(mvUUID uuid) : mvAppItem(uuid) {}
-    void handleSpecificPositionalArgs(PyObject* dict) override { DearPyGui::set_required_configuration(dict, configData); }
+    void handleSpecificPositionalArgs(PyObject* dict) override { DearPyGui::set_positional_configuration(dict, configData); }
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_label_series(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
     void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvLabelSeries*>(item); DearPyGui::apply_template(titem->configData, configData); }
+    void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData.value); }
+    void* getValue() override { return &configData.value; }
+    PyObject* getPyValue() override { return ToPyList(*configData.value); }
+    void setPyValue(PyObject* value) override { *configData.value = ToVectVectDouble(value); }
+};
+
+class mvImageSeries : public mvAppItem
+{
+public:
+    mvImageSeriesConfig configData{};
+    explicit mvImageSeries(mvUUID uuid) : mvAppItem(uuid) {}
+    void handleSpecificRequiredArgs(PyObject* dict) override { DearPyGui::set_required_configuration(dict, configData); }
+    void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_image_series(drawlist, *this, configData); }
+    void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
+    void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
+    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvImageSeries*>(item); DearPyGui::apply_template(titem->configData, configData); }
+    void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData.value); }
+    void* getValue() override { return &configData.value; }
+    PyObject* getPyValue() override { return ToPyList(*configData.value); }
+    void setPyValue(PyObject* value) override { *configData.value = ToVectVectDouble(value); }
+};
+
+class mvAreaSeries : public mvAppItem
+{
+public:
+    mvAreaSeriesConfig configData{};
+    explicit mvAreaSeries(mvUUID uuid) : mvAppItem(uuid) {}
+    void handleSpecificRequiredArgs(PyObject* dict) override { DearPyGui::set_required_configuration(dict, configData); }
+    void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_area_series(drawlist, *this, configData); }
+    void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
+    void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
+    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvAreaSeries*>(item); DearPyGui::apply_template(titem->configData, configData); }
+    void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData.value); }
+    void* getValue() override { return &configData.value; }
+    PyObject* getPyValue() override { return ToPyList(*configData.value); }
+    void setPyValue(PyObject* value) override { *configData.value = ToVectVectDouble(value); }
+};
+
+class mvCandleSeries : public mvAppItem
+{
+public:
+    mvCandleSeriesConfig configData{};
+    explicit mvCandleSeries(mvUUID uuid) : mvAppItem(uuid) {}
+    void handleSpecificRequiredArgs(PyObject* dict) override { DearPyGui::set_required_configuration(dict, configData); }
+    void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_candle_series(drawlist, *this, configData); }
+    void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
+    void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
+    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvCandleSeries*>(item); DearPyGui::apply_template(titem->configData, configData); }
     void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData.value); }
     void* getValue() override { return &configData.value; }
     PyObject* getPyValue() override { return ToPyList(*configData.value); }

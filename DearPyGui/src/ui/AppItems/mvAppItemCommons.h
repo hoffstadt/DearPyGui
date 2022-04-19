@@ -45,6 +45,3 @@
 
 #include "plots/mvSubPlots.h"
 #include "plots/mvSimplePlot.h"
-#include "plots/mvAreaSeries.h"
-#include "plots/mvImageSeries.h"
-#include "plots/mvCandleSeries.h"
