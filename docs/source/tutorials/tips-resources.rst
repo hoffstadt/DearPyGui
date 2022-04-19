@@ -59,7 +59,7 @@ he built-in style editor allows you to experiment with all style options at runt
 
 **Result:**
 
-.. image:: https://github.com/hoffstadt/DearPyGui/blob/assets/readthedocs/item_registry.gif?raw=true
+.. image:: https://raw.githubusercontent.com/hoffstadt/DearPyGui/assets/readthedocs/style_editor.png
 
 
 
