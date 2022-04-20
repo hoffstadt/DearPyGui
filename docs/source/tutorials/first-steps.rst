@@ -43,14 +43,12 @@ Confirm the pip install by running the code block below.
 
 **Result:**
 
-.. image:: https://github.com/hoffstadt/DearPyGui/blob/assets/readme/first_app.gif
+.. image:: https://raw.githubusercontent.com/hoffstadt/DearPyGui/assets/readme/first_app.gif
 
 Demo
 ----
 DPG has a complete built-in demo/showcase. It is a good idea to look into this demo. 
 The code for this can be found in the repo in the `demo.py`_ file
-
-.. _demo.py: https://github.com/hoffstadt/DearPyGui/blob/master/DearPyGui/dearpygui/demo.py
 
 **Code:**
 
@@ -71,7 +69,7 @@ The code for this can be found in the repo in the `demo.py`_ file
 
 **Result:**
 
-.. image:: https://github.com/hoffstadt/DearPyGui/blob/assets/readme/demo.gif
+.. image:: https://raw.githubusercontent.com/hoffstadt/DearPyGui/assets/readme/demo.gif
 
 .. note:: 
     The main script must always:
