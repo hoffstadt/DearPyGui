@@ -42,15 +42,15 @@ OutputFrameBufferArray(PymvBuffer* out)
         D3D11_MAPPED_SUBRESOURCE resource;
         unsigned int subresource = D3D11CalcSubresource(0, 0, 0);
         HRESULT hr = graphicsData->deviceContext->Map(stagingBuffer, subresource, D3D11_MAP_READ_WRITE, 0, &resource);
-        //PyObject* newbuffer = nullptr;
-        //PymvBuffer* newbufferview = nullptr;
-        //newbufferview = PyObject_New(PymvBuffer, &PymvBufferType);
         out->arr.length = description.Width * description.Height * 4;
         u8* data = new u8[out->arr.length];
         f32* tdata = new f32[out->arr.length];
-        memcpy(data, resource.pData, out->arr.length);
-        for (int i = 0; i < out->arr.length; i++)
-            tdata[i] = (f32)data[i]/255.0f;
+        for (int row = 0; row < description.Height; row++)
+        {
+            u8* src = &(((unsigned char*)resource.pData)[row * resource.RowPitch]);
+            for (int j = 0; j < description.Width*4; j++)
+                tdata[row * description.Width*4 + j] = src[j] / 255.0f;
+        }
         out->arr.data = tdata;
         out->arr.width = description.Width;
         out->arr.height = description.Height;

@@ -33,6 +33,12 @@ UpdatePixels(GLubyte* dst, const float* data, int size)
 }
 
 mv_impl void
+OutputFrameBufferArray(PymvBuffer* out)
+{
+    mvSubmitCallback([]() {mvThrowPythonError(mvErrorCode::mvNone, "`output_frame_buffer(...)` has not been implemented for this platform yet."); });
+}
+
+mv_impl void
 OutputFrameBuffer(const char* filepath)
 {
     mvViewport* viewport = GContext->viewport;

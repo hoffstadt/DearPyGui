@@ -587,7 +587,7 @@ InsertParser_Block1(std::map<std::string, mvPythonParser>& parsers)
 		args.push_back({ mvPyDataType::Callable, "callback", mvArgType::KEYWORD_ARG, "None", "Callback will return framebuffer as an array through the second arg."});
 
 		mvPythonParserSetup setup;
-		setup.about = "Outputs frame buffer as a png. Render loop must have been started.";
+		setup.about = "Outputs frame buffer as a png if file is specified or through the second argument of a callback if specified. Render loop must have been started.";
 		setup.category = { "Textures", "Utilities" };
 		setup.returnType = mvPyDataType::Object;
 

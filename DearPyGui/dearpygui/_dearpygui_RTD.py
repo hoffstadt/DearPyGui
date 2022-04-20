@@ -7660,7 +7660,7 @@ def move_item_up(item):
 	return internal_dpg.move_item_up(item)
 
 def output_frame_buffer(file='', **kwargs):
-	"""	 Outputs frame buffer as a png. Render loop must have been started.
+	"""	 Outputs frame buffer as a png if file is specified or through the second argument of a callback if specified. Render loop must have been started.
 
 	Args:
 		file (str, optional): 

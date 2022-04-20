@@ -52,7 +52,7 @@ bool mvRunCallbacks()
 	return true;
 }
 
-void mvAddCallback(PyObject* callable, mvUUID sender, PyObject* app_data, PyObject* user_data)
+void mvAddCallback(PyObject* callable, mvUUID sender, PyObject* app_data, PyObject* user_data, bool decrementAppData)
 {
 
 	if (GContext->callbackRegistry->callCount > GContext->callbackRegistry->maxNumberOfCalls)
@@ -78,7 +78,7 @@ void mvAddCallback(PyObject* callable, mvUUID sender, PyObject* app_data, PyObje
 	}
 
 	mvSubmitCallback([=]() {
-		mvRunCallback(callable, sender, app_data, user_data);
+		mvRunCallback(callable, sender, app_data, user_data, decrementAppData);
 		});
 }
 
@@ -238,7 +238,7 @@ void mvRunCallback(PyObject* callable, const std::string& sender, PyObject* app_
 
 }
 
-void mvRunCallback(PyObject* callable, mvUUID sender, PyObject* app_data, PyObject* user_data)
+void mvRunCallback(PyObject* callable, mvUUID sender, PyObject* app_data, PyObject* user_data, bool decrementAppData)
 {
 
 	if (callable == nullptr)
@@ -264,7 +264,8 @@ void mvRunCallback(PyObject* callable, mvUUID sender, PyObject* app_data, PyObje
 		app_data = Py_None;
 		Py_XINCREF(app_data);
 	}
-	Py_XINCREF(app_data);
+	if(decrementAppData)
+		Py_XINCREF(app_data);
 
 	if (user_data == nullptr)
 	{
