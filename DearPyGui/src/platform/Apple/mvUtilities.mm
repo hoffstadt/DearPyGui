@@ -20,6 +20,12 @@
 static std::vector<std::pair<id<MTLTexture>, id<MTLTexture>>> g_textures;
 
 mv_impl void
+OutputFrameBufferArray(PymvBuffer* out)
+{
+    mvSubmitCallback([]() {mvThrowPythonError(mvErrorCode::mvNone, "`output_frame_buffer(...)` has not been implemented for this platform yet."); });
+}
+
+mv_impl void
 OutputFrameBuffer(const char* filepath)
 {
     mvSubmitCallback([](){mvThrowPythonError(mvErrorCode::mvNone, "`output_frame_buffer(...)` has not been implemented for this platform yet.");});

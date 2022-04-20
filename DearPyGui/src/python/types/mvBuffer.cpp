@@ -56,6 +56,18 @@ PymvBuffer_clear_value(PymvBuffer* self, PyObject* args, PyObject* kwds)
 	Py_RETURN_NONE;
 }
 
+PyObject*
+PymvBuffer_get_width(PymvBuffer* self, PyObject* args, PyObject* kwds)
+{
+	return ToPyInt(self->arr.width);
+}
+
+PyObject* 
+PymvBuffer_get_height(PymvBuffer* self, PyObject* args, PyObject* kwds)
+{
+	return ToPyInt(self->arr.height);
+}
+
 void 
 PymvBuffer_dealloc(PymvBuffer* self)
 {

@@ -7659,16 +7659,17 @@ def move_item_up(item):
 
 	return internal_dpg.move_item_up(item)
 
-def output_frame_buffer(file):
-	"""	 Outputs frame buffer as a png. Render loop must have been started.
+def output_frame_buffer(file='', **kwargs):
+	"""	 Outputs frame buffer as a png if file is specified or through the second argument of a callback if specified. Render loop must have been started.
 
 	Args:
-		file (str): 
+		file (str, optional): 
+		callback (Callable, optional): Callback will return framebuffer as an array through the second arg.
 	Returns:
-		None
+		Any
 	"""
 
-	return internal_dpg.output_frame_buffer(file)
+	return internal_dpg.output_frame_buffer(file, **kwargs)
 
 def pop_container_stack():
 	"""	 Pops the top item off the parent stack and return its ID.

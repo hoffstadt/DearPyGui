@@ -2317,14 +2317,29 @@ save_image(PyObject* self, PyObject* args, PyObject* kwargs)
 mv_internal mv_python_function
 output_frame_buffer(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	const char* file;
+	const char* file = "";
+	PyObject* callback = nullptr;
 
 	if (!Parse((GetParsers())["output_frame_buffer"], args, kwargs, __FUNCTION__,
-		&file))
+		&file, &callback))
 		return GetPyNone();
 
 
 	size_t filepathLength = strlen(file);
+
+	if (filepathLength == 0 && callback) // not specified, return array instead
+	{
+		//Py_XINCREF(callback);
+		PyObject* newbuffer = nullptr;
+		PymvBuffer* newbufferview = PyObject_New(PymvBuffer, &PymvBufferType);
+		newbuffer = PyObject_Init((PyObject*)newbufferview, &PymvBufferType);
+		mvSubmitTask([newbuffer, callback, newbufferview]() {
+			OutputFrameBufferArray(newbufferview);
+			mvAddCallback(callback, 0, newbuffer, nullptr, false);
+			});
+
+		return GetPyNone();
+	}
 
 	// most include atleast 4 chars ".png"
 	assert(filepathLength > 4 && "Invalid file for image");

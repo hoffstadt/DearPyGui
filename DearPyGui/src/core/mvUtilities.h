@@ -12,6 +12,13 @@
 #include <string>
 #include "mvTypes.h"
 
+#ifndef PyObject_HEAD
+struct _object;
+typedef _object PyObject;
+#endif
+
+struct PymvBuffer;
+
 // general
 void FreeTexture(void* texture);
 b8 UnloadTexture(const std::string& filename);
@@ -30,3 +37,4 @@ void  UpdateRawTexture(void* texture, u32 width, u32 height, f32* data, i32 comp
 
 // framebuffer output
 void OutputFrameBuffer(const char* filepath);
+void OutputFrameBufferArray(PymvBuffer* out);

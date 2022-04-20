@@ -5,6 +5,8 @@
 // methods
 int        PymvBuffer_init       (PymvBuffer* self, PyObject* args, PyObject* kwds); // __init__ method
 PyObject*  PymvBuffer_clear_value(PymvBuffer* self, PyObject* args, PyObject* kwds); // clear method
+PyObject*  PymvBuffer_get_width  (PymvBuffer* self, PyObject* args, PyObject* kwds);
+PyObject*  PymvBuffer_get_height (PymvBuffer* self, PyObject* args, PyObject* kwds);
 
 void       PymvBuffer_dealloc    (PymvBuffer* self); // called when deallocated
 PyObject*  PymvBuffer_str        (PymvBuffer* self); // string interface
@@ -35,6 +37,13 @@ static PyMethodDef PymvBuffer_methods[] = {
     {"clear_value", (PyCFunction)PymvBuffer_clear_value, METH_VARARGS | METH_KEYWORDS,
         "clears buffer with specific value."
     },
+    {"get_width", (PyCFunction)PymvBuffer_get_width, METH_VARARGS | METH_KEYWORDS,
+        "returns buffer width."
+    },
+    {"get_height", (PyCFunction)PymvBuffer_get_height, METH_VARARGS | METH_KEYWORDS,
+        "returns buffer height."
+    },
+
     {NULL}  /* Sentinel */
 };
 

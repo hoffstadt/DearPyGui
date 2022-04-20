@@ -14,6 +14,7 @@
 #include "mvContext.h"
 #include "mvLinuxSpecifics.h"
 #include "mvViewport.h"
+#include "mvPythonExceptions.h"
 
 static std::unordered_map<GLuint, GLuint> PBO_ids;
 
@@ -30,6 +31,12 @@ UpdatePixels(GLubyte* dst, const float* data, int size)
     {
         ptr[i] = data[i];
     }
+}
+
+mv_impl void
+OutputFrameBufferArray(PymvBuffer* out)
+{
+    mvSubmitCallback([]() {mvThrowPythonError(mvErrorCode::mvNone, "`output_frame_buffer(...)` has not been implemented for this platform yet."); });
 }
 
 mv_impl void
