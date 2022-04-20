@@ -14,6 +14,7 @@
 #include "mvContext.h"
 #include "mvLinuxSpecifics.h"
 #include "mvViewport.h"
+#include "mvPythonExceptions.h"
 
 static std::unordered_map<GLuint, GLuint> PBO_ids;
 
