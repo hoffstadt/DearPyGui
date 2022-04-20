@@ -85,7 +85,7 @@ The item registry shows all items of a running application in a hierarchical str
 
 **Result:**
 
-.. image:: https://github.com/hoffstadt/DearPyGui/blob/assets/readthedocs/item_registry.gif?raw=true
+.. image:: https://raw.githubusercontent.com/hoffstadt/DearPyGui/assets/readthedocs/item_registry.gif
 
 
 Font manager
@@ -138,7 +138,7 @@ Runtime metrics show the performance of your app in real-time. Here is it shown 
 
 **Result:**
 
-.. image:: https://github.com/hoffstadt/DearPyGui/blob/assets/readthedocs/style_editor_metrics.gif
+.. image:: https://raw.githubusercontent.com/hoffstadt/DearPyGui/assets/readthedocs/style_editor_metrics.gif
   :alt: Style editor and runtime metrics tools
 
 More Resources
