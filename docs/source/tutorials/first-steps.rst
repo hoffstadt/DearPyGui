@@ -43,7 +43,7 @@ Confirm the pip install by running the code block below.
 
 **Result:**
 
-.. image:: https://raw.githubusercontent.com/hoffstadt/DearPyGui/assets/readme/first_app.gif
+.. image:: https://github.com/hoffstadt/DearPyGui/blob/assets/readme/first_app.gif
 
 Demo
 ----
@@ -69,7 +69,7 @@ The code for this can be found in the repo in the `demo.py`_ file
 
 **Result:**
 
-.. image:: https://raw.githubusercontent.com/hoffstadt/DearPyGui/assets/readme/demo.gif
+.. image:: https://github.com/hoffstadt/DearPyGui/blob/assets/readme/demo.gif
 
 .. note:: 
     The main script must always:
