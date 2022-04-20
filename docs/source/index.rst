@@ -122,10 +122,10 @@ More
 ----
 
 Showcase:
-    :doc: `extra/showcase`
+    :doc: `../extra/showcase` 
 
 Video Tutorials:
-    :doc: `extra/video-tutorials`
+    :doc: `../extra/video-tutorials`
 
 .. toctree::
     :maxdepth: 2
