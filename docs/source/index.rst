@@ -121,7 +121,8 @@ API Reference Guide:
 More
 ----
 
-Showcase: extra/showcase
+:doc:`Showcase<extra/showcase>`
+:doc:`Video Tutorials<extra/video-tutorials>`
 
 Video Tutorials: extra/video-tutorials
 
