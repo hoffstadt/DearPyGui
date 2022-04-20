@@ -121,10 +121,8 @@ API Reference Guide:
 More
 ----
 
-:doc:`Showcase<extra/showcase>`
-:doc:`Video Tutorials<extra/video-tutorials>`
-
-Video Tutorials: extra/video-tutorials
+ * :doc:`../extra/showcase`
+ * :doc:`../extra/video-tutorials`
 
 .. toctree::
     :maxdepth: 2
