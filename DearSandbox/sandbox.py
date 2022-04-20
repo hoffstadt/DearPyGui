@@ -22,6 +22,22 @@ with dpg.font_registry():
 
 demo.show_demo()
 
+with dpg.texture_registry(show=True) as tr:
+    pass
+    
+
+def callback(sender, app_data):
+    print(app_data[0])
+    print(app_data[1])
+    print(app_data[2])
+    print(app_data[3])
+    print(app_data.get_width())
+    print(app_data.get_height())
+    dpg.add_dynamic_texture(app_data.get_width(), app_data.get_height(), app_data, parent=tr, tag="texture_tag")
+
+with dpg.window(label="Tutorial"):
+    dpg.add_button(label="Output FB", callback=lambda:dpg.output_frame_buffer(callback=callback))
+
 # main loop
 dpg.show_viewport()
 while dpg.is_dearpygui_running():

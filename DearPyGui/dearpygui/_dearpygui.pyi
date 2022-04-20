@@ -1018,7 +1018,7 @@ def move_item_up(item : Union[int, str]) -> None:
 	"""Moves an item up."""
 	...
 
-def output_frame_buffer(file : str) -> None:
+def output_frame_buffer(file : str ='', *, callback: Callable ='') -> Any:
 	"""Outputs frame buffer as a png. Render loop must have been started."""
 	...
 
