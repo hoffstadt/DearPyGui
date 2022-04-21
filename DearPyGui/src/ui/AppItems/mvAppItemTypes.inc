@@ -158,4 +158,5 @@
     X( mvColorMapSlider ) \
     X( mvTemplateRegistry ) \
     X( mvTableCell ) \
+    X( mvCustomSeries ) \
     X( mvItemHandlerRegistry )

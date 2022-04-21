@@ -12,7 +12,7 @@
 #include "AppItems/plots/mvSubPlots.h"
 #include "mvTextureItems.h"
 
-static void 
+mv_internal void 
 draw_polygon(const mvAreaSeriesConfig& config)
 {
 
@@ -126,7 +126,7 @@ int BinarySearch(const T* arr, int l, int r, T x) {
 	return -1;
 }
 
-static void 
+mv_internal void 
 PlotCandlestick(const char* label_id, const double* xs, const double* opens,
 	const double* closes, const double* lows, const double* highs, int count,
 	bool tooltip, float width_percent, const ImVec4& bullCol, const ImVec4& bearCol, int time_unit)
@@ -1567,6 +1567,146 @@ DearPyGui::draw_candle_series(ImDrawList* drawlist, mvAppItem& item, const mvCan
 	cleanup_local_theming(&item);
 }
 
+void
+DearPyGui::draw_custom_series(ImDrawList* drawlist, mvAppItem& item, mvCustomSeriesConfig& config)
+{
+	//-----------------------------------------------------------------------------
+	// pre draw
+	//-----------------------------------------------------------------------------
+	if (!item.config.show)
+		return;
+
+	// push font if a font object is attached
+	if (item.font)
+	{
+		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
+		ImGui::PushFont(fontptr);
+	}
+
+	// themes
+	apply_local_theming(&item);
+
+	//-----------------------------------------------------------------------------
+	// draw
+	//-----------------------------------------------------------------------------
+	{
+
+		static const std::vector<double>* xptr;
+		static const std::vector<double>* yptr;
+		static const std::vector<double>* y1ptr;
+		static const std::vector<double>* y2ptr;
+		static const std::vector<double>* y3ptr;
+
+		xptr = &(*config.value.get())[0];
+		yptr = &(*config.value.get())[1];
+		y1ptr = &(*config.value.get())[2];
+		y2ptr = &(*config.value.get())[3];
+		y3ptr = &(*config.value.get())[4];
+
+		//PlotCandlestick(item.info.internalLabel.c_str(), datesptr->data(), openptr->data(), closeptr->data(),
+		//	lowptr->data(), highptr->data(), (int)datesptr->size(), config.tooltip, config.weight, config.bullColor,
+		//	config.bearColor, config.timeunit);
+
+		ImDrawList* draw_list = ImPlot::GetPlotDrawList();
+
+		// calc real value width
+		//float half_width = count > 1 ? ((float)xs[1] - (float)xs[0]) * width_percent : width_percent;
+
+		// begin plot item
+		if (ImPlot::BeginItem(item.info.internalLabel.c_str())) 
+		{
+			// override legend icon color
+			ImPlot::GetCurrentItem()->Color = ImGui::ColorConvertFloat4ToU32({ 0.25f, 0.25f, 0.25f, 1.0f });
+
+			// fit data if requested
+			if (ImPlot::FitThisFrame()) 
+			{
+				//for (int i = 0; i < count; ++i) {
+				//	ImPlot::FitPoint(ImPlotPoint(x[i], y[i]));
+				//	ImPlot::FitPoint(ImPlotPoint(x[i], y1[i]));
+				//}
+			}
+
+			// render data
+			for (int i = 0; i < xptr->size(); ++i)
+			{
+				
+				ImVec2 y_pos = ImPlot::PlotToPixels((*xptr)[i], (*yptr)[i]);
+				//ImVec2 y1_pos = ImPlot::PlotToPixels((*xptr)[i], (*y1ptr)[i]);
+				//ImVec2 y2_pos = ImPlot::PlotToPixels((*xptr)[i], (*y2ptr)[i]);
+				//ImVec2 y3_pos = ImPlot::PlotToPixels((*xptr)[i], (*y3ptr)[i]);
+				config._transformedValues[0][i] = y_pos.x;
+				config._transformedValues[1][i] = y_pos.y;
+				//config._transformedValues[0][i] = (*xptr)[i];
+				//config._transformedValues[1][i] = (*yptr)[i];
+
+				//ImU32 color = ImGui::GetColorU32(opens[i] > closes[i] ? bearCol : bullCol);
+				//draw_list->AddLine(low_pos, high_pos, color);
+				//draw_list->AddRectFilled(open_pos, close_pos, color);
+			}
+
+			mvSubmitCallback([&]() {
+				PyObject* area = PyTuple_New(2);
+				PyTuple_SetItem(area, 0, ToPyList(config._transformedValues[0]));
+				PyTuple_SetItem(area, 1, ToPyList(config._transformedValues[1]));
+				mvAddCallback(item.config.callback, item.uuid, area, item.config.user_data);
+				});
+
+			// drawings
+			ImPlotPlot* currentPlot = ImPlot::GetCurrentContext()->CurrentPlot;
+			ImPlot::GetCurrentContext()->CurrentPlot = nullptr;
+			for (auto& child : item.childslots[2])
+			{
+				// skip item if it's not shown
+				if (!child->config.show)
+					continue;
+				//child->draw(draw_list, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
+				child->draw(ImPlot::GetPlotDrawList(), 0.0f, 0.0f);
+				UpdateAppItemState(child->state);
+			}
+			ImPlot::GetCurrentContext()->CurrentPlot = currentPlot;
+
+			// end plot item
+			ImPlot::EndItem();
+		}
+
+		// Begin a popup for a legend entry.
+		if (ImPlot::BeginLegendPopup(item.info.internalLabel.c_str(), 1))
+		{
+			for (auto& childset : item.childslots)
+			{
+				for (auto& item : childset)
+				{
+					// skip item if it's not shown
+					if (!item->config.show)
+						continue;
+					item->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
+					UpdateAppItemState(item->state);
+				}
+			}
+			ImPlot::EndLegendPopup();
+		}
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// update state
+	//   * only update if applicable
+	//-----------------------------------------------------------------------------
+
+
+	//-----------------------------------------------------------------------------
+	// post draw
+	//-----------------------------------------------------------------------------
+
+	// pop font off stack
+	if (item.font)
+		ImGui::PopFont();
+
+	// handle popping themes
+	cleanup_local_theming(&item);
+}
+
 void 
 DearPyGui::set_positional_configuration(PyObject* inDict, mvBarSeriesConfig& outConfig)
 {
@@ -1704,6 +1844,24 @@ DearPyGui::set_required_configuration(PyObject* inDict, mvCandleSeriesConfig& ou
 	(*outConfig.value)[2] = ToDoubleVect(PyTuple_GetItem(inDict, 2));
 	(*outConfig.value)[3] = ToDoubleVect(PyTuple_GetItem(inDict, 3));
 	(*outConfig.value)[4] = ToDoubleVect(PyTuple_GetItem(inDict, 4));
+}
+
+void
+DearPyGui::set_required_configuration(PyObject* inDict, mvCustomSeriesConfig& outConfig)
+{
+	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(mvAppItemType::mvCustomSeries)], inDict))
+		return;
+
+	(*outConfig.value)[0] = ToDoubleVect(PyTuple_GetItem(inDict, 0));
+	(*outConfig.value)[1] = ToDoubleVect(PyTuple_GetItem(inDict, 1));
+	outConfig.channelCount = ToInt(PyTuple_GetItem(inDict, 2));
+
+	for (int i = 0; i < outConfig.channelCount; i++)
+	{
+		outConfig._transformedValues.push_back({});
+		outConfig._transformedValues.back().resize((*outConfig.value)[i].size());
+		memcpy(outConfig._transformedValues.back().data(), (*outConfig.value)[i].data(), sizeof(double) * (*outConfig.value)[i].size());
+	}
 }
 
 void
@@ -1966,6 +2124,18 @@ DearPyGui::set_configuration(PyObject* inDict, mvCandleSeriesConfig& outConfig)
 }
 
 void
+DearPyGui::set_configuration(PyObject* inDict, mvCustomSeriesConfig& outConfig)
+{
+	if (inDict == nullptr)
+		return;
+	if (PyObject* item = PyDict_GetItemString(inDict, "x")) { (*outConfig.value)[0] = ToDoubleVect(item); }
+	if (PyObject* item = PyDict_GetItemString(inDict, "y")) { (*outConfig.value)[1] = ToDoubleVect(item); }
+	//if (PyObject* item = PyDict_GetItemString(inDict, "y1")) { (*outConfig.value)[2] = ToDoubleVect(item); }
+	//if (PyObject* item = PyDict_GetItemString(inDict, "y2")) { (*outConfig.value)[3] = ToDoubleVect(item); }
+	//if (PyObject* item = PyDict_GetItemString(inDict, "y3")) { (*outConfig.value)[4] = ToDoubleVect(item); }
+}
+
+void
 DearPyGui::fill_configuration_dict(const mvDragLineConfig& inConfig, PyObject* outDict)
 {
 	if (outDict == nullptr)
@@ -2144,6 +2314,15 @@ DearPyGui::fill_configuration_dict(const mvCandleSeriesConfig& inConfig, PyObjec
 }
 
 void
+DearPyGui::fill_configuration_dict(const mvCustomSeriesConfig& inConfig, PyObject* outDict)
+{
+	if (outDict == nullptr)
+		return;
+
+	PyDict_SetItemString(outDict, "channel_count", mvPyObject(ToPyInt(inConfig.channelCount)));
+}
+
+void
 DearPyGui::apply_template(const mvDragLineConfig& sourceConfig, mvDragLineConfig& dstConfig)
 {
 	dstConfig.value = sourceConfig.value;
@@ -2288,6 +2467,13 @@ DearPyGui::apply_template(const mvCandleSeriesConfig& sourceConfig, mvCandleSeri
 	dstConfig.tooltip = sourceConfig.tooltip;
 	dstConfig.bullColor = sourceConfig.bullColor;
 	dstConfig.bearColor = sourceConfig.bearColor;
+}
+
+void
+DearPyGui::apply_template(const mvCustomSeriesConfig& sourceConfig, mvCustomSeriesConfig& dstConfig)
+{
+	dstConfig.value = sourceConfig.value;
+	dstConfig.channelCount = sourceConfig.channelCount;
 }
 
 //-----------------------------------------------------------------------------
