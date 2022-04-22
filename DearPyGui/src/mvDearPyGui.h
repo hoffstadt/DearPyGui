@@ -62,3 +62,6 @@ struct mvErrorSeriesConfig;
 struct mvHeatSeriesConfig;
 struct mvPieSeriesConfig;
 struct mvLabelSeriesConfig;
+struct mvImageSeriesConfig;
+struct mvAreaSeriesConfig;
+struct mvCandleSeriesConfig;

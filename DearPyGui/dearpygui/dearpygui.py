@@ -8485,16 +8485,17 @@ def move_item_up(item : Union[int, str], **kwargs) -> None:
 
 	return internal_dpg.move_item_up(item, **kwargs)
 
-def output_frame_buffer(file : str, **kwargs) -> None:
-	"""	 Outputs frame buffer as a png. Render loop must have been started.
+def output_frame_buffer(file : str ='', *, callback: Callable =None, **kwargs) -> Any:
+	"""	 Outputs frame buffer as a png if file is specified or through the second argument of a callback if specified. Render loop must have been started.
 
 	Args:
-		file (str): 
+		file (str, optional): 
+		callback (Callable, optional): Callback will return framebuffer as an array through the second arg.
 	Returns:
-		None
+		Any
 	"""
 
-	return internal_dpg.output_frame_buffer(file, **kwargs)
+	return internal_dpg.output_frame_buffer(file, callback=callback, **kwargs)
 
 def pop_container_stack(**kwargs) -> Union[int, str]:
 	"""	 Pops the top item off the parent stack and return its ID.

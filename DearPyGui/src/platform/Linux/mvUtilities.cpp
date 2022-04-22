@@ -14,6 +14,8 @@
 #include "mvContext.h"
 #include "mvLinuxSpecifics.h"
 #include "mvViewport.h"
+#include "mvPythonExceptions.h"
+#include "mvBuffer.h"
 
 static std::unordered_map<GLuint, GLuint> PBO_ids;
 
@@ -30,6 +32,37 @@ UpdatePixels(GLubyte* dst, const float* data, int size)
     {
         ptr[i] = data[i];
     }
+}
+
+mv_impl void
+OutputFrameBufferArray(PymvBuffer* out)
+{
+    mvViewport* viewport = GContext->viewport;
+    auto viewportData = (mvViewportData*)viewport->platformSpecifics;
+
+    int display_w, display_h;
+    glfwGetFramebufferSize(viewportData->handle, &display_w, &display_h);
+
+    stbi_flip_vertically_on_write(true);
+    GLint ReadType = GL_UNSIGNED_BYTE;
+    GLint ReadFormat = GL_RGBA;
+    glGetIntegerv(GL_IMPLEMENTATION_COLOR_READ_TYPE, &ReadType);
+    glGetIntegerv(GL_IMPLEMENTATION_COLOR_READ_FORMAT, &ReadFormat);
+    auto data = (GLubyte*)malloc(4 * display_w * display_h);
+    glReadPixels(0, 0, display_w, display_h, ReadFormat,  ReadType, data);
+    out->arr.length = display_w*display_h*4;
+    f32* tdata = new f32[out->arr.length];
+    out->arr.width = display_w;
+    out->arr.height = display_h;
+    for(int row = 0; row < out->arr.height; row++)
+    {
+        for(int col = 0; col < out->arr.width*4; col++)
+        {
+            tdata[row*out->arr.width*4+ col] = (f32) data[(out->arr.height-1-row)*out->arr.width*4 + col] / 255.0f;
+        }
+    }
+    out->arr.data = tdata;
+    free(data);
 }
 
 mv_impl void

@@ -10,6 +10,8 @@ struct mvBuffer
 {
     float* data;
     long length;
+    int width;
+    int height;
 };
 
 struct PymvBuffer
