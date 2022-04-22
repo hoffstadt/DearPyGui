@@ -1176,6 +1176,8 @@ def show_demo():
             
             with dpg.tree_node(label="Popups"):
 
+                popup_values = ["Bream", "Haddock", "Mackerel", "Pollock", "Tilefish"]
+
                 dpg.add_text("This is a light wrapper over a window.", bullet=True)
                 dpg.add_text("For more control over a modal|popup window use a normal window with the modal|popup keyword and set the item handler and mouse events manually.", bullet=True)
                 dpg.add_text("By default a popup will shrink fit the items it contains.This is useful for context windows, and simple modal window popups.", bullet=True)
@@ -1186,11 +1188,8 @@ def show_demo():
                     with dpg.popup(b, tag="__demo_popup1"):
                         dpg.add_text("Aquariam")
                         dpg.add_separator()
-                        dpg.add_selectable(label="Bream", user_data=[t, "Bream"], callback=lambda s, a, u: dpg.set_value(u[0], u[1]))
-                        dpg.add_selectable(label="Haddock", user_data=[t, "Haddock"], callback=lambda s, a, u: dpg.set_value(u[0], u[1]))
-                        dpg.add_selectable(label="Mackerel", user_data=[t, "Mackerel"], callback=lambda s, a, u: dpg.set_value(u[0], u[1]))
-                        dpg.add_selectable(label="Pollock", user_data=[t, "Pollock"], callback=lambda s, a, u: dpg.set_value(u[0], u[1]))
-                        dpg.add_selectable(label="Tilefish", user_data=[t, "Tilefish"], callback=lambda s, a, u: dpg.set_value(u[0], u[1]))
+                        for i in popup_values:
+                            dpg.add_selectable(label=i, user_data=[t, i], callback=lambda s, a, u: dpg.set_value(u[0], u[1]))
                 dpg.add_text("A Popup with minimum size that cannot be moved", bullet=True)
                 with dpg.group(horizontal=True):
                     b = dpg.add_button(label="Right Click...")
@@ -1198,11 +1197,8 @@ def show_demo():
                     with dpg.popup(b, tag="__demo_popup2", no_move=True, min_size=[300,400]):
                         dpg.add_text("Aquariam")
                         dpg.add_separator()
-                        dpg.add_selectable(label="Bream", user_data=[t, "Bream"], callback=lambda s, a, u: dpg.set_value(u[0], u[1]))
-                        dpg.add_selectable(label="Haddock", user_data=[t, "Haddock"], callback=lambda s, a, u: dpg.set_value(u[0], u[1]))
-                        dpg.add_selectable(label="Mackerel", user_data=[t, "Mackerel"], callback=lambda s, a, u: dpg.set_value(u[0], u[1]))
-                        dpg.add_selectable(label="Pollock", user_data=[t, "Pollock"], callback=lambda s, a, u: dpg.set_value(u[0], u[1]))
-                        dpg.add_selectable(label="Tilefish", user_data=[t, "Tilefish"], callback=lambda s, a, u: dpg.set_value(u[0], u[1]))
+                        for i in popup_values:
+                            dpg.add_selectable(label=i, user_data=[t, i], callback=lambda s, a, u: dpg.set_value(u[0], u[1]))
 
             with dpg.tree_node(label="Modals"):
                 dpg.add_text("Modal windows are like popups but the user cannot close them by clicking outside.")
