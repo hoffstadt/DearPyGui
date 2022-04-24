@@ -111,7 +111,7 @@ def add_double_value(*, label: str ='', user_data: Any ='', use_internal_label: 
 	...
 
 def add_drag_double(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: float ='', format: str ='', speed: float ='', min_value: float ='', max_value: float ='', no_input: bool ='', clamped: bool ='') -> Union[int, str]:
-	"""Adds drag for a single double value. Useful when drag float inst accurate enough. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the drag. Use clamped keyword to also apply limits to the direct entry modes."""
+	"""Adds drag for a single double value. Useful when drag float is not accurate enough. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the drag. Use clamped keyword to also apply limits to the direct entry modes."""
 	...
 
 def add_drag_doublex(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: Any ='', size: int ='', format: str ='', speed: float ='', min_value: float ='', max_value: float ='', no_input: bool ='', clamped: bool ='') -> Union[int, str]:
@@ -251,7 +251,7 @@ def add_input_doublex(*, label: str ='', user_data: Any ='', use_internal_label:
 	...
 
 def add_input_float(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: float ='', format: str ='', min_value: float ='', max_value: float ='', step: float ='', step_fast: float ='', min_clamped: bool ='', max_clamped: bool ='', on_enter: bool ='', readonly: bool ='') -> Union[int, str]:
-	"""Adds input for an float. Useful when float input inst accurate enough. +/- buttons can be activated by setting the value of step."""
+	"""Adds input for an float. +/- buttons can be activated by setting the value of step."""
 	...
 
 def add_input_floatx(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: Union[List[float], Tuple[float, ...]] ='', format: str ='', min_value: float ='', max_value: float ='', size: int ='', min_clamped: bool ='', max_clamped: bool ='', on_enter: bool ='', readonly: bool ='') -> Union[int, str]:
@@ -464,6 +464,14 @@ def add_shade_series(x : Union[List[float], Tuple[float, ...]], y1 : Union[List[
 
 def add_simple_plot(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: Union[List[float], Tuple[float, ...]] ='', overlay: str ='', histogram: bool ='', autosize: bool ='', min_scale: float ='', max_scale: float ='') -> Union[int, str]:
 	"""Adds a simple plot for visualization of a 1 dimensional set of values."""
+	...
+
+def add_slider_double(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: float ='', vertical: bool ='', no_input: bool ='', clamped: bool ='', min_value: float ='', max_value: float ='', format: str ='') -> Union[int, str]:
+	"""Adds slider for a single double value. Useful when slider float is not accurate enough. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the slider. Use clamped keyword to also apply limits to the direct entry modes."""
+	...
+
+def add_slider_doublex(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: Any ='', size: int ='', no_input: bool ='', clamped: bool ='', min_value: float ='', max_value: float ='', format: str ='') -> Union[int, str]:
+	"""Adds multi slider for up to 4 double values. Usueful for when multi slide float is not accurate enough. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the slider. Use clamped keyword to also apply limits to the direct entry modes."""
 	...
 
 def add_slider_float(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: float ='', vertical: bool ='', no_input: bool ='', clamped: bool ='', min_value: float ='', max_value: float ='', format: str ='') -> Union[int, str]:
@@ -1800,6 +1808,8 @@ mvInputDouble=0
 mvInputDoubleMulti=0
 mvDragDouble=0
 mvDragDoubleMulti=0
+mvSliderDouble=0
+mvSliderDoubleMulti=0
 mvReservedUUID_0=0
 mvReservedUUID_1=0
 mvReservedUUID_2=0

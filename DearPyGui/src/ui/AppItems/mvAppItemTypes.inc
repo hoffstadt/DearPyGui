@@ -162,4 +162,6 @@
     X( mvInputDouble ) \
     X( mvInputDoubleMulti ) \
     X( mvDragDouble ) \
-    X( mvDragDoubleMulti )
+    X( mvDragDoubleMulti ) \
+    X( mvSliderDouble ) \
+    X( mvSliderDoubleMulti )

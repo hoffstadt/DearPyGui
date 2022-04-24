@@ -343,8 +343,8 @@ def show_demo():
                 dpg.add_input_float(label="input float", callback=_log, format="%.06f")
                 dpg.add_input_float(label="input float scientific", format="%e", callback=_log)
                 dpg.add_input_floatx(label="input floatx", callback=_log, default_value=[1,2,3,4])
-                dpg.add_input_double(label="input double", callback=_log, format="%.014f")
-                dpg.add_input_doublex(label="input doublex", callback=_log, default_value=[1,2,3,4], format="%.014f")
+                dpg.add_input_double(label="input double", callback=_log, format="%.14f")
+                dpg.add_input_doublex(label="input doublex", callback=_log, default_value=[1,2,3,4], format="%.14f")
                 dpg.add_drag_int(label="drag int", callback=_log)
                 _help(
                         "Click and drag to edit value.\n"
@@ -356,6 +356,7 @@ def show_demo():
                 dpg.add_slider_int(label="slider int", max_value=3, callback=_log)
                 _help("CTRL+click to enter value.")
                 dpg.add_slider_float(label="slider float", max_value=1.0, format="ratio = %.3f", callback=_log)
+                dpg.add_slider_double(label="slider double", max_value=1.0, format="ratio = %.14f", callback=_log)
                 dpg.add_slider_int(label="slider angle", min_value=-360, max_value=360, format="%d deg", callback=_log)
                 _help(
                         "Click on the colored square to open a color picker.\n"
@@ -656,6 +657,11 @@ def show_demo():
                         dpg.add_slider_floatx(label=f"slider float {i}", source=float_source, size=i)
 
                     with dpg.group():
+                        double_source = dpg.add_input_doublex(label=f"input double {i}", min_value=0.0, max_value=100.0, size=i)
+                        dpg.add_drag_doublex(label=f"drag double {i}", source=double_source, size=i)
+                        dpg.add_slider_doublex(label=f"slider double {i}", source=double_source, size=i)
+
+                    with dpg.group():
 
                         int_source = dpg.add_input_intx(label=f"input int {i}", min_value=0, max_value=100, size=i)
                         dpg.add_drag_intx(label=f"drag int {i}", source=int_source, size=i)
@@ -667,6 +673,7 @@ def show_demo():
 
                 with dpg.group(horizontal=True):
                     dpg.add_slider_int(label=" ", default_value=1, vertical=True, max_value=5, height=160)
+                    dpg.add_slider_double(label=" ", default_value=1.0, vertical=True, max_value=5.0, height=160)
 
                     with dpg.group(horizontal=True):
 

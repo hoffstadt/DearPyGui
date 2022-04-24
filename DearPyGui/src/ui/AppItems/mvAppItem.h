@@ -255,6 +255,7 @@ GetEntityCommand(mvAppItemType type)
     case mvAppItemType::mvChildWindow:                 return "add_child_window";
     case mvAppItemType::mvGroup:                       return "add_group";
     case mvAppItemType::mvSliderFloat:                 return "add_slider_float";
+    case mvAppItemType::mvSliderDouble:                return "add_slider_double";
     case mvAppItemType::mvSliderInt:                   return "add_slider_int";
     case mvAppItemType::mvFilterSet:                   return "add_filter_set";
     case mvAppItemType::mvDragFloat:                   return "add_drag_float";
@@ -311,6 +312,7 @@ GetEntityCommand(mvAppItemType type)
     case mvAppItemType::mvDragDoubleMulti:             return "add_drag_doublex";
     case mvAppItemType::mvDragIntMulti:                return "add_drag_intx";
     case mvAppItemType::mvSliderFloatMulti:            return "add_slider_floatx";
+    case mvAppItemType::mvSliderDoubleMulti:           return "add_slider_doublex";
     case mvAppItemType::mvSliderIntMulti:              return "add_slider_intx";
     case mvAppItemType::mvInputIntMulti:               return "add_input_intx";
     case mvAppItemType::mvInputFloatMulti:             return "add_input_floatx";

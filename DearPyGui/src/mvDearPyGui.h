@@ -31,6 +31,8 @@ struct mvDragDoubleMultiConfig;
 struct mvDragIntMultiConfig;
 struct mvSliderIntConfig;
 struct mvSliderFloatConfig;
+struct mvSliderDoubleConfig;
+struct mvSliderDoubleMultiConfig;
 struct mvSliderFloatMultiConfig;
 struct mvSliderIntMultiConfig;
 struct mvListboxConfig;

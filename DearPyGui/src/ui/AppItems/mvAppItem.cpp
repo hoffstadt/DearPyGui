@@ -324,6 +324,8 @@ CanItemTypeBeHovered(mvAppItemType type)
     case mvAppItemType::mvSelectable:
     case mvAppItemType::mvSliderInt:
     case mvAppItemType::mvSliderFloat:
+    case mvAppItemType::mvSliderDouble:
+    case mvAppItemType::mvSliderDoubleMulti:
     case mvAppItemType::mvSliderFloatMulti:
     case mvAppItemType::mvSliderIntMulti:
     case mvAppItemType::mvText:
@@ -383,6 +385,8 @@ CanItemTypeBeActive(mvAppItemType type)
     case mvAppItemType::mvSelectable:
     case mvAppItemType::mvSliderInt:
     case mvAppItemType::mvSliderFloat:
+    case mvAppItemType::mvSliderDouble:
+    case mvAppItemType::mvSliderDoubleMulti:
     case mvAppItemType::mvSliderFloatMulti:
     case mvAppItemType::mvSliderIntMulti:
     case mvAppItemType::mvColorButton:
@@ -432,6 +436,8 @@ CanItemTypeBeFocused(mvAppItemType type)
     case mvAppItemType::mvSelectable:
     case mvAppItemType::mvSliderInt:
     case mvAppItemType::mvSliderFloat:
+    case mvAppItemType::mvSliderDouble:
+    case mvAppItemType::mvSliderDoubleMulti:
     case mvAppItemType::mvSliderFloatMulti:
     case mvAppItemType::mvSliderIntMulti:
     case mvAppItemType::mvColorButton:
@@ -483,6 +489,8 @@ CanItemTypeBeClicked(mvAppItemType type)
     case mvAppItemType::mvSelectable:
     case mvAppItemType::mvSliderInt:
     case mvAppItemType::mvSliderFloat:
+    case mvAppItemType::mvSliderDouble:
+    case mvAppItemType::mvSliderDoubleMulti:
     case mvAppItemType::mvSliderIntMulti:
     case mvAppItemType::mvSliderFloatMulti:
     case mvAppItemType::mvText:
@@ -537,6 +545,8 @@ CanItemTypeBeVisible(mvAppItemType type)
     case mvAppItemType::mvSliderIntMulti:
     case mvAppItemType::mvSliderFloat:
     case mvAppItemType::mvSliderFloatMulti:
+    case mvAppItemType::mvSliderDouble:
+    case mvAppItemType::mvSliderDoubleMulti:
     case mvAppItemType::mvText:
     case mvAppItemType::mvColorButton:
     case mvAppItemType::mvColorEdit:
@@ -595,6 +605,8 @@ CanItemTypeBeEdited(mvAppItemType type)
     case mvAppItemType::mvSliderIntMulti:
     case mvAppItemType::mvSliderFloat:
     case mvAppItemType::mvSliderFloatMulti:
+    case mvAppItemType::mvSliderDouble:
+    case mvAppItemType::mvSliderDoubleMulti:
     case mvAppItemType::mvColorEdit:
     case mvAppItemType::mvColorMapSlider:
     case mvAppItemType::mvColorPicker:
@@ -634,6 +646,8 @@ CanItemTypeBeActivated(mvAppItemType type)
     case mvAppItemType::mvSliderIntMulti:
     case mvAppItemType::mvSliderFloat:
     case mvAppItemType::mvSliderFloatMulti:
+    case mvAppItemType::mvSliderDouble:
+    case mvAppItemType::mvSliderDoubleMulti:
     case mvAppItemType::mvColorButton:
     case mvAppItemType::mvColorEdit:
     case mvAppItemType::mvColorMapButton:
@@ -682,6 +696,8 @@ CanItemTypeBeDeactivated(mvAppItemType type)
     case mvAppItemType::mvSliderIntMulti:
     case mvAppItemType::mvSliderFloat:
     case mvAppItemType::mvSliderFloatMulti:
+    case mvAppItemType::mvSliderDouble:
+    case mvAppItemType::mvSliderDoubleMulti:
     case mvAppItemType::mvColorButton:
     case mvAppItemType::mvColorEdit:
     case mvAppItemType::mvColorMapButton:
@@ -729,6 +745,8 @@ CanItemTypeBeDeactivatedAE(mvAppItemType type)
     case mvAppItemType::mvSliderIntMulti:
     case mvAppItemType::mvSliderFloat:
     case mvAppItemType::mvSliderFloatMulti:
+    case mvAppItemType::mvSliderDouble:
+    case mvAppItemType::mvSliderDoubleMulti:
     case mvAppItemType::mvColorEdit:
     case mvAppItemType::mvColorMapSlider:
     case mvAppItemType::mvColorPicker:
@@ -782,6 +800,8 @@ CanItemTypeHaveRectMin(mvAppItemType type)
     case mvAppItemType::mvSliderIntMulti:
     case mvAppItemType::mvSliderFloat:
     case mvAppItemType::mvSliderFloatMulti:
+    case mvAppItemType::mvSliderDouble:
+    case mvAppItemType::mvSliderDoubleMulti:
     case mvAppItemType::mvText:
     case mvAppItemType::mvColorButton:
     case mvAppItemType::mvColorEdit:
@@ -843,6 +863,8 @@ CanItemTypeHaveRectSize(mvAppItemType type)
     case mvAppItemType::mvSliderIntMulti:
     case mvAppItemType::mvSliderFloat:
     case mvAppItemType::mvSliderFloatMulti:
+    case mvAppItemType::mvSliderDouble:
+    case mvAppItemType::mvSliderDoubleMulti:
     case mvAppItemType::mvText:
     case mvAppItemType::mvColorButton:
     case mvAppItemType::mvColorEdit:
@@ -902,6 +924,8 @@ CanItemTypeHaveContAvail(mvAppItemType type)
     case mvAppItemType::mvSliderIntMulti:
     case mvAppItemType::mvSliderFloat:
     case mvAppItemType::mvSliderFloatMulti:
+    case mvAppItemType::mvSliderDouble:
+    case mvAppItemType::mvSliderDoubleMulti:
     case mvAppItemType::mvText:
     case mvAppItemType::mvColorButton:
     case mvAppItemType::mvColorEdit:
@@ -1167,11 +1191,13 @@ DearPyGui::GetEntityValueType(mvAppItemType type)
     case mvAppItemType::mvDoubleValue:
     case mvAppItemType::mvDragDouble:
     case mvAppItemType::mvInputDouble:
+    case mvAppItemType::mvSliderDouble:
     case mvAppItemType::mvDragLine: return StorageValueTypes::Double;
         
     case mvAppItemType::mvDouble4Value:
     case mvAppItemType::mvDragDoubleMulti:
     case mvAppItemType::mvInputDoubleMulti:
+    case mvAppItemType::mvSliderDoubleMulti:
     case mvAppItemType::mvDragPoint: return StorageValueTypes::Double4;
 
     case mvAppItemType::mvStaticTexture:
@@ -1483,8 +1509,10 @@ DearPyGui::GetAllowableParents(mvAppItemType type)
         MV_ADD_PARENT(mvAppItemType::mvSelectable),
         MV_ADD_PARENT(mvAppItemType::mvSliderIntMulti),
         MV_ADD_PARENT(mvAppItemType::mvSliderFloatMulti),
+        MV_ADD_PARENT(mvAppItemType::mvSliderDoubleMulti),
         MV_ADD_PARENT(mvAppItemType::mvSliderInt),
         MV_ADD_PARENT(mvAppItemType::mvSliderFloat),
+        MV_ADD_PARENT(mvAppItemType::mvSliderDouble),
         MV_ADD_PARENT(mvAppItemType::mvTabButton),
         MV_ADD_PARENT(mvAppItemType::mvText),
         MV_ADD_PARENT(mvAppItemType::mvColorButton),
@@ -2185,6 +2213,38 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.about = "Adds slider for a single float value. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the slider. Use clamped keyword to also apply limits to the direct entry modes.";
         break;
     }
+    case mvAppItemType::mvSliderDouble:
+    {
+        AddCommonArgs(args, (CommonParserArgs)(
+            MV_PARSER_ARG_ID |
+            MV_PARSER_ARG_WIDTH |
+            MV_PARSER_ARG_HEIGHT |
+            MV_PARSER_ARG_INDENT |
+            MV_PARSER_ARG_PARENT |
+            MV_PARSER_ARG_BEFORE |
+            MV_PARSER_ARG_SOURCE |
+            MV_PARSER_ARG_CALLBACK |
+            MV_PARSER_ARG_SHOW |
+            MV_PARSER_ARG_ENABLED |
+            MV_PARSER_ARG_FILTER |
+            MV_PARSER_ARG_DROP_CALLBACK |
+            MV_PARSER_ARG_DRAG_CALLBACK |
+            MV_PARSER_ARG_PAYLOAD_TYPE |
+            MV_PARSER_ARG_TRACKED |
+            MV_PARSER_ARG_POS)
+        );
+
+        args.push_back({ mvPyDataType::Double, "default_value", mvArgType::KEYWORD_ARG, "0.0" });
+        args.push_back({ mvPyDataType::Bool, "vertical", mvArgType::KEYWORD_ARG, "False", "Sets orientation of the slidebar and slider to vertical." });
+        args.push_back({ mvPyDataType::Bool, "no_input", mvArgType::KEYWORD_ARG, "False", "Disable direct entry methods double-click or ctrl+click or Enter key allowing to input text directly into the item." });
+        args.push_back({ mvPyDataType::Bool, "clamped", mvArgType::KEYWORD_ARG, "False", "Applies the min and max limits to direct entry methods also such as double click and CTRL+Click." });
+        args.push_back({ mvPyDataType::Double, "min_value", mvArgType::KEYWORD_ARG, "0.0", "Applies a limit only to sliding entry only." });
+        args.push_back({ mvPyDataType::Double, "max_value", mvArgType::KEYWORD_ARG, "100.0", "Applies a limit only to sliding entry only." });
+        args.push_back({ mvPyDataType::String, "format", mvArgType::KEYWORD_ARG, "'%.3f'", "Determines the format the float will be displayed as use python string formatting." });
+
+        setup.about = "Adds slider for a single double value. Useful when slider float is not accurate enough. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the slider. Use clamped keyword to also apply limits to the direct entry modes.";
+        break;
+    }
     case mvAppItemType::mvSliderInt:
     {
         AddCommonArgs(args, (CommonParserArgs)(
@@ -2293,7 +2353,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "no_input", mvArgType::KEYWORD_ARG, "False", "Disable direct entry methods or Enter key allowing to input text directly into the widget." });
         args.push_back({ mvPyDataType::Bool, "clamped", mvArgType::KEYWORD_ARG, "False", "Applies the min and max limits to direct entry methods also such as double click and CTRL+Click." });
 
-        setup.about = "Adds drag for a single double value. Useful when drag float inst accurate enough. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the drag. Use clamped keyword to also apply limits to the direct entry modes.";
+        setup.about = "Adds drag for a single double value. Useful when drag float is not accurate enough. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the drag. Use clamped keyword to also apply limits to the direct entry modes.";
         break;
     }
     case mvAppItemType::mvDragInt:
@@ -2358,7 +2418,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "on_enter", mvArgType::KEYWORD_ARG, "False", "Only runs callback on enter key press." });
         args.push_back({ mvPyDataType::Bool, "readonly", mvArgType::KEYWORD_ARG, "False", "Activates read only mode where no text can be input but text can still be highlighted." });
 
-        setup.about = "Adds input for an float. Useful when float input inst accurate enough. +/- buttons can be activated by setting the value of step.";
+        setup.about = "Adds input for an float. +/- buttons can be activated by setting the value of step.";
         break;
     }
     case mvAppItemType::mvInputDouble:
@@ -3545,7 +3605,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         );
 
         args.push_back({ mvPyDataType::DoubleList, "default_value", mvArgType::KEYWORD_ARG, "(0.0, 0.0, 0.0, 0.0)" });
-        args.push_back({ mvPyDataType::Integer, "size", mvArgType::KEYWORD_ARG, "4", "Number of floats to be displayed." });
+        args.push_back({ mvPyDataType::Integer, "size", mvArgType::KEYWORD_ARG, "4", "Number of doubles to be displayed." });
         args.push_back({ mvPyDataType::String, "format", mvArgType::KEYWORD_ARG, "'%0.3f'", "Determines the format the float will be displayed as use python string formatting." });
         args.push_back({ mvPyDataType::Float, "speed", mvArgType::KEYWORD_ARG, "1.0", "Sets the sensitivity the float will be modified while dragging." });
         args.push_back({ mvPyDataType::Double, "min_value", mvArgType::KEYWORD_ARG, "0.0", "Applies a limit only to draging entry only." });
@@ -3618,6 +3678,37 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::String, "format", mvArgType::KEYWORD_ARG, "'%.3f'", "Determines the format the int will be displayed as use python string formatting." });
 
         setup.about = "Adds multi slider for up to 4 float values. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the slider. Use clamped keyword to also apply limits to the direct entry modes.";
+        break;
+    }
+    case mvAppItemType::mvSliderDoubleMulti:
+    {
+        AddCommonArgs(args, (CommonParserArgs)(
+            MV_PARSER_ARG_ID |
+            MV_PARSER_ARG_WIDTH |
+            MV_PARSER_ARG_INDENT |
+            MV_PARSER_ARG_PARENT |
+            MV_PARSER_ARG_BEFORE |
+            MV_PARSER_ARG_SOURCE |
+            MV_PARSER_ARG_CALLBACK |
+            MV_PARSER_ARG_SHOW |
+            MV_PARSER_ARG_ENABLED |
+            MV_PARSER_ARG_FILTER |
+            MV_PARSER_ARG_DROP_CALLBACK |
+            MV_PARSER_ARG_DRAG_CALLBACK |
+            MV_PARSER_ARG_PAYLOAD_TYPE |
+            MV_PARSER_ARG_TRACKED |
+            MV_PARSER_ARG_POS)
+        );
+
+        args.push_back({ mvPyDataType::DoubleList, "default_value", mvArgType::KEYWORD_ARG, "(0.0, 0.0, 0.0, 0.0)" });
+        args.push_back({ mvPyDataType::Integer, "size", mvArgType::KEYWORD_ARG, "4", "Number of doubles to be displayed." });
+        args.push_back({ mvPyDataType::Bool, "no_input", mvArgType::KEYWORD_ARG, "False", "Disable direct entry methods double-click or ctrl+click or Enter key allowing to input text directly into the item." });
+        args.push_back({ mvPyDataType::Bool, "clamped", mvArgType::KEYWORD_ARG, "False", "Applies the min and max limits to direct entry methods also such as double click and CTRL+Click." });
+        args.push_back({ mvPyDataType::Double, "min_value", mvArgType::KEYWORD_ARG, "0.0", "Applies a limit only to sliding entry only." });
+        args.push_back({ mvPyDataType::Double, "max_value", mvArgType::KEYWORD_ARG, "100.0", "Applies a limit only to sliding entry only." });
+        args.push_back({ mvPyDataType::String, "format", mvArgType::KEYWORD_ARG, "'%.3f'", "Determines the format the int will be displayed as use python string formatting." });
+
+        setup.about = "Adds multi slider for up to 4 double values. Usueful for when multi slide float is not accurate enough. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the slider. Use clamped keyword to also apply limits to the direct entry modes.";
         break;
     }
     case mvAppItemType::mvSliderIntMulti:              

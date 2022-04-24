@@ -3622,7 +3622,7 @@ def add_double_value(*, label: str =None, user_data: Any =None, use_internal_lab
 	return internal_dpg.add_double_value(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, source=source, default_value=default_value, parent=parent, **kwargs)
 
 def add_drag_double(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: float =0.0, format: str ='%0.3f', speed: float =1.0, min_value: float =0.0, max_value: float =100.0, no_input: bool =False, clamped: bool =False, **kwargs) -> Union[int, str]:
-	"""	 Adds drag for a single double value. Useful when drag float inst accurate enough. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the drag. Use clamped keyword to also apply limits to the direct entry modes.
+	"""	 Adds drag for a single double value. Useful when drag float is not accurate enough. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the drag. Use clamped keyword to also apply limits to the direct entry modes.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -3686,7 +3686,7 @@ def add_drag_doublex(*, label: str =None, user_data: Any =None, use_internal_lab
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		default_value (Any, optional): 
-		size (int, optional): Number of floats to be displayed.
+		size (int, optional): Number of doubles to be displayed.
 		format (str, optional): Determines the format the float will be displayed as use python string formatting.
 		speed (float, optional): Sets the sensitivity the float will be modified while dragging.
 		min_value (float, optional): Applies a limit only to draging entry only.
@@ -4679,7 +4679,7 @@ def add_input_doublex(*, label: str =None, user_data: Any =None, use_internal_la
 	return internal_dpg.add_input_doublex(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, format=format, min_value=min_value, max_value=max_value, size=size, min_clamped=min_clamped, max_clamped=max_clamped, on_enter=on_enter, readonly=readonly, **kwargs)
 
 def add_input_float(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: float =0.0, format: str ='%.3f', min_value: float =0.0, max_value: float =100.0, step: float =0.1, step_fast: float =1.0, min_clamped: bool =False, max_clamped: bool =False, on_enter: bool =False, readonly: bool =False, **kwargs) -> Union[int, str]:
-	"""	 Adds input for an float. Useful when float input inst accurate enough. +/- buttons can be activated by setting the value of step.
+	"""	 Adds input for an float. +/- buttons can be activated by setting the value of step.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -6213,6 +6213,89 @@ def add_simple_plot(*, label: str =None, user_data: Any =None, use_internal_labe
 		tag=kwargs['id']
 
 	return internal_dpg.add_simple_plot(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, overlay=overlay, histogram=histogram, autosize=autosize, min_scale=min_scale, max_scale=max_scale, **kwargs)
+
+def add_slider_double(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: float =0.0, vertical: bool =False, no_input: bool =False, clamped: bool =False, min_value: float =0.0, max_value: float =100.0, format: str ='%.3f', **kwargs) -> Union[int, str]:
+	"""	 Adds slider for a single double value. Useful when slider float is not accurate enough. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the slider. Use clamped keyword to also apply limits to the direct entry modes.
+
+	Args:
+		label (str, optional): Overrides 'name' as label.
+		user_data (Any, optional): User data for callbacks
+		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
+		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		width (int, optional): Width of the item.
+		height (int, optional): Height of the item.
+		indent (int, optional): Offsets the widget to the right the specified number multiplied by the indent style.
+		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
+		source (Union[int, str], optional): Overrides 'id' as value storage key.
+		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
+		callback (Callable, optional): Registers a callback.
+		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
+		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		show (bool, optional): Attempt to render widget.
+		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		filter_key (str, optional): Used by filter widget.
+		tracked (bool, optional): Scroll tracking
+		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
+		default_value (float, optional): 
+		vertical (bool, optional): Sets orientation of the slidebar and slider to vertical.
+		no_input (bool, optional): Disable direct entry methods double-click or ctrl+click or Enter key allowing to input text directly into the item.
+		clamped (bool, optional): Applies the min and max limits to direct entry methods also such as double click and CTRL+Click.
+		min_value (float, optional): Applies a limit only to sliding entry only.
+		max_value (float, optional): Applies a limit only to sliding entry only.
+		format (str, optional): Determines the format the float will be displayed as use python string formatting.
+		id (Union[int, str], optional): (deprecated) 
+	Returns:
+		Union[int, str]
+	"""
+
+	if 'id' in kwargs.keys():
+		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
+		tag=kwargs['id']
+
+	return internal_dpg.add_slider_double(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, vertical=vertical, no_input=no_input, clamped=clamped, min_value=min_value, max_value=max_value, format=format, **kwargs)
+
+def add_slider_doublex(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: Any =(0.0, 0.0, 0.0, 0.0), size: int =4, no_input: bool =False, clamped: bool =False, min_value: float =0.0, max_value: float =100.0, format: str ='%.3f', **kwargs) -> Union[int, str]:
+	"""	 Adds multi slider for up to 4 double values. Usueful for when multi slide float is not accurate enough. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the slider. Use clamped keyword to also apply limits to the direct entry modes.
+
+	Args:
+		label (str, optional): Overrides 'name' as label.
+		user_data (Any, optional): User data for callbacks
+		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
+		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		width (int, optional): Width of the item.
+		indent (int, optional): Offsets the widget to the right the specified number multiplied by the indent style.
+		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
+		source (Union[int, str], optional): Overrides 'id' as value storage key.
+		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
+		callback (Callable, optional): Registers a callback.
+		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
+		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		show (bool, optional): Attempt to render widget.
+		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		filter_key (str, optional): Used by filter widget.
+		tracked (bool, optional): Scroll tracking
+		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
+		default_value (Any, optional): 
+		size (int, optional): Number of doubles to be displayed.
+		no_input (bool, optional): Disable direct entry methods double-click or ctrl+click or Enter key allowing to input text directly into the item.
+		clamped (bool, optional): Applies the min and max limits to direct entry methods also such as double click and CTRL+Click.
+		min_value (float, optional): Applies a limit only to sliding entry only.
+		max_value (float, optional): Applies a limit only to sliding entry only.
+		format (str, optional): Determines the format the int will be displayed as use python string formatting.
+		id (Union[int, str], optional): (deprecated) 
+	Returns:
+		Union[int, str]
+	"""
+
+	if 'id' in kwargs.keys():
+		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
+		tag=kwargs['id']
+
+	return internal_dpg.add_slider_doublex(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, size=size, no_input=no_input, clamped=clamped, min_value=min_value, max_value=max_value, format=format, **kwargs)
 
 def add_slider_float(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: float =0.0, vertical: bool =False, no_input: bool =False, clamped: bool =False, min_value: float =0.0, max_value: float =100.0, format: str ='%.3f', **kwargs) -> Union[int, str]:
 	"""	 Adds slider for a single float value. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the slider. Use clamped keyword to also apply limits to the direct entry modes.
@@ -9769,6 +9852,8 @@ mvInputDouble=internal_dpg.mvInputDouble
 mvInputDoubleMulti=internal_dpg.mvInputDoubleMulti
 mvDragDouble=internal_dpg.mvDragDouble
 mvDragDoubleMulti=internal_dpg.mvDragDoubleMulti
+mvSliderDouble=internal_dpg.mvSliderDouble
+mvSliderDoubleMulti=internal_dpg.mvSliderDoubleMulti
 mvReservedUUID_0=internal_dpg.mvReservedUUID_0
 mvReservedUUID_1=internal_dpg.mvReservedUUID_1
 mvReservedUUID_2=internal_dpg.mvReservedUUID_2
