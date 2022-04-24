@@ -308,13 +308,17 @@ CanItemTypeBeHovered(mvAppItemType type)
     case mvAppItemType::mvDragIntMulti:
     case mvAppItemType::mvDragFloat:
     case mvAppItemType::mvDragFloatMulti:
+    case mvAppItemType::mvDragDouble:
+    case mvAppItemType::mvDragDoubleMulti:
     case mvAppItemType::mvImage:
     case mvAppItemType::mvImageButton:
     case mvAppItemType::mvInputText:
     case mvAppItemType::mvInputInt:
     case mvAppItemType::mvInputFloat:
+    case mvAppItemType::mvInputDouble:
     case mvAppItemType::mvInputIntMulti:
     case mvAppItemType::mvInputFloatMulti:
+    case mvAppItemType::mvInputDoubleMulti:
     case mvAppItemType::mvListbox:
     case mvAppItemType::mvRadioButton:
     case mvAppItemType::mvSelectable:
@@ -364,12 +368,16 @@ CanItemTypeBeActive(mvAppItemType type)
     case mvAppItemType::mvDragIntMulti:
     case mvAppItemType::mvDragFloat:
     case mvAppItemType::mvDragFloatMulti:
+    case mvAppItemType::mvDragDouble:
+    case mvAppItemType::mvDragDoubleMulti:
     case mvAppItemType::mvImageButton:
     case mvAppItemType::mvInputText:
     case mvAppItemType::mvInputInt:
     case mvAppItemType::mvInputFloat:
+    case mvAppItemType::mvInputDouble:
     case mvAppItemType::mvInputIntMulti:
     case mvAppItemType::mvInputFloatMulti:
+    case mvAppItemType::mvInputDoubleMulti:
     case mvAppItemType::mvListbox:
     case mvAppItemType::mvRadioButton:
     case mvAppItemType::mvSelectable:
@@ -409,12 +417,16 @@ CanItemTypeBeFocused(mvAppItemType type)
     case mvAppItemType::mvDragIntMulti:
     case mvAppItemType::mvDragFloat:
     case mvAppItemType::mvDragFloatMulti:
+    case mvAppItemType::mvDragDouble:
+    case mvAppItemType::mvDragDoubleMulti:
     case mvAppItemType::mvImageButton:
     case mvAppItemType::mvInputText:
     case mvAppItemType::mvInputInt:
     case mvAppItemType::mvInputFloat:
+    case mvAppItemType::mvInputDouble:
     case mvAppItemType::mvInputIntMulti:
     case mvAppItemType::mvInputFloatMulti:
+    case mvAppItemType::mvInputDoubleMulti:
     case mvAppItemType::mvListbox:
     case mvAppItemType::mvRadioButton:
     case mvAppItemType::mvSelectable:
@@ -454,14 +466,18 @@ CanItemTypeBeClicked(mvAppItemType type)
     case mvAppItemType::mvDragInt:
     case mvAppItemType::mvDragFloat:
     case mvAppItemType::mvDragFloatMulti:
+    case mvAppItemType::mvDragDouble:
+    case mvAppItemType::mvDragDoubleMulti:
     case mvAppItemType::mvDragIntMulti:
     case mvAppItemType::mvImageButton:
     case mvAppItemType::mvImage:
     case mvAppItemType::mvInputText:
     case mvAppItemType::mvInputInt:
     case mvAppItemType::mvInputFloat:
+    case mvAppItemType::mvInputDouble:
     case mvAppItemType::mvInputIntMulti:
     case mvAppItemType::mvInputFloatMulti:
+    case mvAppItemType::mvInputDoubleMulti:
     case mvAppItemType::mvListbox:
     case mvAppItemType::mvRadioButton:
     case mvAppItemType::mvSelectable:
@@ -503,6 +519,8 @@ CanItemTypeBeVisible(mvAppItemType type)
     case mvAppItemType::mvDragIntMulti:
     case mvAppItemType::mvDragFloat:
     case mvAppItemType::mvDragFloatMulti:
+    case mvAppItemType::mvDragDouble:
+    case mvAppItemType::mvDragDoubleMulti:
     case mvAppItemType::mvImage:
     case mvAppItemType::mvImageButton:
     case mvAppItemType::mvInputText:
@@ -510,6 +528,8 @@ CanItemTypeBeVisible(mvAppItemType type)
     case mvAppItemType::mvInputIntMulti:
     case mvAppItemType::mvInputFloat:
     case mvAppItemType::mvInputFloatMulti:
+    case mvAppItemType::mvInputDouble:
+    case mvAppItemType::mvInputDoubleMulti:
     case mvAppItemType::mvListbox:
     case mvAppItemType::mvRadioButton:
     case mvAppItemType::mvSelectable:
@@ -559,11 +579,15 @@ CanItemTypeBeEdited(mvAppItemType type)
     case mvAppItemType::mvDragIntMulti:
     case mvAppItemType::mvDragFloat:
     case mvAppItemType::mvDragFloatMulti:
+    case mvAppItemType::mvDragDouble:
+    case mvAppItemType::mvDragDoubleMulti:
     case mvAppItemType::mvInputText:
     case mvAppItemType::mvInputInt:
     case mvAppItemType::mvInputIntMulti:
     case mvAppItemType::mvInputFloat:
     case mvAppItemType::mvInputFloatMulti:
+    case mvAppItemType::mvInputDouble:
+    case mvAppItemType::mvInputDoubleMulti:
     case mvAppItemType::mvListbox:
     case mvAppItemType::mvRadioButton:
     case mvAppItemType::mvSelectable:
@@ -593,12 +617,16 @@ CanItemTypeBeActivated(mvAppItemType type)
     case mvAppItemType::mvDragIntMulti:
     case mvAppItemType::mvDragFloat:
     case mvAppItemType::mvDragFloatMulti:
+    case mvAppItemType::mvDragDouble:
+    case mvAppItemType::mvDragDoubleMulti:
     case mvAppItemType::mvImageButton:
     case mvAppItemType::mvInputText:
     case mvAppItemType::mvInputInt:
     case mvAppItemType::mvInputIntMulti:
     case mvAppItemType::mvInputFloat:
     case mvAppItemType::mvInputFloatMulti:
+    case mvAppItemType::mvInputDouble:
+    case mvAppItemType::mvInputDoubleMulti:
     case mvAppItemType::mvListbox:
     case mvAppItemType::mvRadioButton:
     case mvAppItemType::mvSelectable:
@@ -637,12 +665,16 @@ CanItemTypeBeDeactivated(mvAppItemType type)
     case mvAppItemType::mvDragIntMulti:
     case mvAppItemType::mvDragFloat:
     case mvAppItemType::mvDragFloatMulti:
+    case mvAppItemType::mvDragDouble:
+    case mvAppItemType::mvDragDoubleMulti:
     case mvAppItemType::mvImageButton:
     case mvAppItemType::mvInputText:
     case mvAppItemType::mvInputInt:
     case mvAppItemType::mvInputIntMulti:
     case mvAppItemType::mvInputFloat:
     case mvAppItemType::mvInputFloatMulti:
+    case mvAppItemType::mvInputDouble:
+    case mvAppItemType::mvInputDoubleMulti:
     case mvAppItemType::mvListbox:
     case mvAppItemType::mvRadioButton:
     case mvAppItemType::mvSelectable:
@@ -680,12 +712,16 @@ CanItemTypeBeDeactivatedAE(mvAppItemType type)
     case mvAppItemType::mvDragIntMulti:
     case mvAppItemType::mvDragFloat:
     case mvAppItemType::mvDragFloatMulti:
+    case mvAppItemType::mvDragDouble:
+    case mvAppItemType::mvDragDoubleMulti:
     case mvAppItemType::mvCombo:
     case mvAppItemType::mvInputText:
     case mvAppItemType::mvInputInt:
     case mvAppItemType::mvInputIntMulti:
     case mvAppItemType::mvInputFloat:
     case mvAppItemType::mvInputFloatMulti:
+    case mvAppItemType::mvInputDouble:
+    case mvAppItemType::mvInputDoubleMulti:
     case mvAppItemType::mvListbox:
     case mvAppItemType::mvRadioButton:
     case mvAppItemType::mvSelectable:
@@ -728,6 +764,8 @@ CanItemTypeHaveRectMin(mvAppItemType type)
     case mvAppItemType::mvDragIntMulti:
     case mvAppItemType::mvDragFloat:
     case mvAppItemType::mvDragFloatMulti:
+    case mvAppItemType::mvDragDouble:
+    case mvAppItemType::mvDragDoubleMulti:
     case mvAppItemType::mvImage:
     case mvAppItemType::mvImageButton:
     case mvAppItemType::mvInputText:
@@ -735,6 +773,8 @@ CanItemTypeHaveRectMin(mvAppItemType type)
     case mvAppItemType::mvInputIntMulti:
     case mvAppItemType::mvInputFloat:
     case mvAppItemType::mvInputFloatMulti:
+    case mvAppItemType::mvInputDouble:
+    case mvAppItemType::mvInputDoubleMulti:
     case mvAppItemType::mvListbox:
     case mvAppItemType::mvRadioButton:
     case mvAppItemType::mvSelectable:
@@ -785,6 +825,8 @@ CanItemTypeHaveRectSize(mvAppItemType type)
     case mvAppItemType::mvDragIntMulti:
     case mvAppItemType::mvDragFloat:
     case mvAppItemType::mvDragFloatMulti:
+    case mvAppItemType::mvDragDouble:
+    case mvAppItemType::mvDragDoubleMulti:
     case mvAppItemType::mvImage:
     case mvAppItemType::mvImageButton:
     case mvAppItemType::mvInputText:
@@ -792,6 +834,8 @@ CanItemTypeHaveRectSize(mvAppItemType type)
     case mvAppItemType::mvInputIntMulti:
     case mvAppItemType::mvInputFloat:
     case mvAppItemType::mvInputFloatMulti:
+    case mvAppItemType::mvInputDouble:
+    case mvAppItemType::mvInputDoubleMulti:
     case mvAppItemType::mvListbox:
     case mvAppItemType::mvRadioButton:
     case mvAppItemType::mvSelectable:
@@ -840,6 +884,8 @@ CanItemTypeHaveContAvail(mvAppItemType type)
     case mvAppItemType::mvDragIntMulti:
     case mvAppItemType::mvDragFloat:
     case mvAppItemType::mvDragFloatMulti:
+    case mvAppItemType::mvDragDouble:
+    case mvAppItemType::mvDragDoubleMulti:
     case mvAppItemType::mvImage:
     case mvAppItemType::mvImageButton:
     case mvAppItemType::mvInputText:
@@ -847,6 +893,8 @@ CanItemTypeHaveContAvail(mvAppItemType type)
     case mvAppItemType::mvInputIntMulti:
     case mvAppItemType::mvInputFloat:
     case mvAppItemType::mvInputFloatMulti:
+    case mvAppItemType::mvInputDouble:
+    case mvAppItemType::mvInputDoubleMulti:
     case mvAppItemType::mvListbox:
     case mvAppItemType::mvRadioButton:
     case mvAppItemType::mvSelectable:
@@ -1117,9 +1165,13 @@ DearPyGui::GetEntityValueType(mvAppItemType type)
     case mvAppItemType::mvStemSeries: return StorageValueTypes::Series;
 
     case mvAppItemType::mvDoubleValue:
+    case mvAppItemType::mvDragDouble:
+    case mvAppItemType::mvInputDouble:
     case mvAppItemType::mvDragLine: return StorageValueTypes::Double;
         
     case mvAppItemType::mvDouble4Value:
+    case mvAppItemType::mvDragDoubleMulti:
+    case mvAppItemType::mvInputDoubleMulti:
     case mvAppItemType::mvDragPoint: return StorageValueTypes::Double4;
 
     case mvAppItemType::mvStaticTexture:
@@ -1412,14 +1464,18 @@ DearPyGui::GetAllowableParents(mvAppItemType type)
         MV_ADD_PARENT(mvAppItemType::mvCombo),
         MV_ADD_PARENT(mvAppItemType::mvDragIntMulti),
         MV_ADD_PARENT(mvAppItemType::mvDragFloatMulti),
+        MV_ADD_PARENT(mvAppItemType::mvDragDoubleMulti),
         MV_ADD_PARENT(mvAppItemType::mvDragInt),
         MV_ADD_PARENT(mvAppItemType::mvDragFloat),
+        MV_ADD_PARENT(mvAppItemType::mvDragDouble),
         MV_ADD_PARENT(mvAppItemType::mvImage),
         MV_ADD_PARENT(mvAppItemType::mvImageButton),
         MV_ADD_PARENT(mvAppItemType::mvInputIntMulti),
         MV_ADD_PARENT(mvAppItemType::mvInputFloatMulti),
+        MV_ADD_PARENT(mvAppItemType::mvInputDoubleMulti),
         MV_ADD_PARENT(mvAppItemType::mvInputInt),
         MV_ADD_PARENT(mvAppItemType::mvInputFloat),
+        MV_ADD_PARENT(mvAppItemType::mvInputDouble),
         MV_ADD_PARENT(mvAppItemType::mvInputText),
         MV_ADD_PARENT(mvAppItemType::mvListbox),
         MV_ADD_PARENT(mvAppItemType::mvMenuItem),
@@ -2209,6 +2265,37 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.about = "Adds drag for a single float value. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the drag. Use clamped keyword to also apply limits to the direct entry modes.";
         break;
     }
+    case mvAppItemType::mvDragDouble:
+    {
+        AddCommonArgs(args, (CommonParserArgs)(
+            MV_PARSER_ARG_ID |
+            MV_PARSER_ARG_WIDTH |
+            MV_PARSER_ARG_INDENT |
+            MV_PARSER_ARG_PARENT |
+            MV_PARSER_ARG_BEFORE |
+            MV_PARSER_ARG_SOURCE |
+            MV_PARSER_ARG_CALLBACK |
+            MV_PARSER_ARG_SHOW |
+            MV_PARSER_ARG_ENABLED |
+            MV_PARSER_ARG_FILTER |
+            MV_PARSER_ARG_DROP_CALLBACK |
+            MV_PARSER_ARG_DRAG_CALLBACK |
+            MV_PARSER_ARG_PAYLOAD_TYPE |
+            MV_PARSER_ARG_TRACKED |
+            MV_PARSER_ARG_POS)
+        );
+
+        args.push_back({ mvPyDataType::Double, "default_value", mvArgType::KEYWORD_ARG, "0.0" });
+        args.push_back({ mvPyDataType::String, "format", mvArgType::KEYWORD_ARG, "'%0.3f'", "Determines the format the float will be displayed as use python string formatting." });
+        args.push_back({ mvPyDataType::Float, "speed", mvArgType::KEYWORD_ARG, "1.0", "Sets the sensitivity the float will be modified while dragging." });
+        args.push_back({ mvPyDataType::Double, "min_value", mvArgType::KEYWORD_ARG, "0.0", "Applies a limit only to draging entry only." });
+        args.push_back({ mvPyDataType::Double, "max_value", mvArgType::KEYWORD_ARG, "100.0", "Applies a limit only to draging entry only." });
+        args.push_back({ mvPyDataType::Bool, "no_input", mvArgType::KEYWORD_ARG, "False", "Disable direct entry methods or Enter key allowing to input text directly into the widget." });
+        args.push_back({ mvPyDataType::Bool, "clamped", mvArgType::KEYWORD_ARG, "False", "Applies the min and max limits to direct entry methods also such as double click and CTRL+Click." });
+
+        setup.about = "Adds drag for a single double value. Useful when drag float inst accurate enough. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the drag. Use clamped keyword to also apply limits to the direct entry modes.";
+        break;
+    }
     case mvAppItemType::mvDragInt:
     {
         AddCommonArgs(args, (CommonParserArgs)(
@@ -2271,7 +2358,41 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "on_enter", mvArgType::KEYWORD_ARG, "False", "Only runs callback on enter key press." });
         args.push_back({ mvPyDataType::Bool, "readonly", mvArgType::KEYWORD_ARG, "False", "Activates read only mode where no text can be input but text can still be highlighted." });
 
-        setup.about = "Adds input for an float. +/- buttons can be activated by setting the value of step.";
+        setup.about = "Adds input for an float. Useful when float input inst accurate enough. +/- buttons can be activated by setting the value of step.";
+        break;
+    }
+    case mvAppItemType::mvInputDouble:
+    {
+        AddCommonArgs(args, (CommonParserArgs)(
+            MV_PARSER_ARG_ID |
+            MV_PARSER_ARG_WIDTH |
+            MV_PARSER_ARG_INDENT |
+            MV_PARSER_ARG_PARENT |
+            MV_PARSER_ARG_BEFORE |
+            MV_PARSER_ARG_SOURCE |
+            MV_PARSER_ARG_CALLBACK |
+            MV_PARSER_ARG_SHOW |
+            MV_PARSER_ARG_ENABLED |
+            MV_PARSER_ARG_FILTER |
+            MV_PARSER_ARG_DROP_CALLBACK |
+            MV_PARSER_ARG_DRAG_CALLBACK |
+            MV_PARSER_ARG_PAYLOAD_TYPE |
+            MV_PARSER_ARG_TRACKED |
+            MV_PARSER_ARG_POS)
+        );
+
+        args.push_back({ mvPyDataType::Double, "default_value", mvArgType::KEYWORD_ARG, "0.0" });
+        args.push_back({ mvPyDataType::String, "format", mvArgType::KEYWORD_ARG, "'%.3f'", "Determines the format the float will be displayed as use python string formatting." });
+        args.push_back({ mvPyDataType::Double, "min_value", mvArgType::KEYWORD_ARG, "0.0", "Value for lower limit of input. By default this limits the step buttons. Use min_clamped to limit manual input." });
+        args.push_back({ mvPyDataType::Double, "max_value", mvArgType::KEYWORD_ARG, "100.0", "Value for upper limit of input. By default this limits the step buttons. Use max_clamped to limit manual input." });
+        args.push_back({ mvPyDataType::Double, "step", mvArgType::KEYWORD_ARG, "0.1", "Increment to change value by when the step buttons are pressed. Setting this to a value of 0 or smaller will turn off step buttons." });
+        args.push_back({ mvPyDataType::Double, "step_fast", mvArgType::KEYWORD_ARG, "1.0", "After holding the step buttons for extended time the increments will switch to this value." });
+        args.push_back({ mvPyDataType::Bool, "min_clamped", mvArgType::KEYWORD_ARG, "False", "Activates and deactivates the enforcment of min_value." });
+        args.push_back({ mvPyDataType::Bool, "max_clamped", mvArgType::KEYWORD_ARG, "False", "Activates and deactivates the enforcment of max_value." });
+        args.push_back({ mvPyDataType::Bool, "on_enter", mvArgType::KEYWORD_ARG, "False", "Only runs callback on enter key press." });
+        args.push_back({ mvPyDataType::Bool, "readonly", mvArgType::KEYWORD_ARG, "False", "Activates read only mode where no text can be input but text can still be highlighted." });
+
+        setup.about = "Adds input for an double. Useful when input float is not accurate enough.+/- buttons can be activated by setting the value of step.";
         break;
     }
     case mvAppItemType::mvInputInt:
@@ -3403,6 +3524,39 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Widgets" };
         break;
     }
+    case mvAppItemType::mvDragDoubleMulti:
+    {
+        AddCommonArgs(args, (CommonParserArgs)(
+            MV_PARSER_ARG_ID |
+            MV_PARSER_ARG_WIDTH |
+            MV_PARSER_ARG_INDENT |
+            MV_PARSER_ARG_PARENT |
+            MV_PARSER_ARG_BEFORE |
+            MV_PARSER_ARG_SOURCE |
+            MV_PARSER_ARG_CALLBACK |
+            MV_PARSER_ARG_SHOW |
+            MV_PARSER_ARG_ENABLED |
+            MV_PARSER_ARG_FILTER |
+            MV_PARSER_ARG_DROP_CALLBACK |
+            MV_PARSER_ARG_DRAG_CALLBACK |
+            MV_PARSER_ARG_PAYLOAD_TYPE |
+            MV_PARSER_ARG_TRACKED |
+            MV_PARSER_ARG_POS)
+        );
+
+        args.push_back({ mvPyDataType::DoubleList, "default_value", mvArgType::KEYWORD_ARG, "(0.0, 0.0, 0.0, 0.0)" });
+        args.push_back({ mvPyDataType::Integer, "size", mvArgType::KEYWORD_ARG, "4", "Number of floats to be displayed." });
+        args.push_back({ mvPyDataType::String, "format", mvArgType::KEYWORD_ARG, "'%0.3f'", "Determines the format the float will be displayed as use python string formatting." });
+        args.push_back({ mvPyDataType::Float, "speed", mvArgType::KEYWORD_ARG, "1.0", "Sets the sensitivity the float will be modified while dragging." });
+        args.push_back({ mvPyDataType::Double, "min_value", mvArgType::KEYWORD_ARG, "0.0", "Applies a limit only to draging entry only." });
+        args.push_back({ mvPyDataType::Double, "max_value", mvArgType::KEYWORD_ARG, "100.0", "Applies a limit only to draging entry only." });
+        args.push_back({ mvPyDataType::Bool, "no_input", mvArgType::KEYWORD_ARG, "False", "Disable direct entry methods or Enter key allowing to input text directly into the widget." });
+        args.push_back({ mvPyDataType::Bool, "clamped", mvArgType::KEYWORD_ARG, "False", "Applies the min and max limits to direct entry methods also such as double click and CTRL+Click." });
+
+        setup.about = "Adds drag input for a set of double values up to 4. Useful when drag float is not accurate enough. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the drag. Use clamped keyword to also apply limits to the direct entry modes.";
+        setup.category = { "Widgets" };
+        break;
+    }
     case mvAppItemType::mvDragIntMulti:                
     {
         AddCommonArgs(args, (CommonParserArgs)(
@@ -3560,6 +3714,39 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "readonly", mvArgType::KEYWORD_ARG, "False", "Activates read only mode where no text can be input but text can still be highlighted." });
 
         setup.about = "Adds multi float input for up to 4 float values.";
+        break;
+    }
+    case mvAppItemType::mvInputDoubleMulti:
+    {
+        AddCommonArgs(args, (CommonParserArgs)(
+            MV_PARSER_ARG_ID |
+            MV_PARSER_ARG_WIDTH |
+            MV_PARSER_ARG_INDENT |
+            MV_PARSER_ARG_PARENT |
+            MV_PARSER_ARG_BEFORE |
+            MV_PARSER_ARG_SOURCE |
+            MV_PARSER_ARG_CALLBACK |
+            MV_PARSER_ARG_SHOW |
+            MV_PARSER_ARG_ENABLED |
+            MV_PARSER_ARG_FILTER |
+            MV_PARSER_ARG_DROP_CALLBACK |
+            MV_PARSER_ARG_DRAG_CALLBACK |
+            MV_PARSER_ARG_PAYLOAD_TYPE |
+            MV_PARSER_ARG_TRACKED |
+            MV_PARSER_ARG_POS)
+        );
+
+        args.push_back({ mvPyDataType::DoubleList, "default_value", mvArgType::KEYWORD_ARG, "(0.0, 0.0, 0.0, 0.0)" });
+        args.push_back({ mvPyDataType::String, "format", mvArgType::KEYWORD_ARG, "'%.3f'", "Determines the format the float will be displayed as use python string formatting." });
+        args.push_back({ mvPyDataType::Double, "min_value", mvArgType::KEYWORD_ARG, "0.0", "Value for lower limit of input for each cell. Use min_clamped to turn on." });
+        args.push_back({ mvPyDataType::Double, "max_value", mvArgType::KEYWORD_ARG, "100.0", "Value for upper limit of input for each cell. Use max_clamped to turn on." });
+        args.push_back({ mvPyDataType::Integer, "size", mvArgType::KEYWORD_ARG, "4", "Number of components displayed for input." });
+        args.push_back({ mvPyDataType::Bool, "min_clamped", mvArgType::KEYWORD_ARG, "False", "Activates and deactivates the enforcment of min_value." });
+        args.push_back({ mvPyDataType::Bool, "max_clamped", mvArgType::KEYWORD_ARG, "False", "Activates and deactivates the enforcment of max_value." });
+        args.push_back({ mvPyDataType::Bool, "on_enter", mvArgType::KEYWORD_ARG, "False", "Only runs callback on enter key press." });
+        args.push_back({ mvPyDataType::Bool, "readonly", mvArgType::KEYWORD_ARG, "False", "Activates read only mode where no text can be input but text can still be highlighted." });
+
+        setup.about = "Adds multi double input for up to 4 double values. Useful when input float mulit is not accurate enough.";
         break;
     }
     case mvAppItemType::mvDragPoint:                   

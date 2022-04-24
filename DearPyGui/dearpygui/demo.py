@@ -340,9 +340,11 @@ def show_demo():
                         "ESCAPE to revert.\n\n")
                 dpg.add_input_text(label="input text (w/ hint)", hint="enter text here", callback=_log)
                 dpg.add_input_int(label="input int", callback=_log)
-                dpg.add_input_float(label="input float", callback=_log)
-                dpg.add_input_float(label="input scientific", format="%e", callback=_log)
+                dpg.add_input_float(label="input float", callback=_log, format="%.06f")
+                dpg.add_input_float(label="input float scientific", format="%e", callback=_log)
                 dpg.add_input_floatx(label="input floatx", callback=_log, default_value=[1,2,3,4])
+                dpg.add_input_double(label="input double", callback=_log, format="%.014f")
+                dpg.add_input_doublex(label="input doublex", callback=_log, default_value=[1,2,3,4], format="%.014f")
                 dpg.add_drag_int(label="drag int", callback=_log)
                 _help(
                         "Click and drag to edit value.\n"

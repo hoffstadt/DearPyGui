@@ -158,4 +158,8 @@
     X( mvColorMapSlider ) \
     X( mvTemplateRegistry ) \
     X( mvTableCell ) \
-    X( mvItemHandlerRegistry )
+    X( mvItemHandlerRegistry ) \
+    X( mvInputDouble ) \
+    X( mvInputDoubleMulti ) \
+    X( mvDragDouble ) \
+    X( mvDragDoubleMulti )
