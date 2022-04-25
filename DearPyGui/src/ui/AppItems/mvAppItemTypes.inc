@@ -158,5 +158,13 @@
     X( mvColorMapSlider ) \
     X( mvTemplateRegistry ) \
     X( mvTableCell ) \
+    X( mvItemHandlerRegistry ) \
+    X( mvInputDouble ) \
+    X( mvInputDoubleMulti ) \
+    X( mvDragDouble ) \
+    X( mvDragDoubleMulti ) \
+    X( mvSliderDouble ) \
+    X( mvSliderDoubleMulti )
     X( mvCustomSeries ) \
     X( mvItemHandlerRegistry )
+
