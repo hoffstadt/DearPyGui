@@ -1685,13 +1685,15 @@ DearPyGui::draw_custom_series(ImDrawList* drawlist, mvAppItem& item, mvCustomSer
 			ImVec2 mouse2 = ImPlot::PlotToPixels(mouse.x, mouse.y);
 			static int extras = 4;
 			mvSubmitCallback([&, mouse, mouse2]() {
+				PyObject* helperData = PyDict_New();
+				PyDict_SetItemString(helperData, "MouseX_PlotSpace", ToPyFloat(mouse.x));
+				PyDict_SetItemString(helperData, "MouseY_PlotSpace", ToPyFloat(mouse.y));
+				PyDict_SetItemString(helperData, "MouseX_PixelSpace", ToPyFloat(mouse2.x));
+				PyDict_SetItemString(helperData, "MouseY_PixelSpace", ToPyFloat(mouse2.y));
 				PyObject* appData = PyTuple_New(config.channelCount + extras);
-				PyTuple_SetItem(appData, 0, ToPyFloat(mouse.x));
-				PyTuple_SetItem(appData, 1, ToPyFloat(mouse.y));
-				PyTuple_SetItem(appData, 2, ToPyFloat(mouse2.x));
-				PyTuple_SetItem(appData, 3, ToPyFloat(mouse2.y));
-				for (int i = extras; i < config.channelCount + extras; i++)
-					PyTuple_SetItem(appData, i, ToPyList(config._transformedValues[i - extras]));
+				PyTuple_SetItem(appData, 0, helperData);
+				for (int i = 1; i < config.channelCount + 1; i++)
+					PyTuple_SetItem(appData, i, ToPyList(config._transformedValues[i-1]));
 				mvAddCallback(item.config.callback, item.uuid, appData, item.config.user_data);
 				});
 

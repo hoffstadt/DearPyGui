@@ -1625,6 +1625,42 @@ def colormap_registry(*, label: str =None, user_data: Any =None, use_internal_la
 		internal_dpg.pop_container_stack()
 
 @contextmanager
+def custom_series(x : Union[List[float], Tuple[float, ...]], y : Union[List[float], Tuple[float, ...]], channel_count : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, callback: Callable =None, show: bool =True, y1: Any =[], y2: Any =[], y3: Any =[], tooltip: bool =True, **kwargs) -> Union[int, str]:
+	"""	 Adds a custom series to a plot. New in 1.6.
+
+	Args:
+		x (Any): 
+		y (Any): 
+		channel_count (int): 
+		label (str, optional): Overrides 'name' as label.
+		user_data (Any, optional): User data for callbacks
+		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
+		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
+		source (Union[int, str], optional): Overrides 'id' as value storage key.
+		callback (Callable, optional): Registers a callback.
+		show (bool, optional): Attempt to render widget.
+		y1 (Any, optional): 
+		y2 (Any, optional): 
+		y3 (Any, optional): 
+		tooltip (bool, optional): Show tooltip when plot is hovered.
+		id (Union[int, str], optional): (deprecated) 
+	Yields:
+		Union[int, str]
+	"""
+	try:
+
+		if 'id' in kwargs.keys():
+			warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
+			tag=kwargs['id']
+		widget = internal_dpg.add_custom_series(x, y, channel_count, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, source=source, callback=callback, show=show, y1=y1, y2=y2, y3=y3, tooltip=tooltip, **kwargs)
+		internal_dpg.push_container_stack(widget)
+		yield widget
+	finally:
+		internal_dpg.pop_container_stack()
+
+@contextmanager
 def drag_payload(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, show: bool =True, drag_data: Any =None, drop_data: Any =None, payload_type: str ='$$DPG_PAYLOAD', **kwargs) -> Union[int, str]:
 	"""	 User data payload for drag and drop operations.
 
@@ -3001,7 +3037,7 @@ def add_button(*, label: str =None, user_data: Any =None, use_internal_label: bo
 
 	return internal_dpg.add_button(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, small=small, arrow=arrow, direction=direction, **kwargs)
 
-def add_candle_series(dates : Union[List[float], Tuple[float, ...]], opens : Union[List[float], Tuple[float, ...]], closes : Union[List[float], Tuple[float, ...]], lows : Union[List[float], Tuple[float, ...]], highs : Union[List[float], Tuple[float, ...]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, show: bool =True, bull_color: Union[List[int], Tuple[int, ...]] =(0, 255, 113, 255), bear_color: Union[List[int], Tuple[int, ...]] =(218, 13, 79, 255), weight: int =0.25, tooltip: bool =True, time_unit: int =5, **kwargs) -> Union[int, str]:
+def add_candle_series(dates : Union[List[float], Tuple[float, ...]], opens : Union[List[float], Tuple[float, ...]], closes : Union[List[float], Tuple[float, ...]], lows : Union[List[float], Tuple[float, ...]], highs : Union[List[float], Tuple[float, ...]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, show: bool =True, bull_color: Union[List[int], Tuple[int, ...]] =(0, 255, 113, 255), bear_color: Union[List[int], Tuple[int, ...]] =(218, 13, 79, 255), weight: float =0.25, tooltip: bool =True, time_unit: int =5, **kwargs) -> Union[int, str]:
 	"""	 Adds a candle series to a plot.
 
 	Args:
@@ -3020,7 +3056,7 @@ def add_candle_series(dates : Union[List[float], Tuple[float, ...]], opens : Uni
 		show (bool, optional): Attempt to render widget.
 		bull_color (Union[List[int], Tuple[int, ...]], optional): 
 		bear_color (Union[List[int], Tuple[int, ...]], optional): 
-		weight (int, optional): 
+		weight (float, optional): 
 		tooltip (bool, optional): 
 		time_unit (int, optional): mvTimeUnit_* constants. Default mvTimeUnit_Day.
 		id (Union[int, str], optional): (deprecated) 
@@ -3545,6 +3581,37 @@ def add_combo(items : Union[List[str], Tuple[str, ...]] =(), *, label: str =None
 		tag=kwargs['id']
 
 	return internal_dpg.add_combo(items, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, popup_align_left=popup_align_left, no_arrow_button=no_arrow_button, no_preview=no_preview, height_mode=height_mode, **kwargs)
+
+def add_custom_series(x : Union[List[float], Tuple[float, ...]], y : Union[List[float], Tuple[float, ...]], channel_count : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, callback: Callable =None, show: bool =True, y1: Any =[], y2: Any =[], y3: Any =[], tooltip: bool =True, **kwargs) -> Union[int, str]:
+	"""	 Adds a custom series to a plot. New in 1.6.
+
+	Args:
+		x (Any): 
+		y (Any): 
+		channel_count (int): 
+		label (str, optional): Overrides 'name' as label.
+		user_data (Any, optional): User data for callbacks
+		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
+		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
+		source (Union[int, str], optional): Overrides 'id' as value storage key.
+		callback (Callable, optional): Registers a callback.
+		show (bool, optional): Attempt to render widget.
+		y1 (Any, optional): 
+		y2 (Any, optional): 
+		y3 (Any, optional): 
+		tooltip (bool, optional): Show tooltip when plot is hovered.
+		id (Union[int, str], optional): (deprecated) 
+	Returns:
+		Union[int, str]
+	"""
+
+	if 'id' in kwargs.keys():
+		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
+		tag=kwargs['id']
+
+	return internal_dpg.add_custom_series(x, y, channel_count, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, source=source, callback=callback, show=show, y1=y1, y2=y2, y3=y3, tooltip=tooltip, **kwargs)
 
 def add_date_picker(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: dict ={'month_day': 14, 'year':20, 'month':5}, level: int =0, **kwargs) -> Union[int, str]:
 	"""	 Adds a data picker.
@@ -9474,6 +9541,7 @@ mvTimeUnit_Ms=internal_dpg.mvTimeUnit_Ms
 mvTimeUnit_S=internal_dpg.mvTimeUnit_S
 mvTimeUnit_Min=internal_dpg.mvTimeUnit_Min
 mvTimeUnit_Hr=internal_dpg.mvTimeUnit_Hr
+mvTimeUnit_Day=internal_dpg.mvTimeUnit_Day
 mvTimeUnit_Mo=internal_dpg.mvTimeUnit_Mo
 mvTimeUnit_Yr=internal_dpg.mvTimeUnit_Yr
 mvDatePickerLevel_Day=internal_dpg.mvDatePickerLevel_Day
@@ -9877,6 +9945,7 @@ mvDragDouble=internal_dpg.mvDragDouble
 mvDragDoubleMulti=internal_dpg.mvDragDoubleMulti
 mvSliderDouble=internal_dpg.mvSliderDouble
 mvSliderDoubleMulti=internal_dpg.mvSliderDoubleMulti
+mvCustomSeries=internal_dpg.mvCustomSeries
 mvReservedUUID_0=internal_dpg.mvReservedUUID_0
 mvReservedUUID_1=internal_dpg.mvReservedUUID_1
 mvReservedUUID_2=internal_dpg.mvReservedUUID_2

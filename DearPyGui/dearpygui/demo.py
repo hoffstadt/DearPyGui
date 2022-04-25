@@ -1984,7 +1984,7 @@ def show_demo():
                             dpg.add_plot_legend()
                             xaxis = dpg.add_plot_axis(dpg.mvXAxis, label="Day", time=True)
                             with dpg.plot_axis(dpg.mvYAxis, label="USD"):
-                                dpg.add_candle_series(dates, opens, closes, lows, highs, label="GOOGL", time_unit=dpg.mvTimeUnit_Hr)
+                                dpg.add_candle_series(dates, opens, closes, lows, highs, label="GOOGL", time_unit=dpg.mvTimeUnit_Day)
                                 dpg.fit_axis_data(dpg.top_container_stack())
                             dpg.fit_axis_data(xaxis)
 
@@ -2282,6 +2282,38 @@ def show_demo():
 
                             dpg.draw_line((0, 0), (1, 2), color=(255, 0, 0, 255), thickness=0.01)
                             dpg.draw_text((0, 0), "Origin", color=(250, 250, 250, 255), size=0.1)
+
+                    with dpg.tree_node(label="Custom Series"):
+
+                        def _custom_series_callback(sender, app_data):
+                            _helper_data = app_data[0]
+                            transformed_x = app_data[1]
+                            transformed_y = app_data[2]
+                            mouse_x_plot_space = _helper_data["MouseX_PlotSpace"]
+                            mouse_y_plot_space = _helper_data["MouseY_PlotSpace"]
+                            mouse_x_pixel_space = _helper_data["MouseX_PixelSpace"]
+                            mouse_y_pixel_space = _helper_data["MouseY_PixelSpace"]
+                            dpg.delete_item(sender, children_only=True, slot=2)
+                            dpg.push_container_stack(sender)
+                            dpg.configure_item("demo_custom_series", tooltip=False)
+                            for i in range(0, len(transformed_x)):
+                                dpg.draw_text((transformed_x[i]+15, transformed_y[i]-15), str(i), size=20)
+                                dpg.draw_circle((transformed_x[i], transformed_y[i]), 15, fill=(50+i*5, 50+i*50, 0, 255))
+                                if mouse_x_pixel_space < transformed_x[i]+15 and mouse_x_pixel_space > transformed_x[i]-15 and mouse_y_pixel_space > transformed_y[i]-15 and mouse_y_pixel_space < transformed_y[i]+15:
+                                    dpg.draw_circle((transformed_x[i], transformed_y[i]), 30)
+                                    dpg.configure_item("demo_custom_series", tooltip=True)
+                                    dpg.set_value("demo_custom_series_text", "Current Point: " + str(i))
+                            dpg.pop_container_stack()
+                        
+                        # create plot
+                        dpg.add_text("Hover an item for a custom tooltip!")
+                        with dpg.plot(label="Custom Series", height=400, width=-1):
+                            dpg.add_plot_legend()
+                            xaxis = dpg.add_plot_axis(dpg.mvXAxis)
+                            with dpg.plot_axis(dpg.mvYAxis):
+                                with dpg.custom_series([0.0, 1.0, 2.0, 4.0, 5.0], [0.0, 10.0, 20.0, 40.0, 50.0], 2, label="Custom Series", callback=_custom_series_callback, tag="demo_custom_series"):
+                                    dpg.add_text("Current Point: ", tag="demo_custom_series_text")
+                                dpg.fit_axis_data(dpg.top_container_stack())
 
                 with dpg.tab(label="Help"):
 
