@@ -295,6 +295,20 @@ GetModuleConstants()
 		ModuleConstants.push_back({ "mvNodeCol_BoxSelectorOutline", ImNodesCol_BoxSelectorOutline });
 		ModuleConstants.push_back({ "mvNodeCol_GridBackground", ImNodesCol_GridBackground });
 		ModuleConstants.push_back({ "mvNodeCol_GridLine", ImNodesCol_GridLine });
+		ModuleConstants.push_back({ "mvNodesCol_GridLinePrimary", ImNodesCol_GridLinePrimary });
+		ModuleConstants.push_back({ "mvNodesCol_MiniMapBackground", ImNodesCol_MiniMapBackground });
+		ModuleConstants.push_back({ "mvNodesCol_MiniMapBackgroundHovered", ImNodesCol_MiniMapBackgroundHovered });
+		ModuleConstants.push_back({ "mvNodesCol_MiniMapOutline", ImNodesCol_MiniMapOutline });
+		ModuleConstants.push_back({ "mvNodesCol_MiniMapOutlineHovered", ImNodesCol_MiniMapOutlineHovered });
+		ModuleConstants.push_back({ "mvNodesCol_MiniMapNodeBackground", ImNodesCol_MiniMapNodeBackground });
+		ModuleConstants.push_back({ "mvNodesCol_MiniMapNodeBackgroundHovered", ImNodesCol_MiniMapNodeBackgroundHovered });
+		ModuleConstants.push_back({ "mvNodesCol_MiniMapNodeBackgroundSelected", ImNodesCol_MiniMapNodeBackgroundSelected });
+		ModuleConstants.push_back({ "mvNodesCol_MiniMapNodeOutline", ImNodesCol_MiniMapNodeOutline });
+		ModuleConstants.push_back({ "mvNodesCol_MiniMapLink", ImNodesCol_MiniMapLink });
+		ModuleConstants.push_back({ "mvNodesCol_MiniMapLinkSelected", ImNodesCol_MiniMapLinkSelected });
+		ModuleConstants.push_back({ "mvNodesCol_MiniMapCanvas", ImNodesCol_MiniMapCanvas });
+		ModuleConstants.push_back({ "mvNodesCol_MiniMapCanvasOutline", ImNodesCol_MiniMapCanvasOutline });
+
 
 		ModuleConstants.push_back({ "mvStyleVar_Alpha", ImGuiStyleVar_Alpha });                             // float     Alpha
 		ModuleConstants.push_back({ "mvStyleVar_WindowPadding", ImGuiStyleVar_WindowPadding });             // ImVec2    WindowPadding
@@ -367,6 +381,8 @@ GetModuleConstants()
 		ModuleConstants.push_back({ "mvNodeStyleVar_PinLineThickness", ImNodesStyleVar_PinLineThickness });
 		ModuleConstants.push_back({ "mvNodeStyleVar_PinHoverRadius", ImNodesStyleVar_PinHoverRadius });
 		ModuleConstants.push_back({ "mvNodeStyleVar_PinOffset", ImNodesStyleVar_PinOffset });
+		ModuleConstants.push_back({ "mvNodesStyleVar_MiniMapPadding", ImNodesStyleVar_MiniMapPadding });
+		ModuleConstants.push_back({ "mvNodesStyleVar_MiniMapOffset", ImNodesStyleVar_MiniMapOffset });
 
 		#define X(el) ModuleConstants.push_back({ std::string(#el), (long)mvAppItemType::el });
 		MV_ITEM_TYPES

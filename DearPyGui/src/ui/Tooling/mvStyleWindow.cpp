@@ -161,6 +161,8 @@ void mvStyleWindow::drawWidgets()
             ImGui::SliderFloat("mvNodeStyleVar_PinLineThickness", &ImNodes::GetStyle().PinLineThickness, 0.0f, 10.0f, "%.0f");
             ImGui::SliderFloat("mvNodeStyleVar_PinHoverRadius", &ImNodes::GetStyle().PinHoverRadius, 0.0f, 10.0f, "%.0f");
             ImGui::SliderFloat("mvNodeStyleVar_PinOffset", &ImNodes::GetStyle().PinOffset, 0.0f, 10.0f, "%.0f");
+            ImGui::SliderFloat2("mvNodesStyleVar_MiniMapPadding", (float*)&ImNodes::GetStyle().MiniMapPadding.x, 0.0f, 10.0f, "%.0f");
+            ImGui::SliderFloat2("mvNodesStyleVar_MiniMapOffset", (float*)&ImNodes::GetStyle().MiniMapOffset.y, 0.0f, 10.0f, "%.0f");
 
             ImGui::EndTabItem();
         }
@@ -209,7 +211,7 @@ void mvStyleWindow::drawWidgets()
             }
 
             // imnodes
-            mv_local_persist std::string imnodesNames[16] = {
+            mv_local_persist std::string imnodesNames[29] = {
                 "mvNodeCol_NodeBackground",
                 "mvNodeCol_NodeBackgroundHovered",
                 "mvNodeCol_NodeBackgroundSelected",
@@ -225,7 +227,20 @@ void mvStyleWindow::drawWidgets()
                 "mvNodeCol_BoxSelector",
                 "mvNodeCol_BoxSelectorOutline",
                 "mvNodeCol_GridBackground",
-                "mvNodeCol_GridLine"
+                "mvNodeCol_GridLine",
+                "mvNodesCol_GridLinePrimary",
+                "mvNodesCol_MiniMapBackground",
+                "mvNodesCol_MiniMapBackgroundHovered",
+                "mvNodesCol_MiniMapOutline",
+                "mvNodesCol_MiniMapOutlineHovered",
+                "mvNodesCol_MiniMapNodeBackground",
+                "mvNodesCol_MiniMapNodeBackgroundHovered",
+                "mvNodesCol_MiniMapNodeBackgroundSelected",
+                "mvNodesCol_MiniMapNodeOutline",
+                "mvNodesCol_MiniMapLink",
+                "mvNodesCol_MiniMapLinkSelected",
+                "mvNodesCol_MiniMapCanvas",
+                "mvNodesCol_MiniMapCanvasOutline"
             };
 
             for (int i = 0; i < ImNodesCol_COUNT; i++)
