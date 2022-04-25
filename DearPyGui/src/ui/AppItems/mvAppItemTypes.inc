@@ -164,4 +164,5 @@
     X( mvDragDouble ) \
     X( mvDragDoubleMulti ) \
     X( mvSliderDouble ) \
-    X( mvSliderDoubleMulti )
+    X( mvSliderDoubleMulti ) \
+    X( mvCustomSeries )

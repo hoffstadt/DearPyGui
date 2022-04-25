@@ -71,3 +71,4 @@ struct mvLabelSeriesConfig;
 struct mvImageSeriesConfig;
 struct mvAreaSeriesConfig;
 struct mvCandleSeriesConfig;
+struct mvCustomSeriesConfig;
