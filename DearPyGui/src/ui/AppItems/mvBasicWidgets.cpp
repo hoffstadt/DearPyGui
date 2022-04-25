@@ -1150,6 +1150,25 @@ DearPyGui::set_configuration(PyObject* inDict, mvListboxConfig& outConfig, mvApp
             }
             index++;
         }
+
+		if (!outConfig.value->empty())
+		{
+			if (!outConfig.names.empty())
+			{
+				bool oldValueFound = false;
+				for (int i = 0; i < outConfig.names.size(); i++)
+				{
+					if (outConfig.names[i] == *outConfig.value)
+					{
+						oldValueFound = true;
+						break;
+					}
+				}
+
+				if(!oldValueFound)
+					*outConfig.value = outConfig.names[0];
+			}
+		}
     }
 
     if(outConfig.value->empty())
