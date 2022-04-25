@@ -1609,6 +1609,38 @@ def colormap_registry(**kwargs):
 		internal_dpg.pop_container_stack()
 
 @contextmanager
+def custom_series(x, y, channel_count, **kwargs):
+	"""	 Adds a custom series to a plot. New in 1.6.
+
+	Args:
+		x (Any): 
+		y (Any): 
+		channel_count (int): 
+		label (str, optional): Overrides 'name' as label.
+		user_data (Any, optional): User data for callbacks
+		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
+		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
+		source (Union[int, str], optional): Overrides 'id' as value storage key.
+		callback (Callable, optional): Registers a callback.
+		show (bool, optional): Attempt to render widget.
+		y1 (Any, optional): 
+		y2 (Any, optional): 
+		y3 (Any, optional): 
+		tooltip (bool, optional): Show tooltip when plot is hovered.
+		id (Union[int, str], optional): (deprecated)
+	Yields:
+		Union[int, str]
+	"""
+	try:
+		widget = internal_dpg.add_custom_series(x, y, channel_count, **kwargs)
+		internal_dpg.push_container_stack(widget)
+		yield widget
+	finally:
+		internal_dpg.pop_container_stack()
+
+@contextmanager
 def drag_payload(**kwargs):
 	"""	 User data payload for drag and drop operations.
 
@@ -2830,7 +2862,7 @@ def add_candle_series(dates, opens, closes, lows, highs, **kwargs):
 		show (bool, optional): Attempt to render widget.
 		bull_color (Union[List[int], Tuple[int, ...]], optional): 
 		bear_color (Union[List[int], Tuple[int, ...]], optional): 
-		weight (int, optional): 
+		weight (float, optional): 
 		tooltip (bool, optional): 
 		time_unit (int, optional): mvTimeUnit_* constants. Default mvTimeUnit_Day.
 		id (Union[int, str], optional): (deprecated)
@@ -3279,6 +3311,33 @@ def add_combo(items=(), **kwargs):
 	"""
 
 	return internal_dpg.add_combo(items, **kwargs)
+
+def add_custom_series(x, y, channel_count, **kwargs):
+	"""	 Adds a custom series to a plot. New in 1.6.
+
+	Args:
+		x (Any): 
+		y (Any): 
+		channel_count (int): 
+		label (str, optional): Overrides 'name' as label.
+		user_data (Any, optional): User data for callbacks
+		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
+		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
+		source (Union[int, str], optional): Overrides 'id' as value storage key.
+		callback (Callable, optional): Registers a callback.
+		show (bool, optional): Attempt to render widget.
+		y1 (Any, optional): 
+		y2 (Any, optional): 
+		y3 (Any, optional): 
+		tooltip (bool, optional): Show tooltip when plot is hovered.
+		id (Union[int, str], optional): (deprecated)
+	Returns:
+		Union[int, str]
+	"""
+
+	return internal_dpg.add_custom_series(x, y, channel_count, **kwargs)
 
 def add_date_picker(**kwargs):
 	"""	 Adds a data picker.
@@ -8379,6 +8438,7 @@ mvTimeUnit_Ms=internal_dpg.mvTimeUnit_Ms
 mvTimeUnit_S=internal_dpg.mvTimeUnit_S
 mvTimeUnit_Min=internal_dpg.mvTimeUnit_Min
 mvTimeUnit_Hr=internal_dpg.mvTimeUnit_Hr
+mvTimeUnit_Day=internal_dpg.mvTimeUnit_Day
 mvTimeUnit_Mo=internal_dpg.mvTimeUnit_Mo
 mvTimeUnit_Yr=internal_dpg.mvTimeUnit_Yr
 mvDatePickerLevel_Day=internal_dpg.mvDatePickerLevel_Day
@@ -8756,6 +8816,7 @@ mvColorMapButton=internal_dpg.mvColorMapButton
 mvColorMapSlider=internal_dpg.mvColorMapSlider
 mvTemplateRegistry=internal_dpg.mvTemplateRegistry
 mvTableCell=internal_dpg.mvTableCell
+mvCustomSeries=internal_dpg.mvCustomSeries
 mvItemHandlerRegistry=internal_dpg.mvItemHandlerRegistry
 mvReservedUUID_0=internal_dpg.mvReservedUUID_0
 mvReservedUUID_1=internal_dpg.mvReservedUUID_1

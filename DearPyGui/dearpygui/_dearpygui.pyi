@@ -34,7 +34,7 @@ def add_button(*, label: str ='', user_data: Any ='', use_internal_label: bool =
 	"""Adds a button."""
 	...
 
-def add_candle_series(dates : Union[List[float], Tuple[float, ...]], opens : Union[List[float], Tuple[float, ...]], closes : Union[List[float], Tuple[float, ...]], lows : Union[List[float], Tuple[float, ...]], highs : Union[List[float], Tuple[float, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', show: bool ='', bull_color: Union[List[int], Tuple[int, ...]] ='', bear_color: Union[List[int], Tuple[int, ...]] ='', weight: int ='', tooltip: bool ='', time_unit: int ='') -> Union[int, str]:
+def add_candle_series(dates : Union[List[float], Tuple[float, ...]], opens : Union[List[float], Tuple[float, ...]], closes : Union[List[float], Tuple[float, ...]], lows : Union[List[float], Tuple[float, ...]], highs : Union[List[float], Tuple[float, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', show: bool ='', bull_color: Union[List[int], Tuple[int, ...]] ='', bear_color: Union[List[int], Tuple[int, ...]] ='', weight: float ='', tooltip: bool ='', time_unit: int ='') -> Union[int, str]:
 	"""Adds a candle series to a plot."""
 	...
 
@@ -96,6 +96,10 @@ def add_colormap_slider(*, label: str ='', user_data: Any ='', use_internal_labe
 
 def add_combo(items : Union[List[str], Tuple[str, ...]] ='', *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: str ='', popup_align_left: bool ='', no_arrow_button: bool ='', no_preview: bool ='', height_mode: int ='') -> Union[int, str]:
 	"""Adds a combo dropdown that allows a user to select a single option from a drop down window. All items will be shown as selectables on the dropdown."""
+	...
+
+def add_custom_series(x : Union[List[float], Tuple[float, ...]], y : Union[List[float], Tuple[float, ...]], channel_count : int, *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', callback: Callable ='', show: bool ='', y1: Any ='', y2: Any ='', y3: Any ='', tooltip: bool ='') -> Union[int, str]:
+	"""Adds a custom series to a plot. New in 1.6."""
 	...
 
 def add_date_picker(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: dict ='', level: int ='') -> Union[int, str]:
@@ -1402,6 +1406,7 @@ mvTimeUnit_Ms=0
 mvTimeUnit_S=0
 mvTimeUnit_Min=0
 mvTimeUnit_Hr=0
+mvTimeUnit_Day=0
 mvTimeUnit_Mo=0
 mvTimeUnit_Yr=0
 mvDatePickerLevel_Day=0
@@ -1779,6 +1784,7 @@ mvColorMapButton=0
 mvColorMapSlider=0
 mvTemplateRegistry=0
 mvTableCell=0
+mvCustomSeries=0
 mvItemHandlerRegistry=0
 mvReservedUUID_0=0
 mvReservedUUID_1=0

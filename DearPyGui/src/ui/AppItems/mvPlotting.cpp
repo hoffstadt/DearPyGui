@@ -1591,11 +1591,11 @@ DearPyGui::draw_custom_series(ImDrawList* drawlist, mvAppItem& item, mvCustomSer
 	//-----------------------------------------------------------------------------
 	{
 
-		static const std::vector<double>* xptr;
-		static const std::vector<double>* yptr;
-		static const std::vector<double>* y1ptr;
-		static const std::vector<double>* y2ptr;
-		static const std::vector<double>* y3ptr;
+		static std::vector<double>* xptr;
+		static std::vector<double>* yptr;
+		static std::vector<double>* y1ptr;
+		static std::vector<double>* y2ptr;
+		static std::vector<double>* y3ptr;
 
 		xptr = &(*config.value.get())[0];
 		yptr = &(*config.value.get())[1];
@@ -1603,14 +1603,15 @@ DearPyGui::draw_custom_series(ImDrawList* drawlist, mvAppItem& item, mvCustomSer
 		y2ptr = &(*config.value.get())[3];
 		y3ptr = &(*config.value.get())[4];
 
-		//PlotCandlestick(item.info.internalLabel.c_str(), datesptr->data(), openptr->data(), closeptr->data(),
-		//	lowptr->data(), highptr->data(), (int)datesptr->size(), config.tooltip, config.weight, config.bullColor,
-		//	config.bearColor, config.timeunit);
-
 		ImDrawList* draw_list = ImPlot::GetPlotDrawList();
 
-		// calc real value width
-		//float half_width = count > 1 ? ((float)xs[1] - (float)xs[0]) * width_percent : width_percent;
+		if (ImPlot::IsPlotHovered() && !item.childslots[1].empty() && config.tooltip)
+		{
+			ImGui::BeginTooltip();
+			for (auto& item : item.childslots[1])
+				item->draw(draw_list, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
+			ImGui::EndTooltip();
+		}
 
 		// begin plot item
 		if (ImPlot::BeginItem(item.info.internalLabel.c_str())) 
@@ -1621,35 +1622,77 @@ DearPyGui::draw_custom_series(ImDrawList* drawlist, mvAppItem& item, mvCustomSer
 			// fit data if requested
 			if (ImPlot::FitThisFrame()) 
 			{
-				//for (int i = 0; i < count; ++i) {
-				//	ImPlot::FitPoint(ImPlotPoint(x[i], y[i]));
-				//	ImPlot::FitPoint(ImPlotPoint(x[i], y1[i]));
-				//}
+				for (int i = 0; i < xptr->size(); ++i)
+				{
+					// TODO: make this configurable
+					ImPlot::FitPoint(ImPlotPoint((*xptr)[i], (*yptr)[i]));
+				}
 			}
 
 			// render data
-			for (int i = 0; i < xptr->size(); ++i)
+			if (config.channelCount == 2)
 			{
-				
-				ImVec2 y_pos = ImPlot::PlotToPixels((*xptr)[i], (*yptr)[i]);
-				//ImVec2 y1_pos = ImPlot::PlotToPixels((*xptr)[i], (*y1ptr)[i]);
-				//ImVec2 y2_pos = ImPlot::PlotToPixels((*xptr)[i], (*y2ptr)[i]);
-				//ImVec2 y3_pos = ImPlot::PlotToPixels((*xptr)[i], (*y3ptr)[i]);
-				config._transformedValues[0][i] = y_pos.x;
-				config._transformedValues[1][i] = y_pos.y;
-				//config._transformedValues[0][i] = (*xptr)[i];
-				//config._transformedValues[1][i] = (*yptr)[i];
-
-				//ImU32 color = ImGui::GetColorU32(opens[i] > closes[i] ? bearCol : bullCol);
-				//draw_list->AddLine(low_pos, high_pos, color);
-				//draw_list->AddRectFilled(open_pos, close_pos, color);
+				for (int i = 0; i < xptr->size(); ++i)
+				{
+					ImVec2 y_pos = ImPlot::PlotToPixels((*xptr)[i], (*yptr)[i]);
+					config._transformedValues[0][i] = y_pos.x;
+					config._transformedValues[1][i] = y_pos.y;
+				}
 			}
+			else if (config.channelCount == 3)
+			{
+				for (int i = 0; i < xptr->size(); ++i)
+				{
 
-			mvSubmitCallback([&]() {
-				PyObject* area = PyTuple_New(2);
-				PyTuple_SetItem(area, 0, ToPyList(config._transformedValues[0]));
-				PyTuple_SetItem(area, 1, ToPyList(config._transformedValues[1]));
-				mvAddCallback(item.config.callback, item.uuid, area, item.config.user_data);
+					ImVec2 y_pos = ImPlot::PlotToPixels((*xptr)[i], (*yptr)[i]);
+					ImVec2 y1_pos = ImPlot::PlotToPixels((*xptr)[i], (*y1ptr)[i]);
+					config._transformedValues[0][i] = y_pos.x;
+					config._transformedValues[1][i] = y_pos.y;
+					config._transformedValues[2][i] = y1_pos.y;
+				}
+			}
+			else if (config.channelCount == 4)
+			{
+				for (int i = 0; i < xptr->size(); ++i)
+				{
+
+					ImVec2 y_pos = ImPlot::PlotToPixels((*xptr)[i], (*yptr)[i]);
+					ImVec2 y1_pos = ImPlot::PlotToPixels((*xptr)[i], (*y1ptr)[i]);
+					ImVec2 y2_pos = ImPlot::PlotToPixels((*xptr)[i], (*y2ptr)[i]);
+					config._transformedValues[0][i] = y_pos.x;
+					config._transformedValues[1][i] = y_pos.y;
+					config._transformedValues[2][i] = y1_pos.y;
+					config._transformedValues[3][i] = y2_pos.y;
+				}
+			}
+			else if (config.channelCount == 5)
+			{
+				for (int i = 0; i < xptr->size(); ++i)
+				{
+
+					ImVec2 y_pos = ImPlot::PlotToPixels((*xptr)[i], (*yptr)[i]);
+					ImVec2 y1_pos = ImPlot::PlotToPixels((*xptr)[i], (*y1ptr)[i]);
+					ImVec2 y2_pos = ImPlot::PlotToPixels((*xptr)[i], (*y2ptr)[i]);
+					ImVec2 y3_pos = ImPlot::PlotToPixels((*xptr)[i], (*y3ptr)[i]);
+					config._transformedValues[0][i] = y_pos.x;
+					config._transformedValues[1][i] = y_pos.y;
+					config._transformedValues[2][i] = y1_pos.y;
+					config._transformedValues[3][i] = y2_pos.y;
+					config._transformedValues[4][i] = y3_pos.y;
+				}
+			}
+			ImPlotPoint mouse = ImPlot::GetPlotMousePos();
+			ImVec2 mouse2 = ImPlot::PlotToPixels(mouse.x, mouse.y);
+			static int extras = 4;
+			mvSubmitCallback([&, mouse, mouse2]() {
+				PyObject* appData = PyTuple_New(config.channelCount+extras);
+				PyTuple_SetItem(appData, 0, ToPyFloat(mouse.x));
+				PyTuple_SetItem(appData, 1, ToPyFloat(mouse.y));
+				PyTuple_SetItem(appData, 2, ToPyFloat(mouse2.x));
+				PyTuple_SetItem(appData, 3, ToPyFloat(mouse2.y));
+				for(int i = extras; i < config.channelCount+extras; i++)
+					PyTuple_SetItem(appData, i, ToPyList(config._transformedValues[i-extras]));
+				mvAddCallback(item.config.callback, item.uuid, appData, item.config.user_data);
 				});
 
 			// drawings
@@ -2130,9 +2173,10 @@ DearPyGui::set_configuration(PyObject* inDict, mvCustomSeriesConfig& outConfig)
 		return;
 	if (PyObject* item = PyDict_GetItemString(inDict, "x")) { (*outConfig.value)[0] = ToDoubleVect(item); }
 	if (PyObject* item = PyDict_GetItemString(inDict, "y")) { (*outConfig.value)[1] = ToDoubleVect(item); }
-	//if (PyObject* item = PyDict_GetItemString(inDict, "y1")) { (*outConfig.value)[2] = ToDoubleVect(item); }
-	//if (PyObject* item = PyDict_GetItemString(inDict, "y2")) { (*outConfig.value)[3] = ToDoubleVect(item); }
-	//if (PyObject* item = PyDict_GetItemString(inDict, "y3")) { (*outConfig.value)[4] = ToDoubleVect(item); }
+	if (PyObject* item = PyDict_GetItemString(inDict, "y1")) { (*outConfig.value)[2] = ToDoubleVect(item); }
+	if (PyObject* item = PyDict_GetItemString(inDict, "y2")) { (*outConfig.value)[3] = ToDoubleVect(item); }
+	if (PyObject* item = PyDict_GetItemString(inDict, "y3")) { (*outConfig.value)[4] = ToDoubleVect(item); }
+	if (PyObject* item = PyDict_GetItemString(inDict, "tooltip")) { outConfig.tooltip = ToBool(item); }
 }
 
 void
@@ -2320,6 +2364,7 @@ DearPyGui::fill_configuration_dict(const mvCustomSeriesConfig& inConfig, PyObjec
 		return;
 
 	PyDict_SetItemString(outDict, "channel_count", mvPyObject(ToPyInt(inConfig.channelCount)));
+	PyDict_SetItemString(outDict, "tooltip", mvPyObject(ToPyBool(inConfig.tooltip)));
 }
 
 void
@@ -2474,6 +2519,7 @@ DearPyGui::apply_template(const mvCustomSeriesConfig& sourceConfig, mvCustomSeri
 {
 	dstConfig.value = sourceConfig.value;
 	dstConfig.channelCount = sourceConfig.channelCount;
+	dstConfig.tooltip = sourceConfig.tooltip;
 }
 
 //-----------------------------------------------------------------------------

@@ -3961,12 +3961,14 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::DoubleList, "x" });
         args.push_back({ mvPyDataType::DoubleList, "y" });
         args.push_back({ mvPyDataType::Integer, "channel_count" });
-        args.push_back({ mvPyDataType::DoubleList, "y1", mvArgType::KEYWORD_ARG});
-        args.push_back({ mvPyDataType::DoubleList, "y2", mvArgType::KEYWORD_ARG});
-        args.push_back({ mvPyDataType::DoubleList, "y3", mvArgType::KEYWORD_ARG});
+        args.push_back({ mvPyDataType::DoubleList, "y1", mvArgType::KEYWORD_ARG, "[]"});
+        args.push_back({ mvPyDataType::DoubleList, "y2", mvArgType::KEYWORD_ARG, "[]"});
+        args.push_back({ mvPyDataType::DoubleList, "y3", mvArgType::KEYWORD_ARG, "[]"});
+        args.push_back({ mvPyDataType::Bool, "tooltip", mvArgType::KEYWORD_ARG, "True", "Show tooltip when plot is hovered."});
 
-        setup.about = "Adds a custom series to a plot.";
+        setup.about = "Adds a custom series to a plot. New in 1.6.";
         setup.category = { "Plotting", "Containers", "Widgets" };
+        setup.createContextManager = true;
         break;
     }
     case mvAppItemType::mvAreaSeries:                  

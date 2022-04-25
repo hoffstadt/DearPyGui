@@ -300,6 +300,7 @@ struct mvCandleSeriesConfig
 struct mvCustomSeriesConfig
 {
     int channelCount = 2; // must be between 2 and 5 inclusive
+    bool tooltip = true;
     mvRef<std::vector<std::vector<double>>> value = CreateRef<std::vector<std::vector<double>>>(
         std::vector<std::vector<double>>{ std::vector<double>{},
         std::vector<double>{},
