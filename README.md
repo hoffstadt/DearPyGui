@@ -41,7 +41,7 @@
 
 <BR>![Themes](https://raw.githubusercontent.com/hoffstadt/DearPyGui/assets/linuxthemes.PNG) 
   
-### Features  
+## Features  
 - **Modern look** — Complete theme and style control
 - **Great performance** —  GPU-based rendering and efficient C/C++ code
 - **Stable operation** —  Asynchronous function support
@@ -57,21 +57,6 @@
   <img src="https://raw.githubusercontent.com/wiki/epezent/implot/screenshots3/stem.gif" width="380">&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;<img src="https://raw.githubusercontent.com/wiki/epezent/implot/screenshots3/tables.gif" width="380">
 </p>
 <h1></h1>
-  
-## Functionality
-- Menus, tabs, windows, tree nodes
-- Text widgets, input boxes
-- Comboboxes, listboxes 
-- Int, float & scientific input widgets and sliders
-- Date & color pickers
-- Checkboxes, droplists, buttons
-- Progress bars, loading indicators
-- Drag & drop
-- Tables
-- Canvas with layers for drawing, textures, images
-- Real-time plotting
-- Node editor
-- And much more
 
 <h1></h1>
 <p align="center"> 
@@ -119,9 +104,6 @@ dpg.destroy_context()
 The built-in demo shows all of Dear PyGui's functionality. Use [this code](https://dearpygui.readthedocs.io/en/latest/tutorials/first-steps.html#demo) to run the demo. The following impression shows a few, but not nearly all, of the available widgets and features. Since the Python code of the demo can be <a href="https://github.com/hoffstadt/DearPyGui/blob/master/DearPyGui/dearpygui/demo.py" alt="demo code repository">inspected</a>, you can leverage the demo code to build your own apps.
 <br/><br/>
 <p align="center"><a href="https://dearpygui.readthedocs.io/en/latest/tutorials/first-steps.html#demo"><img src="https://raw.githubusercontent.com/hoffstadt/DearPyGui/assets/readme/demo.gif" alt="Dear PyGui demo"></a></p>
-
-## Tools
-There are several developer tools built into Dear PyGui that can assist in developing and debugging your app. The <a href="https://dearpygui.readthedocs.io/en/latest/tutorials/tips-resources.html#style-editor">style editor</a> allows you to experiment with all style options at runtime to find the exact colors, padding, rounding and other style settings for your application. The <a href="https://dearpygui.readthedocs.io/en/latest/tutorials/tips-resources.html#item-registry">item registry</a> shows the state of each item, e.g. window, button, tab or graph, while your app is running. The built-in <a href="https://dearpygui.readthedocs.io/en/latest/tutorials/tips-resources.html#runtime-metrics">runtime metrics</a> provide real-time information about your app's performance. And the <a href="https://dearpygui.readthedocs.io/en/latest/tutorials/tips-resources.html#font-manager">font manager</a> enables you to inspect the loaded fonts and their characters. 
   
 ## Resources
 
@@ -140,7 +122,7 @@ If you are having issues or want to help, here are some places you can go.
 
 [![Chat on Discord](https://img.shields.io/discord/736279277242417272?logo=discord)](https://discord.gg/tyE7Gu4) &nbsp; &nbsp; &nbsp; [![Reddit](https://img.shields.io/reddit/subreddit-subscribers/dearpygui?label=r%2Fdearpygui)](https://www.reddit.com/r/DearPyGui/)
 
-### Tech stack
+## Tech stack
 Dear PyGui is built on top of <a href="https://github.com/ocornut/imgui" target="_blank">Dear ImGui</a>, including the [ImPlot](https://github.com/epezent/implot) and [imnodes](https://github.com/Nelarius/imnodes) extensions, and is fundamentally different than other Python GUI frameworks. Under the hood, it uses the immediate mode paradigm and your computer's GPU to facilitate extremely dynamic interfaces. In the same manner Dear ImGui provides a simple way to create tools for game developers, Dear PyGui provides a simple way for python developers to create quick and powerful GUIs for scripts. Dear PyGui is written in C/C++ resulting in highly performant Python applications. Dear PyGui is currently supported on the following platforms. 
 <br/>
   
