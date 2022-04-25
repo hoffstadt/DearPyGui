@@ -114,8 +114,9 @@ GetModuleConstants()
 		ModuleConstants.push_back({ "mvTimeUnit_S", 2L });
 		ModuleConstants.push_back({ "mvTimeUnit_Min", 3L });
 		ModuleConstants.push_back({ "mvTimeUnit_Hr", 4L });
-		ModuleConstants.push_back({ "mvTimeUnit_Mo", 5L });
-		ModuleConstants.push_back({ "mvTimeUnit_Yr", 6L });
+		ModuleConstants.push_back({ "mvTimeUnit_Day", 5L });
+		ModuleConstants.push_back({ "mvTimeUnit_Mo", 6L });
+		ModuleConstants.push_back({ "mvTimeUnit_Yr", 7L });
 
 		ModuleConstants.push_back({ "mvDatePickerLevel_Day", 0L });
 		ModuleConstants.push_back({ "mvDatePickerLevel_Month", 1L });

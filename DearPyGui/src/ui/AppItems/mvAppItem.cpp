@@ -1006,6 +1006,7 @@ DearPyGui::GetEntityDesciptionFlags(mvAppItemType type)
     case mvAppItemType::mvAreaSeries:
     case mvAppItemType::mvBarSeries:
     case mvAppItemType::mvCandleSeries:
+    case mvAppItemType::mvCustomSeries:
     case mvAppItemType::mvErrorSeries:
     case mvAppItemType::mvHeatSeries:
     case mvAppItemType::mvHistogramSeries:
@@ -1174,6 +1175,7 @@ DearPyGui::GetEntityValueType(mvAppItemType type)
     case mvAppItemType::mvAreaSeries:
     case mvAppItemType::mvBarSeries:
     case mvAppItemType::mvCandleSeries:
+    case mvAppItemType::mvCustomSeries:
     case mvAppItemType::mvErrorSeries:
     case mvAppItemType::mvHeatSeries:
     case mvAppItemType::mvHistogramSeries:
@@ -1338,6 +1340,7 @@ DearPyGui::GetAllowableParents(mvAppItemType type)
         MV_ADD_PARENT(mvAppItemType::mvDrawNode),
         MV_ADD_PARENT(mvAppItemType::mvViewportDrawlist),
         MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
+        MV_ADD_PARENT(mvAppItemType::mvCustomSeries),
         MV_END_PARENTS
 
     case mvAppItemType::mvDrawLayer:
@@ -4215,12 +4218,36 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::DoubleList, "highs" });
         args.push_back({ mvPyDataType::IntList, "bull_color", mvArgType::KEYWORD_ARG, "(0, 255, 113, 255)" });
         args.push_back({ mvPyDataType::IntList, "bear_color", mvArgType::KEYWORD_ARG, "(218, 13, 79, 255)" });
-        args.push_back({ mvPyDataType::Integer, "weight", mvArgType::KEYWORD_ARG, "0.25" });
+        args.push_back({ mvPyDataType::Float, "weight", mvArgType::KEYWORD_ARG, "0.25" });
         args.push_back({ mvPyDataType::Bool, "tooltip", mvArgType::KEYWORD_ARG, "True" });
         args.push_back({ mvPyDataType::Integer, "time_unit", mvArgType::KEYWORD_ARG, "5", "mvTimeUnit_* constants. Default mvTimeUnit_Day."});
 
         setup.about = "Adds a candle series to a plot.";
         setup.category = { "Plotting", "Containers", "Widgets" };
+        break;
+    }
+    case mvAppItemType::mvCustomSeries:
+    {
+        AddCommonArgs(args, (CommonParserArgs)(
+            MV_PARSER_ARG_ID |
+            MV_PARSER_ARG_PARENT |
+            MV_PARSER_ARG_BEFORE |
+            MV_PARSER_ARG_SOURCE |
+            MV_PARSER_ARG_CALLBACK |
+            MV_PARSER_ARG_SHOW)
+        );
+
+        args.push_back({ mvPyDataType::DoubleList, "x" });
+        args.push_back({ mvPyDataType::DoubleList, "y" });
+        args.push_back({ mvPyDataType::Integer, "channel_count" });
+        args.push_back({ mvPyDataType::DoubleList, "y1", mvArgType::KEYWORD_ARG, "[]" });
+        args.push_back({ mvPyDataType::DoubleList, "y2", mvArgType::KEYWORD_ARG, "[]" });
+        args.push_back({ mvPyDataType::DoubleList, "y3", mvArgType::KEYWORD_ARG, "[]" });
+        args.push_back({ mvPyDataType::Bool, "tooltip", mvArgType::KEYWORD_ARG, "True", "Show tooltip when plot is hovered." });
+
+        setup.about = "Adds a custom series to a plot. New in 1.6.";
+        setup.category = { "Plotting", "Containers", "Widgets" };
+        setup.createContextManager = true;
         break;
     }
     case mvAppItemType::mvAreaSeries:                  
