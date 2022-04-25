@@ -155,22 +155,22 @@ SetDefaultTheme()
     colors[ImGuiCol_NavWindowingDimBg] = mvImGuiCol_NavWindowingDimBg;
     colors[ImGuiCol_ModalWindowDimBg] = mvImGuiCol_ModalWindowDimBg;
 
-    imnodes::GetStyle().colors[imnodes::ColorStyle_NodeBackground] = mvColor::ConvertToUnsignedInt(mvColor(62, 62, 62, 255));
-    imnodes::GetStyle().colors[imnodes::ColorStyle_NodeBackgroundHovered] = mvColor::ConvertToUnsignedInt(mvColor(75, 75, 75, 255));
-    imnodes::GetStyle().colors[imnodes::ColorStyle_NodeBackgroundSelected] = mvColor::ConvertToUnsignedInt(mvColor(75, 75, 75, 255));
-    imnodes::GetStyle().colors[imnodes::ColorStyle_NodeOutline] = mvColor::ConvertToUnsignedInt(mvColor(100, 100, 100, 255));
-    imnodes::GetStyle().colors[imnodes::ColorStyle_TitleBar] = mvColor::ConvertToUnsignedInt(mvImGuiCol_TitleBg);
-    imnodes::GetStyle().colors[imnodes::ColorStyle_TitleBarHovered] = mvColor::ConvertToUnsignedInt(mvImGuiCol_TitleBgActive);
-    imnodes::GetStyle().colors[imnodes::ColorStyle_TitleBarSelected] = mvColor::ConvertToUnsignedInt(mvImGuiCol_FrameBgActive);
-    imnodes::GetStyle().colors[imnodes::ColorStyle_Link] = mvColor::ConvertToUnsignedInt(mvColor(255, 255, 255, 200));
-    imnodes::GetStyle().colors[imnodes::ColorStyle_LinkHovered] = mvColor::ConvertToUnsignedInt(mvColor(66, 150, 250, 255));
-    imnodes::GetStyle().colors[imnodes::ColorStyle_LinkSelected] = mvColor::ConvertToUnsignedInt(mvColor(66, 150, 250, 255));
-    imnodes::GetStyle().colors[imnodes::ColorStyle_Pin] = mvColor::ConvertToUnsignedInt(mvColor(199, 199, 41, 255));
-    imnodes::GetStyle().colors[imnodes::ColorStyle_PinHovered] = mvColor::ConvertToUnsignedInt(mvColor(255, 255, 50, 255));
-    imnodes::GetStyle().colors[imnodes::ColorStyle_BoxSelector] = mvColor::ConvertToUnsignedInt(mvColor(61, 133, 224, 30));
-    imnodes::GetStyle().colors[imnodes::ColorStyle_BoxSelectorOutline] = mvColor::ConvertToUnsignedInt(mvColor(61, 133, 224, 150));
-    imnodes::GetStyle().colors[imnodes::ColorStyle_GridBackground] = mvColor::ConvertToUnsignedInt(mvColor(35, 35, 35, 255));
-    imnodes::GetStyle().colors[imnodes::ColorStyle_GridLine] = mvColor::ConvertToUnsignedInt(mvColor(0, 0, 0, 255));
+    ImNodes::GetStyle().Colors[ImNodesCol_NodeBackground] = mvColor::ConvertToUnsignedInt(mvColor(62, 62, 62, 255));
+    ImNodes::GetStyle().Colors[ImNodesCol_NodeBackgroundHovered] = mvColor::ConvertToUnsignedInt(mvColor(75, 75, 75, 255));
+    ImNodes::GetStyle().Colors[ImNodesCol_NodeBackgroundSelected] = mvColor::ConvertToUnsignedInt(mvColor(75, 75, 75, 255));
+    ImNodes::GetStyle().Colors[ImNodesCol_NodeOutline] = mvColor::ConvertToUnsignedInt(mvColor(100, 100, 100, 255));
+    ImNodes::GetStyle().Colors[ImNodesCol_TitleBar] = mvColor::ConvertToUnsignedInt(mvImGuiCol_TitleBg);
+    ImNodes::GetStyle().Colors[ImNodesCol_TitleBarHovered] = mvColor::ConvertToUnsignedInt(mvImGuiCol_TitleBgActive);
+    ImNodes::GetStyle().Colors[ImNodesCol_TitleBarSelected] = mvColor::ConvertToUnsignedInt(mvImGuiCol_FrameBgActive);
+    ImNodes::GetStyle().Colors[ImNodesCol_Link] = mvColor::ConvertToUnsignedInt(mvColor(255, 255, 255, 200));
+    ImNodes::GetStyle().Colors[ImNodesCol_LinkHovered] = mvColor::ConvertToUnsignedInt(mvColor(66, 150, 250, 255));
+    ImNodes::GetStyle().Colors[ImNodesCol_LinkSelected] = mvColor::ConvertToUnsignedInt(mvColor(66, 150, 250, 255));
+    ImNodes::GetStyle().Colors[ImNodesCol_Pin] = mvColor::ConvertToUnsignedInt(mvColor(199, 199, 41, 255));
+    ImNodes::GetStyle().Colors[ImNodesCol_PinHovered] = mvColor::ConvertToUnsignedInt(mvColor(255, 255, 50, 255));
+    ImNodes::GetStyle().Colors[ImNodesCol_BoxSelector] = mvColor::ConvertToUnsignedInt(mvColor(61, 133, 224, 30));
+    ImNodes::GetStyle().Colors[ImNodesCol_BoxSelectorOutline] = mvColor::ConvertToUnsignedInt(mvColor(61, 133, 224, 150));
+    ImNodes::GetStyle().Colors[ImNodesCol_GridBackground] = mvColor::ConvertToUnsignedInt(mvColor(35, 35, 35, 255));
+    ImNodes::GetStyle().Colors[ImNodesCol_GridLine] = mvColor::ConvertToUnsignedInt(mvColor(0, 0, 0, 255));
 
 }
 

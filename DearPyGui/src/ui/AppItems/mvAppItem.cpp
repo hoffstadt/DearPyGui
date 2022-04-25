@@ -3119,6 +3119,8 @@ DearPyGui::GetEntityParser(mvAppItemType type)
 
         args.push_back({ mvPyDataType::Callable, "delink_callback", mvArgType::KEYWORD_ARG, "None", "Callback ran when a link is detached." });
         args.push_back({ mvPyDataType::Bool, "menubar", mvArgType::KEYWORD_ARG, "False", "Shows or hides the menubar." });
+        args.push_back({ mvPyDataType::Bool, "minimap", mvArgType::KEYWORD_ARG, "False", "Shows or hides the Minimap. New in 1.6." });
+        args.push_back({ mvPyDataType::Integer, "minimap_location", mvArgType::KEYWORD_ARG, "2", "mvNodeMiniMap_Location_* constants. New in 1.6." });
 
         setup.about = "Adds a node editor.";
         setup.category = { "Node Editor", "Containers", "Widgets" };

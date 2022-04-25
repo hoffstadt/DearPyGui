@@ -2031,6 +2031,8 @@ def node_editor(**kwargs):
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		delink_callback (Callable, optional): Callback ran when a link is detached.
 		menubar (bool, optional): Shows or hides the menubar.
+		minimap (bool, optional): Shows or hides the Minimap. New in 1.6.
+		minimap_location (int, optional): mvNodeMiniMap_Location_* constants. New in 1.6.
 		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
@@ -5161,6 +5163,8 @@ def add_node_editor(**kwargs):
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		delink_callback (Callable, optional): Callback ran when a link is detached.
 		menubar (bool, optional): Shows or hides the menubar.
+		minimap (bool, optional): Shows or hides the Minimap. New in 1.6.
+		minimap_location (int, optional): mvNodeMiniMap_Location_* constants. New in 1.6.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -8659,6 +8663,10 @@ mvPlot_Location_NorthWest=internal_dpg.mvPlot_Location_NorthWest
 mvPlot_Location_NorthEast=internal_dpg.mvPlot_Location_NorthEast
 mvPlot_Location_SouthWest=internal_dpg.mvPlot_Location_SouthWest
 mvPlot_Location_SouthEast=internal_dpg.mvPlot_Location_SouthEast
+mvNodeMiniMap_Location_BottomLeft=internal_dpg.mvNodeMiniMap_Location_BottomLeft
+mvNodeMiniMap_Location_BottomRight=internal_dpg.mvNodeMiniMap_Location_BottomRight
+mvNodeMiniMap_Location_TopLeft=internal_dpg.mvNodeMiniMap_Location_TopLeft
+mvNodeMiniMap_Location_TopRight=internal_dpg.mvNodeMiniMap_Location_TopRight
 mvTable_SizingFixedFit=internal_dpg.mvTable_SizingFixedFit
 mvTable_SizingFixedSame=internal_dpg.mvTable_SizingFixedSame
 mvTable_SizingStretchProp=internal_dpg.mvTable_SizingStretchProp

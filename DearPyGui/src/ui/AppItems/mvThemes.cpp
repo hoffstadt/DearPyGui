@@ -131,7 +131,7 @@ void mvThemeColor::push_theme_color()
 	else if (_libType == mvLibType::MV_IMPLOT)
 		ImPlot::PushStyleColor(_targetColor, color);
 	else if (_libType == mvLibType::MV_IMNODES)
-		imnodes::PushColorStyle((imnodes::ColorStyle)_targetColor, ImGui::ColorConvertFloat4ToU32(color));
+		ImNodes::PushColorStyle(_targetColor, ImGui::ColorConvertFloat4ToU32(color));
 }
 
 void mvThemeColor::pop_theme_color()
@@ -141,7 +141,7 @@ void mvThemeColor::pop_theme_color()
 	else if (_libType == mvLibType::MV_IMPLOT)
 		ImPlot::PopStyleColor();
 	else if (_libType == mvLibType::MV_IMNODES)
-		imnodes::PopColorStyle();
+		ImNodes::PopColorStyle();
 }
 
 void mvThemeColor::handleSpecificPositionalArgs(PyObject* dict)
@@ -201,7 +201,7 @@ void mvThemeColor::handleSpecificKeywordArgs(PyObject* dict)
 
 	else if (_libType == mvLibType::MV_IMNODES)
 	{
-		if (_targetColor >= imnodes::ColorStyle_Count || _targetColor < 0)
+		if (_targetColor >= ImNodesCol_COUNT || _targetColor < 0)
 		{
 			state.ok = false;
 			mvThrowPythonError(mvErrorCode::mvNone, "Style target out of range.");
@@ -525,7 +525,7 @@ void mvThemeStyle::push_theme_style()
 			ImPlot::PushStyleVar(_targetStyle, { (*_value)[0], (*_value)[1] });
 	}
 	else if (_libType == mvLibType::MV_IMNODES)
-		imnodes::PushStyleVar((imnodes::StyleVar)_targetStyle, (*_value)[0]);
+		ImNodes::PushStyleVar(_targetStyle, (*_value)[0]);
 }
 
 void mvThemeStyle::pop_theme_style()
@@ -535,7 +535,7 @@ void mvThemeStyle::pop_theme_style()
 	else if (_libType == mvLibType::MV_IMPLOT)
 		ImPlot::PopStyleVar();
 	else if (_libType == mvLibType::MV_IMNODES)
-		imnodes::PopStyleVar();
+		ImNodes::PopStyleVar();
 }
 
 void mvThemeStyle::handleSpecificPositionalArgs(PyObject* dict)

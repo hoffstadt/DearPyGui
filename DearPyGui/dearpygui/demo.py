@@ -2309,7 +2309,7 @@ def show_demo():
             dpg.add_text("Ctrl+Click to remove a link.", bullet=True)
 
             with dpg.node_editor(callback=lambda sender, app_data: dpg.add_node_link(app_data[0], app_data[1], parent=sender), 
-                             delink_callback=lambda sender, app_data: dpg.delete_item(app_data)):
+                             delink_callback=lambda sender, app_data: dpg.delete_item(app_data), minimap=True, minimap_location=dpg.mvNodeMiniMap_Location_BottomRight):
 
                 with dpg.node(label="Node 1", pos=[10, 10]):
 

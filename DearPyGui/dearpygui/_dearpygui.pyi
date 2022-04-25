@@ -402,7 +402,7 @@ def add_node_attribute(*, label: str ='', user_data: Any ='', use_internal_label
 	"""Adds a node attribute to a node."""
 	...
 
-def add_node_editor(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', callback: Callable ='', show: bool ='', filter_key: str ='', delay_search: bool ='', tracked: bool ='', track_offset: float ='', delink_callback: Callable ='', menubar: bool ='') -> Union[int, str]:
+def add_node_editor(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', callback: Callable ='', show: bool ='', filter_key: str ='', delay_search: bool ='', tracked: bool ='', track_offset: float ='', delink_callback: Callable ='', menubar: bool ='', minimap: bool ='', minimap_location: int ='') -> Union[int, str]:
 	"""Adds a node editor."""
 	...
 
@@ -1477,6 +1477,10 @@ mvPlot_Location_NorthWest=0
 mvPlot_Location_NorthEast=0
 mvPlot_Location_SouthWest=0
 mvPlot_Location_SouthEast=0
+mvNodeMiniMap_Location_BottomLeft=0
+mvNodeMiniMap_Location_BottomRight=0
+mvNodeMiniMap_Location_TopLeft=0
+mvNodeMiniMap_Location_TopRight=0
 mvTable_SizingFixedFit=0
 mvTable_SizingFixedSame=0
 mvTable_SizingStretchProp=0

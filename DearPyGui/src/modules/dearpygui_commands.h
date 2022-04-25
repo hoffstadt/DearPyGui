@@ -2443,7 +2443,7 @@ create_context(PyObject* self, PyObject* args, PyObject* kwargs)
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
 		ImPlot::CreateContext();
-		imnodes::CreateContext();
+		ImNodes::CreateContext();
 	}
 
 	mvToolManager::GetFontManager()._dirty = true;
@@ -2476,7 +2476,7 @@ destroy_context(PyObject* self, PyObject* args, PyObject* kwargs)
 			GContext->started = false;  // return to false after
 			});
 
-		imnodes::DestroyContext();
+		ImNodes::DestroyContext();
 		ImPlot::DestroyContext();
 		ImGui::DestroyContext();
 
