@@ -522,7 +522,7 @@ ToDouble(PyObject* value, const std::string& message)
 
     if (!PyNumber_Check(value))
     {
-        mvThrowPythonError(mvErrorCode::mvWrongType, "Python value error. Must be float.");
+        mvThrowPythonError(mvErrorCode::mvWrongType, "Python value error. Must be double.");
         return 0.0;
     }
 
