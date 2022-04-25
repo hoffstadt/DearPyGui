@@ -39,12 +39,12 @@ static std::string FindRenderedTextEnd(const char* text, const char* text_end = 
 mvNodeEditor::mvNodeEditor(mvUUID uuid)
     : mvAppItem(uuid)
 {
-    _context = imnodes::EditorContextCreate();
+    _context = ImNodes::EditorContextCreate();
 }
 
 mvNodeEditor::~mvNodeEditor()
 {
-    imnodes::EditorContextFree(_context);
+    ImNodes::EditorContextFree(_context);
 }
 
 void mvNodeEditor::handleSpecificKeywordArgs(PyObject* dict)
@@ -71,6 +71,9 @@ void mvNodeEditor::handleSpecificKeywordArgs(PyObject* dict)
 
     // window flags
     flagop("menubar", ImGuiWindowFlags_MenuBar, _windowflags);
+
+    if (PyObject* item = PyDict_GetItemString(dict, "minimap")) _minimap = ToBool(item);
+    if (PyObject* item = PyDict_GetItemString(dict, "minimap_location")) _minimapLocation = ToInt(item);
 }
 
 void mvNodeEditor::getSpecificConfiguration(PyObject* dict)
@@ -93,6 +96,9 @@ void mvNodeEditor::getSpecificConfiguration(PyObject* dict)
 
     // window flags
     checkbitset("menubar", ImGuiWindowFlags_MenuBar, _windowflags);
+
+    PyDict_SetItemString(dict, "minimap", mvPyObject(ToPyBool(_minimap)));
+    PyDict_SetItemString(dict, "minimap_location", mvPyObject(ToPyInt(_minimapLocation)));
 }
 
 void mvNodeEditor::onChildRemoved(mvRef<mvAppItem> item)
@@ -163,7 +169,7 @@ std::vector<mvUUID> mvNodeEditor::getSelectedLinks() const
 void mvNodeEditor::draw(ImDrawList* drawlist, float x, float y)
 {
     ScopedID id(uuid);
-    imnodes::EditorContextSet(_context);
+    ImNodes::EditorContextSet(_context);
 
     bool ret = ImGui::BeginChild(info.internalLabel.c_str(), ImVec2((float)config.width, (float)config.height), false, _windowflags);
 
@@ -181,22 +187,22 @@ void mvNodeEditor::draw(ImDrawList* drawlist, float x, float y)
 
     }
 
-    imnodes::PushAttributeFlag(imnodes::AttributeFlags_EnableLinkDetachWithDragClick);
+    ImNodes::PushAttributeFlag(ImNodesAttributeFlags_EnableLinkDetachWithDragClick);
 
-    imnodes::IO& io = imnodes::GetIO();
-    io.link_detach_with_modifier_click.modifier = &ImGui::GetIO().KeyCtrl;
+    ImNodesIO& io = ImNodes::GetIO();
+    io.LinkDetachWithModifierClick.Modifier = &ImGui::GetIO().KeyCtrl;
 
-    imnodes::BeginNodeEditor();
+    ImNodes::BeginNodeEditor();
 
     if (_clearLinks)
     {
-        imnodes::ClearLinkSelection();
+        ImNodes::ClearLinkSelection();
         _clearLinks = false;
     }
 
     if (_clearNodes)
     {
-        imnodes::ClearNodeSelection();
+        ImNodes::ClearNodeSelection();
         _clearNodes = false;
     }
 
@@ -219,11 +225,15 @@ void mvNodeEditor::draw(ImDrawList* drawlist, float x, float y)
     }
 
     state.lastFrameUpdate = GContext->frame;
-    state.hovered = imnodes::IsEditorHovered();
+    state.hovered = ImNodes::IsEditorHovered();
     state.visible = ret;
-    state.rectSize = { imnodes::mvEditorGetSize().Max.x - imnodes::mvEditorGetSize().Min.x, imnodes::mvEditorGetSize().Max.y - imnodes::mvEditorGetSize().Min.y };
-    imnodes::EndNodeEditor();
-    imnodes::PopAttributeFlag();
+    state.rectSize = { ImNodes::mvEditorGetSize().Max.x - ImNodes::mvEditorGetSize().Min.x, ImNodes::mvEditorGetSize().Max.y - ImNodes::mvEditorGetSize().Min.y };
+    if (_minimap)
+    {
+        ImNodes::MiniMap(0.2f, _minimapLocation);
+    }
+    ImNodes::EndNodeEditor();
+    ImNodes::PopAttributeFlag();
 
     // post draw for links
     for (auto& item : childslots[0])
@@ -234,10 +244,10 @@ void mvNodeEditor::draw(ImDrawList* drawlist, float x, float y)
     int pinHovered = -1;
     int attrActive = -1;
 
-    bool anyNodeHovered = imnodes::IsNodeHovered(&nodeHovered);
-    bool anyLinkHovered = imnodes::IsLinkHovered(&linkHovered);
-    bool anyPinHovered = imnodes::IsPinHovered(&pinHovered);
-    bool anyAttrActive = imnodes::IsAnyAttributeActive(&attrActive);
+    bool anyNodeHovered = ImNodes::IsNodeHovered(&nodeHovered);
+    bool anyLinkHovered = ImNodes::IsLinkHovered(&linkHovered);
+    bool anyPinHovered = ImNodes::IsPinHovered(&pinHovered);
+    bool anyAttrActive = ImNodes::IsAnyAttributeActive(&attrActive);
 
     for (auto& child : childslots[0])
     {
@@ -254,7 +264,7 @@ void mvNodeEditor::draw(ImDrawList* drawlist, float x, float y)
         child->state.lastFrameUpdate = GContext->frame;
         child->state.hovered = false;
 
-        ImVec2 size = imnodes::GetNodeDimensions(static_cast<mvNode*>(child.get())->getId());
+        ImVec2 size = ImNodes::GetNodeDimensions(static_cast<mvNode*>(child.get())->getId());
         child->state.rectSize = { size.x, size.y };
 
         if (anyNodeHovered && nodeHovered == static_cast<mvNode*>(child.get())->getId())
@@ -273,29 +283,29 @@ void mvNodeEditor::draw(ImDrawList* drawlist, float x, float y)
     }
 
     _selectedNodes.clear();
-    if (imnodes::NumSelectedNodes() > 0)
+    if (ImNodes::NumSelectedNodes() > 0)
     {
-        int* selected_nodes = new int[imnodes::NumSelectedNodes()];
-        imnodes::GetSelectedNodes(selected_nodes);
+        int* selected_nodes = new int[ImNodes::NumSelectedNodes()];
+        ImNodes::GetSelectedNodes(selected_nodes);
 
-        for (int i = 0; i < imnodes::NumSelectedNodes(); i++)
+        for (int i = 0; i < ImNodes::NumSelectedNodes(); i++)
             _selectedNodes.push_back(selected_nodes[i]);
         delete[] selected_nodes;
     }
 
     _selectedLinks.clear();
-    if (imnodes::NumSelectedLinks() > 0)
+    if (ImNodes::NumSelectedLinks() > 0)
     {
-        int* selected_links = new int[imnodes::NumSelectedLinks()];
-        imnodes::GetSelectedLinks(selected_links);
+        int* selected_links = new int[ImNodes::NumSelectedLinks()];
+        ImNodes::GetSelectedLinks(selected_links);
 
-        for (int i = 0; i < imnodes::NumSelectedLinks(); i++)
+        for (int i = 0; i < ImNodes::NumSelectedLinks(); i++)
             _selectedLinks.push_back(selected_links[i]);
         delete[] selected_links;
     }
 
     static int start_attr, end_attr;
-    if (imnodes::IsLinkCreated(&start_attr, &end_attr))
+    if (ImNodes::IsLinkCreated(&start_attr, &end_attr))
     {
         mvUUID node1, node2;
         for (const auto& child : childslots[1])
@@ -335,7 +345,7 @@ void mvNodeEditor::draw(ImDrawList* drawlist, float x, float y)
     }
 
     static int destroyed_attr;
-    if (imnodes::IsLinkDestroyed(&destroyed_attr))
+    if (ImNodes::IsLinkDestroyed(&destroyed_attr))
     {
         mvUUID name = 0;
         for (auto& item : childslots[0])
@@ -423,17 +433,17 @@ void mvNode::draw(ImDrawList* drawlist, float x, float y)
 
         if (info.dirtyPos)
         {
-            imnodes::SetNodeGridSpacePos((int)_id, state.pos);
+            ImNodes::SetNodeGridSpacePos((int)_id, state.pos);
             info.dirtyPos = false;
         }
 
-        imnodes::SetNodeDraggable((int)_id, _draggable);
+        ImNodes::SetNodeDraggable((int)_id, _draggable);
 
-        imnodes::BeginNode(_id);
+        ImNodes::BeginNode(_id);
 
-        imnodes::BeginNodeTitleBar();
+        ImNodes::BeginNodeTitleBar();
         ImGui::TextUnformatted(config.specifiedLabel.c_str());
-        imnodes::EndNodeTitleBar();
+        ImNodes::EndNodeTitleBar();
 
         state.lastFrameUpdate = GContext->frame;
         state.leftclicked = ImGui::IsItemClicked();
@@ -455,7 +465,7 @@ void mvNode::draw(ImDrawList* drawlist, float x, float y)
 
         }
 
-        imnodes::EndNode();
+        ImNodes::EndNode();
     }
 
     //-----------------------------------------------------------------------------
@@ -466,7 +476,7 @@ void mvNode::draw(ImDrawList* drawlist, float x, float y)
     // update state
     //   * only update if applicable
     //-----------------------------------------------------------------------------
-    ImVec2 pos = imnodes::GetNodeGridSpacePos((int)_id);
+    ImVec2 pos = ImNodes::GetNodeGridSpacePos((int)_id);
 
     state.pos = { pos.x , pos.y };
     state.rectSize = { ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y };
@@ -558,11 +568,11 @@ void mvNodeAttribute::draw(ImDrawList* drawlist, float x, float y)
         ScopedID id(uuid);
 
         if (_attrType == mvNodeAttribute::AttributeType::mvAttr_Static)
-            imnodes::BeginStaticAttribute((int)_id);
+            ImNodes::BeginStaticAttribute((int)_id);
         else if (_attrType == mvNodeAttribute::AttributeType::mvAttr_Output)
-            imnodes::BeginOutputAttribute((int)_id, _shape);
+            ImNodes::BeginOutputAttribute((int)_id, _shape);
         else
-            imnodes::BeginInputAttribute((int)_id, _shape);
+            ImNodes::BeginInputAttribute((int)_id, _shape);
 
         for (auto& item : childslots[1])
         {
@@ -595,11 +605,11 @@ void mvNodeAttribute::draw(ImDrawList* drawlist, float x, float y)
         }
 
         if (_attrType == mvNodeAttribute::AttributeType::mvAttr_Static)
-            imnodes::EndStaticAttribute();
+            ImNodes::EndStaticAttribute();
         else if (_attrType == mvNodeAttribute::AttributeType::mvAttr_Output)
-            imnodes::EndOutputAttribute();
+            ImNodes::EndOutputAttribute();
         else
-            imnodes::EndInputAttribute();
+            ImNodes::EndInputAttribute();
 
     }
 
@@ -624,7 +634,7 @@ void mvNodeAttribute::handleSpecificKeywordArgs(PyObject* dict)
     if (PyObject* item = PyDict_GetItemString(dict, "attribute_type")) _attrType = (mvNodeAttribute::AttributeType)ToUUID(item);
     if (PyObject* item = PyDict_GetItemString(dict, "shape"))
     {
-        _shape = (imnodes::PinShape)ToInt(item);
+        _shape = (ImNodesPinShape)ToInt(item);
     }
 }
 
@@ -718,7 +728,7 @@ void mvNodeLink::draw(ImDrawList* drawlist, float x, float y)
     //-----------------------------------------------------------------------------
     ScopedID id(uuid);
 
-    imnodes::Link(_id0, _id1, _id2);
+    ImNodes::Link(_id0, _id1, _id2);
 
     //-----------------------------------------------------------------------------
     // post draw
@@ -729,10 +739,10 @@ void mvNodeLink::draw(ImDrawList* drawlist, float x, float y)
     // update state
     //   * only update if applicable
     //-----------------------------------------------------------------------------
-    //_state.hovered = imnodes::IsLinkHovered(&_id);
+    //_state.hovered = ImNodes::IsLinkHovered(&_id);
     state.visible = ImGui::IsItemVisible();
-    //_state.active = imnodes::IsLinkStarted(&_id);
-    //_state.deactivated = imnodes::IsLinkDropped(&_id);
+    //_state.active = ImNodes::IsLinkStarted(&_id);
+    //_state.deactivated = ImNodes::IsLinkDropped(&_id);
 
     // handle popping themes
     cleanup_local_theming(this);

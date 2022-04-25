@@ -2091,7 +2091,7 @@ def node_attribute(*, label: str =None, user_data: Any =None, use_internal_label
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def node_editor(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, parent: Union[int, str] =0, before: Union[int, str] =0, callback: Callable =None, show: bool =True, filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, delink_callback: Callable =None, menubar: bool =False, **kwargs) -> Union[int, str]:
+def node_editor(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, parent: Union[int, str] =0, before: Union[int, str] =0, callback: Callable =None, show: bool =True, filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, delink_callback: Callable =None, menubar: bool =False, minimap: bool =False, minimap_location: int =2, **kwargs) -> Union[int, str]:
 	"""	 Adds a node editor.
 
 	Args:
@@ -2111,6 +2111,8 @@ def node_editor(*, label: str =None, user_data: Any =None, use_internal_label: b
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		delink_callback (Callable, optional): Callback ran when a link is detached.
 		menubar (bool, optional): Shows or hides the menubar.
+		minimap (bool, optional): Shows or hides the Minimap. New in 1.6.
+		minimap_location (int, optional): mvNodeMiniMap_Location_* constants. New in 1.6.
 		id (Union[int, str], optional): (deprecated) 
 	Yields:
 		Union[int, str]
@@ -2120,7 +2122,7 @@ def node_editor(*, label: str =None, user_data: Any =None, use_internal_label: b
 		if 'id' in kwargs.keys():
 			warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
 			tag=kwargs['id']
-		widget = internal_dpg.add_node_editor(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, parent=parent, before=before, callback=callback, show=show, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, delink_callback=delink_callback, menubar=menubar, **kwargs)
+		widget = internal_dpg.add_node_editor(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, parent=parent, before=before, callback=callback, show=show, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, delink_callback=delink_callback, menubar=menubar, minimap=minimap, minimap_location=minimap_location, **kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
@@ -5721,7 +5723,7 @@ def add_node_attribute(*, label: str =None, user_data: Any =None, use_internal_l
 
 	return internal_dpg.add_node_attribute(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, indent=indent, parent=parent, before=before, show=show, filter_key=filter_key, tracked=tracked, track_offset=track_offset, attribute_type=attribute_type, shape=shape, category=category, **kwargs)
 
-def add_node_editor(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, parent: Union[int, str] =0, before: Union[int, str] =0, callback: Callable =None, show: bool =True, filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, delink_callback: Callable =None, menubar: bool =False, **kwargs) -> Union[int, str]:
+def add_node_editor(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, parent: Union[int, str] =0, before: Union[int, str] =0, callback: Callable =None, show: bool =True, filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, delink_callback: Callable =None, menubar: bool =False, minimap: bool =False, minimap_location: int =2, **kwargs) -> Union[int, str]:
 	"""	 Adds a node editor.
 
 	Args:
@@ -5741,6 +5743,8 @@ def add_node_editor(*, label: str =None, user_data: Any =None, use_internal_labe
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		delink_callback (Callable, optional): Callback ran when a link is detached.
 		menubar (bool, optional): Shows or hides the menubar.
+		minimap (bool, optional): Shows or hides the Minimap. New in 1.6.
+		minimap_location (int, optional): mvNodeMiniMap_Location_* constants. New in 1.6.
 		id (Union[int, str], optional): (deprecated) 
 	Returns:
 		Union[int, str]
@@ -5750,7 +5754,7 @@ def add_node_editor(*, label: str =None, user_data: Any =None, use_internal_labe
 		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
 		tag=kwargs['id']
 
-	return internal_dpg.add_node_editor(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, parent=parent, before=before, callback=callback, show=show, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, delink_callback=delink_callback, menubar=menubar, **kwargs)
+	return internal_dpg.add_node_editor(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, parent=parent, before=before, callback=callback, show=show, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, delink_callback=delink_callback, menubar=menubar, minimap=minimap, minimap_location=minimap_location, **kwargs)
 
 def add_node_link(attr_1 : Union[int, str], attr_2 : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, show: bool =True, **kwargs) -> Union[int, str]:
 	"""	 Adds a node link between 2 node attributes.
@@ -9521,6 +9525,10 @@ mvPlot_Location_NorthWest=internal_dpg.mvPlot_Location_NorthWest
 mvPlot_Location_NorthEast=internal_dpg.mvPlot_Location_NorthEast
 mvPlot_Location_SouthWest=internal_dpg.mvPlot_Location_SouthWest
 mvPlot_Location_SouthEast=internal_dpg.mvPlot_Location_SouthEast
+mvNodeMiniMap_Location_BottomLeft=internal_dpg.mvNodeMiniMap_Location_BottomLeft
+mvNodeMiniMap_Location_BottomRight=internal_dpg.mvNodeMiniMap_Location_BottomRight
+mvNodeMiniMap_Location_TopLeft=internal_dpg.mvNodeMiniMap_Location_TopLeft
+mvNodeMiniMap_Location_TopRight=internal_dpg.mvNodeMiniMap_Location_TopRight
 mvTable_SizingFixedFit=internal_dpg.mvTable_SizingFixedFit
 mvTable_SizingFixedSame=internal_dpg.mvTable_SizingFixedSame
 mvTable_SizingStretchProp=internal_dpg.mvTable_SizingStretchProp
@@ -9625,6 +9633,19 @@ mvNodeCol_BoxSelector=internal_dpg.mvNodeCol_BoxSelector
 mvNodeCol_BoxSelectorOutline=internal_dpg.mvNodeCol_BoxSelectorOutline
 mvNodeCol_GridBackground=internal_dpg.mvNodeCol_GridBackground
 mvNodeCol_GridLine=internal_dpg.mvNodeCol_GridLine
+mvNodesCol_GridLinePrimary=internal_dpg.mvNodesCol_GridLinePrimary
+mvNodesCol_MiniMapBackground=internal_dpg.mvNodesCol_MiniMapBackground
+mvNodesCol_MiniMapBackgroundHovered=internal_dpg.mvNodesCol_MiniMapBackgroundHovered
+mvNodesCol_MiniMapOutline=internal_dpg.mvNodesCol_MiniMapOutline
+mvNodesCol_MiniMapOutlineHovered=internal_dpg.mvNodesCol_MiniMapOutlineHovered
+mvNodesCol_MiniMapNodeBackground=internal_dpg.mvNodesCol_MiniMapNodeBackground
+mvNodesCol_MiniMapNodeBackgroundHovered=internal_dpg.mvNodesCol_MiniMapNodeBackgroundHovered
+mvNodesCol_MiniMapNodeBackgroundSelected=internal_dpg.mvNodesCol_MiniMapNodeBackgroundSelected
+mvNodesCol_MiniMapNodeOutline=internal_dpg.mvNodesCol_MiniMapNodeOutline
+mvNodesCol_MiniMapLink=internal_dpg.mvNodesCol_MiniMapLink
+mvNodesCol_MiniMapLinkSelected=internal_dpg.mvNodesCol_MiniMapLinkSelected
+mvNodesCol_MiniMapCanvas=internal_dpg.mvNodesCol_MiniMapCanvas
+mvNodesCol_MiniMapCanvasOutline=internal_dpg.mvNodesCol_MiniMapCanvasOutline
 mvStyleVar_Alpha=internal_dpg.mvStyleVar_Alpha
 mvStyleVar_WindowPadding=internal_dpg.mvStyleVar_WindowPadding
 mvStyleVar_WindowRounding=internal_dpg.mvStyleVar_WindowRounding
@@ -9690,6 +9711,8 @@ mvNodeStyleVar_PinTriangleSideLength=internal_dpg.mvNodeStyleVar_PinTriangleSide
 mvNodeStyleVar_PinLineThickness=internal_dpg.mvNodeStyleVar_PinLineThickness
 mvNodeStyleVar_PinHoverRadius=internal_dpg.mvNodeStyleVar_PinHoverRadius
 mvNodeStyleVar_PinOffset=internal_dpg.mvNodeStyleVar_PinOffset
+mvNodesStyleVar_MiniMapPadding=internal_dpg.mvNodesStyleVar_MiniMapPadding
+mvNodesStyleVar_MiniMapOffset=internal_dpg.mvNodesStyleVar_MiniMapOffset
 mvInputText=internal_dpg.mvInputText
 mvButton=internal_dpg.mvButton
 mvRadioButton=internal_dpg.mvRadioButton

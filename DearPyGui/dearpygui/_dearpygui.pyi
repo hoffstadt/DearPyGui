@@ -402,7 +402,7 @@ def add_node_attribute(*, label: str ='', user_data: Any ='', use_internal_label
 	"""Adds a node attribute to a node."""
 	...
 
-def add_node_editor(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', callback: Callable ='', show: bool ='', filter_key: str ='', delay_search: bool ='', tracked: bool ='', track_offset: float ='', delink_callback: Callable ='', menubar: bool ='') -> Union[int, str]:
+def add_node_editor(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', callback: Callable ='', show: bool ='', filter_key: str ='', delay_search: bool ='', tracked: bool ='', track_offset: float ='', delink_callback: Callable ='', menubar: bool ='', minimap: bool ='', minimap_location: int ='') -> Union[int, str]:
 	"""Adds a node editor."""
 	...
 
@@ -1477,6 +1477,10 @@ mvPlot_Location_NorthWest=0
 mvPlot_Location_NorthEast=0
 mvPlot_Location_SouthWest=0
 mvPlot_Location_SouthEast=0
+mvNodeMiniMap_Location_BottomLeft=0
+mvNodeMiniMap_Location_BottomRight=0
+mvNodeMiniMap_Location_TopLeft=0
+mvNodeMiniMap_Location_TopRight=0
 mvTable_SizingFixedFit=0
 mvTable_SizingFixedSame=0
 mvTable_SizingStretchProp=0
@@ -1581,6 +1585,19 @@ mvNodeCol_BoxSelector=0
 mvNodeCol_BoxSelectorOutline=0
 mvNodeCol_GridBackground=0
 mvNodeCol_GridLine=0
+mvNodesCol_GridLinePrimary=0
+mvNodesCol_MiniMapBackground=0
+mvNodesCol_MiniMapBackgroundHovered=0
+mvNodesCol_MiniMapOutline=0
+mvNodesCol_MiniMapOutlineHovered=0
+mvNodesCol_MiniMapNodeBackground=0
+mvNodesCol_MiniMapNodeBackgroundHovered=0
+mvNodesCol_MiniMapNodeBackgroundSelected=0
+mvNodesCol_MiniMapNodeOutline=0
+mvNodesCol_MiniMapLink=0
+mvNodesCol_MiniMapLinkSelected=0
+mvNodesCol_MiniMapCanvas=0
+mvNodesCol_MiniMapCanvasOutline=0
 mvStyleVar_Alpha=0
 mvStyleVar_WindowPadding=0
 mvStyleVar_WindowRounding=0
@@ -1646,6 +1663,8 @@ mvNodeStyleVar_PinTriangleSideLength=0
 mvNodeStyleVar_PinLineThickness=0
 mvNodeStyleVar_PinHoverRadius=0
 mvNodeStyleVar_PinOffset=0
+mvNodesStyleVar_MiniMapPadding=0
+mvNodesStyleVar_MiniMapOffset=0
 mvInputText=0
 mvButton=0
 mvRadioButton=0

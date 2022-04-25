@@ -134,12 +134,12 @@ GetModuleConstants()
 		ModuleConstants.push_back({ "mvFontRangeHint_Thai", 6L });
 		ModuleConstants.push_back({ "mvFontRangeHint_Vietnamese", 7L });
 
-		ModuleConstants.push_back({ "mvNode_PinShape_Circle", imnodes::PinShape::PinShape_Circle });
-		ModuleConstants.push_back({ "mvNode_PinShape_CircleFilled", imnodes::PinShape::PinShape_CircleFilled });
-		ModuleConstants.push_back({ "mvNode_PinShape_Triangle", imnodes::PinShape::PinShape_Triangle });
-		ModuleConstants.push_back({ "mvNode_PinShape_TriangleFilled", imnodes::PinShape::PinShape_TriangleFilled });
-		ModuleConstants.push_back({ "mvNode_PinShape_Quad", imnodes::PinShape::PinShape_Quad });
-		ModuleConstants.push_back({ "mvNode_PinShape_QuadFilled", imnodes::PinShape::PinShape_QuadFilled });
+		ModuleConstants.push_back({ "mvNode_PinShape_Circle", ImNodesPinShape_Circle });
+		ModuleConstants.push_back({ "mvNode_PinShape_CircleFilled", ImNodesPinShape_CircleFilled });
+		ModuleConstants.push_back({ "mvNode_PinShape_Triangle", ImNodesPinShape_Triangle });
+		ModuleConstants.push_back({ "mvNode_PinShape_TriangleFilled", ImNodesPinShape_TriangleFilled });
+		ModuleConstants.push_back({ "mvNode_PinShape_Quad", ImNodesPinShape_Quad });
+		ModuleConstants.push_back({ "mvNode_PinShape_QuadFilled", ImNodesPinShape_QuadFilled });
 
 		ModuleConstants.push_back({ "mvNode_Attr_Input", 0L });
 		ModuleConstants.push_back({ "mvNode_Attr_Output", 1L});
@@ -174,6 +174,11 @@ GetModuleConstants()
 		ModuleConstants.push_back({ "mvPlot_Location_NorthEast", ImPlotLocation_NorthEast});
 		ModuleConstants.push_back({ "mvPlot_Location_SouthWest", ImPlotLocation_SouthWest});
 		ModuleConstants.push_back({ "mvPlot_Location_SouthEast", ImPlotLocation_SouthEast});
+
+		ModuleConstants.push_back({ "mvNodeMiniMap_Location_BottomLeft", ImNodesMiniMapLocation_BottomLeft });
+		ModuleConstants.push_back({ "mvNodeMiniMap_Location_BottomRight", ImNodesMiniMapLocation_BottomRight });
+		ModuleConstants.push_back({ "mvNodeMiniMap_Location_TopLeft", ImNodesMiniMapLocation_TopLeft });
+		ModuleConstants.push_back({ "mvNodeMiniMap_Location_TopRight", ImNodesMiniMapLocation_TopRight });
 
 		ModuleConstants.push_back({ "mvTable_SizingFixedFit", ImGuiTableFlags_SizingFixedFit });
 		ModuleConstants.push_back({ "mvTable_SizingFixedSame", ImGuiTableFlags_SizingFixedSame });
@@ -274,22 +279,36 @@ GetModuleConstants()
 		ModuleConstants.push_back({ "mvPlotCol_Crosshairs", ImPlotCol_Crosshairs });     // crosshairs color (defaults to ImPlotCol_PlotBorder)
 
 		// nodes
-		ModuleConstants.push_back({ "mvNodeCol_NodeBackground", imnodes::ColorStyle::ColorStyle_NodeBackground });
-		ModuleConstants.push_back({ "mvNodeCol_NodeBackgroundHovered", imnodes::ColorStyle::ColorStyle_NodeBackgroundHovered });
-		ModuleConstants.push_back({ "mvNodeCol_NodeBackgroundSelected", imnodes::ColorStyle::ColorStyle_NodeBackgroundSelected });
-		ModuleConstants.push_back({ "mvNodeCol_NodeOutline", imnodes::ColorStyle::ColorStyle_NodeOutline });
-		ModuleConstants.push_back({ "mvNodeCol_TitleBar", imnodes::ColorStyle::ColorStyle_TitleBar });
-		ModuleConstants.push_back({ "mvNodeCol_TitleBarHovered", imnodes::ColorStyle::ColorStyle_TitleBarHovered });
-		ModuleConstants.push_back({ "mvNodeCol_TitleBarSelected", imnodes::ColorStyle::ColorStyle_TitleBarSelected });
-		ModuleConstants.push_back({ "mvNodeCol_Link", imnodes::ColorStyle::ColorStyle_Link });
-		ModuleConstants.push_back({ "mvNodeCol_LinkHovered", imnodes::ColorStyle::ColorStyle_LinkHovered });
-		ModuleConstants.push_back({ "mvNodeCol_LinkSelected", imnodes::ColorStyle::ColorStyle_LinkSelected });
-		ModuleConstants.push_back({ "mvNodeCol_Pin", imnodes::ColorStyle::ColorStyle_Pin });
-		ModuleConstants.push_back({ "mvNodeCol_PinHovered", imnodes::ColorStyle::ColorStyle_PinHovered });
-		ModuleConstants.push_back({ "mvNodeCol_BoxSelector", imnodes::ColorStyle::ColorStyle_BoxSelector });
-		ModuleConstants.push_back({ "mvNodeCol_BoxSelectorOutline", imnodes::ColorStyle::ColorStyle_BoxSelectorOutline });
-		ModuleConstants.push_back({ "mvNodeCol_GridBackground", imnodes::ColorStyle::ColorStyle_GridBackground });
-		ModuleConstants.push_back({ "mvNodeCol_GridLine", imnodes::ColorStyle::ColorStyle_GridLine });
+		ModuleConstants.push_back({ "mvNodeCol_NodeBackground", ImNodesCol_NodeBackground });
+		ModuleConstants.push_back({ "mvNodeCol_NodeBackgroundHovered", ImNodesCol_NodeBackgroundHovered });
+		ModuleConstants.push_back({ "mvNodeCol_NodeBackgroundSelected", ImNodesCol_NodeBackgroundSelected });
+		ModuleConstants.push_back({ "mvNodeCol_NodeOutline", ImNodesCol_NodeOutline });
+		ModuleConstants.push_back({ "mvNodeCol_TitleBar", ImNodesCol_TitleBar });
+		ModuleConstants.push_back({ "mvNodeCol_TitleBarHovered", ImNodesCol_TitleBarHovered });
+		ModuleConstants.push_back({ "mvNodeCol_TitleBarSelected", ImNodesCol_TitleBarSelected });
+		ModuleConstants.push_back({ "mvNodeCol_Link", ImNodesCol_Link });
+		ModuleConstants.push_back({ "mvNodeCol_LinkHovered", ImNodesCol_LinkHovered });
+		ModuleConstants.push_back({ "mvNodeCol_LinkSelected", ImNodesCol_LinkSelected });
+		ModuleConstants.push_back({ "mvNodeCol_Pin", ImNodesCol_Pin });
+		ModuleConstants.push_back({ "mvNodeCol_PinHovered", ImNodesCol_PinHovered });
+		ModuleConstants.push_back({ "mvNodeCol_BoxSelector", ImNodesCol_BoxSelector });
+		ModuleConstants.push_back({ "mvNodeCol_BoxSelectorOutline", ImNodesCol_BoxSelectorOutline });
+		ModuleConstants.push_back({ "mvNodeCol_GridBackground", ImNodesCol_GridBackground });
+		ModuleConstants.push_back({ "mvNodeCol_GridLine", ImNodesCol_GridLine });
+		ModuleConstants.push_back({ "mvNodesCol_GridLinePrimary", ImNodesCol_GridLinePrimary });
+		ModuleConstants.push_back({ "mvNodesCol_MiniMapBackground", ImNodesCol_MiniMapBackground });
+		ModuleConstants.push_back({ "mvNodesCol_MiniMapBackgroundHovered", ImNodesCol_MiniMapBackgroundHovered });
+		ModuleConstants.push_back({ "mvNodesCol_MiniMapOutline", ImNodesCol_MiniMapOutline });
+		ModuleConstants.push_back({ "mvNodesCol_MiniMapOutlineHovered", ImNodesCol_MiniMapOutlineHovered });
+		ModuleConstants.push_back({ "mvNodesCol_MiniMapNodeBackground", ImNodesCol_MiniMapNodeBackground });
+		ModuleConstants.push_back({ "mvNodesCol_MiniMapNodeBackgroundHovered", ImNodesCol_MiniMapNodeBackgroundHovered });
+		ModuleConstants.push_back({ "mvNodesCol_MiniMapNodeBackgroundSelected", ImNodesCol_MiniMapNodeBackgroundSelected });
+		ModuleConstants.push_back({ "mvNodesCol_MiniMapNodeOutline", ImNodesCol_MiniMapNodeOutline });
+		ModuleConstants.push_back({ "mvNodesCol_MiniMapLink", ImNodesCol_MiniMapLink });
+		ModuleConstants.push_back({ "mvNodesCol_MiniMapLinkSelected", ImNodesCol_MiniMapLinkSelected });
+		ModuleConstants.push_back({ "mvNodesCol_MiniMapCanvas", ImNodesCol_MiniMapCanvas });
+		ModuleConstants.push_back({ "mvNodesCol_MiniMapCanvasOutline", ImNodesCol_MiniMapCanvasOutline });
+
 
 		ModuleConstants.push_back({ "mvStyleVar_Alpha", ImGuiStyleVar_Alpha });                             // float     Alpha
 		ModuleConstants.push_back({ "mvStyleVar_WindowPadding", ImGuiStyleVar_WindowPadding });             // ImVec2    WindowPadding
@@ -348,20 +367,22 @@ GetModuleConstants()
 		ModuleConstants.push_back({ "mvPlotStyleVar_PlotMinSize", ImPlotStyleVar_PlotMinSize });               // ImVec2, minimum size plot frame can be when shrunk
 
 		// nodes
-		ModuleConstants.push_back({ "mvNodeStyleVar_GridSpacing", imnodes::StyleVar::StyleVar_GridSpacing });
-		ModuleConstants.push_back({ "mvNodeStyleVar_NodeCornerRounding", imnodes::StyleVar::StyleVar_NodeCornerRounding });
-		ModuleConstants.push_back({ "mvNodeStyleVar_NodePaddingHorizontal", imnodes::StyleVar::StyleVar_NodePaddingHorizontal });
-		ModuleConstants.push_back({ "mvNodeStyleVar_NodePaddingVertical", imnodes::StyleVar::StyleVar_NodePaddingVertical });
-		ModuleConstants.push_back({ "mvNodeStyleVar_NodeBorderThickness", imnodes::StyleVar::StyleVar_NodeBorderThickness });
-		ModuleConstants.push_back({ "mvNodeStyleVar_LinkThickness", imnodes::StyleVar::StyleVar_LinkThickness });
-		ModuleConstants.push_back({ "mvNodeStyleVar_LinkLineSegmentsPerLength", imnodes::StyleVar::StyleVar_LinkLineSegmentsPerLength });
-		ModuleConstants.push_back({ "mvNodeStyleVar_LinkHoverDistance", imnodes::StyleVar::StyleVar_LinkHoverDistance });
-		ModuleConstants.push_back({ "mvNodeStyleVar_PinCircleRadius", imnodes::StyleVar::StyleVar_PinCircleRadius });
-		ModuleConstants.push_back({ "mvNodeStyleVar_PinQuadSideLength", imnodes::StyleVar::StyleVar_PinQuadSideLength });
-		ModuleConstants.push_back({ "mvNodeStyleVar_PinTriangleSideLength", imnodes::StyleVar::StyleVar_PinTriangleSideLength });
-		ModuleConstants.push_back({ "mvNodeStyleVar_PinLineThickness", imnodes::StyleVar::StyleVar_PinLineThickness });
-		ModuleConstants.push_back({ "mvNodeStyleVar_PinHoverRadius", imnodes::StyleVar::StyleVar_PinHoverRadius });
-		ModuleConstants.push_back({ "mvNodeStyleVar_PinOffset", imnodes::StyleVar::StyleVar_PinOffset });
+		ModuleConstants.push_back({ "mvNodeStyleVar_GridSpacing", ImNodesStyleVar_GridSpacing });
+		ModuleConstants.push_back({ "mvNodeStyleVar_NodeCornerRounding", ImNodesStyleVar_NodeCornerRounding });
+		ModuleConstants.push_back({ "mvNodeStyleVar_NodePaddingHorizontal", ImNodesStyleVar_NodePadding });
+		ModuleConstants.push_back({ "mvNodeStyleVar_NodePaddingVertical", ImNodesStyleVar_NodePadding });
+		ModuleConstants.push_back({ "mvNodeStyleVar_NodeBorderThickness", ImNodesStyleVar_NodeBorderThickness });
+		ModuleConstants.push_back({ "mvNodeStyleVar_LinkThickness", ImNodesStyleVar_LinkThickness });
+		ModuleConstants.push_back({ "mvNodeStyleVar_LinkLineSegmentsPerLength", ImNodesStyleVar_LinkLineSegmentsPerLength });
+		ModuleConstants.push_back({ "mvNodeStyleVar_LinkHoverDistance", ImNodesStyleVar_LinkHoverDistance });
+		ModuleConstants.push_back({ "mvNodeStyleVar_PinCircleRadius", ImNodesStyleVar_PinCircleRadius });
+		ModuleConstants.push_back({ "mvNodeStyleVar_PinQuadSideLength", ImNodesStyleVar_PinQuadSideLength });
+		ModuleConstants.push_back({ "mvNodeStyleVar_PinTriangleSideLength", ImNodesStyleVar_PinTriangleSideLength });
+		ModuleConstants.push_back({ "mvNodeStyleVar_PinLineThickness", ImNodesStyleVar_PinLineThickness });
+		ModuleConstants.push_back({ "mvNodeStyleVar_PinHoverRadius", ImNodesStyleVar_PinHoverRadius });
+		ModuleConstants.push_back({ "mvNodeStyleVar_PinOffset", ImNodesStyleVar_PinOffset });
+		ModuleConstants.push_back({ "mvNodesStyleVar_MiniMapPadding", ImNodesStyleVar_MiniMapPadding });
+		ModuleConstants.push_back({ "mvNodesStyleVar_MiniMapOffset", ImNodesStyleVar_MiniMapOffset });
 
 		#define X(el) ModuleConstants.push_back({ std::string(#el), (long)mvAppItemType::el });
 		MV_ITEM_TYPES

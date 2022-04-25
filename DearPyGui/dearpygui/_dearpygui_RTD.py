@@ -2031,6 +2031,8 @@ def node_editor(**kwargs):
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		delink_callback (Callable, optional): Callback ran when a link is detached.
 		menubar (bool, optional): Shows or hides the menubar.
+		minimap (bool, optional): Shows or hides the Minimap. New in 1.6.
+		minimap_location (int, optional): mvNodeMiniMap_Location_* constants. New in 1.6.
 		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
@@ -5161,6 +5163,8 @@ def add_node_editor(**kwargs):
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		delink_callback (Callable, optional): Callback ran when a link is detached.
 		menubar (bool, optional): Shows or hides the menubar.
+		minimap (bool, optional): Shows or hides the Minimap. New in 1.6.
+		minimap_location (int, optional): mvNodeMiniMap_Location_* constants. New in 1.6.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -8659,6 +8663,10 @@ mvPlot_Location_NorthWest=internal_dpg.mvPlot_Location_NorthWest
 mvPlot_Location_NorthEast=internal_dpg.mvPlot_Location_NorthEast
 mvPlot_Location_SouthWest=internal_dpg.mvPlot_Location_SouthWest
 mvPlot_Location_SouthEast=internal_dpg.mvPlot_Location_SouthEast
+mvNodeMiniMap_Location_BottomLeft=internal_dpg.mvNodeMiniMap_Location_BottomLeft
+mvNodeMiniMap_Location_BottomRight=internal_dpg.mvNodeMiniMap_Location_BottomRight
+mvNodeMiniMap_Location_TopLeft=internal_dpg.mvNodeMiniMap_Location_TopLeft
+mvNodeMiniMap_Location_TopRight=internal_dpg.mvNodeMiniMap_Location_TopRight
 mvTable_SizingFixedFit=internal_dpg.mvTable_SizingFixedFit
 mvTable_SizingFixedSame=internal_dpg.mvTable_SizingFixedSame
 mvTable_SizingStretchProp=internal_dpg.mvTable_SizingStretchProp
@@ -8763,6 +8771,19 @@ mvNodeCol_BoxSelector=internal_dpg.mvNodeCol_BoxSelector
 mvNodeCol_BoxSelectorOutline=internal_dpg.mvNodeCol_BoxSelectorOutline
 mvNodeCol_GridBackground=internal_dpg.mvNodeCol_GridBackground
 mvNodeCol_GridLine=internal_dpg.mvNodeCol_GridLine
+mvNodesCol_GridLinePrimary=internal_dpg.mvNodesCol_GridLinePrimary
+mvNodesCol_MiniMapBackground=internal_dpg.mvNodesCol_MiniMapBackground
+mvNodesCol_MiniMapBackgroundHovered=internal_dpg.mvNodesCol_MiniMapBackgroundHovered
+mvNodesCol_MiniMapOutline=internal_dpg.mvNodesCol_MiniMapOutline
+mvNodesCol_MiniMapOutlineHovered=internal_dpg.mvNodesCol_MiniMapOutlineHovered
+mvNodesCol_MiniMapNodeBackground=internal_dpg.mvNodesCol_MiniMapNodeBackground
+mvNodesCol_MiniMapNodeBackgroundHovered=internal_dpg.mvNodesCol_MiniMapNodeBackgroundHovered
+mvNodesCol_MiniMapNodeBackgroundSelected=internal_dpg.mvNodesCol_MiniMapNodeBackgroundSelected
+mvNodesCol_MiniMapNodeOutline=internal_dpg.mvNodesCol_MiniMapNodeOutline
+mvNodesCol_MiniMapLink=internal_dpg.mvNodesCol_MiniMapLink
+mvNodesCol_MiniMapLinkSelected=internal_dpg.mvNodesCol_MiniMapLinkSelected
+mvNodesCol_MiniMapCanvas=internal_dpg.mvNodesCol_MiniMapCanvas
+mvNodesCol_MiniMapCanvasOutline=internal_dpg.mvNodesCol_MiniMapCanvasOutline
 mvStyleVar_Alpha=internal_dpg.mvStyleVar_Alpha
 mvStyleVar_WindowPadding=internal_dpg.mvStyleVar_WindowPadding
 mvStyleVar_WindowRounding=internal_dpg.mvStyleVar_WindowRounding
@@ -8828,6 +8849,8 @@ mvNodeStyleVar_PinTriangleSideLength=internal_dpg.mvNodeStyleVar_PinTriangleSide
 mvNodeStyleVar_PinLineThickness=internal_dpg.mvNodeStyleVar_PinLineThickness
 mvNodeStyleVar_PinHoverRadius=internal_dpg.mvNodeStyleVar_PinHoverRadius
 mvNodeStyleVar_PinOffset=internal_dpg.mvNodeStyleVar_PinOffset
+mvNodesStyleVar_MiniMapPadding=internal_dpg.mvNodesStyleVar_MiniMapPadding
+mvNodesStyleVar_MiniMapOffset=internal_dpg.mvNodesStyleVar_MiniMapOffset
 mvInputText=internal_dpg.mvInputText
 mvButton=internal_dpg.mvButton
 mvRadioButton=internal_dpg.mvRadioButton
