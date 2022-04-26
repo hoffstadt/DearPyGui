@@ -8351,6 +8351,16 @@ def get_mouse_pos(*, local: bool =True, **kwargs) -> Union[List[int], Tuple[int,
 
 	return internal_dpg.get_mouse_pos(local=local, **kwargs)
 
+def get_platform(**kwargs) -> int:
+	"""	 New in 1.6. Returns platform constant.
+
+	Args:
+	Returns:
+		int
+	"""
+
+	return internal_dpg.get_platform(**kwargs)
+
 def get_plot_mouse_pos(**kwargs) -> Union[List[int], Tuple[int, ...]]:
 	"""	 Returns mouse position in plot.
 
@@ -9503,6 +9513,9 @@ mvComboHeight_Small=internal_dpg.mvComboHeight_Small
 mvComboHeight_Regular=internal_dpg.mvComboHeight_Regular
 mvComboHeight_Large=internal_dpg.mvComboHeight_Large
 mvComboHeight_Largest=internal_dpg.mvComboHeight_Largest
+mvPlatform_Windows=internal_dpg.mvPlatform_Windows
+mvPlatform_Apple=internal_dpg.mvPlatform_Apple
+mvPlatform_Linux=internal_dpg.mvPlatform_Linux
 mvColorEdit_AlphaPreviewNone=internal_dpg.mvColorEdit_AlphaPreviewNone
 mvColorEdit_AlphaPreview=internal_dpg.mvColorEdit_AlphaPreview
 mvColorEdit_AlphaPreviewHalf=internal_dpg.mvColorEdit_AlphaPreviewHalf

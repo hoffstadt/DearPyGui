@@ -4073,3 +4073,18 @@ get_clipboard_text(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	return ToPyString(text);
 }
+
+mv_internal mv_python_function
+get_platform(PyObject* self, PyObject* args, PyObject* kwargs)
+{
+
+	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+
+#ifdef _WIN32
+	return ToPyInt(0L);
+#elif __APPLE__
+	return ToPyInt(1L);
+#else
+	return ToPyInt(2L);
+#endif
+}

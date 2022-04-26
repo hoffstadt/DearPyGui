@@ -72,6 +72,10 @@ GetModuleConstants()
 		ModuleConstants.push_back({"mvComboHeight_Large", 2L });
 		ModuleConstants.push_back({"mvComboHeight_Largest", 3L });
 
+		ModuleConstants.push_back({"mvPlatform_Windows", 0L });
+		ModuleConstants.push_back({"mvPlatform_Apple", 1L });
+		ModuleConstants.push_back({"mvPlatform_Linux", 2L });
+
 		ModuleConstants.push_back({"mvColorEdit_AlphaPreviewNone", 0L });
 		ModuleConstants.push_back({"mvColorEdit_AlphaPreview", ImGuiColorEditFlags_AlphaPreview });
 		ModuleConstants.push_back({"mvColorEdit_AlphaPreviewHalf", ImGuiColorEditFlags_AlphaPreviewHalf });
@@ -685,6 +689,7 @@ PyInit__dearpygui(void)
 	MV_ADD_COMMAND(bind_item_font);
 	MV_ADD_COMMAND(bind_item_theme);
 	MV_ADD_COMMAND(capture_next_item);
+	MV_ADD_COMMAND(get_platform);
 
 	methods.push_back({ NULL, NULL, 0, NULL });
 

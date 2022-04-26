@@ -882,6 +882,10 @@ def get_mouse_pos(*, local: bool ='') -> Union[List[int], Tuple[int, ...]]:
 	"""Returns mouse position."""
 	...
 
+def get_platform() -> int:
+	"""New in 1.6. Returns platform constant."""
+	...
+
 def get_plot_mouse_pos() -> Union[List[int], Tuple[int, ...]]:
 	"""Returns mouse position in plot."""
 	...
@@ -1392,6 +1396,9 @@ mvComboHeight_Small=0
 mvComboHeight_Regular=0
 mvComboHeight_Large=0
 mvComboHeight_Largest=0
+mvPlatform_Windows=0
+mvPlatform_Apple=0
+mvPlatform_Linux=0
 mvColorEdit_AlphaPreviewNone=0
 mvColorEdit_AlphaPreview=0
 mvColorEdit_AlphaPreviewHalf=0

@@ -2804,3 +2804,10 @@ def show_demo():
                 dpg.configure_item(b1, user_data=dpg.last_item(), callback=_callback_auto_mutex)
                 dpg.configure_item(b2, user_data=dpg.last_item(), callback=_callback_manual_mutex)
                 dpg.configure_item(b3, user_data=dpg.last_item())
+            if dpg.get_platform() == dpg.mvPlatform_Windows or dpg.get_platform() == dpg.mvPlatform_Linux:
+                with dpg.tree_node(label="Output Framebuffer"):
+                    def _framebuffer_callback(sender, app_data):
+                        dpg.show_item("__demo_texture_container")
+                        dpg.add_dynamic_texture(app_data.get_width(), app_data.get_height(), app_data, parent="__demo_texture_container")
+                    dpg.add_text("Outputs frame buffer an mvBuffer object, creates a dynamic texture, and shows the texture registry (check final item)")
+                    dpg.add_button(label="Output Framebuffer", callback=lambda:dpg.output_frame_buffer(callback=_framebuffer_callback))

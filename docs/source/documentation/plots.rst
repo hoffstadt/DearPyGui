@@ -441,7 +441,12 @@ Custom Series
 
 **New in 1.6**. Custom series allow you to control the way a series is rendered.
 
-Under construction. Minimal example below. Channels must be between 2 and 5.
+A custom series can currently have between 2 and 5 channels. A channel is an array/list of
+data. Each channel must be the same length. The first 2 channels and channel count are 
+required arguments. Additional channels can be provided with the y1, y2, and y3 keywords. You must
+also set the "callback" keyword. The second argument will be provided by DPG as a list. The first item being
+useful information. The following items are the original data sent in but transformed into pixel space. The 
+combination of all this information can be used to create a custom series. See simple example below:
 
 .. code-block:: python
 

@@ -1897,4 +1897,16 @@ InsertParser_Block4(std::map<std::string, mvPythonParser>& parsers)
 		mvPythonParser parser = FinalizeParser(setup, args);
 		parsers.insert({ "get_clipboard_text", parser });
 	}
+
+	{
+		std::vector<mvPythonDataElement> args;
+
+		mvPythonParserSetup setup;
+		setup.about = "New in 1.6. Returns platform constant.";
+		setup.category = { "General" };
+		setup.returnType = mvPyDataType::Integer;
+
+		mvPythonParser parser = FinalizeParser(setup, args);
+		parsers.insert({ "get_platform", parser });
+	}
 }
