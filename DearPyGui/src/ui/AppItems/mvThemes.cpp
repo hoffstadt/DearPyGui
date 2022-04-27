@@ -408,14 +408,7 @@ static const mvGuiStyleVarInfo* GetStyleVarInfo(ImGuiStyleVar idx)
 	return &GStyleVarInfo[idx];
 }
 
-struct mvPlotStyleVarInfo {
-	ImGuiDataType   Type;
-	ImU32           Count;
-	ImU32           Offset;
-	void* GetVarPtr(ImPlotStyle* style) const { return (void*)((unsigned char*)style + Offset); }
-};
-
-static const mvPlotStyleVarInfo GPlotStyleVarInfo[] =
+static const mvGuiStyleVarInfo GPlotStyleVarInfo[] =
 {
 	{ ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImPlotStyle, LineWeight)         }, // ImPlotStyleVar_LineWeight
 	{ ImGuiDataType_S32,   1, (ImU32)IM_OFFSETOF(ImPlotStyle, Marker)             }, // ImPlotStyleVar_Marker
@@ -448,10 +441,49 @@ static const mvPlotStyleVarInfo GPlotStyleVarInfo[] =
 	{ ImGuiDataType_Float, 2, (ImU32)IM_OFFSETOF(ImPlotStyle, PlotMinSize)        }  // ImPlotStyleVar_PlotMinSize
 };
 
-static const mvPlotStyleVarInfo* GetPlotStyleVarInfo(ImPlotStyleVar idx) {
+static const mvGuiStyleVarInfo* GetPlotStyleVarInfo(ImPlotStyleVar idx) {
 	IM_ASSERT(idx >= 0 && idx < ImPlotStyleVar_COUNT);
 	IM_ASSERT(IM_ARRAYSIZE(GPlotStyleVarInfo) == ImPlotStyleVar_COUNT);
 	return &GPlotStyleVarInfo[idx];
+}
+
+static const mvGuiStyleVarInfo GNodeStyleVarInfo[] = {
+	// ImNodesStyleVar_GridSpacing
+	{ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImNodesStyle, GridSpacing)},
+	// ImNodesStyleVar_NodeCornerRounding
+	{ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImNodesStyle, NodeCornerRounding)},
+	// ImNodesStyleVar_NodePadding
+	{ImGuiDataType_Float, 2, (ImU32)IM_OFFSETOF(ImNodesStyle, NodePadding)},
+	// ImNodesStyleVar_NodeBorderThickness
+	{ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImNodesStyle, NodeBorderThickness)},
+	// ImNodesStyleVar_LinkThickness
+	{ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImNodesStyle, LinkThickness)},
+	// ImNodesStyleVar_LinkLineSegmentsPerLength
+	{ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImNodesStyle, LinkLineSegmentsPerLength)},
+	// ImNodesStyleVar_LinkHoverDistance
+	{ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImNodesStyle, LinkHoverDistance)},
+	// ImNodesStyleVar_PinCircleRadius
+	{ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImNodesStyle, PinCircleRadius)},
+	// ImNodesStyleVar_PinQuadSideLength
+	{ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImNodesStyle, PinQuadSideLength)},
+	// ImNodesStyleVar_PinTriangleSideLength
+	{ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImNodesStyle, PinTriangleSideLength)},
+	// ImNodesStyleVar_PinLineThickness
+	{ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImNodesStyle, PinLineThickness)},
+	// ImNodesStyleVar_PinHoverRadius
+	{ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImNodesStyle, PinHoverRadius)},
+	// ImNodesStyleVar_PinOffset
+	{ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImNodesStyle, PinOffset)},
+	// ImNodesStyleVar_MiniMapPadding
+	{ImGuiDataType_Float, 2, (ImU32)IM_OFFSETOF(ImNodesStyle, MiniMapPadding)},
+	// ImNodesStyleVar_MiniMapOffset
+	{ImGuiDataType_Float, 2, (ImU32)IM_OFFSETOF(ImNodesStyle, MiniMapOffset)},
+};
+
+static const mvGuiStyleVarInfo* GetNodeStyleVarInfo(ImPlotStyleVar idx) {
+	IM_ASSERT(idx >= 0 && idx < ImNodesStyleVar_COUNT);
+	IM_ASSERT(IM_ARRAYSIZE(GNodeStyleVarInfo) == ImNodesStyleVar_COUNT);
+	return &GNodeStyleVarInfo[idx];
 }
 
 mvThemeStyle::mvThemeStyle(mvUUID uuid)
@@ -516,7 +548,7 @@ void mvThemeStyle::push_theme_style()
 	}
 	else if (_libType == mvLibType::MV_IMPLOT)
 	{
-		const mvPlotStyleVarInfo* var_info = GetPlotStyleVarInfo(_targetStyle);
+		const mvGuiStyleVarInfo* var_info = GetPlotStyleVarInfo(_targetStyle);
 		if (var_info->Type == ImGuiDataType_Float && var_info->Count == 1)
 			ImPlot::PushStyleVar(_targetStyle, (*_value)[0]);
 		else if (var_info->Type == ImGuiDataType_S32 && var_info->Count == 1)
@@ -525,7 +557,13 @@ void mvThemeStyle::push_theme_style()
 			ImPlot::PushStyleVar(_targetStyle, { (*_value)[0], (*_value)[1] });
 	}
 	else if (_libType == mvLibType::MV_IMNODES)
-		ImNodes::PushStyleVar(_targetStyle, (*_value)[0]);
+	{
+		const mvGuiStyleVarInfo* var_info = GetNodeStyleVarInfo(_targetStyle);
+		if (var_info->Type == ImGuiDataType_Float && var_info->Count == 2)
+			ImNodes::PushStyleVar(_targetStyle, { (*_value)[0], (*_value)[1] });
+		else if (var_info->Type == ImGuiDataType_Float && var_info->Count == 1)
+			ImNodes::PushStyleVar(_targetStyle, (*_value)[0]);
+	}
 }
 
 void mvThemeStyle::pop_theme_style()

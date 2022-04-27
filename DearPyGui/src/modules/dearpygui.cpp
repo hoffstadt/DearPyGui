@@ -374,8 +374,7 @@ GetModuleConstants()
 		// nodes
 		ModuleConstants.push_back({ "mvNodeStyleVar_GridSpacing", ImNodesStyleVar_GridSpacing });
 		ModuleConstants.push_back({ "mvNodeStyleVar_NodeCornerRounding", ImNodesStyleVar_NodeCornerRounding });
-		ModuleConstants.push_back({ "mvNodeStyleVar_NodePaddingHorizontal", ImNodesStyleVar_NodePadding });
-		ModuleConstants.push_back({ "mvNodeStyleVar_NodePaddingVertical", ImNodesStyleVar_NodePadding });
+		ModuleConstants.push_back({ "mvNodeStyleVar_NodePadding", ImNodesStyleVar_NodePadding });
 		ModuleConstants.push_back({ "mvNodeStyleVar_NodeBorderThickness", ImNodesStyleVar_NodeBorderThickness });
 		ModuleConstants.push_back({ "mvNodeStyleVar_LinkThickness", ImNodesStyleVar_LinkThickness });
 		ModuleConstants.push_back({ "mvNodeStyleVar_LinkLineSegmentsPerLength", ImNodesStyleVar_LinkLineSegmentsPerLength });
