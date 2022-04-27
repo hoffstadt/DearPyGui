@@ -34,7 +34,7 @@ def add_button(*, label: str ='', user_data: Any ='', use_internal_label: bool =
 	"""Adds a button."""
 	...
 
-def add_candle_series(dates : Union[List[float], Tuple[float, ...]], opens : Union[List[float], Tuple[float, ...]], closes : Union[List[float], Tuple[float, ...]], lows : Union[List[float], Tuple[float, ...]], highs : Union[List[float], Tuple[float, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', show: bool ='', bull_color: Union[List[int], Tuple[int, ...]] ='', bear_color: Union[List[int], Tuple[int, ...]] ='', weight: int ='', tooltip: bool ='', time_unit: int ='') -> Union[int, str]:
+def add_candle_series(dates : Union[List[float], Tuple[float, ...]], opens : Union[List[float], Tuple[float, ...]], closes : Union[List[float], Tuple[float, ...]], lows : Union[List[float], Tuple[float, ...]], highs : Union[List[float], Tuple[float, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', show: bool ='', bull_color: Union[List[int], Tuple[int, ...]] ='', bear_color: Union[List[int], Tuple[int, ...]] ='', weight: float ='', tooltip: bool ='', time_unit: int ='') -> Union[int, str]:
 	"""Adds a candle series to a plot."""
 	...
 
@@ -98,6 +98,10 @@ def add_combo(items : Union[List[str], Tuple[str, ...]] ='', *, label: str ='', 
 	"""Adds a combo dropdown that allows a user to select a single option from a drop down window. All items will be shown as selectables on the dropdown."""
 	...
 
+def add_custom_series(x : Union[List[float], Tuple[float, ...]], y : Union[List[float], Tuple[float, ...]], channel_count : int, *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', callback: Callable ='', show: bool ='', y1: Any ='', y2: Any ='', y3: Any ='', tooltip: bool ='') -> Union[int, str]:
+	"""Adds a custom series to a plot. New in 1.6."""
+	...
+
 def add_date_picker(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: dict ='', level: int ='') -> Union[int, str]:
 	"""Adds a data picker."""
 	...
@@ -108,6 +112,14 @@ def add_double4_value(*, label: str ='', user_data: Any ='', use_internal_label:
 
 def add_double_value(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', source: Union[int, str] ='', default_value: float ='', parent: Union[int, str] ='') -> Union[int, str]:
 	"""Adds a double value."""
+	...
+
+def add_drag_double(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: float ='', format: str ='', speed: float ='', min_value: float ='', max_value: float ='', no_input: bool ='', clamped: bool ='') -> Union[int, str]:
+	"""Adds drag for a single double value. Useful when drag float is not accurate enough. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the drag. Use clamped keyword to also apply limits to the direct entry modes."""
+	...
+
+def add_drag_doublex(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: Any ='', size: int ='', format: str ='', speed: float ='', min_value: float ='', max_value: float ='', no_input: bool ='', clamped: bool ='') -> Union[int, str]:
+	"""Adds drag input for a set of double values up to 4. Useful when drag float is not accurate enough. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the drag. Use clamped keyword to also apply limits to the direct entry modes."""
 	...
 
 def add_drag_float(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: float ='', format: str ='', speed: float ='', min_value: float ='', max_value: float ='', no_input: bool ='', clamped: bool ='') -> Union[int, str]:
@@ -232,6 +244,14 @@ def add_image_button(texture_tag : Union[int, str], *, label: str ='', user_data
 
 def add_image_series(texture_tag : Union[int, str], bounds_min : Union[List[float], Tuple[float, ...]], bounds_max : Union[List[float], Tuple[float, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', show: bool ='', uv_min: Union[List[float], Tuple[float, ...]] ='', uv_max: Union[List[float], Tuple[float, ...]] ='', tint_color: Union[List[int], Tuple[int, ...]] ='') -> Union[int, str]:
 	"""Adds an image series to a plot."""
+	...
+
+def add_input_double(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: float ='', format: str ='', min_value: float ='', max_value: float ='', step: float ='', step_fast: float ='', min_clamped: bool ='', max_clamped: bool ='', on_enter: bool ='', readonly: bool ='') -> Union[int, str]:
+	"""Adds input for an double. Useful when input float is not accurate enough.+/- buttons can be activated by setting the value of step."""
+	...
+
+def add_input_doublex(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: Any ='', format: str ='', min_value: float ='', max_value: float ='', size: int ='', min_clamped: bool ='', max_clamped: bool ='', on_enter: bool ='', readonly: bool ='') -> Union[int, str]:
+	"""Adds multi double input for up to 4 double values. Useful when input float mulit is not accurate enough."""
 	...
 
 def add_input_float(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: float ='', format: str ='', min_value: float ='', max_value: float ='', step: float ='', step_fast: float ='', min_clamped: bool ='', max_clamped: bool ='', on_enter: bool ='', readonly: bool ='') -> Union[int, str]:
@@ -386,7 +406,7 @@ def add_node_attribute(*, label: str ='', user_data: Any ='', use_internal_label
 	"""Adds a node attribute to a node."""
 	...
 
-def add_node_editor(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', callback: Callable ='', show: bool ='', filter_key: str ='', delay_search: bool ='', tracked: bool ='', track_offset: float ='', delink_callback: Callable ='', menubar: bool ='') -> Union[int, str]:
+def add_node_editor(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', callback: Callable ='', show: bool ='', filter_key: str ='', delay_search: bool ='', tracked: bool ='', track_offset: float ='', delink_callback: Callable ='', menubar: bool ='', minimap: bool ='', minimap_location: int ='') -> Union[int, str]:
 	"""Adds a node editor."""
 	...
 
@@ -448,6 +468,14 @@ def add_shade_series(x : Union[List[float], Tuple[float, ...]], y1 : Union[List[
 
 def add_simple_plot(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: Union[List[float], Tuple[float, ...]] ='', overlay: str ='', histogram: bool ='', autosize: bool ='', min_scale: float ='', max_scale: float ='') -> Union[int, str]:
 	"""Adds a simple plot for visualization of a 1 dimensional set of values."""
+	...
+
+def add_slider_double(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: float ='', vertical: bool ='', no_input: bool ='', clamped: bool ='', min_value: float ='', max_value: float ='', format: str ='') -> Union[int, str]:
+	"""Adds slider for a single double value. Useful when slider float is not accurate enough. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the slider. Use clamped keyword to also apply limits to the direct entry modes."""
+	...
+
+def add_slider_doublex(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: Any ='', size: int ='', no_input: bool ='', clamped: bool ='', min_value: float ='', max_value: float ='', format: str ='') -> Union[int, str]:
+	"""Adds multi slider for up to 4 double values. Usueful for when multi slide float is not accurate enough. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the slider. Use clamped keyword to also apply limits to the direct entry modes."""
 	...
 
 def add_slider_float(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: float ='', vertical: bool ='', no_input: bool ='', clamped: bool ='', min_value: float ='', max_value: float ='', format: str ='') -> Union[int, str]:
@@ -852,6 +880,10 @@ def get_mouse_drag_delta() -> float:
 
 def get_mouse_pos(*, local: bool ='') -> Union[List[int], Tuple[int, ...]]:
 	"""Returns mouse position."""
+	...
+
+def get_platform() -> int:
+	"""New in 1.6. Returns platform constant."""
 	...
 
 def get_plot_mouse_pos() -> Union[List[int], Tuple[int, ...]]:
@@ -1364,6 +1396,9 @@ mvComboHeight_Small=0
 mvComboHeight_Regular=0
 mvComboHeight_Large=0
 mvComboHeight_Largest=0
+mvPlatform_Windows=0
+mvPlatform_Apple=0
+mvPlatform_Linux=0
 mvColorEdit_AlphaPreviewNone=0
 mvColorEdit_AlphaPreview=0
 mvColorEdit_AlphaPreviewHalf=0
@@ -1402,6 +1437,7 @@ mvTimeUnit_Ms=0
 mvTimeUnit_S=0
 mvTimeUnit_Min=0
 mvTimeUnit_Hr=0
+mvTimeUnit_Day=0
 mvTimeUnit_Mo=0
 mvTimeUnit_Yr=0
 mvDatePickerLevel_Day=0
@@ -1453,6 +1489,10 @@ mvPlot_Location_NorthWest=0
 mvPlot_Location_NorthEast=0
 mvPlot_Location_SouthWest=0
 mvPlot_Location_SouthEast=0
+mvNodeMiniMap_Location_BottomLeft=0
+mvNodeMiniMap_Location_BottomRight=0
+mvNodeMiniMap_Location_TopLeft=0
+mvNodeMiniMap_Location_TopRight=0
 mvTable_SizingFixedFit=0
 mvTable_SizingFixedSame=0
 mvTable_SizingStretchProp=0
@@ -1557,6 +1597,19 @@ mvNodeCol_BoxSelector=0
 mvNodeCol_BoxSelectorOutline=0
 mvNodeCol_GridBackground=0
 mvNodeCol_GridLine=0
+mvNodesCol_GridLinePrimary=0
+mvNodesCol_MiniMapBackground=0
+mvNodesCol_MiniMapBackgroundHovered=0
+mvNodesCol_MiniMapOutline=0
+mvNodesCol_MiniMapOutlineHovered=0
+mvNodesCol_MiniMapNodeBackground=0
+mvNodesCol_MiniMapNodeBackgroundHovered=0
+mvNodesCol_MiniMapNodeBackgroundSelected=0
+mvNodesCol_MiniMapNodeOutline=0
+mvNodesCol_MiniMapLink=0
+mvNodesCol_MiniMapLinkSelected=0
+mvNodesCol_MiniMapCanvas=0
+mvNodesCol_MiniMapCanvasOutline=0
 mvStyleVar_Alpha=0
 mvStyleVar_WindowPadding=0
 mvStyleVar_WindowRounding=0
@@ -1610,8 +1663,7 @@ mvPlotStyleVar_PlotDefaultSize=0
 mvPlotStyleVar_PlotMinSize=0
 mvNodeStyleVar_GridSpacing=0
 mvNodeStyleVar_NodeCornerRounding=0
-mvNodeStyleVar_NodePaddingHorizontal=0
-mvNodeStyleVar_NodePaddingVertical=0
+mvNodeStyleVar_NodePadding=0
 mvNodeStyleVar_NodeBorderThickness=0
 mvNodeStyleVar_LinkThickness=0
 mvNodeStyleVar_LinkLineSegmentsPerLength=0
@@ -1622,6 +1674,8 @@ mvNodeStyleVar_PinTriangleSideLength=0
 mvNodeStyleVar_PinLineThickness=0
 mvNodeStyleVar_PinHoverRadius=0
 mvNodeStyleVar_PinOffset=0
+mvNodesStyleVar_MiniMapPadding=0
+mvNodesStyleVar_MiniMapOffset=0
 mvInputText=0
 mvButton=0
 mvRadioButton=0
@@ -1780,6 +1834,13 @@ mvColorMapSlider=0
 mvTemplateRegistry=0
 mvTableCell=0
 mvItemHandlerRegistry=0
+mvInputDouble=0
+mvInputDoubleMulti=0
+mvDragDouble=0
+mvDragDoubleMulti=0
+mvSliderDouble=0
+mvSliderDoubleMulti=0
+mvCustomSeries=0
 mvReservedUUID_0=0
 mvReservedUUID_1=0
 mvReservedUUID_2=0

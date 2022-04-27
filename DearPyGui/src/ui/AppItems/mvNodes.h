@@ -48,10 +48,10 @@ public:
 
 private:
 
-    int                _id = 1;
-    AttributeType     _attrType = AttributeType::mvAttr_Input;
-    imnodes::PinShape _shape = imnodes::PinShape_CircleFilled;
-    std::string       _category = "general";
+    int             _id = 1;
+    AttributeType   _attrType = AttributeType::mvAttr_Input;
+    ImNodesPinShape _shape = ImNodesPinShape_CircleFilled;
+    std::string     _category = "general";
 
 };
 
@@ -108,7 +108,10 @@ private:
     bool _clearNodes = false;
     bool _clearLinks = false;
 
-    PyObject* _delinkCallback = nullptr;
-    imnodes::EditorContext* _context = nullptr;
+    PyObject*             _delinkCallback = nullptr;
+    ImNodesEditorContext* _context = nullptr;
+
+    bool                   _minimap = false;
+    ImNodesMiniMapLocation _minimapLocation= ImNodesMiniMapLocation_TopLeft;
 
 };

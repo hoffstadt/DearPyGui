@@ -147,20 +147,22 @@ void mvStyleWindow::drawWidgets()
             ImGui::SliderFloat2("AnnotationPadding", (float*)&plotstyle.AnnotationPadding, 0.0f, 5.0f, "%.0f");
             ImGui::SliderFloat2("FitPadding", (float*)&plotstyle.FitPadding, 0, 0.2f, "%.2f");
             ImGui::Text("Nodes");
-            ImGui::SliderFloat("mvNodeStyleVar_GridSpacing", &imnodes::GetStyle().grid_spacing, 0.0f, 32.0f, "%.0f");
-            ImGui::SliderFloat("mvNodeStyleVar_NodeCornerRounding", &imnodes::GetStyle().node_corner_rounding, 0.0f, 10.0f, "%.0f");
-            ImGui::SliderFloat("mvNodeStyleVar_NodePaddingHorizontal", &imnodes::GetStyle().node_padding_horizontal, 0.0f, 10.0f, "%.0f");
-            ImGui::SliderFloat("mvNodeStyleVar_NodePaddingVertical", &imnodes::GetStyle().node_padding_vertical, 0.0f, 10.0f, "%.0f");
-            ImGui::SliderFloat("mvNodeStyleVar_NodeBorderThickness", &imnodes::GetStyle().node_border_thickness, 0.0f, 10.0f, "%.0f");
-            ImGui::SliderFloat("mvNodeStyleVar_LinkThickness", &imnodes::GetStyle().link_thickness, 0.0f, 10.0f, "%.0f");
-            ImGui::SliderFloat("mvNodeStyleVar_LinkLineSegmentsPerLength", &imnodes::GetStyle().link_line_segments_per_length, 0.0f, 10.0f, "%.0f");
-            ImGui::SliderFloat("mvNodeStyleVar_LinkHoverDistance", &imnodes::GetStyle().link_hover_distance, 0.0f, 10.0f, "%.0f");
-            ImGui::SliderFloat("mvNodeStyleVar_PinCircleRadius", &imnodes::GetStyle().pin_circle_radius, 0.0f, 10.0f, "%.0f");
-            ImGui::SliderFloat("mvNodeStyleVar_PinQuadSideLength", &imnodes::GetStyle().pin_quad_side_length, 0.0f, 10.0f, "%.0f");
-            ImGui::SliderFloat("mvNodeStyleVar_PinTriangleSideLength", &imnodes::GetStyle().pin_triangle_side_length, 0.0f, 10.0f, "%.0f");
-            ImGui::SliderFloat("mvNodeStyleVar_PinLineThickness", &imnodes::GetStyle().pin_line_thickness, 0.0f, 10.0f, "%.0f");
-            ImGui::SliderFloat("mvNodeStyleVar_PinHoverRadius", &imnodes::GetStyle().pin_hover_radius, 0.0f, 10.0f, "%.0f");
-            ImGui::SliderFloat("mvNodeStyleVar_PinOffset", &imnodes::GetStyle().pin_offset, 0.0f, 10.0f, "%.0f");
+            ImGui::SliderFloat("mvNodeStyleVar_GridSpacing", &ImNodes::GetStyle().GridSpacing, 0.0f, 32.0f, "%.0f");
+            ImGui::SliderFloat("mvNodeStyleVar_NodeCornerRounding", &ImNodes::GetStyle().NodeCornerRounding, 0.0f, 10.0f, "%.0f");
+            ImGui::SliderFloat("mvNodeStyleVar_NodePaddingHorizontal", &ImNodes::GetStyle().NodePadding.x, 0.0f, 10.0f, "%.0f");
+            ImGui::SliderFloat("mvNodeStyleVar_NodePaddingVertical", &ImNodes::GetStyle().NodePadding.y, 0.0f, 10.0f, "%.0f");
+            ImGui::SliderFloat("mvNodeStyleVar_NodeBorderThickness", &ImNodes::GetStyle().NodeBorderThickness, 0.0f, 10.0f, "%.0f");
+            ImGui::SliderFloat("mvNodeStyleVar_LinkThickness", &ImNodes::GetStyle().LinkThickness, 0.0f, 10.0f, "%.0f");
+            ImGui::SliderFloat("mvNodeStyleVar_LinkLineSegmentsPerLength", &ImNodes::GetStyle().LinkLineSegmentsPerLength, 0.0f, 10.0f, "%.0f");
+            ImGui::SliderFloat("mvNodeStyleVar_LinkHoverDistance", &ImNodes::GetStyle().LinkHoverDistance, 0.0f, 10.0f, "%.0f");
+            ImGui::SliderFloat("mvNodeStyleVar_PinCircleRadius", &ImNodes::GetStyle().PinCircleRadius, 0.0f, 10.0f, "%.0f");
+            ImGui::SliderFloat("mvNodeStyleVar_PinQuadSideLength", &ImNodes::GetStyle().PinQuadSideLength, 0.0f, 10.0f, "%.0f");
+            ImGui::SliderFloat("mvNodeStyleVar_PinTriangleSideLength", &ImNodes::GetStyle().PinTriangleSideLength, 0.0f, 10.0f, "%.0f");
+            ImGui::SliderFloat("mvNodeStyleVar_PinLineThickness", &ImNodes::GetStyle().PinLineThickness, 0.0f, 10.0f, "%.0f");
+            ImGui::SliderFloat("mvNodeStyleVar_PinHoverRadius", &ImNodes::GetStyle().PinHoverRadius, 0.0f, 10.0f, "%.0f");
+            ImGui::SliderFloat("mvNodeStyleVar_PinOffset", &ImNodes::GetStyle().PinOffset, 0.0f, 10.0f, "%.0f");
+            ImGui::SliderFloat2("mvNodesStyleVar_MiniMapPadding", (float*)&ImNodes::GetStyle().MiniMapPadding.x, 0.0f, 10.0f, "%.0f");
+            ImGui::SliderFloat2("mvNodesStyleVar_MiniMapOffset", (float*)&ImNodes::GetStyle().MiniMapOffset.y, 0.0f, 10.0f, "%.0f");
 
             ImGui::EndTabItem();
         }
@@ -209,7 +211,7 @@ void mvStyleWindow::drawWidgets()
             }
 
             // imnodes
-            mv_local_persist std::string imnodesNames[16] = {
+            mv_local_persist std::string imnodesNames[29] = {
                 "mvNodeCol_NodeBackground",
                 "mvNodeCol_NodeBackgroundHovered",
                 "mvNodeCol_NodeBackgroundSelected",
@@ -225,19 +227,32 @@ void mvStyleWindow::drawWidgets()
                 "mvNodeCol_BoxSelector",
                 "mvNodeCol_BoxSelectorOutline",
                 "mvNodeCol_GridBackground",
-                "mvNodeCol_GridLine"
+                "mvNodeCol_GridLine",
+                "mvNodesCol_GridLinePrimary",
+                "mvNodesCol_MiniMapBackground",
+                "mvNodesCol_MiniMapBackgroundHovered",
+                "mvNodesCol_MiniMapOutline",
+                "mvNodesCol_MiniMapOutlineHovered",
+                "mvNodesCol_MiniMapNodeBackground",
+                "mvNodesCol_MiniMapNodeBackgroundHovered",
+                "mvNodesCol_MiniMapNodeBackgroundSelected",
+                "mvNodesCol_MiniMapNodeOutline",
+                "mvNodesCol_MiniMapLink",
+                "mvNodesCol_MiniMapLinkSelected",
+                "mvNodesCol_MiniMapCanvas",
+                "mvNodesCol_MiniMapCanvasOutline"
             };
 
-            for (int i = 0; i < imnodes::ColorStyle_Count; i++)
+            for (int i = 0; i < ImNodesCol_COUNT; i++)
             {
                 const char* name = imnodesNames[i].c_str();
                 if (!filter.PassFilter(name))
                     continue;
                 ImGui::PushID(i);
-                ImVec4 color = ImGui::ColorConvertU32ToFloat4(imnodes::GetStyle().colors[i]);
+                ImVec4 color = ImGui::ColorConvertU32ToFloat4(ImNodes::GetStyle().Colors[i]);
                 if (ImGui::ColorEdit4("##color1234", (float*)&color.x, ImGuiColorEditFlags_AlphaBar | alpha_flags))
                 {
-                    imnodes::GetStyle().colors[i] = ImGui::ColorConvertFloat4ToU32(color);
+                    ImNodes::GetStyle().Colors[i] = ImGui::ColorConvertFloat4ToU32(color);
                 }
 
                 ImGui::SameLine(0.0f, style.ItemInnerSpacing.x);

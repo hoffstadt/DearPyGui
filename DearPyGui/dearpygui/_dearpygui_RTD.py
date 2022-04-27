@@ -1609,6 +1609,38 @@ def colormap_registry(**kwargs):
 		internal_dpg.pop_container_stack()
 
 @contextmanager
+def custom_series(x, y, channel_count, **kwargs):
+	"""	 Adds a custom series to a plot. New in 1.6.
+
+	Args:
+		x (Any): 
+		y (Any): 
+		channel_count (int): 
+		label (str, optional): Overrides 'name' as label.
+		user_data (Any, optional): User data for callbacks
+		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
+		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
+		source (Union[int, str], optional): Overrides 'id' as value storage key.
+		callback (Callable, optional): Registers a callback.
+		show (bool, optional): Attempt to render widget.
+		y1 (Any, optional): 
+		y2 (Any, optional): 
+		y3 (Any, optional): 
+		tooltip (bool, optional): Show tooltip when plot is hovered.
+		id (Union[int, str], optional): (deprecated)
+	Yields:
+		Union[int, str]
+	"""
+	try:
+		widget = internal_dpg.add_custom_series(x, y, channel_count, **kwargs)
+		internal_dpg.push_container_stack(widget)
+		yield widget
+	finally:
+		internal_dpg.pop_container_stack()
+
+@contextmanager
 def drag_payload(**kwargs):
 	"""	 User data payload for drag and drop operations.
 
@@ -2031,6 +2063,8 @@ def node_editor(**kwargs):
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		delink_callback (Callable, optional): Callback ran when a link is detached.
 		menubar (bool, optional): Shows or hides the menubar.
+		minimap (bool, optional): Shows or hides the Minimap. New in 1.6.
+		minimap_location (int, optional): mvNodeMiniMap_Location_* constants. New in 1.6.
 		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
@@ -2830,7 +2864,7 @@ def add_candle_series(dates, opens, closes, lows, highs, **kwargs):
 		show (bool, optional): Attempt to render widget.
 		bull_color (Union[List[int], Tuple[int, ...]], optional): 
 		bear_color (Union[List[int], Tuple[int, ...]], optional): 
-		weight (int, optional): 
+		weight (float, optional): 
 		tooltip (bool, optional): 
 		time_unit (int, optional): mvTimeUnit_* constants. Default mvTimeUnit_Day.
 		id (Union[int, str], optional): (deprecated)
@@ -3280,6 +3314,33 @@ def add_combo(items=(), **kwargs):
 
 	return internal_dpg.add_combo(items, **kwargs)
 
+def add_custom_series(x, y, channel_count, **kwargs):
+	"""	 Adds a custom series to a plot. New in 1.6.
+
+	Args:
+		x (Any): 
+		y (Any): 
+		channel_count (int): 
+		label (str, optional): Overrides 'name' as label.
+		user_data (Any, optional): User data for callbacks
+		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
+		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
+		source (Union[int, str], optional): Overrides 'id' as value storage key.
+		callback (Callable, optional): Registers a callback.
+		show (bool, optional): Attempt to render widget.
+		y1 (Any, optional): 
+		y2 (Any, optional): 
+		y3 (Any, optional): 
+		tooltip (bool, optional): Show tooltip when plot is hovered.
+		id (Union[int, str], optional): (deprecated)
+	Returns:
+		Union[int, str]
+	"""
+
+	return internal_dpg.add_custom_series(x, y, channel_count, **kwargs)
+
 def add_date_picker(**kwargs):
 	"""	 Adds a data picker.
 
@@ -3344,6 +3405,81 @@ def add_double_value(**kwargs):
 	"""
 
 	return internal_dpg.add_double_value(**kwargs)
+
+def add_drag_double(**kwargs):
+	"""	 Adds drag for a single double value. Useful when drag float is not accurate enough. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the drag. Use clamped keyword to also apply limits to the direct entry modes.
+
+	Args:
+		label (str, optional): Overrides 'name' as label.
+		user_data (Any, optional): User data for callbacks
+		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
+		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		width (int, optional): Width of the item.
+		indent (int, optional): Offsets the widget to the right the specified number multiplied by the indent style.
+		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
+		source (Union[int, str], optional): Overrides 'id' as value storage key.
+		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
+		callback (Callable, optional): Registers a callback.
+		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
+		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		show (bool, optional): Attempt to render widget.
+		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		filter_key (str, optional): Used by filter widget.
+		tracked (bool, optional): Scroll tracking
+		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
+		default_value (float, optional): 
+		format (str, optional): Determines the format the float will be displayed as use python string formatting.
+		speed (float, optional): Sets the sensitivity the float will be modified while dragging.
+		min_value (float, optional): Applies a limit only to draging entry only.
+		max_value (float, optional): Applies a limit only to draging entry only.
+		no_input (bool, optional): Disable direct entry methods or Enter key allowing to input text directly into the widget.
+		clamped (bool, optional): Applies the min and max limits to direct entry methods also such as double click and CTRL+Click.
+		id (Union[int, str], optional): (deprecated)
+	Returns:
+		Union[int, str]
+	"""
+
+	return internal_dpg.add_drag_double(**kwargs)
+
+def add_drag_doublex(**kwargs):
+	"""	 Adds drag input for a set of double values up to 4. Useful when drag float is not accurate enough. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the drag. Use clamped keyword to also apply limits to the direct entry modes.
+
+	Args:
+		label (str, optional): Overrides 'name' as label.
+		user_data (Any, optional): User data for callbacks
+		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
+		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		width (int, optional): Width of the item.
+		indent (int, optional): Offsets the widget to the right the specified number multiplied by the indent style.
+		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
+		source (Union[int, str], optional): Overrides 'id' as value storage key.
+		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
+		callback (Callable, optional): Registers a callback.
+		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
+		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		show (bool, optional): Attempt to render widget.
+		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		filter_key (str, optional): Used by filter widget.
+		tracked (bool, optional): Scroll tracking
+		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
+		default_value (Any, optional): 
+		size (int, optional): Number of doubles to be displayed.
+		format (str, optional): Determines the format the float will be displayed as use python string formatting.
+		speed (float, optional): Sets the sensitivity the float will be modified while dragging.
+		min_value (float, optional): Applies a limit only to draging entry only.
+		max_value (float, optional): Applies a limit only to draging entry only.
+		no_input (bool, optional): Disable direct entry methods or Enter key allowing to input text directly into the widget.
+		clamped (bool, optional): Applies the min and max limits to direct entry methods also such as double click and CTRL+Click.
+		id (Union[int, str], optional): (deprecated)
+	Returns:
+		Union[int, str]
+	"""
+
+	return internal_dpg.add_drag_doublex(**kwargs)
 
 def add_drag_float(**kwargs):
 	"""	 Adds drag for a single float value. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the drag. Use clamped keyword to also apply limits to the direct entry modes.
@@ -4101,6 +4237,85 @@ def add_image_series(texture_tag, bounds_min, bounds_max, **kwargs):
 	"""
 
 	return internal_dpg.add_image_series(texture_tag, bounds_min, bounds_max, **kwargs)
+
+def add_input_double(**kwargs):
+	"""	 Adds input for an double. Useful when input float is not accurate enough.+/- buttons can be activated by setting the value of step.
+
+	Args:
+		label (str, optional): Overrides 'name' as label.
+		user_data (Any, optional): User data for callbacks
+		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
+		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		width (int, optional): Width of the item.
+		indent (int, optional): Offsets the widget to the right the specified number multiplied by the indent style.
+		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
+		source (Union[int, str], optional): Overrides 'id' as value storage key.
+		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
+		callback (Callable, optional): Registers a callback.
+		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
+		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		show (bool, optional): Attempt to render widget.
+		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		filter_key (str, optional): Used by filter widget.
+		tracked (bool, optional): Scroll tracking
+		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
+		default_value (float, optional): 
+		format (str, optional): Determines the format the float will be displayed as use python string formatting.
+		min_value (float, optional): Value for lower limit of input. By default this limits the step buttons. Use min_clamped to limit manual input.
+		max_value (float, optional): Value for upper limit of input. By default this limits the step buttons. Use max_clamped to limit manual input.
+		step (float, optional): Increment to change value by when the step buttons are pressed. Setting this to a value of 0 or smaller will turn off step buttons.
+		step_fast (float, optional): After holding the step buttons for extended time the increments will switch to this value.
+		min_clamped (bool, optional): Activates and deactivates the enforcment of min_value.
+		max_clamped (bool, optional): Activates and deactivates the enforcment of max_value.
+		on_enter (bool, optional): Only runs callback on enter key press.
+		readonly (bool, optional): Activates read only mode where no text can be input but text can still be highlighted.
+		id (Union[int, str], optional): (deprecated)
+	Returns:
+		Union[int, str]
+	"""
+
+	return internal_dpg.add_input_double(**kwargs)
+
+def add_input_doublex(**kwargs):
+	"""	 Adds multi double input for up to 4 double values. Useful when input float mulit is not accurate enough.
+
+	Args:
+		label (str, optional): Overrides 'name' as label.
+		user_data (Any, optional): User data for callbacks
+		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
+		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		width (int, optional): Width of the item.
+		indent (int, optional): Offsets the widget to the right the specified number multiplied by the indent style.
+		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
+		source (Union[int, str], optional): Overrides 'id' as value storage key.
+		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
+		callback (Callable, optional): Registers a callback.
+		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
+		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		show (bool, optional): Attempt to render widget.
+		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		filter_key (str, optional): Used by filter widget.
+		tracked (bool, optional): Scroll tracking
+		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
+		default_value (Any, optional): 
+		format (str, optional): Determines the format the float will be displayed as use python string formatting.
+		min_value (float, optional): Value for lower limit of input for each cell. Use min_clamped to turn on.
+		max_value (float, optional): Value for upper limit of input for each cell. Use max_clamped to turn on.
+		size (int, optional): Number of components displayed for input.
+		min_clamped (bool, optional): Activates and deactivates the enforcment of min_value.
+		max_clamped (bool, optional): Activates and deactivates the enforcment of max_value.
+		on_enter (bool, optional): Only runs callback on enter key press.
+		readonly (bool, optional): Activates read only mode where no text can be input but text can still be highlighted.
+		id (Union[int, str], optional): (deprecated)
+	Returns:
+		Union[int, str]
+	"""
+
+	return internal_dpg.add_input_doublex(**kwargs)
 
 def add_input_float(**kwargs):
 	"""	 Adds input for an float. +/- buttons can be activated by setting the value of step.
@@ -5007,6 +5222,8 @@ def add_node_editor(**kwargs):
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		delink_callback (Callable, optional): Callback ran when a link is detached.
 		menubar (bool, optional): Shows or hides the menubar.
+		minimap (bool, optional): Shows or hides the Minimap. New in 1.6.
+		minimap_location (int, optional): mvNodeMiniMap_Location_* constants. New in 1.6.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -5415,6 +5632,81 @@ def add_simple_plot(**kwargs):
 	"""
 
 	return internal_dpg.add_simple_plot(**kwargs)
+
+def add_slider_double(**kwargs):
+	"""	 Adds slider for a single double value. Useful when slider float is not accurate enough. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the slider. Use clamped keyword to also apply limits to the direct entry modes.
+
+	Args:
+		label (str, optional): Overrides 'name' as label.
+		user_data (Any, optional): User data for callbacks
+		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
+		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		width (int, optional): Width of the item.
+		height (int, optional): Height of the item.
+		indent (int, optional): Offsets the widget to the right the specified number multiplied by the indent style.
+		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
+		source (Union[int, str], optional): Overrides 'id' as value storage key.
+		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
+		callback (Callable, optional): Registers a callback.
+		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
+		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		show (bool, optional): Attempt to render widget.
+		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		filter_key (str, optional): Used by filter widget.
+		tracked (bool, optional): Scroll tracking
+		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
+		default_value (float, optional): 
+		vertical (bool, optional): Sets orientation of the slidebar and slider to vertical.
+		no_input (bool, optional): Disable direct entry methods double-click or ctrl+click or Enter key allowing to input text directly into the item.
+		clamped (bool, optional): Applies the min and max limits to direct entry methods also such as double click and CTRL+Click.
+		min_value (float, optional): Applies a limit only to sliding entry only.
+		max_value (float, optional): Applies a limit only to sliding entry only.
+		format (str, optional): Determines the format the float will be displayed as use python string formatting.
+		id (Union[int, str], optional): (deprecated)
+	Returns:
+		Union[int, str]
+	"""
+
+	return internal_dpg.add_slider_double(**kwargs)
+
+def add_slider_doublex(**kwargs):
+	"""	 Adds multi slider for up to 4 double values. Usueful for when multi slide float is not accurate enough. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the slider. Use clamped keyword to also apply limits to the direct entry modes.
+
+	Args:
+		label (str, optional): Overrides 'name' as label.
+		user_data (Any, optional): User data for callbacks
+		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
+		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		width (int, optional): Width of the item.
+		indent (int, optional): Offsets the widget to the right the specified number multiplied by the indent style.
+		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
+		source (Union[int, str], optional): Overrides 'id' as value storage key.
+		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
+		callback (Callable, optional): Registers a callback.
+		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
+		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		show (bool, optional): Attempt to render widget.
+		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		filter_key (str, optional): Used by filter widget.
+		tracked (bool, optional): Scroll tracking
+		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
+		default_value (Any, optional): 
+		size (int, optional): Number of doubles to be displayed.
+		no_input (bool, optional): Disable direct entry methods double-click or ctrl+click or Enter key allowing to input text directly into the item.
+		clamped (bool, optional): Applies the min and max limits to direct entry methods also such as double click and CTRL+Click.
+		min_value (float, optional): Applies a limit only to sliding entry only.
+		max_value (float, optional): Applies a limit only to sliding entry only.
+		format (str, optional): Determines the format the int will be displayed as use python string formatting.
+		id (Union[int, str], optional): (deprecated)
+	Returns:
+		Union[int, str]
+	"""
+
+	return internal_dpg.add_slider_doublex(**kwargs)
 
 def add_slider_float(**kwargs):
 	"""	 Adds slider for a single float value. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the slider. Use clamped keyword to also apply limits to the direct entry modes.
@@ -7201,6 +7493,16 @@ def get_mouse_pos(**kwargs):
 
 	return internal_dpg.get_mouse_pos(**kwargs)
 
+def get_platform():
+	"""	 New in 1.6. Returns platform constant.
+
+	Args:
+	Returns:
+		int
+	"""
+
+	return internal_dpg.get_platform()
+
 def get_plot_mouse_pos():
 	"""	 Returns mouse position in plot.
 
@@ -8341,6 +8643,9 @@ mvComboHeight_Small=internal_dpg.mvComboHeight_Small
 mvComboHeight_Regular=internal_dpg.mvComboHeight_Regular
 mvComboHeight_Large=internal_dpg.mvComboHeight_Large
 mvComboHeight_Largest=internal_dpg.mvComboHeight_Largest
+mvPlatform_Windows=internal_dpg.mvPlatform_Windows
+mvPlatform_Apple=internal_dpg.mvPlatform_Apple
+mvPlatform_Linux=internal_dpg.mvPlatform_Linux
 mvColorEdit_AlphaPreviewNone=internal_dpg.mvColorEdit_AlphaPreviewNone
 mvColorEdit_AlphaPreview=internal_dpg.mvColorEdit_AlphaPreview
 mvColorEdit_AlphaPreviewHalf=internal_dpg.mvColorEdit_AlphaPreviewHalf
@@ -8379,6 +8684,7 @@ mvTimeUnit_Ms=internal_dpg.mvTimeUnit_Ms
 mvTimeUnit_S=internal_dpg.mvTimeUnit_S
 mvTimeUnit_Min=internal_dpg.mvTimeUnit_Min
 mvTimeUnit_Hr=internal_dpg.mvTimeUnit_Hr
+mvTimeUnit_Day=internal_dpg.mvTimeUnit_Day
 mvTimeUnit_Mo=internal_dpg.mvTimeUnit_Mo
 mvTimeUnit_Yr=internal_dpg.mvTimeUnit_Yr
 mvDatePickerLevel_Day=internal_dpg.mvDatePickerLevel_Day
@@ -8430,6 +8736,10 @@ mvPlot_Location_NorthWest=internal_dpg.mvPlot_Location_NorthWest
 mvPlot_Location_NorthEast=internal_dpg.mvPlot_Location_NorthEast
 mvPlot_Location_SouthWest=internal_dpg.mvPlot_Location_SouthWest
 mvPlot_Location_SouthEast=internal_dpg.mvPlot_Location_SouthEast
+mvNodeMiniMap_Location_BottomLeft=internal_dpg.mvNodeMiniMap_Location_BottomLeft
+mvNodeMiniMap_Location_BottomRight=internal_dpg.mvNodeMiniMap_Location_BottomRight
+mvNodeMiniMap_Location_TopLeft=internal_dpg.mvNodeMiniMap_Location_TopLeft
+mvNodeMiniMap_Location_TopRight=internal_dpg.mvNodeMiniMap_Location_TopRight
 mvTable_SizingFixedFit=internal_dpg.mvTable_SizingFixedFit
 mvTable_SizingFixedSame=internal_dpg.mvTable_SizingFixedSame
 mvTable_SizingStretchProp=internal_dpg.mvTable_SizingStretchProp
@@ -8534,6 +8844,19 @@ mvNodeCol_BoxSelector=internal_dpg.mvNodeCol_BoxSelector
 mvNodeCol_BoxSelectorOutline=internal_dpg.mvNodeCol_BoxSelectorOutline
 mvNodeCol_GridBackground=internal_dpg.mvNodeCol_GridBackground
 mvNodeCol_GridLine=internal_dpg.mvNodeCol_GridLine
+mvNodesCol_GridLinePrimary=internal_dpg.mvNodesCol_GridLinePrimary
+mvNodesCol_MiniMapBackground=internal_dpg.mvNodesCol_MiniMapBackground
+mvNodesCol_MiniMapBackgroundHovered=internal_dpg.mvNodesCol_MiniMapBackgroundHovered
+mvNodesCol_MiniMapOutline=internal_dpg.mvNodesCol_MiniMapOutline
+mvNodesCol_MiniMapOutlineHovered=internal_dpg.mvNodesCol_MiniMapOutlineHovered
+mvNodesCol_MiniMapNodeBackground=internal_dpg.mvNodesCol_MiniMapNodeBackground
+mvNodesCol_MiniMapNodeBackgroundHovered=internal_dpg.mvNodesCol_MiniMapNodeBackgroundHovered
+mvNodesCol_MiniMapNodeBackgroundSelected=internal_dpg.mvNodesCol_MiniMapNodeBackgroundSelected
+mvNodesCol_MiniMapNodeOutline=internal_dpg.mvNodesCol_MiniMapNodeOutline
+mvNodesCol_MiniMapLink=internal_dpg.mvNodesCol_MiniMapLink
+mvNodesCol_MiniMapLinkSelected=internal_dpg.mvNodesCol_MiniMapLinkSelected
+mvNodesCol_MiniMapCanvas=internal_dpg.mvNodesCol_MiniMapCanvas
+mvNodesCol_MiniMapCanvasOutline=internal_dpg.mvNodesCol_MiniMapCanvasOutline
 mvStyleVar_Alpha=internal_dpg.mvStyleVar_Alpha
 mvStyleVar_WindowPadding=internal_dpg.mvStyleVar_WindowPadding
 mvStyleVar_WindowRounding=internal_dpg.mvStyleVar_WindowRounding
@@ -8587,8 +8910,7 @@ mvPlotStyleVar_PlotDefaultSize=internal_dpg.mvPlotStyleVar_PlotDefaultSize
 mvPlotStyleVar_PlotMinSize=internal_dpg.mvPlotStyleVar_PlotMinSize
 mvNodeStyleVar_GridSpacing=internal_dpg.mvNodeStyleVar_GridSpacing
 mvNodeStyleVar_NodeCornerRounding=internal_dpg.mvNodeStyleVar_NodeCornerRounding
-mvNodeStyleVar_NodePaddingHorizontal=internal_dpg.mvNodeStyleVar_NodePaddingHorizontal
-mvNodeStyleVar_NodePaddingVertical=internal_dpg.mvNodeStyleVar_NodePaddingVertical
+mvNodeStyleVar_NodePadding=internal_dpg.mvNodeStyleVar_NodePadding
 mvNodeStyleVar_NodeBorderThickness=internal_dpg.mvNodeStyleVar_NodeBorderThickness
 mvNodeStyleVar_LinkThickness=internal_dpg.mvNodeStyleVar_LinkThickness
 mvNodeStyleVar_LinkLineSegmentsPerLength=internal_dpg.mvNodeStyleVar_LinkLineSegmentsPerLength
@@ -8599,6 +8921,8 @@ mvNodeStyleVar_PinTriangleSideLength=internal_dpg.mvNodeStyleVar_PinTriangleSide
 mvNodeStyleVar_PinLineThickness=internal_dpg.mvNodeStyleVar_PinLineThickness
 mvNodeStyleVar_PinHoverRadius=internal_dpg.mvNodeStyleVar_PinHoverRadius
 mvNodeStyleVar_PinOffset=internal_dpg.mvNodeStyleVar_PinOffset
+mvNodesStyleVar_MiniMapPadding=internal_dpg.mvNodesStyleVar_MiniMapPadding
+mvNodesStyleVar_MiniMapOffset=internal_dpg.mvNodesStyleVar_MiniMapOffset
 mvInputText=internal_dpg.mvInputText
 mvButton=internal_dpg.mvButton
 mvRadioButton=internal_dpg.mvRadioButton
@@ -8757,6 +9081,13 @@ mvColorMapSlider=internal_dpg.mvColorMapSlider
 mvTemplateRegistry=internal_dpg.mvTemplateRegistry
 mvTableCell=internal_dpg.mvTableCell
 mvItemHandlerRegistry=internal_dpg.mvItemHandlerRegistry
+mvInputDouble=internal_dpg.mvInputDouble
+mvInputDoubleMulti=internal_dpg.mvInputDoubleMulti
+mvDragDouble=internal_dpg.mvDragDouble
+mvDragDoubleMulti=internal_dpg.mvDragDoubleMulti
+mvSliderDouble=internal_dpg.mvSliderDouble
+mvSliderDoubleMulti=internal_dpg.mvSliderDoubleMulti
+mvCustomSeries=internal_dpg.mvCustomSeries
 mvReservedUUID_0=internal_dpg.mvReservedUUID_0
 mvReservedUUID_1=internal_dpg.mvReservedUUID_1
 mvReservedUUID_2=internal_dpg.mvReservedUUID_2

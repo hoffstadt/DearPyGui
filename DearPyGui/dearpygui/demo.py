@@ -340,9 +340,11 @@ def show_demo():
                         "ESCAPE to revert.\n\n")
                 dpg.add_input_text(label="input text (w/ hint)", hint="enter text here", callback=_log)
                 dpg.add_input_int(label="input int", callback=_log)
-                dpg.add_input_float(label="input float", callback=_log)
-                dpg.add_input_float(label="input scientific", format="%e", callback=_log)
+                dpg.add_input_float(label="input float", callback=_log, format="%.06f")
+                dpg.add_input_float(label="input float scientific", format="%e", callback=_log)
                 dpg.add_input_floatx(label="input floatx", callback=_log, default_value=[1,2,3,4])
+                dpg.add_input_double(label="input double", callback=_log, format="%.14f")
+                dpg.add_input_doublex(label="input doublex", callback=_log, default_value=[1,2,3,4], format="%.14f")
                 dpg.add_drag_int(label="drag int", callback=_log)
                 _help(
                         "Click and drag to edit value.\n"
@@ -354,6 +356,7 @@ def show_demo():
                 dpg.add_slider_int(label="slider int", max_value=3, callback=_log)
                 _help("CTRL+click to enter value.")
                 dpg.add_slider_float(label="slider float", max_value=1.0, format="ratio = %.3f", callback=_log)
+                dpg.add_slider_double(label="slider double", max_value=1.0, format="ratio = %.14f", callback=_log)
                 dpg.add_slider_int(label="slider angle", min_value=-360, max_value=360, format="%d deg", callback=_log)
                 _help(
                         "Click on the colored square to open a color picker.\n"
@@ -654,6 +657,11 @@ def show_demo():
                         dpg.add_slider_floatx(label=f"slider float {i}", source=float_source, size=i)
 
                     with dpg.group():
+                        double_source = dpg.add_input_doublex(label=f"input double {i}", min_value=0.0, max_value=100.0, size=i)
+                        dpg.add_drag_doublex(label=f"drag double {i}", source=double_source, size=i)
+                        dpg.add_slider_doublex(label=f"slider double {i}", source=double_source, size=i)
+
+                    with dpg.group():
 
                         int_source = dpg.add_input_intx(label=f"input int {i}", min_value=0, max_value=100, size=i)
                         dpg.add_drag_intx(label=f"drag int {i}", source=int_source, size=i)
@@ -665,6 +673,7 @@ def show_demo():
 
                 with dpg.group(horizontal=True):
                     dpg.add_slider_int(label=" ", default_value=1, vertical=True, max_value=5, height=160)
+                    dpg.add_slider_double(label=" ", default_value=1.0, vertical=True, max_value=5.0, height=160)
 
                     with dpg.group(horizontal=True):
 
@@ -1176,6 +1185,8 @@ def show_demo():
             
             with dpg.tree_node(label="Popups"):
 
+                popup_values = ["Bream", "Haddock", "Mackerel", "Pollock", "Tilefish"]
+
                 dpg.add_text("This is a light wrapper over a window.", bullet=True)
                 dpg.add_text("For more control over a modal|popup window use a normal window with the modal|popup keyword and set the item handler and mouse events manually.", bullet=True)
                 dpg.add_text("By default a popup will shrink fit the items it contains.This is useful for context windows, and simple modal window popups.", bullet=True)
@@ -1186,11 +1197,8 @@ def show_demo():
                     with dpg.popup(b, tag="__demo_popup1"):
                         dpg.add_text("Aquariam")
                         dpg.add_separator()
-                        dpg.add_selectable(label="Bream", user_data=[t, "Bream"], callback=lambda s, a, u: dpg.set_value(u[0], u[1]))
-                        dpg.add_selectable(label="Haddock", user_data=[t, "Haddock"], callback=lambda s, a, u: dpg.set_value(u[0], u[1]))
-                        dpg.add_selectable(label="Mackerel", user_data=[t, "Mackerel"], callback=lambda s, a, u: dpg.set_value(u[0], u[1]))
-                        dpg.add_selectable(label="Pollock", user_data=[t, "Pollock"], callback=lambda s, a, u: dpg.set_value(u[0], u[1]))
-                        dpg.add_selectable(label="Tilefish", user_data=[t, "Tilefish"], callback=lambda s, a, u: dpg.set_value(u[0], u[1]))
+                        for i in popup_values:
+                            dpg.add_selectable(label=i, user_data=[t, i], callback=lambda s, a, u: dpg.set_value(u[0], u[1]))
                 dpg.add_text("A Popup with minimum size that cannot be moved", bullet=True)
                 with dpg.group(horizontal=True):
                     b = dpg.add_button(label="Right Click...")
@@ -1198,11 +1206,8 @@ def show_demo():
                     with dpg.popup(b, tag="__demo_popup2", no_move=True, min_size=[300,400]):
                         dpg.add_text("Aquariam")
                         dpg.add_separator()
-                        dpg.add_selectable(label="Bream", user_data=[t, "Bream"], callback=lambda s, a, u: dpg.set_value(u[0], u[1]))
-                        dpg.add_selectable(label="Haddock", user_data=[t, "Haddock"], callback=lambda s, a, u: dpg.set_value(u[0], u[1]))
-                        dpg.add_selectable(label="Mackerel", user_data=[t, "Mackerel"], callback=lambda s, a, u: dpg.set_value(u[0], u[1]))
-                        dpg.add_selectable(label="Pollock", user_data=[t, "Pollock"], callback=lambda s, a, u: dpg.set_value(u[0], u[1]))
-                        dpg.add_selectable(label="Tilefish", user_data=[t, "Tilefish"], callback=lambda s, a, u: dpg.set_value(u[0], u[1]))
+                        for i in popup_values:
+                            dpg.add_selectable(label=i, user_data=[t, i], callback=lambda s, a, u: dpg.set_value(u[0], u[1]))
 
             with dpg.tree_node(label="Modals"):
                 dpg.add_text("Modal windows are like popups but the user cannot close them by clicking outside.")
@@ -1979,7 +1984,7 @@ def show_demo():
                             dpg.add_plot_legend()
                             xaxis = dpg.add_plot_axis(dpg.mvXAxis, label="Day", time=True)
                             with dpg.plot_axis(dpg.mvYAxis, label="USD"):
-                                dpg.add_candle_series(dates, opens, closes, lows, highs, label="GOOGL", time_unit=dpg.mvTimeUnit_Hr)
+                                dpg.add_candle_series(dates, opens, closes, lows, highs, label="GOOGL", time_unit=dpg.mvTimeUnit_Day)
                                 dpg.fit_axis_data(dpg.top_container_stack())
                             dpg.fit_axis_data(xaxis)
 
@@ -2278,6 +2283,38 @@ def show_demo():
                             dpg.draw_line((0, 0), (1, 2), color=(255, 0, 0, 255), thickness=0.01)
                             dpg.draw_text((0, 0), "Origin", color=(250, 250, 250, 255), size=0.1)
 
+                    with dpg.tree_node(label="Custom Series"):
+
+                        def _custom_series_callback(sender, app_data):
+                            _helper_data = app_data[0]
+                            transformed_x = app_data[1]
+                            transformed_y = app_data[2]
+                            mouse_x_plot_space = _helper_data["MouseX_PlotSpace"]
+                            mouse_y_plot_space = _helper_data["MouseY_PlotSpace"]
+                            mouse_x_pixel_space = _helper_data["MouseX_PixelSpace"]
+                            mouse_y_pixel_space = _helper_data["MouseY_PixelSpace"]
+                            dpg.delete_item(sender, children_only=True, slot=2)
+                            dpg.push_container_stack(sender)
+                            dpg.configure_item("demo_custom_series", tooltip=False)
+                            for i in range(0, len(transformed_x)):
+                                dpg.draw_text((transformed_x[i]+15, transformed_y[i]-15), str(i), size=20)
+                                dpg.draw_circle((transformed_x[i], transformed_y[i]), 15, fill=(50+i*5, 50+i*50, 0, 255))
+                                if mouse_x_pixel_space < transformed_x[i]+15 and mouse_x_pixel_space > transformed_x[i]-15 and mouse_y_pixel_space > transformed_y[i]-15 and mouse_y_pixel_space < transformed_y[i]+15:
+                                    dpg.draw_circle((transformed_x[i], transformed_y[i]), 30)
+                                    dpg.configure_item("demo_custom_series", tooltip=True)
+                                    dpg.set_value("demo_custom_series_text", "Current Point: " + str(i))
+                            dpg.pop_container_stack()
+                        
+                        # create plot
+                        dpg.add_text("Hover an item for a custom tooltip!")
+                        with dpg.plot(label="Custom Series", height=400, width=-1):
+                            dpg.add_plot_legend()
+                            xaxis = dpg.add_plot_axis(dpg.mvXAxis)
+                            with dpg.plot_axis(dpg.mvYAxis):
+                                with dpg.custom_series([0.0, 1.0, 2.0, 4.0, 5.0], [0.0, 10.0, 20.0, 40.0, 50.0], 2, label="Custom Series", callback=_custom_series_callback, tag="demo_custom_series"):
+                                    dpg.add_text("Current Point: ", tag="demo_custom_series_text")
+                                dpg.fit_axis_data(dpg.top_container_stack())
+
                 with dpg.tab(label="Help"):
 
                     dpg.add_text("Plotting User Guide")
@@ -2300,7 +2337,7 @@ def show_demo():
             dpg.add_text("Ctrl+Click to remove a link.", bullet=True)
 
             with dpg.node_editor(callback=lambda sender, app_data: dpg.add_node_link(app_data[0], app_data[1], parent=sender), 
-                             delink_callback=lambda sender, app_data: dpg.delete_item(app_data)):
+                             delink_callback=lambda sender, app_data: dpg.delete_item(app_data), minimap=True, minimap_location=dpg.mvNodeMiniMap_Location_BottomRight):
 
                 with dpg.node(label="Node 1", pos=[10, 10]):
 
@@ -2767,3 +2804,10 @@ def show_demo():
                 dpg.configure_item(b1, user_data=dpg.last_item(), callback=_callback_auto_mutex)
                 dpg.configure_item(b2, user_data=dpg.last_item(), callback=_callback_manual_mutex)
                 dpg.configure_item(b3, user_data=dpg.last_item())
+            if dpg.get_platform() == dpg.mvPlatform_Windows or dpg.get_platform() == dpg.mvPlatform_Linux:
+                with dpg.tree_node(label="Output Framebuffer"):
+                    def _framebuffer_callback(sender, app_data):
+                        dpg.show_item("__demo_texture_container")
+                        dpg.add_dynamic_texture(app_data.get_width(), app_data.get_height(), app_data, parent="__demo_texture_container")
+                    dpg.add_text("Outputs frame buffer an mvBuffer object, creates a dynamic texture, and shows the texture registry (check final item)")
+                    dpg.add_button(label="Output Framebuffer", callback=lambda:dpg.output_frame_buffer(callback=_framebuffer_callback))

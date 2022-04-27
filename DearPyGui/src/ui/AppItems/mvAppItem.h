@@ -41,7 +41,8 @@ enum class mvAppItemType
 enum class StorageValueTypes
 {
     None = 0,
-    Int, Int4, Float, Float4, FloatVect, 
+    Int, Int4, 
+    Float, Float4, FloatVect, 
     Double, Double4, DoubleVect,
     Series, Bool, String, UUID,
     Time, Color, Texture
@@ -254,11 +255,14 @@ GetEntityCommand(mvAppItemType type)
     case mvAppItemType::mvChildWindow:                 return "add_child_window";
     case mvAppItemType::mvGroup:                       return "add_group";
     case mvAppItemType::mvSliderFloat:                 return "add_slider_float";
+    case mvAppItemType::mvSliderDouble:                return "add_slider_double";
     case mvAppItemType::mvSliderInt:                   return "add_slider_int";
     case mvAppItemType::mvFilterSet:                   return "add_filter_set";
     case mvAppItemType::mvDragFloat:                   return "add_drag_float";
+    case mvAppItemType::mvDragDouble:                  return "add_drag_double";
     case mvAppItemType::mvDragInt:                     return "add_drag_int";
     case mvAppItemType::mvInputFloat:                  return "add_input_float";
+    case mvAppItemType::mvInputDouble:                 return "add_input_double";
     case mvAppItemType::mvInputInt:                    return "add_input_int";
     case mvAppItemType::mvColorEdit:                   return "add_color_edit";
     case mvAppItemType::mvClipper:                     return "add_clipper";
@@ -305,11 +309,14 @@ GetEntityCommand(mvAppItemType type)
     case mvAppItemType::mvDrawPolyline:                return "draw_polyline";
     case mvAppItemType::mvDrawImage:                   return "draw_image";
     case mvAppItemType::mvDragFloatMulti:              return "add_drag_floatx";
+    case mvAppItemType::mvDragDoubleMulti:             return "add_drag_doublex";
     case mvAppItemType::mvDragIntMulti:                return "add_drag_intx";
     case mvAppItemType::mvSliderFloatMulti:            return "add_slider_floatx";
+    case mvAppItemType::mvSliderDoubleMulti:           return "add_slider_doublex";
     case mvAppItemType::mvSliderIntMulti:              return "add_slider_intx";
     case mvAppItemType::mvInputIntMulti:               return "add_input_intx";
     case mvAppItemType::mvInputFloatMulti:             return "add_input_floatx";
+    case mvAppItemType::mvInputDoubleMulti:            return "add_input_doublex";
     case mvAppItemType::mvDragPoint:                   return "add_drag_point";
     case mvAppItemType::mvDragLine:                    return "add_drag_line";
     case mvAppItemType::mvAnnotation:                  return "add_plot_annotation";
@@ -319,6 +326,7 @@ GetEntityCommand(mvAppItemType type)
     case mvAppItemType::mvStairSeries:                 return "add_stair_series";
     case mvAppItemType::mvBarSeries:                   return "add_bar_series";
     case mvAppItemType::mvErrorSeries:                 return "add_error_series";
+    case mvAppItemType::mvCustomSeries:                return "add_custom_series";
     case mvAppItemType::mvVLineSeries:                 return "add_vline_series";
     case mvAppItemType::mvHLineSeries:                 return "add_hline_series";
     case mvAppItemType::mvHeatSeries:                  return "add_heat_series";

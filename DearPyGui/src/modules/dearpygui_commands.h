@@ -2443,7 +2443,7 @@ create_context(PyObject* self, PyObject* args, PyObject* kwargs)
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
 		ImPlot::CreateContext();
-		imnodes::CreateContext();
+		ImNodes::CreateContext();
 	}
 
 	mvToolManager::GetFontManager()._dirty = true;
@@ -2476,7 +2476,7 @@ destroy_context(PyObject* self, PyObject* args, PyObject* kwargs)
 			GContext->started = false;  // return to false after
 			});
 
-		imnodes::DestroyContext();
+		ImNodes::DestroyContext();
 		ImPlot::DestroyContext();
 		ImGui::DestroyContext();
 
@@ -4072,4 +4072,19 @@ get_clipboard_text(PyObject* self, PyObject* args, PyObject* kwargs)
 	const char* text = ImGui::GetClipboardText();
 
 	return ToPyString(text);
+}
+
+mv_internal mv_python_function
+get_platform(PyObject* self, PyObject* args, PyObject* kwargs)
+{
+
+	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+
+#ifdef _WIN32
+	return ToPyInt(0L);
+#elif __APPLE__
+	return ToPyInt(1L);
+#else
+	return ToPyInt(2L);
+#endif
 }

@@ -1201,20 +1201,20 @@ void mvDrawPolygon::draw(ImDrawList* drawlist, float x, float y)
 		int x2, y2;
 		int ind1, ind2;
 		size_t ints;
-		size_t n = _points.size();
+		size_t n = finalpoints.size();
 		int* polyints = new int[n];
 
 		/* Determine Y maxima */
-		miny = (int)_points[0].y;
-		maxy = (int)_points[0].y;
+		miny = (int)finalpoints[0].y;
+		maxy = (int)finalpoints[0].y;
 		for (i = 1; i < n; i++)
 		{
-			miny = std::min(miny, (int)_points[i].y);
-			maxy = std::max(maxy, (int)_points[i].y);
+			miny = std::min(miny, (int)finalpoints[i].y);
+			maxy = std::max(maxy, (int)finalpoints[i].y);
 		}
 
 		/* Draw, scanning y */
-		for (y = miny; y <= maxy; y++) {
+		for (y = miny; y < maxy; y++) {
 			ints = 0;
 			for (i = 0; (i < n); i++) {
 				if (!i)
@@ -1227,19 +1227,19 @@ void mvDrawPolygon::draw(ImDrawList* drawlist, float x, float y)
 					ind1 = (int)i - 1;
 					ind2 = (int)i;
 				}
-				y1 = (int)_points[ind1].y;
-				y2 = (int)_points[ind2].y;
+				y1 = (int)finalpoints[ind1].y;
+				y2 = (int)finalpoints[ind2].y;
 				if (y1 < y2)
 				{
-					x1 = (int)_points[ind1].x;
-					x2 = (int)_points[ind2].x;
+					x1 = (int)finalpoints[ind1].x;
+					x2 = (int)finalpoints[ind2].x;
 				}
 				else if (y1 > y2)
 				{
-					y2 = (int)_points[ind1].y;
-					y1 = (int)_points[ind2].y;
-					x2 = (int)_points[ind1].x;
-					x1 = (int)_points[ind2].x;
+					y2 = (int)finalpoints[ind1].y;
+					y1 = (int)finalpoints[ind2].y;
+					x2 = (int)finalpoints[ind1].x;
+					x1 = (int)finalpoints[ind2].x;
 				}
 				else
 					continue;
@@ -1263,8 +1263,8 @@ void mvDrawPolygon::draw(ImDrawList* drawlist, float x, float y)
 						ImPlot::PlotToPixels({ (float)polyints[i + 1], (float)y }), _fill, ImPlot::GetCurrentContext()->Mx * _thickness);
 				else
 				{
-					drawlist->AddLine({ (float)polyints[i] + start.x, (float)y + start.y },
-						{ (float)polyints[i + 1] + start.x, (float)y + start.y }, _fill, _thickness);
+					drawlist->AddLine({ (float)polyints[i], (float)y },
+						{ (float)polyints[i + 1], (float)y }, _fill, _thickness);
 				}
 			}
 		}
