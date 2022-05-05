@@ -53,6 +53,7 @@ struct mvColorButtonConfig;
 struct mvImageConfig;
 struct mvImageButtonConfig;
 struct mvColorEditConfig;
+struct mvColorPickerConfig;
 struct mvFilterSetConfig;
 struct mvTooltipConfig;
 
