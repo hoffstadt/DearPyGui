@@ -1768,9 +1768,15 @@ DearPyGui::set_positional_configuration(PyObject* inDict, mvBasicSeriesConfig& o
 	//if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(mvAppItemType::mvLineSeries)], inDict))
 	//	return;
 
-	(*outConfig.value)[0] = ToDoubleVect(PyTuple_GetItem(inDict, 0));
-	if(PyTuple_Size(inDict) > 1)
-		(*outConfig.value)[1] = ToDoubleVect(PyTuple_GetItem(inDict, 1));
+	for(int i = 0; i < PyTuple_Size(inDict); i++)
+		(*outConfig.value)[i] = ToDoubleVect(PyTuple_GetItem(inDict, i));
+
+	if (outConfig.type == mvAppItemType::mvShadeSeries)
+	{
+		(*outConfig.value)[2] = (*outConfig.value)[1];
+		for (auto& item : (*outConfig.value)[2])
+			item = 0.0;
+	}
 }
 
 void
@@ -1984,9 +1990,22 @@ DearPyGui::set_configuration(PyObject* inDict, mvBasicSeriesConfig& outConfig)
 	if (inDict == nullptr)
 		return;
 
-	if (PyObject* item = PyDict_GetItemString(inDict, "x")) { (*outConfig.value)[0] = ToDoubleVect(item); }
-	if (PyObject* item = PyDict_GetItemString(inDict, "y")) { (*outConfig.value)[1] = ToDoubleVect(item); }
+	bool valueChanged = false;
+	if (PyObject* item = PyDict_GetItemString(inDict, "x")) { valueChanged = true; (*outConfig.value)[0] = ToDoubleVect(item); }
+	if (PyObject* item = PyDict_GetItemString(inDict, "y")) { valueChanged = true; (*outConfig.value)[1] = ToDoubleVect(item); }
+	if (PyObject* item = PyDict_GetItemString(inDict, "y1")) { valueChanged = true; (*outConfig.value)[1] = ToDoubleVect(item); }
+	if (PyObject* item = PyDict_GetItemString(inDict, "y2")) { valueChanged = true; (*outConfig.value)[2] = ToDoubleVect(item); }
 
+	if (valueChanged && outConfig.type == mvAppItemType::mvShadeSeries)
+	{
+		if ((*outConfig.value)[1].size() != (*outConfig.value)[2].size())
+		{
+			(*outConfig.value)[2].clear();
+			for (size_t i = 0; i < (*outConfig.value)[1].size(); i++)
+				(*outConfig.value)[2].push_back(0.0);
+
+		}
+	}
 }
 
 void

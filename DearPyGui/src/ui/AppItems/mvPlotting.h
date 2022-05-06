@@ -108,6 +108,7 @@ namespace DearPyGui
 
 struct mvBasicSeriesConfig
 {
+    mvAppItemType type = mvAppItemType::All;
     mvRef<std::vector<std::vector<double>>> value = CreateRef<std::vector<std::vector<double>>>(
         std::vector<std::vector<double>>{ std::vector<double>{},
         std::vector<double>{},
@@ -375,7 +376,7 @@ class mvLineSeries : public mvAppItem
 {
 public:
     mvBasicSeriesConfig configData{};
-    explicit mvLineSeries(mvUUID uuid) : mvAppItem(uuid) {}
+    explicit mvLineSeries(mvUUID uuid) : mvAppItem(uuid) { configData.type = mvAppItemType::mvLineSeries; }
     void handleSpecificPositionalArgs(PyObject* dict) override { DearPyGui::set_positional_configuration(dict, configData); }
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_line_series(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
@@ -390,8 +391,8 @@ public:
 class mvScatterSeries : public mvAppItem
 {
 public:
-    mvBasicSeriesConfig configData{};
-    explicit mvScatterSeries(mvUUID uuid) : mvAppItem(uuid) {}
+    mvBasicSeriesConfig configData{ };
+    explicit mvScatterSeries(mvUUID uuid) : mvAppItem(uuid) { configData.type = mvAppItemType::mvScatterSeries; }
     void handleSpecificPositionalArgs(PyObject* dict) override { DearPyGui::set_positional_configuration(dict, configData); }
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_scatter_series(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
@@ -407,7 +408,7 @@ class mvShadeSeries : public mvAppItem
 {
 public:
     mvBasicSeriesConfig configData{};
-    explicit mvShadeSeries(mvUUID uuid) : mvAppItem(uuid) {}
+    explicit mvShadeSeries(mvUUID uuid) : mvAppItem(uuid) { configData.type = mvAppItemType::mvShadeSeries; }
     void handleSpecificPositionalArgs(PyObject* dict) override { DearPyGui::set_positional_configuration(dict, configData); }
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_shade_series(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
@@ -423,7 +424,7 @@ class mvVLineSeries : public mvAppItem
 {
 public:
     mvBasicSeriesConfig configData{};
-    explicit mvVLineSeries(mvUUID uuid) : mvAppItem(uuid) {}
+    explicit mvVLineSeries(mvUUID uuid) : mvAppItem(uuid) { configData.type = mvAppItemType::mvVLineSeries; }
     void handleSpecificPositionalArgs(PyObject* dict) override { DearPyGui::set_positional_configuration(dict, configData); }
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_vline_series(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
@@ -439,7 +440,7 @@ class mvHLineSeries : public mvAppItem
 {
 public:
     mvBasicSeriesConfig configData{};
-    explicit mvHLineSeries(mvUUID uuid) : mvAppItem(uuid) {}
+    explicit mvHLineSeries(mvUUID uuid) : mvAppItem(uuid) { configData.type = mvAppItemType::mvHLineSeries; }
     void handleSpecificPositionalArgs(PyObject* dict) override { DearPyGui::set_positional_configuration(dict, configData); }
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_hline_series(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
@@ -455,7 +456,7 @@ class mvStairSeries : public mvAppItem
 {
 public:
     mvBasicSeriesConfig configData{};
-    explicit mvStairSeries(mvUUID uuid) : mvAppItem(uuid) {}
+    explicit mvStairSeries(mvUUID uuid) : mvAppItem(uuid) { configData.type = mvAppItemType::mvStairSeries; }
     void handleSpecificPositionalArgs(PyObject* dict) override { DearPyGui::set_positional_configuration(dict, configData); }
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_stair_series(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
@@ -471,7 +472,7 @@ class mvStemSeries : public mvAppItem
 {
 public:
     mvBasicSeriesConfig configData{};
-    explicit mvStemSeries(mvUUID uuid) : mvAppItem(uuid) {}
+    explicit mvStemSeries(mvUUID uuid) : mvAppItem(uuid) { configData.type = mvAppItemType::mvStemSeries; }
     void handleSpecificPositionalArgs(PyObject* dict) override { DearPyGui::set_positional_configuration(dict, configData); }
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_stem_series(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
