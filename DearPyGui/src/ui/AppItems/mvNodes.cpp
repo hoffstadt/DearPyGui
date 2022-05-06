@@ -187,7 +187,8 @@ void mvNodeEditor::draw(ImDrawList* drawlist, float x, float y)
 
     }
 
-    ImNodes::PushAttributeFlag(ImNodesAttributeFlags_EnableLinkDetachWithDragClick);
+    //ImNodes::PushAttributeFlag(ImNodesAttributeFlags_EnableLinkDetachWithDragClick);
+    ImNodes::PushAttributeFlag(ImNodesAttributeFlags_None);
 
     ImNodesIO& io = ImNodes::GetIO();
     io.LinkDetachWithModifierClick.Modifier = &ImGui::GetIO().KeyCtrl;
