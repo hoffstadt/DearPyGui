@@ -88,7 +88,6 @@ set(MARVEL_SOURCES
 	"src/ui/AppItems/plots/mvSubPlots.cpp"
 	"src/ui/AppItems/plots/mvPlot.cpp"
 	"src/ui/AppItems/plots/mvPlotAxis.cpp"
-	"src/ui/AppItems/plots/mvAnnotation.cpp"
 	"src/ui/AppItems/plots/mvSimplePlot.cpp"
 
 	# imnodes

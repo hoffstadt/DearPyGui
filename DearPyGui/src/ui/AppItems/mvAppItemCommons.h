@@ -40,7 +40,6 @@
 
 #include "plots/mvPlot.h"
 #include "plots/mvPlotAxis.h"
-#include "plots/mvAnnotation.h"
 
 #include "plots/mvSubPlots.h"
 #include "plots/mvSimplePlot.h"

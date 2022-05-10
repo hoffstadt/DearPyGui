@@ -223,6 +223,27 @@ PlotCandlestick(const char* label_id, const double* xs, const double* opens,
 	}
 }
 
+void
+DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mvAnnotationConfig& outConfig)
+{
+	if (dataSource == item.config.source) return;
+	item.config.source = dataSource;
+
+	mvAppItem* srcItem = GetItem((*GContext->itemRegistry), dataSource);
+	if (!srcItem)
+	{
+		mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
+			"Source item not found: " + std::to_string(dataSource), &item);
+		return;
+	}
+	if (DearPyGui::GetEntityValueType(srcItem->type) != DearPyGui::GetEntityValueType(item.type))
+	{
+		mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
+			"Values types do not match: " + std::to_string(dataSource), &item);
+		return;
+	}
+	outConfig.value = *static_cast<std::shared_ptr<std::array<double, 4>>*>(srcItem->getValue());
+}
 
 void
 DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mvDragLineConfig& outConfig)
@@ -1752,6 +1773,21 @@ DearPyGui::draw_custom_series(ImDrawList* drawlist, mvAppItem& item, mvCustomSer
 	cleanup_local_theming(&item);
 }
 
+void
+DearPyGui::draw_plot_annotation(ImDrawList* drawlist, mvAppItem& item, mvAnnotationConfig& config)
+{
+	if (!item.config.show)
+		return;
+
+	ScopedID id(item.uuid);
+
+	if (config.clamped)
+		ImPlot::AnnotateClamped((*config.value.get())[0], (*config.value.get())[1], config.pixOffset, config.color.toVec4(), "%s", item.config.specifiedLabel.c_str());
+	else
+		ImPlot::Annotate((*config.value.get())[0], (*config.value.get())[1], config.pixOffset, config.color.toVec4(), "%s", item.config.specifiedLabel.c_str());
+
+}
+
 void 
 DearPyGui::set_positional_configuration(PyObject* inDict, mvBarSeriesConfig& outConfig)
 {
@@ -2201,6 +2237,17 @@ DearPyGui::set_configuration(PyObject* inDict, mvCustomSeriesConfig& outConfig)
 }
 
 void
+DearPyGui::set_configuration(PyObject* inDict, mvAnnotationConfig& outConfig)
+{
+	if (inDict == nullptr)
+		return;
+
+	if (PyObject* item = PyDict_GetItemString(inDict, "color")) outConfig.color = ToColor(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "clamped")) outConfig.clamped = ToBool(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "offset")) outConfig.pixOffset = ToVec2(item);
+}
+
+void
 DearPyGui::fill_configuration_dict(const mvDragLineConfig& inConfig, PyObject* outDict)
 {
 	if (outDict == nullptr)
@@ -2389,6 +2436,16 @@ DearPyGui::fill_configuration_dict(const mvCustomSeriesConfig& inConfig, PyObjec
 }
 
 void
+DearPyGui::fill_configuration_dict(const mvAnnotationConfig& inConfig, PyObject* outDict)
+{
+	if (outDict == nullptr)
+		return;
+	PyDict_SetItemString(outDict, "color", mvPyObject(ToPyColor(inConfig.color)));
+	PyDict_SetItemString(outDict, "clamped", mvPyObject(ToPyBool(inConfig.clamped)));
+	PyDict_SetItemString(outDict, "offset", mvPyObject(ToPyPair(inConfig.pixOffset.x, inConfig.pixOffset.y)));
+}
+
+void
 DearPyGui::apply_template(const mvDragLineConfig& sourceConfig, mvDragLineConfig& dstConfig)
 {
 	dstConfig.value = sourceConfig.value;
@@ -2543,12 +2600,39 @@ DearPyGui::apply_template(const mvCustomSeriesConfig& sourceConfig, mvCustomSeri
 	dstConfig.tooltip = sourceConfig.tooltip;
 }
 
+void
+DearPyGui::apply_template(const mvAnnotationConfig& sourceConfig, mvAnnotationConfig& dstConfig)
+{
+	dstConfig.value = sourceConfig.value;
+	dstConfig.disabled_value[0] = sourceConfig.disabled_value[0];
+	dstConfig.disabled_value[1] = sourceConfig.disabled_value[1];
+	dstConfig.disabled_value[2] = sourceConfig.disabled_value[2];
+	dstConfig.disabled_value[3] = sourceConfig.disabled_value[3];
+	dstConfig.color = sourceConfig.color;
+	dstConfig.clamped = sourceConfig.clamped;
+	dstConfig.pixOffset = sourceConfig.pixOffset;
+}
+
 //-----------------------------------------------------------------------------
 // Old Classes, in the process of removing OOP crap
 //-----------------------------------------------------------------------------
 
 void 
 mvDragPoint::setPyValue(PyObject* value)
+{
+	std::vector<double> temp = ToDoubleVect(value);
+	while (temp.size() < 4)
+		temp.push_back(0.0);
+	std::array<double, 4> temp_array;
+	for (size_t i = 0; i < temp_array.size(); i++)
+		temp_array[i] = temp[i];
+	if (configData.value)
+		*configData.value = temp_array;
+	else
+		configData.value = std::make_shared<std::array<double, 4>>(temp_array);
+}
+
+void mvAnnotation::setPyValue(PyObject* value)
 {
 	std::vector<double> temp = ToDoubleVect(value);
 	while (temp.size() < 4)

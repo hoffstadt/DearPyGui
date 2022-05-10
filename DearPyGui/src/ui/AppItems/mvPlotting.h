@@ -22,6 +22,7 @@ namespace DearPyGui
     void fill_configuration_dict(const mvAreaSeriesConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvCandleSeriesConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvCustomSeriesConfig& inConfig, PyObject* outDict);
+    void fill_configuration_dict(const mvAnnotationConfig& inConfig, PyObject* outDict);
 
     // specific part of `configure_item(...)`
     void set_configuration(PyObject* inDict, mvPlotLegendConfig& outConfig, mvAppItem& item);
@@ -39,6 +40,7 @@ namespace DearPyGui
     void set_configuration(PyObject* inDict, mvAreaSeriesConfig& outConfig);
     void set_configuration(PyObject* inDict, mvCandleSeriesConfig& outConfig);
     void set_configuration(PyObject* inDict, mvCustomSeriesConfig& outConfig);
+    void set_configuration(PyObject* inDict, mvAnnotationConfig& outConfig);
 
     // positional args TODO: combine with above
     void set_positional_configuration(PyObject* inDict, mvBarSeriesConfig& outConfig);
@@ -57,6 +59,7 @@ namespace DearPyGui
     void set_required_configuration(PyObject* inDict, mvCustomSeriesConfig& outConfig);
 
     // data source handling
+    void set_data_source(mvAppItem& item, mvUUID dataSource, mvAnnotationConfig& outConfig);
     void set_data_source(mvAppItem& item, mvUUID dataSource, mvDragLineConfig& outConfig);
     void set_data_source(mvAppItem& item, mvUUID dataSource, mvDragPointConfig& outConfig);
     void set_data_source(mvAppItem& item, mvUUID dataSource, mvRef<std::vector<std::vector<double>>>& outValue);
@@ -77,6 +80,7 @@ namespace DearPyGui
     void apply_template(const mvAreaSeriesConfig& sourceConfig, mvAreaSeriesConfig& dstConfig);
     void apply_template(const mvCandleSeriesConfig& sourceConfig, mvCandleSeriesConfig& dstConfig);
     void apply_template(const mvCustomSeriesConfig& sourceConfig, mvCustomSeriesConfig& dstConfig);
+    void apply_template(const mvAnnotationConfig& sourceConfig, mvAnnotationConfig& dstConfig);
 
     // draw commands
     void draw_plot_legend       (ImDrawList* drawlist, mvAppItem& item, mvPlotLegendConfig& config);
@@ -100,6 +104,7 @@ namespace DearPyGui
     void draw_area_series       (ImDrawList* drawlist, mvAppItem& item, const mvAreaSeriesConfig& config);
     void draw_candle_series     (ImDrawList* drawlist, mvAppItem& item, const mvCandleSeriesConfig& config);
     void draw_custom_series     (ImDrawList* drawlist, mvAppItem& item, mvCustomSeriesConfig& config);
+    void draw_plot_annotation   (ImDrawList* drawlist, mvAppItem& item, mvAnnotationConfig& config);
 }
 
 //-----------------------------------------------------------------------------
@@ -309,6 +314,15 @@ struct mvCustomSeriesConfig
         std::vector<double>{},
         std::vector<double>{} });
     std::vector<std::vector<double>> _transformedValues;
+};
+
+struct mvAnnotationConfig
+{
+    mvRef<std::array<double, 4>> value = CreateRef<std::array<double, 4>>(std::array<double, 4>{0.0, 0.0, 0.0, 0.0});
+    double                       disabled_value[4]{};
+    mvColor                      color = mvColor(0.0f, 0.0f, 0.0f, -1.0f);
+    bool                         clamped = true;
+    ImVec2                       pixOffset;
 };
 
 //-----------------------------------------------------------------------------
@@ -642,4 +656,19 @@ public:
     void* getValue() override { return &configData.value; }
     PyObject* getPyValue() override { return ToPyList(*configData.value); }
     void setPyValue(PyObject* value) override { *configData.value = ToVectVectDouble(value); }
+};
+
+class mvAnnotation : public mvAppItem
+{
+public:
+    mvAnnotationConfig configData{};
+    explicit mvAnnotation(mvUUID uuid) : mvAppItem(uuid) {}
+    void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_plot_annotation(drawlist, *this, configData); }
+    void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
+    void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
+    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvAnnotation*>(item); DearPyGui::apply_template(titem->configData, configData); }
+    void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
+    void* getValue() override { return &configData.value; }
+    PyObject* getPyValue() override { return +ToPyFloatList(configData.value->data(), 4); }
+    void setPyValue(PyObject* value) override;
 };

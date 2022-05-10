@@ -58,6 +58,7 @@ struct mvFilterSetConfig;
 struct mvTooltipConfig;
 
 // plots
+struct mvAnnotationConfig;
 struct mvPlotLegendConfig;
 struct mvDragLineConfig;
 struct mvDragPointConfig;
