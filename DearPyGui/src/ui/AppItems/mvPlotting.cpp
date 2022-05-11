@@ -1822,6 +1822,7 @@ DearPyGui::set_positional_configuration(PyObject* inDict, mv2dHistogramSeriesCon
 		return;
 
 	(*outConfig.value)[0] = ToDoubleVect(PyTuple_GetItem(inDict, 0));
+	(*outConfig.value)[1] = ToDoubleVect(PyTuple_GetItem(inDict, 1));
 }
 
 void
