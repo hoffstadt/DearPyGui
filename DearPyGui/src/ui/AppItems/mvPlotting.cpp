@@ -9,7 +9,6 @@
 #include "AppItems/containers/mvDragPayload.h"
 #include "mvPyObject.h"
 #include "AppItems/plots/mvPlot.h"
-#include "AppItems/plots/mvSubPlots.h"
 #include "mvTextureItems.h"
 
 mv_internal void
@@ -309,6 +308,23 @@ DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mvRef<std::vector
 		return;
 	}
 	outValue = *static_cast<std::shared_ptr<std::vector<std::vector<double>>>*>(srcItem->getValue());
+}
+
+void
+DearPyGui::draw_subplots(ImDrawList* drawlist, mvAppItem& item, mvSubPlotsConfig& config)
+{
+	ScopedID id(item.uuid);
+
+	if (ImPlot::BeginSubplots(item.info.internalLabel.c_str(), config.rows, config.cols, ImVec2((float)item.config.width, (float)item.config.height),
+		config.flags, config.row_ratios.empty() ? nullptr : config.row_ratios.data(), config.col_ratios.empty() ? nullptr : config.col_ratios.data()))
+	{
+
+		// plots
+		for (auto& item : item.childslots[1])
+			item->draw(drawlist, 0.0f, 0.0f);
+
+		ImPlot::EndSubplots();
+	}
 }
 
 void
@@ -1912,6 +1928,16 @@ DearPyGui::set_required_configuration(PyObject* inDict, mvImageSeriesConfig& out
 }
 
 void
+DearPyGui::set_required_configuration(PyObject* inDict, mvSubPlotsConfig& outConfig)
+{
+	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(mvAppItemType::mvSubPlots)], inDict))
+		return;
+
+	outConfig.rows = ToInt(PyTuple_GetItem(inDict, 0));
+	outConfig.cols = ToInt(PyTuple_GetItem(inDict, 1));
+}
+
+void
 DearPyGui::set_required_configuration(PyObject* inDict, mvAreaSeriesConfig& outConfig)
 {
 	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(mvAppItemType::mvAreaSeries)], inDict))
@@ -2249,6 +2275,35 @@ DearPyGui::set_configuration(PyObject* inDict, mvAnnotationConfig& outConfig)
 }
 
 void
+DearPyGui::set_configuration(PyObject* inDict, mvSubPlotsConfig& outConfig)
+{
+	if (inDict == nullptr)
+		return;
+
+	if (PyObject* item = PyDict_GetItemString(inDict, "rows")) outConfig.rows = ToInt(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "columns")) outConfig.cols = ToInt(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "row_ratios")) outConfig.row_ratios = ToFloatVect(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "column_ratios")) outConfig.col_ratios = ToFloatVect(item);
+
+	// helper for bit flipping
+	auto flagop = [inDict](const char* keyword, int flag, int& flags)
+	{
+		if (PyObject* item = PyDict_GetItemString(inDict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+	};
+
+	// subplot flags
+	flagop("no_title", ImPlotSubplotFlags_NoTitle, outConfig.flags);
+	flagop("no_menus", ImPlotSubplotFlags_NoMenus, outConfig.flags);
+	flagop("no_resize", ImPlotSubplotFlags_NoResize, outConfig.flags);
+	flagop("no_align", ImPlotSubplotFlags_NoAlign, outConfig.flags);
+	flagop("link_rows", ImPlotSubplotFlags_LinkRows, outConfig.flags);
+	flagop("link_columns", ImPlotSubplotFlags_LinkCols, outConfig.flags);
+	flagop("link_all_x", ImPlotSubplotFlags_LinkAllX, outConfig.flags);
+	flagop("link_all_y", ImPlotSubplotFlags_LinkAllY, outConfig.flags);
+	flagop("column_major", ImPlotSubplotFlags_ColMajor, outConfig.flags);
+}
+
+void
 DearPyGui::fill_configuration_dict(const mvDragLineConfig& inConfig, PyObject* outDict)
 {
 	if (outDict == nullptr)
@@ -2444,6 +2499,45 @@ DearPyGui::fill_configuration_dict(const mvAnnotationConfig& inConfig, PyObject*
 	PyDict_SetItemString(outDict, "color", mvPyObject(ToPyColor(inConfig.color)));
 	PyDict_SetItemString(outDict, "clamped", mvPyObject(ToPyBool(inConfig.clamped)));
 	PyDict_SetItemString(outDict, "offset", mvPyObject(ToPyPair(inConfig.pixOffset.x, inConfig.pixOffset.y)));
+}
+
+void
+DearPyGui::fill_configuration_dict(const mvSubPlotsConfig& inConfig, PyObject* outDict)
+{
+	if (outDict == nullptr)
+		return;
+
+	PyDict_SetItemString(outDict, "rows", mvPyObject(ToPyInt(inConfig.rows)));
+	PyDict_SetItemString(outDict, "cols", mvPyObject(ToPyInt(inConfig.cols)));
+	PyDict_SetItemString(outDict, "row_ratios", mvPyObject(ToPyList(inConfig.row_ratios)));
+	PyDict_SetItemString(outDict, "column_ratios", mvPyObject(ToPyList(inConfig.col_ratios)));
+
+	// helper to check and set bit
+	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)
+	{
+		PyDict_SetItemString(outDict, keyword, mvPyObject(ToPyBool(flags & flag)));
+	};
+
+	// subplot flags
+	checkbitset("no_title", ImPlotSubplotFlags_NoTitle, inConfig.flags);
+	checkbitset("no_menus", ImPlotSubplotFlags_NoMenus, inConfig.flags);
+	checkbitset("no_resize", ImPlotSubplotFlags_NoResize, inConfig.flags);
+	checkbitset("no_align", ImPlotSubplotFlags_NoAlign, inConfig.flags);
+	checkbitset("link_rows", ImPlotSubplotFlags_LinkRows, inConfig.flags);
+	checkbitset("link_columns", ImPlotSubplotFlags_LinkCols, inConfig.flags);
+	checkbitset("link_all_x", ImPlotSubplotFlags_LinkAllX, inConfig.flags);
+	checkbitset("link_all_y", ImPlotSubplotFlags_LinkAllY, inConfig.flags);
+	checkbitset("column_major", ImPlotSubplotFlags_ColMajor, inConfig.flags);
+}
+
+void
+DearPyGui::apply_template(const mvSubPlotsConfig& sourceConfig, mvSubPlotsConfig& dstConfig)
+{
+	dstConfig.rows = sourceConfig.rows;
+	dstConfig.cols = sourceConfig.cols;
+	dstConfig.row_ratios = sourceConfig.row_ratios;
+	dstConfig.col_ratios = sourceConfig.col_ratios;
+	dstConfig.flags = sourceConfig.flags;
 }
 
 void

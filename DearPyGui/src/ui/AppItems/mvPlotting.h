@@ -23,6 +23,7 @@ namespace DearPyGui
     void fill_configuration_dict(const mvCandleSeriesConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvCustomSeriesConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvAnnotationConfig& inConfig, PyObject* outDict);
+    void fill_configuration_dict(const mvSubPlotsConfig& inConfig, PyObject* outDict);
 
     // specific part of `configure_item(...)`
     void set_configuration(PyObject* inDict, mvPlotLegendConfig& outConfig, mvAppItem& item);
@@ -41,6 +42,7 @@ namespace DearPyGui
     void set_configuration(PyObject* inDict, mvCandleSeriesConfig& outConfig);
     void set_configuration(PyObject* inDict, mvCustomSeriesConfig& outConfig);
     void set_configuration(PyObject* inDict, mvAnnotationConfig& outConfig);
+    void set_configuration(PyObject* inDict, mvSubPlotsConfig& outConfig);
 
     // positional args TODO: combine with above
     void set_positional_configuration(PyObject* inDict, mvBarSeriesConfig& outConfig);
@@ -53,6 +55,7 @@ namespace DearPyGui
     void set_positional_configuration(PyObject* inDict, mvLabelSeriesConfig& outConfig);
 
     // required args
+    void set_required_configuration(PyObject* inDict, mvSubPlotsConfig& outConfig);
     void set_required_configuration(PyObject* inDict, mvImageSeriesConfig& outConfig);
     void set_required_configuration(PyObject* inDict, mvAreaSeriesConfig& outConfig);
     void set_required_configuration(PyObject* inDict, mvCandleSeriesConfig& outConfig);
@@ -65,6 +68,7 @@ namespace DearPyGui
     void set_data_source(mvAppItem& item, mvUUID dataSource, mvRef<std::vector<std::vector<double>>>& outValue);
 
     // template specifics
+    void apply_template(const mvSubPlotsConfig& sourceConfig, mvSubPlotsConfig& dstConfig);
     void apply_template(const mvPlotLegendConfig& sourceConfig, mvPlotLegendConfig& dstConfig);
     void apply_template(const mvDragLineConfig& sourceConfig, mvDragLineConfig& dstConfig);
     void apply_template(const mvDragPointConfig& sourceConfig, mvDragPointConfig& dstConfig);
@@ -83,6 +87,7 @@ namespace DearPyGui
     void apply_template(const mvAnnotationConfig& sourceConfig, mvAnnotationConfig& dstConfig);
 
     // draw commands
+    void draw_subplots          (ImDrawList* drawlist, mvAppItem& item, mvSubPlotsConfig& config);
     void draw_plot_legend       (ImDrawList* drawlist, mvAppItem& item, mvPlotLegendConfig& config);
     void draw_drag_line         (ImDrawList* drawlist, mvAppItem& item, mvDragLineConfig& config);
     void draw_drag_point        (ImDrawList* drawlist, mvAppItem& item, mvDragPointConfig& config);
@@ -325,9 +330,34 @@ struct mvAnnotationConfig
     ImVec2                       pixOffset;
 };
 
+struct mvSubPlotsConfig
+{
+    int                rows = 1;
+    int                cols = 1;
+    std::vector<float> row_ratios;
+    std::vector<float> col_ratios;
+    ImPlotSubplotFlags flags = ImPlotSubplotFlags_None;
+};
+
 //-----------------------------------------------------------------------------
 // Old Classes, in the process of removing OOP crap
 //-----------------------------------------------------------------------------
+
+class mvSubPlots : public mvAppItem
+{
+public:
+    mvSubPlotsConfig configData{};
+    explicit mvSubPlots(mvUUID uuid) : mvAppItem(uuid) { config.width = config.height = -1; }
+    void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_subplots(drawlist, *this, configData); }
+    void handleSpecificRequiredArgs(PyObject* args) override { DearPyGui::set_required_configuration(args, configData); }
+    void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
+    void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
+    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvSubPlots*>(item); DearPyGui::apply_template(titem->configData, configData); }
+    inline void onChildRemoved(mvRef<mvAppItem> item) { if (item->type == mvAppItemType::mvPlotLegend){ configData.flags |= ImPlotSubplotFlags_NoLegend; configData.flags &= ~ImPlotSubplotFlags_ShareItems;}}
+    inline void onChildAdd(mvRef<mvAppItem> item) { if (item->type == mvAppItemType::mvPlotLegend) { configData.flags &= ~ImPlotSubplotFlags_NoLegend; configData.flags |= ImPlotSubplotFlags_ShareItems;}}
+    inline void addFlag(ImPlotSubplotFlags flag) { configData.flags |= flag; }
+    inline void removeFlag(ImPlotSubplotFlags flag){ configData.flags &= ~flag; }
+};
 
 class mvPlotLegend : public mvAppItem
 {

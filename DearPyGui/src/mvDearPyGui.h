@@ -20,6 +20,7 @@ struct mvContext;
 //-----------------------------------------------------------------------------
 // forward declarations - item configs
 //-----------------------------------------------------------------------------
+struct mvSimplePlotConfig;
 struct mvButtonConfig;
 struct mvCheckboxConfig;
 struct mvComboConfig;
@@ -59,6 +60,7 @@ struct mvTooltipConfig;
 
 // plots
 struct mvAnnotationConfig;
+struct mvSubPlotsConfig;
 struct mvPlotLegendConfig;
 struct mvDragLineConfig;
 struct mvDragPointConfig;

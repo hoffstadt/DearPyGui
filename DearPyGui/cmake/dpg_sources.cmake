@@ -84,11 +84,9 @@ set(MARVEL_SOURCES
 	"src/ui/AppItems/custom/mvKnob.cpp"
 	"src/ui/AppItems/custom/mvLoadingIndicator.cpp"
 	"src/ui/AppItems/composite/mvFileDialog.cpp"
-	"src/ui/AppItems/composite/mvFileExtension.cpp"	
-	"src/ui/AppItems/plots/mvSubPlots.cpp"
+	"src/ui/AppItems/composite/mvFileExtension.cpp"
 	"src/ui/AppItems/plots/mvPlot.cpp"
 	"src/ui/AppItems/plots/mvPlotAxis.cpp"
-	"src/ui/AppItems/plots/mvSimplePlot.cpp"
 
 	# imnodes
 	"vendor/imnodes/imnodes.cpp"

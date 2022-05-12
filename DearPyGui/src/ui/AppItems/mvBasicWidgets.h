@@ -7,6 +7,7 @@
 namespace DearPyGui
 {
     // specific part of `get_item_configuration(...)`
+    void fill_configuration_dict(const mvSimplePlotConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvButtonConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvComboConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvDragFloatConfig& inConfig, PyObject* outDict);
@@ -39,6 +40,7 @@ namespace DearPyGui
     void fill_configuration_dict(const mvImageButtonConfig& inConfig, PyObject* outDict);
 
     // specific part of `configure_item(...)`
+    void set_configuration(PyObject* inDict, mvSimplePlotConfig& outConfig);
     void set_configuration(PyObject* inDict, mvButtonConfig& outConfig);
     void set_configuration(PyObject* inDict, mvComboConfig& outConfig);
     void set_configuration(PyObject* inDict, mvDragFloatConfig& outConfig, mvAppItemInfo& info);
@@ -82,6 +84,7 @@ namespace DearPyGui
     void set_positional_configuration(PyObject* inDict, mvTextConfig& outConfig);
 
     // data source handling
+    void set_data_source(mvAppItem& item, mvUUID dataSource, mvSimplePlotConfig& outConfig);
     void set_data_source(mvAppItem& item, mvUUID dataSource, mvComboConfig& outConfig);
     void set_data_source(mvAppItem& item, mvUUID dataSource, mvCheckboxConfig& outConfig);
     void set_data_source(mvAppItem& item, mvUUID dataSource, mvDragFloatConfig& outConfig);
@@ -111,6 +114,7 @@ namespace DearPyGui
     void set_data_source(mvAppItem& item, mvUUID dataSource, mvProgressBarConfig& outConfig);
 
     // template specifics
+    void apply_template(const mvSimplePlotConfig& sourceConfig, mvSimplePlotConfig& dstConfig);
     void apply_template(const mvButtonConfig& sourceConfig, mvButtonConfig& dstConfig);
     void apply_template(const mvComboConfig& sourceConfig, mvComboConfig& dstConfig);
     void apply_template(const mvCheckboxConfig& sourceConfig, mvCheckboxConfig& dstConfig);
@@ -144,6 +148,7 @@ namespace DearPyGui
     void apply_template(const mvImageButtonConfig& sourceConfig, mvImageButtonConfig& dstConfig);
 
     // draw commands
+    void draw_simple_plot  (ImDrawList* drawlist, mvAppItem& item, const mvSimplePlotConfig& config);
     void draw_button       (ImDrawList* drawlist, mvAppItem& item, const mvButtonConfig& config);
     void draw_combo        (ImDrawList* drawlist, mvAppItem& item, mvComboConfig& config);
     void draw_checkbox     (ImDrawList* drawlist, mvAppItem& item, mvCheckboxConfig& config);
@@ -190,6 +195,16 @@ enum class mvComboHeightMode
     mvComboHeight_Regular,
     mvComboHeight_Large,
     mvComboHeight_Largest
+};
+
+struct mvSimplePlotConfig
+{
+    mvRef<std::vector<float>> value = CreateRef<std::vector<float>>(std::vector<float>{0.0f});
+    std::string               overlay;
+    float                     scaleMin = 0.0f;
+    float                     scaleMax = 0.0f;
+    bool                      histogram = false;
+    bool                      autosize = true;
 };
 
 struct mvButtonConfig
@@ -559,6 +574,22 @@ struct mvTooltipConfig
 //-----------------------------------------------------------------------------
 // Old Classes, in the process of removing OOP crap
 //-----------------------------------------------------------------------------
+
+class mvSimplePlot : public mvAppItem
+{
+public:
+    mvSimplePlotConfig configData{};
+    explicit mvSimplePlot(mvUUID uuid) : mvAppItem(uuid) {}
+    void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_simple_plot(drawlist, *this, configData); }
+    void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
+    void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
+    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvSimplePlot*>(item); DearPyGui::apply_template(titem->configData, configData); }
+    void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
+    void* getValue() override { return &configData.value; }
+    PyObject* getPyValue() override { return ToPyList(*configData.value); }
+    void setPyValue(PyObject* value) override;
+};
+
 class mvButton : public mvAppItem
 {
 public:

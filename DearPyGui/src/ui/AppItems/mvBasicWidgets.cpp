@@ -13,6 +13,19 @@
 //-----------------------------------------------------------------------------
 
 void
+DearPyGui::fill_configuration_dict(const mvSimplePlotConfig& inConfig, PyObject* outDict)
+{
+	if (outDict == nullptr)
+		return;
+
+	PyDict_SetItemString(outDict, "overlay", mvPyObject(ToPyString(inConfig.overlay)));
+	PyDict_SetItemString(outDict, "minscale", mvPyObject(ToPyFloat(inConfig.scaleMin)));
+	PyDict_SetItemString(outDict, "maxscale", mvPyObject(ToPyFloat(inConfig.scaleMax)));
+	PyDict_SetItemString(outDict, "histogram", mvPyObject(ToPyBool(inConfig.histogram)));
+	PyDict_SetItemString(outDict, "autosize", mvPyObject(ToPyBool(inConfig.autosize)));
+}
+
+void
 DearPyGui::fill_configuration_dict(const mvButtonConfig& inConfig, PyObject* outDict)
 {
 	if (outDict == nullptr)
@@ -633,6 +646,19 @@ DearPyGui::fill_configuration_dict(const mvImageButtonConfig& inConfig, PyObject
 //-----------------------------------------------------------------------------
 // [SECTION] configure_item(...) specifics
 //-----------------------------------------------------------------------------
+
+void
+DearPyGui::set_configuration(PyObject* inDict, mvSimplePlotConfig& outConfig)
+{
+	if (inDict == nullptr)
+		return;
+
+	if (PyObject* item = PyDict_GetItemString(inDict, "overlay"))   outConfig.overlay = ToString(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "minscale"))  outConfig.scaleMin = ToFloat(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "maxscale"))  outConfig.scaleMax = ToFloat(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "histogram")) outConfig.histogram = ToBool(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "autosize"))  outConfig.autosize = ToBool(item);
+}
 
 void
 DearPyGui::set_configuration(PyObject* inDict, mvButtonConfig& outConfig)
@@ -1831,6 +1857,28 @@ DearPyGui::set_positional_configuration(PyObject* inDict, mvTextConfig& outConfi
 //-----------------------------------------------------------------------------
 
 void
+DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mvSimplePlotConfig& outConfig)
+{
+	if (dataSource == item.config.source) return;
+	item.config.source = dataSource;
+
+	mvAppItem* srcItem = GetItem((*GContext->itemRegistry), dataSource);
+	if (!srcItem)
+	{
+		mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
+			"Source item not found: " + std::to_string(dataSource), &item);
+		return;
+	}
+	if (DearPyGui::GetEntityValueType(srcItem->type) != DearPyGui::GetEntityValueType(item.type))
+	{
+		mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
+			"Values types do not match: " + std::to_string(dataSource), &item);
+		return;
+	}
+	outConfig.value = *static_cast<std::shared_ptr<std::vector<float>>*>(srcItem->getValue());
+}
+
+void
 DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mvComboConfig& outConfig)
 {
 	if (dataSource == item.config.source) return;
@@ -2429,6 +2477,17 @@ DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mvProgressBarConf
 //-----------------------------------------------------------------------------
 
 void
+DearPyGui::apply_template(const mvSimplePlotConfig& sourceConfig, mvSimplePlotConfig& dstConfig)
+{
+	dstConfig.value = sourceConfig.value;
+	dstConfig.overlay = sourceConfig.overlay;
+	dstConfig.scaleMin = sourceConfig.scaleMin;
+	dstConfig.scaleMax = sourceConfig.scaleMax;
+	dstConfig.histogram = sourceConfig.histogram;
+	dstConfig.autosize = sourceConfig.autosize;
+}
+
+void
 DearPyGui::apply_template(const mvButtonConfig& sourceConfig, mvButtonConfig& dstConfig)
 {
 	dstConfig.direction = sourceConfig.direction;
@@ -2543,7 +2602,6 @@ DearPyGui::apply_template(const mvDragDoubleMultiConfig& sourceConfig, mvDragDou
 	dstConfig.stor_flags = sourceConfig.stor_flags;
 	dstConfig.size = sourceConfig.size;
 }
-
 
 void
 DearPyGui::apply_template(const mvSliderFloatConfig& sourceConfig, mvSliderFloatConfig& dstConfig)
@@ -2843,6 +2901,109 @@ DearPyGui::apply_template(const mvImageButtonConfig& sourceConfig, mvImageButton
 //-----------------------------------------------------------------------------
 // [SECTION] draw commands
 //-----------------------------------------------------------------------------
+
+void
+DearPyGui::draw_simple_plot(ImDrawList* drawlist, mvAppItem& item, const mvSimplePlotConfig& config)
+{
+	//-----------------------------------------------------------------------------
+	// pre draw
+	//-----------------------------------------------------------------------------
+
+	// show/hide
+	if (!item.config.show)
+		return;
+
+	// focusing
+	if (item.info.focusNextFrame)
+	{
+		ImGui::SetKeyboardFocusHere();
+		item.info.focusNextFrame = false;
+	}
+
+	// cache old cursor position
+	ImVec2 previousCursorPos = ImGui::GetCursorPos();
+
+	// set cursor position if user set
+	if (item.info.dirtyPos)
+		ImGui::SetCursorPos(item.state.pos);
+
+	// update widget's position state
+	item.state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
+
+	// set item width
+	if (item.config.width != 0)
+		ImGui::SetNextItemWidth((float)item.config.width);
+
+	// set indent
+	if (item.config.indent > 0.0f)
+		ImGui::Indent(item.config.indent);
+
+	// push font if a font object is attached
+	if (item.font)
+	{
+		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
+		ImGui::PushFont(fontptr);
+	}
+
+	// themes
+	apply_local_theming(&item);
+
+	//-----------------------------------------------------------------------------
+	// draw
+	//-----------------------------------------------------------------------------
+	{
+
+		ImGui::PushID(&item);
+
+		if (config.histogram)
+			ImGui::PlotHistogram(item.info.internalLabel.c_str(), config.value->data(), (int)config.value->size(), 0, config.overlay.c_str(),
+				config.scaleMin, config.scaleMax, ImVec2((float)item.config.width, (float)item.config.height));
+		else
+			ImGui::PlotLines(item.info.internalLabel.c_str(), config.value->data(), (int)config.value->size(), 0, config.overlay.c_str(),
+				config.scaleMin, config.scaleMax, ImVec2((float)item.config.width, (float)item.config.height));
+
+		ImGui::PopID();
+	}
+
+	//-----------------------------------------------------------------------------
+	// update state
+	//   * only update if applicable
+	//-----------------------------------------------------------------------------
+	item.state.lastFrameUpdate = GContext->frame;
+	item.state.hovered = ImGui::IsItemHovered();
+	item.state.leftclicked = ImGui::IsItemClicked();
+	item.state.rightclicked = ImGui::IsItemClicked(1);
+	item.state.middleclicked = ImGui::IsItemClicked(2);
+	item.state.visible = ImGui::IsItemVisible();
+	item.state.rectMin = { ImGui::GetItemRectMin().x, ImGui::GetItemRectMin().y };
+	item.state.rectMax = { ImGui::GetItemRectMax().x, ImGui::GetItemRectMax().y };
+	item.state.rectSize = { ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y };
+	item.state.contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
+
+	//-----------------------------------------------------------------------------
+	// post draw
+	//-----------------------------------------------------------------------------
+
+	// set cursor position to cached position
+	if (item.info.dirtyPos)
+		ImGui::SetCursorPos(previousCursorPos);
+
+	if (item.config.indent > 0.0f)
+		ImGui::Unindent(item.config.indent);
+
+	// pop font off stack
+	if (item.font)
+		ImGui::PopFont();
+
+	// handle popping themes
+	cleanup_local_theming(&item);
+
+	if (item.handlerRegistry)
+		item.handlerRegistry->checkEvents(&item.state);
+
+	// handle drag & drop if used
+	apply_drag_drop(&item);
+}
 
 void
 DearPyGui::draw_button(ImDrawList* drawlist, mvAppItem& item, const mvButtonConfig& config)
@@ -6649,4 +6810,24 @@ mvFilterSet::setPyValue(PyObject* value)
 	}
 	configData.imguiFilter.InputBuf[i] = 0;
 	configData.imguiFilter.Build();
+}
+
+void 
+mvSimplePlot::setPyValue(PyObject* value)
+{
+	*configData.value = ToFloatVect(value);
+
+	if (!configData.autosize)
+		return;
+	if (!configData.value->empty())
+	{
+		configData.scaleMax = configData.value->data()[0];
+		configData.scaleMin = configData.value->data()[0];
+
+		for (auto& item : *configData.value)
+		{
+			if (item > configData.scaleMax) configData.scaleMax = item;
+			if (item < configData.scaleMin)configData.scaleMin = item;
+		}
+	}
 }
