@@ -133,7 +133,7 @@ void mvColorMapScale::handleSpecificKeywordArgs(PyObject* dict)
             else if (asource->type == mvAppItemType::mvColorMap)
             {
                 mvColorMap* colormap = static_cast<mvColorMap*>(asource);
-                _colormap = colormap->getColorMap();
+                _colormap = colormap->configData.colorMap;
             }
         }
     }

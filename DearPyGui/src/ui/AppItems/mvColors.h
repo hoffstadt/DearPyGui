@@ -10,11 +10,13 @@ namespace DearPyGui
     void draw_color_button(ImDrawList* drawlist, mvAppItem& item, mvColorButtonConfig& config);
     void draw_color_edit(ImDrawList* drawlist, mvAppItem& item, mvColorEditConfig& config);
     void draw_color_picker(ImDrawList* drawlist, mvAppItem& item, mvColorPickerConfig& config);
+    void draw_color_map(ImDrawList* drawlist, mvAppItem& item, mvColorMapConfig& config);
 
     // positional args TODO: combine with above
     void set_positional_configuration(PyObject* inDict, mvColorButtonConfig& outConfig);
     void set_positional_configuration(PyObject* inDict, mvColorEditConfig& outConfig);
     void set_positional_configuration(PyObject* inDict, mvColorPickerConfig& outConfig);
+    void set_positional_configuration(PyObject* inDict, mvColorMapConfig& outConfig, mvAppItem& item);
 
     // specific part of `configure_item(...)`
     void set_configuration(PyObject* inDict, mvColorButtonConfig& outConfig);
@@ -30,6 +32,7 @@ namespace DearPyGui
     void apply_template(const mvColorButtonConfig& sourceConfig, mvColorButtonConfig& dstConfig);
     void apply_template(const mvColorEditConfig& sourceConfig, mvColorEditConfig& dstConfig);
     void apply_template(const mvColorPickerConfig& sourceConfig, mvColorPickerConfig& dstConfig);
+    void apply_template(const mvColorMapConfig& sourceConfig, mvColorMapConfig& dstConfig);
 
     // data source handling
     void set_data_source(mvAppItem& item, mvUUID dataSource, mvColorButtonConfig& outConfig);
@@ -82,6 +85,13 @@ struct mvColorPickerConfig
     bool                        alpha_bar = false;
 };
 
+struct mvColorMapConfig
+{
+    ImPlotColormap      colorMap = -1;
+    bool                qualitative = true;
+    std::vector<ImVec4> colors;
+};
+
 class mvColorButton : public mvAppItem
 {
 public:
@@ -128,4 +138,14 @@ public:
     void* getValue() override { return &configData.value; }
     PyObject* getPyValue() override { return DearPyGui::set_data_source(configData); }
     void setPyValue(PyObject* value) override { return DearPyGui::set_py_value(value, configData); }
+};
+
+class mvColorMap : public mvAppItem
+{
+public:
+    mvColorMapConfig configData{};
+    explicit mvColorMap(mvUUID uuid) : mvAppItem(uuid) {}
+    void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_color_map(drawlist, *this, configData); }
+    void handleSpecificPositionalArgs(PyObject* dict) override { DearPyGui::set_positional_configuration(dict, configData, *this); }
+    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvColorMap*>(item); DearPyGui::apply_template(titem->configData, configData); }
 };

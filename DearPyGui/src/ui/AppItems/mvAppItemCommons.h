@@ -14,7 +14,6 @@
 #include "mvPlotting.h"
 
 #include "colors/mvColorMapScale.h"
-#include "colors/mvColorMap.h"
 #include "colors/mvColorMapButton.h"
 #include "colors/mvColorMapRegistry.h"
 #include "colors/mvColorMapSlider.h"

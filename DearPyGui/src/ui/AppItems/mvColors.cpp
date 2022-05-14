@@ -51,6 +51,13 @@ DearPyGui::apply_template(const mvColorPickerConfig& sourceConfig, mvColorPicker
 	dstConfig.disabled_value[3] = sourceConfig.disabled_value[3];
 }
 
+void
+DearPyGui::apply_template(const mvColorMapConfig& sourceConfig, mvColorMapConfig& dstConfig) {
+	dstConfig.colorMap = sourceConfig.colorMap;
+	dstConfig.qualitative = sourceConfig.qualitative;
+	dstConfig.colors = sourceConfig.colors;
+}
+
 void 
 DearPyGui::draw_color_button(ImDrawList* drawlist, mvAppItem& item, mvColorButtonConfig& config)
 {
@@ -243,6 +250,14 @@ DearPyGui::draw_color_edit(ImDrawList* drawlist, mvAppItem& item, mvColorEditCon
 }
 
 void
+DearPyGui::draw_color_map(ImDrawList* drawlist, mvAppItem& item, mvColorMapConfig& config)
+{
+	ScopedID id(item.uuid);
+
+	ImPlot::ColormapButton(item.info.internalLabel.c_str(), ImVec2(-1.0f, 0.0f), config.colorMap);
+}
+
+void
 DearPyGui::draw_color_picker(ImDrawList* drawlist, mvAppItem& item, mvColorPickerConfig& config)
 {
 
@@ -430,6 +445,45 @@ DearPyGui::set_positional_configuration(PyObject* inDict, mvColorPickerConfig& o
 		}
 	}
 
+}
+
+void
+DearPyGui::set_positional_configuration(PyObject* inDict, mvColorMapConfig& outConfig, mvAppItem& item)
+{
+	if (!VerifyPositionalArguments(GetParsers()[GetEntityCommand(mvAppItemType::mvColorMap)], inDict))
+		return;
+
+	for (int i = 0; i < PyTuple_Size(inDict); i++)
+	{
+		PyObject* arg = PyTuple_GetItem(inDict, i);
+		std::vector<std::vector<int>> rawColors;
+		switch (i)
+		{
+		case 0:
+			rawColors = ToVectVectInt(arg);
+			for (const auto& color : rawColors)
+			{
+
+				std::vector<float> c;
+
+				for (int j = 0; j < color.size(); j++)
+					c.push_back((float)color[j] / 255.0f);
+
+				while (c.size() < 4)
+					c.push_back(1.0f);
+
+				outConfig.colors.push_back(ImVec4(c[0], c[1], c[2], c[3]));
+
+			}
+			break;
+		case 1:
+			outConfig.qualitative = ToBool(arg);
+			break;
+		default:
+			break;
+		}
+	}
+	outConfig.colorMap = ImPlot::AddColormap(item.info.internalLabel.c_str(), outConfig.colors.data(), (int)outConfig.colors.size(), outConfig.qualitative);
 }
 
 PyObject*
