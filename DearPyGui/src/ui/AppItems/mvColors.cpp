@@ -643,6 +643,34 @@ DearPyGui::draw_color_map_slider(ImDrawList* drawlist, mvAppItem& item, mvColorM
 	apply_drag_drop(&item);
 }
 
+void
+DearPyGui::draw_color_map_registry(ImDrawList* drawlist, mvAppItem& item)
+{
+
+	if (!item.config.show)
+		return;
+
+	ImGui::PushID(&item);
+
+	ImGui::SetNextWindowSize(ImVec2(500, 500), ImGuiCond_FirstUseEver);
+	if (ImGui::Begin(item.info.internalLabel.c_str(), &item.config.show))
+	{
+		ImGui::Text("Builtin:");
+		for (int i = 0; i < 16; i++)
+			ImPlot::ColormapButton(ImPlot::GetColormapName(i), ImVec2(-1.0f, 0.0f), i);
+
+		ImGui::Text("User:");
+
+		for (auto& item : item.childslots[1])
+			item->draw(drawlist, 0.0f, 0.0f);
+
+	}
+
+	ImGui::End();
+
+	ImGui::PopID();
+}
+
 void 
 DearPyGui::set_positional_configuration(PyObject* inDict, mvColorButtonConfig& outConfig)
 {

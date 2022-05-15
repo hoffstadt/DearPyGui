@@ -14,6 +14,7 @@ namespace DearPyGui
     void draw_color_map_button(ImDrawList* drawlist, mvAppItem& item, mvColorMapButtonConfig& config);
     void draw_color_map_scale(ImDrawList* drawlist, mvAppItem& item, mvColorMapScaleConfig& config);
     void draw_color_map_slider(ImDrawList* drawlist, mvAppItem& item, mvColorMapSliderConfig& config);
+    void draw_color_map_registry(ImDrawList* drawlist, mvAppItem& item);
 
     // positional args TODO: combine with above
     void set_positional_configuration(PyObject* inDict, mvColorButtonConfig& outConfig);
@@ -187,6 +188,13 @@ public:
     explicit mvColorMapButton(mvUUID uuid) : mvAppItem(uuid) {}
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_color_map_button(drawlist, *this, configData); }
     void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvColorMapButton*>(item); DearPyGui::apply_template(titem->configData, configData); }
+};
+
+class mvColorMapRegistry : public mvAppItem
+{
+public:
+    explicit mvColorMapRegistry(mvUUID uuid) : mvAppItem(uuid) {}
+    void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_color_map_registry(drawlist, *this); }
 };
 
 class mvColorMapScale : public mvAppItem

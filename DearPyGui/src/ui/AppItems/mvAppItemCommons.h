@@ -13,8 +13,6 @@
 #include "mvColors.h"
 #include "mvPlotting.h"
 
-#include "colors/mvColorMapRegistry.h"
-
 #include "containers/mvTreeNode.h"
 #include "containers/mvChild.h"
 #include "containers/mvGroup.h"
