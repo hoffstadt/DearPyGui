@@ -58,6 +58,7 @@ struct mvColorPickerConfig;
 struct mvFilterSetConfig;
 struct mvTooltipConfig;
 struct mvColorMapConfig;
+struct mvColorMapButtonConfig;
 
 // plots
 struct mvAnnotationConfig;

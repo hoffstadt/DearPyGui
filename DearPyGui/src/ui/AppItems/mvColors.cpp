@@ -58,6 +58,11 @@ DearPyGui::apply_template(const mvColorMapConfig& sourceConfig, mvColorMapConfig
 	dstConfig.colors = sourceConfig.colors;
 }
 
+void
+DearPyGui::apply_template(const mvColorMapButtonConfig& sourceConfig, mvColorMapButtonConfig& dstConfig) {
+	dstConfig.colorMap = sourceConfig.colorMap;
+}
+
 void 
 DearPyGui::draw_color_button(ImDrawList* drawlist, mvAppItem& item, mvColorButtonConfig& config)
 {
@@ -255,6 +260,97 @@ DearPyGui::draw_color_map(ImDrawList* drawlist, mvAppItem& item, mvColorMapConfi
 	ScopedID id(item.uuid);
 
 	ImPlot::ColormapButton(item.info.internalLabel.c_str(), ImVec2(-1.0f, 0.0f), config.colorMap);
+}
+
+void 
+DearPyGui::draw_color_map_button(ImDrawList* drawlist, mvAppItem& item, mvColorMapButtonConfig& config)
+{
+
+	//-----------------------------------------------------------------------------
+	// pre draw
+	//-----------------------------------------------------------------------------
+
+	// show/hide
+	if (!item.config.show)
+		return;
+
+	// focusing
+	if (item.info.focusNextFrame)
+	{
+		ImGui::SetKeyboardFocusHere();
+		item.info.focusNextFrame = false;
+	}
+
+	// cache old cursor position
+	ImVec2 previousCursorPos = ImGui::GetCursorPos();
+
+	// set cursor position if user set
+	if (item.info.dirtyPos)
+		ImGui::SetCursorPos(item.state.pos);
+
+	// update widget's position state
+	item.state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
+
+	// set item width
+	if (item.config.width != 0)
+		ImGui::SetNextItemWidth((float)item.config.width);
+
+	// set indent
+	if (item.config.indent > 0.0f)
+		ImGui::Indent(item.config.indent);
+
+	// push font if a font object is attached
+	if (item.font)
+	{
+		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
+		ImGui::PushFont(fontptr);
+	}
+
+	// themes
+	apply_local_theming(&item);
+
+	//-----------------------------------------------------------------------------
+	// draw
+	//-----------------------------------------------------------------------------
+	{
+		ScopedID id(item.uuid);
+		if (ImPlot::ColormapButton(item.info.internalLabel.c_str(), ImVec2((float)item.config.width, (float)item.config.height), config.colorMap))
+		{
+			if (item.config.alias.empty())
+				mvAddCallback(item.getCallback(false), item.uuid, nullptr, item.config.user_data);
+			else
+				mvAddCallback(item.getCallback(false), item.config.alias, nullptr, item.config.user_data);
+		}
+	}
+
+	//-----------------------------------------------------------------------------
+	// update state
+	//-----------------------------------------------------------------------------
+	UpdateAppItemState(item.state);
+
+	//-----------------------------------------------------------------------------
+	// post draw
+	//-----------------------------------------------------------------------------
+
+	// set cursor position to cached position
+	if (item.info.dirtyPos)
+		ImGui::SetCursorPos(previousCursorPos);
+
+	if (item.config.indent > 0.0f)
+		ImGui::Unindent(item.config.indent);
+
+	// pop font off stack
+	if (item.font)
+		ImGui::PopFont();
+
+	// handle popping themes
+	cleanup_local_theming(&item);
+
+	if (item.handlerRegistry)
+		item.handlerRegistry->checkEvents(&item.state);
+
+	// handle drag & drop if used
+	apply_drag_drop(&item);
 }
 
 void
