@@ -63,7 +63,7 @@ bind_colormap(PyObject* self, PyObject* args, PyObject* kwargs)
 	else if (aitem->type == mvAppItemType::mvColorMapScale)
 	{
 		mvColorMapScale* graph = static_cast<mvColorMapScale*>(aitem);
-		graph->setColorMap((ImPlotColormap)source);
+		graph->configData.colorMap = (ImPlotColormap)source;
 	}
 
 	else if (aitem->type == mvAppItemType::mvColorMapButton)
@@ -75,7 +75,7 @@ bind_colormap(PyObject* self, PyObject* args, PyObject* kwargs)
 	else if (aitem->type == mvAppItemType::mvColorMapSlider)
 	{
 		mvColorMapSlider* graph = static_cast<mvColorMapSlider*>(aitem);
-		graph->setColorMap((ImPlotColormap)source);
+		graph->configData.colorMap = (ImPlotColormap)source;
 	}
 
 	else

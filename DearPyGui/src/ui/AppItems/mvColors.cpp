@@ -63,6 +63,20 @@ DearPyGui::apply_template(const mvColorMapButtonConfig& sourceConfig, mvColorMap
 	dstConfig.colorMap = sourceConfig.colorMap;
 }
 
+void
+DearPyGui::apply_template(const mvColorMapScaleConfig& sourceConfig, mvColorMapScaleConfig& dstConfig) {
+	dstConfig.scale_max = sourceConfig.scale_max;
+	dstConfig.scale_min = sourceConfig.scale_min;
+	dstConfig.colorMap = sourceConfig.colorMap;
+}
+
+void
+DearPyGui::apply_template(const mvColorMapSliderConfig& sourceConfig, mvColorMapSliderConfig& dstConfig) {
+	dstConfig.value = sourceConfig.value;
+	dstConfig.color = sourceConfig.color;
+	dstConfig.colorMap = sourceConfig.colorMap;
+}
+
 void 
 DearPyGui::draw_color_button(ImDrawList* drawlist, mvAppItem& item, mvColorButtonConfig& config)
 {
@@ -353,6 +367,92 @@ DearPyGui::draw_color_map_button(ImDrawList* drawlist, mvAppItem& item, mvColorM
 	apply_drag_drop(&item);
 }
 
+void 
+DearPyGui::draw_color_map_scale(ImDrawList* drawlist, mvAppItem& item, mvColorMapScaleConfig& config)
+{
+
+	//-----------------------------------------------------------------------------
+	// pre draw
+	//-----------------------------------------------------------------------------
+
+	// show/hide
+	if (!item.config.show)
+		return;
+
+	// focusing
+	if (item.info.focusNextFrame)
+	{
+		ImGui::SetKeyboardFocusHere();
+		item.info.focusNextFrame = false;
+	}
+
+	// cache old cursor position
+	ImVec2 previousCursorPos = ImGui::GetCursorPos();
+
+	// set cursor position if user set
+	if (item.info.dirtyPos)
+		ImGui::SetCursorPos(item.state.pos);
+
+	// update widget's position state
+	item.state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
+
+	// set item width
+	if (item.config.width != 0)
+		ImGui::SetNextItemWidth((float)item.config.width);
+
+	// set indent
+	if (item.config.indent > 0.0f)
+		ImGui::Indent(item.config.indent);
+
+	// push font if a font object is attached
+	if (item.font)
+	{
+		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
+		ImGui::PushFont(fontptr);
+	}
+
+	// themes
+	apply_local_theming(&item);
+
+	//-----------------------------------------------------------------------------
+	// draw
+	//-----------------------------------------------------------------------------
+	{
+		ScopedID id(item.uuid);
+
+		ImPlot::ColormapScale(item.info.internalLabel.c_str(), config.scale_min, config.scale_max, ImVec2((float)item.config.width, (float)item.config.height), config.colorMap);
+	}
+
+	//-----------------------------------------------------------------------------
+	// update state
+	//-----------------------------------------------------------------------------
+	UpdateAppItemState(item.state);
+
+	//-----------------------------------------------------------------------------
+	// post draw
+	//-----------------------------------------------------------------------------
+
+	// set cursor position to cached position
+	if (item.info.dirtyPos)
+		ImGui::SetCursorPos(previousCursorPos);
+
+	if (item.config.indent > 0.0f)
+		ImGui::Unindent(item.config.indent);
+
+	// pop font off stack
+	if (item.font)
+		ImGui::PopFont();
+
+	// handle popping themes
+	cleanup_local_theming(&item);
+
+	if (item.handlerRegistry)
+		item.handlerRegistry->checkEvents(&item.state);
+
+	// handle drag & drop if used
+	apply_drag_drop(&item);
+}
+
 void
 DearPyGui::draw_color_picker(ImDrawList* drawlist, mvAppItem& item, mvColorPickerConfig& config)
 {
@@ -416,6 +516,100 @@ DearPyGui::draw_color_picker(ImDrawList* drawlist, mvAppItem& item, mvColorPicke
 				mvSubmitCallback([&item, color]() { mvAddCallback(item.getCallback(false), item.uuid, ToPyColor(color), item.config.user_data); });
 			else
 				mvSubmitCallback([&item, color]() { mvAddCallback(item.getCallback(false), item.config.alias, ToPyColor(color), item.config.user_data); });
+		}
+	}
+
+	//-----------------------------------------------------------------------------
+	// update state
+	//-----------------------------------------------------------------------------
+	UpdateAppItemState(item.state);
+
+	//-----------------------------------------------------------------------------
+	// post draw
+	//-----------------------------------------------------------------------------
+
+	// set cursor position to cached position
+	if (item.info.dirtyPos)
+		ImGui::SetCursorPos(previousCursorPos);
+
+	if (item.config.indent > 0.0f)
+		ImGui::Unindent(item.config.indent);
+
+	// pop font off stack
+	if (item.font)
+		ImGui::PopFont();
+
+	// handle popping themes
+	cleanup_local_theming(&item);
+
+	if (item.handlerRegistry)
+		item.handlerRegistry->checkEvents(&item.state);
+
+	// handle drag & drop if used
+	apply_drag_drop(&item);
+}
+
+void 
+DearPyGui::draw_color_map_slider(ImDrawList* drawlist, mvAppItem& item, mvColorMapSliderConfig& config)
+{
+
+	//-----------------------------------------------------------------------------
+	// pre draw
+	//-----------------------------------------------------------------------------
+
+	// show/hide
+	if (!item.config.show)
+		return;
+
+	// focusing
+	if (item.info.focusNextFrame)
+	{
+		ImGui::SetKeyboardFocusHere();
+		item.info.focusNextFrame = false;
+	}
+
+	// cache old cursor position
+	ImVec2 previousCursorPos = ImGui::GetCursorPos();
+
+	// set cursor position if user set
+	if (item.info.dirtyPos)
+		ImGui::SetCursorPos(item.state.pos);
+
+	// update widget's position state
+	item.state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
+
+	// set item width
+	if (item.config.width != 0)
+		ImGui::SetNextItemWidth((float)item.config.width);
+
+	// set indent
+	if (item.config.indent > 0.0f)
+		ImGui::Indent(item.config.indent);
+
+	// push font if a font object is attached
+	if (item.font)
+	{
+		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
+		ImGui::PushFont(fontptr);
+	}
+
+	// themes
+	apply_local_theming(&item);
+
+	//-----------------------------------------------------------------------------
+	// draw
+	//-----------------------------------------------------------------------------
+	{
+		ScopedID id(item.uuid);
+
+		if (ImPlot::ColormapSlider(item.info.internalLabel.c_str(), config.value.get(), &config.color, "", config.colorMap))
+		{
+			auto value = *config.value;
+
+			if (item.config.alias.empty())
+				mvSubmitCallback([&item, value]() { mvAddCallback(item.getCallback(false), item.uuid, ToPyFloat(value), item.config.user_data); });
+			else
+				mvSubmitCallback([&item, value]() { mvAddCallback(item.getCallback(false), item.config.alias, ToPyFloat(value), item.config.user_data); });
 		}
 	}
 
@@ -621,6 +815,12 @@ DearPyGui::set_data_source(mvColorPickerConfig& outConfig)
 	return ToPyColor(color);
 }
 
+PyObject*
+DearPyGui::set_data_source(mvColorMapSliderConfig& outConfig)
+{
+	return ToPyFloat(*outConfig.value);
+}
+
 void
 DearPyGui::set_py_value(PyObject* inDict, mvColorButtonConfig& outConfig)
 {
@@ -634,6 +834,12 @@ DearPyGui::set_py_value(PyObject* inDict, mvColorButtonConfig& outConfig)
 		*outConfig.value = temp_array;
 	else
 		outConfig.value = std::make_shared<std::array<float, 4>>(temp_array);
+}
+
+void
+DearPyGui::set_py_value(PyObject* inDict, mvColorMapSliderConfig& outConfig)
+{
+	*outConfig.value = ToFloat(inDict);
 }
 
 void 
@@ -730,6 +936,29 @@ DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mvColorPickerConf
 		return;
 	}
 	outConfig.value = *static_cast<std::shared_ptr<std::array<float, 4>>*>(srcItem->getValue());
+
+}
+
+void
+DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mvColorMapSliderConfig& outConfig)
+{
+	if (dataSource == item.config.source) return;
+	item.config.source = dataSource;
+
+	mvAppItem* srcItem = GetItem((*GContext->itemRegistry), dataSource);
+	if (!srcItem)
+	{
+		mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
+			"Source item not found: " + std::to_string(dataSource), &item);
+		return;
+	}
+	if (DearPyGui::GetEntityValueType(srcItem->type) != DearPyGui::GetEntityValueType(item.type))
+	{
+		mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
+			"Values types do not match: " + std::to_string(dataSource), &item);
+		return;
+	}
+	outConfig.value = *static_cast<std::shared_ptr<float>*>(srcItem->getValue());
 
 }
 
@@ -961,6 +1190,36 @@ DearPyGui::set_configuration(PyObject* inDict, mvColorPickerConfig& outConfig)
 }
 
 void
+DearPyGui::set_configuration(PyObject* inDict, mvColorMapScaleConfig& outConfig)
+{
+	if (inDict == nullptr)
+		return;
+
+	if (PyObject* item = PyDict_GetItemString(inDict, "min_scale")) outConfig.scale_min = (double)ToFloat(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "max_scale")) outConfig.scale_max = (double)ToFloat(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "colormap"))
+	{
+		outConfig.colorMap = (ImPlotColormap)GetIDFromPyObject(item);
+		if (outConfig.colorMap > 10)
+		{
+			auto asource = GetItem(*GContext->itemRegistry, outConfig.colorMap);
+			if (asource == nullptr)
+			{
+				mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_colormap",
+					"Source Item not found: " + std::to_string(outConfig.colorMap), nullptr);
+				outConfig.colorMap = 0;
+			}
+
+			else if (asource->type == mvAppItemType::mvColorMap)
+			{
+				mvColorMap* colormap = static_cast<mvColorMap*>(asource);
+				outConfig.colorMap = colormap->configData.colorMap;
+			}
+		}
+	}
+}
+
+void
 DearPyGui::fill_configuration_dict(const mvColorButtonConfig& inConfig, PyObject* outDict)
 {
 	if (outDict == nullptr)
@@ -1077,4 +1336,14 @@ DearPyGui::fill_configuration_dict(const mvColorPickerConfig& inConfig, PyObject
 		PyDict_SetItemString(outDict, "picker_mode", mvPyObject(ToPyLong(ImGuiColorEditFlags_PickerHueWheel)));
 	else if (inConfig.flags & ImGuiColorEditFlags_PickerHueBar)
 		PyDict_SetItemString(outDict, "picker_mode", mvPyObject(ToPyLong(ImGuiColorEditFlags_PickerHueBar)));
+}
+
+void
+DearPyGui::fill_configuration_dict(const mvColorMapScaleConfig& inConfig, PyObject* outDict)
+{
+	if (outDict == nullptr)
+		return;
+
+	PyDict_SetItemString(outDict, "min_scale", mvPyObject(ToPyFloat((float)inConfig.scale_min)));
+	PyDict_SetItemString(outDict, "max_scale", mvPyObject(ToPyFloat((float)inConfig.scale_max)));
 }
