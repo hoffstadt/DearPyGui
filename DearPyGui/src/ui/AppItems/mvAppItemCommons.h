@@ -13,12 +13,6 @@
 #include "mvColors.h"
 #include "mvPlotting.h"
 
-#include "colors/mvColorMapScale.h"
-#include "colors/mvColorMap.h"
-#include "colors/mvColorMapButton.h"
-#include "colors/mvColorMapRegistry.h"
-#include "colors/mvColorMapSlider.h"
-
 #include "containers/mvTreeNode.h"
 #include "containers/mvChild.h"
 #include "containers/mvGroup.h"
