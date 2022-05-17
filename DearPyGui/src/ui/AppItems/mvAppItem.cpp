@@ -5379,14 +5379,14 @@ DearPyGui::OnChildAdded(mvAppItem* item, mvRef<mvAppItem> child)
     case mvAppItemType::mvPlot:
     {
         mvPlot* actualItem = (mvPlot*)item;
-        actualItem->onChildAdd(child);
-        return;
-    }
-
-    case mvAppItemType::mvPlotAxis:
-    {
-        mvPlotAxis* actualItem = (mvPlotAxis*)item;
-        actualItem->onChildAdd(child);
+        if (child->type == mvAppItemType::mvPlotLegend)
+            actualItem->_flags &= ~ImPlotFlags_NoLegend;
+        
+        if (child->type == mvAppItemType::mvPlotAxis)
+        {
+            actualItem->updateFlags();
+            actualItem->updateAxesNames();
+        }
         return;
     }
 
@@ -5429,14 +5429,10 @@ DearPyGui::OnChildRemoved(mvAppItem* item, mvRef<mvAppItem> child)
     case mvAppItemType::mvPlot:
     {
         mvPlot* actualItem = (mvPlot*)item;
-        actualItem->onChildRemoved(child);
-        return;
-    }
-
-    case mvAppItemType::mvPlotAxis:
-    {
-        mvPlotAxis* actualItem = (mvPlotAxis*)item;
-        actualItem->onChildRemoved(child);
+        if (child->type == mvAppItemType::mvPlotLegend)
+            actualItem->_flags |= ImPlotFlags_NoLegend;
+        if (child->type == mvAppItemType::mvPlotAxis)
+            actualItem->updateFlags();
         return;
     }
 

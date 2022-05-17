@@ -12,30 +12,18 @@ class mvPlot : public mvAppItem
 
 public:
 
-    explicit mvPlot(mvUUID uuid);
+    explicit mvPlot(mvUUID uuid) : mvAppItem(uuid) { config.width = config.height = -1; }
 
     void updateFlags();
     void updateAxesNames();
 
     // settings
-    void SetColorMap    (ImPlotColormap colormap);
-    void draw           (ImDrawList* drawlist, float x, float y) override;
-
-    void addFlag         (ImPlotFlags flag);
-    void removeFlag      (ImPlotFlags flag);
-
-    [[nodiscard]] bool isPlotQueried() const;
-    double* getPlotQueryArea();
-        
-    ImPlotFlags        getFlags         () const { return _flags; }
-
-    void onChildRemoved(mvRef<mvAppItem> item);
-    void onChildAdd(mvRef<mvAppItem> item);
+    void draw (ImDrawList* drawlist, float x, float y) override;
     void handleSpecificKeywordArgs(PyObject* dict) override;
     void getSpecificConfiguration(PyObject* dict) override;
     void applySpecificTemplate(mvAppItem* item) override;
 
-private:
+public:
 
     std::string     _xaxisName;
     std::string     _y1axisName;
@@ -54,8 +42,6 @@ private:
     double          _queryArea[4] = {0.0, 0.0, 0.0, 0.0};
     bool            _fitDirty = false;
     bool            _axisfitDirty[4] = { false, false, false, false };
-
-    friend class mvPlotAxis;
 
     // custom input mapping
     ImPlotInputMap _originalMap = ImPlotInputMap();

@@ -81,7 +81,6 @@ set(MARVEL_SOURCES
 	"src/ui/AppItems/composite/mvFileDialog.cpp"
 	"src/ui/AppItems/composite/mvFileExtension.cpp"
 	"src/ui/AppItems/plots/mvPlot.cpp"
-	"src/ui/AppItems/plots/mvPlotAxis.cpp"
 
 	# imnodes
 	"vendor/imnodes/imnodes.cpp"

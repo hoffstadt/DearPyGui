@@ -4,20 +4,11 @@
 #include "mvContext.h"
 #include "mvLog.h"
 #include "mvPythonExceptions.h"
-#include "mvPlotAxis.h"
 #include "mvThemes.h"
 #include "containers/mvDragPayload.h"
 #include "mvPyObject.h"
 #include "mvFontItems.h"
 #include "AppItems/mvItemHandlers.h"
-
-mvPlot::mvPlot(mvUUID uuid)
-    : mvAppItem(uuid)
-{
-    //_label = "Plot###" + std::to_string(uuid);
-    config.width = -1;
-    config.height = -1;
-}
 
 void mvPlot::applySpecificTemplate(mvAppItem* item)
 {
@@ -38,28 +29,6 @@ void mvPlot::applySpecificTemplate(mvAppItem* item)
     _vertical_mod = titem->_vertical_mod;
 }
 
-void mvPlot::onChildAdd(mvRef<mvAppItem> item)
-{
-    if (item->type == mvAppItemType::mvPlotLegend)
-        _flags &= ~ImPlotFlags_NoLegend;
-
-    if (item->type == mvAppItemType::mvPlotAxis)
-    {
-        updateFlags();
-        updateAxesNames();
-    }
-}
-
-void mvPlot::onChildRemoved(mvRef<mvAppItem> item)
-{
-
-    if (item->type == mvAppItemType::mvPlotLegend)
-        _flags |= ImPlotFlags_NoLegend;
-
-    if (item->type == mvAppItemType::mvPlotAxis)
-        updateFlags();
-}
-
 void mvPlot::updateFlags()
 {
     for (size_t i = 0; i < childslots[1].size(); i++)
@@ -67,33 +36,11 @@ void mvPlot::updateFlags()
         auto child = static_cast<mvPlotAxis*>(childslots[1][i].get());
         switch (i)
         {
-        case(0):
-            _xflags = child->getFlags();
-            break;
-
-        case(1):
-            _yflags = child->getFlags();
-            break;
-
-        case(2):
-            _y1flags = child->getFlags();
-            if (child->config.show)
-                addFlag(ImPlotFlags_YAxis2);
-            else
-                removeFlag(ImPlotFlags_YAxis2);
-            break;
-
-        case(3):
-            _y2flags = child->getFlags();
-            if (child->config.show)
-                addFlag(ImPlotFlags_YAxis3);
-            else
-                removeFlag(ImPlotFlags_YAxis3);
-            break;
-
-        default:
-            _yflags = child->getFlags();
-            break;
+        case(0): _xflags = child->configData.flags; break;
+        case(1): _yflags = child->configData.flags; break;
+        case(2): _y1flags = child->configData.flags; if (child->config.show) _flags |= ImPlotFlags_YAxis2; else _flags &= ~ImPlotFlags_YAxis2; break;
+        case(3): _y2flags = child->configData.flags; if (child->config.show) _flags |= ImPlotFlags_YAxis3; else _flags &= ~ImPlotFlags_YAxis3; break;
+        default: _yflags = child->configData.flags; break;
         }
     }
 
@@ -111,35 +58,14 @@ void mvPlot::updateAxesNames()
         auto axis = childslots[1][i].get();
         switch (i)
         {
-        case(0):
-            _xaxisName = axis->config.specifiedLabel;
-            break;
-
-        case(1):
-            _y1axisName = axis->config.specifiedLabel;
-            break;
-
-        case(2):
-            _y2axisName = axis->config.specifiedLabel;
-            break;
-
-        case(3):
-            _y3axisName = axis->config.specifiedLabel;
-            break;
-
-        default:
-            _y1axisName = axis->config.specifiedLabel;
-            break;
+        case(0): _xaxisName = axis->config.specifiedLabel; break;
+        case(1): _y1axisName = axis->config.specifiedLabel; break;
+        case(2): _y2axisName = axis->config.specifiedLabel; break;
+        case(3): _y3axisName = axis->config.specifiedLabel; break;
+        default: _y1axisName = axis->config.specifiedLabel; break;
         }
     }
 
-}
-
-void mvPlot::SetColorMap(ImPlotColormap colormap)
-{
-    _colormap = colormap;
-    _useColorMap = true;
-    _newColorMap = true;
 }
 
 void mvPlot::draw(ImDrawList* drawlist, float x, float y)
@@ -197,7 +123,34 @@ void mvPlot::draw(ImDrawList* drawlist, float x, float y)
         // skip item if it's not shown
         if (!item->config.show)
             continue;
-        item->customAction();
+        
+        if (item->type == mvAppItemType::mvPlotAxis)
+        {
+            auto axis = static_cast<mvPlotAxis*>(item.get());
+            if (axis->configData.setLimits || axis->configData._dirty)
+            {
+                switch (info.location)
+                {
+                case(0): ImPlot::SetNextPlotLimitsX(axis->configData.limits.x, axis->configData.limits.y, ImGuiCond_Always); break;
+                case(1): ImPlot::SetNextPlotLimitsY(axis->configData.limits.x, axis->configData.limits.y, ImGuiCond_Always); break;
+                case(2): ImPlot::SetNextPlotLimitsY(axis->configData.limits.x, axis->configData.limits.y, ImGuiCond_Always, ImPlotYAxis_2); break;
+                case(3): ImPlot::SetNextPlotLimitsY(axis->configData.limits.x, axis->configData.limits.y, ImGuiCond_Always, ImPlotYAxis_3); break;
+                default: ImPlot::SetNextPlotLimitsY(axis->configData.limits.x, axis->configData.limits.y, ImGuiCond_Always); break;
+                }
+                axis->configData._dirty = false;
+            }
+
+            if (!axis->configData.labels.empty())
+            {
+                // TODO: Checks
+                if (info.location == 0)
+                    ImPlot::SetNextPlotTicksX(axis->configData.labelLocations.data(), (int)axis->configData.labels.size(), axis->configData.clabels.data());
+                else
+                    ImPlot::SetNextPlotTicksY(axis->configData.labelLocations.data(), (int)axis->configData.labels.size(), axis->configData.clabels.data());
+            }
+        }
+        else
+            item->customAction();
     }
 
     if (_fitDirty)
@@ -373,25 +326,7 @@ void mvPlot::draw(ImDrawList* drawlist, float x, float y)
         item->draw(nullptr, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 }
 
-bool mvPlot::isPlotQueried() const
-{
-    return _queried;
-}
 
-double* mvPlot::getPlotQueryArea()
-{
-    return _queryArea;
-}
-
-void mvPlot::addFlag(ImPlotFlags flag)
-{
-    _flags |= flag;
-}
-
-void mvPlot::removeFlag(ImPlotFlags flag)
-{
-    _flags &= ~flag;
-}
 
 void mvPlot::handleSpecificKeywordArgs(PyObject* dict)
 {

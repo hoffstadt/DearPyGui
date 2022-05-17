@@ -311,6 +311,77 @@ DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mvRef<std::vector
 }
 
 void
+DearPyGui::draw_plot_axis(ImDrawList* drawlist, mvAppItem& item, mvPlotAxisConfig& config)
+{
+	if (!item.config.show)
+		return;
+
+	// todo: add check
+	if (config.axis != 0)
+		ImPlot::SetPlotYAxis(item.info.location - 1);
+
+	for (auto& item : item.childslots[1])
+		item->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
+
+	// x axis
+	if (config.axis == 0)
+	{
+		config.limits_actual.x = (float)ImPlot::GetPlotLimits(item.info.location).X.Min;
+		config.limits_actual.y = (float)ImPlot::GetPlotLimits(item.info.location).X.Max;
+		auto context = ImPlot::GetCurrentContext();
+		config.flags = context->CurrentPlot->XAxis.Flags;
+
+	}
+
+	// y axis
+	else
+	{
+		config.limits_actual.x = (float)ImPlot::GetPlotLimits(item.info.location - 1).Y.Min;
+		config.limits_actual.y = (float)ImPlot::GetPlotLimits(item.info.location - 1).Y.Max;
+		auto context = ImPlot::GetCurrentContext();
+		config.flags = context->CurrentPlot->YAxis[item.info.location - 1].Flags;
+	}
+
+
+	UpdateAppItemState(item.state);
+
+	if (item.font)
+	{
+		ImGui::PopFont();
+	}
+
+	if (item.theme)
+	{
+		static_cast<mvTheme*>(item.theme.get())->customAction();
+	}
+
+	if (item.config.dropCallback)
+	{
+		ScopedID id(item.uuid);
+		if (item.info.location == 0 && ImPlot::BeginDragDropTargetX())
+		{
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(item.config.payloadType.c_str()))
+			{
+				auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
+				mvAddCallback(item.config.dropCallback, item.uuid, payloadActual->getDragData(), nullptr);
+			}
+
+			ImPlot::EndDragDropTarget();
+		}
+		else if (ImPlot::BeginDragDropTargetY(item.info.location - 1))
+		{
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(item.config.payloadType.c_str()))
+			{
+				auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
+				mvAddCallback(item.config.dropCallback, item.uuid, payloadActual->getDragData(), nullptr);
+			}
+
+			ImPlot::EndDragDropTarget();
+		}
+	}
+}
+
+void
 DearPyGui::draw_subplots(ImDrawList* drawlist, mvAppItem& item, mvSubPlotsConfig& config)
 {
 	ScopedID id(item.uuid);
@@ -1979,6 +2050,17 @@ DearPyGui::set_required_configuration(PyObject* inDict, mvCustomSeriesConfig& ou
 }
 
 void
+DearPyGui::set_required_configuration(PyObject* inDict, mvPlotAxisConfig& outConfig)
+{
+	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(mvAppItemType::mvPlotAxis)], inDict))
+		return;
+
+	outConfig.axis = ToInt(PyTuple_GetItem(inDict, 0));
+	if (outConfig.axis > 1)
+		outConfig.axis = 1;
+}
+
+void
 DearPyGui::set_configuration(PyObject* inDict, mvDragLineConfig& outConfig)
 {
 	if (inDict == nullptr)
@@ -2017,7 +2099,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvPlotLegendConfig& outConfig, mv
 	{
 		item.info.shownLastFrame = false;
 		if (auto plot = static_cast<mvPlot*>(item.info.parentPtr))
-			plot->removeFlag(ImPlotFlags_NoLegend);
+			plot->_flags &= ~ImPlotFlags_NoLegend;
 		else if (auto plot = static_cast<mvSubPlots*>(item.info.parentPtr))
 			plot->removeFlag(ImPlotSubplotFlags_NoLegend);
 		item.config.show = true;
@@ -2027,7 +2109,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvPlotLegendConfig& outConfig, mv
 	{
 		item.info.hiddenLastFrame = false;
 		if (auto plot = static_cast<mvPlot*>(item.info.parentPtr))
-			plot->addFlag(ImPlotFlags_NoLegend);
+			plot->_flags |= ImPlotFlags_NoLegend;
 		else if (auto plot = static_cast<mvSubPlots*>(item.info.parentPtr))
 			plot->addFlag(ImPlotSubplotFlags_NoLegend);
 		item.config.show = false;
@@ -2304,6 +2386,51 @@ DearPyGui::set_configuration(PyObject* inDict, mvSubPlotsConfig& outConfig)
 }
 
 void
+DearPyGui::set_configuration(PyObject* inDict, mvPlotAxisConfig& outConfig, mvAppItem& item)
+{
+	if (inDict == nullptr)
+		return;
+
+	// helper for bit flipping
+	auto flagop = [inDict](const char* keyword, int flag, int& flags)
+	{
+		if (PyObject* item = PyDict_GetItemString(inDict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+	};
+
+	// axis flags
+	flagop("no_gridlines", ImPlotAxisFlags_NoGridLines, outConfig.flags);
+	flagop("no_tick_marks", ImPlotAxisFlags_NoTickMarks, outConfig.flags);
+	flagop("no_tick_labels", ImPlotAxisFlags_NoTickLabels, outConfig.flags);
+	flagop("log_scale", ImPlotAxisFlags_LogScale, outConfig.flags);
+	flagop("invert", ImPlotAxisFlags_Invert, outConfig.flags);
+	flagop("lock_min", ImPlotAxisFlags_LockMin, outConfig.flags);
+	flagop("lock_max", ImPlotAxisFlags_LockMax, outConfig.flags);
+	flagop("time", ImPlotAxisFlags_Time, outConfig.flags);
+
+	if (item.info.parentPtr)
+	{
+		static_cast<mvPlot*>(item.info.parentPtr)->updateFlags();
+		static_cast<mvPlot*>(item.info.parentPtr)->updateAxesNames();
+	}
+
+	if (item.info.shownLastFrame)
+	{
+		item.info.shownLastFrame = false;
+		if (auto plot = static_cast<mvPlot*>(item.info.parentPtr))
+			plot->_flags &= ~ImPlotFlags_NoLegend;
+		item.config.show = true;
+	}
+
+	if (item.info.hiddenLastFrame)
+	{
+		item.info.hiddenLastFrame = false;
+		if (auto plot = static_cast<mvPlot*>(item.info.parentPtr))
+			plot->_flags |= ImPlotFlags_NoLegend;
+		item.config.show = false;
+	}
+}
+
+void
 DearPyGui::fill_configuration_dict(const mvDragLineConfig& inConfig, PyObject* outDict)
 {
 	if (outDict == nullptr)
@@ -2531,6 +2658,30 @@ DearPyGui::fill_configuration_dict(const mvSubPlotsConfig& inConfig, PyObject* o
 }
 
 void
+DearPyGui::fill_configuration_dict(const mvPlotAxisConfig& inConfig, PyObject* outDict)
+{
+	if (outDict == nullptr)
+		return;
+
+	// helper to check and set bit
+	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)
+	{
+		mvPyObject py_result = ToPyBool(flags & flag);
+		PyDict_SetItemString(outDict, keyword, py_result);
+	};
+
+	// plot flags
+	checkbitset("no_gridlines", ImPlotAxisFlags_NoGridLines, inConfig.flags);
+	checkbitset("no_tick_marks", ImPlotAxisFlags_NoTickMarks, inConfig.flags);
+	checkbitset("no_tick_labels", ImPlotAxisFlags_NoTickLabels, inConfig.flags);
+	checkbitset("log_scale", ImPlotAxisFlags_LogScale, inConfig.flags);
+	checkbitset("invert", ImPlotAxisFlags_Invert, inConfig.flags);
+	checkbitset("lock_min", ImPlotAxisFlags_LockMin, inConfig.flags);
+	checkbitset("lock_max", ImPlotAxisFlags_LockMax, inConfig.flags);
+	checkbitset("time", ImPlotAxisFlags_Time, inConfig.flags);
+}
+
+void
 DearPyGui::apply_template(const mvSubPlotsConfig& sourceConfig, mvSubPlotsConfig& dstConfig)
 {
 	dstConfig.rows = sourceConfig.rows;
@@ -2706,6 +2857,19 @@ DearPyGui::apply_template(const mvAnnotationConfig& sourceConfig, mvAnnotationCo
 	dstConfig.color = sourceConfig.color;
 	dstConfig.clamped = sourceConfig.clamped;
 	dstConfig.pixOffset = sourceConfig.pixOffset;
+}
+
+void
+DearPyGui::apply_template(const mvPlotAxisConfig& sourceConfig, mvPlotAxisConfig& dstConfig)
+{
+	dstConfig.flags = sourceConfig.flags;
+	dstConfig.axis = sourceConfig.axis;
+	dstConfig.setLimits = sourceConfig.setLimits;
+	dstConfig.limits = sourceConfig.limits;
+	dstConfig.limits_actual = sourceConfig.limits_actual;
+	dstConfig.labels = sourceConfig.labels;
+	dstConfig.labelLocations = sourceConfig.labelLocations;
+	dstConfig.clabels = sourceConfig.clabels;
 }
 
 //-----------------------------------------------------------------------------

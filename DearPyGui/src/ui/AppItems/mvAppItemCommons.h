@@ -33,4 +33,3 @@
 #include "composite/mvFileExtension.h"
 
 #include "plots/mvPlot.h"
-#include "plots/mvPlotAxis.h"

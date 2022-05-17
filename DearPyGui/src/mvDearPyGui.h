@@ -63,6 +63,7 @@ struct mvColorMapScaleConfig;
 struct mvColorMapSliderConfig;
 
 // plots
+struct mvPlotAxisConfig;
 struct mvAnnotationConfig;
 struct mvSubPlotsConfig;
 struct mvPlotLegendConfig;
