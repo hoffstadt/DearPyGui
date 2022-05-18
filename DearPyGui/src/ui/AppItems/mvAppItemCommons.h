@@ -31,5 +31,3 @@
 
 #include "composite/mvFileDialog.h"
 #include "composite/mvFileExtension.h"
-
-#include "plots/mvPlot.h"

@@ -25,6 +25,7 @@ namespace DearPyGui
     void fill_configuration_dict(const mvAnnotationConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvSubPlotsConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvPlotAxisConfig& inConfig, PyObject* outDict);
+    void fill_configuration_dict(const mvPlotConfig& inConfig, PyObject* outDict);
 
     // specific part of `configure_item(...)`
     void set_configuration(PyObject* inDict, mvPlotLegendConfig& outConfig, mvAppItem& item);
@@ -45,6 +46,7 @@ namespace DearPyGui
     void set_configuration(PyObject* inDict, mvAnnotationConfig& outConfig);
     void set_configuration(PyObject* inDict, mvSubPlotsConfig& outConfig);
     void set_configuration(PyObject* inDict, mvPlotAxisConfig& outConfig, mvAppItem& item);
+    void set_configuration(PyObject* inDict, mvPlotConfig& outConfig);
 
     // positional args TODO: combine with above
     void set_positional_configuration(PyObject* inDict, mvBarSeriesConfig& outConfig);
@@ -89,8 +91,10 @@ namespace DearPyGui
     void apply_template(const mvCustomSeriesConfig& sourceConfig, mvCustomSeriesConfig& dstConfig);
     void apply_template(const mvAnnotationConfig& sourceConfig, mvAnnotationConfig& dstConfig);
     void apply_template(const mvPlotAxisConfig& sourceConfig, mvPlotAxisConfig& dstConfig);
+    void apply_template(const mvPlotConfig& sourceConfig, mvPlotConfig& dstConfig);
 
     // draw commands
+    void draw_plot              (ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config);
     void draw_plot_axis         (ImDrawList* drawlist, mvAppItem& item, mvPlotAxisConfig& config);
     void draw_subplots          (ImDrawList* drawlist, mvAppItem& item, mvSubPlotsConfig& config);
     void draw_plot_legend       (ImDrawList* drawlist, mvAppItem& item, mvPlotLegendConfig& config);
@@ -355,6 +359,41 @@ struct mvPlotAxisConfig
     std::vector<double>      labelLocations;
     std::vector<const char*> clabels; // to prevent conversion from string to char* every frame
     bool                     _dirty = false;
+};
+
+struct mvPlotConfig
+{
+    std::string     xaxisName;
+    int             pan_button = 0;
+    int             pan_mod = 0;
+    int             fit_button = 0;
+    int             context_menu_button = 0;
+    int             box_select_button = 0;
+    int             box_select_mod = 0;
+    int             box_select_cancel_button = 0;
+    int             query_button = 0;
+    int             query_mod = 0;
+    int             query_toggle_mod = 0;
+    int             horizontal_mod = 0;
+    int             vertical_mod = 0;
+
+    std::string     _y1axisName;
+    std::string     _y2axisName;
+    std::string     _y3axisName;
+    ImPlotFlags     _flags = ImPlotFlags_NoLegend;
+    ImPlotAxisFlags _xflags = 0;
+    ImPlotAxisFlags _yflags = 0;
+    ImPlotAxisFlags _y1flags = 0;
+    ImPlotAxisFlags _y2flags = 0;
+    bool            _newColorMap = false; // to bust color cache
+    bool            _useColorMap = false;
+    ImPlotColormap  _colormap = ImPlotColormap_Deep;
+    bool            _equalAspectRatios = false;
+    bool            _queried = false;
+    double          _queryArea[4] = { 0.0, 0.0, 0.0, 0.0 };
+    bool            _fitDirty = false;
+    bool            _axisfitDirty[4] = { false, false, false, false }; 
+    ImPlotInputMap  _originalMap = ImPlotInputMap();// custom input mapping
 };
 
 //-----------------------------------------------------------------------------
@@ -731,4 +770,17 @@ public:
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData, *this); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
     void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvPlotAxis*>(item); DearPyGui::apply_template(titem->configData, configData); }
+};
+
+class mvPlot : public mvAppItem
+{
+public:
+    mvPlotConfig configData{};
+    explicit mvPlot(mvUUID uuid) : mvAppItem(uuid) { config.width = config.height = -1; }
+    void updateFlags();
+    void updateAxesNames();
+    void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_plot(drawlist, *this, configData); }
+    void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
+    void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
+    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvPlot*>(item); DearPyGui::apply_template(titem->configData, configData); }
 };

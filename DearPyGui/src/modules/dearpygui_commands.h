@@ -57,9 +57,9 @@ bind_colormap(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (aitem->type == mvAppItemType::mvPlot)
 	{
 		mvPlot* graph = static_cast<mvPlot*>(aitem);
-		graph->_colormap = (ImPlotColormap)source;
-		graph->_useColorMap = true;
-		graph->_newColorMap = true;
+		graph->configData._colormap = (ImPlotColormap)source;
+		graph->configData._useColorMap = true;
+		graph->configData._newColorMap = true;
 	}
 
 	else if (aitem->type == mvAppItemType::mvColorMapScale)
@@ -1005,7 +1005,7 @@ is_plot_queried(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	mvPlot* graph = static_cast<mvPlot*>(aplot);
 
-	return ToPyBool(graph->_queried);
+	return ToPyBool(graph->configData._queried);
 }
 
 mv_internal mv_python_function
@@ -1037,7 +1037,7 @@ get_plot_query_area(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	mvPlot* graph = static_cast<mvPlot*>(aplot);
 
-	double* result = graph->_queryArea;
+	double* result = graph->configData._queryArea;
 	return Py_BuildValue("(dddd)", result[0], result[1], result[2], result[3]);
 }
 
@@ -1193,8 +1193,8 @@ fit_axis_data(PyObject* self, PyObject* args, PyObject* kwargs)
 	mvPlotAxis* graph = static_cast<mvPlotAxis*>(aplot);
 
 	// fit axis data
-	static_cast<mvPlot*>(graph->info.parentPtr)->_fitDirty = true;
-	static_cast<mvPlot*>(graph->info.parentPtr)->_axisfitDirty[graph->info.location] = true;
+	static_cast<mvPlot*>(graph->info.parentPtr)->configData._fitDirty = true;
+	static_cast<mvPlot*>(graph->info.parentPtr)->configData._axisfitDirty[graph->info.location] = true;
 
 	return GetPyNone();
 }

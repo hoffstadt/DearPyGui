@@ -8,8 +8,8 @@
 #include "AppItems/mvThemes.h"
 #include "AppItems/containers/mvDragPayload.h"
 #include "mvPyObject.h"
-#include "AppItems/plots/mvPlot.h"
 #include "mvTextureItems.h"
+#include "mvItemHandlers.h"
 
 mv_internal void
 draw_polygon(const mvAreaSeriesConfig& config)
@@ -308,6 +308,264 @@ DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mvRef<std::vector
 		return;
 	}
 	outValue = *static_cast<std::shared_ptr<std::vector<std::vector<double>>>*>(srcItem->getValue());
+}
+
+void
+DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config)
+{
+	if (!item.config.show)
+		return;
+
+	// cache old cursor position
+	ImVec2 previousCursorPos = ImGui::GetCursorPos();
+
+	// set cursor position if user set
+	if (item.info.dirtyPos)
+		ImGui::SetCursorPos(item.state.pos);
+
+	// update widget's position state
+	item.state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
+
+	// push font if a font object is attached
+	if (item.font)
+	{
+		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
+		ImGui::PushFont(fontptr);
+	}
+
+	// themes
+	apply_local_theming(&item);
+
+	if (config._newColorMap)
+	{
+		ImPlot::BustColorCache(item.info.internalLabel.c_str());
+		config._newColorMap = false;
+	}
+
+	if (config._useColorMap)
+		ImPlot::PushColormap(config._colormap);
+
+	// custom input mapping
+	ImPlot::GetInputMap().PanButton = config.pan_button;
+	ImPlot::GetInputMap().FitButton = config.fit_button;
+	ImPlot::GetInputMap().ContextMenuButton = config.context_menu_button;
+	ImPlot::GetInputMap().BoxSelectButton = config.box_select_button;
+	ImPlot::GetInputMap().BoxSelectCancelButton = config.box_select_cancel_button;
+	ImPlot::GetInputMap().QueryButton = config.query_button;
+	ImPlot::GetInputMap().QueryToggleMod = config.query_toggle_mod;
+	ImPlot::GetInputMap().HorizontalMod = config.horizontal_mod;
+	ImPlot::GetInputMap().VerticalMod = config.vertical_mod;
+	if (config.pan_mod != -1) ImPlot::GetInputMap().PanMod = config.pan_mod;
+	if (config.box_select_mod != -1) ImPlot::GetInputMap().BoxSelectMod = config.box_select_mod;
+	if (config.query_mod != -1) ImPlot::GetInputMap().QueryMod = config.query_mod;
+
+	// gives axes change to make changes to ticks, limits, etc.
+	for (auto& child : item.childslots[1])
+	{
+		// skip item if it's not shown
+		if (!child->config.show)
+			continue;
+
+		if (child->type == mvAppItemType::mvPlotAxis)
+		{
+			auto axis = static_cast<mvPlotAxis*>(child.get());
+			if (axis->configData.setLimits || axis->configData._dirty)
+			{
+				switch (item.info.location)
+				{
+				case(0): ImPlot::SetNextPlotLimitsX(axis->configData.limits.x, axis->configData.limits.y, ImGuiCond_Always); break;
+				case(1): ImPlot::SetNextPlotLimitsY(axis->configData.limits.x, axis->configData.limits.y, ImGuiCond_Always); break;
+				case(2): ImPlot::SetNextPlotLimitsY(axis->configData.limits.x, axis->configData.limits.y, ImGuiCond_Always, ImPlotYAxis_2); break;
+				case(3): ImPlot::SetNextPlotLimitsY(axis->configData.limits.x, axis->configData.limits.y, ImGuiCond_Always, ImPlotYAxis_3); break;
+				default: ImPlot::SetNextPlotLimitsY(axis->configData.limits.x, axis->configData.limits.y, ImGuiCond_Always); break;
+				}
+				axis->configData._dirty = false;
+			}
+
+			if (!axis->configData.labels.empty())
+			{
+				// TODO: Checks
+				if (item.info.location == 0)
+					ImPlot::SetNextPlotTicksX(axis->configData.labelLocations.data(), (int)axis->configData.labels.size(), axis->configData.clabels.data());
+				else
+					ImPlot::SetNextPlotTicksY(axis->configData.labelLocations.data(), (int)axis->configData.labels.size(), axis->configData.clabels.data());
+			}
+		}
+		else
+			child->customAction();
+	}
+
+	if (config._fitDirty)
+	{
+		ImPlot::FitNextPlotAxes(config._axisfitDirty[0], config._axisfitDirty[1], config._axisfitDirty[2], config._axisfitDirty[3]);
+		config._fitDirty = false;
+		config._axisfitDirty[0] = false;
+		config._axisfitDirty[1] = false;
+		config._axisfitDirty[2] = false;
+		config._axisfitDirty[3] = false;
+	}
+
+	if (ImPlot::BeginPlot(item.info.internalLabel.c_str(),
+		config.xaxisName.empty() ? nullptr : config.xaxisName.c_str(),
+		config._y1axisName.empty() ? nullptr : config._y1axisName.c_str(),
+		ImVec2((float)item.config.width, (float)item.config.height),
+		config._flags, config._xflags, config._yflags, config._y1flags, config._y2flags,
+		config._y2axisName.empty() ? nullptr : config._y2axisName.c_str(),
+		config._y3axisName.empty() ? nullptr : config._y3axisName.c_str()))
+	{
+
+		auto context = ImPlot::GetCurrentContext();
+		// legend, drag point and lines
+		for (auto& child : item.childslots[0])
+			child->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
+
+		// axes
+		for (auto& child : item.childslots[1])
+			child->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
+
+		ImPlot::PushPlotClipRect();
+
+		ImPlot::SetPlotYAxis(ImPlotYAxis_1); // draw items should use first plot axis
+
+		// drawings
+		for (auto& child : item.childslots[2])
+		{
+			// skip item if it's not shown
+			if (!child->config.show)
+				continue;
+
+			//item->draw(ImPlot::GetPlotDrawList(), ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
+			child->draw(ImPlot::GetPlotDrawList(), 0.0f, 0.0f);
+
+			UpdateAppItemState(child->state);
+		}
+
+		ImPlot::PopPlotClipRect();
+
+		if (config._useColorMap)
+			ImPlot::PopColormap();
+
+		config._queried = ImPlot::IsPlotQueried();
+
+		if (config._queried)
+		{
+			ImPlotLimits area = ImPlot::GetPlotQuery();
+			config._queryArea[0] = area.X.Min;
+			config._queryArea[1] = area.X.Max;
+			config._queryArea[2] = area.Y.Min;
+			config._queryArea[3] = area.Y.Max;
+		}
+
+		if (item.config.callback != nullptr && config._queried)
+		{
+
+			if (item.config.alias.empty())
+				mvSubmitCallback([=, &item]() {
+				PyObject* area = PyTuple_New(4);
+				PyTuple_SetItem(area, 0, PyFloat_FromDouble(config._queryArea[0]));
+				PyTuple_SetItem(area, 1, PyFloat_FromDouble(config._queryArea[1]));
+				PyTuple_SetItem(area, 2, PyFloat_FromDouble(config._queryArea[2]));
+				PyTuple_SetItem(area, 3, PyFloat_FromDouble(config._queryArea[3]));
+				mvAddCallback(item.config.callback, item.uuid, area, item.config.user_data);
+					});
+			else
+				mvSubmitCallback([=, &item]() {
+				PyObject* area = PyTuple_New(4);
+				PyTuple_SetItem(area, 0, PyFloat_FromDouble(config._queryArea[0]));
+				PyTuple_SetItem(area, 1, PyFloat_FromDouble(config._queryArea[1]));
+				PyTuple_SetItem(area, 2, PyFloat_FromDouble(config._queryArea[2]));
+				PyTuple_SetItem(area, 3, PyFloat_FromDouble(config._queryArea[3]));
+				mvAddCallback(item.config.callback, item.config.alias, area, item.config.user_data);
+					});
+		}
+
+		if (ImPlot::IsPlotHovered())
+		{
+			GContext->input.mousePlotPos.x = ImPlot::GetPlotMousePos().x;
+			GContext->input.mousePlotPos.y = ImPlot::GetPlotMousePos().y;
+		}
+
+		// todo: resolve clipping
+		if (item.config.dropCallback)
+		{
+			ScopedID id(item.uuid);
+			if (ImPlot::BeginDragDropTarget())
+			{
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(item.config.payloadType.c_str()))
+				{
+					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
+					if (item.config.alias.empty())
+						mvAddCallback(item.config.dropCallback, item.uuid, payloadActual->getDragData(), nullptr);
+					else
+						mvAddCallback(item.config.dropCallback, item.config.alias, payloadActual->getDragData(), nullptr);
+				}
+
+				ImPlot::EndDragDropTarget();
+			}
+		}
+
+		// update state
+
+		config._flags = context->CurrentPlot->Flags;
+
+		if (ImGui::IsWindowFocused(ImGuiFocusedFlags_ChildWindows))
+		{
+
+			// update mouse
+			ImVec2 mousePos = ImGui::GetMousePos();
+			float x = mousePos.x - ImGui::GetWindowPos().x;
+			float y = mousePos.y - ImGui::GetWindowPos().y;
+			GContext->input.mousePos.x = (int)x;
+			GContext->input.mousePos.y = (int)y;
+
+
+			if (GContext->itemRegistry->activeWindow != item.uuid)
+				GContext->itemRegistry->activeWindow = item.uuid;
+
+		}
+
+		// TODO: find a better way to handle this
+		for (auto& child : item.childslots[0])
+		{
+			if (child->type == mvAppItemType::mvPlotLegend)
+			{
+				auto legend = static_cast<mvPlotLegend*>(child.get());
+				legend->configData.legendLocation = context->CurrentPlot->Items.Legend.Location;
+				legend->configData.horizontal = context->CurrentPlot->Items.Legend.Orientation == ImPlotOrientation_Horizontal;
+				legend->configData.outside = context->CurrentPlot->Items.Legend.Outside;
+				break;
+			}
+		}
+
+
+		ImPlot::EndPlot();
+
+	}
+
+	// set cursor position to cached position
+	if (item.info.dirtyPos)
+		ImGui::SetCursorPos(previousCursorPos);
+
+	ImPlot::GetInputMap() = config._originalMap;
+
+	UpdateAppItemState(item.state);
+
+	if (item.font)
+	{
+		ImGui::PopFont();
+	}
+
+	if (item.theme)
+	{
+		item.theme->pop_theme_components();
+	}
+
+	if (item.handlerRegistry)
+		item.handlerRegistry->checkEvents(&item.state);
+
+	// drag drop
+	for (auto& child : item.childslots[3])
+		child->draw(nullptr, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 }
 
 void
@@ -2074,6 +2332,47 @@ DearPyGui::set_configuration(PyObject* inDict, mvDragLineConfig& outConfig)
 }
 
 void
+DearPyGui::set_configuration(PyObject* inDict, mvPlotConfig& outConfig)
+{
+	if (inDict == nullptr)
+		return;
+
+	if (PyObject* item = PyDict_GetItemString(inDict, "x_axis_name")) outConfig.xaxisName = ToString(item);
+
+	// custom input mapping
+	if (PyObject* item = PyDict_GetItemString(inDict, "pan_button")) outConfig.pan_button = ToInt(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "pad_mod")) outConfig.pan_mod = ToInt(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "fit_button")) outConfig.fit_button = ToInt(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "context_menu_button")) outConfig.context_menu_button = ToInt(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "box_select_button")) outConfig.box_select_button = ToInt(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "box_select_mod")) outConfig.box_select_mod = ToInt(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "box_select_cancel_button")) outConfig.box_select_cancel_button = ToInt(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "query_button")) outConfig.query_button = ToInt(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "query_mod")) outConfig.query_mod = ToInt(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "query_toggle_mod")) outConfig.query_toggle_mod = ToInt(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "horizontal_mod")) outConfig.horizontal_mod = ToInt(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "vertical_mod")) outConfig.vertical_mod = ToInt(item);
+
+	// helper for bit flipping
+	auto flagop = [inDict](const char* keyword, int flag, int& flags)
+	{
+		if (PyObject* item = PyDict_GetItemString(inDict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+	};
+
+	// plot flags
+	flagop("no_title", ImPlotFlags_NoTitle, outConfig._flags);
+	flagop("no_menus", ImPlotFlags_NoMenus, outConfig._flags);
+	flagop("no_box_select", ImPlotFlags_NoBoxSelect, outConfig._flags);
+	flagop("no_mouse_pos", ImPlotFlags_NoMousePos, outConfig._flags);
+	flagop("no_highlight", ImPlotFlags_NoHighlight, outConfig._flags);
+	flagop("no_child", ImPlotFlags_NoChild, outConfig._flags);
+	flagop("query", ImPlotFlags_Query, outConfig._flags);
+	flagop("crosshairs", ImPlotFlags_Crosshairs, outConfig._flags);
+	flagop("anti_aliased", ImPlotFlags_AntiAliased, outConfig._flags);
+	flagop("equal_aspects", ImPlotFlags_Equal, outConfig._flags);
+}
+
+void
 DearPyGui::set_configuration(PyObject* inDict, mvDragPointConfig& outConfig)
 {
 	if (inDict == nullptr)
@@ -2099,7 +2398,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvPlotLegendConfig& outConfig, mv
 	{
 		item.info.shownLastFrame = false;
 		if (auto plot = static_cast<mvPlot*>(item.info.parentPtr))
-			plot->_flags &= ~ImPlotFlags_NoLegend;
+			plot->configData._flags &= ~ImPlotFlags_NoLegend;
 		else if (auto plot = static_cast<mvSubPlots*>(item.info.parentPtr))
 			plot->removeFlag(ImPlotSubplotFlags_NoLegend);
 		item.config.show = true;
@@ -2109,7 +2408,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvPlotLegendConfig& outConfig, mv
 	{
 		item.info.hiddenLastFrame = false;
 		if (auto plot = static_cast<mvPlot*>(item.info.parentPtr))
-			plot->_flags |= ImPlotFlags_NoLegend;
+			plot->configData._flags |= ImPlotFlags_NoLegend;
 		else if (auto plot = static_cast<mvSubPlots*>(item.info.parentPtr))
 			plot->addFlag(ImPlotSubplotFlags_NoLegend);
 		item.config.show = false;
@@ -2417,7 +2716,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvPlotAxisConfig& outConfig, mvAp
 	{
 		item.info.shownLastFrame = false;
 		if (auto plot = static_cast<mvPlot*>(item.info.parentPtr))
-			plot->_flags &= ~ImPlotFlags_NoLegend;
+			plot->configData._flags &= ~ImPlotFlags_NoLegend;
 		item.config.show = true;
 	}
 
@@ -2425,9 +2724,49 @@ DearPyGui::set_configuration(PyObject* inDict, mvPlotAxisConfig& outConfig, mvAp
 	{
 		item.info.hiddenLastFrame = false;
 		if (auto plot = static_cast<mvPlot*>(item.info.parentPtr))
-			plot->_flags |= ImPlotFlags_NoLegend;
+			plot->configData._flags |= ImPlotFlags_NoLegend;
 		item.config.show = false;
 	}
+}
+
+void
+DearPyGui::fill_configuration_dict(const mvPlotConfig& inConfig, PyObject* outDict)
+{
+	if (outDict == nullptr)
+		return;
+
+	PyDict_SetItemString(outDict, "x_axis_name", mvPyObject(ToPyString(inConfig.xaxisName)));
+	PyDict_SetItemString(outDict, "pan_button", mvPyObject(ToPyInt(inConfig.pan_button)));
+	PyDict_SetItemString(outDict, "pan_mod", mvPyObject(ToPyInt(inConfig.pan_mod)));
+	PyDict_SetItemString(outDict, "fit_button", mvPyObject(ToPyInt(inConfig.fit_button)));
+	PyDict_SetItemString(outDict, "context_menu_button", mvPyObject(ToPyInt(inConfig.context_menu_button)));
+	PyDict_SetItemString(outDict, "box_select_button", mvPyObject(ToPyInt(inConfig.box_select_button)));
+	PyDict_SetItemString(outDict, "box_select_mod", mvPyObject(ToPyInt(inConfig.box_select_mod)));
+	PyDict_SetItemString(outDict, "box_select_cancel_button", mvPyObject(ToPyInt(inConfig.box_select_cancel_button)));
+	PyDict_SetItemString(outDict, "query_button", mvPyObject(ToPyInt(inConfig.query_button)));
+	PyDict_SetItemString(outDict, "query_mod", mvPyObject(ToPyInt(inConfig.query_mod)));
+	PyDict_SetItemString(outDict, "query_toggle_mod", mvPyObject(ToPyInt(inConfig.query_toggle_mod)));
+	PyDict_SetItemString(outDict, "horizontal_mod", mvPyObject(ToPyInt(inConfig.horizontal_mod)));
+	PyDict_SetItemString(outDict, "vertical_mod", mvPyObject(ToPyInt(inConfig.vertical_mod)));
+
+	// helper to check and set bit
+	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)
+	{
+		mvPyObject py_result = ToPyBool(flags & flag);
+		PyDict_SetItemString(outDict, keyword, py_result);
+	};
+
+	// plot flags
+	checkbitset("no_title", ImPlotFlags_NoTitle, inConfig._flags);
+	checkbitset("no_menus", ImPlotFlags_NoMenus, inConfig._flags);
+	checkbitset("no_box_select", ImPlotFlags_NoBoxSelect, inConfig._flags);
+	checkbitset("no_mouse_pos", ImPlotFlags_NoMousePos, inConfig._flags);
+	checkbitset("no_highlight", ImPlotFlags_NoHighlight, inConfig._flags);
+	checkbitset("no_child", ImPlotFlags_NoChild, inConfig._flags);
+	checkbitset("query", ImPlotFlags_Query, inConfig._flags);
+	checkbitset("crosshairs", ImPlotFlags_Crosshairs, inConfig._flags);
+	checkbitset("anti_aliased", ImPlotFlags_AntiAliased, inConfig._flags);
+	checkbitset("equal_aspects", ImPlotFlags_Equal, inConfig._flags);
 }
 
 void
@@ -2872,6 +3211,25 @@ DearPyGui::apply_template(const mvPlotAxisConfig& sourceConfig, mvPlotAxisConfig
 	dstConfig.clabels = sourceConfig.clabels;
 }
 
+void
+DearPyGui::apply_template(const mvPlotConfig& sourceConfig, mvPlotConfig& dstConfig)
+{
+	dstConfig._flags = sourceConfig._flags;
+	dstConfig._equalAspectRatios = sourceConfig._equalAspectRatios;
+	dstConfig.pan_button = sourceConfig.pan_button;
+	dstConfig.pan_mod = sourceConfig.pan_mod;
+	dstConfig.fit_button = sourceConfig.fit_button;
+	dstConfig.context_menu_button = sourceConfig.context_menu_button;
+	dstConfig.box_select_button = sourceConfig.box_select_button;
+	dstConfig.box_select_mod = sourceConfig.box_select_mod;
+	dstConfig.box_select_cancel_button = sourceConfig.box_select_cancel_button;
+	dstConfig.query_button = sourceConfig.query_button;
+	dstConfig.query_mod = sourceConfig.query_mod;
+	dstConfig.query_toggle_mod = sourceConfig.query_toggle_mod;
+	dstConfig.horizontal_mod = sourceConfig.horizontal_mod;
+	dstConfig.vertical_mod = sourceConfig.vertical_mod;
+}
+
 //-----------------------------------------------------------------------------
 // Old Classes, in the process of removing OOP crap
 //-----------------------------------------------------------------------------
@@ -2903,4 +3261,43 @@ void mvAnnotation::setPyValue(PyObject* value)
 		*configData.value = temp_array;
 	else
 		configData.value = std::make_shared<std::array<double, 4>>(temp_array);
+}
+
+void mvPlot::updateFlags()
+{
+	for (size_t i = 0; i < childslots[1].size(); i++)
+	{
+		auto child = static_cast<mvPlotAxis*>(childslots[1][i].get());
+		switch (i)
+		{
+		case(0): configData._xflags = child->configData.flags; break;
+		case(1): configData._yflags = child->configData.flags; break;
+		case(2): configData._y1flags = child->configData.flags; if (child->config.show) configData._flags |= ImPlotFlags_YAxis2; else configData._flags &= ~ImPlotFlags_YAxis2; break;
+		case(3): configData._y2flags = child->configData.flags; if (child->config.show) configData._flags |= ImPlotFlags_YAxis3; else configData._flags &= ~ImPlotFlags_YAxis3; break;
+		default: configData._yflags = child->configData.flags; break;
+		}
+	}
+
+}
+
+void mvPlot::updateAxesNames()
+{
+	configData.xaxisName.clear();
+	configData._y1axisName.clear();
+	configData._y2axisName.clear();
+	configData._y3axisName.clear();
+
+	for (size_t i = 0; i < childslots[1].size(); i++)
+	{
+		auto axis = childslots[1][i].get();
+		switch (i)
+		{
+		case(0): configData.xaxisName = axis->config.specifiedLabel; break;
+		case(1): configData._y1axisName = axis->config.specifiedLabel; break;
+		case(2): configData._y2axisName = axis->config.specifiedLabel; break;
+		case(3): configData._y3axisName = axis->config.specifiedLabel; break;
+		default: configData._y1axisName = axis->config.specifiedLabel; break;
+		}
+	}
+
 }

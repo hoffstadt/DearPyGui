@@ -5380,7 +5380,7 @@ DearPyGui::OnChildAdded(mvAppItem* item, mvRef<mvAppItem> child)
     {
         mvPlot* actualItem = (mvPlot*)item;
         if (child->type == mvAppItemType::mvPlotLegend)
-            actualItem->_flags &= ~ImPlotFlags_NoLegend;
+            actualItem->configData._flags &= ~ImPlotFlags_NoLegend;
         
         if (child->type == mvAppItemType::mvPlotAxis)
         {
@@ -5430,7 +5430,7 @@ DearPyGui::OnChildRemoved(mvAppItem* item, mvRef<mvAppItem> child)
     {
         mvPlot* actualItem = (mvPlot*)item;
         if (child->type == mvAppItemType::mvPlotLegend)
-            actualItem->_flags |= ImPlotFlags_NoLegend;
+            actualItem->configData._flags |= ImPlotFlags_NoLegend;
         if (child->type == mvAppItemType::mvPlotAxis)
             actualItem->updateFlags();
         return;
