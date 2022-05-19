@@ -186,6 +186,7 @@ def _on_demo_close(sender, app_data, user_data):
     dpg.delete_item("__demo_stage1")
     dpg.delete_item("__demo_popup1")
     dpg.delete_item("__demo_popup2")
+    dpg.delete_item("__demo_popup3")
     dpg.delete_item("__demo_item_reg3")
     dpg.delete_item("__demo_item_reg6")
     dpg.delete_item("__demo_item_reg7")
