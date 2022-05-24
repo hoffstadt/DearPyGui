@@ -44,7 +44,7 @@ and any type that supports python's buffer protocol with contiguous data. Below 
         texture_data.append(255 / 255)
 
     with dpg.texture_registry(show=True):
-        dpg.add_static_texture(100, 100, texture_data, tag="texture_tag")
+        dpg.add_static_texture(width=100, height=100, default_value=texture_data, tag="texture_tag")
 
     with dpg.window(label="Tutorial"):
         dpg.add_image("texture_tag")
@@ -80,7 +80,7 @@ safety checks and conversion. Below is a simple example
         texture_data.append(255 / 255)
 
     with dpg.texture_registry(show=True):
-        dpg.add_dynamic_texture(100, 100, texture_data, tag="texture_tag")
+        dpg.add_dynamic_texture(width=100, height=100, default_value=texture_data, tag="texture_tag")
 
 
     def _update_dynamic_textures(sender, app_data, user_data):
@@ -142,7 +142,7 @@ textures every frame. Below is a simple example
     raw_data = array.array('f', texture_data)
 
     with dpg.texture_registry(show=True):
-        dpg.add_raw_texture(100, 100, raw_data, format=dpg.mvFormat_Float_rgba, tag="texture_tag")
+        dpg.add_raw_texture(width=100, height=100, default_value=raw_data, format=dpg.mvFormat_Float_rgba, tag="texture_tag")
 
 
     def update_dynamic_texture(sender, app_data, user_data):
@@ -226,7 +226,7 @@ A simple example can be found below
     width, height, channels, data = dpg.load_image("Somefile.png")
 
     with dpg.texture_registry(show=True):
-        dpg.add_static_texture(width, height, data, tag="texture_tag")
+        dpg.add_static_texture(width=width, height=height, default_value=data, tag="texture_tag")
 
     with dpg.window(label="Tutorial"):
         dpg.add_image("texture_tag")
@@ -285,7 +285,7 @@ A simple example can be found below
         data.append(0)
 
     with dpg.window(label="Tutorial"):
-        dpg.add_button(label="Save Image", callback=lambda:dpg.save_image("newImage.png", width, height, data, components=3))
+        dpg.add_button(label="Save Image", callback=lambda:dpg.save_image(file="newImage.png", width=width, height=height, data=data, components=3))
 
     dpg.show_viewport()
     while dpg.is_dearpygui_running():
