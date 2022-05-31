@@ -12,6 +12,7 @@
 #include "mvFontItems.h"
 #include "mvColors.h"
 #include "mvPlotting.h"
+#include "mvContainers.h"
 
 #include "containers/mvTreeNode.h"
 #include "containers/mvChild.h"
@@ -19,7 +20,6 @@
 #include "containers/mvCollapsingHeader.h"
 #include "containers/mvTab.h"
 #include "containers/mvTabBar.h"
-#include "containers/mvMenu.h"
 #include "containers/mvWindowAppItem.h"
 #include "containers/mvDragPayload.h"
 

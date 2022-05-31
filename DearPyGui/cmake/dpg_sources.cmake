@@ -48,6 +48,7 @@ set(MARVEL_SOURCES
 	"src/ui/AppItems/mvFontItems.cpp"
 	"src/ui/AppItems/mvColors.cpp"
 	"src/ui/AppItems/mvPlotting.cpp"
+	"src/ui/AppItems/mvContainers.cpp"
 
 	"src/ui/mvCallbackRegistry.cpp"
 	"src/ui/CustomImGuiWidgets/mvKnobCustom.cpp"
@@ -69,7 +70,6 @@ set(MARVEL_SOURCES
 	"src/ui/AppItems/containers/mvChild.cpp"
 	"src/ui/AppItems/containers/mvTab.cpp"
 	"src/ui/AppItems/containers/mvTabBar.cpp"
-	"src/ui/AppItems/containers/mvMenu.cpp"
 	"src/ui/AppItems/containers/mvTreeNode.cpp"
 	"src/ui/AppItems/containers/mvWindowAppItem.cpp"
 	"src/ui/AppItems/containers/mvDragPayload.cpp"
