@@ -2,7 +2,7 @@
 #include "mvContext.h"
 #include "mvLog.h"
 #include "mvItemRegistry.h"
-#include "mvTab.h"
+#include "mvContainers.h"
 #include "mvPythonExceptions.h"
 
 void mvTabBar::applySpecificTemplate(mvAppItem* item)
@@ -72,12 +72,12 @@ void mvTabBar::draw(ImDrawList* drawlist, float x, float y)
 		{
 
 			if (*_value == item->uuid && _lastValue != *_value)
-				static_cast<mvTab*>(item.get())->addFlag(ImGuiTabItemFlags_SetSelected);
+				static_cast<mvTab*>(item.get())->configData._flags |= ImGuiTabItemFlags_SetSelected;
 
 			item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 
 			if (*_value == item->uuid)
-				static_cast<mvTab*>(item.get())->removeFlag(ImGuiTabItemFlags_SetSelected);
+				static_cast<mvTab*>(item.get())->configData._flags &= ~ImGuiTabItemFlags_SetSelected;
 		}
 
 		ImGui::EndTabBar();
