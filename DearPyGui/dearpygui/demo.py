@@ -1605,7 +1605,7 @@ def show_demo():
                             borders_innerH=True, borders_outerH=True, borders_innerV=True,
                             borders_outerV=True, context_menu_in_body=True, row_background=True,
                             policy=dpg.mvTable_SizingFixedFit, height=300,
-                            scrollY=True, clipper=True):
+                            scrollY=True, clipper=True) as table_id:
 
                     dpg.add_table_column(label="1")
                     dpg.add_table_column(label="2")
@@ -1653,7 +1653,7 @@ def show_demo():
                             borders_innerH=True, borders_outerH=True, borders_innerV=True,
                             borders_outerV=True, context_menu_in_body=True, row_background=True,
                             policy=dpg.mvTable_SizingFixedFit, height=300,
-                            scrollY=True, tag=_filter_table_id):
+                            scrollY=True, tag=_filter_table_id) as table_id:
 
                     dpg.add_table_column(label="1")
                     dpg.add_table_column(label="2")
