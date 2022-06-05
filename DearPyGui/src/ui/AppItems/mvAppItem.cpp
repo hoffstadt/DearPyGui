@@ -2414,8 +2414,8 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::String, "format", mvArgType::KEYWORD_ARG, "'%.3f'", "Determines the format the float will be displayed as use python string formatting." });
         args.push_back({ mvPyDataType::Float, "min_value", mvArgType::KEYWORD_ARG, "0.0", "Value for lower limit of input. By default this limits the step buttons. Use min_clamped to limit manual input." });
         args.push_back({ mvPyDataType::Float, "max_value", mvArgType::KEYWORD_ARG, "100.0", "Value for upper limit of input. By default this limits the step buttons. Use max_clamped to limit manual input." });
-        args.push_back({ mvPyDataType::Float, "step", mvArgType::KEYWORD_ARG, "0.1", "Increment to change value by when the step buttons are pressed. Setting this to a value of 0 or smaller will turn off step buttons." });
-        args.push_back({ mvPyDataType::Float, "step_fast", mvArgType::KEYWORD_ARG, "1.0", "After holding the step buttons for extended time the increments will switch to this value." });
+        args.push_back({ mvPyDataType::Float, "step", mvArgType::KEYWORD_ARG, "0.1", "Increment to change value by when the step buttons are pressed. Setting this and step_fast to a value of 0 or less will turn off step buttons." });
+        args.push_back({ mvPyDataType::Float, "step_fast", mvArgType::KEYWORD_ARG, "1.0", "Increment to change value by when ctrl + step buttons are pressed. Setting this and step to a value of 0 or less will turn off step buttons." });
         args.push_back({ mvPyDataType::Bool, "min_clamped", mvArgType::KEYWORD_ARG, "False", "Activates and deactivates the enforcment of min_value." });
         args.push_back({ mvPyDataType::Bool, "max_clamped", mvArgType::KEYWORD_ARG, "False", "Activates and deactivates the enforcment of max_value." });
         args.push_back({ mvPyDataType::Bool, "on_enter", mvArgType::KEYWORD_ARG, "False", "Only runs callback on enter key press." });
@@ -2448,14 +2448,14 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::String, "format", mvArgType::KEYWORD_ARG, "'%.3f'", "Determines the format the float will be displayed as use python string formatting." });
         args.push_back({ mvPyDataType::Double, "min_value", mvArgType::KEYWORD_ARG, "0.0", "Value for lower limit of input. By default this limits the step buttons. Use min_clamped to limit manual input." });
         args.push_back({ mvPyDataType::Double, "max_value", mvArgType::KEYWORD_ARG, "100.0", "Value for upper limit of input. By default this limits the step buttons. Use max_clamped to limit manual input." });
-        args.push_back({ mvPyDataType::Double, "step", mvArgType::KEYWORD_ARG, "0.1", "Increment to change value by when the step buttons are pressed. Setting this to a value of 0 or smaller will turn off step buttons." });
-        args.push_back({ mvPyDataType::Double, "step_fast", mvArgType::KEYWORD_ARG, "1.0", "After holding the step buttons for extended time the increments will switch to this value." });
+        args.push_back({ mvPyDataType::Double, "step", mvArgType::KEYWORD_ARG, "0.1", "Increment to change value by when the step buttons are pressed. Setting this and step_fast to a value of 0 or less will turn off step buttons." });
+        args.push_back({ mvPyDataType::Double, "step_fast", mvArgType::KEYWORD_ARG, "1.0", "Increment to change value by when ctrl + step buttons are pressed. Setting this and step to a value of 0 or less will turn off step buttons." });
         args.push_back({ mvPyDataType::Bool, "min_clamped", mvArgType::KEYWORD_ARG, "False", "Activates and deactivates the enforcment of min_value." });
         args.push_back({ mvPyDataType::Bool, "max_clamped", mvArgType::KEYWORD_ARG, "False", "Activates and deactivates the enforcment of max_value." });
         args.push_back({ mvPyDataType::Bool, "on_enter", mvArgType::KEYWORD_ARG, "False", "Only runs callback on enter key press." });
         args.push_back({ mvPyDataType::Bool, "readonly", mvArgType::KEYWORD_ARG, "False", "Activates read only mode where no text can be input but text can still be highlighted." });
 
-        setup.about = "Adds input for an double. Useful when input float is not accurate enough.+/- buttons can be activated by setting the value of step.";
+        setup.about = "Adds input for an double. Useful when input float is not accurate enough. +/- buttons can be activated by setting the value of step.";
         break;
     }
     case mvAppItemType::mvInputInt:
@@ -2481,8 +2481,8 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Integer, "default_value", mvArgType::KEYWORD_ARG, "0" });
         args.push_back({ mvPyDataType::Integer, "min_value", mvArgType::KEYWORD_ARG, "0", "Value for lower limit of input. By default this limits the step buttons. Use min_clamped to limit manual input." });
         args.push_back({ mvPyDataType::Integer, "max_value", mvArgType::KEYWORD_ARG, "100", "Value for upper limit of input. By default this limits the step buttons. Use max_clamped to limit manual input." });
-        args.push_back({ mvPyDataType::Integer, "step", mvArgType::KEYWORD_ARG, "1", "Increment to change value by when the step buttons are pressed. Setting this to a value of 0 or smaller will turn off step buttons." });
-        args.push_back({ mvPyDataType::Integer, "step_fast", mvArgType::KEYWORD_ARG, "100", "After holding the step buttons for extended time the increments will switch to this value." });
+        args.push_back({ mvPyDataType::Integer, "step", mvArgType::KEYWORD_ARG, "1", "Increment to change value by when the step buttons are pressed. Setting this and step_fast to a value of 0 or less will turn off step buttons." });
+        args.push_back({ mvPyDataType::Integer, "step_fast", mvArgType::KEYWORD_ARG, "100", "Increment to change value by when ctrl + step buttons are pressed. Setting this and step to a value of 0 or less will turn off step buttons." });
         args.push_back({ mvPyDataType::Bool, "min_clamped", mvArgType::KEYWORD_ARG, "False", "Activates and deactivates the enforcment of min_value." });
         args.push_back({ mvPyDataType::Bool, "max_clamped", mvArgType::KEYWORD_ARG, "False", "Activates and deactivates the enforcment of max_value." });
         args.push_back({ mvPyDataType::Bool, "on_enter", mvArgType::KEYWORD_ARG, "False", "Only runs callback on enter key press." });

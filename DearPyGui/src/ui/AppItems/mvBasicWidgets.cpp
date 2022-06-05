@@ -5414,12 +5414,12 @@ DearPyGui::draw_input_double(ImDrawList* drawlist, mvAppItem& item, mvInputDoubl
 
 	//-----------------------------------------------------------------------------
 	// draw
-	//-----------------------------------------------------------------------------
+	//-----------------------------------------------------------------------------(void*)(step > 0 ? &step : NULL), (void*)(step_fast > 0 ? &step_fast : NULL)
 	{
 
 		ScopedID id(item.uuid);
 
-		if (ImGui::InputScalar(item.info.internalLabel.c_str(), ImGuiDataType_Double, (void*)config.value.get(), (void*)&config.step, (void*)&config.step_fast, config.format.c_str(), config.flags))
+		if (ImGui::InputScalar(item.info.internalLabel.c_str(), ImGuiDataType_Double, (void*)config.value.get(), (void*)(config.step > 0 ? &config.step : NULL), (void*)(config.step_fast > 0 ? &config.step_fast : NULL), config.format.c_str(), config.flags))
 		{
 			// determines clamped cases
 			if (config.min_clamped && config.max_clamped)
