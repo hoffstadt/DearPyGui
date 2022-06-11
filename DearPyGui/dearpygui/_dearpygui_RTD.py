@@ -4239,7 +4239,7 @@ def add_image_series(texture_tag, bounds_min, bounds_max, **kwargs):
 	return internal_dpg.add_image_series(texture_tag, bounds_min, bounds_max, **kwargs)
 
 def add_input_double(**kwargs):
-	"""	 Adds input for an double. Useful when input float is not accurate enough.+/- buttons can be activated by setting the value of step.
+	"""	 Adds input for an double. Useful when input float is not accurate enough. +/- buttons can be activated by setting the value of step.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -4265,8 +4265,8 @@ def add_input_double(**kwargs):
 		format (str, optional): Determines the format the float will be displayed as use python string formatting.
 		min_value (float, optional): Value for lower limit of input. By default this limits the step buttons. Use min_clamped to limit manual input.
 		max_value (float, optional): Value for upper limit of input. By default this limits the step buttons. Use max_clamped to limit manual input.
-		step (float, optional): Increment to change value by when the step buttons are pressed. Setting this to a value of 0 or smaller will turn off step buttons.
-		step_fast (float, optional): After holding the step buttons for extended time the increments will switch to this value.
+		step (float, optional): Increment to change value by when the step buttons are pressed. Setting this and step_fast to a value of 0 or less will turn off step buttons.
+		step_fast (float, optional): Increment to change value by when ctrl + step buttons are pressed. Setting this and step to a value of 0 or less will turn off step buttons.
 		min_clamped (bool, optional): Activates and deactivates the enforcment of min_value.
 		max_clamped (bool, optional): Activates and deactivates the enforcment of max_value.
 		on_enter (bool, optional): Only runs callback on enter key press.
@@ -4344,8 +4344,8 @@ def add_input_float(**kwargs):
 		format (str, optional): Determines the format the float will be displayed as use python string formatting.
 		min_value (float, optional): Value for lower limit of input. By default this limits the step buttons. Use min_clamped to limit manual input.
 		max_value (float, optional): Value for upper limit of input. By default this limits the step buttons. Use max_clamped to limit manual input.
-		step (float, optional): Increment to change value by when the step buttons are pressed. Setting this to a value of 0 or smaller will turn off step buttons.
-		step_fast (float, optional): After holding the step buttons for extended time the increments will switch to this value.
+		step (float, optional): Increment to change value by when the step buttons are pressed. Setting this and step_fast to a value of 0 or less will turn off step buttons.
+		step_fast (float, optional): Increment to change value by when ctrl + step buttons are pressed. Setting this and step to a value of 0 or less will turn off step buttons.
 		min_clamped (bool, optional): Activates and deactivates the enforcment of min_value.
 		max_clamped (bool, optional): Activates and deactivates the enforcment of max_value.
 		on_enter (bool, optional): Only runs callback on enter key press.
@@ -4422,8 +4422,8 @@ def add_input_int(**kwargs):
 		default_value (int, optional): 
 		min_value (int, optional): Value for lower limit of input. By default this limits the step buttons. Use min_clamped to limit manual input.
 		max_value (int, optional): Value for upper limit of input. By default this limits the step buttons. Use max_clamped to limit manual input.
-		step (int, optional): Increment to change value by when the step buttons are pressed. Setting this to a value of 0 or smaller will turn off step buttons.
-		step_fast (int, optional): After holding the step buttons for extended time the increments will switch to this value.
+		step (int, optional): Increment to change value by when the step buttons are pressed. Setting this and step_fast to a value of 0 or less will turn off step buttons.
+		step_fast (int, optional): Increment to change value by when ctrl + step buttons are pressed. Setting this and step to a value of 0 or less will turn off step buttons.
 		min_clamped (bool, optional): Activates and deactivates the enforcment of min_value.
 		max_clamped (bool, optional): Activates and deactivates the enforcment of max_value.
 		on_enter (bool, optional): Only runs callback on enter key press.

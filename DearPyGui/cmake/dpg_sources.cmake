@@ -67,7 +67,6 @@ set(MARVEL_SOURCES
 	"src/ui/AppItems/mvItemRegistry.cpp"
 	"src/ui/AppItems/containers/mvCollapsingHeader.cpp"
 	"src/ui/AppItems/containers/mvGroup.cpp"
-	"src/ui/AppItems/containers/mvChild.cpp"
 	"src/ui/AppItems/containers/mvTabBar.cpp"
 	"src/ui/AppItems/containers/mvTreeNode.cpp"
 	"src/ui/AppItems/containers/mvWindowAppItem.cpp"

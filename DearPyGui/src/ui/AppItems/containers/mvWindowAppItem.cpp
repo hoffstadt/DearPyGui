@@ -3,7 +3,6 @@
 #include "mvItemRegistry.h"
 #include "mvLog.h"
 #include "mvPythonExceptions.h"
-#include "mvChild.h"
 #include "mvFontItems.h"
 #include "mvThemes.h"
 #include "AppItems/mvItemHandlers.h"

@@ -233,8 +233,8 @@ set_x_scroll(PyObject* self, PyObject* args, PyObject* kwargs)
 	else if (window->type == mvAppItemType::mvChildWindow)
 	{
 		auto pChild = static_cast<mvChildWindow*>(window);
-
-		pChild->setScrollX(value);
+		pChild->configData.scrollX = value;
+		pChild->configData.scrollXSet = true;
 	}
 	else
 	{
@@ -279,8 +279,8 @@ set_y_scroll(PyObject* self, PyObject* args, PyObject* kwargs)
 	else if (window->type == mvAppItemType::mvChildWindow)
 	{
 		auto pChild = static_cast<mvChildWindow*>(window);
-
-		pChild->setScrollY(value);
+		pChild->configData.scrollY = value;
+		pChild->configData.scrollYSet = true;
 	}
 	else
 	{
@@ -324,7 +324,7 @@ get_x_scroll(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		auto pChild = static_cast<mvChildWindow*>(window);
 
-		return ToPyFloat(pChild->getScrollX());
+		return ToPyFloat(pChild->configData.scrollX);
 	}
 	else
 	{
@@ -368,7 +368,7 @@ get_y_scroll(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		auto pChild = static_cast<mvChildWindow*>(window);
 
-		return ToPyFloat(pChild->getScrollY());
+		return ToPyFloat(pChild->configData.scrollY);
 	}
 	else
 	{
@@ -412,7 +412,7 @@ get_x_scroll_max(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		auto pChild = static_cast<mvChildWindow*>(window);
 
-		return ToPyFloat(pChild->getScrollXMax());
+		return ToPyFloat(pChild->configData.scrollMaxX);
 	}
 	else
 	{
@@ -456,7 +456,7 @@ get_y_scroll_max(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		auto pChild = static_cast<mvChildWindow*>(window);
 
-		return ToPyFloat(pChild->getScrollYMax());
+		return ToPyFloat(pChild->configData.scrollMaxY);
 	}
 	else
 	{

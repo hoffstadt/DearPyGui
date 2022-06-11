@@ -63,6 +63,7 @@ struct mvColorMapConfig;
 struct mvColorMapButtonConfig;
 struct mvColorMapScaleConfig;
 struct mvColorMapSliderConfig;
+struct mvChildWindowConfig;
 
 // plots
 struct mvPlotConfig;

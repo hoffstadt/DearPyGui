@@ -23,7 +23,7 @@ DearPyGui::fill_configuration_dict(const mvMenuConfig& inConfig, PyObject* outDi
 }
 
 void
-DearPyGui::fill_configuration_dict(const mvTabConfig& inConfig, PyObject* outDict, mvAppItem& item)
+DearPyGui::fill_configuration_dict(const mvTabConfig& inConfig, PyObject* outDict)
 {
     if (outDict == nullptr)
         return;
@@ -49,9 +49,32 @@ DearPyGui::fill_configuration_dict(const mvTabConfig& inConfig, PyObject* outDic
 
 }
 
+void
+DearPyGui::fill_configuration_dict(const mvChildWindowConfig& inConfig, PyObject* outDict)
+{
+    if (outDict == nullptr)
+        return;
+
+    PyDict_SetItemString(outDict, "border", mvPyObject(ToPyBool(inConfig.border)));
+    PyDict_SetItemString(outDict, "autosize_x", mvPyObject(ToPyBool(inConfig.autosize_x)));
+    PyDict_SetItemString(outDict, "autosize_y", mvPyObject(ToPyBool(inConfig.autosize_y)));
+
+    // helper for bit flipping
+    auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)
+    {
+        PyDict_SetItemString(outDict, keyword, mvPyObject(ToPyBool(flags & flag)));
+    };
+
+    // window flags
+    checkbitset("no_scrollbar", ImGuiWindowFlags_NoScrollbar, inConfig.windowflags);
+    checkbitset("horizontal_scrollbar", ImGuiWindowFlags_HorizontalScrollbar, inConfig.windowflags);
+    checkbitset("menubar", ImGuiWindowFlags_MenuBar, inConfig.windowflags);
+}
+
 //-----------------------------------------------------------------------------
 // [SECTION] configure_item(...) specifics
 //-----------------------------------------------------------------------------
+
 void
 DearPyGui::set_configuration(PyObject* inDict, mvMenuConfig& outConfig, mvAppItem& itemc)
 {
@@ -63,7 +86,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvMenuConfig& outConfig, mvAppIte
 }
 
 void
-DearPyGui::set_configuration(PyObject* inDict, mvTabConfig& outConfig, mvAppItem& itemc)
+DearPyGui::set_configuration(PyObject* inDict, mvTabConfig& outConfig)
 {
     if (inDict == nullptr)
         return;
@@ -93,6 +116,29 @@ DearPyGui::set_configuration(PyObject* inDict, mvTabConfig& outConfig, mvAppItem
         else
             outConfig._flags &= ~ImGuiTabItemFlags_NoTooltip;
     }
+}
+
+void
+DearPyGui::set_configuration(PyObject* inDict, mvChildWindowConfig& outConfig)
+{
+    if (inDict == nullptr)
+        return;
+
+    if (PyObject* item = PyDict_GetItemString(inDict, "border")) outConfig.border = ToBool(item);
+    if (PyObject* item = PyDict_GetItemString(inDict, "autosize_x")) outConfig.autosize_x = ToBool(item);
+    if (PyObject* item = PyDict_GetItemString(inDict, "autosize_y")) outConfig.autosize_y = ToBool(item);
+
+    // helper for bit flipping
+    auto flagop = [inDict](const char* keyword, int flag, int& flags)
+    {
+        if (PyObject* item = PyDict_GetItemString(inDict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+    };
+
+    // window flags
+    flagop("no_scrollbar", ImGuiWindowFlags_NoScrollbar, outConfig.windowflags);
+    flagop("horizontal_scrollbar", ImGuiWindowFlags_HorizontalScrollbar, outConfig.windowflags);
+    flagop("menubar", ImGuiWindowFlags_MenuBar, outConfig.windowflags);
+
 }
 
 //-----------------------------------------------------------------------------
@@ -146,8 +192,6 @@ DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mvTabConfig& outC
     outConfig.value = *static_cast<std::shared_ptr<bool>*>(srcItem->getValue());
 }
 
-
-
 //-----------------------------------------------------------------------------
 // [SECTION] template specifics
 //-----------------------------------------------------------------------------
@@ -161,10 +205,20 @@ DearPyGui::apply_template(const mvTabConfig& sourceConfig, mvTabConfig& dstConfi
     dstConfig._flags = sourceConfig._flags;
 }
 
+void
+DearPyGui::apply_template(const mvChildWindowConfig& sourceConfig, mvChildWindowConfig& dstConfig)
+{
+    dstConfig.border = sourceConfig.border;
+    dstConfig.autosize_x = sourceConfig.autosize_x;
+    dstConfig.autosize_y = sourceConfig.autosize_y;
+    dstConfig.windowflags = sourceConfig.windowflags;
+}
+
 
 //-----------------------------------------------------------------------------
 // [SECTION] draw commands
 //-----------------------------------------------------------------------------
+
 void
 DearPyGui::draw_menu(ImDrawList* drawlist, mvAppItem& item, mvMenuConfig& config)
 {
@@ -414,6 +468,146 @@ DearPyGui::draw_tab(ImDrawList* drawlist, mvAppItem& item, mvTabConfig& config)
             item.state.rectSize = { ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y };
             item.state.contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
         }
+    }
+
+    //-----------------------------------------------------------------------------
+    // post draw
+    //-----------------------------------------------------------------------------
+
+    // set cursor position to cached position
+    if (item.info.dirtyPos)
+        ImGui::SetCursorPos(previousCursorPos);
+
+    if (item.config.indent > 0.0f)
+        ImGui::Unindent(item.config.indent);
+
+    // pop font off stack
+    if (item.font)
+        ImGui::PopFont();
+
+    // handle popping themes
+    cleanup_local_theming(&item);
+
+    if (item.handlerRegistry)
+        item.handlerRegistry->checkEvents(&item.state);
+
+    // handle drag & drop if used
+    apply_drag_drop(&item);
+}
+
+void
+DearPyGui::draw_child_window(ImDrawList* drawlist, mvAppItem& item, mvChildWindowConfig& config)
+{
+    //-----------------------------------------------------------------------------
+    // pre draw
+    //-----------------------------------------------------------------------------
+
+    // show/hide
+    if (!item.config.show)
+        return;
+
+    // focusing
+    if (item.info.focusNextFrame)
+    {
+        ImGui::SetKeyboardFocusHere();
+        item.info.focusNextFrame = false;
+    }
+
+    // cache old cursor position
+    ImVec2 previousCursorPos = ImGui::GetCursorPos();
+
+    // set cursor position if user set
+    if (item.info.dirtyPos)
+        ImGui::SetCursorPos(item.state.pos);
+
+    // update widget's position state
+    item.state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
+
+    // set item width
+    if (item.config.width != 0)
+        ImGui::SetNextItemWidth((float)item.config.width);
+
+    // set indent
+    if (item.config.indent > 0.0f)
+        ImGui::Indent(item.config.indent);
+
+    // push font if a font object is attached
+    if (item.font)
+    {
+        ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
+        ImGui::PushFont(fontptr);
+    }
+
+    // themes
+    apply_local_theming(&item);
+
+    //-----------------------------------------------------------------------------
+    // draw
+    //-----------------------------------------------------------------------------
+    {
+        ScopedID id(item.uuid);
+
+        ImGui::BeginChild(item.info.internalLabel.c_str(), ImVec2(config.autosize_x ? 0 : (float)item.config.width, config.autosize_y ? 0 : (float)item.config.height), config.border, config.windowflags);
+        item.state.lastFrameUpdate = GContext->frame;
+        item.state.active = ImGui::IsItemActive();
+        item.state.deactivated = ImGui::IsItemDeactivated();
+        item.state.focused = ImGui::IsWindowFocused();
+        item.state.hovered = ImGui::IsWindowHovered();
+        item.state.rectSize = { ImGui::GetWindowWidth(), ImGui::GetWindowHeight() };
+        item.state.contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
+
+        for (auto& child : item.childslots[1])
+        {
+
+            child->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
+            if (child->config.tracked)
+            {
+                ImGui::SetScrollHereX(child->config.trackOffset);
+                ImGui::SetScrollHereY(child->config.trackOffset);
+            }
+
+        }
+
+        if (config.scrollXSet)
+        {
+            if (config.scrollX < 0.0f)
+                ImGui::SetScrollHereX(1.0f);
+            else
+                ImGui::SetScrollX(config.scrollX);
+            config.scrollXSet = false;
+        }
+
+        if (config.scrollYSet)
+        {
+            if (config.scrollY < 0.0f)
+                ImGui::SetScrollHereY(1.0f);
+            else
+                ImGui::SetScrollY(config.scrollY);
+            config.scrollYSet = false;
+        }
+
+        // allows this item to have a render callback
+        if (ImGui::IsWindowFocused(ImGuiFocusedFlags_ChildWindows))
+        {
+
+            // update mouse
+            ImVec2 mousePos = ImGui::GetMousePos();
+            float x = mousePos.x - ImGui::GetWindowPos().x;
+            float y = mousePos.y - ImGui::GetWindowPos().y;
+            GContext->input.mousePos.x = (int)x;
+            GContext->input.mousePos.y = (int)y;
+
+            if (GContext->itemRegistry->activeWindow != item.uuid)
+                GContext->itemRegistry->activeWindow = item.uuid;
+
+        }
+
+        config.scrollX = ImGui::GetScrollX();
+        config.scrollY = ImGui::GetScrollY();
+        config.scrollMaxX = ImGui::GetScrollMaxX();
+        config.scrollMaxY = ImGui::GetScrollMaxY();
+
+        ImGui::EndChild();
     }
 
     //-----------------------------------------------------------------------------
