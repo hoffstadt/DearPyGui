@@ -64,6 +64,12 @@ struct mvColorMapButtonConfig;
 struct mvColorMapScaleConfig;
 struct mvColorMapSliderConfig;
 struct mvChildWindowConfig;
+struct mvTreeNodeConfig;
+struct mvGroupConfig;
+struct mvDragPayloadConfig;
+struct mvCollapsingHeaderConfig;
+struct mvTabBarConfig;
+struct mvWindowAppItemConfig;
 
 // plots
 struct mvPlotConfig;

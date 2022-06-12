@@ -227,14 +227,14 @@ set_x_scroll(PyObject* self, PyObject* args, PyObject* kwargs)
 
 		auto pWindow = static_cast<mvWindowAppItem*>(window);
 
-		pWindow->_scrollX = value;
-		pWindow->_scrollXSet = true;
+		pWindow->configData.scrollX = value;
+		pWindow->configData._scrollXSet = true;
 	}
 	else if (window->type == mvAppItemType::mvChildWindow)
 	{
 		auto pChild = static_cast<mvChildWindow*>(window);
 		pChild->configData.scrollX = value;
-		pChild->configData.scrollXSet = true;
+		pChild->configData._scrollXSet = true;
 	}
 	else
 	{
@@ -273,14 +273,14 @@ set_y_scroll(PyObject* self, PyObject* args, PyObject* kwargs)
 
 		auto pWindow = static_cast<mvWindowAppItem*>(window);
 
-		pWindow->_scrollY = value;
-		pWindow->_scrollYSet = true;
+		pWindow->configData.scrollY = value;
+		pWindow->configData._scrollYSet = true;
 	}
 	else if (window->type == mvAppItemType::mvChildWindow)
 	{
 		auto pChild = static_cast<mvChildWindow*>(window);
 		pChild->configData.scrollY = value;
-		pChild->configData.scrollYSet = true;
+		pChild->configData._scrollYSet = true;
 	}
 	else
 	{
@@ -318,7 +318,7 @@ get_x_scroll(PyObject* self, PyObject* args, PyObject* kwargs)
 
 		auto pWindow = static_cast<mvWindowAppItem*>(window);
 
-		return ToPyFloat(pWindow->_scrollX);
+		return ToPyFloat(pWindow->configData.scrollX);
 	}
 	else if (window->type == mvAppItemType::mvChildWindow)
 	{
@@ -362,7 +362,7 @@ get_y_scroll(PyObject* self, PyObject* args, PyObject* kwargs)
 
 		auto pWindow = static_cast<mvWindowAppItem*>(window);
 
-		return ToPyFloat(pWindow->_scrollY);
+		return ToPyFloat(pWindow->configData.scrollY);
 	}
 	else if (window->type == mvAppItemType::mvChildWindow)
 	{
@@ -406,7 +406,7 @@ get_x_scroll_max(PyObject* self, PyObject* args, PyObject* kwargs)
 
 		auto pWindow = static_cast<mvWindowAppItem*>(window);
 
-		return ToPyFloat(pWindow->_scrollMaxX);
+		return ToPyFloat(pWindow->configData.scrollMaxX);
 	}
 	else if (window->type == mvAppItemType::mvChildWindow)
 	{
@@ -450,7 +450,7 @@ get_y_scroll_max(PyObject* self, PyObject* args, PyObject* kwargs)
 
 		auto pWindow = static_cast<mvWindowAppItem*>(window);
 
-		return ToPyFloat(pWindow->_scrollMaxY);
+		return ToPyFloat(pWindow->configData.scrollMaxY);
 	}
 	else if (window->type == mvAppItemType::mvChildWindow)
 	{
@@ -2882,27 +2882,72 @@ set_primary_window(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 
-	mvWindowAppItem* window = GetWindow(*GContext->itemRegistry, item);
+	{
+		mvWindowAppItem* window = GetWindow(*GContext->itemRegistry, item);
 
-	if (window)
-	{
-		if (window->getWindowAsMainStatus() == (bool)value)
-			return GetPyNone();
+		if (window)
+		{
+			if (window->configData.mainWindow == (bool)value)
+				return GetPyNone();
+			else
+			{
+				window->configData.mainWindow = value;
+				if (value)
+				{
+					window->configData._oldWindowflags = window->configData.windowflags;
+					window->configData.windowflags = ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoSavedSettings
+						| ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar;
+
+					if (window->configData._oldWindowflags & ImGuiWindowFlags_MenuBar)
+						window->configData.windowflags |= ImGuiWindowFlags_MenuBar;
+					window->configData._oldxpos = window->state.pos.x;
+					window->configData._oldypos = window->state.pos.y;
+					window->configData._oldWidth = window->config.width;
+					window->configData._oldHeight = window->config.height;
+				}
+				else
+				{
+					window->info.focusNextFrame = true;
+					if (window->configData.windowflags & ImGuiWindowFlags_MenuBar)
+						window->configData._oldWindowflags |= ImGuiWindowFlags_MenuBar;
+					window->configData.windowflags = window->configData._oldWindowflags;
+					if (window->configData.windowflags & ImGuiWindowFlags_MenuBar)
+						window->configData.windowflags |= ImGuiWindowFlags_MenuBar;
+					window->state.pos = { window->configData._oldxpos , window->configData._oldypos };
+					window->config.width = window->configData._oldWidth;
+					window->config.height = window->configData._oldHeight;
+					window->info.dirtyPos = true;
+					window->info.dirty_size = true;
+				}
+			}
+		}
 		else
-			window->setWindowAsMainStatus(value);
-	}
-	else
-	{
-		mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_primary_window",
-			"Item not found: " + std::to_string(item), nullptr);
-		assert(false);
+		{
+			mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_primary_window",
+				"Item not found: " + std::to_string(item), nullptr);
+			assert(false);
+		}
 	}
 
 	// reset other windows
 	for (auto& window : GContext->itemRegistry->windowRoots)
 	{
 		if (window->uuid != item)
-			static_cast<mvWindowAppItem*>(window.get())->setWindowAsMainStatus(false);
+		{
+			mvWindowAppItem* windowActual = static_cast<mvWindowAppItem*>(window.get());
+			windowActual->configData.mainWindow = false;
+			window->info.focusNextFrame = true;
+			if (windowActual->configData.windowflags & ImGuiWindowFlags_MenuBar)
+				windowActual->configData._oldWindowflags |= ImGuiWindowFlags_MenuBar;
+			windowActual->configData.windowflags = windowActual->configData._oldWindowflags;
+			if (windowActual->configData.windowflags & ImGuiWindowFlags_MenuBar)
+				windowActual->configData.windowflags |= ImGuiWindowFlags_MenuBar;
+			window->state.pos = { windowActual->configData._oldxpos , windowActual->configData._oldypos };
+			window->config.width = windowActual->configData._oldWidth;
+			window->config.height = windowActual->configData._oldHeight;
+			window->info.dirtyPos = true;
+			window->info.dirty_size = true;
+		}
 	}
 
 	return GetPyNone();

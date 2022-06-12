@@ -2,7 +2,7 @@
 #include "mvLoadingIndicatorCustom.h"
 #include "AppItems/mvFontItems.h"
 #include "AppItems/mvThemes.h"
-#include "AppItems/containers/mvDragPayload.h"
+#include "AppItems/mvContainers.h"
 #include "AppItems/mvItemHandlers.h"
 
 void mvLoadingIndicator::applySpecificTemplate(mvAppItem* item)
