@@ -5365,7 +5365,8 @@ DearPyGui::OnChildAdded(mvAppItem* item, mvRef<mvAppItem> child)
     case mvAppItemType::mvWindowAppItem:
     {
         mvWindowAppItem* actualItem = (mvWindowAppItem*)item;
-        actualItem->onChildAdd(child);
+        if (child->type == mvAppItemType::mvMenuBar)
+            actualItem->configData.windowflags &= ~ImGuiWindowFlags_MenuBar;
         return;
     }
 
@@ -5415,7 +5416,8 @@ DearPyGui::OnChildRemoved(mvAppItem* item, mvRef<mvAppItem> child)
     case mvAppItemType::mvWindowAppItem:
     {
         mvWindowAppItem* actualItem = (mvWindowAppItem*)item;
-        actualItem->onChildRemoved(child);
+        if (child->type == mvAppItemType::mvMenuBar)
+            actualItem->configData.windowflags &= ~ImGuiWindowFlags_MenuBar;
         return;
     }
 
