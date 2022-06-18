@@ -75,7 +75,7 @@ elseif(APPLE)
 
 else() # Linux
 
-	target_link_directories(DearSandbox PRIVATE ../Dependencies/cpython/build/debug)
+	target_link_directories(DearSandbox PRIVATE ../thirdparty/cpython/build/debug)
 
 	target_link_libraries(DearSandbox
 
