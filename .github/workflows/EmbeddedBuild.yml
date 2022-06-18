@@ -79,6 +79,7 @@ jobs:
         cd $GITHUB_WORKSPACE
         cd thirdparty/cpython
         mkdir -p build/debug
+        chmod +x configure
         cd build/debug
         ../../configure --with-pydebug --enable-shared --prefix=$(pwd) LDFLAGS=-Wl,-rpath,$(pwd)
         make
@@ -117,13 +118,10 @@ jobs:
     - name: Build Python
       run: |
         cd $GITHUB_WORKSPACE
-        ls
         cd thirdparty/cpython
-        ls
         mkdir -p build/debug
-        ls
+        chmod +x configure
         cd build/debug
-        ls
         ../../configure --with-pydebug --enable-shared
         make
 
