@@ -127,12 +127,12 @@ def setup_package():
 
     # copy add items to temporary location
     if os.environ.get('READTHEDOCS') == 'True':
-        shutil.copy(src_path + "/DearPyGui/dearpygui/_dearpygui_RTD.py", src_path + "/output/dearpygui")
+        shutil.copy(src_path + "/dearpygui/_dearpygui_RTD.py", src_path + "/output/dearpygui")
     else:
-        shutil.copy(src_path + "/DearPyGui/dearpygui/dearpygui.py", src_path + "/output/dearpygui")
+        shutil.copy(src_path + "/dearpygui/dearpygui.py", src_path + "/output/dearpygui")
 
-    shutil.copy(src_path + "/DearPyGui/dearpygui/demo.py", src_path + "/output/dearpygui")
-    shutil.copy(src_path + "/DearPyGui/dearpygui/experimental.py", src_path + "/output/dearpygui")
+    shutil.copy(src_path + "/dearpygui/demo.py", src_path + "/output/dearpygui")
+    shutil.copy(src_path + "/dearpygui/experimental.py", src_path + "/output/dearpygui")
 
     with open(src_path + "/output/dearpygui/__init__.py", 'w') as file:
         file.write("__version__='" + version_number() + "'\n")
@@ -141,7 +141,7 @@ def setup_package():
 
         os.rename(src_path + "/output/dearpygui/_dearpygui_RTD.py", src_path + "/output/dearpygui/dearpygui.py")
         with open(src_path + "/output/dearpygui/_dearpygui.py", 'w') as newfile:
-            with open(src_path + "/DearPyGui/dearpygui/_dearpygui.pyi", 'r') as file:
+            with open(src_path + "/dearpygui/_dearpygui.pyi", 'r') as file:
                 lines = file.readlines()
                 for line in lines:
                     if line.__contains__("...") and not line.__contains__("["):
@@ -155,9 +155,9 @@ def setup_package():
     else:
 
         # copy add items to temporary location
-        shutil.copy(src_path + "/DearPyGui/dearpygui/_dearpygui.pyi", src_path + "/output/dearpygui")
+        shutil.copy(src_path + "/dearpygui/_dearpygui.pyi", src_path + "/output/dearpygui")
         if get_platform() == "Windows":
-            shutil.copy(src_path + "/Dependencies/Microsoft/vcruntime140_1.dll", src_path + "/output/dearpygui")
+            shutil.copy(src_path + "/thirdparty/Microsoft/vcruntime140_1.dll", src_path + "/output/dearpygui")
 
     metadata = dict(
         name='dearpygui',                                      # Required

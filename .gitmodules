@@ -1,18 +1,18 @@
-[submodule "Dependencies/imgui"]
-	path = Dependencies/imgui
+[submodule "thirdparty/imgui"]
+	path = thirdparty/imgui
 	url = https://github.com/ocornut/imgui
 	branch = master
-[submodule "Dependencies/cpython"]
-	path = Dependencies/cpython
+[submodule "thirdparty/cpython"]
+	path = thirdparty/cpython
 	url = https://github.com/python/cpython
 	branch = master
-[submodule "Dependencies/glfw"]
-	path = Dependencies/glfw
+[submodule "thirdparty/glfw"]
+	path = thirdparty/glfw
 	url = https://github.com/glfw/glfw
 	branch = master
-[submodule "Dependencies/freetype"]
-	path = Dependencies/freetype
+[submodule "thirdparty/freetype"]
+	path = thirdparty/freetype
 	url = https://gitlab.freedesktop.org/freetype/freetype
-[submodule "Dependencies/DearPyGui_Ext"]
-	path = Dependencies/DearPyGui_Ext
+[submodule "thirdparty/DearPyGui_Ext"]
+	path = thirdparty/DearPyGui_Ext
 	url = https://github.com/hoffstadt/DearPyGui_Ext

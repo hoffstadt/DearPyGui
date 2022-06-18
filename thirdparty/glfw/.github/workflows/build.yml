@@ -1,0 +1,116 @@
+name: Build
+on:
+    pull_request:
+    push:
+        branches: [ ci, master, latest, 3.3-stable ]
+permissions:
+    statuses: write
+    contents: read
+
+jobs:
+    build-linux-x11-clang:
+        name: X11 (Linux, Clang)
+        runs-on: ubuntu-latest
+        env:
+            CC: clang
+            CFLAGS: -Werror
+        steps:
+            - uses: actions/checkout@v2
+            - name: Install dependencies
+              run: |
+                  sudo apt update
+                  sudo apt install libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev libxext-dev
+
+            - name: Configure static library
+              run: cmake -S . -B build-static
+            - name: Build static library
+              run: cmake --build build-static --parallel
+
+            - name: Configure shared library
+              run: cmake -S . -B build-shared -D BUILD_SHARED_LIBS=ON
+            - name: Build shared library
+              run: cmake --build build-shared --parallel
+
+    build-linux-wayland-clang:
+        name: Wayland (Linux, Clang)
+        runs-on: ubuntu-latest
+        env:
+            CC: clang
+            CFLAGS: -Werror
+        steps:
+            - uses: actions/checkout@v2
+            - name: Install dependencies
+              run: |
+                  sudo apt update
+                  sudo apt install wayland-protocols libwayland-dev libxkbcommon-dev extra-cmake-modules
+
+            - name: Configure static library
+              run: cmake -S . -B build-static -D GLFW_USE_WAYLAND=ON
+            - name: Build static library
+              run: cmake --build build-static --parallel
+
+            - name: Configure shared library
+              run: cmake -S . -B build-shared -D GLFW_USE_WAYLAND=ON -D BUILD_SHARED_LIBS=ON
+            - name: Build shared library
+              run: cmake --build build-shared --parallel
+
+    build-linux-null-clang:
+        name: Null (Linux, Clang)
+        runs-on: ubuntu-latest
+        env:
+            CC: clang
+            CFLAGS: -Werror
+        steps:
+            - uses: actions/checkout@v2
+            - name: Install dependencies
+              run: |
+                  sudo apt update
+                  sudo apt install libosmesa6-dev
+
+            - name: Configure static library
+              run: cmake -S . -B build-static -D GLFW_USE_OSMESA=ON
+            - name: Build static library
+              run: cmake --build build-static --parallel
+
+            - name: Configure shared library
+              run: cmake -S . -B build-shared -D GLFW_USE_OSMESA=ON -D BUILD_SHARED_LIBS=ON
+            - name: Build shared library
+              run: cmake --build build-shared --parallel
+
+    build-macos-cocoa-clang:
+        name: Cocoa (macOS, Clang)
+        runs-on: macos-latest
+        env:
+            CFLAGS: -Werror
+            MACOSX_DEPLOYMENT_TARGET: 10.8
+        steps:
+            - uses: actions/checkout@v2
+
+            - name: Configure static library
+              run: cmake -S . -B build-static
+            - name: Build static library
+              run: cmake --build build-static --parallel
+
+            - name: Configure shared library
+              run: cmake -S . -B build-shared -D BUILD_SHARED_LIBS=ON
+            - name: Build shared library
+              run: cmake --build build-shared --parallel
+
+    build-windows-win32-vs2022:
+        name: Win32 (Windows, VS2022)
+        runs-on: windows-latest
+        env:
+            CFLAGS: /WX
+        steps:
+            - uses: actions/checkout@v2
+
+            - name: Configure static library
+              run: cmake -S . -B build-static -G "Visual Studio 17 2022"
+            - name: Build static library
+              run: cmake --build build-static --parallel
+
+            - name: Configure shared library
+              run: cmake -S . -B build-shared -G "Visual Studio 17 2022" -D BUILD_SHARED_LIBS=ON
+            - name: Build shared library
+              run: cmake --build build-shared --parallel
+
