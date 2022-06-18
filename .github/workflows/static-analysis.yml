@@ -49,6 +49,7 @@ jobs:
           sudo apt-get install libgl1-mesa-dev
           sudo apt-get install xorg-dev
           cd thirdparty/cpython
+          chmod +x configure
           mkdir -p build/debug
           cd build/debug
           ../../configure --with-pydebug --enable-shared
