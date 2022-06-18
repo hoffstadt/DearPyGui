@@ -14,9 +14,8 @@ on:
 
     paths-ignore:
       - 'docs/**'
-      - 'Resources/**'
-      - 'Scripts/**'
-      - 'Tools/**'
+      - 'assets/**'
+      - 'scripts/**'
 
   pull_request:
 
@@ -78,7 +77,7 @@ jobs:
     - name: Build Python
       run: |
         cd $GITHUB_WORKSPACE
-        cd Dependencies/cpython
+        cd thirdparty/cpython
         mkdir -p build/debug
         cd build/debug
         ../../configure --with-pydebug --enable-shared --prefix=$(pwd) LDFLAGS=-Wl,-rpath,$(pwd)
@@ -113,12 +112,12 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE
         sudo apt-get update 
-        sudo apt-get install libgl1-mesa-dev xorg-dev libfreetype6-dev
+        sudo apt-get install libgl1-mesa-dev xorg-dev
     
     - name: Build Python
       run: |
         cd $GITHUB_WORKSPACE
-        cd Dependencies/cpython
+        cd thirdparty/cpython
         mkdir -p build/debug
         cd build/debug
         ../../configure --with-pydebug --enable-shared

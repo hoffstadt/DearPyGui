@@ -51,8 +51,8 @@ jobs:
     - name: Retrieve submodules
       shell: cmd
       run: |
-        git submodule update --init --recursive ./Dependencies/imgui
-        git submodule update --init --recursive ./Dependencies/freetype
+        git submodule update --init --recursive ./thirdparty/imgui
+        git submodule update --init --recursive ./thirdparty/freetype
       
     - name: Mark Versions
       shell: cmd
@@ -93,9 +93,8 @@ jobs:
 
     - name: Retrieve submodules
       run: |
-        git submodule update --init --recursive ./Dependencies/imgui
-        git submodule update --init --recursive ./Dependencies/freetype
-        git submodule update --init --recursive ./Dependencies/glfw
+        git submodule update --init --recursive ./thirdparty/imgui
+        git submodule update --init --recursive ./thirdparty/glfw
     
     - name: Mark Versions
       run: |
@@ -136,13 +135,10 @@ jobs:
 
     - name: Retrieve submodules/Dependencies
       run: |
-        git submodule update --init --recursive ./Dependencies/imgui
-        git submodule update --init --recursive ./Dependencies/freetype
-        git submodule update --init --recursive ./Dependencies/glfw
+        git submodule update --init --recursive ./thirdparty/imgui
+        git submodule update --init --recursive ./thirdparty/glfw
         sudo apt-get update
         sudo apt-get install libglu1-mesa-dev libgl1-mesa-dev xorg-dev libxrandr-dev -y
-        sudo apt-get install libfreetype6-dev -y
-        sudo apt-get install libharfbuzz-dev -y
     
     - name: Mark Versions
       run: |
