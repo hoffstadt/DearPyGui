@@ -117,9 +117,13 @@ jobs:
     - name: Build Python
       run: |
         cd $GITHUB_WORKSPACE
+        ls
         cd thirdparty/cpython
+        ls
         mkdir -p build/debug
+        ls
         cd build/debug
+        ls
         ../../configure --with-pydebug --enable-shared
         make
 
