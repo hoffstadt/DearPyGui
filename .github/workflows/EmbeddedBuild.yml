@@ -41,7 +41,7 @@ jobs:
       shell: cmd
       run: |
         cd %GITHUB_WORKSPACE%
-        cd Scripts
+        cd scripts
         call BuildPythonForWindows.bat --ci
         
     - name: Build DearPyGui
@@ -80,7 +80,7 @@ jobs:
         cd thirdparty/cpython
         mkdir -p build/debug
         cd build/debug
-        sudo ../../configure --with-pydebug --enable-shared --prefix=$(pwd) LDFLAGS=-Wl,-rpath,$(pwd)
+        ../../configure --with-pydebug --enable-shared --prefix=$(pwd) LDFLAGS=-Wl,-rpath,$(pwd)
         make
         make install
 
@@ -120,7 +120,7 @@ jobs:
         cd thirdparty/cpython
         mkdir -p build/debug
         cd build/debug
-        sudo ../../configure --with-pydebug --enable-shared
+        ../../configure --with-pydebug --enable-shared
         make
 
     - name: Build DearPyGui
