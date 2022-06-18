@@ -14,9 +14,8 @@ on:
 
     paths-ignore:
       - 'docs/**'
-      - 'Resources/**'
-      - 'Scripts/**'
-      - 'Tools/**'
+      - 'assets/**'
+      - 'scripts/**'
 
   pull_request:
 
@@ -42,7 +41,7 @@ jobs:
       shell: cmd
       run: |
         cd %GITHUB_WORKSPACE%
-        cd Scripts
+        cd scripts
         call BuildPythonForWindows.bat --ci
         
     - name: Build DearPyGui
@@ -78,8 +77,9 @@ jobs:
     - name: Build Python
       run: |
         cd $GITHUB_WORKSPACE
-        cd Dependencies/cpython
+        cd thirdparty/cpython
         mkdir -p build/debug
+        chmod +x configure
         cd build/debug
         ../../configure --with-pydebug --enable-shared --prefix=$(pwd) LDFLAGS=-Wl,-rpath,$(pwd)
         make
@@ -113,13 +113,14 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE
         sudo apt-get update 
-        sudo apt-get install libgl1-mesa-dev xorg-dev libfreetype6-dev
+        sudo apt-get install libgl1-mesa-dev xorg-dev
     
     - name: Build Python
       run: |
         cd $GITHUB_WORKSPACE
-        cd Dependencies/cpython
+        cd thirdparty/cpython
         mkdir -p build/debug
+        chmod +x configure
         cd build/debug
         ../../configure --with-pydebug --enable-shared
         make

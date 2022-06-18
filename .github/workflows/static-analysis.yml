@@ -10,9 +10,8 @@ on:
 
     paths-ignore:
       - 'docs/**'
-      - 'Resources/**'
-      - 'Scripts/**'
-      - 'Tools/**'
+      - 'assets/**'
+      - 'scripts/**'
 
   pull_request:
   workflow_dispatch:
@@ -49,8 +48,8 @@ jobs:
           sudo apt-get update
           sudo apt-get install libgl1-mesa-dev
           sudo apt-get install xorg-dev
-          sudo apt-get install libfreetype6-dev
-          cd Dependencies/cpython
+          cd thirdparty/cpython
+          chmod +x configure
           mkdir -p build/debug
           cd build/debug
           ../../configure --with-pydebug --enable-shared
@@ -70,7 +69,7 @@ jobs:
           cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=On
           cd ..
           pvs-studio-analyzer trace -- cmake --build cmake-build-debug --config Debug
-          pvs-studio-analyzer analyze -e ./Dependencies -e ./DearPyGui/vendor -e ./DearPyGui/src/core/AppItems/custom/mvTextEditor.cpp -l pvs-studio.lic -o pvs-studio.log
+          pvs-studio-analyzer analyze -e ./thirdparty -l pvs-studio.lic -o pvs-studio.log
           plog-converter -a 'GA:1,2;OP:1' -t fullhtml -o pvs-studio.html -w pvs-studio.log
 
       - name: Archive code coverage results

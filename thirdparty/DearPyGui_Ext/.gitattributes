@@ -1,0 +1,25 @@
+*.py   text diff=python
+*.pyi  text diff=python
+*.c    text diff=c
+*.cpp  text diff=cpp
+*.hpp  text diff=cpp
+*.h    text diff=c
+*.m    text diff=objc
+*.mm   text
+*.bat  text
+*.md   text
+*.txt  text
+*.html text
+*.sh   text eol=lf
+*.yml  text
+*.ttf  binary
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.tif  binary
+*.tiff binary
+*.ico  binary
+
+.gitattributes export-ignore
+.gitignore     export-ignore
