@@ -100,7 +100,7 @@ dpg.destroy_context()
 <p align="center"><a href="https://dearpygui.readthedocs.io/en/latest/tutorials/first-steps.html#first-run"><img src="https://raw.githubusercontent.com/hoffstadt/DearPyGui/assets/readme/first_app.gif" alt="Dear PyGui example window"></a></p>
                                                                                            
 ## Demo
-The built-in demo shows all of Dear PyGui's functionality. Use [this code](https://dearpygui.readthedocs.io/en/latest/tutorials/first-steps.html#demo) to run the demo. The following impression shows a few, but not nearly all, of the available widgets and features. Since the Python code of the demo can be <a href="https://github.com/hoffstadt/DearPyGui/blob/master/DearPyGui/dearpygui/demo.py" alt="demo code repository">inspected</a>, you can leverage the demo code to build your own apps.
+The built-in demo shows all of Dear PyGui's functionality. Use [this code](https://dearpygui.readthedocs.io/en/latest/tutorials/first-steps.html#demo) to run the demo. The following impression shows a few, but not nearly all, of the available widgets and features. Since the Python code of the demo can be <a href="https://github.com/hoffstadt/DearPyGui/blob/master/dearpygui/demo.py" alt="demo code repository">inspected</a>, you can leverage the demo code to build your own apps.
 <br/><br/>
 <p align="center"><a href="https://dearpygui.readthedocs.io/en/latest/tutorials/first-steps.html#demo"><img src="https://raw.githubusercontent.com/hoffstadt/DearPyGui/assets/readme/demo.gif" alt="Dear PyGui demo"></a></p>
   
