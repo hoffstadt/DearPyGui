@@ -86,7 +86,7 @@ This is an example of a window made into a typical dialog.
 
     dpg.create_context()
 
-    with dpg.window(label="Delete Files", modal=True, show=False, id="modal_id", no_title_bar=True):
+    with dpg.window(label="Delete Files", modal=True, show=False, tag="modal_id", no_title_bar=True):
         dpg.add_text("All those beautiful files will be deleted.\nThis operation cannot be undone!")
         dpg.add_separator()
         dpg.add_checkbox(label="Don't ask me next time")
