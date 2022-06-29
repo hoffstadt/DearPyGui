@@ -91,7 +91,7 @@ User data can be any python object.
 Debugging Callbacks (new in 1.2)
 --------------------------------
 
-Because callbacks are not ran on the main thread, debugging can be a hastle.
+Because callbacks are not run on the main thread, debugging can be a hassle.
 In 1.2 we added a few utilities to help with this. 
 
 By default, Dear PyGui handles the callbacks internally on a worker thread. This allows for 
