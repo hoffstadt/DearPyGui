@@ -88,8 +88,6 @@ static bool SliderScalar3D(char const* pLabel, float* pValueX, float* pValueY, f
 	float const fDeltaY = fMaxY - fMinY;
 	float const fDeltaZ = fMaxZ - fMinZ;
 
-	//const vOriginPos = ImGui::GetCursorScreenPos();
-
 	ImDrawList* pDrawList = ImGui::GetWindowDrawList();
 
 	float const fX3 = vSize.x / 3.0f;

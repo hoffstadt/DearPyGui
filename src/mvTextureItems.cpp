@@ -202,11 +202,6 @@ void mvRawTexture::setPyValue(PyObject* value)
 		if (!PyObject_GetBuffer(value, &buffer_info,
 			PyBUF_CONTIG_RO | PyBUF_FORMAT))
 		{
-            if (!buffer_info.format || *buffer_info.format != 'f')
-            {
-				mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(type),
-                    "Texture buffer type must be single-precision floating point", this);
-            }
 			_value = buffer_info.buf;
 			if (_value == nullptr)
 			{

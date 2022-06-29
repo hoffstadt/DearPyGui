@@ -566,7 +566,7 @@ apply_transform(PyObject* self, PyObject* args, PyObject* kwargs)
 mv_internal mv_python_function
 create_rotation_matrix(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	static mvMat4 identity = mvIdentityMat4();
+	mv_local_persist mvMat4 identity = mvIdentityMat4();
 	float angle = 0.0f;
 	PyObject* axis;
 
@@ -2424,7 +2424,6 @@ render_dearpygui_frame(PyObject* self, PyObject* args, PyObject* kwargs)
 	MV_PROFILE_SCOPE("Frame")
 
 	Py_BEGIN_ALLOW_THREADS;
-	//auto window = GContext->viewport;
 	mvRenderFrame();
 	Py_END_ALLOW_THREADS;
 
@@ -3891,7 +3890,7 @@ get_item_state(PyObject* self, PyObject* args, PyObject* kwargs)
 mv_internal mv_python_function
 get_item_types(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-
+    //ABELL - This seems to be a pointless lock. Seems like there are lots of them.
 	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
 	PyObject* pdict = PyDict_New();
