@@ -73,7 +73,7 @@ static bool SliderScalar3D(char const* pLabel, float* pValueX, float* pValueY, f
 	ImVec2 vPos = ImGui::GetCursorScreenPos();
 	ImRect oRect(vPos + vHeightOffset, vPos + vSize + vHeightOffset);
 
-	ImGui::Text(pLabel);
+	ImGui::Text("%s", pLabel);
 
 	ImGui::PushID(iID);
 
@@ -88,7 +88,7 @@ static bool SliderScalar3D(char const* pLabel, float* pValueX, float* pValueY, f
 	float const fDeltaY = fMaxY - fMinY;
 	float const fDeltaZ = fMaxZ - fMinZ;
 
-	ImVec2 const vOriginPos = ImGui::GetCursorScreenPos();
+	//const vOriginPos = ImGui::GetCursorScreenPos();
 
 	ImDrawList* pDrawList = ImGui::GetWindowDrawList();
 
@@ -209,7 +209,6 @@ static bool SliderScalar3D(char const* pLabel, float* pValueX, float* pValueY, f
 
 	ImVec2 const vXSize = ImGui::CalcTextSize(pBufferX);
 	ImVec2 const vYSize = ImGui::CalcTextSize(pBufferY);
-	ImVec2 const vZSize = ImGui::CalcTextSize(pBufferZ);
 
 	ImVec2 const vTextSlideXMin = oRect.Min + ImVec2(0.0f, vSize.y);
 	ImVec2 const vTextSlideXMax = oRect.Min + ImVec2(2.0f * fX3, vSize.y);

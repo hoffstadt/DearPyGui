@@ -32,8 +32,12 @@ struct mvPlotPoint
 
 struct mvVec2
 {
+    f32 x;
+    f32 y;
+    /**
 	union { f32 x, r, u; };
 	union { f32 y, g, v; };
+    **/
 
 	float& operator[](i32 index);
     operator ImVec2();
@@ -42,19 +46,30 @@ struct mvVec2
 
 struct mvVec3
 {
+    f32 x;
+    f32 y;
+    f32 z;
+    /**
 	union { f32 x, r; };
 	union { f32 y, g; };
 	union { f32 z, b; };
+    **/
 
 	float& operator[](i32 index);
 };
 
 struct mvVec4
 {
+    f32 x;
+    f32 y;
+    f32 z;
+    f32 w;
+    /**
 	union { f32 x, r; };
 	union { f32 y, g; };
 	union { f32 z, b; };
 	union { f32 w, a; };
+    **/
 
 	float& operator[](i32 index);
     operator ImVec4();

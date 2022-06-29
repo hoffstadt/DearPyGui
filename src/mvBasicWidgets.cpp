@@ -1177,23 +1177,12 @@ DearPyGui::set_configuration(PyObject* inDict, mvListboxConfig& outConfig, mvApp
             index++;
         }
 
+        // If the old is a value not in the list, set the value to the first item in the list.
 		if (!outConfig.value->empty())
 		{
-			if (!outConfig.names.empty())
-			{
-				bool oldValueFound = false;
-				for (int i = 0; i < outConfig.names.size(); i++)
-				{
-					if (outConfig.names[i] == *outConfig.value)
-					{
-						oldValueFound = true;
-						break;
-					}
-				}
-
-				if(!oldValueFound)
-					*outConfig.value = outConfig.names[0];
-			}
+            const auto& names = outConfig.names;  // Reference simplifies yuck find syntax.
+            if (std::find(names.begin(), names.end(), *outConfig.value) == names.end())
+                *outConfig.value = names[0];
 		}
     }
 
@@ -5167,7 +5156,6 @@ DearPyGui::draw_input_floatx(ImDrawList* drawlist, mvAppItem& item, mvInputFloat
 
 		if (res)
 		{
-			auto inital_value = *config.value;
 			// determines clamped cases
 			if (config.min_clamped && config.max_clamped)
 			{
@@ -5547,7 +5535,6 @@ DearPyGui::draw_input_doublex(ImDrawList* drawlist, mvAppItem& item, mvInputDoub
 
 		if (res)
 		{
-			auto inital_value = *config.value;
 			// determines clamped cases
 			if (config.min_clamped && config.max_clamped)
 			{
@@ -5696,7 +5683,6 @@ DearPyGui::draw_input_intx(ImDrawList* drawlist, mvAppItem& item, mvInputIntMult
 
 		if (res)
 		{
-			auto inital_value = *config.value;
 			// determines clamped cases
 			if (config.min_clamped && config.max_clamped)
 			{

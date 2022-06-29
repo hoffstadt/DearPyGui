@@ -1,8 +1,8 @@
 
-find_package (Python ${MV_PY_VERSION} EXACT COMPONENTS Development)
-if(NOT Python_Development_FOUND)
-	message(FATAL_ERROR "The python3 development library from your distribution repo need to be installed first!")
-endif()
+#find_package (Python ${MV_PY_VERSION} EXACT COMPONENTS Development)
+#if(NOT Python_Development_FOUND)
+#	message(FATAL_ERROR "The python3 development library from your distribution repo need to be installed first!")
+#endif()
 
 add_library(_dearpygui SHARED)
 
@@ -73,4 +73,13 @@ else() # Linux
 			glfw
 	)
 
+endif()
+
+if (WIN32)
+#   Win32 options
+else()
+    target_compile_options(_dearpygui
+        PRIVATE
+            -Wno-unknown-pragmas
+    )
 endif()

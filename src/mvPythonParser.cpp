@@ -527,12 +527,6 @@ GenerateCoreFile(std::ofstream& stream)
 {
 	const auto& commands = GetModuleParsers();
 
-	// current date/time based on current system
-	time_t now = time(0);
-
-	// convert now to string form
-	char* dt = ctime(&now);
-
 	for (const auto& parser : commands)
 	{
 		if (parser.second.internal)
@@ -664,12 +658,6 @@ void
 GenerateContextsFile(std::ofstream& stream)
 {
 	const auto& commands = GetModuleParsers();
-
-	// current date/time based on current system
-	time_t now = time(0);
-
-	// convert now to string form
-	char* dt = ctime(&now);
 
 	for (const auto& parser : commands)
 	{
@@ -812,12 +800,6 @@ GenerateCoreFileRTD(std::ofstream& stream)
 {
 	const auto& commands = GetModuleParsers();
 
-	// current date/time based on current system
-	time_t now = time(0);
-
-	// convert now to string form
-	char* dt = ctime(&now);
-
 	for (const auto& parser : commands)
 	{
 		if (parser.second.internal)
@@ -917,15 +899,7 @@ GenerateCoreFileRTD(std::ofstream& stream)
 void 
 GenerateContextsFileRTD(std::ofstream& stream)
 {
-	const auto& commands = GetModuleParsers();
-
-	// current date/time based on current system
-	time_t now = time(0);
-
-	// convert now to string form
-	char* dt = ctime(&now);
-
-	for (const auto& parser : commands)
+	for (const auto& parser : GetModuleParsers())
 	{
 		if (!parser.second.createContextManager)
 			continue;

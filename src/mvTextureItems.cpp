@@ -53,53 +53,45 @@ void mvTextureRegistry::show_debugger()
 		}
 		ImGui::EndChild();
 
-		if (_selection != -1)
+		if (_selection < 0 || (size_t)_selection >= childslots[1].size())
+            _selection = -1;
+        else
 		{
+            ImGui::SameLine();
+            ImGui::BeginGroup();
 
-			if (_selection < childslots[1].size())
-			{
+            ImGui::BeginGroup();
+            ImGui::Text("Width: %d", childslots[1][_selection]->config.width);
+            ImGui::Text("Height: %d", childslots[1][_selection]->config.height);
+            ImGui::Text("Type: %s", childslots[1][_selection]->type ==
+                mvAppItemType::mvStaticTexture ? "static" : "dynamic");
+            ImGui::EndGroup();
 
-				ImGui::SameLine();
-				ImGui::BeginGroup();
+            ImGui::SameLine();
 
-				ImGui::BeginGroup();
-				ImGui::Text("Width: %d", childslots[1][_selection]->config.width);
-				ImGui::Text("Height: %d", childslots[1][_selection]->config.height);
-				ImGui::Text("Type: %s", childslots[1][_selection]->type == mvAppItemType::mvStaticTexture ? "static" : "dynamic");
-				ImGui::EndGroup();
+            void* textureRaw = nullptr;
+            if (childslots[1][_selection]->type == mvAppItemType::mvStaticTexture)
+               textureRaw = static_cast<mvStaticTexture*>(childslots[1][_selection].get())->_texture;
+            else
+                textureRaw = static_cast<mvDynamicTexture*>(childslots[1][_selection].get())->_texture;
 
-				ImGui::SameLine();
+            ImGui::Image(textureRaw, ImVec2((float)childslots[1][_selection]->config.width,
+                (float)childslots[1][_selection]->config.height));
 
-				void* textureRaw = nullptr;
-				if (childslots[1][_selection]->type == mvAppItemType::mvStaticTexture)
-					textureRaw = static_cast<mvStaticTexture*>(childslots[1][_selection].get())->_texture;
-				else
-					textureRaw = static_cast<mvDynamicTexture*>(childslots[1][_selection].get())->_texture;
-
-				ImGui::Image(textureRaw, ImVec2((float)childslots[1][_selection]->config.width, (float)childslots[1][_selection]->config.height));
-
-				ImPlot::PushStyleColor(ImPlotCol_FrameBg, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
-				if (ImPlot::BeginPlot("##texture plot", 0, 0, ImVec2(-1, -1),
-					ImPlotFlags_NoTitle | ImPlotFlags_NoLegend | ImPlotFlags_NoMenus | ImPlotFlags_Equal))
-				{
-					ImPlot::PlotImage(childslots[1][_selection]->info.internalLabel.c_str(), textureRaw, ImPlotPoint(0.0, 0.0),
-						ImPlotPoint(childslots[1][_selection]->config.width, childslots[1][_selection]->config.height));
-					ImPlot::EndPlot();
-				}
-				ImPlot::PopStyleColor();
-
-
-				ImGui::EndGroup();
-			}
-			else
-				_selection = -1;
-		}
-
-
+            ImPlot::PushStyleColor(ImPlotCol_FrameBg, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
+            if (ImPlot::BeginPlot("##texture plot", 0, 0, ImVec2(-1, -1),
+            ImPlotFlags_NoTitle | ImPlotFlags_NoLegend | ImPlotFlags_NoMenus | ImPlotFlags_Equal))
+            {
+                ImPlot::PlotImage(childslots[1][_selection]->info.internalLabel.c_str(), textureRaw, ImPlotPoint(0.0, 0.0),
+                ImPlotPoint(childslots[1][_selection]->config.width, childslots[1][_selection]->config.height));
+                ImPlot::EndPlot();
+            }
+            ImPlot::PopStyleColor();
+            ImGui::EndGroup();
+        }
 	}
 
 	ImGui::End();
-
 	ImGui::PopID();
 }
 
@@ -210,6 +202,11 @@ void mvRawTexture::setPyValue(PyObject* value)
 		if (!PyObject_GetBuffer(value, &buffer_info,
 			PyBUF_CONTIG_RO | PyBUF_FORMAT))
 		{
+            if (!buffer_info.format || *buffer_info.format != 'f')
+            {
+				mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(type),
+                    "Texture buffer type must be single-precision floating point", this);
+            }
 			_value = buffer_info.buf;
 			if (_value == nullptr)
 			{

@@ -393,8 +393,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvAppItem& itemc, mvWindowAppItem
     {
         if (outConfig.on_close)
             Py_XDECREF(outConfig.on_close);
-        item = SanitizeCallback(item);
-        if (item)
+        if (item != Py_None)
             Py_XINCREF(item);
         outConfig.on_close = item;
     }

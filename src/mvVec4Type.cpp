@@ -58,7 +58,6 @@ PymvVec4_str(PymvVec4* self)
 Py_ssize_t 
 PymvVec4_getLength(PyObject* obj)
 {
-	auto self = (PymvVec4*)obj;
 	return 4;
 }
 

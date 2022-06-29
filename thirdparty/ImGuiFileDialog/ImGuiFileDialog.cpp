@@ -37,6 +37,9 @@ SOFTWARE.
 #include <ctime>
 #include <sys/stat.h>
 #include <cstdio>
+
+#undef UNIX
+
 // this option need c++17
 #ifdef USE_STD_FILESYSTEM
 	#include <filesystem>

@@ -68,15 +68,18 @@ void mvAboutWindow::drawWidgets()
     ImGui::TextColored(ImVec4(0.0f, 1.0f, 1.0f, 1.0f), "Founding Sponsors");
     ImGui::BeginChild("Founding Sponsors##aboutsponsorschild", ImVec2(0.0, 100.0f));
 
-    for (int i = 0; i < founders.size(); i++)
+    for (size_t i = 0; i < founders.size(); i++)
     {
+        const std::string& name = founders[i];
         if (i % 2 == 0)
         {
-            ImGui::TextColored(ImVec4(0.0f, 1.0f, (float)i / (float)founders.size(), 1.0f), founders[i].c_str());
+            ImGui::TextColored(ImVec4(0.0f, 1.0f, (float)i / (float)founders.size(), 1.0f),
+                "%s", name.data());
             ImGui::SameLine(250.0f);
         }
         else
-            ImGui::TextColored(ImVec4((float)i / (float)founders.size(), 1.0f, 0.0f, 1.0f), founders[i].c_str());
+            ImGui::TextColored(ImVec4((float)i / (float)founders.size(), 1.0f, 0.0f, 1.0f),
+                "%s", name.data());
     }
 
     ImGui::EndChild();

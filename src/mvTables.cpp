@@ -232,7 +232,7 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 			{
 				//ImGui::TableHeadersRow();
 				ImGui::TableNextRow(ImGuiTableRowFlags_Headers);
-				for (int column = 0; column < childslots[0].size(); column++)
+				for (int column = 0; (size_t)column < childslots[0].size(); column++)
 				{
 					ImGui::TableSetColumnIndex(column);
 					const char* column_name = ImGui::TableGetColumnName(column); // Retrieve name passed to TableSetupColumn()
@@ -369,12 +369,13 @@ void mvTable::onChildAdd(mvRef<mvAppItem> item)
 		_columnColors.push_back(ImGui::ColorConvertFloat4ToU32(ImVec4(0.0f, 0.0f, 0.0f, 0.0f)));
 		_columnColorsSet.push_back(false);
 
-		for (int i = 0; i < childslots[1].size(); i++)
+		for (int i = 0; (size_t)i < childslots[1].size(); i++)
 		{
-			while (_cellColors[i].size() <= _columns)
+			while (_cellColors[i].size() <= (size_t)_columns)
 			{
 				_cellColorsSet[i].push_back(false);
-				_cellColors[i].push_back(ImGui::ColorConvertFloat4ToU32(ImVec4(0.0f, 0.0f, 0.0f, 0.0f)));
+				_cellColors[i].push_back(ImGui::ColorConvertFloat4ToU32(
+                    ImVec4(0.0f, 0.0f, 0.0f, 0.0f)));
 			}
 		}
 		childslots[2].push_back(nullptr);

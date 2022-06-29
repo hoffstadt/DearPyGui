@@ -22,10 +22,11 @@
 #include "mvAppItemCommons.h"
 #include "mvItemRegistry.h"
 
-extern mvContext* GContext = nullptr;
+mvContext* GContext = nullptr;
 
-mv_internal void 
-UpdateInputs(mvInput& input)
+namespace
+{
+void UpdateInputs(mvInput& input)
 {
 
     MV_PROFILE_SCOPE("Input Routing")
@@ -86,6 +87,7 @@ UpdateInputs(mvInput& input)
             input.mousedownduration[i] = 0;
     }
 }
+} // unnamed namespace
 
 mvUUID 
 GenerateUUID() 

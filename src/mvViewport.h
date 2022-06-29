@@ -65,7 +65,8 @@ void        mvRestoreViewport (mvViewport& viewport);
 void        mvRenderFrame();
 void        mvToggleFullScreen(mvViewport& viewport);
 
-static void mvOnResize()
+//ABELL - Was static for some reason. Should probably not be defined in a header.
+inline void mvOnResize()
 {
 	mvSubmitCallback([=]() {
 		PyObject* dimensions = PyTuple_New(4);

@@ -32,7 +32,6 @@ public:
 private:
 
     mvRef<bool> _value = CreateRef<bool>(false);
-    bool  _disabled_value = false;
 };
 
 class mvColorValue : public mvAppItem
@@ -53,7 +52,6 @@ public:
 private:
 
     mvRef<std::array<float, 4>> _value = CreateRef<std::array<float, 4>>(std::array<float, 4>{0.0f, 0.0f, 0.0f, 1.0f});
-    float  _disabled_value[4]{};
 
 };
 
@@ -96,7 +94,6 @@ public:
 private:
 
     mvRef<double> _value = CreateRef<double>(0.0);
-    float         _disabled_value = 0.0;
 
 };
 
@@ -118,8 +115,6 @@ public:
 private:
 
     mvRef<std::array<float, 4>> _value = CreateRef<std::array<float, 4>>(std::array<float, 4>{0.0f, 0.0f, 0.0f, 0.0f});
-    float  _disabled_value[4]{};
-
 };
 
 class mvFloatValue : public mvAppItem
@@ -140,8 +135,6 @@ public:
 private:
 
     mvRef<float> _value = CreateRef<float>(0.0f);
-    float  _disabled_value = 0.0f;
-
 };
 
 class mvFloatVectValue : public mvAppItem
@@ -183,7 +176,6 @@ public:
 private:
 
     mvRef<std::array<int, 4>> _value = CreateRef<std::array<int, 4>>(std::array<int, 4>{0, 0, 0, 0});
-    int  _disabled_value[4]{};
 };
 
 class mvIntValue : public mvAppItem
@@ -204,8 +196,6 @@ public:
 private:
 
     mvRef<int> _value = CreateRef<int>(0);
-    int        _disabled_value = 0;
-
 };
 
 class mvSeriesValue : public mvAppItem

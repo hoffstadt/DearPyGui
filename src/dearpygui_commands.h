@@ -566,7 +566,7 @@ apply_transform(PyObject* self, PyObject* args, PyObject* kwargs)
 mv_internal mv_python_function
 create_rotation_matrix(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	mv_local_persist mvMat4 identity = mvIdentityMat4();
+	static mvMat4 identity = mvIdentityMat4();
 	float angle = 0.0f;
 	PyObject* axis;
 
@@ -686,7 +686,6 @@ create_scale_matrix(PyObject* self, PyObject* args, PyObject* kwargs)
 mv_internal mv_python_function
 create_lookat_matrix(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	mv_local_persist mvMat4 identity = mvIdentityMat4();
 	PyObject* eye;
 	PyObject* center;
 	PyObject* up;
@@ -714,7 +713,6 @@ create_lookat_matrix(PyObject* self, PyObject* args, PyObject* kwargs)
 mv_internal mv_python_function
 create_fps_matrix(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	mv_local_persist mvMat4 identity = mvIdentityMat4();
 	PyObject* eye;
 	f32 pitch = 0.0f;
 	f32 yaw = 0.0f;
@@ -1869,7 +1867,8 @@ set_exit_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 		Py_XINCREF(user_data);
 	mvSubmitCallback([=]()
 		{
-			GContext->callbackRegistry->onCloseCallback = SanitizeCallback(callback);
+			GContext->callbackRegistry->onCloseCallback =
+                (callback == Py_None) ? nullptr : callback;
 			GContext->callbackRegistry->onCloseCallbackUserData = user_data;
 		});
 	return GetPyNone();
@@ -1893,7 +1892,8 @@ set_viewport_resize_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	mvSubmitCallback([=]()
 		{
-			GContext->callbackRegistry->resizeCallback = SanitizeCallback(callback);
+			GContext->callbackRegistry->resizeCallback =
+                (callback == Py_None) ? nullptr : callback;
 			GContext->callbackRegistry->resizeCallbackUserData = user_data;
 		});
 
@@ -2294,33 +2294,35 @@ save_image(PyObject* self, PyObject* args, PyObject* kwargs)
 	case MV_IMAGE_TYPE_PNG_:
 	{
 		std::vector<unsigned char> convertedData = ToUCharVect(data);
-		int result = stbi_write_png(file, width, height, components, convertedData.data(), sizeof(unsigned char)*components*width);
+	    stbi_write_png(file, width, height, components, convertedData.data(), sizeof(unsigned char)*components*width);
 		break;
 	}
 	case MV_IMAGE_TYPE_BMP_:
 	{
 		std::vector<unsigned char> convertedData = ToUCharVect(data);
-		int result = stbi_write_bmp(file, width, height, components, convertedData.data());
+		stbi_write_bmp(file, width, height, components, convertedData.data());
 		break;
 	}
 	case MV_IMAGE_TYPE_TGA_:
 	{
 		std::vector<unsigned char> convertedData = ToUCharVect(data);
-		int result = stbi_write_tga(file, width, height, components, convertedData.data());
+		stbi_write_tga(file, width, height, components, convertedData.data());
 		break;
 	}
 	case MV_IMAGE_TYPE_HDR_:
 	{
 		std::vector<float> convertedData = ToFloatVect(data);
-		int result = stbi_write_hdr(file, width, height, components, convertedData.data());
+		stbi_write_hdr(file, width, height, components, convertedData.data());
 		break;
 	}
 	case MV_IMAGE_TYPE_JPG_:
 	{
 		std::vector<unsigned char> convertedData = ToUCharVect(data);
-		int result = stbi_write_jpg(file, width, height, components, convertedData.data(), quality);
+		stbi_write_jpg(file, width, height, components, convertedData.data(), quality);
 		break;
 	}
+    default:  // MV_IMAGE_TYPE_INVALID_
+        break;
 	}
 
 	return GetPyNone();
@@ -2422,7 +2424,7 @@ render_dearpygui_frame(PyObject* self, PyObject* args, PyObject* kwargs)
 	MV_PROFILE_SCOPE("Frame")
 
 	Py_BEGIN_ALLOW_THREADS;
-	auto window = GContext->viewport;
+	//auto window = GContext->viewport;
 	mvRenderFrame();
 	Py_END_ALLOW_THREADS;
 
@@ -3903,8 +3905,8 @@ get_item_types(PyObject* self, PyObject* args, PyObject* kwargs)
 mv_internal mv_python_function
 configure_item(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	if (!GContext->manualMutexControl)
+        std::lock_guard<std::mutex> lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(PyTuple_GetItem(args, 0));
 	mvAppItem* appitem = GetItem((*GContext->itemRegistry), item);
@@ -4073,7 +4075,7 @@ get_callback_queue(PyObject* self, PyObject* args, PyObject* kwargs)
 		return GetPyNone();
 
 	PyObject* pArgs = PyTuple_New(GContext->callbackRegistry->jobs.size());
-	for (int i = 0; i < GContext->callbackRegistry->jobs.size(); i++)
+	for (int i = 0; (size_t)i < GContext->callbackRegistry->jobs.size(); i++)
 	{
 		PyObject* job = PyTuple_New(4);
 		if (GContext->callbackRegistry->jobs[i].callback)

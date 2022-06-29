@@ -39,12 +39,6 @@ DebugItem(const char* label, const char* item) {
     ImGui::TextColored(ImVec4(1.0f, 0.0f, 1.0f, 1.0f), "%s", item);
 }
 
-mv_internal void
-PushParent(mvItemRegistry& registry, mvAppItem* item)
-{
-    registry.containers.push(item);
-}
-
 mv_internal mvAppItem*
 TopParent(mvItemRegistry& registry)
 {
@@ -1480,7 +1474,7 @@ AddItemWithRuntimeChecks(mvItemRegistry& registry, mvRef<mvAppItem> item, mvUUID
             return false;
         }
 
-        if (!(*allowableParents)[0].second == (i32)mvAppItemType::All)
+        if ((*allowableParents)[0].second != (i32)mvAppItemType::All)
         {
 
             mvThrowPythonError(mvErrorCode::mvIncompatibleParent, GetEntityCommand(item->type),
@@ -1518,7 +1512,7 @@ AddItemWithRuntimeChecks(mvItemRegistry& registry, mvRef<mvAppItem> item, mvUUID
             return false;
         }
 
-        if (!(*allowableChildren)[0].second == (i32)mvAppItemType::All)
+        if ((*allowableChildren)[0].second != (i32)mvAppItemType::All)
         {
 
             mvThrowPythonError(mvErrorCode::mvIncompatibleChild, GetEntityCommand(parentPtr->type),

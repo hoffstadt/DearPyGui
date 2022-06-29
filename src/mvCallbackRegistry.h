@@ -5,14 +5,6 @@
 #include "mvThreadPool.h"
 #include "mvContext.h"
 
-mv_internal PyObject* SanitizeCallback(PyObject* callback)
-{
-	if (callback == Py_None)
-		return nullptr;
-
-	return callback;
-}
-
 struct mvCallbackJob
 {
 	mvUUID      sender    = 0;

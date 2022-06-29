@@ -9,7 +9,7 @@
 
 struct ImFont;
 
-class mvFontManager : public mvToolWindow
+class mvFontManager final : public mvToolWindow
 {
 
 public:

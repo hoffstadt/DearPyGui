@@ -110,6 +110,9 @@ void mvItemHandlerRegistry::onBind(mvAppItem* item)
 					"Item Handler Registry includes inapplicable handler: mvVisibleHandler", item);
 			break;
 		}
+
+        default:
+            break;
 		}
 	}
 }

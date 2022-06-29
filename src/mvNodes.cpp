@@ -57,8 +57,7 @@ void mvNodeEditor::handleSpecificKeywordArgs(PyObject* dict)
 
         if (_delinkCallback)
             Py_XDECREF(_delinkCallback);
-        item = SanitizeCallback(item);
-        if (item)
+        if (item != Py_None)
             Py_XINCREF(item);
         _delinkCallback = item;
     }

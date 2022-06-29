@@ -118,7 +118,6 @@ PymvMat4_str(PymvMat4* self)
 Py_ssize_t 
 PymvMat4_getLength(PyObject* obj)
 {
-	auto self = (PymvMat4*)obj;
 	return 16;
 }
 

@@ -781,14 +781,11 @@ DearPyGui::set_positional_configuration(PyObject* inDict, mvColorMapConfig& outC
 			rawColors = ToVectVectInt(arg);
 			for (const auto& color : rawColors)
 			{
+				std::array<float, 4> c;
+                c.fill(1.0);
 
-				std::vector<float> c;
-
-				for (int j = 0; j < color.size(); j++)
-					c.push_back((float)color[j] / 255.0f);
-
-				while (c.size() < 4)
-					c.push_back(1.0f);
+				for (int j = 0; (size_t)j < (std::min)((size_t)4, color.size()); j++)
+					c[j] = color[j] / 255.0f;
 
 				outConfig.colors.push_back(ImVec4(c[0], c[1], c[2], c[3]));
 

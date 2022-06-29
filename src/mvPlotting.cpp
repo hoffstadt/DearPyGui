@@ -112,6 +112,7 @@ draw_polygon(const mvAreaSeriesConfig& config)
 
 }
 
+//ABELL - Ummm, std::lower_bound?
 template <typename T>
 int BinarySearch(const T* arr, int l, int r, T x) {
 	if (r >= l) {
@@ -161,31 +162,31 @@ PlotCandlestick(const char* label_id, const double* xs, const double* opens,
 			}
 			else if (time_unit == ImPlotTimeUnit_Us)
 			{
-				ImGui::Text("Microsecond: %d", xs[idx]);
+				ImGui::Text("Microsecond: %d", (int)xs[idx]);
 			}
 			else if (time_unit == ImPlotTimeUnit_Ms)
 			{
-				ImGui::Text("Millisecond: %d", xs[idx]);
+				ImGui::Text("Millisecond: %d", (int)xs[idx]);
 			}
 			else if (time_unit == ImPlotTimeUnit_S)
 			{
-				ImGui::Text("Second: %d", xs[idx]);
+				ImGui::Text("Second: %d", (int)xs[idx]);
 			}
 			else if (time_unit == ImPlotTimeUnit_Min)
 			{
-				ImGui::Text("Minute: %d", xs[idx]);
+				ImGui::Text("Minute: %d", (int)xs[idx]);
 			}
 			else if (time_unit == ImPlotTimeUnit_Hr)
 			{
-				ImGui::Text("Hour: %d", xs[idx]);
+				ImGui::Text("Hour: %d", (int)xs[idx]);
 			}
 			else if (time_unit == ImPlotTimeUnit_Mo)
 			{
-				ImGui::Text("Month: %d", xs[idx]);
+				ImGui::Text("Month: %d", (int)xs[idx]);
 			}
 			else if (time_unit == ImPlotTimeUnit_Yr)
 			{
-				ImGui::Text("Year: %d", xs[idx]);
+				ImGui::Text("Year: %d", (int)xs[idx]);
 			}
 			ImGui::Text("Open:  $%.2f", opens[idx]);
 			ImGui::Text("Close: $%.2f", closes[idx]);
@@ -1956,7 +1957,7 @@ DearPyGui::draw_custom_series(ImDrawList* drawlist, mvAppItem& item, mvCustomSer
 	// draw
 	//-----------------------------------------------------------------------------
 	{
-
+        //ABELL Seems very strange to have these be static. And why are they pointers?
 		static std::vector<double>* xptr;
 		static std::vector<double>* yptr;
 		static std::vector<double>* y1ptr;
@@ -1988,7 +1989,8 @@ DearPyGui::draw_custom_series(ImDrawList* drawlist, mvAppItem& item, mvCustomSer
 			// fit data if requested
 			if (ImPlot::FitThisFrame())
 			{
-				for (int i = 0; i < xptr->size(); ++i)
+                assert(xptr->size() == yptr->size());
+                for (size_t i = 0; i < xptr->size(); ++i)
 				{
 					// TODO: make this configurable
 					ImPlot::FitPoint(ImPlotPoint((*xptr)[i], (*yptr)[i]));
@@ -1998,7 +2000,8 @@ DearPyGui::draw_custom_series(ImDrawList* drawlist, mvAppItem& item, mvCustomSer
 			// render data
 			if (config.channelCount == 2)
 			{
-				for (int i = 0; i < xptr->size(); ++i)
+                assert(xptr->size() == yptr->size());
+				for (size_t i = 0; i < xptr->size(); ++i)
 				{
 					ImVec2 y_pos = ImPlot::PlotToPixels((*xptr)[i], (*yptr)[i]);
 					config._transformedValues[0][i] = y_pos.x;
@@ -2007,9 +2010,10 @@ DearPyGui::draw_custom_series(ImDrawList* drawlist, mvAppItem& item, mvCustomSer
 			}
 			else if (config.channelCount == 3)
 			{
-				for (int i = 0; i < xptr->size(); ++i)
+                assert(xptr->size() == yptr->size());
+                assert(xptr->size() == y1ptr->size());
+				for (size_t i = 0; i < xptr->size(); ++i)
 				{
-
 					ImVec2 y_pos = ImPlot::PlotToPixels((*xptr)[i], (*yptr)[i]);
 					ImVec2 y1_pos = ImPlot::PlotToPixels((*xptr)[i], (*y1ptr)[i]);
 					config._transformedValues[0][i] = y_pos.x;
@@ -2019,9 +2023,11 @@ DearPyGui::draw_custom_series(ImDrawList* drawlist, mvAppItem& item, mvCustomSer
 			}
 			else if (config.channelCount == 4)
 			{
-				for (int i = 0; i < xptr->size(); ++i)
+                assert(xptr->size() == yptr->size());
+                assert(xptr->size() == y1ptr->size());
+                assert(xptr->size() == y2ptr->size());
+				for (size_t i = 0; i < xptr->size(); ++i)
 				{
-
 					ImVec2 y_pos = ImPlot::PlotToPixels((*xptr)[i], (*yptr)[i]);
 					ImVec2 y1_pos = ImPlot::PlotToPixels((*xptr)[i], (*y1ptr)[i]);
 					ImVec2 y2_pos = ImPlot::PlotToPixels((*xptr)[i], (*y2ptr)[i]);
@@ -2033,7 +2039,11 @@ DearPyGui::draw_custom_series(ImDrawList* drawlist, mvAppItem& item, mvCustomSer
 			}
 			else if (config.channelCount == 5)
 			{
-				for (int i = 0; i < xptr->size(); ++i)
+                assert(xptr->size() == yptr->size());
+                assert(xptr->size() == y1ptr->size());
+                assert(xptr->size() == y2ptr->size());
+                assert(xptr->size() == y3ptr->size());
+				for (size_t i = 0; i < xptr->size(); ++i)
 				{
 
 					ImVec2 y_pos = ImPlot::PlotToPixels((*xptr)[i], (*yptr)[i]);

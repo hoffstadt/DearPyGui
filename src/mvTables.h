@@ -40,10 +40,6 @@ public:
     explicit mvTableRow(mvUUID uuid);
 
     void draw(ImDrawList* drawlist, float x, float y) override {}
-
-private:
-
-    int _id = 0;
 };
 
 class mvTable : public mvAppItem

@@ -9,20 +9,6 @@
 #include "mvPythonTypeChecker.h"
 #include "mvPyObject.h"
 
-mv_internal void 
-UpdateLocations(std::vector<mvRef<mvAppItem>>* children, i32 slots)
-{
-    for (i32 i = 0; i < slots; i++)
-    {
-        i32 index = 0;
-        for (auto& child : children[i])
-        {
-            child->info.location = index;
-            index++;
-        }
-    }
-}
-
 mvAppItem::mvAppItem(mvUUID uuid)
 {
     this->uuid = uuid;
@@ -5404,6 +5390,9 @@ DearPyGui::OnChildAdded(mvAppItem* item, mvRef<mvAppItem> child)
         actualItem->onChildAdd(child);
         return;
     }
+
+    default:
+        return;
     }
 }
     
@@ -5451,5 +5440,8 @@ DearPyGui::OnChildRemoved(mvAppItem* item, mvRef<mvAppItem> child)
         actualItem->onChildRemoved(child);
         return;
     }
+
+    default:
+        return;
     }
 }
