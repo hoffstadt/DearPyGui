@@ -1178,9 +1178,9 @@ DearPyGui::set_configuration(PyObject* inDict, mvListboxConfig& outConfig, mvApp
         }
 
         // If the old is a value not in the list, set the value to the first item in the list.
-		if (!outConfig.value->empty())
+		if (!outConfig.value->empty() && outConfig.names.size())
 		{
-            const auto& names = outConfig.names;  // Reference simplifies yuck find syntax.
+            const auto& names = outConfig.names;  // Reference simplifies find syntax.
             if (std::find(names.begin(), names.end(), *outConfig.value) == names.end())
                 *outConfig.value = names[0];
 		}

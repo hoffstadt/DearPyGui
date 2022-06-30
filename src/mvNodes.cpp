@@ -52,13 +52,16 @@ void mvNodeEditor::handleSpecificKeywordArgs(PyObject* dict)
     if (dict == nullptr)
         return;
 
-    if (PyObject* item = PyDict_GetItemString(dict, "delink_callback"))
+    PyObject* item = PyDict_GetItemString(dict, "delink_callback");
+    // Docs don't say that PyDict_GetItemString will return Py_None, so I'm not sure if
+    // this is necessary or correct.
+    if (item == Py_None)
+        item = nullptr;
+    if (item)
     {
-
         if (_delinkCallback)
             Py_XDECREF(_delinkCallback);
-        if (item != Py_None)
-            Py_XINCREF(item);
+        Py_XINCREF(item);
         _delinkCallback = item;
     }
 
