@@ -396,7 +396,7 @@ InsertConstants_mvContext(std::vector<std::pair<std::string, long>>& constants)
     constants.emplace_back("mvKey_Clear", 259);
     constants.emplace_back("mvKey_Return", 257);
     constants.emplace_back("mvKey_Shift", 340);
-    constants.emplace_back("mvKey_Control", 241);
+    constants.emplace_back("mvKey_Control", 341);
     constants.emplace_back("mvKey_Alt", 342);
     constants.emplace_back("mvKey_Pause", 284);
     constants.emplace_back("mvKey_Capital", 280);
