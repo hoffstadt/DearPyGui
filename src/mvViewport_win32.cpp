@@ -24,7 +24,12 @@ mvHandleModes(mvViewport& viewport)
 	viewportData->modes = WS_OVERLAPPED;
 
 	if (viewport.resizable && viewport.decorated) viewportData->modes |= WS_THICKFRAME;
-	if (viewport.decorated) viewportData->modes |= WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX;
+	if (viewport.decorated) {
+		viewportData->modes |= WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX;
+	}
+	else {
+		viewportData->modes |= WS_POPUP;
+	}
 
 }
 
@@ -56,7 +61,12 @@ mvPrerender(mvViewport& viewport)
 		viewportData->modes = WS_OVERLAPPED;
 
 		if (viewport.resizable && viewport.decorated) viewportData->modes |= WS_THICKFRAME;
-		if (viewport.decorated) viewportData->modes |= WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX;
+		if (viewport.decorated) {
+			viewportData->modes |= WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX;
+		}
+		else {
+			viewportData->modes |= WS_POPUP;
+		}
 
 		SetWindowLongPtr(viewportData->handle, GWL_STYLE, viewportData->modes);
 		SetWindowPos(viewportData->handle, viewport.alwaysOnTop ? HWND_TOPMOST : HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
