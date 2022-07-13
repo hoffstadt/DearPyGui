@@ -2863,6 +2863,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
 
         args.push_back({ mvPyDataType::Bool, "default_value", mvArgType::KEYWORD_ARG, "False" });
         args.push_back({ mvPyDataType::Bool, "span_columns", mvArgType::KEYWORD_ARG, "False", "Forces the selectable to span the width of all columns if placed in a table." });
+        args.push_back({ mvPyDataType::Bool, "disable_popup_close", mvArgType::KEYWORD_ARG, "False", "Disable closing a modal or popup window." });
 
         setup.about = "Adds a selectable. Similar to a button but can indicate its selected state.";
         break;

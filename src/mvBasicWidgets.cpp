@@ -575,6 +575,7 @@ DearPyGui::fill_configuration_dict(const mvSelectableConfig& inConfig, PyObject*
 
 	// window flags
 	checkbitset("span_columns", ImGuiSelectableFlags_SpanAllColumns, inConfig.flags, false);
+	checkbitset("disable_popup_close", ImGuiSelectableFlags_DontClosePopups, inConfig.flags, false);
 }
 
 void
@@ -1597,6 +1598,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvSelectableConfig& outConfig, mv
 
 	// window flags
 	flagop("span_columns", ImGuiSelectableFlags_SpanAllColumns, outConfig.flags, false);
+	flagop("disable_popup_close", ImGuiSelectableFlags_DontClosePopups, outConfig.flags, false);
 
 	if (info.enabledLastFrame)
 	{
