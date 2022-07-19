@@ -101,17 +101,28 @@ void mvFileDialog::draw(ImDrawList* drawlist, float x, float y)
 		if (_instance.Display(info.internalLabel, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings, _min_size, _max_size))
 		{
 
-			// action if OK
-			if (_instance.IsOk())
+			// action if OK clicked or if cancel clicked and cancel callback provided
+			if (_instance.IsOk() or (!_instance.IsOk() and _cancelCallback))
 			{
 				mvSubmitCallback([&]()
 					{
-						if(config.alias.empty())
-							mvRunCallback(config.callback, uuid, getInfoDict(), config.user_data);
-						else	
-							mvRunCallback(config.callback, config.alias, getInfoDict(), config.user_data);
-					});
+						PyObject* callback;
+						PyObject* appData;
+						
+						if(_instance.IsOk())
+						{
+							callback = config.callback;
+							appData = getInfoDict();
+						} else {
+							callback = _cancelCallback;
+							appData = Py_None;
+						}
 
+						if(config.alias.empty())
+							mvRunCallback(callback, uuid, appData, config.user_data);
+						else
+							mvRunCallback(callback, config.alias, appData, config.user_data);	
+					});
 			}
 
 			// close
@@ -176,6 +187,8 @@ void mvFileDialog::handleSpecificKeywordArgs(PyObject* dict)
 		auto max_size = ToIntVect(item);
 		_max_size = { (float)max_size[0], (float)max_size[1] };
 	}
+
+	if (PyObject* item = PyDict_GetItemString(dict, "cancel_callback")) _cancelCallback = item;
 
 }
 
