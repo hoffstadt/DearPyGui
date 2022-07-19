@@ -101,18 +101,19 @@ void mvFileDialog::draw(ImDrawList* drawlist, float x, float y)
 		if (_instance.Display(info.internalLabel, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings, _min_size, _max_size))
 		{
 
-			// action if OK
-			if (_instance.IsOk())
-			{
-				mvSubmitCallback([&]()
-					{
-						if(config.alias.empty())
-							mvRunCallback(config.callback, uuid, getInfoDict(), config.user_data);
-						else	
-							mvRunCallback(config.callback, config.alias, getInfoDict(), config.user_data);
-					});
+			mvSubmitCallback([&]()
+				{
+					PyObject* appData;
+					if(_instance.IsOk())
+						appData = getInfoDict();
+					else
+						appData = Py_None;  // app data None if cancel button clicked
 
-			}
+					if(config.alias.empty())
+						mvRunCallback(config.callback, uuid, appData, config.user_data);
+					else	
+						mvRunCallback(config.callback, config.alias, appData, config.user_data);
+				});
 
 			// close
 			_instance.Close();

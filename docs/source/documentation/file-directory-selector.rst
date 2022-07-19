@@ -2,14 +2,16 @@ File & Directory Selector
 =========================
 
 The file dialog item can be used to select a single file,
-multiple files, or a directory. When the user clicks the **Ok** button,
+multiple files, or a directory. When the user clicks the **Ok** or **Cancel** button,
 the dialog's callback is ran. 
 
-Information is passed through the app_data argument such as:
+If **Ok** is clicked, information is passed through the app_data argument such as:
 * file path
 * file name
 * current path
 * current filter (the file type filter)
+
+If **Cancel** is clicked, `None` is passed through the app_data argument.
 
 
 The simplest case is as a director picker. Below is the example
