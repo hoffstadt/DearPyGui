@@ -856,7 +856,7 @@ def set_viewport_small_icon(icon: str):
 
 
 def set_viewport_large_icon(icon: str):
-    """Sets the viewport's small icon. Must be ico for windows.
+    """Sets the viewport's large icon. Must be ico for windows.
 
     Returns:
         None
