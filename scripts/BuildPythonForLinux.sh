@@ -37,7 +37,7 @@ cd "build/$target"
 
 # Reconfiguring is time-consuming. Skip if it's already been done
 if [ ! -f Makefile ]; then
-    ../../configure $configure_args
+    /bin/bash ../../configure $configure_args
 fi
 
 make $jobs
