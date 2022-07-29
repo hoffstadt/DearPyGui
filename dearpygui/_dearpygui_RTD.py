@@ -83,6 +83,15 @@ def configure_app(**kwargs) -> None:
 	"""Configures an item after creation."""
 	internal_dpg.configure_app(**kwargs)
 
+def trigger_input(**kwargs) -> None:
+	"""Trigger the wait for input.
+    If you do not set a Time the Trigger will be disabled after 1 Frame
+    Args:
+        trigger: boolean ( activate the Trigger )
+        trigger_time: Integer ( disable wait for input for X seconds )
+    """
+	internal_dpg.trigger_input(**kwargs)
+
 def configure_viewport(item : Union[int, str], **kwargs) -> None:
 	"""Configures a viewport after creation."""
 	internal_dpg.configure_viewport(item, **kwargs)
@@ -872,7 +881,7 @@ def set_viewport_small_icon(icon: str):
 
 
 def set_viewport_large_icon(icon: str):
-    """Sets the viewport's small icon. Must be ico for windows.
+    """Sets the viewport's large icon. Must be ico for windows.
 
     Returns:
         None
@@ -5532,6 +5541,7 @@ def add_selectable(**kwargs):
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		default_value (bool, optional): 
 		span_columns (bool, optional): Forces the selectable to span the width of all columns if placed in a table.
+		disable_popup_close (bool, optional): Disable closing a modal or popup window.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]

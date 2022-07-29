@@ -627,6 +627,7 @@ PyInit__dearpygui(void)
 	MV_ADD_COMMAND(get_frame_rate);
 	MV_ADD_COMMAND(get_app_configuration);
 	MV_ADD_COMMAND(configure_app);
+	MV_ADD_COMMAND(trigger_input);
 	MV_ADD_COMMAND(get_drawing_mouse_pos);
 	MV_ADD_COMMAND(is_mouse_button_dragging);
 	MV_ADD_COMMAND(is_mouse_button_down);

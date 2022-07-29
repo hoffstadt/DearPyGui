@@ -199,10 +199,16 @@ mvRenderFrame()
         // - When io.WantCaptureMouse is true, do not dispatch mouse input data to your main application.
         // - When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main application.
         // Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
-        if (GContext->IO.waitForInput)
+        if (GContext->IO.triggerInput && GContext->IO.triggerInputTime > 0)
+            GContext->IO.triggerInputTime--;
+
+        if (GContext->IO.waitForInput && GContext->IO.triggerInput == false && GContext->IO.triggerInputTime == 0)
             glfwWaitEvents();
         else
             glfwPollEvents();
+
+        if (GContext->IO.triggerInput && GContext->IO.triggerInputTime == 0)
+            GContext->IO.triggerInput = false;
 
         if (mvToolManager::GetFontManager().isInvalid())
         {

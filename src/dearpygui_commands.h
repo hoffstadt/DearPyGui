@@ -2605,6 +2605,33 @@ configure_app(PyObject* self, PyObject* args, PyObject* kwargs)
 }
 
 mv_internal mv_python_function
+trigger_input(PyObject* self, PyObject* args, PyObject* kwargs)
+{
+
+	ImGuiIO& io = ImGui::GetIO();
+
+	if (kwargs == nullptr)
+		return GetPyNone();
+
+	if (VerifyKeywordArguments(GetParsers()["trigger_input"], kwargs))
+		return GetPyNone();
+
+	if (PyArg_ValidateKeywordArguments(kwargs) == 0)
+	{
+		assert(false);
+		mvThrowPythonError(mvErrorCode::mvNone, "Dictionary keywords must be strings");
+		return GetPyNone();
+	}
+
+	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+
+	if (PyObject* item = PyDict_GetItemString(kwargs, "trigger")) GContext->IO.triggerInput = ToBool(item);
+	if (PyObject* item = PyDict_GetItemString(kwargs, "trigger_time")) GContext->IO.triggerInputTime = ToInt(item) * io.Framerate;
+
+	return GetPyNone();
+}
+
+mv_internal mv_python_function
 get_app_configuration(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);

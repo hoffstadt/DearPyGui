@@ -86,6 +86,8 @@ struct mvIO
     bool        loadIniFile = false;
     bool        autoSaveIniFile = false;
     bool        waitForInput = false;
+    bool        triggerInput = false;
+    int         triggerInputTime = 0;
 
     // GPU selection
     bool        info_auto_device = false;

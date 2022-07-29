@@ -67,6 +67,15 @@ def configure_app(**kwargs) -> None:
 	"""Configures an item after creation."""
 	internal_dpg.configure_app(**kwargs)
 
+def trigger_input(**kwargs) -> None:
+	"""Trigger the wait for input.
+    If you do not set a Time the Trigger will be disabled after 1 Frame
+    Args:
+        trigger: boolean ( activate the Trigger )
+        trigger_time: Integer ( disable wait for input for X seconds )
+    """
+	internal_dpg.trigger_input(**kwargs)
+
 def configure_viewport(item : Union[int, str], **kwargs) -> None:
 	"""Configures a viewport after creation."""
 	internal_dpg.configure_viewport(item, **kwargs)

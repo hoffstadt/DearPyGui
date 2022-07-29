@@ -511,6 +511,22 @@ InsertParser_Block1(std::map<std::string, mvPythonParser>& parsers)
 
 	{
 		std::vector<mvPythonDataElement> args;
+		args.reserve(3);
+		args.push_back({ mvPyDataType::Bool, "trigger", mvArgType::KEYWORD_ARG, "False", "New in 1.6.4 trigger user input" });
+		args.push_back({ mvPyDataType::Integer, "trigger_time", mvArgType::KEYWORD_ARG, "0", "New in 1.6.4 trigger user input time" });
+
+		mvPythonParserSetup setup;
+		setup.about = "Trigger Input.";
+		setup.category = { "General" };
+		setup.unspecifiedKwargs = true;
+		setup.internal = true;
+
+		mvPythonParser parser = FinalizeParser(setup, args);
+		parsers.insert({ "trigger_input", parser });
+	}
+
+	{
+		std::vector<mvPythonDataElement> args;
 		args.push_back({ mvPyDataType::String, "file" });
 
 		mvPythonParserSetup setup;

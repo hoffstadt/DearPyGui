@@ -86,11 +86,18 @@ mvPrerender(mvViewport& viewport)
 	// - When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main application.
 	// Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
 
-	if(GContext->IO.waitForInput)
+	if (GContext->IO.triggerInput && GContext->IO.triggerInputTime > 0) {
+		GContext->IO.triggerInputTime--;
+	}
+
+	if(GContext->IO.waitForInput && GContext->IO.triggerInput == false && GContext->IO.triggerInputTime == 0)
 		::WaitMessage();
 
-	if (GContext->IO.waitForEventTimeout > 0)
-		::PostMessageW(NULL, NULL, 0, 0);
+	if (GContext->IO.triggerInput && GContext->IO.triggerInputTime == 0) {
+		GContext->IO.triggerInput = false;
+	}
+
+
 
 	if (::PeekMessage(&viewportData->msg, nullptr, 0U, 0U, PM_REMOVE))
 	{
