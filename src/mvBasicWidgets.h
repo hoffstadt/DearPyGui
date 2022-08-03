@@ -38,6 +38,7 @@ namespace DearPyGui
     void fill_configuration_dict(const mvProgressBarConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvImageConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvImageButtonConfig& inConfig, PyObject* outDict);
+    void fill_configuration_dict(const mvKnobFloatConfig& inConfig, PyObject* outDict);
 
     // specific part of `configure_item(...)`
     void set_configuration(PyObject* inDict, mvSimplePlotConfig& outConfig);
@@ -72,6 +73,7 @@ namespace DearPyGui
     void set_configuration(PyObject* inDict, mvImageConfig& outConfig);
     void set_configuration(PyObject* inDict, mvImageButtonConfig& outConfig);
     void set_configuration(PyObject* inDict, mvTooltipConfig& outConfig, mvAppItemConfig& config);
+    void set_configuration(PyObject* inDict, mvKnobFloatConfig& outConfig);
 
     // positional args TODO: combine with above
     void set_required_configuration(PyObject* inDict, mvImageConfig& outConfig);
@@ -112,6 +114,7 @@ namespace DearPyGui
     void set_data_source(mvAppItem& item, mvUUID dataSource, mvSelectableConfig& outConfig);
     void set_data_source(mvAppItem& item, mvUUID dataSource, mvMenuItemConfig& outConfig);
     void set_data_source(mvAppItem& item, mvUUID dataSource, mvProgressBarConfig& outConfig);
+    void set_data_source(mvAppItem& item, mvUUID dataSource, mvKnobFloatConfig& outConfig);
 
     // template specifics
     void apply_template(const mvSimplePlotConfig& sourceConfig, mvSimplePlotConfig& dstConfig);
@@ -146,6 +149,7 @@ namespace DearPyGui
     void apply_template(const mvProgressBarConfig& sourceConfig, mvProgressBarConfig& dstConfig);
     void apply_template(const mvImageConfig& sourceConfig, mvImageConfig& dstConfig);
     void apply_template(const mvImageButtonConfig& sourceConfig, mvImageButtonConfig& dstConfig);
+    void apply_template(const mvKnobFloatConfig& sourceConfig, mvKnobFloatConfig& dstConfig);
 
     // draw commands
     void draw_simple_plot  (ImDrawList* drawlist, mvAppItem& item, const mvSimplePlotConfig& config);
@@ -181,12 +185,13 @@ namespace DearPyGui
     void draw_image        (ImDrawList* drawlist, mvAppItem& item, mvImageConfig& config);
     void draw_image_button (ImDrawList* drawlist, mvAppItem& item, mvImageButtonConfig& config);
     void draw_filter_set   (ImDrawList* drawlist, mvAppItem& item, mvFilterSetConfig& config);
+    void draw_knob_float   (ImDrawList* drawlist, mvAppItem& item, mvKnobFloatConfig& config);
     void draw_separator    (ImDrawList* drawlist, mvAppItem& item);
     void draw_spacer       (ImDrawList* drawlist, mvAppItem& item);
     void draw_menubar      (ImDrawList* drawlist, mvAppItem& item);
     void draw_viewport_menubar(ImDrawList* drawlist, mvAppItem& item);
     void draw_clipper      (ImDrawList* drawlist, mvAppItem& item);    
-    void draw_tooltip      (ImDrawList* drawlist, mvAppItem& item);    
+    void draw_tooltip      (ImDrawList* drawlist, mvAppItem& item);      
 }
 
 enum class mvComboHeightMode
@@ -569,6 +574,15 @@ struct mvFilterSetConfig
 struct mvTooltipConfig
 {
 
+};
+
+struct mvKnobFloatConfig
+{
+    mvRef<float> value = CreateRef<float>(0.0f);
+    float        disabled_value = 0.0f;
+    float        minv = 0.0f;
+    float        maxv = 100.0f;
+    float        step = 50.0f;
 };
 
 //-----------------------------------------------------------------------------
@@ -1047,6 +1061,22 @@ public:
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
     void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvImageButton*>(item); DearPyGui::apply_template(titem->configData, configData); }
+};
+
+class mvKnobFloat : public mvAppItem
+{
+
+public:
+    mvKnobFloatConfig configData{};
+    explicit mvKnobFloat(mvUUID uuid) : mvAppItem(uuid) {}
+    void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_knob_float(drawlist, *this, configData); }
+    void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
+    void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
+    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvKnobFloat*>(item); DearPyGui::apply_template(titem->configData, configData); }
+    void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
+    void* getValue() override { return &configData.value; }
+    PyObject* getPyValue() override { return ToPyFloat(*configData.value); }
+    void setPyValue(PyObject* value) override { *configData.value = ToFloat(value); }
 };
 
 class mvFilterSet : public mvAppItem

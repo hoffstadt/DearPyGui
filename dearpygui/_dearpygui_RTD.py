@@ -872,7 +872,7 @@ def set_viewport_small_icon(icon: str):
 
 
 def set_viewport_large_icon(icon: str):
-    """Sets the viewport's small icon. Must be ico for windows.
+    """Sets the viewport's large icon. Must be ico for windows.
 
     Returns:
         None
@@ -5532,6 +5532,7 @@ def add_selectable(**kwargs):
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		default_value (bool, optional): 
 		span_columns (bool, optional): Forces the selectable to span the width of all columns if placed in a table.
+		disable_popup_close (bool, optional): Disable closing a modal or popup window.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]

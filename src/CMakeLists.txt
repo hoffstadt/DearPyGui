@@ -71,7 +71,6 @@ set(MARVEL_SOURCES
 	"custom/mvDatePicker.cpp"
 	"custom/mvTimePicker.cpp"
 	"custom/mvSlider3D.cpp"
-	"custom/mvKnob.cpp"
 	"custom/mvLoadingIndicator.cpp"
 	"composite/mvFileDialog.cpp"
 	"composite/mvFileExtension.cpp"

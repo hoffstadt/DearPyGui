@@ -7,6 +7,7 @@
 #include "mvPythonExceptions.h"
 #include <misc/cpp/imgui_stdlib.h>
 #include "mvTextureItems.h"
+#include "mvKnobCustom.h"
 
 //-----------------------------------------------------------------------------
 // [SECTION] get_item_configuration(...) specifics
@@ -642,6 +643,17 @@ DearPyGui::fill_configuration_dict(const mvImageButtonConfig& inConfig, PyObject
 	PyDict_SetItemString(outDict, "background_color", mvPyObject(ToPyColor(inConfig.backgroundColor)));
 	PyDict_SetItemString(outDict, "texture_tag", mvPyObject(ToPyUUID(inConfig.textureUUID)));
 	PyDict_SetItemString(outDict, "frame_padding", mvPyObject(ToPyInt(inConfig.framePadding)));
+}
+
+void
+DearPyGui::fill_configuration_dict(const mvKnobFloatConfig& inConfig, PyObject* outDict)
+{
+	if (outDict == nullptr)
+		return;
+
+	PyDict_SetItemString(outDict, "min_scale", mvPyObject(ToPyFloat(inConfig.minv)));
+	PyDict_SetItemString(outDict, "max_scale", mvPyObject(ToPyFloat(inConfig.maxv)));
+
 }
 
 //-----------------------------------------------------------------------------
@@ -1725,9 +1737,20 @@ DearPyGui::set_configuration(PyObject* inDict, mvTooltipConfig& outConfig, mvApp
 	config.parent = GetIDFromPyObject(PyTuple_GetItem(inDict, 0));
 }
 
+void
+DearPyGui::set_configuration(PyObject* inDict, mvKnobFloatConfig& outConfig)
+{
+	if (inDict == nullptr)
+		return;
+
+	if (PyObject* item = PyDict_GetItemString(inDict, "min_value")) outConfig.minv = ToFloat(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "max_value")) outConfig.maxv = ToFloat(item);
+}
+
 //-----------------------------------------------------------------------------
 // [SECTION] required args specifics
 //-----------------------------------------------------------------------------
+
 void
 DearPyGui::set_required_configuration(PyObject* inDict, mvImageConfig& outConfig)
 {
@@ -2321,6 +2344,28 @@ DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mvInputDoubleConf
 }
 
 void
+DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mvKnobFloatConfig& outConfig)
+{
+	if (dataSource == item.config.source) return;
+	item.config.source = dataSource;
+
+	mvAppItem* srcItem = GetItem((*GContext->itemRegistry), dataSource);
+	if (!srcItem)
+	{
+		mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
+			"Source item not found: " + std::to_string(dataSource), &item);
+		return;
+	}
+	if (DearPyGui::GetEntityValueType(srcItem->type) != DearPyGui::GetEntityValueType(item.type))
+	{
+		mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
+			"Values types do not match: " + std::to_string(dataSource), &item);
+		return;
+	}
+	outConfig.value = *static_cast<std::shared_ptr < float > * > (srcItem->getValue());
+}
+
+void
 DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mvInputFloatMultiConfig& outConfig)
 {
 	if (dataSource == item.config.source) return;
@@ -2814,6 +2859,15 @@ DearPyGui::apply_template(const mvInputDoubleMultiConfig& sourceConfig, mvInputD
 	dstConfig.size = sourceConfig.size;
 }
 
+void
+DearPyGui::apply_template(const mvKnobFloatConfig& sourceConfig, mvKnobFloatConfig& dstConfig)
+{
+	dstConfig.value = sourceConfig.value;
+	dstConfig.disabled_value = sourceConfig.disabled_value;
+	dstConfig.minv = sourceConfig.minv;
+	dstConfig.maxv = sourceConfig.maxv;
+	dstConfig.step = sourceConfig.step;
+}
 
 void
 DearPyGui::apply_template(const mvInputIntMultiConfig& sourceConfig, mvInputIntMultiConfig& dstConfig)
@@ -5335,6 +5389,103 @@ DearPyGui::draw_input_float(ImDrawList* drawlist, mvAppItem& item, mvInputFloatC
 					mvAddCallback(item.getCallback(false), item.config.alias, ToPyFloat(value), item.config.user_data);
 						});
 			}
+		}
+	}
+
+	//-----------------------------------------------------------------------------
+	// update state
+	//-----------------------------------------------------------------------------
+	UpdateAppItemState(item.state);
+
+	//-----------------------------------------------------------------------------
+	// post draw
+	//-----------------------------------------------------------------------------
+
+	// set cursor position to cached position
+	if (item.info.dirtyPos)
+		ImGui::SetCursorPos(previousCursorPos);
+
+	if (item.config.indent > 0.0f)
+		ImGui::Unindent(item.config.indent);
+
+	// pop font off stack
+	if (item.font)
+		ImGui::PopFont();
+
+	// handle popping themes
+	cleanup_local_theming(&item);
+
+	if (item.handlerRegistry)
+		item.handlerRegistry->checkEvents(&item.state);
+
+	// handle drag & drop if used
+	apply_drag_drop(&item);
+}
+
+void
+DearPyGui::draw_knob_float(ImDrawList* drawlist, mvAppItem& item, mvKnobFloatConfig& config)
+{
+	//-----------------------------------------------------------------------------
+	// pre draw
+	//-----------------------------------------------------------------------------
+
+	// show/hide
+	if (!item.config.show)
+		return;
+
+	// focusing
+	if (item.info.focusNextFrame)
+	{
+		ImGui::SetKeyboardFocusHere();
+		item.info.focusNextFrame = false;
+	}
+
+	// cache old cursor position
+	ImVec2 previousCursorPos = ImGui::GetCursorPos();
+
+	// set cursor position if user set
+	if (item.info.dirtyPos)
+		ImGui::SetCursorPos(item.state.pos);
+
+	// update widget's position state
+	item.state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
+
+	// set item width
+	if (item.config.width != 0)
+		ImGui::SetNextItemWidth((float)item.config.width);
+
+	// set indent
+	if (item.config.indent > 0.0f)
+		ImGui::Indent(item.config.indent);
+
+	// push font if a font object is attached
+	if (item.font)
+	{
+		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
+		ImGui::PushFont(fontptr);
+	}
+
+	// themes
+	apply_local_theming(&item);
+
+	//-----------------------------------------------------------------------------
+	// draw
+	//-----------------------------------------------------------------------------
+	{
+
+		ScopedID id(item.uuid);
+
+		if (!item.config.enabled) config.disabled_value = *config.value;
+
+		if (KnobFloat(item.config.specifiedLabel.c_str(), item.config.enabled ? config.value.get() : &config.disabled_value, config.minv, config.maxv, config.step))
+		{
+			auto value = *config.value;
+			mvSubmitCallback([&item, value]() {
+				if (item.config.alias.empty())
+					mvAddCallback(item.getCallback(false), item.uuid, ToPyFloat(value), item.config.user_data);
+				else
+					mvAddCallback(item.getCallback(false), item.config.alias, ToPyFloat(value), item.config.user_data);
+				});
 		}
 	}
 

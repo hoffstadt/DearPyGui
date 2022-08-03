@@ -70,6 +70,7 @@ struct mvDragPayloadConfig;
 struct mvCollapsingHeaderConfig;
 struct mvTabBarConfig;
 struct mvWindowAppItemConfig;
+struct mvKnobFloatConfig;
 
 // plots
 struct mvPlotConfig;
