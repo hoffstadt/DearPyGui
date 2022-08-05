@@ -371,7 +371,7 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 			auto axis = static_cast<mvPlotAxis*>(child.get());
 			if (axis->configData.setLimits || axis->configData._dirty)
 			{
-				switch (item.info.location)
+				switch (axis->info.location)
 				{
 				case(0): ImPlot::SetNextPlotLimitsX(axis->configData.limits.x, axis->configData.limits.y, ImGuiCond_Always); break;
 				case(1): ImPlot::SetNextPlotLimitsY(axis->configData.limits.x, axis->configData.limits.y, ImGuiCond_Always); break;
@@ -385,7 +385,7 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 			if (!axis->configData.labels.empty())
 			{
 				// TODO: Checks
-				if (item.info.location == 0)
+				if (axis->info.location == 0)
 					ImPlot::SetNextPlotTicksX(axis->configData.labelLocations.data(), (int)axis->configData.labels.size(), axis->configData.clabels.data());
 				else
 					ImPlot::SetNextPlotTicksY(axis->configData.labelLocations.data(), (int)axis->configData.labels.size(), axis->configData.clabels.data());
