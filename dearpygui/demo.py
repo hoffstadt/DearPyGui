@@ -274,7 +274,7 @@ def show_demo():
                 dpg.add_text(f'Dear PyGui says hello. ({dpg.get_dearpygui_version()})')
                 with dpg.group(horizontal=True):
                     dpg.add_text("The code for the most recent version of this demo can be found here:")
-                    _hyperlink("demo.py", "https://github.com/hoffstadt/DearPyGui/blob/master/DearPyGui/dearpygui/demo.py")
+                    _hyperlink("demo.py", "https://github.com/hoffstadt/DearPyGui/blob/master/dearpygui/demo.py")
 
         with dpg.collapsing_header(label="Window Options"):
 
