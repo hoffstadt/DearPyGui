@@ -151,4 +151,4 @@ viewport and always be drawn behind other windows.
     dpg.start_dearpygui()
     dpg.destroy_context()
 
-.. seealso:: for more information on the viewport :doc:`../documentation/primary-window`
+.. seealso:: for more information on the primary window :doc:`../documentation/primary-window`
