@@ -96,10 +96,10 @@ Each of these can be accessed by their corresponding function
     keywords that control its appearance and behavior (label, callback, width, height)
 
 :py:func:`get_item_state <dearpygui.dearpygui.get_item_state>`
-    keywords that reflect its interaction (visible, hovered, clicked, ect)
+    keywords that reflect its interaction (visible, hovered, clicked, etc)
 
 :py:func:`get_item_info <dearpygui.dearpygui.get_item_info>`
-    keywords that reflect its information (item type, children, theme, ect)
+    keywords that reflect its information (item type, children, theme, etc)
 
 .. note:: configuration, state and info are broken into
     separate commands that access each individual keyword,
