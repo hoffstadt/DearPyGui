@@ -37,7 +37,7 @@ int main(int argc, char* argv[])
       PYTHON_LIBS_PATH":"
       PYTHON_LIBS_PATH"/lib-dynload:"
       PYTHON_LIBS_PATH"/site-packages:"
-      "../../src:"
+      "../..:"
       "../../thirdparty/DearPyGui_Ext:"
       "../../sandbox",
       nullptr);
@@ -69,7 +69,7 @@ int main(int argc, char* argv[])
 	// sandbox
 	{
 		auto ss = std::ostringstream{};
-		std::ifstream input_file("../../src/sandbox.py");
+		std::ifstream input_file("../../sandbox/sandbox.py");
 		ss << input_file.rdbuf();
 		PyRun_SimpleString(ss.str().c_str());
 	}
