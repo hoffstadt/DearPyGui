@@ -102,7 +102,7 @@ void mvFileDialog::draw(ImDrawList* drawlist, float x, float y)
 		{
 
 			// action if OK clicked or if cancel clicked and cancel callback provided
-			if (_instance.IsOk() or (!_instance.IsOk() and _cancelCallback))
+			if (_instance.IsOk() || (!_instance.IsOk() && _cancelCallback))
 			{
 				mvSubmitCallback([&]()
 					{
@@ -115,7 +115,7 @@ void mvFileDialog::draw(ImDrawList* drawlist, float x, float y)
 							appData = getInfoDict();
 						} else {
 							callback = _cancelCallback;
-							appData = Py_None;
+							appData = getInfoDict();
 						}
 
 						if(config.alias.empty())
