@@ -976,7 +976,7 @@ DearPyGui::draw_child_window(ImDrawList* drawlist, mvAppItem& item, mvChildWindo
     {
         ScopedID id(item.uuid);
 
-        ImGui::BeginChild(item.info.internalLabel.c_str(), ImVec2(config.autosize_x ? 0 : (float)item.config.width, config.autosize_y ? 0 : (float)item.config.height), config.border, config.windowflags);
+        ImGui::BeginChild(item.info.internalLabel.c_str(), ImVec2(config.autosize_x ? (float)GContext->viewport->clientWidth : (float)item.config.width, config.autosize_y ? (float)GContext->viewport->clientHeight : (float)item.config.height), config.border, config.windowflags);
         item.state.lastFrameUpdate = GContext->frame;
         item.state.active = ImGui::IsItemActive();
         item.state.deactivated = ImGui::IsItemDeactivated();
