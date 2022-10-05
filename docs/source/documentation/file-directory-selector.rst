@@ -3,9 +3,12 @@ File & Directory Selector
 
 The file dialog item can be used to select a single file,
 multiple files, or a directory. When the user clicks the **Ok** button,
-the dialog's callback is ran. 
+the dialog's callback is run. An optional second callback, to be run 
+when the cancel button is clicked, can be provided as a keyword
+argument.
 
-Information is passed through the app_data argument such as:
+When OK is clicked, information is passed through the app_data argument
+such as:
 * file path
 * file name
 * current path
@@ -23,10 +26,18 @@ The simplest case is as a director picker. Below is the example
     dpg.create_context()
 
     def callback(sender, app_data):
+        print('OK was clicked.')
         print("Sender: ", sender)
         print("App Data: ", app_data)
 
-    dpg.add_file_dialog(directory_selector=True, show=False, callback=callback, tag="file_dialog_id")
+    def cancel_callback(sender, app_data):
+        print('Cancel was clicked.')
+        print("Sender: ", sender)
+        print("App Data: ", app_data)
+
+    dpg.add_file_dialog(
+        directory_selector=True, show=False, callback=callback, tag="file_dialog_id",
+        cancel_callback=cancel_callback)
 
     with dpg.window(label="Tutorial", width=800, height=300):
         dpg.add_button(label="Directory Selector", callback=lambda: dpg.show_item("file_dialog_id"))
