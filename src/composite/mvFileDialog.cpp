@@ -102,7 +102,7 @@ void mvFileDialog::draw(ImDrawList* drawlist, float x, float y)
 		{
 
 			// action if OK clicked or if cancel clicked and cancel callback provided
-			if (_instance.IsOk() || (!_instance.IsOk() && _cancelCallback))
+			if (_instance.IsOk() ||  _cancelCallback)
 			{
 				mvSubmitCallback([&]()
 					{
