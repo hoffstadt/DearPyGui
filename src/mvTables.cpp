@@ -206,7 +206,10 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 				if (_cellColorsSet[row_index][column_index])
 					ImGui::TableSetBgColor(ImGuiTableBgTarget_CellBg, _cellColors[row_index][column_index]);
 
-				cell->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
+                auto& columnItem = childslots[0][column_index];
+
+                if(columnItem->config.enabled)
+				    cell->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 			}
 		};
 
@@ -340,6 +343,7 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 				item->state.lastFrameUpdate = GContext->frame;
 				item->state.visible = flags & ImGuiTableColumnFlags_IsVisible;
 				item->state.hovered = flags & ImGuiTableColumnFlags_IsHovered;
+                if(!item->config.enabled && item->state.visible) item->config.enabled = true;
 				columnnum++;
 			}
 
