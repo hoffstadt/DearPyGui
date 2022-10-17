@@ -201,7 +201,7 @@ def show_documentation() -> None:
 
 
 def show_font_manager() -> None:
-    """Shows the standard documentation window
+    """Shows a debug tool for the font manager
 
     Returns:
         None
@@ -210,7 +210,7 @@ def show_font_manager() -> None:
 
 
 def show_item_registry() -> None:
-    """Shows the standard documentation window
+    """Shows the item hierarchy of your application
 
     Returns:
         None
@@ -1765,6 +1765,7 @@ def file_dialog(**kwargs):
 		directory_selector (bool, optional): Shows only directory/paths as options. Allows selection of directory/paths only.
 		min_size (Union[List[int], Tuple[int, ...]], optional): Minimum window size.
 		max_size (Union[List[int], Tuple[int, ...]], optional): Maximum window size.
+		cancel_callback (Callable, optional): Callback called when cancel button is clicked.
 		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
@@ -3828,6 +3829,7 @@ def add_file_dialog(**kwargs):
 		directory_selector (bool, optional): Shows only directory/paths as options. Allows selection of directory/paths only.
 		min_size (Union[List[int], Tuple[int, ...]], optional): Minimum window size.
 		max_size (Union[List[int], Tuple[int, ...]], optional): Maximum window size.
+		cancel_callback (Callable, optional): Callback called when cancel button is clicked.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]

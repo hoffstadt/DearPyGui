@@ -185,7 +185,7 @@ def show_documentation() -> None:
 
 
 def show_font_manager() -> None:
-    """Shows the standard documentation window
+    """Shows a debug tool for the font manager
 
     Returns:
         None
@@ -194,7 +194,7 @@ def show_font_manager() -> None:
 
 
 def show_item_registry() -> None:
-    """Shows the standard documentation window
+    """Shows the item hierarchy of your application
 
     Returns:
         None

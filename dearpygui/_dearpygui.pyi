@@ -170,7 +170,7 @@ def add_error_series(x : Union[List[float], Tuple[float, ...]], y : Union[List[f
 	"""Adds an error series to a plot."""
 	...
 
-def add_file_dialog(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', callback: Callable ='', show: bool ='', default_path: str ='', default_filename: str ='', file_count: int ='', modal: bool ='', directory_selector: bool ='', min_size: Union[List[int], Tuple[int, ...]] ='', max_size: Union[List[int], Tuple[int, ...]] ='') -> Union[int, str]:
+def add_file_dialog(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', callback: Callable ='', show: bool ='', default_path: str ='', default_filename: str ='', file_count: int ='', modal: bool ='', directory_selector: bool ='', min_size: Union[List[int], Tuple[int, ...]] ='', max_size: Union[List[int], Tuple[int, ...]] ='', cancel_callback: Callable ='') -> Union[int, str]:
 	"""Displays a file or directory selector depending on keywords. Displays a file dialog by default. Callback will be ran when the file or directory picker is closed. The app_data arguemnt will be populated with information related to the file and directory as a dictionary."""
 	...
 
