@@ -101,7 +101,8 @@ void mvLayoutWindow::renderTreeNode(mvRef<mvAppItem>& item)
             else
             {
                 for (auto& children : childrenSet)
-                    renderTreeNode(children);
+                    if(children)
+                        renderTreeNode(children);
             }
         }
         ImGui::TreePop();
