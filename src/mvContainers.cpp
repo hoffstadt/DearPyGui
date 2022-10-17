@@ -297,6 +297,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvTreeNodeConfig& outConfig)
         return;
 
     if (PyObject* item = PyDict_GetItemString(inDict, "selectable")) outConfig.selectable = ToBool(item);
+    if (PyObject* item = PyDict_GetItemString(inDict, "default_open")) *outConfig.value = ToBool(item);
 
     // helper for bit flipping
     auto flagop = [inDict](const char* keyword, int flag, int& flags)
@@ -331,6 +332,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvCollapsingHeaderConfig& outConf
         return;
 
     if (PyObject* item = PyDict_GetItemString(inDict, "closable")) outConfig.closable = ToBool(item);
+    if (PyObject* item = PyDict_GetItemString(inDict, "default_open")) *outConfig.value = ToBool(item);
 
     // helper for bit flipping
     auto flagop = [inDict](const char* keyword, int flag, int& flags)
