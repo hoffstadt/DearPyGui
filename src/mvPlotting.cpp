@@ -371,7 +371,7 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 			auto axis = static_cast<mvPlotAxis*>(child.get());
 			if (axis->configData.setLimits || axis->configData._dirty)
 			{
-				switch (item.info.location)
+				switch (axis->info.location)
 				{
 				case(0): ImPlot::SetNextPlotLimitsX(axis->configData.limits.x, axis->configData.limits.y, ImGuiCond_Always); break;
 				case(1): ImPlot::SetNextPlotLimitsY(axis->configData.limits.x, axis->configData.limits.y, ImGuiCond_Always); break;
