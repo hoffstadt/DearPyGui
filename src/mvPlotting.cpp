@@ -385,7 +385,7 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 			if (!axis->configData.labels.empty())
 			{
 				// TODO: Checks
-				if (item.info.location == 0)
+				if (axis->info.location == 0)
 					ImPlot::SetNextPlotTicksX(axis->configData.labelLocations.data(), (int)axis->configData.labels.size(), axis->configData.clabels.data());
 				else
 					ImPlot::SetNextPlotTicksY(axis->configData.labelLocations.data(), (int)axis->configData.labels.size(), axis->configData.clabels.data());
