@@ -3,7 +3,7 @@ Themes
 
 Themes are containers which are composed of:
     Theme Components:
-        are containers within a theme that can specify an item type the theme colors/styles target
+        containers within a theme that can specify an item type the theme colors/styles target
     Theme Colors:
         items that are added to a theme component and set colors
     Theme Styles:
@@ -13,7 +13,7 @@ The theme can be:
 
 * bound as the default theme. This will have a global effect across all windows and propagate.
 * bound to a container. This will propagate to its children if applicable theme components are in the theme.
-* bound to an item type if applicable theme components are in the theme. a item container, or a specific item.
+* bound to an item type if applicable theme components are in the theme.
 
 Theme components must have a specified item type. This can either be *mvAll* for all items or a specific item type.
 
@@ -34,7 +34,7 @@ Theme colors and styles fall into the following categories:
 Default Theme (global) 
 ----------------------
 
-Default themes will apply the theme globally across all windows and propigate to children.
+Default themes will apply the theme globally across all windows and propagate to children.
 
 .. code-block:: python
 
@@ -120,7 +120,7 @@ Applying a theme to a container will propagate the theme to its children:
 Item Specific
 -------------
 
-Applying a theme to an item will overide any previous themes to that specified item if the theme contains an applicable component.
+Applying a theme to an item will overide any previous themes on the specified item if the theme contains an applicable component.
 
 .. code-block:: python
 
@@ -220,10 +220,10 @@ The theme prioritizes the latest applied theme in the order of
 Theme for Disabled Items
 ------------------------
 
-Each item has a separate disabled themethat is utilized when the item is disabled. 
-The disable theme follows the same propagation rules as the enabled theme.
-When an item's parameter *enabled* is set to *False* the item will utilize it's default theme. 
-If no disable theme has been set the defaule disable theme will be used.
+Each item has a separate disabled theme that is used when the item is disabled.
+The disabled theme follows the same propagation rules as the enabled theme.
+When an item's parameter *enabled* is set to *False* the item will use its disabled theme.
+If no disabled theme has been set the default theme will be used.
 
 .. code-block:: python
 
