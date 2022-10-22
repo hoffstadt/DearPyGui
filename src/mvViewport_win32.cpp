@@ -89,9 +89,6 @@ mvPrerender(mvViewport& viewport)
 	if(GContext->IO.waitForInput)
 		::WaitMessage();
 
-	if (GContext->IO.waitForEventTimeout > 0)
-		::PostMessageW(NULL, NULL, 0, 0);
-
 	if (::PeekMessage(&viewportData->msg, nullptr, 0U, 0U, PM_REMOVE))
 	{
 		::TranslateMessage(&viewportData->msg);
