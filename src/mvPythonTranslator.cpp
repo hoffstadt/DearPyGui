@@ -273,9 +273,11 @@ ToPyList(const std::vector<double>& value)
 
     PyObject* result = PyList_New(value.size());
 
-    for (size_t i = 0; i < value.size(); ++i)
-        PyList_SetItem(result, i, PyFloat_FromDouble(value[i]));
-
+    if(result)
+    {
+        for (size_t i = 0; i < value.size(); ++i)
+            PyList_SetItem(result, i, PyFloat_FromDouble(value[i]));
+    }
     return result;
 }
 
@@ -284,8 +286,11 @@ ToPyList(const std::vector<std::vector<float>>& value)
 {
     PyObject* result = PyList_New(value.size());
 
-    for (size_t i = 0; i < value.size(); ++i)
-        PyList_SetItem(result, i, ToPyList(value[i]));
+    if(result)
+    {
+        for (size_t i = 0; i < value.size(); ++i)
+            PyList_SetItem(result, i, ToPyList(value[i]));
+    }
 
     return result;
 }
@@ -295,8 +300,11 @@ ToPyList(const std::vector<std::vector<double>>& value)
 {
     PyObject* result = PyList_New(value.size());
 
-    for (size_t i = 0; i < value.size(); ++i)
-        PyList_SetItem(result, i, ToPyList(value[i]));
+    if(result)
+    {
+        for (size_t i = 0; i < value.size(); ++i)
+            PyList_SetItem(result, i, ToPyList(value[i]));
+    }
 
     return result;
 }

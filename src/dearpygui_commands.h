@@ -2999,7 +2999,8 @@ delete_item(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 
-	DeleteItem((*GContext->itemRegistry), item, childrenOnly, slot);
+    if(item != 0)
+	    DeleteItem((*GContext->itemRegistry), item, childrenOnly, slot);
 
 	return GetPyNone();
 
