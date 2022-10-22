@@ -1,5 +1,6 @@
 #include "mvWindowsSpecifics.h"
 
+
 static BYTE gprevious_ime_char;
 static WORD glang_id;
 
@@ -69,7 +70,7 @@ mvPrerender(mvViewport& viewport)
 		}
 
 		SetWindowLongPtr(viewportData->handle, GWL_STYLE, viewportData->modes);
-		SetWindowPos(viewportData->handle, viewport.alwaysOnTop ? HWND_TOPMOST : HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
+		SetWindowPos(viewportData->handle, viewport.alwaysOnTop ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
 		viewport.modesDirty = false;
 	}
 
@@ -87,6 +88,9 @@ mvPrerender(mvViewport& viewport)
 
 	if(GContext->IO.waitForInput)
 		::WaitMessage();
+
+	if (GContext->IO.waitForEventTimeout > 0)
+		::PostMessageW(NULL, NULL, 0, 0);
 
 	if (::PeekMessage(&viewportData->msg, nullptr, 0U, 0U, PM_REMOVE))
 	{
