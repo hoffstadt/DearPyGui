@@ -7,7 +7,7 @@ therefore it is recommended that you load your own file when using DPG in an
 application aiming to look nice and wanting to support multiple resolutions.
 
 You do this by loading external .TTF/.OTF files. 
-In the `Resources <https://github.com/hoffstadt/DearPyGui/tree/master/Resources>`_
+In the `Assets <https://github.com/hoffstadt/DearPyGui/tree/master/assets>`_
 folder you can find an example of a otf font.
 
 Readme First
