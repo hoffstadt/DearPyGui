@@ -2,6 +2,7 @@
 
 #include "mvItemRegistry.h"
 #include "mvDearPyGui.h"
+#include "implot.h"
 #include <array>
 
 namespace DearPyGui
@@ -353,8 +354,8 @@ struct mvPlotAxisConfig
     ImPlotAxisFlags          flags = 0;
     int                      axis = 0;
     bool                     setLimits = false;
-    ImVec2                   limits;
-    ImVec2                   limits_actual;
+    ImPlotPoint              limits;
+    ImPlotPoint              limits_actual;
     std::vector<std::string> labels;
     std::vector<double>      labelLocations;
     std::vector<const char*> clabels; // to prevent conversion from string to char* every frame

@@ -1289,6 +1289,41 @@ ToVectPairStringFloat(PyObject* value, const std::string& message)
 
     return items;
 }
+std::vector<std::pair<std::string, double>>
+ToVectPairStringDouble(PyObject* value, const std::string& message)
+{
+    std::vector<std::pair<std::string, double>> items;
+    if (value == nullptr)
+        return items;
+         
+
+    if (PyTuple_Check(value))
+    {
+        for (Py_ssize_t i = 0; i < PyTuple_Size(value); ++i)
+        {
+            PyObject* item = PyTuple_GetItem(value, i);
+            if (PyTuple_Size(item) == 2 && PyNumber_Check(PyTuple_GetItem(item, 1)))
+                items.emplace_back(PyUnicode_AsUTF8(PyTuple_GetItem(item, 0)), PyFloat_AsDouble(PyTuple_GetItem(item, 1)));
+
+        }
+
+    }
+    else if (PyList_Check(value))
+    {
+        for (Py_ssize_t i = 0; i < PyList_Size(value); ++i)
+        {
+            PyObject* item = PyList_GetItem(value, i);
+            if (PyList_Size(item) == 2 && PyNumber_Check(PyList_GetItem(item, 1)))
+                items.emplace_back(PyUnicode_AsUTF8(PyList_GetItem(item, 0)), PyFloat_AsDouble(PyList_GetItem(item, 1)));
+
+        }
+    }
+
+    else
+        mvThrowPythonError(mvErrorCode::mvWrongType, message);
+
+    return items;
+}
 
 std::vector<std::vector<float>>
 ToVectVectFloat(PyObject* value, const std::string& message)

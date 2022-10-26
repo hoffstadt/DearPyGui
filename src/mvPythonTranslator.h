@@ -96,3 +96,4 @@ std::vector<std::vector<float>>                  ToVectVectFloat      (PyObject*
 std::vector<std::vector<int>>                    ToVectVectInt        (PyObject* value, const std::string& message = "Type must be an list/tuple of list/tuple of ints.");
 std::vector<std::vector<double>>                 ToVectVectDouble     (PyObject* value, const std::string& message = "Type must be an list/tuple of list/tuple of doubles.");
 std::vector<std::pair<std::string, float>>       ToVectPairStringFloat(PyObject* value, const std::string& message = "Type must be an list/tuple of str,float pairs.");
+std::vector<std::pair<std::string, double>>      ToVectPairStringDouble(PyObject* value, const std::string& message = "Type must be an list/tuple of str,float pairs.");
