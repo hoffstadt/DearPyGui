@@ -1050,7 +1050,7 @@ set_axis_ticks(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["set_axis_ticks"], args, kwargs, __FUNCTION__, &plotraw, &label_pairs))
 		return GetPyNone();
 
-	auto mlabel_pairs = ToVectPairStringFloat(label_pairs);
+	auto mlabel_pairs = ToVectPairStringDouble(label_pairs);
 
 	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
@@ -1098,8 +1098,8 @@ mv_internal mv_python_function
 set_axis_limits(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 	PyObject* axisraw;
-	float ymin;
-	float ymax;
+	double ymin;
+	double ymax;
 
 	if (!Parse((GetParsers())["set_axis_limits"], args, kwargs, __FUNCTION__, &axisraw, &ymin, &ymax))
 		return GetPyNone();
@@ -1125,7 +1125,7 @@ set_axis_limits(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	mvPlotAxis* graph = static_cast<mvPlotAxis*>(aplot);
 	graph->configData.setLimits = true;
-	graph->configData.limits = ImVec2(ymin, ymax);
+	graph->configData.limits = ImPlotPoint(ymin, ymax);
 	return GetPyNone();
 }
 
@@ -1228,7 +1228,7 @@ get_axis_limits(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	mvPlotAxis* graph = static_cast<mvPlotAxis*>(aplot);
 
-	const ImVec2& lim = graph->configData.limits_actual;
+	const ImPlotPoint& lim = graph->configData.limits_actual;
 	return ToPyPair(lim.x, lim.y);
 }
 
