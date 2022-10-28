@@ -4241,7 +4241,7 @@ def add_image_series(texture_tag, bounds_min, bounds_max, **kwargs):
 	return internal_dpg.add_image_series(texture_tag, bounds_min, bounds_max, **kwargs)
 
 def add_input_double(**kwargs):
-	"""	 Adds input for an double. Useful when input float is not accurate enough. +/- buttons can be activated by setting the value of step.
+	"""	 Adds input for a double. Useful when input float is not accurate enough. +/- buttons can be activated by setting the value of step.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
