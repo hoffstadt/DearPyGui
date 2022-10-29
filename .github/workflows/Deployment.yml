@@ -36,7 +36,7 @@ jobs:
     runs-on: windows-2019
     strategy:
       matrix:
-        python-version: [ 3.7, 3.8, 3.9, "3.10" ]
+        python-version: [ 3.7, 3.8, 3.9, "3.10", "3.11" ]
 
     steps:
 
@@ -79,7 +79,7 @@ jobs:
     runs-on: macos-10.15
     strategy:
       matrix:
-        python-version: [ 3.7, 3.8, 3.9, "3.10" ]
+        python-version: [ 3.7, 3.8, 3.9, "3.10", "3.11" ]
 
     steps:
 
@@ -121,7 +121,7 @@ jobs:
       CXX: g++-9
     strategy:
       matrix:
-        python-version: [ 3.7, 3.8, 3.9, "3.10" ]
+        python-version: [ 3.7, 3.8, 3.9, "3.10", "3.11" ]
 
     steps:
 
