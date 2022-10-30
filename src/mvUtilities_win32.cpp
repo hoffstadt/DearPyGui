@@ -22,7 +22,7 @@
 
 namespace fs = std::filesystem;
 
-mv_impl void
+ void
 OutputFrameBufferArray(PymvBuffer* out)
 {
     mvGraphics_D3D11* graphicsData = (mvGraphics_D3D11*)GContext->graphics.backendSpecifics;
@@ -60,7 +60,7 @@ OutputFrameBufferArray(PymvBuffer* out)
     }
 }
 
-mv_impl void
+ void
 OutputFrameBuffer(const char* filepath)
 {
     mvGraphics_D3D11* graphicsData = (mvGraphics_D3D11*)GContext->graphics.backendSpecifics;
@@ -89,7 +89,7 @@ OutputFrameBuffer(const char* filepath)
 
 }
 
-mv_impl void*
+ void*
 LoadTextureFromFile(const char* filename, int& width, int& height)
 {
 
@@ -142,7 +142,7 @@ LoadTextureFromFile(const char* filename, int& width, int& height)
     return out_srv;
 }
 
-mv_impl void*
+ void*
 LoadTextureFromArray(unsigned width, unsigned height, float* data)
 {
     mvGraphics_D3D11* graphicsData = (mvGraphics_D3D11*)GContext->graphics.backendSpecifics;
@@ -181,7 +181,7 @@ LoadTextureFromArray(unsigned width, unsigned height, float* data)
     return out_srv;
 }
 
-mv_impl void*
+ void*
 LoadTextureFromArray(unsigned width, unsigned height, int* data)
 {
     mvGraphics_D3D11* graphicsData = (mvGraphics_D3D11*)GContext->graphics.backendSpecifics;
@@ -220,7 +220,7 @@ LoadTextureFromArray(unsigned width, unsigned height, int* data)
     return out_srv;
 }
 
-mv_impl void*
+ void*
 LoadTextureFromArrayDynamic(unsigned width, unsigned height, float* data)
 {
     mvGraphics_D3D11* graphicsData = (mvGraphics_D3D11*)GContext->graphics.backendSpecifics;
@@ -259,7 +259,7 @@ LoadTextureFromArrayDynamic(unsigned width, unsigned height, float* data)
     return out_srv;
 }
 
-mv_impl void*
+ void*
 LoadTextureFromArrayDynamic(unsigned width, unsigned height, int* data)
 {
     mvGraphics_D3D11* graphicsData = (mvGraphics_D3D11*)GContext->graphics.backendSpecifics;
@@ -298,7 +298,7 @@ LoadTextureFromArrayDynamic(unsigned width, unsigned height, int* data)
     return out_srv;
 }
 
-mv_impl void
+ void
 UpdateTexture(void* texture, unsigned width, unsigned height, std::vector<float>& data)
 {
     mvGraphics_D3D11* graphicsData = (mvGraphics_D3D11*)GContext->graphics.backendSpecifics;
@@ -327,7 +327,7 @@ UpdateTexture(void* texture, unsigned width, unsigned height, std::vector<float>
     resource->Release();
 }
 
-mv_impl void
+ void
 UpdateTexture(void* texture, unsigned width, unsigned height, std::vector<int>& data)
 {
     mvGraphics_D3D11* graphicsData = (mvGraphics_D3D11*)GContext->graphics.backendSpecifics;
@@ -356,7 +356,7 @@ UpdateTexture(void* texture, unsigned width, unsigned height, std::vector<int>& 
     resource->Release();
 }
 
-mv_impl void
+ void
 UpdateRawTexture(void* texture, unsigned width, unsigned height, float* data, int components)
 {
     mvGraphics_D3D11* graphicsData = (mvGraphics_D3D11*)GContext->graphics.backendSpecifics;
@@ -385,7 +385,7 @@ UpdateRawTexture(void* texture, unsigned width, unsigned height, float* data, in
     resource->Release();
 }
 
-mv_impl void*
+ void*
 LoadTextureFromArrayRaw(unsigned width, unsigned height, float* data, int components)
 {
     mvGraphics_D3D11* graphicsData = (mvGraphics_D3D11*)GContext->graphics.backendSpecifics;
@@ -438,7 +438,7 @@ LoadTextureFromArrayRaw(unsigned width, unsigned height, float* data, int compon
     return out_srv;
 }
 
-mv_impl void
+ void
 FreeTexture(void* texture)
 {
     ID3D11ShaderResourceView* out_srv = static_cast<ID3D11ShaderResourceView*>(texture);
@@ -448,7 +448,7 @@ FreeTexture(void* texture)
     texture = nullptr;
 }
 
-mv_impl bool
+ bool
 UnloadTexture(const std::string& filename)
 {
     // TODO : decide if cleanup is necessary

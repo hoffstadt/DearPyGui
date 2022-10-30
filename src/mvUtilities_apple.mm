@@ -19,19 +19,19 @@
 // from reaching 0.
 static std::vector<std::pair<id<MTLTexture>, id<MTLTexture>>> g_textures;
 
-mv_impl void
+ void
 OutputFrameBufferArray(PymvBuffer* out)
 {
     mvSubmitCallback([]() {mvThrowPythonError(mvErrorCode::mvNone, "`output_frame_buffer(...)` has not been implemented for this platform yet."); });
 }
 
-mv_impl void
+ void
 OutputFrameBuffer(const char* filepath)
 {
     mvSubmitCallback([](){mvThrowPythonError(mvErrorCode::mvNone, "`output_frame_buffer(...)` has not been implemented for this platform yet.");});
 }
 
-mv_impl void*
+ void*
 LoadTextureFromArray(unsigned width, unsigned height, float* data)
 {
     mvGraphics& graphics = GContext->graphics;
@@ -50,7 +50,7 @@ LoadTextureFromArray(unsigned width, unsigned height, float* data)
     return (__bridge void*)g_textures.back().second;
 }
 
-mv_impl void*
+ void*
 LoadTextureFromArrayDynamic(unsigned width, unsigned height, float* data)
 {
     mvGraphics& graphics = GContext->graphics;
@@ -69,7 +69,7 @@ LoadTextureFromArrayDynamic(unsigned width, unsigned height, float* data)
     return (__bridge void*)g_textures.back().second;
 }
 
-mv_impl void*
+ void*
 LoadTextureFromArrayRaw(unsigned width, unsigned height, float* data, int components)
 {
     mvGraphics& graphics = GContext->graphics;
@@ -88,7 +88,7 @@ LoadTextureFromArrayRaw(unsigned width, unsigned height, float* data, int compon
     return (__bridge void*)g_textures.back().second;
 }
 
-mv_impl void*
+ void*
 LoadTextureFromFile(const char* filename, int& width, int& height)
 {
     mvGraphics& graphics = GContext->graphics;
@@ -113,14 +113,14 @@ LoadTextureFromFile(const char* filename, int& width, int& height)
     return (__bridge void*)g_textures.back().second;
 }
 
-mv_impl bool
+ bool
 UnloadTexture(const std::string& filename)
 {
 
 	return true;
 }
 
-mv_impl void
+ void
 FreeTexture(void* texture)
 {
     id <MTLTexture> out_srv = (__bridge id <MTLTexture>)texture;
@@ -135,7 +135,7 @@ FreeTexture(void* texture)
 
 }
 
-mv_impl void
+ void
 UpdateTexture(void* texture, unsigned width, unsigned height, std::vector<float>& data)
 {
     id <MTLTexture> out_srv = (__bridge id <MTLTexture>)texture;

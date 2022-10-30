@@ -19,7 +19,7 @@
 
 static std::unordered_map<GLuint, GLuint> PBO_ids;
 
-mv_internal void
+static void
 UpdatePixels(GLubyte* dst, const float* data, int size)
 {
 
@@ -34,7 +34,7 @@ UpdatePixels(GLubyte* dst, const float* data, int size)
     }
 }
 
-mv_impl void
+ void
 OutputFrameBufferArray(PymvBuffer* out)
 {
     mvViewport* viewport = GContext->viewport;
@@ -68,7 +68,7 @@ OutputFrameBufferArray(PymvBuffer* out)
     }
 }
 
-mv_impl void
+ void
 OutputFrameBuffer(const char* filepath)
 {
     mvViewport* viewport = GContext->viewport;
@@ -88,7 +88,7 @@ OutputFrameBuffer(const char* filepath)
     free(data);
 }
 
-mv_impl void*
+ void*
 LoadTextureFromArray(unsigned width, unsigned height, float* data)
 {
 
@@ -108,7 +108,7 @@ LoadTextureFromArray(unsigned width, unsigned height, float* data)
     return reinterpret_cast<void *>(image_texture);
 }
 
-mv_impl void*
+ void*
 LoadTextureFromArrayDynamic(unsigned width, unsigned height, float* data)
 {
 
@@ -135,7 +135,7 @@ LoadTextureFromArrayDynamic(unsigned width, unsigned height, float* data)
     return reinterpret_cast<void *>(image_texture);
 }
 
-mv_impl void*
+ void*
 LoadTextureFromArrayRaw(unsigned width, unsigned height, float* data, int components)
 {
 
@@ -165,7 +165,7 @@ LoadTextureFromArrayRaw(unsigned width, unsigned height, float* data, int compon
     return reinterpret_cast<void*>(image_texture);
 }
 
-mv_impl void*
+ void*
 LoadTextureFromFile(const char* filename, int& width, int& height)
 {
 
@@ -196,14 +196,14 @@ LoadTextureFromFile(const char* filename, int& width, int& height)
     return reinterpret_cast<void *>(image_texture);;
 }
 
-mv_impl bool
+ bool
 UnloadTexture(const std::string& filename)
 {
     // TODO : decide if cleanup is necessary
     return true;
 }
 
-mv_impl void
+ void
 FreeTexture(void* texture)
 {
     auto out_srv = (GLuint)(size_t)texture;
@@ -214,7 +214,7 @@ FreeTexture(void* texture)
     glDeleteTextures(1, &out_srv);
 }
 
-mv_impl void
+ void
 UpdateTexture(void* texture, unsigned width, unsigned height, std::vector<float>& data)
 {
     auto textureId = (GLuint)(size_t)texture;
@@ -261,7 +261,7 @@ UpdateTexture(void* texture, unsigned width, unsigned height, std::vector<float>
     glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
 }
 
-mv_impl void
+ void
 UpdateRawTexture(void* texture, unsigned width, unsigned height, float* data, int components)
 {
     auto textureId = (GLuint)(size_t)texture;

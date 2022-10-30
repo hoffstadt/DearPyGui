@@ -46,7 +46,7 @@ void mvStyleWindow::drawWidgets()
     static ImGuiStyle ref_saved_style;
 
     // Default to using internal storage as reference
-    mv_local_persist bool init = true;
+    static bool init = true;
     //if (init && ref == NULL)
         ref_saved_style = style;
     init = false;
@@ -170,10 +170,10 @@ void mvStyleWindow::drawWidgets()
         if (ImGui::BeginTabItem("Colors"))
         {
 
-            mv_local_persist ImGuiTextFilter filter;
+            static ImGuiTextFilter filter;
             filter.Draw("Filter colors", ImGui::GetFontSize() * 16);
 
-            mv_local_persist ImGuiColorEditFlags alpha_flags = 0;
+            static ImGuiColorEditFlags alpha_flags = 0;
             if (ImGui::RadioButton("Opaque", alpha_flags == ImGuiColorEditFlags_None)) { alpha_flags = ImGuiColorEditFlags_None; } ImGui::SameLine();
             if (ImGui::RadioButton("Alpha", alpha_flags == ImGuiColorEditFlags_AlphaPreview)) { alpha_flags = ImGuiColorEditFlags_AlphaPreview; } ImGui::SameLine();
             if (ImGui::RadioButton("Both", alpha_flags == ImGuiColorEditFlags_AlphaPreviewHalf)) { alpha_flags = ImGuiColorEditFlags_AlphaPreviewHalf; } ImGui::SameLine();
@@ -211,7 +211,7 @@ void mvStyleWindow::drawWidgets()
             }
 
             // imnodes
-            mv_local_persist std::string imnodesNames[29] = {
+            static std::string imnodesNames[29] = {
                 "mvNodeCol_NodeBackground",
                 "mvNodeCol_NodeBackgroundHovered",
                 "mvNodeCol_NodeBackgroundSelected",

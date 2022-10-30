@@ -9,7 +9,6 @@
 //-----------------------------------------------------------------------------
 
 #include "mvContext.h"
-#include "cpp.hint"
 #include <imgui.h>
 #include "mvCallbackRegistry.h"
 #include "mvGraphics.h"

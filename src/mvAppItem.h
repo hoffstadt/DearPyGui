@@ -14,7 +14,6 @@
 #include "mvAppItemState.h"
 #include "mvCallbackRegistry.h"
 #include "mvPythonTranslator.h"
-#include "cpp.hint"
 #include "mvDefaultTheme.h"
 #include <implot_internal.h>
 #include "mvAppItemTypes.inc"
@@ -60,7 +59,7 @@ enum ItemDescriptionFlags
 enum class mvLibType
 {
     MV_IMGUI = 0,
-    MV_IMPLOT = 1,
+    OT = 1,
     MV_IMNODES = 2
 };
 

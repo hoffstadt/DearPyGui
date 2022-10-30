@@ -18,13 +18,13 @@ mvDebugWindow::mvDebugWindow()
 void mvDebugWindow::drawWidgets()
 {
 
-    mv_local_persist std::string commandstring;
+    static std::string commandstring;
 
     ImGuiIO& io = ImGui::GetIO();
 
-        mv_local_persist size_t commandselection = 0;
+        static size_t commandselection = 0;
         const char* commanddoc = m_commands[commandselection].second.c_str();
-        mv_local_persist ImGuiTextFilter filter;
+        static ImGuiTextFilter filter;
         filter.Draw();
 
         ImGui::PushItemWidth(-1);

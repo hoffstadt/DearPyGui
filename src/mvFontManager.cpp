@@ -19,7 +19,7 @@
 
 // Helper to display a little (?) mark which shows a tooltip when hovered.
 // In your own code you may want to display an actual icon if you are using a merged icon fonts (see docs/FONTS.md)
-mv_internal void 
+static void
 HelpMarker(const char* desc)
 {
 ImGui::TextDisabled("(?)");
@@ -34,7 +34,7 @@ if (ImGui::IsItemHovered())
 }
 
 // [Internal] Display details for a single font, called by ShowStyleEditor().
-mv_internal void
+static void
 NodeFont(ImFont* font)
 {
 ImGuiIO& io = ImGui::GetIO();
@@ -126,7 +126,7 @@ ImGui::TreePop();
 
 // Demo helper function to select among loaded fonts.
 // Here we use the regular BeginCombo()/EndCombo() api which is more the more flexible one.
-mv_internal void
+static void
 ShowCustomFontSelector(const char* label)
 {
 ImGuiIO& io = ImGui::GetIO();

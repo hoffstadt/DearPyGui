@@ -24,7 +24,7 @@
 
 extern mvContext* GContext = nullptr;
 
-mv_internal void 
+static void
 UpdateInputs(mvInput& input)
 {
 

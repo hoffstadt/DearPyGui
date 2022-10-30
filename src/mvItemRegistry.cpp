@@ -24,7 +24,7 @@ mvItemRegistry::mvItemRegistry()
     }
 }
 
-mv_internal b8
+static b8
 DoesAliasExist(mvItemRegistry& registry, const std::string& alias)
 {
     if (registry.aliases.count(alias) != 0)
@@ -32,20 +32,20 @@ DoesAliasExist(mvItemRegistry& registry, const std::string& alias)
     return false;
 }
 
-mv_internal void
+static void
 DebugItem(const char* label, const char* item) {
     ImGui::Text("%s", label);
     ImGui::SameLine();
     ImGui::TextColored(ImVec4(1.0f, 0.0f, 1.0f, 1.0f), "%s", item);
 }
 
-mv_internal void
+static void
 PushParent(mvItemRegistry& registry, mvAppItem* item)
 {
     registry.containers.push(item);
 }
 
-mv_internal mvAppItem*
+static mvAppItem*
 TopParent(mvItemRegistry& registry)
 {
     if (!registry.containers.empty())
@@ -53,7 +53,7 @@ TopParent(mvItemRegistry& registry)
     return nullptr;
 }
 
-mv_internal void
+static void
 CacheItem(mvItemRegistry& registry, mvAppItem* item)
 {
     if (DearPyGui::GetEntityDesciptionFlags(item->type) & MV_ITEM_DESC_CONTAINER)
@@ -72,7 +72,7 @@ CacheItem(mvItemRegistry& registry, mvAppItem* item)
         registry.cachedItemsIndex = 0;
 }
 
-mv_internal void
+static void
 UpdateChildLocations(std::vector<mvRef<mvAppItem>>* children, i32 slots)
 {
     for (i32 i = 0; i < slots; i++)
@@ -89,7 +89,7 @@ UpdateChildLocations(std::vector<mvRef<mvAppItem>>* children, i32 slots)
     }
 }
 
-mv_internal b8
+static b8
 DeleteChild(mvAppItem* item, mvUUID uuid)
 {
     for (auto& childset : item->childslots)
@@ -145,7 +145,7 @@ DeleteChild(mvAppItem* item, mvUUID uuid)
     return false;
 }
 
-mv_internal b8
+static b8
 DeleteRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid)
 {
     b8 deletedItem = false;
@@ -198,7 +198,7 @@ DeleteRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid)
     return false;
 }
 
-mv_internal mvRef<mvAppItem>
+static mvRef<mvAppItem>
 StealChild(mvAppItem* item, mvUUID uuid)
 {
     mvRef<mvAppItem> stolenChild = nullptr;
@@ -256,7 +256,7 @@ StealChild(mvAppItem* item, mvUUID uuid)
     return stolenChild;
 }
 
-mv_internal b8
+static b8
 MoveRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid, mvRef<mvAppItem>& item)
 {
         
@@ -269,7 +269,7 @@ MoveRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid, mvRef<mvAppItem>& it
     return false;
 }
 
-mv_internal b8
+static b8
 MoveChildUp(mvAppItem* item, mvUUID uuid)
 {
     b8 found = false;
@@ -317,7 +317,7 @@ MoveChildUp(mvAppItem* item, mvUUID uuid)
     return false;
 }
 
-mv_internal b8
+static b8
 MoveUpRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid)
 {
     for (auto& window : roots)
@@ -328,7 +328,7 @@ MoveUpRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid)
     return false;
 }
 
-mv_internal b8
+static b8
 MoveChildDown(mvAppItem* item, mvUUID uuid)
 {
     b8 found = false;
@@ -378,7 +378,7 @@ MoveChildDown(mvAppItem* item, mvUUID uuid)
     return false;
 }
 
-mv_internal b8
+static b8
 MoveDownRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid)
 {
     for (auto& window : roots)
@@ -389,7 +389,7 @@ MoveDownRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid)
     return false;
 }
 
-mv_internal b8
+static b8
 AddRuntimeChild(mvAppItem* rootitem, mvUUID parent, mvUUID before, mvRef<mvAppItem> item)
 {
     if (before == 0 && parent == 0)
@@ -499,7 +499,7 @@ AddRuntimeChild(mvAppItem* rootitem, mvUUID parent, mvUUID before, mvRef<mvAppIt
     return false;
 }
 
-mv_internal b8
+static b8
 AddRuntimeChildRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID parent, mvUUID before, mvRef<mvAppItem> item)
 {
     for (auto& root : roots)
@@ -511,7 +511,7 @@ AddRuntimeChildRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID parent, mvUUID 
 
 }
 
-mv_internal b8
+static b8
 AddChildAfter(mvAppItem* parent, mvUUID prev, mvRef<mvAppItem> item)
 {
     if (prev == 0)
@@ -575,7 +575,7 @@ AddChildAfter(mvAppItem* parent, mvUUID prev, mvRef<mvAppItem> item)
     return false;
 }
 
-mv_internal b8
+static b8
 AddItemAfterRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID prev, mvRef<mvAppItem> item)
 {
     for (auto& root : roots)
@@ -587,7 +587,7 @@ AddItemAfterRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID prev, mvRef<mvAppI
     return false;
 }
 
-mv_internal b8
+static b8
 AddItemAfter(mvItemRegistry& registry, mvUUID prev, mvRef<mvAppItem> item)
 {
 
@@ -609,7 +609,7 @@ AddItemAfter(mvItemRegistry& registry, mvUUID prev, mvRef<mvAppItem> item)
     return false;
 }
 
-mv_internal b8
+static b8
 AddItem(mvItemRegistry& registry, mvRef<mvAppItem> item)
 {
     mvAppItem* parentitem = TopParent(registry);
@@ -621,7 +621,7 @@ AddItem(mvItemRegistry& registry, mvRef<mvAppItem> item)
     return true;
 }
 
-mv_internal b8
+static b8
 AddRuntimeItem(mvItemRegistry& registry, mvUUID parent, mvUUID before, mvRef<mvAppItem> item)
 {
 
@@ -642,7 +642,7 @@ AddRuntimeItem(mvItemRegistry& registry, mvUUID parent, mvUUID before, mvRef<mvA
     return false;
 }
 
-mv_internal b8
+static b8
 AddRoot(mvItemRegistry& registry, mvRef<mvAppItem> item)
 {
 
@@ -663,7 +663,7 @@ AddRoot(mvItemRegistry& registry, mvRef<mvAppItem> item)
     return true;
 }
 
-mv_internal mvAppItem*
+static mvAppItem*
 GetChild(mvAppItem* rootitem, mvUUID uuid)
 {
 
@@ -700,7 +700,7 @@ GetChild(mvAppItem* rootitem, mvUUID uuid)
     return nullptr;
 }
 
-mv_internal mvRef<mvAppItem>
+static mvRef<mvAppItem>
 GetChildRef(mvAppItem* rootitem, mvUUID uuid)
 {
 
@@ -724,7 +724,7 @@ GetChildRef(mvAppItem* rootitem, mvUUID uuid)
     return nullptr;
 }
 
-mv_internal mvAppItem*
+static mvAppItem*
 GetItemRoot(mvItemRegistry& registry, std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid)
 {
     for (auto& root : roots)
@@ -747,7 +747,7 @@ GetItemRoot(mvItemRegistry& registry, std::vector<mvRef<mvAppItem>>& roots, mvUU
     return nullptr;
 }
 
-mv_internal mvRef<mvAppItem>
+static mvRef<mvAppItem>
 GetRefItemRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid)
 {
 
@@ -764,7 +764,7 @@ GetRefItemRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid)
     return nullptr;
 }
 
-mv_internal void
+static void
 RemoveDebugWindow(mvItemRegistry& registry, mvUUID uuid)
 {
     // check if debug window exists
@@ -1109,8 +1109,8 @@ RenderItemRegistry(mvItemRegistry& registry)
             return;
         }
 
-        mv_local_persist char ts[6] = "True";
-        mv_local_persist char fs[6] = "False";
+        static char ts[6] = "True";
+        static char fs[6] = "False";
 
         std::string width = std::to_string(root->config.width);
         std::string height = std::to_string(root->config.height);

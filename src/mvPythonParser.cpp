@@ -9,7 +9,7 @@
 #include "mvPythonExceptions.h"
 #include "mvPythonTranslator.h"
 
-mv_internal bool 
+static bool
 VerifyArguments(int start, PyObject* args, const std::vector<mvPythonDataElement>& elements)
 {
 
@@ -112,7 +112,7 @@ VerifyArguments(int start, PyObject* args, const std::vector<mvPythonDataElement
 	return true;
 }
 
-mv_internal char
+static char
 PythonDataTypeSymbol(mvPyDataType type)
 {
 	switch (type)
@@ -128,7 +128,7 @@ PythonDataTypeSymbol(mvPyDataType type)
 	}
 }
 
-mv_internal const char*
+static const char*
 PythonDataTypeString(mvPyDataType type)
 {
 	switch (type)

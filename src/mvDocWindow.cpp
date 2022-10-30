@@ -104,9 +104,9 @@ void mvDocWindow::drawWidgets()
         if (ImGui::BeginTabItem("Search Commands##doc"))
         {
 
-            mv_local_persist size_t commandselection = 0;
+            static size_t commandselection = 0;
             const char* commanddoc = m_commands[commandselection].second.c_str();
-            mv_local_persist ImGuiTextFilter filter;
+            static ImGuiTextFilter filter;
             filter.Draw();
 
             ImGui::PushItemWidth(300);

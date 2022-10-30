@@ -2,7 +2,6 @@
 
 #include "mvItemRegistry.h"
 #include "dearpygui.h"
-#include "cpp.hint"
 
 class mvTextureRegistry : public mvAppItem
 {

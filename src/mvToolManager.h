@@ -2,7 +2,6 @@
 
 #include <vector>
 #include "mvContext.h"
-#include "cpp.hint"
 #include "mvToolWindow.h"
 
 class mvFontManager;

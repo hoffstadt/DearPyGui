@@ -4,7 +4,6 @@
 #include <unordered_map>
 #include <imgui.h>
 #include "mvContext.h"
-#include "cpp.hint"
 #include "mvToolWindow.h"
 
 struct ImFont;

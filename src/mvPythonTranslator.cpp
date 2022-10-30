@@ -580,7 +580,7 @@ ToString(PyObject* value, const std::string& message)
 
 }
 
-mv_internal std::function<float(Py_buffer&, Py_ssize_t index)> 
+static std::function<float(Py_buffer&, Py_ssize_t index)>
 BufferViewFunctionsFloat(Py_buffer& bufferView)
 {
     if (strcmp(bufferView.format, "f") == 0)
@@ -624,7 +624,7 @@ BufferViewFunctionsFloat(Py_buffer& bufferView)
     }
 }
 
-mv_internal std::function<int(Py_buffer&, Py_ssize_t index)> 
+static std::function<int(Py_buffer&, Py_ssize_t index)>
 BufferViewFunctionsInt(Py_buffer& bufferView)
 {
     if (strcmp(bufferView.format, "f") == 0)

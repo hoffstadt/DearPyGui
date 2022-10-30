@@ -8,7 +8,6 @@
 #include <mutex>
 #include <map>
 #include "mvAppItem.h"
-#include "cpp.hint"
 #include "mvPyObject.h"
 
 //-----------------------------------------------------------------------------

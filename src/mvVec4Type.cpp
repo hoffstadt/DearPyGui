@@ -5,7 +5,7 @@
 #include "mvPythonTypeChecker.h"
 #include "mvPythonExceptions.h"
 
-mv_internal void 
+static void
 intialize_mvVec4(mvVec4* a, float x, float y, float z, float w)
 {
 	a->x = x;

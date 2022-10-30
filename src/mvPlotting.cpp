@@ -11,7 +11,7 @@
 #include "mvTextureItems.h"
 #include "mvItemHandlers.h"
 
-mv_internal void
+static void
 draw_polygon(const mvAreaSeriesConfig& config)
 {
 
@@ -125,7 +125,7 @@ int BinarySearch(const T* arr, int l, int r, T x) {
 	return -1;
 }
 
-mv_internal void
+static void
 PlotCandlestick(const char* label_id, const double* xs, const double* opens,
 	const double* closes, const double* lows, const double* highs, int count,
 	bool tooltip, float width_percent, const ImVec4& bullCol, const ImVec4& bearCol, int time_unit)

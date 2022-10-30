@@ -7,7 +7,7 @@ static WORD glang_id;
 // Forward declare message handler from imgui_impl_win32.cpp
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-mv_internal int 
+static int
 get_horizontal_shift(const HWND window_handle)
 {
 	RECT window_rectangle, frame_rectangle;
@@ -18,7 +18,7 @@ get_horizontal_shift(const HWND window_handle)
 	return frame_rectangle.left - window_rectangle.left;
 }
 
-mv_internal void
+static void
 mvHandleModes(mvViewport& viewport)
 {
 	mvViewportData* viewportData = (mvViewportData*)viewport.platformSpecifics;
@@ -34,7 +34,7 @@ mvHandleModes(mvViewport& viewport)
 
 }
 
-mv_internal void
+static void
 mvPrerender(mvViewport& viewport)
 {
 	MV_PROFILE_SCOPE("Viewport prerender")
@@ -110,7 +110,7 @@ mvPrerender(mvViewport& viewport)
 
 }
 
-mv_internal LRESULT
+static LRESULT
 mvHandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 {
 	if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
@@ -305,7 +305,7 @@ mvHandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 	return ::DefWindowProc(hWnd, msg, wParam, lParam);
 }
 
-mv_impl mvViewport*
+ mvViewport*
 mvCreateViewport(unsigned width, unsigned height)
 {
 	mvViewport* viewport = new mvViewport();
@@ -315,7 +315,7 @@ mvCreateViewport(unsigned width, unsigned height)
 	return viewport;
 }
 
-mv_impl void
+ void
 mvShowViewport(mvViewport& viewport, bool minimized, bool maximized)
 {
 	mvViewportData* viewportData = (mvViewportData*)viewport.platformSpecifics;
@@ -410,21 +410,21 @@ mvShowViewport(mvViewport& viewport, bool minimized, bool maximized)
 		
 }
 
-mv_impl void
+ void
 mvMaximizeViewport(mvViewport& viewport)
 {
 	mvViewportData* viewportData = (mvViewportData*)viewport.platformSpecifics;
 	ShowWindow(viewportData->handle, SW_MAXIMIZE);
 }
 
-mv_impl void
+ void
 mvMinimizeViewport(mvViewport& viewport)
 {
 	mvViewportData* viewportData = (mvViewportData*)viewport.platformSpecifics;
 	ShowWindow(viewportData->handle, SW_MINIMIZE);
 }
 
-mv_impl void
+ void
 mvCleanupViewport(mvViewport& viewport)
 {
 	mvViewportData* viewportData = (mvViewportData*)viewport.platformSpecifics;
@@ -433,7 +433,7 @@ mvCleanupViewport(mvViewport& viewport)
 	::UnregisterClass(viewportData->wc.lpszClassName, viewportData->wc.hInstance);
 }
 
-mv_impl void
+ void
 mvRenderFrame()
 {
 	mvPrerender(*GContext->viewport);
@@ -441,15 +441,15 @@ mvRenderFrame()
 	present(GContext->graphics, GContext->viewport->clearColor, GContext->viewport->vsync);
 }
 
-mv_impl void
+ void
 mvToggleFullScreen(mvViewport& viewport)
 {
 	mvViewportData* viewportData = (mvViewportData*)viewport.platformSpecifics;
 
-    mv_local_persist size_t storedWidth = 0;
-    mv_local_persist size_t storedHeight = 0;
-    mv_local_persist int    storedXPos = 0;
-    mv_local_persist int    storedYPos = 0;
+    static size_t storedWidth = 0;
+    static size_t storedHeight = 0;
+    static int    storedXPos = 0;
+    static int    storedYPos = 0;
         
     size_t width = GetSystemMetrics(SM_CXSCREEN);
     size_t height = GetSystemMetrics(SM_CYSCREEN);

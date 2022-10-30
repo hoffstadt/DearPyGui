@@ -128,7 +128,7 @@ void mvThemeColor::push_theme_color()
 
 		ImGui::PushStyleColor(_targetColor, color);
 	}
-	else if (_libType == mvLibType::MV_IMPLOT)
+	else if (_libType == mvLibType::OT)
 		ImPlot::PushStyleColor(_targetColor, color);
 	else if (_libType == mvLibType::MV_IMNODES)
 		ImNodes::PushColorStyle(_targetColor, ImGui::ColorConvertFloat4ToU32(color));
@@ -138,7 +138,7 @@ void mvThemeColor::pop_theme_color()
 {
 	if (_libType == mvLibType::MV_IMGUI)
 		ImGui::PopStyleColor();
-	else if (_libType == mvLibType::MV_IMPLOT)
+	else if (_libType == mvLibType::OT)
 		ImPlot::PopStyleColor();
 	else if (_libType == mvLibType::MV_IMNODES)
 		ImNodes::PopColorStyle();
@@ -188,7 +188,7 @@ void mvThemeColor::handleSpecificKeywordArgs(PyObject* dict)
 		}
 	}
 
-	else if (_libType == mvLibType::MV_IMPLOT)
+	else if (_libType == mvLibType::OT)
 	{
 		if (_targetColor >= ImPlotCol_COUNT || _targetColor < 0)
 		{
@@ -315,7 +315,7 @@ void mvThemeComponent::pop_theme_items()
 
 void mvThemeComponent::handleSpecificPositionalArgs(PyObject* dict)
 {
-	mv_local_persist mvRef<mvThemeComponent> all_item_theme_component = nullptr;
+	static mvRef<mvThemeComponent> all_item_theme_component = nullptr;
 
 	if (!VerifyPositionalArguments(GetParsers()[GetEntityCommand(type)], dict))
 		return;
@@ -546,7 +546,7 @@ void mvThemeStyle::push_theme_style()
 		else if (var_info->Type == ImGuiDataType_Float && var_info->Count == 1)
 			ImGui::PushStyleVar(_targetStyle, (*_value)[0]);
 	}
-	else if (_libType == mvLibType::MV_IMPLOT)
+	else if (_libType == mvLibType::OT)
 	{
 		const mvGuiStyleVarInfo* var_info = GetPlotStyleVarInfo(_targetStyle);
 		if (var_info->Type == ImGuiDataType_Float && var_info->Count == 1)
@@ -570,7 +570,7 @@ void mvThemeStyle::pop_theme_style()
 {
 	if (_libType == mvLibType::MV_IMGUI)
 		ImGui::PopStyleVar();
-	else if (_libType == mvLibType::MV_IMPLOT)
+	else if (_libType == mvLibType::OT)
 		ImPlot::PopStyleVar();
 	else if (_libType == mvLibType::MV_IMNODES)
 		ImNodes::PopStyleVar();
@@ -623,7 +623,7 @@ void mvThemeStyle::handleSpecificKeywordArgs(PyObject* dict)
 		}
 	}
 
-	else if (_libType == mvLibType::MV_IMPLOT)
+	else if (_libType == mvLibType::OT)
 	{
 		if (_targetStyle >= ImPlotStyleVar_COUNT || _targetStyle < 0)
 		{

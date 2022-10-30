@@ -3,7 +3,6 @@
 #include "mvAppItem.h"
 #include "mvItemRegistry.h"
 #include "dearpygui.h"
-#include "cpp.hint"
 
 class mvItemHandlerRegistry : public mvAppItem
 {

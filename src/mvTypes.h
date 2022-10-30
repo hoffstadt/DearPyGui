@@ -46,13 +46,3 @@ constexpr mvRef<T> CreateRef(Args&& ... args)
 {
 	return std::make_shared<T>(std::forward<Args>(args)...);
 }
-
-#if !defined(mv_internal)
-#define mv_internal static
-#endif
-#define mv_local_persist static
-#define mv_global static
-#define mv_python_function PyObject*
-#ifndef mv_impl
-#define mv_impl
-#endif

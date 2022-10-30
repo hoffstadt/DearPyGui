@@ -5,7 +5,7 @@
 #include "mvPythonTranslator.h"
 #include "mvPythonExceptions.h"
 
-mv_internal void 
+static void
 intialize_mvMat4(mvMat4* a,
 	f32 m00, f32 m01, f32 m02, f32 m03,
 	f32 m10, f32 m11, f32 m12, f32 m13,

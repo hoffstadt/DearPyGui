@@ -9,7 +9,7 @@
 #include "mvPythonTypeChecker.h"
 #include "mvPyObject.h"
 
-mv_internal void 
+static void
 UpdateLocations(std::vector<mvRef<mvAppItem>>* children, i32 slots)
 {
     for (i32 i = 0; i < slots; i++)
@@ -297,7 +297,7 @@ mvAppItem::setDataSource(mvUUID value)
     config.source = value; 
 }
 
-mv_internal bool
+static bool
 CanItemTypeBeHovered(mvAppItemType type)
 {
     switch (type)
@@ -359,7 +359,7 @@ CanItemTypeBeHovered(mvAppItemType type)
 
 }
 
-mv_internal bool
+static bool
 CanItemTypeBeActive(mvAppItemType type)
 {
     switch (type)
@@ -410,7 +410,7 @@ CanItemTypeBeActive(mvAppItemType type)
 
 }
 
-mv_internal bool
+static bool
 CanItemTypeBeFocused(mvAppItemType type)
 {
     switch (type)
@@ -462,7 +462,7 @@ CanItemTypeBeFocused(mvAppItemType type)
 
 }
 
-mv_internal bool
+static bool
 CanItemTypeBeClicked(mvAppItemType type)
 {
     switch (type)
@@ -516,7 +516,7 @@ CanItemTypeBeClicked(mvAppItemType type)
 
 }
 
-mv_internal bool
+static bool
 CanItemTypeBeVisible(mvAppItemType type)
 {
     switch (type)
@@ -580,7 +580,7 @@ CanItemTypeBeVisible(mvAppItemType type)
 
 }
 
-mv_internal bool
+static bool
 CanItemTypeBeEdited(mvAppItemType type)
 {
     switch (type)
@@ -618,7 +618,7 @@ CanItemTypeBeEdited(mvAppItemType type)
 
 }
 
-mv_internal bool
+static bool
 CanItemTypeBeActivated(mvAppItemType type)
 {
     switch (type)
@@ -668,7 +668,7 @@ CanItemTypeBeActivated(mvAppItemType type)
 
 }
 
-mv_internal bool
+static bool
 CanItemTypeBeDeactivated(mvAppItemType type)
 {
     switch (type)
@@ -719,7 +719,7 @@ CanItemTypeBeDeactivated(mvAppItemType type)
 
 }
 
-mv_internal bool
+static bool
 CanItemTypeBeDeactivatedAE(mvAppItemType type)
 {
     switch (type)
@@ -757,7 +757,7 @@ CanItemTypeBeDeactivatedAE(mvAppItemType type)
 
 }
 
-mv_internal bool
+static bool
 CanItemTypeBeToggledOpen(mvAppItemType type)
 {
     switch (type)
@@ -771,7 +771,7 @@ CanItemTypeBeToggledOpen(mvAppItemType type)
 
 }
 
-mv_internal bool
+static bool
 CanItemTypeHaveRectMin(mvAppItemType type)
 {
     switch (type)
@@ -828,13 +828,13 @@ CanItemTypeHaveRectMin(mvAppItemType type)
 
 }
 
-mv_internal bool
+static bool
 CanItemTypeHaveRectMax(mvAppItemType type)
 {
     return CanItemTypeHaveRectMin(type);
 }
 
-mv_internal bool
+static bool
 CanItemTypeHaveRectSize(mvAppItemType type)
 {
     switch (type)
@@ -895,7 +895,7 @@ CanItemTypeHaveRectSize(mvAppItemType type)
 
 }
 
-mv_internal bool
+static bool
 CanItemTypeHaveContAvail(mvAppItemType type)
 {
     switch (type)
@@ -1214,7 +1214,7 @@ const char*
 DearPyGui::GetEntityTypeString(mvAppItemType type)
 {
     #define X(el) "mvAppItemType::" #el,
-    mv_local_persist const char* entity_type_strings[(size_t)mvAppItemType::ItemTypeCount] =
+    static const char* entity_type_strings[(size_t)mvAppItemType::ItemTypeCount] =
     {
         "All, an error occured", // shouldn't actually occur
         MV_ITEM_TYPES
@@ -1242,7 +1242,7 @@ DearPyGui::GetAllowableParents(mvAppItemType type)
     // TODO: possibly index into array instead of switch
 
     #define MV_ADD_PARENT(x){#x, (int)x}
-    #define MV_START_PARENTS {mv_local_persist std::vector<std::pair<std::string, i32>> parents = {
+    #define MV_START_PARENTS {static std::vector<std::pair<std::string, i32>> parents = {
     #define MV_END_PARENTS };return parents;}
 
     switch (type)
@@ -1537,7 +1537,7 @@ DearPyGui::GetAllowableParents(mvAppItemType type)
 
     default:
     {
-        mv_local_persist std::vector<std::pair<std::string, i32>> parents = { {"All", 0} };
+        static std::vector<std::pair<std::string, i32>> parents = { {"All", 0} };
         return parents;
     }
     }
@@ -1554,7 +1554,7 @@ DearPyGui::GetAllowableChildren(mvAppItemType type)
     // TODO: possibly index into array instead of switch
 
     #define MV_ADD_CHILD(x){#x, (int)x}
-    #define MV_START_CHILDREN {mv_local_persist std::vector<std::pair<std::string, i32>> children = {
+    #define MV_START_CHILDREN {static std::vector<std::pair<std::string, i32>> children = {
     #define MV_END_CHILDREN };return children;}
 
     switch (type)
@@ -1778,7 +1778,7 @@ DearPyGui::GetAllowableChildren(mvAppItemType type)
 
     default:
         {
-            mv_local_persist std::vector<std::pair<std::string, i32>> parents = { {"All", 0} };
+            static std::vector<std::pair<std::string, i32>> parents = { {"All", 0} };
             return parents;
         }
     }
@@ -1791,13 +1791,13 @@ DearPyGui::GetAllowableChildren(mvAppItemType type)
 mvRef<mvThemeComponent>&
 DearPyGui::GetClassThemeComponent(mvAppItemType type)
 {
-    #define X(el) case mvAppItemType::el: { mv_local_persist mvRef<mvThemeComponent> s_class_theme = nullptr; return s_class_theme; }
+    #define X(el) case mvAppItemType::el: { static mvRef<mvThemeComponent> s_class_theme = nullptr; return s_class_theme; }
     switch (type)
     {
     MV_ITEM_TYPES
     default:
         {
-            mv_local_persist mvRef<mvThemeComponent> s_class_theme = nullptr;
+            static mvRef<mvThemeComponent> s_class_theme = nullptr;
             return s_class_theme;
         }
     }
@@ -1807,13 +1807,13 @@ DearPyGui::GetClassThemeComponent(mvAppItemType type)
 mvRef<mvThemeComponent>&
 DearPyGui::GetDisabledClassThemeComponent(mvAppItemType type)
 {
-    #define X(el) case mvAppItemType::el: { mv_local_persist mvRef<mvThemeComponent> s_class_theme = nullptr; return s_class_theme; }
+    #define X(el) case mvAppItemType::el: { static mvRef<mvThemeComponent> s_class_theme = nullptr; return s_class_theme; }
     switch (type)
     {
     MV_ITEM_TYPES
     default:
         {
-            mv_local_persist mvRef<mvThemeComponent> s_class_theme = nullptr;
+            static mvRef<mvThemeComponent> s_class_theme = nullptr;
             return s_class_theme;
         }
     }

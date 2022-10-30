@@ -10,7 +10,7 @@
 #include "imgui_impl_metal.h"
 #include <stdio.h>
 
-mv_impl mvViewport*
+ mvViewport*
 mvCreateViewport(unsigned width, unsigned height)
 {
     auto viewport = new mvViewport();
@@ -20,13 +20,13 @@ mvCreateViewport(unsigned width, unsigned height)
     return viewport;
 }
 
-mv_internal void 
+static void
 window_close_callback(GLFWwindow* window)
 {
     GContext->started = false;
 }
 
-mv_internal void
+static void
 window_size_callback(GLFWwindow* window, int width, int height)
 {
     GContext->viewport->actualHeight = height;
@@ -36,13 +36,13 @@ window_size_callback(GLFWwindow* window, int width, int height)
     GContext->viewport->resized = true;
 }
 
-mv_internal void
+static void
 glfw_error_callback(int error, const char *description)
 {
     fprintf(stderr, "Glfw Error %d: %s\n", error, description);
 }
 
-mv_impl void
+ void
 mvCleanupViewport(mvViewport& viewport)
 {
     auto viewportData = (mvViewportData*)viewport.platformSpecifics;
@@ -58,7 +58,7 @@ mvCleanupViewport(mvViewport& viewport)
     viewport.platformSpecifics = nullptr;
 }
 
-mv_impl void
+ void
 mvShowViewport(mvViewport& viewport, bool minimized, bool maximized)
 {
     auto viewportData = (mvViewportData*)viewport.platformSpecifics;
@@ -127,28 +127,28 @@ mvShowViewport(mvViewport& viewport, bool minimized, bool maximized)
     glfwSetWindowCloseCallback(viewportData->handle, window_close_callback);
 }
   
-mv_impl void
+ void
 mvMaximizeViewport(mvViewport& viewport)
 {
     auto viewportData = (mvViewportData*)viewport.platformSpecifics;
     glfwMaximizeWindow(viewportData->handle);
 }
 
-mv_impl void
+ void
 mvMinimizeViewport(mvViewport& viewport)
 {
     auto viewportData = (mvViewportData*)viewport.platformSpecifics;
     glfwIconifyWindow(viewportData->handle);
 }
 
-mv_impl void
+ void
 mvRestoreViewport(mvViewport& viewport)
 {
     auto viewportData = (mvViewportData*)viewport.platformSpecifics;
     glfwRestoreWindow(viewportData->handle);
 }
 
-mv_impl void
+ void
 mvRenderFrame()
 {
     mvViewport* viewport = GContext->viewport;
@@ -261,15 +261,15 @@ mvRenderFrame()
     }
 }
 
-mv_impl void
+ void
 mvToggleFullScreen(mvViewport& viewport)
 {
     auto viewportData = (mvViewportData*)viewport.platformSpecifics;
 
-    mv_local_persist size_t storedWidth = 0;
-    mv_local_persist size_t storedHeight = 0;
-    mv_local_persist int    storedXPos = 0;
-    mv_local_persist int    storedYPos = 0;
+    static size_t storedWidth = 0;
+    static size_t storedHeight = 0;
+    static int    storedXPos = 0;
+    static int    storedYPos = 0;
 
     GLFWmonitor *monitor = glfwGetPrimaryMonitor();
     const GLFWvidmode *mode = glfwGetVideoMode(monitor);

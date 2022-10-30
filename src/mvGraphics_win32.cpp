@@ -1,7 +1,7 @@
 #include "mvGraphics.h"
 #include "mvWindowsSpecifics.h"
 
-mv_internal std::vector <IDXGIAdapter*>
+static std::vector <IDXGIAdapter*>
 EnumerateAdapters()
 {
 	IDXGIAdapter* pAdapter;

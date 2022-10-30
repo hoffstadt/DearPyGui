@@ -5,7 +5,7 @@
 #include "mvPythonExceptions.h"
 
 
-mv_internal void 
+static void
 intialize_mvBuffer(mvBuffer* a, long length)
 {
 	a->length = length;
@@ -14,7 +14,7 @@ intialize_mvBuffer(mvBuffer* a, long length)
 		a->data[i] = 1.0f;
 }
 
-mv_internal void
+static void
 deallocate_mvBuffer(mvBuffer* a)
 {
 	delete[] a->data;

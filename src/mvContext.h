@@ -10,7 +10,6 @@
 #include <atomic>
 #include <memory>
 #include "mvCore.h"
-#include "cpp.hint"
 #include "mvPythonParser.h"
 #include "mvTypes.h"
 #include "mvGraphics.h"
