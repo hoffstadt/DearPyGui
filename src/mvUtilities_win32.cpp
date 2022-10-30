@@ -18,7 +18,7 @@
 #include <iostream>
 #include <d3d11.h>
 #include "mvWindowsSpecifics.h"
-#include "mvBuffer.h"
+#include "mvCustomTypes.h"
 
 namespace fs = std::filesystem;
 
