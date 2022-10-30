@@ -43,11 +43,11 @@ OutputFrameBufferArray(PymvBuffer* out)
         unsigned int subresource = D3D11CalcSubresource(0, 0, 0);
         HRESULT hr = graphicsData->deviceContext->Map(stagingBuffer, subresource, D3D11_MAP_READ_WRITE, 0, &resource);
         out->arr.length = description.Width * description.Height * 4;
-        u8* data = new u8[out->arr.length];
+        unsigned char* data = new unsigned char[out->arr.length];
         f32* tdata = new f32[out->arr.length];
         for (int row = 0; row < description.Height; row++)
         {
-            u8* src = &(((unsigned char*)resource.pData)[row * resource.RowPitch]);
+            unsigned char* src = &(((unsigned char*)resource.pData)[row * resource.RowPitch]);
             for (int j = 0; j < description.Width*4; j++)
                 tdata[row * description.Width*4 + j] = src[j] / 255.0f;
         }
