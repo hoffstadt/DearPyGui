@@ -11,7 +11,7 @@ public:
     explicit mvFontRegistry(mvUUID uuid);
 
     void draw(ImDrawList* drawlist, float x, float y) override;
-    void onChildAdd(mvRef<mvAppItem> item) { config.show = true; }
+    void onChildAdd(std::shared_ptr<mvAppItem> item) { config.show = true; }
 
     bool isInvalid() const { return _dirty; }
     void resetFont();

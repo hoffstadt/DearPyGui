@@ -73,7 +73,7 @@ static bool SliderScalar3D(char const* pLabel, float* pValueX, float* pValueY, f
 	ImVec2 vPos = ImGui::GetCursorScreenPos();
 	ImRect oRect(vPos + vHeightOffset, vPos + vSize + vHeightOffset);
 
-	ImGui::Text(pLabel);
+	ImGui::Text("%s", pLabel);
 
 	ImGui::PushID(iID);
 

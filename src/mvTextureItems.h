@@ -40,7 +40,7 @@ public:
 
 public:
 
-    mvRef<std::vector<float>> _value = CreateRef<std::vector<float>>(std::vector<float>{0.0f});
+    std::shared_ptr<std::vector<float>> _value = std::make_shared<std::vector<float>>(std::vector<float>{0.0f});
     void* _texture = nullptr;
     bool                      _dirty = true;
     int                       _permWidth = 0;
@@ -106,7 +106,7 @@ public:
 
 public:
 
-    mvRef<std::vector<float>> _value = CreateRef<std::vector<float>>(std::vector<float>{0.0f});
+    std::shared_ptr<std::vector<float>> _value = std::make_shared<std::vector<float>>(std::vector<float>{0.0f});
     void* _texture = nullptr;
     bool                      _dirty = true;
     int                       _permWidth = 0;

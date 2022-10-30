@@ -10,7 +10,7 @@
 #include "mvProfiler.h"
 #include "mvItemRegistry.h"
 
-std::vector<mvRef<mvToolWindow>> mvToolManager::s_tools = {
+std::vector<std::shared_ptr<mvToolWindow>> mvToolManager::s_tools = {
 	std::make_shared<mvFontManager>(),
 	std::make_shared<mvAboutWindow>(),
 	std::make_shared<mvDocWindow>(),

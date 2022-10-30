@@ -15,7 +15,7 @@ mvLayoutWindow::mvLayoutWindow()
     m_windowflags = ImGuiWindowFlags_NoSavedSettings;
 }
 
-void mvLayoutWindow::renderRootCategory(const char* category, std::vector<mvRef<mvAppItem>>& roots)
+void mvLayoutWindow::renderRootCategory(const char* category, std::vector<std::shared_ptr<mvAppItem>>& roots)
 {
 
     const auto node_flags = ImGuiTreeNodeFlags_OpenOnArrow | (roots.empty() ? ImGuiTreeNodeFlags_Leaf : 0);
@@ -33,7 +33,7 @@ void mvLayoutWindow::renderRootCategory(const char* category, std::vector<mvRef<
     ImGui::PopID();
 }
 
-void mvLayoutWindow::renderTreeNode(mvRef<mvAppItem>& item)
+void mvLayoutWindow::renderTreeNode(std::shared_ptr<mvAppItem>& item)
 {
 
     // build up flags for current node

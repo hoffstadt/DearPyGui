@@ -26,8 +26,8 @@ public:
 
 private:
 
-    mvRef<tm>         _value = CreateRef<tm>();
-    mvRef<ImPlotTime> _imvalue = CreateRef<ImPlotTime>();
+    std::shared_ptr<tm>         _value = std::make_shared<tm>();
+    std::shared_ptr<ImPlotTime> _imvalue = std::make_shared<ImPlotTime>();
     int               _level = 0;
 
 };

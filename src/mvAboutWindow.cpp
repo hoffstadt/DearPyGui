@@ -72,11 +72,11 @@ void mvAboutWindow::drawWidgets()
     {
         if (i % 2 == 0)
         {
-            ImGui::TextColored(ImVec4(0.0f, 1.0f, (float)i / (float)founders.size(), 1.0f), founders[i].c_str());
+            ImGui::TextColored(ImVec4(0.0f, 1.0f, (float)i / (float)founders.size(), 1.0f), "%s", founders[i].c_str());
             ImGui::SameLine(250.0f);
         }
         else
-            ImGui::TextColored(ImVec4((float)i / (float)founders.size(), 1.0f, 0.0f, 1.0f), founders[i].c_str());
+            ImGui::TextColored(ImVec4((float)i / (float)founders.size(), 1.0f, 0.0f, 1.0f), "%s", founders[i].c_str());
     }
 
     ImGui::EndChild();

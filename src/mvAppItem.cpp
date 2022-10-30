@@ -10,7 +10,7 @@
 #include "mvPyObject.h"
 
 static void
-UpdateLocations(std::vector<mvRef<mvAppItem>>* children, i32 slots)
+UpdateLocations(std::vector<std::shared_ptr<mvAppItem>>* children, i32 slots)
 {
     for (i32 i = 0; i < slots; i++)
     {
@@ -1223,10 +1223,10 @@ DearPyGui::GetEntityTypeString(mvAppItemType type)
     return entity_type_strings[(size_t)type];
 }
 
-mvRef<mvAppItem>
+std::shared_ptr<mvAppItem>
 DearPyGui::CreateEntity(mvAppItemType type, mvUUID id)
 {
-    #define X(el) case mvAppItemType::el: {auto item = CreateRef<el>(id); item->type = mvAppItemType::el; return item;};
+    #define X(el) case mvAppItemType::el: {auto item = std::make_shared<el>(id); item->type = mvAppItemType::el; return item;};
     switch (type)
     {
         MV_ITEM_TYPES
@@ -1788,32 +1788,32 @@ DearPyGui::GetAllowableChildren(mvAppItemType type)
     #undef MV_END_CHILDREN
 }
 
-mvRef<mvThemeComponent>&
+std::shared_ptr<mvThemeComponent>&
 DearPyGui::GetClassThemeComponent(mvAppItemType type)
 {
-    #define X(el) case mvAppItemType::el: { static mvRef<mvThemeComponent> s_class_theme = nullptr; return s_class_theme; }
+    #define X(el) case mvAppItemType::el: { static std::shared_ptr<mvThemeComponent> s_class_theme = nullptr; return s_class_theme; }
     switch (type)
     {
     MV_ITEM_TYPES
     default:
         {
-            static mvRef<mvThemeComponent> s_class_theme = nullptr;
+            static std::shared_ptr<mvThemeComponent> s_class_theme = nullptr;
             return s_class_theme;
         }
     }
     #undef X
 }
 
-mvRef<mvThemeComponent>&
+std::shared_ptr<mvThemeComponent>&
 DearPyGui::GetDisabledClassThemeComponent(mvAppItemType type)
 {
-    #define X(el) case mvAppItemType::el: { static mvRef<mvThemeComponent> s_class_theme = nullptr; return s_class_theme; }
+    #define X(el) case mvAppItemType::el: { static std::shared_ptr<mvThemeComponent> s_class_theme = nullptr; return s_class_theme; }
     switch (type)
     {
     MV_ITEM_TYPES
     default:
         {
-            static mvRef<mvThemeComponent> s_class_theme = nullptr;
+            static std::shared_ptr<mvThemeComponent> s_class_theme = nullptr;
             return s_class_theme;
         }
     }
@@ -5359,99 +5359,104 @@ DearPyGui::GetEntityParser(mvAppItemType type)
 }
 
 void
-DearPyGui::OnChildAdded(mvAppItem* item, mvRef<mvAppItem> child)
+DearPyGui::OnChildAdded(mvAppItem* item, std::shared_ptr<mvAppItem> child)
 {
     switch (item->type)
     {
 
-    case mvAppItemType::mvWindowAppItem:
-    {
-        mvWindowAppItem* actualItem = (mvWindowAppItem*)item;
-        if (child->type == mvAppItemType::mvMenuBar)
-            actualItem->configData.windowflags |= ImGuiWindowFlags_MenuBar;
-        return;
-    }
-
-    case mvAppItemType::mvFontRegistry:
-    {
-        mvFontRegistry* actualItem = (mvFontRegistry*)item;
-        actualItem->onChildAdd(child);
-        return;
-    }
-
-    case mvAppItemType::mvPlot:
-    {
-        mvPlot* actualItem = (mvPlot*)item;
-        if (child->type == mvAppItemType::mvPlotLegend)
-            actualItem->configData._flags &= ~ImPlotFlags_NoLegend;
-        
-        if (child->type == mvAppItemType::mvPlotAxis)
+        case mvAppItemType::mvWindowAppItem:
         {
-            actualItem->updateFlags();
-            actualItem->updateAxesNames();
+            mvWindowAppItem* actualItem = (mvWindowAppItem*)item;
+            if (child->type == mvAppItemType::mvMenuBar)
+                actualItem->configData.windowflags |= ImGuiWindowFlags_MenuBar;
+            return;
         }
-        return;
-    }
 
-    case mvAppItemType::mvSubPlots:
-    {
-        mvSubPlots* actualItem = (mvSubPlots*)item;
-        actualItem->onChildAdd(child);
-        return;
-    }
+        case mvAppItemType::mvFontRegistry:
+        {
+            mvFontRegistry* actualItem = (mvFontRegistry*)item;
+            actualItem->onChildAdd(child);
+            return;
+        }
 
-    case mvAppItemType::mvTable:
-    {
-        mvTable* actualItem = (mvTable*)item;
-        actualItem->onChildAdd(child);
-        return;
-    }
+        case mvAppItemType::mvPlot:
+        {
+            mvPlot* actualItem = (mvPlot*)item;
+            if (child->type == mvAppItemType::mvPlotLegend)
+                actualItem->configData._flags &= ~ImPlotFlags_NoLegend;
+
+            if (child->type == mvAppItemType::mvPlotAxis)
+            {
+                actualItem->updateFlags();
+                actualItem->updateAxesNames();
+            }
+            return;
+        }
+
+        case mvAppItemType::mvSubPlots:
+        {
+            mvSubPlots* actualItem = (mvSubPlots*)item;
+            actualItem->onChildAdd(child);
+            return;
+        }
+
+        case mvAppItemType::mvTable:
+        {
+            mvTable* actualItem = (mvTable*)item;
+            actualItem->onChildAdd(child);
+            return;
+        }
+
+        default: return;
     }
 }
     
 void
-DearPyGui::OnChildRemoved(mvAppItem* item, mvRef<mvAppItem> child)
+DearPyGui::OnChildRemoved(mvAppItem* item, std::shared_ptr<mvAppItem> child)
 {
     switch (item->type)
     {
 
-    case mvAppItemType::mvWindowAppItem:
-    {
-        mvWindowAppItem* actualItem = (mvWindowAppItem*)item;
-        if (child->type == mvAppItemType::mvMenuBar)
-            actualItem->configData.windowflags &= ~ImGuiWindowFlags_MenuBar;
-        return;
-    }
+        case mvAppItemType::mvWindowAppItem:
+        {
+            mvWindowAppItem* actualItem = (mvWindowAppItem*)item;
+            if (child->type == mvAppItemType::mvMenuBar)
+                actualItem->configData.windowflags &= ~ImGuiWindowFlags_MenuBar;
+            return;
+        }
 
-    case mvAppItemType::mvNodeEditor:
-    {
-        mvNodeEditor* actualItem = (mvNodeEditor*)item;
-        actualItem->onChildRemoved(child);
-        return;
-    }
+        case mvAppItemType::mvNodeEditor:
+        {
+            mvNodeEditor* actualItem = (mvNodeEditor*)item;
+            actualItem->onChildRemoved(child);
+            return;
+        }
 
-    case mvAppItemType::mvPlot:
-    {
-        mvPlot* actualItem = (mvPlot*)item;
-        if (child->type == mvAppItemType::mvPlotLegend)
-            actualItem->configData._flags |= ImPlotFlags_NoLegend;
-        if (child->type == mvAppItemType::mvPlotAxis)
-            actualItem->updateFlags();
-        return;
-    }
+        case mvAppItemType::mvPlot:
+        {
+            mvPlot* actualItem = (mvPlot*)item;
+            if (child->type == mvAppItemType::mvPlotLegend)
+                actualItem->configData._flags |= ImPlotFlags_NoLegend;
+            if (child->type == mvAppItemType::mvPlotAxis)
+                actualItem->updateFlags();
+            return;
+        }
 
-    case mvAppItemType::mvSubPlots:
-    {
-        mvSubPlots* actualItem = (mvSubPlots*)item;
-        actualItem->onChildRemoved(child);
-        return;
-    }
+        case mvAppItemType::mvSubPlots:
+        {
+            mvSubPlots* actualItem = (mvSubPlots*)item;
+            actualItem->onChildRemoved(child);
+            return;
+        }
 
-    case mvAppItemType::mvTable:
-    {
-        mvTable* actualItem = (mvTable*)item;
-        actualItem->onChildRemoved(child);
-        return;
-    }
+        case mvAppItemType::mvTable:
+        {
+            mvTable* actualItem = (mvTable*)item;
+            actualItem->onChildRemoved(child);
+            return;
+        }
+
+        default:
+            return;
     }
 }

@@ -5,31 +5,6 @@
 #include <cmath>
 #include "mvTypes.h"
 
-inline b8 mvMax(f32 left, f32 right)
-{
-	return left < right ? right : left;
-}
-
-inline b8 mvMin(f32 left, f32 right)
-{
-	return left < right ? left : right;
-}
-
-struct mvPlotPoint
-{
-    f64 x, y;
-
-    operator ImPlotPoint()
-    {
-        return ImPlotPoint{ x, y };
-    }
-
-    mvPlotPoint operator+(const ImPlotPoint& other)
-    {
-        return mvPlotPoint{ x + other.x, y + other.y };
-    }
-};
-
 struct mvVec2
 {
 	union { f32 x, r, u; };
@@ -114,7 +89,6 @@ mvMat4 operator*(mvMat4 left, f32 right);
 mvVec3 mvNormalize(mvVec3 v);
 mvVec3 mvCross    (mvVec3 v1, mvVec3 v2);
 f32    mvDot      (mvVec3 v1, mvVec3 v2);
-f32    mvRadians  (f32 degrees);
 
 mvMat4 mvLookAtRH(mvVec3 eye, mvVec3 center, mvVec3 up); // world space eye, center, up
 mvMat4 mvFPSViewRH(mvVec3 eye, float pitch, float yaw);   // world space eye, center, up

@@ -33,7 +33,7 @@ EnumerateAdapters()
 }
 
 mvGraphics
-setup_graphics(mvViewport& viewport, mvGraphicsSpec spec)
+setup_graphics(mvViewport& viewport)
 {
 	mvGraphics graphics{};
 	graphics.backendSpecifics = new mvGraphics_D3D11();

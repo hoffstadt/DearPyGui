@@ -21,6 +21,6 @@ public:
 
 private:
 
-	static std::vector<mvRef<mvToolWindow>> s_tools;
+	static std::vector<std::shared_ptr<mvToolWindow>> s_tools;
 
 };

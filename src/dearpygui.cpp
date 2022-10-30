@@ -5,9 +5,7 @@
 #include <ImGuiFileDialog.h>
 #include <cstdlib>
 #include "mvToolManager.h"
-#include "mvBuffer.h"
-#include "mvVec4Type.h"
-#include "mvMat4Type.h"
+#include "mvCustomTypes.h"
 #include "mvPythonExceptions.h"
 #include "mvViewport.h"
 #include <stb_image.h>
@@ -445,7 +443,7 @@ static PyObject*
 common_constructor(const char* command, mvAppItemType type, PyObject* self, PyObject* args, PyObject* kwargs)
 {
 
-	mvRef<mvAppItem> item = nullptr;
+	std::shared_ptr<mvAppItem> item = nullptr;
 	mvUUID id = 0;
 	mvUUID parent = 0;
 	mvUUID before = 0;
@@ -461,7 +459,7 @@ common_constructor(const char* command, mvAppItemType type, PyObject* self, PyOb
 
 	i32 flags = DearPyGui::GetEntityDesciptionFlags(type);
 	if (flags & MV_ITEM_DESC_DRAW_CMP)
-		item->drawInfo = CreateRef<mvAppItemDrawInfo>();
+		item->drawInfo = std::make_shared<mvAppItemDrawInfo>();
 
 	// register alias if present
 	if (!alias.empty())

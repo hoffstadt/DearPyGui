@@ -73,7 +73,7 @@ CacheItem(mvItemRegistry& registry, mvAppItem* item)
 }
 
 static void
-UpdateChildLocations(std::vector<mvRef<mvAppItem>>* children, i32 slots)
+UpdateChildLocations(std::vector<std::shared_ptr<mvAppItem>>* children, i32 slots)
 {
     for (i32 i = 0; i < slots; i++)
     {
@@ -115,7 +115,7 @@ DeleteChild(mvAppItem* item, mvUUID uuid)
 
         if (childfound)
         {
-            std::vector<mvRef<mvAppItem>> oldchildren = childset;
+            std::vector<std::shared_ptr<mvAppItem>> oldchildren = childset;
 
             childset.clear();
 
@@ -146,7 +146,7 @@ DeleteChild(mvAppItem* item, mvUUID uuid)
 }
 
 static b8
-DeleteRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid)
+DeleteRoot(std::vector<std::shared_ptr<mvAppItem>>& roots, mvUUID uuid)
 {
     b8 deletedItem = false;
 
@@ -178,7 +178,7 @@ DeleteRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid)
     // structure
     if (rootDeleting)
     {
-        std::vector<mvRef<mvAppItem>> oldroots = roots;
+        std::vector<std::shared_ptr<mvAppItem>> oldroots = roots;
 
         roots.clear();
 
@@ -198,10 +198,10 @@ DeleteRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid)
     return false;
 }
 
-static mvRef<mvAppItem>
+static std::shared_ptr<mvAppItem>
 StealChild(mvAppItem* item, mvUUID uuid)
 {
-    mvRef<mvAppItem> stolenChild = nullptr;
+    std::shared_ptr<mvAppItem> stolenChild = nullptr;
 
     for (auto& childset : item->childslots)
     {
@@ -228,7 +228,7 @@ StealChild(mvAppItem* item, mvUUID uuid)
 
         if (childfound)
         {
-            std::vector<mvRef<mvAppItem>> oldchildren = childset;
+            std::vector<std::shared_ptr<mvAppItem>> oldchildren = childset;
 
             childset.clear();
 
@@ -250,14 +250,14 @@ StealChild(mvAppItem* item, mvUUID uuid)
         }
 
 
-        //return static_cast<mvRef<mvAppItem>>(CreateRef<mvButton>("Not possible"));
+        //return static_cast<std::shared_ptr<mvAppItem>>(std::make_shared<mvButton>("Not possible"));
     }
 
     return stolenChild;
 }
 
 static b8
-MoveRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid, mvRef<mvAppItem>& item)
+MoveRoot(std::vector<std::shared_ptr<mvAppItem>>& roots, mvUUID uuid, std::shared_ptr<mvAppItem>& item)
 {
         
     for (auto& window : roots)
@@ -318,7 +318,7 @@ MoveChildUp(mvAppItem* item, mvUUID uuid)
 }
 
 static b8
-MoveUpRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid)
+MoveUpRoot(std::vector<std::shared_ptr<mvAppItem>>& roots, mvUUID uuid)
 {
     for (auto& window : roots)
     {
@@ -379,7 +379,7 @@ MoveChildDown(mvAppItem* item, mvUUID uuid)
 }
 
 static b8
-MoveDownRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid)
+MoveDownRoot(std::vector<std::shared_ptr<mvAppItem>>& roots, mvUUID uuid)
 {
     for (auto& window : roots)
     {
@@ -390,7 +390,7 @@ MoveDownRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid)
 }
 
 static b8
-AddRuntimeChild(mvAppItem* rootitem, mvUUID parent, mvUUID before, mvRef<mvAppItem> item)
+AddRuntimeChild(mvAppItem* rootitem, mvUUID parent, mvUUID before, std::shared_ptr<mvAppItem> item)
 {
     if (before == 0 && parent == 0)
         return false;
@@ -456,7 +456,7 @@ AddRuntimeChild(mvAppItem* rootitem, mvUUID parent, mvUUID before, mvRef<mvAppIt
             {
                 item->info.parentPtr = rootitem;
 
-                std::vector<mvRef<mvAppItem>> oldchildren = children;
+                std::vector<std::shared_ptr<mvAppItem>> oldchildren = children;
                 children.clear();
 
                 for (auto& child : oldchildren)
@@ -500,7 +500,7 @@ AddRuntimeChild(mvAppItem* rootitem, mvUUID parent, mvUUID before, mvRef<mvAppIt
 }
 
 static b8
-AddRuntimeChildRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID parent, mvUUID before, mvRef<mvAppItem> item)
+AddRuntimeChildRoot(std::vector<std::shared_ptr<mvAppItem>>& roots, mvUUID parent, mvUUID before, std::shared_ptr<mvAppItem> item)
 {
     for (auto& root : roots)
     {
@@ -512,7 +512,7 @@ AddRuntimeChildRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID parent, mvUUID 
 }
 
 static b8
-AddChildAfter(mvAppItem* parent, mvUUID prev, mvRef<mvAppItem> item)
+AddChildAfter(mvAppItem* parent, mvUUID prev, std::shared_ptr<mvAppItem> item)
 {
     if (prev == 0)
         return false;
@@ -541,7 +541,7 @@ AddChildAfter(mvAppItem* parent, mvUUID prev, mvRef<mvAppItem> item)
     if (prevFound)
     {
         i32 targetSlot = DearPyGui::GetEntityTargetSlot(item->type);
-        std::vector<mvRef<mvAppItem>> oldchildren = parent->childslots[targetSlot];
+        std::vector<std::shared_ptr<mvAppItem>> oldchildren = parent->childslots[targetSlot];
         parent->childslots[targetSlot].clear();
 
         for (auto& child : oldchildren)
@@ -576,7 +576,7 @@ AddChildAfter(mvAppItem* parent, mvUUID prev, mvRef<mvAppItem> item)
 }
 
 static b8
-AddItemAfterRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID prev, mvRef<mvAppItem> item)
+AddItemAfterRoot(std::vector<std::shared_ptr<mvAppItem>>& roots, mvUUID prev, std::shared_ptr<mvAppItem> item)
 {
     for (auto& root : roots)
     {
@@ -588,7 +588,7 @@ AddItemAfterRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID prev, mvRef<mvAppI
 }
 
 static b8
-AddItemAfter(mvItemRegistry& registry, mvUUID prev, mvRef<mvAppItem> item)
+AddItemAfter(mvItemRegistry& registry, mvUUID prev, std::shared_ptr<mvAppItem> item)
 {
 
     if (AddItemAfterRoot(registry.colormapRoots, prev, item)) return true;
@@ -610,7 +610,7 @@ AddItemAfter(mvItemRegistry& registry, mvUUID prev, mvRef<mvAppItem> item)
 }
 
 static b8
-AddItem(mvItemRegistry& registry, mvRef<mvAppItem> item)
+AddItem(mvItemRegistry& registry, std::shared_ptr<mvAppItem> item)
 {
     mvAppItem* parentitem = TopParent(registry);
     item->info.parentPtr = parentitem;
@@ -622,7 +622,7 @@ AddItem(mvItemRegistry& registry, mvRef<mvAppItem> item)
 }
 
 static b8
-AddRuntimeItem(mvItemRegistry& registry, mvUUID parent, mvUUID before, mvRef<mvAppItem> item)
+AddRuntimeItem(mvItemRegistry& registry, mvUUID parent, mvUUID before, std::shared_ptr<mvAppItem> item)
 {
 
     if (AddRuntimeChildRoot(registry.colormapRoots, parent, before, item)) return true;
@@ -643,7 +643,7 @@ AddRuntimeItem(mvItemRegistry& registry, mvUUID parent, mvUUID before, mvRef<mvA
 }
 
 static b8
-AddRoot(mvItemRegistry& registry, mvRef<mvAppItem> item)
+AddRoot(mvItemRegistry& registry, std::shared_ptr<mvAppItem> item)
 {
 
     if (item->type == mvAppItemType::mvWindowAppItem) registry.windowRoots.push_back(item);
@@ -700,7 +700,7 @@ GetChild(mvAppItem* rootitem, mvUUID uuid)
     return nullptr;
 }
 
-static mvRef<mvAppItem>
+static std::shared_ptr<mvAppItem>
 GetChildRef(mvAppItem* rootitem, mvUUID uuid)
 {
 
@@ -725,7 +725,7 @@ GetChildRef(mvAppItem* rootitem, mvUUID uuid)
 }
 
 static mvAppItem*
-GetItemRoot(mvItemRegistry& registry, std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid)
+GetItemRoot(mvItemRegistry& registry, std::vector<std::shared_ptr<mvAppItem>>& roots, mvUUID uuid)
 {
     for (auto& root : roots)
     {
@@ -747,8 +747,8 @@ GetItemRoot(mvItemRegistry& registry, std::vector<mvRef<mvAppItem>>& roots, mvUU
     return nullptr;
 }
 
-static mvRef<mvAppItem>
-GetRefItemRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid)
+static std::shared_ptr<mvAppItem>
+GetRefItemRoot(std::vector<std::shared_ptr<mvAppItem>>& roots, mvUUID uuid)
 {
 
     for (auto& root : roots)
@@ -782,7 +782,7 @@ RemoveDebugWindow(mvItemRegistry& registry, mvUUID uuid)
     if (!exists)
         return;
 
-    std::vector<mvRef<mvAppItem>> oldWindows = registry.debugWindows;
+    std::vector<std::shared_ptr<mvAppItem>> oldWindows = registry.debugWindows;
     registry.debugWindows.clear();
 
     for (auto& debug : oldWindows)
@@ -831,8 +831,6 @@ b8
 DeleteItem(mvItemRegistry& registry, mvUUID uuid, b8 childrenOnly, i32 slot)
 {
 
-    MV_ITEM_REGISTRY_TRACE("Attempting to delete: " + std::to_string(uuid));
-
     CleanUpItem(registry, uuid);
 
     // delete item's children only
@@ -856,7 +854,6 @@ DeleteItem(mvItemRegistry& registry, mvUUID uuid, b8 childrenOnly, i32 slot)
             if(item->type == mvAppItemType::mvTable)
                 static_cast<mvTable*>(item)->onChildrenRemoved();
 
-            MV_ITEM_REGISTRY_INFO("Item found and it's children deleted.");
             return true;
         }
     }
@@ -879,7 +876,6 @@ DeleteItem(mvItemRegistry& registry, mvUUID uuid, b8 childrenOnly, i32 slot)
 
     if (deletedItem)
     {
-        MV_ITEM_REGISTRY_INFO(std::to_string(uuid) + " found and deleted.");
         RemoveDebugWindow(registry, uuid);
     }
     else
@@ -894,10 +890,7 @@ b8
 MoveItem(mvItemRegistry& registry, mvUUID uuid, mvUUID parent, mvUUID before)
 {
 
-    MV_ITEM_REGISTRY_TRACE("Attempting to move: " + std::to_string(uuid));
-
-
-    mvRef<mvAppItem> child = nullptr;
+    std::shared_ptr<mvAppItem> child = nullptr;
 
     b8 movedItem = false;
 
@@ -933,7 +926,6 @@ MoveItem(mvItemRegistry& registry, mvUUID uuid, mvUUID parent, mvUUID before)
     {
         mvThrowPythonError(mvErrorCode::mvItemNotFound, "move_item",
             "Item not found: " + std::to_string(uuid), nullptr);
-        MV_ITEM_REGISTRY_WARN("Could not move item, it was not found");
     }
 
     if (child)
@@ -945,8 +937,6 @@ MoveItem(mvItemRegistry& registry, mvUUID uuid, mvUUID parent, mvUUID before)
 b8
 MoveItemUp(mvItemRegistry& registry, mvUUID uuid)
 {
-
-    MV_ITEM_REGISTRY_TRACE("Attempting to move: " + std::to_string(uuid));
 
     b8 movedItem = false;
 
@@ -968,7 +958,6 @@ MoveItemUp(mvItemRegistry& registry, mvUUID uuid)
     {
         mvThrowPythonError(mvErrorCode::mvItemNotFound, "move_item",
             "Item not found: " + std::to_string(uuid), nullptr);
-        MV_ITEM_REGISTRY_WARN("Could not move item, it was not found");
     }
 
     assert(movedItem && "Item to move not found");
@@ -979,8 +968,6 @@ MoveItemUp(mvItemRegistry& registry, mvUUID uuid)
 b8
 MoveItemDown(mvItemRegistry& registry, mvUUID uuid)
 {
-
-    MV_ITEM_REGISTRY_TRACE("Attempting to move: " + std::to_string(uuid));
 
     b8 movedItem = false;
 
@@ -1002,7 +989,6 @@ MoveItemDown(mvItemRegistry& registry, mvUUID uuid)
     {
         mvThrowPythonError(mvErrorCode::mvItemNotFound, "move_item",
             "Item not found: " + std::to_string(uuid), nullptr);
-        MV_ITEM_REGISTRY_WARN("Could not move item, it was not found");
     }
 
     assert(movedItem && "Item to move not found");
@@ -1245,7 +1231,7 @@ GetItem(mvItemRegistry& registry, mvUUID uuid)
     return nullptr;
 }
 
-mvRef<mvAppItem> 
+std::shared_ptr<mvAppItem>
 GetRefItem(mvItemRegistry& registry, mvUUID uuid)
 {
 
@@ -1294,7 +1280,6 @@ GetWindow(mvItemRegistry& registry, mvUUID uuid)
 void 
 ClearItemRegistry(mvItemRegistry& registry)
 {
-    MV_ITEM_REGISTRY_INFO("Clearing item registry.");
     registry.colormapRoots.clear();
     registry.filedialogRoots.clear();
     registry.stagingRoots.clear();
@@ -1330,7 +1315,7 @@ CleanUpItem(mvItemRegistry& registry, mvUUID uuid)
 }
 
 b8
-AddItemWithRuntimeChecks(mvItemRegistry& registry, mvRef<mvAppItem> item, mvUUID parent, mvUUID before)
+AddItemWithRuntimeChecks(mvItemRegistry& registry, std::shared_ptr<mvAppItem> item, mvUUID parent, mvUUID before)
 {
 
     if(registry.captureCallback)
@@ -1448,7 +1433,6 @@ AddItemWithRuntimeChecks(mvItemRegistry& registry, mvRef<mvAppItem> item, mvUUID
     if (parentPtr == nullptr)
     {
         mvThrowPythonError(mvErrorCode::mvParentNotDeduced, "add_*", "Parent could not be deduced.", item.get());
-        MV_ITEM_REGISTRY_ERROR("Parent could not be deduced.");
         assert(false);
         return false;
     }
@@ -1480,7 +1464,7 @@ AddItemWithRuntimeChecks(mvItemRegistry& registry, mvRef<mvAppItem> item, mvUUID
             return false;
         }
 
-        if (!(*allowableParents)[0].second == (i32)mvAppItemType::All)
+        if ((*allowableParents)[0].second != (i32) mvAppItemType::All)
         {
 
             mvThrowPythonError(mvErrorCode::mvIncompatibleParent, GetEntityCommand(item->type),
@@ -1518,7 +1502,7 @@ AddItemWithRuntimeChecks(mvItemRegistry& registry, mvRef<mvAppItem> item, mvUUID
             return false;
         }
 
-        if (!(*allowableChildren)[0].second == (i32)mvAppItemType::All)
+        if ((*allowableChildren)[0].second != (i32)mvAppItemType::All)
         {
 
             mvThrowPythonError(mvErrorCode::mvIncompatibleChild, GetEntityCommand(parentPtr->type),

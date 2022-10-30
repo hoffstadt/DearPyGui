@@ -30,7 +30,7 @@ public:
 
 private:
 
-    mvRef<bool> _value = CreateRef<bool>(false);
+    std::shared_ptr<bool> _value = std::make_shared<bool>(false);
     bool  _disabled_value = false;
 };
 
@@ -51,7 +51,7 @@ public:
 
 private:
 
-    mvRef<std::array<float, 4>> _value = CreateRef<std::array<float, 4>>(std::array<float, 4>{0.0f, 0.0f, 0.0f, 1.0f});
+    std::shared_ptr<std::array<float, 4>> _value = std::make_shared<std::array<float, 4>>(std::array<float, 4>{0.0f, 0.0f, 0.0f, 1.0f});
     float  _disabled_value[4]{};
 
 };
@@ -73,7 +73,7 @@ public:
 
 protected:
 
-    mvRef<std::array<double, 4>> _value = CreateRef<std::array<double, 4>>(std::array<double, 4>{0.0, 0.0, 0.0, 0.0});
+    std::shared_ptr<std::array<double, 4>> _value = std::make_shared<std::array<double, 4>>(std::array<double, 4>{0.0, 0.0, 0.0, 0.0});
     double  _disabled_value[4]{};
 };
 
@@ -94,7 +94,7 @@ public:
 
 private:
 
-    mvRef<double> _value = CreateRef<double>(0.0);
+    std::shared_ptr<double> _value = std::make_shared<double>(0.0);
     float         _disabled_value = 0.0;
 
 };
@@ -116,7 +116,7 @@ public:
 
 private:
 
-    mvRef<std::array<float, 4>> _value = CreateRef<std::array<float, 4>>(std::array<float, 4>{0.0f, 0.0f, 0.0f, 0.0f});
+    std::shared_ptr<std::array<float, 4>> _value = std::make_shared<std::array<float, 4>>(std::array<float, 4>{0.0f, 0.0f, 0.0f, 0.0f});
     float  _disabled_value[4]{};
 
 };
@@ -138,7 +138,7 @@ public:
 
 private:
 
-    mvRef<float> _value = CreateRef<float>(0.0f);
+    std::shared_ptr<float> _value = std::make_shared<float>(0.0f);
     float  _disabled_value = 0.0f;
 
 };
@@ -160,7 +160,7 @@ public:
 
 private:
 
-    mvRef<std::vector<float>> _value = CreateRef<std::vector<float>>(std::vector<float>{0.0f});
+    std::shared_ptr<std::vector<float>> _value = std::make_shared<std::vector<float>>(std::vector<float>{0.0f});
 
 };
 
@@ -181,7 +181,7 @@ public:
 
 private:
 
-    mvRef<std::array<int, 4>> _value = CreateRef<std::array<int, 4>>(std::array<int, 4>{0, 0, 0, 0});
+    std::shared_ptr<std::array<int, 4>> _value = std::make_shared<std::array<int, 4>>(std::array<int, 4>{0, 0, 0, 0});
     int  _disabled_value[4]{};
 };
 
@@ -202,7 +202,7 @@ public:
 
 private:
 
-    mvRef<int> _value = CreateRef<int>(0);
+    std::shared_ptr<int> _value = std::make_shared<int>(0);
     int        _disabled_value = 0;
 
 };
@@ -224,7 +224,7 @@ public:
 
 private:
 
-    mvRef<std::vector<std::vector<double>>> _value = CreateRef<std::vector<std::vector<double>>>(
+    std::shared_ptr<std::vector<std::vector<double>>> _value = std::make_shared<std::vector<std::vector<double>>>(
         std::vector<std::vector<double>>{ std::vector<double>{},
         std::vector<double>{},
         std::vector<double>{},
@@ -250,6 +250,6 @@ public:
 
 private:
 
-    mvRef<std::string> _value = CreateRef<std::string>("");
+    std::shared_ptr<std::string> _value = std::make_shared<std::string>("");
     std::string  _disabled_value = "";
 };

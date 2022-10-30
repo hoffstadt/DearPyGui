@@ -54,7 +54,7 @@ public:
 
 private:
 
-    mvRef<std::array<float, 4>> _value = CreateRef<std::array<float, 4>>(std::array<float, 4>{0.0f, 0.0f, 0.0f, 1.0f});
+    std::shared_ptr<std::array<float, 4>> _value = std::make_shared<std::array<float, 4>>(std::array<float, 4>{0.0f, 0.0f, 0.0f, 1.0f});
     ImGuiCol _targetColor = 0;
     mvLibType _libType = mvLibType::MV_IMGUI;
 
@@ -79,9 +79,9 @@ public:
 
     int                      _specificType = (int)mvAppItemType::All;
     bool                     _specificEnabled = true;
-    mvRef<mvThemeComponent>* _specificComponentPtr = nullptr;
-    mvRef<mvThemeComponent>* _specificDisabledComponentPtr = nullptr;
-    mvRef<mvThemeComponent>  _oldComponent = nullptr;
+    std::shared_ptr<mvThemeComponent>* _specificComponentPtr = nullptr;
+    std::shared_ptr<mvThemeComponent>* _specificDisabledComponentPtr = nullptr;
+    std::shared_ptr<mvThemeComponent>  _oldComponent = nullptr;
 
 };
 
@@ -111,7 +111,7 @@ public:
 
 private:
 
-    mvRef<std::array<float, 4>> _value = CreateRef<std::array<float, 4>>(std::array<float, 4>{0.0f, -1.0f, 0.0f, 0.0f});
+    std::shared_ptr<std::array<float, 4>> _value = std::make_shared<std::array<float, 4>>(std::array<float, 4>{0.0f, -1.0f, 0.0f, 0.0f});
     ImGuiCol _targetStyle = 0;
     mvLibType _libType = mvLibType::MV_IMGUI;
 

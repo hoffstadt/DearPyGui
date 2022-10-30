@@ -18,11 +18,11 @@
 #include <imnodes.h>
 #include <thread>
 #include <stb_image.h>
-#include "mvBuffer.h"
+#include "mvCustomTypes.h"
 #include "mvAppItemCommons.h"
 #include "mvItemRegistry.h"
 
-extern mvContext* GContext = nullptr;
+mvContext* GContext = nullptr;
 
 static void
 UpdateInputs(mvInput& input)

@@ -7,11 +7,7 @@ set(MARVEL_SOURCES
 	"mvContext.cpp"
 	"mvMath.cpp"
 	"mvProfiler.cpp"
-
-	# modules
-	"$<$<PLATFORM_ID:Windows>:dearpygui.cpp>"
-	"$<$<PLATFORM_ID:Linux>:dearpygui.cpp>"
-	"$<$<PLATFORM_ID:Darwin>:dearpygui.mm>"
+	"dearpygui.cpp"
 
 	# platform
 	"$<$<PLATFORM_ID:Windows>:mvViewport_win32.cpp>"
@@ -33,9 +29,7 @@ set(MARVEL_SOURCES
 	"mvPythonExceptions.cpp"
 	"mvGlobalIntepreterLock.cpp"
 	"mvPythonTypeChecker.cpp"
-	"mvBuffer.cpp"
-	"mvVec4Type.cpp"
-	"mvMat4Type.cpp"
+    "mvCustomTypes.cpp"
 
 	# ui
 	"mvBasicWidgets.cpp"
@@ -53,8 +47,7 @@ set(MARVEL_SOURCES
 	"mvContainers.cpp"
 
 	"mvCallbackRegistry.cpp"
-	"mvKnobCustom.cpp"
-	"mvLoadingIndicatorCustom.cpp"
+        "mvLoadingIndicatorCustom.cpp"
 	"mvFontManager.cpp"
 	"mvToolManager.cpp"
 	"mvToolWindow.cpp"

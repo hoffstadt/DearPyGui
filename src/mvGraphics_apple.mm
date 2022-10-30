@@ -5,7 +5,7 @@
 #include "imgui_impl_metal.h"
 
 mvGraphics
-setup_graphics(mvViewport &viewport, mvGraphicsSpec spec)
+setup_graphics(mvViewport &viewport)
 {
     mvGraphics graphics{};
     graphics.backendSpecifics = new mvGraphics_Metal();

@@ -34,7 +34,7 @@ public:
 
 public:
 
-    mvRef<bool>     _value = CreateRef<bool>(false);
+    std::shared_ptr<bool>     _value = std::make_shared<bool>(false);
     bool            _disabled_value = false;
     ImGuiFileDialog _instance;
     bool            _dirtySettings = true;

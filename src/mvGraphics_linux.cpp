@@ -5,7 +5,7 @@
 #include "imgui_impl_opengl3.h"
 
 mvGraphics
-setup_graphics(mvViewport& viewport, mvGraphicsSpec spec)
+setup_graphics(mvViewport& viewport)
 {
     mvGraphics graphics{};
     auto viewportData = (mvViewportData*)viewport.platformSpecifics;

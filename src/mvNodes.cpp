@@ -101,7 +101,7 @@ void mvNodeEditor::getSpecificConfiguration(PyObject* dict)
     PyDict_SetItemString(dict, "minimap_location", mvPyObject(ToPyInt(_minimapLocation)));
 }
 
-void mvNodeEditor::onChildRemoved(mvRef<mvAppItem> item)
+void mvNodeEditor::onChildRemoved(std::shared_ptr<mvAppItem> item)
 {
     if (item->type == mvAppItemType::mvNode)
     {
@@ -674,7 +674,6 @@ void mvNodeLink::handleSpecificRequiredArgs(PyObject* dict)
         {
             mvThrowPythonError(mvErrorCode::mvIncompatibleType, GetEntityCommand(type),
                 "Incompatible type. Expected types include: mvNode", node);
-            MV_ITEM_REGISTRY_ERROR("Nodes must be nodes. duh");
             assert(false);
             return;
         }
@@ -692,7 +691,6 @@ void mvNodeLink::handleSpecificRequiredArgs(PyObject* dict)
         {
             mvThrowPythonError(mvErrorCode::mvIncompatibleType, GetEntityCommand(type),
                 "Incompatible type. Expected types include: mvNode", node);
-            MV_ITEM_REGISTRY_ERROR("Nodes must be nodes. duh");
             assert(false);
             return;
         }

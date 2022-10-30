@@ -21,10 +21,10 @@ protected:
 
 public:
 
-    void renderTreeNode(mvRef<mvAppItem>& item);
-    void renderRootCategory(const char* category, std::vector<mvRef<mvAppItem>>& roots);
+    void renderTreeNode(std::shared_ptr<mvAppItem>& item);
+    void renderRootCategory(const char* category, std::vector<std::shared_ptr<mvAppItem>>& roots);
 
-    mvRef<mvAppItem> _itemref = nullptr;
+    std::shared_ptr<mvAppItem> _itemref = nullptr;
     mvUUID m_selectedItem = 0;
     bool m_dirtyNodes = true;
     int m_selectedId = -1;

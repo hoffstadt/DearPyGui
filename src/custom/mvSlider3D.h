@@ -26,7 +26,7 @@ public:
 
 private:
 
-    mvRef<std::array<float, 4>> _value = CreateRef<std::array<float, 4>>(std::array<float, 4>{0.0f, 0.0f, 0.0f, 0.0f});
+    std::shared_ptr<std::array<float, 4>> _value = std::make_shared<std::array<float, 4>>(std::array<float, 4>{0.0f, 0.0f, 0.0f, 0.0f});
     float                       _disabled_value[4]{};
     float                       _minX = 0.0f;
     float                       _minY = 0.0f;

@@ -1,11 +1,20 @@
 #pragma once
 
 #include "mvItemRegistry.h"
-#include "mvDearPyGui.h"
 #include <array>
 
 void apply_drag_drop(mvAppItem* item);
 void apply_drag_drop_nodraw(mvAppItem* item);
+
+struct mvChildWindowConfig;
+struct mvTreeNodeConfig;
+struct mvGroupConfig;
+struct mvDragPayloadConfig;
+struct mvCollapsingHeaderConfig;
+struct mvTabBarConfig;
+struct mvWindowAppItemConfig;
+struct mvMenuConfig;
+struct mvTabConfig;
 
 namespace DearPyGui
 {
@@ -68,13 +77,13 @@ namespace DearPyGui
 
 struct mvMenuConfig
 {
-    mvRef<bool> value = CreateRef<bool>(false);
+    std::shared_ptr<bool> value = std::make_shared<bool>(false);
     bool        _disabled_value = false;
 };
 
 struct mvTabConfig
 {
-    mvRef<bool>       value = CreateRef<bool>(false);
+    std::shared_ptr<bool>       value = std::make_shared<bool>(false);
     bool              closable = false;
     bool              _disabled_value = false;
     ImGuiTabItemFlags _flags = ImGuiTabItemFlags_None;
@@ -103,7 +112,7 @@ struct mvChildWindowConfig
 
 struct mvTreeNodeConfig
 {
-    mvRef<bool>        value = CreateRef<bool>(false);
+    std::shared_ptr<bool>        value = std::make_shared<bool>(false);
     bool               disabled_value = false;
     ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_None;
     bool               selectable = false;
@@ -125,7 +134,7 @@ struct mvDragPayloadConfig
 
 struct mvCollapsingHeaderConfig
 {
-    mvRef<bool>        value = CreateRef<bool>(false);
+    std::shared_ptr<bool>        value = std::make_shared<bool>(false);
     bool               disabled_value = false;
     ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_None;
     bool               closable = false;
@@ -133,7 +142,7 @@ struct mvCollapsingHeaderConfig
 
 struct mvTabBarConfig
 {
-    mvRef<mvUUID>    value = CreateRef<mvUUID>(0);
+    std::shared_ptr<mvUUID>    value = std::make_shared<mvUUID>(0);
     mvUUID           disabled_value = 0;
     ImGuiTabBarFlags flags = ImGuiTabBarFlags_None;
     mvUUID           uiValue = 0; // value suggested from UI

@@ -4,9 +4,7 @@
 #include <ImGuiFileDialog.h>
 #include <cstdlib>
 #include "mvToolManager.h"
-#include "mvBuffer.h"
-#include "mvVec4Type.h"
-#include "mvMat4Type.h"
+#include "mvCustomTypes.h"
 #include "mvPythonExceptions.h"
 #include "mvViewport.h"
 #include <stb_image.h>

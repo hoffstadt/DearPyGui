@@ -63,7 +63,7 @@ if (WIN32)
 
 elseif(APPLE)
 
-	set_property(TARGET DearSandbox APPEND_STRING PROPERTY COMPILE_FLAGS "-Wno-unused-result -Wsign-compare -Wunreachable-code -fno-common -dynamic -DNDEBUG -g -fwrapv -O3 -Wall -arch x86_64 -g")
+	set_property(TARGET DearSandbox APPEND_STRING PROPERTY COMPILE_FLAGS "-fno-common -dynamic -DNDEBUG -g -fwrapv -O3 -arch x86_64 -g")
 
     target_link_directories(DearSandbox PRIVATE ../thirdparty/cpython/build/debug/lib)
 

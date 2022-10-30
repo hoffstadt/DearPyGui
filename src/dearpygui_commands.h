@@ -4,9 +4,7 @@
 #include <ImGuiFileDialog.h>
 #include <cstdlib>
 #include "mvToolManager.h"
-#include "mvBuffer.h"
-#include "mvVec4Type.h"
-#include "mvMat4Type.h"
+#include "mvCustomTypes.h"
 #include "mvPythonExceptions.h"
 #include "mvViewport.h"
 #include "stb_image.h"
@@ -2022,8 +2020,7 @@ show_viewport(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (viewport)
 	{
 		mvShowViewport(*viewport, minimized, maximized);
-		mvGraphicsSpec spec{}; // not used yet
-		GContext->graphics = setup_graphics(*viewport, spec);
+		GContext->graphics = setup_graphics(*viewport);
 		viewport->shown = true;
 	}
 	else
@@ -2291,36 +2288,37 @@ save_image(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	switch (imageType)
 	{
-	case MV_IMAGE_TYPE_PNG_:
-	{
-		std::vector<unsigned char> convertedData = ToUCharVect(data);
-		int result = stbi_write_png(file, width, height, components, convertedData.data(), sizeof(unsigned char)*components*width);
-		break;
-	}
-	case MV_IMAGE_TYPE_BMP_:
-	{
-		std::vector<unsigned char> convertedData = ToUCharVect(data);
-		int result = stbi_write_bmp(file, width, height, components, convertedData.data());
-		break;
-	}
-	case MV_IMAGE_TYPE_TGA_:
-	{
-		std::vector<unsigned char> convertedData = ToUCharVect(data);
-		int result = stbi_write_tga(file, width, height, components, convertedData.data());
-		break;
-	}
-	case MV_IMAGE_TYPE_HDR_:
-	{
-		std::vector<float> convertedData = ToFloatVect(data);
-		int result = stbi_write_hdr(file, width, height, components, convertedData.data());
-		break;
-	}
-	case MV_IMAGE_TYPE_JPG_:
-	{
-		std::vector<unsigned char> convertedData = ToUCharVect(data);
-		int result = stbi_write_jpg(file, width, height, components, convertedData.data(), quality);
-		break;
-	}
+        case MV_IMAGE_TYPE_PNG_:
+        {
+            std::vector<unsigned char> convertedData = ToUCharVect(data);
+            int result = stbi_write_png(file, width, height, components, convertedData.data(), sizeof(unsigned char)*components*width);
+            break;
+        }
+        case MV_IMAGE_TYPE_BMP_:
+        {
+            std::vector<unsigned char> convertedData = ToUCharVect(data);
+            int result = stbi_write_bmp(file, width, height, components, convertedData.data());
+            break;
+        }
+        case MV_IMAGE_TYPE_TGA_:
+        {
+            std::vector<unsigned char> convertedData = ToUCharVect(data);
+            int result = stbi_write_tga(file, width, height, components, convertedData.data());
+            break;
+        }
+        case MV_IMAGE_TYPE_HDR_:
+        {
+            std::vector<float> convertedData = ToFloatVect(data);
+            int result = stbi_write_hdr(file, width, height, components, convertedData.data());
+            break;
+        }
+        case MV_IMAGE_TYPE_JPG_:
+        {
+            std::vector<unsigned char> convertedData = ToUCharVect(data);
+            int result = stbi_write_jpg(file, width, height, components, convertedData.data(), quality);
+            break;
+        }
+        default: break;
 	}
 
 	return GetPyNone();
@@ -2404,15 +2402,9 @@ setup_dearpygui(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	while (!GContext->itemRegistry->containers.empty())
 		GContext->itemRegistry->containers.pop();
-	MV_ITEM_REGISTRY_INFO("Container stack emptied.");
-
 	GContext->started = true;
 	GContext->future = std::async(std::launch::async, []() {return mvRunCallbacks(); });
-
-	MV_CORE_INFO("application starting");
-
 	Py_END_ALLOW_THREADS;
-
 	return GetPyNone();
 }
 
@@ -2779,7 +2771,6 @@ pop_container_stack(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (GContext->itemRegistry->containers.empty())
 	{
 		mvThrowPythonError(mvErrorCode::mvContainerStackEmpty, "No container to pop.");
-		MV_ITEM_REGISTRY_WARN("No container to pop.");
 		assert(false);
 		return GetPyNone();
 	}
@@ -3080,9 +3071,9 @@ reorder_items(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	mvAppItem* parent = GetItem((*GContext->itemRegistry), container);
 
-	std::vector<mvRef<mvAppItem>>& children = parent->childslots[slot];
+	std::vector<std::shared_ptr<mvAppItem>>& children = parent->childslots[slot];
 
-	std::vector<mvRef<mvAppItem>> newchildren;
+	std::vector<std::shared_ptr<mvAppItem>> newchildren;
 	newchildren.reserve(children.size());
 
 	// todo: better sorting algorithm
@@ -3172,11 +3163,11 @@ show_item_debug(PyObject* self, PyObject* args, PyObject* kwargs)
 }
 
 static void
-GetAllItemsRoot(std::vector<mvRef<mvAppItem>>& roots, std::vector<mvUUID>& childList)
+GetAllItemsRoot(std::vector<std::shared_ptr<mvAppItem>>& roots, std::vector<mvUUID>& childList)
 {
 	// to help recursively retrieve children
-	std::function<void(mvRef<mvAppItem>)> ChildRetriever;
-	ChildRetriever = [&childList, &ChildRetriever](mvRef<mvAppItem> item) {
+	std::function<void(std::shared_ptr<mvAppItem>)> ChildRetriever;
+	ChildRetriever = [&childList, &ChildRetriever](std::shared_ptr<mvAppItem> item) {
 		auto& children0 = item->childslots[0];
 		auto& children1 = item->childslots[1];
 		auto& children2 = item->childslots[2];
@@ -3411,7 +3402,7 @@ focus_item(PyObject* self, PyObject* args, PyObject* kwargs)
 		{
 			if (GContext->itemRegistry->windowRoots[i]->uuid == item)
 			{
-				mvRef<mvAppItem> oldItem = GContext->itemRegistry->windowRoots.back();
+				std::shared_ptr<mvAppItem> oldItem = GContext->itemRegistry->windowRoots.back();
 				GContext->itemRegistry->windowRoots[GContext->itemRegistry->windowRoots.size() - 1] = GContext->itemRegistry->windowRoots[i];
 				GContext->itemRegistry->windowRoots[i] = oldItem;
 				break;
@@ -3651,7 +3642,7 @@ set_item_children(PyObject* self, PyObject* args, PyObject* kwargs)
 	auto& staging = GContext->itemRegistry->stagingRoots;
 
 	b8 stage_found = false;
-	mvRef<mvAppItem> staging_container = nullptr;
+	std::shared_ptr<mvAppItem> staging_container = nullptr;
 
 	for (auto& stage : staging)
 	{
@@ -3778,7 +3769,7 @@ bind_item_theme(PyObject* self, PyObject* args, PyObject* kwargs)
 				mvThrowPythonError(mvErrorCode::mvIncompatibleType, "bind_item_theme",
 					"Item not a theme: " + std::to_string(theme), nullptr);
 			}
-			appitem->theme = *(mvRef<mvTheme>*)(&apptheme);
+			appitem->theme = *(std::shared_ptr<mvTheme>*)(&apptheme);
 			return GetPyNone();
 		}
 		else
@@ -3825,7 +3816,7 @@ bind_item_handler_registry(PyObject* self, PyObject* args, PyObject* kwargs)
 				mvThrowPythonError(mvErrorCode::mvIncompatibleType, "bind_item_handler_registry",
 					"Item not handler registry: " + std::to_string(reg), nullptr);
 			}
-			appitem->handlerRegistry = *(mvRef<mvItemHandlerRegistry>*)(&apptheme);
+			appitem->handlerRegistry = *(std::shared_ptr<mvItemHandlerRegistry>*)(&apptheme);
 			appitem->handlerRegistry->onBind(appitem);
 			return GetPyNone();
 		}

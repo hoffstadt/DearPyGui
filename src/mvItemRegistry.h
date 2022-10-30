@@ -40,13 +40,13 @@ b8               MoveItemDown(mvItemRegistry& registry, mvUUID uuid);
 // item retrieval
 mvUUID           GetIDFromPyObject(PyObject* item);
 mvAppItem*       GetItem        (mvItemRegistry& registry, mvUUID uuid);
-mvRef<mvAppItem> GetRefItem     (mvItemRegistry& registry, mvUUID uuid);
+std::shared_ptr<mvAppItem> GetRefItem     (mvItemRegistry& registry, mvUUID uuid);
 mvWindowAppItem* GetWindow      (mvItemRegistry& registry, mvUUID uuid);
 mvAppItem*       GetItemRoot    (mvItemRegistry& registry, mvUUID uuid);
 
 // item operations
 void             DelaySearch             (mvItemRegistry& registry, mvAppItem* item);
-b8               AddItemWithRuntimeChecks(mvItemRegistry& registry, mvRef<mvAppItem> item, mvUUID parent, mvUUID before);
+b8               AddItemWithRuntimeChecks(mvItemRegistry& registry, std::shared_ptr<mvAppItem> item, mvUUID parent, mvUUID before);
 void             ResetTheme              (mvItemRegistry& registry);
 
 //-----------------------------------------------------------------------------
@@ -82,26 +82,26 @@ struct mvItemRegistry
     std::vector<mvAppItem*>                 delayedSearch;
     b8                                      showImGuiDebug = false;
     b8                                      showImPlotDebug = false;
-    mvRef<mvAppItem>                        boundedTemplateRegistry;
-    std::vector<mvRef<mvAppItem>>           debugWindows;
-    mvRef<mvAppItem>                        capturedItem = nullptr;
+    std::shared_ptr<mvAppItem>                        boundedTemplateRegistry;
+    std::vector<std::shared_ptr<mvAppItem>>           debugWindows;
+    std::shared_ptr<mvAppItem>                        capturedItem = nullptr;
     PyObject*                               captureCallback = nullptr;
     PyObject*                               captureCallbackUserData = nullptr;
 
     // roots
-    std::vector<mvRef<mvAppItem>> colormapRoots;
-    std::vector<mvRef<mvAppItem>> filedialogRoots;
-    std::vector<mvRef<mvAppItem>> stagingRoots;
-    std::vector<mvRef<mvAppItem>> viewportMenubarRoots;
-    std::vector<mvRef<mvAppItem>> windowRoots;
-    std::vector<mvRef<mvAppItem>> fontRegistryRoots;
-    std::vector<mvRef<mvAppItem>> handlerRegistryRoots;
-    std::vector<mvRef<mvAppItem>> itemHandlerRegistryRoots;
-    std::vector<mvRef<mvAppItem>> textureRegistryRoots;
-    std::vector<mvRef<mvAppItem>> valueRegistryRoots;
-    std::vector<mvRef<mvAppItem>> themeRegistryRoots;
-    std::vector<mvRef<mvAppItem>> itemTemplatesRoots;
-    std::vector<mvRef<mvAppItem>> viewportDrawlistRoots;
+    std::vector<std::shared_ptr<mvAppItem>> colormapRoots;
+    std::vector<std::shared_ptr<mvAppItem>> filedialogRoots;
+    std::vector<std::shared_ptr<mvAppItem>> stagingRoots;
+    std::vector<std::shared_ptr<mvAppItem>> viewportMenubarRoots;
+    std::vector<std::shared_ptr<mvAppItem>> windowRoots;
+    std::vector<std::shared_ptr<mvAppItem>> fontRegistryRoots;
+    std::vector<std::shared_ptr<mvAppItem>> handlerRegistryRoots;
+    std::vector<std::shared_ptr<mvAppItem>> itemHandlerRegistryRoots;
+    std::vector<std::shared_ptr<mvAppItem>> textureRegistryRoots;
+    std::vector<std::shared_ptr<mvAppItem>> valueRegistryRoots;
+    std::vector<std::shared_ptr<mvAppItem>> themeRegistryRoots;
+    std::vector<std::shared_ptr<mvAppItem>> itemTemplatesRoots;
+    std::vector<std::shared_ptr<mvAppItem>> viewportDrawlistRoots;
 
     mvItemRegistry();
 };

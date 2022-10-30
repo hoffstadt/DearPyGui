@@ -1,11 +1,5 @@
 #include "mvMath.h"
 
-f32 
-mvRadians(f32 degrees)
-{
-    return degrees * 0.01745329251994329576923690768489f;
-}
-
 mvVec2::operator ImVec2()
 {
     return ImVec2{ x, y };

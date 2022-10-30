@@ -1,8 +1,43 @@
 #pragma once
 
 #include "mvItemRegistry.h"
-#include "mvDearPyGui.h"
 #include <array>
+
+struct mvSimplePlotConfig;
+struct mvButtonConfig;
+struct mvCheckboxConfig;
+struct mvComboConfig;
+struct mvDragFloatConfig;
+struct mvDragIntConfig;
+struct mvDragDoubleConfig;
+struct mvDragFloatMultiConfig;
+struct mvDragDoubleMultiConfig;
+struct mvDragIntMultiConfig;
+struct mvSliderIntConfig;
+struct mvSliderFloatConfig;
+struct mvSliderDoubleConfig;
+struct mvSliderDoubleMultiConfig;
+struct mvSliderFloatMultiConfig;
+struct mvSliderIntMultiConfig;
+struct mvListboxConfig;
+struct mvRadioButtonConfig;
+struct mvInputTextConfig;
+struct mvInputIntConfig;
+struct mvInputFloatConfig;
+struct mvInputDoubleConfig;
+struct mvInputFloatMultiConfig;
+struct mvInputDoubleMultiConfig;
+struct mvInputIntMultiConfig;
+struct mvTextConfig;
+struct mvSelectableConfig;
+struct mvTabButtonConfig;
+struct mvMenuItemConfig;
+struct mvProgressBarConfig;
+struct mvImageConfig;
+struct mvImageButtonConfig;
+struct mvFilterSetConfig;
+struct mvTooltipConfig;
+struct mvKnobFloatConfig;
 
 namespace DearPyGui
 {
@@ -204,7 +239,7 @@ enum class mvComboHeightMode
 
 struct mvSimplePlotConfig
 {
-    mvRef<std::vector<float>> value = CreateRef<std::vector<float>>(std::vector<float>{0.0f});
+    std::shared_ptr<std::vector<float>> value = std::make_shared<std::vector<float>>(std::vector<float>{0.0f});
     std::string               overlay;
     float                     scaleMin = 0.0f;
     float                     scaleMax = 0.0f;
@@ -225,13 +260,13 @@ struct mvComboConfig
     std::vector<std::string> items;
     bool                     popup_align_left = false;
     bool                     no_preview = false;
-    mvRef<std::string>       value = CreateRef<std::string>("");
+    std::shared_ptr<std::string>       value = std::make_shared<std::string>("");
     std::string              disabled_value;
 };
 
 struct mvCheckboxConfig
 {
-    mvRef<bool> value = CreateRef<bool>(false);
+    std::shared_ptr<bool> value = std::make_shared<bool>(false);
     bool        disabled_value = false;
 };
 
@@ -243,7 +278,7 @@ struct mvDragFloatConfig
     std::string         format = "%.3f";
     ImGuiInputTextFlags flags = ImGuiSliderFlags_None;
     ImGuiInputTextFlags stor_flags = ImGuiSliderFlags_None;
-    mvRef<float>        value = CreateRef<float>(0.0f);
+    std::shared_ptr<float>        value = std::make_shared<float>(0.0f);
     float               disabled_value = 0.0f;
 };
 
@@ -255,7 +290,7 @@ struct mvDragDoubleConfig
     std::string         format = "%.3f";
     ImGuiInputTextFlags flags = ImGuiSliderFlags_None;
     ImGuiInputTextFlags stor_flags = ImGuiSliderFlags_None;
-    mvRef<double>       value = CreateRef<double>(0.0);
+    std::shared_ptr<double>       value = std::make_shared<double>(0.0);
     double              disabled_value = 0.0;
 };
 
@@ -267,7 +302,7 @@ struct mvDragIntConfig
     std::string         format = "%d";
     ImGuiInputTextFlags flags = ImGuiSliderFlags_None;
     ImGuiInputTextFlags stor_flags = ImGuiSliderFlags_None;
-    mvRef<int>          value = CreateRef<int>(0);
+    std::shared_ptr<int>          value = std::make_shared<int>(0);
     int                 disabled_value = 0;
 };
 
@@ -280,7 +315,7 @@ struct mvDragIntMultiConfig
     ImGuiInputTextFlags       flags = ImGuiSliderFlags_None;
     ImGuiInputTextFlags       stor_flags = ImGuiSliderFlags_None;
     int                       size = 4;
-    mvRef<std::array<int, 4>> value = CreateRef<std::array<int, 4>>(std::array<int, 4>{0, 0, 0, 0});
+    std::shared_ptr<std::array<int, 4>> value = std::make_shared<std::array<int, 4>>(std::array<int, 4>{0, 0, 0, 0});
     int                       disabled_value[4]{}; 
 };
 
@@ -293,7 +328,7 @@ struct mvDragFloatMultiConfig
     ImGuiInputTextFlags         flags = ImGuiSliderFlags_None;
     ImGuiInputTextFlags         stor_flags = ImGuiSliderFlags_None;
     int                         size = 4;
-    mvRef<std::array<float, 4>> value = CreateRef<std::array<float, 4>>(std::array<float, 4>{0.0f, 0.0f, 0.0f, 0.0f});
+    std::shared_ptr<std::array<float, 4>> value = std::make_shared<std::array<float, 4>>(std::array<float, 4>{0.0f, 0.0f, 0.0f, 0.0f});
     float                       disabled_value[4]{};  
 };
 
@@ -306,7 +341,7 @@ struct mvDragDoubleMultiConfig
     ImGuiInputTextFlags         flags = ImGuiSliderFlags_None;
     ImGuiInputTextFlags         stor_flags = ImGuiSliderFlags_None;
     int                         size = 4;
-    mvRef<std::array<double, 4>>value = CreateRef<std::array<double, 4>>(std::array<double, 4>{0.0, 0.0, 0.0, 0.0});
+    std::shared_ptr<std::array<double, 4>>value = std::make_shared<std::array<double, 4>>(std::array<double, 4>{0.0, 0.0, 0.0, 0.0});
     double                      disabled_value[4]{};
 };
 
@@ -318,7 +353,7 @@ struct mvSliderIntConfig
     bool                vertical = false;
     ImGuiInputTextFlags flags = ImGuiSliderFlags_None;
     ImGuiInputTextFlags stor_flags = ImGuiSliderFlags_None;
-    mvRef<int>          value = CreateRef<int>(0);
+    std::shared_ptr<int>          value = std::make_shared<int>(0);
     int                 disabled_value = 0;
 };
 
@@ -330,7 +365,7 @@ struct mvSliderFloatConfig
     bool                vertical = false;
     ImGuiInputTextFlags flags = ImGuiSliderFlags_None;
     ImGuiInputTextFlags stor_flags = ImGuiSliderFlags_None;
-    mvRef<float>        value = CreateRef<float>(0.0f);
+    std::shared_ptr<float>        value = std::make_shared<float>(0.0f);
     float               disabled_value = 0.0f;
 };
 
@@ -342,7 +377,7 @@ struct mvSliderDoubleConfig
     bool                 vertical = false;
     ImGuiInputTextFlags  flags = ImGuiSliderFlags_None;
     ImGuiInputTextFlags  stor_flags = ImGuiSliderFlags_None;
-    mvRef<double>        value = CreateRef<double>(0.0);
+    std::shared_ptr<double>        value = std::make_shared<double>(0.0);
     double               disabled_value = 0.0;
 };
 
@@ -354,7 +389,7 @@ struct mvSliderFloatMultiConfig
     ImGuiInputTextFlags         flags = ImGuiSliderFlags_None;
     ImGuiInputTextFlags         stor_flags = ImGuiSliderFlags_None;
     int                         size = 4;
-    mvRef<std::array<float, 4>> value = CreateRef<std::array<float, 4>>(std::array<float, 4>{0.0f, 0.0f, 0.0f, 0.0f});
+    std::shared_ptr<std::array<float, 4>> value = std::make_shared<std::array<float, 4>>(std::array<float, 4>{0.0f, 0.0f, 0.0f, 0.0f});
     float                       disabled_value[4]{};
 };
 
@@ -366,7 +401,7 @@ struct mvSliderIntMultiConfig
     ImGuiInputTextFlags       flags = ImGuiSliderFlags_None;
     ImGuiInputTextFlags       stor_flags = ImGuiSliderFlags_None;
     int                       size = 4;
-    mvRef<std::array<int, 4>> value = CreateRef<std::array<int, 4>>(std::array<int, 4>{0, 0, 0, 0});
+    std::shared_ptr<std::array<int, 4>> value = std::make_shared<std::array<int, 4>>(std::array<int, 4>{0, 0, 0, 0});
     int                       disabled_value[4]{};
 };
 
@@ -378,7 +413,7 @@ struct mvSliderDoubleMultiConfig
     ImGuiInputTextFlags          flags = ImGuiSliderFlags_None;
     ImGuiInputTextFlags          stor_flags = ImGuiSliderFlags_None;
     int                          size = 4;
-    mvRef<std::array<double, 4>> value = CreateRef<std::array<double, 4>>(std::array<double, 4>{0.0, 0.0, 0.0, 0.0});
+    std::shared_ptr<std::array<double, 4>> value = std::make_shared<std::array<double, 4>>(std::array<double, 4>{0.0, 0.0, 0.0, 0.0});
     double                       disabled_value[4]{};
 };
 
@@ -389,7 +424,7 @@ struct mvListboxConfig
     std::vector<const char*> charNames;
     int                      index = 0;
     int                      disabledindex = 0;
-    mvRef<std::string>       value = CreateRef<std::string>("");
+    std::shared_ptr<std::string>       value = std::make_shared<std::string>("");
     std::string              disabled_value;
 };
 
@@ -399,7 +434,7 @@ struct mvRadioButtonConfig
     bool                     horizontal = false;
     int                      index = 0;
     int                      disabledindex = 0;
-    mvRef<std::string>       value = CreateRef<std::string>("");
+    std::shared_ptr<std::string>       value = std::make_shared<std::string>("");
     std::string              disabled_value = "";
 };
 
@@ -409,7 +444,7 @@ struct mvInputTextConfig
     bool                multiline = false;
     ImGuiInputTextFlags flags = 0;
     ImGuiInputTextFlags stor_flags = 0;
-    mvRef<std::string>  value = CreateRef<std::string>("");
+    std::shared_ptr<std::string>  value = std::make_shared<std::string>("");
     std::string         disabled_value = "";
 };
 
@@ -424,7 +459,7 @@ struct mvInputIntConfig
     ImGuiInputTextFlags flags = 0;
     ImGuiInputTextFlags stor_flags = 0;
     int                 last_value = 0;
-    mvRef<int>          value = CreateRef<int>(0);
+    std::shared_ptr<int>          value = std::make_shared<int>(0);
     int                 disabled_value = 0;
 };
 
@@ -440,7 +475,7 @@ struct mvInputFloatConfig
     ImGuiInputTextFlags flags = 0;
     ImGuiInputTextFlags stor_flags = 0;
     float               last_value = 0.0f;
-    mvRef<float>        value = CreateRef<float>(0.0f);
+    std::shared_ptr<float>        value = std::make_shared<float>(0.0f);
     float               disabled_value = 0.0f;
 };
 
@@ -456,7 +491,7 @@ struct mvInputDoubleConfig
     ImGuiInputTextFlags flags = 0;
     ImGuiInputTextFlags stor_flags = 0;
     double              last_value = 0.0;
-    mvRef<double>        value = CreateRef<double>(0.0);
+    std::shared_ptr<double>        value = std::make_shared<double>(0.0);
     double              disabled_value = 0.0;
 };
 
@@ -471,7 +506,7 @@ struct mvInputFloatMultiConfig
     ImGuiInputTextFlags         stor_flags = 0;
     std::array<float, 4>        last_value = { 0.0f, 0.0f, 0.0f, 0.0f };
     int                         size = 4;
-    mvRef<std::array<float, 4>> value = CreateRef<std::array<float, 4>>(std::array<float, 4>{0.0f, 0.0f, 0.0f, 0.0f});
+    std::shared_ptr<std::array<float, 4>> value = std::make_shared<std::array<float, 4>>(std::array<float, 4>{0.0f, 0.0f, 0.0f, 0.0f});
     float                       disabled_value[4]{};
 };
 
@@ -485,7 +520,7 @@ struct mvInputIntMultiConfig
     ImGuiInputTextFlags       stor_flags = 0;
     std::array<int, 4>        last_value = { 0, 0, 0, 0 };
     int                       size = 4;
-    mvRef<std::array<int, 4>> value = CreateRef<std::array<int, 4>>(std::array<int, 4>{0, 0, 0, 0});
+    std::shared_ptr<std::array<int, 4>> value = std::make_shared<std::array<int, 4>>(std::array<int, 4>{0, 0, 0, 0});
     int                       disabled_value[4]{};
 };
 
@@ -500,7 +535,7 @@ struct mvInputDoubleMultiConfig
     ImGuiInputTextFlags          stor_flags = 0;
     std::array<double, 4>        last_value = { 0.0f, 0.0f, 0.0f, 0.0f };
     int                          size = 4;
-    mvRef<std::array<double, 4>> value = CreateRef<std::array<double, 4>>(std::array<double, 4>{0.0, 0.0, 0.0, 0.0});
+    std::shared_ptr<std::array<double, 4>> value = std::make_shared<std::array<double, 4>>(std::array<double, 4>{0.0, 0.0, 0.0, 0.0});
     double                       disabled_value[4]{};
 };
 
@@ -510,14 +545,14 @@ struct mvTextConfig
     int                wrap = -1;
     bool               bullet = false;
     bool               show_label = false;
-    mvRef<std::string> value = CreateRef<std::string>("");
+    std::shared_ptr<std::string> value = std::make_shared<std::string>("");
     std::string        disabled_value = "";
 };
 
 struct mvSelectableConfig
 {
     ImGuiSelectableFlags flags = ImGuiSelectableFlags_None;
-    mvRef<bool>          value = CreateRef<bool>(false);
+    std::shared_ptr<bool>          value = std::make_shared<bool>(false);
     bool                 disabled_value = false;
 };
 
@@ -530,14 +565,14 @@ struct mvMenuItemConfig
 {
     std::string shortcut;
     bool        check = false;
-    mvRef<bool> value = CreateRef<bool>(false);
+    std::shared_ptr<bool> value = std::make_shared<bool>(false);
     bool        disabled_value = false;
 };
 
 struct mvProgressBarConfig
 {
     std::string  overlay;
-    mvRef<float> value = CreateRef<float>(0.0f);
+    std::shared_ptr<float> value = std::make_shared<float>(0.0f);
     float        disabled_value = 0.0f;
 };
 
@@ -578,7 +613,7 @@ struct mvTooltipConfig
 
 struct mvKnobFloatConfig
 {
-    mvRef<float> value = CreateRef<float>(0.0f);
+    std::shared_ptr<float> value = std::make_shared<float>(0.0f);
     float        disabled_value = 0.0f;
     float        minv = 0.0f;
     float        maxv = 100.0f;

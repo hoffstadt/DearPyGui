@@ -43,10 +43,9 @@ if(WIN32)
 elseif(APPLE)
 
 	add_definitions(-DAPPLE)
-	add_definitions(-DUNIX)
 	set_target_properties(_dearpygui PROPERTIES SUFFIX ".so")
 	set_target_properties(_dearpygui PROPERTIES PREFIX "")
-	SET_PROPERTY(TARGET _dearpygui APPEND_STRING PROPERTY COMPILE_FLAGS "-fobjc-arc -Wno-comment -Wno-unused-result -Wsign-compare -Wunreachable-code -fno-common -dynamic -DNDEBUG -fwrapv -O3 -Wall")
+	SET_PROPERTY(TARGET _dearpygui APPEND_STRING PROPERTY COMPILE_FLAGS "-fobjc-arc -fno-common -dynamic -DNDEBUG -fwrapv -O3")
 	target_link_libraries(_dearpygui
 
 		PRIVATE

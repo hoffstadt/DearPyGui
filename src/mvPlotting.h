@@ -1,8 +1,27 @@
 #pragma once
 
 #include "mvItemRegistry.h"
-#include "mvDearPyGui.h"
 #include <array>
+
+struct mvPlotConfig;
+struct mvPlotAxisConfig;
+struct mvAnnotationConfig;
+struct mvSubPlotsConfig;
+struct mvPlotLegendConfig;
+struct mvDragLineConfig;
+struct mvDragPointConfig;
+struct mvBasicSeriesConfig;
+struct mvBarSeriesConfig;
+struct mv2dHistogramSeriesConfig;
+struct mvHistogramSeriesConfig;
+struct mvErrorSeriesConfig;
+struct mvHeatSeriesConfig;
+struct mvPieSeriesConfig;
+struct mvLabelSeriesConfig;
+struct mvImageSeriesConfig;
+struct mvAreaSeriesConfig;
+struct mvCandleSeriesConfig;
+struct mvCustomSeriesConfig;
 
 namespace DearPyGui
 {
@@ -70,7 +89,7 @@ namespace DearPyGui
     void set_data_source(mvAppItem& item, mvUUID dataSource, mvAnnotationConfig& outConfig);
     void set_data_source(mvAppItem& item, mvUUID dataSource, mvDragLineConfig& outConfig);
     void set_data_source(mvAppItem& item, mvUUID dataSource, mvDragPointConfig& outConfig);
-    void set_data_source(mvAppItem& item, mvUUID dataSource, mvRef<std::vector<std::vector<double>>>& outValue);
+    void set_data_source(mvAppItem& item, mvUUID dataSource, std::shared_ptr<std::vector<std::vector<double>>>& outValue);
 
     // template specifics
     void apply_template(const mvSubPlotsConfig& sourceConfig, mvSubPlotsConfig& dstConfig);
@@ -128,7 +147,7 @@ namespace DearPyGui
 struct mvBasicSeriesConfig
 {
     mvAppItemType type = mvAppItemType::All;
-    mvRef<std::vector<std::vector<double>>> value = CreateRef<std::vector<std::vector<double>>>(
+    std::shared_ptr<std::vector<std::vector<double>>> value = std::make_shared<std::vector<std::vector<double>>>(
         std::vector<std::vector<double>>{ std::vector<double>{},
         std::vector<double>{},
         std::vector<double>{},
@@ -140,7 +159,7 @@ struct mvBarSeriesConfig
 {
     bool horizontal = false;
     float weight = 1.0f;
-    mvRef<std::vector<std::vector<double>>> value = CreateRef<std::vector<std::vector<double>>>(
+    std::shared_ptr<std::vector<std::vector<double>>> value = std::make_shared<std::vector<std::vector<double>>>(
         std::vector<std::vector<double>>{ std::vector<double>{},
         std::vector<double>{},
         std::vector<double>{},
@@ -158,7 +177,7 @@ struct mvPlotLegendConfig
 
 struct mvDragPointConfig
 {
-    mvRef<std::array<double, 4>> value = CreateRef<std::array<double, 4>>(std::array<double, 4>{0.0, 0.0, 0.0, 0.0});
+    std::shared_ptr<std::array<double, 4>> value = std::make_shared<std::array<double, 4>>(std::array<double, 4>{0.0, 0.0, 0.0, 0.0});
     double                       disabled_value[4]{};
     bool                         show_label = true;
     mvColor                      color = mvColor(0.0f, 0.0f, 0.0f, -1.0f);
@@ -167,7 +186,7 @@ struct mvDragPointConfig
 
 struct mvDragLineConfig
 {
-    mvRef<double> value = CreateRef<double>(0.0);
+    std::shared_ptr<double> value = std::make_shared<double>(0.0);
     float         disabled_value = 0.0;
     bool          show_label = true;
     mvColor       color = mvColor(0.0f, 0.0f, 0.0f, -1.0f);
@@ -185,7 +204,7 @@ struct mv2dHistogramSeriesConfig
     double xmax = 1.0;
     double ymin = 0.0;
     double ymax = 1.0;
-    mvRef<std::vector<std::vector<double>>> value = CreateRef<std::vector<std::vector<double>>>(
+    std::shared_ptr<std::vector<std::vector<double>>> value = std::make_shared<std::vector<std::vector<double>>>(
         std::vector<std::vector<double>>{ std::vector<double>{},
         std::vector<double>{},
         std::vector<double>{},
@@ -196,7 +215,7 @@ struct mv2dHistogramSeriesConfig
 struct mvErrorSeriesConfig
 {
     bool horizontal = false;
-    mvRef<std::vector<std::vector<double>>> value = CreateRef<std::vector<std::vector<double>>>(
+    std::shared_ptr<std::vector<std::vector<double>>> value = std::make_shared<std::vector<std::vector<double>>>(
         std::vector<std::vector<double>>{ std::vector<double>{},
         std::vector<double>{},
         std::vector<double>{},
@@ -211,9 +230,9 @@ struct mvHeatSeriesConfig
     double      scale_min = 0.0;
     double      scale_max = 1.0;
     std::string format = "%0.1f";
-    mvPlotPoint bounds_min = { 0.0, 0.0 };
-    mvPlotPoint bounds_max = { 1.0, 1.0 };
-    mvRef<std::vector<std::vector<double>>> value = CreateRef<std::vector<std::vector<double>>>(
+    ImPlotPoint bounds_min = { 0.0, 0.0 };
+    ImPlotPoint bounds_max = { 1.0, 1.0 };
+    std::shared_ptr<std::vector<std::vector<double>>> value = std::make_shared<std::vector<std::vector<double>>>(
         std::vector<std::vector<double>>{ std::vector<double>{},
         std::vector<double>{},
         std::vector<double>{},
@@ -230,7 +249,7 @@ struct mvHistogramSeriesConfig
     float  barScale = 1.0f;
     double min = 0.0;
     double max = 1.0;
-    mvRef<std::vector<std::vector<double>>> value = CreateRef<std::vector<std::vector<double>>>(
+    std::shared_ptr<std::vector<std::vector<double>>> value = std::make_shared<std::vector<std::vector<double>>>(
         std::vector<std::vector<double>>{ std::vector<double>{},
         std::vector<double>{},
         std::vector<double>{},
@@ -248,7 +267,7 @@ struct mvPieSeriesConfig
     std::string              format;
     std::vector<std::string> labels;
     std::vector<const char*> clabels;
-    mvRef<std::vector<std::vector<double>>> value = CreateRef<std::vector<std::vector<double>>>(
+    std::shared_ptr<std::vector<std::vector<double>>> value = std::make_shared<std::vector<std::vector<double>>>(
         std::vector<std::vector<double>>{ std::vector<double>{},
         std::vector<double>{},
         std::vector<double>{},
@@ -261,7 +280,7 @@ struct mvLabelSeriesConfig
     int  xoffset = 0;
     int  yoffset = 0;
     bool vertical = false;
-    mvRef<std::vector<std::vector<double>>> value = CreateRef<std::vector<std::vector<double>>>(
+    std::shared_ptr<std::vector<std::vector<double>>> value = std::make_shared<std::vector<std::vector<double>>>(
         std::vector<std::vector<double>>{ std::vector<double>{},
         std::vector<double>{},
         std::vector<double>{},
@@ -273,8 +292,8 @@ struct mvImageSeriesConfig
 {
     // config
     mvUUID      textureUUID = 0;
-    mvPlotPoint bounds_min = { 0.0, 0.0 };
-    mvPlotPoint bounds_max = { 0.0, 0.0 };
+    ImPlotPoint bounds_min = { 0.0, 0.0 };
+    ImPlotPoint bounds_max = { 0.0, 0.0 };
     mvVec2      uv_min = { 0.0f, 0.0f };
     mvVec2      uv_max = { 1.0f, 1.0f };
     mvColor     tintColor = { 1.0f, 1.0f, 1.0f, 1.0f };
@@ -283,7 +302,7 @@ struct mvImageSeriesConfig
     std::shared_ptr<mvAppItem> _texture = nullptr;
     bool _internalTexture = false; // create a local texture if necessary
 
-    mvRef<std::vector<std::vector<double>>> value = CreateRef<std::vector<std::vector<double>>>(
+    std::shared_ptr<std::vector<std::vector<double>>> value = std::make_shared<std::vector<std::vector<double>>>(
         std::vector<std::vector<double>>{ std::vector<double>{},
         std::vector<double>{},
         std::vector<double>{},
@@ -294,7 +313,7 @@ struct mvImageSeriesConfig
 struct mvAreaSeriesConfig
 {
     mvColor fill = MV_DEFAULT_COLOR;
-    mvRef<std::vector<std::vector<double>>> value = CreateRef<std::vector<std::vector<double>>>(
+    std::shared_ptr<std::vector<std::vector<double>>> value = std::make_shared<std::vector<std::vector<double>>>(
         std::vector<std::vector<double>>{ std::vector<double>{},
         std::vector<double>{},
         std::vector<double>{},
@@ -309,7 +328,7 @@ struct mvCandleSeriesConfig
     int     timeunit = ImPlotTimeUnit_Day;
     mvColor bullColor = { 0, 255, 113, 255 };
     mvColor bearColor = { 218, 13, 79, 255 };
-    mvRef<std::vector<std::vector<double>>> value = CreateRef<std::vector<std::vector<double>>>(
+    std::shared_ptr<std::vector<std::vector<double>>> value = std::make_shared<std::vector<std::vector<double>>>(
         std::vector<std::vector<double>>{ std::vector<double>{},
         std::vector<double>{},
         std::vector<double>{},
@@ -321,7 +340,7 @@ struct mvCustomSeriesConfig
 {
     int channelCount = 2; // must be between 2 and 5 inclusive
     bool tooltip = true;
-    mvRef<std::vector<std::vector<double>>> value = CreateRef<std::vector<std::vector<double>>>(
+    std::shared_ptr<std::vector<std::vector<double>>> value = std::make_shared<std::vector<std::vector<double>>>(
         std::vector<std::vector<double>>{ std::vector<double>{},
         std::vector<double>{},
         std::vector<double>{},
@@ -332,7 +351,7 @@ struct mvCustomSeriesConfig
 
 struct mvAnnotationConfig
 {
-    mvRef<std::array<double, 4>> value = CreateRef<std::array<double, 4>>(std::array<double, 4>{0.0, 0.0, 0.0, 0.0});
+    std::shared_ptr<std::array<double, 4>> value = std::make_shared<std::array<double, 4>>(std::array<double, 4>{0.0, 0.0, 0.0, 0.0});
     double                       disabled_value[4]{};
     mvColor                      color = mvColor(0.0f, 0.0f, 0.0f, -1.0f);
     bool                         clamped = true;
@@ -410,8 +429,8 @@ public:
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
     void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvSubPlots*>(item); DearPyGui::apply_template(titem->configData, configData); }
-    inline void onChildRemoved(mvRef<mvAppItem> item) { if (item->type == mvAppItemType::mvPlotLegend){ configData.flags |= ImPlotSubplotFlags_NoLegend; configData.flags &= ~ImPlotSubplotFlags_ShareItems;}}
-    inline void onChildAdd(mvRef<mvAppItem> item) { if (item->type == mvAppItemType::mvPlotLegend) { configData.flags &= ~ImPlotSubplotFlags_NoLegend; configData.flags |= ImPlotSubplotFlags_ShareItems;}}
+    inline void onChildRemoved(std::shared_ptr<mvAppItem> item) { if (item->type == mvAppItemType::mvPlotLegend){ configData.flags |= ImPlotSubplotFlags_NoLegend; configData.flags &= ~ImPlotSubplotFlags_ShareItems;}}
+    inline void onChildAdd(std::shared_ptr<mvAppItem> item) { if (item->type == mvAppItemType::mvPlotLegend) { configData.flags &= ~ImPlotSubplotFlags_NoLegend; configData.flags |= ImPlotSubplotFlags_ShareItems;}}
     inline void addFlag(ImPlotSubplotFlags flag) { configData.flags |= flag; }
     inline void removeFlag(ImPlotSubplotFlags flag){ configData.flags &= ~flag; }
 };

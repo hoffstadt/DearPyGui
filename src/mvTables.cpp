@@ -364,7 +364,7 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 
 }
 
-void mvTable::onChildAdd(mvRef<mvAppItem> item)
+void mvTable::onChildAdd(std::shared_ptr<mvAppItem> item)
 {
 
 	if (item->type == mvAppItemType::mvTableColumn)
@@ -402,7 +402,7 @@ void mvTable::onChildAdd(mvRef<mvAppItem> item)
 	}
 }
 
-void mvTable::onChildRemoved(mvRef<mvAppItem> item)
+void mvTable::onChildRemoved(std::shared_ptr<mvAppItem> item)
 {
 	if (item->type == mvAppItemType::mvTableColumn)
 	{

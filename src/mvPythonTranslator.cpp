@@ -999,7 +999,7 @@ ToColor(PyObject* value, const std::string& message)
     return mvColor{ color[0], color[1], color[2], color[3] };
 }
 
-mvPlotPoint 
+ImPlotPoint
 ToPoint(PyObject* value, const std::string& message)
 {
     if (value == nullptr)

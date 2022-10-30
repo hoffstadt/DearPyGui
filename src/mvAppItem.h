@@ -14,7 +14,6 @@
 #include "mvAppItemState.h"
 #include "mvCallbackRegistry.h"
 #include "mvPythonTranslator.h"
-#include "mvDefaultTheme.h"
 #include <implot_internal.h>
 #include "mvAppItemTypes.inc"
 
@@ -72,7 +71,7 @@ struct ScopedID
 
 namespace DearPyGui
 {
-    mvRef<mvAppItem>                                CreateEntity                    (mvAppItemType type, mvUUID id);
+    std::shared_ptr<mvAppItem>                                CreateEntity                    (mvAppItemType type, mvUUID id);
     int                                             GetEntityDesciptionFlags        (mvAppItemType type);
     int                                             GetEntityTargetSlot             (mvAppItemType type);
     StorageValueTypes                               GetEntityValueType              (mvAppItemType type);
@@ -80,11 +79,11 @@ namespace DearPyGui
     int                                             GetApplicableState              (mvAppItemType type);
     const std::vector<std::pair<std::string, i32>>& GetAllowableParents             (mvAppItemType type);
     const std::vector<std::pair<std::string, i32>>& GetAllowableChildren            (mvAppItemType type);
-    mvRef<mvThemeComponent>&                        GetClassThemeComponent          (mvAppItemType type);
-    mvRef<mvThemeComponent>&                        GetDisabledClassThemeComponent  (mvAppItemType type);
+    std::shared_ptr<mvThemeComponent>&                        GetClassThemeComponent          (mvAppItemType type);
+    std::shared_ptr<mvThemeComponent>&                        GetDisabledClassThemeComponent  (mvAppItemType type);
     mvPythonParser                                  GetEntityParser                 (mvAppItemType type);
-    void                                            OnChildAdded                    (mvAppItem* item, mvRef<mvAppItem> child);
-    void                                            OnChildRemoved                  (mvAppItem* item, mvRef<mvAppItem> child);
+    void                                            OnChildAdded                    (mvAppItem* item, std::shared_ptr<mvAppItem> child);
+    void                                            OnChildRemoved                  (mvAppItem* item, std::shared_ptr<mvAppItem> child);
 }
 
 struct mvAppItemInfo
@@ -157,10 +156,10 @@ public:
     mvAppItemState               state;
     mvAppItemInfo                info{};
     mvAppItemConfig              config{};
-    mvRef<mvItemHandlerRegistry> handlerRegistry = nullptr;
-    mvRef<mvAppItem>             font = nullptr;
-    mvRef<mvTheme>               theme = nullptr;
-    mvRef<mvAppItemDrawInfo>     drawInfo = nullptr;
+    std::shared_ptr<mvItemHandlerRegistry> handlerRegistry = nullptr;
+    std::shared_ptr<mvAppItem>             font = nullptr;
+    std::shared_ptr<mvTheme>               theme = nullptr;
+    std::shared_ptr<mvAppItemDrawInfo>     drawInfo = nullptr;
 
     // slots
     //   * 0 : mvFileExtension, mvFontRangeHint, mvNodeLink, mvAnnotation
@@ -168,7 +167,7 @@ public:
     //   * 1 : Most widgets
     //   * 2 : Draw Commands
     //   * 3 : mvDragPayload
-    std::vector<mvRef<mvAppItem>> childslots[4] = { {}, {}, {}, {} };
+    std::vector<std::shared_ptr<mvAppItem>> childslots[4] = { {}, {}, {}, {} };
 
 public:
 
@@ -412,3 +411,66 @@ GetEntityCommand(mvAppItemType type)
     }
     }
 }
+
+#define MV_BASE_COL_bgColor mvColor(37, 37, 38, 255)
+#define MV_BASE_COL_lightBgColor mvColor(82, 82, 85, 255)
+#define MV_BASE_COL_veryLightBgColor mvColor(90, 90, 95, 255)
+#define MV_BASE_COL_panelColor mvColor(51, 51, 55, 255)
+#define MV_BASE_COL_panelHoverColor mvColor(29, 151, 236, 103)
+#define MV_BASE_COL_panelActiveColor mvColor(0, 119, 200, 153)
+#define MV_BASE_COL_textColor mvColor(255, 255, 255, 255)
+#define MV_BASE_COL_textDisabledColor mvColor(151, 151, 151, 255)
+#define MV_BASE_COL_borderColor mvColor(78, 78, 78, 255)
+#define mvImGuiCol_Text MV_BASE_COL_textColor
+#define mvImGuiCol_TextSelectedBg MV_BASE_COL_panelActiveColor
+#define mvImGuiCol_WindowBg MV_BASE_COL_bgColor
+#define mvImGuiCol_ChildBg MV_BASE_COL_bgColor
+#define mvImGuiCol_PopupBg MV_BASE_COL_bgColor
+#define mvImGuiCol_Border MV_BASE_COL_borderColor
+#define mvImGuiCol_BorderShadow MV_BASE_COL_borderColor
+#define mvImGuiCol_FrameBg MV_BASE_COL_panelColor
+#define mvImGuiCol_FrameBgHovered MV_BASE_COL_panelHoverColor
+#define mvImGuiCol_FrameBgActive MV_BASE_COL_panelActiveColor
+#define mvImGuiCol_TitleBg MV_BASE_COL_bgColor
+#define mvImGuiCol_TitleBgActive mvColor(15, 86, 135, 255)
+#define mvImGuiCol_TitleBgCollapsed MV_BASE_COL_bgColor
+#define mvImGuiCol_MenuBarBg MV_BASE_COL_panelColor
+#define mvImGuiCol_ScrollbarBg MV_BASE_COL_panelColor
+#define mvImGuiCol_ScrollbarGrab MV_BASE_COL_lightBgColor
+#define mvImGuiCol_ScrollbarGrabHovered MV_BASE_COL_veryLightBgColor
+#define mvImGuiCol_ScrollbarGrabActive MV_BASE_COL_veryLightBgColor
+#define mvImGuiCol_CheckMark MV_BASE_COL_panelActiveColor
+#define mvImGuiCol_SliderGrab MV_BASE_COL_panelHoverColor
+#define mvImGuiCol_SliderGrabActive MV_BASE_COL_panelActiveColor
+#define mvImGuiCol_Button MV_BASE_COL_panelColor
+#define mvImGuiCol_ButtonHovered MV_BASE_COL_panelHoverColor
+#define mvImGuiCol_ButtonActive MV_BASE_COL_panelActiveColor
+#define mvImGuiCol_Header MV_BASE_COL_panelColor
+#define mvImGuiCol_HeaderHovered MV_BASE_COL_panelHoverColor
+#define mvImGuiCol_HeaderActive MV_BASE_COL_panelActiveColor
+#define mvImGuiCol_Separator MV_BASE_COL_borderColor
+#define mvImGuiCol_SeparatorHovered MV_BASE_COL_borderColor
+#define mvImGuiCol_SeparatorActive MV_BASE_COL_borderColor
+#define mvImGuiCol_ResizeGrip MV_BASE_COL_bgColor
+#define mvImGuiCol_ResizeGripHovered MV_BASE_COL_panelColor
+#define mvImGuiCol_Tab MV_BASE_COL_panelColor
+#define mvImGuiCol_TabHovered MV_BASE_COL_panelHoverColor
+#define mvImGuiCol_TabActive MV_BASE_COL_panelActiveColor
+#define mvImGuiCol_TabUnfocused MV_BASE_COL_panelColor
+#define mvImGuiCol_TabUnfocusedActive MV_BASE_COL_panelActiveColor
+#define mvImGuiCol_DockingPreview MV_BASE_COL_panelActiveColor
+#define mvImGuiCol_DockingEmptyBg mvColor(51, 51, 51, 255)
+#define mvImGuiCol_PlotLines MV_BASE_COL_panelActiveColor
+#define mvImGuiCol_PlotLinesHovered MV_BASE_COL_panelHoverColor
+#define mvImGuiCol_PlotHistogram MV_BASE_COL_panelActiveColor
+#define mvImGuiCol_PlotHistogramHovered MV_BASE_COL_panelHoverColor
+#define mvImGuiCol_DragDropTarget mvColor(255, 255, 0, 179)
+#define mvImGuiCol_NavHighlight MV_BASE_COL_bgColor
+#define mvImGuiCol_NavWindowingHighlight mvColor(255, 255, 255, 179)
+#define mvImGuiCol_NavWindowingDimBg mvColor(204, 204, 204, 51)
+#define mvImGuiCol_ModalWindowDimBg mvColor(37, 37, 38, 150)
+#define mvImGuiCol_TableHeaderBg mvColor(48, 48, 51, 255)
+#define mvImGuiCol_TableBorderStrong mvColor(79, 79, 89, 255)
+#define mvImGuiCol_TableBorderLight mvColor(59, 59, 64, 255)
+#define mvImGuiCol_TableRowBg mvColor(0, 0, 0, 0)
+#define mvImGuiCol_TableRowBgAlt mvColor(255, 255, 255, 15)

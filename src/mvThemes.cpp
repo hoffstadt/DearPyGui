@@ -73,12 +73,12 @@ void mvTheme::push_theme_components()
 			if (_specificEnabled == comp->_specificEnabled)
 			{
 				comp->_oldComponent = *comp->_specificComponentPtr;
-				*comp->_specificComponentPtr = *(mvRef<mvThemeComponent>*) & child;
+				*comp->_specificComponentPtr = *(std::shared_ptr<mvThemeComponent>*) & child;
 			}
 			else
 			{
 				comp->_oldComponent = *comp->_specificDisabledComponentPtr;
-				*comp->_specificDisabledComponentPtr = *(mvRef<mvThemeComponent>*) & child;
+				*comp->_specificDisabledComponentPtr = *(std::shared_ptr<mvThemeComponent>*) & child;
 			}
 		}
 	}
@@ -183,7 +183,6 @@ void mvThemeColor::handleSpecificKeywordArgs(PyObject* dict)
 		{
 			state.ok = false;
 			mvThrowPythonError(mvErrorCode::mvNone, "Style target out of range.");
-			MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
 			assert(false);
 		}
 	}
@@ -194,7 +193,6 @@ void mvThemeColor::handleSpecificKeywordArgs(PyObject* dict)
 		{
 			state.ok = false;
 			mvThrowPythonError(mvErrorCode::mvNone, "Style target out of range.");
-			MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
 			assert(false);
 		}
 	}
@@ -205,7 +203,6 @@ void mvThemeColor::handleSpecificKeywordArgs(PyObject* dict)
 		{
 			state.ok = false;
 			mvThrowPythonError(mvErrorCode::mvNone, "Style target out of range.");
-			MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
 			assert(false);
 		}
 	}
@@ -315,7 +312,7 @@ void mvThemeComponent::pop_theme_items()
 
 void mvThemeComponent::handleSpecificPositionalArgs(PyObject* dict)
 {
-	static mvRef<mvThemeComponent> all_item_theme_component = nullptr;
+	static std::shared_ptr<mvThemeComponent> all_item_theme_component = nullptr;
 
 	if (!VerifyPositionalArguments(GetParsers()[GetEntityCommand(type)], dict))
 		return;
@@ -619,7 +616,6 @@ void mvThemeStyle::handleSpecificKeywordArgs(PyObject* dict)
 		{
 			state.ok = false;
 			mvThrowPythonError(mvErrorCode::mvNone, "");
-			MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
 		}
 	}
 
@@ -629,7 +625,6 @@ void mvThemeStyle::handleSpecificKeywordArgs(PyObject* dict)
 		{
 			state.ok = false;
 			mvThrowPythonError(mvErrorCode::mvNone, "");
-			MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
 		}
 	}
 
@@ -639,7 +634,6 @@ void mvThemeStyle::handleSpecificKeywordArgs(PyObject* dict)
 		{
 			state.ok = false;
 			mvThrowPythonError(mvErrorCode::mvNone, "");
-			MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
 		}
 	}
 }

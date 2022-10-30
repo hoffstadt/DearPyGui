@@ -2,7 +2,14 @@
 
 #include <array>
 #include "mvItemRegistry.h"
-#include "mvDearPyGui.h"
+
+struct mvColorButtonConfig;
+struct mvColorEditConfig;
+struct mvColorPickerConfig;
+struct mvColorMapConfig;
+struct mvColorMapButtonConfig;
+struct mvColorMapScaleConfig;
+struct mvColorMapSliderConfig;
 
 namespace DearPyGui 
 {
@@ -65,7 +72,7 @@ namespace DearPyGui
 struct mvColorButtonConfig
 {
 
-    mvRef<std::array<float, 4>> value = CreateRef<std::array<float, 4>>(std::array<float, 4>{0.0f, 0.0f, 0.0f, 1.0f});
+    std::shared_ptr<std::array<float, 4>> value = std::make_shared<std::array<float, 4>>(std::array<float, 4>{0.0f, 0.0f, 0.0f, 1.0f});
     float                       disabled_value[4]{};
     ImGuiColorEditFlags         flags = ImGuiColorEditFlags_None;
     bool                        no_border = false;
@@ -75,7 +82,7 @@ struct mvColorButtonConfig
 struct mvColorEditConfig
 {
 
-    mvRef<std::array<float, 4>> value = CreateRef<std::array<float, 4>>(std::array<float, 4>{0.0f, 0.0f, 0.0f, 1.0f});
+    std::shared_ptr<std::array<float, 4>> value = std::make_shared<std::array<float, 4>>(std::array<float, 4>{0.0f, 0.0f, 0.0f, 1.0f});
     float                       disabled_value[4]{};
     ImGuiColorEditFlags         flags = ImGuiColorEditFlags__OptionsDefault;
     bool                        no_picker = false;
@@ -88,7 +95,7 @@ struct mvColorEditConfig
 
 struct mvColorPickerConfig
 {
-    mvRef<std::array<float, 4>> value = CreateRef<std::array<float, 4>>(std::array<float, 4>{0.0f, 0.0f, 0.0f, 1.0f});
+    std::shared_ptr<std::array<float, 4>> value = std::make_shared<std::array<float, 4>>(std::array<float, 4>{0.0f, 0.0f, 0.0f, 1.0f});
     float                       disabled_value[4]{};
     ImGuiColorEditFlags         flags = ImGuiColorEditFlags__OptionsDefault;
     bool                        no_inputs = false;
@@ -118,7 +125,7 @@ struct mvColorMapScaleConfig
 
 struct mvColorMapSliderConfig
 {
-    mvRef<float>    value = CreateRef<float>(0.0f);
+    std::shared_ptr<float>    value = std::make_shared<float>(0.0f);
     ImVec4          color = ImVec4(0.0f, 0.0f, 0.0f, 1.0f);
     ImPlotColormap  colorMap = 0;
 };
