@@ -1055,14 +1055,14 @@ RenderItemRegistry(mvItemRegistry& registry)
     for (auto& root : registry.textureRegistryRoots)
         root->draw(nullptr, 0.0f, 0.0f);
 
-    for (auto& root : registry.filedialogRoots)
-        root->draw(nullptr, 0.0f, 0.0f);
-
     for (auto& root : registry.themeRegistryRoots)
     {
         if(root->config.show)
             ((mvTheme*)root.get())->push_theme_components();
     }
+
+    for (auto& root : registry.filedialogRoots)
+        root->draw(nullptr, 0.0f, 0.0f);
 
     for (auto& root : registry.colormapRoots)
         root->draw(nullptr, 0.0f, 0.0f);
