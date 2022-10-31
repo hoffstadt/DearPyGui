@@ -1,7 +1,6 @@
 #include "mvTextureItems.h"
-#include "mvPythonExceptions.h"
+#include "mvPyUtils.h"
 #include "mvLog.h"
-#include "mvGlobalIntepreterLock.h"
 #include "mvUtilities.h"
 
 mvTextureRegistry::mvTextureRegistry(mvUUID uuid)

@@ -10,12 +10,9 @@
 #include <atomic>
 #include <memory>
 #include "mvCore.h"
-#include "mvPythonParser.h"
+#include "mvPyUtils.h"
 #include "mvTypes.h"
 #include "mvGraphics.h"
-
-#define PY_SSIZE_T_CLEAN
-#include <Python.h>
 
 //-----------------------------------------------------------------------------
 // forward declarations

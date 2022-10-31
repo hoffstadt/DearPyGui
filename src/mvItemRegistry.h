@@ -8,7 +8,7 @@
 #include <mutex>
 #include <map>
 #include "mvAppItem.h"
-#include "mvPyObject.h"
+#include "mvPyUtils.h"
 
 //-----------------------------------------------------------------------------
 // forward declarations

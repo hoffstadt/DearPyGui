@@ -2,10 +2,7 @@
 
 #include <map>
 #include <vector>
-#include "mvPythonParser.h"
-
-#define PY_SSIZE_T_CLEAN
-#include <Python.h>
+#include "mvPyUtils.h"
 
 PyMODINIT_FUNC PyInit__dearpygui(void);
 

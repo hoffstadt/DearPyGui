@@ -5,9 +5,7 @@
 #include <iostream>
 #include "mvItemRegistry.h"
 #include "mvAppItemCommons.h"
-#include "mvGlobalIntepreterLock.h"
-#include "mvPythonExceptions.h"
-#include "mvPyObject.h"
+#include "mvPyUtils.h"
 
 void mvRunTasks()
 {

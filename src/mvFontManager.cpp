@@ -8,7 +8,7 @@
 #include "mvCore.h"
 #include "mvItemRegistry.h"
 #include "mvViewport.h"
-#include "mvPythonExceptions.h"
+#include "mvPyUtils.h"
 #include <frameobject.h>
 #include "mvTextureItems.h"
 #include <CustomFont.cpp>

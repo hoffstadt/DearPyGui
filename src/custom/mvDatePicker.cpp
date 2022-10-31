@@ -4,7 +4,7 @@
 #include <implot_internal.h>
 #include <misc/cpp/imgui_stdlib.h>
 #include "mvItemRegistry.h"
-#include "mvPythonExceptions.h"
+#include "mvPyUtils.h"
 #include "mvFontItems.h"
 #include "mvThemes.h"
 #include "mvContainers.h"

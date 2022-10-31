@@ -3,8 +3,7 @@
 #include "mvCore.h"
 #include "mvLog.h"
 #include "mvItemRegistry.h"
-#include "mvPyObject.h"
-#include "mvPythonExceptions.h"
+#include "mvPyUtils.h"
 #include "mvFontItems.h"
 #include "mvThemes.h"
 

@@ -13,7 +13,7 @@
 #include <simd/simd.h>
 #include <vector>
 #include "mvAppleSpecifics.h"
-#include "mvPythonExceptions.h"
+#include "mvPyUtils.h"
 
 // this is necessary to keep objective-c's reference counts
 // from reaching 0.

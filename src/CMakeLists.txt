@@ -23,13 +23,8 @@ set(MARVEL_SOURCES
 	"$<$<PLATFORM_ID:Linux>:mvGraphics_linux.cpp>"
 
 	# python
-	"mvPyObject.cpp"
-	"mvPythonTranslator.cpp"
-	"mvPythonParser.cpp"
-	"mvPythonExceptions.cpp"
-	"mvGlobalIntepreterLock.cpp"
-	"mvPythonTypeChecker.cpp"
-    "mvCustomTypes.cpp"
+	"mvPyUtils.cpp"
+		"mvCustomTypes.cpp"
 
 	# ui
 	"mvBasicWidgets.cpp"

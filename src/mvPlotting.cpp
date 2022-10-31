@@ -3,11 +3,10 @@
 #include "mvCore.h"
 #include "mvContext.h"
 #include "mvItemRegistry.h"
-#include "mvPythonExceptions.h"
+#include "mvPyUtils.h"
 #include "mvFontItems.h"
 #include "mvThemes.h"
 #include "mvContainers.h"
-#include "mvPyObject.h"
 #include "mvTextureItems.h"
 #include "mvItemHandlers.h"
 

@@ -9,9 +9,7 @@
 #include <implot.h>
 #include "mvFontManager.h"
 #include "mvCallbackRegistry.h"
-#include "mvPythonTranslator.h"
-#include "mvPythonExceptions.h"
-#include "mvGlobalIntepreterLock.h"
+#include "mvPyUtils.h"
 #include <frameobject.h>
 #include "mvLog.h"
 #include "mvToolManager.h"

@@ -2,12 +2,9 @@
 #include "mvContext.h"
 #include "mvItemRegistry.h"
 #include "mvCore.h"
-#include "mvPythonExceptions.h"
-#include "mvGlobalIntepreterLock.h"
 #include "mvAppItemCommons.h"
 #include "mvLog.h"
-#include "mvPythonTypeChecker.h"
-#include "mvPyObject.h"
+#include "mvPyUtils.h"
 
 static void
 UpdateLocations(std::vector<std::shared_ptr<mvAppItem>>* children, i32 slots)

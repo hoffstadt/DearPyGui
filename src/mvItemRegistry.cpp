@@ -1,16 +1,11 @@
 #include "mvItemRegistry.h"
 #include "mvProfiler.h"
 #include "mvContext.h"
-#include "mvItemRegistry.h"
 #include "mvAppItemCommons.h"
 #include "mvLog.h"
-#include "mvPythonExceptions.h"
-#include "mvToolManager.h"
-#include "mvPythonExceptions.h"
+#include "mvPyUtils.h"
 #include "mvToolManager.h"
 #include "mvFontManager.h"
-#include "mvPythonTypeChecker.h"
-#include "mvGlobalIntepreterLock.h"
 
 mvItemRegistry::mvItemRegistry()
 {

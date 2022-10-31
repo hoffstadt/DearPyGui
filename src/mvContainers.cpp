@@ -3,9 +3,8 @@
 #include "mvFontItems.h"
 #include "mvThemes.h"
 #include "mvContainers.h"
-#include "mvPyObject.h"
+#include "mvPyUtils.h"
 #include "mvItemHandlers.h"
-#include "mvPythonExceptions.h"
 #include <misc/cpp/imgui_stdlib.h>
 #include "mvTextureItems.h"
 
