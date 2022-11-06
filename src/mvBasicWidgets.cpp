@@ -5993,14 +5993,6 @@ DearPyGui::draw_text(ImDrawList* drawlist, mvAppItem& item, mvTextConfig& config
 		//ImGui::Text("%s", _value.c_str());
 		ImGui::TextUnformatted(config.value->c_str()); // this doesn't have a buffer size limit
 
-		item.state.lastFrameUpdate = GContext->frame;
-		item.state.visible = ImGui::IsItemVisible();
-		item.state.hovered = ImGui::IsItemHovered();
-		item.state.leftclicked = ImGui::IsItemClicked(0);
-		item.state.rightclicked = ImGui::IsItemClicked(1);
-		item.state.middleclicked = ImGui::IsItemClicked(2);
-		item.state.contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
-
 		if (config.wrap >= 0)
 			ImGui::PopTextWrapPos();
 
@@ -6012,14 +6004,13 @@ DearPyGui::draw_text(ImDrawList* drawlist, mvAppItem& item, mvTextConfig& config
 			ImGui::SameLine();
 			ImGui::SetCursorPos({ valueEndX + style.ItemInnerSpacing.x, textVertCenter });
 			ImGui::TextUnformatted(item.config.specifiedLabel.c_str());
-
-			item.state.visible = ImGui::IsItemVisible();
-			item.state.hovered = ImGui::IsItemHovered();
-			item.state.leftclicked = ImGui::IsItemClicked(0);
-			item.state.rightclicked = ImGui::IsItemClicked(1);
-			item.state.middleclicked = ImGui::IsItemClicked(2);
 		}
 	}
+
+	//-----------------------------------------------------------------------------
+	// update state
+	//-----------------------------------------------------------------------------
+	UpdateAppItemState(item.state);
 
 	//-----------------------------------------------------------------------------
 	// postdraw
