@@ -1514,6 +1514,7 @@ def child_window(*, label: str =None, user_data: Any =None, use_internal_label: 
 		horizontal_scrollbar (bool, optional): Allow horizontal scrollbar to appear (off by default).
 		menubar (bool, optional): Shows/Hides the menubar at the top.
 		no_scroll_with_mouse (bool, optional): Disable user vertically scrolling with mouse wheel.
+		flattened_navigation (bool, optional): Allow gamepad/keyboard navigation to cross over parent border to this child (only use on child that have no scrolling!)
 		id (Union[int, str], optional): (deprecated) 
 	Yields:
 		Union[int, str]
@@ -3164,6 +3165,7 @@ def add_child_window(*, label: str =None, user_data: Any =None, use_internal_lab
 		horizontal_scrollbar (bool, optional): Allow horizontal scrollbar to appear (off by default).
 		menubar (bool, optional): Shows/Hides the menubar at the top.
 		no_scroll_with_mouse (bool, optional): Disable user vertically scrolling with mouse wheel.
+		flattened_navigation (bool, optional): Allow gamepad/keyboard navigation to cross over parent border to this child (only use on child that have no scrolling!)
 		id (Union[int, str], optional): (deprecated) 
 	Returns:
 		Union[int, str]

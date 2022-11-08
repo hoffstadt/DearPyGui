@@ -2629,6 +2629,8 @@ configure_app(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (PyObject* item = PyDict_GetItemString(kwargs, "device_name")) GContext->IO.info_device_name = ToString(item);
 	if (PyObject* item = PyDict_GetItemString(kwargs, "device")) GContext->IO.info_device = ToInt(item);
 
+	if (PyObject* item = PyDict_GetItemString(kwargs, "keyboard_navigation")) GContext->IO.kbdNavigation = ToBool(item);
+
 	return GetPyNone();
 }
 
@@ -2656,6 +2658,7 @@ get_app_configuration(PyObject* self, PyObject* args, PyObject* kwargs)
 	PyDict_SetItemString(pdict, "auto_save_init_file", mvPyObject(ToPyBool(GContext->IO.autoSaveIniFile)));
 	PyDict_SetItemString(pdict, "wait_for_input", mvPyObject(ToPyBool(GContext->IO.waitForInput)));
 	PyDict_SetItemString(pdict, "manual_callback_management", mvPyObject(ToPyBool(GContext->IO.manualCallbacks)));
+	PyDict_SetItemString(pdict, "keyboard_navigation", mvPyObject(ToPyBool(GContext->IO.kbdNavigation)));
 	return pdict;
 }
 

@@ -78,6 +78,8 @@ struct mvIO
     bool docking = false;
     bool dockingViewport = false;
 
+    bool kbdNavigation = false;
+
     std::string iniFile;
     bool        loadIniFile = false;
     bool        autoSaveIniFile = false;
