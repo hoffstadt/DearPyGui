@@ -2,7 +2,6 @@
 #include <imnodes.h>
 #include "mvContext.h"
 #include "mvItemRegistry.h"
-#include "mvLog.h"
 #include "mvPyUtils.h"
 #include "mvItemHandlers.h"
 #include "mvThemes.h"

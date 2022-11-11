@@ -9,7 +9,6 @@
 #include "mvViewport.h"
 #include "stb_image.h"
 #include "stb_image_write.h"
-#include "mvLog.h"
 #include "mvProfiler.h"
 #include "mvUtilities.h"
 

@@ -2,7 +2,6 @@
 #include "mvProfiler.h"
 #include "mvContext.h"
 #include "mvAppItemCommons.h"
-#include "mvLog.h"
 #include "mvPyUtils.h"
 #include "mvToolManager.h"
 #include "mvFontManager.h"

@@ -8,7 +8,6 @@
 #include "mvPyUtils.h"
 #include "mvViewport.h"
 #include <stb_image.h>
-#include "mvLog.h"
 #include "mvProfiler.h"
 
 static void

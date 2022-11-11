@@ -9,7 +9,6 @@
 #include <sstream>
 #include <filesystem>
 #include "mvViewport.h"
-#include "mvLog.h"
 
 namespace fs = std::filesystem;
 

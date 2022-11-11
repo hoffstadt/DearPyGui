@@ -2,7 +2,6 @@
 #include "mvFileDialog.h"
 #include "mvItemRegistry.h"
 #include "mvPyUtils.h"
-#include "mvLog.h"
 
 void mvFileExtension::applySpecificTemplate(mvAppItem* item)
 {

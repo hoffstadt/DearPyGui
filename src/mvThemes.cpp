@@ -1,5 +1,4 @@
 #include "mvThemes.h"
-#include "mvLog.h"
 #include "mvPyUtils.h"
 #include <implot.h>
 #include <imgui_internal.h>

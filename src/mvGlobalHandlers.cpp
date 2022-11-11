@@ -1,6 +1,5 @@
 #include "mvGlobalHandlers.h"
 #include "mvPyUtils.h"
-#include "mvLog.h"
 #include "mvUtilities.h"
 
 void mvHandlerRegistry::draw(ImDrawList* drawlist, float x, float y)

@@ -11,7 +11,6 @@
 #include "mvCallbackRegistry.h"
 #include "mvPyUtils.h"
 #include <frameobject.h>
-#include "mvLog.h"
 #include "mvToolManager.h"
 #include <imnodes.h>
 #include <thread>

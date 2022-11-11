@@ -1,6 +1,5 @@
 #include "mvTextureItems.h"
 #include "mvPyUtils.h"
-#include "mvLog.h"
 #include "mvUtilities.h"
 
 mvTextureRegistry::mvTextureRegistry(mvUUID uuid)

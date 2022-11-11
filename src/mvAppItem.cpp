@@ -3,7 +3,6 @@
 #include "mvItemRegistry.h"
 #include "mvCore.h"
 #include "mvAppItemCommons.h"
-#include "mvLog.h"
 #include "mvPyUtils.h"
 
 static void

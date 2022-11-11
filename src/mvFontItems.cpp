@@ -1,7 +1,6 @@
 #include "mvFontItems.h"
 #include "mvTextureItems.h"
 #include "mvPyUtils.h"
-#include "mvLog.h"
 #include "mvToolManager.h"
 #include "mvFontManager.h"
 

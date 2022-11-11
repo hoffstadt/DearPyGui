@@ -1,5 +1,4 @@
 #include "mvDrawings.h"
-#include "mvLog.h"
 #include "mvItemRegistry.h"
 #include "mvPyUtils.h"
 #include "mvAppItemCommons.h"
