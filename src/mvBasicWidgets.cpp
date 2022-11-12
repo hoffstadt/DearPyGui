@@ -5993,6 +5993,11 @@ DearPyGui::draw_text(ImDrawList* drawlist, mvAppItem& item, mvTextConfig& config
 		//ImGui::Text("%s", _value.c_str());
 		ImGui::TextUnformatted(config.value->c_str()); // this doesn't have a buffer size limit
 
+		//-----------------------------------------------------------------------------
+		// update state
+		//-----------------------------------------------------------------------------
+		UpdateAppItemState(item.state);
+
 		if (config.wrap >= 0)
 			ImGui::PopTextWrapPos();
 
@@ -6004,13 +6009,32 @@ DearPyGui::draw_text(ImDrawList* drawlist, mvAppItem& item, mvTextConfig& config
 			ImGui::SameLine();
 			ImGui::SetCursorPos({ valueEndX + style.ItemInnerSpacing.x, textVertCenter });
 			ImGui::TextUnformatted(item.config.specifiedLabel.c_str());
+
+			//-----------------------------------------------------------------------------
+			// update state - locally updating the item state when label is used. We do not 
+			// need to update RectMin parameter since its based on the text corner.
+			//-----------------------------------------------------------------------------
+			item.state.hovered |= ImGui::IsItemHovered();
+			item.state.active |= ImGui::IsItemActive();
+			item.state.focused |= ImGui::IsItemFocused();
+			item.state.leftclicked |= ImGui::IsItemClicked();
+			item.state.rightclicked |= ImGui::IsItemClicked(1);
+			item.state.middleclicked |= ImGui::IsItemClicked(2);
+			item.state.visible |= ImGui::IsItemVisible();
+			item.state.edited |= ImGui::IsItemEdited();
+			item.state.activated |= ImGui::IsItemActivated();
+			item.state.deactivated |= ImGui::IsItemDeactivated();
+			item.state.deactivatedAfterEdit |= ImGui::IsItemDeactivatedAfterEdit();
+			item.state.toggledOpen = ImGui::IsItemToggledOpen();
+			item.state.rectMax = { ImGui::GetItemRectMax().x, ImGui::GetItemRectMax().y};
+			item.state.rectSize = { item.state.rectMax.x - item.state.rectMin.x, item.state.rectMax.y - item.state.rectMin.y };
+			item.state.contextRegionAvail = { ImGui::GetContentRegionAvail().x + item.state.contextRegionAvail.x, ImGui::GetContentRegionAvail().y + item.state.contextRegionAvail.y };
+
+			if (item.state.mvPrevRectSize.x != item.state.rectSize.x || item.state.mvPrevRectSize.y != item.state.rectSize.y) { item.state.mvRectSizeResized = true; }
+			else item.state.mvRectSizeResized = false;
+			item.state.mvPrevRectSize = item.state.rectSize;
 		}
 	}
-
-	//-----------------------------------------------------------------------------
-	// update state
-	//-----------------------------------------------------------------------------
-	UpdateAppItemState(item.state);
 
 	//-----------------------------------------------------------------------------
 	// postdraw
