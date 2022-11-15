@@ -1283,7 +1283,7 @@ namespace IGFD
 					fileType = 'd';
 				else
 					fileType = 'f';
-				auto fileName = file.path().filename().string();
+				auto fileName = file.path().filename().u8string();
 				AddFile(vFileDialogInternal, path, fileName, fileType);
 			}
 #else // dirent
