@@ -327,6 +327,11 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 				columnnum++;
 			}
 
+			_scrollX = ImGui::GetScrollX();
+			_scrollMaxX = ImGui::GetScrollMaxX();
+			_scrollY = ImGui::GetScrollY();
+			_scrollMaxY = ImGui::GetScrollMaxY();
+
 			ImGui::EndTable();
 		}
 	}
