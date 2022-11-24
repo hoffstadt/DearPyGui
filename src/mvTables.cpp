@@ -197,7 +197,13 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
                 auto& columnItem = childslots[0][column_index];
 
                 if(columnItem->config.enabled)
+				{
+					apply_local_theming(columnItem.get());
+					apply_local_theming(cell.get());
 				    cell->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
+					cleanup_local_theming(cell.get());
+					cleanup_local_theming(columnItem.get());
+				}
 			}
 		};
 
