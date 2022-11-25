@@ -126,6 +126,7 @@
     X( mvDeactivatedAfterEditHandler ) \
     X( mvToggledOpenHandler ) \
     X( mvClickedHandler ) \
+    X( mvDoubleClickedHandler ) \
     X( mvDragPayload ) \
     X( mvResizeHandler ) \
     X( mvFont ) \

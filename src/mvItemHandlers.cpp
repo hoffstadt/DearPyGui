@@ -46,6 +46,15 @@ void mvItemHandlerRegistry::onBind(mvAppItem* item)
 			break;
 		}
 
+		case mvAppItemType::mvDoubleClickedHandler:
+		{
+			// if an item can be clicked, it can be double clicked as well
+			if (!(applicableState & MV_STATE_CLICKED))
+				mvThrowPythonError(mvErrorCode::mvNone, "bind_item_handler_registry",
+					"Item Handler Registry includes inapplicable handler: mvDoubleClickedHandler", item);
+			break;
+		}
+
 		case mvAppItemType::mvDeactivatedAfterEditHandler:
 		{
 			if (!(applicableState & MV_STATE_DEACTIVATEDAE))
@@ -225,6 +234,61 @@ void mvClickedHandler::getSpecificConfiguration(PyObject* dict)
 void mvClickedHandler::applySpecificTemplate(mvAppItem* item)
 {
 	auto titem = static_cast<mvClickedHandler*>(item);
+	_button = titem->_button;
+}
+
+void mvDoubleClickedHandler::customAction(void* data)
+{
+	mvAppItemState* state = static_cast<mvAppItemState*>(data);
+
+	int i = (_button < 0)? 0 : _button ;
+	int end = (_button < 0)? state->doubleclicked.size() : (i + 1);
+
+	for (; i < end; i++)
+	{
+		if (state->doubleclicked[i])
+		{
+			mvSubmitCallback([=]()
+				{
+					mvPyObject pArgs(PyTuple_New(2));
+					PyTuple_SetItem(pArgs, 0, ToPyInt(i));
+					PyTuple_SetItem(pArgs, 1, ToPyUUID(state->parent)); // steals data, so don't deref
+					if (config.alias.empty())
+						mvRunCallback(getCallback(false), uuid, pArgs, config.user_data);
+					else
+						mvRunCallback(getCallback(false), config.alias, pArgs, config.user_data);
+				});
+		}
+	}
+}
+
+void mvDoubleClickedHandler::handleSpecificRequiredArgs(PyObject* dict)
+{
+	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
+		return;
+
+	_button = ToInt(PyTuple_GetItem(dict, 0));
+}
+
+void mvDoubleClickedHandler::handleSpecificKeywordArgs(PyObject* dict)
+{
+	if (dict == nullptr)
+		return;
+
+	if (PyObject* item = PyDict_GetItemString(dict, "button")) _button = ToInt(item);
+}
+
+void mvDoubleClickedHandler::getSpecificConfiguration(PyObject* dict)
+{
+	if (dict == nullptr)
+		return;
+
+	PyDict_SetItemString(dict, "button", ToPyInt(_button));
+}
+
+void mvDoubleClickedHandler::applySpecificTemplate(mvAppItem* item)
+{
+	auto titem = static_cast<mvDoubleClickedHandler*>(item);
 	_button = titem->_button;
 }
 

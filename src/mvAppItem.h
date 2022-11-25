@@ -371,6 +371,7 @@ GetEntityCommand(mvAppItemType type)
     case mvAppItemType::mvDeactivatedAfterEditHandler: return "add_item_deactivated_after_edit_handler";
     case mvAppItemType::mvToggledOpenHandler:          return "add_item_toggled_open_handler";
     case mvAppItemType::mvClickedHandler:              return "add_item_clicked_handler";
+    case mvAppItemType::mvDoubleClickedHandler:        return "add_item_double_clicked_handler";
     case mvAppItemType::mvDragPayload:                 return "add_drag_payload";
     case mvAppItemType::mvResizeHandler:               return "add_item_resize_handler";
     case mvAppItemType::mvFont:                        return "add_font";

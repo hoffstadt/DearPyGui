@@ -1038,6 +1038,7 @@ DearPyGui::GetEntityDesciptionFlags(mvAppItemType type)
     case mvAppItemType::mvActivatedHandler:
     case mvAppItemType::mvActiveHandler:
     case mvAppItemType::mvClickedHandler:
+    case mvAppItemType::mvDoubleClickedHandler:
     case mvAppItemType::mvDeactivatedAfterEditHandler:
     case mvAppItemType::mvDeactivatedHandler:
     case mvAppItemType::mvEditedHandler:
@@ -1248,6 +1249,7 @@ DearPyGui::GetAllowableParents(mvAppItemType type)
     case mvAppItemType::mvActivatedHandler:
     case mvAppItemType::mvActiveHandler:
     case mvAppItemType::mvClickedHandler:
+    case mvAppItemType::mvDoubleClickedHandler:
     case mvAppItemType::mvDeactivatedAfterEditHandler:
     case mvAppItemType::mvDeactivatedHandler:
     case mvAppItemType::mvEditedHandler:
@@ -1562,6 +1564,7 @@ DearPyGui::GetAllowableChildren(mvAppItemType type)
         MV_ADD_CHILD(mvAppItemType::mvActivatedHandler),
         MV_ADD_CHILD(mvAppItemType::mvActiveHandler),
         MV_ADD_CHILD(mvAppItemType::mvClickedHandler),
+        MV_ADD_CHILD(mvAppItemType::mvDoubleClickedHandler),
         MV_ADD_CHILD(mvAppItemType::mvDeactivatedAfterEditHandler),
         MV_ADD_CHILD(mvAppItemType::mvDeactivatedHandler),
         MV_ADD_CHILD(mvAppItemType::mvEditedHandler),
@@ -1642,6 +1645,7 @@ DearPyGui::GetAllowableChildren(mvAppItemType type)
         MV_ADD_CHILD(mvAppItemType::mvActivatedHandler),
         MV_ADD_CHILD(mvAppItemType::mvActiveHandler),
         MV_ADD_CHILD(mvAppItemType::mvClickedHandler),
+        MV_ADD_CHILD(mvAppItemType::mvDoubleClickedHandler),
         MV_ADD_CHILD(mvAppItemType::mvDeactivatedAfterEditHandler),
         MV_ADD_CHILD(mvAppItemType::mvDeactivatedHandler),
         MV_ADD_CHILD(mvAppItemType::mvEditedHandler),
@@ -1662,6 +1666,7 @@ DearPyGui::GetAllowableChildren(mvAppItemType type)
         MV_ADD_CHILD(mvAppItemType::mvActivatedHandler),
         MV_ADD_CHILD(mvAppItemType::mvActiveHandler),
         MV_ADD_CHILD(mvAppItemType::mvClickedHandler),
+        MV_ADD_CHILD(mvAppItemType::mvDoubleClickedHandler),
         MV_ADD_CHILD(mvAppItemType::mvDeactivatedAfterEditHandler),
         MV_ADD_CHILD(mvAppItemType::mvDeactivatedHandler),
         MV_ADD_CHILD(mvAppItemType::mvEditedHandler),
@@ -1677,6 +1682,7 @@ DearPyGui::GetAllowableChildren(mvAppItemType type)
         MV_ADD_CHILD(mvAppItemType::mvNodeAttribute),
         MV_ADD_CHILD(mvAppItemType::mvActiveHandler),
         MV_ADD_CHILD(mvAppItemType::mvClickedHandler),
+        MV_ADD_CHILD(mvAppItemType::mvDoubleClickedHandler),
         MV_ADD_CHILD(mvAppItemType::mvHoverHandler),
         MV_ADD_CHILD(mvAppItemType::mvVisibleHandler),
         MV_ADD_CHILD(mvAppItemType::mvDragPayload),
@@ -1758,6 +1764,7 @@ DearPyGui::GetAllowableChildren(mvAppItemType type)
         MV_ADD_CHILD(mvAppItemType::mvActivatedHandler),
         MV_ADD_CHILD(mvAppItemType::mvActiveHandler),
         MV_ADD_CHILD(mvAppItemType::mvClickedHandler),
+        MV_ADD_CHILD(mvAppItemType::mvDoubleClickedHandler),
         MV_ADD_CHILD(mvAppItemType::mvDeactivatedAfterEditHandler),
         MV_ADD_CHILD(mvAppItemType::mvDeactivatedHandler),
         MV_ADD_CHILD(mvAppItemType::mvEditedHandler),
@@ -4835,6 +4842,21 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Integer, "button", mvArgType::POSITIONAL_ARG, "-1", "Submits callback for all mouse buttons" });
 
         setup.about = "Adds a clicked handler.";
+        setup.category = { "Widgets", "Events" };
+        break;
+    }
+    case mvAppItemType::mvDoubleClickedHandler:              
+    {
+        AddCommonArgs(args, (CommonParserArgs)(
+            MV_PARSER_ARG_ID |
+            MV_PARSER_ARG_SHOW |
+            MV_PARSER_ARG_PARENT |
+            MV_PARSER_ARG_CALLBACK)
+        );
+
+        args.push_back({ mvPyDataType::Integer, "button", mvArgType::POSITIONAL_ARG, "-1", "Submits callback for all mouse buttons" });
+
+        setup.about = "Adds a double click handler.";
         setup.category = { "Widgets", "Events" };
         break;
     }

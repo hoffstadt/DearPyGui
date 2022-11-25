@@ -3034,6 +3034,10 @@ DearPyGui::draw_simple_plot(ImDrawList* drawlist, mvAppItem& item, const mvSimpl
 	item.state.leftclicked = ImGui::IsItemClicked();
 	item.state.rightclicked = ImGui::IsItemClicked(1);
 	item.state.middleclicked = ImGui::IsItemClicked(2);
+    for (int i = 0; i < item.state.doubleclicked.size(); i++)
+    {
+        item.state.doubleclicked[i] = IsItemDoubleClicked(i);
+    }
 	item.state.visible = ImGui::IsItemVisible();
 	item.state.rectMin = { ImGui::GetItemRectMin().x, ImGui::GetItemRectMin().y };
 	item.state.rectMax = { ImGui::GetItemRectMax().x, ImGui::GetItemRectMax().y };
@@ -4885,6 +4889,10 @@ DearPyGui::draw_radio_button(ImDrawList* drawlist, mvAppItem& item, mvRadioButto
 	item.state.leftclicked = ImGui::IsItemClicked();
 	item.state.rightclicked = ImGui::IsItemClicked(1);
 	item.state.middleclicked = ImGui::IsItemClicked(2);
+    for (int i = 0; i < item.state.doubleclicked.size(); i++)
+    {
+        item.state.doubleclicked[i] = IsItemDoubleClicked(i);
+    }
 	item.state.visible = ImGui::IsItemVisible();
 	item.state.activated = ImGui::IsItemActivated();
 	item.state.deactivated = ImGui::IsItemDeactivated();
@@ -6020,6 +6028,10 @@ DearPyGui::draw_text(ImDrawList* drawlist, mvAppItem& item, mvTextConfig& config
 			item.state.leftclicked |= ImGui::IsItemClicked();
 			item.state.rightclicked |= ImGui::IsItemClicked(1);
 			item.state.middleclicked |= ImGui::IsItemClicked(2);
+			for (int i = 0; i < item.state.doubleclicked.size(); i++)
+			{
+				item.state.doubleclicked[i] = IsItemDoubleClicked(i);
+			}
 			item.state.visible |= ImGui::IsItemVisible();
 			item.state.edited |= ImGui::IsItemEdited();
 			item.state.activated |= ImGui::IsItemActivated();

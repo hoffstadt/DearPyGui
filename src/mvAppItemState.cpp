@@ -13,6 +13,7 @@ ResetAppItemState(mvAppItemState& state)
     state.leftclicked = false;
     state.rightclicked = false;
     state.middleclicked = false;
+    state.doubleclicked.fill(false);
     state.visible = false;
     state.edited = false;
     state.activated = false;
@@ -32,6 +33,10 @@ UpdateAppItemState(mvAppItemState& state)
     state.leftclicked = ImGui::IsItemClicked();
     state.rightclicked = ImGui::IsItemClicked(1);
     state.middleclicked = ImGui::IsItemClicked(2);
+    for (int i = 0; i < state.doubleclicked.size(); i++)
+    {
+        state.doubleclicked[i] = IsItemDoubleClicked(i);
+    }
     state.visible = ImGui::IsItemVisible();
     state.edited = ImGui::IsItemEdited();
     state.activated = ImGui::IsItemActivated();

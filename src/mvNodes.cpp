@@ -449,6 +449,10 @@ void mvNode::draw(ImDrawList* drawlist, float x, float y)
         state.leftclicked = ImGui::IsItemClicked();
         state.rightclicked = ImGui::IsItemClicked(1);
         state.middleclicked = ImGui::IsItemClicked(2);
+        for (int i = 0; i < state.doubleclicked.size(); i++)
+        {
+            state.doubleclicked[i] = IsItemDoubleClicked(i);
+        }
         state.visible = ImGui::IsItemVisible();
 
         for (auto& item : childslots[1])
