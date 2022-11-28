@@ -1135,7 +1135,7 @@ DearPyGui::GetEntityValueType(mvAppItemType type)
         
     case mvAppItemType::mvFloat4Value:
     case mvAppItemType::mvThemeStyle:
-    case mvAppItemType::mvAnnotation:
+
     case mvAppItemType::mvSlider3D:
     case mvAppItemType::mvInputFloatMulti:
     case mvAppItemType::mvSliderFloatMulti:
@@ -1196,6 +1196,7 @@ DearPyGui::GetEntityValueType(mvAppItemType type)
     case mvAppItemType::mvDragDoubleMulti:
     case mvAppItemType::mvInputDoubleMulti:
     case mvAppItemType::mvSliderDoubleMulti:
+    case mvAppItemType::mvAnnotation:
     case mvAppItemType::mvDragPoint: return StorageValueTypes::Double4;
 
     case mvAppItemType::mvStaticTexture:
