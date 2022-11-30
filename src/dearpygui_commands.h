@@ -233,10 +233,16 @@ set_x_scroll(PyObject* self, PyObject* args, PyObject* kwargs)
 		pChild->configData.scrollX = value;
 		pChild->configData._scrollXSet = true;
 	}
+	else if (window->type == mvAppItemType::mvTable)
+	{
+		auto pChild = static_cast<mvTable*>(window);
+		pChild->_scrollX = value;
+		pChild->_scrollXSet = true;
+	}
 	else
 	{
 		mvThrowPythonError(mvErrorCode::mvIncompatibleType, "set_x_scroll",
-			"Incompatible type. Expected types include: mvWindowAppItem, mvChildWindow", window);
+			"Incompatible type. Expected types include: mvWindowAppItem, mvChildWindow, mvTable", window);
 	}
 
 	return GetPyNone();
@@ -279,10 +285,16 @@ set_y_scroll(PyObject* self, PyObject* args, PyObject* kwargs)
 		pChild->configData.scrollY = value;
 		pChild->configData._scrollYSet = true;
 	}
+	else if (window->type == mvAppItemType::mvTable)
+	{
+		auto pChild = static_cast<mvTable*>(window);
+		pChild->_scrollY = value;
+		pChild->_scrollYSet = true;
+	}
 	else
 	{
 		mvThrowPythonError(mvErrorCode::mvIncompatibleType, "set_y_scroll",
-			"Incompatible type. Expected types include: mvWindowAppItem, mvChildWindow", window);
+			"Incompatible type. Expected types include: mvWindowAppItem, mvChildWindow, mvTable", window);
 	}
 
 	return GetPyNone();
