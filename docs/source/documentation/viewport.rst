@@ -19,7 +19,7 @@ or the helper commands *set_viewport_\*\*\**.
     Large/small icon must be set before showing the viewport (i.e. you will need to setup the viewport manually).
 
 .. code-block:: python
-
+    import sys
     import dearpygui.dearpygui as dpg
 
     dpg.create_context()
@@ -32,6 +32,11 @@ or the helper commands *set_viewport_\*\*\**.
     # must be called before showing viewport
     dpg.set_viewport_small_icon("path/to/icon.ico")
     dpg.set_viewport_large_icon("path/to/icon.ico")
+    # On Windows it isn't possible to show the large Icon, because it gets overwritten by the OS. This line fixes this Issue.
+    if sys.platform.startswith('win'):
+        import ctypes
+        ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(
+            u'CompanyName.ProductName.SubProduct.VersionInformation')
 
     dpg.setup_dearpygui()
     dpg.show_viewport()
