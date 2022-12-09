@@ -702,7 +702,7 @@ def create_translation_matrix(translation : Union[List[float], Tuple[float, ...]
 	"""New in 1.1. Creates a translation matrix."""
 	...
 
-def create_viewport(*, title: str ='', small_icon: str ='', large_icon: str ='', width: int ='', height: int ='', x_pos: int ='', y_pos: int ='', min_width: int ='', max_width: int ='', min_height: int ='', max_height: int ='', resizable: bool ='', vsync: bool ='', always_on_top: bool ='', decorated: bool ='', clear_color: Union[List[float], Tuple[float, ...]] ='') -> None:
+def create_viewport(*, title: str ='', small_icon: str ='', large_icon: str ='', width: int ='', height: int ='', x_pos: int ='', y_pos: int ='', min_width: int ='', max_width: int ='', min_height: int ='', max_height: int ='', resizable: bool ='', vsync: bool ='', always_on_top: bool ='', decorated: bool ='', clear_color: Union[List[float], Tuple[float, ...]] ='', disable_close: bool ='') -> None:
 	"""Creates a viewport. Viewports are required."""
 	...
 

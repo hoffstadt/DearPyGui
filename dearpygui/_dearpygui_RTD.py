@@ -4905,7 +4905,7 @@ def add_listbox(items=(), **kwargs):
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
-		default_value (str, optional): String value fo the item that will be selected by default.
+		default_value (str, optional): String value of the item that will be selected by default.
 		num_items (int, optional): Expands the height of the listbox to show specified number of items.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
@@ -6835,6 +6835,7 @@ def create_viewport(**kwargs):
 		always_on_top (bool, optional): Forces the viewport to always be drawn ontop of all other viewports.
 		decorated (bool, optional): Enabled and disabled the decorator bar at the top of the viewport.
 		clear_color (Union[List[float], Tuple[float, ...]], optional): Sets the color of the back of the viewport.
+		disable_close (bool, optional): Disable/Enable the close button from the viewport. Can be used with set_exit_callback
 	Returns:
 		None
 	"""

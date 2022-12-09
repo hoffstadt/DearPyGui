@@ -5431,7 +5431,7 @@ def add_listbox(items : Union[List[str], Tuple[str, ...]] =(), *, label: str =No
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
-		default_value (str, optional): String value fo the item that will be selected by default.
+		default_value (str, optional): String value of the item that will be selected by default.
 		num_items (int, optional): Expands the height of the listbox to show specified number of items.
 		id (Union[int, str], optional): (deprecated) 
 	Returns:
@@ -7617,7 +7617,7 @@ def create_translation_matrix(translation : Union[List[float], Tuple[float, ...]
 
 	return internal_dpg.create_translation_matrix(translation, **kwargs)
 
-def create_viewport(*, title: str ='Dear PyGui', small_icon: str ='', large_icon: str ='', width: int =1280, height: int =800, x_pos: int =100, y_pos: int =100, min_width: int =250, max_width: int =10000, min_height: int =250, max_height: int =10000, resizable: bool =True, vsync: bool =True, always_on_top: bool =False, decorated: bool =True, clear_color: Union[List[float], Tuple[float, ...]] =(0, 0, 0, 255), **kwargs) -> None:
+def create_viewport(*, title: str ='Dear PyGui', small_icon: str ='', large_icon: str ='', width: int =1280, height: int =800, x_pos: int =100, y_pos: int =100, min_width: int =250, max_width: int =10000, min_height: int =250, max_height: int =10000, resizable: bool =True, vsync: bool =True, always_on_top: bool =False, decorated: bool =True, clear_color: Union[List[float], Tuple[float, ...]] =(0, 0, 0, 255), disable_close: bool =False, **kwargs) -> None:
 	"""	 Creates a viewport. Viewports are required.
 
 	Args:
@@ -7637,11 +7637,12 @@ def create_viewport(*, title: str ='Dear PyGui', small_icon: str ='', large_icon
 		always_on_top (bool, optional): Forces the viewport to always be drawn ontop of all other viewports.
 		decorated (bool, optional): Enabled and disabled the decorator bar at the top of the viewport.
 		clear_color (Union[List[float], Tuple[float, ...]], optional): Sets the color of the back of the viewport.
+		disable_close (bool, optional): Disable/Enable the close button from the viewport. Can be used with set_exit_callback
 	Returns:
 		None
 	"""
 
-	return internal_dpg.create_viewport(title=title, small_icon=small_icon, large_icon=large_icon, width=width, height=height, x_pos=x_pos, y_pos=y_pos, min_width=min_width, max_width=max_width, min_height=min_height, max_height=max_height, resizable=resizable, vsync=vsync, always_on_top=always_on_top, decorated=decorated, clear_color=clear_color, **kwargs)
+	return internal_dpg.create_viewport(title=title, small_icon=small_icon, large_icon=large_icon, width=width, height=height, x_pos=x_pos, y_pos=y_pos, min_width=min_width, max_width=max_width, min_height=min_height, max_height=max_height, resizable=resizable, vsync=vsync, always_on_top=always_on_top, decorated=decorated, clear_color=clear_color, disable_close=disable_close, **kwargs)
 
 def delete_item(item : Union[int, str], *, children_only: bool =False, slot: int =-1, **kwargs) -> None:
 	"""	 Deletes an item..

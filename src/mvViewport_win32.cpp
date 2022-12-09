@@ -39,7 +39,7 @@ mvPrerender(mvViewport& viewport)
 {
 	MV_PROFILE_SCOPE("Viewport prerender")
 
-	mvViewportData* viewportData = (mvViewportData*)viewport.platformSpecifics;
+		mvViewportData* viewportData = (mvViewportData*)viewport.platformSpecifics;
 
 	if (viewportData->msg.message == WM_QUIT)
 		viewport.running = false;
@@ -47,7 +47,7 @@ mvPrerender(mvViewport& viewport)
 	if (viewport.posDirty)
 	{
 		int horizontal_shift = get_horizontal_shift(viewportData->handle);
-		SetWindowPos(viewportData->handle, viewport.alwaysOnTop ? HWND_TOPMOST : HWND_TOP, viewport.xpos-horizontal_shift, viewport.ypos, 0, 0, SWP_SHOWWINDOW | SWP_NOSIZE);
+		SetWindowPos(viewportData->handle, viewport.alwaysOnTop ? HWND_TOPMOST : HWND_TOP, viewport.xpos - horizontal_shift, viewport.ypos, 0, 0, SWP_SHOWWINDOW | SWP_NOSIZE);
 		viewport.posDirty = false;
 	}
 
@@ -86,7 +86,7 @@ mvPrerender(mvViewport& viewport)
 	// - When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main application.
 	// Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
 
-	if(GContext->IO.waitForInput)
+	if (GContext->IO.waitForInput)
 		::WaitMessage();
 
 	if (::PeekMessage(&viewportData->msg, nullptr, 0U, 0U, PM_REMOVE))
@@ -157,8 +157,8 @@ mvHandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 			}
 			else
 			{
-				GContext->viewport->clientHeight = cheight + 39;
-				GContext->viewport->clientWidth = cwidth + 16;
+				GContext->viewport->clientHeight = cheight;
+				GContext->viewport->clientWidth = cwidth;
 			}
 
 			//GContext->viewport->resized = true;
@@ -235,7 +235,7 @@ mvHandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 				GContext->viewport->clientHeight = cheight + 39;
 				GContext->viewport->clientWidth = cwidth + 16;
 			}
-				
+
 			GContext->viewport->resized = true;
 			//mvOnResize();
 
@@ -253,10 +253,18 @@ mvHandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 		if ((wParam & 0xfff0) == SC_KEYMENU) // Disable ALT application menu
 			return 0;
 		break;
-	case WM_DESTROY:
+	case WM_CLOSE:
+		if (GContext->viewport->disableClose)
+		{
+			mvSubmitCallback([=]() {
+				mvRunCallback(GContext->callbackRegistry->onCloseCallback, 0, nullptr, GContext->callbackRegistry->onCloseCallbackUserData);
+				});
+			return 0;
+		}
 		GContext->started = false;
+		DestroyWindow(hWnd); // destroy window
 		::PostQuitMessage(0);
-		return 0;
+		return(0);
 	case WM_INPUTLANGCHANGE:
 		glang_id = LOWORD(lParam);
 		break;
@@ -305,7 +313,7 @@ mvHandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 	return ::DefWindowProc(hWnd, msg, wParam, lParam);
 }
 
- mvViewport*
+mvViewport*
 mvCreateViewport(unsigned width, unsigned height)
 {
 	mvViewport* viewport = new mvViewport();
@@ -315,7 +323,7 @@ mvCreateViewport(unsigned width, unsigned height)
 	return viewport;
 }
 
- void
+void
 mvShowViewport(mvViewport& viewport, bool minimized, bool maximized)
 {
 	mvViewportData* viewportData = (mvViewportData*)viewport.platformSpecifics;
@@ -333,8 +341,8 @@ mvShowViewport(mvViewport& viewport, bool minimized, bool maximized)
 	mvHandleModes(viewport);
 	viewportData->handle = CreateWindow(viewportData->wc.lpszClassName, _T(viewport.title.c_str()),
 		viewportData->modes,
-		viewport.xpos, viewport.ypos, 
-		viewport.actualWidth, viewport.actualHeight, 
+		viewport.xpos, viewport.ypos,
+		viewport.actualWidth, viewport.actualHeight,
 		nullptr, nullptr, viewportData->wc.hInstance, nullptr);
 
 	viewport.clientHeight = viewport.actualHeight;
@@ -387,7 +395,7 @@ mvShowViewport(mvViewport& viewport, bool minimized, bool maximized)
 	{
 		ImGui::LoadIniSettingsFromDisk(GContext->IO.iniFile.c_str());
 		io.IniFilename = nullptr;
-		if(GContext->IO.autoSaveIniFile)
+		if (GContext->IO.autoSaveIniFile)
 			io.IniFilename = GContext->IO.iniFile.c_str();
 	}
 	else
@@ -407,24 +415,24 @@ mvShowViewport(mvViewport& viewport, bool minimized, bool maximized)
 
 	// Setup Platform/Renderer bindings
 	ImGui_ImplWin32_Init(viewportData->handle);
-		
+
 }
 
- void
+void
 mvMaximizeViewport(mvViewport& viewport)
 {
 	mvViewportData* viewportData = (mvViewportData*)viewport.platformSpecifics;
 	ShowWindow(viewportData->handle, SW_MAXIMIZE);
 }
 
- void
+void
 mvMinimizeViewport(mvViewport& viewport)
 {
 	mvViewportData* viewportData = (mvViewportData*)viewport.platformSpecifics;
 	ShowWindow(viewportData->handle, SW_MINIMIZE);
 }
 
- void
+void
 mvCleanupViewport(mvViewport& viewport)
 {
 	mvViewportData* viewportData = (mvViewportData*)viewport.platformSpecifics;
@@ -433,7 +441,7 @@ mvCleanupViewport(mvViewport& viewport)
 	::UnregisterClass(viewportData->wc.lpszClassName, viewportData->wc.hInstance);
 }
 
- void
+void
 mvRenderFrame()
 {
 	mvPrerender(*GContext->viewport);
@@ -441,40 +449,40 @@ mvRenderFrame()
 	present(GContext->graphics, GContext->viewport->clearColor, GContext->viewport->vsync);
 }
 
- void
+void
 mvToggleFullScreen(mvViewport& viewport)
 {
 	mvViewportData* viewportData = (mvViewportData*)viewport.platformSpecifics;
 
-    static size_t storedWidth = 0;
-    static size_t storedHeight = 0;
-    static int    storedXPos = 0;
-    static int    storedYPos = 0;
-        
-    size_t width = GetSystemMetrics(SM_CXSCREEN);
-    size_t height = GetSystemMetrics(SM_CYSCREEN);
+	static size_t storedWidth = 0;
+	static size_t storedHeight = 0;
+	static int    storedXPos = 0;
+	static int    storedYPos = 0;
 
-    if(viewport.fullScreen)
-    {
+	size_t width = GetSystemMetrics(SM_CXSCREEN);
+	size_t height = GetSystemMetrics(SM_CYSCREEN);
+
+	if (viewport.fullScreen)
+	{
 		RECT rect;
 		rect.left = storedXPos;
 		rect.top = storedYPos;
 		rect.right = storedXPos + storedWidth;
 		rect.bottom = storedYPos + storedHeight;
-        SetWindowLongPtr(viewportData->handle, GWL_STYLE, WS_OVERLAPPEDWINDOW | WS_VISIBLE);
+		SetWindowLongPtr(viewportData->handle, GWL_STYLE, WS_OVERLAPPEDWINDOW | WS_VISIBLE);
 		AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, FALSE);
 		MoveWindow(viewportData->handle, storedXPos, storedYPos, storedWidth, storedHeight, TRUE);
-        GContext->viewport->fullScreen = false;
-    }
-    else
-    {
-        storedWidth = GContext->viewport->actualWidth;
-        storedHeight = GContext->viewport->actualHeight;
-        storedXPos = GContext->viewport->xpos;
-        storedYPos = GContext->viewport->ypos;
-            
-        SetWindowLongPtr(viewportData->handle, GWL_STYLE, WS_SYSMENU | WS_POPUP | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_VISIBLE);
+		GContext->viewport->fullScreen = false;
+	}
+	else
+	{
+		storedWidth = GContext->viewport->actualWidth;
+		storedHeight = GContext->viewport->actualHeight;
+		storedXPos = GContext->viewport->xpos;
+		storedYPos = GContext->viewport->ypos;
+
+		SetWindowLongPtr(viewportData->handle, GWL_STYLE, WS_SYSMENU | WS_POPUP | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_VISIBLE);
 		MoveWindow(viewportData->handle, 0, 0, width, height, TRUE);
-        GContext->viewport->fullScreen = true;
-    }
+		GContext->viewport->fullScreen = true;
+	}
 }

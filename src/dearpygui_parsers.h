@@ -20,7 +20,7 @@ InsertParser_Block0(std::map<std::string, mvPythonParser>& parsers)
 		std::vector<mvPythonDataElement> args;
 		args.push_back({ mvPyDataType::Integer, "frame" });
 		args.push_back({ mvPyDataType::Callable, "callback" });
-		args.push_back({ mvPyDataType::Object, "user_data", mvArgType::KEYWORD_ARG, "None", "New in 1.3. Optional user data to send to the callback"});
+		args.push_back({ mvPyDataType::Object, "user_data", mvArgType::KEYWORD_ARG, "None", "New in 1.3. Optional user data to send to the callback" });
 
 		mvPythonParserSetup setup;
 		setup.about = "Sets a callback to run on first frame.";
@@ -347,7 +347,7 @@ InsertParser_Block0(std::map<std::string, mvPythonParser>& parsers)
 	//-----------------------------------------------------------------------------
 	{
 		std::vector<mvPythonDataElement> args;
-		args.reserve(16);
+		args.reserve(17);
 		args.push_back({ mvPyDataType::String, "title", mvArgType::KEYWORD_ARG, "'Dear PyGui'", "Sets the title of the viewport." });
 		args.push_back({ mvPyDataType::String, "small_icon", mvArgType::KEYWORD_ARG, "''", "Sets the small icon that is found in the viewport's decorator bar. Must be ***.ico on windows and either ***.ico or ***.png on mac." });
 		args.push_back({ mvPyDataType::String, "large_icon", mvArgType::KEYWORD_ARG, "''", "Sets the large icon that is found in the task bar while the app is running. Must be ***.ico on windows and either ***.ico or ***.png on mac." });
@@ -364,6 +364,7 @@ InsertParser_Block0(std::map<std::string, mvPythonParser>& parsers)
 		args.push_back({ mvPyDataType::Bool, "always_on_top", mvArgType::KEYWORD_ARG, "False", "Forces the viewport to always be drawn ontop of all other viewports." });
 		args.push_back({ mvPyDataType::Bool, "decorated", mvArgType::KEYWORD_ARG, "True", "Enabled and disabled the decorator bar at the top of the viewport." });
 		args.push_back({ mvPyDataType::FloatList, "clear_color", mvArgType::KEYWORD_ARG, "(0, 0, 0, 255)", "Sets the color of the back of the viewport." });
+		args.push_back({ mvPyDataType::Bool, "disable_close", mvArgType::KEYWORD_ARG, "False", "Disable/Enable the close button from the viewport. Can be used with set_exit_callback" });
 
 		mvPythonParserSetup setup;
 		setup.about = "Creates a viewport. Viewports are required.";
@@ -494,7 +495,7 @@ InsertParser_Block1(std::map<std::string, mvPythonParser>& parsers)
 		args.push_back({ mvPyDataType::Bool, "skip_positional_args", mvArgType::KEYWORD_ARG, "False" });
 		args.push_back({ mvPyDataType::Bool, "skip_keyword_args", mvArgType::KEYWORD_ARG, "False" });
 		args.push_back({ mvPyDataType::Bool, "wait_for_input", mvArgType::KEYWORD_ARG, "False", "New in 1.1. Only update when user input occurs" });
-		args.push_back({ mvPyDataType::Bool, "manual_callback_management", mvArgType::KEYWORD_ARG, "False", "New in 1.2"});
+		args.push_back({ mvPyDataType::Bool, "manual_callback_management", mvArgType::KEYWORD_ARG, "False", "New in 1.2" });
 
 		mvPythonParserSetup setup;
 		setup.about = "Configures app.";
@@ -565,7 +566,7 @@ InsertParser_Block1(std::map<std::string, mvPythonParser>& parsers)
 		args.push_back({ mvPyDataType::Integer, "width" });
 		args.push_back({ mvPyDataType::Integer, "height" });
 		args.push_back({ mvPyDataType::Object, "data" });
-		args.push_back({ mvPyDataType::Integer, "components", mvArgType::KEYWORD_ARG, "4", "Number of components (1-4). Default of 4."});
+		args.push_back({ mvPyDataType::Integer, "components", mvArgType::KEYWORD_ARG, "4", "Number of components (1-4). Default of 4." });
 		//args.push_back({ mvPyDataType::Integer, "stride_in_bytes", mvArgType::KEYWORD_ARG, "1.0", "Stride in bytes (only used for png)." });
 		args.push_back({ mvPyDataType::Integer, "quality", mvArgType::KEYWORD_ARG, "50", "Stride in bytes (only used for jpg)." });
 
@@ -580,8 +581,8 @@ InsertParser_Block1(std::map<std::string, mvPythonParser>& parsers)
 	{
 		std::vector<mvPythonDataElement> args;
 		args.reserve(1);
-		args.push_back({ mvPyDataType::String, "file", mvArgType::POSITIONAL_ARG, "''"});
-		args.push_back({ mvPyDataType::Callable, "callback", mvArgType::KEYWORD_ARG, "None", "Callback will return framebuffer as an array through the second arg."});
+		args.push_back({ mvPyDataType::String, "file", mvArgType::POSITIONAL_ARG, "''" });
+		args.push_back({ mvPyDataType::Callable, "callback", mvArgType::KEYWORD_ARG, "None", "Callback will return framebuffer as an array through the second arg." });
 
 		mvPythonParserSetup setup;
 		setup.about = "Outputs frame buffer as a png if file is specified or through the second argument of a callback if specified. Render loop must have been started.";

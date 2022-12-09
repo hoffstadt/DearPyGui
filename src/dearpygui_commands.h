@@ -1828,7 +1828,7 @@ set_frame_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 	i32 frame = 0;
 	PyObject* callback;
-	PyObject* user_data=nullptr;
+	PyObject* user_data = nullptr;
 
 	if (!Parse((GetParsers())["set_frame_callback"], args, kwargs, __FUNCTION__,
 		&frame, &callback, &user_data))
@@ -1840,7 +1840,7 @@ set_frame_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 	// TODO: check previous entry and deprecate if existing
 	Py_XINCREF(callback);
 
-	if(user_data)
+	if (user_data)
 		Py_XINCREF(user_data);
 	mvSubmitCallback([=]()
 		{
@@ -1862,7 +1862,7 @@ set_exit_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 		return GetPyNone();
 
 	Py_XINCREF(callback);
-	if(user_data)
+	if (user_data)
 		Py_XINCREF(user_data);
 	mvSubmitCallback([=]()
 		{
@@ -1926,6 +1926,7 @@ get_viewport_configuration(PyObject* self, PyObject* args, PyObject* kwargs)
 		PyDict_SetItemString(pdict, "always_on_top", mvPyObject(ToPyBool(viewport->alwaysOnTop)));
 		PyDict_SetItemString(pdict, "decorated", mvPyObject(ToPyBool(viewport->decorated)));
 		PyDict_SetItemString(pdict, "title", mvPyObject(ToPyString(viewport->title)));
+		PyDict_SetItemString(pdict, "disable_close", mvPyObject(ToPyBool(viewport->disableClose)));
 	}
 	else
 		mvThrowPythonError(mvErrorCode::mvNone, "No viewport created");
@@ -1968,6 +1969,7 @@ create_viewport(PyObject* self, PyObject* args, PyObject* kwargs)
 	b32 vsync = true;
 	b32 always_on_top = false;
 	b32 decorated = true;
+	b32 disable_close = false;
 
 	PyObject* color = PyList_New(4);
 	PyList_SetItem(color, 0, PyFloat_FromDouble(0.0));
@@ -1978,7 +1980,7 @@ create_viewport(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	if (!Parse((GetParsers())["create_viewport"], args, kwargs, __FUNCTION__,
 		&title, &small_icon, &large_icon, &width, &height, &x_pos, &y_pos, &min_width, &max_width, &min_height, &max_height,
-		&resizable, &vsync, &always_on_top, &decorated, &color
+		&resizable, &vsync, &always_on_top, &decorated, &color, &disable_close
 	))
 		return GetPyNone();
 
@@ -1999,6 +2001,7 @@ create_viewport(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (PyObject* item = PyDict_GetItemString(kwargs, "always_on_top")) { viewport->modesDirty = true; viewport->alwaysOnTop = ToBool(item); }
 	if (PyObject* item = PyDict_GetItemString(kwargs, "decorated")) { viewport->modesDirty = true; viewport->decorated = ToBool(item); }
 	if (PyObject* item = PyDict_GetItemString(kwargs, "title")) { viewport->titleDirty = true; viewport->title = ToString(item); }
+	if (PyObject* item = PyDict_GetItemString(kwargs, "disable_close")) viewport->disableClose = ToBool(item);
 
 	GContext->viewport = viewport;
 
@@ -2051,7 +2054,7 @@ configure_viewport(PyObject* self, PyObject* args, PyObject* kwargs)
 		if (PyObject* item = PyDict_GetItemString(kwargs, "always_on_top")) { viewport->modesDirty = true; viewport->alwaysOnTop = ToBool(item); }
 		if (PyObject* item = PyDict_GetItemString(kwargs, "decorated")) { viewport->modesDirty = true; viewport->decorated = ToBool(item); }
 		if (PyObject* item = PyDict_GetItemString(kwargs, "title")) { viewport->titleDirty = true; viewport->title = ToString(item); }
-
+		if (PyObject* item = PyDict_GetItemString(kwargs, "disable_close")) viewport->disableClose = ToBool(item);
 	}
 	else
 		mvThrowPythonError(mvErrorCode::mvNone, "No viewport created");
@@ -2287,37 +2290,37 @@ save_image(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	switch (imageType)
 	{
-        case MV_IMAGE_TYPE_PNG_:
-        {
-            std::vector<unsigned char> convertedData = ToUCharVect(data);
-            int result = stbi_write_png(file, width, height, components, convertedData.data(), sizeof(unsigned char)*components*width);
-            break;
-        }
-        case MV_IMAGE_TYPE_BMP_:
-        {
-            std::vector<unsigned char> convertedData = ToUCharVect(data);
-            int result = stbi_write_bmp(file, width, height, components, convertedData.data());
-            break;
-        }
-        case MV_IMAGE_TYPE_TGA_:
-        {
-            std::vector<unsigned char> convertedData = ToUCharVect(data);
-            int result = stbi_write_tga(file, width, height, components, convertedData.data());
-            break;
-        }
-        case MV_IMAGE_TYPE_HDR_:
-        {
-            std::vector<float> convertedData = ToFloatVect(data);
-            int result = stbi_write_hdr(file, width, height, components, convertedData.data());
-            break;
-        }
-        case MV_IMAGE_TYPE_JPG_:
-        {
-            std::vector<unsigned char> convertedData = ToUCharVect(data);
-            int result = stbi_write_jpg(file, width, height, components, convertedData.data(), quality);
-            break;
-        }
-        default: break;
+	case MV_IMAGE_TYPE_PNG_:
+	{
+		std::vector<unsigned char> convertedData = ToUCharVect(data);
+		int result = stbi_write_png(file, width, height, components, convertedData.data(), sizeof(unsigned char) * components * width);
+		break;
+	}
+	case MV_IMAGE_TYPE_BMP_:
+	{
+		std::vector<unsigned char> convertedData = ToUCharVect(data);
+		int result = stbi_write_bmp(file, width, height, components, convertedData.data());
+		break;
+	}
+	case MV_IMAGE_TYPE_TGA_:
+	{
+		std::vector<unsigned char> convertedData = ToUCharVect(data);
+		int result = stbi_write_tga(file, width, height, components, convertedData.data());
+		break;
+	}
+	case MV_IMAGE_TYPE_HDR_:
+	{
+		std::vector<float> convertedData = ToFloatVect(data);
+		int result = stbi_write_hdr(file, width, height, components, convertedData.data());
+		break;
+	}
+	case MV_IMAGE_TYPE_JPG_:
+	{
+		std::vector<unsigned char> convertedData = ToUCharVect(data);
+		int result = stbi_write_jpg(file, width, height, components, convertedData.data(), quality);
+		break;
+	}
+	default: break;
 	}
 
 	return GetPyNone();
@@ -2363,10 +2366,10 @@ output_frame_buffer(PyObject* self, PyObject* args, PyObject* kwargs)
 	// TODO: support other formats
 	if (file[filepathLength - 3] == 'p' && file[filepathLength - 2] == 'n' && file[filepathLength - 1] == 'g')
 	{
-        std::string fileStored = file;
-        mvSubmitTask([fileStored](){
-            OutputFrameBuffer(fileStored.c_str());
-        });
+		std::string fileStored = file;
+		mvSubmitTask([fileStored]() {
+			OutputFrameBuffer(fileStored.c_str());
+			});
 
 	}
 	else
@@ -2412,7 +2415,7 @@ render_dearpygui_frame(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 	MV_PROFILE_SCOPE("Frame")
 
-	Py_BEGIN_ALLOW_THREADS;
+		Py_BEGIN_ALLOW_THREADS;
 	auto window = GContext->viewport;
 	mvRenderFrame();
 	Py_END_ALLOW_THREADS;
@@ -2489,11 +2492,11 @@ destroy_context(PyObject* self, PyObject* args, PyObject* kwargs)
 
 
 		//#define X(el) el::s_class_theme_component = nullptr; el::s_class_theme_disabled_component = nullptr;
-		#define X(el) DearPyGui::GetClassThemeComponent(mvAppItemType::el) = nullptr; DearPyGui::GetDisabledClassThemeComponent(mvAppItemType::el) = nullptr;
+#define X(el) DearPyGui::GetClassThemeComponent(mvAppItemType::el) = nullptr; DearPyGui::GetDisabledClassThemeComponent(mvAppItemType::el) = nullptr;
 		MV_ITEM_TYPES
-		#undef X
+#undef X
 
-		mvSubmitCallback([=]() {
+			mvSubmitCallback([=]() {
 			GContext->callbackRegistry->running = false;
 				});
 		if (GContext->future.valid())
@@ -2989,8 +2992,8 @@ delete_item(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 
-    if(item != 0)
-	    DeleteItem((*GContext->itemRegistry), item, childrenOnly, slot);
+	if (item != 0)
+		DeleteItem((*GContext->itemRegistry), item, childrenOnly, slot);
 
 	return GetPyNone();
 
@@ -3884,11 +3887,11 @@ get_item_types(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
 	PyObject* pdict = PyDict_New();
-	#define X(el) PyDict_SetItemString(pdict, #el, PyLong_FromLong((int)mvAppItemType::el));
+#define X(el) PyDict_SetItemString(pdict, #el, PyLong_FromLong((int)mvAppItemType::el));
 	MV_ITEM_TYPES
-	#undef X
+#undef X
 
-	return pdict;
+		return pdict;
 }
 
 static PyObject*
@@ -4045,13 +4048,13 @@ capture_next_item(PyObject* self, PyObject* args, PyObject* kwargs)
 		Py_XDECREF(GContext->itemRegistry->captureCallbackUserData);
 
 	Py_XINCREF(callable);
-	if(user_data)
+	if (user_data)
 		Py_XINCREF(user_data);
 	if (callable == Py_None)
 		GContext->itemRegistry->captureCallback = nullptr;
 	else
 		GContext->itemRegistry->captureCallback = callable;
-			
+
 	GContext->itemRegistry->captureCallbackUserData = user_data;
 
 	return GetPyNone();
@@ -4072,7 +4075,7 @@ get_callback_queue(PyObject* self, PyObject* args, PyObject* kwargs)
 		else
 			PyTuple_SetItem(job, 0, GetPyNone());
 
-		if(GContext->callbackRegistry->jobs[i].sender == 0)
+		if (GContext->callbackRegistry->jobs[i].sender == 0)
 			PyTuple_SetItem(job, 1, ToPyString(GContext->callbackRegistry->jobs[i].sender_str));
 		else
 			PyTuple_SetItem(job, 1, ToPyUUID(GContext->callbackRegistry->jobs[i].sender));
