@@ -54,12 +54,13 @@ jobs:
         cd ..
         cmake --build cmake-build-release --config Release
 
-    - name: Run Tests
-      shell: cmd
-      run: |
-        cd %GITHUB_WORKSPACE%
-        cd cmake-build-release\DearSandbox
-        DearSandbox.exe
+# temporarily removed until github runners are fixed (freetype is causing issues)
+#    - name: Run Tests
+#      shell: cmd
+#      run: |
+#        cd %GITHUB_WORKSPACE%
+#        cd cmake-build-release\DearSandbox
+#        DearSandbox.exe
 
   build-MacOS:
     
