@@ -335,6 +335,12 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 	// themes
 	apply_local_theming(&item);
 
+	// Must do this because these items are not avalable as style items
+	// these are here because they need to be applied every plot
+		ImPlot::GetStyle().UseLocalTime = config.localTime;
+		ImPlot::GetStyle().UseISO8601 = config.iSO8601;
+		ImPlot::GetStyle().Use24HourClock = config.clock24Hour;
+
 	if (config._newColorMap)
 	{
 		ImPlot::BustColorCache(item.info.internalLabel.c_str());
@@ -587,7 +593,6 @@ DearPyGui::draw_plot_axis(ImDrawList* drawlist, mvAppItem& item, mvPlotAxisConfi
 		config.limits_actual.y = (float)ImPlot::GetPlotLimits(item.info.location).X.Max;
 		auto context = ImPlot::GetCurrentContext();
 		config.flags = context->CurrentPlot->XAxis.Flags;
-
 	}
 
 	// y axis
@@ -2351,6 +2356,9 @@ DearPyGui::set_configuration(PyObject* inDict, mvPlotConfig& outConfig)
 	if (PyObject* item = PyDict_GetItemString(inDict, "query_toggle_mod")) outConfig.query_toggle_mod = ToInt(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "horizontal_mod")) outConfig.horizontal_mod = ToInt(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "vertical_mod")) outConfig.vertical_mod = ToInt(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "use_local_time")) outConfig.localTime = ToBool(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "use_ISO8601")) outConfig.iSO8601 = ToBool(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "use_24hour_clock")) outConfig.clock24Hour = ToBool(item);
 
 	// helper for bit flipping
 	auto flagop = [inDict](const char* keyword, int flag, int& flags)
@@ -2747,6 +2755,9 @@ DearPyGui::fill_configuration_dict(const mvPlotConfig& inConfig, PyObject* outDi
 	PyDict_SetItemString(outDict, "query_toggle_mod", mvPyObject(ToPyInt(inConfig.query_toggle_mod)));
 	PyDict_SetItemString(outDict, "horizontal_mod", mvPyObject(ToPyInt(inConfig.horizontal_mod)));
 	PyDict_SetItemString(outDict, "vertical_mod", mvPyObject(ToPyInt(inConfig.vertical_mod)));
+	PyDict_SetItemString(outDict, "use_local_time", mvPyObject(ToPyBool(inConfig.localTime)));
+	PyDict_SetItemString(outDict, "use_ISO8601", mvPyObject(ToPyBool(inConfig.iSO8601)));
+	PyDict_SetItemString(outDict, "use_24hour_clock", mvPyObject(ToPyBool(inConfig.clock24Hour)));
 
 	// helper to check and set bit
 	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)

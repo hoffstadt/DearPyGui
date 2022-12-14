@@ -413,6 +413,9 @@ struct mvPlotConfig
     bool            _fitDirty = false;
     bool            _axisfitDirty[4] = { false, false, false, false }; 
     ImPlotInputMap  _originalMap = ImPlotInputMap();// custom input mapping
+    bool                     localTime = false;
+    bool                     iSO8601 = false;
+    bool                     clock24Hour = false;
 };
 
 //-----------------------------------------------------------------------------
