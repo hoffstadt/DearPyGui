@@ -220,6 +220,12 @@ class TestItemDetails(unittest.TestCase):
         self.assertTrue("handlers" in info3)
         self.assertTrue(info3.get("handlers", 0) is None)
 
+    def test_cfg_multiline_in_mvInputText(self):
+        input_txt = dpg.add_input_text(parent=self.wndw)
+        cfg = dpg.get_item_configuration(input_txt)
+        self.assertTrue("multline" not in cfg)
+        self.assertTrue("multiline" in cfg)
+
     def tearDown(self):
         dpg.stop_dearpygui()
         dpg.destroy_context()

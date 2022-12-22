@@ -404,7 +404,7 @@ DearPyGui::fill_configuration_dict(const mvInputTextConfig& inConfig, PyObject* 
 		return;
 
 	PyDict_SetItemString(outDict, "hint", mvPyObject(ToPyString(inConfig.hint)));
-	PyDict_SetItemString(outDict, "multline", mvPyObject(ToPyBool(inConfig.multiline)));
+	PyDict_SetItemString(outDict, "multiline", mvPyObject(ToPyBool(inConfig.multiline)));
 
 	// helper to check and set bit
 	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)
@@ -3431,8 +3431,8 @@ DearPyGui::draw_drag_float(ImDrawList* drawlist, mvAppItem& item, mvDragFloatCon
 
 		if (!item.config.enabled) config.disabled_value = *config.value;
 
-		if (ImGui::DragFloat(item.info.internalLabel.c_str(), 
-			item.config.enabled ? config.value.get() : &config.disabled_value, 
+		if (ImGui::DragFloat(item.info.internalLabel.c_str(),
+			item.config.enabled ? config.value.get() : &config.disabled_value,
 			config.speed, config.minv, config.maxv, config.format.c_str(), config.flags))
 		{
 			auto value = *config.value;
@@ -3627,7 +3627,7 @@ DearPyGui::draw_drag_int(ImDrawList* drawlist, mvAppItem& item, mvDragIntConfig&
 
 		if (!item.config.enabled) config.disabled_value = *config.value;
 
-		if (ImGui::DragInt(item.info.internalLabel.c_str(), 
+		if (ImGui::DragInt(item.info.internalLabel.c_str(),
 			item.config.enabled ? config.value.get() : &config.disabled_value, config.speed,
 			config.minv, config.maxv, config.format.c_str(), config.flags))
 		{
@@ -3959,7 +3959,7 @@ DearPyGui::draw_drag_doublex(ImDrawList* drawlist, mvAppItem& item, mvDragDouble
 		bool activated = false;
 
 		if (!item.config.enabled) std::copy(config.value->data(), config.value->data() + 2, config.disabled_value);
-		
+
 		if(config.size > 1 && config.size < 5)
 			activated = ImGui::DragScalarN(item.info.internalLabel.c_str(), ImGuiDataType_Double, item.config.enabled ? config.value->data() : &config.disabled_value[0], config.size, config.speed, &config.minv, &config.maxv, config.format.c_str(), config.flags);
 
@@ -5105,7 +5105,7 @@ DearPyGui::draw_input_int(ImDrawList* drawlist, mvAppItem& item, mvInputIntConfi
 
 			// If the widget is edited through ctrl+click mode the active value will be entered every frame.
 			// If the value is out of bounds the value will be overwritten with max or min so each frame the value will be switching between the
-			// ctrl+click value and the bounds value until the widget is not in ctrl+click mode. To prevent the callback from running every 
+			// ctrl+click value and the bounds value until the widget is not in ctrl+click mode. To prevent the callback from running every
 			// frame we check if the value was already submitted.
 			if (config.last_value != *config.value)
 			{
@@ -5254,7 +5254,7 @@ DearPyGui::draw_input_floatx(ImDrawList* drawlist, mvAppItem& item, mvInputFloat
 
 			// If the widget is edited through ctrl+click mode the active value will be entered every frame.
 			// If the value is out of bounds the value will be overwritten with max or min so each frame the value will be switching between the
-			// ctrl+click value and the bounds value until the widget is not in ctrl+click mode. To prevent the callback from running every 
+			// ctrl+click value and the bounds value until the widget is not in ctrl+click mode. To prevent the callback from running every
 			// frame we check if the value was already submitted.
 			if (config.last_value != *config.value)
 			{
@@ -5377,7 +5377,7 @@ DearPyGui::draw_input_float(ImDrawList* drawlist, mvAppItem& item, mvInputFloatC
 
 			// If the widget is edited through ctrl+click mode the active value will be entered every frame.
 			// If the value is out of bounds the value will be overwritten with max or min so each frame the value will be switching between the
-			// ctrl+click value and the bounds value until the widget is not in ctrl+click mode. To prevent the callback from running every 
+			// ctrl+click value and the bounds value until the widget is not in ctrl+click mode. To prevent the callback from running every
 			// frame we check if the value was already submitted.
 			if (config.last_value != *config.value)
 			{
@@ -5595,7 +5595,7 @@ DearPyGui::draw_input_double(ImDrawList* drawlist, mvAppItem& item, mvInputDoubl
 
 			// If the widget is edited through ctrl+click mode the active value will be entered every frame.
 			// If the value is out of bounds the value will be overwritten with max or min so each frame the value will be switching between the
-			// ctrl+click value and the bounds value until the widget is not in ctrl+click mode. To prevent the callback from running every 
+			// ctrl+click value and the bounds value until the widget is not in ctrl+click mode. To prevent the callback from running every
 			// frame we check if the value was already submitted.
 			if (config.last_value != *config.value)
 			{
@@ -5731,7 +5731,7 @@ DearPyGui::draw_input_doublex(ImDrawList* drawlist, mvAppItem& item, mvInputDoub
 
 			// If the widget is edited through ctrl+click mode the active value will be entered every frame.
 			// If the value is out of bounds the value will be overwritten with max or min so each frame the value will be switching between the
-			// ctrl+click value and the bounds value until the widget is not in ctrl+click mode. To prevent the callback from running every 
+			// ctrl+click value and the bounds value until the widget is not in ctrl+click mode. To prevent the callback from running every
 			// frame we check if the value was already submitted.
 			if (config.last_value != *config.value)
 			{
@@ -5880,7 +5880,7 @@ DearPyGui::draw_input_intx(ImDrawList* drawlist, mvAppItem& item, mvInputIntMult
 
 			// If the widget is edited through ctrl+click mode the active value will be entered every frame.
 			// If the value is out of bounds the value will be overwritten with max or min so each frame the value will be switching between the
-			// ctrl+click value and the bounds value until the widget is not in ctrl+click mode. To prevent the callback from running every 
+			// ctrl+click value and the bounds value until the widget is not in ctrl+click mode. To prevent the callback from running every
 			// frame we check if the value was already submitted.
 			if (config.last_value != *config.value)
 			{
@@ -6011,7 +6011,7 @@ DearPyGui::draw_text(ImDrawList* drawlist, mvAppItem& item, mvTextConfig& config
 			ImGui::TextUnformatted(item.config.specifiedLabel.c_str());
 
 			//-----------------------------------------------------------------------------
-			// update state - locally updating the item state when label is used. We do not 
+			// update state - locally updating the item state when label is used. We do not
 			// need to update RectMin parameter since its based on the text corner.
 			//-----------------------------------------------------------------------------
 			item.state.hovered |= ImGui::IsItemHovered();
@@ -6244,7 +6244,7 @@ DearPyGui::draw_tab_button(ImDrawList* drawlist, mvAppItem& item, mvTabButtonCon
 	apply_drag_drop(&item);
 }
 
-void 
+void
 DearPyGui::draw_menu_item(ImDrawList* drawlist, mvAppItem& item, mvMenuItemConfig& config)
 {
 	//-----------------------------------------------------------------------------
@@ -6298,8 +6298,8 @@ DearPyGui::draw_menu_item(ImDrawList* drawlist, mvAppItem& item, mvMenuItemConfi
 		ScopedID id(item.uuid);
 
 		// This is ugly and goes against our style system but its the only widget that ImGui chooses to push the disable color for us
-		// so we have to map our text disable color to the system text disable color, or we can create a new constant which goes agains our 
-		// constants. 
+		// so we have to map our text disable color to the system text disable color, or we can create a new constant which goes agains our
+		// constants.
 		ImGui::PushStyleColor(ImGuiCol_TextDisabled, ImGui::GetStyleColorVec4(ImGuiCol_Text));
 
 		// create menu item and see if its selected
@@ -6704,17 +6704,17 @@ DearPyGui::draw_filter_set(ImDrawList* drawlist, mvAppItem& item, mvFilterSetCon
 
 void
 DearPyGui::draw_separator(ImDrawList* drawlist, mvAppItem& item)
-{ 
-	ImGui::Separator(); 
+{
+	ImGui::Separator();
 }
 
 void
 DearPyGui::draw_spacer(ImDrawList* drawlist, mvAppItem& item)
-{ 
-	if (item.config.width == 0 && item.config.height == 0) 
-		ImGui::Spacing(); 
-	else 
-		ImGui::Dummy({ (float)item.config.width, (float)item.config.height }); 
+{
+	if (item.config.width == 0 && item.config.height == 0)
+		ImGui::Spacing();
+	else
+		ImGui::Dummy({ (float)item.config.width, (float)item.config.height });
 }
 
 void
@@ -6733,7 +6733,7 @@ DearPyGui::draw_menubar(ImDrawList* drawlist, mvAppItem& item)
 	}
 }
 
-void 
+void
 DearPyGui::draw_viewport_menubar(ImDrawList* drawlist, mvAppItem& item)
 {
 	if (ImGui::BeginMainMenuBar())
@@ -6787,7 +6787,7 @@ DearPyGui::draw_tooltip(ImDrawList* drawlist, mvAppItem& item)
 	}
 }
 
-void 
+void
 mvDragIntMulti::setPyValue(PyObject* value)
 {
 	std::vector<int> temp = ToIntVect(value);
@@ -6802,7 +6802,7 @@ mvDragIntMulti::setPyValue(PyObject* value)
 		configData.value = std::make_shared<std::array<int, 4>>(temp_array);
 }
 
-void 
+void
 mvDragFloatMulti::setPyValue(PyObject* value)
 {
 	std::vector<float> temp = ToFloatVect(value);
@@ -6862,7 +6862,7 @@ mvSliderDoubleMulti::setPyValue(PyObject* value)
 		configData.value = std::make_shared<std::array<double, 4>>(temp_array);
 }
 
-void 
+void
 mvSliderIntMulti::setPyValue(PyObject* value)
 {
 	std::vector<int> temp = ToIntVect(value);
@@ -6920,7 +6920,7 @@ mvRadioButton::setPyValue(PyObject* value)
 	}
 }
 
-void 
+void
 mvInputIntMulti::setPyValue(PyObject* value)
 {
 	std::vector<int> temp = ToIntVect(value);
@@ -6935,7 +6935,7 @@ mvInputIntMulti::setPyValue(PyObject* value)
 		configData.value = std::make_shared<std::array<int, 4>>(temp_array);
 }
 
-void 
+void
 mvInputFloatMulti::setPyValue(PyObject* value)
 {
 	std::vector<float> temp = ToFloatVect(value);
@@ -6965,7 +6965,7 @@ mvInputDoubleMulti::setPyValue(PyObject* value)
 		configData.value = std::make_shared<std::array<double, 4>>(temp_array);
 }
 
-void 
+void
 mvFilterSet::setPyValue(PyObject* value)
 {
 	auto str_value = ToString(value);
@@ -6984,7 +6984,7 @@ mvFilterSet::setPyValue(PyObject* value)
 	configData.imguiFilter.Build();
 }
 
-void 
+void
 mvSimplePlot::setPyValue(PyObject* value)
 {
 	*configData.value = ToFloatVect(value);
