@@ -84,7 +84,8 @@ void mvNodeEditor::getSpecificConfiguration(PyObject* dict)
         Py_XINCREF(_delinkCallback);
         PyDict_SetItemString(dict, "delink_callback", _delinkCallback);
     }
-
+    else
+        PyDict_SetItemString(dict, "delink_callback", GetPyNone());
 
     // helper to check and set bit
     auto checkbitset = [dict](const char* keyword, int flag, const int& flags)

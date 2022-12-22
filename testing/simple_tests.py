@@ -226,11 +226,21 @@ class TestItemDetails(unittest.TestCase):
         self.assertTrue("multline" not in cfg)
         self.assertTrue("multiline" in cfg)
 
+    def test_cfg_delink_callback_in_mvNodeEditor(self):
+        node_editor = dpg.add_node_editor(parent=self.wndw)
+        cfg1 = dpg.get_item_configuration(node_editor)
+        self.assertTrue("delink_callback" in cfg1)
+        self.assertTrue(cfg1.get("delink_callback", 0) is None)
+
+        dl_cb = lambda *args: ...
+        dpg.configure_item(node_editor, delink_callback=dl_cb)
+        cfg2 = dpg.get_item_configuration(node_editor)
+        self.assertTrue("delink_callback" in cfg2)
+        self.assertTrue(cfg2.get("delink_callback", 0) is dl_cb)
+
     def tearDown(self):
         dpg.stop_dearpygui()
         dpg.destroy_context()
-
-
 
 
 if __name__ == '__main__':
