@@ -186,7 +186,6 @@ class TestItemDetails(unittest.TestCase):
     def setUp(self):
         dpg.create_context()
         self.wndw = dpg.add_window()
-        dpg.push_container_stack(self.wndw)
         dpg.setup_dearpygui()
 
     def test_cfg_on_close_in_mvWindowAppItem(self):
@@ -204,6 +203,22 @@ class TestItemDetails(unittest.TestCase):
         cfg3 = dpg.get_item_configuration(self.wndw)
         self.assertTrue("on_close" in cfg3)
         self.assertTrue(cfg3.get("on_close", 0) is None)
+
+    def test_info_mvItemHandlerRegistry_in_mvAll(self):
+        info1 = dpg.get_item_info(self.wndw)
+        self.assertTrue("handlers" in info1)
+        self.assertTrue(info1.get("handlers", 0) is None)
+
+        ihreg_id = dpg.add_item_handler_registry()
+        dpg.bind_item_handler_registry(self.wndw, ihreg_id)
+        info2 = dpg.get_item_info(self.wndw)
+        self.assertTrue("handlers" in info2)
+        self.assertTrue(info2.get("handlers", 0) == ihreg_id)
+
+        dpg.bind_item_handler_registry(self.wndw, 0)
+        info3 = dpg.get_item_info(self.wndw)
+        self.assertTrue("handlers" in info3)
+        self.assertTrue(info3.get("handlers", 0) is None)
 
     def tearDown(self):
         dpg.stop_dearpygui()
