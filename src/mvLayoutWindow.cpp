@@ -119,6 +119,8 @@ void mvLayoutWindow::renderTreeNode(std::shared_ptr<mvAppItem>& item)
 void mvLayoutWindow::drawWidgets()
 {
         
+    std::lock_guard<std::mutex> lk(GContext->mutex);
+
 	mvUUID parentName = 0;
 
     if (_itemref == nullptr && GContext->itemRegistry->windowRoots.size() > 0)

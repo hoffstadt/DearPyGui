@@ -44,40 +44,45 @@ mvPrerender(mvViewport& viewport)
 	if (viewportData->msg.message == WM_QUIT)
 		viewport.running = false;
 
-	if (viewport.posDirty)
 	{
-		int horizontal_shift = get_horizontal_shift(viewportData->handle);
-		SetWindowPos(viewportData->handle, viewport.alwaysOnTop ? HWND_TOPMOST : HWND_TOP, viewport.xpos-horizontal_shift, viewport.ypos, 0, 0, SWP_SHOWWINDOW | SWP_NOSIZE);
-		viewport.posDirty = false;
-	}
+		// TODO: we probably need a separate mutex for this
+		std::lock_guard<std::mutex> lk(GContext->mutex);
 
-	if (viewport.sizeDirty)
-	{
-		SetWindowPos(viewportData->handle, viewport.alwaysOnTop ? HWND_TOPMOST : HWND_TOP, 0, 0, viewport.actualWidth, viewport.actualHeight, SWP_SHOWWINDOW | SWP_NOMOVE);
-		viewport.sizeDirty = false;
-	}
-
-	if (viewport.modesDirty)
-	{
-		viewportData->modes = WS_OVERLAPPED;
-
-		if (viewport.resizable && viewport.decorated) viewportData->modes |= WS_THICKFRAME;
-		if (viewport.decorated) {
-			viewportData->modes |= WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX;
-		}
-		else {
-			viewportData->modes |= WS_POPUP;
+		if (viewport.posDirty)
+		{
+			int horizontal_shift = get_horizontal_shift(viewportData->handle);
+			SetWindowPos(viewportData->handle, viewport.alwaysOnTop ? HWND_TOPMOST : HWND_TOP, viewport.xpos-horizontal_shift, viewport.ypos, 0, 0, SWP_SHOWWINDOW | SWP_NOSIZE);
+			viewport.posDirty = false;
 		}
 
-		SetWindowLongPtr(viewportData->handle, GWL_STYLE, viewportData->modes);
-		SetWindowPos(viewportData->handle, viewport.alwaysOnTop ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
-		viewport.modesDirty = false;
-	}
+		if (viewport.sizeDirty)
+		{
+			SetWindowPos(viewportData->handle, viewport.alwaysOnTop ? HWND_TOPMOST : HWND_TOP, 0, 0, viewport.actualWidth, viewport.actualHeight, SWP_SHOWWINDOW | SWP_NOMOVE);
+			viewport.sizeDirty = false;
+		}
 
-	if (viewport.titleDirty)
-	{
-		SetWindowTextA(viewportData->handle, viewport.title.c_str());
-		viewport.titleDirty = false;
+		if (viewport.modesDirty)
+		{
+			viewportData->modes = WS_OVERLAPPED;
+
+			if (viewport.resizable && viewport.decorated) viewportData->modes |= WS_THICKFRAME;
+			if (viewport.decorated) {
+				viewportData->modes |= WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX;
+			}
+			else {
+				viewportData->modes |= WS_POPUP;
+			}
+
+			SetWindowLongPtr(viewportData->handle, GWL_STYLE, viewportData->modes);
+			SetWindowPos(viewportData->handle, viewport.alwaysOnTop ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
+			viewport.modesDirty = false;
+		}
+
+		if (viewport.titleDirty)
+		{
+			SetWindowTextA(viewportData->handle, viewport.title.c_str());
+			viewport.titleDirty = false;
+		}
 	}
 
 	// Poll and handle messages (inputs, window resize, etc.)
@@ -96,11 +101,16 @@ mvPrerender(mvViewport& viewport)
 		//continue;
 	}
 
-	if (mvToolManager::GetFontManager().isInvalid())
 	{
-		mvToolManager::GetFontManager().rebuildAtlas();
-		ImGui_ImplDX11_InvalidateDeviceObjects();
-		mvToolManager::GetFontManager().updateAtlas();
+		// Font manager is thread-unsafe, so we'd better sync it
+		std::lock_guard<std::mutex> lk(GContext->mutex);
+
+		if (mvToolManager::GetFontManager().isInvalid())
+		{
+			mvToolManager::GetFontManager().rebuildAtlas();
+			ImGui_ImplDX11_InvalidateDeviceObjects();
+			mvToolManager::GetFontManager().updateAtlas();
+		}
 	}
 
 	// Start the Dear ImGui frame
@@ -146,30 +156,34 @@ mvHandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 				cheight = crect.bottom - crect.top;
 			}
 
-			viewport->actualWidth = awidth;
-			viewport->actualHeight = aheight;
-
-
-			if (viewport->decorated)
 			{
-				GContext->viewport->clientHeight = cheight;
-				GContext->viewport->clientWidth = cwidth;
-			}
-			else
-			{
-				GContext->viewport->clientHeight = cheight;
-				GContext->viewport->clientWidth = cwidth;
-			}
+				std::lock_guard<std::mutex> lk(GContext->mutex);
 
-			//GContext->viewport->resized = true;
-			mvOnResize();
-			GContext->viewport->resized = false;
+					viewport->actualWidth = awidth;
+					viewport->actualHeight = aheight;
 
-			if (mvToolManager::GetFontManager().isInvalid())
-			{
-				mvToolManager::GetFontManager().rebuildAtlas();
-				ImGui_ImplDX11_InvalidateDeviceObjects();
-				mvToolManager::GetFontManager().updateAtlas();
+
+				if (viewport->decorated)
+				{
+					GContext->viewport->clientHeight = cheight;
+					GContext->viewport->clientWidth = cwidth;
+				}
+				else
+				{
+					GContext->viewport->clientHeight = cheight + 39;
+					GContext->viewport->clientWidth = cwidth + 16;
+				}
+
+				//GContext->viewport->resized = true;
+				mvOnResize();
+				GContext->viewport->resized = false;
+
+				if (mvToolManager::GetFontManager().isInvalid())
+				{
+					mvToolManager::GetFontManager().rebuildAtlas();
+					ImGui_ImplDX11_InvalidateDeviceObjects();
+					mvToolManager::GetFontManager().updateAtlas();
+				}
 			}
 			// Start the Dear ImGui frame
 			ImGui_ImplDX11_NewFrame();
@@ -182,6 +196,8 @@ mvHandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 
 	case WM_GETMINMAXINFO:
 	{
+		// TODO: lock the mutex?
+
 		LPMINMAXINFO lpMMI = (LPMINMAXINFO)lParam;
 		lpMMI->ptMinTrackSize.x = viewport->minwidth;
 		lpMMI->ptMinTrackSize.y = viewport->minheight;
@@ -192,6 +208,8 @@ mvHandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 
 	case WM_MOVING:
 	{
+		std::lock_guard<std::mutex> lk(GContext->mutex);
+
 		int horizontal_shift = get_horizontal_shift(viewportData->handle);
 		RECT rect = *(RECT*)(lParam);
 		viewport->xpos = rect.left + horizontal_shift;
@@ -220,6 +238,8 @@ mvHandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 				cwidth = crect.right - crect.left;
 				cheight = crect.bottom - crect.top;
 			}
+
+			std::lock_guard<std::mutex> lk(GContext->mutex);
 
 			viewport->actualWidth = awidth;
 			viewport->actualHeight = aheight;

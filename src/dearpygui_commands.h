@@ -2032,6 +2032,8 @@ static PyObject*
 configure_viewport(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 
+	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	
 	mvViewport* viewport = GContext->viewport;
 	if (viewport)
 	{
