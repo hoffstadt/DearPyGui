@@ -136,6 +136,22 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 	if (!config.show)
 		return;
 
+	// Validating column visibility: if there are no any visible/enabled columns,
+	// an attempt to render the table will corrupt data structures within ImGui,
+	// and will most probably lead to a crash on app shutdown.  On the other hand,
+	// if there are no visible columns, we don't have anything to draw, really.
+	bool all_hidden = true;
+	for (auto& item : childslots[0])
+	{
+		if (item->config.enabled && item->config.show)
+		{
+			all_hidden = false;
+			break;
+		}
+	}
+	if (all_hidden)
+		return;
+
 	// push font if a font object is attached
 	if (font)
 	{
@@ -148,25 +164,6 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 
 	{
 		ScopedID id(uuid);
-
-		if (_columns == 0)
-			return;
-
-		// Validating column visibility: if there are no any visible/enabled columns,
-		// an attempt to render the table will corrupt data structures within ImGui,
-		// and will most probably lead to a crash on app shutdown.  On the other hand,
-		// if there are no visible columns, we don't have anything to draw, really.
-		bool all_hidden = true;
-		for (auto& item : childslots[0])
-		{
-			if (item->config.enabled && item->config.show)
-			{
-				all_hidden = false;
-				break;
-			}
-		}
-		if (all_hidden)
-			return;
 
 		auto row_renderer = [&](mvAppItem* row, mvAppItem* prev_visible_row=nullptr)
 		{
