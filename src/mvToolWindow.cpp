@@ -38,7 +38,7 @@ void mvToolWindow::draw()
         GContext->input.mousePos.x = (int)x;
         GContext->input.mousePos.y = (int)y;
 
-        std::lock_guard<std::mutex> lk(GContext->mutex);
+        std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
         if (GContext->itemRegistry->activeWindow != getUUID())
             GContext->itemRegistry->activeWindow = getUUID();

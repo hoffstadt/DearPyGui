@@ -46,7 +46,7 @@ mvPrerender(mvViewport& viewport)
 
 	{
 		// TODO: we probably need a separate mutex for this
-		std::lock_guard<std::mutex> lk(GContext->mutex);
+		std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 		if (viewport.posDirty)
 		{
@@ -103,7 +103,7 @@ mvPrerender(mvViewport& viewport)
 
 	{
 		// Font manager is thread-unsafe, so we'd better sync it
-		std::lock_guard<std::mutex> lk(GContext->mutex);
+		std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 		if (mvToolManager::GetFontManager().isInvalid())
 		{
@@ -157,7 +157,7 @@ mvHandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 			}
 
 			{
-				std::lock_guard<std::mutex> lk(GContext->mutex);
+				std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 					viewport->actualWidth = awidth;
 					viewport->actualHeight = aheight;
@@ -208,7 +208,7 @@ mvHandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 
 	case WM_MOVING:
 	{
-		std::lock_guard<std::mutex> lk(GContext->mutex);
+		std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 		int horizontal_shift = get_horizontal_shift(viewportData->handle);
 		RECT rect = *(RECT*)(lParam);
@@ -239,7 +239,7 @@ mvHandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 				cheight = crect.bottom - crect.top;
 			}
 
-			std::lock_guard<std::mutex> lk(GContext->mutex);
+			std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 			viewport->actualWidth = awidth;
 			viewport->actualHeight = aheight;

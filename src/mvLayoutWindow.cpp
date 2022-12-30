@@ -119,7 +119,7 @@ void mvLayoutWindow::renderTreeNode(std::shared_ptr<mvAppItem>& item)
 void mvLayoutWindow::drawWidgets()
 {
         
-    std::lock_guard<std::mutex> lk(GContext->mutex);
+    std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID parentName = 0;
 
