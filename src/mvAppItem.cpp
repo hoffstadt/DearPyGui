@@ -2529,6 +2529,8 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         );
 
         args.push_back({ mvPyDataType::UUID, "parent" });
+        args.push_back({ mvPyDataType::Float, "delay", mvArgType::KEYWORD_ARG, "0.5", "Activation delay: time, in seconds, during which the mouse should stay still in order to display the tooltip.  May be zero for instant activation." });
+        args.push_back({ mvPyDataType::Bool, "hide_on_activity", mvArgType::KEYWORD_ARG, "False", "Hide the tooltip if the user has moved the mouse.  If False, the tooltip will follow mouse pointer." });
 
         setup.about = "Adds a tooltip window.";
         setup.category = { "Containers", "Widgets" };

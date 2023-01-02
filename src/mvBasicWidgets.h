@@ -74,6 +74,7 @@ namespace DearPyGui
     void fill_configuration_dict(const mvImageConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvImageButtonConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvKnobFloatConfig& inConfig, PyObject* outDict);
+    void fill_configuration_dict(const mvTooltipConfig& inConfig, PyObject* outDict);
 
     // specific part of `configure_item(...)`
     void set_configuration(PyObject* inDict, mvSimplePlotConfig& outConfig);
@@ -107,7 +108,7 @@ namespace DearPyGui
     void set_configuration(PyObject* inDict, mvProgressBarConfig& outConfig);
     void set_configuration(PyObject* inDict, mvImageConfig& outConfig);
     void set_configuration(PyObject* inDict, mvImageButtonConfig& outConfig);
-    void set_configuration(PyObject* inDict, mvTooltipConfig& outConfig, mvAppItemConfig& config);
+    void set_configuration(PyObject* inDict, mvTooltipConfig& outConfig);
     void set_configuration(PyObject* inDict, mvKnobFloatConfig& outConfig);
 
     // positional args TODO: combine with above
@@ -119,6 +120,7 @@ namespace DearPyGui
     void set_positional_configuration(PyObject* inDict, mvListboxConfig& outConfig);
     void set_positional_configuration(PyObject* inDict, mvRadioButtonConfig& outConfig);
     void set_positional_configuration(PyObject* inDict, mvTextConfig& outConfig);
+    void set_positional_configuration(PyObject* inDict, mvTooltipConfig& outConfig, mvAppItemConfig& config);
 
     // data source handling
     void set_data_source(mvAppItem& item, mvUUID dataSource, mvSimplePlotConfig& outConfig);
@@ -573,7 +575,8 @@ struct mvFilterSetConfig
 
 struct mvTooltipConfig
 {
-
+    float        activation_delay = 0.5;
+    bool         hide_on_move = true;
 };
 
 struct mvKnobFloatConfig
@@ -1062,7 +1065,14 @@ public:
     mvTooltipConfig configData{};
     explicit mvTooltip(mvUUID uuid) : mvAppItem(uuid) { config.show = true; } //has to be shown to check hovering
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_tooltip(drawlist, *this); }
-    void handleSpecificRequiredArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData, config); }
+    void handleSpecificRequiredArgs(PyObject* dict) override { DearPyGui::set_positional_configuration(dict, configData, config); }
+    void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
+    void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
+
+// TODO: make these members private
+    double change_time = 0;
+    bool hovered_last_frame = false;
+    ImVec2 last_mouse_pos;
 };
 
 class mvSeparator : public mvAppItem
