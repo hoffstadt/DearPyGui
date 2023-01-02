@@ -660,6 +660,16 @@ DearPyGui::fill_configuration_dict(const mvKnobFloatConfig& inConfig, PyObject* 
 
 }
 
+void
+DearPyGui::fill_configuration_dict(const mvTooltipConfig& inConfig, PyObject* outDict)
+{
+	if (outDict == nullptr)
+		return;
+
+	PyDict_SetItemString(outDict, "delay", mvPyObject(ToPyFloat(inConfig.activation_delay)));
+	PyDict_SetItemString(outDict, "hide_on_activity", mvPyObject(ToPyBool(inConfig.hide_on_move)));
+}
+
 //-----------------------------------------------------------------------------
 // [SECTION] configure_item(...) specifics
 //-----------------------------------------------------------------------------
@@ -1733,12 +1743,22 @@ DearPyGui::set_configuration(PyObject* inDict, mvImageButtonConfig& outConfig)
 }
 
 void
-DearPyGui::set_configuration(PyObject* inDict, mvTooltipConfig& outConfig, mvAppItemConfig& config)
+DearPyGui::set_positional_configuration(PyObject* inDict, mvTooltipConfig& outConfig, mvAppItemConfig& config)
 {
 	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(mvAppItemType::mvTooltip)], inDict))
 		return;
 
 	config.parent = GetIDFromPyObject(PyTuple_GetItem(inDict, 0));
+}
+
+void
+DearPyGui::set_configuration(PyObject* inDict, mvTooltipConfig& outConfig)
+{
+	if (inDict == nullptr)
+		return;
+
+	if (PyObject* item = PyDict_GetItemString(inDict, "delay")) outConfig.activation_delay = ToFloat(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "hide_on_activity")) outConfig.hide_on_move = ToBool(item);
 }
 
 void
@@ -6348,19 +6368,55 @@ DearPyGui::draw_clipper(ImDrawList* drawlist, mvAppItem& item)
 void
 DearPyGui::draw_tooltip(ImDrawList* drawlist, mvAppItem& item)
 {
+	mvTooltip* tooltip = (mvTooltip*)&item;
 	if (ImGui::IsItemHovered() && item.config.show)
 	{
-		ImGui::BeginTooltip();
+		ImVec2 mousePos = ImGui::GetMousePos();
 
-		item.state.lastFrameUpdate = GContext->frame;
-		item.state.visible = true;
-		item.state.contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
-		item.state.rectSize = { ImGui::GetWindowSize().x, ImGui::GetWindowSize().y };
+		bool mouse_moved = (mousePos.x != tooltip->last_mouse_pos.x || mousePos.y != tooltip->last_mouse_pos.y);
+		bool state_changed = item.state.visible?
+				(tooltip->configData.hide_on_move && mouse_moved) :
+				(!tooltip->hovered_last_frame || mouse_moved);
 
-		for (auto& item : item.childslots[1])
-			item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
+		if (state_changed)
+		{
+			tooltip->hovered_last_frame = true;
+			tooltip->last_mouse_pos = mousePos;
+			tooltip->change_time = GContext->time;
+		}
+		// Note: state_changed and the following condition are not mutually
+		// exclusive and *may* both be true in the same frame - in particular,
+		// when activation_delay is zero.
+		if (GContext->time - tooltip->change_time >= tooltip->configData.activation_delay)
+		{
+			if (item.font)
+			{
+				ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
+				ImGui::PushFont(fontptr);
+			}
+			apply_local_theming(&item);
 
-		ImGui::EndTooltip();
+			ImGui::BeginTooltip();
+
+			item.state.lastFrameUpdate = GContext->frame;
+			item.state.visible = true;
+			item.state.contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
+			item.state.rectSize = { ImGui::GetWindowSize().x, ImGui::GetWindowSize().y };
+
+			for (auto& item : item.childslots[1])
+				item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
+
+			ImGui::EndTooltip();
+
+			cleanup_local_theming(&item);
+			if (item.font)
+				ImGui::PopFont();
+		}
+	}
+	else
+	{
+		tooltip->hovered_last_frame = false;
+		item.state.visible = false;
 	}
 }
 
