@@ -1,6 +1,7 @@
 import unittest
 import dearpygui.dearpygui as dpg
 
+
 class TestSimple(unittest.TestCase):
 
     def setUp(self):
@@ -48,7 +49,7 @@ class TestSimple(unittest.TestCase):
 
 
     def test_zelete_items(self):
-        
+
         children = dpg.get_item_children(self.window_id, 1)
 
 class TestDragDrop(unittest.TestCase):
@@ -153,8 +154,8 @@ class TestDragDrop(unittest.TestCase):
                         dpg.add_line_series([0,1,2,3,4,5], [0,1,2,3,4,5], label="data")
 
 
-            self.test_bind_items = dpg.get_item_children(basic, slot=1) 
-            self.test_bind_items += dpg.get_item_children(color, slot=1) 
+            self.test_bind_items = dpg.get_item_children(basic, slot=1)
+            self.test_bind_items += dpg.get_item_children(color, slot=1)
             self.test_bind_items += dpg.get_item_children(containers, slot=1)
             self.test_bind_items += dpg.get_item_children(custom, slot=1)
             self.test_bind_items += dpg.get_item_children(misc, slot=1)
@@ -179,6 +180,68 @@ class TestDragDrop(unittest.TestCase):
                 dpg.add_text(dpg.get_item_type(item))
                 dpg.add_text(f"Item ID: {item}")
             #print(f'[TestDragDrop] Completed bind {dpg.get_item_type(item)}')
+
+
+class TestItemDetails(unittest.TestCase):
+    def setUp(self):
+        dpg.create_context()
+        self.wndw = dpg.add_window()
+        dpg.setup_dearpygui()
+
+    def test_cfg_on_close_in_mvWindowAppItem(self):
+        cfg1 = dpg.get_item_configuration(self.wndw)
+        self.assertTrue("on_close" in cfg1)
+        self.assertTrue(cfg1.get("on_close", 0) is None)
+
+        cb_on_close = lambda sender, adata, udata: ...
+        dpg.configure_item(self.wndw, on_close=cb_on_close)
+        cfg2 = dpg.get_item_configuration(self.wndw)
+        self.assertTrue("on_close" in cfg2)
+        self.assertTrue(cfg2.get("on_close", 0) is cb_on_close)
+
+        dpg.configure_item(self.wndw, on_close=None)
+        cfg3 = dpg.get_item_configuration(self.wndw)
+        self.assertTrue("on_close" in cfg3)
+        self.assertTrue(cfg3.get("on_close", 0) is None)
+
+    def test_info_mvItemHandlerRegistry_in_mvAll(self):
+        info1 = dpg.get_item_info(self.wndw)
+        self.assertTrue("handlers" in info1)
+        self.assertTrue(info1.get("handlers", 0) is None)
+
+        ihreg_id = dpg.add_item_handler_registry()
+        dpg.bind_item_handler_registry(self.wndw, ihreg_id)
+        info2 = dpg.get_item_info(self.wndw)
+        self.assertTrue("handlers" in info2)
+        self.assertTrue(info2.get("handlers", 0) == ihreg_id)
+
+        dpg.bind_item_handler_registry(self.wndw, 0)
+        info3 = dpg.get_item_info(self.wndw)
+        self.assertTrue("handlers" in info3)
+        self.assertTrue(info3.get("handlers", 0) is None)
+
+    def test_cfg_multiline_in_mvInputText(self):
+        input_txt = dpg.add_input_text(parent=self.wndw)
+        cfg = dpg.get_item_configuration(input_txt)
+        self.assertTrue("multline" not in cfg)
+        self.assertTrue("multiline" in cfg)
+
+    def test_cfg_delink_callback_in_mvNodeEditor(self):
+        node_editor = dpg.add_node_editor(parent=self.wndw)
+        cfg1 = dpg.get_item_configuration(node_editor)
+        self.assertTrue("delink_callback" in cfg1)
+        self.assertTrue(cfg1.get("delink_callback", 0) is None)
+
+        dl_cb = lambda *args: ...
+        dpg.configure_item(node_editor, delink_callback=dl_cb)
+        cfg2 = dpg.get_item_configuration(node_editor)
+        self.assertTrue("delink_callback" in cfg2)
+        self.assertTrue(cfg2.get("delink_callback", 0) is dl_cb)
+
+    def tearDown(self):
+        dpg.stop_dearpygui()
+        dpg.destroy_context()
+
 
 if __name__ == '__main__':
     unittest.main(argv=['first-arg-is-ignored'], verbosity=2, exit=should_exit)

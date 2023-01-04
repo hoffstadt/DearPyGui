@@ -2471,7 +2471,7 @@ destroy_context(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		// hacky fix, started was set to false
 		// to exit the event loop, but needs to be
-		// true in order to run DPG commands for the 
+		// true in order to run DPG commands for the
 		// exit callback.
 		GContext->started = true;
 		mvSubmitCallback([=]() {
@@ -3504,6 +3504,11 @@ get_item_info(PyObject* self, PyObject* args, PyObject* kwargs)
 		else
 			PyDict_SetItemString(pdict, "theme", mvPyObject(GetPyNone()));
 
+		if (appitem->handlerRegistry)
+			PyDict_SetItemString(pdict, "handlers", mvPyObject(ToPyUUID(appitem->handlerRegistry->uuid)));
+		else
+			PyDict_SetItemString(pdict, "handlers", mvPyObject(GetPyNone()));
+
 		if (appitem->font)
 			PyDict_SetItemString(pdict, "font", mvPyObject(ToPyUUID(appitem->font->uuid)));
 		else
@@ -3526,7 +3531,7 @@ get_item_info(PyObject* self, PyObject* args, PyObject* kwargs)
 		PyDict_SetItemString(pdict, "deactivatedae_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_DEACTIVATEDAE)));
 		PyDict_SetItemString(pdict, "toggled_open_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_TOGGLED_OPEN)));
 		PyDict_SetItemString(pdict, "resized_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_RECT_SIZE)));
-
+		
 	}
 
 	else
@@ -4051,7 +4056,7 @@ capture_next_item(PyObject* self, PyObject* args, PyObject* kwargs)
 		GContext->itemRegistry->captureCallback = nullptr;
 	else
 		GContext->itemRegistry->captureCallback = callable;
-			
+
 	GContext->itemRegistry->captureCallbackUserData = user_data;
 
 	return GetPyNone();
