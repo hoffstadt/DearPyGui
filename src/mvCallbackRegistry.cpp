@@ -159,20 +159,19 @@ void mvRunCallback(PyObject* callable, const std::string& sender, PyObject* app_
 		if (ac) {
 			i32 count = PyLong_AsLong(ac);
 
-			if (PyMethod_Check(callable))
-				count--;
+			PyObject* m_pythonFunc = PyMethod_GET_FUNCTION(callable);
 
 			if (count > 3)
 			{
 				mvPyObject pArgs(PyTuple_New(count));
-				PyTuple_SetItem(pArgs, 0, ToPyString(sender));
-				PyTuple_SetItem(pArgs, 1, app_data); // steals data, so don't deref
-				PyTuple_SetItem(pArgs, 2, user_data); // steals data, so don't deref
+				PyTuple_SetItem(pArgs, 0, GetPyNone()); // remove self.
+				PyTuple_SetItem(pArgs, 1, ToPyString(sender));
+				PyTuple_SetItem(pArgs, 2, app_data); // steals data, so don't deref
+				PyTuple_SetItem(pArgs, 3, user_data); // steals data, so don't deref
 
-				for (int i = 3; i < count; i++)
-					PyTuple_SetItem(pArgs, i, GetPyNone());
+				mvPyObject result(PyObject_CallObject(m_pythonFunc, pArgs));
 
-				mvPyObject result(PyObject_CallObject(callable, pArgs));
+				pArgs.delRef();
 
 				// check if call succeeded
 				if (!result.isOk())
@@ -285,20 +284,19 @@ void mvRunCallback(PyObject* callable, mvUUID sender, PyObject* app_data, PyObje
 		if (ac) {
 			i32 count = PyLong_AsLong(ac);
 
-			if (PyMethod_Check(callable))
-				count--;
+			PyObject* m_pythonFunc = PyMethod_GET_FUNCTION(callable);
 
 			if (count > 3)
 			{
 				mvPyObject pArgs(PyTuple_New(count));
-				PyTuple_SetItem(pArgs, 0, ToPyUUID(sender));
-				PyTuple_SetItem(pArgs, 1, app_data); // steals data, so don't deref
-				PyTuple_SetItem(pArgs, 2, user_data); // steals data, so don't deref
+				PyTuple_SetItem(pArgs, 0, GetPyNone()); // remove self.
+				PyTuple_SetItem(pArgs, 1, ToPyUUID(sender));
+				PyTuple_SetItem(pArgs, 2, app_data); // steals data, so don't deref
+				PyTuple_SetItem(pArgs, 3, user_data); // steals data, so don't deref
 					
-				for (int i = 3; i < count; i++)
-					PyTuple_SetItem(pArgs, i, GetPyNone());
+				mvPyObject result(PyObject_CallObject(m_pythonFunc, pArgs));
 
-				mvPyObject result(PyObject_CallObject(callable, pArgs));
+				pArgs.delRef();
 
 				// check if call succeeded
 				if (!result.isOk())
