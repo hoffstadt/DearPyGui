@@ -385,19 +385,17 @@ void mvDrawCircle::draw(ImDrawList* drawlist, float x, float y)
 
 	if (ImPlot::GetCurrentContext()->CurrentPlot)
 	{
+		if (_fill.r >= 0.0f)
+			drawlist->AddCircleFilled(ImPlot::PlotToPixels(tcenter), ImPlot::GetCurrentContext()->Mx * _radius, _fill, _segments);
 		drawlist->AddCircle(ImPlot::PlotToPixels(tcenter), ImPlot::GetCurrentContext()->Mx * _radius, _color,
 			ImPlot::GetCurrentContext()->Mx * _segments, _thickness);
-		if (_fill.r < 0.0f)
-			return;
-		drawlist->AddCircleFilled(ImPlot::PlotToPixels(tcenter), ImPlot::GetCurrentContext()->Mx * _radius, _fill, _segments);
 	}
 	else
 	{
 		mvVec2 start = { x, y };
+		if (_fill.r >= 0.0f)
+			drawlist->AddCircleFilled(tcenter + start, _radius, _fill, _segments);
 		drawlist->AddCircle(tcenter + start, _radius, _color, _segments, _thickness);
-		if (_fill.r < 0.0f)
-			return;
-		drawlist->AddCircleFilled(tcenter + start, _radius, _fill, _segments);
 	}
 }
 
