@@ -157,8 +157,8 @@ mvHandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 			}
 			else
 			{
-				GContext->viewport->clientHeight = cheight + 39;
-				GContext->viewport->clientWidth = cwidth + 16;
+				GContext->viewport->clientHeight = cheight;
+				GContext->viewport->clientWidth = cwidth;
 			}
 
 			//GContext->viewport->resized = true;
@@ -232,8 +232,8 @@ mvHandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 			}
 			else
 			{
-				GContext->viewport->clientHeight = cheight + 39;
-				GContext->viewport->clientWidth = cwidth + 16;
+				GContext->viewport->clientHeight = cheight;
+				GContext->viewport->clientWidth = cwidth;
 			}
 				
 			GContext->viewport->resized = true;
