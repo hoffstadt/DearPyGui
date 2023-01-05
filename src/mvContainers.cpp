@@ -1138,7 +1138,7 @@ DearPyGui::draw_group(ImDrawList* drawlist, mvAppItem& item, mvGroupConfig& conf
 
             child->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 
-            if (config.horizontal)
+            if (config.horizontal && child->config.show)
                 ImGui::SameLine((1 + child->info.location) * config.xoffset, config.hspacing);
 
             if (child->config.tracked)
