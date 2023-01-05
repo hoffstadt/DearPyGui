@@ -426,6 +426,7 @@ struct mvListboxConfig
     int                      disabledindex = 0;
     std::shared_ptr<std::string>       value = std::make_shared<std::string>("");
     std::string              disabled_value;
+    bool                     sendindex = false;
 };
 
 struct mvRadioButtonConfig
