@@ -1858,6 +1858,7 @@ def group(**kwargs):
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		width (int, optional): Width of the item.
+		height (int, optional): Height of the item.
 		indent (int, optional): Offsets the widget to the right the specified number multiplied by the indent style.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
@@ -2101,16 +2102,19 @@ def plot(**kwargs):
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
-		no_title (bool, optional): 
-		no_menus (bool, optional): 
-		no_box_select (bool, optional): 
-		no_mouse_pos (bool, optional): 
-		no_highlight (bool, optional): 
-		no_child (bool, optional): 
-		query (bool, optional): 
-		crosshairs (bool, optional): 
-		anti_aliased (bool, optional): 
-		equal_aspects (bool, optional): 
+		no_title (bool, optional): the plot title will not be displayed
+		no_menus (bool, optional): the user will not be able to open context menus with right-click
+		no_box_select (bool, optional): the user will not be able to box-select with right-click drag
+		no_mouse_pos (bool, optional): the mouse position, in plot coordinates, will not be displayed inside of the plot
+		no_highlight (bool, optional): plot items will not be highlighted when their legend entry is hovered
+		no_child (bool, optional): a child window region will not be used to capture mouse scroll (can boost performance for single ImGui window applications)
+		query (bool, optional): the user will be able to draw query rects with middle - mouse or CTRL + right - click drag
+		crosshairs (bool, optional): the default mouse cursor will be replaced with a crosshair when hovered
+		anti_aliased (bool, optional): plot lines will be software anti-aliased (not recommended for high density plots, prefer MSAA)
+		equal_aspects (bool, optional): primary x and y axes will be constrained to have the same units/pixel (does not apply to auxiliary y-axes)
+		use_local_time (bool, optional): axis labels will be formatted for your timezone when
+		use_ISO8601 (bool, optional): dates will be formatted according to ISO 8601 where applicable (e.g. YYYY-MM-DD, YYYY-MM, --MM-DD, etc.)
+		use_24hour_clock (bool, optional): times will be formatted using a 24 hour clock
 		pan_button (int, optional): enables panning when held
 		pan_mod (int, optional): optional modifier that must be held for panning
 		fit_button (int, optional): fits visible data when double clicked
@@ -4030,6 +4034,7 @@ def add_group(**kwargs):
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		width (int, optional): Width of the item.
+		height (int, optional): Height of the item.
 		indent (int, optional): Offsets the widget to the right the specified number multiplied by the indent style.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
@@ -4905,7 +4910,7 @@ def add_listbox(items=(), **kwargs):
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
-		default_value (str, optional): String value fo the item that will be selected by default.
+		default_value (str, optional): String value of the item that will be selected by default.
 		num_items (int, optional): Expands the height of the listbox to show specified number of items.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
@@ -5302,16 +5307,19 @@ def add_plot(**kwargs):
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
-		no_title (bool, optional): 
-		no_menus (bool, optional): 
-		no_box_select (bool, optional): 
-		no_mouse_pos (bool, optional): 
-		no_highlight (bool, optional): 
-		no_child (bool, optional): 
-		query (bool, optional): 
-		crosshairs (bool, optional): 
-		anti_aliased (bool, optional): 
-		equal_aspects (bool, optional): 
+		no_title (bool, optional): the plot title will not be displayed
+		no_menus (bool, optional): the user will not be able to open context menus with right-click
+		no_box_select (bool, optional): the user will not be able to box-select with right-click drag
+		no_mouse_pos (bool, optional): the mouse position, in plot coordinates, will not be displayed inside of the plot
+		no_highlight (bool, optional): plot items will not be highlighted when their legend entry is hovered
+		no_child (bool, optional): a child window region will not be used to capture mouse scroll (can boost performance for single ImGui window applications)
+		query (bool, optional): the user will be able to draw query rects with middle - mouse or CTRL + right - click drag
+		crosshairs (bool, optional): the default mouse cursor will be replaced with a crosshair when hovered
+		anti_aliased (bool, optional): plot lines will be software anti-aliased (not recommended for high density plots, prefer MSAA)
+		equal_aspects (bool, optional): primary x and y axes will be constrained to have the same units/pixel (does not apply to auxiliary y-axes)
+		use_local_time (bool, optional): axis labels will be formatted for your timezone when
+		use_ISO8601 (bool, optional): dates will be formatted according to ISO 8601 where applicable (e.g. YYYY-MM-DD, YYYY-MM, --MM-DD, etc.)
+		use_24hour_clock (bool, optional): times will be formatted using a 24 hour clock
 		pan_button (int, optional): enables panning when held
 		pan_mod (int, optional): optional modifier that must be held for panning
 		fit_button (int, optional): fits visible data when double clicked
