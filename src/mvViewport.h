@@ -34,6 +34,7 @@ struct mvViewport
 	b8 alwaysOnTop = false;
 	b8 decorated   = true;
     b8 fullScreen  = false;
+	b8 disableClose = false;
 
 	// position/size
 	b8  sizeDirty    = false;

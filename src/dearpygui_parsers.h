@@ -364,6 +364,7 @@ InsertParser_Block0(std::map<std::string, mvPythonParser>& parsers)
 		args.push_back({ mvPyDataType::Bool, "always_on_top", mvArgType::KEYWORD_ARG, "False", "Forces the viewport to always be drawn ontop of all other viewports." });
 		args.push_back({ mvPyDataType::Bool, "decorated", mvArgType::KEYWORD_ARG, "True", "Enabled and disabled the decorator bar at the top of the viewport." });
 		args.push_back({ mvPyDataType::FloatList, "clear_color", mvArgType::KEYWORD_ARG, "(0, 0, 0, 255)", "Sets the color of the back of the viewport." });
+		args.push_back({ mvPyDataType::Bool, "disable_close", mvArgType::KEYWORD_ARG, "False", "Disables the viewport close button. can be used with set_exit_callback" });
 
 		mvPythonParserSetup setup;
 		setup.about = "Creates a viewport. Viewports are required.";

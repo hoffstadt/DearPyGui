@@ -253,8 +253,15 @@ mvHandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 		if ((wParam & 0xfff0) == SC_KEYMENU) // Disable ALT application menu
 			return 0;
 		break;
-	case WM_DESTROY:
+	case WM_CLOSE:
+		if (GContext->viewport->disableClose) {
+			mvSubmitCallback([=]() {
+				mvRunCallback(GContext->callbackRegistry->onCloseCallback, 0, nullptr, GContext->callbackRegistry->onCloseCallbackUserData);
+				});
+			return 0;
+		}
 		GContext->started = false;
+		DestroyWindow(hWnd);
 		::PostQuitMessage(0);
 		return 0;
 	case WM_INPUTLANGCHANGE:
