@@ -373,8 +373,11 @@ DearPyGui::set_configuration(PyObject* inDict, mvAppItem& itemc, mvWindowAppItem
 
     if (PyObject* item = PyDict_GetItemString(inDict, "label"))
     {
-        itemc.info.dirtyPos = true;
-        itemc.info.dirty_size = true;
+        if (item != Py_None)
+        {
+            itemc.info.dirtyPos = true;
+            itemc.info.dirty_size = true;
+        }
     }
 
     if (PyObject* item = PyDict_GetItemString(inDict, "no_open_over_existing_popup")) outConfig.no_open_over_existing_popup = ToBool(item);
