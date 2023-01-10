@@ -86,6 +86,22 @@ DearPyGui::fill_configuration_dict(const mvDragPayloadConfig& inConfig, PyObject
 {
     if (outDict == nullptr)
         return;
+
+    if (inConfig.dragData)
+    {
+        Py_XINCREF(inConfig.dragData);
+        PyDict_SetItemString(outDict, "drag_data", inConfig.dragData);
+    }
+    else
+        PyDict_SetItemString(outDict, "drag_data", GetPyNone());
+
+    if (inConfig.dropData)
+    {
+        Py_XINCREF(inConfig.dropData);
+        PyDict_SetItemString(outDict, "drop_data", inConfig.dropData);
+    }
+    else
+        PyDict_SetItemString(outDict, "drop_data", GetPyNone());
 }
 
 void
