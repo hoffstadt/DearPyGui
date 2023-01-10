@@ -373,8 +373,11 @@ DearPyGui::set_configuration(PyObject* inDict, mvAppItem& itemc, mvWindowAppItem
 
     if (PyObject* item = PyDict_GetItemString(inDict, "label"))
     {
-        itemc.info.dirtyPos = true;
-        itemc.info.dirty_size = true;
+        if (item != Py_None)
+        {
+            itemc.info.dirtyPos = true;
+            itemc.info.dirty_size = true;
+        }
     }
 
     if (PyObject* item = PyDict_GetItemString(inDict, "no_open_over_existing_popup")) outConfig.no_open_over_existing_popup = ToBool(item);
@@ -1138,7 +1141,7 @@ DearPyGui::draw_group(ImDrawList* drawlist, mvAppItem& item, mvGroupConfig& conf
 
             child->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 
-            if (config.horizontal)
+            if (config.horizontal && child->config.show)
                 ImGui::SameLine((1 + child->info.location) * config.xoffset, config.hspacing);
 
             if (child->config.tracked)
