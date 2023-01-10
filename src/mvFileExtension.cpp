@@ -48,4 +48,6 @@ void mvFileExtension::getSpecificConfiguration(PyObject* dict)
 
 	PyDict_SetItemString(dict, "custom_text", mvPyObject(ToPyString(_customText)));
 	PyDict_SetItemString(dict, "color", mvPyObject(ToPyColor(_color)));
+	PyDict_SetItemString(dict, "extension", mvPyObject(ToPyString(_extension)) );
+
 }

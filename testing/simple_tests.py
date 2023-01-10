@@ -238,6 +238,12 @@ class TestItemDetails(unittest.TestCase):
         self.assertTrue("delink_callback" in cfg2)
         self.assertTrue(cfg2.get("delink_callback", 0) is dl_cb)
 
+    def test_cfg_extensions_in_mvFileExtension(self):
+        with dpg.file_dialog():
+            ext = dpg.add_file_extension("*.*")
+        cfg = dpg.get_item_configuration(ext)
+        self.assertTrue("extension" in cfg)
+
     def tearDown(self):
         dpg.stop_dearpygui()
         dpg.destroy_context()
