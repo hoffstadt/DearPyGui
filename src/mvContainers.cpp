@@ -856,6 +856,10 @@ DearPyGui::draw_tab(ImDrawList* drawlist, mvAppItem& item, mvTabConfig& config)
             item.state.leftclicked = ImGui::IsItemClicked();
             item.state.rightclicked = ImGui::IsItemClicked(1);
             item.state.middleclicked = ImGui::IsItemClicked(2);
+            for (int i = 0; i < item.state.doubleclicked.size(); i++)
+            {
+                item.state.doubleclicked[i] = IsItemDoubleClicked(i);
+            }
             item.state.visible = ImGui::IsItemVisible();
             item.state.activated = ImGui::IsItemActivated();
             item.state.deactivated = ImGui::IsItemDeactivated();
@@ -900,6 +904,10 @@ DearPyGui::draw_tab(ImDrawList* drawlist, mvAppItem& item, mvTabConfig& config)
             item.state.leftclicked = ImGui::IsItemClicked();
             item.state.rightclicked = ImGui::IsItemClicked(1);
             item.state.middleclicked = ImGui::IsItemClicked(2);
+            for (int i = 0; i < item.state.doubleclicked.size(); i++)
+            {
+                item.state.doubleclicked[i] = IsItemDoubleClicked(i);
+            }
             item.state.visible = ImGui::IsItemVisible();
             item.state.activated = ImGui::IsItemActivated();
             item.state.deactivated = ImGui::IsItemDeactivated();
