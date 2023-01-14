@@ -287,7 +287,7 @@ DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mvDragPointConfig
 	outConfig.value = *static_cast<std::shared_ptr<std::array<double, 4>>*>(item.getValue());
 }
 
-void 
+void
 DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, std::shared_ptr<std::vector<std::vector<double>>>& outValue)
 {
 	if (dataSource == item.config.source) return;
@@ -744,7 +744,7 @@ DearPyGui::draw_drag_point(ImDrawList* drawlist, mvAppItem& item, mvDragPointCon
 	}
 }
 
-void 
+void
 DearPyGui::draw_bar_series(ImDrawList* drawlist, mvAppItem& item, const mvBarSeriesConfig& config)
 {
 
@@ -943,7 +943,7 @@ DearPyGui::draw_scatter_series(ImDrawList* drawlist, mvAppItem& item, const mvBa
 	//-----------------------------------------------------------------------------
 	// post draw
 	//-----------------------------------------------------------------------------
-	// 
+	//
 	// pop font off stack
 	if (item.font)
 		ImGui::PopFont();
@@ -1011,7 +1011,7 @@ DearPyGui::draw_stair_series(ImDrawList* drawlist, mvAppItem& item, const mvBasi
 	//-----------------------------------------------------------------------------
 	// post draw
 	//-----------------------------------------------------------------------------
-	// 
+	//
 	// pop font off stack
 	if (item.font)
 		ImGui::PopFont();
@@ -1079,7 +1079,7 @@ DearPyGui::draw_stem_series(ImDrawList* drawlist, mvAppItem& item, const mvBasic
 	//-----------------------------------------------------------------------------
 	// post draw
 	//-----------------------------------------------------------------------------
-	// 
+	//
 	// pop font off stack
 	if (item.font)
 		ImGui::PopFont();
@@ -1150,7 +1150,7 @@ DearPyGui::draw_shade_series(ImDrawList* drawlist, mvAppItem& item, const mvBasi
 	//-----------------------------------------------------------------------------
 	// post draw
 	//-----------------------------------------------------------------------------
-	// 
+	//
 	// pop font off stack
 	if (item.font)
 		ImGui::PopFont();
@@ -2137,7 +2137,7 @@ DearPyGui::draw_plot_annotation(ImDrawList* drawlist, mvAppItem& item, mvAnnotat
 
 }
 
-void 
+void
 DearPyGui::set_positional_configuration(PyObject* inDict, mvBarSeriesConfig& outConfig)
 {
 	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(mvAppItemType::mvBarSeries)], inDict))
@@ -2435,7 +2435,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvBarSeriesConfig& outConfig)
 
 }
 
-void 
+void
 DearPyGui::set_configuration(PyObject* inDict, mvBasicSeriesConfig& outConfig)
 {
 	if (inDict == nullptr)
@@ -2823,7 +2823,7 @@ DearPyGui::fill_configuration_dict(const mvPlotLegendConfig& inConfig, PyObject*
 
 }
 
-void 
+void
 DearPyGui::fill_configuration_dict(const mvBarSeriesConfig& inConfig, PyObject* outDict)
 {
 	if (outDict == nullptr)
@@ -2984,6 +2984,8 @@ DearPyGui::fill_configuration_dict(const mvSubPlotsConfig& inConfig, PyObject* o
 		return;
 
 	PyDict_SetItemString(outDict, "rows", mvPyObject(ToPyInt(inConfig.rows)));
+	PyDict_SetItemString(outDict, "columns", mvPyObject(ToPyInt(inConfig.cols)));
+	// maybe remove this on next minor release?
 	PyDict_SetItemString(outDict, "cols", mvPyObject(ToPyInt(inConfig.cols)));
 	PyDict_SetItemString(outDict, "row_ratios", mvPyObject(ToPyList(inConfig.row_ratios)));
 	PyDict_SetItemString(outDict, "column_ratios", mvPyObject(ToPyList(inConfig.col_ratios)));
@@ -3072,7 +3074,7 @@ DearPyGui::apply_template(const mvPlotLegendConfig& sourceConfig, mvPlotLegendCo
 	dstConfig.outside = sourceConfig.outside;
 }
 
-void 
+void
 DearPyGui::apply_template(const mvBarSeriesConfig& sourceConfig, mvBarSeriesConfig& dstConfig)
 {
 	dstConfig.value = sourceConfig.value;
@@ -3244,7 +3246,7 @@ DearPyGui::apply_template(const mvPlotConfig& sourceConfig, mvPlotConfig& dstCon
 // Old Classes, in the process of removing OOP crap
 //-----------------------------------------------------------------------------
 
-void 
+void
 mvDragPoint::setPyValue(PyObject* value)
 {
 	std::vector<double> temp = ToDoubleVect(value);
