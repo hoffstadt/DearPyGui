@@ -39,7 +39,6 @@ public:
     void handleSpecificPositionalArgs(PyObject* dict) override;
     void handleSpecificKeywordArgs(PyObject* dict) override;
     void getSpecificConfiguration(PyObject* dict) override;
-    void applySpecificTemplate(mvAppItem* item) override;
 
     void push_theme_color();
     void pop_theme_color();
@@ -96,7 +95,6 @@ public:
     void handleSpecificPositionalArgs(PyObject* dict) override;
     void handleSpecificKeywordArgs(PyObject* dict) override;
     void getSpecificConfiguration(PyObject* dict) override;
-    void applySpecificTemplate(mvAppItem* item) override;
 
     void push_theme_style();
     void pop_theme_style();

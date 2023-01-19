@@ -15,7 +15,6 @@ public:
     void handleSpecificRequiredArgs(PyObject* args) override;
     void handleSpecificKeywordArgs(PyObject* dict) override;
     void getSpecificConfiguration(PyObject* dict) override;
-    void applySpecificTemplate(mvAppItem* item) override;
 
     const std::string& getFilter() { return _extension; }
 

@@ -3356,39 +3356,6 @@ get_aliases(PyObject* self, PyObject* args, PyObject* kwargs)
 }
 
 static PyObject*
-bind_template_registry(PyObject* self, PyObject* args, PyObject* kwargs)
-{
-
-	PyObject* itemraw;
-
-	if (!Parse((GetParsers())["bind_template_registry"], args, kwargs, __FUNCTION__,
-		&itemraw))
-		return GetPyNone();
-
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
-
-	mvUUID item = GetIDFromPyObject(itemraw);
-
-
-	if (item == 0)
-		GContext->itemRegistry->boundedTemplateRegistry = nullptr;
-	else
-	{
-		auto actualItem = GetRefItem((*GContext->itemRegistry), item);
-		if (actualItem)
-			GContext->itemRegistry->boundedTemplateRegistry = std::move(actualItem);
-		else
-		{
-			mvThrowPythonError(mvErrorCode::mvItemNotFound, "bind_template_registry",
-				"Item not found: " + std::to_string(item), nullptr);
-			return GetPyNone();
-		}
-	}
-
-	return GetPyNone();
-}
-
-static PyObject*
 focus_item(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 	PyObject* itemraw;

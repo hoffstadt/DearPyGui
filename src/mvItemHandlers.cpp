@@ -231,12 +231,6 @@ void mvClickedHandler::getSpecificConfiguration(PyObject* dict)
 	PyDict_SetItemString(dict, "button", ToPyInt(_button));
 }
 
-void mvClickedHandler::applySpecificTemplate(mvAppItem* item)
-{
-	auto titem = static_cast<mvClickedHandler*>(item);
-	_button = titem->_button;
-}
-
 void mvDoubleClickedHandler::customAction(void* data)
 {
 	mvAppItemState* state = static_cast<mvAppItemState*>(data);
@@ -284,12 +278,6 @@ void mvDoubleClickedHandler::getSpecificConfiguration(PyObject* dict)
 		return;
 
 	PyDict_SetItemString(dict, "button", ToPyInt(_button));
-}
-
-void mvDoubleClickedHandler::applySpecificTemplate(mvAppItem* item)
-{
-	auto titem = static_cast<mvDoubleClickedHandler*>(item);
-	_button = titem->_button;
 }
 
 void mvDeactivatedAfterEditHandler::customAction(void* data)

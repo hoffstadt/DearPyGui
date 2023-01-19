@@ -390,12 +390,6 @@ mvNode::mvNode(mvUUID uuid)
     _id = (int)reduced_address;
 }
 
-void mvNode::applySpecificTemplate(mvAppItem* item)
-{
-    auto titem = static_cast<mvNode*>(item);
-    _draggable = titem->_draggable;
-}
-
 void mvNode::draw(ImDrawList* drawlist, float x, float y)
 {
 
@@ -527,14 +521,6 @@ mvNodeAttribute::mvNodeAttribute(mvUUID uuid)
     int64_t address = (int64_t)this;
     int64_t reduced_address = address % 2147483648;
     _id = (int)reduced_address;
-}
-
-void mvNodeAttribute::applySpecificTemplate(mvAppItem* item)
-{
-    auto titem = static_cast<mvNodeAttribute*>(item);
-    _attrType = titem->_attrType;
-    _shape = titem->_shape;
-    _category = titem->_category;
 }
 
 void mvNodeAttribute::draw(ImDrawList* drawlist, float x, float y)

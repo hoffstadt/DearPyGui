@@ -25,13 +25,6 @@ mvTableColumn::mvTableColumn(mvUUID uuid)
 {
 }
 
-void mvTableColumn::applySpecificTemplate(mvAppItem* item)
-{
-	auto titem = static_cast<mvTableColumn*>(item);
-	_flags = titem->_flags;
-	_init_width_or_weight = titem->_init_width_or_weight;
-}
-
 void mvTableColumn::draw(ImDrawList* drawlist, float x, float y)
 {
 	_id = (ImGuiID)uuid;
@@ -125,17 +118,6 @@ mvTableRow::mvTableRow(mvUUID uuid)
 mvTable::mvTable(mvUUID uuid)
 	: mvAppItem(uuid)
 {
-}
-
-void mvTable::applySpecificTemplate(mvAppItem* item)
-{
-	auto titem = static_cast<mvTable*>(item);
-	_columns = titem->_columns;
-	_inner_width = titem->_inner_width;
-	_freezeRows = titem->_freezeRows;
-	_freezeColumns = titem->_freezeColumns;
-	_flags = titem->_flags;
-	_tableHeader = titem->_tableHeader;
 }
 
 void mvTable::draw(ImDrawList* drawlist, float x, float y)

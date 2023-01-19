@@ -82,7 +82,6 @@ struct mvItemRegistry
     std::vector<mvAppItem*>                 delayedSearch;
     b8                                      showImGuiDebug = false;
     b8                                      showImPlotDebug = false;
-    std::shared_ptr<mvAppItem>                        boundedTemplateRegistry;
     std::vector<std::shared_ptr<mvAppItem>>           debugWindows;
     std::shared_ptr<mvAppItem>                        capturedItem = nullptr;
     PyObject*                               captureCallback = nullptr;

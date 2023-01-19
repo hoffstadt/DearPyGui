@@ -178,12 +178,6 @@ void mvFont::handleSpecificRequiredArgs(PyObject* dict)
 
 }
 
-void mvFontChars::applySpecificTemplate(mvAppItem* item)
-{
-	auto titem = static_cast<mvFontChars*>(item);
-	_chars = titem->_chars;
-}
-
 void mvFontChars::handleSpecificRequiredArgs(PyObject* dict)
 {
 	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
@@ -195,14 +189,6 @@ void mvFontChars::handleSpecificRequiredArgs(PyObject* dict)
 
 }
 
-void mvFontRange::applySpecificTemplate(mvAppItem* item)
-{
-	auto titem = static_cast<mvFontRange*>(item);
-	_min = titem->_min;
-	_max = titem->_max;
-	_range = titem->_range;
-}
-
 void mvFontRange::handleSpecificRequiredArgs(PyObject* dict)
 {
 	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
@@ -212,12 +198,6 @@ void mvFontRange::handleSpecificRequiredArgs(PyObject* dict)
 	_range[0] = (ImWchar)_min;
 	_max = ToInt(PyTuple_GetItem(dict, 1));
 	_range[1] = (ImWchar)_max;
-}
-
-void mvFontRangeHint::applySpecificTemplate(mvAppItem* item)
-{
-	auto titem = static_cast<mvFontRangeHint*>(item);
-	_hint = titem->_hint;
 }
 
 void mvFontRangeHint::handleSpecificRequiredArgs(PyObject* dict)

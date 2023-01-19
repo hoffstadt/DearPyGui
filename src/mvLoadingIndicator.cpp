@@ -5,18 +5,6 @@
 #include "mvContainers.h"
 #include "mvItemHandlers.h"
 
-void mvLoadingIndicator::applySpecificTemplate(mvAppItem* item)
-{
-    auto titem = static_cast<mvLoadingIndicator*>(item);
-    _style = titem->_style;
-    _circleCount = titem->_circleCount;
-    _radius = titem->_radius;
-    _speed = titem->_speed;
-    _thickness = titem->_thickness;
-    _mainColor = titem->_mainColor;
-    _optionalColor = titem->_optionalColor;
-}
-
 void mvLoadingIndicator::draw(ImDrawList* drawlist, float x, float y)
 {
 

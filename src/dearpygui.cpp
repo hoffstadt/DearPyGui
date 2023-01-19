@@ -467,19 +467,6 @@ common_constructor(const char* command, mvAppItemType type, PyObject* self, PyOb
 		AddAlias(*GContext->itemRegistry, item->config.alias, item->uuid);
 	}
 
-	// if template registry is bound, attempt to use it
-	if (GContext->itemRegistry->boundedTemplateRegistry)
-	{
-		for (auto& tempItem : GContext->itemRegistry->boundedTemplateRegistry->childslots[DearPyGui::GetEntityTargetSlot(item->type)])
-		{
-			if (tempItem->type == item->type)
-			{
-				item->applyTemplate(tempItem.get());
-				break;
-			}
-		}
-	}
-
 	VerifyArgumentCount(GetParsers()[command], args);
 
 	if(!GContext->IO.skipRequiredArgs)
@@ -641,7 +628,6 @@ PyInit__dearpygui(void)
 
 	// item registry
 	MV_ADD_COMMAND(focus_item);
-	MV_ADD_COMMAND(bind_template_registry);
 	MV_ADD_COMMAND(get_aliases);
 	MV_ADD_COMMAND(add_alias);
 	MV_ADD_COMMAND(remove_alias);

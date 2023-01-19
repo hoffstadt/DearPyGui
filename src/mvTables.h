@@ -22,7 +22,6 @@ public:
     void draw(ImDrawList* drawlist, float x, float y) override;
     void handleSpecificKeywordArgs(PyObject* dict) override;
     void getSpecificConfiguration(PyObject* dict) override;
-    void applySpecificTemplate(mvAppItem* item) override;
 
 public:
 
@@ -59,7 +58,6 @@ public:
     void onChildAdd(std::shared_ptr<mvAppItem> item);
     void onChildRemoved(std::shared_ptr<mvAppItem> item);
     void onChildrenRemoved();
-    void applySpecificTemplate(mvAppItem* item) override;
 
     // values
     PyObject* getPyValue() override;

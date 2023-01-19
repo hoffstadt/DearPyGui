@@ -28,7 +28,6 @@ public:
 
     void draw(ImDrawList* drawlist, float x, float y) override;
     void handleSpecificRequiredArgs(PyObject* dict) override;
-    void applySpecificTemplate(mvAppItem* item) override;
 
     // values
     void setDataSource(mvUUID dataSource) override;
@@ -65,7 +64,6 @@ public:
     void handleSpecificRequiredArgs(PyObject* dict) override;
     void handleSpecificKeywordArgs(PyObject* dict) override;
     void getSpecificConfiguration(PyObject* dict) override;
-    void applySpecificTemplate(mvAppItem* item) override;
 
     // values
     PyObject* getPyValue() override;
@@ -96,7 +94,6 @@ public:
     void handleSpecificRequiredArgs(PyObject* dict) override;
     void handleSpecificKeywordArgs(PyObject* dict) override;
     void getSpecificConfiguration(PyObject* dict) override;
-    void applySpecificTemplate(mvAppItem* item) override;
 
     // values
     void setDataSource(mvUUID dataSource) override;

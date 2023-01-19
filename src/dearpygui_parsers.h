@@ -1005,18 +1005,6 @@ InsertParser_Block2(std::map<std::string, mvPythonParser>& parsers)
 
 	{
 		std::vector<mvPythonDataElement> args;
-		args.push_back({ mvPyDataType::UUID, "template_registry" });
-
-		mvPythonParserSetup setup;
-		setup.about = "Binds a global template registry.";
-		setup.category = { "Item Registry" };
-
-		mvPythonParser parser = FinalizeParser(setup, args);
-		parsers.insert({ "bind_template_registry", parser });
-	}
-
-	{
-		std::vector<mvPythonDataElement> args;
 		args.push_back({ mvPyDataType::UUID, "item" });
 
 		mvPythonParserSetup setup;
