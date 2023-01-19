@@ -2674,6 +2674,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::String, "default_value", mvArgType::KEYWORD_ARG, "''", "String value of the item that will be selected by default." });
         args.push_back({ mvPyDataType::Integer, "num_items", mvArgType::KEYWORD_ARG, "3", "Expands the height of the listbox to show specified number of items." });
 
+
         setup.about = "Adds a listbox. If height is not large enough to show all items a scroll bar will appear.";
         break;
     }
