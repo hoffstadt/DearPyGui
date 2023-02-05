@@ -51,6 +51,7 @@ public:
     void draw(ImDrawList* drawlist, float x, float y) override;
     void customAction(void* data = nullptr) override;
     void handleSpecificRequiredArgs(PyObject* dict) override;
+    void handleSpecificKeywordArgs(PyObject* dict) override;
     void getSpecificConfiguration(PyObject* dict) override;
     ImFont* getFontPtr() { return _fontPtr; }
 
@@ -60,6 +61,7 @@ public:
     std::string _file;
     float       _size = 13.0f;
     bool        _default = false;
+    bool        _pixel_snap_h = false;
 
     // finalized
     ImFont* _fontPtr = nullptr;
