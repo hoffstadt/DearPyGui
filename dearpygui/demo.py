@@ -963,7 +963,7 @@ def show_demo():
 
             with dpg.tree_node(label="Simple Layouts"):
                 dpg.add_text("Containers can be nested for advanced layout options")
-                with dpg.child_window(width=500, height=320):
+                with dpg.child_window(width=500, height=320, menubar=True):
                     with dpg.menu_bar():
                         dpg.add_menu(label="Menu Options")
                     with dpg.child_window(autosize_x=True, height=95):
