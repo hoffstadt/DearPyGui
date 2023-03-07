@@ -42,7 +42,18 @@ public:
     void handleSpecificRequiredArgs(PyObject* dict) override;
     void handleSpecificKeywordArgs(PyObject* dict) override;
     void getSpecificConfiguration(PyObject* dict) override;
-    void applySpecificTemplate(mvAppItem* item) override;
+};
+
+class mvDoubleClickedHandler : public mvAppItem
+{
+public:
+    int _button = -1;
+    explicit mvDoubleClickedHandler(mvUUID uuid) : mvAppItem(uuid) {}
+    void draw(ImDrawList* drawlist, float x, float y) override {}
+    void customAction(void* data = nullptr) override;
+    void handleSpecificRequiredArgs(PyObject* dict) override;
+    void handleSpecificKeywordArgs(PyObject* dict) override;
+    void getSpecificConfiguration(PyObject* dict) override;
 };
 
 class mvDeactivatedAfterEditHandler : public mvAppItem

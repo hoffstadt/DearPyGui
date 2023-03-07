@@ -10,17 +10,6 @@
 #include "mvContainers.h"
 #include "mvItemHandlers.h"
 
-void mvTimePicker::applySpecificTemplate(mvAppItem* item)
-{
-	auto titem = static_cast<mvTimePicker*>(item);
-	if (config.source != 0)
-            { 
-                _value = titem->_value;
-		_imvalue = titem->_imvalue;
-            }
-	_hour24 = titem->_hour24;
-}
-
 void mvTimePicker::draw(ImDrawList* drawlist, float x, float y)
 {
 

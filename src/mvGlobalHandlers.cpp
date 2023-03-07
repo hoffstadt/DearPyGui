@@ -10,12 +10,6 @@ void mvHandlerRegistry::draw(ImDrawList* drawlist, float x, float y)
 
 }
 
-void mvKeyDownHandler::applySpecificTemplate(mvAppItem* item)
-{
-	auto titem = static_cast<mvKeyDownHandler*>(item);
-	_key = titem->_key;
-}
-
 void mvKeyDownHandler::draw(ImDrawList* drawlist, float x, float y)
 {
 
@@ -70,12 +64,6 @@ void mvKeyDownHandler::getSpecificConfiguration(PyObject* dict)
 		return;
 
 	PyDict_SetItemString(dict, "key", mvPyObject(ToPyInt(_key)));
-}
-
-void mvKeyPressHandler::applySpecificTemplate(mvAppItem* item)
-{
-	auto titem = static_cast<mvKeyPressHandler*>(item);
-	_key = titem->_key;
 }
 
 void mvKeyPressHandler::draw(ImDrawList* drawlist, float x, float y)
@@ -145,12 +133,6 @@ void mvKeyPressHandler::getSpecificConfiguration(PyObject* dict)
 	PyDict_SetItemString(dict, "key", mvPyObject(ToPyInt(_key)));
 }
 
-void mvKeyReleaseHandler::applySpecificTemplate(mvAppItem* item)
-{
-	auto titem = static_cast<mvKeyReleaseHandler*>(item);
-	_key = titem->_key;
-}
-
 void mvKeyReleaseHandler::draw(ImDrawList* drawlist, float x, float y)
 {
 	if (_key == -1)
@@ -216,12 +198,6 @@ void mvKeyReleaseHandler::getSpecificConfiguration(PyObject* dict)
 		return;
 
 	PyDict_SetItemString(dict, "key", mvPyObject(ToPyInt(_key)));
-}
-
-void mvMouseClickHandler::applySpecificTemplate(mvAppItem* item)
-{
-	auto titem = static_cast<mvMouseClickHandler*>(item);
-	_button = titem->_button;
 }
 
 void mvMouseClickHandler::draw(ImDrawList* drawlist, float x, float y)
@@ -291,12 +267,6 @@ void mvMouseClickHandler::getSpecificConfiguration(PyObject* dict)
 	PyDict_SetItemString(dict, "button", mvPyObject(ToPyInt(_button)));
 }
 
-void mvMouseDoubleClickHandler::applySpecificTemplate(mvAppItem* item)
-{
-	auto titem = static_cast<mvMouseDoubleClickHandler*>(item);
-	_button = titem->_button;
-}
-
 void mvMouseDoubleClickHandler::draw(ImDrawList* drawlist, float x, float y)
 {
 	if (_button == -1)
@@ -364,12 +334,6 @@ void mvMouseDoubleClickHandler::getSpecificConfiguration(PyObject* dict)
 	PyDict_SetItemString(dict, "button", mvPyObject(ToPyInt(_button)));
 }
 
-void mvMouseDownHandler::applySpecificTemplate(mvAppItem* item)
-{
-	auto titem = static_cast<mvMouseDownHandler*>(item);
-	_button = titem->_button;
-}
-
 void mvMouseDownHandler::draw(ImDrawList* drawlist, float x, float y)
 {
 	if (_button == -1)
@@ -435,13 +399,6 @@ void mvMouseDownHandler::getSpecificConfiguration(PyObject* dict)
 		return;
 
 	PyDict_SetItemString(dict, "button", mvPyObject(ToPyInt(_button)));
-}
-
-void mvMouseDragHandler::applySpecificTemplate(mvAppItem* item)
-{
-	auto titem = static_cast<mvMouseDragHandler*>(item);
-	_button = titem->_button;
-	_threshold = titem->_threshold;
 }
 
 void mvMouseDragHandler::draw(ImDrawList* drawlist, float x, float y)
@@ -547,12 +504,6 @@ void mvMouseMoveHandler::draw(ImDrawList* drawlist, float x, float y)
 				});
 		}
 	}
-}
-
-void mvMouseReleaseHandler::applySpecificTemplate(mvAppItem* item)
-{
-	auto titem = static_cast<mvMouseReleaseHandler*>(item);
-	_button = titem->_button;
 }
 
 void mvMouseReleaseHandler::draw(ImDrawList* drawlist, float x, float y)

@@ -23,7 +23,14 @@ mvCreateViewport(unsigned width, unsigned height)
 static void
 window_close_callback(GLFWwindow* window)
 {
-    GContext->started = false;
+    if (GContext->viewport->disableClose) {
+        mvSubmitCallback([=]() {
+            mvRunCallback(GContext->callbackRegistry->onCloseCallback, 0, nullptr, GContext->callbackRegistry->onCloseCallbackUserData);
+            });
+    }
+    else {
+        GContext->started = false;
+    }
 }
 
 static void

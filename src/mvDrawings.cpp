@@ -13,19 +13,6 @@ mvDrawArrow::mvDrawArrow(mvUUID uuid)
 	updatePoints();
 }
 
-void mvDrawArrow::applySpecificTemplate(mvAppItem* item)
-{
-	auto titem = static_cast<mvDrawArrow*>(item);
-	_p1 = titem->_p1;
-	_p2 = titem->_p2;
-	_color = titem->_color;
-	_thickness = titem->_thickness;
-	_size = titem->_size;
-	_points[0] = titem->_points[0];
-	_points[1] = titem->_points[1];
-	_points[2] = titem->_points[2];
-}
-
 void mvDrawArrow::updatePoints()
 {
 	float xsi = _p1.x;
@@ -104,16 +91,16 @@ void mvDrawArrow::draw(ImDrawList* drawlist, float x, float y)
 
 	if (ImPlot::GetCurrentContext()->CurrentPlot)
 	{
-		drawlist->AddLine(ImPlot::PlotToPixels(tp1), ImPlot::PlotToPixels(tp1), _color, (float)ImPlot::GetCurrentContext()->Mx * _thickness);
-		drawlist->AddTriangle(ImPlot::PlotToPixels(tpp1), ImPlot::PlotToPixels(tpp2), ImPlot::PlotToPixels(tpp3), _color, (float)ImPlot::GetCurrentContext()->Mx * _thickness);
 		drawlist->AddTriangleFilled(ImPlot::PlotToPixels(tpp1), ImPlot::PlotToPixels(tpp2), ImPlot::PlotToPixels(tpp3), _color);
+		drawlist->AddLine(ImPlot::PlotToPixels(tp1), ImPlot::PlotToPixels(tp2), _color, (float)ImPlot::GetCurrentContext()->Mx * _thickness);
+		drawlist->AddTriangle(ImPlot::PlotToPixels(tpp1), ImPlot::PlotToPixels(tpp2), ImPlot::PlotToPixels(tpp3), _color, (float)ImPlot::GetCurrentContext()->Mx * _thickness);
 	}
 	else
 	{
 		mvVec2 start = { x, y };
+		drawlist->AddTriangleFilled(tpp1 + start, tpp2 + start, tpp3 + start, _color);
 		drawlist->AddLine(tp1 + start, tp2 + start, _color, _thickness);
 		drawlist->AddTriangle(tpp1 + start, tpp2 + start, tpp3 + start, _color, _thickness);
-		drawlist->AddTriangleFilled(tpp1 + start, tpp2 + start, tpp3 + start, _color);
 	}
 }
 
@@ -158,18 +145,6 @@ void mvDrawArrow::getSpecificConfiguration(PyObject* dict)
 	PyDict_SetItemString(dict, "color", mvPyObject(ToPyColor(_color)));
 	PyDict_SetItemString(dict, "thickness", mvPyObject(ToPyFloat(_thickness)));
 	PyDict_SetItemString(dict, "size", mvPyObject(ToPyFloat(_size)));
-}
-
-void mvDrawBezierCubic::applySpecificTemplate(mvAppItem* item)
-{
-	auto titem = static_cast<mvDrawBezierCubic*>(item);
-	_p1 = titem->_p1;
-	_p2 = titem->_p2;
-	_p3 = titem->_p3;
-	_p4 = titem->_p4;
-	_color = titem->_color;
-	_thickness = titem->_thickness;
-	_segments = titem->_segments;
 }
 
 void mvDrawBezierCubic::draw(ImDrawList* drawlist, float x, float y)
@@ -264,17 +239,6 @@ void mvDrawBezierCubic::getSpecificConfiguration(PyObject* dict)
 	PyDict_SetItemString(dict, "segments", mvPyObject(ToPyInt(_segments)));
 }
 
-void mvDrawBezierQuadratic::applySpecificTemplate(mvAppItem* item)
-{
-	auto titem = static_cast<mvDrawBezierQuadratic*>(item);
-	_p1 = titem->_p1;
-	_p2 = titem->_p2;
-	_p3 = titem->_p3;
-	_color = titem->_color;
-	_thickness = titem->_thickness;
-	_segments = titem->_segments;
-}
-
 void mvDrawBezierQuadratic::draw(ImDrawList* drawlist, float x, float y)
 {
 	mvVec4  tp1 = drawInfo->transform * _p1;
@@ -356,17 +320,6 @@ void mvDrawBezierQuadratic::getSpecificConfiguration(PyObject* dict)
 	PyDict_SetItemString(dict, "segments", mvPyObject(ToPyInt(_segments)));
 }
 
-void mvDrawCircle::applySpecificTemplate(mvAppItem* item)
-{
-	auto titem = static_cast<mvDrawCircle*>(item);
-	_center = titem->_center;
-	_radius = titem->_radius;
-	_segments = titem->_segments;
-	_color = titem->_color;
-	_fill = titem->_fill;
-	_thickness = titem->_thickness;
-}
-
 void mvDrawCircle::draw(ImDrawList* drawlist, float x, float y)
 {
 	mvVec4  tcenter = drawInfo->transform * _center;
@@ -385,19 +338,17 @@ void mvDrawCircle::draw(ImDrawList* drawlist, float x, float y)
 
 	if (ImPlot::GetCurrentContext()->CurrentPlot)
 	{
+		if (_fill.r >= 0.0f)
+			drawlist->AddCircleFilled(ImPlot::PlotToPixels(tcenter), ImPlot::GetCurrentContext()->Mx * _radius, _fill, _segments);
 		drawlist->AddCircle(ImPlot::PlotToPixels(tcenter), ImPlot::GetCurrentContext()->Mx * _radius, _color,
 			ImPlot::GetCurrentContext()->Mx * _segments, _thickness);
-		if (_fill.r < 0.0f)
-			return;
-		drawlist->AddCircleFilled(ImPlot::PlotToPixels(tcenter), ImPlot::GetCurrentContext()->Mx * _radius, _fill, _segments);
 	}
 	else
 	{
 		mvVec2 start = { x, y };
+		if (_fill.r >= 0.0f)
+			drawlist->AddCircleFilled(tcenter + start, _radius, _fill, _segments);
 		drawlist->AddCircle(tcenter + start, _radius, _color, _segments, _thickness);
-		if (_fill.r < 0.0f)
-			return;
-		drawlist->AddCircleFilled(tcenter + start, _radius, _fill, _segments);
 	}
 }
 
@@ -438,18 +389,6 @@ void mvDrawCircle::getSpecificConfiguration(PyObject* dict)
 	PyDict_SetItemString(dict, "thickness", mvPyObject(ToPyFloat(_thickness)));
 	PyDict_SetItemString(dict, "radius", mvPyObject(ToPyFloat(_radius)));
 	PyDict_SetItemString(dict, "segments", mvPyObject(ToPyInt(_segments)));
-}
-
-void mvDrawEllipse::applySpecificTemplate(mvAppItem* item)
-{
-	auto titem = static_cast<mvDrawEllipse*>(item);
-	_pmin = titem->_pmin;
-	_pmax = titem->_pmax;
-	_segments = titem->_segments;
-	_color = titem->_color;
-	_fill = titem->_fill;
-	_thickness = titem->_thickness;
-	_points = titem->_points;
 }
 
 void mvDrawEllipse::draw(ImDrawList* drawlist, float x, float y)
@@ -521,15 +460,14 @@ void mvDrawEllipse::draw(ImDrawList* drawlist, float x, float y)
 		}
 	}
 
+	if (_fill.r >= 0.0f)
+		drawlist->AddConvexPolyFilled(finalpoints.data(), (int)finalpoints.size(), _fill);
 	if (ImPlot::GetCurrentContext()->CurrentPlot)
 		drawlist->AddPolyline(finalpoints.data(), (int)finalpoints.size(),
 			_color, false, ImPlot::GetCurrentContext()->Mx * _thickness);
 	else
 		drawlist->AddPolyline(finalpoints.data(), (int)finalpoints.size(),
 			_color, false, _thickness);
-	if (_fill.r < 0.0f)
-		return;
-	drawlist->AddConvexPolyFilled(finalpoints.data(), (int)finalpoints.size(), _fill);
 }
 
 void mvDrawEllipse::handleSpecificRequiredArgs(PyObject* dict)
@@ -572,19 +510,6 @@ void mvDrawEllipse::getSpecificConfiguration(PyObject* dict)
 	PyDict_SetItemString(dict, "pmax", mvPyObject(ToPyPair(_pmax.x, _pmax.y)));
 	PyDict_SetItemString(dict, "pmin", mvPyObject(ToPyPair(_pmin.x, _pmin.y)));
 	PyDict_SetItemString(dict, "segments", mvPyObject(ToPyInt(_segments)));
-}
-
-void mvDrawImage::applySpecificTemplate(mvAppItem* item)
-{
-	auto titem = static_cast<mvDrawImage*>(item);
-	_textureUUID = titem->_textureUUID;
-	_pmax = titem->_pmax;
-	_pmin = titem->_pmin;
-	_uv_min = titem->_uv_min;
-	_uv_max = titem->_uv_max;
-	_color = titem->_color;
-	_texture = titem->_texture;
-	_internalTexture = titem->_internalTexture;
 }
 
 void mvDrawImage::draw(ImDrawList* drawlist, float x, float y)
@@ -709,23 +634,6 @@ void mvDrawImage::getSpecificConfiguration(PyObject* dict)
 	PyDict_SetItemString(dict, "uv_max", mvPyObject(ToPyPair(_uv_max.x, _uv_max.y)));
 	PyDict_SetItemString(dict, "color", mvPyObject(ToPyColor(_color)));
 	PyDict_SetItemString(dict, "texture_tag", mvPyObject(ToPyUUID(_textureUUID)));
-}
-
-void mvDrawImageQuad::applySpecificTemplate(mvAppItem* item)
-{
-	auto titem = static_cast<mvDrawImageQuad*>(item);
-	_textureUUID = titem->_textureUUID;
-	_p1 = titem->_p1;
-	_p2 = titem->_p2;
-	_p3 = titem->_p3;
-	_p4 = titem->_p4;
-	_uv1 = titem->_uv1;
-	_uv2 = titem->_uv2;
-	_uv3 = titem->_uv3;
-	_uv4 = titem->_uv4;
-	_color = titem->_color;
-	_texture = titem->_texture;
-	_internalTexture = titem->_internalTexture;
 }
 
 void mvDrawImageQuad::draw(ImDrawList* drawlist, float x, float y)
@@ -934,15 +842,6 @@ void mvDrawLayer::getSpecificConfiguration(PyObject* dict)
 	PyDict_SetItemString(dict, "cull_mode", mvPyObject(ToPyInt(drawInfo->cullMode)));
 }
 
-void mvDrawLine::applySpecificTemplate(mvAppItem* item)
-{
-	auto titem = static_cast<mvDrawLine*>(item);
-	_p1 = titem->_p1;
-	_p2 = titem->_p2;
-	_color = titem->_color;
-	_thickness = titem->_thickness;
-}
-
 void mvDrawLine::draw(ImDrawList* drawlist, float x, float y)
 {
 	mvVec4  tp1 = drawInfo->transform * _p1;
@@ -1013,13 +912,6 @@ void mvDrawLine::getSpecificConfiguration(PyObject* dict)
 	PyDict_SetItemString(dict, "p2", mvPyObject(ToPyPair(_p2.x, _p2.y)));
 	PyDict_SetItemString(dict, "color", mvPyObject(ToPyColor(_color)));
 	PyDict_SetItemString(dict, "thickness", mvPyObject(ToPyFloat(_thickness)));
-}
-
-void mvDrawlist::applySpecificTemplate(mvAppItem* item)
-{
-	auto titem = static_cast<mvDrawlist*>(item);
-	config.width = titem->config.width;
-	config.height = titem->config.height;
 }
 
 void mvDrawlist::draw(ImDrawList* drawlist, float x, float y)
@@ -1130,15 +1022,6 @@ void mvDrawNode::getSpecificConfiguration(PyObject* dict)
 		return;
 }
 
-void mvDrawPolygon::applySpecificTemplate(mvAppItem* item)
-{
-	auto titem = static_cast<mvDrawPolygon*>(item);
-	_color = titem->_color;
-	_fill = titem->_fill;
-	_thickness = titem->_thickness;
-	_points = titem->_points;
-}
-
 void mvDrawPolygon::draw(ImDrawList* drawlist, float x, float y)
 {
 	mvVec4 start = { x, y };
@@ -1187,11 +1070,8 @@ void mvDrawPolygon::draw(ImDrawList* drawlist, float x, float y)
 			finalpoints.push_back(ImVec2{ point.x, point.y });
 		}
 	}
-	// TODO: Find a way to store lines and only calc new fill lines when dirty similar to ellipse
-	drawlist->AddPolyline(finalpoints.data(), (int)finalpoints.size(), _color, false, _thickness);
-	if (_fill.r < 0.0f)
-		return;
 
+	if (_fill.r >= 0.0f)
 	{
 		size_t i;
 		int y;
@@ -1269,6 +1149,8 @@ void mvDrawPolygon::draw(ImDrawList* drawlist, float x, float y)
 		}
 		delete[] polyints;
 	}
+	// TODO: Find a way to store lines and only calc new fill lines when dirty similar to ellipse
+	drawlist->AddPolyline(finalpoints.data(), (int)finalpoints.size(), _color, false, _thickness);
 }
 
 void mvDrawPolygon::handleSpecificRequiredArgs(PyObject* dict)
@@ -1306,15 +1188,6 @@ void mvDrawPolygon::getSpecificConfiguration(PyObject* dict)
 	PyDict_SetItemString(dict, "color", mvPyObject(ToPyColor(_color)));
 	PyDict_SetItemString(dict, "thickness", mvPyObject(ToPyFloat(_thickness)));
 
-}
-
-void mvDrawPolyline::applySpecificTemplate(mvAppItem* item)
-{
-	auto titem = static_cast<mvDrawPolyline*>(item);
-	_color = titem->_color;
-	_closed = titem->_closed;
-	_thickness = titem->_thickness;
-	_points = titem->_points;
 }
 
 void mvDrawPolyline::draw(ImDrawList* drawlist, float x, float y)
@@ -1407,18 +1280,6 @@ void mvDrawPolyline::getSpecificConfiguration(PyObject* dict)
 	PyDict_SetItemString(dict, "thickness", mvPyObject(ToPyFloat(_thickness)));
 }
 
-void mvDrawQuad::applySpecificTemplate(mvAppItem* item)
-{
-	auto titem = static_cast<mvDrawQuad*>(item);
-	_p1 = titem->_p1;
-	_p2 = titem->_p2;
-	_p3 = titem->_p3;
-	_p4 = titem->_p4;
-	_color = titem->_color;
-	_thickness = titem->_thickness;
-	_fill = titem->_fill;
-}
-
 void mvDrawQuad::draw(ImDrawList* drawlist, float x, float y)
 {
 
@@ -1455,20 +1316,18 @@ void mvDrawQuad::draw(ImDrawList* drawlist, float x, float y)
 
 	if (ImPlot::GetCurrentContext()->CurrentPlot)
 	{
+		if (_fill.r >= 0.0f)
+			drawlist->AddQuadFilled(ImPlot::PlotToPixels(tp1), ImPlot::PlotToPixels(tp2), ImPlot::PlotToPixels(tp3),
+				ImPlot::PlotToPixels(tp4), _fill);
 		drawlist->AddQuad(ImPlot::PlotToPixels(tp1), ImPlot::PlotToPixels(tp2), ImPlot::PlotToPixels(tp3),
 			ImPlot::PlotToPixels(tp4), _color, ImPlot::GetCurrentContext()->Mx * _thickness);
-		if (_fill.r < 0.0f)
-			return;
-		drawlist->AddQuadFilled(ImPlot::PlotToPixels(tp1), ImPlot::PlotToPixels(tp2), ImPlot::PlotToPixels(tp3),
-			ImPlot::PlotToPixels(tp4), _fill);
 	}
 	else
 	{
 		mvVec2 start = { x, y };
+		if (_fill.r >= 0.0f)
+			drawlist->AddQuadFilled(tp1 + start, tp2 + start, tp3 + start, tp4 + start, _fill);
 		drawlist->AddQuad(tp1 + start, tp2 + start, tp3 + start, tp4 + start, _color, _thickness);
-		if (_fill.r < 0.0f)
-			return;
-		drawlist->AddQuadFilled(tp1 + start, tp2 + start, tp3 + start, tp4 + start, _fill);
 	}
 }
 
@@ -1522,22 +1381,6 @@ void mvDrawQuad::getSpecificConfiguration(PyObject* dict)
 	PyDict_SetItemString(dict, "thickness", mvPyObject(ToPyFloat(_thickness)));
 }
 
-void mvDrawRect::applySpecificTemplate(mvAppItem* item)
-{
-	auto titem = static_cast<mvDrawRect*>(item);
-	_pmin = titem->_pmin;
-	_pmax = titem->_pmax;
-	_rounding = titem->_rounding;
-	_color = titem->_color;
-	_color_upper_left = titem->_color_upper_left;
-	_color_upper_right = titem->_color_upper_right;
-	_color_bottom_left = titem->_color_bottom_left;
-	_color_bottom_right = titem->_color_bottom_right;
-	_fill = titem->_fill;
-	_thickness = titem->_thickness;
-	_multicolor = titem->_multicolor;
-}
-
 void mvDrawRect::draw(ImDrawList* drawlist, float x, float y)
 {
 	mvVec4  tpmin = drawInfo->transform * _pmin;
@@ -1563,29 +1406,21 @@ void mvDrawRect::draw(ImDrawList* drawlist, float x, float y)
 
 	if (ImPlot::GetCurrentContext()->CurrentPlot)
 	{
+		if (_multicolor)
+			drawlist->AddRectFilledMultiColor(ImPlot::PlotToPixels(tpmin), ImPlot::PlotToPixels(tpmax), _color_bottom_right, _color_bottom_left, _color_upper_left, _color_upper_right);
+		else if (_fill.r >= 0.0f)
+			drawlist->AddRectFilled(ImPlot::PlotToPixels(tpmin), ImPlot::PlotToPixels(tpmax), _fill, ImPlot::GetCurrentContext()->Mx * _rounding, ImDrawCornerFlags_All);
 		drawlist->AddRect(ImPlot::PlotToPixels(tpmin), ImPlot::PlotToPixels(tpmax), _color,
 			ImPlot::GetCurrentContext()->Mx * _rounding, ImDrawCornerFlags_All, ImPlot::GetCurrentContext()->Mx * _thickness);
-		if (_multicolor)
-		{
-			drawlist->AddRectFilledMultiColor(ImPlot::PlotToPixels(tpmin), ImPlot::PlotToPixels(tpmax), _color_bottom_right, _color_bottom_left, _color_upper_left, _color_upper_right);
-			return;
-		}
-		if (_fill.r < 0.0f)
-			return;
-		drawlist->AddRectFilled(ImPlot::PlotToPixels(tpmin), ImPlot::PlotToPixels(tpmax), _fill, ImPlot::GetCurrentContext()->Mx * _rounding, ImDrawCornerFlags_All);
 	}
 	else
 	{
 		mvVec2 start = { x, y };
-		drawlist->AddRect(tpmin + start, tpmax + start, _color, _rounding, ImDrawCornerFlags_All, _thickness);
 		if (_multicolor)
-		{
 			drawlist->AddRectFilledMultiColor(tpmin + start, tpmax + start, _color_bottom_right, _color_bottom_left, _color_upper_left, _color_upper_right);
-			return;
-		}
-		if (_fill.r < 0.0f)
-			return;
-		drawlist->AddRectFilled(tpmin + start, tpmax + start, _fill, _rounding, ImDrawCornerFlags_All);
+		else if (_fill.r >= 0.0f)
+			drawlist->AddRectFilled(tpmin + start, tpmax + start, _fill, _rounding, ImDrawCornerFlags_All);
+		drawlist->AddRect(tpmin + start, tpmax + start, _color, _rounding, ImDrawCornerFlags_All, _thickness);
 	}
 }
 
@@ -1632,15 +1467,6 @@ void mvDrawRect::getSpecificConfiguration(PyObject* dict)
 	PyDict_SetItemString(dict, "fill", mvPyObject(ToPyColor(_fill)));
 	PyDict_SetItemString(dict, "rounding", mvPyObject(ToPyFloat(_rounding)));
 	PyDict_SetItemString(dict, "thickness", mvPyObject(ToPyFloat(_thickness)));
-}
-
-void mvDrawText::applySpecificTemplate(mvAppItem* item)
-{
-	auto titem = static_cast<mvDrawText*>(item);
-	_pos = titem->_pos;
-	_text = titem->_text;
-	_color = titem->_color;
-	_size = titem->_size;
 }
 
 void mvDrawText::draw(ImDrawList* drawlist, float x, float y)
@@ -1707,17 +1533,6 @@ void mvDrawText::getSpecificConfiguration(PyObject* dict)
 	PyDict_SetItemString(dict, "size", mvPyObject(ToPyFloat(_size)));
 }
 
-void mvDrawTriangle::applySpecificTemplate(mvAppItem* item)
-{
-	auto titem = static_cast<mvDrawTriangle*>(item);
-	_p1 = titem->_p1;
-	_p2 = titem->_p2;
-	_p3 = titem->_p3;
-	_color = titem->_color;
-	_thickness = titem->_thickness;
-	_fill = titem->_fill;
-}
-
 void mvDrawTriangle::draw(ImDrawList* drawlist, float x, float y)
 {
 	mvVec4  tp1 = drawInfo->transform * _p1;
@@ -1764,20 +1579,20 @@ void mvDrawTriangle::draw(ImDrawList* drawlist, float x, float y)
 
 	if (ImPlot::GetCurrentContext()->CurrentPlot)
 	{
+		if (_fill.r >= 0.0f)
+		{
+			drawlist->AddTriangleFilled(ImPlot::PlotToPixels(tp1), ImPlot::PlotToPixels(tp2), ImPlot::PlotToPixels(tp3),
+				_fill);
+		}
 		drawlist->AddTriangle(ImPlot::PlotToPixels(tp1), ImPlot::PlotToPixels(tp2), ImPlot::PlotToPixels(tp3),
 			_color, ImPlot::GetCurrentContext()->Mx * _thickness);
-		if (_fill.r < 0.0f)
-			return;
-		drawlist->AddTriangleFilled(ImPlot::PlotToPixels(tp1), ImPlot::PlotToPixels(tp2), ImPlot::PlotToPixels(tp3),
-			_fill);
 	}
 	else
 	{
 		mvVec2 start = { x, y };
+		if (_fill.r >= 0.0f)
+			drawlist->AddTriangleFilled(tp1 + start, tp2 + start, tp3 + start, _fill);
 		drawlist->AddTriangle(tp1 + start, tp2 + start, tp3 + start, _color, _thickness);
-		if (_fill.r < 0.0f)
-			return;
-		drawlist->AddTriangleFilled(tp1 + start, tp2 + start, tp3 + start, _fill);
 	}
 }
 
@@ -1823,12 +1638,6 @@ void mvDrawTriangle::getSpecificConfiguration(PyObject* dict)
 	PyDict_SetItemString(dict, "color", mvPyObject(ToPyColor(_color)));
 	PyDict_SetItemString(dict, "fill", mvPyObject(ToPyColor(_fill)));
 	PyDict_SetItemString(dict, "thickness", mvPyObject(ToPyFloat(_thickness)));
-}
-
-void mvViewportDrawlist::applySpecificTemplate(mvAppItem* item)
-{
-	auto titem = static_cast<mvViewportDrawlist*>(item);
-	_front = titem->_front;
 }
 
 void mvViewportDrawlist::draw(ImDrawList* drawlist, float x, float y)

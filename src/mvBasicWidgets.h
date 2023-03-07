@@ -151,41 +151,6 @@ namespace DearPyGui
     void set_data_source(mvAppItem& item, mvUUID dataSource, mvProgressBarConfig& outConfig);
     void set_data_source(mvAppItem& item, mvUUID dataSource, mvKnobFloatConfig& outConfig);
 
-    // template specifics
-    void apply_template(const mvSimplePlotConfig& sourceConfig, mvSimplePlotConfig& dstConfig);
-    void apply_template(const mvButtonConfig& sourceConfig, mvButtonConfig& dstConfig);
-    void apply_template(const mvComboConfig& sourceConfig, mvComboConfig& dstConfig);
-    void apply_template(const mvCheckboxConfig& sourceConfig, mvCheckboxConfig& dstConfig);
-    void apply_template(const mvDragFloatConfig& sourceConfig, mvDragFloatConfig& dstConfig);
-    void apply_template(const mvDragFloatMultiConfig& sourceConfig, mvDragFloatMultiConfig& dstConfig);
-    void apply_template(const mvDragDoubleConfig& sourceConfig, mvDragDoubleConfig& dstConfig);
-    void apply_template(const mvDragDoubleMultiConfig& sourceConfig, mvDragDoubleMultiConfig& dstConfig);
-    void apply_template(const mvDragIntConfig& sourceConfig, mvDragIntConfig& dstConfig);
-    void apply_template(const mvDragIntMultiConfig& sourceConfig, mvDragIntMultiConfig& dstConfig);
-    void apply_template(const mvSliderFloatConfig& sourceConfig, mvSliderFloatConfig& dstConfig);
-    void apply_template(const mvSliderFloatMultiConfig& sourceConfig, mvSliderFloatMultiConfig& dstConfig);
-    void apply_template(const mvSliderDoubleConfig& sourceConfig, mvSliderDoubleConfig& dstConfig);
-    void apply_template(const mvSliderDoubleMultiConfig& sourceConfig, mvSliderDoubleMultiConfig& dstConfig);
-    void apply_template(const mvSliderIntConfig& sourceConfig, mvSliderIntConfig& dstConfig);
-    void apply_template(const mvSliderIntMultiConfig& sourceConfig, mvSliderIntMultiConfig& dstConfig);
-    void apply_template(const mvListboxConfig& sourceConfig, mvListboxConfig& dstConfig);
-    void apply_template(const mvRadioButtonConfig& sourceConfig, mvRadioButtonConfig& dstConfig);
-    void apply_template(const mvInputTextConfig& sourceConfig, mvInputTextConfig& dstConfig);
-    void apply_template(const mvInputIntConfig& sourceConfig, mvInputIntConfig& dstConfig);
-    void apply_template(const mvInputDoubleConfig& sourceConfig, mvInputDoubleConfig& dstConfig);
-    void apply_template(const mvInputFloatConfig& sourceConfig, mvInputFloatConfig& dstConfig);
-    void apply_template(const mvInputFloatMultiConfig& sourceConfig, mvInputFloatMultiConfig& dstConfig);
-    void apply_template(const mvInputIntMultiConfig& sourceConfig, mvInputIntMultiConfig& dstConfig);
-    void apply_template(const mvInputDoubleMultiConfig& sourceConfig, mvInputDoubleMultiConfig& dstConfig);
-    void apply_template(const mvTextConfig& sourceConfig, mvTextConfig& dstConfig);
-    void apply_template(const mvSelectableConfig& sourceConfig, mvSelectableConfig& dstConfig);
-    void apply_template(const mvTabButtonConfig& sourceConfig, mvTabButtonConfig& dstConfig);
-    void apply_template(const mvMenuItemConfig& sourceConfig, mvMenuItemConfig& dstConfig);
-    void apply_template(const mvProgressBarConfig& sourceConfig, mvProgressBarConfig& dstConfig);
-    void apply_template(const mvImageConfig& sourceConfig, mvImageConfig& dstConfig);
-    void apply_template(const mvImageButtonConfig& sourceConfig, mvImageButtonConfig& dstConfig);
-    void apply_template(const mvKnobFloatConfig& sourceConfig, mvKnobFloatConfig& dstConfig);
-
     // draw commands
     void draw_simple_plot  (ImDrawList* drawlist, mvAppItem& item, const mvSimplePlotConfig& config);
     void draw_button       (ImDrawList* drawlist, mvAppItem& item, const mvButtonConfig& config);
@@ -632,7 +597,6 @@ public:
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_simple_plot(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
-    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvSimplePlot*>(item); DearPyGui::apply_template(titem->configData, configData); }
     void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
     void* getValue() override { return &configData.value; }
     PyObject* getPyValue() override { return ToPyList(*configData.value); }
@@ -647,7 +611,6 @@ public:
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_button(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
-    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvButton*>(item); DearPyGui::apply_template(titem->configData, configData); }
 };
 
 class mvCombo : public mvAppItem
@@ -659,7 +622,6 @@ public:
     void handleSpecificPositionalArgs(PyObject* dict) override { DearPyGui::set_positional_configuration(dict, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
-    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvCombo*>(item); DearPyGui::apply_template(titem->configData, configData); }
     void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
     void* getValue() override { return &configData.value; }
     PyObject* getPyValue() override { return ToPyString(*configData.value); };
@@ -672,7 +634,6 @@ public:
     mvCheckboxConfig configData{};
     explicit mvCheckbox(mvUUID uuid) : mvAppItem(uuid) {}
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_checkbox(drawlist, *this, configData); }
-    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvCheckbox*>(item); DearPyGui::apply_template(titem->configData, configData); }
     void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
     void setPyValue(PyObject* value) override { *configData.value = ToBool(value); }
     void* getValue() override { return &configData.value; }
@@ -687,7 +648,6 @@ public:
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_drag_float(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData, info); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
-    void applySpecificTemplate(mvAppItem* item) override{ auto titem = static_cast<mvDragFloat*>(item); DearPyGui::apply_template(titem->configData, configData); }
     void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
     void* getValue() override { return &configData.value; }
     PyObject* getPyValue() override{ return ToPyFloat(*configData.value); }
@@ -702,7 +662,6 @@ public:
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_drag_double(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData, info); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
-    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvDragDouble*>(item); DearPyGui::apply_template(titem->configData, configData); }
     void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
     void* getValue() override { return &configData.value; }
     PyObject* getPyValue() override { return ToPyDouble(*configData.value); }
@@ -718,7 +677,6 @@ public:
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_drag_int(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData, info); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
-    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvDragInt*>(item); DearPyGui::apply_template(titem->configData, configData); }
     void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
     void* getValue() override { return &configData.value; }
     PyObject* getPyValue() override { return ToPyInt(*configData.value); }
@@ -735,7 +693,6 @@ public:
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_drag_intx(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData, info); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
-    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvDragIntMulti*>(item); DearPyGui::apply_template(titem->configData, configData); }
     void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
     void* getValue() override { return &configData.value; }
     PyObject* getPyValue() override { return ToPyIntList(configData.value->data(), 4); }
@@ -750,7 +707,6 @@ public:
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_drag_floatx(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData, info); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
-    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvDragFloatMulti*>(item); DearPyGui::apply_template(titem->configData, configData); }
     void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
     void* getValue() override { return &configData.value; }
     PyObject* getPyValue() override { return ToPyFloatList(configData.value->data(), 4); }
@@ -765,7 +721,6 @@ public:
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_drag_doublex(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData, info); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
-    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvDragDoubleMulti*>(item); DearPyGui::apply_template(titem->configData, configData); }
     void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
     void* getValue() override { return &configData.value; }
     PyObject* getPyValue() override { return ToPyFloatList(configData.value->data(), 4); }
@@ -780,7 +735,6 @@ public:
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_slider_float(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData, info); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
-    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvSliderFloat*>(item); DearPyGui::apply_template(titem->configData, configData); }
     void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
     void* getValue() override { return &configData.value; }
     PyObject* getPyValue() override { return ToPyFloat(*configData.value); }
@@ -795,7 +749,6 @@ public:
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_slider_double(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData, info); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
-    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvSliderDouble*>(item); DearPyGui::apply_template(titem->configData, configData); }
     void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
     void* getValue() override { return &configData.value; }
     PyObject* getPyValue() override { return ToPyDouble(*configData.value); }
@@ -810,7 +763,6 @@ public:
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_slider_floatx(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData, info); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
-    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvSliderFloatMulti*>(item); DearPyGui::apply_template(titem->configData, configData); }
     void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
     void* getValue() override { return &configData.value; }
     PyObject* getPyValue() override { return ToPyFloatList(configData.value->data(), 4); }
@@ -825,7 +777,6 @@ public:
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_slider_doublex(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData, info); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
-    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvSliderDoubleMulti*>(item); DearPyGui::apply_template(titem->configData, configData); }
     void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
     void* getValue() override { return &configData.value; }
     PyObject* getPyValue() override { return ToPyFloatList(configData.value->data(), 4); }
@@ -840,7 +791,6 @@ public:
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_slider_int(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData, info); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
-    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvSliderInt*>(item); DearPyGui::apply_template(titem->configData, configData); }
     void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
     void* getValue() override { return &configData.value; }
     PyObject* getPyValue() override { return ToPyInt(*configData.value); }
@@ -855,7 +805,6 @@ public:
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_slider_intx(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData, info); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
-    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvSliderIntMulti*>(item); DearPyGui::apply_template(titem->configData, configData); }
     void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
     void* getValue() override { return &configData.value; }
     PyObject* getPyValue() override { return ToPyIntList(configData.value->data(), 4); }
@@ -871,7 +820,6 @@ public:
     void handleSpecificPositionalArgs(PyObject* dict) override { DearPyGui::set_positional_configuration(dict, configData);}
     void handleSpecificKeywordArgs(PyObject* dict) override{ DearPyGui::set_configuration(dict, configData, info); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
-    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvListbox*>(item); DearPyGui::apply_template(titem->configData, configData); }
     void setPyValue(PyObject* value) override;
     void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
     void* getValue() override { return &configData.value; }
@@ -887,7 +835,6 @@ public:
     void handleSpecificPositionalArgs(PyObject* dict) override { DearPyGui::set_positional_configuration(dict, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
-    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvRadioButton*>(item); DearPyGui::apply_template(titem->configData, configData); }
     void setPyValue(PyObject* value) override;
     void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
     void* getValue() override { return &configData.value; }
@@ -903,7 +850,6 @@ public:
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_input_text(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData, info); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
-    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvInputText*>(item); DearPyGui::apply_template(titem->configData, configData); }
     void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
     void* getValue() override { return &configData.value; }
     PyObject* getPyValue() override{ return ToPyString(*configData.value); }
@@ -918,7 +864,6 @@ public:
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_input_int(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData, info); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
-    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvInputInt*>(item); DearPyGui::apply_template(titem->configData, configData); }
     void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
     void* getValue() override { return &configData.value; }
     PyObject* getPyValue() override{ return ToPyInt(*configData.value); }
@@ -933,7 +878,6 @@ public:
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_input_intx(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData, info); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
-    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvInputIntMulti*>(item); DearPyGui::apply_template(titem->configData, configData); }
     void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
     void* getValue() override { return &configData.value; }
     PyObject* getPyValue() override{ return ToPyIntList(configData.value->data(), 4); }
@@ -948,7 +892,6 @@ public:
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_input_float(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData, info); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
-    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvInputFloat*>(item); DearPyGui::apply_template(titem->configData, configData); }
     void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
     void* getValue() override { return &configData.value; }
     PyObject* getPyValue() override { return ToPyFloat(*configData.value); }
@@ -963,7 +906,6 @@ public:
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_input_floatx(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData, info); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
-    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvInputFloatMulti*>(item); DearPyGui::apply_template(titem->configData, configData); }
     void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
     void* getValue() override { return &configData.value; }
     PyObject* getPyValue() override { return ToPyFloatList(configData.value->data(), 4); }
@@ -978,7 +920,6 @@ public:
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_input_double(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData, info); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
-    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvInputDouble*>(item); DearPyGui::apply_template(titem->configData, configData); }
     void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
     void* getValue() override { return &configData.value; }
     PyObject* getPyValue() override { return ToPyDouble(*configData.value); }
@@ -993,7 +934,6 @@ public:
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_input_doublex(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData, info); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
-    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvInputDoubleMulti*>(item); DearPyGui::apply_template(titem->configData, configData); }
     void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
     void* getValue() override { return &configData.value; }
     PyObject* getPyValue() override { return ToPyFloatList(configData.value->data(), 4); }
@@ -1010,7 +950,6 @@ public:
     void handleSpecificPositionalArgs(PyObject* dict) override { DearPyGui::set_positional_configuration(dict, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
-    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvText*>(item); DearPyGui::apply_template(titem->configData, configData); }
     void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
     void* getValue() override { return &configData.value; }
     PyObject* getPyValue() override { return ToPyString(*configData.value); }
@@ -1025,7 +964,6 @@ public:
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_selectable(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData, info); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
-    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvSelectable*>(item); DearPyGui::apply_template(titem->configData, configData); }
     void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
     void* getValue() override { return &configData.value; }
     PyObject* getPyValue() override { return ToPyBool(*configData.value); }
@@ -1040,7 +978,6 @@ public:
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_tab_button(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
-    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvTabButton*>(item); DearPyGui::apply_template(titem->configData, configData); }
 };
 
 class mvMenuItem : public mvAppItem
@@ -1052,7 +989,6 @@ public:
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_menu_item(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
-    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvMenuItem*>(item); DearPyGui::apply_template(titem->configData, configData); }
     void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
     void* getValue() override { return &configData.value; }
     PyObject* getPyValue() override { return ToPyBool(*configData.value); }
@@ -1067,7 +1003,6 @@ public:
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_progress_bar(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
-    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvProgressBar*>(item); DearPyGui::apply_template(titem->configData, configData); }
     void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
     void* getValue() override { return &configData.value; }
     PyObject* getPyValue() override { return ToPyFloat(*configData.value); }
@@ -1083,7 +1018,6 @@ public:
     void handleSpecificRequiredArgs(PyObject* dict) override { DearPyGui::set_required_configuration(dict, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
-    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvImage*>(item); DearPyGui::apply_template(titem->configData, configData); }
 };
 
 class mvImageButton : public mvAppItem
@@ -1095,7 +1029,6 @@ public:
     void handleSpecificRequiredArgs(PyObject* dict) override { DearPyGui::set_required_configuration(dict, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
-    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvImageButton*>(item); DearPyGui::apply_template(titem->configData, configData); }
 };
 
 class mvKnobFloat : public mvAppItem
@@ -1107,7 +1040,6 @@ public:
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_knob_float(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
-    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvKnobFloat*>(item); DearPyGui::apply_template(titem->configData, configData); }
     void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
     void* getValue() override { return &configData.value; }
     PyObject* getPyValue() override { return ToPyFloat(*configData.value); }

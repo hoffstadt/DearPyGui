@@ -54,79 +54,6 @@ mvAppItem::~mvAppItem()
     }
 }
 
-void 
-mvAppItem::applyTemplate(mvAppItem* item)
-{
-    config.useInternalLabel = item->config.useInternalLabel;
-    config.tracked = item->config.tracked;
-    config.trackOffset = item->config.trackOffset;
-    config.searchLast = item->config.searchLast;
-    config.indent = item->config.indent;
-    config.show = item->config.show;
-    config.filter = item->config.filter;
-    config.payloadType = item->config.payloadType;
-    config.enabled = item->config.enabled;
-    config.source = item->config.source;
-    font = item->font;
-    theme = item->theme;
-    config.width = item->config.width;
-    config.height = item->config.height;
-    info.dirty_size = true;
-    //setPos(item->state.pos);
-
-    if (!item->config.specifiedLabel.empty())
-    {
-        config.specifiedLabel = item->config.specifiedLabel;
-        if (config.useInternalLabel)
-            info.internalLabel = item->config.specifiedLabel + "###" + std::to_string(uuid);
-        else
-            info.internalLabel = item->config.specifiedLabel;
-    }
-
-    if (config.enabled) info.enabledLastFrame = true;
-    else info.disabledLastFrame = true;
-
-    if (item->config.callback)
-    {
-        Py_XINCREF(item->config.callback);
-
-        if (item->config.callback == Py_None)
-            config.callback = nullptr;
-        else
-            config.callback = item->config.callback;
-  
-    }
-
-    if (item->config.dragCallback)
-    {
-        Py_XINCREF(item->config.dragCallback);
-        if (item->config.dragCallback == Py_None)
-            config.dragCallback = nullptr;
-        else
-            config.dragCallback = item->config.dragCallback;
-    }
-
-    if (item->config.dropCallback)
-    {
-        Py_XINCREF(item->config.dropCallback);
-        if (item->config.dropCallback == Py_None)
-            config.dropCallback = nullptr;
-        else
-            config.dropCallback = item->config.dropCallback;
-    }
-
-    if (item->config.user_data)
-    {
-        Py_XINCREF(item->config.user_data);
-        if (item->config.user_data == Py_None)
-            config.user_data = nullptr;
-        else
-            config.user_data = item->config.user_data;
-    }
-
-    applySpecificTemplate(item);
-}
-
 PyObject* 
 mvAppItem::getCallback(bool ignore_enabled)
 {
@@ -1038,6 +965,7 @@ DearPyGui::GetEntityDesciptionFlags(mvAppItemType type)
     case mvAppItemType::mvActivatedHandler:
     case mvAppItemType::mvActiveHandler:
     case mvAppItemType::mvClickedHandler:
+    case mvAppItemType::mvDoubleClickedHandler:
     case mvAppItemType::mvDeactivatedAfterEditHandler:
     case mvAppItemType::mvDeactivatedHandler:
     case mvAppItemType::mvEditedHandler:
@@ -1248,6 +1176,7 @@ DearPyGui::GetAllowableParents(mvAppItemType type)
     case mvAppItemType::mvActivatedHandler:
     case mvAppItemType::mvActiveHandler:
     case mvAppItemType::mvClickedHandler:
+    case mvAppItemType::mvDoubleClickedHandler:
     case mvAppItemType::mvDeactivatedAfterEditHandler:
     case mvAppItemType::mvDeactivatedHandler:
     case mvAppItemType::mvEditedHandler:
@@ -1562,6 +1491,7 @@ DearPyGui::GetAllowableChildren(mvAppItemType type)
         MV_ADD_CHILD(mvAppItemType::mvActivatedHandler),
         MV_ADD_CHILD(mvAppItemType::mvActiveHandler),
         MV_ADD_CHILD(mvAppItemType::mvClickedHandler),
+        MV_ADD_CHILD(mvAppItemType::mvDoubleClickedHandler),
         MV_ADD_CHILD(mvAppItemType::mvDeactivatedAfterEditHandler),
         MV_ADD_CHILD(mvAppItemType::mvDeactivatedHandler),
         MV_ADD_CHILD(mvAppItemType::mvEditedHandler),
@@ -1642,6 +1572,7 @@ DearPyGui::GetAllowableChildren(mvAppItemType type)
         MV_ADD_CHILD(mvAppItemType::mvActivatedHandler),
         MV_ADD_CHILD(mvAppItemType::mvActiveHandler),
         MV_ADD_CHILD(mvAppItemType::mvClickedHandler),
+        MV_ADD_CHILD(mvAppItemType::mvDoubleClickedHandler),
         MV_ADD_CHILD(mvAppItemType::mvDeactivatedAfterEditHandler),
         MV_ADD_CHILD(mvAppItemType::mvDeactivatedHandler),
         MV_ADD_CHILD(mvAppItemType::mvEditedHandler),
@@ -1662,6 +1593,7 @@ DearPyGui::GetAllowableChildren(mvAppItemType type)
         MV_ADD_CHILD(mvAppItemType::mvActivatedHandler),
         MV_ADD_CHILD(mvAppItemType::mvActiveHandler),
         MV_ADD_CHILD(mvAppItemType::mvClickedHandler),
+        MV_ADD_CHILD(mvAppItemType::mvDoubleClickedHandler),
         MV_ADD_CHILD(mvAppItemType::mvDeactivatedAfterEditHandler),
         MV_ADD_CHILD(mvAppItemType::mvDeactivatedHandler),
         MV_ADD_CHILD(mvAppItemType::mvEditedHandler),
@@ -1677,6 +1609,7 @@ DearPyGui::GetAllowableChildren(mvAppItemType type)
         MV_ADD_CHILD(mvAppItemType::mvNodeAttribute),
         MV_ADD_CHILD(mvAppItemType::mvActiveHandler),
         MV_ADD_CHILD(mvAppItemType::mvClickedHandler),
+        MV_ADD_CHILD(mvAppItemType::mvDoubleClickedHandler),
         MV_ADD_CHILD(mvAppItemType::mvHoverHandler),
         MV_ADD_CHILD(mvAppItemType::mvVisibleHandler),
         MV_ADD_CHILD(mvAppItemType::mvDragPayload),
@@ -1758,6 +1691,7 @@ DearPyGui::GetAllowableChildren(mvAppItemType type)
         MV_ADD_CHILD(mvAppItemType::mvActivatedHandler),
         MV_ADD_CHILD(mvAppItemType::mvActiveHandler),
         MV_ADD_CHILD(mvAppItemType::mvClickedHandler),
+        MV_ADD_CHILD(mvAppItemType::mvDoubleClickedHandler),
         MV_ADD_CHILD(mvAppItemType::mvDeactivatedAfterEditHandler),
         MV_ADD_CHILD(mvAppItemType::mvDeactivatedHandler),
         MV_ADD_CHILD(mvAppItemType::mvEditedHandler),
@@ -2666,6 +2600,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::StringList, "items", mvArgType::POSITIONAL_ARG, "()", "A tuple of items to be shown in the listbox. Can consist of any combination of types. All items will be displayed as strings." });
         args.push_back({ mvPyDataType::String, "default_value", mvArgType::KEYWORD_ARG, "''", "String value of the item that will be selected by default." });
         args.push_back({ mvPyDataType::Integer, "num_items", mvArgType::KEYWORD_ARG, "3", "Expands the height of the listbox to show specified number of items." });
+
 
         setup.about = "Adds a listbox. If height is not large enough to show all items a scroll bar will appear.";
         break;
@@ -4835,6 +4770,21 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Integer, "button", mvArgType::POSITIONAL_ARG, "-1", "Submits callback for all mouse buttons" });
 
         setup.about = "Adds a clicked handler.";
+        setup.category = { "Widgets", "Events" };
+        break;
+    }
+    case mvAppItemType::mvDoubleClickedHandler:              
+    {
+        AddCommonArgs(args, (CommonParserArgs)(
+            MV_PARSER_ARG_ID |
+            MV_PARSER_ARG_SHOW |
+            MV_PARSER_ARG_PARENT |
+            MV_PARSER_ARG_CALLBACK)
+        );
+
+        args.push_back({ mvPyDataType::Integer, "button", mvArgType::POSITIONAL_ARG, "-1", "Submits callback for all mouse buttons" });
+
+        setup.about = "Adds a double click handler.";
         setup.category = { "Widgets", "Events" };
         break;
     }

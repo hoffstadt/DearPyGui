@@ -287,7 +287,7 @@ DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mvDragPointConfig
 	outConfig.value = *static_cast<std::shared_ptr<std::array<double, 4>>*>(item.getValue());
 }
 
-void 
+void
 DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, std::shared_ptr<std::vector<std::vector<double>>>& outValue)
 {
 	if (dataSource == item.config.source) return;
@@ -744,7 +744,7 @@ DearPyGui::draw_drag_point(ImDrawList* drawlist, mvAppItem& item, mvDragPointCon
 	}
 }
 
-void 
+void
 DearPyGui::draw_bar_series(ImDrawList* drawlist, mvAppItem& item, const mvBarSeriesConfig& config)
 {
 
@@ -943,7 +943,7 @@ DearPyGui::draw_scatter_series(ImDrawList* drawlist, mvAppItem& item, const mvBa
 	//-----------------------------------------------------------------------------
 	// post draw
 	//-----------------------------------------------------------------------------
-	// 
+	//
 	// pop font off stack
 	if (item.font)
 		ImGui::PopFont();
@@ -1011,7 +1011,7 @@ DearPyGui::draw_stair_series(ImDrawList* drawlist, mvAppItem& item, const mvBasi
 	//-----------------------------------------------------------------------------
 	// post draw
 	//-----------------------------------------------------------------------------
-	// 
+	//
 	// pop font off stack
 	if (item.font)
 		ImGui::PopFont();
@@ -1079,7 +1079,7 @@ DearPyGui::draw_stem_series(ImDrawList* drawlist, mvAppItem& item, const mvBasic
 	//-----------------------------------------------------------------------------
 	// post draw
 	//-----------------------------------------------------------------------------
-	// 
+	//
 	// pop font off stack
 	if (item.font)
 		ImGui::PopFont();
@@ -1150,7 +1150,7 @@ DearPyGui::draw_shade_series(ImDrawList* drawlist, mvAppItem& item, const mvBasi
 	//-----------------------------------------------------------------------------
 	// post draw
 	//-----------------------------------------------------------------------------
-	// 
+	//
 	// pop font off stack
 	if (item.font)
 		ImGui::PopFont();
@@ -2137,7 +2137,7 @@ DearPyGui::draw_plot_annotation(ImDrawList* drawlist, mvAppItem& item, mvAnnotat
 
 }
 
-void 
+void
 DearPyGui::set_positional_configuration(PyObject* inDict, mvBarSeriesConfig& outConfig)
 {
 	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(mvAppItemType::mvBarSeries)], inDict))
@@ -2435,7 +2435,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvBarSeriesConfig& outConfig)
 
 }
 
-void 
+void
 DearPyGui::set_configuration(PyObject* inDict, mvBasicSeriesConfig& outConfig)
 {
 	if (inDict == nullptr)
@@ -2823,7 +2823,7 @@ DearPyGui::fill_configuration_dict(const mvPlotLegendConfig& inConfig, PyObject*
 
 }
 
-void 
+void
 DearPyGui::fill_configuration_dict(const mvBarSeriesConfig& inConfig, PyObject* outDict)
 {
 	if (outDict == nullptr)
@@ -2984,6 +2984,8 @@ DearPyGui::fill_configuration_dict(const mvSubPlotsConfig& inConfig, PyObject* o
 		return;
 
 	PyDict_SetItemString(outDict, "rows", mvPyObject(ToPyInt(inConfig.rows)));
+	PyDict_SetItemString(outDict, "columns", mvPyObject(ToPyInt(inConfig.cols)));
+	// maybe remove this on next minor release?
 	PyDict_SetItemString(outDict, "cols", mvPyObject(ToPyInt(inConfig.cols)));
 	PyDict_SetItemString(outDict, "row_ratios", mvPyObject(ToPyList(inConfig.row_ratios)));
 	PyDict_SetItemString(outDict, "column_ratios", mvPyObject(ToPyList(inConfig.col_ratios)));
@@ -3030,221 +3032,11 @@ DearPyGui::fill_configuration_dict(const mvPlotAxisConfig& inConfig, PyObject* o
 	checkbitset("time", ImPlotAxisFlags_Time, inConfig.flags);
 }
 
-void
-DearPyGui::apply_template(const mvSubPlotsConfig& sourceConfig, mvSubPlotsConfig& dstConfig)
-{
-	dstConfig.rows = sourceConfig.rows;
-	dstConfig.cols = sourceConfig.cols;
-	dstConfig.row_ratios = sourceConfig.row_ratios;
-	dstConfig.col_ratios = sourceConfig.col_ratios;
-	dstConfig.flags = sourceConfig.flags;
-}
-
-void
-DearPyGui::apply_template(const mvDragLineConfig& sourceConfig, mvDragLineConfig& dstConfig)
-{
-	dstConfig.value = sourceConfig.value;
-	dstConfig.disabled_value = sourceConfig.disabled_value;
-	dstConfig.show_label = sourceConfig.show_label;
-	dstConfig.color = sourceConfig.color;
-	dstConfig.thickness = sourceConfig.thickness;
-	dstConfig.vertical = sourceConfig.vertical;
-}
-
-void
-DearPyGui::apply_template(const mvDragPointConfig& sourceConfig, mvDragPointConfig& dstConfig)
-{
-	dstConfig.value = sourceConfig.value;
-	dstConfig.disabled_value[0] = sourceConfig.disabled_value[0];
-	dstConfig.disabled_value[1] = sourceConfig.disabled_value[1];
-	dstConfig.disabled_value[2] = sourceConfig.disabled_value[2];
-	dstConfig.disabled_value[3] = sourceConfig.disabled_value[3];
-	dstConfig.show_label = sourceConfig.show_label;
-	dstConfig.color = sourceConfig.color;
-	dstConfig.radius = sourceConfig.radius;
-}
-
-void
-DearPyGui::apply_template(const mvPlotLegendConfig& sourceConfig, mvPlotLegendConfig& dstConfig)
-{
-	dstConfig.legendLocation = sourceConfig.legendLocation;
-	dstConfig.horizontal = sourceConfig.horizontal;
-	dstConfig.outside = sourceConfig.outside;
-}
-
-void 
-DearPyGui::apply_template(const mvBarSeriesConfig& sourceConfig, mvBarSeriesConfig& dstConfig)
-{
-	dstConfig.value = sourceConfig.value;
-	dstConfig.horizontal = sourceConfig.horizontal;
-	dstConfig.weight = sourceConfig.weight;
-}
-
-void
-DearPyGui::apply_template(const mvBasicSeriesConfig& sourceConfig, mvBasicSeriesConfig& dstConfig)
-{
-	dstConfig.value = sourceConfig.value;
-}
-
-void
-DearPyGui::apply_template(const mv2dHistogramSeriesConfig& sourceConfig, mv2dHistogramSeriesConfig& dstConfig)
-{
-	dstConfig.value = sourceConfig.value;
-	dstConfig.xbins = sourceConfig.xbins;
-	dstConfig.ybins = sourceConfig.ybins;
-	dstConfig.density = sourceConfig.density;
-	dstConfig.outliers = sourceConfig.outliers;
-	dstConfig.xmin = sourceConfig.xmin;
-	dstConfig.xmax = sourceConfig.xmax;
-	dstConfig.ymin = sourceConfig.ymin;
-	dstConfig.ymax = sourceConfig.ymax;
-}
-
-void
-DearPyGui::apply_template(const mvErrorSeriesConfig& sourceConfig, mvErrorSeriesConfig& dstConfig)
-{
-	dstConfig.value = sourceConfig.value;
-	dstConfig.horizontal = sourceConfig.horizontal;
-}
-
-void
-DearPyGui::apply_template(const mvHeatSeriesConfig& sourceConfig, mvHeatSeriesConfig& dstConfig)
-{
-	dstConfig.value = sourceConfig.value;
-	dstConfig.rows = sourceConfig.rows;
-	dstConfig.cols = sourceConfig.cols;
-	dstConfig.scale_min = sourceConfig.scale_min;
-	dstConfig.scale_max = sourceConfig.scale_max;
-	dstConfig.format = sourceConfig.format;
-	dstConfig.bounds_min = sourceConfig.bounds_min;
-	dstConfig.bounds_max = sourceConfig.bounds_max;
-}
-
-void
-DearPyGui::apply_template(const mvHistogramSeriesConfig& sourceConfig, mvHistogramSeriesConfig& dstConfig)
-{
-	dstConfig.cumlative = sourceConfig.cumlative;
-	dstConfig.value = sourceConfig.value;
-	dstConfig.bins = sourceConfig.bins;
-	dstConfig.density = sourceConfig.density;
-	dstConfig.outliers = sourceConfig.outliers;
-	dstConfig.min = sourceConfig.min;
-	dstConfig.max = sourceConfig.max;
-	dstConfig.barScale = sourceConfig.barScale;
-}
-
-void
-DearPyGui::apply_template(const mvPieSeriesConfig& sourceConfig, mvPieSeriesConfig& dstConfig)
-{
-	dstConfig.value = sourceConfig.value;
-	dstConfig.x = sourceConfig.x;
-	dstConfig.y = sourceConfig.y;
-	dstConfig.radius = sourceConfig.radius;
-	dstConfig.normalize = sourceConfig.normalize;
-	dstConfig.angle = sourceConfig.angle;
-	dstConfig.format = sourceConfig.format;
-	dstConfig.labels = sourceConfig.labels;
-	dstConfig.clabels = sourceConfig.clabels;
-}
-
-void
-DearPyGui::apply_template(const mvLabelSeriesConfig& sourceConfig, mvLabelSeriesConfig& dstConfig)
-{
-	dstConfig.value = sourceConfig.value;
-	dstConfig.xoffset = sourceConfig.xoffset;
-	dstConfig.yoffset = sourceConfig.yoffset;
-	dstConfig.vertical = sourceConfig.vertical;
-}
-
-void
-DearPyGui::apply_template(const mvImageSeriesConfig& sourceConfig, mvImageSeriesConfig& dstConfig)
-{
-	dstConfig.value = sourceConfig.value;
-	dstConfig.textureUUID = sourceConfig.textureUUID;
-	dstConfig.bounds_min = sourceConfig.bounds_min;
-	dstConfig.bounds_max = sourceConfig.bounds_max;
-	dstConfig.uv_min = sourceConfig.uv_min;
-	dstConfig.uv_max = sourceConfig.uv_max;
-	dstConfig.tintColor = sourceConfig.tintColor;
-	dstConfig._texture = sourceConfig._texture;
-	dstConfig._internalTexture = sourceConfig._internalTexture;
-}
-
-void
-DearPyGui::apply_template(const mvAreaSeriesConfig& sourceConfig, mvAreaSeriesConfig& dstConfig)
-{
-	dstConfig.value = sourceConfig.value;
-	dstConfig.fill = sourceConfig.fill;
-}
-
-void
-DearPyGui::apply_template(const mvCandleSeriesConfig& sourceConfig, mvCandleSeriesConfig& dstConfig)
-{
-	dstConfig.value = sourceConfig.value;
-	dstConfig.weight = sourceConfig.weight;
-	dstConfig.tooltip = sourceConfig.tooltip;
-	dstConfig.bullColor = sourceConfig.bullColor;
-	dstConfig.bearColor = sourceConfig.bearColor;
-}
-
-void
-DearPyGui::apply_template(const mvCustomSeriesConfig& sourceConfig, mvCustomSeriesConfig& dstConfig)
-{
-	dstConfig.value = sourceConfig.value;
-	dstConfig.channelCount = sourceConfig.channelCount;
-	dstConfig.tooltip = sourceConfig.tooltip;
-}
-
-void
-DearPyGui::apply_template(const mvAnnotationConfig& sourceConfig, mvAnnotationConfig& dstConfig)
-{
-	dstConfig.value = sourceConfig.value;
-	dstConfig.disabled_value[0] = sourceConfig.disabled_value[0];
-	dstConfig.disabled_value[1] = sourceConfig.disabled_value[1];
-	dstConfig.disabled_value[2] = sourceConfig.disabled_value[2];
-	dstConfig.disabled_value[3] = sourceConfig.disabled_value[3];
-	dstConfig.color = sourceConfig.color;
-	dstConfig.clamped = sourceConfig.clamped;
-	dstConfig.pixOffset = sourceConfig.pixOffset;
-}
-
-void
-DearPyGui::apply_template(const mvPlotAxisConfig& sourceConfig, mvPlotAxisConfig& dstConfig)
-{
-	dstConfig.flags = sourceConfig.flags;
-	dstConfig.axis = sourceConfig.axis;
-	dstConfig.setLimits = sourceConfig.setLimits;
-	dstConfig.limits = sourceConfig.limits;
-	dstConfig.limits_actual = sourceConfig.limits_actual;
-	dstConfig.labels = sourceConfig.labels;
-	dstConfig.labelLocations = sourceConfig.labelLocations;
-	dstConfig.clabels = sourceConfig.clabels;
-}
-
-void
-DearPyGui::apply_template(const mvPlotConfig& sourceConfig, mvPlotConfig& dstConfig)
-{
-	dstConfig._flags = sourceConfig._flags;
-	dstConfig._equalAspectRatios = sourceConfig._equalAspectRatios;
-	dstConfig.pan_button = sourceConfig.pan_button;
-	dstConfig.pan_mod = sourceConfig.pan_mod;
-	dstConfig.fit_button = sourceConfig.fit_button;
-	dstConfig.context_menu_button = sourceConfig.context_menu_button;
-	dstConfig.box_select_button = sourceConfig.box_select_button;
-	dstConfig.box_select_mod = sourceConfig.box_select_mod;
-	dstConfig.box_select_cancel_button = sourceConfig.box_select_cancel_button;
-	dstConfig.query_button = sourceConfig.query_button;
-	dstConfig.query_mod = sourceConfig.query_mod;
-	dstConfig.query_toggle_mod = sourceConfig.query_toggle_mod;
-	dstConfig.horizontal_mod = sourceConfig.horizontal_mod;
-	dstConfig.vertical_mod = sourceConfig.vertical_mod;
-}
-
 //-----------------------------------------------------------------------------
 // Old Classes, in the process of removing OOP crap
 //-----------------------------------------------------------------------------
 
-void 
+void
 mvDragPoint::setPyValue(PyObject* value)
 {
 	std::vector<double> temp = ToDoubleVect(value);

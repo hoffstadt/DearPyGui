@@ -86,6 +86,22 @@ DearPyGui::fill_configuration_dict(const mvDragPayloadConfig& inConfig, PyObject
 {
     if (outDict == nullptr)
         return;
+
+    if (inConfig.dragData)
+    {
+        Py_XINCREF(inConfig.dragData);
+        PyDict_SetItemString(outDict, "drag_data", inConfig.dragData);
+    }
+    else
+        PyDict_SetItemString(outDict, "drag_data", GetPyNone());
+
+    if (inConfig.dropData)
+    {
+        Py_XINCREF(inConfig.dropData);
+        PyDict_SetItemString(outDict, "drop_data", inConfig.dropData);
+    }
+    else
+        PyDict_SetItemString(outDict, "drop_data", GetPyNone());
 }
 
 void
@@ -373,8 +389,11 @@ DearPyGui::set_configuration(PyObject* inDict, mvAppItem& itemc, mvWindowAppItem
 
     if (PyObject* item = PyDict_GetItemString(inDict, "label"))
     {
-        itemc.info.dirtyPos = true;
-        itemc.info.dirty_size = true;
+        if (item != Py_None)
+        {
+            itemc.info.dirtyPos = true;
+            itemc.info.dirty_size = true;
+        }
     }
 
     if (PyObject* item = PyDict_GetItemString(inDict, "no_open_over_existing_popup")) outConfig.no_open_over_existing_popup = ToBool(item);
@@ -550,106 +569,6 @@ DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mvCollapsingHeade
         return;
     }
     outConfig.value = *static_cast<std::shared_ptr<bool>*>(srcItem->getValue());
-}
-
-//-----------------------------------------------------------------------------
-// [SECTION] template specifics
-//-----------------------------------------------------------------------------
-
-void
-DearPyGui::apply_template(const mvTabConfig& sourceConfig, mvTabConfig& dstConfig)
-{
-    dstConfig.value = sourceConfig.value;
-    dstConfig._disabled_value = sourceConfig._disabled_value;
-    dstConfig.closable = sourceConfig.closable;
-    dstConfig._flags = sourceConfig._flags;
-}
-
-void
-DearPyGui::apply_template(const mvChildWindowConfig& sourceConfig, mvChildWindowConfig& dstConfig)
-{
-    dstConfig.border = sourceConfig.border;
-    dstConfig.autosize_x = sourceConfig.autosize_x;
-    dstConfig.autosize_y = sourceConfig.autosize_y;
-    dstConfig.windowflags = sourceConfig.windowflags;
-}
-
-void
-DearPyGui::apply_template(const mvGroupConfig& sourceConfig, mvGroupConfig& dstConfig)
-{
-    dstConfig.horizontal = sourceConfig.horizontal;
-    dstConfig.hspacing = sourceConfig.hspacing;
-}
-
-void
-DearPyGui::apply_template(const mvDragPayloadConfig& sourceConfig, mvDragPayloadConfig& dstConfig)
-{
-    if (sourceConfig.dragData)
-    {
-        Py_XINCREF(sourceConfig.dragData);
-        dstConfig.dragData = sourceConfig.dragData;
-    }
-    if (sourceConfig.dropData)
-    {
-        Py_XINCREF(sourceConfig.dropData);
-        dstConfig.dropData = sourceConfig.dropData;
-    }
-    dstConfig.payloadType = sourceConfig.payloadType;
-}
-
-void
-DearPyGui::apply_template(const mvTreeNodeConfig& sourceConfig, mvTreeNodeConfig& dstConfig)
-{
-    dstConfig.value = sourceConfig.value;
-    dstConfig.disabled_value = sourceConfig.disabled_value;
-    dstConfig.flags = sourceConfig.flags;
-    dstConfig.selectable = sourceConfig.selectable;
-}
-
-void
-DearPyGui::apply_template(const mvTabBarConfig& sourceConfig, mvTabBarConfig& dstConfig)
-{
-    dstConfig.flags = sourceConfig.flags;
-}
-
-void
-DearPyGui::apply_template(const mvCollapsingHeaderConfig& sourceConfig, mvCollapsingHeaderConfig& dstConfig)
-{
-    dstConfig.value = sourceConfig.value;
-    dstConfig.disabled_value = sourceConfig.disabled_value;
-    dstConfig.flags = sourceConfig.flags;
-    dstConfig.closable = sourceConfig.closable;
-}
-
-void
-DearPyGui::apply_template(const mvWindowAppItemConfig& sourceConfig, mvWindowAppItemConfig& dstConfig)
-{
-    dstConfig.windowflags = sourceConfig.windowflags;
-    dstConfig._oldWindowflags = sourceConfig._oldWindowflags;
-    dstConfig.modal = sourceConfig.modal;
-    dstConfig.no_open_over_existing_popup = sourceConfig.no_open_over_existing_popup;
-    dstConfig.popup = sourceConfig.popup;
-    dstConfig.autosize = sourceConfig.autosize;
-    dstConfig.no_resize = sourceConfig.no_resize;
-    dstConfig.no_title_bar = sourceConfig.no_title_bar;
-    dstConfig.no_move = sourceConfig.no_move;
-    dstConfig.no_scrollbar = sourceConfig.no_scrollbar;
-    dstConfig.no_collapse = sourceConfig.no_collapse;
-    dstConfig.horizontal_scrollbar = sourceConfig.horizontal_scrollbar;
-    dstConfig.no_focus_on_appearing = sourceConfig.no_focus_on_appearing;
-    dstConfig.no_bring_to_front_on_focus = sourceConfig.no_bring_to_front_on_focus;
-    dstConfig.menubar = sourceConfig.menubar;
-    dstConfig.no_close = sourceConfig.no_close;
-    dstConfig.no_background = sourceConfig.no_background;
-    dstConfig.collapsed = sourceConfig.collapsed;
-    dstConfig.min_size = sourceConfig.min_size;
-    dstConfig.max_size = sourceConfig.max_size;
-
-    if (sourceConfig.on_close)
-    {
-        Py_XINCREF(sourceConfig.on_close);
-        dstConfig.on_close = sourceConfig.on_close;
-    }
 }
 
 //-----------------------------------------------------------------------------
@@ -853,6 +772,10 @@ DearPyGui::draw_tab(ImDrawList* drawlist, mvAppItem& item, mvTabConfig& config)
             item.state.leftclicked = ImGui::IsItemClicked();
             item.state.rightclicked = ImGui::IsItemClicked(1);
             item.state.middleclicked = ImGui::IsItemClicked(2);
+            for (int i = 0; i < item.state.doubleclicked.size(); i++)
+            {
+                item.state.doubleclicked[i] = IsItemDoubleClicked(i);
+            }
             item.state.visible = ImGui::IsItemVisible();
             item.state.activated = ImGui::IsItemActivated();
             item.state.deactivated = ImGui::IsItemDeactivated();
@@ -897,6 +820,10 @@ DearPyGui::draw_tab(ImDrawList* drawlist, mvAppItem& item, mvTabConfig& config)
             item.state.leftclicked = ImGui::IsItemClicked();
             item.state.rightclicked = ImGui::IsItemClicked(1);
             item.state.middleclicked = ImGui::IsItemClicked(2);
+            for (int i = 0; i < item.state.doubleclicked.size(); i++)
+            {
+                item.state.doubleclicked[i] = IsItemDoubleClicked(i);
+            }
             item.state.visible = ImGui::IsItemVisible();
             item.state.activated = ImGui::IsItemActivated();
             item.state.deactivated = ImGui::IsItemDeactivated();
@@ -1138,7 +1065,7 @@ DearPyGui::draw_group(ImDrawList* drawlist, mvAppItem& item, mvGroupConfig& conf
 
             child->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 
-            if (config.horizontal)
+            if (config.horizontal && child->config.show)
                 ImGui::SameLine((1 + child->info.location) * config.xoffset, config.hspacing);
 
             if (child->config.tracked)

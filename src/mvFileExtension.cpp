@@ -3,13 +3,6 @@
 #include "mvItemRegistry.h"
 #include "mvPyUtils.h"
 
-void mvFileExtension::applySpecificTemplate(mvAppItem* item)
-{
-	auto titem = static_cast<mvFileExtension*>(item);
-	_customText = titem->_customText;
-	_extension = titem->_extension;
-}
-
 void mvFileExtension::draw(ImDrawList* drawlist, float x, float y)
 {
 	IGFD::FileExtentionInfos info;
@@ -48,4 +41,6 @@ void mvFileExtension::getSpecificConfiguration(PyObject* dict)
 
 	PyDict_SetItemString(dict, "custom_text", mvPyObject(ToPyString(_customText)));
 	PyDict_SetItemString(dict, "color", mvPyObject(ToPyColor(_color)));
+	PyDict_SetItemString(dict, "extension", mvPyObject(ToPyString(_extension)) );
+
 }

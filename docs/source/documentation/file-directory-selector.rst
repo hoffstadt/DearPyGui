@@ -37,7 +37,7 @@ The simplest case is as a director picker. Below is the example
 
     dpg.add_file_dialog(
         directory_selector=True, show=False, callback=callback, tag="file_dialog_id",
-        cancel_callback=cancel_callback)
+        cancel_callback=cancel_callback, width=700 ,height=400)
 
     with dpg.window(label="Tutorial", width=800, height=300):
         dpg.add_button(label="Directory Selector", callback=lambda: dpg.show_item("file_dialog_id"))
@@ -66,7 +66,7 @@ You can even set the color of the file extensions. Below is a simple example:
         print("Sender: ", sender)
         print("App Data: ", app_data)
 
-    with dpg.file_dialog(directory_selector=False, show=False, callback=callback, id="file_dialog_id"):
+    with dpg.file_dialog(directory_selector=False, show=False, callback=callback, id="file_dialog_id", width=700 ,height=400):
         dpg.add_file_extension(".*")
         dpg.add_file_extension("", color=(150, 255, 150, 255))
         dpg.add_file_extension("Source files (*.cpp *.h *.hpp){.cpp,.h,.hpp}", color=(0, 255, 255, 255))
@@ -102,7 +102,7 @@ Below is an example:
         print("Sender: ", sender)
         print("App Data: ", app_data)
 
-    with dpg.file_dialog(directory_selector=False, show=False, callback=callback, tag="file_dialog_tag"):
+    with dpg.file_dialog(directory_selector=False, show=False, callback=callback, tag="file_dialog_tag", width=700 ,height=400):
         dpg.add_file_extension(".*")
         dpg.add_file_extension("", color=(150, 255, 150, 255))
         dpg.add_file_extension(".cpp", color=(255, 255, 0, 255))
@@ -145,7 +145,7 @@ You can select multiple files by setting the *file_count* keyword
         print("Sender: ", sender)
         print("App Data: ", app_data)
 
-    with dpg.file_dialog(directory_selector=False, show=False, callback=callback, file_count=3, tag="file_dialog_tag"):
+    with dpg.file_dialog(directory_selector=False, show=False, callback=callback, file_count=3, tag="file_dialog_tag", width=700 ,height=400):
         dpg.add_file_extension("", color=(255, 150, 150, 255))
         dpg.add_file_extension(".*")
         dpg.add_file_extension(".cpp", color=(255, 255, 0, 255))
@@ -157,9 +157,6 @@ You can select multiple files by setting the *file_count* keyword
             dpg.add_selectable(label="bookmark 1")
             dpg.add_selectable(label="bookmark 2")
             dpg.add_selectable(label="bookmark 3")
-
-    with dpg.window(label="Tutorial", width=800, height=300):
-        dpg.add_button(label="File Selector", callback=lambda: dpg.show_item("file_dialog_tag"))
 
     with dpg.window(label="Tutorial", width=800, height=300):
         dpg.add_button(label="File Selector", callback=lambda: dpg.show_item("file_dialog_tag"))

@@ -41,15 +41,6 @@ namespace DearPyGui
     void fill_configuration_dict(const mvColorPickerConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvColorMapScaleConfig& inConfig, PyObject* outDict);
 
-    // template specifics
-    void apply_template(const mvColorButtonConfig& sourceConfig, mvColorButtonConfig& dstConfig);
-    void apply_template(const mvColorEditConfig& sourceConfig, mvColorEditConfig& dstConfig);
-    void apply_template(const mvColorPickerConfig& sourceConfig, mvColorPickerConfig& dstConfig);
-    void apply_template(const mvColorMapConfig& sourceConfig, mvColorMapConfig& dstConfig);
-    void apply_template(const mvColorMapButtonConfig& sourceConfig, mvColorMapButtonConfig& dstConfig);
-    void apply_template(const mvColorMapScaleConfig& sourceConfig, mvColorMapScaleConfig& dstConfig);
-    void apply_template(const mvColorMapSliderConfig& sourceConfig, mvColorMapSliderConfig& dstConfig);
-
     // data source handling
     void set_data_source(mvAppItem& item, mvUUID dataSource, mvColorButtonConfig& outConfig);
     void set_data_source(mvAppItem& item, mvUUID dataSource, mvColorEditConfig& outConfig);
@@ -139,7 +130,6 @@ public:
     void handleSpecificPositionalArgs(PyObject * dict) override { DearPyGui::set_positional_configuration(dict, configData); }
     void handleSpecificKeywordArgs(PyObject * dict) override { DearPyGui::set_configuration(dict, configData); }
     void getSpecificConfiguration(PyObject * dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
-    void applySpecificTemplate(mvAppItem * item) override { auto titem = static_cast<mvColorButton*>(item); DearPyGui::apply_template(titem->configData, configData); }
     void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
     void* getValue() override { return &configData.value; }
     PyObject* getPyValue() override { return DearPyGui::set_data_source(configData); }
@@ -155,7 +145,6 @@ public:
     void handleSpecificPositionalArgs(PyObject* dict) override { DearPyGui::set_positional_configuration(dict, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
-    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvColorEdit*>(item); DearPyGui::apply_template(titem->configData, configData); }
     void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
     void* getValue() override { return &configData.value; }
     PyObject* getPyValue() override { return DearPyGui::set_data_source(configData); }
@@ -171,7 +160,6 @@ public:
     void handleSpecificPositionalArgs(PyObject* dict) override { DearPyGui::set_positional_configuration(dict, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
-    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvColorPicker*>(item); DearPyGui::apply_template(titem->configData, configData); }
     void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
     void* getValue() override { return &configData.value; }
     PyObject* getPyValue() override { return DearPyGui::set_data_source(configData); }
@@ -185,7 +173,6 @@ public:
     explicit mvColorMap(mvUUID uuid) : mvAppItem(uuid) {}
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_color_map(drawlist, *this, configData); }
     void handleSpecificPositionalArgs(PyObject* dict) override { DearPyGui::set_positional_configuration(dict, configData, *this); }
-    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvColorMap*>(item); DearPyGui::apply_template(titem->configData, configData); }
 };
 
 class mvColorMapButton : public mvAppItem
@@ -194,7 +181,6 @@ public:
     mvColorMapButtonConfig configData{};
     explicit mvColorMapButton(mvUUID uuid) : mvAppItem(uuid) {}
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_color_map_button(drawlist, *this, configData); }
-    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvColorMapButton*>(item); DearPyGui::apply_template(titem->configData, configData); }
 };
 
 class mvColorMapRegistry : public mvAppItem
@@ -212,7 +198,6 @@ public:
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_color_map_scale(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
-    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvColorMapScale*>(item); DearPyGui::apply_template(titem->configData, configData); }
 };
 
 class mvColorMapSlider : public mvAppItem
@@ -221,7 +206,6 @@ public:
     mvColorMapSliderConfig configData{};
     explicit mvColorMapSlider(mvUUID uuid) : mvAppItem(uuid) {}
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_color_map_slider(drawlist, *this, configData); }
-    void applySpecificTemplate(mvAppItem* item) override { auto titem = static_cast<mvColorMapSlider*>(item); DearPyGui::apply_template(titem->configData, configData); }
     void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
     void* getValue() override { return &configData.value; }
     PyObject* getPyValue() override { return DearPyGui::set_data_source(configData); }

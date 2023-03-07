@@ -92,7 +92,7 @@ or :py:func:`get_item_configuration <dearpygui.dearpygui.get_item_configuration>
 before the item is actually created), you can create and stage the item in the
 constructor of the wrapping class!
 
-Below is are 2 examples:
+Below are 2 examples:
 
 **Example 1**
 

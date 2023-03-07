@@ -1,6 +1,7 @@
 #pragma once
 
 #include "mvCore.h"
+#include <array>
 
 #ifndef PyObject_HEAD
 struct _object;
@@ -57,6 +58,11 @@ b8 IsItemDeactivatedAfterEdit(mvAppItemState& state, i32 frameDelay = 0);
 b8 IsItemToogledOpen         (mvAppItemState& state, i32 frameDelay = 0);
 b8 IsItemRectSizeResized     (mvAppItemState& state, i32 frameDelay = 0);
 
+inline b8 IsItemDoubleClicked(ImGuiMouseButton mouse_button)
+{
+    return ImGui::IsMouseDoubleClicked(mouse_button) && ImGui::IsItemHovered(ImGuiHoveredFlags_None);
+}
+
 struct mvAppItemState
 {
     b8         hovered              = false;
@@ -65,6 +71,7 @@ struct mvAppItemState
     b8         leftclicked          = false;
     b8         rightclicked         = false;
     b8         middleclicked        = false;
+    std::array<b8, 5> doubleclicked = {};
     b8         visible              = false;
     b8         edited               = false;
     b8         activated            = false;

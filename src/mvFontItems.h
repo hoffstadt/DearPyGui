@@ -75,7 +75,6 @@ public:
 
     void draw(ImDrawList* drawlist, float x, float y) override {}
     void handleSpecificRequiredArgs(PyObject* dict) override;
-    void applySpecificTemplate(mvAppItem* item) override;
     const std::vector<ImWchar>& getCharacters() const { return _chars; }
 
 private:
@@ -93,7 +92,6 @@ public:
 
     void draw(ImDrawList* drawlist, float x, float y) override {}
     void handleSpecificRequiredArgs(PyObject* dict) override;
-    void applySpecificTemplate(mvAppItem* item) override;
     const std::array<ImWchar, 3>& getRange() const { return _range; }
 
 private:
@@ -113,7 +111,6 @@ public:
 
     void draw(ImDrawList* drawlist, float x, float y) override {}
     void handleSpecificRequiredArgs(PyObject* dict) override;
-    void applySpecificTemplate(mvAppItem* item) override;
     int getHint() const { return _hint; }
 
 private:

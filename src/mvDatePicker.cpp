@@ -10,17 +10,6 @@
 #include "mvContainers.h"
 #include "mvItemHandlers.h"
 
-void mvDatePicker::applySpecificTemplate(mvAppItem* item)
-{
-	auto titem = static_cast<mvDatePicker*>(item);
-	if (config.source != 0)
-            { 
-                _value = titem->_value;
-		_imvalue = titem->_imvalue;
-            }
-	_level = titem->_level;
-}
-
 void mvDatePicker::draw(ImDrawList* drawlist, float x, float y)
 {
 

@@ -269,14 +269,6 @@ void mvThemeColor::setDataSource(mvUUID dataSource)
 	_value = *static_cast<std::shared_ptr<std::array<float, 4>>*>(item->getValue());
 }
 
-void mvThemeColor::applySpecificTemplate(mvAppItem* item)
-{
-	auto titem = static_cast<mvThemeColor*>(item);
-	if (config.source != 0) _value = titem->_value;
-	_targetColor = titem->_targetColor;
-	_libType = titem->_libType;
-}
-
 mvThemeComponent::mvThemeComponent(mvUUID uuid)
 	:
 	mvAppItem(uuid)
@@ -647,12 +639,4 @@ void mvThemeStyle::getSpecificConfiguration(PyObject* dict)
 
 	PyDict_SetItemString(dict, "target", py_target);
 	PyDict_SetItemString(dict, "category", py_cat);
-}
-
-void mvThemeStyle::applySpecificTemplate(mvAppItem* item)
-{
-	auto titem = static_cast<mvThemeStyle*>(item);
-	if (config.source != 0) _value = titem->_value;
-	_targetStyle = titem->_targetStyle;
-	_libType = titem->_libType;
 }

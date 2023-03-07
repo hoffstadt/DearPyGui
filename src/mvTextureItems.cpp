@@ -106,16 +106,6 @@ mvDynamicTexture::~mvDynamicTexture()
 	FreeTexture(_texture);
 }
 
-void mvDynamicTexture::applySpecificTemplate(mvAppItem* item)
-{
-	auto titem = static_cast<mvDynamicTexture*>(item);
-	if (config.source != 0) _value = titem->_value;
-	_texture = titem->_texture;
-	_permWidth = titem->_permWidth;
-	_permHeight = titem->_permHeight;
-	_dirty = titem->_dirty;
-}
-
 PyObject* mvDynamicTexture::getPyValue()
 {
 	return ToPyList(*_value);
@@ -230,19 +220,6 @@ mvRawTexture::~mvRawTexture()
 	Py_XDECREF(_buffer);
 }
 
-void mvRawTexture::applySpecificTemplate(mvAppItem* item)
-{
-	auto titem = static_cast<mvRawTexture*>(item);
-	if (config.source != 0) _value = titem->_value;
-	_buffer = titem->_buffer;
-	_texture = titem->_texture;
-	_dirty = titem->_dirty;
-	_componentType = titem->_componentType;
-	_components = titem->_components;
-	_permWidth = titem->_permWidth;
-	_permHeight = titem->_permHeight;
-}
-
 void mvRawTexture::draw(ImDrawList* drawlist, float x, float y)
 {
 	if (_dirty)
@@ -314,16 +291,6 @@ mvStaticTexture::~mvStaticTexture()
 		return;
 	//UnloadTexture(_name);
 	FreeTexture(_texture);
-}
-
-void mvStaticTexture::applySpecificTemplate(mvAppItem* item)
-{
-	auto titem = static_cast<mvStaticTexture*>(item);
-	if (config.source != 0) _value = titem->_value;
-	_texture = titem->_texture;
-	_dirty = titem->_dirty;
-	_permWidth = titem->_permWidth;
-	_permHeight = titem->_permHeight;
 }
 
 void mvStaticTexture::draw(ImDrawList* drawlist, float x, float y)

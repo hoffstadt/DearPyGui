@@ -5,23 +5,6 @@
 #include "mvContainers.h"
 #include "mvItemHandlers.h"
 
-void mvSlider3D::applySpecificTemplate(mvAppItem* item)
-{
-	auto titem = static_cast<mvSlider3D*>(item);
-	if (config.source != 0) _value = titem->_value;
-	_disabled_value[0] = titem->_disabled_value[0];
-	_disabled_value[1] = titem->_disabled_value[1];
-	_disabled_value[2] = titem->_disabled_value[2];
-	_disabled_value[3] = titem->_disabled_value[3];
-	_minX = titem->_minX;
-	_minY = titem->_minY;
-	_minZ = titem->_minZ;
-	_maxX = titem->_maxX;
-	_maxY = titem->_maxY;
-	_maxZ = titem->_maxZ;
-	_scale = titem->_scale;
-}
-
 static float Dist2(ImVec2 const v, ImVec2 const w)
 {
 	//return Sqr(v.x - w.x) + Sqr(v.y - w.y);

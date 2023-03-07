@@ -2101,16 +2101,19 @@ def plot(**kwargs):
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
-		no_title (bool, optional): 
-		no_menus (bool, optional): 
-		no_box_select (bool, optional): 
-		no_mouse_pos (bool, optional): 
-		no_highlight (bool, optional): 
-		no_child (bool, optional): 
-		query (bool, optional): 
-		crosshairs (bool, optional): 
-		anti_aliased (bool, optional): 
-		equal_aspects (bool, optional): 
+		no_title (bool, optional): the plot title will not be displayed
+		no_menus (bool, optional): the user will not be able to open context menus with right-click
+		no_box_select (bool, optional): the user will not be able to box-select with right-click drag
+		no_mouse_pos (bool, optional): the mouse position, in plot coordinates, will not be displayed inside of the plot
+		no_highlight (bool, optional): plot items will not be highlighted when their legend entry is hovered
+		no_child (bool, optional): a child window region will not be used to capture mouse scroll (can boost performance for single ImGui window applications)
+		query (bool, optional): the user will be able to draw query rects with middle - mouse or CTRL + right - click drag
+		crosshairs (bool, optional): the default mouse cursor will be replaced with a crosshair when hovered
+		anti_aliased (bool, optional): plot lines will be software anti-aliased (not recommended for high density plots, prefer MSAA)
+		equal_aspects (bool, optional): primary x and y axes will be constrained to have the same units/pixel (does not apply to auxiliary y-axes)
+		use_local_time (bool, optional): axis labels will be formatted for your timezone when
+		use_ISO8601 (bool, optional): dates will be formatted according to ISO 8601 where applicable (e.g. YYYY-MM-DD, YYYY-MM, --MM-DD, etc.)
+		use_24hour_clock (bool, optional): times will be formatted using a 24 hour clock
 		pan_button (int, optional): enables panning when held
 		pan_mod (int, optional): optional modifier that must be held for panning
 		fit_button (int, optional): fits visible data when double clicked
@@ -4645,6 +4648,25 @@ def add_item_deactivated_handler(**kwargs):
 
 	return internal_dpg.add_item_deactivated_handler(**kwargs)
 
+def add_item_double_clicked_handler(button=-1, **kwargs):
+	"""	 Adds a double click handler.
+
+	Args:
+		button (int, optional): Submits callback for all mouse buttons
+		label (str, optional): Overrides 'name' as label.
+		user_data (Any, optional): User data for callbacks
+		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
+		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		callback (Callable, optional): Registers a callback.
+		show (bool, optional): Attempt to render widget.
+		id (Union[int, str], optional): (deprecated)
+	Returns:
+		Union[int, str]
+	"""
+
+	return internal_dpg.add_item_double_clicked_handler(button, **kwargs)
+
 def add_item_edited_handler(**kwargs):
 	"""	 Adds an edited handler.
 
@@ -4905,7 +4927,7 @@ def add_listbox(items=(), **kwargs):
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
-		default_value (str, optional): String value fo the item that will be selected by default.
+		default_value (str, optional): String value of the item that will be selected by default.
 		num_items (int, optional): Expands the height of the listbox to show specified number of items.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
@@ -5302,16 +5324,19 @@ def add_plot(**kwargs):
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
-		no_title (bool, optional): 
-		no_menus (bool, optional): 
-		no_box_select (bool, optional): 
-		no_mouse_pos (bool, optional): 
-		no_highlight (bool, optional): 
-		no_child (bool, optional): 
-		query (bool, optional): 
-		crosshairs (bool, optional): 
-		anti_aliased (bool, optional): 
-		equal_aspects (bool, optional): 
+		no_title (bool, optional): the plot title will not be displayed
+		no_menus (bool, optional): the user will not be able to open context menus with right-click
+		no_box_select (bool, optional): the user will not be able to box-select with right-click drag
+		no_mouse_pos (bool, optional): the mouse position, in plot coordinates, will not be displayed inside of the plot
+		no_highlight (bool, optional): plot items will not be highlighted when their legend entry is hovered
+		no_child (bool, optional): a child window region will not be used to capture mouse scroll (can boost performance for single ImGui window applications)
+		query (bool, optional): the user will be able to draw query rects with middle - mouse or CTRL + right - click drag
+		crosshairs (bool, optional): the default mouse cursor will be replaced with a crosshair when hovered
+		anti_aliased (bool, optional): plot lines will be software anti-aliased (not recommended for high density plots, prefer MSAA)
+		equal_aspects (bool, optional): primary x and y axes will be constrained to have the same units/pixel (does not apply to auxiliary y-axes)
+		use_local_time (bool, optional): axis labels will be formatted for your timezone when
+		use_ISO8601 (bool, optional): dates will be formatted according to ISO 8601 where applicable (e.g. YYYY-MM-DD, YYYY-MM, --MM-DD, etc.)
+		use_24hour_clock (bool, optional): times will be formatted using a 24 hour clock
 		pan_button (int, optional): enables panning when held
 		pan_mod (int, optional): optional modifier that must be held for panning
 		fit_button (int, optional): fits visible data when double clicked
@@ -6659,17 +6684,6 @@ def bind_item_theme(item, theme):
 
 	return internal_dpg.bind_item_theme(item, theme)
 
-def bind_template_registry(template_registry):
-	"""	 Binds a global template registry.
-
-	Args:
-		template_registry (Union[int, str]): 
-	Returns:
-		None
-	"""
-
-	return internal_dpg.bind_template_registry(template_registry)
-
 def bind_theme(theme):
 	"""	 Binds a global theme.
 
@@ -6835,6 +6849,7 @@ def create_viewport(**kwargs):
 		always_on_top (bool, optional): Forces the viewport to always be drawn ontop of all other viewports.
 		decorated (bool, optional): Enabled and disabled the decorator bar at the top of the viewport.
 		clear_color (Union[List[float], Tuple[float, ...]], optional): Sets the color of the back of the viewport.
+		disable_close (bool, optional): Disables the viewport close button. can be used with set_exit_callback
 	Returns:
 		None
 	"""
@@ -9051,6 +9066,7 @@ mvDeactivatedHandler=internal_dpg.mvDeactivatedHandler
 mvDeactivatedAfterEditHandler=internal_dpg.mvDeactivatedAfterEditHandler
 mvToggledOpenHandler=internal_dpg.mvToggledOpenHandler
 mvClickedHandler=internal_dpg.mvClickedHandler
+mvDoubleClickedHandler=internal_dpg.mvDoubleClickedHandler
 mvDragPayload=internal_dpg.mvDragPayload
 mvResizeHandler=internal_dpg.mvResizeHandler
 mvFont=internal_dpg.mvFont

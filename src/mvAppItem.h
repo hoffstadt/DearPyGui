@@ -197,14 +197,12 @@ public:
 
     // used to check arguments, get/set configurations
     void handleKeywordArgs(PyObject* dict, const std::string& parser);  // python dictionary acts as an out parameter 
-    void applyTemplate    (mvAppItem* item);
 
     // used by derived items to register their arguments
     virtual void handleSpecificRequiredArgs  (PyObject* args)  {}
     virtual void handleSpecificPositionalArgs(PyObject* args)  {}
     virtual void handleSpecificKeywordArgs   (PyObject* dict)  {} // called by handleKeywordArgs
     virtual void getSpecificConfiguration    (PyObject* dict)  {}
-    virtual void applySpecificTemplate       (mvAppItem* item) {}
 
     //-----------------------------------------------------------------------------
     // callbacks
@@ -371,6 +369,7 @@ GetEntityCommand(mvAppItemType type)
     case mvAppItemType::mvDeactivatedAfterEditHandler: return "add_item_deactivated_after_edit_handler";
     case mvAppItemType::mvToggledOpenHandler:          return "add_item_toggled_open_handler";
     case mvAppItemType::mvClickedHandler:              return "add_item_clicked_handler";
+    case mvAppItemType::mvDoubleClickedHandler:        return "add_item_double_clicked_handler";
     case mvAppItemType::mvDragPayload:                 return "add_drag_payload";
     case mvAppItemType::mvResizeHandler:               return "add_item_resize_handler";
     case mvAppItemType::mvFont:                        return "add_font";
