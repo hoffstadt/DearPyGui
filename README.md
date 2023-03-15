@@ -111,6 +111,7 @@ The built-in demo shows all of Dear PyGui's functionality. Use [this code](https
 - [FAQ](https://github.com/hoffstadt/DearPyGui/discussions/categories/frequently-asked-questions-faq)
 - [Feature Tracker](https://github.com/hoffstadt/DearPyGui/issues?q=is%3Aissue+is%3Aopen+label%3A%22type%3A+feature%22)
 - [Bug Tracker](https://github.com/hoffstadt/DearPyGui/issues?q=is%3Aissue+is%3Aopen+label%3A%22type%3A+bug%22)
+- [Useful code snippets demonstrating best practices](https://github.com/my1e5/dpg-examples)
 - [Showcase apps including source code](https://github.com/hoffstadt/DearPyGui/wiki/Dear-PyGui-Showcase) :star:
   
 ## Support
