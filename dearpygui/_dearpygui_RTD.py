@@ -2841,7 +2841,7 @@ def add_button(**kwargs):
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		small (bool, optional): Shrinks the size of the button to the text of the label it contains. Useful for embedding in text.
 		arrow (bool, optional): Displays an arrow in place of the text string. This requires the direction keyword.
-		direction (int, optional): Sets the cardinal direction for the arrow buy using constants mvDir_Left, mvDir_Up, mvDir_Down, mvDir_Right, mvDir_None. Arrow keyword must be set to True.
+		direction (int, optional): Sets the cardinal direction for the arrow by using constants mvDir_Left, mvDir_Up, mvDir_Down, mvDir_Right, mvDir_None. Arrow keyword must be set to True.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
