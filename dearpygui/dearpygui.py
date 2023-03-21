@@ -6120,7 +6120,7 @@ def add_radio_button(items : Union[List[str], Tuple[str, ...]] =(), *, label: st
 
 	return internal_dpg.add_radio_button(items, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, horizontal=horizontal, **kwargs)
 
-def add_raw_texture(width : int, height : int, default_value : Union[List[float], Tuple[float, ...]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, format: int =internal_dpg.mvFormat_Float_rgba, parent: Union[int, str] =internal_dpg.mvReservedUUID_2, **kwargs) -> Union[int, str]:
+def add_raw_texture(width : int, height : int, default_value : Union[List[float], Tuple[float, ...], np.ndarray[float]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, format: int =internal_dpg.mvFormat_Float_rgba, parent: Union[int, str] =internal_dpg.mvReservedUUID_2, **kwargs) -> Union[int, str]:
 	"""	 Adds a raw texture.
 
 	Args:
