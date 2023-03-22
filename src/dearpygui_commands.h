@@ -21,7 +21,7 @@ bind_colormap(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["bind_colormap"], args, kwargs, __FUNCTION__, &itemraw, &sourceraw))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 	mvUUID source = GetIDFromPyObject(sourceraw);
@@ -97,7 +97,7 @@ sample_colormap(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["sample_colormap"], args, kwargs, __FUNCTION__, &itemraw, &t))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 
@@ -139,7 +139,7 @@ get_colormap_color(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["get_colormap_color"], args, kwargs, __FUNCTION__, &itemraw, &index))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 
@@ -174,7 +174,7 @@ get_file_dialog_info(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["get_file_dialog_info"], args, kwargs, __FUNCTION__, &file_dialog_raw))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID file_dialog = GetIDFromPyObject(file_dialog_raw);
 
@@ -207,7 +207,7 @@ set_x_scroll(PyObject* self, PyObject* args, PyObject* kwargs)
 		&itemraw, &value))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 
@@ -253,7 +253,7 @@ set_y_scroll(PyObject* self, PyObject* args, PyObject* kwargs)
 		&itemraw, &value))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 
@@ -298,7 +298,7 @@ get_x_scroll(PyObject* self, PyObject* args, PyObject* kwargs)
 		&itemraw))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 
@@ -342,7 +342,7 @@ get_y_scroll(PyObject* self, PyObject* args, PyObject* kwargs)
 		&itemraw))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 
@@ -386,7 +386,7 @@ get_x_scroll_max(PyObject* self, PyObject* args, PyObject* kwargs)
 		&itemraw))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 
@@ -430,7 +430,7 @@ get_y_scroll_max(PyObject* self, PyObject* args, PyObject* kwargs)
 		&itemraw))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 
@@ -479,7 +479,7 @@ set_clip_space(PyObject* self, PyObject* args, PyObject* kwargs)
 		&topleftx, &toplefty, &width, &height, &mindepth, &maxdepth))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 
@@ -529,7 +529,7 @@ apply_transform(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["apply_transform"], args, kwargs, __FUNCTION__, &itemraw, &transform))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 
@@ -570,7 +570,7 @@ create_rotation_matrix(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["create_rotation_matrix"], args, kwargs, __FUNCTION__, &angle, &axis))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvVec4 aaxis = ToVec4(axis);
 
@@ -596,7 +596,7 @@ create_perspective_matrix(PyObject* self, PyObject* args, PyObject* kwargs)
 		&fov, &aspect, &zNear, &zFar))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	PyObject* newbuffer = nullptr;
 	PymvMat4* newbufferview = nullptr;
@@ -622,7 +622,7 @@ create_orthographic_matrix(PyObject* self, PyObject* args, PyObject* kwargs)
 		&left, &right, &bottom, &top, &zNear, &zFar))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	PyObject* newbuffer = nullptr;
 	PymvMat4* newbufferview = nullptr;
@@ -643,7 +643,7 @@ create_translation_matrix(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["create_translation_matrix"], args, kwargs, __FUNCTION__, &axis))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvVec4 aaxis = ToVec4(axis);
 
@@ -666,7 +666,7 @@ create_scale_matrix(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["create_scale_matrix"], args, kwargs, __FUNCTION__, &axis))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvVec4 aaxis = ToVec4(axis);
 
@@ -692,7 +692,7 @@ create_lookat_matrix(PyObject* self, PyObject* args, PyObject* kwargs)
 		&eye, &center, &up))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvVec4 aeye = ToVec4(eye);
 	mvVec4 acenter = ToVec4(center);
@@ -720,7 +720,7 @@ create_fps_matrix(PyObject* self, PyObject* args, PyObject* kwargs)
 		&eye, &pitch, &yaw))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvVec4 aeye = ToVec4(eye);
 	PyObject* newbuffer = nullptr;
@@ -743,7 +743,7 @@ bind_font(PyObject* self, PyObject* args, PyObject* kwargs)
 		&itemraw))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 
@@ -789,7 +789,7 @@ get_text_size(PyObject* self, PyObject* args, PyObject* kwargs)
 		&text, &wrap_width, &fontRaw))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID font = GetIDFromPyObject(fontRaw);
 
@@ -844,7 +844,7 @@ get_selected_nodes(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["get_selected_nodes"], args, kwargs, __FUNCTION__, &node_editor_raw))
 		return ToPyBool(false);
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID node_editor = GetIDFromPyObject(node_editor_raw);
 
@@ -879,7 +879,7 @@ get_selected_links(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["get_selected_links"], args, kwargs, __FUNCTION__, &node_editor_raw))
 		return ToPyBool(false);
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID node_editor = GetIDFromPyObject(node_editor_raw);
 
@@ -913,7 +913,7 @@ clear_selected_links(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["clear_selected_links"], args, kwargs, __FUNCTION__, &node_editor_raw))
 		return ToPyBool(false);
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID node_editor = GetIDFromPyObject(node_editor_raw);
 
@@ -947,7 +947,7 @@ clear_selected_nodes(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["clear_selected_nodes"], args, kwargs, __FUNCTION__, &node_editor_raw))
 		return ToPyBool(false);
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID node_editor = GetIDFromPyObject(node_editor_raw);
 
@@ -981,7 +981,7 @@ is_plot_queried(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["is_plot_queried"], args, kwargs, __FUNCTION__, &plotraw))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID plot = GetIDFromPyObject(plotraw);
 
@@ -1013,7 +1013,7 @@ get_plot_query_area(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["get_plot_query_area"], args, kwargs, __FUNCTION__, &plotraw))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID plot = GetIDFromPyObject(plotraw);
 
@@ -1049,7 +1049,7 @@ set_axis_ticks(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	auto mlabel_pairs = ToVectPairStringFloat(label_pairs);
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID plot = GetIDFromPyObject(plotraw);
 
@@ -1101,7 +1101,7 @@ set_axis_limits(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["set_axis_limits"], args, kwargs, __FUNCTION__, &axisraw, &ymin, &ymax))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID axis = GetIDFromPyObject(axisraw);
 
@@ -1134,7 +1134,7 @@ set_axis_limits_auto(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["set_axis_limits_auto"], args, kwargs, __FUNCTION__, &axisraw))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID axis = GetIDFromPyObject(axisraw);
 
@@ -1168,7 +1168,7 @@ fit_axis_data(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["fit_axis_data"], args, kwargs, __FUNCTION__, &axisraw))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID axis = GetIDFromPyObject(axisraw);
 
@@ -1204,7 +1204,7 @@ get_axis_limits(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["get_axis_limits"], args, kwargs, __FUNCTION__, &plotraw))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID plot = GetIDFromPyObject(plotraw);
 
@@ -1237,7 +1237,7 @@ reset_axis_ticks(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["reset_axis_ticks"], args, kwargs, __FUNCTION__, &plotraw))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID plot = GetIDFromPyObject(plotraw);
 
@@ -1275,7 +1275,7 @@ highlight_table_column(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["highlight_table_column"], args, kwargs, __FUNCTION__, &tableraw, &column, &color))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID table = GetIDFromPyObject(tableraw);
 
@@ -1319,7 +1319,7 @@ unhighlight_table_column(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["unhighlight_table_column"], args, kwargs, __FUNCTION__, &tableraw, &column))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID table = GetIDFromPyObject(tableraw);
 
@@ -1362,7 +1362,7 @@ set_table_row_color(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["set_table_row_color"], args, kwargs, __FUNCTION__, &tableraw, &row, &color))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID table = GetIDFromPyObject(tableraw);
 
@@ -1406,7 +1406,7 @@ unset_table_row_color(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["unset_table_row_color"], args, kwargs, __FUNCTION__, &tableraw, &row))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID table = GetIDFromPyObject(tableraw);
 
@@ -1448,7 +1448,7 @@ highlight_table_row(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["highlight_table_row"], args, kwargs, __FUNCTION__, &tableraw, &row, &color))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID table = GetIDFromPyObject(tableraw);
 
@@ -1492,7 +1492,7 @@ unhighlight_table_row(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["unhighlight_table_row"], args, kwargs, __FUNCTION__, &tableraw, &row))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID table = GetIDFromPyObject(tableraw);
 
@@ -1536,7 +1536,7 @@ highlight_table_cell(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["highlight_table_cell"], args, kwargs, __FUNCTION__, &tableraw, &row, &column, &color))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID table = GetIDFromPyObject(tableraw);
 
@@ -1581,7 +1581,7 @@ unhighlight_table_cell(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["unhighlight_table_cell"], args, kwargs, __FUNCTION__, &tableraw, &row, &column))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID table = GetIDFromPyObject(tableraw);
 
@@ -1624,7 +1624,7 @@ is_table_cell_highlighted(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["is_table_cell_highlighted"], args, kwargs, __FUNCTION__, &tableraw, &row, &column))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID table = GetIDFromPyObject(tableraw);
 
@@ -1671,7 +1671,7 @@ is_table_row_highlighted(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["is_table_row_highlighted"], args, kwargs, __FUNCTION__, &tableraw, &row))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID table = GetIDFromPyObject(tableraw);
 
@@ -1711,7 +1711,7 @@ is_table_column_highlighted(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["is_table_column_highlighted"], args, kwargs, __FUNCTION__, &tableraw, &column))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID table = GetIDFromPyObject(tableraw);
 
@@ -1752,7 +1752,7 @@ bind_theme(PyObject* self, PyObject* args, PyObject* kwargs)
 		&itemraw))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 
@@ -1795,7 +1795,7 @@ set_global_font_scale(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["set_global_font_scale"], args, kwargs, __FUNCTION__, &scale))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 	mvToolManager::GetFontManager().setGlobalFontScale(scale);
 
 	return GetPyNone();
@@ -1901,7 +1901,7 @@ static PyObject*
 get_viewport_configuration(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	PyObject* pdict = PyDict_New();
 
@@ -1938,7 +1938,7 @@ static PyObject*
 is_viewport_ok(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvViewport* viewport = GContext->viewport;
 	if (viewport)
@@ -2067,7 +2067,7 @@ configure_viewport(PyObject* self, PyObject* args, PyObject* kwargs)
 static PyObject*
 maximize_viewport(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 	mvSubmitTask([=]()
 		{
 			mvMaximizeViewport(*GContext->viewport);
@@ -2079,7 +2079,7 @@ maximize_viewport(PyObject* self, PyObject* args, PyObject* kwargs)
 static PyObject*
 minimize_viewport(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 	mvSubmitTask([=]()
 		{
 			mvMinimizeViewport(*GContext->viewport);
@@ -2091,7 +2091,7 @@ minimize_viewport(PyObject* self, PyObject* args, PyObject* kwargs)
 static PyObject*
 toggle_viewport_fullscreen(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 	mvSubmitTask([=]()
 		{
 			mvToggleFullScreen(*GContext->viewport);
@@ -2125,7 +2125,7 @@ split_frame(PyObject* self, PyObject* args, PyObject* kwargs)
 		&delay))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	// std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	Py_BEGIN_ALLOW_THREADS;
 	GContext->waitOneFrame = true;
@@ -2157,7 +2157,7 @@ unlock_mutex(PyObject* self, PyObject* args, PyObject* kwargs)
 static PyObject*
 get_frame_count(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 	return ToPyInt(GContext->frame);
 }
 
@@ -2394,7 +2394,7 @@ static PyObject*
 setup_dearpygui(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	Py_BEGIN_ALLOW_THREADS;
 
@@ -2463,7 +2463,7 @@ create_context(PyObject* self, PyObject* args, PyObject* kwargs)
 static PyObject*
 destroy_context(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	//if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	// std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	Py_BEGIN_ALLOW_THREADS;
 
@@ -2519,7 +2519,7 @@ destroy_context(PyObject* self, PyObject* args, PyObject* kwargs)
 static PyObject*
 stop_dearpygui(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 	GContext->started = false;
 	auto viewport = GContext->viewport;
 	if (viewport)
@@ -2530,14 +2530,14 @@ stop_dearpygui(PyObject* self, PyObject* args, PyObject* kwargs)
 static PyObject*
 get_total_time(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 	return ToPyFloat((f32)GContext->time);
 }
 
 static PyObject*
 get_delta_time(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 	return ToPyFloat(GContext->deltaTime);
 
 }
@@ -2545,7 +2545,7 @@ get_delta_time(PyObject* self, PyObject* args, PyObject* kwargs)
 static PyObject*
 get_frame_rate(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 	return ToPyFloat((f32)GContext->framerate);
 
 }
@@ -2572,7 +2572,7 @@ configure_app(PyObject* self, PyObject* args, PyObject* kwargs)
 		return GetPyNone();
 	}
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	if (PyObject* item = PyDict_GetItemString(kwargs, "auto_device")) GContext->IO.info_auto_device = ToBool(item);
 	if (PyObject* item = PyDict_GetItemString(kwargs, "docking")) GContext->IO.docking = ToBool(item);
@@ -2603,7 +2603,7 @@ configure_app(PyObject* self, PyObject* args, PyObject* kwargs)
 static PyObject*
 get_app_configuration(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 	PyObject* pdict = PyDict_New();
 	PyDict_SetItemString(pdict, "auto_device", mvPyObject(ToPyBool(GContext->IO.info_auto_device)));
 	PyDict_SetItemString(pdict, "docking", mvPyObject(ToPyBool(GContext->IO.docking)));
@@ -2770,7 +2770,7 @@ static PyObject*
 pop_container_stack(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	if (GContext->itemRegistry->containers.empty())
 	{
@@ -2792,7 +2792,7 @@ pop_container_stack(PyObject* self, PyObject* args, PyObject* kwargs)
 static PyObject*
 empty_container_stack(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 	while (!GContext->itemRegistry->containers.empty())
 		GContext->itemRegistry->containers.pop();
 	return GetPyNone();
@@ -2801,7 +2801,7 @@ empty_container_stack(PyObject* self, PyObject* args, PyObject* kwargs)
 static PyObject*
 top_container_stack(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvAppItem* item = nullptr;
 	if (!GContext->itemRegistry->containers.empty())
@@ -2816,7 +2816,7 @@ top_container_stack(PyObject* self, PyObject* args, PyObject* kwargs)
 static PyObject*
 last_item(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	return ToPyUUID(GContext->itemRegistry->lastItemAdded);
 }
@@ -2824,7 +2824,7 @@ last_item(PyObject* self, PyObject* args, PyObject* kwargs)
 static PyObject*
 last_container(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	return ToPyUUID(GContext->itemRegistry->lastContainerAdded);
 }
@@ -2832,7 +2832,7 @@ last_container(PyObject* self, PyObject* args, PyObject* kwargs)
 static PyObject*
 last_root(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	return ToPyUUID(GContext->itemRegistry->lastRootAdded);
 }
@@ -2845,7 +2845,7 @@ push_container_stack(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["push_container_stack"], args, kwargs, __FUNCTION__, &itemraw))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 
@@ -2873,7 +2873,7 @@ set_primary_window(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["set_primary_window"], args, kwargs, __FUNCTION__, &itemraw, &value))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 
@@ -2951,7 +2951,7 @@ set_primary_window(PyObject* self, PyObject* args, PyObject* kwargs)
 static PyObject*
 get_active_window(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	return ToPyUUID(GContext->itemRegistry->activeWindow);
 }
@@ -2968,7 +2968,7 @@ move_item(PyObject* self, PyObject* args, PyObject* kwargs)
 		&itemraw, &parentraw, &beforeraw))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 	mvUUID parent = GetIDFromPyObject(parentraw);
@@ -2990,7 +2990,7 @@ delete_item(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["delete_item"], args, kwargs, __FUNCTION__, &itemraw, &childrenOnly, &slot))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 
@@ -3010,7 +3010,7 @@ does_item_exist(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["does_item_exist"], args, kwargs, __FUNCTION__, &itemraw))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 
@@ -3028,7 +3028,7 @@ move_item_up(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["move_item_up"], args, kwargs, __FUNCTION__, &itemraw))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 
@@ -3047,7 +3047,7 @@ move_item_down(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["move_item_down"], args, kwargs, __FUNCTION__, &itemraw))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 
@@ -3068,7 +3068,7 @@ reorder_items(PyObject* self, PyObject* args, PyObject* kwargs)
 		&containerraw, &slot, &new_order))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	auto anew_order = ToUUIDVect(new_order);
 	mvUUID container = GetIDFromPyObject(containerraw);
@@ -3105,7 +3105,7 @@ unstage(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["unstage"], args, kwargs, __FUNCTION__, &itemraw))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 
@@ -3147,7 +3147,7 @@ show_item_debug(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["show_item_debug"], args, kwargs, __FUNCTION__, &itemraw))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 
@@ -3207,7 +3207,7 @@ static PyObject*
 get_all_items(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	std::vector<mvUUID> childList;
 
@@ -3232,7 +3232,7 @@ static PyObject*
 show_imgui_demo(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	GContext->itemRegistry->showImGuiDebug = true;
 	return GetPyNone();
@@ -3242,7 +3242,7 @@ static PyObject*
 show_implot_demo(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	GContext->itemRegistry->showImPlotDebug = true;
 	return GetPyNone();
@@ -3252,7 +3252,7 @@ static PyObject*
 get_windows(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	std::vector<mvUUID> childList;
 	for (auto& root : GContext->itemRegistry->colormapRoots) childList.emplace_back(root->uuid);
@@ -3282,7 +3282,7 @@ add_alias(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["add_alias"], args, kwargs, __FUNCTION__, &alias, &itemraw))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 
@@ -3301,7 +3301,7 @@ remove_alias(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["remove_alias"], args, kwargs, __FUNCTION__, &alias))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	RemoveAlias((*GContext->itemRegistry), alias);
 
@@ -3318,7 +3318,7 @@ does_alias_exist(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["does_alias_exist"], args, kwargs, __FUNCTION__, &alias))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	bool result = GContext->itemRegistry->aliases.count(alias) != 0;
 
@@ -3334,7 +3334,7 @@ get_alias_id(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["get_alias_id"], args, kwargs, __FUNCTION__, &alias))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID result = GetIdFromAlias((*GContext->itemRegistry), alias);
 
@@ -3345,7 +3345,7 @@ static PyObject*
 get_aliases(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	std::vector<std::string> aliases;
 
@@ -3363,7 +3363,7 @@ focus_item(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["focus_item"], args, kwargs, __FUNCTION__, &itemraw))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 
@@ -3436,7 +3436,7 @@ get_item_info(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["get_item_info"], args, kwargs, __FUNCTION__, &itemraw))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 	mvAppItem* appitem = GetItem((*GContext->itemRegistry), item);
@@ -3521,7 +3521,7 @@ get_item_configuration(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["get_item_configuration"], args, kwargs, __FUNCTION__, &itemraw))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 	mvAppItem* appitem = GetItem((*GContext->itemRegistry), item);
@@ -3609,7 +3609,7 @@ set_item_children(PyObject* self, PyObject* args, PyObject* kwargs)
 		&itemraw, &sourceraw, &slot))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 	mvUUID source = GetIDFromPyObject(sourceraw);
@@ -3680,7 +3680,7 @@ bind_item_font(PyObject* self, PyObject* args, PyObject* kwargs)
 		&itemraw, &fontraw))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 	mvUUID font = GetIDFromPyObject(fontraw);
@@ -3722,7 +3722,7 @@ bind_item_theme(PyObject* self, PyObject* args, PyObject* kwargs)
 		&itemraw, &themeraw))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 	mvUUID theme = GetIDFromPyObject(themeraw);
@@ -3769,7 +3769,7 @@ bind_item_handler_registry(PyObject* self, PyObject* args, PyObject* kwargs)
 		&itemraw, &regraw))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 	mvUUID reg = GetIDFromPyObject(regraw);
@@ -3816,7 +3816,7 @@ reset_pos(PyObject* self, PyObject* args, PyObject* kwargs)
 		&itemraw))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 	mvAppItem* appitem = GetItem((*GContext->itemRegistry), item);
@@ -3838,7 +3838,7 @@ get_item_state(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["get_item_state"], args, kwargs, __FUNCTION__, &itemraw))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 	mvAppItem* appitem = GetItem((*GContext->itemRegistry), item);
@@ -3858,7 +3858,7 @@ static PyObject*
 get_item_types(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	PyObject* pdict = PyDict_New();
 	#define X(el) PyDict_SetItemString(pdict, #el, PyLong_FromLong((int)mvAppItemType::el));
@@ -3872,7 +3872,7 @@ static PyObject*
 configure_item(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(PyTuple_GetItem(args, 0));
 	mvAppItem* appitem = GetItem((*GContext->itemRegistry), item);
@@ -3897,7 +3897,7 @@ get_value(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["get_value"], args, kwargs, __FUNCTION__, &nameraw))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID name = GetIDFromPyObject(nameraw);
 	mvAppItem* item = GetItem(*GContext->itemRegistry, name);
@@ -3915,7 +3915,7 @@ get_values(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["get_values"], args, kwargs, __FUNCTION__, &items))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	auto aitems = ToUUIDVect(items);
 	PyObject* pyvalues = PyList_New(aitems.size());
@@ -3948,7 +3948,7 @@ set_value(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (value)
 		Py_XINCREF(value);
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID name = GetIDFromPyObject(nameraw);
 
@@ -3976,7 +3976,7 @@ set_item_alias(PyObject* self, PyObject* args, PyObject* kwargs)
 		&itemraw, &alias))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 	mvAppItem* appitem = GetItem((*GContext->itemRegistry), item);
@@ -3994,7 +3994,7 @@ get_item_alias(PyObject* self, PyObject* args, PyObject* kwargs)
 		&itemraw))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 	mvAppItem* appitem = GetItem((*GContext->itemRegistry), item);
@@ -4013,7 +4013,7 @@ capture_next_item(PyObject* self, PyObject* args, PyObject* kwargs)
 		&callable, &user_data))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	if (GContext->itemRegistry->captureCallback)
 		Py_XDECREF(GContext->itemRegistry->captureCallback);
@@ -4081,7 +4081,7 @@ set_clipboard_text(PyObject* self, PyObject* args, PyObject* kwargs)
 		&text))
 		return GetPyNone();
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	ImGui::SetClipboardText(text);
 
@@ -4092,7 +4092,7 @@ static PyObject*
 get_clipboard_text(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	const char* text = ImGui::GetClipboardText();
 
@@ -4103,7 +4103,7 @@ static PyObject*
 get_platform(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 
-	if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 #ifdef _WIN32
 	return ToPyInt(0L);

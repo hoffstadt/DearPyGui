@@ -104,7 +104,7 @@ struct mvContext
     std::atomic_bool    waitOneFrame       = false;
     std::atomic_bool    manualMutexControl = false;
     std::atomic_bool    started            = false;
-    std::mutex          mutex;
+    std::recursive_mutex mutex;
     std::future<bool>   future;
     float               deltaTime = 0.0f;   // time since last frame
     double              time      = 0.0;    // total time since starting

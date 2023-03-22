@@ -1365,7 +1365,7 @@ AddItemWithRuntimeChecks(mvItemRegistry& registry, std::shared_ptr<mvAppItem> it
     };
     AddTechnique technique = AddTechnique::NONE;
 
-    if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+     std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
     //---------------------------------------------------------------------------
     // STEP 2: handle root case
