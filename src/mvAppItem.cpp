@@ -2159,6 +2159,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
             MV_PARSER_ARG_WIDTH |
+            MV_PARSER_ARG_HEIGHT |
             MV_PARSER_ARG_INDENT |
             MV_PARSER_ARG_PARENT |
             MV_PARSER_ARG_BEFORE |
