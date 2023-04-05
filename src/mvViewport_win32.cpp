@@ -163,16 +163,8 @@ mvHandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 				viewport->actualHeight = aheight;
 
 
-				if (viewport->decorated)
-				{
-					GContext->viewport->clientHeight = cheight;
-					GContext->viewport->clientWidth = cwidth;
-				}
-				else
-				{
-					GContext->viewport->clientHeight = cheight + 39;
-					GContext->viewport->clientWidth = cwidth + 16;
-				}
+				GContext->viewport->clientHeight = cheight;
+				GContext->viewport->clientWidth = cwidth;
 
 				//GContext->viewport->resized = true;
 				mvOnResize();
