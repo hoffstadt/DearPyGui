@@ -2034,7 +2034,7 @@ show_viewport(PyObject* self, PyObject* args, PyObject* kwargs)
 static PyObject*
 configure_viewport(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-
+	std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 	mvViewport* viewport = GContext->viewport;
 	if (viewport)
 	{
@@ -2140,8 +2140,6 @@ static PyObject*
 lock_mutex(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 	GContext->mutex.lock();
-	GContext->manualMutexControl = true;
-
 	return GetPyNone();
 }
 
@@ -2149,8 +2147,6 @@ static PyObject*
 unlock_mutex(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 	GContext->mutex.unlock();
-	GContext->manualMutexControl = false;
-
 	return GetPyNone();
 }
 

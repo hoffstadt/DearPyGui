@@ -102,7 +102,6 @@ struct mvIO
 struct mvContext
 {
     std::atomic_bool    waitOneFrame       = false;
-    std::atomic_bool    manualMutexControl = false;
     std::atomic_bool    started            = false;
     std::recursive_mutex mutex;
     std::future<bool>   future;

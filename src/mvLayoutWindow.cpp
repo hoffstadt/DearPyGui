@@ -133,20 +133,27 @@ void mvLayoutWindow::drawWidgets()
     ImGui::BeginGroup();
 
     if (ImGui::ArrowButton("Move Up", ImGuiDir_Up))
+    {
+        std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
         mvSubmitCallback([&]()
             {
                 MoveItemUp(*GContext->itemRegistry, m_selectedItem);
             });
+    }
 
     ImGui::SameLine();
     if (ImGui::ArrowButton("Move Down", ImGuiDir_Down))
+    {
+        std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
         mvSubmitCallback([&]()
             {
                 MoveItemDown(*GContext->itemRegistry, m_selectedItem);
             });
+    }
     ImGui::SameLine();
     if (ImGui::Button("Delete"))
     {
+        std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
         mvSubmitCallback([&]()
             {
                 DeleteItem(*GContext->itemRegistry, m_selectedItem, false);
@@ -159,6 +166,7 @@ void mvLayoutWindow::drawWidgets()
     ImGui::SameLine();
     if (ImGui::Button("Show"))
     {
+        std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
         mvAppItem* tempItem = GetItem(*GContext->itemRegistry, m_selectedItem);
         tempItem->config.show = true;
         tempItem->info.shownLastFrame = true;
@@ -166,6 +174,7 @@ void mvLayoutWindow::drawWidgets()
     ImGui::SameLine();
     if (ImGui::Button("Hide"))
     {
+        std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
         mvAppItem* tempItem = GetItem(*GContext->itemRegistry, m_selectedItem);
         tempItem->config.show = false;
         tempItem->info.hiddenLastFrame = true;
