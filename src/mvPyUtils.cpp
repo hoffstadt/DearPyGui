@@ -512,9 +512,8 @@ ToPyInt(int value)
 PyObject*
 ToPyUUID(mvAppItem* item)
 {
-
     if (!item->config.alias.empty())
-        return ToPyString(item->config.alias);
+        return Py_BuildValue("K", item->uuid);
 
     return Py_BuildValue("K", item->uuid);
 }
@@ -526,7 +525,7 @@ ToPyUUID(mvUUID value)
     if (item)
     {
         if (!item->config.alias.empty())
-            return ToPyString(item->config.alias);
+            return Py_BuildValue("K", item->uuid);
     }
     return Py_BuildValue("K", value);
 }
