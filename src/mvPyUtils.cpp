@@ -1221,7 +1221,7 @@ ToFloatVect(PyObject* value, const std::string& message)
 
     if (PyTuple_Check(value))
     {
-        for (Py_ssize_t i = 0; i < PyTuple_Size(value); ++i)
+        for (Py_ssize_t i = 0; i < GetSizeAndReserveMemoryVect(value, items, "tuple"); ++i)
         {
             items.emplace_back((float)PyFloat_AsDouble(PyTuple_GetItem(value, i)));
         }
@@ -1229,7 +1229,7 @@ ToFloatVect(PyObject* value, const std::string& message)
 
     else if (PyList_Check(value))
     {
-        for (Py_ssize_t i = 0; i < PyList_Size(value); ++i)
+        for (Py_ssize_t i = 0; i < GetSizeAndReserveMemoryVect(value, items, "list"); ++i)
         {
             items.emplace_back((float)PyFloat_AsDouble(PyList_GetItem(value, i)));
         }
@@ -1272,7 +1272,7 @@ ToDoubleVect(PyObject* value, const std::string& message)
 
     if (PyTuple_Check(value))
     {
-        for (Py_ssize_t i = 0; i < PyTuple_Size(value); ++i)
+        for (Py_ssize_t i = 0; i < GetSizeAndReserveMemoryVect(value, items, "tuple"); ++i)
         {
             items.emplace_back(PyFloat_AsDouble(PyTuple_GetItem(value, i)));
         }
@@ -1280,7 +1280,7 @@ ToDoubleVect(PyObject* value, const std::string& message)
 
     else if (PyList_Check(value))
     {
-        for (Py_ssize_t i = 0; i < PyList_Size(value); ++i)
+        for (Py_ssize_t i = 0; i < GetSizeAndReserveMemoryVect(value, items, "list"); ++i)
         {
             items.emplace_back(PyFloat_AsDouble(PyList_GetItem(value, i)));
         }
@@ -1293,10 +1293,10 @@ ToDoubleVect(PyObject* value, const std::string& message)
         if (!PyObject_GetBuffer(value, &buffer_info,
                                 PyBUF_CONTIG_RO | PyBUF_FORMAT))
         {
-
             auto BufferViewer = BufferViewFunctionsFloat(buffer_info);
-
-            for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; ++i)
+            const Py_ssize_t size = buffer_info.len / buffer_info.itemsize;
+            items.reserve(size);
+            for (Py_ssize_t i = 0; i < size; ++i)
             {
                 items.emplace_back(BufferViewer(buffer_info, i));
             }
@@ -1322,7 +1322,7 @@ ToStringVect(PyObject* value, const std::string& message)
 
     if (PyTuple_Check(value))
     {
-        for (Py_ssize_t i = 0; i < PyTuple_Size(value); ++i)
+        for (Py_ssize_t i = 0; i < GetSizeAndReserveMemoryVect(value, items, "tuple"); ++i)
         {
             PyObject* item = PyTuple_GetItem(value, i);
             if (PyUnicode_Check(item))
@@ -1338,7 +1338,7 @@ ToStringVect(PyObject* value, const std::string& message)
 
     else if (PyList_Check(value))
     {
-        for (Py_ssize_t i = 0; i < PyList_Size(value); ++i)
+        for (Py_ssize_t i = 0; i < GetSizeAndReserveMemoryVect(value, items, "list"); ++i)
         {
             PyObject* item = PyList_GetItem(value, i);
             if (PyUnicode_Check(item))
@@ -1636,13 +1636,13 @@ ToVectVectString(PyObject* value, const std::string& message)
 
     if (PyTuple_Check(value))
     {
-        for (Py_ssize_t i = 0; i < PyTuple_Size(value); ++i)
+        for (Py_ssize_t i = 0; i < GetSizeAndReserveMemoryVectVect(value, items, "tuple"); ++i)
             items.emplace_back(ToStringVect(PyTuple_GetItem(value, i), message));
     }
 
     else if (PyList_Check(value))
     {
-        for (Py_ssize_t i = 0; i < PyList_Size(value); ++i)
+        for (Py_ssize_t i = 0; i < GetSizeAndReserveMemoryVectVect(value, items, "list"); ++i)
             items.emplace_back(ToStringVect(PyList_GetItem(value, i), message));
     }
 
@@ -1685,6 +1685,34 @@ ToVectPairStringFloat(PyObject* value, const std::string& message)
     return items;
 }
 
+template<typename T>
+Py_ssize_t GetSizeAndReserveMemoryVectVect(PyObject* value, std::vector<std::vector<T>>& vec, const std::string mode)
+{
+    assert((mode == "tuple" || mode == "list") && "mode parameter must be 'tuple' or 'list'")
+    Py_ssize_t size;
+    if (mode == "tuple")
+        size = PyTuple_Size(value);
+    else if (mode == "list")
+        size = PyList_Size(value);
+
+    vec.reserve(size);
+    return size;
+}
+
+template<typename T>
+Py_ssize_t GetSizeAndReserveMemoryVect(PyObject* value, std::vector<T>& vec, const std::string mode)
+{
+    assert((mode == "tuple" || mode == "list") && "mode parameter must be 'tuple' or 'list'")
+    Py_ssize_t size;
+    if (mode == "tuple")
+        size = PyTuple_Size(value);
+    else if (mode == "list")
+        size = PyList_Size(value);
+
+    vec.reserve(size);
+    return size;
+}
+
 std::vector<std::vector<float>>
 ToVectVectFloat(PyObject* value, const std::string& message)
 {
@@ -1695,13 +1723,13 @@ ToVectVectFloat(PyObject* value, const std::string& message)
 
     if (PyTuple_Check(value))
     {
-        for (Py_ssize_t i = 0; i < PyTuple_Size(value); ++i)
+        for (Py_ssize_t i = 0; i < GetSizeAndReserveMemoryVectVect(value, items, "tuple"); ++i)
             items.emplace_back(ToFloatVect(PyTuple_GetItem(value, i), message));
     }
 
     else if (PyList_Check(value))
     {
-        for (Py_ssize_t i = 0; i < PyList_Size(value); ++i)
+        for (Py_ssize_t i = 0; i < GetSizeAndReserveMemoryVectVect(value, items, "list"); ++i)
             items.emplace_back(ToFloatVect(PyList_GetItem(value, i), message));
     }
 
@@ -1718,13 +1746,13 @@ ToVectVectInt(PyObject* value, const std::string& message)
 
     if (PyTuple_Check(value))
     {
-        for (Py_ssize_t i = 0; i < PyTuple_Size(value); ++i)
+        for (Py_ssize_t i = 0; i < GetSizeAndReserveMemoryVectVect(value, items, "tuple"); ++i)
             items.emplace_back(ToIntVect(PyTuple_GetItem(value, i), message));
     }
 
     else if (PyList_Check(value))
     {
-        for (Py_ssize_t i = 0; i < PyList_Size(value); ++i)
+        for (Py_ssize_t i = 0; i < GetSizeAndReserveMemoryVectVect(value, items, "list"); ++i)
             items.emplace_back(ToIntVect(PyList_GetItem(value, i), message));
     }
 
@@ -1741,13 +1769,13 @@ ToVectVectDouble(PyObject* value, const std::string& message)
 
     if (PyTuple_Check(value))
     {
-        for (Py_ssize_t i = 0; i < PyTuple_Size(value); ++i)
+        for (Py_ssize_t i = 0; i < GetSizeAndReserveMemoryVectVect(value, items, "tuple"); ++i)
             items.emplace_back(ToDoubleVect(PyTuple_GetItem(value, i), message));
     }
 
     else if (PyList_Check(value))
     {
-        for (Py_ssize_t i = 0; i < PyList_Size(value); ++i)
+        for (Py_ssize_t i = 0; i < GetSizeAndReserveMemoryVectVect(value, items, "list"); ++i)
             items.emplace_back(ToDoubleVect(PyList_GetItem(value, i), message));
     }
 
