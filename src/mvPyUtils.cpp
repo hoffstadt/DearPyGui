@@ -1688,7 +1688,7 @@ ToVectPairStringFloat(PyObject* value, const std::string& message)
 template<typename T>
 Py_ssize_t GetSizeAndReserveMemoryVectVect(PyObject* value, std::vector<std::vector<T>>& vec, const std::string mode)
 {
-    assert((mode == "tuple" || mode == "list") && "mode parameter must be 'tuple' or 'list'")
+    assert((mode == "tuple" || mode == "list") && "mode parameter must be 'tuple' or 'list'");
     Py_ssize_t size;
     if (mode == "tuple")
         size = PyTuple_Size(value);
@@ -1702,7 +1702,7 @@ Py_ssize_t GetSizeAndReserveMemoryVectVect(PyObject* value, std::vector<std::vec
 template<typename T>
 Py_ssize_t GetSizeAndReserveMemoryVect(PyObject* value, std::vector<T>& vec, const std::string mode)
 {
-    assert((mode == "tuple" || mode == "list") && "mode parameter must be 'tuple' or 'list'")
+    assert((mode == "tuple" || mode == "list") && "mode parameter must be 'tuple' or 'list'");
     Py_ssize_t size;
     if (mode == "tuple")
         size = PyTuple_Size(value);
