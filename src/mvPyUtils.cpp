@@ -1210,6 +1210,34 @@ ToUUIDVect(PyObject* value, const std::string& message)
     return items;
 }
 
+template<typename T>
+Py_ssize_t GetSizeAndReserveMemoryVectVect(PyObject* value, std::vector<std::vector<T>>& vec, const std::string mode)
+{
+    assert((mode == "tuple" || mode == "list") && "mode parameter must be 'tuple' or 'list'");
+    Py_ssize_t size;
+    if (mode == "tuple")
+        size = PyTuple_Size(value);
+    else if (mode == "list")
+        size = PyList_Size(value);
+
+    vec.reserve(size);
+    return size;
+}
+
+template<typename T>
+Py_ssize_t GetSizeAndReserveMemoryVect(PyObject* value, std::vector<T>& vec, const std::string mode)
+{
+    assert((mode == "tuple" || mode == "list") && "mode parameter must be 'tuple' or 'list'");
+    Py_ssize_t size;
+    if (mode == "tuple")
+        size = PyTuple_Size(value);
+    else if (mode == "list")
+        size = PyList_Size(value);
+
+    vec.reserve(size);
+    return size;
+}
+
 std::vector<float>
 ToFloatVect(PyObject* value, const std::string& message)
 {
@@ -1683,34 +1711,6 @@ ToVectPairStringFloat(PyObject* value, const std::string& message)
         mvThrowPythonError(mvErrorCode::mvWrongType, message);
 
     return items;
-}
-
-template<typename T>
-Py_ssize_t GetSizeAndReserveMemoryVectVect(PyObject* value, std::vector<std::vector<T>>& vec, const std::string mode)
-{
-    assert((mode == "tuple" || mode == "list") && "mode parameter must be 'tuple' or 'list'");
-    Py_ssize_t size;
-    if (mode == "tuple")
-        size = PyTuple_Size(value);
-    else if (mode == "list")
-        size = PyList_Size(value);
-
-    vec.reserve(size);
-    return size;
-}
-
-template<typename T>
-Py_ssize_t GetSizeAndReserveMemoryVect(PyObject* value, std::vector<T>& vec, const std::string mode)
-{
-    assert((mode == "tuple" || mode == "list") && "mode parameter must be 'tuple' or 'list'");
-    Py_ssize_t size;
-    if (mode == "tuple")
-        size = PyTuple_Size(value);
-    else if (mode == "list")
-        size = PyList_Size(value);
-
-    vec.reserve(size);
-    return size;
 }
 
 std::vector<std::vector<float>>
