@@ -136,6 +136,7 @@ bool isPyObject_Any           (PyObject* obj);
 
 // conversion to python
 PyObject*   GetPyNone ();
+PyObject*   GetPyNoneOrError ();
 PyObject*   ToPyUUID  (mvAppItem* item);
 PyObject*   ToPyUUID  (mvUUID value);
 PyObject*   ToPyUUID  (mvUUID uuid, const std::string& alias);

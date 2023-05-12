@@ -458,6 +458,12 @@ GetPyNone()
 }
 
 PyObject*
+GetPyNoneOrError()
+{
+    return (PyErr_Occurred() != nullptr)? nullptr : GetPyNone();
+}
+
+PyObject*
 ToPyString(const std::string& value)
 {
 
