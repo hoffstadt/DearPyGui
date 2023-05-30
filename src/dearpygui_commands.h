@@ -3185,9 +3185,12 @@ GetAllItemsRoot(std::vector<std::shared_ptr<mvAppItem>>& roots, std::vector<mvUU
 		}
 		for (auto& child : children2)
 		{
-			childList.emplace_back(child->uuid);
-			if (DearPyGui::GetEntityDesciptionFlags(child->type) & MV_ITEM_DESC_CONTAINER)
-				ChildRetriever(child);
+			if (child)
+			{
+				childList.emplace_back(child->uuid);
+				if (DearPyGui::GetEntityDesciptionFlags(child->type) & MV_ITEM_DESC_CONTAINER)
+					ChildRetriever(child);
+			}
 		}
 
 	};
