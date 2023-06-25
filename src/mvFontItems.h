@@ -51,6 +51,7 @@ public:
     void draw(ImDrawList* drawlist, float x, float y) override;
     void customAction(void* data = nullptr) override;
     void handleSpecificRequiredArgs(PyObject* dict) override;
+    void getSpecificConfiguration(PyObject* dict) override;
     ImFont* getFontPtr() { return _fontPtr; }
 
 public:

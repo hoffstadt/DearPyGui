@@ -178,6 +178,15 @@ void mvFont::handleSpecificRequiredArgs(PyObject* dict)
 
 }
 
+void mvFont::getSpecificConfiguration(PyObject* dict)
+{
+	if (dict == nullptr)
+		return;
+
+	PyDict_SetItemString(dict, "file", ToPyString(_file));
+	PyDict_SetItemString(dict, "size", ToPyFloat(_size));
+}
+
 void mvFontChars::handleSpecificRequiredArgs(PyObject* dict)
 {
 	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
