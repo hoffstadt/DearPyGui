@@ -12,8 +12,11 @@ get_horizontal_shift(const HWND window_handle)
 {
 	RECT window_rectangle, frame_rectangle;
 	GetWindowRect(window_handle, &window_rectangle);
-	DwmGetWindowAttribute(window_handle,
-		DWMWA_EXTENDED_FRAME_BOUNDS, &frame_rectangle, sizeof(RECT));
+	if (DwmGetWindowAttribute(window_handle,
+		DWMWA_EXTENDED_FRAME_BOUNDS, &frame_rectangle, sizeof(RECT)) != S_OK)
+	{
+		return 0;
+	}
 
 	return frame_rectangle.left - window_rectangle.left;
 }
