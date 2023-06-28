@@ -371,7 +371,7 @@ def show_demo():
 
             with dpg.tree_node(label="Combo"):
 
-                items = ("A","B","C","D","E","F","G","H","I","J","K","L","M" "O","P","Q","R","S","T","U","V","W","X","Y","Z")
+                items = ("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z")
                 combo_id = dpg.add_combo(items, label="combo", height_mode=dpg.mvComboHeight_Small)
                 _add_config_options(combo_id, 1, "popup_align_left", "no_arrow_button", "no_preview")
 
