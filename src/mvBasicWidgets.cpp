@@ -6302,6 +6302,8 @@ DearPyGui::draw_filter_set(ImDrawList* drawlist, mvAppItem& item, mvFilterSetCon
 void
 DearPyGui::draw_separator(ImDrawList* drawlist, mvAppItem& item)
 {
+	if (!item.config.show)
+		return;
 	ImGui::Separator();
 }
 
