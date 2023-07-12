@@ -629,8 +629,6 @@ DearPyGui::draw_menu(ImDrawList* drawlist, mvAppItem& item, mvMenuConfig& config
     // draw
     //-----------------------------------------------------------------------------
     {
-        ScopedID id(item.uuid);
-
         // create menu and see if its selected
         if (ImGui::BeginMenu(item.info.internalLabel.c_str(), item.config.enabled))
         {
