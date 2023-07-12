@@ -2641,7 +2641,7 @@ def theme_component(item_type : int =0, *, label: str =None, user_data: Any =Non
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def tooltip(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, show: bool =True, delay: float =0.5, hide_on_activity: bool =False, **kwargs) -> Union[int, str]:
+def tooltip(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, show: bool =True, delay: float =0.0, hide_on_activity: bool =False, **kwargs) -> Union[int, str]:
 	"""	 Adds a tooltip window.
 
 	Args:
@@ -7231,7 +7231,7 @@ def add_time_picker(*, label: str =None, user_data: Any =None, use_internal_labe
 
 	return internal_dpg.add_time_picker(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, hour24=hour24, **kwargs)
 
-def add_tooltip(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, show: bool =True, delay: float =0.5, hide_on_activity: bool =False, **kwargs) -> Union[int, str]:
+def add_tooltip(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, show: bool =True, delay: float =0.0, hide_on_activity: bool =False, **kwargs) -> Union[int, str]:
 	"""	 Adds a tooltip window.
 
 	Args:

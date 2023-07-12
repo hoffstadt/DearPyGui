@@ -575,8 +575,8 @@ struct mvFilterSetConfig
 
 struct mvTooltipConfig
 {
-    float        activation_delay = 0.5;
-    bool         hide_on_move = true;
+    float        activation_delay = 0.0f;
+    bool         hide_on_move = false;
 };
 
 struct mvKnobFloatConfig
