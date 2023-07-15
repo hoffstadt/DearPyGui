@@ -202,6 +202,7 @@ DearPyGui::fill_configuration_dict(const mvWindowAppItemConfig& inConfig, PyObje
     checkbitset("menubar", ImGuiWindowFlags_MenuBar, inConfig.windowflags);
     checkbitset("no_background", ImGuiWindowFlags_NoBackground, inConfig.windowflags);
     checkbitset("no_saved_settings", ImGuiWindowFlags_NoSavedSettings, inConfig.windowflags);
+    checkbitset("no_scroll_with_mouse", ImGuiWindowFlags_NoScrollWithMouse, inConfig.windowflags);
 }
 
 //-----------------------------------------------------------------------------
@@ -445,6 +446,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvAppItem& itemc, mvWindowAppItem
     flagop("menubar", ImGuiWindowFlags_MenuBar, outConfig.windowflags);
     flagop("no_background", ImGuiWindowFlags_NoBackground, outConfig.windowflags);
     flagop("no_saved_settings", ImGuiWindowFlags_NoSavedSettings, outConfig.windowflags);
+    flagop("no_scroll_with_mouse", ImGuiWindowFlags_NoScrollWithMouse, outConfig.windowflags);
 
     outConfig._oldxpos = itemc.state.pos.x;
     outConfig._oldypos = itemc.state.pos.y;
