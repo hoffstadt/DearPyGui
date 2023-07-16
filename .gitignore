@@ -1,5 +1,6 @@
 .idea/
 .vs/
+.vscode/
 out/
 cmake-build-debug/
 cmake-build-release/
