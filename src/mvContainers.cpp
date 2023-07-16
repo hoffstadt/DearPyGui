@@ -66,6 +66,7 @@ DearPyGui::fill_configuration_dict(const mvChildWindowConfig& inConfig, PyObject
 
     // window flags
     checkbitset("no_scrollbar", ImGuiWindowFlags_NoScrollbar, inConfig.windowflags);
+    checkbitset("no_y_scroll", ImGuiWindowFlags_NoScrollWithMouse, inConfig.windowflags);
     checkbitset("horizontal_scrollbar", ImGuiWindowFlags_HorizontalScrollbar, inConfig.windowflags);
     checkbitset("menubar", ImGuiWindowFlags_MenuBar, inConfig.windowflags);
 }
@@ -195,6 +196,7 @@ DearPyGui::fill_configuration_dict(const mvWindowAppItemConfig& inConfig, PyObje
     checkbitset("no_title_bar", ImGuiWindowFlags_NoTitleBar, inConfig.windowflags);
     checkbitset("no_move", ImGuiWindowFlags_NoMove, inConfig.windowflags);
     checkbitset("no_scrollbar", ImGuiWindowFlags_NoScrollbar, inConfig.windowflags);
+    checkbitset("no_y_scroll", ImGuiWindowFlags_NoScrollWithMouse, inConfig.windowflags);
     checkbitset("no_collapse", ImGuiWindowFlags_NoCollapse, inConfig.windowflags);
     checkbitset("horizontal_scrollbar", ImGuiWindowFlags_HorizontalScrollbar, inConfig.windowflags);
     checkbitset("no_focus_on_appearing", ImGuiWindowFlags_NoFocusOnAppearing, inConfig.windowflags);
@@ -269,6 +271,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvChildWindowConfig& outConfig)
 
     // window flags
     flagop("no_scrollbar", ImGuiWindowFlags_NoScrollbar, outConfig.windowflags);
+    flagop("no_y_scroll", ImGuiWindowFlags_NoScrollWithMouse, outConfig.windowflags);
     flagop("horizontal_scrollbar", ImGuiWindowFlags_HorizontalScrollbar, outConfig.windowflags);
     flagop("menubar", ImGuiWindowFlags_MenuBar, outConfig.windowflags);
 
@@ -438,6 +441,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvAppItem& itemc, mvWindowAppItem
     flagop("no_resize", ImGuiWindowFlags_NoResize, outConfig.windowflags);
     flagop("no_title_bar", ImGuiWindowFlags_NoTitleBar, outConfig.windowflags);
     flagop("no_scrollbar", ImGuiWindowFlags_NoScrollbar, outConfig.windowflags);
+    flagop("no_y_scroll", ImGuiWindowFlags_NoScrollWithMouse, outConfig.windowflags);
     flagop("no_collapse", ImGuiWindowFlags_NoCollapse, outConfig.windowflags);
     flagop("horizontal_scrollbar", ImGuiWindowFlags_HorizontalScrollbar, outConfig.windowflags);
     flagop("no_focus_on_appearing", ImGuiWindowFlags_NoFocusOnAppearing, outConfig.windowflags);

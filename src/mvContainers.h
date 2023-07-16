@@ -91,6 +91,7 @@ struct mvChildWindowConfig
     bool             border = true;
     bool             autosize_x = false;
     bool             autosize_y = false;
+    bool             no_y_scroll = false;
     ImGuiWindowFlags windowflags = ImGuiWindowFlags_NoSavedSettings;
     float            scrollX = 0.0f;
     float            scrollY = 0.0f;
@@ -152,6 +153,7 @@ struct mvWindowAppItemConfig
     bool             no_title_bar = false;
     bool             no_move = false;
     bool             no_scrollbar = false;
+    bool             no_y_scroll = false;
     bool             no_collapse = false;
     bool             horizontal_scrollbar = false;
     bool             no_focus_on_appearing = false;
