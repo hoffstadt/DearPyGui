@@ -2079,7 +2079,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "border", mvArgType::KEYWORD_ARG, "True", "Shows/Hides the border around the sides." });
         args.push_back({ mvPyDataType::Bool, "autosize_x", mvArgType::KEYWORD_ARG, "False", "Autosize the window to its parents size in x." });
         args.push_back({ mvPyDataType::Bool, "autosize_y", mvArgType::KEYWORD_ARG, "False", "Autosize the window to its parents size in y." });
-        args.push_back({ mvPyDataType::Bool, "no_scrollbar", mvArgType::KEYWORD_ARG, "False", " Disable scrollbars (window can still scroll with mouse or programmatically)." });
+        args.push_back({ mvPyDataType::Bool, "no_scrollbar", mvArgType::KEYWORD_ARG, "False", "Disable and hide the vertical scrollbar. Does not disable vertical scrolling."});
         args.push_back({ mvPyDataType::Bool, "no_y_scroll", mvArgType::KEYWORD_ARG, "False", "Disable vertical scrolling from user input. The input is forwarded to the parenting item (if any). Does not hide or disable the scrollbar."});
         args.push_back({ mvPyDataType::Bool, "horizontal_scrollbar", mvArgType::KEYWORD_ARG, "False", "Allow horizontal scrollbar to appear (off by default)." });
         args.push_back({ mvPyDataType::Bool, "menubar", mvArgType::KEYWORD_ARG, "False", "Shows/Hides the menubar at the top." });
@@ -2760,7 +2760,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "no_resize", mvArgType::KEYWORD_ARG, "False", "Allows for the window size to be changed or fixed." });
         args.push_back({ mvPyDataType::Bool, "no_title_bar", mvArgType::KEYWORD_ARG, "False", "Title name for the title bar of the window." });
         args.push_back({ mvPyDataType::Bool, "no_move", mvArgType::KEYWORD_ARG, "False", "Allows for the window's position to be changed or fixed." });
-        args.push_back({ mvPyDataType::Bool, "no_scrollbar", mvArgType::KEYWORD_ARG, "False", " Disable scrollbars. (window can still scroll with mouse or programmatically)" });
+        args.push_back({ mvPyDataType::Bool, "no_scrollbar", mvArgType::KEYWORD_ARG, "False", "Disable and hide the vertical scrollbar. Does not disable vertical scrolling." });
         args.push_back({ mvPyDataType::Bool, "no_y_scroll", mvArgType::KEYWORD_ARG, "False", "Disable vertical scrolling from user input. The input is forwarded to the parenting item (if any). Does not hide or disable the scrollbar."});
         args.push_back({ mvPyDataType::Bool, "no_collapse", mvArgType::KEYWORD_ARG, "False", "Disable user collapsing window by double-clicking on it." });
         args.push_back({ mvPyDataType::Bool, "horizontal_scrollbar", mvArgType::KEYWORD_ARG, "False", "Allow horizontal scrollbar to appear. (off by default)" });
