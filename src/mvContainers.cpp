@@ -57,6 +57,8 @@ DearPyGui::fill_configuration_dict(const mvChildWindowConfig& inConfig, PyObject
     PyDict_SetItemString(outDict, "border", mvPyObject(ToPyBool(inConfig.border)));
     PyDict_SetItemString(outDict, "autosize_x", mvPyObject(ToPyBool(inConfig.autosize_x)));
     PyDict_SetItemString(outDict, "autosize_y", mvPyObject(ToPyBool(inConfig.autosize_y)));
+    PyDict_SetItemString(outDict, "x_scroll_pos", mvPyObject(ToPyFloat(inConfig.scrollX)));
+    PyDict_SetItemString(outDict, "y_scroll_pos", mvPyObject(ToPyFloat(inConfig.scrollY)));
 
     // helper for bit flipping
     auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)
@@ -176,6 +178,8 @@ DearPyGui::fill_configuration_dict(const mvWindowAppItemConfig& inConfig, PyObje
     PyDict_SetItemString(outDict, "collapsed", mvPyObject(ToPyBool(inConfig.collapsed)));
     PyDict_SetItemString(outDict, "min_size", mvPyObject(ToPyPairII(inConfig.min_size.x, inConfig.min_size.y)));
     PyDict_SetItemString(outDict, "max_size", mvPyObject(ToPyPairII(inConfig.max_size.x, inConfig.max_size.y)));
+    PyDict_SetItemString(outDict, "x_scroll_pos", mvPyObject(ToPyFloat(inConfig.scrollX)));
+    PyDict_SetItemString(outDict, "y_scroll_pos", mvPyObject(ToPyFloat(inConfig.scrollY)));
     if (inConfig.on_close)
     {
         Py_XINCREF(inConfig.on_close);
@@ -262,12 +266,23 @@ DearPyGui::set_configuration(PyObject* inDict, mvChildWindowConfig& outConfig)
     if (PyObject* item = PyDict_GetItemString(inDict, "border")) outConfig.border = ToBool(item);
     if (PyObject* item = PyDict_GetItemString(inDict, "autosize_x")) outConfig.autosize_x = ToBool(item);
     if (PyObject* item = PyDict_GetItemString(inDict, "autosize_y")) outConfig.autosize_y = ToBool(item);
-
-    // helper for bit flipping
-    auto flagop = [inDict](const char* keyword, int flag, int& flags)
+    if (PyObject *item = PyDict_GetItemString(inDict, "x_scroll_pos"))
     {
-        if (PyObject* item = PyDict_GetItemString(inDict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
-    };
+        outConfig.scrollX     = ToFloat(item);
+        outConfig._scrollXSet = true;
+    }
+    if (PyObject *item = PyDict_GetItemString(inDict, "y_scroll_pos"))
+    {
+        outConfig.scrollY     = ToFloat(item);
+        outConfig._scrollYSet = true;
+    }
+
+        // helper for bit flipping
+        auto flagop = [inDict](const char *keyword, int flag, int &flags)
+        {
+            if (PyObject *item = PyDict_GetItemString(inDict, keyword))
+                ToBool(item) ? flags |= flag : flags &= ~flag;
+        };
 
     // window flags
     flagop("no_scrollbar", ImGuiWindowFlags_NoScrollbar, outConfig.windowflags);
@@ -417,6 +432,18 @@ DearPyGui::set_configuration(PyObject* inDict, mvAppItem& itemc, mvWindowAppItem
     {
         auto max_size = ToIntVect(item);
         outConfig.max_size = { (float)max_size[0], (float)max_size[1] };
+    }
+
+    if (PyObject *item = PyDict_GetItemString(inDict, "x_scroll_pos"))
+    {
+        outConfig.scrollX = ToFloat(item);
+        outConfig._scrollXSet = true;
+    }
+    
+    if (PyObject *item = PyDict_GetItemString(inDict, "y_scroll_pos"))
+    {
+        outConfig.scrollY = ToFloat(item);
+        outConfig._scrollYSet = true;
     }
 
     if (PyObject* item = PyDict_GetItemString(inDict, "on_close"))

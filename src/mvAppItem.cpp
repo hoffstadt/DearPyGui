@@ -2083,6 +2083,8 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "no_y_scroll", mvArgType::KEYWORD_ARG, "False", "Disable vertical scrolling from user input. The input is forwarded to the parenting item (if any). Does not hide or disable the scrollbar."});
         args.push_back({ mvPyDataType::Bool, "horizontal_scrollbar", mvArgType::KEYWORD_ARG, "False", "Allow horizontal scrollbar to appear (off by default)." });
         args.push_back({ mvPyDataType::Bool, "menubar", mvArgType::KEYWORD_ARG, "False", "Shows/Hides the menubar at the top." });
+        args.push_back({ mvPyDataType::Float, "x_scroll_pos", mvArgType::KEYWORD_ARG, "0.0", "Set the window's horizontal scroll position. Values 0 and -1 set to the start/default and end/max positions respectively."});
+        args.push_back({ mvPyDataType::Float, "y_scroll_pos", mvArgType::KEYWORD_ARG, "0.0", "Set the window's vertical scroll position. Values 0 and -1 set to the start/default and end/max positions respectively."});
 
         setup.about = "Adds an embedded child window. Will show scrollbars when items do not fit.";
         setup.category = { "Containers", "Widgets" };
@@ -2772,6 +2774,8 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "popup", mvArgType::KEYWORD_ARG, "False", "Fills area behind window according to the theme, removes title bar, collapse and close. Window can be closed by selecting area in the background behind the window." });
         args.push_back({ mvPyDataType::Bool, "no_saved_settings", mvArgType::KEYWORD_ARG, "False", "Never load/save settings in .ini file." });
         args.push_back({ mvPyDataType::Bool, "no_open_over_existing_popup", mvArgType::KEYWORD_ARG, "True", "Don't open if there's already a popup" });
+        args.push_back({ mvPyDataType::Float, "x_scroll_pos", mvArgType::KEYWORD_ARG, "0.0", "Set the window's horizontal scroll position. Values 0 and -1 set to the start/default and end/max positions respectively."});
+        args.push_back({ mvPyDataType::Float, "y_scroll_pos", mvArgType::KEYWORD_ARG, "0.0", "Set the window's vertical scroll position. Values 0 and -1 set to the start/default and end/max positions respectively."});
         args.push_back({ mvPyDataType::Callable, "on_close", mvArgType::KEYWORD_ARG, "None", "Callback ran when window is closed." });
 
         setup.about = "Creates a new window for following items to be added to.";
