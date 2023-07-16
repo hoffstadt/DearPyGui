@@ -1226,6 +1226,17 @@ InsertParser_Block2(std::map<std::string, mvPythonParser>& parsers)
 		mvPythonParser parser = FinalizeParser(setup, args);
 		parsers.insert({ "set_primary_window", parser });
 	}
+	
+	{
+		std::vector<mvPythonDataElement> args;
+
+		mvPythonParserSetup setup;
+		setup.about = "Return the primary window.";
+		setup.category = {"Item Registry"};
+
+		mvPythonParser parser = FinalizeParser(setup, args);
+		parsers.insert({"get_primary_window", parser});
+	}
 }
 
 static void

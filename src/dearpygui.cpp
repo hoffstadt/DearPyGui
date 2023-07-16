@@ -15,7 +15,7 @@
 
 #define MV_ADD_COMMAND(x) methods.push_back({ #x, (PyCFunction)x, METH_VARARGS | METH_KEYWORDS, GetParsers()[#x].documentation.c_str() });
 
-const std::map<std::string, mvPythonParser>& 
+const std::map<std::string, mvPythonParser>&
 GetModuleParsers()
 {
 
@@ -641,6 +641,7 @@ PyInit__dearpygui(void)
 	MV_ADD_COMMAND(get_windows);
 	MV_ADD_COMMAND(get_all_items);
 	MV_ADD_COMMAND(get_active_window);
+	MV_ADD_COMMAND(get_primary_window);
 	MV_ADD_COMMAND(set_primary_window);
 	MV_ADD_COMMAND(push_container_stack);
 	MV_ADD_COMMAND(pop_container_stack);

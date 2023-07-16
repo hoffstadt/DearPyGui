@@ -2858,6 +2858,22 @@ push_container_stack(PyObject* self, PyObject* args, PyObject* kwargs)
 }
 
 static PyObject*
+get_primary_window(PyObject* self, PyObject* args, PyObject* kwargs)
+{
+	std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+
+	for (auto &window : GContext->itemRegistry->windowRoots)
+	{
+		mvWindowAppItem *windowActual = static_cast<mvWindowAppItem *>(window.get());
+		if (windowActual->configData.mainWindow)
+		{
+			return ToPyUUID(window->uuid);
+		}
+	}
+	return GetPyNone();
+}
+
+static PyObject*
 set_primary_window(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 	PyObject* itemraw;
@@ -3502,7 +3518,7 @@ get_item_info(PyObject* self, PyObject* args, PyObject* kwargs)
 		PyDict_SetItemString(pdict, "deactivatedae_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_DEACTIVATEDAE)));
 		PyDict_SetItemString(pdict, "toggled_open_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_TOGGLED_OPEN)));
 		PyDict_SetItemString(pdict, "resized_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_RECT_SIZE)));
-		
+
 	}
 
 	else
