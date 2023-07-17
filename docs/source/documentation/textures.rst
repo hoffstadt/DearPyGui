@@ -56,6 +56,8 @@ and any type that supports python's buffer protocol with contiguous data. Below 
     dpg.start_dearpygui()
     dpg.destroy_context()
 
+The texture can be deleted with `dpg.delete_item("texture_tag")`. However, for the tag/alias to be released items that use `"texture_tag"` (such as a plot series) must also be deleted. 
+
 Dynamic Textures
 ----------------
 
