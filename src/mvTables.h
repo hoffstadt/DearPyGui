@@ -76,6 +76,13 @@ public:
     bool _tableHeader = true;
     bool _useClipper = false;
 
+    float            _scrollX = 0.0f;
+    float            _scrollY = 0.0f;
+    float            _scrollMaxX = 0.0f;
+    float            _scrollMaxY = 0.0f;
+    bool             _scrollXSet = false;
+    bool             _scrollYSet = false;
+
     std::vector<bool> _columnColorsSet;
     std::vector<bool> _rowColorsSet;
     std::vector<bool> _rowSelectionColorsSet;

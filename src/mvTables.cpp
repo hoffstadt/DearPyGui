@@ -327,6 +327,28 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 				columnnum++;
 			}
 
+			if (_scrollXSet)
+			{
+				if (_scrollX < 0.0f)
+					ImGui::SetScrollHereX(1.0f);
+				else
+					ImGui::SetScrollX(_scrollX);
+				_scrollXSet = false;
+			}
+			if (_scrollYSet)
+			{
+				if (_scrollY < 0.0f)
+					ImGui::SetScrollHereY(1.0f);
+				else
+					ImGui::SetScrollY(_scrollY);
+				_scrollYSet = false;
+			}
+
+			_scrollX = ImGui::GetScrollX();
+			_scrollMaxX = ImGui::GetScrollMaxX();
+			_scrollY = ImGui::GetScrollY();
+			_scrollMaxY = ImGui::GetScrollMaxY();
+
 			ImGui::EndTable();
 		}
 	}
