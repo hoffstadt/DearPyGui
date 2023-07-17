@@ -2082,6 +2082,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "no_scrollbar", mvArgType::KEYWORD_ARG, "False", " Disable scrollbars (window can still scroll with mouse or programmatically)." });
         args.push_back({ mvPyDataType::Bool, "horizontal_scrollbar", mvArgType::KEYWORD_ARG, "False", "Allow horizontal scrollbar to appear (off by default)." });
         args.push_back({ mvPyDataType::Bool, "menubar", mvArgType::KEYWORD_ARG, "False", "Shows/Hides the menubar at the top." });
+        args.push_back({ mvPyDataType::Bool, "no_scroll_with_mouse", mvArgType::KEYWORD_ARG, "False", "Disable user vertically scrolling with mouse wheel." });
 
         setup.about = "Adds an embedded child window. Will show scrollbars when items do not fit.";
         setup.category = { "Containers", "Widgets" };
@@ -2770,6 +2771,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "popup", mvArgType::KEYWORD_ARG, "False", "Fills area behind window according to the theme, removes title bar, collapse and close. Window can be closed by selecting area in the background behind the window." });
         args.push_back({ mvPyDataType::Bool, "no_saved_settings", mvArgType::KEYWORD_ARG, "False", "Never load/save settings in .ini file." });
         args.push_back({ mvPyDataType::Bool, "no_open_over_existing_popup", mvArgType::KEYWORD_ARG, "True", "Don't open if there's already a popup" });
+        args.push_back({ mvPyDataType::Bool, "no_scroll_with_mouse", mvArgType::KEYWORD_ARG, "False", "Disable user vertically scrolling with mouse wheel." });
 
         args.push_back({ mvPyDataType::Callable, "on_close", mvArgType::KEYWORD_ARG, "None", "Callback ran when window is closed." });
 

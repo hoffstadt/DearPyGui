@@ -2658,6 +2658,7 @@ def window(**kwargs):
 		popup (bool, optional): Fills area behind window according to the theme, removes title bar, collapse and close. Window can be closed by selecting area in the background behind the window.
 		no_saved_settings (bool, optional): Never load/save settings in .ini file.
 		no_open_over_existing_popup (bool, optional): Don't open if there's already a popup
+		no_scroll_with_mouse (bool, optional): Disable user vertically scrolling with mouse wheel.
 		on_close (Callable, optional): Callback ran when window is closed.
 		id (Union[int, str], optional): (deprecated)
 	Yields:
@@ -6607,6 +6608,7 @@ def add_window(**kwargs):
 		popup (bool, optional): Fills area behind window according to the theme, removes title bar, collapse and close. Window can be closed by selecting area in the background behind the window.
 		no_saved_settings (bool, optional): Never load/save settings in .ini file.
 		no_open_over_existing_popup (bool, optional): Don't open if there's already a popup
+		no_scroll_with_mouse (bool, optional): Disable user vertically scrolling with mouse wheel.
 		on_close (Callable, optional): Callback ran when window is closed.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
