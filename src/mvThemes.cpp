@@ -67,7 +67,7 @@ void mvTheme::push_theme_components()
 			}
 
 		}
-		if (comp->_specificType != _specificType)
+		else
 		{
 			if (_specificEnabled == comp->_specificEnabled)
 			{
@@ -96,7 +96,7 @@ void mvTheme::pop_theme_components()
 				comp->pop_theme_items();
 			}
 		}
-		if (comp->_specificType != _specificType)
+		else
 		{
 			if (_specificEnabled == comp->_specificEnabled)
 			{
@@ -305,8 +305,6 @@ void mvThemeComponent::pop_theme_items()
 
 void mvThemeComponent::handleSpecificPositionalArgs(PyObject* dict)
 {
-	static std::shared_ptr<mvThemeComponent> all_item_theme_component = nullptr;
-
 	if (!VerifyPositionalArguments(GetParsers()[GetEntityCommand(type)], dict))
 		return;
 
@@ -320,13 +318,6 @@ void mvThemeComponent::handleSpecificPositionalArgs(PyObject* dict)
 			_specificType = ToInt(item);
 			_specificComponentPtr = &DearPyGui::GetClassThemeComponent((mvAppItemType)_specificType);
 			_specificDisabledComponentPtr = &DearPyGui::GetDisabledClassThemeComponent((mvAppItemType)_specificType);
-
-			if (_specificType == (int)mvAppItemType::All)
-			{
-				_specificComponentPtr = &all_item_theme_component;
-				_specificDisabledComponentPtr = &all_item_theme_component;
-			}
-
 			break;
 		}
 		default:
