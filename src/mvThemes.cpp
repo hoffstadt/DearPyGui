@@ -86,9 +86,9 @@ void mvTheme::push_theme_components()
 void mvTheme::pop_theme_components()
 {
 
-	for (auto& child : childslots[1])
+	for (auto it = childslots[1].rbegin(); it != childslots[1].rend(); it++)
 	{
-		auto comp = static_cast<mvThemeComponent*>(child.get());
+		auto comp = static_cast<mvThemeComponent*>(it->get());
 		if (comp->_specificType == (int)mvAppItemType::All || comp->_specificType == _specificType)
 		{
 			if (_specificEnabled == comp->_specificEnabled)
