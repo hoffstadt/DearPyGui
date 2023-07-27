@@ -71,12 +71,12 @@ void mvTheme::push_theme_components()
 		{
 			if (_specificEnabled == comp->_specificEnabled)
 			{
-				comp->_oldComponent = *comp->_specificComponentPtr;
+				comp->_oldComponent = std::move(*comp->_specificComponentPtr);
 				*comp->_specificComponentPtr = *(std::shared_ptr<mvThemeComponent>*) & child;
 			}
 			else
 			{
-				comp->_oldComponent = *comp->_specificDisabledComponentPtr;
+				comp->_oldComponent = std::move(*comp->_specificDisabledComponentPtr);
 				*comp->_specificDisabledComponentPtr = *(std::shared_ptr<mvThemeComponent>*) & child;
 			}
 		}
@@ -100,11 +100,13 @@ void mvTheme::pop_theme_components()
 		{
 			if (_specificEnabled == comp->_specificEnabled)
 			{
-				*comp->_specificComponentPtr = comp->_oldComponent;
+				// Nullifying comp->_oldComponent to avoid mvThemeComponent 
+				// hanging around even after being deleted from the widget tree.
+				*comp->_specificComponentPtr = std::move(comp->_oldComponent);
 			}
 			else
 			{
-				*comp->_specificDisabledComponentPtr = comp->_oldComponent;
+				*comp->_specificDisabledComponentPtr = std::move(comp->_oldComponent);
 			}
 
 		}
