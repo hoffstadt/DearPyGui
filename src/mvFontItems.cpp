@@ -195,7 +195,7 @@ void mvFont::getSpecificConfiguration(PyObject* dict)
 
 	PyDict_SetItemString(dict, "file", ToPyString(_file));
 	PyDict_SetItemString(dict, "size", ToPyFloat(_size));
-	PyDict_SetItemString(dict, "pixel_snapH", ToPyFloat(_pixel_snap_h));
+	PyDict_SetItemString(dict, "pixel_snapH", ToPyBool(_pixel_snap_h));
 }
 
 void mvFontChars::handleSpecificRequiredArgs(PyObject* dict)
