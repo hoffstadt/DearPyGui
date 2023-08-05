@@ -187,7 +187,18 @@ void mvFileDialog::handleSpecificKeywordArgs(PyObject* dict)
 		_max_size = { (float)max_size[0], (float)max_size[1] };
 	}
 
-	if (PyObject* item = PyDict_GetItemString(dict, "cancel_callback")) _cancelCallback = item;
+	if (PyObject* item = PyDict_GetItemString(dict, "cancel_callback"))
+	{
+		Py_XDECREF(_cancelCallback);
+
+		if (item == Py_None)
+			_cancelCallback = nullptr;
+		else
+		{
+			Py_XINCREF(item);
+			_cancelCallback = item;
+		}
+	}
 
 }
 
