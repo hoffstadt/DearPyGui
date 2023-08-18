@@ -27,7 +27,7 @@ sender:
     or 0 if trigger by the application.
 
 app_data:
-    argument is used DPG to send information
+    argument is used by DPG to send information
     to the callback i.e. the current value of most basic widgets.
 
 .. code-block:: python
