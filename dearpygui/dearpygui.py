@@ -1850,12 +1850,13 @@ def filter_set(*, label: str =None, user_data: Any =None, use_internal_label: bo
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def font(file : str, size : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =internal_dpg.mvReservedUUID_0, **kwargs) -> Union[int, str]:
+def font(file : str, size : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =internal_dpg.mvReservedUUID_0, pixel_snapH: bool =False, **kwargs) -> Union[int, str]:
 	"""	 Adds font to a font registry.
 
 	Args:
 		file (str): 
 		size (int): 
+		pixel_snapH (bool, optional): Align every glyph to pixel boundary. Useful e.g. if you are merging a non-pixel aligned font with the default font, or rendering text piece-by-piece (e.g. for coloring).
 		label (str, optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
@@ -1875,7 +1876,7 @@ def font(file : str, size : int, *, label: str =None, user_data: Any =None, use_
 		if 'default_font' in kwargs.keys():
 			warnings.warn('default_font keyword removed', DeprecationWarning, 2)
 			kwargs.pop('default_font', None)
-		widget = internal_dpg.add_font(file, size, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, **kwargs)
+		widget = internal_dpg.add_font(file, size, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, pixel_snapH=pixel_snapH, **kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
@@ -4308,12 +4309,13 @@ def add_float_vect_value(*, label: str =None, user_data: Any =None, use_internal
 
 	return internal_dpg.add_float_vect_value(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, source=source, default_value=default_value, parent=parent, **kwargs)
 
-def add_font(file : str, size : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =internal_dpg.mvReservedUUID_0, **kwargs) -> Union[int, str]:
+def add_font(file : str, size : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =internal_dpg.mvReservedUUID_0, pixel_snapH: bool =False, **kwargs) -> Union[int, str]:
 	"""	 Adds font to a font registry.
 
 	Args:
 		file (str): 
 		size (int): 
+		pixel_snapH (bool, optional): Align every glyph to pixel boundary. Useful e.g. if you are merging a non-pixel aligned font with the default font, or rendering text piece-by-piece (e.g. for coloring).
 		label (str, optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
@@ -4335,7 +4337,7 @@ def add_font(file : str, size : int, *, label: str =None, user_data: Any =None, 
 
 		kwargs.pop('default_font', None)
 
-	return internal_dpg.add_font(file, size, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, **kwargs)
+	return internal_dpg.add_font(file, size, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, pixel_snapH=pixel_snapH, **kwargs)
 
 def add_font_chars(chars : Union[List[int], Tuple[int, ...]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, **kwargs) -> Union[int, str]:
 	"""	 Adds specific font characters to a font.
