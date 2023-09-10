@@ -142,6 +142,12 @@ mvShowViewport(mvViewport& viewport, bool minimized, bool maximized)
     glfwSetErrorCallback(glfw_error_callback);
     glfwInit();
 
+    // specifies whether the window framebuffer will be transparent
+    // if enabled and supported by the system, the window framebuffer
+    // alpha channel will be used to combine the framebuffer with
+    // the background (this does not affect window decorations).
+    glfwWindowHint(GLFW_TRANSPARENT_FRAMEBUFFER, GLFW_TRUE);
+
     if (!viewport.resizable)
         glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
     if (viewport.alwaysOnTop)
@@ -221,13 +227,13 @@ mvShowViewport(mvViewport& viewport, bool minimized, bool maximized)
 
     // Setup Platform/Renderer bindings
     ImGui_ImplGlfw_InitForOpenGL(viewportData->handle, true);
-        
+
 
     // Setup callbacks
     glfwSetWindowSizeCallback(viewportData->handle, window_size_callback);
     glfwSetWindowCloseCallback(viewportData->handle, window_close_callback);
 }
-    
+
  void
 mvMaximizeViewport(mvViewport& viewport)
 {
