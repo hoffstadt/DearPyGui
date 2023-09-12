@@ -6349,6 +6349,8 @@ DearPyGui::draw_separator(ImDrawList* drawlist, mvAppItem& item)
 void
 DearPyGui::draw_spacer(ImDrawList* drawlist, mvAppItem& item)
 {
+	if (!item.config.show)
+		return;
 	if (item.config.width == 0 && item.config.height == 0)
 		ImGui::Spacing();
 	else
