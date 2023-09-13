@@ -17,7 +17,7 @@ on:
       version:
         description: 'Dear PyGui Version'
         required: false
-        default: '0.0.1'
+        default: '1.10.1'
     
       deploy:
         description: 'Deploy (true will deploy to pypi)'
