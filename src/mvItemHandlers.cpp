@@ -65,7 +65,7 @@ void mvItemHandlerRegistry::onBind(mvAppItem* item)
 
 		case mvAppItemType::mvDeactivatedHandler:
 		{
-			if (!(applicableState & ~MV_STATE_DEACTIVATED))
+			if (!(applicableState & MV_STATE_DEACTIVATED))
 				mvThrowPythonError(mvErrorCode::mvNone, "bind_item_handler_registry",
 					"Item Handler Registry includes inapplicable handler: mvDeactivatedHandler", item);
 			break;
@@ -73,7 +73,7 @@ void mvItemHandlerRegistry::onBind(mvAppItem* item)
 
 		case mvAppItemType::mvEditedHandler:
 		{
-			if (!(applicableState & ~MV_STATE_EDITED))
+			if (!(applicableState & MV_STATE_EDITED))
 				mvThrowPythonError(mvErrorCode::mvNone, "bind_item_handler_registry",
 					"Item Handler Registry includes inapplicable handler: mvEditedHandler", item);
 			break;
@@ -81,7 +81,7 @@ void mvItemHandlerRegistry::onBind(mvAppItem* item)
 
 		case mvAppItemType::mvFocusHandler:
 		{
-			if (!(applicableState & ~MV_STATE_FOCUSED))
+			if (!(applicableState & MV_STATE_FOCUSED))
 				mvThrowPythonError(mvErrorCode::mvNone, "bind_item_handler_registry",
 					"Item Handler Registry includes inapplicable handler: mvFocusHandler", item);
 			break;
@@ -89,7 +89,7 @@ void mvItemHandlerRegistry::onBind(mvAppItem* item)
 
 		case mvAppItemType::mvHoverHandler:
 		{
-			if (!(applicableState & ~MV_STATE_HOVER))
+			if (!(applicableState & MV_STATE_HOVER))
 				mvThrowPythonError(mvErrorCode::mvNone, "bind_item_handler_registry",
 					"Item Handler Registry includes inapplicable handler: mvHoverHandler", item);
 			break;
@@ -97,7 +97,7 @@ void mvItemHandlerRegistry::onBind(mvAppItem* item)
 
 		case mvAppItemType::mvResizeHandler:
 		{
-			if (!(applicableState & ~MV_STATE_RECT_SIZE))
+			if (!(applicableState & MV_STATE_RECT_SIZE))
 				mvThrowPythonError(mvErrorCode::mvNone, "bind_item_handler_registry",
 					"Item Handler Registry includes inapplicable handler: mvResizeHandler", item);
 			break;
@@ -105,7 +105,7 @@ void mvItemHandlerRegistry::onBind(mvAppItem* item)
 
 		case mvAppItemType::mvToggledOpenHandler:
 		{
-			if (!(applicableState & ~MV_STATE_TOGGLED_OPEN))
+			if (!(applicableState & MV_STATE_TOGGLED_OPEN))
 				mvThrowPythonError(mvErrorCode::mvNone, "bind_item_handler_registry",
 					"Item Handler Registry includes inapplicable handler: mvToggledOpenHandler", item);
 			break;
