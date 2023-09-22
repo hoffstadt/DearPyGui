@@ -57,7 +57,7 @@ void mvToolManager::ShowTool(mvUUID name)
 	{
 		if (tool->getUUID() == name)
 		{
-			tool->m_show = true;
+			tool->m_focusNextFrame = tool->m_show = true;
 			return;
 		}
 	}
