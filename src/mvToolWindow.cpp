@@ -18,6 +18,12 @@ void mvToolWindow::draw()
         m_dirtyPos = false;
     }
 
+    if (m_focusNextFrame)
+    {
+        ImGui::SetNextWindowFocus();
+        m_focusNextFrame = false;
+    }
+
     if (!ImGui::Begin(getTitle(), &m_show, m_windowflags))
     {
         ImGui::End();
