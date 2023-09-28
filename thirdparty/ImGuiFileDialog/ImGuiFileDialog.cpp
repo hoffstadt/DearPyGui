@@ -1738,7 +1738,18 @@ namespace IGFD
 					newPath = prCurrentPath + std::string(1u, PATH_SEP) + vInfos->fileName;
 			}
 
-			if (IGFD::Utils::IsDirectoryExist(newPath))
+			bool is_directory_accessible = false;
+
+			try {
+				const std::filesystem::path fspath(newPath);
+				const auto dir_iter = std::filesystem::directory_iterator(fspath);
+				is_directory_accessible = true;
+			}
+			catch (...) {
+				is_directory_accessible = false;
+			}
+
+			if (IGFD::Utils::IsDirectoryExist(newPath) && is_directory_accessible)
 			{
 				if (puShowDrives)
 				{
