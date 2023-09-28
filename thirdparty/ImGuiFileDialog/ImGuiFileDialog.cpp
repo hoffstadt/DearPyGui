@@ -309,6 +309,27 @@ namespace IGFD
 	//// INLINE FUNCTIONS ///////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////////////
 
+#ifdef USE_STD_FILESYSTEM
+inline bool isDirectoryAccessible(const std::string &path)
+{
+	try 
+	{
+		const std::filesystem::path fspath(path);
+		const auto dir_iter = std::filesystem::directory_iterator(fspath);
+		return true;
+	}
+	catch (...) 
+	{
+		return false;
+	}
+}
+#else
+inline bool isDirectoryAccessible(const std::string& path)
+{
+	return access(path.c_str(), R_OK | F_OK) == 0;
+}
+#endif
+
 #ifndef USE_STD_FILESYSTEM
 	inline int inAlphaSort(const struct dirent** a, const struct dirent** b)
 	{
@@ -1738,7 +1759,7 @@ namespace IGFD
 					newPath = prCurrentPath + std::string(1u, PATH_SEP) + vInfos->fileName;
 			}
 
-			if (IGFD::Utils::IsDirectoryExist(newPath))
+			if (IGFD::Utils::IsDirectoryExist(newPath) && isDirectoryAccessible(newPath))
 			{
 				if (puShowDrives)
 				{
@@ -2107,8 +2128,11 @@ namespace IGFD
 			auto gio = ImGui::GetIO();
 			if (ImGui::IsKeyReleased(gio.KeyMap[ImGuiKey_Enter]))
 			{
-				puFileManager.SetCurrentPath(std::string(puFileManager.puInputPathBuffer));
-				puFileManager.OpenCurrentPath(*this);
+				if (isDirectoryAccessible(std::string(puFileManager.puInputPathBuffer)))
+				{
+					puFileManager.SetCurrentPath(std::string(puFileManager.puInputPathBuffer));
+					puFileManager.OpenCurrentPath(*this);
+				}
 				puFileManager.puInputPathActivated = false;
 			}
 			if (ImGui::IsKeyReleased(gio.KeyMap[ImGuiKey_Escape]))
