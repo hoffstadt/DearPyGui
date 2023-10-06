@@ -690,7 +690,7 @@ void mvNodeLink::handleSpecificRequiredArgs(PyObject* dict)
 void mvNodeLink::customAction(void* data)
 {
     if (handlerRegistry)
-        handlerRegistry->checkEvents(data);
+        handlerRegistry->checkEvents(&state);
 }
 
 void mvNodeLink::draw(ImDrawList* drawlist, float x, float y)
