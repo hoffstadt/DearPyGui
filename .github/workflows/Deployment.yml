@@ -36,7 +36,7 @@ jobs:
     runs-on: windows-2019
     strategy:
       matrix:
-        python-version: [ 3.7, 3.8, 3.9, "3.10", "3.11" ]
+        python-version: [ 3.7, 3.8, 3.9, "3.10", "3.11", "3.12" ]
 
     steps:
 
@@ -64,7 +64,7 @@ jobs:
       shell: cmd
       run: |
         cd %GITHUB_WORKSPACE%
-        python -m pip install --upgrade pip twine wheel
+        python -m pip install --upgrade pip twine wheel setuptools
         python -m setup bdist_wheel --plat-name win_amd64 --dist-dir dist
     
     - name: Upload Windows ${{ matrix.python-version }} Wheel
@@ -79,7 +79,7 @@ jobs:
     runs-on: macos-11
     strategy:
       matrix:
-        python-version: [ 3.7, 3.8, 3.9, "3.10", "3.11" ]
+        python-version: [ 3.7, 3.8, 3.9, "3.10", "3.11", "3.12" ]
 
     steps:
 
@@ -104,7 +104,7 @@ jobs:
     - name: Build Wheel
       run: |
         cd $GITHUB_WORKSPACE
-        python -m pip install --upgrade pip twine wheel
+        python -m pip install --upgrade pip twine wheel setuptools
         python -m setup bdist_wheel --plat-name macosx-10.6-x86_64 --dist-dir dist
    
     - name: Upload MacOS 10.15 ${{ matrix.python-version }} Wheel
@@ -121,7 +121,7 @@ jobs:
       CXX: g++-9
     strategy:
       matrix:
-        python-version: [ 3.7, 3.8, 3.9, "3.10", "3.11" ]
+        python-version: [ 3.7, 3.8, 3.9, "3.10", "3.11", "3.12" ]
 
     steps:
 
@@ -148,7 +148,7 @@ jobs:
     - name: Build Wheel
       run: |
         cd $GITHUB_WORKSPACE
-        python -m pip install --upgrade pip twine wheel
+        python -m pip install --upgrade pip twine wheel setuptools
         python -m setup bdist_wheel --plat-name manylinux1_x86_64 --dist-dir dist
 
     - name: Upload Linux ${{ matrix.python-version }} Wheel
