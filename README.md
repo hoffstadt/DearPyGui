@@ -65,7 +65,7 @@
   
 ## Installation
 
-Ensure you have at least Python 3.7 64bit.
+Ensure you have at least Python 3.8 64bit.
  ```
  pip install dearpygui
  or
