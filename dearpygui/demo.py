@@ -18,13 +18,11 @@ def _hyperlink(text, address):
     dpg.bind_item_theme(b, "__demo_hyperlinkTheme")
 
 def _config(sender, keyword, user_data):
-
     widget_type = dpg.get_item_type(sender)
     items = user_data
 
     if widget_type == "mvAppItemType::mvRadioButton":
         value = True
-
     else:
         keyword = dpg.get_item_label(sender)
         value = dpg.get_value(sender)
@@ -36,7 +34,6 @@ def _config(sender, keyword, user_data):
         dpg.configure_item(items, **{keyword: value})
 
 def _add_config_options(item, columns, *names, **kwargs):
-    
     if columns == 1:
         if 'before' in kwargs:
             for name in names:
@@ -44,9 +41,7 @@ def _add_config_options(item, columns, *names, **kwargs):
         else:
             for name in names:
                 dpg.add_checkbox(label=name, callback=_config, user_data=item, default_value=dpg.get_item_configuration(item)[name])
-
     else:
-
         if 'before' in kwargs:
             dpg.push_container_stack(dpg.add_table(header_row=False, before=kwargs['before']))
         else:
@@ -55,10 +50,11 @@ def _add_config_options(item, columns, *names, **kwargs):
         for i in range(columns):
             dpg.add_table_column()
 
-        for i in range(int(len(names)/columns)):
-
+        for i in range((len(names)+(columns - 1))//columns):
             with dpg.table_row():
                 for j in range(columns):
+                    if (i*columns + j) >= len(names): 
+                        break
                     dpg.add_checkbox(label=names[i*columns + j], 
                                         callback=_config, user_data=item, 
                                         default_value=dpg.get_item_configuration(item)[names[i*columns + j]])
