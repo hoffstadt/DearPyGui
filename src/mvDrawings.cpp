@@ -1451,6 +1451,41 @@ void mvDrawRect::handleSpecificKeywordArgs(PyObject* dict)
 	if (PyObject* item = PyDict_GetItemString(dict, "rounding")) _rounding = ToFloat(item);
 	if (PyObject* item = PyDict_GetItemString(dict, "thickness")) _thickness = ToFloat(item);
 	if (PyObject* item = PyDict_GetItemString(dict, "multicolor")) _multicolor = ToBool(item);
+	if (PyObject* item = PyDict_GetItemString(dict, "corner_colors"))
+	{
+        if (item != Py_None)
+		{
+            if (PyTuple_Check(item))
+			{
+				if (PyTuple_Size(item) != 4)
+					mvThrowPythonError(mvErrorCode::mvNone, "The corner_colors parm on draw_rectangle must contain 4 colors.");
+				else
+				{
+					// Note: the variables are named incorrectly, e.g. _color_bottom_right
+					// actually controls upper-left corner.  That's how old Python parms
+					// were named so we're keeping the names for a while until we drop the
+					// old parms altogether (if this ever happens).
+					// For now, we're just filling them in appropriate order.
+					_color_bottom_right = ToColor(PyTuple_GetItem(item, 0));
+					_color_bottom_left = ToColor(PyTuple_GetItem(item, 1));
+					_color_upper_left = ToColor(PyTuple_GetItem(item, 2));
+					_color_upper_right = ToColor(PyTuple_GetItem(item, 3));
+				}
+			}
+            else if (PyList_Check(item))
+			{
+				if (PyList_Size(item) != 4)
+					mvThrowPythonError(mvErrorCode::mvNone, "The corner_colors parm on draw_rectangle must contain 4 colors.");
+				else
+				{
+					_color_bottom_right = ToColor(PyList_GetItem(item, 0));
+					_color_bottom_left = ToColor(PyList_GetItem(item, 1));
+					_color_upper_left = ToColor(PyList_GetItem(item, 2));
+					_color_upper_right = ToColor(PyList_GetItem(item, 3));
+				}
+			}
+		}
+	}
 
 	if (_multicolor)
 		_rounding = 0.0f;
