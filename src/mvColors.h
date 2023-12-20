@@ -75,7 +75,7 @@ struct mvColorEditConfig
 
     std::shared_ptr<std::array<float, 4>> value = std::make_shared<std::array<float, 4>>(std::array<float, 4>{0.0f, 0.0f, 0.0f, 1.0f});
     float                       disabled_value[4]{};
-    ImGuiColorEditFlags         flags = ImGuiColorEditFlags__OptionsDefault;
+    ImGuiColorEditFlags         flags = ImGuiColorEditFlags_DefaultOptions_;
     bool                        no_picker = false;
     bool                        no_options = false;
     bool                        no_inputs = false;
@@ -88,7 +88,7 @@ struct mvColorPickerConfig
 {
     std::shared_ptr<std::array<float, 4>> value = std::make_shared<std::array<float, 4>>(std::array<float, 4>{0.0f, 0.0f, 0.0f, 1.0f});
     float                       disabled_value[4]{};
-    ImGuiColorEditFlags         flags = ImGuiColorEditFlags__OptionsDefault;
+    ImGuiColorEditFlags         flags = ImGuiColorEditFlags_DefaultOptions_;
     bool                        no_inputs = false;
     bool                        no_label = false;
     bool                        no_side_preview = false;

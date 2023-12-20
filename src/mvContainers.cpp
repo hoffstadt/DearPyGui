@@ -7,6 +7,7 @@
 #include "mvItemHandlers.h"
 #include <misc/cpp/imgui_stdlib.h>
 #include "mvTextureItems.h"
+#include <iostream>
 
 //-----------------------------------------------------------------------------
 // [SECTION] get_item_configuration(...) specifics

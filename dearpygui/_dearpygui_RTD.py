@@ -1174,11 +1174,6 @@ def deprecated(reason):
 
 		return new_func2
 
-@deprecated("Use 'configure_app(docking=True, docking_space=dock_space)'.")
-def enable_docking(dock_space=False):
-    """ deprecated function """
-    internal_dpg.configure_app(docking=True, docking_space=dock_space)
-
 @deprecated("Use 'configure_app(init_file=file)'.")
 def set_init_file(file="dpg.ini"):
     """ deprecated function """
@@ -2108,7 +2103,7 @@ def plot(**kwargs):
 		no_title (bool, optional): the plot title will not be displayed
 		no_menus (bool, optional): the user will not be able to open context menus with right-click
 		no_box_select (bool, optional): the user will not be able to box-select with right-click drag
-		no_mouse_pos (bool, optional): the mouse position, in plot coordinates, will not be displayed inside of the plot
+		no_mouse_text (bool, optional): the mouse position, in plot coordinates, will not be displayed inside of the plot
 		no_highlight (bool, optional): plot items will not be highlighted when their legend entry is hovered
 		no_child (bool, optional): a child window region will not be used to capture mouse scroll (can boost performance for single ImGui window applications)
 		query (bool, optional): the user will be able to draw query rects with middle - mouse or CTRL + right - click drag
@@ -2118,7 +2113,7 @@ def plot(**kwargs):
 		use_local_time (bool, optional): axis labels will be formatted for your timezone when
 		use_ISO8601 (bool, optional): dates will be formatted according to ISO 8601 where applicable (e.g. YYYY-MM-DD, YYYY-MM, --MM-DD, etc.)
 		use_24hour_clock (bool, optional): times will be formatted using a 24 hour clock
-		pan_button (int, optional): enables panning when held
+		pan (int, optional): mouse button that enables panning when held
 		pan_mod (int, optional): optional modifier that must be held for panning
 		fit_button (int, optional): fits visible data when double clicked
 		context_menu_button (int, optional): opens plot context menu (if enabled) when clicked
@@ -3660,7 +3655,6 @@ def add_drag_line(**kwargs):
 		default_value (Any, optional): 
 		color (Union[List[int], Tuple[int, ...]], optional): 
 		thickness (float, optional): 
-		show_label (bool, optional): 
 		vertical (bool, optional): 
 		id (Union[int, str], optional): (deprecated)
 	Returns:
@@ -3705,7 +3699,6 @@ def add_drag_point(**kwargs):
 		default_value (Any, optional): 
 		color (Union[List[int], Tuple[int, ...]], optional): 
 		thickness (float, optional): 
-		show_label (bool, optional): 
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -5338,7 +5331,7 @@ def add_plot(**kwargs):
 		no_title (bool, optional): the plot title will not be displayed
 		no_menus (bool, optional): the user will not be able to open context menus with right-click
 		no_box_select (bool, optional): the user will not be able to box-select with right-click drag
-		no_mouse_pos (bool, optional): the mouse position, in plot coordinates, will not be displayed inside of the plot
+		no_mouse_text (bool, optional): the mouse position, in plot coordinates, will not be displayed inside of the plot
 		no_highlight (bool, optional): plot items will not be highlighted when their legend entry is hovered
 		no_child (bool, optional): a child window region will not be used to capture mouse scroll (can boost performance for single ImGui window applications)
 		query (bool, optional): the user will be able to draw query rects with middle - mouse or CTRL + right - click drag
@@ -5348,7 +5341,7 @@ def add_plot(**kwargs):
 		use_local_time (bool, optional): axis labels will be formatted for your timezone when
 		use_ISO8601 (bool, optional): dates will be formatted according to ISO 8601 where applicable (e.g. YYYY-MM-DD, YYYY-MM, --MM-DD, etc.)
 		use_24hour_clock (bool, optional): times will be formatted using a 24 hour clock
-		pan_button (int, optional): enables panning when held
+		pan (int, optional): mouse button that enables panning when held
 		pan_mod (int, optional): optional modifier that must be held for panning
 		fit_button (int, optional): fits visible data when double clicked
 		context_menu_button (int, optional): opens plot context menu (if enabled) when clicked
@@ -5437,6 +5430,7 @@ def add_plot_legend(**kwargs):
 	Returns:
 		Union[int, str]
 	"""
+	# TODO: Check if these parameters are added automatically from things like mvAppItem.cpp or other files
 
 	return internal_dpg.add_plot_legend(**kwargs)
 
@@ -7556,8 +7550,8 @@ def get_plot_mouse_pos():
 
 	return internal_dpg.get_plot_mouse_pos()
 
-def get_plot_query_area(plot):
-	"""	 Returns the last/current query area of the plot. (Requires plot 'query' kwarg to be enabled)
+def get_plot_query_rects(plot):
+	"""	 Returns the coordinates of all the query rects of the plot (Requires plot 'query' kwarg to be enabled)
 
 	Args:
 		plot (Union[int, str]): 
@@ -7565,7 +7559,7 @@ def get_plot_query_area(plot):
 		Union[List[float], Tuple[float, ...]]
 	"""
 
-	return internal_dpg.get_plot_query_area(plot)
+	return internal_dpg.get_plot_query_rects(plot)
 
 def get_selected_links(node_editor):
 	"""	 Returns a node editor's selected links.
@@ -7837,17 +7831,6 @@ def is_mouse_button_released(button):
 	"""
 
 	return internal_dpg.is_mouse_button_released(button)
-
-def is_plot_queried(plot):
-	"""	 Returns true if the plot is currently being queried. (Requires plot 'query' kwarg to be enabled)
-
-	Args:
-		plot (Union[int, str]): 
-	Returns:
-		bool
-	"""
-
-	return internal_dpg.is_plot_queried(plot)
 
 def is_table_cell_highlighted(table, row, column):
 	"""	 Checks if a table cell is highlighted.
@@ -8830,8 +8813,6 @@ mvThemeCol_TabHovered=internal_dpg.mvThemeCol_TabHovered
 mvThemeCol_TabActive=internal_dpg.mvThemeCol_TabActive
 mvThemeCol_TabUnfocused=internal_dpg.mvThemeCol_TabUnfocused
 mvThemeCol_TabUnfocusedActive=internal_dpg.mvThemeCol_TabUnfocusedActive
-mvThemeCol_DockingPreview=internal_dpg.mvThemeCol_DockingPreview
-mvThemeCol_DockingEmptyBg=internal_dpg.mvThemeCol_DockingEmptyBg
 mvThemeCol_PlotLines=internal_dpg.mvThemeCol_PlotLines
 mvThemeCol_PlotLinesHovered=internal_dpg.mvThemeCol_PlotLinesHovered
 mvThemeCol_PlotHistogram=internal_dpg.mvThemeCol_PlotHistogram
@@ -8860,16 +8841,12 @@ mvPlotCol_LegendBorder=internal_dpg.mvPlotCol_LegendBorder
 mvPlotCol_LegendText=internal_dpg.mvPlotCol_LegendText
 mvPlotCol_TitleText=internal_dpg.mvPlotCol_TitleText
 mvPlotCol_InlayText=internal_dpg.mvPlotCol_InlayText
-mvPlotCol_XAxis=internal_dpg.mvPlotCol_XAxis
-mvPlotCol_XAxisGrid=internal_dpg.mvPlotCol_XAxisGrid
-mvPlotCol_YAxis=internal_dpg.mvPlotCol_YAxis
-mvPlotCol_YAxisGrid=internal_dpg.mvPlotCol_YAxisGrid
-mvPlotCol_YAxis2=internal_dpg.mvPlotCol_YAxis2
-mvPlotCol_YAxisGrid2=internal_dpg.mvPlotCol_YAxisGrid2
-mvPlotCol_YAxis3=internal_dpg.mvPlotCol_YAxis3
-mvPlotCol_YAxisGrid3=internal_dpg.mvPlotCol_YAxisGrid3
+mvPlotCol_AxisBg=internal_dpg.mvPlotCol_AxisBg
+mvPlotCol_AxisBgActive=internal_dpg.mvPlotCol_AxisBgActive
+mvPlotCol_AxisBgHovered=internal_dpg.mvPlotCol_AxisBgHovered
+mvPlotCol_AxisGrid=internal_dpg.mvPlotCol_AxisGrid
+mvPlotCol_AxisText=internal_dpg.mvPlotCol_AxisText
 mvPlotCol_Selection=internal_dpg.mvPlotCol_Selection
-mvPlotCol_Query=internal_dpg.mvPlotCol_Query
 mvPlotCol_Crosshairs=internal_dpg.mvPlotCol_Crosshairs
 mvNodeCol_NodeBackground=internal_dpg.mvNodeCol_NodeBackground
 mvNodeCol_NodeBackgroundHovered=internal_dpg.mvNodeCol_NodeBackgroundHovered
@@ -8901,6 +8878,7 @@ mvNodesCol_MiniMapLinkSelected=internal_dpg.mvNodesCol_MiniMapLinkSelected
 mvNodesCol_MiniMapCanvas=internal_dpg.mvNodesCol_MiniMapCanvas
 mvNodesCol_MiniMapCanvasOutline=internal_dpg.mvNodesCol_MiniMapCanvasOutline
 mvStyleVar_Alpha=internal_dpg.mvStyleVar_Alpha
+mvStyleVar_DisabledAlpha=internal_dpg.mvStyleVar_DisabledAlpha
 mvStyleVar_WindowPadding=internal_dpg.mvStyleVar_WindowPadding
 mvStyleVar_WindowRounding=internal_dpg.mvStyleVar_WindowRounding
 mvStyleVar_WindowBorderSize=internal_dpg.mvStyleVar_WindowBorderSize
@@ -9037,6 +9015,7 @@ mvSliderIntMulti=internal_dpg.mvSliderIntMulti
 mvInputIntMulti=internal_dpg.mvInputIntMulti
 mvInputFloatMulti=internal_dpg.mvInputFloatMulti
 mvDragPoint=internal_dpg.mvDragPoint
+mvDragRect=internal_dpg.mvDragRect
 mvDragLine=internal_dpg.mvDragLine
 mvAnnotation=internal_dpg.mvAnnotation
 mvLineSeries=internal_dpg.mvLineSeries

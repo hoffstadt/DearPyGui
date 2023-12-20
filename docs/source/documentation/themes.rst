@@ -275,8 +275,8 @@ Core Colors
 mvThemeCol_Text                 mvThemeCol_TabActive             mvThemeCol_SliderGrabActive
 mvThemeCol_TextDisabled         mvThemeCol_TabUnfocused          mvThemeCol_Button
 mvThemeCol_WindowBg             mvThemeCol_TabUnfocusedActive    mvThemeCol_ButtonHovered
-mvThemeCol_ChildBg              mvThemeCol_DockingPreview        mvThemeCol_ButtonActive
-mvThemeCol_Border               mvThemeCol_DockingEmptyBg        mvThemeCol_Header
+mvThemeCol_ChildBg              mvThemeCol_ButtonActive
+mvThemeCol_Border               mvThemeCol_Header
 mvThemeCol_PopupBg              mvThemeCol_PlotLines             mvThemeCol_HeaderHovered
 mvThemeCol_BorderShadow         mvThemeCol_PlotLinesHovered      mvThemeCol_HeaderActive
 mvThemeCol_FrameBg              mvThemeCol_PlotHistogram         mvThemeCol_Separator
@@ -297,18 +297,18 @@ mvThemeCol_SliderGrab           mvThemeCol_ModalWindowDimBg
 Plot Colors
 -----------
 
-======================= ====================== ====================
+======================= ====================== =======================
 Plot Colors
-======================= ====================== ====================
-mvPlotCol_Line          mvPlotCol_LegendBg     mvPlotCol_YAxisGrid
-mvPlotCol_Fill          mvPlotCol_LegendBorder mvPlotCol_YAxis2
-mvPlotCol_MarkerOutline mvPlotCol_LegendText   mvPlotCol_YAxisGrid2
-mvPlotCol_MarkerFill    mvPlotCol_TitleText    mvPlotCol_YAxis3
-mvPlotCol_ErrorBar      mvPlotCol_InlayText    mvPlotCol_YAxisGrid3
-mvPlotCol_FrameBg       mvPlotCol_XAxis        mvPlotCol_Selection
-mvPlotCol_PlotBg        mvPlotCol_XAxisGrid    mvPlotCol_Query
-mvPlotCol_PlotBorder    mvPlotCol_YAxis        mvPlotCol_Crosshairs
-======================= ====================== ====================
+======================= ====================== =======================
+mvPlotCol_Line          mvPlotCol_LegendBg     mvPlotCol_AxisBgHovered
+mvPlotCol_Fill          mvPlotCol_LegendBorder mvPlotCol_AxisGrid
+mvPlotCol_MarkerOutline mvPlotCol_LegendText   mvPlotCol_AxisText
+mvPlotCol_MarkerFill    mvPlotCol_TitleText    mvPlotCol_Selection
+mvPlotCol_ErrorBar      mvPlotCol_InlayText    mvPlotCol_Crosshairs
+mvPlotCol_FrameBg       mvPlotCol_AxisBg       
+mvPlotCol_PlotBg        mvPlotCol_AxisBgActive 
+mvPlotCol_PlotBorder    mvPlotCol_YAxis        
+======================= ====================== =======================
 
 Node Colors
 -----------
@@ -331,6 +331,7 @@ Core Styles
 Constant                       Components
 ============================== ==========
 mvStyleVar_Alpha               1
+mvStyleVar_DisabledAlpha       1
 mvStyleVar_WindowPadding       2
 mvStyleVar_WindowRounding      1
 mvStyleVar_WindowBorderSize    1

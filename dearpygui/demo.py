@@ -2036,7 +2036,7 @@ def show_demo():
                                   0.1, 2.0, 0.0, 1.4, 0.0, 1.9, 6.3)
                         with dpg.group(horizontal=True):
                             dpg.add_colormap_scale(min_scale=0, max_scale=6, height=400)
-                            with dpg.plot(label="Heat Series", no_mouse_pos=True, height=400, width=-1):
+                            with dpg.plot(label="Heat Series", no_mouse_text=True, height=400, width=-1):
                                 dpg.add_plot_axis(dpg.mvXAxis, label="x", lock_min=True, lock_max=True, no_gridlines=True, no_tick_marks=True)
                                 with dpg.plot_axis(dpg.mvYAxis, label="y", no_gridlines=True, no_tick_marks=True, lock_min=True, lock_max=True):
                                     dpg.add_heat_series(values, 7, 7, scale_min=0, scale_max=6)
@@ -2046,7 +2046,7 @@ def show_demo():
                         with dpg.group(horizontal=True):
 
                             # create plot 1
-                            with dpg.plot(no_title=True, no_mouse_pos=True, width=250, height=250):
+                            with dpg.plot(no_title=True, no_mouse_text=True, width=250, height=250):
 
                                 # create legend
                                 dpg.add_plot_legend()
@@ -2061,7 +2061,7 @@ def show_demo():
                                     dpg.add_pie_series(0.5, 0.5, 0.5, [0.25, 0.30, 0.30], ["fish", "cow", "chicken"])
 
                             # plot 2
-                            with dpg.plot(no_title=True, no_mouse_pos=True, width=250, height=250):
+                            with dpg.plot(no_title=True, no_mouse_text=True, width=250, height=250):
 
                                 # create legend
                                 dpg.add_plot_legend()

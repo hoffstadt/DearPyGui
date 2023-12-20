@@ -46,7 +46,7 @@ def add_checkbox(*, label: str ='', user_data: Any ='', use_internal_label: bool
 	"""Adds a checkbox."""
 	...
 
-def add_child_window(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', drop_callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', delay_search: bool ='', tracked: bool ='', track_offset: float ='', border: bool ='', autosize_x: bool ='', autosize_y: bool ='', no_scrollbar: bool ='', horizontal_scrollbar: bool ='', menubar: bool ='', no_scroll_with_mouse: bool ='', flattened_navigation: bool ='') -> Union[int, str]:
+def add_child_window(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', drop_callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', delay_search: bool ='', tracked: bool ='', track_offset: float ='', border: bool ='', autosize_x: bool ='', autosize_y: bool ='', no_scrollbar: bool ='', horizontal_scrollbar: bool ='', menubar: bool ='', no_scroll_with_mouse: bool ='') -> Union[int, str]:
 	"""Adds an embedded child window. Will show scrollbars when items do not fit."""
 	...
 
@@ -138,7 +138,7 @@ def add_drag_intx(*, label: str ='', user_data: Any ='', use_internal_label: boo
 	"""Adds drag input for a set of int values up to 4. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the drag. Use clamped keyword to also apply limits to the direct entry modes."""
 	...
 
-def add_drag_line(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', callback: Callable ='', show: bool ='', default_value: Any ='', color: Union[List[int], Tuple[int, ...]] ='', thickness: float ='', show_label: bool ='', vertical: bool ='') -> Union[int, str]:
+def add_drag_line(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', callback: Callable ='', show: bool ='', default_value: Any ='', color: Union[List[int], Tuple[int, ...]] ='', thickness: float ='', delayed: bool ='', no_cursor: bool='', no_fit: bool='', no_inputs: bool='', vertical: bool ='') -> Union[int, str]:
 	"""Adds a drag line to a plot."""
 	...
 
@@ -146,8 +146,12 @@ def add_drag_payload(*, label: str ='', user_data: Any ='', use_internal_label: 
 	"""User data payload for drag and drop operations."""
 	...
 
-def add_drag_point(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', callback: Callable ='', show: bool ='', default_value: Any ='', color: Union[List[int], Tuple[int, ...]] ='', thickness: float ='', show_label: bool ='') -> Union[int, str]:
+def add_drag_point(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', callback: Callable ='', show: bool ='', default_value: Any ='', color: Union[List[int], Tuple[int, ...]] ='', thickness: float ='', delayed: bool ='', no_cursor: bool='', no_fit: bool='', no_inputs: bool='',) -> Union[int, str]:
 	"""Adds a drag point to a plot."""
+	...
+
+def add_drag_rect(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', callback: Callable ='', show: bool ='', default_value: Any ='', color: Union[List[int], Tuple[int, ...]] ='', thickness: float ='', delayed: bool ='', no_cursor: bool='', no_fit: bool='', no_inputs: bool='',) -> Union[int, str]:
+	"""Adds a drag rect to a plot."""
 	...
 
 def add_draw_layer(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', show: bool ='', perspective_divide: bool ='', depth_clipping: bool ='', cull_mode: int ='') -> Union[int, str]:
@@ -422,7 +426,7 @@ def add_pie_series(x : float, y : float, radius : float, values : Union[List[flo
 	"""Adds an pie series to a plot."""
 	...
 
-def add_plot(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', delay_search: bool ='', tracked: bool ='', track_offset: float ='', no_title: bool ='', no_menus: bool ='', no_box_select: bool ='', no_mouse_pos: bool ='', no_highlight: bool ='', no_child: bool ='', query: bool ='', crosshairs: bool ='', anti_aliased: bool ='', equal_aspects: bool ='', use_local_time: bool ='', use_ISO8601: bool ='', use_24hour_clock: bool ='', pan_button: int ='', pan_mod: int ='', fit_button: int ='', context_menu_button: int ='', box_select_button: int ='', box_select_mod: int ='', box_select_cancel_button: int ='', query_button: int ='', query_mod: int ='', query_toggle_mod: int ='', horizontal_mod: int ='', vertical_mod: int ='') -> Union[int, str]:
+def add_plot(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', delay_search: bool ='', tracked: bool ='', track_offset: float ='', no_title: bool ='', no_menus: bool ='', no_box_select: bool ='', no_mouse_text: bool ='', no_highlight: bool ='', no_child: bool ='', query: bool ='', crosshairs: bool ='', anti_aliased: bool ='', equal_aspects: bool ='', use_local_time: bool ='', use_ISO8601: bool ='', use_24hour_clock: bool ='', pan: int ='', pan_mod: int ='', fit_button: int ='', context_menu_button: int ='', box_select_button: int ='', box_select_mod: int ='', box_select_cancel_button: int ='', query_button: int ='', query_mod: int ='', query_toggle_mod: int ='', horizontal_mod: int ='', vertical_mod: int ='') -> Union[int, str]:
 	"""Adds a plot which is used to hold series, and can be drawn to with draw commands."""
 	...
 
@@ -658,7 +662,7 @@ def clear_selected_nodes(node_editor : Union[int, str]) -> None:
 	"""Clears a node editor's selected nodes."""
 	...
 
-def configure_app(*, docking: bool ='', docking_space: bool ='', load_init_file: str ='', init_file: str ='', auto_save_init_file: bool ='', device: int ='', auto_device: bool ='', allow_alias_overwrites: bool ='', manual_alias_management: bool ='', skip_required_args: bool ='', skip_positional_args: bool ='', skip_keyword_args: bool ='', wait_for_input: bool ='', manual_callback_management: bool ='', keyboard_navigation: bool ='', **kwargs) -> None:
+def configure_app(*, load_init_file: str ='', init_file: str ='', auto_save_init_file: bool ='', device: int ='', auto_device: bool ='', allow_alias_overwrites: bool ='', manual_alias_management: bool ='', skip_required_args: bool ='', skip_positional_args: bool ='', skip_keyword_args: bool ='', wait_for_input: bool ='', manual_callback_management: bool ='', **kwargs) -> None:
 	"""Configures app."""
 	...
 
@@ -766,7 +770,7 @@ def draw_quad(p1 : Union[List[float], Tuple[float, ...]], p2 : Union[List[float]
 	"""Adds a quad."""
 	...
 
-def draw_rectangle(pmin : Union[List[float], Tuple[float, ...]], pmax : Union[List[float], Tuple[float, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', show: bool ='', color: Union[List[int], Tuple[int, ...]] ='', color_upper_left: Union[List[int], Tuple[int, ...]] ='', color_upper_right: Union[List[int], Tuple[int, ...]] ='', color_bottom_right: Union[List[int], Tuple[int, ...]] ='', color_bottom_left: Union[List[int], Tuple[int, ...]] ='', fill: Union[List[int], Tuple[int, ...]] ='', multicolor: bool ='', rounding: float ='', thickness: float ='', corner_colors: Any ='') -> Union[int, str]:
+def draw_rectangle(pmin : Union[List[float], Tuple[float, ...]], pmax : Union[List[float], Tuple[float, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', show: bool ='', color: Union[List[int], Tuple[int, ...]] ='', color_upper_left: Union[List[int], Tuple[int, ...]] ='', color_upper_right: Union[List[int], Tuple[int, ...]] ='', color_bottom_right: Union[List[int], Tuple[int, ...]] ='', color_bottom_left: Union[List[int], Tuple[int, ...]] ='', fill: Union[List[int], Tuple[int, ...]] ='', multicolor: bool ='', rounding: float ='', thickness: float ='') -> Union[int, str]:
 	"""Adds a rectangle."""
 	...
 
@@ -894,7 +898,7 @@ def get_plot_mouse_pos() -> Union[List[int], Tuple[int, ...]]:
 	"""Returns mouse position in plot."""
 	...
 
-def get_plot_query_area(plot : Union[int, str]) -> Union[List[float], Tuple[float, ...]]:
+def get_plot_query_rects(plot : Union[int, str]) -> Union[List[float], Tuple[float, ...]]:
 	"""Returns the last/current query area of the plot. (Requires plot 'query' kwarg to be enabled)"""
 	...
 
@@ -994,9 +998,6 @@ def is_mouse_button_released(button : int) -> bool:
 	"""Checks if mouse button is released."""
 	...
 
-def is_plot_queried(plot : Union[int, str]) -> bool:
-	"""Returns true if the plot is currently being queried. (Requires plot 'query' kwarg to be enabled)"""
-	...
 
 def is_table_cell_highlighted(table : Union[int, str], row : int, column : int) -> bool:
 	"""Checks if a table cell is highlighted."""
@@ -1544,8 +1545,6 @@ mvThemeCol_TabHovered=0
 mvThemeCol_TabActive=0
 mvThemeCol_TabUnfocused=0
 mvThemeCol_TabUnfocusedActive=0
-mvThemeCol_DockingPreview=0
-mvThemeCol_DockingEmptyBg=0
 mvThemeCol_PlotLines=0
 mvThemeCol_PlotLinesHovered=0
 mvThemeCol_PlotHistogram=0
@@ -1574,16 +1573,12 @@ mvPlotCol_LegendBorder=0
 mvPlotCol_LegendText=0
 mvPlotCol_TitleText=0
 mvPlotCol_InlayText=0
-mvPlotCol_XAxis=0
-mvPlotCol_XAxisGrid=0
-mvPlotCol_YAxis=0
-mvPlotCol_YAxisGrid=0
-mvPlotCol_YAxis2=0
-mvPlotCol_YAxisGrid2=0
-mvPlotCol_YAxis3=0
-mvPlotCol_YAxisGrid3=0
+mvPlotCol_AxisBg=0
+mvPlotCol_AxisBgActive=0
+mvPlotCol_AxisBgHovered=0
+mvPlotCol_AxisGrid=0
+mvPlotCol_AxisText=0
 mvPlotCol_Selection=0
-mvPlotCol_Query=0
 mvPlotCol_Crosshairs=0
 mvNodeCol_NodeBackground=0
 mvNodeCol_NodeBackgroundHovered=0
@@ -1615,6 +1610,7 @@ mvNodesCol_MiniMapLinkSelected=0
 mvNodesCol_MiniMapCanvas=0
 mvNodesCol_MiniMapCanvasOutline=0
 mvStyleVar_Alpha=0
+mvStyleVar_DisabledAlpha=0
 mvStyleVar_WindowPadding=0
 mvStyleVar_WindowRounding=0
 mvStyleVar_WindowBorderSize=0
@@ -1751,6 +1747,7 @@ mvSliderIntMulti=0
 mvInputIntMulti=0
 mvInputFloatMulti=0
 mvDragPoint=0
+mvDragRect=0
 mvDragLine=0
 mvAnnotation=0
 mvLineSeries=0

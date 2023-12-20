@@ -31,7 +31,7 @@ Items are stored in target slots within their parent container.
 Below is the breakdown of slots:
 
 Slot 0:
-    **mvFileExtension**, **mvFontRangeHint**, **mvNodeLink**, **mvAnnotation**, **mvDragLine**, **mvDragPoint**, **mvLegend**, **mvTableColumn**
+    **mvFileExtension**, **mvFontRangeHint**, **mvNodeLink**, **mvAnnotation**, **mvDragLine**, **mvDragRect**, **mvDragPoint**, **mvLegend**, **mvTableColumn**
 Slot 1:
   Most items
 Slot 2:

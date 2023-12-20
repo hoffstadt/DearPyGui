@@ -215,29 +215,6 @@ The modal keyword greys everything else out to draw attention to the popup.
 To close the modal popup, it is necessary to add a button
 with a callback close_popup("popup1").
 
-`Experimental Windows Docking <https://www.youtube.com/watch?v=dVm2U6kZb7U>`_
--------------------------------------------------------------------------------
-
-
-The docking feature enables the user to dock windows to each other and the viewport.
-
-The docking feature is not documented yet (as of January 2021).
-
-enable_docking() will enable experimental docking.
-
-By default, the user needs to hold the shift key to enable docking.
-
-The keyword shift_only = False enables docking without holding the shift key.
-
-The keyword dock_space = True enables docking windows to the viewport.
-
-The docking feature is experimental because you cannot programmatically
-set up the docking positions.
-
-When the feature comes out of experimental, it can also function as a
-layout tool, but it still requires lots of work to be released as non-experimental.
-
-
 `Smart tables <https://youtu.be/qL_zjinXTJk>`_
 -----------------------------------------------
 

@@ -9,6 +9,7 @@
 #include "mvContainers.h"
 #include "mvTextureItems.h"
 #include "mvItemHandlers.h"
+#include <iostream>
 
 static void
 draw_polygon(const mvAreaSeriesConfig& config)
@@ -41,7 +42,7 @@ draw_polygon(const mvAreaSeriesConfig& config)
 
 
 		/* Get plot Y range in pixels */
-		ImPlotLimits limits = ImPlot::GetPlotLimits();
+		ImPlotRect limits = ImPlot::GetPlotLimits();
 		auto upperLimitsPix = ImPlot::PlotToPixels({ limits.X.Max, limits.Y.Max });
 		auto lowerLimitsPix = ImPlot::PlotToPixels({ limits.X.Min, limits.Y.Min });
 
@@ -266,7 +267,7 @@ DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mvDragLineConfig&
 }
 
 void
-DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mvDragPointConfig& outConfig)
+DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mvDragRectConfig& outConfig)
 {
 	if (dataSource == item.config.source) return;
 	item.config.source = dataSource;
@@ -285,6 +286,28 @@ DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mvDragPointConfig
 		return;
 	}
 	outConfig.value = *static_cast<std::shared_ptr<std::array<double, 4>>*>(item.getValue());
+}
+
+void
+DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mvDragPointConfig& outConfig)
+{
+	if (dataSource == item.config.source) return;
+	item.config.source = dataSource;
+
+	mvAppItem* srcItem = GetItem((*GContext->itemRegistry), dataSource);
+	if (!srcItem)
+	{
+		mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
+			"Source item not found: " + std::to_string(dataSource), &item);
+		return;
+	}
+	if (DearPyGui::GetEntityValueType(srcItem->type) != DearPyGui::GetEntityValueType(item.type))
+	{
+		mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
+			"Values types do not match: " + std::to_string(dataSource), &item);
+		return;
+	}
+	outConfig.value = *static_cast<std::shared_ptr<std::array<double, 2>>*>(item.getValue());
 }
 
 void
@@ -351,81 +374,58 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 		ImPlot::PushColormap(config._colormap);
 
 	// custom input mapping
-	ImPlot::GetInputMap().PanButton = config.pan_button;
-	ImPlot::GetInputMap().FitButton = config.fit_button;
-	ImPlot::GetInputMap().ContextMenuButton = config.context_menu_button;
-	ImPlot::GetInputMap().BoxSelectButton = config.box_select_button;
-	ImPlot::GetInputMap().BoxSelectCancelButton = config.box_select_cancel_button;
-	ImPlot::GetInputMap().QueryButton = config.query_button;
-	ImPlot::GetInputMap().QueryToggleMod = config.query_toggle_mod;
-	ImPlot::GetInputMap().HorizontalMod = config.horizontal_mod;
-	ImPlot::GetInputMap().VerticalMod = config.vertical_mod;
+	ImPlot::GetInputMap().Pan = config.pan;
+	ImPlot::GetInputMap().Fit = config.fit;
+	ImPlot::GetInputMap().Select = config.select;
+	ImPlot::GetInputMap().SelectCancel = config.select_cancel;
+	ImPlot::GetInputMap().Menu = config.menu;
+	ImPlot::GetInputMap().ZoomRate = config.zoom_rate;
+
 	if (config.pan_mod != -1) ImPlot::GetInputMap().PanMod = config.pan_mod;
-	if (config.box_select_mod != -1) ImPlot::GetInputMap().BoxSelectMod = config.box_select_mod;
-	if (config.query_mod != -1) ImPlot::GetInputMap().QueryMod = config.query_mod;
+	if (config.select_mod != -1) ImPlot::GetInputMap().SelectMod = config.select_mod;
+	if (config.zoom_mod != -1) ImPlot::GetInputMap().ZoomMod = config.zoom_mod;
+	if (config.override_mod != -1) ImPlot::GetInputMap().OverrideMod = config.override_mod;
+	if (config.select_horz_mod != -1) ImPlot::GetInputMap().SelectHorzMod = config.select_horz_mod;
+	if (config.select_vert_mod != -1) ImPlot::GetInputMap().SelectVertMod = config.select_vert_mod;
 
-	// gives axes change to make changes to ticks, limits, etc.
-	for (auto& child : item.childslots[1])
-	{
-		// skip item if it's not shown
-		if (!child->config.show)
-			continue;
+	if (ImPlot::BeginPlot(item.info.internalLabel.c_str(), ImVec2((float)item.config.width, (float)item.config.height), config._flags))
+	{	
 
-		if (child->type == mvAppItemType::mvPlotAxis)
+		// gives axes change to make changes to ticks, limits, etc.
+		for (auto& child : item.childslots[1])
 		{
-			auto axis = static_cast<mvPlotAxis*>(child.get());
-			if (axis->configData.setLimits || axis->configData._dirty)
-			{
-				switch (axis->info.location)
-				{
-				case(0): ImPlot::SetNextPlotLimitsX(axis->configData.limits.x, axis->configData.limits.y, ImGuiCond_Always); break;
-				case(1): ImPlot::SetNextPlotLimitsY(axis->configData.limits.x, axis->configData.limits.y, ImGuiCond_Always); break;
-				case(2): ImPlot::SetNextPlotLimitsY(axis->configData.limits.x, axis->configData.limits.y, ImGuiCond_Always, ImPlotYAxis_2); break;
-				case(3): ImPlot::SetNextPlotLimitsY(axis->configData.limits.x, axis->configData.limits.y, ImGuiCond_Always, ImPlotYAxis_3); break;
-				default: ImPlot::SetNextPlotLimitsY(axis->configData.limits.x, axis->configData.limits.y, ImGuiCond_Always); break;
-				}
-				axis->configData._dirty = false;
-			}
+			// skip item if it's not shown
+			if (!child->config.show)
+				continue;
 
-			if (!axis->configData.labels.empty())
+			if (child->type == mvAppItemType::mvPlotAxis)
 			{
-				// TODO: Checks
-				if (axis->info.location == 0)
-					ImPlot::SetNextPlotTicksX(axis->configData.labelLocations.data(), (int)axis->configData.labels.size(), axis->configData.clabels.data());
-				else
+				mvPlotAxis* axis = static_cast<mvPlotAxis*>(child.get());
+				if (axis->configData.setLimits || axis->configData._dirty)
 				{
-					ImPlotYAxis axis_id = ImPlotYAxis_1;
-					switch (axis->info.location)
-					{
-					case(2): axis_id = ImPlotYAxis_2; break;
-					case(3): axis_id = ImPlotYAxis_3; break;
-					}
-					ImPlot::SetNextPlotTicksY(axis->configData.labelLocations.data(), (int)axis->configData.labels.size(), axis->configData.clabels.data(), false, axis_id);
+					ImAxis_ ax = static_cast<ImAxis_>(axis->info.location);  // TODO: Check if you can do this cast and if it's safe
+					ImPlot::SetupAxisLimits(ax, axis->configData.limits.x, axis->configData.limits.y, ImGuiCond_Always);
+					axis->configData._dirty = false;
+				}
+
+				if (!axis->configData.labels.empty())
+				{
+					// TODO: Checks (from original dpg)
+					ImAxis_ ax = static_cast<ImAxis_>(axis->info.location);  // TODO: Check if you can do this cast and if it's safe
+					ImPlot::SetupAxisTicks(ax, axis->configData.labelLocations.data(), (int)axis->configData.labels.size(), axis->configData.clabels.data());
 				}
 			}
+			else
+				child->customAction();
 		}
-		else
-			child->customAction();
-	}
 
-	if (config._fitDirty)
-	{
-		ImPlot::FitNextPlotAxes(config._axisfitDirty[0], config._axisfitDirty[1], config._axisfitDirty[2], config._axisfitDirty[3]);
-		config._fitDirty = false;
-		config._axisfitDirty[0] = false;
-		config._axisfitDirty[1] = false;
-		config._axisfitDirty[2] = false;
-		config._axisfitDirty[3] = false;
-	}
-
-	if (ImPlot::BeginPlot(item.info.internalLabel.c_str(),
-		config.xaxisName.empty() ? nullptr : config.xaxisName.c_str(),
-		config._y1axisName.empty() ? nullptr : config._y1axisName.c_str(),
-		ImVec2((float)item.config.width, (float)item.config.height),
-		config._flags, config._xflags, config._yflags, config._y1flags, config._y2flags,
-		config._y2axisName.empty() ? nullptr : config._y2axisName.c_str(),
-		config._y3axisName.empty() ? nullptr : config._y3axisName.c_str()))
-	{
+		if (config._fitDirty)
+		{
+			ImPlot::SetNextAxesToFit();
+			config._fitDirty = false;
+			for(int i = 0; i < ImAxis_COUNT; i++)
+				config._axisfitDirty[i] = false;  // TODO: Is it really necessary to have all of this "config._axisfitDirty" now?
+		}
 
 		auto context = ImPlot::GetCurrentContext();
 		// legend, drag point and lines
@@ -438,7 +438,7 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 
 		ImPlot::PushPlotClipRect();
 
-		ImPlot::SetPlotYAxis(ImPlotYAxis_1); // draw items should use first plot axis
+		ImPlot::SetupAxis(ImAxis_Y1); // draw items should use first plot axis
 
 		// drawings
 		for (auto& child : item.childslots[2])
@@ -458,39 +458,28 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 		if (config._useColorMap)
 			ImPlot::PopColormap();
 
-		config._queried = ImPlot::IsPlotQueried();
-
-		if (config._queried)
-		{
-			ImPlotLimits area = ImPlot::GetPlotQuery();
-			config._queryArea[0] = area.X.Min;
-			config._queryArea[1] = area.X.Max;
-			config._queryArea[2] = area.Y.Min;
-			config._queryArea[3] = area.Y.Max;
+		/* std::cout << drawlist->_ClipRectStack.size() << std::endl;  // Crash here
+		for(auto rect : drawlist->_ClipRectStack) {
+			ImRect area = ImRect(rect.x, rect.y, rect.z, rect.w);
+			config.rects.push_back(area);
 		}
 
-		if (item.config.callback != nullptr && config._queried)
+		std::cout << "82" << std::endl;
+		if (item.config.callback != nullptr && drawlist->_ClipRectStack.size() > 0)
 		{
-
-			if (item.config.alias.empty())
+			
+			for(auto rect : config.rects) {
+				const std::string sender = item.config.alias.empty() ? std::to_string(item.uuid) : item.config.alias;
 				mvSubmitCallback([=, &item]() {
-				PyObject* area = PyTuple_New(4);
-				PyTuple_SetItem(area, 0, PyFloat_FromDouble(config._queryArea[0]));
-				PyTuple_SetItem(area, 1, PyFloat_FromDouble(config._queryArea[1]));
-				PyTuple_SetItem(area, 2, PyFloat_FromDouble(config._queryArea[2]));
-				PyTuple_SetItem(area, 3, PyFloat_FromDouble(config._queryArea[3]));
-				mvAddCallback(item.config.callback, item.uuid, area, item.config.user_data);
-					});
-			else
-				mvSubmitCallback([=, &item]() {
-				PyObject* area = PyTuple_New(4);
-				PyTuple_SetItem(area, 0, PyFloat_FromDouble(config._queryArea[0]));
-				PyTuple_SetItem(area, 1, PyFloat_FromDouble(config._queryArea[1]));
-				PyTuple_SetItem(area, 2, PyFloat_FromDouble(config._queryArea[2]));
-				PyTuple_SetItem(area, 3, PyFloat_FromDouble(config._queryArea[3]));
-				mvAddCallback(item.config.callback, item.config.alias, area, item.config.user_data);
-					});
-		}
+					PyObject* area = PyTuple_New(4);
+					PyTuple_SetItem(area, 0, PyFloat_FromDouble(rect.Min.x));
+					PyTuple_SetItem(area, 1, PyFloat_FromDouble(rect.Min.y));
+					PyTuple_SetItem(area, 2, PyFloat_FromDouble(rect.Max.x));
+					PyTuple_SetItem(area, 3, PyFloat_FromDouble(rect.Max.y));
+					mvAddCallback(item.config.callback, sender, area, item.config.user_data);
+				});
+			}
+		} */
 
 		if (ImPlot::IsPlotHovered())
 		{
@@ -502,7 +491,7 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 		if (item.config.dropCallback)
 		{
 			ScopedID id(item.uuid);
-			if (ImPlot::BeginDragDropTarget())
+			if (ImPlot::BeginDragDropTargetPlot())
 			{
 				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(item.config.payloadType.c_str()))
 				{
@@ -542,8 +531,7 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 			{
 				auto legend = static_cast<mvPlotLegend*>(child.get());
 				legend->configData.legendLocation = context->CurrentPlot->Items.Legend.Location;
-				legend->configData.horizontal = context->CurrentPlot->Items.Legend.Orientation == ImPlotOrientation_Horizontal;
-				legend->configData.outside = context->CurrentPlot->Items.Legend.Outside;
+				legend->configData.flags = context->CurrentPlot->Items.Legend.Flags;
 				break;
 			}
 		}
@@ -586,28 +574,29 @@ DearPyGui::draw_plot_axis(ImDrawList* drawlist, mvAppItem& item, mvPlotAxisConfi
 		return;
 
 	// todo: add check
-	if (config.axis != 0)
-		ImPlot::SetPlotYAxis(item.info.location - 1);
+	if (config.axis != ImAxis_X1)
+		ImPlot::SetAxis(item.info.location - 1);  // TODO: Check cambio da config.axis -> item.info.location - 1
+	// TODO: Why are confi.axis and item.info.location - 1 are different? Probably better to set prints to understand this
 
 	for (auto& item : item.childslots[1])
 		item->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
 
 	// x axis
-	if (config.axis == 0)
-	{
-		config.limits_actual.x = (float)ImPlot::GetPlotLimits(item.info.location).X.Min;
-		config.limits_actual.y = (float)ImPlot::GetPlotLimits(item.info.location).X.Max;
+	if (config.axis == ImAxis_X1)
+	{	//TODO: Absolutely must be changed once you fully get how this works
+		config.limits_actual.x = (float)ImPlot::GetPlotLimits(config.axis, item.info.location).X.Min;
+		config.limits_actual.y = (float)ImPlot::GetPlotLimits(config.axis, item.info.location).X.Max;
 		auto context = ImPlot::GetCurrentContext();
-		config.flags = context->CurrentPlot->XAxis.Flags;
+		config.flags = context->CurrentPlot->Axes[config.axis].Flags;
 	}
 
 	// y axis
 	else
 	{
-		config.limits_actual.x = (float)ImPlot::GetPlotLimits(item.info.location - 1).Y.Min;
-		config.limits_actual.y = (float)ImPlot::GetPlotLimits(item.info.location - 1).Y.Max;
+		config.limits_actual.x = (float)ImPlot::GetPlotLimits(config.axis, item.info.location - 1).Y.Min;
+		config.limits_actual.y = (float)ImPlot::GetPlotLimits(config.axis, item.info.location - 1).Y.Max;
 		auto context = ImPlot::GetCurrentContext();
-		config.flags = context->CurrentPlot->YAxis[item.info.location - 1].Flags;
+		config.flags = context->CurrentPlot->Axes[item.info.location - 1].Flags;
 	}
 
 
@@ -626,17 +615,7 @@ DearPyGui::draw_plot_axis(ImDrawList* drawlist, mvAppItem& item, mvPlotAxisConfi
 	if (item.config.dropCallback)
 	{
 		ScopedID id(item.uuid);
-		if (item.info.location == 0 && ImPlot::BeginDragDropTargetX())
-		{
-			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(item.config.payloadType.c_str()))
-			{
-				auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
-				mvAddCallback(item.config.dropCallback, item.uuid, payloadActual->configData.dragData, nullptr);
-			}
-
-			ImPlot::EndDragDropTarget();
-		}
-		else if (ImPlot::BeginDragDropTargetY(item.info.location - 1))
+		if (ImPlot::BeginDragDropTargetAxis(item.info.location))  // TODO: There was a item.info.location !!- 1!!
 		{
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(item.config.payloadType.c_str()))
 			{
@@ -674,7 +653,7 @@ DearPyGui::draw_plot_legend(ImDrawList* drawlist, mvAppItem& item, mvPlotLegendC
 
 	if (config.dirty)
 	{
-		ImPlot::SetLegendLocation(config.legendLocation, config.horizontal ? ImPlotOrientation_Horizontal : ImPlotOrientation_Vertical, config.outside);
+		ImPlot::SetupLegend(config.legendLocation, config.flags);
 		config.dirty = false;
 	}
 
@@ -714,18 +693,47 @@ DearPyGui::draw_drag_line(ImDrawList* drawlist, mvAppItem& item, mvDragLineConfi
 	ScopedID id(item.uuid);
 
 	if (config.vertical)
-	{
-		if (ImPlot::DragLineX(item.config.specifiedLabel.c_str(), config.value.get(), config.show_label, config.color, config.thickness))
+	{ // item.config.specifiedLabel.c_str()
+	// TODO: Probabilmente da rivedere anche per TagX/Y and Annotation
+		if (ImPlot::DragLineX(item.uuid, config.value.get(), config.color, config.thickness, config.flags))
 		{
 			mvAddCallback(item.config.callback, item.uuid, nullptr, item.config.user_data);
 		}
 	}
 	else
 	{
-		if (ImPlot::DragLineY(item.config.specifiedLabel.c_str(), config.value.get(), config.show_label, config.color, config.thickness))
+		if (ImPlot::DragLineY(item.uuid, config.value.get(), config.color, config.thickness, config.flags))
 		{
 			mvAddCallback(item.config.callback, item.uuid, nullptr, item.config.user_data);
 		}
+	}
+}
+
+void
+DearPyGui::draw_drag_rect(ImDrawList* drawlist, mvAppItem& item, mvDragRectConfig& config)
+{
+	if (!item.config.show)
+		return;
+
+	ScopedID id(item.uuid);
+
+	static double xmin = (*config.value.get())[0];
+	static double ymin = (*config.value.get())[1];
+	static double xmax = (*config.value.get())[2];
+	static double ymax = (*config.value.get())[3];
+	xmin = (*config.value.get())[0];
+	ymin = (*config.value.get())[1];
+	xmax = (*config.value.get())[2];  // TODO: Why??
+	ymax = (*config.value.get())[3];
+
+	// item.config.specifiedLabel.c_str(),
+	if (ImPlot::DragRect(item.uuid, &xmin, &ymin, &xmax, &ymax, config.color, config.flags))
+	{
+		(*config.value.get())[0] = xmin;
+		(*config.value.get())[1] = ymin;
+		(*config.value.get())[2] = xmax;
+		(*config.value.get())[3] = ymax;
+		mvAddCallback(item.config.callback, item.uuid, nullptr, item.config.user_data);
 	}
 }
 
@@ -742,7 +750,8 @@ DearPyGui::draw_drag_point(ImDrawList* drawlist, mvAppItem& item, mvDragPointCon
 	dummyx = (*config.value.get())[0];
 	dummyy = (*config.value.get())[1];
 
-	if (ImPlot::DragPoint(item.config.specifiedLabel.c_str(), &dummyx, &dummyy, config.show_label, config.color, config.radius))
+	// item.config.specifiedLabel.c_str(),
+	if (ImPlot::DragPoint(item.uuid, &dummyx, &dummyy, config.color, config.radius, config.flags))
 	{
 		(*config.value.get())[0] = dummyx;
 		(*config.value.get())[1] = dummyy;
@@ -1328,7 +1337,7 @@ DearPyGui::draw_2dhistogram_series(ImDrawList* drawlist, mvAppItem& item, const 
 		yptr = &(*config.value.get())[1];
 
 		ImPlot::PlotHistogram2D(item.info.internalLabel.c_str(), xptr->data(), yptr->data(), (int)xptr->size(),
-			config.xbins, config.ybins, config.density, ImPlotLimits(config.xmin, config.xmax, config.ymin, config.ymax), config.outliers);
+			config.xbins, config.ybins, config.density, ImPlotRect(config.xmin, config.xmax, config.ymin, config.ymax), config.outliers);
 
 		// Begin a popup for a legend entry.
 		if (ImPlot::BeginLegendPopup(item.info.internalLabel.c_str(), 1))
@@ -2136,11 +2145,7 @@ DearPyGui::draw_plot_annotation(ImDrawList* drawlist, mvAppItem& item, mvAnnotat
 
 	ScopedID id(item.uuid);
 
-	if (config.clamped)
-		ImPlot::AnnotateClamped((*config.value.get())[0], (*config.value.get())[1], config.pixOffset, config.color.toVec4(), "%s", item.config.specifiedLabel.c_str());
-	else
-		ImPlot::Annotate((*config.value.get())[0], (*config.value.get())[1], config.pixOffset, config.color.toVec4(), "%s", item.config.specifiedLabel.c_str());
-
+	ImPlot::Annotation((*config.value.get())[0], (*config.value.get())[1], config.color.toVec4(), config.pixOffset, config.clamped, "%s", item.config.specifiedLabel.c_str());
 }
 
 void
@@ -2336,8 +2341,40 @@ DearPyGui::set_configuration(PyObject* inDict, mvDragLineConfig& outConfig)
 
 	if (PyObject* item = PyDict_GetItemString(inDict, "color")) outConfig.color = ToColor(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "thickness")) outConfig.thickness = ToFloat(item);
-	if (PyObject* item = PyDict_GetItemString(inDict, "show_label")) outConfig.show_label = ToBool(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "vertical")) outConfig.vertical = ToBool(item);
+
+	// helper for bit flipping
+	auto flagop = [inDict](const char* keyword, int flag, int& flags)
+	{
+		if (PyObject* item = PyDict_GetItemString(inDict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+	};
+
+	// drag line flags
+	flagop("delayed", ImPlotDragToolFlags_Delayed, outConfig.flags);
+	flagop("no_cursor", ImPlotDragToolFlags_NoCursors, outConfig.flags);
+	flagop("no_fit", ImPlotDragToolFlags_NoFit, outConfig.flags);
+	flagop("no_inputs", ImPlotDragToolFlags_NoInputs, outConfig.flags);
+}
+
+void
+DearPyGui::set_configuration(PyObject* inDict, mvDragRectConfig& outConfig)
+{
+	if (inDict == nullptr)
+		return;
+
+	if (PyObject* item = PyDict_GetItemString(inDict, "color")) outConfig.color = ToColor(item);
+
+	// helper for bit flipping
+	auto flagop = [inDict](const char* keyword, int flag, int& flags)
+	{
+		if (PyObject* item = PyDict_GetItemString(inDict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+	};
+
+	// drag rect flags
+	flagop("delayed", ImPlotDragToolFlags_Delayed, outConfig.flags);
+	flagop("no_cursor", ImPlotDragToolFlags_NoCursors, outConfig.flags);
+	flagop("no_fit", ImPlotDragToolFlags_NoFit, outConfig.flags);
+	flagop("no_inputs", ImPlotDragToolFlags_NoInputs, outConfig.flags);
 
 }
 
@@ -2347,21 +2384,23 @@ DearPyGui::set_configuration(PyObject* inDict, mvPlotConfig& outConfig)
 	if (inDict == nullptr)
 		return;
 
-	if (PyObject* item = PyDict_GetItemString(inDict, "x_axis_name")) outConfig.xaxisName = ToString(item);
-
 	// custom input mapping
-	if (PyObject* item = PyDict_GetItemString(inDict, "pan_button")) outConfig.pan_button = ToInt(item);
+	// TODO: _mod variables should be treated as normal flags? (also in fill_configuration_dict)
+	if (PyObject* item = PyDict_GetItemString(inDict, "pan")) outConfig.pan = ToInt(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "pad_mod")) outConfig.pan_mod = ToInt(item);
-	if (PyObject* item = PyDict_GetItemString(inDict, "fit_button")) outConfig.fit_button = ToInt(item);
-	if (PyObject* item = PyDict_GetItemString(inDict, "context_menu_button")) outConfig.context_menu_button = ToInt(item);
-	if (PyObject* item = PyDict_GetItemString(inDict, "box_select_button")) outConfig.box_select_button = ToInt(item);
-	if (PyObject* item = PyDict_GetItemString(inDict, "box_select_mod")) outConfig.box_select_mod = ToInt(item);
-	if (PyObject* item = PyDict_GetItemString(inDict, "box_select_cancel_button")) outConfig.box_select_cancel_button = ToInt(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "fit")) outConfig.fit = ToInt(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "menu")) outConfig.menu = ToInt(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "select")) outConfig.select = ToInt(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "select_mod")) outConfig.select_mod = ToInt(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "select_cancel")) outConfig.select_cancel = ToInt(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "query_button")) outConfig.query_button = ToInt(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "query_mod")) outConfig.query_mod = ToInt(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "query_toggle_mod")) outConfig.query_toggle_mod = ToInt(item);
-	if (PyObject* item = PyDict_GetItemString(inDict, "horizontal_mod")) outConfig.horizontal_mod = ToInt(item);
-	if (PyObject* item = PyDict_GetItemString(inDict, "vertical_mod")) outConfig.vertical_mod = ToInt(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "select_horz_mod")) outConfig.select_horz_mod = ToInt(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "select_vert_mod")) outConfig.select_vert_mod = ToInt(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "override_mod")) outConfig.override_mod = ToInt(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "zoom_mode")) outConfig.zoom_mod = ToInt(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "zoom_rate")) outConfig.zoom_rate = ToFloat(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "use_local_time")) outConfig.localTime = ToBool(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "use_ISO8601")) outConfig.iSO8601 = ToBool(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "use_24hour_clock")) outConfig.clock24Hour = ToBool(item);
@@ -2376,10 +2415,8 @@ DearPyGui::set_configuration(PyObject* inDict, mvPlotConfig& outConfig)
 	flagop("no_title", ImPlotFlags_NoTitle, outConfig._flags);
 	flagop("no_menus", ImPlotFlags_NoMenus, outConfig._flags);
 	flagop("no_box_select", ImPlotFlags_NoBoxSelect, outConfig._flags);
-	flagop("no_mouse_pos", ImPlotFlags_NoMousePos, outConfig._flags);
-	flagop("no_highlight", ImPlotFlags_NoHighlight, outConfig._flags);
+	flagop("no_mouse_text", ImPlotFlags_NoMouseText, outConfig._flags);
 	flagop("no_child", ImPlotFlags_NoChild, outConfig._flags);
-	flagop("query", ImPlotFlags_Query, outConfig._flags);
 	flagop("crosshairs", ImPlotFlags_Crosshairs, outConfig._flags);
 	flagop("anti_aliased", ImPlotFlags_AntiAliased, outConfig._flags);
 	flagop("equal_aspects", ImPlotFlags_Equal, outConfig._flags);
@@ -2393,19 +2430,46 @@ DearPyGui::set_configuration(PyObject* inDict, mvDragPointConfig& outConfig)
 
 	if (PyObject* item = PyDict_GetItemString(inDict, "color")) outConfig.color = ToColor(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "radius")) outConfig.radius = ToFloat(item);
-	if (PyObject* item = PyDict_GetItemString(inDict, "show_label")) outConfig.show_label = ToBool(item);
+
+	// helper for bit flipping
+	auto flagop = [inDict](const char* keyword, int flag, int& flags)
+	{
+		if (PyObject* item = PyDict_GetItemString(inDict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+	};
+
+	// drag point flags
+	flagop("delayed", ImPlotDragToolFlags_Delayed, outConfig.flags);
+	flagop("no_cursor", ImPlotDragToolFlags_NoCursors, outConfig.flags);
+	flagop("no_fit", ImPlotDragToolFlags_NoFit, outConfig.flags);
+	flagop("no_inputs", ImPlotDragToolFlags_NoInputs, outConfig.flags);
 
 }
 
 void
+
 DearPyGui::set_configuration(PyObject* inDict, mvPlotLegendConfig& outConfig, mvAppItem& item)
 {
 	if (inDict == nullptr)
 		return;
 
 	if (PyObject* item = PyDict_GetItemString(inDict, "location")) { outConfig.legendLocation = ToInt(item); outConfig.dirty = true; }
-	if (PyObject* item = PyDict_GetItemString(inDict, "horizontal")) { outConfig.horizontal = ToBool(item); outConfig.dirty = true; }
-	if (PyObject* item = PyDict_GetItemString(inDict, "outside")) { outConfig.outside = ToBool(item); outConfig.dirty = true; }
+
+	// helper for bit flipping
+	auto flagop = [inDict](const char* keyword, int flag, mvPlotLegendConfig& outConfig)
+	{
+		if (PyObject* item = PyDict_GetItemString(inDict, keyword)) { 
+			ToBool(item) ? outConfig.flags |= flag : outConfig.flags &= ~flag; 
+			outConfig.dirty = true; 
+		}
+	};
+
+	// plot flags
+	flagop("horizontal", ImPlotLegendFlags_Horizontal, outConfig);
+	flagop("no_buttons", ImPlotLegendFlags_NoButtons, outConfig);
+	flagop("no_highlight_axis", ImPlotLegendFlags_NoHighlightAxis, outConfig);
+	flagop("no_highlight_item", ImPlotLegendFlags_NoHighlightItem, outConfig);
+	flagop("no_menus", ImPlotLegendFlags_NoMenus, outConfig);
+	flagop("outside", ImPlotLegendFlags_Outside, outConfig);
 
 	if (item.info.shownLastFrame)
 	{
@@ -2747,20 +2811,22 @@ DearPyGui::fill_configuration_dict(const mvPlotConfig& inConfig, PyObject* outDi
 {
 	if (outDict == nullptr)
 		return;
-
-	PyDict_SetItemString(outDict, "x_axis_name", mvPyObject(ToPyString(inConfig.xaxisName)));
-	PyDict_SetItemString(outDict, "pan_button", mvPyObject(ToPyInt(inConfig.pan_button)));
+	//TODO: Maybe some of these must be seen as flags
+	PyDict_SetItemString(outDict, "pan", mvPyObject(ToPyInt(inConfig.pan)));
 	PyDict_SetItemString(outDict, "pan_mod", mvPyObject(ToPyInt(inConfig.pan_mod)));
-	PyDict_SetItemString(outDict, "fit_button", mvPyObject(ToPyInt(inConfig.fit_button)));
-	PyDict_SetItemString(outDict, "context_menu_button", mvPyObject(ToPyInt(inConfig.context_menu_button)));
-	PyDict_SetItemString(outDict, "box_select_button", mvPyObject(ToPyInt(inConfig.box_select_button)));
-	PyDict_SetItemString(outDict, "box_select_mod", mvPyObject(ToPyInt(inConfig.box_select_mod)));
-	PyDict_SetItemString(outDict, "box_select_cancel_button", mvPyObject(ToPyInt(inConfig.box_select_cancel_button)));
+	PyDict_SetItemString(outDict, "fit", mvPyObject(ToPyInt(inConfig.fit)));
+	PyDict_SetItemString(outDict, "menu", mvPyObject(ToPyInt(inConfig.menu)));
+	PyDict_SetItemString(outDict, "select", mvPyObject(ToPyInt(inConfig.select)));
+	PyDict_SetItemString(outDict, "select_mod", mvPyObject(ToPyInt(inConfig.select_mod)));
+	PyDict_SetItemString(outDict, "select_cancel", mvPyObject(ToPyInt(inConfig.select_cancel)));
 	PyDict_SetItemString(outDict, "query_button", mvPyObject(ToPyInt(inConfig.query_button)));
 	PyDict_SetItemString(outDict, "query_mod", mvPyObject(ToPyInt(inConfig.query_mod)));
 	PyDict_SetItemString(outDict, "query_toggle_mod", mvPyObject(ToPyInt(inConfig.query_toggle_mod)));
-	PyDict_SetItemString(outDict, "horizontal_mod", mvPyObject(ToPyInt(inConfig.horizontal_mod)));
-	PyDict_SetItemString(outDict, "vertical_mod", mvPyObject(ToPyInt(inConfig.vertical_mod)));
+	PyDict_SetItemString(outDict, "select_horz_mod", mvPyObject(ToPyInt(inConfig.select_horz_mod)));
+	PyDict_SetItemString(outDict, "select_vert_mod", mvPyObject(ToPyInt(inConfig.select_vert_mod)));
+	PyDict_SetItemString(outDict, "override_mod", mvPyObject(ToPyInt(inConfig.override_mod)));
+	PyDict_SetItemString(outDict, "zoom_mod", mvPyObject(ToPyInt(inConfig.zoom_mod)));
+	PyDict_SetItemString(outDict, "zoom_rate", mvPyObject(ToPyFloat(inConfig.zoom_rate)));
 	PyDict_SetItemString(outDict, "use_local_time", mvPyObject(ToPyBool(inConfig.localTime)));
 	PyDict_SetItemString(outDict, "use_ISO8601", mvPyObject(ToPyBool(inConfig.iSO8601)));
 	PyDict_SetItemString(outDict, "use_24hour_clock", mvPyObject(ToPyBool(inConfig.clock24Hour)));
@@ -2776,13 +2842,10 @@ DearPyGui::fill_configuration_dict(const mvPlotConfig& inConfig, PyObject* outDi
 	checkbitset("no_title", ImPlotFlags_NoTitle, inConfig._flags);
 	checkbitset("no_menus", ImPlotFlags_NoMenus, inConfig._flags);
 	checkbitset("no_box_select", ImPlotFlags_NoBoxSelect, inConfig._flags);
-	checkbitset("no_mouse_pos", ImPlotFlags_NoMousePos, inConfig._flags);
-	checkbitset("no_highlight", ImPlotFlags_NoHighlight, inConfig._flags);
+	checkbitset("no_mouse_text", ImPlotFlags_NoMouseText, inConfig._flags);
 	checkbitset("no_child", ImPlotFlags_NoChild, inConfig._flags);
-	checkbitset("query", ImPlotFlags_Query, inConfig._flags);
 	checkbitset("crosshairs", ImPlotFlags_Crosshairs, inConfig._flags);
 	checkbitset("anti_aliased", ImPlotFlags_AntiAliased, inConfig._flags);
-	checkbitset("equal_aspects", ImPlotFlags_Equal, inConfig._flags);
 }
 
 void
@@ -2791,15 +2854,43 @@ DearPyGui::fill_configuration_dict(const mvDragLineConfig& inConfig, PyObject* o
 	if (outDict == nullptr)
 		return;
 
-	mvPyObject py_color = ToPyColor(inConfig.color);
-	mvPyObject py_thickness = ToPyFloat(inConfig.thickness);
-	mvPyObject py_show_label = ToPyBool(inConfig.show_label);
-	mvPyObject py_vertical = ToPyBool(inConfig.vertical);
+	PyDict_SetItemString(outDict, "color", ToPyColor(inConfig.color));
+	PyDict_SetItemString(outDict, "thickness", ToPyFloat(inConfig.thickness));
+	PyDict_SetItemString(outDict, "vertical", ToPyBool(inConfig.vertical));
 
-	PyDict_SetItemString(outDict, "color", py_color);
-	PyDict_SetItemString(outDict, "thickness", py_thickness);
-	PyDict_SetItemString(outDict, "show_label", py_show_label);
-	PyDict_SetItemString(outDict, "vertical", py_vertical);
+
+	// helper to check and set bit
+	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)
+	{
+		PyDict_SetItemString(outDict, keyword, ToPyBool(flags & flag));
+	};
+
+	// drag line flags
+	checkbitset("delayed", ImPlotDragToolFlags_Delayed, inConfig.flags);
+	checkbitset("no_cursor", ImPlotDragToolFlags_NoCursors, inConfig.flags);
+	checkbitset("no_fit", ImPlotDragToolFlags_NoFit, inConfig.flags);
+	checkbitset("no_inputs", ImPlotDragToolFlags_NoInputs, inConfig.flags);
+}
+
+void
+DearPyGui::fill_configuration_dict(const mvDragRectConfig& inConfig, PyObject* outDict)
+{
+	if (outDict == nullptr)
+		return;
+
+	PyDict_SetItemString(outDict, "color", ToPyColor(inConfig.color));
+
+	// helper to check and set bit
+	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)
+	{
+		PyDict_SetItemString(outDict, keyword, ToPyBool(flags & flag));
+	};
+
+	// drag rect flags
+	checkbitset("delayed", ImPlotDragToolFlags_Delayed, inConfig.flags);
+	checkbitset("no_cursor", ImPlotDragToolFlags_NoCursors, inConfig.flags);
+	checkbitset("no_fit", ImPlotDragToolFlags_NoFit, inConfig.flags);
+	checkbitset("no_inputs", ImPlotDragToolFlags_NoInputs, inConfig.flags);
 }
 
 void
@@ -2808,13 +2899,20 @@ DearPyGui::fill_configuration_dict(const mvDragPointConfig& inConfig, PyObject* 
 	if (outDict == nullptr)
 		return;
 
-	mvPyObject py_color = ToPyColor(inConfig.color);
-	mvPyObject py_radius = ToPyFloat(inConfig.radius);
-	mvPyObject py_show_label = ToPyBool(inConfig.show_label);
+	// helper to check and set bit
+	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)
+	{
+		PyDict_SetItemString(outDict, keyword, ToPyBool(flags & flag));
+	};
 
-	PyDict_SetItemString(outDict, "color", py_color);
-	PyDict_SetItemString(outDict, "radius", py_radius);
-	PyDict_SetItemString(outDict, "show_label", py_show_label);
+	// drag rect flags
+	checkbitset("delayed", ImPlotDragToolFlags_Delayed, inConfig.flags);
+	checkbitset("no_cursor", ImPlotDragToolFlags_NoCursors, inConfig.flags);
+	checkbitset("no_fit", ImPlotDragToolFlags_NoFit, inConfig.flags);
+	checkbitset("no_inputs", ImPlotDragToolFlags_NoInputs, inConfig.flags);
+
+	PyDict_SetItemString(outDict, "color", ToPyColor(inConfig.color));
+	PyDict_SetItemString(outDict, "radius", ToPyFloat(inConfig.radius));
 }
 
 void
@@ -2824,9 +2922,21 @@ DearPyGui::fill_configuration_dict(const mvPlotLegendConfig& inConfig, PyObject*
 		return;
 
 	PyDict_SetItemString(outDict, "location", mvPyObject(ToPyInt(inConfig.legendLocation)));
-	PyDict_SetItemString(outDict, "horizontal", mvPyObject(ToPyBool(inConfig.horizontal)));
-	PyDict_SetItemString(outDict, "outside", mvPyObject(ToPyBool(inConfig.outside)));
 
+	// helper to check and set bit
+	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)
+	{
+		mvPyObject py_result = ToPyBool(flags & flag);
+		PyDict_SetItemString(outDict, keyword, py_result);
+	};
+
+	// plot flags
+	checkbitset("horizontal", ImPlotLegendFlags_Horizontal, inConfig.flags);
+	checkbitset("no_highlight_axis", ImPlotLegendFlags_NoHighlightAxis, inConfig.flags);
+	checkbitset("no_highlight_item", ImPlotLegendFlags_NoHighlightItem, inConfig.flags);
+	checkbitset("no_menus", ImPlotLegendFlags_NoMenus, inConfig.flags);
+	checkbitset("outside", ImPlotLegendFlags_Outside, inConfig.flags);
+	checkbitset("no_buttons", ImPlotLegendFlags_NoButtons, inConfig.flags);
 }
 
 void
@@ -2991,8 +3101,6 @@ DearPyGui::fill_configuration_dict(const mvSubPlotsConfig& inConfig, PyObject* o
 
 	PyDict_SetItemString(outDict, "rows", mvPyObject(ToPyInt(inConfig.rows)));
 	PyDict_SetItemString(outDict, "columns", mvPyObject(ToPyInt(inConfig.cols)));
-	// maybe remove this on next minor release?
-	PyDict_SetItemString(outDict, "cols", mvPyObject(ToPyInt(inConfig.cols)));
 	PyDict_SetItemString(outDict, "row_ratios", mvPyObject(ToPyList(inConfig.row_ratios)));
 	PyDict_SetItemString(outDict, "column_ratios", mvPyObject(ToPyList(inConfig.col_ratios)));
 
@@ -3046,6 +3154,21 @@ void
 mvDragPoint::setPyValue(PyObject* value)
 {
 	std::vector<double> temp = ToDoubleVect(value);
+	while (temp.size() < 2)
+		temp.push_back(0.0);
+	std::array<double, 2> temp_array;
+	for (size_t i = 0; i < temp_array.size(); i++)
+		temp_array[i] = temp[i];
+	if (configData.value)
+		*configData.value = temp_array;
+	else
+		configData.value = std::make_shared<std::array<double, 2>>(temp_array);
+}
+
+void
+mvDragRect::setPyValue(PyObject* value)
+{
+	std::vector<double> temp = ToDoubleVect(value);
 	while (temp.size() < 4)
 		temp.push_back(0.0);
 	std::array<double, 4> temp_array;
@@ -3071,41 +3194,51 @@ void mvAnnotation::setPyValue(PyObject* value)
 		configData.value = std::make_shared<std::array<double, 4>>(temp_array);
 }
 
+int getImAxisFromIndex(int index)
+{
+	switch (index)
+	{
+	case 0:
+		return ImAxis_X1;
+	case 1:
+		return ImAxis_Y1;
+	case 2:
+		return ImAxis_X2;
+	case 3:
+		return ImAxis_Y2;
+	case 4:
+		return ImAxis_X3;
+	case 5:
+		return ImAxis_Y3;
+	default:
+		return ImAxis_X1;
+	}
+}
+
 void mvPlot::updateFlags()
 {
 	for (size_t i = 0; i < childslots[1].size(); i++)
 	{
 		auto child = static_cast<mvPlotAxis*>(childslots[1][i].get());
-		switch (i)
-		{
-		case(0): configData._xflags = child->configData.flags; break;
-		case(1): configData._yflags = child->configData.flags; break;
-		case(2): configData._y1flags = child->configData.flags; if (child->config.show) configData._flags |= ImPlotFlags_YAxis2; else configData._flags &= ~ImPlotFlags_YAxis2; break;
-		case(3): configData._y2flags = child->configData.flags; if (child->config.show) configData._flags |= ImPlotFlags_YAxis3; else configData._flags &= ~ImPlotFlags_YAxis3; break;
-		default: configData._yflags = child->configData.flags; break;
-		}
+		configData.axesFlags[i] = child->configData.flags;
+		/* if (i != ImAxis_X1 && i != ImAxis_Y1) {
+			if (child -> config.show)
+				configData._flags |= getImAxisFromIndex(i);  // TODO: Check if it's fine, probably not
+			else 
+				configData._flags &= ~getImAxisFromIndex(i);
+		} */
 	}
 
 }
 
 void mvPlot::updateAxesNames()
 {
-	configData.xaxisName.clear();
-	configData._y1axisName.clear();
-	configData._y2axisName.clear();
-	configData._y3axisName.clear();
+	configData.axesNames.clear();
 
 	for (size_t i = 0; i < childslots[1].size(); i++)
 	{
 		auto axis = childslots[1][i].get();
-		switch (i)
-		{
-		case(0): configData.xaxisName = axis->config.specifiedLabel; break;
-		case(1): configData._y1axisName = axis->config.specifiedLabel; break;
-		case(2): configData._y2axisName = axis->config.specifiedLabel; break;
-		case(3): configData._y3axisName = axis->config.specifiedLabel; break;
-		default: configData._y1axisName = axis->config.specifiedLabel; break;
-		}
+		configData.axesNames[i] = axis->config.specifiedLabel;
 	}
 
 }

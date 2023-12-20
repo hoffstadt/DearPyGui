@@ -9,6 +9,7 @@ struct mvAnnotationConfig;
 struct mvSubPlotsConfig;
 struct mvPlotLegendConfig;
 struct mvDragLineConfig;
+struct mvDragRectConfig;
 struct mvDragPointConfig;
 struct mvBasicSeriesConfig;
 struct mvBarSeriesConfig;
@@ -28,6 +29,7 @@ namespace DearPyGui
     // specific part of `get_item_configuration(...)`
     void fill_configuration_dict(const mvPlotLegendConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvDragLineConfig& inConfig, PyObject* outDict);
+    void fill_configuration_dict(const mvDragRectConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvDragPointConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvBarSeriesConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvBasicSeriesConfig& inConfig, PyObject* outDict);
@@ -49,6 +51,7 @@ namespace DearPyGui
     // specific part of `configure_item(...)`
     void set_configuration(PyObject* inDict, mvPlotLegendConfig& outConfig, mvAppItem& item);
     void set_configuration(PyObject* inDict, mvDragLineConfig& outConfig);
+    void set_configuration(PyObject* inDict, mvDragRectConfig& outConfig);
     void set_configuration(PyObject* inDict, mvDragPointConfig& outConfig);
     void set_configuration(PyObject* inDict, mvBarSeriesConfig& outConfig);
     void set_configuration(PyObject* inDict, mvBasicSeriesConfig& outConfig);
@@ -88,6 +91,7 @@ namespace DearPyGui
     // data source handling
     void set_data_source(mvAppItem& item, mvUUID dataSource, mvAnnotationConfig& outConfig);
     void set_data_source(mvAppItem& item, mvUUID dataSource, mvDragLineConfig& outConfig);
+    void set_data_source(mvAppItem& item, mvUUID dataSource, mvDragRectConfig& outConfig);
     void set_data_source(mvAppItem& item, mvUUID dataSource, mvDragPointConfig& outConfig);
     void set_data_source(mvAppItem& item, mvUUID dataSource, std::shared_ptr<std::vector<std::vector<double>>>& outValue);
 
@@ -97,6 +101,7 @@ namespace DearPyGui
     void draw_subplots          (ImDrawList* drawlist, mvAppItem& item, mvSubPlotsConfig& config);
     void draw_plot_legend       (ImDrawList* drawlist, mvAppItem& item, mvPlotLegendConfig& config);
     void draw_drag_line         (ImDrawList* drawlist, mvAppItem& item, mvDragLineConfig& config);
+    void draw_drag_rect         (ImDrawList* drawlist, mvAppItem& item, mvDragRectConfig& config);
     void draw_drag_point        (ImDrawList* drawlist, mvAppItem& item, mvDragPointConfig& config);
     void draw_bar_series        (ImDrawList* drawlist, mvAppItem& item, const mvBarSeriesConfig& config);
     void draw_line_series       (ImDrawList* drawlist, mvAppItem& item, const mvBasicSeriesConfig& config);
@@ -148,29 +153,36 @@ struct mvBarSeriesConfig
 
 struct mvPlotLegendConfig
 {
-    ImPlotLocation legendLocation = ImPlotLocation_NorthWest;
-    bool           horizontal = false;
-    bool           outside = false;
-    bool           dirty = true;
+    ImPlotLocation      legendLocation = ImPlotLocation_NorthWest;
+    ImPlotLegendFlags   flags = ImPlotLegendFlags_None;
+    bool                dirty = true;
 };
 
 struct mvDragPointConfig
 {
-    std::shared_ptr<std::array<double, 4>> value = std::make_shared<std::array<double, 4>>(std::array<double, 4>{0.0, 0.0, 0.0, 0.0});
-    double                       disabled_value[4]{};
-    bool                         show_label = true;
+    std::shared_ptr<std::array<double, 2>> value = std::make_shared<std::array<double, 2>>(std::array<double, 2>{0.0, 0.0});
+    double                       disabled_value[2]{};
+    ImPlotDragToolFlags          flags = ImPlotDragToolFlags_None;
     mvColor                      color = mvColor(0.0f, 0.0f, 0.0f, -1.0f);
     float                        radius = 4.0f;
+};
+
+struct mvDragRectConfig
+{
+    std::shared_ptr<std::array<double, 4>> value = std::make_shared<std::array<double, 4>>(std::array<double, 4>{0.0, 0.0, 0.0, 0.0});
+    double                       disabled_value[4]{};
+    ImPlotDragToolFlags          flags = ImPlotDragToolFlags_None;
+    mvColor                      color = mvColor(0.0f, 0.0f, 0.0f, -1.0f);
 };
 
 struct mvDragLineConfig
 {
     std::shared_ptr<double> value = std::make_shared<double>(0.0);
-    float         disabled_value = 0.0;
-    bool          show_label = true;
-    mvColor       color = mvColor(0.0f, 0.0f, 0.0f, -1.0f);
-    float         thickness = 1.0f;
-    bool          vertical = true;
+    float               disabled_value = 0.0;
+    ImPlotDragToolFlags flags = ImPlotDragToolFlags_None;
+    mvColor             color = mvColor(0.0f, 0.0f, 0.0f, -1.0f);
+    float               thickness = 1.0f;
+    bool                vertical = true;
 };
 
 struct mv2dHistogramSeriesConfig
@@ -348,8 +360,8 @@ struct mvSubPlotsConfig
 
 struct mvPlotAxisConfig
 {
-    ImPlotAxisFlags          flags = 0;
-    int                      axis = 0;
+    ImPlotAxisFlags          flags = ImPlotAxisFlags_None;
+    ImAxis                   axis = ImAxis_X1;
     bool                     setLimits = false;
     ImVec2                   limits;
     ImVec2                   limits_actual;
@@ -361,40 +373,38 @@ struct mvPlotAxisConfig
 
 struct mvPlotConfig
 {
-    std::string     xaxisName;
-    int             pan_button = 0;
-    int             pan_mod = 0;
-    int             fit_button = 0;
-    int             context_menu_button = 0;
-    int             box_select_button = 0;
-    int             box_select_mod = 0;
-    int             box_select_cancel_button = 0;
+    ImGuiMouseButton             pan = 0;
+    ImGuiKeyModFlags             pan_mod = 0;
+    ImGuiMouseButton             fit;           // LMB    initiates fit when double clicked
+    ImGuiMouseButton             menu;          // RMB    opens context menus (if enabled) when clicked
+    ImGuiMouseButton             select;        // RMB    begins box selection when pressed and confirms selection when released
+    ImGuiKeyModFlags             select_mod;     // none   optional modifier that must be held for box selection
+    ImGuiMouseButton             select_cancel;  // LMB    cancels active box selection when pressed; cannot be same as Select
     int             query_button = 0;
-    int             query_mod = 0;
+    int             query_mod = 0;  // TODO: Check if these variables are used, then delete them
     int             query_toggle_mod = 0;
-    int             horizontal_mod = 0;
-    int             vertical_mod = 0;
+    ImGuiKeyModFlags             select_horz_mod; // Alt    expands active box selection horizontally to plot edge when held
+    ImGuiKeyModFlags             select_vert_mod; // Shift  expands active box selection vertically to plot edge when held
 
-    std::string     _y1axisName;
-    std::string     _y2axisName;
-    std::string     _y3axisName;
-    ImPlotFlags     _flags = ImPlotFlags_NoLegend;
-    ImPlotAxisFlags _xflags = 0;
-    ImPlotAxisFlags _yflags = 0;
-    ImPlotAxisFlags _y1flags = 0;
-    ImPlotAxisFlags _y2flags = 0;
-    bool            _newColorMap = false; // to bust color cache
-    bool            _useColorMap = false;
-    ImPlotColormap  _colormap = ImPlotColormap_Deep;
-    bool            _equalAspectRatios = false;
-    bool            _queried = false;
-    double          _queryArea[4] = { 0.0, 0.0, 0.0, 0.0 };
-    bool            _fitDirty = false;
-    bool            _axisfitDirty[4] = { false, false, false, false }; 
-    ImPlotInputMap  _originalMap = ImPlotInputMap();// custom input mapping
-    bool                     localTime = false;
-    bool                     iSO8601 = false;
-    bool                     clock24Hour = false;
+    // Input map
+    ImGuiKeyModFlags             override_mod;   // Ctrl   when held, all input is ignored; used to enable axis/plots as DND sources
+    ImGuiKeyModFlags             zoom_mod;       // none   optional modifier that must be held for scroll wheel zooming
+    float                        zoom_rate;      // 0.1f   zoom rate for scroll (e.g. 0.1f = 10% plot range every scroll click); make negative to invert
+    
+    std::vector<std::string>        axesNames = std::vector<std::string>(ImAxis_COUNT);
+    ImPlotFlags                     _flags = ImPlotFlags_NoLegend;
+    std::vector<ImPlotAxisFlags>    axesFlags = std::vector<ImPlotAxisFlags>(ImAxis_COUNT, ImPlotAxisFlags_None);
+    bool                            _newColorMap = false; // to bust color cache
+    bool                            _useColorMap = false;
+    ImPlotColormap                  _colormap = ImPlotColormap_Deep;
+    bool                            _equalAspectRatios = false;
+    std::vector<ImRect>             rects = std::vector<ImRect>();
+    bool                            _fitDirty = false;
+    bool                            _axisfitDirty[ImAxis_COUNT] = { false, false, false, false, false, false }; 
+    ImPlotInputMap                  _originalMap = ImPlotInputMap(); // custom input mapping
+    bool                            localTime = false;
+    bool                            iSO8601 = false;
+    bool                            clock24Hour = false;
 };
 
 //-----------------------------------------------------------------------------
@@ -446,6 +456,20 @@ public:
     mvDragPointConfig configData{};
     explicit mvDragPoint(mvUUID uuid) : mvAppItem(uuid) {}
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_drag_point(drawlist, *this, configData); }
+    void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
+    void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
+    void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
+    void* getValue() override { return &configData.value; }
+    PyObject* getPyValue() override { return ToPyFloatList(configData.value->data(), 2); }
+    void setPyValue(PyObject* value) override;
+};
+
+class mvDragRect : public mvAppItem
+{
+public:
+    mvDragRectConfig configData{};
+    explicit mvDragRect(mvUUID uuid) : mvAppItem(uuid) {}
+    void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_drag_rect(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
     void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }

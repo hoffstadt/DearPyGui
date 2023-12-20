@@ -1006,6 +1006,7 @@ DearPyGui::GetEntityTargetSlot(mvAppItemType type)
     case mvAppItemType::mvAnnotation:
     case mvAppItemType::mvDragLine:
     case mvAppItemType::mvDragPoint:
+    case mvAppItemType::mvDragRect:
     case mvAppItemType::mvPlotLegend:
     case mvAppItemType::mvTableColumn: return 0;
 
@@ -1125,8 +1126,9 @@ DearPyGui::GetEntityValueType(mvAppItemType type)
     case mvAppItemType::mvInputDoubleMulti:
     case mvAppItemType::mvSliderDoubleMulti:
     case mvAppItemType::mvAnnotation:
-    case mvAppItemType::mvDragPoint: return StorageValueTypes::Double4;
+    case mvAppItemType::mvDragRect: return StorageValueTypes::Double4;
 
+    case mvAppItemType::mvDragPoint:
     case mvAppItemType::mvStaticTexture:
     case mvAppItemType::mvDynamicTexture:
     case mvAppItemType::mvSimplePlot: return StorageValueTypes::FloatVect;
@@ -1352,6 +1354,7 @@ DearPyGui::GetAllowableParents(mvAppItemType type)
 
     case mvAppItemType::mvPlotAxis:
     case mvAppItemType::mvDragLine:
+    case mvAppItemType::mvDragRect:
     case mvAppItemType::mvDragPoint:
     case mvAppItemType::mvAnnotation:
         MV_START_PARENTS
@@ -1553,6 +1556,7 @@ DearPyGui::GetAllowableChildren(mvAppItemType type)
         MV_ADD_CHILD(mvAppItemType::mvPlotLegend),
         MV_ADD_CHILD(mvAppItemType::mvPlotAxis),
         MV_ADD_CHILD(mvAppItemType::mvDragPoint),
+        MV_ADD_CHILD(mvAppItemType::mvDragRect),
         MV_ADD_CHILD(mvAppItemType::mvDragLine),
         MV_ADD_CHILD(mvAppItemType::mvAnnotation),
         MV_ADD_CHILD(mvAppItemType::mvDrawLine),
@@ -2660,7 +2664,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "no_title", mvArgType::KEYWORD_ARG, "False", "the plot title will not be displayed"});
         args.push_back({ mvPyDataType::Bool, "no_menus", mvArgType::KEYWORD_ARG, "False", "the user will not be able to open context menus with right-click"});
         args.push_back({ mvPyDataType::Bool, "no_box_select", mvArgType::KEYWORD_ARG, "False", "the user will not be able to box-select with right-click drag"});
-        args.push_back({ mvPyDataType::Bool, "no_mouse_pos", mvArgType::KEYWORD_ARG, "False", "the mouse position, in plot coordinates, will not be displayed inside of the plot"});
+        args.push_back({ mvPyDataType::Bool, "no_mouse_text", mvArgType::KEYWORD_ARG, "False", "the text of mouse position, in plot coordinates, will not be displayed inside of the plot"});
         args.push_back({ mvPyDataType::Bool, "no_highlight", mvArgType::KEYWORD_ARG, "False", "plot items will not be highlighted when their legend entry is hovered"});
         args.push_back({ mvPyDataType::Bool, "no_child", mvArgType::KEYWORD_ARG, "False", "a child window region will not be used to capture mouse scroll (can boost performance for single ImGui window applications)"});
         args.push_back({ mvPyDataType::Bool, "query", mvArgType::KEYWORD_ARG, "False", "the user will be able to draw query rects with middle - mouse or CTRL + right - click drag"});
@@ -2672,7 +2676,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "use_24hour_clock", mvArgType::KEYWORD_ARG, "False", "times will be formatted using a 24 hour clock" });
 
         // key modifiers
-        args.push_back({ mvPyDataType::Integer, "pan_button", mvArgType::KEYWORD_ARG, "internal_dpg.mvMouseButton_Left", "enables panning when held" });
+        args.push_back({ mvPyDataType::Integer, "pan", mvArgType::KEYWORD_ARG, "internal_dpg.mvMouseButton_Left", "mouse button that enables panning when held" });
         args.push_back({ mvPyDataType::Integer, "pan_mod", mvArgType::KEYWORD_ARG, "-1", "optional modifier that must be held for panning" });
         args.push_back({ mvPyDataType::Integer, "fit_button", mvArgType::KEYWORD_ARG, "internal_dpg.mvMouseButton_Left", "fits visible data when double clicked" });
         args.push_back({ mvPyDataType::Integer, "context_menu_button", mvArgType::KEYWORD_ARG, "internal_dpg.mvMouseButton_Right", "opens plot context menu (if enabled) when clicked" });
@@ -3803,12 +3807,41 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::DoubleList, "default_value", mvArgType::KEYWORD_ARG, "(0.0, 0.0)" });
         args.push_back({ mvPyDataType::IntList, "color", mvArgType::KEYWORD_ARG, "(0, 0, 0, -255)" });
         args.push_back({ mvPyDataType::Float, "thickness", mvArgType::KEYWORD_ARG, "1.0" });
-        args.push_back({ mvPyDataType::Bool, "show_label", mvArgType::KEYWORD_ARG, "True" });
+        args.push_back({ mvPyDataType::Bool, "delayed", mvArgType::KEYWORD_ARG, "False" });
+        args.push_back({ mvPyDataType::Bool, "no_cursor", mvArgType::KEYWORD_ARG, "False" });
+        args.push_back({ mvPyDataType::Bool, "no_fit", mvArgType::KEYWORD_ARG, "False" });
+        args.push_back({ mvPyDataType::Bool, "no_inputs", mvArgType::KEYWORD_ARG, "False" });
 
         setup.about = "Adds a drag point to a plot.";
         setup.category = { "Plotting", "Widgets" };
         break;
     }
+    // TODO: Update all the variables (corresponding with the flags) for these drag widgets
+
+    case mvAppItemType::mvDragRect:                   
+    {
+        AddCommonArgs(args, (CommonParserArgs)(
+            MV_PARSER_ARG_ID |
+            MV_PARSER_ARG_PARENT |
+            MV_PARSER_ARG_BEFORE |
+            MV_PARSER_ARG_SOURCE |
+            MV_PARSER_ARG_CALLBACK |
+            MV_PARSER_ARG_SHOW)
+        );
+
+        args.push_back({ mvPyDataType::DoubleList, "default_value", mvArgType::KEYWORD_ARG, "(0.0, 0.0)" });
+        args.push_back({ mvPyDataType::IntList, "color", mvArgType::KEYWORD_ARG, "(0, 0, 0, -255)" });
+        args.push_back({ mvPyDataType::Float, "thickness", mvArgType::KEYWORD_ARG, "1.0" });
+        args.push_back({ mvPyDataType::Bool, "delayed", mvArgType::KEYWORD_ARG, "False" });
+        args.push_back({ mvPyDataType::Bool, "no_cursor", mvArgType::KEYWORD_ARG, "False" });
+        args.push_back({ mvPyDataType::Bool, "no_fit", mvArgType::KEYWORD_ARG, "False" });
+        args.push_back({ mvPyDataType::Bool, "no_inputs", mvArgType::KEYWORD_ARG, "False" });
+
+        setup.about = "Adds a drag rectangle to a plot.";
+        setup.category = { "Plotting", "Widgets" };
+        break;
+    }
+
     case mvAppItemType::mvDragLine:                    
     {
         AddCommonArgs(args, (CommonParserArgs)(
@@ -3823,8 +3856,11 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::DoubleList, "default_value", mvArgType::KEYWORD_ARG, "0.0" });
         args.push_back({ mvPyDataType::IntList, "color", mvArgType::KEYWORD_ARG, "(0, 0, 0, -255)" });
         args.push_back({ mvPyDataType::Float, "thickness", mvArgType::KEYWORD_ARG, "1.0" });
-        args.push_back({ mvPyDataType::Bool, "show_label", mvArgType::KEYWORD_ARG, "True" });
         args.push_back({ mvPyDataType::Bool, "vertical", mvArgType::KEYWORD_ARG, "True" });
+        args.push_back({ mvPyDataType::Bool, "delayed", mvArgType::KEYWORD_ARG, "False" });
+        args.push_back({ mvPyDataType::Bool, "no_cursor", mvArgType::KEYWORD_ARG, "False" });
+        args.push_back({ mvPyDataType::Bool, "no_fit", mvArgType::KEYWORD_ARG, "False" });
+        args.push_back({ mvPyDataType::Bool, "no_inputs", mvArgType::KEYWORD_ARG, "False" });
 
         setup.about = "Adds a drag line to a plot.";
         setup.category = { "Plotting", "Widgets" };
@@ -4459,6 +4495,8 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Integer, "location", mvArgType::KEYWORD_ARG, "5", "location, mvPlot_Location_*" });
         args.push_back({ mvPyDataType::Bool, "horizontal", mvArgType::KEYWORD_ARG, "False" });
         args.push_back({ mvPyDataType::Bool, "outside", mvArgType::KEYWORD_ARG, "False" });
+        args.push_back({ mvPyDataType::Bool, "noHighlightItem", mvArgType::KEYWORD_ARG, "False", "plot items will not be highlighted when their legend entry is hovered" });
+        args.push_back({ mvPyDataType::Bool, "noHighlightAxis", mvArgType::KEYWORD_ARG, "False", "axes will not be highlighted when legend entries are hovered (only relevant if x/y-axis count > 1)" });
 
         setup.about = "Adds a plot legend to a plot.";
         setup.category = { "Plotting", "Widgets" };

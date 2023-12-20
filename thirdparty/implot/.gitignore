@@ -1,0 +1,12 @@
+# Ignore build artifacts
+build/
+
+# Ignore compiled binaries
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Ignore system files
+.DS_Store
+Thumbs.db

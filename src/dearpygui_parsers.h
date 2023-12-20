@@ -244,25 +244,12 @@ InsertParser_Block0(std::map<std::string, mvPythonParser>& parsers)
 		args.push_back({ mvPyDataType::UUID, "plot" });
 
 		mvPythonParserSetup setup;
-		setup.about = "Returns true if the plot is currently being queried. (Requires plot 'query' kwarg to be enabled)";
-		setup.category = { "Plotting", "App Item Operations" };
-		setup.returnType = mvPyDataType::Bool;
-
-		mvPythonParser parser = FinalizeParser(setup, args);
-		parsers.insert({ "is_plot_queried", parser });
-	}
-
-	{
-		std::vector<mvPythonDataElement> args;
-		args.push_back({ mvPyDataType::UUID, "plot" });
-
-		mvPythonParserSetup setup;
-		setup.about = "Returns the last/current query area of the plot. (Requires plot 'query' kwarg to be enabled)";
+		setup.about = "Returns the query rects of the plot. (Requires plot 'query' kwarg to be enabled)";
 		setup.category = { "Plotting", "App Item Operations" };
 		setup.returnType = mvPyDataType::FloatList;
 
 		mvPythonParser parser = FinalizeParser(setup, args);
-		parsers.insert({ "get_plot_query_area", parser });
+		parsers.insert({ "get_plot_query_rects", parser });
 	}
 
 	{
@@ -482,8 +469,6 @@ InsertParser_Block1(std::map<std::string, mvPythonParser>& parsers)
 	{
 		std::vector<mvPythonDataElement> args;
 		args.reserve(11);
-		args.push_back({ mvPyDataType::Bool, "docking", mvArgType::KEYWORD_ARG, "False", "Enables docking support." });
-		args.push_back({ mvPyDataType::Bool, "docking_space", mvArgType::KEYWORD_ARG, "False", "add explicit dockspace over viewport" });
 		args.push_back({ mvPyDataType::String, "load_init_file", mvArgType::KEYWORD_ARG, "''", "Load .ini file." });
 		args.push_back({ mvPyDataType::String, "init_file", mvArgType::KEYWORD_ARG, "''" });
 		args.push_back({ mvPyDataType::Bool, "auto_save_init_file", mvArgType::KEYWORD_ARG, "False" });
