@@ -73,6 +73,7 @@
     X( mvInputFloatMulti ) \
     X( mvDragPoint ) \
     X( mvDragLine ) \
+    X( mvDragRect ) \
     X( mvAnnotation ) \
     X( mvLineSeries ) \
     X( mvScatterSeries ) \

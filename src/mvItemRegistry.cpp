@@ -5,6 +5,7 @@
 #include "mvPyUtils.h"
 #include "mvToolManager.h"
 #include "mvFontManager.h"
+#include <iostream>
 
 mvItemRegistry::mvItemRegistry()
 {
@@ -998,7 +999,6 @@ MoveItemDown(mvItemRegistry& registry, mvUUID uuid)
 void 
 RenderItemRegistry(mvItemRegistry& registry)
 {
-
     // TODO: figure out why delayedSearch can
     //       still have values (sometimes).
     //       It should be empty after every search.
@@ -1024,6 +1024,7 @@ RenderItemRegistry(mvItemRegistry& registry)
         if (root->config.show)
             root->draw(nullptr, 0.0f, 0.0f);
     }
+
 
     if (mvToolManager::GetFontManager()._newDefault)
     {

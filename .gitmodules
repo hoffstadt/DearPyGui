@@ -2,6 +2,10 @@
 	path = thirdparty/imgui
 	url = https://github.com/ocornut/imgui
 	branch = master
+[submodule "thirdparty/implot"]
+	path = thirdparty/implot
+	url = https://github.com/epezent/implot
+	branch = master
 [submodule "thirdparty/cpython"]
 	path = thirdparty/cpython
 	url = https://github.com/python/cpython

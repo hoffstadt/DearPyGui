@@ -15,29 +15,30 @@ void mvKeyDownHandler::draw(ImDrawList* drawlist, float x, float y)
 
 	if (_key == -1)
 	{
-		for (int i = 0; i < IM_ARRAYSIZE(ImGui::GetIO().KeysDown); i++)
+		for (int i = 0; i < IM_ARRAYSIZE(ImGui::GetIO().KeysData); i++)
 		{
-			if (ImGui::GetIO().KeysDown[i])
+			ImGuiKeyData& key = ImGui::GetIO().KeysData[i];
+			if (key.Down)
 			{
 				mvSubmitCallback([=]()
 					{
 						if (config.alias.empty())
-							mvRunCallback(getCallback(false), uuid, ToPyMPair(i, ImGui::GetIO().KeysDownDuration[i]), config.user_data);
+							mvRunCallback(getCallback(false), uuid, ToPyMPair(i, key.DownDuration), config.user_data);
 						else
-							mvRunCallback(getCallback(false), config.alias, ToPyMPair(i, ImGui::GetIO().KeysDownDuration[i]), config.user_data);
+							mvRunCallback(getCallback(false), config.alias, ToPyMPair(i, key.DownDuration), config.user_data);
 					});
 			}
 		}
 	}
 
-	else if (ImGui::GetIO().KeysDown[_key])
+	else if (ImGui::IsKeyDown(_key))
 	{
 		mvSubmitCallback([=]()
 			{
 				if (config.alias.empty())
-					mvRunCallback(getCallback(false), uuid, ToPyMPair(_key, ImGui::GetIO().KeysDownDuration[_key]), config.user_data);
+					mvRunCallback(getCallback(false), uuid, ToPyMPair(_key, ImGui::GetIO().KeysData[_key].DownDurationPrev), config.user_data);
 				else
-					mvRunCallback(getCallback(false), config.alias, ToPyMPair(_key, ImGui::GetIO().KeysDownDuration[_key]), config.user_data);
+					mvRunCallback(getCallback(false), config.alias, ToPyMPair(_key, ImGui::GetIO().KeysData[_key].DownDurationPrev), config.user_data);
 			});
 	}
 }
@@ -70,9 +71,10 @@ void mvKeyPressHandler::draw(ImDrawList* drawlist, float x, float y)
 {
 	if (_key == -1)
 	{
-		for (int i = 0; i < IM_ARRAYSIZE(ImGui::GetIO().KeysDown); i++)
+		for (int i = 0; i < IM_ARRAYSIZE(ImGui::GetIO().KeysData); i++)
 		{
-			if (ImGui::IsKeyPressed(i))
+			ImGuiKeyData& key = ImGui::GetIO().KeysData[i];
+			if (ImGui::IsKeyDown(i) && ImGui::IsKeyPressed(i))
 			{
 				mvSubmitCallback([=]()
 					{
@@ -137,9 +139,10 @@ void mvKeyReleaseHandler::draw(ImDrawList* drawlist, float x, float y)
 {
 	if (_key == -1)
 	{
-		for (int i = 0; i < IM_ARRAYSIZE(ImGui::GetIO().KeysDown); i++)
+		for (int i = 0; i < IM_ARRAYSIZE(ImGui::GetIO().KeysData); i++)
 		{
-			if (ImGui::GetIO().KeysDownDurationPrev[i] >= 0.0f && !ImGui::GetIO().KeysDown[i])
+			ImGuiKeyData& key = ImGui::GetIO().KeysData[i];
+			if (key.DownDurationPrev >= 0.0f && !key.Down)
 			{
 				mvSubmitCallback([=]()
 					{

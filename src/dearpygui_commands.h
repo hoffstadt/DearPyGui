@@ -11,6 +11,7 @@
 #include "stb_image_write.h"
 #include "mvProfiler.h"
 #include "mvUtilities.h"
+#include <iostream>
 
 static PyObject*
 bind_colormap(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -1010,11 +1011,12 @@ clear_selected_nodes(PyObject* self, PyObject* args, PyObject* kwargs)
 }
 
 static PyObject*
-is_plot_queried(PyObject* self, PyObject* args, PyObject* kwargs)
+get_plot_query_rects(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 	PyObject* plotraw;
+	auto tag = "get_plot_query_rects";
 
-	if (!Parse((GetParsers())["is_plot_queried"], args, kwargs, __FUNCTION__, &plotraw))
+	if (!Parse((GetParsers())[tag], args, kwargs, __FUNCTION__, &plotraw))
 		return GetPyNone();
 
 	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
@@ -1024,54 +1026,25 @@ is_plot_queried(PyObject* self, PyObject* args, PyObject* kwargs)
 	auto aplot = GetItem(*GContext->itemRegistry, plot);
 	if (aplot == nullptr)
 	{
-		mvThrowPythonError(mvErrorCode::mvItemNotFound, "is_plot_queried",
-			"Item not found: " + std::to_string(plot), nullptr);
+		mvThrowPythonError(mvErrorCode::mvItemNotFound, tag, "Item not found: " + std::to_string(plot), nullptr);
 		return GetPyNone();
 	}
 
 	if (aplot->type != mvAppItemType::mvPlot)
 	{
-		mvThrowPythonError(mvErrorCode::mvIncompatibleType, "is_plot_queried",
-			"Incompatible type. Expected types include: mvPlot", aplot);
+		mvThrowPythonError(mvErrorCode::mvIncompatibleType, tag, "Incompatible type. Expected types include: mvPlot", aplot);
 		return GetPyNone();
 	}
 
 	mvPlot* graph = static_cast<mvPlot*>(aplot);
 
-	return ToPyBool(graph->configData._queried);
-}
-
-static PyObject*
-get_plot_query_area(PyObject* self, PyObject* args, PyObject* kwargs)
-{
-	PyObject* plotraw;
-
-	if (!Parse((GetParsers())["get_plot_query_area"], args, kwargs, __FUNCTION__, &plotraw))
-		return GetPyNone();
-
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
-
-	mvUUID plot = GetIDFromPyObject(plotraw);
-
-	auto aplot = GetItem(*GContext->itemRegistry, plot);
-	if (aplot == nullptr)
-	{
-		mvThrowPythonError(mvErrorCode::mvItemNotFound, "get_plot_query_area",
-			"Item not found: " + std::to_string(plot), nullptr);
-		return GetPyNone();
+	PyObject* result = PyTuple_New(4);
+	auto rects = graph->configData.rects;
+	for (int i = 0; i < rects.size(); ++i) {
+		auto rect = rects[i].ToVec4();
+		PyTuple_SetItem(result, i, Py_BuildValue("(dddd)", rect.x, rect.y, rect.z, rect.w));  // TODO: Check if it's okay
 	}
-
-	if (aplot->type != mvAppItemType::mvPlot)
-	{
-		mvThrowPythonError(mvErrorCode::mvIncompatibleType, "is_plot_queried",
-			"Incompatible type. Expected types include: mvPlot", aplot);
-		return GetPyNone();
-	}
-
-	mvPlot* graph = static_cast<mvPlot*>(aplot);
-
-	double* result = graph->configData._queryArea;
-	return Py_BuildValue("(dddd)", result[0], result[1], result[2], result[3]);
+	return result;
 }
 
 static PyObject*
@@ -2063,7 +2036,6 @@ show_viewport(PyObject* self, PyObject* args, PyObject* kwargs)
 	}
 	else
 		mvThrowPythonError(mvErrorCode::mvNone, "No viewport created");
-
 	return GetPyNone();
 }
 
@@ -2474,7 +2446,6 @@ create_context(PyObject* self, PyObject* args, PyObject* kwargs)
 	}
 	else
 	{
-
 		GContext = new mvContext();
 
 		GContext->itemRegistry = new mvItemRegistry();
@@ -2538,8 +2509,15 @@ destroy_context(PyObject* self, PyObject* args, PyObject* kwargs)
 		if (GContext->viewport)
 			delete GContext->viewport;
 
+		std::cout << "Deleting" << std::endl;
+		std::cout << GContext << std::endl;
+		std::cout << "itemReg" << std::endl;
+		std::cout << GContext->itemRegistry << std::endl;
 		delete GContext->itemRegistry;
+		std::cout << "callbackReg" << std::endl;
+		std::cout << GContext->callbackRegistry << std::endl;
 		delete GContext->callbackRegistry;
+		std::cout << "GContext" << std::endl;
 		delete GContext;
 		GContext = nullptr;
 	}
@@ -2607,8 +2585,6 @@ configure_app(PyObject* self, PyObject* args, PyObject* kwargs)
 	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	if (PyObject* item = PyDict_GetItemString(kwargs, "auto_device")) GContext->IO.info_auto_device = ToBool(item);
-	if (PyObject* item = PyDict_GetItemString(kwargs, "docking")) GContext->IO.docking = ToBool(item);
-	if (PyObject* item = PyDict_GetItemString(kwargs, "docking_space")) GContext->IO.dockingViewport = ToBool(item);
 	if (PyObject* item = PyDict_GetItemString(kwargs, "load_init_file"))
 	{
 		std::string load_init_file = ToString(item);
@@ -2640,8 +2616,6 @@ get_app_configuration(PyObject* self, PyObject* args, PyObject* kwargs)
 	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 	PyObject* pdict = PyDict_New();
 	PyDict_SetItemString(pdict, "auto_device", mvPyObject(ToPyBool(GContext->IO.info_auto_device)));
-	PyDict_SetItemString(pdict, "docking", mvPyObject(ToPyBool(GContext->IO.docking)));
-	PyDict_SetItemString(pdict, "docking_space", mvPyObject(ToPyBool(GContext->IO.docking)));
 	PyDict_SetItemString(pdict, "load_init_file", mvPyObject(ToPyBool(GContext->IO.loadIniFile)));
 	PyDict_SetItemString(pdict, "version", mvPyObject(ToPyString(MV_SANDBOX_VERSION)));
 	PyDict_SetItemString(pdict, "major_version", mvPyObject(ToPyInt(MV_DPG_MAJOR_VERSION)));
@@ -4083,12 +4057,14 @@ capture_next_item(PyObject* self, PyObject* args, PyObject* kwargs)
 static PyObject*
 get_callback_queue(PyObject* self, PyObject* args, PyObject* kwargs)
 {
+	// std::cout << "[GET_CALLBACK_QUEUE] jobs size: " << GContext->callbackRegistry->jobs.size() << std::endl;
 	if (GContext->callbackRegistry->jobs.empty())
 		return GetPyNone();
 
 	PyObject* pArgs = PyTuple_New(GContext->callbackRegistry->jobs.size());
 	for (int i = 0; i < GContext->callbackRegistry->jobs.size(); i++)
 	{
+		// std::cout << "[JOB]: " << GContext->callbackRegistry->jobs[i].sender_str << std::endl;
 		PyObject* job = PyTuple_New(4);
 		if (GContext->callbackRegistry->jobs[i].callback)
 			PyTuple_SetItem(job, 0, GContext->callbackRegistry->jobs[i].callback);

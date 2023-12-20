@@ -38,6 +38,180 @@ GetModuleParsers()
 }
 
 const std::vector<std::pair<std::string, long>>&
+GetKeysConstants()
+{
+	static bool First_Run = true;
+	static std::vector<std::pair<std::string, long>> KeysConstants;
+
+	if (First_Run)
+	{
+		// Keyboard
+		KeysConstants.push_back({"mvKey_None", ImGuiKey_None });
+		KeysConstants.push_back({"mvKey_Tab", ImGuiKey_Tab });
+		KeysConstants.push_back({"mvKey_LeftArrow", ImGuiKey_LeftArrow });
+		KeysConstants.push_back({"mvKey_RightArrow", ImGuiKey_RightArrow });
+		KeysConstants.push_back({"mvKey_UpArrow", ImGuiKey_UpArrow });
+		KeysConstants.push_back({"mvKey_DownArrow", ImGuiKey_DownArrow });
+		KeysConstants.push_back({"mvKey_PageUp", ImGuiKey_PageUp });
+		KeysConstants.push_back({"mvKey_PageDown", ImGuiKey_PageDown });
+		KeysConstants.push_back({"mvKey_Home", ImGuiKey_Home });
+		KeysConstants.push_back({"mvKey_End", ImGuiKey_End });
+		KeysConstants.push_back({"mvKey_Insert", ImGuiKey_Insert });
+		KeysConstants.push_back({"mvKey_Delete", ImGuiKey_Delete });
+		KeysConstants.push_back({"mvKey_Backspace", ImGuiKey_Backspace });
+		KeysConstants.push_back({"mvKey_Space", ImGuiKey_Space });
+		KeysConstants.push_back({"mvKey_Enter", ImGuiKey_Enter });
+		KeysConstants.push_back({"mvKey_Escape", ImGuiKey_Escape });
+		KeysConstants.push_back({"mvKey_LeftCtrl", ImGuiKey_LeftCtrl });
+		KeysConstants.push_back({"mvKey_LeftShift", ImGuiKey_LeftShift });
+		KeysConstants.push_back({"mvKey_LeftAlt", ImGuiKey_LeftAlt });
+		KeysConstants.push_back({"mvKey_LeftSuper", ImGuiKey_LeftSuper });
+		KeysConstants.push_back({"mvKey_RightCtrl", ImGuiKey_RightCtrl });
+		KeysConstants.push_back({"mvKey_RightShift", ImGuiKey_RightShift });
+		KeysConstants.push_back({"mvKey_RightAlt", ImGuiKey_RightAlt });
+		KeysConstants.push_back({"mvKey_RightSuper", ImGuiKey_RightSuper });
+		KeysConstants.push_back({"mvKey_Menu", ImGuiKey_Menu });
+		KeysConstants.push_back({"mvKey_0", ImGuiKey_0 });
+		KeysConstants.push_back({"mvKey_1", ImGuiKey_1 });
+		KeysConstants.push_back({"mvKey_2", ImGuiKey_2 });
+		KeysConstants.push_back({"mvKey_3", ImGuiKey_3 });
+		KeysConstants.push_back({"mvKey_4", ImGuiKey_4 });
+		KeysConstants.push_back({"mvKey_5", ImGuiKey_5 });
+		KeysConstants.push_back({"mvKey_6", ImGuiKey_6 });
+		KeysConstants.push_back({"mvKey_7", ImGuiKey_7 });
+		KeysConstants.push_back({"mvKey_8", ImGuiKey_8 });
+		KeysConstants.push_back({"mvKey_9", ImGuiKey_9 });
+		KeysConstants.push_back({"mvKey_A", ImGuiKey_A });
+		KeysConstants.push_back({"mvKey_B", ImGuiKey_B });
+		KeysConstants.push_back({"mvKey_C", ImGuiKey_C });
+		KeysConstants.push_back({"mvKey_D", ImGuiKey_D });
+		KeysConstants.push_back({"mvKey_E", ImGuiKey_E });
+		KeysConstants.push_back({"mvKey_F", ImGuiKey_F });
+		KeysConstants.push_back({"mvKey_G", ImGuiKey_G });
+		KeysConstants.push_back({"mvKey_H", ImGuiKey_H });
+		KeysConstants.push_back({"mvKey_I", ImGuiKey_I });
+		KeysConstants.push_back({"mvKey_J", ImGuiKey_J });
+		KeysConstants.push_back({"mvKey_K", ImGuiKey_K });
+		KeysConstants.push_back({"mvKey_L", ImGuiKey_L });
+		KeysConstants.push_back({"mvKey_M", ImGuiKey_M });
+		KeysConstants.push_back({"mvKey_N", ImGuiKey_N });
+		KeysConstants.push_back({"mvKey_O", ImGuiKey_O });
+		KeysConstants.push_back({"mvKey_P", ImGuiKey_P });
+		KeysConstants.push_back({"mvKey_Q", ImGuiKey_Q });
+		KeysConstants.push_back({"mvKey_R", ImGuiKey_R });
+		KeysConstants.push_back({"mvKey_S", ImGuiKey_S });
+		KeysConstants.push_back({"mvKey_T", ImGuiKey_T });
+		KeysConstants.push_back({"mvKey_U", ImGuiKey_U });
+		KeysConstants.push_back({"mvKey_V", ImGuiKey_V });
+		KeysConstants.push_back({"mvKey_W", ImGuiKey_W });
+		KeysConstants.push_back({"mvKey_X", ImGuiKey_X });
+		KeysConstants.push_back({"mvKey_Y", ImGuiKey_Y });
+		KeysConstants.push_back({"mvKey_Z", ImGuiKey_Z });
+		KeysConstants.push_back({"mvKey_F1", ImGuiKey_F1 });
+		KeysConstants.push_back({"mvKey_F2", ImGuiKey_F2 });
+		KeysConstants.push_back({"mvKey_F3", ImGuiKey_F3 });
+		KeysConstants.push_back({"mvKey_F4", ImGuiKey_F4 });
+		KeysConstants.push_back({"mvKey_F5", ImGuiKey_F5 });
+		KeysConstants.push_back({"mvKey_F6", ImGuiKey_F6 });
+		KeysConstants.push_back({"mvKey_F7", ImGuiKey_F7 });
+		KeysConstants.push_back({"mvKey_F8", ImGuiKey_F8 });
+		KeysConstants.push_back({"mvKey_F9", ImGuiKey_F9 });
+		KeysConstants.push_back({"mvKey_F10", ImGuiKey_F10 });
+		KeysConstants.push_back({"mvKey_F11", ImGuiKey_F11 });
+		KeysConstants.push_back({"mvKey_F12", ImGuiKey_F12 });
+
+		KeysConstants.push_back({"mvKey_Apostrophe", ImGuiKey_Apostrophe });
+		KeysConstants.push_back({"mvKey_Comma", ImGuiKey_Comma });
+		KeysConstants.push_back({"mvKey_Minus", ImGuiKey_Minus });
+		KeysConstants.push_back({"mvKey_Period", ImGuiKey_Period });
+		KeysConstants.push_back({"mvKey_Slash", ImGuiKey_Slash });
+		KeysConstants.push_back({"mvKey_Semicolon", ImGuiKey_Semicolon });
+		KeysConstants.push_back({"mvKey_Equal", ImGuiKey_Equal });
+		KeysConstants.push_back({"mvKey_LeftBracket", ImGuiKey_LeftBracket });
+		KeysConstants.push_back({"mvKey_Backslash", ImGuiKey_Backslash });
+		KeysConstants.push_back({"mvKey_RightBracket", ImGuiKey_RightBracket });
+		KeysConstants.push_back({"mvKey_GraveAccent", ImGuiKey_GraveAccent });
+		KeysConstants.push_back({"mvKey_CapsLock", ImGuiKey_CapsLock });
+		KeysConstants.push_back({"mvKey_ScrollLock", ImGuiKey_ScrollLock });
+		KeysConstants.push_back({"mvKey_NumLock", ImGuiKey_NumLock });
+		KeysConstants.push_back({"mvKey_PrintScreen", ImGuiKey_PrintScreen });
+		KeysConstants.push_back({"mvKey_Pause", ImGuiKey_Pause });
+		KeysConstants.push_back({"mvKey_Keypad0", ImGuiKey_Keypad0 });
+		KeysConstants.push_back({"mvKey_Keypad1", ImGuiKey_Keypad1 });
+		KeysConstants.push_back({"mvKey_Keypad2", ImGuiKey_Keypad2 });
+		KeysConstants.push_back({"mvKey_Keypad3", ImGuiKey_Keypad3 });
+		KeysConstants.push_back({"mvKey_Keypad4", ImGuiKey_Keypad4 });
+		KeysConstants.push_back({"mvKey_Keypad5", ImGuiKey_Keypad5 });
+		KeysConstants.push_back({"mvKey_Keypad6", ImGuiKey_Keypad6 });
+		KeysConstants.push_back({"mvKey_Keypad7", ImGuiKey_Keypad7 });
+		KeysConstants.push_back({"mvKey_Keypad8", ImGuiKey_Keypad8 });
+		KeysConstants.push_back({"mvKey_Keypad9", ImGuiKey_Keypad9 });
+		KeysConstants.push_back({"mvKey_KeypadDecimal", ImGuiKey_KeypadDecimal });
+		KeysConstants.push_back({"mvKey_KeypadDivide", ImGuiKey_KeypadDivide });
+		KeysConstants.push_back({"mvKey_KeypadMultiply", ImGuiKey_KeypadMultiply });
+		KeysConstants.push_back({"mvKey_KeypadSubtract", ImGuiKey_KeypadSubtract });
+		KeysConstants.push_back({"mvKey_KeypadAdd", ImGuiKey_KeypadAdd });
+		KeysConstants.push_back({"mvKey_KeypadEnter", ImGuiKey_KeypadEnter });
+		KeysConstants.push_back({"mvKey_KeypadEqual", ImGuiKey_KeypadEqual });
+
+		//	Gamepad																				Gamepad (some of those are analog values, 0.0f to 1.0f) 	// NAVIGATION action
+
+		KeysConstants.push_back({"mvKey_GamepadStart", ImGuiKey_GamepadStart }); 				// Menu (Xbox)          + (Switch)   Start/Options (PS) 	// --
+		KeysConstants.push_back({"mvKey_GamepadBack", ImGuiKey_GamepadBack }); 				// View (Xbox)          - (Switch)   Share (PS)         	// --
+		KeysConstants.push_back({"mvKey_GamepadFaceUp", ImGuiKey_GamepadFaceUp });   			// Y (Xbox)             X (Switch)   Triangle (PS)      	// -> ImGuiNavInput_Input
+		KeysConstants.push_back({"mvKey_GamepadFaceDown", ImGuiKey_GamepadFaceDown }); 		// A (Xbox)             B (Switch)   Cross (PS)         	// -> ImGuiNavInput_Activate
+		KeysConstants.push_back({"mvKey_GamepadFaceLeft", ImGuiKey_GamepadFaceLeft }); 		// X (Xbox)             Y (Switch)   Square (PS)        	// -> ImGuiNavInput_Menu
+		KeysConstants.push_back({"mvKey_GamepadFaceRight", ImGuiKey_GamepadFaceRight }); 		// B (Xbox)             A (Switch)   Circle (PS)        	// -> ImGuiNavInput_Cancel
+		KeysConstants.push_back({"mvKey_GamepadDpadUp", ImGuiKey_GamepadDpadUp });   			// D-pad Up                                             	// -> ImGuiNavInput_DpadUp
+		KeysConstants.push_back({"mvKey_GamepadDpadDown", ImGuiKey_GamepadDpadDown }); 		// D-pad Down                                           	// -> ImGuiNavInput_DpadDown
+		KeysConstants.push_back({"mvKey_GamepadDpadLeft", ImGuiKey_GamepadDpadLeft }); 		// D-pad Left                                           	// -> ImGuiNavInput_DpadLeft
+		KeysConstants.push_back({"mvKey_GamepadDpadRight", ImGuiKey_GamepadDpadRight }); 		// D-pad Right                                          	// -> ImGuiNavInput_DpadRight
+		KeysConstants.push_back({"mvKey_GamepadL1", ImGuiKey_GamepadL1 });       				// L Bumper (Xbox)      L (Switch)   L1 (PS)            	// -> ImGuiNavInput_FocusPrev + ImGuiNavInput_TweakSlow
+		KeysConstants.push_back({"mvKey_GamepadR1", ImGuiKey_GamepadR1 });       				// R Bumper (Xbox)      R (Switch)   R1 (PS)            	// -> ImGuiNavInput_FocusNext + ImGuiNavInput_TweakFast
+		KeysConstants.push_back({"mvKey_GamepadL2", ImGuiKey_GamepadL2 });       				// L Trigger (Xbox)     ZL (Switch)  L2 (PS) [Analog]
+		KeysConstants.push_back({"mvKey_GamepadR2", ImGuiKey_GamepadR2 });       				// R Trigger (Xbox)     ZR (Switch)  R2 (PS) [Analog]
+		KeysConstants.push_back({"mvKey_GamepadL3", ImGuiKey_GamepadL3 });       				// L Thumbstick (Xbox)  L3 (Switch)  L3 (PS)
+		KeysConstants.push_back({"mvKey_GamepadR3", ImGuiKey_GamepadR3 });       				// R Thumbstick (Xbox)  R3 (Switch)  R3 (PS)
+		KeysConstants.push_back({"mvKey_GamepadLStickUp", ImGuiKey_GamepadLStickUp }); 		// [Analog]                                             	// -> ImGuiNavInput_LStickUp
+		KeysConstants.push_back({"mvKey_GamepadLStickDown", ImGuiKey_GamepadLStickDown }); 	// [Analog]                                             	// -> ImGuiNavInput_LStickDown
+		KeysConstants.push_back({"mvKey_GamepadLStickLeft", ImGuiKey_GamepadLStickLeft }); 	// [Analog]                                             	// -> ImGuiNavInput_LStickLeft
+		KeysConstants.push_back({"mvKey_GamepadLStickRight", ImGuiKey_GamepadLStickRight }); 	// [Analog]                                             	// -> ImGuiNavInput_LStickRight
+		KeysConstants.push_back({"mvKey_GamepadRStickUp", ImGuiKey_GamepadRStickUp }); 		// [Analog]
+		KeysConstants.push_back({"mvKey_GamepadRStickDown", ImGuiKey_GamepadRStickDown }); 	// [Analog]
+		KeysConstants.push_back({"mvKey_GamepadRStickLeft", ImGuiKey_GamepadRStickLeft }); 	// [Analog]
+		KeysConstants.push_back({"mvKey_GamepadRStickRight", ImGuiKey_GamepadRStickRight }); 	// [Analog]
+
+
+		// Keyboard Modifiers
+		// - This is mirroring the data also written to io.KeyCtrl, io.KeyShift, io.KeyAlt, io.KeySuper, in a format allowing
+		//   them to be accessed via standard key API, allowing calls such as IsKeyPressed(), IsKeyReleased(), querying duration etc.
+		// - Code polling every keys (e.g. an interface to detect a key press for input mapping) might want to ignore those
+		//   and prefer using the real keys (e.g. ImGuiKey_LeftCtrl, ImGuiKey_RightCtrl instead of ImGuiKey_ModCtrl).
+		// - In theory the value of keyboard modifiers should be roughly equivalent to a logical or of the equivalent left/right keys.
+		//   In practice: it's complicated; mods are often provided from different sources. Keyboard layout, IME, sticky keys and
+		//   backends tend to interfere and break that equivalence. The safer decision is to relay that ambiguity down to the end-user...
+		KeysConstants.push_back({"mvKey_ModCtrl", ImGuiKey_ModCtrl });
+		KeysConstants.push_back({"mvKey_ModShift", ImGuiKey_ModShift });
+		KeysConstants.push_back({"mvKey_ModAlt", ImGuiKey_ModAlt });
+		KeysConstants.push_back({"mvKey_ModSuper", ImGuiKey_ModSuper });
+
+		KeysConstants.push_back({"mvKey_COUNT", ImGuiKey_COUNT });                 // No valid ImGuiKey is ever greater than this value
+
+		// [Internal] Prior to 1.87 we required user to fill io.KeysDown[512] using their own native index + a io.KeyMap[] array.
+		// We are ditching this method but keeping a legacy path for user code doing e.g. IsKeyPressed(MY_NATIVE_KEY_CODE)
+		KeysConstants.push_back({"mvKey_NamedKey_BEGIN", ImGuiKey_NamedKey_BEGIN });
+		KeysConstants.push_back({"mvKey_NamedKey_END", ImGuiKey_NamedKey_END });
+		KeysConstants.push_back({"mvKey_NamedKey_COUNT", ImGuiKey_NamedKey_COUNT });
+
+		KeysConstants.push_back({"mvKey_KeysData_SIZE", ImGuiKey_KeysData_SIZE });              // Size of KeysData[]: only hold named keys
+		KeysConstants.push_back({"mvKey_KeysData_OFFSET", ImGuiKey_KeysData_OFFSET });
+	}
+
+	First_Run = false;
+	return KeysConstants;
+}
+
+const std::vector<std::pair<std::string, long>>&
 GetModuleConstants()
 {
 	static bool First_Run = true;
@@ -231,8 +405,6 @@ GetModuleConstants()
 		ModuleConstants.push_back({ "mvThemeCol_TabActive", ImGuiCol_TabActive });
 		ModuleConstants.push_back({ "mvThemeCol_TabUnfocused", ImGuiCol_TabUnfocused });
 		ModuleConstants.push_back({ "mvThemeCol_TabUnfocusedActive", ImGuiCol_TabUnfocusedActive });
-		ModuleConstants.push_back({ "mvThemeCol_DockingPreview", ImGuiCol_DockingPreview });      // Preview overlay color when about to docking something
-		ModuleConstants.push_back({ "mvThemeCol_DockingEmptyBg", ImGuiCol_DockingEmptyBg });      // Background color for empty node (e.g. CentralNode with no window docked into it)
 		ModuleConstants.push_back({ "mvThemeCol_PlotLines", ImGuiCol_PlotLines });
 		ModuleConstants.push_back({ "mvThemeCol_PlotLinesHovered", ImGuiCol_PlotLinesHovered });
 		ModuleConstants.push_back({ "mvThemeCol_PlotHistogram", ImGuiCol_PlotHistogram });
@@ -267,16 +439,12 @@ GetModuleConstants()
 		ModuleConstants.push_back({ "mvPlotCol_LegendText", ImPlotCol_LegendText });     // legend text color (defaults to ImPlotCol_InlayText)
 		ModuleConstants.push_back({ "mvPlotCol_TitleText", ImPlotCol_TitleText });       // plot title text color (defaults to ImGuiCol_Text)
 		ModuleConstants.push_back({ "mvPlotCol_InlayText", ImPlotCol_InlayText });       // color of text appearing inside of plots (defaults to ImGuiCol_Text)
-		ModuleConstants.push_back({ "mvPlotCol_XAxis", ImPlotCol_XAxis });               // x-axis label and tick lables color (defaults to ImGuiCol_Text)
-		ModuleConstants.push_back({ "mvPlotCol_XAxisGrid", ImPlotCol_XAxisGrid });       // x-axis grid color (defaults to 25% ImPlotCol_XAxis)
-		ModuleConstants.push_back({ "mvPlotCol_YAxis", ImPlotCol_YAxis });               // y-axis label and tick labels color (defaults to ImGuiCol_Text)
-		ModuleConstants.push_back({ "mvPlotCol_YAxisGrid", ImPlotCol_YAxisGrid });       // y-axis grid color (defaults to 25% ImPlotCol_YAxis)
-		ModuleConstants.push_back({ "mvPlotCol_YAxis2", ImPlotCol_YAxis2 });             // 2nd y-axis label and tick labels color (defaults to ImGuiCol_Text)
-		ModuleConstants.push_back({ "mvPlotCol_YAxisGrid2", ImPlotCol_YAxisGrid2 });     // 2nd y-axis grid/label color (defaults to 25% ImPlotCol_YAxis2)
-		ModuleConstants.push_back({ "mvPlotCol_YAxis3", ImPlotCol_YAxis3 });             // 3rd y-axis label and tick labels color (defaults to ImGuiCol_Text)
-		ModuleConstants.push_back({ "mvPlotCol_YAxisGrid3", ImPlotCol_YAxisGrid3 });     // 3rd y-axis grid/label color (defaults to 25% ImPlotCol_YAxis3)
+		ModuleConstants.push_back({ "mvPlotCol_AxisBg", ImPlotCol_AxisBg });             // axis background color TODO: Finish these comments
+		ModuleConstants.push_back({ "mvPlotCol_AxisBgActive", ImPlotCol_AxisBgActive }); // axis active background color
+		ModuleConstants.push_back({ "mvPlotCol_AxisBgHovered", ImPlotCol_AxisBgHovered});// axis hovered background color
+		ModuleConstants.push_back({ "mvPlotCol_AxisGrid", ImPlotCol_AxisGrid });         // axis tick lables color (defaults to ImGuiCol_Text)
+		ModuleConstants.push_back({ "mvPlotCol_AxisText", ImPlotCol_AxisText });         // axis label color (defaults to ImGuiCol_Text)
 		ModuleConstants.push_back({ "mvPlotCol_Selection", ImPlotCol_Selection });       // box-selection color (defaults to yellow)
-		ModuleConstants.push_back({ "mvPlotCol_Query", ImPlotCol_Query });               // box-query color (defaults to green)
 		ModuleConstants.push_back({ "mvPlotCol_Crosshairs", ImPlotCol_Crosshairs });     // crosshairs color (defaults to ImPlotCol_PlotBorder)
 
 		// nodes
@@ -312,6 +480,7 @@ GetModuleConstants()
 
 
 		ModuleConstants.push_back({ "mvStyleVar_Alpha", ImGuiStyleVar_Alpha });                             // float     Alpha
+		ModuleConstants.push_back({ "mvStyleVar_DisabledAlpha", ImGuiStyleVar_DisabledAlpha });             // float     DisabledAlpha
 		ModuleConstants.push_back({ "mvStyleVar_WindowPadding", ImGuiStyleVar_WindowPadding });             // ImVec2    WindowPadding
 		ModuleConstants.push_back({ "mvStyleVar_WindowRounding", ImGuiStyleVar_WindowRounding });           // float     WindowRounding
 		ModuleConstants.push_back({ "mvStyleVar_WindowBorderSize", ImGuiStyleVar_WindowBorderSize });       // float     WindowBorderSize
@@ -544,8 +713,7 @@ PyInit__dearpygui(void)
 	MV_ADD_COMMAND(clear_selected_links);
 
 	// plots
-	MV_ADD_COMMAND(is_plot_queried);
-	MV_ADD_COMMAND(get_plot_query_area);
+	MV_ADD_COMMAND(get_plot_query_rects);
 
 	// plot axes
 	MV_ADD_COMMAND(reset_axis_ticks);
@@ -698,9 +866,14 @@ PyInit__dearpygui(void)
 		return NULL;
 
 	const auto& constants = GetModuleConstants();
+	const auto& keysConstants = GetKeysConstants();
 
 	// handled in the stub file
 	for (auto& item : constants)
+		PyModule_AddIntConstant(m, item.first.c_str(), item.second);
+
+	// handled in the stub file
+	for (auto& item : keysConstants)
 		PyModule_AddIntConstant(m, item.first.c_str(), item.second);
 
 	auto MarvelError = PyErr_NewException("dearpygui.error", NULL, NULL);

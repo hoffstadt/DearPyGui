@@ -347,8 +347,7 @@ The callback of the plot will run when the plot is being queried.
 The query area is sent through the *app_data* argument as *(x_min, x_max, y_min, y_max)*.
 
 It is also possible to poll the plot for the query area by calling:
-:py:func:`get_plot_query_area <dearpygui.dearpygui.get_plot_query_area>` and
-:py:func:`is_plot_queried <dearpygui.dearpygui.is_plot_queried>`.
+:py:func:`get_plot_query_rects <dearpygui.dearpygui.get_plot_query_rects>` and
 
 Below is an example using the callback
 

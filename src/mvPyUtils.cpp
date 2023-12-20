@@ -2231,6 +2231,7 @@ Parse(const mvPythonParser& parser, PyObject* args, PyObject* kwargs, const char
 void
 GenerateStubFile(const std::string& directory)
 {
+    // TODO: Check here on how to do this for documentation
     const auto& commands = GetModuleParsers();
 
     std::ofstream stub;
@@ -2290,8 +2291,12 @@ GenerateStubFile(const std::string& directory)
     }
 
     auto& constants = GetModuleConstants();
+    auto& keysConstants = GetKeysConstants();
 
     for (auto& item : constants)
+        stub << item.first << "=0\n";
+
+    for (auto& item : keysConstants)
         stub << item.first << "=0\n";
 
     stub.close();
@@ -2855,8 +2860,12 @@ GenerateDearPyGuiFile(const std::string& directory)
     stub << "##########################################################\n\n";
 
     auto& constants = GetModuleConstants();
+    auto& keysConstants = GetKeysConstants();
 
     for (auto& item : constants)
+        stub << item.first << "=internal_dpg." << item.first << "\n";
+    
+    for (auto& item : keysConstants)
         stub << item.first << "=internal_dpg." << item.first << "\n";
 
     stub.close();
@@ -2918,8 +2927,12 @@ GenerateDearPyGuiFileRTD(const std::string& directory)
     stub << "##########################################################\n\n";
 
     auto& constants = GetModuleConstants();
+    auto& keysConstants = GetKeysConstants();
 
     for (auto& item : constants)
+        stub << item.first << "=internal_dpg." << item.first << "\n";
+
+    for (auto& item : keysConstants)
         stub << item.first << "=internal_dpg." << item.first << "\n";
 
     stub.close();

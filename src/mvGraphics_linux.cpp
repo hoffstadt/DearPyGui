@@ -3,7 +3,7 @@
 #include "mvViewport.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
-
+#include <iostream>
 mvGraphics
 setup_graphics(mvViewport& viewport)
 {
@@ -43,7 +43,7 @@ present(mvGraphics& graphics, mvColor& clearColor, bool vsync)
 
     glViewport(0, 0, display_w, display_h);
     glClearColor(viewport->clearColor.r, viewport->clearColor.g, viewport->clearColor.b, viewport->clearColor.a);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT);  // 
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
     glfwSwapBuffers(viewportData->handle);

@@ -41,16 +41,16 @@ UpdateInputs(mvInput& input)
 
 
     // route key events
-    for (i32 i = 0; i < IM_ARRAYSIZE(ImGui::GetIO().KeysDown); i++)
+    for (int i = 0; i < IM_ARRAYSIZE(ImGui::GetIO().KeysData); i++)
     {
-        input.keysdown[i] = ImGui::GetIO().KeysDown[i];
-        input.keyspressed[i] = ImGui::GetIO().KeysDownDuration[i] == 0.0f;
-        input.keysreleased[i] = ImGui::GetIO().KeysDownDurationPrev[i] >= 0.0f && !ImGui::GetIO().KeysDown[i];
+        input.keysdown[i] = ImGui::IsKeyDown(i);
+        input.keyspressed[i] = ImGui::IsKeyPressed(i);
+        input.keysreleased[i] = ImGui::IsKeyReleased(i);
 
+        ImGuiKeyData& key = ImGui::GetIO().KeysData[i];
         // route key down event
-        if (ImGui::GetIO().KeysDownDuration[i] >= 0.0f)
-            input.keysdownduration[i] = (i32)(ImGui::GetIO().KeysDownDuration[i] * 100.0);
-
+        if (key.DownDuration >= 0.0f)
+            input.keysdownduration[i] = (i32)(key.DownDuration * 100.0);
     }
 
     // route mouse wheel event
@@ -134,8 +134,6 @@ SetDefaultTheme()
     colors[ImGuiCol_TabActive] = mvImGuiCol_TabActive;
     colors[ImGuiCol_TabUnfocused] = mvImGuiCol_TabUnfocused;
     colors[ImGuiCol_TabUnfocusedActive] = mvImGuiCol_TabUnfocusedActive;
-    colors[ImGuiCol_DockingPreview] = mvImGuiCol_DockingPreview;
-    colors[ImGuiCol_DockingEmptyBg] = mvImGuiCol_DockingEmptyBg;
     colors[ImGuiCol_PlotLines] = mvImGuiCol_PlotLines;
     colors[ImGuiCol_PlotLinesHovered] = mvImGuiCol_PlotLinesHovered;
     colors[ImGuiCol_PlotHistogram] = mvImGuiCol_PlotHistogram;
@@ -182,9 +180,6 @@ Render()
     GContext->framerate = (i32)ImGui::GetIO().Framerate;
 
     ImGui::GetIO().FontGlobalScale = mvToolManager::GetFontManager().getGlobalFontScale();
-
-    if (GContext->IO.dockingViewport)
-        ImGui::DockSpaceOverViewport();
 
     mvFrameCallback(ImGui::GetFrameCount());
 

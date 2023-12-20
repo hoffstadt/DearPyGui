@@ -163,7 +163,7 @@ public:
 
     // slots
     //   * 0 : mvFileExtension, mvFontRangeHint, mvNodeLink, mvAnnotation
-    //         mvDragLine, mvDragPoint, mvLegend, mvTableColumn
+    //         mvDragLine, mvDragPoint, mvDragRect, mvLegend, mvTableColumn
     //   * 1 : Most widgets
     //   * 2 : Draw Commands
     //   * 3 : mvDragPayload
@@ -314,6 +314,7 @@ GetEntityCommand(mvAppItemType type)
     case mvAppItemType::mvInputFloatMulti:             return "add_input_floatx";
     case mvAppItemType::mvInputDoubleMulti:            return "add_input_doublex";
     case mvAppItemType::mvDragPoint:                   return "add_drag_point";
+    case mvAppItemType::mvDragRect:                    return "add_drag_rect";
     case mvAppItemType::mvDragLine:                    return "add_drag_line";
     case mvAppItemType::mvAnnotation:                  return "add_plot_annotation";
     case mvAppItemType::mvLineSeries:                  return "add_line_series";
@@ -457,8 +458,6 @@ GetEntityCommand(mvAppItemType type)
 #define mvImGuiCol_TabActive MV_BASE_COL_panelActiveColor
 #define mvImGuiCol_TabUnfocused MV_BASE_COL_panelColor
 #define mvImGuiCol_TabUnfocusedActive MV_BASE_COL_panelActiveColor
-#define mvImGuiCol_DockingPreview MV_BASE_COL_panelActiveColor
-#define mvImGuiCol_DockingEmptyBg mvColor(51, 51, 51, 255)
 #define mvImGuiCol_PlotLines MV_BASE_COL_panelActiveColor
 #define mvImGuiCol_PlotLinesHovered MV_BASE_COL_panelHoverColor
 #define mvImGuiCol_PlotHistogram MV_BASE_COL_panelActiveColor

@@ -16,10 +16,18 @@ void mvDocWindow::setup()
 
     const std::map<std::string, mvPythonParser>& docmap = GetModuleParsers();
     const std::vector<std::pair<std::string, long>>& constants = GetModuleConstants();
+    const std::vector<std::pair<std::string, long>>& keysConstants = GetKeysConstants();
 
     for (const auto& item : constants)
     {
         m_constantsValues.emplace_back("Constant with a value of " + std::to_string(item.second));
+        m_docCategories["Constants"].push_back(m_constantsValues.back().c_str());
+        m_commandCategories["Constants"].push_back(item.first.c_str());
+    }
+
+    for (const auto& item : keysConstants)
+    {
+        m_constantsValues.emplace_back("Key constant with a value of " + std::to_string(item.second));
         m_docCategories["Constants"].push_back(m_constantsValues.back().c_str());
         m_commandCategories["Constants"].push_back(item.first.c_str());
     }

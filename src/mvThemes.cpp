@@ -106,6 +106,7 @@ void mvTheme::pop_theme_components()
 			{
 				*comp->_specificDisabledComponentPtr = comp->_oldComponent;
 			}
+
 		}
 	}
 }
@@ -122,9 +123,6 @@ void mvThemeColor::push_theme_color()
 
 	if (_libType == mvLibType::MV_IMGUI)
 	{
-		if (_targetColor == ImGuiCol_DockingPreview)
-			GImGui->Style.Colors[_targetColor] = color;
-
 		ImGui::PushStyleColor(_targetColor, color);
 	}
 	else if (_libType == mvLibType::OT)
@@ -285,7 +283,6 @@ void mvThemeComponent::push_theme_items()
 		else if (child->type == mvAppItemType::mvThemeStyle)
 			((mvThemeStyle*)child.get())->push_theme_style();
 	}
-
 }
 
 void mvThemeComponent::pop_theme_items()
@@ -364,6 +361,7 @@ struct mvGuiStyleVarInfo
 static const mvGuiStyleVarInfo GStyleVarInfo[] =
 {
 	{ ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImGuiStyle, Alpha) },               // ImGuiStyleVar_Alpha
+    { ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImGuiStyle, DisabledAlpha) },       // ImGuiStyleVar_DisabledAlpha
 	{ ImGuiDataType_Float, 2, (ImU32)IM_OFFSETOF(ImGuiStyle, WindowPadding) },       // ImGuiStyleVar_WindowPadding
 	{ ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImGuiStyle, WindowRounding) },      // ImGuiStyleVar_WindowRounding
 	{ ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImGuiStyle, WindowBorderSize) },    // ImGuiStyleVar_WindowBorderSize
