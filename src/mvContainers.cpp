@@ -588,13 +588,13 @@ DearPyGui::draw_menu(ImDrawList* drawlist, mvAppItem& item, mvMenuConfig& config
 
     // show/hide
     if (!item.config.show)
-    return;
+        return;
 
     // focusing
     if (item.info.focusNextFrame)
     {
-    ImGui::SetKeyboardFocusHere();
-    item.info.focusNextFrame = false;
+        ImGui::SetKeyboardFocusHere();
+        item.info.focusNextFrame = false;
     }
 
     // cache old cursor position
@@ -602,24 +602,24 @@ DearPyGui::draw_menu(ImDrawList* drawlist, mvAppItem& item, mvMenuConfig& config
 
     // set cursor position if user set
     if (item.info.dirtyPos)
-    ImGui::SetCursorPos(item.state.pos);
+        ImGui::SetCursorPos(item.state.pos);
 
     // update widget's position state
     item.state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
 
     // set item width
     if (item.config.width != 0)
-    ImGui::SetNextItemWidth((float)item.config.width);
+        ImGui::SetNextItemWidth((float)item.config.width);
 
     // set indent
     if (item.config.indent > 0.0f)
-    ImGui::Indent(item.config.indent);
+        ImGui::Indent(item.config.indent);
 
     // push font if a font object is attached
     if (item.font)
     {
-    ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-    ImGui::PushFont(fontptr);
+        ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
+        ImGui::PushFont(fontptr);
     }
 
     // themes
@@ -641,63 +641,77 @@ DearPyGui::draw_menu(ImDrawList* drawlist, mvAppItem& item, mvMenuConfig& config
             item.state.rectSize = { ImGui::GetWindowWidth(), ImGui::GetWindowHeight() };
             item.state.contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
 
-        // set other menus's value false on same level
-        for (auto& sibling : item.info.parentPtr->childslots[1])
+            // set other menus's value false on same level
+            for (auto& sibling : item.info.parentPtr->childslots[1])
+            {
+                // ensure sibling
+                if (sibling->type == mvAppItemType::mvMenu)
+                    *((mvMenu*)sibling.get())->configData.value = false;
+            }
+
+            // set current menu value true
+            *config.value = true;
+
+            for (auto& child : item.childslots[1])
+                child->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
+
+            if (ImGui::IsWindowFocused(ImGuiFocusedFlags_ChildWindows))
+            {
+
+                // update mouse
+                ImVec2 mousePos = ImGui::GetMousePos();
+                float x = mousePos.x - ImGui::GetWindowPos().x;
+                float y = mousePos.y - ImGui::GetWindowPos().y;
+                GContext->input.mousePos.x = (int)x;
+                GContext->input.mousePos.y = (int)y;
+
+
+                if (GContext->itemRegistry->activeWindow != item.uuid)
+                    GContext->itemRegistry->activeWindow = item.uuid;
+
+            }
+
+            ImGui::EndMenu();
+        }
+        else
         {
-        // ensure sibling
-        if (sibling->type == mvAppItemType::mvMenu)
-        *((mvMenu*)sibling.get())->configData.value = false;
+            // even if menu popup is not open, we still need to update the state
+            item.state.lastFrameUpdate = GContext->frame;
+            item.state.active = ImGui::IsItemActive();
+            item.state.activated = ImGui::IsItemActivated();
+            item.state.deactivated = ImGui::IsItemDeactivated();
+            item.state.prevFocused = item.state.focused;
+            item.state.focused = false;
+            item.state.prevHovered = item.state.hovered;
+            item.state.hovered = false;
+            item.state.rectSize = { 0.0f, 0.0f };
+            item.state.contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
         }
+    }
 
-        // set current menu value true
-        *config.value = true;
+    //-----------------------------------------------------------------------------
+    // post draw
+    //-----------------------------------------------------------------------------
 
-        for (auto& child : item.childslots[1])
-            child->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-
-        if (ImGui::IsWindowFocused(ImGuiFocusedFlags_ChildWindows))
-        {
-
-            // update mouse
-            ImVec2 mousePos = ImGui::GetMousePos();
-            float x = mousePos.x - ImGui::GetWindowPos().x;
-            float y = mousePos.y - ImGui::GetWindowPos().y;
-            GContext->input.mousePos.x = (int)x;
-            GContext->input.mousePos.y = (int)y;
-
-
-            if (GContext->itemRegistry->activeWindow != item.uuid)
-            GContext->itemRegistry->activeWindow = item.uuid;
-
-        }
-
-        ImGui::EndMenu();
-        }
-        }
-
-        //-----------------------------------------------------------------------------
-        // post draw
-        //-----------------------------------------------------------------------------
-
-        // set cursor position to cached position
-        if (item.info.dirtyPos)
+    // set cursor position to cached position
+    if (item.info.dirtyPos)
         ImGui::SetCursorPos(previousCursorPos);
 
-        if (item.config.indent > 0.0f)
+    if (item.config.indent > 0.0f)
         ImGui::Unindent(item.config.indent);
 
-        // pop font off stack
-        if (item.font)
-            ImGui::PopFont();
+    // pop font off stack
+    if (item.font)
+        ImGui::PopFont();
 
-        // handle popping themes
-        cleanup_local_theming(&item);
+    // handle popping themes
+    cleanup_local_theming(&item);
 
-        if (item.handlerRegistry)
-            item.handlerRegistry->checkEvents(&item.state);
+    if (item.handlerRegistry)
+        item.handlerRegistry->checkEvents(&item.state);
 
-        // handle drag & drop if used
-        apply_drag_drop(&item);
+    // handle drag & drop if used
+    apply_drag_drop(&item);
 }
 
 void
