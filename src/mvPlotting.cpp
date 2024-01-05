@@ -401,9 +401,11 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 			if (child->type == mvAppItemType::mvPlotAxis)
 			{
 				mvPlotAxis* axis = static_cast<mvPlotAxis*>(child.get());
+				ImAxis_ ax = static_cast<ImAxis_>(axis->configData.axis); // TODO: Check if you can do this cast and if it's safe
+
+				ImPlot::SetupAxis(ax);
 				if (axis->configData.setLimits || axis->configData._dirty)
 				{
-					ImAxis_ ax = static_cast<ImAxis_>(axis->info.location);  // TODO: Check if you can do this cast and if it's safe
 					ImPlot::SetupAxisLimits(ax, axis->configData.limits.x, axis->configData.limits.y, ImGuiCond_Always);
 					axis->configData._dirty = false;
 				}
@@ -411,7 +413,6 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 				if (!axis->configData.labels.empty())
 				{
 					// TODO: Checks (from original dpg)
-					ImAxis_ ax = static_cast<ImAxis_>(axis->info.location);  // TODO: Check if you can do this cast and if it's safe
 					ImPlot::SetupAxisTicks(ax, axis->configData.labelLocations.data(), (int)axis->configData.labels.size(), axis->configData.clabels.data());
 				}
 			}
@@ -574,43 +575,36 @@ DearPyGui::draw_plot_axis(ImDrawList* drawlist, mvAppItem& item, mvPlotAxisConfi
 		return;
 
 	// todo: add check
-	if (config.axis != ImAxis_X1)
-		ImPlot::SetAxis(item.info.location - 1);  // TODO: Check cambio da config.axis -> item.info.location - 1
-	// TODO: Why are confi.axis and item.info.location - 1 are different? Probably better to set prints to understand this
+	ImPlot::SetAxis(config.axis);
 
 	for (auto& item : item.childslots[1])
 		item->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
 
 	// x axis
-	if (config.axis == ImAxis_X1)
-	{	//TODO: Absolutely must be changed once you fully get how this works
-		config.limits_actual.x = (float)ImPlot::GetPlotLimits(config.axis, item.info.location).X.Min;
-		config.limits_actual.y = (float)ImPlot::GetPlotLimits(config.axis, item.info.location).X.Max;
-		auto context = ImPlot::GetCurrentContext();
-		config.flags = context->CurrentPlot->Axes[config.axis].Flags;
+	if (config.axis <= ImAxis_X3)
+	{
+		config.limits_actual.x = (float)ImPlot::GetPlotLimits(config.axis, IMPLOT_AUTO).X.Min;
+		config.limits_actual.y = (float)ImPlot::GetPlotLimits(config.axis, IMPLOT_AUTO).X.Max;
+		// std::cout << "X AXIS config FLAGS: " << config.flags << std::endl;
+		// std::cout << "X AXIS FLAGS: " << context->CurrentPlot->Axes[config.axis].Flags << std::endl;
 	}
 
 	// y axis
 	else
 	{
-		config.limits_actual.x = (float)ImPlot::GetPlotLimits(config.axis, item.info.location - 1).Y.Min;
-		config.limits_actual.y = (float)ImPlot::GetPlotLimits(config.axis, item.info.location - 1).Y.Max;
-		auto context = ImPlot::GetCurrentContext();
-		config.flags = context->CurrentPlot->Axes[item.info.location - 1].Flags;
+		config.limits_actual.x = (float)ImPlot::GetPlotLimits(IMPLOT_AUTO, config.axis).Y.Min;
+		config.limits_actual.y = (float)ImPlot::GetPlotLimits(IMPLOT_AUTO, config.axis).Y.Max;
 	}
-
+	auto context = ImPlot::GetCurrentContext();
+	context->CurrentPlot->Axes[config.axis].Flags = config.flags;
 
 	UpdateAppItemState(item.state);
 
 	if (item.font)
-	{
 		ImGui::PopFont();
-	}
 
 	if (item.theme)
-	{
 		static_cast<mvTheme*>(item.theme.get())->customAction();
-	}
 
 	if (item.config.dropCallback)
 	{
@@ -2329,8 +2323,10 @@ DearPyGui::set_required_configuration(PyObject* inDict, mvPlotAxisConfig& outCon
 		return;
 
 	outConfig.axis = ToInt(PyTuple_GetItem(inDict, 0));
-	if (outConfig.axis > 1)
+	/* if (outConfig.axis > 1)
 		outConfig.axis = 1;
+	Probably something related to item.info.location (i.e. this is used only to see if it's on Y axis and then you check the exact one in item.info.location)	
+	*/
 }
 
 void
@@ -3194,38 +3190,20 @@ void mvAnnotation::setPyValue(PyObject* value)
 		configData.value = std::make_shared<std::array<double, 4>>(temp_array);
 }
 
-int getImAxisFromIndex(int index)
-{
-	switch (index)
-	{
-	case 0:
-		return ImAxis_X1;
-	case 1:
-		return ImAxis_Y1;
-	case 2:
-		return ImAxis_X2;
-	case 3:
-		return ImAxis_Y2;
-	case 4:
-		return ImAxis_X3;
-	case 5:
-		return ImAxis_Y3;
-	default:
-		return ImAxis_X1;
-	}
-}
-
 void mvPlot::updateFlags()
 {
 	for (size_t i = 0; i < childslots[1].size(); i++)
 	{
 		auto child = static_cast<mvPlotAxis*>(childslots[1][i].get());
-		configData.axesFlags[i] = child->configData.flags;
+		configData.axesFlags[child->configData.axis] = child->configData.flags;
 		/* if (i != ImAxis_X1 && i != ImAxis_Y1) {
 			if (child -> config.show)
-				configData._flags |= getImAxisFromIndex(i);  // TODO: Check if it's fine, probably not
+				configData._flags |= getImAxisFromIndex(i);  // TODO: Check if it's fine, probably not (actually maybe it's okay to remove this? read down)
 			else 
 				configData._flags &= ~getImAxisFromIndex(i);
+			
+			// The primary X and Y axis (ImAxis_X1 and ImAxis_Y1) are always enabled. To enable auxiliary axes, you must call, e.g. SetupAxis(ImAxis_Y2,...). This replaces the existing method of enabling auxiliary axes, i.e. passing ImPlotFlags_YAxis2/3.
+			 
 		} */
 	}
 

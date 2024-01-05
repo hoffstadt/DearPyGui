@@ -731,7 +731,6 @@ void AddTicksLogarithmic(const ImPlotRange& range, float pix, bool vertical, ImP
 
 void AddTicksCustom(const double* values, const char* const labels[], int n, ImPlotTickCollection& ticks, ImPlotFormatter formatter, void* data) {
     for (int i = 0; i < n; ++i) {
-        // TODO: For ticks finish here!
         if (labels != NULL) {
             ImPlotTick tick(values[i], false, true);
             tick.TextOffset = ticks.TextBuffer.size();

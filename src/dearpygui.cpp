@@ -325,20 +325,24 @@ GetModuleConstants()
 		ModuleConstants.push_back({ "mvPlotBin_Rice", -3L });
 		ModuleConstants.push_back({ "mvPlotBin_Scott", -4L });
 
-		ModuleConstants.push_back({ "mvXAxis", 0L});
-		ModuleConstants.push_back({ "mvYAxis", 1L});
+		ModuleConstants.push_back({ "mvXAxis", ImAxis_X1});
+		ModuleConstants.push_back({ "mvXAxis2", ImAxis_X2});
+		ModuleConstants.push_back({ "mvXAxis3", ImAxis_X3});
+		ModuleConstants.push_back({ "mvYAxis", ImAxis_Y1});
+		ModuleConstants.push_back({ "mvYAxis2", ImAxis_Y2});
+		ModuleConstants.push_back({ "mvYAxis3", ImAxis_Y3});
 
-		ModuleConstants.push_back({ "mvPlotMarker_None", -1L});  // no marker
-		ModuleConstants.push_back({ "mvPlotMarker_Circle",  0L});  // a circle marker will be rendered at each point
-		ModuleConstants.push_back({ "mvPlotMarker_Square",  1L});  // a square maker will be rendered at each point
-		ModuleConstants.push_back({ "mvPlotMarker_Diamond",  2L});  // a diamond marker will be rendered at each point
-		ModuleConstants.push_back({ "mvPlotMarker_Up",  3L});  // an upward-pointing triangle marker will up rendered at each point
-		ModuleConstants.push_back({ "mvPlotMarker_Down",  4L});  // an downward-pointing triangle marker will up rendered at each point
-		ModuleConstants.push_back({ "mvPlotMarker_Left",  5L});  // an leftward-pointing triangle marker will up rendered at each point
-		ModuleConstants.push_back({ "mvPlotMarker_Right",  6L});  // an rightward-pointing triangle marker will up rendered at each point
-		ModuleConstants.push_back({ "mvPlotMarker_Cross",  7L});  // a cross marker will be rendered at each point (not filled)
-		ModuleConstants.push_back({ "mvPlotMarker_Plus",  8L});  // a plus marker will be rendered at each point (not filled)
-		ModuleConstants.push_back({ "mvPlotMarker_Asterisk",  9L}); // a asterisk marker will be rendered at each point (not filled)
+		ModuleConstants.push_back({ "mvPlotMarker_None", ImPlotMarker_None});  // no marker
+		ModuleConstants.push_back({ "mvPlotMarker_Circle",  ImPlotMarker_Circle});  // a circle marker will be rendered at each point
+		ModuleConstants.push_back({ "mvPlotMarker_Square",  ImPlotMarker_Square});  // a square maker will be rendered at each point
+		ModuleConstants.push_back({ "mvPlotMarker_Diamond",  ImPlotMarker_Diamond});  // a diamond marker will be rendered at each point
+		ModuleConstants.push_back({ "mvPlotMarker_Up",  ImPlotMarker_Up});  // an upward-pointing triangle marker will up rendered at each point
+		ModuleConstants.push_back({ "mvPlotMarker_Down",  ImPlotMarker_Down});  // an downward-pointing triangle marker will up rendered at each point
+		ModuleConstants.push_back({ "mvPlotMarker_Left",  ImPlotMarker_Left});  // an leftward-pointing triangle marker will up rendered at each point
+		ModuleConstants.push_back({ "mvPlotMarker_Right",  ImPlotMarker_Right});  // an rightward-pointing triangle marker will up rendered at each point
+		ModuleConstants.push_back({ "mvPlotMarker_Cross",  ImPlotMarker_Cross});  // a cross marker will be rendered at each point (not filled)
+		ModuleConstants.push_back({ "mvPlotMarker_Plus",  ImPlotMarker_Plus});  // a plus marker will be rendered at each point (not filled)
+		ModuleConstants.push_back({ "mvPlotMarker_Asterisk",  ImPlotMarker_Asterisk}); // a asterisk marker will be rendered at each point (not filled)
 
 		ModuleConstants.push_back({ "mvPlot_Location_Center", ImPlotLocation_Center });
 		ModuleConstants.push_back({ "mvPlot_Location_North", ImPlotLocation_North });
