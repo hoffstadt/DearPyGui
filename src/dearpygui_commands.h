@@ -1200,7 +1200,7 @@ fit_axis_data(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	// fit axis data
 	static_cast<mvPlot*>(graph->info.parentPtr)->configData._fitDirty = true;
-	static_cast<mvPlot*>(graph->info.parentPtr)->configData._axisfitDirty[graph->info.location] = true;
+	static_cast<mvPlot*>(graph->info.parentPtr)->configData._axisfitDirty[graph->configData.axis] = true;
 
 	return GetPyNone();
 }
