@@ -1513,6 +1513,7 @@ def child_window(**kwargs):
 		horizontal_scrollbar (bool, optional): Allow horizontal scrollbar to appear (off by default).
 		menubar (bool, optional): Shows/Hides the menubar at the top.
 		no_scroll_with_mouse (bool, optional): Disable user vertically scrolling with mouse wheel.
+		flattened_navigation (bool, optional): Allow gamepad/keyboard navigation to cross over parent border to this child (only use on child that have no scrolling!)
 		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
@@ -2960,6 +2961,7 @@ def add_child_window(**kwargs):
 		horizontal_scrollbar (bool, optional): Allow horizontal scrollbar to appear (off by default).
 		menubar (bool, optional): Shows/Hides the menubar at the top.
 		no_scroll_with_mouse (bool, optional): Disable user vertically scrolling with mouse wheel.
+		flattened_navigation (bool, optional): Allow gamepad/keyboard navigation to cross over parent border to this child (only use on child that have no scrolling!)
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -7198,6 +7200,7 @@ def draw_rectangle(pmin, pmax, **kwargs):
 		multicolor (bool, optional): 
 		rounding (float, optional): Number of pixels of the radius that will round the corners of the rectangle. Note: doesn't work with multicolor
 		thickness (float, optional): 
+		corner_colors (Any, optional): Corner colors in a list, starting with upper-left and going clockwise: (upper-left, upper-right, bottom-right, bottom-left). 'multicolor' must be set to 'True'.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]

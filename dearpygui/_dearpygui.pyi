@@ -46,7 +46,7 @@ def add_checkbox(*, label: str ='', user_data: Any ='', use_internal_label: bool
 	"""Adds a checkbox."""
 	...
 
-def add_child_window(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', drop_callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', delay_search: bool ='', tracked: bool ='', track_offset: float ='', border: bool ='', autosize_x: bool ='', autosize_y: bool ='', no_scrollbar: bool ='', horizontal_scrollbar: bool ='', menubar: bool ='', no_scroll_with_mouse: bool ='') -> Union[int, str]:
+def add_child_window(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', drop_callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', delay_search: bool ='', tracked: bool ='', track_offset: float ='', border: bool ='', autosize_x: bool ='', autosize_y: bool ='', no_scrollbar: bool ='', horizontal_scrollbar: bool ='', menubar: bool ='', no_scroll_with_mouse: bool ='', flattened_navigation: bool ='') -> Union[int, str]:
 	"""Adds an embedded child window. Will show scrollbars when items do not fit."""
 	...
 
@@ -658,7 +658,7 @@ def clear_selected_nodes(node_editor : Union[int, str]) -> None:
 	"""Clears a node editor's selected nodes."""
 	...
 
-def configure_app(*, docking: bool ='', docking_space: bool ='', load_init_file: str ='', init_file: str ='', auto_save_init_file: bool ='', device: int ='', auto_device: bool ='', allow_alias_overwrites: bool ='', manual_alias_management: bool ='', skip_required_args: bool ='', skip_positional_args: bool ='', skip_keyword_args: bool ='', wait_for_input: bool ='', manual_callback_management: bool ='', **kwargs) -> None:
+def configure_app(*, docking: bool ='', docking_space: bool ='', load_init_file: str ='', init_file: str ='', auto_save_init_file: bool ='', device: int ='', auto_device: bool ='', allow_alias_overwrites: bool ='', manual_alias_management: bool ='', skip_required_args: bool ='', skip_positional_args: bool ='', skip_keyword_args: bool ='', wait_for_input: bool ='', manual_callback_management: bool ='', keyboard_navigation: bool ='', **kwargs) -> None:
 	"""Configures app."""
 	...
 
@@ -766,7 +766,7 @@ def draw_quad(p1 : Union[List[float], Tuple[float, ...]], p2 : Union[List[float]
 	"""Adds a quad."""
 	...
 
-def draw_rectangle(pmin : Union[List[float], Tuple[float, ...]], pmax : Union[List[float], Tuple[float, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', show: bool ='', color: Union[List[int], Tuple[int, ...]] ='', color_upper_left: Union[List[int], Tuple[int, ...]] ='', color_upper_right: Union[List[int], Tuple[int, ...]] ='', color_bottom_right: Union[List[int], Tuple[int, ...]] ='', color_bottom_left: Union[List[int], Tuple[int, ...]] ='', fill: Union[List[int], Tuple[int, ...]] ='', multicolor: bool ='', rounding: float ='', thickness: float ='') -> Union[int, str]:
+def draw_rectangle(pmin : Union[List[float], Tuple[float, ...]], pmax : Union[List[float], Tuple[float, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', show: bool ='', color: Union[List[int], Tuple[int, ...]] ='', color_upper_left: Union[List[int], Tuple[int, ...]] ='', color_upper_right: Union[List[int], Tuple[int, ...]] ='', color_bottom_right: Union[List[int], Tuple[int, ...]] ='', color_bottom_left: Union[List[int], Tuple[int, ...]] ='', fill: Union[List[int], Tuple[int, ...]] ='', multicolor: bool ='', rounding: float ='', thickness: float ='', corner_colors: Any ='') -> Union[int, str]:
 	"""Adds a rectangle."""
 	...
 

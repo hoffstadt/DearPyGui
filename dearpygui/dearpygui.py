@@ -1485,9 +1485,7 @@ def set_start_callback(callback):
 
 
 @contextmanager
-
-def child_window(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, border: bool =True, autosize_x: bool =False, autosize_y: bool =False, no_scrollbar: bool =False, horizontal_scrollbar: bool =False, menubar: bool =False, no_scroll_with_mouse: bool=False, flattened_navigation: bool=True, **kwargs) -> Union[int, str]:
-
+def child_window(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, border: bool =True, autosize_x: bool =False, autosize_y: bool =False, no_scrollbar: bool =False, horizontal_scrollbar: bool =False, menubar: bool =False, no_scroll_with_mouse: bool =False, flattened_navigation: bool =True, **kwargs) -> Union[int, str]:
 	"""	 Adds an embedded child window. Will show scrollbars when items do not fit.
 
 	Args:
@@ -3139,7 +3137,7 @@ def add_checkbox(*, label: str =None, user_data: Any =None, use_internal_label: 
 
 	return internal_dpg.add_checkbox(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, **kwargs)
 
-def add_child_window(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, border: bool =True, autosize_x: bool =False, autosize_y: bool =False, no_scrollbar: bool =False, horizontal_scrollbar: bool =False, menubar: bool =False, no_scroll_with_mouse: bool =False, flattened_navigation: bool=True, **kwargs) -> Union[int, str]:
+def add_child_window(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, border: bool =True, autosize_x: bool =False, autosize_y: bool =False, no_scrollbar: bool =False, horizontal_scrollbar: bool =False, menubar: bool =False, no_scroll_with_mouse: bool =False, flattened_navigation: bool =True, **kwargs) -> Union[int, str]:
 	"""	 Adds an embedded child window. Will show scrollbars when items do not fit.
 
 	Args:
@@ -3177,7 +3175,7 @@ def add_child_window(*, label: str =None, user_data: Any =None, use_internal_lab
 		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
 		tag=kwargs['id']
 
-	return internal_dpg.add_child_window(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, border=border, autosize_x=autosize_x, autosize_y=autosize_y, no_scrollbar=no_scrollbar, horizontal_scrollbar=horizontal_scrollbar, menubar=menubar, flattened_navigation=flattened_navigation, **kwargs)
+	return internal_dpg.add_child_window(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, border=border, autosize_x=autosize_x, autosize_y=autosize_y, no_scrollbar=no_scrollbar, horizontal_scrollbar=horizontal_scrollbar, menubar=menubar, no_scroll_with_mouse=no_scroll_with_mouse, flattened_navigation=flattened_navigation, **kwargs)
 
 def add_clipper(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, delay_search: bool =False, **kwargs) -> Union[int, str]:
 	"""	 Helper to manually clip large list of items. Increases performance by not searching or drawing widgets outside of the clipped region.
@@ -8030,7 +8028,7 @@ def draw_quad(p1 : Union[List[float], Tuple[float, ...]], p2 : Union[List[float]
 
 	return internal_dpg.draw_quad(p1, p2, p3, p4, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, show=show, color=color, fill=fill, thickness=thickness, **kwargs)
 
-def draw_rectangle(pmin : Union[List[float], Tuple[float, ...]], pmax : Union[List[float], Tuple[float, ...]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, color: Union[List[int], Tuple[int, ...]] =(255, 255, 255, 255), corner_colors: Union[List, Tuple, None] =None, fill: Union[List[int], Tuple[int, ...]] =(0, 0, 0, -255), multicolor: bool =False, rounding: float =0.0, thickness: float =1.0, **kwargs) -> Union[int, str]:
+def draw_rectangle(pmin : Union[List[float], Tuple[float, ...]], pmax : Union[List[float], Tuple[float, ...]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, color: Union[List[int], Tuple[int, ...]] =(255, 255, 255, 255), color_upper_left: Union[List[int], Tuple[int, ...]] =(255, 255, 255, 255), color_upper_right: Union[List[int], Tuple[int, ...]] =(255, 255, 255, 255), color_bottom_right: Union[List[int], Tuple[int, ...]] =(255, 255, 255, 255), color_bottom_left: Union[List[int], Tuple[int, ...]] =(255, 255, 255, 255), fill: Union[List[int], Tuple[int, ...]] =(0, 0, 0, -255), multicolor: bool =False, rounding: float =0.0, thickness: float =1.0, corner_colors: Any =[(255, 255, 255, 255), (255, 255, 255, 255), (255, 255, 255, 255), (255, 255, 255, 255)], **kwargs) -> Union[int, str]:
 	"""	 Adds a rectangle.
 
 	Args:
@@ -8044,11 +8042,15 @@ def draw_rectangle(pmin : Union[List[float], Tuple[float, ...]], pmax : Union[Li
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
 		color (Union[List[int], Tuple[int, ...]], optional): 
-		corner_colors (Union[List, Tuple], optional): Corner colors in a list, starting with upper-left and going clockwise: (upper-left, upper-right, bottom-right, bottom-left). 'multicolor' must be set to 'True'.
+		color_upper_left (Union[List[int], Tuple[int, ...]], optional): 'multicolor' must be set to 'True'
+		color_upper_right (Union[List[int], Tuple[int, ...]], optional): 'multicolor' must be set to 'True'
+		color_bottom_right (Union[List[int], Tuple[int, ...]], optional): 'multicolor' must be set to 'True'
+		color_bottom_left (Union[List[int], Tuple[int, ...]], optional): 'multicolor' must be set to 'True'
 		fill (Union[List[int], Tuple[int, ...]], optional): 
 		multicolor (bool, optional): 
 		rounding (float, optional): Number of pixels of the radius that will round the corners of the rectangle. Note: doesn't work with multicolor
 		thickness (float, optional): 
+		corner_colors (Any, optional): Corner colors in a list, starting with upper-left and going clockwise: (upper-left, upper-right, bottom-right, bottom-left). 'multicolor' must be set to 'True'.
 		id (Union[int, str], optional): (deprecated) 
 	Returns:
 		Union[int, str]
@@ -8058,10 +8060,7 @@ def draw_rectangle(pmin : Union[List[float], Tuple[float, ...]], pmax : Union[Li
 		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
 		tag=kwargs['id']
 
-	if any(parm in kwargs.keys() for parm in ("color_upper_left", "color_upper_right", "color_bottom_left", "color_bottom_right")):
-		warnings.warn('Use corner_colors instead of color_x_y', DeprecationWarning, 2)
-
-	return internal_dpg.draw_rectangle(pmin, pmax, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, show=show, color=color, corner_colors=corner_colors, fill=fill, multicolor=multicolor, rounding=rounding, thickness=thickness, **kwargs)
+	return internal_dpg.draw_rectangle(pmin, pmax, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, show=show, color=color, color_upper_left=color_upper_left, color_upper_right=color_upper_right, color_bottom_right=color_bottom_right, color_bottom_left=color_bottom_left, fill=fill, multicolor=multicolor, rounding=rounding, thickness=thickness, corner_colors=corner_colors, **kwargs)
 
 def draw_text(pos : Union[List[float], Tuple[float, ...]], text : str, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, color: Union[List[int], Tuple[int, ...]] =(255, 255, 255, 255), size: float =10.0, **kwargs) -> Union[int, str]:
 	"""	 Adds text (drawlist).

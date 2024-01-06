@@ -675,20 +675,6 @@ DearPyGui::draw_menu(ImDrawList* drawlist, mvAppItem& item, mvMenuConfig& config
 
             ImGui::EndMenu();
         }
-        else
-        {
-            // even if menu popup is not open, we still need to update the state
-            item.state.lastFrameUpdate = GContext->frame;
-            item.state.active = ImGui::IsItemActive();
-            item.state.activated = ImGui::IsItemActivated();
-            item.state.deactivated = ImGui::IsItemDeactivated();
-            item.state.prevFocused = item.state.focused;
-            item.state.focused = false;
-            item.state.prevHovered = item.state.hovered;
-            item.state.hovered = false;
-            item.state.rectSize = { 0.0f, 0.0f };
-            item.state.contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
-        }
     }
 
     //-----------------------------------------------------------------------------
