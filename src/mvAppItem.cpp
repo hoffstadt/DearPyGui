@@ -2083,6 +2083,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "horizontal_scrollbar", mvArgType::KEYWORD_ARG, "False", "Allow horizontal scrollbar to appear (off by default)." });
         args.push_back({ mvPyDataType::Bool, "menubar", mvArgType::KEYWORD_ARG, "False", "Shows/Hides the menubar at the top." });
         args.push_back({ mvPyDataType::Bool, "no_scroll_with_mouse", mvArgType::KEYWORD_ARG, "False", "Disable user vertically scrolling with mouse wheel." });
+        args.push_back({ mvPyDataType::Bool, "flattened_navigation", mvArgType::KEYWORD_ARG, "True", "Allow gamepad/keyboard navigation to cross over parent border to this child (only use on child that have no scrolling!)" });
 
         setup.about = "Adds an embedded child window. Will show scrollbars when items do not fit.";
         setup.category = { "Containers", "Widgets" };

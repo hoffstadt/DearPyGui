@@ -69,6 +69,7 @@ DearPyGui::fill_configuration_dict(const mvChildWindowConfig& inConfig, PyObject
     checkbitset("horizontal_scrollbar", ImGuiWindowFlags_HorizontalScrollbar, inConfig.windowflags);
     checkbitset("menubar", ImGuiWindowFlags_MenuBar, inConfig.windowflags);
     checkbitset("no_scroll_with_mouse", ImGuiWindowFlags_NoScrollWithMouse, inConfig.windowflags);
+    checkbitset("flattened_navigation", ImGuiWindowFlags_NavFlattened, inConfig.windowflags);
 }
 
 void
@@ -274,6 +275,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvChildWindowConfig& outConfig)
     flagop("horizontal_scrollbar", ImGuiWindowFlags_HorizontalScrollbar, outConfig.windowflags);
     flagop("menubar", ImGuiWindowFlags_MenuBar, outConfig.windowflags);
     flagop("no_scroll_with_mouse", ImGuiWindowFlags_NoScrollWithMouse, outConfig.windowflags);
+    flagop("flattened_navigation", ImGuiWindowFlags_NavFlattened, outConfig.windowflags);
 
 }
 

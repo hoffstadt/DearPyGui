@@ -212,6 +212,9 @@ mvShowViewport(mvViewport& viewport, bool minimized, bool maximized)
             io.IniFilename = GContext->IO.iniFile.c_str();
     }
 
+    if(GContext->IO.kbdNavigation)
+        io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  // Enable Keyboard Controls
+
     if (GContext->IO.docking)
         io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 

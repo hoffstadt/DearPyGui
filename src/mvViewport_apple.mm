@@ -116,7 +116,10 @@ mvShowViewport(mvViewport& viewport, bool minimized, bool maximized)
 	}
 
     (void) io;
-    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  // Enable Keyboard Controls
+
+    if(GContext->IO.kbdNavigation)
+        io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  // Enable Keyboard Controls
+
     //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;   // Enable Gamepad Controls
 
     if(GContext->IO.docking)

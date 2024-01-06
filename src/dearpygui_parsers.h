@@ -496,6 +496,7 @@ InsertParser_Block1(std::map<std::string, mvPythonParser>& parsers)
 		args.push_back({ mvPyDataType::Bool, "skip_keyword_args", mvArgType::KEYWORD_ARG, "False" });
 		args.push_back({ mvPyDataType::Bool, "wait_for_input", mvArgType::KEYWORD_ARG, "False", "New in 1.1. Only update when user input occurs" });
 		args.push_back({ mvPyDataType::Bool, "manual_callback_management", mvArgType::KEYWORD_ARG, "False", "New in 1.2"});
+		args.push_back({ mvPyDataType::Bool, "keyboard_navigation", mvArgType::KEYWORD_ARG, "False", "Keyboard navigation using arrow keys" });
 
 		mvPythonParserSetup setup;
 		setup.about = "Configures app.";

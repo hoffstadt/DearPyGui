@@ -91,7 +91,7 @@ struct mvChildWindowConfig
     bool             border = true;
     bool             autosize_x = false;
     bool             autosize_y = false;
-    ImGuiWindowFlags windowflags = ImGuiWindowFlags_NoSavedSettings;
+    ImGuiWindowFlags windowflags = ImGuiWindowFlags_NoSavedSettings|ImGuiWindowFlags_NavFlattened;
     float            scrollX = 0.0f;
     float            scrollY = 0.0f;
     float            scrollMaxX = 0.0f;
