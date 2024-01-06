@@ -264,8 +264,14 @@ void mvNodeEditor::draw(ImDrawList* drawlist, float x, float y)
         child->state.lastFrameUpdate = GContext->frame;
         child->state.hovered = false;
 
-        ImVec2 size = ImNodes::GetNodeDimensions(static_cast<mvNode*>(child.get())->getId());
-        child->state.rectSize = { size.x, size.y };
+        if (child->config.show)
+        {
+            // We can only refer to visible nodes here
+            ImVec2 size = ImNodes::GetNodeDimensions(static_cast<mvNode*>(child.get())->getId());
+            child->state.rectSize = { size.x, size.y };
+        }
+        else
+            child->state.rectSize = { 0.0f, 0.0f };
 
         if (anyNodeHovered && nodeHovered == static_cast<mvNode*>(child.get())->getId())
             child->state.hovered = true;
@@ -690,7 +696,7 @@ void mvNodeLink::handleSpecificRequiredArgs(PyObject* dict)
 void mvNodeLink::customAction(void* data)
 {
     if (handlerRegistry)
-        handlerRegistry->checkEvents(data);
+        handlerRegistry->checkEvents(&state);
 }
 
 void mvNodeLink::draw(ImDrawList* drawlist, float x, float y)

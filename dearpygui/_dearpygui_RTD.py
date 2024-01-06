@@ -1512,6 +1512,7 @@ def child_window(**kwargs):
 		no_scrollbar (bool, optional):  Disable scrollbars (window can still scroll with mouse or programmatically).
 		horizontal_scrollbar (bool, optional): Allow horizontal scrollbar to appear (off by default).
 		menubar (bool, optional): Shows/Hides the menubar at the top.
+		no_scroll_with_mouse (bool, optional): Disable user vertically scrolling with mouse wheel.
 		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
@@ -1814,6 +1815,7 @@ def font(file, size, **kwargs):
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		pixel_snapH (bool, optional): Align every glyph to pixel boundary. Useful e.g. if you are merging a non-pixel aligned font with the default font, or rendering text piece-by-piece (e.g. for coloring).
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		id (Union[int, str], optional): (deprecated)
 		default_font (bool, optional): (deprecated)
@@ -2507,6 +2509,8 @@ def tooltip(parent, **kwargs):
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		show (bool, optional): Attempt to render widget.
+		delay (float, optional): Activation delay: time, in seconds, during which the mouse should stay still in order to display the tooltip.  May be zero for instant activation.
+		hide_on_activity (bool, optional): Hide the tooltip if the user has moved the mouse.  If False, the tooltip will follow mouse pointer.
 		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
@@ -2955,6 +2959,7 @@ def add_child_window(**kwargs):
 		no_scrollbar (bool, optional):  Disable scrollbars (window can still scroll with mouse or programmatically).
 		horizontal_scrollbar (bool, optional): Allow horizontal scrollbar to appear (off by default).
 		menubar (bool, optional): Shows/Hides the menubar at the top.
+		no_scroll_with_mouse (bool, optional): Disable user vertically scrolling with mouse wheel.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -3949,6 +3954,7 @@ def add_font(file, size, **kwargs):
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		pixel_snapH (bool, optional): Align every glyph to pixel boundary. Useful e.g. if you are merging a non-pixel aligned font with the default font, or rendering text piece-by-piece (e.g. for coloring).
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		id (Union[int, str], optional): (deprecated)
 		default_font (bool, optional): (deprecated)
@@ -6462,6 +6468,8 @@ def add_tooltip(parent, **kwargs):
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		show (bool, optional): Attempt to render widget.
+		delay (float, optional): Activation delay: time, in seconds, during which the mouse should stay still in order to display the tooltip.  May be zero for instant activation.
+		hide_on_activity (bool, optional): Hide the tooltip if the user has moved the mouse.  If False, the tooltip will follow mouse pointer.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]

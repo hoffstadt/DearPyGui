@@ -9,7 +9,7 @@ import sys
 import shutil
 import subprocess
 
-wip_version = "1.9.2"
+wip_version = "1.10.1"
 
 def version_number():
     """This function reads the version number which is populated by github actions"""
@@ -185,6 +185,7 @@ def setup_package():
                 'Programming Language :: Python :: 3.9',
                 'Programming Language :: Python :: 3.10',
                 'Programming Language :: Python :: 3.11',
+                'Programming Language :: Python :: 3.12',
                 'Programming Language :: Python :: Implementation :: CPython',
                 'Programming Language :: Python :: 3 :: Only',
                 'Topic :: Software Development :: User Interfaces',

@@ -146,9 +146,17 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 		if (_columns == 0)
 			return;
 
-		auto row_renderer = [&](mvAppItem* row)
+		auto row_renderer = [&](mvAppItem* row, mvAppItem* prev_visible_row=nullptr)
 		{
+			//TableNextRow() ends the previous row, if any, and determines background color for it.
+			//We have to specify themes in a way that it captures the theme for the previous
+			//*visible* row, not for the current one.  That's why we apply the theme *after*
+			//TableNextRow() and leave it active through the next TableNextRow() call.
 			ImGui::TableNextRow(0, (float)row->config.height);
+
+			if (prev_visible_row)
+				cleanup_local_theming(prev_visible_row);
+			apply_local_theming(row);
 
 			row->state.lastFrameUpdate = GContext->frame;
 			row->state.visible = true;
@@ -189,7 +197,13 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
                 auto& columnItem = childslots[0][column_index];
 
                 if(columnItem->config.enabled)
+				{
+					apply_local_theming(columnItem.get());
+					apply_local_theming(cell.get());
 				    cell->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
+					cleanup_local_theming(cell.get());
+					cleanup_local_theming(columnItem.get());
+				}
 			}
 		};
 
@@ -279,6 +293,8 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 				}
 			}
 
+			std::shared_ptr<mvAppItem> prev_themed_row = nullptr;
+
 			if (_rows != 0)
 			{
 
@@ -310,7 +326,8 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 					for (auto& row : childslots[1])
 					{
 						if (row->config.show)
-							row_renderer(row.get());
+							row_renderer(row.get(), prev_themed_row.get());
+							prev_themed_row = row;
 					}
 				}
 			}
@@ -350,6 +367,9 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 			_scrollMaxY = ImGui::GetScrollMaxY();
 
 			ImGui::EndTable();
+
+			if (prev_themed_row)
+				cleanup_local_theming(prev_themed_row.get());
 		}
 	}
 
@@ -389,11 +409,13 @@ void mvTable::onChildAdd(std::shared_ptr<mvAppItem> item)
 	else if (item->type == mvAppItemType::mvTableRow)
 	{
 		_rows++;
-		_rowColors.push_back(ImGui::ColorConvertFloat4ToU32(ImVec4(0.0f, 0.0f, 0.0f, 0.0f)));
-		_rowColorsSet.push_back(false);
-		_rowSelectionColors.push_back(ImGui::ColorConvertFloat4ToU32(ImVec4(0.0f, 0.0f, 0.0f, 0.0f)));
-		_rowSelectionColorsSet.push_back(false);
+		int location = item->info.location;
+		_rowColors.insert(_rowColors.begin() + location, ImGui::ColorConvertFloat4ToU32(ImVec4(0.0f, 0.0f, 0.0f, 0.0f)));
+		_rowColorsSet.insert(_rowColorsSet.begin() + location, false);
+		_rowSelectionColors.insert(_rowSelectionColors.begin() + location, ImGui::ColorConvertFloat4ToU32(ImVec4(0.0f, 0.0f, 0.0f, 0.0f)));
+		_rowSelectionColorsSet.insert(_rowSelectionColorsSet.begin() + location, false);
 
+		// TODO: OMFG, this needs to be fixed, too.
 		_cellColorsSet.push_back({});
 		_cellColors.push_back({});
 		for (int i = 0; i < _columns; i++)
@@ -406,44 +428,23 @@ void mvTable::onChildAdd(std::shared_ptr<mvAppItem> item)
 
 void mvTable::onChildRemoved(std::shared_ptr<mvAppItem> item)
 {
+	int location = item->info.location;
 	if (item->type == mvAppItemType::mvTableColumn)
 	{
-		childslots[2][item->info.location] = nullptr;
+		childslots[2][location] = nullptr;
 		_columns--;
+		_columnColors.erase(_columnColors.begin() + location);
+		_columnColorsSet.erase(_columnColorsSet.begin() + location);
 	}
 	else if (item->type == mvAppItemType::mvTableRow)
+	{
 		_rows--;
-
-
-	_columnColors.resize(_columns);
-	_columnColorsSet.resize(_columns);
-	_rowColors.resize(_rows);
-	_rowColorsSet.resize(_rows);
-	_rowSelectionColors.resize(_rows);
-	_rowSelectionColorsSet.resize(_rows);
-
-	_cellColorsSet.resize(_rows);
-	_cellColors.resize(_rows);
-	for (int i = 0; i < _columns; i++)
-	{
-		_columnColors[i] = ImGui::ColorConvertFloat4ToU32(ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
-		_columnColorsSet[i] = false;
-	}
-
-	for (int i = 0; i < _rows; i++)
-	{
-		_rowColors[i] = ImGui::ColorConvertFloat4ToU32(ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
-		_rowColorsSet[i] = false;
-		_rowSelectionColors[i] = ImGui::ColorConvertFloat4ToU32(ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
-		_rowSelectionColorsSet[i] = false;
-
-		_cellColorsSet[i].resize(_columns);
-		_cellColors[i].resize(_columns);
-		for (int j = 0; j < _columns; j++)
-		{
-			_cellColorsSet[i][j] = false;
-			_cellColors[i][j] = ImGui::ColorConvertFloat4ToU32(ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
-		}
+		_rowColors.erase(_rowColors.begin() + location);
+		_rowColorsSet.erase(_rowColorsSet.begin() + location);
+		_rowSelectionColors.erase(_rowSelectionColors.begin() + location);
+		_rowSelectionColorsSet.erase(_rowSelectionColorsSet.begin() + location);
+		_cellColorsSet.erase(_cellColorsSet.begin() + location);
+		_cellColors.erase(_cellColors.begin() + location);
 	}
 }
 

@@ -453,6 +453,7 @@ AddRuntimeChild(mvAppItem* rootitem, mvUUID parent, mvUUID before, std::shared_p
                 std::vector<std::shared_ptr<mvAppItem>> oldchildren = children;
                 children.clear();
 
+                int location = 0;
                 for (auto& child : oldchildren)
                 {
                     if (!child)
@@ -461,12 +462,16 @@ AddRuntimeChild(mvAppItem* rootitem, mvUUID parent, mvUUID before, std::shared_p
                     if (child->uuid == before)
                     {
                         children.push_back(item);
+                        item->info.location = location;
                         DearPyGui::OnChildAdded(rootitem, item);
+                        ++location;
                     }
                     children.push_back(child);
+                    ++location;
 
                 }
 
+                // TODO: maybe remove this call since location gets updated inside the loop
                 UpdateChildLocations(rootitem->childslots, 4);
 
                 return true;

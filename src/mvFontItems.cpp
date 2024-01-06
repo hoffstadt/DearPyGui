@@ -50,8 +50,10 @@ void mvFont::customAction(void* data)
 
 	ImGuiIO& io = ImGui::GetIO();
 
+	ImFontConfig cfg;
+	cfg.PixelSnapH = _pixel_snap_h;
 	_fontPtr = io.Fonts->AddFontFromFileTTF(_file.c_str(), _size,
-		nullptr, _ranges.Data);
+		&cfg, _ranges.Data);
 
 	if (_fontPtr == nullptr)
 	{
@@ -178,6 +180,14 @@ void mvFont::handleSpecificRequiredArgs(PyObject* dict)
 
 }
 
+void mvFont::handleSpecificKeywordArgs(PyObject* dict)
+{
+	if (dict == nullptr)
+		return;
+
+    if (PyObject* item = PyDict_GetItemString(dict, "pixel_snapH")) _pixel_snap_h = ToBool(item);
+}
+
 void mvFont::getSpecificConfiguration(PyObject* dict)
 {
 	if (dict == nullptr)
@@ -185,6 +195,7 @@ void mvFont::getSpecificConfiguration(PyObject* dict)
 
 	PyDict_SetItemString(dict, "file", ToPyString(_file));
 	PyDict_SetItemString(dict, "size", ToPyFloat(_size));
+	PyDict_SetItemString(dict, "pixel_snapH", ToPyBool(_pixel_snap_h));
 }
 
 void mvFontChars::handleSpecificRequiredArgs(PyObject* dict)

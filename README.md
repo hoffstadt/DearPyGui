@@ -65,7 +65,7 @@
   
 ## Installation
 
-Ensure you have at least Python 3.7 64bit.
+Ensure you have at least Python 3.8 64bit.
  ```
  pip install dearpygui
  or
@@ -113,6 +113,8 @@ The built-in demo shows all of Dear PyGui's functionality. Use [this code](https
 - [Bug Tracker](https://github.com/hoffstadt/DearPyGui/issues?q=is%3Aissue+is%3Aopen+label%3A%22type%3A+bug%22)
 - [Useful code snippets demonstrating best practices](https://github.com/my1e5/dpg-examples)
 - [Showcase apps including source code](https://github.com/hoffstadt/DearPyGui/wiki/Dear-PyGui-Showcase) :star:
+- [Showcase apps made with older versions of Dear PyGui](https://github.com/hoffstadt/DearPyGui/wiki/Showcase-apps-older-Dear-PyGui-versions)
+- [Useful tools and widgets](https://github.com/hoffstadt/DearPyGui/wiki/Tools-and-Widgets)
   
 ## Support
 
