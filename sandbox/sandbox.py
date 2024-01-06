@@ -1,31 +1,30 @@
+
 import dearpygui.dearpygui as dpg
-import dearpygui.demo as demo
-from dearpygui_ext.logger import mvLogger
+import time
 
 dpg.create_context()
-#dpg.configure_app(manual_callback_management=True)
 dpg.create_viewport()
 dpg.setup_dearpygui()
 
-log = mvLogger()
-log.log("log")
-log.log_debug("log debug")
-log.log_info("log info")
-log.log_warning("log warning")
-log.log_error("log error")
-log.log_critical("log critical")
+i = 0
 
-with dpg.font_registry():
-    with dpg.font("../../assets/NotoSerifCJKjp-Medium.otf", 20, tag="custom font"):
-        dpg.add_font_range_hint(dpg.mvFontRangeHint_Default)
-    dpg.bind_font(dpg.last_container())
+def resize_viewport_callback():
+    dpg.set_value("ViewportWidthText", f"Viewport Width: {dpg.get_viewport_width()}")
+    dpg.set_value("ViewportHeightText", f"Viewport Height: {dpg.get_viewport_height()}")
+    dpg.set_value("LastViewportSizeUpdateText", f"Time: {time.time_ns()}")
+    global i
+    print(i)
+    i+=1
 
-demo.show_demo()
+dpg.set_viewport_resize_callback(resize_viewport_callback)
 
-# main loop
+with dpg.window(label="Example Window", tag="Window"):
+    dpg.add_text("Viewport Width: ", tag="ViewportWidthText")
+    dpg.add_text("Viewport Height: ", tag="ViewportHeightText")
+    dpg.add_text("Time: ", tag="LastViewportSizeUpdateText")
+
+dpg.set_primary_window("Window", True)
+
 dpg.show_viewport()
-while dpg.is_dearpygui_running():
-    #dpg.run_callbacks(dpg.get_callback_queue())
-    dpg.render_dearpygui_frame()  
-
+dpg.start_dearpygui()
 dpg.destroy_context()
