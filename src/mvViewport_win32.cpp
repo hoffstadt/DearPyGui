@@ -129,6 +129,8 @@ mvHandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 	if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
 		return true;
 
+	static UINT_PTR puIDEvent = 0;
+
 	mvViewport* viewport = GContext->viewport;
 	mvGraphics& graphics = GContext->graphics;
 	mvViewportData* viewportData = (mvViewportData*)viewport->platformSpecifics;
@@ -138,6 +140,7 @@ mvHandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 	{
 
 	case WM_PAINT:
+	{
 		if (GContext->frame > 0)
 		{
 
@@ -187,7 +190,12 @@ mvHandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 			Render();
 			present(graphics, GContext->viewport->clearColor, GContext->viewport->vsync);
 		}
+		// must be called for the OS to do its thing
+		PAINTSTRUCT tPaint;
+		HDC tDeviceContext = BeginPaint(hWnd, &tPaint);
+		EndPaint(hWnd, &tPaint);
 		break;
+	}
 
 	case WM_GETMINMAXINFO:
 	{
@@ -213,6 +221,7 @@ mvHandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 	}
 
 	case WM_SIZE:
+	case WM_SIZING:
 
 		if (graphicsData != nullptr && wParam != SIZE_MINIMIZED)
 		{
@@ -264,6 +273,30 @@ mvHandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 				resize_swapchain(graphics, awidth, aheight);
 		}
 		return 0;
+
+	case WM_ENTERSIZEMOVE:
+	{
+		// DefWindowProc below will block until mouse is released or moved.
+		// Timer events can still be caught so here we add a timer so we
+		// can continue rendering when catching the WM_TIMER event.
+		// Timer is killed in the WM_EXITSIZEMOVE case below.
+		puIDEvent = SetTimer(NULL, puIDEvent, USER_TIMER_MINIMUM, NULL);
+		SetTimer(hWnd, puIDEvent, USER_TIMER_MINIMUM, NULL);
+		break;
+	}
+
+	case WM_EXITSIZEMOVE:
+	{
+		KillTimer(hWnd, puIDEvent);
+		break;
+	}
+
+	case WM_TIMER:
+	{
+		if (wParam == puIDEvent)
+			mvOnResize();
+		break;
+	}
 	case WM_SYSCOMMAND:
 		if ((wParam & 0xfff0) == SC_KEYMENU) // Disable ALT application menu
 			return 0;
