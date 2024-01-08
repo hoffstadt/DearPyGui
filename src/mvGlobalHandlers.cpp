@@ -73,7 +73,6 @@ void mvKeyPressHandler::draw(ImDrawList* drawlist, float x, float y)
 	{
 		for (int i = 0; i < IM_ARRAYSIZE(ImGui::GetIO().KeysData); i++)
 		{
-			ImGuiKeyData& key = ImGui::GetIO().KeysData[i];
 			if (ImGui::IsKeyDown(i) && ImGui::IsKeyPressed(i))
 			{
 				mvSubmitCallback([=]()

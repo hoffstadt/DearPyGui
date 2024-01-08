@@ -373,8 +373,8 @@ struct mvPlotAxisConfig
 
 struct mvPlotConfig
 {
-    ImGuiMouseButton             pan = 0;
-    ImGuiKeyModFlags             pan_mod = 0;
+    ImGuiMouseButton             pan = 0;       // LMB    enables panning when held,
+    ImGuiKeyModFlags             pan_mod = 0;   // none   optional modifier that must be held for panning/fitting
     ImGuiMouseButton             fit;           // LMB    initiates fit when double clicked
     ImGuiMouseButton             menu;          // RMB    opens context menus (if enabled) when clicked
     ImGuiMouseButton             select;        // RMB    begins box selection when pressed and confirms selection when released
