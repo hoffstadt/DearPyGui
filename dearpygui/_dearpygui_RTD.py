@@ -5306,6 +5306,7 @@ def add_pie_series(x, y, radius, values, labels, **kwargs):
 	return internal_dpg.add_pie_series(x, y, radius, values, labels, **kwargs)
 
 def add_plot(**kwargs):
+	# TODO: Update this doc and plot() doc
 	"""	 Adds a plot which is used to hold series, and can be drawn to with draw commands.
 
 	Args:
@@ -8549,6 +8550,51 @@ mvKey_Shift=internal_dpg.mvKey_Shift
 mvKey_Control=internal_dpg.mvKey_Control
 mvKey_Alt=internal_dpg.mvKey_Alt
 mvKey_Pause=internal_dpg.mvKey_Pause
+mvKey_Keypad0=internal_dpg.mvKey_Keypad0
+mvKey_Keypad1=internal_dpg.mvKey_Keypad1
+mvKey_Keypad2=internal_dpg.mvKey_Keypad2
+mvKey_Keypad3=internal_dpg.mvKey_Keypad3
+mvKey_Keypad4=internal_dpg.mvKey_Keypad4
+mvKey_Keypad5=internal_dpg.mvKey_Keypad5
+mvKey_Keypad6=internal_dpg.mvKey_Keypad6
+mvKey_Keypad7=internal_dpg.mvKey_Keypad7
+mvKey_Keypad8=internal_dpg.mvKey_Keypad8
+mvKey_Keypad9=internal_dpg.mvKey_Keypad9
+mvKey_KeypadDecimal=internal_dpg.mvKey_KeypadDecimal
+mvKey_KeypadDivide=internal_dpg.mvKey_KeypadDivide
+mvKey_KeypadMultiply=internal_dpg.mvKey_KeypadMultiply
+mvKey_KeypadSubtract=internal_dpg.mvKey_KeypadSubtract
+mvKey_KeypadAdd=internal_dpg.mvKey_KeypadAdd
+mvKey_KeypadEnter=internal_dpg.mvKey_KeypadEnter
+mvKey_KeypadEqual=internal_dpg.mvKey_KeypadEqual
+mvKey_GamepadStart=internal_dpg.mvKey_GamepadStart
+mvKey_GamepadBack=internal_dpg.mvKey_GamepadBack
+mvKey_GamepadFaceUp=internal_dpg.mvKey_GamepadFaceUp
+mvKey_GamepadFaceDown=internal_dpg.mvKey_GamepadFaceDown
+mvKey_GamepadFaceLeft=internal_dpg.mvKey_GamepadFaceLeft
+mvKey_GamepadFaceRight=internal_dpg.mvKey_GamepadFaceRight
+mvKey_GamepadDpadUp=internal_dpg.mvKey_GamepadDpadUp
+mvKey_GamepadDpadDown=internal_dpg.mvKey_GamepadDpadDown
+mvKey_GamepadDpadLeft=internal_dpg.mvKey_GamepadDpadLeft
+mvKey_GamepadDpadRight=internal_dpg.mvKey_GamepadDpadRight
+mvKey_GamepadL1=internal_dpg.mvKey_GamepadL1
+mvKey_GamepadR1=internal_dpg.mvKey_GamepadR1
+mvKey_GamepadL2=internal_dpg.mvKey_GamepadL2
+mvKey_GamepadR2=internal_dpg.mvKey_GamepadR2
+mvKey_GamepadL3=internal_dpg.mvKey_GamepadL3
+mvKey_GamepadR3=internal_dpg.mvKey_GamepadR3
+mvKey_GamepadLStickUp=internal_dpg.mvKey_GamepadLStickUp
+mvKey_GamepadLStickDown=internal_dpg.mvKey_GamepadLStickDown
+mvKey_GamepadLStickLeft=internal_dpg.mvKey_GamepadLStickLeft
+mvKey_GamepadLStickRight=internal_dpg.mvKey_GamepadLStickRight
+mvKey_GamepadRStickUp=internal_dpg.mvKey_GamepadRStickUp
+mvKey_GamepadRStickDown=internal_dpg.mvKey_GamepadRStickDown
+mvKey_GamepadRStickLeft=internal_dpg.mvKey_GamepadRStickLeft
+mvKey_GamepadRStickRight=internal_dpg.mvKey_GamepadRStickRight
+mvKey_ModCtrl=internal_dpg.mvKey_ModCtrl
+mvKey_ModShift=internal_dpg.mvKey_ModShift
+mvKey_ModAlt=internal_dpg.mvKey_ModAlt
+mvKey_ModSuper=internal_dpg.mvKey_ModSuper
 mvKey_Capital=internal_dpg.mvKey_Capital
 mvKey_Escape=internal_dpg.mvKey_Escape
 mvKey_Spacebar=internal_dpg.mvKey_Spacebar
@@ -8612,6 +8658,7 @@ mvKey_F22=internal_dpg.mvKey_F22
 mvKey_F23=internal_dpg.mvKey_F23
 mvKey_F24=internal_dpg.mvKey_F24
 mvKey_F25=internal_dpg.mvKey_F25
+mvKey_CapsLock=internal_dpg.mvKey_CapsLock
 mvKey_NumLock=internal_dpg.mvKey_NumLock
 mvKey_ScrollLock=internal_dpg.mvKey_ScrollLock
 mvKey_LShift=internal_dpg.mvKey_LShift
@@ -8741,7 +8788,11 @@ mvPlotBin_Sturges=internal_dpg.mvPlotBin_Sturges
 mvPlotBin_Rice=internal_dpg.mvPlotBin_Rice
 mvPlotBin_Scott=internal_dpg.mvPlotBin_Scott
 mvXAxis=internal_dpg.mvXAxis
+mvXAxis2=internal_dpg.mvXAxis2
+mvXAxis3=internal_dpg.mvXAxis3
 mvYAxis=internal_dpg.mvYAxis
+mvYAxis2=internal_dpg.mvYAxis2
+mvYAxis3=internal_dpg.mvYAxis3
 mvPlotMarker_None=internal_dpg.mvPlotMarker_None
 mvPlotMarker_Circle=internal_dpg.mvPlotMarker_Circle
 mvPlotMarker_Square=internal_dpg.mvPlotMarker_Square

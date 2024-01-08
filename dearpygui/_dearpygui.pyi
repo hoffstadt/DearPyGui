@@ -426,7 +426,7 @@ def add_pie_series(x : float, y : float, radius : float, values : Union[List[flo
 	"""Adds an pie series to a plot."""
 	...
 
-def add_plot(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', delay_search: bool ='', tracked: bool ='', track_offset: float ='', no_title: bool ='', no_menus: bool ='', no_box_select: bool ='', no_mouse_text: bool ='', no_highlight: bool ='', no_child: bool ='', query: bool ='', crosshairs: bool ='', anti_aliased: bool ='', equal_aspects: bool ='', use_local_time: bool ='', use_ISO8601: bool ='', use_24hour_clock: bool ='', pan: int ='', pan_mod: int ='', fit_button: int ='', context_menu_button: int ='', box_select_button: int ='', box_select_mod: int ='', box_select_cancel_button: int ='', query_button: int ='', query_mod: int ='', query_toggle_mod: int ='', horizontal_mod: int ='', vertical_mod: int ='') -> Union[int, str]:
+def add_plot(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', delay_search: bool ='', tracked: bool ='', track_offset: float ='', no_title: bool ='', no_menus: bool ='', no_box_select: bool ='', no_mouse_text: bool ='', no_highlight: bool ='', no_child: bool ='', query: bool ='', crosshairs: bool ='', anti_aliased: bool ='', equal_aspects: bool ='', use_local_time: bool ='', use_ISO8601: bool ='', use_24hour_clock: bool ='', pan: int ='', pan_mod: int ='', fit: int ='', menu: int ='', select: int ='', select_mod: int ='', select_cancel: int ='', query_button: int ='', query_mod: int ='', query_toggle_mod: int ='', select_horz_mod: int ='', select_vert_mod: int ='', override_mod: int ='', zoom_mod: int ='', zoom_rate: float ='') -> Union[int, str]:
 	"""Adds a plot which is used to hold series, and can be drawn to with draw commands."""
 	...
 
@@ -1280,6 +1280,51 @@ mvKey_Return=0
 mvKey_Shift=0
 mvKey_Control=0
 mvKey_Alt=0
+mvKey_Keypad0=0
+mvKey_Keypad1=0
+mvKey_Keypad2=0
+mvKey_Keypad3=0
+mvKey_Keypad4=0
+mvKey_Keypad5=0
+mvKey_Keypad6=0
+mvKey_Keypad7=0
+mvKey_Keypad8=0
+mvKey_Keypad9=0
+mvKey_KeypadDecimal=0
+mvKey_KeypadDivide=0
+mvKey_KeypadMultiply=0
+mvKey_KeypadSubtract=0
+mvKey_KeypadAdd=0
+mvKey_KeypadEnter=0
+mvKey_KeypadEqual=0
+mvKey_GamepadStart=0
+mvKey_GamepadBack=0
+mvKey_GamepadFaceUp=0
+mvKey_GamepadFaceDown=0
+mvKey_GamepadFaceLeft=0
+mvKey_GamepadFaceRight=0
+mvKey_GamepadDpadUp=0
+mvKey_GamepadDpadDown=0
+mvKey_GamepadDpadLeft=0
+mvKey_GamepadDpadRight=0
+mvKey_GamepadL1=0
+mvKey_GamepadR1=0
+mvKey_GamepadL2=0
+mvKey_GamepadR2=0
+mvKey_GamepadL3=0
+mvKey_GamepadR3=0
+mvKey_GamepadLStickUp=0
+mvKey_GamepadLStickDown=0
+mvKey_GamepadLStickLeft=0
+mvKey_GamepadLStickRight=0
+mvKey_GamepadRStickUp=0
+mvKey_GamepadRStickDown=0
+mvKey_GamepadRStickLeft=0
+mvKey_GamepadRStickRight=0
+mvKey_ModCtrl=0
+mvKey_ModShift=0
+mvKey_ModAlt=0
+mvKey_ModSuper=0
 mvKey_Pause=0
 mvKey_Capital=0
 mvKey_Escape=0
@@ -1344,6 +1389,7 @@ mvKey_F22=0
 mvKey_F23=0
 mvKey_F24=0
 mvKey_F25=0
+mvKey_CapsLock=0
 mvKey_NumLock=0
 mvKey_ScrollLock=0
 mvKey_LShift=0

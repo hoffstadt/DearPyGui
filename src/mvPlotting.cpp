@@ -381,12 +381,14 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 	ImPlot::GetInputMap().Menu = config.menu;
 	ImPlot::GetInputMap().ZoomRate = config.zoom_rate;
 
-	if (config.pan_mod != -1) ImPlot::GetInputMap().PanMod = config.pan_mod;
-	if (config.select_mod != -1) ImPlot::GetInputMap().SelectMod = config.select_mod;
-	if (config.zoom_mod != -1) ImPlot::GetInputMap().ZoomMod = config.zoom_mod;
-	if (config.override_mod != -1) ImPlot::GetInputMap().OverrideMod = config.override_mod;
-	if (config.select_horz_mod != -1) ImPlot::GetInputMap().SelectHorzMod = config.select_horz_mod;
-	if (config.select_vert_mod != -1) ImPlot::GetInputMap().SelectVertMod = config.select_vert_mod;
+	// std::cout << "override mod: " << config.override_mod << std::endl;
+	// std::cout << "zoom mod: " << config.zoom_mod << std::endl;
+	if (config.pan_mod != ImGuiKeyModFlags_None) ImPlot::GetInputMap().PanMod = config.pan_mod;
+	if (config.select_mod != ImGuiKeyModFlags_None) ImPlot::GetInputMap().SelectMod = config.select_mod;
+	if (config.zoom_mod != ImGuiKeyModFlags_None) ImPlot::GetInputMap().ZoomMod = config.zoom_mod;
+	if (config.override_mod != ImGuiKeyModFlags_None) ImPlot::GetInputMap().OverrideMod = config.override_mod;
+	if (config.select_horz_mod != ImGuiKeyModFlags_None) ImPlot::GetInputMap().SelectHorzMod = config.select_horz_mod;
+	if (config.select_vert_mod != ImGuiKeyModFlags_None) ImPlot::GetInputMap().SelectVertMod = config.select_vert_mod;
 
 	if (ImPlot::BeginPlot(item.info.internalLabel.c_str(), ImVec2((float)item.config.width, (float)item.config.height), config._flags))
 	{	
@@ -2380,26 +2382,42 @@ DearPyGui::set_configuration(PyObject* inDict, mvPlotConfig& outConfig)
 	if (inDict == nullptr)
 		return;
 
-	// custom input mapping
-	// TODO: _mod variables should be treated as normal flags? (also in fill_configuration_dict)
 	if (PyObject* item = PyDict_GetItemString(inDict, "pan")) outConfig.pan = ToInt(item);
-	if (PyObject* item = PyDict_GetItemString(inDict, "pad_mod")) outConfig.pan_mod = ToInt(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "fit")) outConfig.fit = ToInt(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "menu")) outConfig.menu = ToInt(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "select")) outConfig.select = ToInt(item);
-	if (PyObject* item = PyDict_GetItemString(inDict, "select_mod")) outConfig.select_mod = ToInt(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "select_cancel")) outConfig.select_cancel = ToInt(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "query_button")) outConfig.query_button = ToInt(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "query_mod")) outConfig.query_mod = ToInt(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "query_toggle_mod")) outConfig.query_toggle_mod = ToInt(item);
-	if (PyObject* item = PyDict_GetItemString(inDict, "select_horz_mod")) outConfig.select_horz_mod = ToInt(item);
-	if (PyObject* item = PyDict_GetItemString(inDict, "select_vert_mod")) outConfig.select_vert_mod = ToInt(item);
-	if (PyObject* item = PyDict_GetItemString(inDict, "override_mod")) outConfig.override_mod = ToInt(item);
-	if (PyObject* item = PyDict_GetItemString(inDict, "zoom_mode")) outConfig.zoom_mod = ToInt(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "zoom_rate")) outConfig.zoom_rate = ToFloat(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "use_local_time")) outConfig.localTime = ToBool(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "use_ISO8601")) outConfig.iSO8601 = ToBool(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "use_24hour_clock")) outConfig.clock24Hour = ToBool(item);
+
+	// helper to convert key to flag
+	auto converter = [](PyObject* flag)
+	{
+		auto out = ImGuiKeyModFlags_None;
+		switch (ToInt(flag))
+		{
+			case ImGuiKey_None: out = ImGuiKeyModFlags_None; break;
+			case ImGuiKey_ModCtrl: out = ImGuiKeyModFlags_Ctrl; break;
+			case ImGuiKey_ModShift:	out = ImGuiKeyModFlags_Shift; break;
+			case ImGuiKey_ModAlt: out = ImGuiKeyModFlags_Alt; break;
+			case ImGuiKey_ModSuper: out = ImGuiKeyModFlags_Super; break;
+			default: out = ImGuiKeyModFlags_None; break;
+		}
+		std::cout << "flag: " << ToInt(flag) << " mode: " << out << std::endl;
+		return out;
+	};
+
+	if (PyObject* item = PyDict_GetItemString(inDict, "pan_mod")) outConfig.pan_mod = converter(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "select_mod")) outConfig.select_mod = converter(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "select_horz_mod")) outConfig.select_horz_mod = converter(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "select_vert_mod")) outConfig.select_vert_mod = converter(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "override_mod")) outConfig.override_mod = converter(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "zoom_mod")) outConfig.zoom_mod = converter(item);
 
 	// helper for bit flipping
 	auto flagop = [inDict](const char* keyword, int flag, int& flags)
@@ -2807,7 +2825,10 @@ DearPyGui::fill_configuration_dict(const mvPlotConfig& inConfig, PyObject* outDi
 {
 	if (outDict == nullptr)
 		return;
-	//TODO: Maybe some of these must be seen as flags
+
+	std::cout << "zoom" << std::endl;
+	std::cout << "zoom mod: " << inConfig.zoom_mod << std::endl;
+
 	PyDict_SetItemString(outDict, "pan", mvPyObject(ToPyInt(inConfig.pan)));
 	PyDict_SetItemString(outDict, "pan_mod", mvPyObject(ToPyInt(inConfig.pan_mod)));
 	PyDict_SetItemString(outDict, "fit", mvPyObject(ToPyInt(inConfig.fit)));

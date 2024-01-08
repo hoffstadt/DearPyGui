@@ -2677,17 +2677,20 @@ DearPyGui::GetEntityParser(mvAppItemType type)
 
         // key modifiers
         args.push_back({ mvPyDataType::Integer, "pan", mvArgType::KEYWORD_ARG, "internal_dpg.mvMouseButton_Left", "mouse button that enables panning when held" });
-        args.push_back({ mvPyDataType::Integer, "pan_mod", mvArgType::KEYWORD_ARG, "-1", "optional modifier that must be held for panning" });
-        args.push_back({ mvPyDataType::Integer, "fit_button", mvArgType::KEYWORD_ARG, "internal_dpg.mvMouseButton_Left", "fits visible data when double clicked" });
-        args.push_back({ mvPyDataType::Integer, "context_menu_button", mvArgType::KEYWORD_ARG, "internal_dpg.mvMouseButton_Right", "opens plot context menu (if enabled) when clicked" });
-        args.push_back({ mvPyDataType::Integer, "box_select_button", mvArgType::KEYWORD_ARG, "internal_dpg.mvMouseButton_Right", "begins box selection when pressed and confirms selection when released" });
-        args.push_back({ mvPyDataType::Integer, "box_select_mod", mvArgType::KEYWORD_ARG, "-1", "begins box selection when pressed and confirms selection when released" });
-        args.push_back({ mvPyDataType::Integer, "box_select_cancel_button", mvArgType::KEYWORD_ARG, "internal_dpg.mvMouseButton_Left", "cancels active box selection when pressed" });
-        args.push_back({ mvPyDataType::Integer, "query_button", mvArgType::KEYWORD_ARG, "internal_dpg.mvMouseButton_Middle", "begins query selection when pressed and end query selection when released" });
+        args.push_back({ mvPyDataType::Integer, "pan_mod", mvArgType::KEYWORD_ARG, "0", "optional modifier that must be held for panning" });
+        args.push_back({ mvPyDataType::Integer, "menu", mvArgType::KEYWORD_ARG, "internal_dpg.mvMouseButton_Right", "opens context menus (if enabled) when clicked" });
+        args.push_back({ mvPyDataType::Integer, "fit", mvArgType::KEYWORD_ARG, "internal_dpg.mvMouseButton_Left", "fits visible data when double clicked" });
+        args.push_back({ mvPyDataType::Integer, "select", mvArgType::KEYWORD_ARG, "internal_dpg.mvMouseButton_Right", "begins box selection when pressed and confirms selection when released" });
+        args.push_back({ mvPyDataType::Integer, "select_mod", mvArgType::KEYWORD_ARG, "0", "begins box selection when pressed and confirms selection when released" });
+        args.push_back({ mvPyDataType::Integer, "select_cancel", mvArgType::KEYWORD_ARG, "internal_dpg.mvMouseButton_Left", "cancels active box selection when pressed" });
+        args.push_back({ mvPyDataType::Integer, "query_button", mvArgType::KEYWORD_ARG, "-1", "begins query selection when pressed and end query selection when released" });
         args.push_back({ mvPyDataType::Integer, "query_mod", mvArgType::KEYWORD_ARG, "-1", "optional modifier that must be held for query selection" });
-        args.push_back({ mvPyDataType::Integer, "query_toggle_mod", mvArgType::KEYWORD_ARG, "internal_dpg.mvKey_Control", "when held, active box selections turn into queries" });
-        args.push_back({ mvPyDataType::Integer, "horizontal_mod", mvArgType::KEYWORD_ARG, "internal_dpg.mvKey_Alt", "expands active box selection/query horizontally to plot edge when held" });
-        args.push_back({ mvPyDataType::Integer, "vertical_mod", mvArgType::KEYWORD_ARG, "internal_dpg.mvKey_Shift", "expands active box selection/query vertically to plot edge when held" });
+        args.push_back({ mvPyDataType::Integer, "query_toggle_mod", mvArgType::KEYWORD_ARG, "-1", "when held, active box selections turn into queries" });
+        args.push_back({ mvPyDataType::Integer, "select_horz_mod", mvArgType::KEYWORD_ARG, "internal_dpg.mvKey_ModAlt", "expands active box selection/query horizontally to plot edge when held" });
+        args.push_back({ mvPyDataType::Integer, "select_vert_mod", mvArgType::KEYWORD_ARG, "internal_dpg.mvKey_ModShift", "expands active box selection/query vertically to plot edge when held" });
+        args.push_back({ mvPyDataType::Integer, "override_mod", mvArgType::KEYWORD_ARG, "internal_dpg.mvKey_Control", "when held, all input is ignored; used to enable axis/plots as DND sources" });
+        args.push_back({ mvPyDataType::Integer, "zoom_mod", mvArgType::KEYWORD_ARG, "0", "optional modifier that must be held for scroll wheel zooming" });
+        args.push_back({ mvPyDataType::Integer, "zoom_rate", mvArgType::KEYWORD_ARG, "0.1", "zoom rate for scroll (e.g. 0.1f = 10% plot range every scroll click); make negative to invert" });
 
         setup.about = "Adds a plot which is used to hold series, and can be drawn to with draw commands.";
         setup.category = { "Plotting", "Containers", "Widgets" };
