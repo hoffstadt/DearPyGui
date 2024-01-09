@@ -107,10 +107,11 @@ void mvMetricsWindow::drawWidgets()
             ImPlot::PushStyleColor(ImPlotCol_PlotBorder, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
 
             static ImPlotAxisFlags rt_axis = ImPlotAxisFlags_NoTickLabels | ImPlotAxisFlags_NoGridLines | ImPlotAxisFlags_NoTickMarks | ImPlotAxisFlags_LockMin;
-            ImPlot::SetupAxisLimits(ImAxis_X1, t - history, t, ImGuiCond_Always);
-            ImPlot::SetNextAxisToFit(ImAxis_X1);
             if (ImPlot::BeginPlot("##Scrolling1", ImVec2(-1, 200), rt_axis))
             {
+                ImPlot::SetupAxis(ImAxis_X1);
+                ImPlot::SetupAxisLimits(ImAxis_X1, t - history, t, ImGuiCond_Always);
+                ImPlot::SetNextAxisToFit(ImAxis_X1);
                 static float fps_h[2] = { 0.0f, 0.0f };
                 static float fps_x[2] = { 0.0f, 10.0f };
                 fps_x[0] = t - history;
@@ -140,11 +141,12 @@ void mvMetricsWindow::drawWidgets()
             ImPlot::PopStyleColor(3);
 
             ImPlot::PushStyleColor(ImPlotCol_PlotBorder, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
-            ImPlot::SetupAxisLimits(ImAxis_X1, t - history, t, ImGuiCond_Always);
-            ImPlot::SetNextAxisToFit(ImAxis_X1);
+            
             if (ImPlot::BeginPlot("##Scrolling2", ImVec2(-1, -1), rt_axis))
             {
-
+                ImPlot::SetupAxis(ImAxis_X1);
+                ImPlot::SetupAxisLimits(ImAxis_X1, t - history, t, ImGuiCond_Always);
+                ImPlot::SetNextAxisToFit(ImAxis_X1);
                 for (const auto& item : results)
                 {
                     if (item.first == "Frame" || item.first == "Presentation")
