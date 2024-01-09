@@ -112,8 +112,8 @@ struct mvContext
     mvGraphics          graphics;
     bool                resetTheme = false;
     mvIO                IO;
-    mvItemRegistry*     itemRegistry = nullptr;
-    mvCallbackRegistry* callbackRegistry = nullptr;
+    mvItemRegistry*     itemRegistry = nullptr; // std::unique_ptr<mvItemRegistry> 
+    mvCallbackRegistry* callbackRegistry = nullptr; // std::unique_ptr<mvCallbackRegistry> 
     mvInput             input;
     mvUUID              activeWindow = 0;
     mvUUID              focusedItem = 0;

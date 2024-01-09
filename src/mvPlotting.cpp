@@ -404,8 +404,7 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 			{
 				mvPlotAxis* axis = static_cast<mvPlotAxis*>(child.get());
 				ImAxis_ ax = static_cast<ImAxis_>(axis->configData.axis); // TODO: Check if you can do this cast and if it's safe
-
-				ImPlot::SetupAxis(ax);
+				ImPlot::SetupAxis(ax, config.axesNames[ax].c_str(), axis->configData.flags);
 				if (axis->configData.setLimits || axis->configData._dirty)
 				{
 					ImPlot::SetupAxisLimits(ax, axis->configData.limits.x, axis->configData.limits.y, ImGuiCond_Always);
@@ -441,7 +440,7 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 
 		ImPlot::PushPlotClipRect();
 
-		ImPlot::SetupAxis(ImAxis_Y1); // draw items should use first plot axis
+		ImPlot::SetAxis(ImAxis_Y1);
 
 		// drawings
 		for (auto& child : item.childslots[2])
@@ -3234,10 +3233,10 @@ void mvPlot::updateAxesNames()
 {
 	configData.axesNames.clear();
 
-	for (size_t i = 0; i < childslots[1].size(); i++)
+	for (auto child : childslots[1])
 	{
-		auto axis = childslots[1][i].get();
-		configData.axesNames[i] = axis->config.specifiedLabel;
+		mvPlotAxis* axis = static_cast<mvPlotAxis*>(child.get());
+		configData.axesNames[axis->configData.axis] = axis->config.specifiedLabel;
 	}
 
 }

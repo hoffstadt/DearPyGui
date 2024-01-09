@@ -2509,16 +2509,10 @@ destroy_context(PyObject* self, PyObject* args, PyObject* kwargs)
 		if (GContext->viewport)
 			delete GContext->viewport;
 
-		std::cout << "Deleting" << std::endl;
-		std::cout << GContext << std::endl;
-		std::cout << "itemReg" << std::endl;
-		std::cout << GContext->itemRegistry << std::endl;
-		delete GContext->itemRegistry;
-		std::cout << "callbackReg" << std::endl;
-		std::cout << GContext->callbackRegistry << std::endl;
-		delete GContext->callbackRegistry;
-		std::cout << "GContext" << std::endl;
-		delete GContext;
+		// If you uncomment it gives free error like they've already been freed
+		// delete GContext->itemRegistry;
+		// delete GContext->callbackRegistry;
+		// delete GContext;
 		GContext = nullptr;
 	}
 	Py_END_ALLOW_THREADS;
