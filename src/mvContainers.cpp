@@ -1197,7 +1197,7 @@ DearPyGui::draw_tree_node(ImDrawList* drawlist, mvAppItem& item, mvTreeNodeConfi
         else
             config.flags &= ~ImGuiTreeNodeFlags_Selected;
 
-        ImGui::SetNextItemOpen(*config.value);
+        ImGui::SetNextItemOpen(*config.value, ImGuiCond_Appearing);
 
         *config.value = ImGui::TreeNodeEx(item.info.internalLabel.c_str(), config.flags);
         UpdateAppItemState(item.state);
@@ -1340,7 +1340,7 @@ DearPyGui::draw_collapsing_header(ImDrawList* drawlist, mvAppItem& item, mvColla
         if (config.closable)
             toggle = &item.config.show;
 
-        ImGui::SetNextItemOpen(*config.value);
+        ImGui::SetNextItemOpen(*config.value, ImGuiCond_Appearing);
 
         *config.value = ImGui::CollapsingHeader(item.info.internalLabel.c_str(), toggle, config.flags);
         UpdateAppItemState(item.state);
