@@ -390,6 +390,15 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 	if (config.select_horz_mod != ImGuiKeyModFlags_None) ImPlot::GetInputMap().SelectHorzMod = config.select_horz_mod;
 	if (config.select_vert_mod != ImGuiKeyModFlags_None) ImPlot::GetInputMap().SelectVertMod = config.select_vert_mod;
 
+	if (config._fitDirty)
+	{
+		// This must be called before BeginPlot
+		ImPlot::SetNextAxesToFit();
+		config._fitDirty = false;
+		for(int i = 0; i < ImAxis_COUNT; i++)
+			config._axisfitDirty[i] = false;  // TODO: Is it really necessary to have all of this "config._axisfitDirty" now?
+	}
+
 	if (ImPlot::BeginPlot(item.info.internalLabel.c_str(), ImVec2((float)item.config.width, (float)item.config.height), config._flags))
 	{	
 
@@ -419,14 +428,6 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 			}
 			else
 				child->customAction();
-		}
-
-		if (config._fitDirty)
-		{
-			ImPlot::SetNextAxesToFit();
-			config._fitDirty = false;
-			for(int i = 0; i < ImAxis_COUNT; i++)
-				config._axisfitDirty[i] = false;  // TODO: Is it really necessary to have all of this "config._axisfitDirty" now?
 		}
 
 		auto context = ImPlot::GetCurrentContext();
