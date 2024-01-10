@@ -1211,15 +1211,22 @@ DearPyGui::draw_tree_node(ImDrawList* drawlist, mvAppItem& item, mvTreeNodeConfi
 
         ImGui::SetNextItemOpen(*config.value);
 
-        *config.value = ImGui::TreeNodeEx(item.info.internalLabel.c_str(), config.flags);
+        bool is_open = ImGui::TreeNodeEx(item.info.internalLabel.c_str(), config.flags);
+
         UpdateAppItemState(item.state);
+
+        // We're only updating the value when we know that the change was triggered
+        // by the user.  Note that `is_open` might be reset to `false` while the
+        // tree node is actually open, e.g. when the parent window gets out of sight.
+        if (item.state.toggledOpen)
+            *config.value = is_open;
 
         if (item.state.toggledOpen && !*config.value)
         {
             item.state.toggledOpen = false;
         }
 
-        if (!*config.value)
+        if (!is_open)
         {
             ImGui::EndGroup();
         }
@@ -1354,10 +1361,17 @@ DearPyGui::draw_collapsing_header(ImDrawList* drawlist, mvAppItem& item, mvColla
 
         ImGui::SetNextItemOpen(*config.value);
 
-        *config.value = ImGui::CollapsingHeader(item.info.internalLabel.c_str(), toggle, config.flags);
+        bool is_open = ImGui::CollapsingHeader(item.info.internalLabel.c_str(), toggle, config.flags);
+
         UpdateAppItemState(item.state);
 
-        if (*config.value)
+        // We're only updating the value when we know that the change was triggered
+        // by the user.  Note that `is_open` might be reset to `false` while the
+        // header is actually open, e.g. when the parent window gets out of sight.
+        if (item.state.toggledOpen)
+            *config.value = is_open;
+
+        if (is_open)
         {
             for (auto& child : item.childslots[1])
                 child->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
