@@ -326,8 +326,10 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 					for (auto& row : childslots[1])
 					{
 						if (row->config.show)
+						{
 							row_renderer(row.get(), prev_themed_row.get());
 							prev_themed_row = row;
+						}
 					}
 				}
 			}
