@@ -393,7 +393,15 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 				if (axis->info.location == 0)
 					ImPlot::SetNextPlotTicksX(axis->configData.labelLocations.data(), (int)axis->configData.labels.size(), axis->configData.clabels.data());
 				else
-					ImPlot::SetNextPlotTicksY(axis->configData.labelLocations.data(), (int)axis->configData.labels.size(), axis->configData.clabels.data());
+				{
+					ImPlotYAxis axis_id = ImPlotYAxis_1;
+					switch (axis->info.location)
+					{
+					case(2): axis_id = ImPlotYAxis_2; break;
+					case(3): axis_id = ImPlotYAxis_3; break;
+					}
+					ImPlot::SetNextPlotTicksY(axis->configData.labelLocations.data(), (int)axis->configData.labels.size(), axis->configData.clabels.data(), false, axis_id);
+				}
 			}
 		}
 		else
