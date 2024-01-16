@@ -72,7 +72,7 @@ else() # Linux
 	# tell cmake where to find the python3x dlls
 	target_link_directories(coreemb PRIVATE "../thirdparty/cpython/build/debug")
 
-	set_property(TARGET coreemb APPEND_STRING PROPERTY COMPILE_FLAGS "-fPIC -DNDEBUG -g -fwrapv -O3")
+	set_property(TARGET coreemb APPEND_STRING PROPERTY COMPILE_FLAGS "-fPIC -g -fwrapv -O3")
 	
 	# Add libraries to link to
 	target_link_libraries(coreemb PRIVATE "-lcrypt -lpthread -ldl -lutil -lm" GL glfw python3.9d)

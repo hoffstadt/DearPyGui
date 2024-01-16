@@ -351,7 +351,7 @@ DearPyGui::draw_color_map_scale(ImDrawList* drawlist, mvAppItem& item, mvColorMa
 	{
 		ScopedID id(item.uuid);
 
-		ImPlot::ColormapScale(item.info.internalLabel.c_str(), config.scale_min, config.scale_max, ImVec2((float)item.config.width, (float)item.config.height), config.colorMap);
+		ImPlot::ColormapScale(item.info.internalLabel.c_str(), config.scale_min, config.scale_max, ImVec2((float)item.config.width, (float)item.config.height), 0, config.colorMap);  //TODO Replace 0 with flags
 	}
 
 	//-----------------------------------------------------------------------------

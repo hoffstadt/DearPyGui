@@ -14,7 +14,7 @@ public:
 class mvKeyDownHandler : public mvAppItem
 {
 public:
-    ImGuiKey _key = -1;
+    ImGuiKey _key = ImGuiKey_None;
     explicit mvKeyDownHandler(mvUUID uuid) : mvAppItem(uuid) {}
     void draw(ImDrawList* drawlist, float x, float y) override;
     void handleSpecificRequiredArgs(PyObject* dict) override;
@@ -25,7 +25,7 @@ public:
 class mvKeyPressHandler : public mvAppItem
 {
 public:
-    ImGuiKey _key = -1;
+    ImGuiKey _key = ImGuiKey_None;
     explicit mvKeyPressHandler(mvUUID uuid) : mvAppItem(uuid) {}
     void draw(ImDrawList* drawlist, float x, float y) override;
     void handleSpecificPositionalArgs(PyObject* dict) override;
@@ -36,7 +36,7 @@ public:
 class mvKeyReleaseHandler : public mvAppItem
 {
 public:
-    ImGuiKey _key = -1;
+    ImGuiKey _key = ImGuiKey_None;
     explicit mvKeyReleaseHandler(mvUUID uuid) : mvAppItem(uuid) {}
     void draw(ImDrawList* drawlist, float x, float y) override;
     void handleSpecificPositionalArgs(PyObject* dict) override;

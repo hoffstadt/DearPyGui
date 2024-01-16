@@ -124,7 +124,6 @@ void mvStyleWindow::drawWidgets()
             ImGui::SliderFloat("DigitalBitGap", &plotstyle.DigitalBitGap, 0.0f, 20.0f, "%.1f");
             float indent = ImGui::CalcItemWidth() - ImGui::GetFrameHeight();
             ImGui::Indent(ImGui::CalcItemWidth() - ImGui::GetFrameHeight());
-            ImGui::Checkbox("AntiAliasedLines", &plotstyle.AntiAliasedLines);
             ImGui::Unindent(indent);
             ImGui::Text("Plot Styling");
             ImGui::SliderFloat("PlotBorderSize", &plotstyle.PlotBorderSize, 0.0f, 2.0f, "%.0f");
@@ -182,7 +181,7 @@ void mvStyleWindow::drawWidgets()
                 "Left-click on color square to open color picker,\n"
                 "Right-click to open edit options menu.");
 
-            ImGui::BeginChild("##colors", ImVec2(0, 0), true, ImGuiWindowFlags_AlwaysVerticalScrollbar | ImGuiWindowFlags_AlwaysHorizontalScrollbar | ImGuiWindowFlags_NavFlattened);
+            ImGui::BeginChild("##colors", ImVec2(0, 0), ImGuiChildFlags_Border, ImGuiWindowFlags_AlwaysVerticalScrollbar | ImGuiWindowFlags_AlwaysHorizontalScrollbar | ImGuiWindowFlags_NavFlattened);
             ImGui::PushItemWidth(-300);
             for (int i = 0; i < ImGuiCol_COUNT; i++)
             {

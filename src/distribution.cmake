@@ -63,7 +63,7 @@ else() # Linux
 	add_definitions(-DLINUX)
 	add_definitions(-DUNIX)
 	set_target_properties(_dearpygui PROPERTIES PREFIX "")
-	set_property(TARGET _dearpygui APPEND_STRING PROPERTY COMPILE_FLAGS "-fPIC -DNDEBUG -fwrapv -O3")
+	set_property(TARGET _dearpygui APPEND_STRING PROPERTY COMPILE_FLAGS "-fPIC -fwrapv -O3")
 	add_definitions(-DIMGUI_IMPL_OPENGL_LOADER_GL3W)
 	target_link_libraries(_dearpygui 
 		PRIVATE 

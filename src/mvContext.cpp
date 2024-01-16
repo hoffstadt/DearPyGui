@@ -43,9 +43,9 @@ UpdateInputs(mvInput& input)
     // route key events
     for (int i = 0; i < IM_ARRAYSIZE(ImGui::GetIO().KeysData); i++)
     {
-        input.keysdown[i] = ImGui::IsKeyDown(i);
-        input.keyspressed[i] = ImGui::IsKeyPressed(i);
-        input.keysreleased[i] = ImGui::IsKeyReleased(i);
+        input.keysdown[i] = ImGui::IsKeyDown((ImGuiKey)i);
+        input.keyspressed[i] = ImGui::IsKeyPressed((ImGuiKey)i);
+        input.keysreleased[i] = ImGui::IsKeyReleased((ImGuiKey)i);
 
         ImGuiKeyData& key = ImGui::GetIO().KeysData[i];
         // route key down event

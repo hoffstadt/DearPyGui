@@ -170,7 +170,8 @@ void mvNodeEditor::draw(ImDrawList* drawlist, float x, float y)
     ScopedID id(uuid);
     ImNodes::EditorContextSet(_context);
 
-    bool ret = ImGui::BeginChild(info.internalLabel.c_str(), ImVec2((float)config.width, (float)config.height), false, _windowflags);
+    // TODO: Maybe take a better look at child flags (ImGuiChildFlags_)
+    bool ret = ImGui::BeginChild(info.internalLabel.c_str(), ImVec2((float)config.width, (float)config.height), ImGuiChildFlags_None, _windowflags);
 
     for (auto& item : childslots[1])
     {
