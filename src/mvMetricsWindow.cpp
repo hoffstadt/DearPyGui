@@ -74,7 +74,7 @@ void mvMetricsWindow::drawWidgets()
             ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
             ImGui::Text("%d vertices, %d indices (%d triangles)", io.MetricsRenderVertices, io.MetricsRenderIndices, io.MetricsRenderIndices / 3);
             ImGui::Text("%d active windows (%d visible)", io.MetricsActiveWindows, io.MetricsRenderWindows);
-            ImGui::Text("%d active allocations", io.MetricsActiveAllocations);
+            // ImGui::Text("%d active allocations", io.MetricsActiveAllocations);
 
             static std::map<std::string, ScrollingBuffer> buffers;
             static float t = 0;
@@ -184,8 +184,8 @@ void mvMetricsWindow::drawWidgets()
             ImGui::Text("Mouse wheel: %.1f", io.MouseWheel);
 
             ImGui::Text("Keys down:");      for (int i = 0; i < IM_ARRAYSIZE(io.KeysData); i++) if (io.KeysData[i].DownDuration >= 0.0f) { ImGui::SameLine(); ImGui::Text("%d (0x%X) (%.02f secs)", i, i, io.KeysData[i].DownDuration); }
-            ImGui::Text("Keys pressed:");   for (int i = 0; i < IM_ARRAYSIZE(io.KeysData); i++) if (ImGui::IsKeyPressed(i)) { ImGui::SameLine(); ImGui::Text("%d (0x%X)", i, i); }
-            ImGui::Text("Keys release:");   for (int i = 0; i < IM_ARRAYSIZE(io.KeysData); i++) if (ImGui::IsKeyReleased(i)) { ImGui::SameLine(); ImGui::Text("%d (0x%X)", i, i); }
+            ImGui::Text("Keys pressed:");   for (int i = 0; i < IM_ARRAYSIZE(io.KeysData); i++) if (ImGui::IsKeyPressed((ImGuiKey)i)) { ImGui::SameLine(); ImGui::Text("%d (0x%X)", i, i); }
+            ImGui::Text("Keys release:");   for (int i = 0; i < IM_ARRAYSIZE(io.KeysData); i++) if (ImGui::IsKeyReleased((ImGuiKey)i)) { ImGui::SameLine(); ImGui::Text("%d (0x%X)", i, i); }
             ImGui::Text("Keys mods: %s%s%s%s", io.KeyCtrl ? "CTRL " : "", io.KeyShift ? "SHIFT " : "", io.KeyAlt ? "ALT " : "", io.KeySuper ? "SUPER " : "");
             ImGui::Text("Chars queue:");    for (int i = 0; i < io.InputQueueCharacters.Size; i++) { ImWchar c = io.InputQueueCharacters[i]; ImGui::SameLine();  ImGui::Text("\'%c\' (0x%04X)", (c > ' ' && c <= 255) ? (char)c : '?', c); }
 

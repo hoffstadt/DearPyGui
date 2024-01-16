@@ -1183,7 +1183,9 @@ DelaySearch(mvItemRegistry& registry, mvAppItem* item)
 mvAppItem* 
 GetItem(mvItemRegistry& registry, mvUUID uuid)
 {
-
+    // TODO: This is an improvement in performance, but actually it's been put here because otherwise in "check cache" it crashes -> get informed
+    if (uuid == 0)
+        return nullptr;
     // check captured
     if(registry.capturedItem)
     {
@@ -1196,8 +1198,10 @@ GetItem(mvItemRegistry& registry, mvUUID uuid)
     {
         if (registry.cachedContainersID[i] == uuid)
             return registry.cachedContainersPTR[i];
-        if (registry.cachedItemsID[i] == uuid)
+        if (registry.cachedItemsID[i] == uuid) {
+            // DEBUG: std::cout << "found cached item with uuid: " << uuid << " at index " << i << " with address " << registry.cachedItemsPTR[i] << std::endl;
             return registry.cachedItemsPTR[i];
+        }
     }
 
     if (auto foundItem = GetItemRoot(registry, registry.colormapRoots, uuid)) return foundItem;
@@ -1432,8 +1436,10 @@ AddItemWithRuntimeChecks(mvItemRegistry& registry, std::shared_ptr<mvAppItem> it
     //---------------------------------------------------------------------------
     if (parentPtr == nullptr)
     {
+        std::cout << "Parent not deduced alias:" << item.get()->config.alias << std::endl;
+        std::cout << "Parent not deduced type: " << (int)item.get()->type << std::endl;
         mvThrowPythonError(mvErrorCode::mvParentNotDeduced, "add_*", "Parent could not be deduced.", item.get());
-        assert(false);
+        IM_ASSERT(false && "Parent could not be deduced.");
         return false;
     }
 

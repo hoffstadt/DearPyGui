@@ -30,7 +30,7 @@ void mvTextureRegistry::show_debugger()
 
 		ImGui::Text("Textures");
 
-		ImGui::BeginChild("##TextureStorageChild", ImVec2(400, 0), true, ImGuiWindowFlags_AlwaysVerticalScrollbar);
+		ImGui::BeginChild("##TextureStorageChild", ImVec2(400, 0), ImGuiChildFlags_Border, ImGuiWindowFlags_AlwaysVerticalScrollbar);
 
 		int index = 0;
 		for (auto& texture : childslots[1])

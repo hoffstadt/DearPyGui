@@ -6220,9 +6220,12 @@ DearPyGui::draw_image_button(ImDrawList* drawlist, mvAppItem& item, mvImageButto
 				texture = static_cast<mvDynamicTexture*>(config.texture.get())->_texture;
 
 			ImGui::PushID(item.uuid);
-			if (ImGui::ImageButton(texture, ImVec2((float)item.config.width, (float)item.config.height),
-				ImVec2(config.uv_min.x, config.uv_min.y), ImVec2(config.uv_max.x, config.uv_max.y), config.framePadding,
+			// TODO: Probabilmente da sostituire questo item.uuid con il giusto str_id (quale? dai un'occhiata a al todo.md e/o link del changelog che dovrebbe aiutare) 
+			if (ImGui::ImageButton(std::to_string(item.uuid).c_str(), texture, ImVec2((float)item.config.width, (float)item.config.height),
+				ImVec2(config.uv_min.x, config.uv_min.y), ImVec2(config.uv_max.x, config.uv_max.y),
 				config.backgroundColor, config.tintColor))
+				// Abbiamo tolto frame padding, per settarlo comunque, nei doc dicono di fare cosi
+				// If you need to change padding with new ImageButton() you can use PushStyleVar(ImGuiStyleVar_FramePadding, value), consistent with other Button functions.
 			{
 				if (item.config.alias.empty())
 					mvAddCallback(item.getCallback(false), item.uuid, nullptr, item.config.user_data);

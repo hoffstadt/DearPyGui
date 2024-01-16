@@ -182,18 +182,18 @@ GetKeysConstants()
 		KeysConstants.push_back({"mvKey_GamepadRStickRight", ImGuiKey_GamepadRStickRight }); 	// [Analog]
 
 
-		// Keyboard Modifiers
+		// Keyboard Modifiers (explicitly submitted by backend via AddKeyEvent() calls)
 		// - This is mirroring the data also written to io.KeyCtrl, io.KeyShift, io.KeyAlt, io.KeySuper, in a format allowing
 		//   them to be accessed via standard key API, allowing calls such as IsKeyPressed(), IsKeyReleased(), querying duration etc.
-		// - Code polling every keys (e.g. an interface to detect a key press for input mapping) might want to ignore those
-		//   and prefer using the real keys (e.g. ImGuiKey_LeftCtrl, ImGuiKey_RightCtrl instead of ImGuiKey_ModCtrl).
+		// - Code polling every key (e.g. an interface to detect a key press for input mapping) might want to ignore those
+		//   and prefer using the real keys (e.g. ImGuiKey_LeftCtrl, ImGuiKey_RightCtrl instead of ImGuiMod_Ctrl).
 		// - In theory the value of keyboard modifiers should be roughly equivalent to a logical or of the equivalent left/right keys.
 		//   In practice: it's complicated; mods are often provided from different sources. Keyboard layout, IME, sticky keys and
 		//   backends tend to interfere and break that equivalence. The safer decision is to relay that ambiguity down to the end-user...
-		KeysConstants.push_back({"mvKey_ModCtrl", ImGuiKey_ModCtrl });
-		KeysConstants.push_back({"mvKey_ModShift", ImGuiKey_ModShift });
-		KeysConstants.push_back({"mvKey_ModAlt", ImGuiKey_ModAlt });
-		KeysConstants.push_back({"mvKey_ModSuper", ImGuiKey_ModSuper });
+		KeysConstants.push_back({"mvKey_ModCtrl", ImGuiMod_Ctrl });
+		KeysConstants.push_back({"mvKey_ModShift", ImGuiMod_Shift });
+		KeysConstants.push_back({"mvKey_ModAlt", ImGuiMod_Alt });
+		KeysConstants.push_back({"mvKey_ModSuper", ImGuiMod_Super });
 
 		KeysConstants.push_back({"mvKey_COUNT", ImGuiKey_COUNT });                 // No valid ImGuiKey is ever greater than this value
 
@@ -443,9 +443,9 @@ GetModuleConstants()
 		ModuleConstants.push_back({ "mvPlotCol_LegendText", ImPlotCol_LegendText });     // legend text color (defaults to ImPlotCol_InlayText)
 		ModuleConstants.push_back({ "mvPlotCol_TitleText", ImPlotCol_TitleText });       // plot title text color (defaults to ImGuiCol_Text)
 		ModuleConstants.push_back({ "mvPlotCol_InlayText", ImPlotCol_InlayText });       // color of text appearing inside of plots (defaults to ImGuiCol_Text)
-		ModuleConstants.push_back({ "mvPlotCol_AxisBg", ImPlotCol_AxisBg });             // axis background color TODO: Finish these comments
-		ModuleConstants.push_back({ "mvPlotCol_AxisBgActive", ImPlotCol_AxisBgActive }); // axis active background color
-		ModuleConstants.push_back({ "mvPlotCol_AxisBgHovered", ImPlotCol_AxisBgHovered});// axis hovered background color
+		ModuleConstants.push_back({ "mvPlotCol_AxisBg", ImPlotCol_AxisBg });             // background color of axis hover region (defaults to transparent)
+		ModuleConstants.push_back({ "mvPlotCol_AxisBgActive", ImPlotCol_AxisBgActive }); // axis active color (defaults to ImGuiCol_ButtonActive)
+		ModuleConstants.push_back({ "mvPlotCol_AxisBgHovered", ImPlotCol_AxisBgHovered});// axis hover color (defaults to ImGuiCol_ButtonHovered)
 		ModuleConstants.push_back({ "mvPlotCol_AxisGrid", ImPlotCol_AxisGrid });         // axis tick lables color (defaults to ImGuiCol_Text)
 		ModuleConstants.push_back({ "mvPlotCol_AxisText", ImPlotCol_AxisText });         // axis label color (defaults to ImGuiCol_Text)
 		ModuleConstants.push_back({ "mvPlotCol_Selection", ImPlotCol_Selection });       // box-selection color (defaults to yellow)
@@ -506,8 +506,12 @@ GetModuleConstants()
 		ModuleConstants.push_back({ "mvStyleVar_GrabMinSize", ImGuiStyleVar_GrabMinSize });                 // float     GrabMinSize
 		ModuleConstants.push_back({ "mvStyleVar_GrabRounding", ImGuiStyleVar_GrabRounding });               // float     GrabRounding
 		ModuleConstants.push_back({ "mvStyleVar_TabRounding", ImGuiStyleVar_TabRounding });                 // float     TabRounding
+		ModuleConstants.push_back({ "mvStyleVar_TabBarBorderSize", ImGuiStyleVar_TabBarBorderSize });    	// float     TabBorderSize
 		ModuleConstants.push_back({ "mvStyleVar_ButtonTextAlign", ImGuiStyleVar_ButtonTextAlign });         // ImVec2    ButtonTextAlign
 		ModuleConstants.push_back({ "mvStyleVar_SelectableTextAlign", ImGuiStyleVar_SelectableTextAlign }); // ImVec2    SelectableTextAlign
+		ModuleConstants.push_back({ "mvStyleVar_SeparatorTextBorderSize", ImGuiStyleVar_SeparatorTextBorderSize });	// float     TabBorderSize
+		ModuleConstants.push_back({ "mvStyleVar_SeparatorTextAlign", ImGuiStyleVar_SeparatorTextAlign });    		// float     TabBorderSize
+		ModuleConstants.push_back({ "mvStyleVar_SeparatorTextPadding", ImGuiStyleVar_SeparatorTextPadding });    	// float     TabBorderSize
 
 		// item styling variables
 		ModuleConstants.push_back({ "mvPlotStyleVar_LineWeight",         ImPlotStyleVar_LineWeight });         // float,  plot item line weight in pixels

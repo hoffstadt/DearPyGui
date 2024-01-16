@@ -360,31 +360,35 @@ struct mvGuiStyleVarInfo
 
 static const mvGuiStyleVarInfo GStyleVarInfo[] =
 {
-	{ ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImGuiStyle, Alpha) },               // ImGuiStyleVar_Alpha
-    { ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImGuiStyle, DisabledAlpha) },       // ImGuiStyleVar_DisabledAlpha
-	{ ImGuiDataType_Float, 2, (ImU32)IM_OFFSETOF(ImGuiStyle, WindowPadding) },       // ImGuiStyleVar_WindowPadding
-	{ ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImGuiStyle, WindowRounding) },      // ImGuiStyleVar_WindowRounding
-	{ ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImGuiStyle, WindowBorderSize) },    // ImGuiStyleVar_WindowBorderSize
-	{ ImGuiDataType_Float, 2, (ImU32)IM_OFFSETOF(ImGuiStyle, WindowMinSize) },       // ImGuiStyleVar_WindowMinSize
-	{ ImGuiDataType_Float, 2, (ImU32)IM_OFFSETOF(ImGuiStyle, WindowTitleAlign) },    // ImGuiStyleVar_WindowTitleAlign
-	{ ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImGuiStyle, ChildRounding) },       // ImGuiStyleVar_ChildRounding
-	{ ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImGuiStyle, ChildBorderSize) },     // ImGuiStyleVar_ChildBorderSize
-	{ ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImGuiStyle, PopupRounding) },       // ImGuiStyleVar_PopupRounding
-	{ ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImGuiStyle, PopupBorderSize) },     // ImGuiStyleVar_PopupBorderSize
-	{ ImGuiDataType_Float, 2, (ImU32)IM_OFFSETOF(ImGuiStyle, FramePadding) },        // ImGuiStyleVar_FramePadding
-	{ ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImGuiStyle, FrameRounding) },       // ImGuiStyleVar_FrameRounding
-	{ ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImGuiStyle, FrameBorderSize) },     // ImGuiStyleVar_FrameBorderSize
-	{ ImGuiDataType_Float, 2, (ImU32)IM_OFFSETOF(ImGuiStyle, ItemSpacing) },         // ImGuiStyleVar_ItemSpacing
-	{ ImGuiDataType_Float, 2, (ImU32)IM_OFFSETOF(ImGuiStyle, ItemInnerSpacing) },    // ImGuiStyleVar_ItemInnerSpacing
-	{ ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImGuiStyle, IndentSpacing) },       // ImGuiStyleVar_IndentSpacing
-	{ ImGuiDataType_Float, 2, (ImU32)IM_OFFSETOF(ImGuiStyle, CellPadding) },         // ImGuiStyleVar_CellPadding
-	{ ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImGuiStyle, ScrollbarSize) },       // ImGuiStyleVar_ScrollbarSize
-	{ ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImGuiStyle, ScrollbarRounding) },   // ImGuiStyleVar_ScrollbarRounding
-	{ ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImGuiStyle, GrabMinSize) },         // ImGuiStyleVar_GrabMinSize
-	{ ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImGuiStyle, GrabRounding) },        // ImGuiStyleVar_GrabRounding
-	{ ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImGuiStyle, TabRounding) },         // ImGuiStyleVar_TabRounding
-	{ ImGuiDataType_Float, 2, (ImU32)IM_OFFSETOF(ImGuiStyle, ButtonTextAlign) },     // ImGuiStyleVar_ButtonTextAlign
-	{ ImGuiDataType_Float, 2, (ImU32)IM_OFFSETOF(ImGuiStyle, SelectableTextAlign) }, // ImGuiStyleVar_SelectableTextAlign
+	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, Alpha) },               // ImGuiStyleVar_Alpha
+    { ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, DisabledAlpha) },       // ImGuiStyleVar_DisabledAlpha
+	{ ImGuiDataType_Float, 2, (ImU32)offsetof(ImGuiStyle, WindowPadding) },       // ImGuiStyleVar_WindowPadding
+	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, WindowRounding) },      // ImGuiStyleVar_WindowRounding
+	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, WindowBorderSize) },    // ImGuiStyleVar_WindowBorderSize
+	{ ImGuiDataType_Float, 2, (ImU32)offsetof(ImGuiStyle, WindowMinSize) },       // ImGuiStyleVar_WindowMinSize
+	{ ImGuiDataType_Float, 2, (ImU32)offsetof(ImGuiStyle, WindowTitleAlign) },    // ImGuiStyleVar_WindowTitleAlign
+	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, ChildRounding) },       // ImGuiStyleVar_ChildRounding
+	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, ChildBorderSize) },     // ImGuiStyleVar_ChildBorderSize
+	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, PopupRounding) },       // ImGuiStyleVar_PopupRounding
+	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, PopupBorderSize) },     // ImGuiStyleVar_PopupBorderSize
+	{ ImGuiDataType_Float, 2, (ImU32)offsetof(ImGuiStyle, FramePadding) },        // ImGuiStyleVar_FramePadding
+	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, FrameRounding) },       // ImGuiStyleVar_FrameRounding
+	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, FrameBorderSize) },     // ImGuiStyleVar_FrameBorderSize
+	{ ImGuiDataType_Float, 2, (ImU32)offsetof(ImGuiStyle, ItemSpacing) },         // ImGuiStyleVar_ItemSpacing
+	{ ImGuiDataType_Float, 2, (ImU32)offsetof(ImGuiStyle, ItemInnerSpacing) },    // ImGuiStyleVar_ItemInnerSpacing
+	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, IndentSpacing) },       // ImGuiStyleVar_IndentSpacing
+	{ ImGuiDataType_Float, 2, (ImU32)offsetof(ImGuiStyle, CellPadding) },         // ImGuiStyleVar_CellPadding
+	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, ScrollbarSize) },       // ImGuiStyleVar_ScrollbarSize
+	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, ScrollbarRounding) },   // ImGuiStyleVar_ScrollbarRounding
+	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, GrabMinSize) },         // ImGuiStyleVar_GrabMinSize
+	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, GrabRounding) },        // ImGuiStyleVar_GrabRounding
+	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, TabRounding) },         // ImGuiStyleVar_TabRounding
+	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, TabBarBorderSize) },        // ImGuiStyleVar_TabBarBorderSize
+	{ ImGuiDataType_Float, 2, (ImU32)offsetof(ImGuiStyle, ButtonTextAlign) },         // ImGuiStyleVar_ButtonTextAlign
+	{ ImGuiDataType_Float, 2, (ImU32)offsetof(ImGuiStyle, SelectableTextAlign) },     // ImGuiStyleVar_SelectableTextAlign
+	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, SeparatorTextBorderSize) }, // ImGuiStyleVar_SeparatorTextBorderSize
+	{ ImGuiDataType_Float, 2, (ImU32)offsetof(ImGuiStyle, SeparatorTextAlign) },      // ImGuiStyleVar_SeparatorTextAlign
+	{ ImGuiDataType_Float, 2, (ImU32)offsetof(ImGuiStyle, SeparatorTextPadding) },    // ImGuiStyleVar_SeparatorTextPadding
 };
 
 static const mvGuiStyleVarInfo* GetStyleVarInfo(ImGuiStyleVar idx)
@@ -396,35 +400,35 @@ static const mvGuiStyleVarInfo* GetStyleVarInfo(ImGuiStyleVar idx)
 
 static const mvGuiStyleVarInfo GPlotStyleVarInfo[] =
 {
-	{ ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImPlotStyle, LineWeight)         }, // ImPlotStyleVar_LineWeight
-	{ ImGuiDataType_S32,   1, (ImU32)IM_OFFSETOF(ImPlotStyle, Marker)             }, // ImPlotStyleVar_Marker
-	{ ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImPlotStyle, MarkerSize)         }, // ImPlotStyleVar_MarkerSize
-	{ ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImPlotStyle, MarkerWeight)       }, // ImPlotStyleVar_MarkerWeight
-	{ ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImPlotStyle, FillAlpha)          }, // ImPlotStyleVar_FillAlpha
-	{ ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImPlotStyle, ErrorBarSize)       }, // ImPlotStyleVar_ErrorBarSize
-	{ ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImPlotStyle, ErrorBarWeight)     }, // ImPlotStyleVar_ErrorBarWeight
-	{ ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImPlotStyle, DigitalBitHeight)   }, // ImPlotStyleVar_DigitalBitHeight
-	{ ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImPlotStyle, DigitalBitGap)      }, // ImPlotStyleVar_DigitalBitGap
+	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImPlotStyle, LineWeight)         }, // ImPlotStyleVar_LineWeight
+	{ ImGuiDataType_S32,   1, (ImU32)offsetof(ImPlotStyle, Marker)             }, // ImPlotStyleVar_Marker
+	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImPlotStyle, MarkerSize)         }, // ImPlotStyleVar_MarkerSize
+	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImPlotStyle, MarkerWeight)       }, // ImPlotStyleVar_MarkerWeight
+	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImPlotStyle, FillAlpha)          }, // ImPlotStyleVar_FillAlpha
+	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImPlotStyle, ErrorBarSize)       }, // ImPlotStyleVar_ErrorBarSize
+	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImPlotStyle, ErrorBarWeight)     }, // ImPlotStyleVar_ErrorBarWeight
+	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImPlotStyle, DigitalBitHeight)   }, // ImPlotStyleVar_DigitalBitHeight
+	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImPlotStyle, DigitalBitGap)      }, // ImPlotStyleVar_DigitalBitGap
 
-	{ ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImPlotStyle, PlotBorderSize)     }, // ImPlotStyleVar_PlotBorderSize
-	{ ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImPlotStyle, MinorAlpha)         }, // ImPlotStyleVar_MinorAlpha
-	{ ImGuiDataType_Float, 2, (ImU32)IM_OFFSETOF(ImPlotStyle, MajorTickLen)       }, // ImPlotStyleVar_MajorTickLen
-	{ ImGuiDataType_Float, 2, (ImU32)IM_OFFSETOF(ImPlotStyle, MinorTickLen)       }, // ImPlotStyleVar_MinorTickLen
-	{ ImGuiDataType_Float, 2, (ImU32)IM_OFFSETOF(ImPlotStyle, MajorTickSize)      }, // ImPlotStyleVar_MajorTickSize
-	{ ImGuiDataType_Float, 2, (ImU32)IM_OFFSETOF(ImPlotStyle, MinorTickSize)      }, // ImPlotStyleVar_MinorTickSize
-	{ ImGuiDataType_Float, 2, (ImU32)IM_OFFSETOF(ImPlotStyle, MajorGridSize)      }, // ImPlotStyleVar_MajorGridSize
-	{ ImGuiDataType_Float, 2, (ImU32)IM_OFFSETOF(ImPlotStyle, MinorGridSize)      }, // ImPlotStyleVar_MinorGridSize
-	{ ImGuiDataType_Float, 2, (ImU32)IM_OFFSETOF(ImPlotStyle, PlotPadding)        }, // ImPlotStyleVar_PlotPadding
-	{ ImGuiDataType_Float, 2, (ImU32)IM_OFFSETOF(ImPlotStyle, LabelPadding)       }, // ImPlotStyleVar_LabelPaddine
-	{ ImGuiDataType_Float, 2, (ImU32)IM_OFFSETOF(ImPlotStyle, LegendPadding)      }, // ImPlotStyleVar_LegendPadding
-	{ ImGuiDataType_Float, 2, (ImU32)IM_OFFSETOF(ImPlotStyle, LegendInnerPadding) }, // ImPlotStyleVar_LegendInnerPadding
-	{ ImGuiDataType_Float, 2, (ImU32)IM_OFFSETOF(ImPlotStyle, LegendSpacing)      }, // ImPlotStyleVar_LegendSpacing
+	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImPlotStyle, PlotBorderSize)     }, // ImPlotStyleVar_PlotBorderSize
+	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImPlotStyle, MinorAlpha)         }, // ImPlotStyleVar_MinorAlpha
+	{ ImGuiDataType_Float, 2, (ImU32)offsetof(ImPlotStyle, MajorTickLen)       }, // ImPlotStyleVar_MajorTickLen
+	{ ImGuiDataType_Float, 2, (ImU32)offsetof(ImPlotStyle, MinorTickLen)       }, // ImPlotStyleVar_MinorTickLen
+	{ ImGuiDataType_Float, 2, (ImU32)offsetof(ImPlotStyle, MajorTickSize)      }, // ImPlotStyleVar_MajorTickSize
+	{ ImGuiDataType_Float, 2, (ImU32)offsetof(ImPlotStyle, MinorTickSize)      }, // ImPlotStyleVar_MinorTickSize
+	{ ImGuiDataType_Float, 2, (ImU32)offsetof(ImPlotStyle, MajorGridSize)      }, // ImPlotStyleVar_MajorGridSize
+	{ ImGuiDataType_Float, 2, (ImU32)offsetof(ImPlotStyle, MinorGridSize)      }, // ImPlotStyleVar_MinorGridSize
+	{ ImGuiDataType_Float, 2, (ImU32)offsetof(ImPlotStyle, PlotPadding)        }, // ImPlotStyleVar_PlotPadding
+	{ ImGuiDataType_Float, 2, (ImU32)offsetof(ImPlotStyle, LabelPadding)       }, // ImPlotStyleVar_LabelPaddine
+	{ ImGuiDataType_Float, 2, (ImU32)offsetof(ImPlotStyle, LegendPadding)      }, // ImPlotStyleVar_LegendPadding
+	{ ImGuiDataType_Float, 2, (ImU32)offsetof(ImPlotStyle, LegendInnerPadding) }, // ImPlotStyleVar_LegendInnerPadding
+	{ ImGuiDataType_Float, 2, (ImU32)offsetof(ImPlotStyle, LegendSpacing)      }, // ImPlotStyleVar_LegendSpacing
 
-	{ ImGuiDataType_Float, 2, (ImU32)IM_OFFSETOF(ImPlotStyle, MousePosPadding)    }, // ImPlotStyleVar_MousePosPadding
-	{ ImGuiDataType_Float, 2, (ImU32)IM_OFFSETOF(ImPlotStyle, AnnotationPadding)  }, // ImPlotStyleVar_AnnotationPadding
-	{ ImGuiDataType_Float, 2, (ImU32)IM_OFFSETOF(ImPlotStyle, FitPadding)         }, // ImPlotStyleVar_FitPadding
-	{ ImGuiDataType_Float, 2, (ImU32)IM_OFFSETOF(ImPlotStyle, PlotDefaultSize)    }, // ImPlotStyleVar_PlotDefaultSize
-	{ ImGuiDataType_Float, 2, (ImU32)IM_OFFSETOF(ImPlotStyle, PlotMinSize)        }  // ImPlotStyleVar_PlotMinSize
+	{ ImGuiDataType_Float, 2, (ImU32)offsetof(ImPlotStyle, MousePosPadding)    }, // ImPlotStyleVar_MousePosPadding
+	{ ImGuiDataType_Float, 2, (ImU32)offsetof(ImPlotStyle, AnnotationPadding)  }, // ImPlotStyleVar_AnnotationPadding
+	{ ImGuiDataType_Float, 2, (ImU32)offsetof(ImPlotStyle, FitPadding)         }, // ImPlotStyleVar_FitPadding
+	{ ImGuiDataType_Float, 2, (ImU32)offsetof(ImPlotStyle, PlotDefaultSize)    }, // ImPlotStyleVar_PlotDefaultSize
+	{ ImGuiDataType_Float, 2, (ImU32)offsetof(ImPlotStyle, PlotMinSize)        }  // ImPlotStyleVar_PlotMinSize
 };
 
 static const mvGuiStyleVarInfo* GetPlotStyleVarInfo(ImPlotStyleVar idx) {
@@ -435,35 +439,35 @@ static const mvGuiStyleVarInfo* GetPlotStyleVarInfo(ImPlotStyleVar idx) {
 
 static const mvGuiStyleVarInfo GNodeStyleVarInfo[] = {
 	// ImNodesStyleVar_GridSpacing
-	{ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImNodesStyle, GridSpacing)},
+	{ImGuiDataType_Float, 1, (ImU32)offsetof(ImNodesStyle, GridSpacing)},
 	// ImNodesStyleVar_NodeCornerRounding
-	{ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImNodesStyle, NodeCornerRounding)},
+	{ImGuiDataType_Float, 1, (ImU32)offsetof(ImNodesStyle, NodeCornerRounding)},
 	// ImNodesStyleVar_NodePadding
-	{ImGuiDataType_Float, 2, (ImU32)IM_OFFSETOF(ImNodesStyle, NodePadding)},
+	{ImGuiDataType_Float, 2, (ImU32)offsetof(ImNodesStyle, NodePadding)},
 	// ImNodesStyleVar_NodeBorderThickness
-	{ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImNodesStyle, NodeBorderThickness)},
+	{ImGuiDataType_Float, 1, (ImU32)offsetof(ImNodesStyle, NodeBorderThickness)},
 	// ImNodesStyleVar_LinkThickness
-	{ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImNodesStyle, LinkThickness)},
+	{ImGuiDataType_Float, 1, (ImU32)offsetof(ImNodesStyle, LinkThickness)},
 	// ImNodesStyleVar_LinkLineSegmentsPerLength
-	{ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImNodesStyle, LinkLineSegmentsPerLength)},
+	{ImGuiDataType_Float, 1, (ImU32)offsetof(ImNodesStyle, LinkLineSegmentsPerLength)},
 	// ImNodesStyleVar_LinkHoverDistance
-	{ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImNodesStyle, LinkHoverDistance)},
+	{ImGuiDataType_Float, 1, (ImU32)offsetof(ImNodesStyle, LinkHoverDistance)},
 	// ImNodesStyleVar_PinCircleRadius
-	{ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImNodesStyle, PinCircleRadius)},
+	{ImGuiDataType_Float, 1, (ImU32)offsetof(ImNodesStyle, PinCircleRadius)},
 	// ImNodesStyleVar_PinQuadSideLength
-	{ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImNodesStyle, PinQuadSideLength)},
+	{ImGuiDataType_Float, 1, (ImU32)offsetof(ImNodesStyle, PinQuadSideLength)},
 	// ImNodesStyleVar_PinTriangleSideLength
-	{ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImNodesStyle, PinTriangleSideLength)},
+	{ImGuiDataType_Float, 1, (ImU32)offsetof(ImNodesStyle, PinTriangleSideLength)},
 	// ImNodesStyleVar_PinLineThickness
-	{ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImNodesStyle, PinLineThickness)},
+	{ImGuiDataType_Float, 1, (ImU32)offsetof(ImNodesStyle, PinLineThickness)},
 	// ImNodesStyleVar_PinHoverRadius
-	{ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImNodesStyle, PinHoverRadius)},
+	{ImGuiDataType_Float, 1, (ImU32)offsetof(ImNodesStyle, PinHoverRadius)},
 	// ImNodesStyleVar_PinOffset
-	{ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImNodesStyle, PinOffset)},
+	{ImGuiDataType_Float, 1, (ImU32)offsetof(ImNodesStyle, PinOffset)},
 	// ImNodesStyleVar_MiniMapPadding
-	{ImGuiDataType_Float, 2, (ImU32)IM_OFFSETOF(ImNodesStyle, MiniMapPadding)},
+	{ImGuiDataType_Float, 2, (ImU32)offsetof(ImNodesStyle, MiniMapPadding)},
 	// ImNodesStyleVar_MiniMapOffset
-	{ImGuiDataType_Float, 2, (ImU32)IM_OFFSETOF(ImNodesStyle, MiniMapOffset)},
+	{ImGuiDataType_Float, 2, (ImU32)offsetof(ImNodesStyle, MiniMapOffset)},
 };
 
 static const mvGuiStyleVarInfo* GetNodeStyleVarInfo(ImPlotStyleVar idx) {

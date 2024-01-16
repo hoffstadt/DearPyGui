@@ -48,7 +48,7 @@ void mvKeyDownHandler::handleSpecificRequiredArgs(PyObject* dict)
 	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
 		return;
 
-	_key = ToInt(PyTuple_GetItem(dict, 0));
+	_key = (ImGuiKey)ToInt(PyTuple_GetItem(dict, 0));
 }
 
 void mvKeyDownHandler::handleSpecificKeywordArgs(PyObject* dict)
@@ -56,7 +56,7 @@ void mvKeyDownHandler::handleSpecificKeywordArgs(PyObject* dict)
 	if (dict == nullptr)
 		return;
 
-	if (PyObject* item = PyDict_GetItemString(dict, "key")) _key = ToInt(item);
+	if (PyObject* item = PyDict_GetItemString(dict, "key")) _key = (ImGuiKey)ToInt(item);
 }
 
 void mvKeyDownHandler::getSpecificConfiguration(PyObject* dict)
@@ -73,7 +73,7 @@ void mvKeyPressHandler::draw(ImDrawList* drawlist, float x, float y)
 	{
 		for (int i = 0; i < IM_ARRAYSIZE(ImGui::GetIO().KeysData); i++)
 		{
-			if (ImGui::IsKeyDown(i) && ImGui::IsKeyPressed(i))
+			if (ImGui::IsKeyDown((ImGuiKey)i) && ImGui::IsKeyPressed((ImGuiKey)i))
 			{
 				mvSubmitCallback([=]()
 					{
@@ -109,7 +109,7 @@ void mvKeyPressHandler::handleSpecificPositionalArgs(PyObject* dict)
 		switch (i)
 		{
 		case 0:
-			_key = ToInt(item);
+			_key = (ImGuiKey)ToInt(item);
 			break;
 
 		default:
@@ -123,7 +123,7 @@ void mvKeyPressHandler::handleSpecificKeywordArgs(PyObject* dict)
 	if (dict == nullptr)
 		return;
 
-	if (PyObject* item = PyDict_GetItemString(dict, "key")) _key = ToInt(item);
+	if (PyObject* item = PyDict_GetItemString(dict, "key")) _key = (ImGuiKey)ToInt(item);
 }
 
 void mvKeyPressHandler::getSpecificConfiguration(PyObject* dict)
@@ -177,7 +177,7 @@ void mvKeyReleaseHandler::handleSpecificPositionalArgs(PyObject* dict)
 		switch (i)
 		{
 		case 0:
-			_key = ToInt(item);
+			_key = (ImGuiKey)ToInt(item);
 			break;
 
 		default:
@@ -191,7 +191,7 @@ void mvKeyReleaseHandler::handleSpecificKeywordArgs(PyObject* dict)
 	if (dict == nullptr)
 		return;
 
-	if (PyObject* item = PyDict_GetItemString(dict, "key")) _key = ToInt(item);
+	if (PyObject* item = PyDict_GetItemString(dict, "key")) _key = (ImGuiKey)ToInt(item);
 }
 
 void mvKeyReleaseHandler::getSpecificConfiguration(PyObject* dict)

@@ -1692,12 +1692,12 @@ void Initialize(ImNodesContext* context)
     context->CurrentNodeIdx = INT_MAX;
 
     context->DefaultEditorCtx = EditorContextCreate();
-    EditorContextSet(GImNodes->DefaultEditorCtx);
+    context->EditorCtx = context->DefaultEditorCtx;
 
     context->CurrentAttributeFlags = ImNodesAttributeFlags_None;
     context->AttributeFlagStack.push_back(GImNodes->CurrentAttributeFlags);
 
-    StyleColorsDark();
+    StyleColorsDark(&context->Style);
 }
 
 void Shutdown(ImNodesContext* ctx) { EditorContextFree(ctx->DefaultEditorCtx); }
@@ -2024,6 +2024,7 @@ void DestroyContext(ImNodesContext* ctx)
 
 ImNodesContext* GetCurrentContext() { return GImNodes; }
 
+// TODO: Probably git dependency from ImNodes should be removed because of this function
 ImRect mvEditorGetSize()
 {
     return GImNodes->CanvasRectScreenSpace;
@@ -2073,123 +2074,135 @@ ImNodesIO& GetIO() { return GImNodes->Io; }
 
 ImNodesStyle& GetStyle() { return GImNodes->Style; }
 
-void StyleColorsDark()
+void StyleColorsDark(ImNodesStyle* dest)
 {
-    GImNodes->Style.Colors[ImNodesCol_NodeBackground] = IM_COL32(50, 50, 50, 255);
-    GImNodes->Style.Colors[ImNodesCol_NodeBackgroundHovered] = IM_COL32(75, 75, 75, 255);
-    GImNodes->Style.Colors[ImNodesCol_NodeBackgroundSelected] = IM_COL32(75, 75, 75, 255);
-    GImNodes->Style.Colors[ImNodesCol_NodeOutline] = IM_COL32(100, 100, 100, 255);
+    if (dest == nullptr)
+    {
+        dest = &GImNodes->Style;
+    }
+
+    dest->Colors[ImNodesCol_NodeBackground] = IM_COL32(50, 50, 50, 255);
+    dest->Colors[ImNodesCol_NodeBackgroundHovered] = IM_COL32(75, 75, 75, 255);
+    dest->Colors[ImNodesCol_NodeBackgroundSelected] = IM_COL32(75, 75, 75, 255);
+    dest->Colors[ImNodesCol_NodeOutline] = IM_COL32(100, 100, 100, 255);
     // title bar colors match ImGui's titlebg colors
-    GImNodes->Style.Colors[ImNodesCol_TitleBar] = IM_COL32(41, 74, 122, 255);
-    GImNodes->Style.Colors[ImNodesCol_TitleBarHovered] = IM_COL32(66, 150, 250, 255);
-    GImNodes->Style.Colors[ImNodesCol_TitleBarSelected] = IM_COL32(66, 150, 250, 255);
+    dest->Colors[ImNodesCol_TitleBar] = IM_COL32(41, 74, 122, 255);
+    dest->Colors[ImNodesCol_TitleBarHovered] = IM_COL32(66, 150, 250, 255);
+    dest->Colors[ImNodesCol_TitleBarSelected] = IM_COL32(66, 150, 250, 255);
     // link colors match ImGui's slider grab colors
-    GImNodes->Style.Colors[ImNodesCol_Link] = IM_COL32(61, 133, 224, 200);
-    GImNodes->Style.Colors[ImNodesCol_LinkHovered] = IM_COL32(66, 150, 250, 255);
-    GImNodes->Style.Colors[ImNodesCol_LinkSelected] = IM_COL32(66, 150, 250, 255);
+    dest->Colors[ImNodesCol_Link] = IM_COL32(61, 133, 224, 200);
+    dest->Colors[ImNodesCol_LinkHovered] = IM_COL32(66, 150, 250, 255);
+    dest->Colors[ImNodesCol_LinkSelected] = IM_COL32(66, 150, 250, 255);
     // pin colors match ImGui's button colors
-    GImNodes->Style.Colors[ImNodesCol_Pin] = IM_COL32(53, 150, 250, 180);
-    GImNodes->Style.Colors[ImNodesCol_PinHovered] = IM_COL32(53, 150, 250, 255);
+    dest->Colors[ImNodesCol_Pin] = IM_COL32(53, 150, 250, 180);
+    dest->Colors[ImNodesCol_PinHovered] = IM_COL32(53, 150, 250, 255);
 
-    GImNodes->Style.Colors[ImNodesCol_BoxSelector] = IM_COL32(61, 133, 224, 30);
-    GImNodes->Style.Colors[ImNodesCol_BoxSelectorOutline] = IM_COL32(61, 133, 224, 150);
+    dest->Colors[ImNodesCol_BoxSelector] = IM_COL32(61, 133, 224, 30);
+    dest->Colors[ImNodesCol_BoxSelectorOutline] = IM_COL32(61, 133, 224, 150);
 
-    GImNodes->Style.Colors[ImNodesCol_GridBackground] = IM_COL32(40, 40, 50, 200);
-    GImNodes->Style.Colors[ImNodesCol_GridLine] = IM_COL32(200, 200, 200, 40);
-    GImNodes->Style.Colors[ImNodesCol_GridLinePrimary] = IM_COL32(240, 240, 240, 60);
-
-    // minimap colors
-    GImNodes->Style.Colors[ImNodesCol_MiniMapBackground] = IM_COL32(25, 25, 25, 150);
-    GImNodes->Style.Colors[ImNodesCol_MiniMapBackgroundHovered] = IM_COL32(25, 25, 25, 200);
-    GImNodes->Style.Colors[ImNodesCol_MiniMapOutline] = IM_COL32(150, 150, 150, 100);
-    GImNodes->Style.Colors[ImNodesCol_MiniMapOutlineHovered] = IM_COL32(150, 150, 150, 200);
-    GImNodes->Style.Colors[ImNodesCol_MiniMapNodeBackground] = IM_COL32(200, 200, 200, 100);
-    GImNodes->Style.Colors[ImNodesCol_MiniMapNodeBackgroundHovered] = IM_COL32(200, 200, 200, 255);
-    GImNodes->Style.Colors[ImNodesCol_MiniMapNodeBackgroundSelected] =
-        GImNodes->Style.Colors[ImNodesCol_MiniMapNodeBackgroundHovered];
-    GImNodes->Style.Colors[ImNodesCol_MiniMapNodeOutline] = IM_COL32(200, 200, 200, 100);
-    GImNodes->Style.Colors[ImNodesCol_MiniMapLink] = GImNodes->Style.Colors[ImNodesCol_Link];
-    GImNodes->Style.Colors[ImNodesCol_MiniMapLinkSelected] =
-        GImNodes->Style.Colors[ImNodesCol_LinkSelected];
-    GImNodes->Style.Colors[ImNodesCol_MiniMapCanvas] = IM_COL32(200, 200, 200, 25);
-    GImNodes->Style.Colors[ImNodesCol_MiniMapCanvasOutline] = IM_COL32(200, 200, 200, 200);
-}
-
-void StyleColorsClassic()
-{
-    GImNodes->Style.Colors[ImNodesCol_NodeBackground] = IM_COL32(50, 50, 50, 255);
-    GImNodes->Style.Colors[ImNodesCol_NodeBackgroundHovered] = IM_COL32(75, 75, 75, 255);
-    GImNodes->Style.Colors[ImNodesCol_NodeBackgroundSelected] = IM_COL32(75, 75, 75, 255);
-    GImNodes->Style.Colors[ImNodesCol_NodeOutline] = IM_COL32(100, 100, 100, 255);
-    GImNodes->Style.Colors[ImNodesCol_TitleBar] = IM_COL32(69, 69, 138, 255);
-    GImNodes->Style.Colors[ImNodesCol_TitleBarHovered] = IM_COL32(82, 82, 161, 255);
-    GImNodes->Style.Colors[ImNodesCol_TitleBarSelected] = IM_COL32(82, 82, 161, 255);
-    GImNodes->Style.Colors[ImNodesCol_Link] = IM_COL32(255, 255, 255, 100);
-    GImNodes->Style.Colors[ImNodesCol_LinkHovered] = IM_COL32(105, 99, 204, 153);
-    GImNodes->Style.Colors[ImNodesCol_LinkSelected] = IM_COL32(105, 99, 204, 153);
-    GImNodes->Style.Colors[ImNodesCol_Pin] = IM_COL32(89, 102, 156, 170);
-    GImNodes->Style.Colors[ImNodesCol_PinHovered] = IM_COL32(102, 122, 179, 200);
-    GImNodes->Style.Colors[ImNodesCol_BoxSelector] = IM_COL32(82, 82, 161, 100);
-    GImNodes->Style.Colors[ImNodesCol_BoxSelectorOutline] = IM_COL32(82, 82, 161, 255);
-    GImNodes->Style.Colors[ImNodesCol_GridBackground] = IM_COL32(40, 40, 50, 200);
-    GImNodes->Style.Colors[ImNodesCol_GridLine] = IM_COL32(200, 200, 200, 40);
-    GImNodes->Style.Colors[ImNodesCol_GridLinePrimary] = IM_COL32(240, 240, 240, 60);
+    dest->Colors[ImNodesCol_GridBackground] = IM_COL32(40, 40, 50, 200);
+    dest->Colors[ImNodesCol_GridLine] = IM_COL32(200, 200, 200, 40);
+    dest->Colors[ImNodesCol_GridLinePrimary] = IM_COL32(240, 240, 240, 60);
 
     // minimap colors
-    GImNodes->Style.Colors[ImNodesCol_MiniMapBackground] = IM_COL32(25, 25, 25, 100);
-    GImNodes->Style.Colors[ImNodesCol_MiniMapBackgroundHovered] = IM_COL32(25, 25, 25, 200);
-    GImNodes->Style.Colors[ImNodesCol_MiniMapOutline] = IM_COL32(150, 150, 150, 100);
-    GImNodes->Style.Colors[ImNodesCol_MiniMapOutlineHovered] = IM_COL32(150, 150, 150, 200);
-    GImNodes->Style.Colors[ImNodesCol_MiniMapNodeBackground] = IM_COL32(200, 200, 200, 100);
-    GImNodes->Style.Colors[ImNodesCol_MiniMapNodeBackgroundSelected] =
-        GImNodes->Style.Colors[ImNodesCol_MiniMapNodeBackgroundHovered];
-    GImNodes->Style.Colors[ImNodesCol_MiniMapNodeBackgroundSelected] = IM_COL32(200, 200, 240, 255);
-    GImNodes->Style.Colors[ImNodesCol_MiniMapNodeOutline] = IM_COL32(200, 200, 200, 100);
-    GImNodes->Style.Colors[ImNodesCol_MiniMapLink] = GImNodes->Style.Colors[ImNodesCol_Link];
-    GImNodes->Style.Colors[ImNodesCol_MiniMapLinkSelected] =
-        GImNodes->Style.Colors[ImNodesCol_LinkSelected];
-    GImNodes->Style.Colors[ImNodesCol_MiniMapCanvas] = IM_COL32(200, 200, 200, 25);
-    GImNodes->Style.Colors[ImNodesCol_MiniMapCanvasOutline] = IM_COL32(200, 200, 200, 200);
+    dest->Colors[ImNodesCol_MiniMapBackground] = IM_COL32(25, 25, 25, 150);
+    dest->Colors[ImNodesCol_MiniMapBackgroundHovered] = IM_COL32(25, 25, 25, 200);
+    dest->Colors[ImNodesCol_MiniMapOutline] = IM_COL32(150, 150, 150, 100);
+    dest->Colors[ImNodesCol_MiniMapOutlineHovered] = IM_COL32(150, 150, 150, 200);
+    dest->Colors[ImNodesCol_MiniMapNodeBackground] = IM_COL32(200, 200, 200, 100);
+    dest->Colors[ImNodesCol_MiniMapNodeBackgroundHovered] = IM_COL32(200, 200, 200, 255);
+    dest->Colors[ImNodesCol_MiniMapNodeBackgroundSelected] =
+        dest->Colors[ImNodesCol_MiniMapNodeBackgroundHovered];
+    dest->Colors[ImNodesCol_MiniMapNodeOutline] = IM_COL32(200, 200, 200, 100);
+    dest->Colors[ImNodesCol_MiniMapLink] = dest->Colors[ImNodesCol_Link];
+    dest->Colors[ImNodesCol_MiniMapLinkSelected] = dest->Colors[ImNodesCol_LinkSelected];
+    dest->Colors[ImNodesCol_MiniMapCanvas] = IM_COL32(200, 200, 200, 25);
+    dest->Colors[ImNodesCol_MiniMapCanvasOutline] = IM_COL32(200, 200, 200, 200);
 }
 
-void StyleColorsLight()
+void StyleColorsClassic(ImNodesStyle* dest)
 {
-    GImNodes->Style.Colors[ImNodesCol_NodeBackground] = IM_COL32(240, 240, 240, 255);
-    GImNodes->Style.Colors[ImNodesCol_NodeBackgroundHovered] = IM_COL32(240, 240, 240, 255);
-    GImNodes->Style.Colors[ImNodesCol_NodeBackgroundSelected] = IM_COL32(240, 240, 240, 255);
-    GImNodes->Style.Colors[ImNodesCol_NodeOutline] = IM_COL32(100, 100, 100, 255);
-    GImNodes->Style.Colors[ImNodesCol_TitleBar] = IM_COL32(248, 248, 248, 255);
-    GImNodes->Style.Colors[ImNodesCol_TitleBarHovered] = IM_COL32(209, 209, 209, 255);
-    GImNodes->Style.Colors[ImNodesCol_TitleBarSelected] = IM_COL32(209, 209, 209, 255);
+    if (dest == nullptr)
+    {
+        dest = &GImNodes->Style;
+    }
+
+    dest->Colors[ImNodesCol_NodeBackground] = IM_COL32(50, 50, 50, 255);
+    dest->Colors[ImNodesCol_NodeBackgroundHovered] = IM_COL32(75, 75, 75, 255);
+    dest->Colors[ImNodesCol_NodeBackgroundSelected] = IM_COL32(75, 75, 75, 255);
+    dest->Colors[ImNodesCol_NodeOutline] = IM_COL32(100, 100, 100, 255);
+    dest->Colors[ImNodesCol_TitleBar] = IM_COL32(69, 69, 138, 255);
+    dest->Colors[ImNodesCol_TitleBarHovered] = IM_COL32(82, 82, 161, 255);
+    dest->Colors[ImNodesCol_TitleBarSelected] = IM_COL32(82, 82, 161, 255);
+    dest->Colors[ImNodesCol_Link] = IM_COL32(255, 255, 255, 100);
+    dest->Colors[ImNodesCol_LinkHovered] = IM_COL32(105, 99, 204, 153);
+    dest->Colors[ImNodesCol_LinkSelected] = IM_COL32(105, 99, 204, 153);
+    dest->Colors[ImNodesCol_Pin] = IM_COL32(89, 102, 156, 170);
+    dest->Colors[ImNodesCol_PinHovered] = IM_COL32(102, 122, 179, 200);
+    dest->Colors[ImNodesCol_BoxSelector] = IM_COL32(82, 82, 161, 100);
+    dest->Colors[ImNodesCol_BoxSelectorOutline] = IM_COL32(82, 82, 161, 255);
+    dest->Colors[ImNodesCol_GridBackground] = IM_COL32(40, 40, 50, 200);
+    dest->Colors[ImNodesCol_GridLine] = IM_COL32(200, 200, 200, 40);
+    dest->Colors[ImNodesCol_GridLinePrimary] = IM_COL32(240, 240, 240, 60);
+
+    // minimap colors
+    dest->Colors[ImNodesCol_MiniMapBackground] = IM_COL32(25, 25, 25, 100);
+    dest->Colors[ImNodesCol_MiniMapBackgroundHovered] = IM_COL32(25, 25, 25, 200);
+    dest->Colors[ImNodesCol_MiniMapOutline] = IM_COL32(150, 150, 150, 100);
+    dest->Colors[ImNodesCol_MiniMapOutlineHovered] = IM_COL32(150, 150, 150, 200);
+    dest->Colors[ImNodesCol_MiniMapNodeBackground] = IM_COL32(200, 200, 200, 100);
+    dest->Colors[ImNodesCol_MiniMapNodeBackgroundSelected] =
+        dest->Colors[ImNodesCol_MiniMapNodeBackgroundHovered];
+    dest->Colors[ImNodesCol_MiniMapNodeBackgroundSelected] = IM_COL32(200, 200, 240, 255);
+    dest->Colors[ImNodesCol_MiniMapNodeOutline] = IM_COL32(200, 200, 200, 100);
+    dest->Colors[ImNodesCol_MiniMapLink] = dest->Colors[ImNodesCol_Link];
+    dest->Colors[ImNodesCol_MiniMapLinkSelected] = dest->Colors[ImNodesCol_LinkSelected];
+    dest->Colors[ImNodesCol_MiniMapCanvas] = IM_COL32(200, 200, 200, 25);
+    dest->Colors[ImNodesCol_MiniMapCanvasOutline] = IM_COL32(200, 200, 200, 200);
+}
+
+void StyleColorsLight(ImNodesStyle* dest)
+{
+    if (dest == nullptr)
+    {
+        dest = &GImNodes->Style;
+    }
+
+    dest->Colors[ImNodesCol_NodeBackground] = IM_COL32(240, 240, 240, 255);
+    dest->Colors[ImNodesCol_NodeBackgroundHovered] = IM_COL32(240, 240, 240, 255);
+    dest->Colors[ImNodesCol_NodeBackgroundSelected] = IM_COL32(240, 240, 240, 255);
+    dest->Colors[ImNodesCol_NodeOutline] = IM_COL32(100, 100, 100, 255);
+    dest->Colors[ImNodesCol_TitleBar] = IM_COL32(248, 248, 248, 255);
+    dest->Colors[ImNodesCol_TitleBarHovered] = IM_COL32(209, 209, 209, 255);
+    dest->Colors[ImNodesCol_TitleBarSelected] = IM_COL32(209, 209, 209, 255);
     // original imgui values: 66, 150, 250
-    GImNodes->Style.Colors[ImNodesCol_Link] = IM_COL32(66, 150, 250, 100);
+    dest->Colors[ImNodesCol_Link] = IM_COL32(66, 150, 250, 100);
     // original imgui values: 117, 138, 204
-    GImNodes->Style.Colors[ImNodesCol_LinkHovered] = IM_COL32(66, 150, 250, 242);
-    GImNodes->Style.Colors[ImNodesCol_LinkSelected] = IM_COL32(66, 150, 250, 242);
+    dest->Colors[ImNodesCol_LinkHovered] = IM_COL32(66, 150, 250, 242);
+    dest->Colors[ImNodesCol_LinkSelected] = IM_COL32(66, 150, 250, 242);
     // original imgui values: 66, 150, 250
-    GImNodes->Style.Colors[ImNodesCol_Pin] = IM_COL32(66, 150, 250, 160);
-    GImNodes->Style.Colors[ImNodesCol_PinHovered] = IM_COL32(66, 150, 250, 255);
-    GImNodes->Style.Colors[ImNodesCol_BoxSelector] = IM_COL32(90, 170, 250, 30);
-    GImNodes->Style.Colors[ImNodesCol_BoxSelectorOutline] = IM_COL32(90, 170, 250, 150);
-    GImNodes->Style.Colors[ImNodesCol_GridBackground] = IM_COL32(225, 225, 225, 255);
-    GImNodes->Style.Colors[ImNodesCol_GridLine] = IM_COL32(180, 180, 180, 100);
-    GImNodes->Style.Colors[ImNodesCol_GridLinePrimary] = IM_COL32(120, 120, 120, 100);
+    dest->Colors[ImNodesCol_Pin] = IM_COL32(66, 150, 250, 160);
+    dest->Colors[ImNodesCol_PinHovered] = IM_COL32(66, 150, 250, 255);
+    dest->Colors[ImNodesCol_BoxSelector] = IM_COL32(90, 170, 250, 30);
+    dest->Colors[ImNodesCol_BoxSelectorOutline] = IM_COL32(90, 170, 250, 150);
+    dest->Colors[ImNodesCol_GridBackground] = IM_COL32(225, 225, 225, 255);
+    dest->Colors[ImNodesCol_GridLine] = IM_COL32(180, 180, 180, 100);
+    dest->Colors[ImNodesCol_GridLinePrimary] = IM_COL32(120, 120, 120, 100);
 
     // minimap colors
-    GImNodes->Style.Colors[ImNodesCol_MiniMapBackground] = IM_COL32(25, 25, 25, 100);
-    GImNodes->Style.Colors[ImNodesCol_MiniMapBackgroundHovered] = IM_COL32(25, 25, 25, 200);
-    GImNodes->Style.Colors[ImNodesCol_MiniMapOutline] = IM_COL32(150, 150, 150, 100);
-    GImNodes->Style.Colors[ImNodesCol_MiniMapOutlineHovered] = IM_COL32(150, 150, 150, 200);
-    GImNodes->Style.Colors[ImNodesCol_MiniMapNodeBackground] = IM_COL32(200, 200, 200, 100);
-    GImNodes->Style.Colors[ImNodesCol_MiniMapNodeBackgroundSelected] =
-        GImNodes->Style.Colors[ImNodesCol_MiniMapNodeBackgroundHovered];
-    GImNodes->Style.Colors[ImNodesCol_MiniMapNodeBackgroundSelected] = IM_COL32(200, 200, 240, 255);
-    GImNodes->Style.Colors[ImNodesCol_MiniMapNodeOutline] = IM_COL32(200, 200, 200, 100);
-    GImNodes->Style.Colors[ImNodesCol_MiniMapLink] = GImNodes->Style.Colors[ImNodesCol_Link];
-    GImNodes->Style.Colors[ImNodesCol_MiniMapLinkSelected] =
-        GImNodes->Style.Colors[ImNodesCol_LinkSelected];
-    GImNodes->Style.Colors[ImNodesCol_MiniMapCanvas] = IM_COL32(200, 200, 200, 25);
-    GImNodes->Style.Colors[ImNodesCol_MiniMapCanvasOutline] = IM_COL32(200, 200, 200, 200);
+    dest->Colors[ImNodesCol_MiniMapBackground] = IM_COL32(25, 25, 25, 100);
+    dest->Colors[ImNodesCol_MiniMapBackgroundHovered] = IM_COL32(25, 25, 25, 200);
+    dest->Colors[ImNodesCol_MiniMapOutline] = IM_COL32(150, 150, 150, 100);
+    dest->Colors[ImNodesCol_MiniMapOutlineHovered] = IM_COL32(150, 150, 150, 200);
+    dest->Colors[ImNodesCol_MiniMapNodeBackground] = IM_COL32(200, 200, 200, 100);
+    dest->Colors[ImNodesCol_MiniMapNodeBackgroundSelected] =
+        dest->Colors[ImNodesCol_MiniMapNodeBackgroundHovered];
+    dest->Colors[ImNodesCol_MiniMapNodeBackgroundSelected] = IM_COL32(200, 200, 240, 255);
+    dest->Colors[ImNodesCol_MiniMapNodeOutline] = IM_COL32(200, 200, 200, 100);
+    dest->Colors[ImNodesCol_MiniMapLink] = dest->Colors[ImNodesCol_Link];
+    dest->Colors[ImNodesCol_MiniMapLinkSelected] = dest->Colors[ImNodesCol_LinkSelected];
+    dest->Colors[ImNodesCol_MiniMapCanvas] = IM_COL32(200, 200, 200, 25);
+    dest->Colors[ImNodesCol_MiniMapCanvasOutline] = IM_COL32(200, 200, 200, 200);
 }
 
 void BeginNodeEditor()
@@ -2641,35 +2654,35 @@ struct ImNodesStyleVarInfo
 
 static const ImNodesStyleVarInfo GStyleVarInfo[] = {
     // ImNodesStyleVar_GridSpacing
-    {ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImNodesStyle, GridSpacing)},
+    {ImGuiDataType_Float, 1, (ImU32)offsetof(ImNodesStyle, GridSpacing)},
     // ImNodesStyleVar_NodeCornerRounding
-    {ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImNodesStyle, NodeCornerRounding)},
+    {ImGuiDataType_Float, 1, (ImU32)offsetof(ImNodesStyle, NodeCornerRounding)},
     // ImNodesStyleVar_NodePadding
-    {ImGuiDataType_Float, 2, (ImU32)IM_OFFSETOF(ImNodesStyle, NodePadding)},
+    {ImGuiDataType_Float, 2, (ImU32)offsetof(ImNodesStyle, NodePadding)},
     // ImNodesStyleVar_NodeBorderThickness
-    {ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImNodesStyle, NodeBorderThickness)},
+    {ImGuiDataType_Float, 1, (ImU32)offsetof(ImNodesStyle, NodeBorderThickness)},
     // ImNodesStyleVar_LinkThickness
-    {ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImNodesStyle, LinkThickness)},
+    {ImGuiDataType_Float, 1, (ImU32)offsetof(ImNodesStyle, LinkThickness)},
     // ImNodesStyleVar_LinkLineSegmentsPerLength
-    {ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImNodesStyle, LinkLineSegmentsPerLength)},
+    {ImGuiDataType_Float, 1, (ImU32)offsetof(ImNodesStyle, LinkLineSegmentsPerLength)},
     // ImNodesStyleVar_LinkHoverDistance
-    {ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImNodesStyle, LinkHoverDistance)},
+    {ImGuiDataType_Float, 1, (ImU32)offsetof(ImNodesStyle, LinkHoverDistance)},
     // ImNodesStyleVar_PinCircleRadius
-    {ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImNodesStyle, PinCircleRadius)},
+    {ImGuiDataType_Float, 1, (ImU32)offsetof(ImNodesStyle, PinCircleRadius)},
     // ImNodesStyleVar_PinQuadSideLength
-    {ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImNodesStyle, PinQuadSideLength)},
+    {ImGuiDataType_Float, 1, (ImU32)offsetof(ImNodesStyle, PinQuadSideLength)},
     // ImNodesStyleVar_PinTriangleSideLength
-    {ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImNodesStyle, PinTriangleSideLength)},
+    {ImGuiDataType_Float, 1, (ImU32)offsetof(ImNodesStyle, PinTriangleSideLength)},
     // ImNodesStyleVar_PinLineThickness
-    {ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImNodesStyle, PinLineThickness)},
+    {ImGuiDataType_Float, 1, (ImU32)offsetof(ImNodesStyle, PinLineThickness)},
     // ImNodesStyleVar_PinHoverRadius
-    {ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImNodesStyle, PinHoverRadius)},
+    {ImGuiDataType_Float, 1, (ImU32)offsetof(ImNodesStyle, PinHoverRadius)},
     // ImNodesStyleVar_PinOffset
-    {ImGuiDataType_Float, 1, (ImU32)IM_OFFSETOF(ImNodesStyle, PinOffset)},
+    {ImGuiDataType_Float, 1, (ImU32)offsetof(ImNodesStyle, PinOffset)},
     // ImNodesStyleVar_MiniMapPadding
-    {ImGuiDataType_Float, 2, (ImU32)IM_OFFSETOF(ImNodesStyle, MiniMapPadding)},
+    {ImGuiDataType_Float, 2, (ImU32)offsetof(ImNodesStyle, MiniMapPadding)},
     // ImNodesStyleVar_MiniMapOffset
-    {ImGuiDataType_Float, 2, (ImU32)IM_OFFSETOF(ImNodesStyle, MiniMapOffset)},
+    {ImGuiDataType_Float, 2, (ImU32)offsetof(ImNodesStyle, MiniMapOffset)},
 };
 
 static const ImNodesStyleVarInfo* GetStyleVarInfo(ImNodesStyleVar idx)

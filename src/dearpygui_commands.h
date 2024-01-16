@@ -2215,6 +2215,23 @@ load_image(PyObject* self, PyObject* args, PyObject* kwargs)
 	return result;
 }
 
+/*  returns 1 iff str ends with suffix  */
+static int 
+str_ends_with(const char * str, const char * suffix) {
+
+  /*  note - it would be better to abort or return an error code here; see the comments  */
+  if( str == NULL || suffix == NULL )
+    return 0;
+
+  size_t str_len = strlen(str);
+  size_t suffix_len = strlen(suffix);
+
+  if(suffix_len > str_len)
+    return 0;
+
+  return 0 == strncmp( str + str_len - suffix_len, suffix, suffix_len );
+}
+
 static PyObject*
 save_image(PyObject* self, PyObject* args, PyObject* kwargs)
 {
@@ -2267,24 +2284,24 @@ save_image(PyObject* self, PyObject* args, PyObject* kwargs)
 		return GetPyNone();
 	}
 
-	// TODO: support other formats and make this better
-	if (file[filepathLength - 3] == 'p' && file[filepathLength - 2] == 'n' && file[filepathLength - 1] == 'g')
+	// TODO: support other formats
+	if (str_ends_with(file, "png"))
 	{
 		imageType = MV_IMAGE_TYPE_PNG_;
 	}
-	else if (file[filepathLength - 3] == 'b' && file[filepathLength - 2] == 'm' && file[filepathLength - 1] == 'p')
+	else if (str_ends_with(file, "bmp"))
 	{
 		imageType = MV_IMAGE_TYPE_BMP_;
 	}
-	else if (file[filepathLength - 3] == 't' && file[filepathLength - 2] == 'g' && file[filepathLength - 1] == 'a')
+	else if (str_ends_with(file, "tga"))
 	{
 		imageType = MV_IMAGE_TYPE_TGA_;
 	}
-	else if (file[filepathLength - 3] == 'h' && file[filepathLength - 2] == 'd' && file[filepathLength - 1] == 'r')
+	else if (str_ends_with(file, "hdr"))
 	{
 		imageType = MV_IMAGE_TYPE_HDR_;
 	}
-	else if (file[filepathLength - 3] == 'j' && file[filepathLength - 2] == 'p' && file[filepathLength - 1] == 'g')
+	else if (str_ends_with(file, "jpg"))
 	{
 		imageType = MV_IMAGE_TYPE_JPG_;
 	}
@@ -2370,7 +2387,7 @@ output_frame_buffer(PyObject* self, PyObject* args, PyObject* kwargs)
 	}
 
 	// TODO: support other formats
-	if (file[filepathLength - 3] == 'p' && file[filepathLength - 2] == 'n' && file[filepathLength - 1] == 'g')
+	if (str_ends_with(file, "png"))
 	{
         std::string fileStored = file;
         mvSubmitTask([fileStored](){

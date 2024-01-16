@@ -383,12 +383,12 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 
 	// std::cout << "override mod: " << config.override_mod << std::endl;
 	// std::cout << "zoom mod: " << config.zoom_mod << std::endl;
-	if (config.pan_mod != ImGuiKeyModFlags_None) ImPlot::GetInputMap().PanMod = config.pan_mod;
-	if (config.select_mod != ImGuiKeyModFlags_None) ImPlot::GetInputMap().SelectMod = config.select_mod;
-	if (config.zoom_mod != ImGuiKeyModFlags_None) ImPlot::GetInputMap().ZoomMod = config.zoom_mod;
-	if (config.override_mod != ImGuiKeyModFlags_None) ImPlot::GetInputMap().OverrideMod = config.override_mod;
-	if (config.select_horz_mod != ImGuiKeyModFlags_None) ImPlot::GetInputMap().SelectHorzMod = config.select_horz_mod;
-	if (config.select_vert_mod != ImGuiKeyModFlags_None) ImPlot::GetInputMap().SelectVertMod = config.select_vert_mod;
+	if (config.pan_mod != ImGuiMod_None) ImPlot::GetInputMap().PanMod = config.pan_mod;
+	if (config.select_mod != ImGuiMod_None) ImPlot::GetInputMap().SelectMod = config.select_mod;
+	if (config.zoom_mod != ImGuiMod_None) ImPlot::GetInputMap().ZoomMod = config.zoom_mod;
+	if (config.override_mod != ImGuiMod_None) ImPlot::GetInputMap().OverrideMod = config.override_mod;
+	if (config.select_horz_mod != ImGuiMod_None) ImPlot::GetInputMap().SelectHorzMod = config.select_horz_mod;
+	if (config.select_vert_mod != ImGuiMod_None) ImPlot::GetInputMap().SelectVertMod = config.select_vert_mod;
 
 	if (config._fitDirty)
 	{
@@ -412,7 +412,7 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 			if (child->type == mvAppItemType::mvPlotAxis)
 			{
 				mvPlotAxis* axis = static_cast<mvPlotAxis*>(child.get());
-				ImAxis_ ax = static_cast<ImAxis_>(axis->configData.axis); // TODO: Check if you can do this cast and if it's safe
+				ImAxis_ ax = static_cast<ImAxis_>(axis->configData.axis);
 				ImPlot::SetupAxis(ax, config.axesNames[ax].c_str(), axis->configData.flags);
 				if (axis->configData.setLimits || axis->configData._dirty)
 				{
@@ -611,7 +611,7 @@ DearPyGui::draw_plot_axis(ImDrawList* drawlist, mvAppItem& item, mvPlotAxisConfi
 	if (item.config.dropCallback)
 	{
 		ScopedID id(item.uuid);
-		if (ImPlot::BeginDragDropTargetAxis(item.info.location))  // TODO: There was a item.info.location !!- 1!!
+		if (ImPlot::BeginDragDropTargetAxis(config.axis))
 		{
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(item.config.payloadType.c_str()))
 			{
@@ -786,9 +786,9 @@ DearPyGui::draw_bar_series(ImDrawList* drawlist, mvAppItem& item, const mvBarSer
 		xptr = &(*config.value.get())[0];
 		yptr = &(*config.value.get())[1];
 
-		if (config.horizontal)
-			ImPlot::PlotBarsH(item.info.internalLabel.c_str(), xptr->data(), yptr->data(), (int)xptr->size(), config.weight);
-		else
+		// if (config.horizontal)
+		//	ImPlot::PlotBarsH(item.info.internalLabel.c_str(), xptr->data(), yptr->data(), (int)xptr->size(), config.weight);
+		// else
 			ImPlot::PlotBars(item.info.internalLabel.c_str(), xptr->data(), yptr->data(), (int)xptr->size(), config.weight);
 
 		// Begin a popup for a legend entry.
@@ -1198,7 +1198,7 @@ DearPyGui::draw_hline_series(ImDrawList* drawlist, mvAppItem& item, const mvBasi
 
 		xptr = &(*config.value.get())[0];
 
-		ImPlot::PlotHLines(item.info.internalLabel.c_str(), xptr->data(), (int)xptr->size());
+		// ImPlot::PlotHLines(item.info.internalLabel.c_str(), xptr->data(), (int)xptr->size());
 
 		// Begin a popup for a legend entry.
 		if (ImPlot::BeginLegendPopup(item.info.internalLabel.c_str(), 1))
@@ -1264,7 +1264,7 @@ DearPyGui::draw_vline_series(ImDrawList* drawlist, mvAppItem& item, const mvBasi
 
 		xptr = &(*config.value.get())[0];
 
-		ImPlot::PlotVLines(item.info.internalLabel.c_str(), xptr->data(), (int)xptr->size());
+		// ImPlot::PlotVLines(item.info.internalLabel.c_str(), xptr->data(), (int)xptr->size());
 
 		// Begin a popup for a legend entry.
 		if (ImPlot::BeginLegendPopup(item.info.internalLabel.c_str(), 1))
@@ -1333,7 +1333,7 @@ DearPyGui::draw_2dhistogram_series(ImDrawList* drawlist, mvAppItem& item, const 
 		yptr = &(*config.value.get())[1];
 
 		ImPlot::PlotHistogram2D(item.info.internalLabel.c_str(), xptr->data(), yptr->data(), (int)xptr->size(),
-			config.xbins, config.ybins, config.density, ImPlotRect(config.xmin, config.xmax, config.ymin, config.ymax), config.outliers);
+			config.xbins, config.ybins, ImPlotRect(config.xmin, config.xmax, config.ymin, config.ymax), 0); // TODO 0 for flags
 
 		// Begin a popup for a legend entry.
 		if (ImPlot::BeginLegendPopup(item.info.internalLabel.c_str(), 1))
@@ -1405,9 +1405,9 @@ DearPyGui::draw_error_series(ImDrawList* drawlist, mvAppItem& item, const mvErro
 		zptr = &(*config.value.get())[2];
 		wptr = &(*config.value.get())[3];
 
-		if (config.horizontal)
-			ImPlot::PlotErrorBarsH(item.info.internalLabel.c_str(), xptr->data(), yptr->data(), zptr->data(), wptr->data(), (int)xptr->size());
-		else
+		// if (config.horizontal)
+		// 	ImPlot::PlotErrorBarsH(item.info.internalLabel.c_str(), xptr->data(), yptr->data(), zptr->data(), wptr->data(), (int)xptr->size());
+		// else
 			ImPlot::PlotErrorBars(item.info.internalLabel.c_str(), xptr->data(), yptr->data(), zptr->data(), wptr->data(), (int)xptr->size());
 
 		// Begin a popup for a legend entry.
@@ -1543,7 +1543,7 @@ DearPyGui::draw_histogram_series(ImDrawList* drawlist, mvAppItem& item, const mv
 		xptr = &(*config.value.get())[0];
 
 		ImPlot::PlotHistogram(item.info.internalLabel.c_str(), xptr->data(), (int)xptr->size(), config.bins,
-			config.cumlative, config.density, ImPlotRange(config.min, config.max), config.outliers, (double)config.barScale);
+			(double)config.barScale, ImPlotRange(config.min, config.max), 0); // TODO 0 for flags
 
 		// Begin a popup for a legend entry.
 		if (ImPlot::BeginLegendPopup(item.info.internalLabel.c_str(), 1))
@@ -1611,7 +1611,7 @@ DearPyGui::draw_pie_series(ImDrawList* drawlist, mvAppItem& item, const mvPieSer
 		xptr = &(*config.value.get())[0];
 
 		ImPlot::PlotPieChart(config.clabels.data(), xptr->data(), (int)config.labels.size(),
-			config.x, config.y, config.radius, config.normalize, config.format.c_str(), config.angle);
+			config.x, config.y, config.radius, config.format.c_str(), config.angle, 0); // TODO 0 for flags
 
 		// Begin a popup for a legend entry.
 		if (ImPlot::BeginLegendPopup(item.info.internalLabel.c_str(), 1))
@@ -1679,8 +1679,8 @@ DearPyGui::draw_label_series(ImDrawList* drawlist, mvAppItem& item, const mvLabe
 		xptr = &(*config.value.get())[0];
 		yptr = &(*config.value.get())[1];
 
-		ImPlot::PlotText(item.info.internalLabel.c_str(), (*xptr)[0], (*yptr)[0], config.vertical,
-			ImVec2((float)config.xoffset, (float)config.yoffset));
+		ImPlot::PlotText(item.info.internalLabel.c_str(), (*xptr)[0], (*yptr)[0],
+			ImVec2((float)config.xoffset, (float)config.yoffset), 0); // TODO: 0 for flags
 
 		// Begin a popup for a legend entry.
 		if (ImPlot::BeginLegendPopup(item.info.internalLabel.c_str(), 1))
@@ -1831,7 +1831,7 @@ DearPyGui::draw_area_series(ImDrawList* drawlist, mvAppItem& item, const mvAreaS
 		ImPlot::PlotLine(item.info.internalLabel.c_str(), xptr->data(), yptr->data(), (int)xptr->size());
 
 		ImPlot::PushPlotClipRect();
-		ImPlot::RegisterOrGetItem(item.info.internalLabel.c_str());
+		ImPlot::RegisterOrGetItem(item.info.internalLabel.c_str(), 0); //TODO 0 for flags
 		draw_polygon(config);
 		ImPlot::PopPlotClipRect();
 
@@ -2394,30 +2394,12 @@ DearPyGui::set_configuration(PyObject* inDict, mvPlotConfig& outConfig)
 	if (PyObject* item = PyDict_GetItemString(inDict, "use_local_time")) outConfig.localTime = ToBool(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "use_ISO8601")) outConfig.iSO8601 = ToBool(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "use_24hour_clock")) outConfig.clock24Hour = ToBool(item);
-
-	// helper to convert key to flag
-	auto converter = [](PyObject* flag)
-	{
-		auto out = ImGuiKeyModFlags_None;
-		switch (ToInt(flag))
-		{
-			case ImGuiKey_None: out = ImGuiKeyModFlags_None; break;
-			case ImGuiKey_ModCtrl: out = ImGuiKeyModFlags_Ctrl; break;
-			case ImGuiKey_ModShift:	out = ImGuiKeyModFlags_Shift; break;
-			case ImGuiKey_ModAlt: out = ImGuiKeyModFlags_Alt; break;
-			case ImGuiKey_ModSuper: out = ImGuiKeyModFlags_Super; break;
-			default: out = ImGuiKeyModFlags_None; break;
-		}
-		std::cout << "flag: " << ToInt(flag) << " mode: " << out << std::endl;
-		return out;
-	};
-
-	if (PyObject* item = PyDict_GetItemString(inDict, "pan_mod")) outConfig.pan_mod = converter(item);
-	if (PyObject* item = PyDict_GetItemString(inDict, "select_mod")) outConfig.select_mod = converter(item);
-	if (PyObject* item = PyDict_GetItemString(inDict, "select_horz_mod")) outConfig.select_horz_mod = converter(item);
-	if (PyObject* item = PyDict_GetItemString(inDict, "select_vert_mod")) outConfig.select_vert_mod = converter(item);
-	if (PyObject* item = PyDict_GetItemString(inDict, "override_mod")) outConfig.override_mod = converter(item);
-	if (PyObject* item = PyDict_GetItemString(inDict, "zoom_mod")) outConfig.zoom_mod = converter(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "pan_mod")) outConfig.pan_mod = (ImGuiKey)ToInt(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "select_mod")) outConfig.select_mod = (ImGuiKey)ToInt(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "select_horz_mod")) outConfig.select_horz_mod = (ImGuiKey)ToInt(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "select_vert_mod")) outConfig.select_vert_mod = (ImGuiKey)ToInt(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "override_mod")) outConfig.override_mod = (ImGuiKey)ToInt(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "zoom_mod")) outConfig.zoom_mod = (ImGuiKey)ToInt(item);
 
 	// helper for bit flipping
 	auto flagop = [inDict](const char* keyword, int flag, int& flags)
@@ -2430,10 +2412,9 @@ DearPyGui::set_configuration(PyObject* inDict, mvPlotConfig& outConfig)
 	flagop("no_menus", ImPlotFlags_NoMenus, outConfig._flags);
 	flagop("no_box_select", ImPlotFlags_NoBoxSelect, outConfig._flags);
 	flagop("no_mouse_text", ImPlotFlags_NoMouseText, outConfig._flags);
-	flagop("no_child", ImPlotFlags_NoChild, outConfig._flags);
 	flagop("crosshairs", ImPlotFlags_Crosshairs, outConfig._flags);
-	flagop("anti_aliased", ImPlotFlags_AntiAliased, outConfig._flags);
 	flagop("equal_aspects", ImPlotFlags_Equal, outConfig._flags);
+	// TODO: Add all flags for ImPlotLineFlags, ImPlotBarsFlags, etc... (https://github.com/epezent/implot/commit/63d5ed94b77acdf73201a00074bfd80467f50f0a)
 }
 
 void
@@ -2791,11 +2772,11 @@ DearPyGui::set_configuration(PyObject* inDict, mvPlotAxisConfig& outConfig, mvAp
 	flagop("no_gridlines", ImPlotAxisFlags_NoGridLines, outConfig.flags);
 	flagop("no_tick_marks", ImPlotAxisFlags_NoTickMarks, outConfig.flags);
 	flagop("no_tick_labels", ImPlotAxisFlags_NoTickLabels, outConfig.flags);
-	flagop("log_scale", ImPlotAxisFlags_LogScale, outConfig.flags);
+	// flagop("log_scale", ImPlotAxisFlags_LogScale, outConfig.flags);
 	flagop("invert", ImPlotAxisFlags_Invert, outConfig.flags);
 	flagop("lock_min", ImPlotAxisFlags_LockMin, outConfig.flags);
 	flagop("lock_max", ImPlotAxisFlags_LockMax, outConfig.flags);
-	flagop("time", ImPlotAxisFlags_Time, outConfig.flags);
+	// flagop("time", ImPlotAxisFlags_Time, outConfig.flags);
 
 	if (item.info.parentPtr)
 	{
@@ -2860,9 +2841,7 @@ DearPyGui::fill_configuration_dict(const mvPlotConfig& inConfig, PyObject* outDi
 	checkbitset("no_menus", ImPlotFlags_NoMenus, inConfig._flags);
 	checkbitset("no_box_select", ImPlotFlags_NoBoxSelect, inConfig._flags);
 	checkbitset("no_mouse_text", ImPlotFlags_NoMouseText, inConfig._flags);
-	checkbitset("no_child", ImPlotFlags_NoChild, inConfig._flags);
 	checkbitset("crosshairs", ImPlotFlags_Crosshairs, inConfig._flags);
-	checkbitset("anti_aliased", ImPlotFlags_AntiAliased, inConfig._flags);
 }
 
 void
@@ -3156,11 +3135,11 @@ DearPyGui::fill_configuration_dict(const mvPlotAxisConfig& inConfig, PyObject* o
 	checkbitset("no_gridlines", ImPlotAxisFlags_NoGridLines, inConfig.flags);
 	checkbitset("no_tick_marks", ImPlotAxisFlags_NoTickMarks, inConfig.flags);
 	checkbitset("no_tick_labels", ImPlotAxisFlags_NoTickLabels, inConfig.flags);
-	checkbitset("log_scale", ImPlotAxisFlags_LogScale, inConfig.flags);
+	//checkbitset("log_scale", ImPlotAxisFlags_LogScale, inConfig.flags);
 	checkbitset("invert", ImPlotAxisFlags_Invert, inConfig.flags);
 	checkbitset("lock_min", ImPlotAxisFlags_LockMin, inConfig.flags);
 	checkbitset("lock_max", ImPlotAxisFlags_LockMax, inConfig.flags);
-	checkbitset("time", ImPlotAxisFlags_Time, inConfig.flags);
+	//checkbitset("time", ImPlotAxisFlags_Time, inConfig.flags);
 }
 
 //-----------------------------------------------------------------------------

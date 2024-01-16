@@ -2105,10 +2105,8 @@ def plot(**kwargs):
 		no_box_select (bool, optional): the user will not be able to box-select with right-click drag
 		no_mouse_text (bool, optional): the mouse position, in plot coordinates, will not be displayed inside of the plot
 		no_highlight (bool, optional): plot items will not be highlighted when their legend entry is hovered
-		no_child (bool, optional): a child window region will not be used to capture mouse scroll (can boost performance for single ImGui window applications)
 		query (bool, optional): the user will be able to draw query rects with middle - mouse or CTRL + right - click drag
 		crosshairs (bool, optional): the default mouse cursor will be replaced with a crosshair when hovered
-		anti_aliased (bool, optional): plot lines will be software anti-aliased (not recommended for high density plots, prefer MSAA)
 		equal_aspects (bool, optional): primary x and y axes will be constrained to have the same units/pixel (does not apply to auxiliary y-axes)
 		use_local_time (bool, optional): axis labels will be formatted for your timezone when
 		use_ISO8601 (bool, optional): dates will be formatted according to ISO 8601 where applicable (e.g. YYYY-MM-DD, YYYY-MM, --MM-DD, etc.)
@@ -5334,10 +5332,8 @@ def add_plot(**kwargs):
 		no_box_select (bool, optional): the user will not be able to box-select with right-click drag
 		no_mouse_text (bool, optional): the mouse position, in plot coordinates, will not be displayed inside of the plot
 		no_highlight (bool, optional): plot items will not be highlighted when their legend entry is hovered
-		no_child (bool, optional): a child window region will not be used to capture mouse scroll (can boost performance for single ImGui window applications)
 		query (bool, optional): the user will be able to draw query rects with middle - mouse or CTRL + right - click drag
 		crosshairs (bool, optional): the default mouse cursor will be replaced with a crosshair when hovered
-		anti_aliased (bool, optional): plot lines will be software anti-aliased (not recommended for high density plots, prefer MSAA)
 		equal_aspects (bool, optional): primary x and y axes will be constrained to have the same units/pixel (does not apply to auxiliary y-axes)
 		use_local_time (bool, optional): axis labels will be formatted for your timezone when
 		use_ISO8601 (bool, optional): dates will be formatted according to ISO 8601 where applicable (e.g. YYYY-MM-DD, YYYY-MM, --MM-DD, etc.)

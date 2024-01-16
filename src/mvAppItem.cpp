@@ -2666,10 +2666,8 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "no_box_select", mvArgType::KEYWORD_ARG, "False", "the user will not be able to box-select with right-click drag"});
         args.push_back({ mvPyDataType::Bool, "no_mouse_text", mvArgType::KEYWORD_ARG, "False", "the text of mouse position, in plot coordinates, will not be displayed inside of the plot"});
         args.push_back({ mvPyDataType::Bool, "no_highlight", mvArgType::KEYWORD_ARG, "False", "plot items will not be highlighted when their legend entry is hovered"});
-        args.push_back({ mvPyDataType::Bool, "no_child", mvArgType::KEYWORD_ARG, "False", "a child window region will not be used to capture mouse scroll (can boost performance for single ImGui window applications)"});
         args.push_back({ mvPyDataType::Bool, "query", mvArgType::KEYWORD_ARG, "False", "the user will be able to draw query rects with middle - mouse or CTRL + right - click drag"});
         args.push_back({ mvPyDataType::Bool, "crosshairs", mvArgType::KEYWORD_ARG, "False", "the default mouse cursor will be replaced with a crosshair when hovered"});
-        args.push_back({ mvPyDataType::Bool, "anti_aliased", mvArgType::KEYWORD_ARG, "False", "plot lines will be software anti-aliased (not recommended for high density plots, prefer MSAA)"});
         args.push_back({ mvPyDataType::Bool, "equal_aspects", mvArgType::KEYWORD_ARG, "False", "primary x and y axes will be constrained to have the same units/pixel (does not apply to auxiliary y-axes)"});
         args.push_back({ mvPyDataType::Bool, "use_local_time", mvArgType::KEYWORD_ARG, "False", "axis labels will be formatted for your timezone when" });
         args.push_back({ mvPyDataType::Bool, "use_ISO8601", mvArgType::KEYWORD_ARG, "False", "dates will be formatted according to ISO 8601 where applicable (e.g. YYYY-MM-DD, YYYY-MM, --MM-DD, etc.)" });
