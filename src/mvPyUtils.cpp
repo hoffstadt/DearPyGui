@@ -2233,7 +2233,6 @@ Parse(const mvPythonParser& parser, PyObject* args, PyObject* kwargs, const char
 void
 GenerateStubFile(const std::string& directory)
 {
-    // TODO: Check here on how to do this for documentation
     const auto& commands = GetModuleParsers();
 
     std::ofstream stub;

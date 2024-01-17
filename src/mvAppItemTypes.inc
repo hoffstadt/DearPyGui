@@ -81,8 +81,7 @@
     X( mvStairSeries ) \
     X( mvBarSeries ) \
     X( mvErrorSeries ) \
-    X( mvVLineSeries ) \
-    X( mvHLineSeries ) \
+    X( mvInfLineSeries ) \
     X( mvHeatSeries ) \
     X( mvImageSeries ) \
     X( mvPieSeries ) \

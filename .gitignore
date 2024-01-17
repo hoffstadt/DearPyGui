@@ -13,3 +13,9 @@ lib_location.txt
 version_number.txt
 dearpygui.egg-info/
 build/
+# Ignore only subdirectories
+sandbox/*/
+src/CMakeFiles/
+thirdparty/CMakeFiles/
+thirdparty/Makefile
+thirdparty/cmake_install.cmake
