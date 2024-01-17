@@ -786,10 +786,7 @@ DearPyGui::draw_bar_series(ImDrawList* drawlist, mvAppItem& item, const mvBarSer
 		xptr = &(*config.value.get())[0];
 		yptr = &(*config.value.get())[1];
 
-		// if (config.horizontal)
-		//	ImPlot::PlotBarsH(item.info.internalLabel.c_str(), xptr->data(), yptr->data(), (int)xptr->size(), config.weight);
-		// else
-			ImPlot::PlotBars(item.info.internalLabel.c_str(), xptr->data(), yptr->data(), (int)xptr->size(), config.weight);
+		ImPlot::PlotBars(item.info.internalLabel.c_str(), xptr->data(), yptr->data(), (int)xptr->size(), config.weight, config.flags);
 
 		// Begin a popup for a legend entry.
 		if (ImPlot::BeginLegendPopup(item.info.internalLabel.c_str(), 1))
@@ -828,7 +825,7 @@ DearPyGui::draw_bar_series(ImDrawList* drawlist, mvAppItem& item, const mvBarSer
 }
 
 void
-DearPyGui::draw_line_series(ImDrawList* drawlist, mvAppItem& item, const mvBasicSeriesConfig& config)
+DearPyGui::draw_line_series(ImDrawList* drawlist, mvAppItem& item, const mvLineSeriesConfig& config)
 {
 	//-----------------------------------------------------------------------------
 	// pre draw
@@ -857,7 +854,7 @@ DearPyGui::draw_line_series(ImDrawList* drawlist, mvAppItem& item, const mvBasic
 		xptr = &(*config.value.get())[0];
 		yptr = &(*config.value.get())[1];
 
-		ImPlot::PlotLine(item.info.internalLabel.c_str(), xptr->data(), yptr->data(), (int)xptr->size());
+		ImPlot::PlotLine(item.info.internalLabel.c_str(), xptr->data(), yptr->data(), (int)xptr->size(), config.flags);
 
 		// Begin a popup for a legend entry.
 		if (ImPlot::BeginLegendPopup(item.info.internalLabel.c_str(), 1))
@@ -896,7 +893,7 @@ DearPyGui::draw_line_series(ImDrawList* drawlist, mvAppItem& item, const mvBasic
 }
 
 void
-DearPyGui::draw_scatter_series(ImDrawList* drawlist, mvAppItem& item, const mvBasicSeriesConfig& config)
+DearPyGui::draw_scatter_series(ImDrawList* drawlist, mvAppItem& item, const mvScatterSeriesConfig& config)
 {
 	//-----------------------------------------------------------------------------
 	// pre draw
@@ -925,7 +922,7 @@ DearPyGui::draw_scatter_series(ImDrawList* drawlist, mvAppItem& item, const mvBa
 		xptr = &(*config.value.get())[0];
 		yptr = &(*config.value.get())[1];
 
-		ImPlot::PlotScatter(item.info.internalLabel.c_str(), xptr->data(), yptr->data(), (int)xptr->size());
+		ImPlot::PlotScatter(item.info.internalLabel.c_str(), xptr->data(), yptr->data(), (int)xptr->size(), config.flags);
 
 		// Begin a popup for a legend entry.
 		if (ImPlot::BeginLegendPopup(item.info.internalLabel.c_str(), 1))
@@ -1171,7 +1168,7 @@ DearPyGui::draw_shade_series(ImDrawList* drawlist, mvAppItem& item, const mvBasi
 }
 
 void
-DearPyGui::draw_hline_series(ImDrawList* drawlist, mvAppItem& item, const mvBasicSeriesConfig& config)
+DearPyGui::draw_inf_lines_series(ImDrawList* drawlist, mvAppItem& item, const mvInfLineSeriesConfig& config)
 {
 	//-----------------------------------------------------------------------------
 	// pre draw
@@ -1198,73 +1195,7 @@ DearPyGui::draw_hline_series(ImDrawList* drawlist, mvAppItem& item, const mvBasi
 
 		xptr = &(*config.value.get())[0];
 
-		// ImPlot::PlotHLines(item.info.internalLabel.c_str(), xptr->data(), (int)xptr->size());
-
-		// Begin a popup for a legend entry.
-		if (ImPlot::BeginLegendPopup(item.info.internalLabel.c_str(), 1))
-		{
-			for (auto& childset : item.childslots)
-			{
-				for (auto& item : childset)
-				{
-					// skip item if it's not shown
-					if (!item->config.show)
-						continue;
-					item->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
-					UpdateAppItemState(item->state);
-				}
-			}
-			ImPlot::EndLegendPopup();
-		}
-	}
-
-	//-----------------------------------------------------------------------------
-	// update state
-	//   * only update if applicable
-	//-----------------------------------------------------------------------------
-
-
-	//-----------------------------------------------------------------------------
-	// post draw
-	//-----------------------------------------------------------------------------
-
-	// pop font off stack
-	if (item.font)
-		ImGui::PopFont();
-
-	// handle popping themes
-	cleanup_local_theming(&item);
-}
-
-void
-DearPyGui::draw_vline_series(ImDrawList* drawlist, mvAppItem& item, const mvBasicSeriesConfig& config)
-{
-	//-----------------------------------------------------------------------------
-	// pre draw
-	//-----------------------------------------------------------------------------
-	if (!item.config.show)
-		return;
-
-	// push font if a font object is attached
-	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
-
-	// themes
-	apply_local_theming(&item);
-
-	//-----------------------------------------------------------------------------
-	// draw
-	//-----------------------------------------------------------------------------
-	{
-
-		static const std::vector<double>* xptr;
-
-		xptr = &(*config.value.get())[0];
-
-		// ImPlot::PlotVLines(item.info.internalLabel.c_str(), xptr->data(), (int)xptr->size());
+		ImPlot::PlotInfLines(item.info.internalLabel.c_str(), xptr->data(), (int)xptr->size(), config.flags);
 
 		// Begin a popup for a legend entry.
 		if (ImPlot::BeginLegendPopup(item.info.internalLabel.c_str(), 1))
@@ -1333,7 +1264,7 @@ DearPyGui::draw_2dhistogram_series(ImDrawList* drawlist, mvAppItem& item, const 
 		yptr = &(*config.value.get())[1];
 
 		ImPlot::PlotHistogram2D(item.info.internalLabel.c_str(), xptr->data(), yptr->data(), (int)xptr->size(),
-			config.xbins, config.ybins, ImPlotRect(config.xmin, config.xmax, config.ymin, config.ymax), 0); // TODO 0 for flags
+			config.xbins, config.ybins, ImPlotRect(config.xmin, config.xmax, config.ymin, config.ymax), config.flags);
 
 		// Begin a popup for a legend entry.
 		if (ImPlot::BeginLegendPopup(item.info.internalLabel.c_str(), 1))
@@ -1405,10 +1336,7 @@ DearPyGui::draw_error_series(ImDrawList* drawlist, mvAppItem& item, const mvErro
 		zptr = &(*config.value.get())[2];
 		wptr = &(*config.value.get())[3];
 
-		// if (config.horizontal)
-		// 	ImPlot::PlotErrorBarsH(item.info.internalLabel.c_str(), xptr->data(), yptr->data(), zptr->data(), wptr->data(), (int)xptr->size());
-		// else
-			ImPlot::PlotErrorBars(item.info.internalLabel.c_str(), xptr->data(), yptr->data(), zptr->data(), wptr->data(), (int)xptr->size());
+		ImPlot::PlotErrorBars(item.info.internalLabel.c_str(), xptr->data(), yptr->data(), zptr->data(), wptr->data(), (int)xptr->size(), config.flags);
 
 		// Begin a popup for a legend entry.
 		if (ImPlot::BeginLegendPopup(item.info.internalLabel.c_str(), 1))
@@ -1543,7 +1471,7 @@ DearPyGui::draw_histogram_series(ImDrawList* drawlist, mvAppItem& item, const mv
 		xptr = &(*config.value.get())[0];
 
 		ImPlot::PlotHistogram(item.info.internalLabel.c_str(), xptr->data(), (int)xptr->size(), config.bins,
-			(double)config.barScale, ImPlotRange(config.min, config.max), 0); // TODO 0 for flags
+			(double)config.barScale, ImPlotRange(config.min, config.max), config.flags);
 
 		// Begin a popup for a legend entry.
 		if (ImPlot::BeginLegendPopup(item.info.internalLabel.c_str(), 1))
@@ -1611,7 +1539,7 @@ DearPyGui::draw_pie_series(ImDrawList* drawlist, mvAppItem& item, const mvPieSer
 		xptr = &(*config.value.get())[0];
 
 		ImPlot::PlotPieChart(config.clabels.data(), xptr->data(), (int)config.labels.size(),
-			config.x, config.y, config.radius, config.format.c_str(), config.angle, 0); // TODO 0 for flags
+			config.x, config.y, config.radius, config.format.c_str(), config.angle, config.flags);
 
 		// Begin a popup for a legend entry.
 		if (ImPlot::BeginLegendPopup(item.info.internalLabel.c_str(), 1))
@@ -1680,7 +1608,7 @@ DearPyGui::draw_label_series(ImDrawList* drawlist, mvAppItem& item, const mvLabe
 		yptr = &(*config.value.get())[1];
 
 		ImPlot::PlotText(item.info.internalLabel.c_str(), (*xptr)[0], (*yptr)[0],
-			ImVec2((float)config.xoffset, (float)config.yoffset), 0); // TODO: 0 for flags
+			ImVec2((float)config.xoffset, (float)config.yoffset), config.flags);
 
 		// Begin a popup for a legend entry.
 		if (ImPlot::BeginLegendPopup(item.info.internalLabel.c_str(), 1))
@@ -2145,6 +2073,16 @@ DearPyGui::draw_plot_annotation(ImDrawList* drawlist, mvAppItem& item, mvAnnotat
 }
 
 void
+DearPyGui::set_positional_configuration(PyObject* inDict, mvLineSeriesConfig& outConfig)
+{
+	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(mvAppItemType::mvLineSeries)], inDict))
+		return; // TODO: Check if this is okay
+
+	for(int i = 0; i < PyTuple_Size(inDict); i++)
+		(*outConfig.value)[i] = ToDoubleVect(PyTuple_GetItem(inDict, i));
+}
+
+void
 DearPyGui::set_positional_configuration(PyObject* inDict, mvBarSeriesConfig& outConfig)
 {
 	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(mvAppItemType::mvBarSeries)], inDict))
@@ -2152,6 +2090,15 @@ DearPyGui::set_positional_configuration(PyObject* inDict, mvBarSeriesConfig& out
 
 	(*outConfig.value)[0] = ToDoubleVect(PyTuple_GetItem(inDict, 0));
 	(*outConfig.value)[1] = ToDoubleVect(PyTuple_GetItem(inDict, 1));
+}
+
+void
+DearPyGui::set_positional_configuration(PyObject* inDict, mvInfLineSeriesConfig& outConfig)
+{
+	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(mvAppItemType::mvInfLineSeries)], inDict))
+		return;
+
+	(*outConfig.value)[0] = ToDoubleVect(PyTuple_GetItem(inDict, 0));
 }
 
 void
@@ -2179,6 +2126,16 @@ DearPyGui::set_positional_configuration(PyObject* inDict, mv2dHistogramSeriesCon
 
 	(*outConfig.value)[0] = ToDoubleVect(PyTuple_GetItem(inDict, 0));
 	(*outConfig.value)[1] = ToDoubleVect(PyTuple_GetItem(inDict, 1));
+}
+
+void
+DearPyGui::set_positional_configuration(PyObject* inDict, mvScatterSeriesConfig& outConfig)
+{
+	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(mvAppItemType::mvScatterSeries)], inDict))
+		return; // TODO: Check if this is okay
+
+	for(int i = 0; i < PyTuple_Size(inDict); i++)
+		(*outConfig.value)[i] = ToDoubleVect(PyTuple_GetItem(inDict, i));
 }
 
 void
@@ -2488,16 +2445,84 @@ DearPyGui::set_configuration(PyObject* inDict, mvPlotLegendConfig& outConfig, mv
 }
 
 void
+DearPyGui::set_configuration(PyObject* inDict, mvLineSeriesConfig& outConfig)
+{
+	if (inDict == nullptr)
+		return;
+
+	if (PyObject* item = PyDict_GetItemString(inDict, "x")) { (*outConfig.value)[0] = ToDoubleVect(item); }
+	if (PyObject* item = PyDict_GetItemString(inDict, "y")) { (*outConfig.value)[1] = ToDoubleVect(item); }
+
+	// helper for bit flipping
+	auto flagop = [inDict](const char* keyword, int flag, int& flags)
+	{
+		if (PyObject* item = PyDict_GetItemString(inDict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+	};
+
+	// flags
+	flagop("segments", ImPlotLineFlags_Segments, outConfig.flags);
+	flagop("loop", ImPlotLineFlags_Loop, outConfig.flags);
+	flagop("skip_nan", ImPlotLineFlags_SkipNaN, outConfig.flags);
+	flagop("no_clip", ImPlotLineFlags_NoClip, outConfig.flags);
+	flagop("shaded", ImPlotLineFlags_Shaded, outConfig.flags);
+}
+
+void
 DearPyGui::set_configuration(PyObject* inDict, mvBarSeriesConfig& outConfig)
 {
 	if (inDict == nullptr)
 		return;
 
-	if (PyObject* item = PyDict_GetItemString(inDict, "horizontal")) outConfig.horizontal = ToBool(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "weight")) outConfig.weight = ToFloat(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "x")) { (*outConfig.value)[0] = ToDoubleVect(item); }
 	if (PyObject* item = PyDict_GetItemString(inDict, "y")) { (*outConfig.value)[1] = ToDoubleVect(item); }
 
+	// helper for bit flipping
+	auto flagop = [inDict](const char* keyword, int flag, int& flags)
+	{
+		if (PyObject* item = PyDict_GetItemString(inDict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+	};
+
+	// flags
+	flagop("horizontal", ImPlotBarsFlags_Horizontal, outConfig.flags);
+}
+
+void
+DearPyGui::set_configuration(PyObject* inDict, mvInfLineSeriesConfig& outConfig)
+{
+	if (inDict == nullptr)
+		return;
+
+	if (PyObject* item = PyDict_GetItemString(inDict, "x")) { (*outConfig.value)[0] = ToDoubleVect(item); }
+
+	// helper for bit flipping
+	auto flagop = [inDict](const char* keyword, int flag, int& flags)
+	{
+		if (PyObject* item = PyDict_GetItemString(inDict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+	};
+
+	// flags
+	flagop("horizontal", ImPlotInfLinesFlags_Horizontal, outConfig.flags);
+}
+
+void
+DearPyGui::set_configuration(PyObject* inDict, mvScatterSeriesConfig& outConfig)
+{
+	if (inDict == nullptr)
+		return;
+
+	// TODO: Check this x/y assignment values
+	if (PyObject* item = PyDict_GetItemString(inDict, "x")) { (*outConfig.value)[0] = ToDoubleVect(item); }
+	if (PyObject* item = PyDict_GetItemString(inDict, "y")) { (*outConfig.value)[1] = ToDoubleVect(item); }
+
+	// helper for bit flipping
+	auto flagop = [inDict](const char* keyword, int flag, int& flags)
+	{
+		if (PyObject* item = PyDict_GetItemString(inDict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+	};
+
+	// flags
+	flagop("no_clip", ImPlotScatterFlags_NoClip, outConfig.flags);
 }
 
 void
@@ -2537,8 +2562,17 @@ DearPyGui::set_configuration(PyObject* inDict, mv2dHistogramSeriesConfig& outCon
 	if (PyObject* item = PyDict_GetItemString(inDict, "xmax_range")) { outConfig.xmax = ToDouble(item); }
 	if (PyObject* item = PyDict_GetItemString(inDict, "ymin_range")) { outConfig.ymin = ToDouble(item); }
 	if (PyObject* item = PyDict_GetItemString(inDict, "ymax_range")) { outConfig.ymax = ToDouble(item); }
-	if (PyObject* item = PyDict_GetItemString(inDict, "density")) { outConfig.density = ToBool(item); }
-	if (PyObject* item = PyDict_GetItemString(inDict, "outliers")) { outConfig.outliers = ToBool(item); }
+
+	// helper for bit flipping
+	auto flagop = [inDict](const char* keyword, int flag, int& flags)
+	{
+		if (PyObject* item = PyDict_GetItemString(inDict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+	};
+
+	// 2D histogram series flags
+	flagop("density", ImPlotHistogramFlags_Density, outConfig.flags);
+	flagop("outliers", ImPlotHistogramFlags_NoOutliers, outConfig.flags);
+	flagop("col_major", ImPlotHistogramFlags_ColMajor, outConfig.flags);
 }
 
 void
@@ -2547,11 +2581,19 @@ DearPyGui::set_configuration(PyObject* inDict, mvErrorSeriesConfig& outConfig)
 	if (inDict == nullptr)
 		return;
 
-	if (PyObject* item = PyDict_GetItemString(inDict, "horizontal")) outConfig.horizontal = ToBool(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "x")) { (*outConfig.value)[0] = ToDoubleVect(item); }
 	if (PyObject* item = PyDict_GetItemString(inDict, "y")) { (*outConfig.value)[1] = ToDoubleVect(item); }
 	if (PyObject* item = PyDict_GetItemString(inDict, "negative")) { (*outConfig.value)[2] = ToDoubleVect(item); }
 	if (PyObject* item = PyDict_GetItemString(inDict, "positive")) { (*outConfig.value)[3] = ToDoubleVect(item); }
+	
+	// helper for bit flipping
+	auto flagop = [inDict](const char* keyword, int flag, int& flags)
+	{
+		if (PyObject* item = PyDict_GetItemString(inDict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+	};
+
+	// error series flags
+	flagop("horizontal", ImPlotErrorBarsFlags_Horizontal, outConfig.flags);
 }
 
 void
@@ -2589,9 +2631,20 @@ DearPyGui::set_configuration(PyObject* inDict, mvHistogramSeriesConfig& outConfi
 	if (PyObject* item = PyDict_GetItemString(inDict, "bar_scale")) { outConfig.barScale = ToFloat(item); }
 	if (PyObject* item = PyDict_GetItemString(inDict, "min_range")) { outConfig.min = ToDouble(item); }
 	if (PyObject* item = PyDict_GetItemString(inDict, "max_range")) { outConfig.max = ToDouble(item); }
-	if (PyObject* item = PyDict_GetItemString(inDict, "cumlative")) { outConfig.cumlative = ToBool(item); }
-	if (PyObject* item = PyDict_GetItemString(inDict, "density")) { outConfig.density = ToBool(item); }
-	if (PyObject* item = PyDict_GetItemString(inDict, "outliers")) { outConfig.outliers = ToBool(item); }
+
+	// helper for bit flipping
+	auto flagop = [inDict](const char* keyword, int flag, int& flags)
+	{
+		if (PyObject* item = PyDict_GetItemString(inDict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+	};
+
+	// histogram series flags
+	flagop("cumulative", ImPlotHistogramFlags_Cumulative, outConfig.flags);
+	flagop("density", ImPlotHistogramFlags_Density, outConfig.flags);
+	flagop("outliers", ImPlotHistogramFlags_NoOutliers, outConfig.flags);  // TODO: Check if outliers is the same as flag "noOutliers"
+	flagop("horizontal", ImPlotHistogramFlags_Horizontal, outConfig.flags);
+	// TODO: Update docs
+
 }
 
 void
@@ -2605,7 +2658,6 @@ DearPyGui::set_configuration(PyObject* inDict, mvPieSeriesConfig& outConfig)
 	if (PyObject* item = PyDict_GetItemString(inDict, "y")) outConfig.y = ToDouble(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "radius")) outConfig.radius = ToDouble(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "angle")) outConfig.angle = ToDouble(item);
-	if (PyObject* item = PyDict_GetItemString(inDict, "normalize")) outConfig.normalize = ToBool(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "labels"))
 	{
 		outConfig.labels = ToStringVect(item);
@@ -2616,6 +2668,15 @@ DearPyGui::set_configuration(PyObject* inDict, mvPieSeriesConfig& outConfig)
 
 	if (PyObject* item = PyDict_GetItemString(inDict, "values")) { (*outConfig.value)[0] = ToDoubleVect(item); }
 
+	// helper for bit flipping
+	auto flagop = [inDict](const char* keyword, int flag, int& flags)
+	{
+		if (PyObject* item = PyDict_GetItemString(inDict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+	};
+
+	// pie chart flags
+	flagop("normalize", ImPlotPieChartFlags_Normalize, outConfig.flags);
+	flagop("ignore_hidden", ImPlotPieChartFlags_IgnoreHidden, outConfig.flags);
 }
 
 void
@@ -2624,12 +2685,20 @@ DearPyGui::set_configuration(PyObject* inDict, mvLabelSeriesConfig& outConfig)
 	if (inDict == nullptr)
 		return;
 
-	if (PyObject* item = PyDict_GetItemString(inDict, "vertical")) outConfig.vertical = ToBool(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "x_offset")) outConfig.xoffset = ToInt(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "y_offset")) outConfig.yoffset = ToInt(item);
 
 	if (PyObject* item = PyDict_GetItemString(inDict, "x")) { (*outConfig.value)[0] = ToDoubleVect(item); }
 	if (PyObject* item = PyDict_GetItemString(inDict, "y")) { (*outConfig.value)[1] = ToDoubleVect(item); }
+
+	// helper for bit flipping
+	auto flagop = [inDict](const char* keyword, int flag, int& flags)
+	{
+		if (PyObject* item = PyDict_GetItemString(inDict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+	};
+
+	// plot text flags
+	flagop("vertical", ImPlotTextFlags_Vertical, outConfig.flags);
 
 }
 
@@ -2936,16 +3005,73 @@ DearPyGui::fill_configuration_dict(const mvPlotLegendConfig& inConfig, PyObject*
 }
 
 void
+DearPyGui::fill_configuration_dict(const mvLineSeriesConfig& inConfig, PyObject* outDict)
+{
+	if (outDict == nullptr)
+		return;
+
+	// helper to check and set bit
+	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)
+	{
+		PyDict_SetItemString(outDict, keyword, mvPyObject(ToPyBool(flags & flag)));
+	};
+
+	// flags
+	checkbitset("segments", ImPlotLineFlags_Segments, inConfig.flags);
+	checkbitset("loop", ImPlotLineFlags_Loop, inConfig.flags);
+	checkbitset("skip_nan", ImPlotLineFlags_SkipNaN, inConfig.flags);
+	checkbitset("no_clip", ImPlotLineFlags_NoClip, inConfig.flags);
+	checkbitset("shaded", ImPlotLineFlags_Shaded, inConfig.flags);
+}
+
+void
 DearPyGui::fill_configuration_dict(const mvBarSeriesConfig& inConfig, PyObject* outDict)
 {
 	if (outDict == nullptr)
 		return;
 
-	mvPyObject py_horizontal = ToPyBool(inConfig.horizontal);
-	mvPyObject py_weight = ToPyFloat(inConfig.weight);
+	PyDict_SetItemString(outDict, "weight", ToPyFloat(inConfig.weight));
 
-	PyDict_SetItemString(outDict, "horizontal", py_horizontal);
-	PyDict_SetItemString(outDict, "weight", py_weight);
+	// helper to check and set bit
+	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)
+	{
+		PyDict_SetItemString(outDict, keyword, mvPyObject(ToPyBool(flags & flag)));
+	};
+
+	// bar flags
+	checkbitset("horizontal", ImPlotBarsFlags_Horizontal, inConfig.flags);
+}
+
+void
+DearPyGui::fill_configuration_dict(const mvInfLineSeriesConfig& inConfig, PyObject* outDict)
+{
+	if (outDict == nullptr)
+		return;
+
+	// helper to check and set bit
+	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)
+	{
+		PyDict_SetItemString(outDict, keyword, mvPyObject(ToPyBool(flags & flag)));
+	};
+
+	// flags
+	checkbitset("horizontal", ImPlotInfLinesFlags_Horizontal, inConfig.flags);
+}
+
+void
+DearPyGui::fill_configuration_dict(const mvScatterSeriesConfig& inConfig, PyObject* outDict)
+{
+	if (outDict == nullptr)
+		return;
+
+	// helper to check and set bit
+	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)
+	{
+		PyDict_SetItemString(outDict, keyword, mvPyObject(ToPyBool(flags & flag)));
+	};
+
+	// flags
+	checkbitset("no_clip", ImPlotScatterFlags_NoClip, inConfig.flags);
 }
 
 void
@@ -2967,8 +3093,18 @@ DearPyGui::fill_configuration_dict(const mv2dHistogramSeriesConfig& inConfig, Py
 	PyDict_SetItemString(outDict, "xmax_range", mvPyObject(ToPyBool(inConfig.xmax)));
 	PyDict_SetItemString(outDict, "ymin_range", mvPyObject(ToPyBool(inConfig.ymin)));
 	PyDict_SetItemString(outDict, "ymax_range", mvPyObject(ToPyBool(inConfig.ymax)));
-	PyDict_SetItemString(outDict, "density", mvPyObject(ToPyBool(inConfig.density)));
-	PyDict_SetItemString(outDict, "outliers", mvPyObject(ToPyBool(inConfig.outliers)));
+
+	// helper to check and set bit
+	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)
+	{
+		mvPyObject py_result = ToPyBool(flags & flag);
+		PyDict_SetItemString(outDict, keyword, py_result);
+	};
+
+	// flags
+	checkbitset("density", ImPlotHistogramFlags_Density, inConfig.flags);
+	checkbitset("outliers", ImPlotHistogramFlags_NoOutliers, inConfig.flags);
+	checkbitset("col_amjor", ImPlotHistogramFlags_ColMajor, inConfig.flags);
 }
 
 void
@@ -2976,8 +3112,16 @@ DearPyGui::fill_configuration_dict(const mvErrorSeriesConfig& inConfig, PyObject
 {
 	if (outDict == nullptr)
 		return;
+	
+	// helper to check and set bit
+	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)
+	{
+		mvPyObject py_result = ToPyBool(flags & flag);
+		PyDict_SetItemString(outDict, keyword, py_result);
+	};
 
-	PyDict_SetItemString(outDict, "horizontal", mvPyObject(ToPyBool(inConfig.horizontal)));
+	// flags
+	checkbitset("horizontal", ImPlotErrorBarsFlags_Horizontal, inConfig.flags);
 }
 
 void
@@ -3005,9 +3149,19 @@ DearPyGui::fill_configuration_dict(const mvHistogramSeriesConfig& inConfig, PyOb
 	PyDict_SetItemString(outDict, "bar_scale", mvPyObject(ToPyBool(inConfig.barScale)));
 	PyDict_SetItemString(outDict, "min_range", mvPyObject(ToPyBool(inConfig.min)));
 	PyDict_SetItemString(outDict, "max_range", mvPyObject(ToPyBool(inConfig.max)));
-	PyDict_SetItemString(outDict, "cumlative", mvPyObject(ToPyBool(inConfig.cumlative)));
-	PyDict_SetItemString(outDict, "density", mvPyObject(ToPyBool(inConfig.density)));
-	PyDict_SetItemString(outDict, "outliers", mvPyObject(ToPyBool(inConfig.outliers)));
+	
+	// helper to check and set bit
+	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)
+	{
+		mvPyObject py_result = ToPyBool(flags & flag);
+		PyDict_SetItemString(outDict, keyword, py_result);
+	};
+
+	// histogram flags
+	checkbitset("horizontal", ImPlotHistogramFlags_Horizontal, inConfig.flags);
+	checkbitset("cumulative", ImPlotHistogramFlags_Cumulative, inConfig.flags);
+	checkbitset("outliers", ImPlotHistogramFlags_NoOutliers, inConfig.flags);
+	checkbitset("density", ImPlotHistogramFlags_Density, inConfig.flags);
 }
 
 void
@@ -3021,8 +3175,18 @@ DearPyGui::fill_configuration_dict(const mvPieSeriesConfig& inConfig, PyObject* 
 	PyDict_SetItemString(outDict, "y", mvPyObject(ToPyDouble(inConfig.y)));
 	PyDict_SetItemString(outDict, "radius", mvPyObject(ToPyDouble(inConfig.radius)));
 	PyDict_SetItemString(outDict, "angle", mvPyObject(ToPyDouble(inConfig.angle)));
-	PyDict_SetItemString(outDict, "normalize", mvPyObject(ToPyBool(inConfig.normalize)));
 	PyDict_SetItemString(outDict, "labels", mvPyObject(ToPyList(inConfig.labels)));
+
+	// helper to check and set bit
+	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)
+	{
+		mvPyObject py_result = ToPyBool(flags & flag);
+		PyDict_SetItemString(outDict, keyword, py_result);
+	};
+
+	// pie chart flags
+	checkbitset("normalize", ImPlotPieChartFlags_Normalize, inConfig.flags);
+	checkbitset("ignore_hidden", ImPlotPieChartFlags_IgnoreHidden, inConfig.flags);
 }
 
 void
@@ -3031,9 +3195,18 @@ DearPyGui::fill_configuration_dict(const mvLabelSeriesConfig& inConfig, PyObject
 	if (outDict == nullptr)
 		return;
 
-	PyDict_SetItemString(outDict, "vertical", mvPyObject(ToPyBool(inConfig.vertical)));
 	PyDict_SetItemString(outDict, "x_offset", mvPyObject(ToPyInt(inConfig.xoffset)));
 	PyDict_SetItemString(outDict, "y_offset", mvPyObject(ToPyInt(inConfig.yoffset)));
+
+	// helper to check and set bit
+	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)
+	{
+		mvPyObject py_result = ToPyBool(flags & flag);
+		PyDict_SetItemString(outDict, keyword, py_result);
+	};
+
+	// plot text flags
+	checkbitset("vertical", ImPlotTextFlags_Vertical, inConfig.flags);
 }
 
 void
@@ -3135,7 +3308,7 @@ DearPyGui::fill_configuration_dict(const mvPlotAxisConfig& inConfig, PyObject* o
 	checkbitset("no_gridlines", ImPlotAxisFlags_NoGridLines, inConfig.flags);
 	checkbitset("no_tick_marks", ImPlotAxisFlags_NoTickMarks, inConfig.flags);
 	checkbitset("no_tick_labels", ImPlotAxisFlags_NoTickLabels, inConfig.flags);
-	//checkbitset("log_scale", ImPlotAxisFlags_LogScale, inConfig.flags);
+	//checkbitset("log_scale", ImPlotAxisFlags_LogScale, inConfig.flags); // TODO: Finish this
 	checkbitset("invert", ImPlotAxisFlags_Invert, inConfig.flags);
 	checkbitset("lock_min", ImPlotAxisFlags_LockMin, inConfig.flags);
 	checkbitset("lock_max", ImPlotAxisFlags_LockMax, inConfig.flags);

@@ -934,8 +934,7 @@ DearPyGui::GetEntityDesciptionFlags(mvAppItemType type)
     case mvAppItemType::mvHeatSeries:
     case mvAppItemType::mvHistogramSeries:
     case mvAppItemType::mvImageSeries:
-    case mvAppItemType::mvVLineSeries:
-    case mvAppItemType::mvHLineSeries:
+    case mvAppItemType::mvInfLineSeries:
     case mvAppItemType::mvLabelSeries:
     case mvAppItemType::mvLineSeries:
     case mvAppItemType::mvPieSeries:
@@ -1105,8 +1104,7 @@ DearPyGui::GetEntityValueType(mvAppItemType type)
     case mvAppItemType::mvHeatSeries:
     case mvAppItemType::mvHistogramSeries:
     case mvAppItemType::mvImageSeries:
-    case mvAppItemType::mvVLineSeries:
-    case mvAppItemType::mvHLineSeries:
+    case mvAppItemType::mvInfLineSeries:
     case mvAppItemType::mvLabelSeries:
     case mvAppItemType::mvLineSeries:
     case mvAppItemType::mvPieSeries:
@@ -1370,8 +1368,7 @@ DearPyGui::GetAllowableParents(mvAppItemType type)
     case mvAppItemType::mvHeatSeries:
     case mvAppItemType::mvHistogramSeries:
     case mvAppItemType::mvImageSeries:
-    case mvAppItemType::mvVLineSeries:
-    case mvAppItemType::mvHLineSeries:
+    case mvAppItemType::mvInfLineSeries:
     case mvAppItemType::mvLabelSeries:
     case mvAppItemType::mvLineSeries:
     case mvAppItemType::mvPieSeries:
@@ -3898,6 +3895,11 @@ DearPyGui::GetEntityParser(mvAppItemType type)
 
         args.push_back({ mvPyDataType::DoubleList, "x" });
         args.push_back({ mvPyDataType::DoubleList, "y" });
+        args.push_back({ mvPyDataType::Bool, "segments", mvArgType::KEYWORD_ARG, "False", "a line segment will be rendered from every two consecutive points" });
+        args.push_back({ mvPyDataType::Bool, "loop", mvArgType::KEYWORD_ARG, "False", "the last and first point will be connected to form a closed loop" });
+        args.push_back({ mvPyDataType::Bool, "skip_nan", mvArgType::KEYWORD_ARG, "False", "NaNs values will be skipped instead of rendered as missing data" });
+        args.push_back({ mvPyDataType::Bool, "no_clip", mvArgType::KEYWORD_ARG, "False", "markers (if displayed) on the edge of a plot will not be clipped" });
+        args.push_back({ mvPyDataType::Bool, "shaded", mvArgType::KEYWORD_ARG, "False", "a filled region between the line and horizontal origin will be rendered; use PlotShaded for more advanced cases" });
 
         setup.about = "Adds a line series to a plot.";
         setup.category = { "Plotting", "Containers", "Widgets" };
@@ -3915,6 +3917,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
 
         args.push_back({ mvPyDataType::DoubleList, "x" });
         args.push_back({ mvPyDataType::DoubleList, "y" });
+        args.push_back({ mvPyDataType::Bool, "no_clip", mvArgType::KEYWORD_ARG, "False", "markers on the edge of a plot will not be clipped" });
 
         setup.about = "Adds a scatter series to a plot.";
         setup.category = { "Plotting", "Containers", "Widgets" };
@@ -3933,6 +3936,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
 
         args.push_back({ mvPyDataType::DoubleList, "x" });
         args.push_back({ mvPyDataType::DoubleList, "y" });
+        args.push_back({ mvPyDataType::Bool, "horizontal", mvArgType::KEYWORD_ARG, "False", "stems will be rendered horizontally on the current y-axis" });
 
         setup.about = "Adds a stem series to a plot.";
         setup.category = { "Plotting", "Containers", "Widgets" };
@@ -3950,6 +3954,8 @@ DearPyGui::GetEntityParser(mvAppItemType type)
 
         args.push_back({ mvPyDataType::DoubleList, "x" });
         args.push_back({ mvPyDataType::DoubleList, "y" });
+        args.push_back({ mvPyDataType::Bool, "pre_step", mvArgType::KEYWORD_ARG, "False", "the y value is continued constantly to the left from every x position, i.e. the interval (x[i-1], x[i]] has the value y[i]" });
+        args.push_back({ mvPyDataType::Bool, "shaded", mvArgType::KEYWORD_ARG, "False", "a filled region between the line and horizontal origin will be rendered; use PlotShaded for more advanced cases" });
 
         setup.about = "Adds a stair series to a plot.";
         setup.category = { "Plotting", "Containers", "Widgets" };
@@ -3968,7 +3974,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::DoubleList, "x" });
         args.push_back({ mvPyDataType::DoubleList, "y" });
         args.push_back({ mvPyDataType::Float, "weight", mvArgType::KEYWORD_ARG, "1.0" });
-        args.push_back({ mvPyDataType::Bool, "horizontal", mvArgType::KEYWORD_ARG, "False" });
+        args.push_back({ mvPyDataType::Bool, "horizontal", mvArgType::KEYWORD_ARG, "False", "bars will be rendered horizontally on the current y-axis" });
 
         setup.about = "Adds a bar series to a plot.";
         setup.category = { "Plotting", "Containers", "Widgets" };
@@ -3995,7 +4001,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Plotting", "Containers", "Widgets" };
         break;
     }
-    case mvAppItemType::mvVLineSeries:                 
+    case mvAppItemType::mvInfLineSeries:                 
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -4006,24 +4012,9 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         );
 
         args.push_back({ mvPyDataType::DoubleList, "x" });
+        args.push_back({ mvPyDataType::Bool, "horizontal", mvArgType::KEYWORD_ARG, "False" });
 
-        setup.about = "Adds an infinite vertical line series to a plot.";
-        setup.category = { "Plotting", "Containers", "Widgets" };
-        break;
-    }
-    case mvAppItemType::mvHLineSeries:                 
-    {
-        AddCommonArgs(args, (CommonParserArgs)(
-            MV_PARSER_ARG_ID |
-            MV_PARSER_ARG_PARENT |
-            MV_PARSER_ARG_BEFORE |
-            MV_PARSER_ARG_SOURCE |
-            MV_PARSER_ARG_SHOW)
-        );
-
-        args.push_back({ mvPyDataType::DoubleList, "x" });
-
-        setup.about = "Adds an infinite horizontal line series to a plot.";
+        setup.about = "Adds an infinite line series to a plot.";
         setup.category = { "Plotting", "Containers", "Widgets" };
         break;
     }
@@ -4046,6 +4037,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::DoubleList, "bounds_max", mvArgType::KEYWORD_ARG, "(1.0, 1.0)" });
         args.push_back({ mvPyDataType::String, "format", mvArgType::KEYWORD_ARG, "'%0.1f'" });
         args.push_back({ mvPyDataType::Bool, "contribute_to_bounds", mvArgType::KEYWORD_ARG, "True" });
+        args.push_back({ mvPyDataType::Bool, "col_major", mvArgType::KEYWORD_ARG, "False", "data will be read in column major order" });
 
         setup.about = "Adds a heat series to a plot.";
         setup.category = { "Plotting", "Containers", "Widgets" };
@@ -4089,7 +4081,8 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::StringList, "labels" });
         args.push_back({ mvPyDataType::String, "format", mvArgType::KEYWORD_ARG, "'%0.2f'" });
         args.push_back({ mvPyDataType::Double, "angle", mvArgType::KEYWORD_ARG, "90.0" });
-        args.push_back({ mvPyDataType::Bool, "normalize", mvArgType::KEYWORD_ARG, "False" });
+        args.push_back({ mvPyDataType::Bool, "normalize", mvArgType::KEYWORD_ARG, "False", "force normalization of pie chart values (i.e. always make a full circle if sum < 0)" });
+        args.push_back({ mvPyDataType::Bool, "ignore_hidden", mvArgType::KEYWORD_ARG, "False", "ignore hidden slices when drawing the pie chart (as if they were not there)" });
 
         setup.about = "Adds an pie series to a plot.";
         setup.category = { "Plotting", "Containers", "Widgets" };
@@ -4148,9 +4141,10 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Float, "bar_scale", mvArgType::KEYWORD_ARG, "1.0" });
         args.push_back({ mvPyDataType::Double, "min_range", mvArgType::KEYWORD_ARG, "0.0" });
         args.push_back({ mvPyDataType::Double, "max_range", mvArgType::KEYWORD_ARG, "1.0" });
-        args.push_back({ mvPyDataType::Bool, "cumlative", mvArgType::KEYWORD_ARG, "False" });
-        args.push_back({ mvPyDataType::Bool, "density", mvArgType::KEYWORD_ARG, "False" });
-        args.push_back({ mvPyDataType::Bool, "outliers", mvArgType::KEYWORD_ARG, "True" });
+        args.push_back({ mvPyDataType::Bool, "cumulative", mvArgType::KEYWORD_ARG, "False", "each bin will contain its count plus the counts of all previous bins (not supported by PlotHistogram2D)" });
+        args.push_back({ mvPyDataType::Bool, "density", mvArgType::KEYWORD_ARG, "False", "counts will be normalized, i.e. the PDF will be visualized, or the CDF will be visualized if Cumulative is also set" });
+        args.push_back({ mvPyDataType::Bool, "no_outliers", mvArgType::KEYWORD_ARG, "False", "exclude values outside the specifed histogram range from the count toward normalizing and cumulative counts" });
+        args.push_back({ mvPyDataType::Bool, "horizontal", mvArgType::KEYWORD_ARG, "False", "histogram bars will be rendered horizontally (not supported by PlotHistogram2D)" });
         args.push_back({ mvPyDataType::Bool, "contribute_to_bounds", mvArgType::KEYWORD_ARG, "True" });
 
         setup.about = "Adds a histogram series to a plot.";
@@ -4175,8 +4169,9 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Double, "xmax_range", mvArgType::KEYWORD_ARG, "1.0" });
         args.push_back({ mvPyDataType::Double, "ymin_range", mvArgType::KEYWORD_ARG, "0.0" });
         args.push_back({ mvPyDataType::Double, "ymax_range", mvArgType::KEYWORD_ARG, "1.0" });
-        args.push_back({ mvPyDataType::Bool, "density", mvArgType::KEYWORD_ARG, "False" });
-        args.push_back({ mvPyDataType::Bool, "outliers", mvArgType::KEYWORD_ARG, "True" });
+        args.push_back({ mvPyDataType::Bool, "density", mvArgType::KEYWORD_ARG, "False", "counts will be normalized, i.e. the PDF will be visualized, or the CDF will be visualized if Cumulative is also set" });
+        args.push_back({ mvPyDataType::Bool, "no_outliers", mvArgType::KEYWORD_ARG, "False", "exclude values outside the specifed histogram range from the count toward normalizing and cumulative counts" });
+        args.push_back({ mvPyDataType::Bool, "col_major", mvArgType::KEYWORD_ARG, "False", "data will be read in column major order (not supported by PlotHistogram)" });
 
         setup.about = "Adds a 2d histogram series.";
         setup.category = { "Plotting", "Containers", "Widgets" };

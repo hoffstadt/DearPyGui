@@ -4,6 +4,11 @@
 ### TODO ImGui
 - [ ] Generic:
     - [ ] Fix `void ImGui::Shutdown(): Assertion '(g.IO.BackendPlatformUserData == __null) && "Forgot to shutdown Platform backend?"' failed.` error on shutdown.
+    - [ ] Enable control mods for plots
+    - [ ] Check if what you did with DragPoint value is okay or not
+    - [ ] Find out how py files are created
+    - [ ] Remove GetKeysConstants because it's deeply linked to new IO (also, I put it, so it can be removed without any worries)
+    - [ ] Make it work wihout obsolete functions (ImGui and ImPlot)
 - [ ] V 1.83
     - [ ] Tables: Expose `TableSetColumnEnabled()` in public api. (in the issue is explained that it's just Hide/Show)
 - [ ] V 1.84 (https://github.com/ocornut/imgui/releases/tag/v1.84)
@@ -110,7 +115,7 @@ Take a look at implot.cpp to have a better changelog.
     - [ ] Previously, users could define time and log scales with ImPlotAxisFlags_Log, and ImPlotAxisFlags_Time. These flags have been replaced with a more general system using a new the setup function SetupAxisScale
     - [ ] You can now constrain axes limits so that users can't pan beyond a min or max value, or zoom beyond a min or max width/height
     - [ ] You can now customize the supported types by defining IMPLOT_CUSTOM_NUMERIC_TYPES at compile time to define your own type list (probably not interesting for us)
-    - [ ] Line plots now honor ImGui's AntiAliasedLines and AntiAliasedLinesUseTex. That's right, ImPlot now uses texture based AA!
+    - [x] Line plots now honor ImGui's AntiAliasedLines and AntiAliasedLinesUseTex. That's right, ImPlot now uses texture based AA!
     - [ ] Legend entries can be sorted using ImPlotLegendFlags_Sort
 - [x] V 0.15 (https://github.com/epezent/implot/releases/tag/v0.15)
 - [x] V 0.16 (https://github.com/epezent/implot/releases/tag/v0.16) 
