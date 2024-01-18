@@ -1949,6 +1949,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
 
         args.push_back({ mvPyDataType::Bool, "closable", mvArgType::KEYWORD_ARG, "False", "Creates a button on the tab that can hide the tab." });
         args.push_back({ mvPyDataType::Bool, "no_tooltip", mvArgType::KEYWORD_ARG, "False", "Disable tooltip for the given tab." });
+        // TODO: Why is this a bool?
         args.push_back({ mvPyDataType::Bool, "order_mode", mvArgType::KEYWORD_ARG, "0", "set using a constant: mvTabOrder_Reorderable: allows reordering, mvTabOrder_Fixed: fixed ordering, mvTabOrder_Leading: adds tab to front, mvTabOrder_Trailing: adds tab to back" });
 
         setup.about = "Adds a tab to a tab bar.";
@@ -2580,6 +2581,8 @@ DearPyGui::GetEntityParser(mvAppItemType type)
             MV_PARSER_ARG_POS)
         );
 
+        args.push_back({ mvPyDataType::String, "text", mvArgType::KEYWORD_ARG, "''", "Add a label" });
+
         setup.about = "Adds a horizontal line separator.";
         break;
     }
@@ -2681,9 +2684,9 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Integer, "query_button", mvArgType::KEYWORD_ARG, "-1", "begins query selection when pressed and end query selection when released" });
         args.push_back({ mvPyDataType::Integer, "query_mod", mvArgType::KEYWORD_ARG, "-1", "optional modifier that must be held for query selection" });
         args.push_back({ mvPyDataType::Integer, "query_toggle_mod", mvArgType::KEYWORD_ARG, "-1", "when held, active box selections turn into queries" });
-        args.push_back({ mvPyDataType::Integer, "select_horz_mod", mvArgType::KEYWORD_ARG, "internal_dpg.mvKey_ModAlt", "expands active box selection/query horizontally to plot edge when held" });
-        args.push_back({ mvPyDataType::Integer, "select_vert_mod", mvArgType::KEYWORD_ARG, "internal_dpg.mvKey_ModShift", "expands active box selection/query vertically to plot edge when held" });
-        args.push_back({ mvPyDataType::Integer, "override_mod", mvArgType::KEYWORD_ARG, "internal_dpg.mvKey_Control", "when held, all input is ignored; used to enable axis/plots as DND sources" });
+        args.push_back({ mvPyDataType::Integer, "select_horz_mod", mvArgType::KEYWORD_ARG, "internal_dpg.mvKey_LAlt", "expands active box selection/query horizontally to plot edge when held" });
+        args.push_back({ mvPyDataType::Integer, "select_vert_mod", mvArgType::KEYWORD_ARG, "internal_dpg.mvKey_LShift", "expands active box selection/query vertically to plot edge when held" });
+        args.push_back({ mvPyDataType::Integer, "override_mod", mvArgType::KEYWORD_ARG, "internal_dpg.mvKey_LControl", "when held, all input is ignored; used to enable axis/plots as DND sources" });
         args.push_back({ mvPyDataType::Integer, "zoom_mod", mvArgType::KEYWORD_ARG, "0", "optional modifier that must be held for scroll wheel zooming" });
         args.push_back({ mvPyDataType::Integer, "zoom_rate", mvArgType::KEYWORD_ARG, "0.1", "zoom rate for scroll (e.g. 0.1f = 10% plot range every scroll click); make negative to invert" });
 
@@ -3199,6 +3202,9 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "prefer_sort_descending", mvArgType::KEYWORD_ARG, "False", "Make the initial sort direction Descending when first sorting on this column." });
         args.push_back({ mvPyDataType::Bool, "indent_enable", mvArgType::KEYWORD_ARG, "False", "Use current Indent value when entering cell (default for column 0)." });
         args.push_back({ mvPyDataType::Bool, "indent_disable", mvArgType::KEYWORD_ARG, "False", "Ignore current Indent value when entering cell (default for columns > 0). Indentation changes _within_ the cell will still be honored." });
+        args.push_back({ mvPyDataType::Bool, "angle_header", mvArgType::KEYWORD_ARG, "False", "TableHeadersRow() will submit an angled header row for this column. Note this will add an extra row." });
+        args.push_back({ mvPyDataType::Bool, "disabled", mvArgType::KEYWORD_ARG, "False", "Default as a hidden/disabled column." });
+        args.push_back({ mvPyDataType::Bool, "no_header_label", mvArgType::KEYWORD_ARG, "False", "TableHeadersRow() will not submit horizontal label for this column. Convenient for some small columns. Name will still appear in context menu or in angled headers." });
 
         setup.about = "Adds a table column.";
         setup.category = { "Tables", "Widgets" };
@@ -4220,6 +4226,8 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::DoubleList, "y2", mvArgType::KEYWORD_ARG, "[]" });
         args.push_back({ mvPyDataType::DoubleList, "y3", mvArgType::KEYWORD_ARG, "[]" });
         args.push_back({ mvPyDataType::Bool, "tooltip", mvArgType::KEYWORD_ARG, "True", "Show tooltip when plot is hovered." });
+        args.push_back({ mvPyDataType::Bool, "no_fit", mvArgType::KEYWORD_ARG, "False", "the item won't be considered for plot fits" });
+        args.push_back({ mvPyDataType::Bool, "no_legend", mvArgType::KEYWORD_ARG, "False", "the item won't have a legend entry displayed" });
 
         setup.about = "Adds a custom series to a plot. New in 1.6.";
         setup.category = { "Plotting", "Containers", "Widgets" };
@@ -4491,8 +4499,10 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Integer, "location", mvArgType::KEYWORD_ARG, "5", "location, mvPlot_Location_*" });
         args.push_back({ mvPyDataType::Bool, "horizontal", mvArgType::KEYWORD_ARG, "False" });
         args.push_back({ mvPyDataType::Bool, "outside", mvArgType::KEYWORD_ARG, "False" });
-        args.push_back({ mvPyDataType::Bool, "noHighlightItem", mvArgType::KEYWORD_ARG, "False", "plot items will not be highlighted when their legend entry is hovered" });
-        args.push_back({ mvPyDataType::Bool, "noHighlightAxis", mvArgType::KEYWORD_ARG, "False", "axes will not be highlighted when legend entries are hovered (only relevant if x/y-axis count > 1)" });
+        args.push_back({ mvPyDataType::Bool, "no_highlight_item", mvArgType::KEYWORD_ARG, "False", "plot items will not be highlighted when their legend entry is hovered" });
+        args.push_back({ mvPyDataType::Bool, "no_highlight_axis", mvArgType::KEYWORD_ARG, "False", "axes will not be highlighted when legend entries are hovered (only relevant if x/y-axis count > 1)" });
+        args.push_back({ mvPyDataType::Bool, "no_menus", mvArgType::KEYWORD_ARG, "False", "the user will not be able to open context menus with right-click" });
+        args.push_back({ mvPyDataType::Bool, "no_buttons", mvArgType::KEYWORD_ARG, "False", "legend icons will not function as hide/show buttons" });
 
         setup.about = "Adds a plot legend to a plot.";
         setup.category = { "Plotting", "Widgets" };

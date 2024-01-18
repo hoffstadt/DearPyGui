@@ -275,7 +275,7 @@ void mvMouseDoubleClickHandler::draw(ImDrawList* drawlist, float x, float y)
 	{
 		for (int i = 0; i < IM_ARRAYSIZE(ImGui::GetIO().MouseDown); i++)
 		{
-			if (ImGui::IsMouseDoubleClicked(i))
+			if (ImGui::GetMouseClickedCount(i) == 2)
 			{
 				mvSubmitCallback([=]()
 					{
@@ -288,7 +288,7 @@ void mvMouseDoubleClickHandler::draw(ImDrawList* drawlist, float x, float y)
 		}
 	}
 
-	else if (ImGui::IsMouseDoubleClicked(_button))
+	else if (ImGui::GetMouseClickedCount(_button) == 2)
 	{
 		mvSubmitCallback([=]()
 			{

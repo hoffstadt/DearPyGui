@@ -661,6 +661,15 @@ DearPyGui::fill_configuration_dict(const mvKnobFloatConfig& inConfig, PyObject* 
 }
 
 void
+DearPyGui::fill_configuration_dict(const mvSeparatorConfig& inConfig, PyObject* outDict)
+{
+	if (outDict == nullptr)
+		return;
+
+	PyDict_SetItemString(outDict, "text", mvPyObject(ToPyString(inConfig.text)));
+}
+
+void
 DearPyGui::fill_configuration_dict(const mvTooltipConfig& inConfig, PyObject* outDict)
 {
 	if (outDict == nullptr)
@@ -1741,6 +1750,16 @@ DearPyGui::set_configuration(PyObject* inDict, mvImageButtonConfig& outConfig)
 		}
 	}
 }
+
+void
+DearPyGui::set_configuration(PyObject* inDict, mvSeparatorConfig& outConfig)
+{
+	if (inDict == nullptr)
+		return;
+
+	if (PyObject* item = PyDict_GetItemString(inDict, "text")) outConfig.text = ToString(item);
+}
+
 
 void
 DearPyGui::set_positional_configuration(PyObject* inDict, mvTooltipConfig& outConfig, mvAppItemConfig& config)
@@ -6303,11 +6322,15 @@ DearPyGui::draw_filter_set(ImDrawList* drawlist, mvAppItem& item, mvFilterSetCon
 }
 
 void
-DearPyGui::draw_separator(ImDrawList* drawlist, mvAppItem& item)
+DearPyGui::draw_separator(ImDrawList* drawlist, mvAppItem& item, mvSeparatorConfig& config)
 {
 	if (!item.config.show)
 		return;
-	ImGui::Separator();
+	if (!config.text.empty()) {
+		ImGui::SeparatorText(config.text.c_str());
+	} else {
+		ImGui::Separator();
+	}
 }
 
 void
@@ -6374,6 +6397,8 @@ void
 DearPyGui::draw_tooltip(ImDrawList* drawlist, mvAppItem& item)
 {
 	mvTooltip* tooltip = (mvTooltip*)&item;
+	// TODO: Check if this can be done with a way easier ImGui::SetItemTooltip()  (and check "ImGui::BeginItemTooltip()")
+	// TODO: Check new "Hovered" flags
 	if (ImGui::IsItemHovered() && item.config.show)
 	{
 		ImVec2 mousePos = ImGui::GetMousePos();
@@ -6401,17 +6426,17 @@ DearPyGui::draw_tooltip(ImDrawList* drawlist, mvAppItem& item)
 			}
 			apply_local_theming(&item);
 
-			ImGui::BeginTooltip();
+			if(ImGui::BeginTooltip()) {
+				item.state.lastFrameUpdate = GContext->frame;
+				item.state.visible = true;
+				item.state.contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
+				item.state.rectSize = { ImGui::GetWindowSize().x, ImGui::GetWindowSize().y };
 
-			item.state.lastFrameUpdate = GContext->frame;
-			item.state.visible = true;
-			item.state.contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
-			item.state.rectSize = { ImGui::GetWindowSize().x, ImGui::GetWindowSize().y };
+				for (auto& item : item.childslots[1])
+					item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 
-			for (auto& item : item.childslots[1])
-				item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-
-			ImGui::EndTooltip();
+				ImGui::EndTooltip();
+			}
 
 			cleanup_local_theming(&item);
 			if (item.font)
@@ -6686,9 +6711,10 @@ bool KnobFloat(const char* label, float* p_value, float v_min, float v_max, floa
 
     if (is_active || is_hovered) {
         ImGui::SetNextWindowPos(ImVec2(pos.x - style.WindowPadding.x, pos.y - line_height - style.ItemInnerSpacing.y - style.WindowPadding.y));
-        ImGui::BeginTooltip();
-        ImGui::Text("%.3f", *p_value);
-        ImGui::EndTooltip();
+        if(ImGui::BeginTooltip()) {
+			ImGui::Text("%.3f", *p_value);
+			ImGui::EndTooltip();
+		}
     }
 
     return value_changed;

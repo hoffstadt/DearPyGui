@@ -287,7 +287,6 @@ mvThemeCol_TitleBgActive        mvThemeCol_TableBorderLight      mvThemeCol_Resi
 mvThemeCol_TitleBgCollapsed     mvThemeCol_TableRowBg            mvThemeCol_ResizeGripActive
 mvThemeCol_MenuBarBg            mvThemeCol_TableRowBgAlt         mvThemeCol_Tab
 mvThemeCol_ScrollbarBg          mvThemeCol_TextSelectedBg        mvThemeCol_TabHovered
-mvThemeCol_ScrollbarGrab        mvThemeCol_DragDropTarget
 mvThemeCol_ScrollbarGrabHovered mvThemeCol_NavHighlight
 mvThemeCol_ScrollbarGrabActive  mvThemeCol_NavWindowingHighlight
 mvThemeCol_CheckMark            mvThemeCol_NavWindowingDimBg
@@ -327,35 +326,38 @@ mvNodeCol_TitleBarHovered
 Core Styles
 -----------
 
-============================== ==========
-Constant                       Components
-============================== ==========
-mvStyleVar_Alpha               1
-mvStyleVar_DisabledAlpha       1
-mvStyleVar_WindowPadding       2
-mvStyleVar_WindowRounding      1
-mvStyleVar_WindowBorderSize    1
-mvStyleVar_WindowMinSize       2
-mvStyleVar_WindowTitleAlign    2
-mvStyleVar_ChildRounding       1
-mvStyleVar_ChildBorderSize     1
-mvStyleVar_PopupRounding       1
-mvStyleVar_PopupBorderSize     1
-mvStyleVar_FramePadding        2
-mvStyleVar_FrameRounding       1
-mvStyleVar_FrameBorderSize     1
-mvStyleVar_ItemSpacing         2
-mvStyleVar_ItemInnerSpacing    2
-mvStyleVar_IndentSpacing       1
-mvStyleVar_CellPadding         2
-mvStyleVar_ScrollbarSize       1
-mvStyleVar_ScrollbarRounding   1
-mvStyleVar_GrabMinSize         1
-mvStyleVar_GrabRounding        1
-mvStyleVar_TabRounding         1
-mvStyleVar_ButtonTextAlign     2
-mvStyleVar_SelectableTextAlign 2
-============================== ==========
+=================================== ==========
+Constant                            Components
+===============================     ==========
+mvStyleVar_Alpha                    1
+mvStyleVar_DisabledAlpha            1
+mvStyleVar_WindowPadding            2
+mvStyleVar_WindowRounding           1
+mvStyleVar_WindowBorderSize         1
+mvStyleVar_WindowMinSize            2
+mvStyleVar_WindowTitleAlign         2
+mvStyleVar_ChildRounding            1
+mvStyleVar_ChildBorderSize          1
+mvStyleVar_PopupRounding            1
+mvStyleVar_PopupBorderSize          1
+mvStyleVar_FramePadding             2
+mvStyleVar_FrameRounding            1
+mvStyleVar_FrameBorderSize          1
+mvStyleVar_ItemSpacing              2
+mvStyleVar_ItemInnerSpacing         2
+mvStyleVar_IndentSpacing            1
+mvStyleVar_CellPadding              2
+mvStyleVar_ScrollbarSize            1
+mvStyleVar_ScrollbarRounding        1
+mvStyleVar_GrabMinSize              1
+mvStyleVar_GrabRounding             1
+mvStyleVar_TabRounding              1
+mvStyleVar_ButtonTextAlign          2
+mvStyleVar_SelectableTextAlign      2
+mvStyleVar_SeparatorTextBorderSize  1
+mvStyleVar_SeparatorTextAlign       2
+mvStyleVar_SeparatorTextPadding     2
+=================================== ==========
 
 Plot Styles
 -----------
