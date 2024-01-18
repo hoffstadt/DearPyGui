@@ -25,11 +25,12 @@ HelpMarker(const char* desc)
 ImGui::TextDisabled("(?)");
 if (ImGui::IsItemHovered())
 {
-	ImGui::BeginTooltip();
-	ImGui::PushTextWrapPos(ImGui::GetFontSize() * 35.0f);
-	ImGui::TextUnformatted(desc);
-	ImGui::PopTextWrapPos();
-	ImGui::EndTooltip();
+	if(ImGui::BeginTooltip()) {
+		ImGui::PushTextWrapPos(ImGui::GetFontSize() * 35.0f);
+		ImGui::TextUnformatted(desc);
+		ImGui::PopTextWrapPos();
+		ImGui::EndTooltip();
+	}
 }
 }
 
@@ -106,14 +107,15 @@ if (ImGui::TreeNode("Glyphs", "Glyphs (%d)", font->Glyphs.Size))
 				font->RenderChar(draw_list, cell_size, cell_p1, glyph_col, (ImWchar)(base + n));
 			if (glyph && ImGui::IsMouseHoveringRect(cell_p1, cell_p2))
 			{
-				ImGui::BeginTooltip();
-				ImGui::Text("Codepoint: U+%04X", base + n);
-				ImGui::Separator();
-				ImGui::Text("Visible: %d", glyph->Visible);
-				ImGui::Text("AdvanceX: %.1f", glyph->AdvanceX);
-				ImGui::Text("Pos: (%.2f,%.2f)->(%.2f,%.2f)", glyph->X0, glyph->Y0, glyph->X1, glyph->Y1);
-				ImGui::Text("UV: (%.3f,%.3f)->(%.3f,%.3f)", glyph->U0, glyph->V0, glyph->U1, glyph->V1);
-				ImGui::EndTooltip();
+				if(ImGui::BeginTooltip()) {
+					ImGui::Text("Codepoint: U+%04X", base + n);
+					ImGui::Separator();
+					ImGui::Text("Visible: %d", glyph->Visible);
+					ImGui::Text("AdvanceX: %.1f", glyph->AdvanceX);
+					ImGui::Text("Pos: (%.2f,%.2f)->(%.2f,%.2f)", glyph->X0, glyph->Y0, glyph->X1, glyph->Y1);
+					ImGui::Text("UV: (%.3f,%.3f)->(%.3f,%.3f)", glyph->U0, glyph->V0, glyph->U1, glyph->V1);
+					ImGui::EndTooltip();
+				}
 			}
 		}
 		ImGui::Dummy(ImVec2((cell_size + cell_spacing) * 16, (cell_size + cell_spacing) * 16));

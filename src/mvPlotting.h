@@ -374,6 +374,7 @@ struct mvCustomSeriesConfig
 {
     int channelCount = 2; // must be between 2 and 5 inclusive
     bool tooltip = true;
+    ImPlotItemFlags flags = ImPlotItemFlags_None;
     std::shared_ptr<std::vector<std::vector<double>>> value = std::make_shared<std::vector<std::vector<double>>>(
         std::vector<std::vector<double>>{ std::vector<double>{},
         std::vector<double>{},

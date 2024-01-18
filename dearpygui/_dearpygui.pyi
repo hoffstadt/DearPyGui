@@ -98,7 +98,7 @@ def add_combo(items : Union[List[str], Tuple[str, ...]] ='', *, label: str ='', 
 	"""Adds a combo dropdown that allows a user to select a single option from a drop down window. All items will be shown as selectables on the dropdown."""
 	...
 
-def add_custom_series(x : Union[List[float], Tuple[float, ...]], y : Union[List[float], Tuple[float, ...]], channel_count : int, *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', callback: Callable ='', show: bool ='', y1: Any ='', y2: Any ='', y3: Any ='', tooltip: bool ='') -> Union[int, str]:
+def add_custom_series(x : Union[List[float], Tuple[float, ...]], y : Union[List[float], Tuple[float, ...]], channel_count : int, *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', callback: Callable ='', show: bool ='', y1: Any ='', y2: Any ='', y3: Any ='', tooltip: bool ='', no_fit: bool ='', no_legend: bool ='') -> Union[int, str]:
 	"""Adds a custom series to a plot. New in 1.6."""
 	...
 
@@ -438,7 +438,7 @@ def add_plot_axis(axis : int, *, label: str ='', user_data: Any ='', use_interna
 	"""Adds an axis to a plot."""
 	...
 
-def add_plot_legend(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', payload_type: str ='', drop_callback: Callable ='', show: bool ='', location: int ='', horizontal: bool ='', outside: bool ='') -> Union[int, str]:
+def add_plot_legend(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', payload_type: str ='', drop_callback: Callable ='', show: bool ='', location: int ='', horizontal: bool ='', outside: bool ='', no_highlight_item: bool ='', no_highlight_axis: bool ='', no_menus: bool ='', no_buttons: bool ='') -> Union[int, str]:
 	"""Adds a plot legend to a plot."""
 	...
 
@@ -462,7 +462,7 @@ def add_selectable(*, label: str ='', user_data: Any ='', use_internal_label: bo
 	"""Adds a selectable. Similar to a button but can indicate its selected state."""
 	...
 
-def add_separator(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='') -> Union[int, str]:
+def add_separator(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', text: str ='') -> Union[int, str]:
 	"""Adds a horizontal line separator."""
 	...
 
@@ -550,7 +550,7 @@ def add_table_cell(*, label: str ='', user_data: Any ='', use_internal_label: bo
 	"""Adds a table."""
 	...
 
-def add_table_column(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', show: bool ='', enabled: bool ='', init_width_or_weight: float ='', default_hide: bool ='', default_sort: bool ='', width_stretch: bool ='', width_fixed: bool ='', no_resize: bool ='', no_reorder: bool ='', no_hide: bool ='', no_clip: bool ='', no_sort: bool ='', no_sort_ascending: bool ='', no_sort_descending: bool ='', no_header_width: bool ='', prefer_sort_ascending: bool ='', prefer_sort_descending: bool ='', indent_enable: bool ='', indent_disable: bool ='') -> Union[int, str]:
+def add_table_column(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', show: bool ='', enabled: bool ='', init_width_or_weight: float ='', default_hide: bool ='', default_sort: bool ='', width_stretch: bool ='', width_fixed: bool ='', no_resize: bool ='', no_reorder: bool ='', no_hide: bool ='', no_clip: bool ='', no_sort: bool ='', no_sort_ascending: bool ='', no_sort_descending: bool ='', no_header_width: bool ='', prefer_sort_ascending: bool ='', prefer_sort_descending: bool ='', indent_enable: bool ='', indent_disable: bool ='', angle_header: bool ='', disabled: bool ='', no_header_label: bool ='') -> Union[int, str]:
 	"""Adds a table column."""
 	...
 
@@ -1275,11 +1275,7 @@ mvKey_Y=0
 mvKey_Z=0
 mvKey_Back=0
 mvKey_Tab=0
-mvKey_Clear=0
 mvKey_Return=0
-mvKey_Shift=0
-mvKey_Control=0
-mvKey_Alt=0
 mvKey_Keypad0=0
 mvKey_Keypad1=0
 mvKey_Keypad2=0
@@ -1325,29 +1321,25 @@ mvKey_ModCtrl=0
 mvKey_ModShift=0
 mvKey_ModAlt=0
 mvKey_ModSuper=0
+mvKey_LShift=0
+mvKey_RShift=0
+mvKey_LControl=0
+mvKey_RControl=0
+mvKey_LAlt=0
+mvKey_RAlt=0
 mvKey_Pause=0
-mvKey_Capital=0
+mvKey_CapsLock=0
 mvKey_Escape=0
 mvKey_Spacebar=0
-mvKey_Prior=0
-mvKey_Next=0
 mvKey_End=0
 mvKey_Home=0
 mvKey_Left=0
 mvKey_Up=0
 mvKey_Right=0
 mvKey_Down=0
-mvKey_Select=0
-mvKey_Print=0
-mvKey_Execute=0
 mvKey_PrintScreen=0
 mvKey_Insert=0
 mvKey_Delete=0
-mvKey_Help=0
-mvKey_LWin=0
-mvKey_RWin=0
-mvKey_Apps=0
-mvKey_Sleep=0
 mvKey_NumPad0=0
 mvKey_NumPad1=0
 mvKey_NumPad2=0
@@ -1358,9 +1350,6 @@ mvKey_NumPad6=0
 mvKey_NumPad7=0
 mvKey_NumPad8=0
 mvKey_NumPad9=0
-mvKey_Multiply=0
-mvKey_Add=0
-mvKey_Separator=0
 mvKey_Subtract=0
 mvKey_Decimal=0
 mvKey_Divide=0
@@ -1388,18 +1377,48 @@ mvKey_F21=0
 mvKey_F22=0
 mvKey_F23=0
 mvKey_F24=0
-mvKey_F25=0
-mvKey_CapsLock=0
 mvKey_NumLock=0
 mvKey_ScrollLock=0
 mvKey_LShift=0
 mvKey_RShift=0
 mvKey_LControl=0
 mvKey_RControl=0
-mvKey_LMenu=0
-mvKey_RMenu=0
+mvKey_Period=0
+mvKey_Slash=0
+mvKey_Backslash=0
+mvKey_Open_Brace=0
+mvKey_Close_Brace=0
 mvKey_Browser_Back=0
 mvKey_Browser_Forward=0
+mvKey_Multiply=0
+mvKey_Add=0
+mvKey_Separator=0
+mvKey_Prior=0
+mvKey_Next=0
+mvKey_Select=0
+mvKey_Print=0
+mvKey_Execute=0
+mvKey_LWin=0
+mvKey_RWin=0
+mvKey_Apps=0
+mvKey_Sleep=0
+mvKey_Clear=0
+mvKey_Prior=0
+mvKey_Next=0
+mvKey_Select=0
+mvKey_Print=0
+mvKey_Execute=0
+mvKey_Help=0
+mvKey_LWin=0
+mvKey_RWin=0
+mvKey_Apps=0
+mvKey_Sleep=0
+mvKey_Multiply=0
+mvKey_Add=0
+mvKey_Separator=0
+mvKey_F25=0
+mvKey_LMenu=0
+mvKey_RMenu=0
 mvKey_Browser_Refresh=0
 mvKey_Browser_Stop=0
 mvKey_Browser_Search=0
@@ -1420,12 +1439,7 @@ mvKey_Colon=0
 mvKey_Plus=0
 mvKey_Comma=0
 mvKey_Minus=0
-mvKey_Period=0
-mvKey_Slash=0
 mvKey_Tilde=0
-mvKey_Open_Brace=0
-mvKey_Backslash=0
-mvKey_Close_Brace=0
 mvKey_Quote=0
 mvAll=0
 mvTool_About=0
@@ -1433,6 +1447,7 @@ mvTool_Debug=0
 mvTool_Doc=0
 mvTool_ItemRegistry=0
 mvTool_Metrics=0
+mvTool_Stack=0
 mvTool_Style=0
 mvTool_Font=0
 mvFontAtlas=0
@@ -1901,3 +1916,4 @@ mvReservedUUID_6=0
 mvReservedUUID_7=0
 mvReservedUUID_8=0
 mvReservedUUID_9=0
+mvReservedUUID_10=0

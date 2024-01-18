@@ -72,7 +72,9 @@ void mvTableColumn::handleSpecificKeywordArgs(PyObject* dict)
 	flagop("prefer_sort_descending", ImGuiTableColumnFlags_PreferSortDescending, _flags);
 	flagop("indent_enable", ImGuiTableColumnFlags_IndentEnable, _flags);
 	flagop("indent_disable", ImGuiTableColumnFlags_IndentDisable, _flags);
-
+	flagop("angle_header", ImGuiTableColumnFlags_AngledHeader, _flags);
+	flagop("disabled", ImGuiTableColumnFlags_Disabled, _flags);
+	flagop("no_header_label", ImGuiTableColumnFlags_NoHeaderLabel, _flags); 
 }
 
 void mvTableColumn::getSpecificConfiguration(PyObject* dict)
@@ -107,6 +109,9 @@ void mvTableColumn::getSpecificConfiguration(PyObject* dict)
 	checkbitset("prefer_sort_descending", ImGuiTableColumnFlags_PreferSortDescending, _flags);
 	checkbitset("indent_enable", ImGuiTableColumnFlags_IndentEnable, _flags);
 	checkbitset("indent_disable", ImGuiTableColumnFlags_IndentDisable, _flags);
+	checkbitset("angle_header", ImGuiTableColumnFlags_AngledHeader, _flags);
+	checkbitset("disabled", ImGuiTableColumnFlags_Disabled, _flags);
+	checkbitset("no_header_label", ImGuiTableColumnFlags_NoHeaderLabel, _flags); 
 }
 
 mvTableRow::mvTableRow(mvUUID uuid)

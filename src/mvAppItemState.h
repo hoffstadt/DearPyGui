@@ -60,7 +60,7 @@ b8 IsItemRectSizeResized     (mvAppItemState& state, i32 frameDelay = 0);
 
 inline b8 IsItemDoubleClicked(ImGuiMouseButton mouse_button)
 {
-    return ImGui::IsMouseDoubleClicked(mouse_button) && ImGui::IsItemHovered(ImGuiHoveredFlags_None);
+    return ImGui::GetMouseClickedCount(mouse_button) == 2 && ImGui::IsItemHovered(ImGuiHoveredFlags_None);
 }
 
 struct mvAppItemState

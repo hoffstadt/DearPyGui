@@ -152,46 +152,47 @@ PlotCandlestick(const char* label_id, const double* xs, const double* opens,
 
 		if (idx != -1)
 		{
-			ImGui::BeginTooltip();
-			if (time_unit == ImPlotTimeUnit_Day)
-			{
-				char buff[32];
-				ImPlot::FormatDate(ImPlotTime::FromDouble(xs[idx]), buff, 32, ImPlotDateFmt_DayMoYr, ImPlot::GetStyle().UseISO8601);
-				ImGui::Text("Day:   %s", buff);
+			if(ImGui::BeginTooltip()) {
+				if (time_unit == ImPlotTimeUnit_Day)
+				{
+					char buff[32];
+					ImPlot::FormatDate(ImPlotTime::FromDouble(xs[idx]), buff, 32, ImPlotDateFmt_DayMoYr, ImPlot::GetStyle().UseISO8601);
+					ImGui::Text("Day:   %s", buff);
+				}
+				else if (time_unit == ImPlotTimeUnit_Us)
+				{
+					ImGui::Text("Microsecond: %f", xs[idx]);
+				}
+				else if (time_unit == ImPlotTimeUnit_Ms)
+				{
+					ImGui::Text("Millisecond: %f", xs[idx]);
+				}
+				else if (time_unit == ImPlotTimeUnit_S)
+				{
+					ImGui::Text("Second: %f", xs[idx]);
+				}
+				else if (time_unit == ImPlotTimeUnit_Min)
+				{
+					ImGui::Text("Minute: %f", xs[idx]);
+				}
+				else if (time_unit == ImPlotTimeUnit_Hr)
+				{
+					ImGui::Text("Hour: %f", xs[idx]);
+				}
+				else if (time_unit == ImPlotTimeUnit_Mo)
+				{
+					ImGui::Text("Month: %f", xs[idx]);
+				}
+				else if (time_unit == ImPlotTimeUnit_Yr)
+				{
+					ImGui::Text("Year: %f", xs[idx]);
+				}
+				ImGui::Text("Open:  $%.2f", opens[idx]);
+				ImGui::Text("Close: $%.2f", closes[idx]);
+				ImGui::Text("Low:   $%.2f", lows[idx]);
+				ImGui::Text("High:  $%.2f", highs[idx]);
+				ImGui::EndTooltip();
 			}
-			else if (time_unit == ImPlotTimeUnit_Us)
-			{
-				ImGui::Text("Microsecond: %f", xs[idx]);
-			}
-			else if (time_unit == ImPlotTimeUnit_Ms)
-			{
-				ImGui::Text("Millisecond: %f", xs[idx]);
-			}
-			else if (time_unit == ImPlotTimeUnit_S)
-			{
-				ImGui::Text("Second: %f", xs[idx]);
-			}
-			else if (time_unit == ImPlotTimeUnit_Min)
-			{
-				ImGui::Text("Minute: %f", xs[idx]);
-			}
-			else if (time_unit == ImPlotTimeUnit_Hr)
-			{
-				ImGui::Text("Hour: %f", xs[idx]);
-			}
-			else if (time_unit == ImPlotTimeUnit_Mo)
-			{
-				ImGui::Text("Month: %f", xs[idx]);
-			}
-			else if (time_unit == ImPlotTimeUnit_Yr)
-			{
-				ImGui::Text("Year: %f", xs[idx]);
-			}
-			ImGui::Text("Open:  $%.2f", opens[idx]);
-			ImGui::Text("Close: $%.2f", closes[idx]);
-			ImGui::Text("Low:   $%.2f", lows[idx]);
-			ImGui::Text("High:  $%.2f", highs[idx]);
-			ImGui::EndTooltip();
 		}
 	}
 
@@ -401,7 +402,15 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 
 	if (ImPlot::BeginPlot(item.info.internalLabel.c_str(), ImVec2((float)item.config.width, (float)item.config.height), config._flags))
 	{	
+		std::cout << "begin plot" << std::endl;
+		// legend, drag point and lines
+		for (auto& child : item.childslots[0]) {
+			std::cout << (int)child->type << std::endl;
+			child->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
+		}
 
+		std::cout << "childs 0 drawn" << std::endl;
+		// axes
 		// gives axes change to make changes to ticks, limits, etc.
 		for (auto& child : item.childslots[1])
 		{
@@ -428,16 +437,9 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 			}
 			else
 				child->customAction();
+
+			child->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
 		}
-
-		auto context = ImPlot::GetCurrentContext();
-		// legend, drag point and lines
-		for (auto& child : item.childslots[0])
-			child->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
-
-		// axes
-		for (auto& child : item.childslots[1])
-			child->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
 
 		ImPlot::PushPlotClipRect();
 
@@ -467,7 +469,6 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 			config.rects.push_back(area);
 		}
 
-		std::cout << "82" << std::endl;
 		if (item.config.callback != nullptr && drawlist->_ClipRectStack.size() > 0)
 		{
 			
@@ -510,7 +511,7 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 		}
 
 		// update state
-
+		auto context = ImPlot::GetCurrentContext();
 		config._flags = context->CurrentPlot->Flags;
 
 		if (ImGui::IsWindowFocused(ImGuiFocusedFlags_ChildWindows))
@@ -649,6 +650,7 @@ DearPyGui::draw_plot_legend(ImDrawList* drawlist, mvAppItem& item, mvPlotLegendC
 
 	if (config.dirty)
 	{
+		std::cout << "Drawing legend" << std::endl;
 		ImPlot::SetupLegend(config.legendLocation, config.flags);
 		config.dirty = false;
 	}
@@ -689,8 +691,7 @@ DearPyGui::draw_drag_line(ImDrawList* drawlist, mvAppItem& item, mvDragLineConfi
 	ScopedID id(item.uuid);
 
 	if (config.vertical)
-	{ // item.config.specifiedLabel.c_str()
-	// TODO: Probabilmente da rivedere anche per TagX/Y and Annotation
+	{
 		if (ImPlot::DragLineX(item.uuid, config.value.get(), config.color, config.thickness, config.flags))
 		{
 			mvAddCallback(item.config.callback, item.uuid, nullptr, item.config.user_data);
@@ -746,7 +747,6 @@ DearPyGui::draw_drag_point(ImDrawList* drawlist, mvAppItem& item, mvDragPointCon
 	dummyx = (*config.value.get())[0];
 	dummyy = (*config.value.get())[1];
 
-	// item.config.specifiedLabel.c_str(),
 	if (ImPlot::DragPoint(item.uuid, &dummyx, &dummyy, config.color, config.radius, config.flags))
 	{
 		(*config.value.get())[0] = dummyx;
@@ -1916,14 +1916,15 @@ DearPyGui::draw_custom_series(ImDrawList* drawlist, mvAppItem& item, mvCustomSer
 
 		if (ImPlot::IsPlotHovered() && !item.childslots[1].empty() && config.tooltip)
 		{
-			ImGui::BeginTooltip();
-			for (auto& item : item.childslots[1])
-				item->draw(draw_list, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-			ImGui::EndTooltip();
+			if(ImGui::BeginTooltip()) {
+				for (auto& item : item.childslots[1])
+					item->draw(draw_list, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
+				ImGui::EndTooltip();
+			}
 		}
 
 		// begin plot item
-		if (ImPlot::BeginItem(item.info.internalLabel.c_str()))
+		if (ImPlot::BeginItem(item.info.internalLabel.c_str(), config.flags))
 		{
 			// override legend icon color
 			ImPlot::GetCurrentItem()->Color = ImGui::ColorConvertFloat4ToU32({ 0.25f, 0.25f, 0.25f, 1.0f });
@@ -1938,56 +1939,15 @@ DearPyGui::draw_custom_series(ImDrawList* drawlist, mvAppItem& item, mvCustomSer
 				}
 			}
 
+			IM_ASSERT(config.channelCount >= 2 && config.channelCount <= 5);
+
 			// render data
-			if (config.channelCount == 2)
+			for (int c = 0; c < config.channelCount; ++c)
 			{
 				for (int i = 0; i < xptr->size(); ++i)
 				{
-					ImVec2 y_pos = ImPlot::PlotToPixels((*xptr)[i], (*yptr)[i]);
-					config._transformedValues[0][i] = y_pos.x;
-					config._transformedValues[1][i] = y_pos.y;
-				}
-			}
-			else if (config.channelCount == 3)
-			{
-				for (int i = 0; i < xptr->size(); ++i)
-				{
-
-					ImVec2 y_pos = ImPlot::PlotToPixels((*xptr)[i], (*yptr)[i]);
-					ImVec2 y1_pos = ImPlot::PlotToPixels((*xptr)[i], (*y1ptr)[i]);
-					config._transformedValues[0][i] = y_pos.x;
-					config._transformedValues[1][i] = y_pos.y;
-					config._transformedValues[2][i] = y1_pos.y;
-				}
-			}
-			else if (config.channelCount == 4)
-			{
-				for (int i = 0; i < xptr->size(); ++i)
-				{
-
-					ImVec2 y_pos = ImPlot::PlotToPixels((*xptr)[i], (*yptr)[i]);
-					ImVec2 y1_pos = ImPlot::PlotToPixels((*xptr)[i], (*y1ptr)[i]);
-					ImVec2 y2_pos = ImPlot::PlotToPixels((*xptr)[i], (*y2ptr)[i]);
-					config._transformedValues[0][i] = y_pos.x;
-					config._transformedValues[1][i] = y_pos.y;
-					config._transformedValues[2][i] = y1_pos.y;
-					config._transformedValues[3][i] = y2_pos.y;
-				}
-			}
-			else if (config.channelCount == 5)
-			{
-				for (int i = 0; i < xptr->size(); ++i)
-				{
-
-					ImVec2 y_pos = ImPlot::PlotToPixels((*xptr)[i], (*yptr)[i]);
-					ImVec2 y1_pos = ImPlot::PlotToPixels((*xptr)[i], (*y1ptr)[i]);
-					ImVec2 y2_pos = ImPlot::PlotToPixels((*xptr)[i], (*y2ptr)[i]);
-					ImVec2 y3_pos = ImPlot::PlotToPixels((*xptr)[i], (*y3ptr)[i]);
-					config._transformedValues[0][i] = y_pos.x;
-					config._transformedValues[1][i] = y_pos.y;
-					config._transformedValues[2][i] = y1_pos.y;
-					config._transformedValues[3][i] = y2_pos.y;
-					config._transformedValues[4][i] = y3_pos.y;
+					ImVec2 y_pos = ImPlot::PlotToPixels((*xptr)[i], (*yptr)[i + c]);
+					config._transformedValues[c][i] = y_pos.y;
 				}
 			}
 			ImPlotPoint mouse = ImPlot::GetPlotMousePos();
@@ -2783,6 +2743,16 @@ DearPyGui::set_configuration(PyObject* inDict, mvCustomSeriesConfig& outConfig)
 	if (PyObject* item = PyDict_GetItemString(inDict, "y2")) { (*outConfig.value)[3] = ToDoubleVect(item); }
 	if (PyObject* item = PyDict_GetItemString(inDict, "y3")) { (*outConfig.value)[4] = ToDoubleVect(item); }
 	if (PyObject* item = PyDict_GetItemString(inDict, "tooltip")) { outConfig.tooltip = ToBool(item); }
+
+	// helper for bit flipping
+	auto flagop = [inDict](const char* keyword, int flag, int& flags)
+	{
+		if (PyObject* item = PyDict_GetItemString(inDict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+	};
+
+	// flags
+	flagop("no_fit", ImPlotItemFlags_NoFit, outConfig.flags);
+	flagop("no_legend", ImPlotItemFlags_NoLegend, outConfig.flags);
 }
 
 void
@@ -3250,6 +3220,16 @@ DearPyGui::fill_configuration_dict(const mvCustomSeriesConfig& inConfig, PyObjec
 
 	PyDict_SetItemString(outDict, "channel_count", mvPyObject(ToPyInt(inConfig.channelCount)));
 	PyDict_SetItemString(outDict, "tooltip", mvPyObject(ToPyBool(inConfig.tooltip)));
+
+	// helper to check and set bit
+	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)
+	{
+		PyDict_SetItemString(outDict, keyword, mvPyObject(ToPyBool(flags & flag)));
+	};
+
+	// flags
+	checkbitset("no_fit", ImPlotItemFlags_NoFit, inConfig.flags);
+	checkbitset("no_legend", ImPlotItemFlags_NoLegend, inConfig.flags);
 }
 
 void
