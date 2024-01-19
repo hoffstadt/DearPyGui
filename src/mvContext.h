@@ -56,12 +56,6 @@ struct mvInput
     std::atomic_int  mouseDragThreshold = 20;
     AtomicVec2       mouseDragDelta = { 0, 0 };
 
-    // keys
-    std::atomic_bool keysdown[512];
-    std::atomic_int  keysdownduration[512]; // 1/100 seconds
-    std::atomic_bool keyspressed[512];
-    std::atomic_bool keysreleased[512];
-
     // mouse
     std::atomic_int  mousewheel;
     std::atomic_bool mousedown[5];

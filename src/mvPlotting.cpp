@@ -402,15 +402,7 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 
 	if (ImPlot::BeginPlot(item.info.internalLabel.c_str(), ImVec2((float)item.config.width, (float)item.config.height), config._flags))
 	{	
-		std::cout << "begin plot" << std::endl;
-		// legend, drag point and lines
-		for (auto& child : item.childslots[0]) {
-			std::cout << (int)child->type << std::endl;
-			child->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
-		}
 
-		std::cout << "childs 0 drawn" << std::endl;
-		// axes
 		// gives axes change to make changes to ticks, limits, etc.
 		for (auto& child : item.childslots[1])
 		{
@@ -437,9 +429,16 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 			}
 			else
 				child->customAction();
-
-			child->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
 		}
+		auto context = ImPlot::GetCurrentContext();
+
+		// legend, drag point and lines
+		for (auto& child : item.childslots[0]) // Using "ImPlot::GetPlotPos()" here trigger an assert
+			child->draw(drawlist, context->CurrentPlot->PlotRect.Min.x, context->CurrentPlot->PlotRect.Min.y);
+
+		// axes
+		for (auto& child : item.childslots[1])
+			child->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
 
 		ImPlot::PushPlotClipRect();
 
@@ -511,7 +510,6 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 		}
 
 		// update state
-		auto context = ImPlot::GetCurrentContext();
 		config._flags = context->CurrentPlot->Flags;
 
 		if (ImGui::IsWindowFocused(ImGuiFocusedFlags_ChildWindows))
@@ -650,7 +648,6 @@ DearPyGui::draw_plot_legend(ImDrawList* drawlist, mvAppItem& item, mvPlotLegendC
 
 	if (config.dirty)
 	{
-		std::cout << "Drawing legend" << std::endl;
 		ImPlot::SetupLegend(config.legendLocation, config.flags);
 		config.dirty = false;
 	}
@@ -1899,7 +1896,7 @@ DearPyGui::draw_custom_series(ImDrawList* drawlist, mvAppItem& item, mvCustomSer
 	// draw
 	//-----------------------------------------------------------------------------
 	{
-
+		// TODO: (Maybe) Update this to reflect nex axes
 		static std::vector<double>* xptr;
 		static std::vector<double>* yptr;
 		static std::vector<double>* y1ptr;
@@ -1939,15 +1936,53 @@ DearPyGui::draw_custom_series(ImDrawList* drawlist, mvAppItem& item, mvCustomSer
 				}
 			}
 
-			IM_ASSERT(config.channelCount >= 2 && config.channelCount <= 5);
-
 			// render data
-			for (int c = 0; c < config.channelCount; ++c)
+			if (config.channelCount == 2)
 			{
 				for (int i = 0; i < xptr->size(); ++i)
 				{
-					ImVec2 y_pos = ImPlot::PlotToPixels((*xptr)[i], (*yptr)[i + c]);
-					config._transformedValues[c][i] = y_pos.y;
+					ImVec2 y_pos = ImPlot::PlotToPixels((*xptr)[i], (*yptr)[i]);
+					config._transformedValues[0][i] = y_pos.x;
+					config._transformedValues[1][i] = y_pos.y;
+				}
+			}
+			else if (config.channelCount == 3)
+			{
+				for (int i = 0; i < xptr->size(); ++i)
+				{
+					ImVec2 y_pos = ImPlot::PlotToPixels((*xptr)[i], (*yptr)[i]);
+					ImVec2 y1_pos = ImPlot::PlotToPixels((*xptr)[i], (*y1ptr)[i]);
+					config._transformedValues[0][i] = y_pos.x;
+					config._transformedValues[1][i] = y_pos.y;
+					config._transformedValues[2][i] = y1_pos.y;
+				}
+			}
+			else if (config.channelCount == 4)
+			{
+				for (int i = 0; i < xptr->size(); ++i)
+				{
+					ImVec2 y_pos = ImPlot::PlotToPixels((*xptr)[i], (*yptr)[i]);
+					ImVec2 y1_pos = ImPlot::PlotToPixels((*xptr)[i], (*y1ptr)[i]);
+					ImVec2 y2_pos = ImPlot::PlotToPixels((*xptr)[i], (*y2ptr)[i]);
+					config._transformedValues[0][i] = y_pos.x;
+					config._transformedValues[1][i] = y_pos.y;
+					config._transformedValues[2][i] = y1_pos.y;
+					config._transformedValues[3][i] = y2_pos.y;
+				}
+			}
+			else if (config.channelCount == 5)
+			{
+				for (int i = 0; i < xptr->size(); ++i)
+				{
+					ImVec2 y_pos = ImPlot::PlotToPixels((*xptr)[i], (*yptr)[i]);
+					ImVec2 y1_pos = ImPlot::PlotToPixels((*xptr)[i], (*y1ptr)[i]);
+					ImVec2 y2_pos = ImPlot::PlotToPixels((*xptr)[i], (*y2ptr)[i]);
+					ImVec2 y3_pos = ImPlot::PlotToPixels((*xptr)[i], (*y3ptr)[i]);
+					config._transformedValues[0][i] = y_pos.x;
+					config._transformedValues[1][i] = y_pos.y;
+					config._transformedValues[2][i] = y1_pos.y;
+					config._transformedValues[3][i] = y2_pos.y;
+					config._transformedValues[4][i] = y3_pos.y;
 				}
 			}
 			ImPlotPoint mouse = ImPlot::GetPlotMousePos();
