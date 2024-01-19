@@ -958,7 +958,7 @@ DearPyGui::draw_scatter_series(ImDrawList* drawlist, mvAppItem& item, const mvSc
 }
 
 void
-DearPyGui::draw_stair_series(ImDrawList* drawlist, mvAppItem& item, const mvBasicSeriesConfig& config)
+DearPyGui::draw_stair_series(ImDrawList* drawlist, mvAppItem& item, const mvStairSeriesConfig& config)
 {
 	//-----------------------------------------------------------------------------
 	// pre draw
@@ -2088,6 +2088,16 @@ DearPyGui::set_positional_configuration(PyObject* inDict, mvBarSeriesConfig& out
 }
 
 void
+DearPyGui::set_positional_configuration(PyObject* inDict, mvStairSeriesConfig& outConfig)
+{
+	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(mvAppItemType::mvStairSeries)], inDict))
+		return;
+
+	(*outConfig.value)[0] = ToDoubleVect(PyTuple_GetItem(inDict, 0));
+	(*outConfig.value)[1] = ToDoubleVect(PyTuple_GetItem(inDict, 1));
+}
+
+void
 DearPyGui::set_positional_configuration(PyObject* inDict, mvInfLineSeriesConfig& outConfig)
 {
 	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(mvAppItemType::mvInfLineSeries)], inDict))
@@ -2366,6 +2376,11 @@ DearPyGui::set_configuration(PyObject* inDict, mvPlotConfig& outConfig)
 	flagop("no_mouse_text", ImPlotFlags_NoMouseText, outConfig._flags);
 	flagop("crosshairs", ImPlotFlags_Crosshairs, outConfig._flags);
 	flagop("equal_aspects", ImPlotFlags_Equal, outConfig._flags);
+	flagop("no_legend", ImPlotFlags_NoLegend, outConfig._flags);
+	flagop("no_inputs", ImPlotFlags_NoInputs, outConfig._flags);
+	flagop("no_frame", ImPlotFlags_NoFrame, outConfig._flags);
+	flagop("canvas_only", ImPlotFlags_CanvasOnly, outConfig._flags);
+
 	// TODO: Add all flags for ImPlotLineFlags, ImPlotBarsFlags, etc... (https://github.com/epezent/implot/commit/63d5ed94b77acdf73201a00074bfd80467f50f0a)
 }
 
@@ -2411,12 +2426,13 @@ DearPyGui::set_configuration(PyObject* inDict, mvPlotLegendConfig& outConfig, mv
 	};
 
 	// plot flags
-	flagop("horizontal", ImPlotLegendFlags_Horizontal, outConfig);
 	flagop("no_buttons", ImPlotLegendFlags_NoButtons, outConfig);
-	flagop("no_highlight_axis", ImPlotLegendFlags_NoHighlightAxis, outConfig);
 	flagop("no_highlight_item", ImPlotLegendFlags_NoHighlightItem, outConfig);
+	flagop("no_highlight_axis", ImPlotLegendFlags_NoHighlightAxis, outConfig);
 	flagop("no_menus", ImPlotLegendFlags_NoMenus, outConfig);
 	flagop("outside", ImPlotLegendFlags_Outside, outConfig);
+	flagop("horizontal", ImPlotLegendFlags_Horizontal, outConfig);
+	flagop("sort", ImPlotLegendFlags_Sort, outConfig);
 
 	if (item.info.shownLastFrame)
 	{
@@ -2480,6 +2496,25 @@ DearPyGui::set_configuration(PyObject* inDict, mvBarSeriesConfig& outConfig)
 
 	// flags
 	flagop("horizontal", ImPlotBarsFlags_Horizontal, outConfig.flags);
+}
+
+void
+DearPyGui::set_configuration(PyObject* inDict, mvStairSeriesConfig& outConfig)
+{
+	if (inDict == nullptr)
+		return;
+
+	if (PyObject* item = PyDict_GetItemString(inDict, "x")) { (*outConfig.value)[0] = ToDoubleVect(item); }
+	if (PyObject* item = PyDict_GetItemString(inDict, "y")) { (*outConfig.value)[1] = ToDoubleVect(item); }
+
+	// helper for bit flipping
+	auto flagop = [inDict](const char* keyword, int flag, int& flags)
+	{
+		if (PyObject* item = PyDict_GetItemString(inDict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+	};
+
+	// flags
+	// flagop("horizontal", ImPlotStairsFlags_Horizontal, outConfig.flags);
 }
 
 void
@@ -2820,9 +2855,11 @@ DearPyGui::set_configuration(PyObject* inDict, mvSubPlotsConfig& outConfig)
 
 	// subplot flags
 	flagop("no_title", ImPlotSubplotFlags_NoTitle, outConfig.flags);
+	flagop("no_legend", ImPlotSubplotFlags_NoLegend, outConfig.flags);
 	flagop("no_menus", ImPlotSubplotFlags_NoMenus, outConfig.flags);
 	flagop("no_resize", ImPlotSubplotFlags_NoResize, outConfig.flags);
 	flagop("no_align", ImPlotSubplotFlags_NoAlign, outConfig.flags);
+	flagop("share_items", ImPlotSubplotFlags_ShareItems, outConfig.flags);
 	flagop("link_rows", ImPlotSubplotFlags_LinkRows, outConfig.flags);
 	flagop("link_columns", ImPlotSubplotFlags_LinkCols, outConfig.flags);
 	flagop("link_all_x", ImPlotSubplotFlags_LinkAllX, outConfig.flags);
@@ -2843,11 +2880,21 @@ DearPyGui::set_configuration(PyObject* inDict, mvPlotAxisConfig& outConfig, mvAp
 	};
 
 	// axis flags
+	flagop("no_label", ImPlotAxisFlags_NoLabel, outConfig.flags);
 	flagop("no_gridlines", ImPlotAxisFlags_NoGridLines, outConfig.flags);
 	flagop("no_tick_marks", ImPlotAxisFlags_NoTickMarks, outConfig.flags);
 	flagop("no_tick_labels", ImPlotAxisFlags_NoTickLabels, outConfig.flags);
+	flagop("no_initial_fit", ImPlotAxisFlags_NoInitialFit, outConfig.flags);
+	flagop("no_menus", ImPlotAxisFlags_NoMenus, outConfig.flags);
+	flagop("no_side_switch", ImPlotAxisFlags_NoSideSwitch, outConfig.flags);
+	flagop("no_highlight", ImPlotAxisFlags_NoHighlight, outConfig.flags);
+	flagop("opposite", ImPlotAxisFlags_Opposite, outConfig.flags);
+	flagop("foreground", ImPlotAxisFlags_Foreground, outConfig.flags);
 	// flagop("log_scale", ImPlotAxisFlags_LogScale, outConfig.flags);
 	flagop("invert", ImPlotAxisFlags_Invert, outConfig.flags);
+	flagop("auto_fit", ImPlotAxisFlags_AutoFit, outConfig.flags);
+	flagop("range_fit", ImPlotAxisFlags_RangeFit, outConfig.flags);
+	flagop("pan_stretch", ImPlotAxisFlags_PanStretch, outConfig.flags);
 	flagop("lock_min", ImPlotAxisFlags_LockMin, outConfig.flags);
 	flagop("lock_max", ImPlotAxisFlags_LockMax, outConfig.flags);
 	// flagop("time", ImPlotAxisFlags_Time, outConfig.flags);
@@ -2916,6 +2963,11 @@ DearPyGui::fill_configuration_dict(const mvPlotConfig& inConfig, PyObject* outDi
 	checkbitset("no_box_select", ImPlotFlags_NoBoxSelect, inConfig._flags);
 	checkbitset("no_mouse_text", ImPlotFlags_NoMouseText, inConfig._flags);
 	checkbitset("crosshairs", ImPlotFlags_Crosshairs, inConfig._flags);
+	checkbitset("equal_aspects", ImPlotFlags_Equal, inConfig._flags);
+	checkbitset("no_legend", ImPlotFlags_NoLegend, inConfig._flags);
+	checkbitset("no_inputs", ImPlotFlags_NoInputs, inConfig._flags);
+	checkbitset("no_frame", ImPlotFlags_NoFrame, inConfig._flags);
+	checkbitset("canvas_only", ImPlotFlags_CanvasOnly, inConfig._flags);
 }
 
 void
@@ -3007,6 +3059,7 @@ DearPyGui::fill_configuration_dict(const mvPlotLegendConfig& inConfig, PyObject*
 	checkbitset("no_menus", ImPlotLegendFlags_NoMenus, inConfig.flags);
 	checkbitset("outside", ImPlotLegendFlags_Outside, inConfig.flags);
 	checkbitset("no_buttons", ImPlotLegendFlags_NoButtons, inConfig.flags);
+	checkbitset("sort", ImPlotLegendFlags_Sort, inConfig.flags);
 }
 
 void
@@ -3045,6 +3098,22 @@ DearPyGui::fill_configuration_dict(const mvBarSeriesConfig& inConfig, PyObject* 
 
 	// bar flags
 	checkbitset("horizontal", ImPlotBarsFlags_Horizontal, inConfig.flags);
+}
+
+void
+DearPyGui::fill_configuration_dict(const mvStairSeriesConfig& inConfig, PyObject* outDict)
+{
+	if (outDict == nullptr)
+		return;
+
+	// helper to check and set bit
+	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)
+	{
+		PyDict_SetItemString(outDict, keyword, mvPyObject(ToPyBool(flags & flag)));
+	};
+
+	// stair flags
+	// checkbitset("horizontal", ImPlotBarsFlags_Horizontal, inConfig.flags);
 }
 
 void
@@ -3320,14 +3389,24 @@ DearPyGui::fill_configuration_dict(const mvPlotAxisConfig& inConfig, PyObject* o
 	};
 
 	// plot flags
+	checkbitset("no_label", ImPlotAxisFlags_NoLabel, inConfig.flags);
 	checkbitset("no_gridlines", ImPlotAxisFlags_NoGridLines, inConfig.flags);
 	checkbitset("no_tick_marks", ImPlotAxisFlags_NoTickMarks, inConfig.flags);
 	checkbitset("no_tick_labels", ImPlotAxisFlags_NoTickLabels, inConfig.flags);
-	//checkbitset("log_scale", ImPlotAxisFlags_LogScale, inConfig.flags); // TODO: Finish this
+	checkbitset("no_initial_fit", ImPlotAxisFlags_NoInitialFit, inConfig.flags);
+	checkbitset("no_menus", ImPlotAxisFlags_NoMenus, inConfig.flags);
+	checkbitset("no_side_switch", ImPlotAxisFlags_NoSideSwitch, inConfig.flags);
+	checkbitset("no_highlight", ImPlotAxisFlags_NoHighlight, inConfig.flags);
+	checkbitset("opposite", ImPlotAxisFlags_Opposite, inConfig.flags);
+	checkbitset("foreground", ImPlotAxisFlags_Foreground, inConfig.flags);
+	// checkbitset("log_scale", ImPlotAxisFlags_LogScale, inConfig.flags);
 	checkbitset("invert", ImPlotAxisFlags_Invert, inConfig.flags);
+	checkbitset("auto_fit", ImPlotAxisFlags_AutoFit, inConfig.flags);
+	checkbitset("range_fit", ImPlotAxisFlags_RangeFit, inConfig.flags);
+	checkbitset("pan_stretch", ImPlotAxisFlags_PanStretch, inConfig.flags);
 	checkbitset("lock_min", ImPlotAxisFlags_LockMin, inConfig.flags);
 	checkbitset("lock_max", ImPlotAxisFlags_LockMax, inConfig.flags);
-	//checkbitset("time", ImPlotAxisFlags_Time, inConfig.flags);
+	// checkbitset("time", ImPlotAxisFlags_Time, inConfig.flags);
 }
 
 //-----------------------------------------------------------------------------

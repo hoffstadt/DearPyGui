@@ -2669,6 +2669,10 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "query", mvArgType::KEYWORD_ARG, "False", "the user will be able to draw query rects with middle - mouse or CTRL + right - click drag"});
         args.push_back({ mvPyDataType::Bool, "crosshairs", mvArgType::KEYWORD_ARG, "False", "the default mouse cursor will be replaced with a crosshair when hovered"});
         args.push_back({ mvPyDataType::Bool, "equal_aspects", mvArgType::KEYWORD_ARG, "False", "primary x and y axes will be constrained to have the same units/pixel (does not apply to auxiliary y-axes)"});
+        args.push_back({ mvPyDataType::Bool, "no_legend", mvArgType::KEYWORD_ARG, "False", "the legend will not be displayed"});
+        args.push_back({ mvPyDataType::Bool, "no_inputs", mvArgType::KEYWORD_ARG, "False", "the user will not be able to interact with the plot"});
+        args.push_back({ mvPyDataType::Bool, "no_frame", mvArgType::KEYWORD_ARG, "False", "the ImGui frame will not be rendered"});
+        args.push_back({ mvPyDataType::Bool, "canvas_only", mvArgType::KEYWORD_ARG, "False", ""});
         args.push_back({ mvPyDataType::Bool, "use_local_time", mvArgType::KEYWORD_ARG, "False", "axis labels will be formatted for your timezone when" });
         args.push_back({ mvPyDataType::Bool, "use_ISO8601", mvArgType::KEYWORD_ARG, "False", "dates will be formatted according to ISO 8601 where applicable (e.g. YYYY-MM-DD, YYYY-MM, --MM-DD, etc.)" });
         args.push_back({ mvPyDataType::Bool, "use_24hour_clock", mvArgType::KEYWORD_ARG, "False", "times will be formatted using a 24 hour clock" });
@@ -2724,7 +2728,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Plotting", "Widgets" };
         break;
     }
-    case mvAppItemType::mvDrawlist:                    
+    case mvAppItemType::mvDrawlist:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -4497,8 +4501,9 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         );
 
         args.push_back({ mvPyDataType::Integer, "location", mvArgType::KEYWORD_ARG, "5", "location, mvPlot_Location_*" });
-        args.push_back({ mvPyDataType::Bool, "horizontal", mvArgType::KEYWORD_ARG, "False" });
-        args.push_back({ mvPyDataType::Bool, "outside", mvArgType::KEYWORD_ARG, "False" });
+        args.push_back({ mvPyDataType::Bool, "horizontal", mvArgType::KEYWORD_ARG, "False", "legend entries will be displayed horizontally" });
+        args.push_back({ mvPyDataType::Bool, "sort", mvArgType::KEYWORD_ARG, "False", "legend entries will be displayed in alphabetical order"});
+        args.push_back({ mvPyDataType::Bool, "outside", mvArgType::KEYWORD_ARG, "False", "legend will be rendered outside of the plot area"});
         args.push_back({ mvPyDataType::Bool, "no_highlight_item", mvArgType::KEYWORD_ARG, "False", "plot items will not be highlighted when their legend entry is hovered" });
         args.push_back({ mvPyDataType::Bool, "no_highlight_axis", mvArgType::KEYWORD_ARG, "False", "axes will not be highlighted when legend entries are hovered (only relevant if x/y-axis count > 1)" });
         args.push_back({ mvPyDataType::Bool, "no_menus", mvArgType::KEYWORD_ARG, "False", "the user will not be able to open context menus with right-click" });
@@ -4519,14 +4524,26 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         );
 
         args.push_back({ mvPyDataType::Integer, "axis" });
-        args.push_back({ mvPyDataType::Bool, "no_gridlines", mvArgType::KEYWORD_ARG, "False" });
-        args.push_back({ mvPyDataType::Bool, "no_tick_marks", mvArgType::KEYWORD_ARG, "False" });
-        args.push_back({ mvPyDataType::Bool, "no_tick_labels", mvArgType::KEYWORD_ARG, "False" });
-        args.push_back({ mvPyDataType::Bool, "log_scale", mvArgType::KEYWORD_ARG, "False" });
-        args.push_back({ mvPyDataType::Bool, "invert", mvArgType::KEYWORD_ARG, "False" });
-        args.push_back({ mvPyDataType::Bool, "lock_min", mvArgType::KEYWORD_ARG, "False" });
-        args.push_back({ mvPyDataType::Bool, "lock_max", mvArgType::KEYWORD_ARG, "False" });
-        args.push_back({ mvPyDataType::Bool, "time", mvArgType::KEYWORD_ARG, "False" });
+        args.push_back({ mvPyDataType::Bool, "no_label", mvArgType::KEYWORD_ARG, "False", "the axis label will not be displayed (axis labels are also hidden if the supplied string name is nullptr)" });
+        args.push_back({ mvPyDataType::Bool, "no_gridlines", mvArgType::KEYWORD_ARG, "False", "no grid lines will be displayed" });
+        args.push_back({ mvPyDataType::Bool, "no_tick_marks", mvArgType::KEYWORD_ARG, "False", "no tick marks will be displayed" });
+        args.push_back({ mvPyDataType::Bool, "no_tick_labels", mvArgType::KEYWORD_ARG, "False", "no text labels will be displayed" });
+        args.push_back({ mvPyDataType::Bool, "no_initial_fit", mvArgType::KEYWORD_ARG, "False", "axis will not be initially fit to data extents on the first rendered frame" });
+        args.push_back({ mvPyDataType::Bool, "no_menus", mvArgType::KEYWORD_ARG, "False", "the user will not be able to open context menus with right-click" });
+        args.push_back({ mvPyDataType::Bool, "no_side_switch", mvArgType::KEYWORD_ARG, "False", "the user will not be able to switch the axis side by dragging it" });
+        args.push_back({ mvPyDataType::Bool, "no_highlight", mvArgType::KEYWORD_ARG, "False", "the axis will not have its background highlighted when hovered or held" });
+        args.push_back({ mvPyDataType::Bool, "opposite", mvArgType::KEYWORD_ARG, "False", "axis ticks and labels will be rendered on the conventionally opposite side (i.e, right or top)" });
+        args.push_back({ mvPyDataType::Bool, "foreground", mvArgType::KEYWORD_ARG, "False", "grid lines will be displayed in the foreground (i.e. on top of data) instead of the background" });
+        // args.push_back({ mvPyDataType::Bool, "log_scale", mvArgType::KEYWORD_ARG, "False" });
+        args.push_back({ mvPyDataType::Bool, "invert", mvArgType::KEYWORD_ARG, "False", "the axis will be inverted" });
+        args.push_back({ mvPyDataType::Bool, "auto_fit", mvArgType::KEYWORD_ARG, "False", "axis will be auto-fitting to data extents" });
+        args.push_back({ mvPyDataType::Bool, "range_fit", mvArgType::KEYWORD_ARG, "False", "axis will only fit points if the point is in the visible range of the **orthogonal** axis" });
+        args.push_back({ mvPyDataType::Bool, "pan_stretch", mvArgType::KEYWORD_ARG, "False", "panning in a locked or constrained state will cause the axis to stretch if possible" });
+        args.push_back({ mvPyDataType::Bool, "lock_min", mvArgType::KEYWORD_ARG, "False", "the axis minimum value will be locked when panning/zooming"});
+        args.push_back({ mvPyDataType::Bool, "lock_max", mvArgType::KEYWORD_ARG, "False", "the axis maximum value will be locked when panning/zooming" });
+        // args.push_back({ mvPyDataType::Bool, "time", mvArgType::KEYWORD_ARG, "False" });
+
+
 
         setup.about = "Adds an axis to a plot.";
         setup.category = { "Plotting", "Containers", "Widgets" };
@@ -5216,10 +5233,12 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::FloatList, "column_ratios", mvArgType::KEYWORD_ARG, "[]" });
 
         // plot flags
-        args.push_back({ mvPyDataType::Bool, "no_title", mvArgType::KEYWORD_ARG, "False" });
+        args.push_back({ mvPyDataType::Bool, "no_title", mvArgType::KEYWORD_ARG, "False", "the subplot title will not be displayed" });
+        args.push_back({ mvPyDataType::Bool, "no_legends", mvArgType::KEYWORD_ARG, "False", "the legend will not be displayed" });
         args.push_back({ mvPyDataType::Bool, "no_menus", mvArgType::KEYWORD_ARG, "False", "the user will not be able to open context menus with right-click" });
         args.push_back({ mvPyDataType::Bool, "no_resize", mvArgType::KEYWORD_ARG, "False", "resize splitters between subplot cells will be not be provided" });
         args.push_back({ mvPyDataType::Bool, "no_align", mvArgType::KEYWORD_ARG, "False", "subplot edges will not be aligned vertically or horizontally" });
+        args.push_back({ mvPyDataType::Bool, "share_items", mvArgType::KEYWORD_ARG, "False", "items across all subplots will be shared and rendered into a single legend entry" });
         args.push_back({ mvPyDataType::Bool, "link_rows", mvArgType::KEYWORD_ARG, "False", "link the y-axis limits of all plots in each row (does not apply auxiliary y-axes)" });
         args.push_back({ mvPyDataType::Bool, "link_columns", mvArgType::KEYWORD_ARG, "False", "link the x-axis limits of all plots in each column" });
         args.push_back({ mvPyDataType::Bool, "link_all_x", mvArgType::KEYWORD_ARG, "False", "link the x-axis limits in every plot in the subplot" });
