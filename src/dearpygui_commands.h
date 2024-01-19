@@ -2992,6 +2992,14 @@ get_active_window(PyObject* self, PyObject* args, PyObject* kwargs)
 }
 
 static PyObject*
+get_focused_item(PyObject* self, PyObject* args, PyObject* kwargs)
+{
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+
+	return ToPyUUID(GContext->itemRegistry->focusedItem);
+}
+
+static PyObject*
 move_item(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 

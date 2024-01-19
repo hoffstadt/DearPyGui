@@ -1217,6 +1217,18 @@ InsertParser_Block2(std::map<std::string, mvPythonParser>& parsers)
 
 	{
 		std::vector<mvPythonDataElement> args;
+
+		mvPythonParserSetup setup;
+		setup.about = "Returns the item currently having focus.";
+		setup.category = { "Item Registry" };
+		setup.returnType = mvPyDataType::UUID;
+
+		mvPythonParser parser = FinalizeParser(setup, args);
+		parsers.insert({ "get_focused_item", parser });
+	}
+
+	{
+		std::vector<mvPythonDataElement> args;
 		args.push_back({ mvPyDataType::UUID, "window" });
 		args.push_back({ mvPyDataType::Bool, "value" });
 

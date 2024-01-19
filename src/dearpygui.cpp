@@ -641,6 +641,7 @@ PyInit__dearpygui(void)
 	MV_ADD_COMMAND(get_windows);
 	MV_ADD_COMMAND(get_all_items);
 	MV_ADD_COMMAND(get_active_window);
+	MV_ADD_COMMAND(get_focused_item);
 	MV_ADD_COMMAND(set_primary_window);
 	MV_ADD_COMMAND(push_container_stack);
 	MV_ADD_COMMAND(pop_container_stack);
