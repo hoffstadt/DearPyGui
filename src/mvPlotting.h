@@ -14,6 +14,7 @@ struct mvDragPointConfig;
 struct mvBasicSeriesConfig;
 struct mvLineSeriesConfig;
 struct mvBarSeriesConfig;
+struct mvStairSeriesConfig;
 struct mvInfLineSeriesConfig;
 struct mvScatterSeriesConfig;
 struct mv2dHistogramSeriesConfig;
@@ -36,6 +37,7 @@ namespace DearPyGui
     void fill_configuration_dict(const mvDragPointConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvLineSeriesConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvBarSeriesConfig& inConfig, PyObject* outDict);
+    void fill_configuration_dict(const mvStairSeriesConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvInfLineSeriesConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvScatterSeriesConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvBasicSeriesConfig& inConfig, PyObject* outDict);
@@ -61,6 +63,7 @@ namespace DearPyGui
     void set_configuration(PyObject* inDict, mvDragPointConfig& outConfig);
     void set_configuration(PyObject* inDict, mvLineSeriesConfig& outConfig);
     void set_configuration(PyObject* inDict, mvBarSeriesConfig& outConfig);
+    void set_configuration(PyObject* inDict, mvStairSeriesConfig& outConfig);
     void set_configuration(PyObject* inDict, mvInfLineSeriesConfig& outConfig);
     void set_configuration(PyObject* inDict, mvScatterSeriesConfig& outConfig);
     void set_configuration(PyObject* inDict, mvBasicSeriesConfig& outConfig);
@@ -82,6 +85,7 @@ namespace DearPyGui
     // positional args TODO: combine with above
     void set_positional_configuration(PyObject* inDict, mvLineSeriesConfig& outConfig);
     void set_positional_configuration(PyObject* inDict, mvBarSeriesConfig& outConfig);
+    void set_positional_configuration(PyObject* inDict, mvStairSeriesConfig& outConfig);
     void set_positional_configuration(PyObject* inDict, mvInfLineSeriesConfig& outConfig);
     void set_positional_configuration(PyObject* inDict, mvScatterSeriesConfig& outConfig);
     void set_positional_configuration(PyObject* inDict, mvBasicSeriesConfig& outConfig);
@@ -119,7 +123,7 @@ namespace DearPyGui
     void draw_inf_lines_series  (ImDrawList* drawlist, mvAppItem& item, const mvInfLineSeriesConfig& config);
     void draw_line_series       (ImDrawList* drawlist, mvAppItem& item, const mvLineSeriesConfig& config);
     void draw_scatter_series    (ImDrawList* drawlist, mvAppItem& item, const mvScatterSeriesConfig& config);
-    void draw_stair_series      (ImDrawList* drawlist, mvAppItem& item, const mvBasicSeriesConfig& config);
+    void draw_stair_series      (ImDrawList* drawlist, mvAppItem& item, const mvStairSeriesConfig& config);
     void draw_stem_series       (ImDrawList* drawlist, mvAppItem& item, const mvBasicSeriesConfig& config);
     void draw_shade_series      (ImDrawList* drawlist, mvAppItem& item, const mvBasicSeriesConfig& config);
     void draw_hline_series      (ImDrawList* drawlist, mvAppItem& item, const mvBasicSeriesConfig& config);
@@ -167,6 +171,17 @@ struct mvBarSeriesConfig
 {
     ImPlotBarsFlags flags = ImPlotBarsFlags_None;
     float weight = 1.0f;
+    std::shared_ptr<std::vector<std::vector<double>>> value = std::make_shared<std::vector<std::vector<double>>>(
+        std::vector<std::vector<double>>{ std::vector<double>{},
+        std::vector<double>{},
+        std::vector<double>{},
+        std::vector<double>{},
+        std::vector<double>{} });
+};
+
+struct mvStairSeriesConfig
+{
+    ImPlotStairsFlags flags = ImPlotStairsFlags_None;
     std::shared_ptr<std::vector<std::vector<double>>> value = std::make_shared<std::vector<std::vector<double>>>(
         std::vector<std::vector<double>>{ std::vector<double>{},
         std::vector<double>{},
@@ -601,8 +616,8 @@ public:
 class mvStairSeries : public mvAppItem
 {
 public:
-    mvBasicSeriesConfig configData{};
-    explicit mvStairSeries(mvUUID uuid) : mvAppItem(uuid) { configData.type = mvAppItemType::mvStairSeries; }
+    mvStairSeriesConfig configData{};
+    explicit mvStairSeries(mvUUID uuid) : mvAppItem(uuid) {}
     void handleSpecificPositionalArgs(PyObject* dict) override { DearPyGui::set_positional_configuration(dict, configData); }
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_stair_series(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
