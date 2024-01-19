@@ -13,6 +13,7 @@ pip install ../dearpygui/
 
 ### TODO Generic
 - [ ] Generic:
+    - [ ] No downsampling in PyGui, probably problems with recognizing axes limits
     - [ ] Fix `void ImGui::Shutdown(): Assertion '(g.IO.BackendPlatformUserData == __null) && "Forgot to shutdown Platform backend?"' failed.` error on shutdown.
     - [ ] Enable control mods for plots
     - [ ] Check if what you did with DragPoint value is okay or not
