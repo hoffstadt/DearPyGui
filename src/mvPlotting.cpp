@@ -987,7 +987,7 @@ DearPyGui::draw_stair_series(ImDrawList* drawlist, mvAppItem& item, const mvStai
 		xptr = &(*config.value.get())[0];
 		yptr = &(*config.value.get())[1];
 
-		ImPlot::PlotStairs(item.info.internalLabel.c_str(), xptr->data(), yptr->data(), (int)xptr->size());
+		ImPlot::PlotStairs(item.info.internalLabel.c_str(), xptr->data(), yptr->data(), (int)xptr->size(), config.flags);
 
 		// Begin a popup for a legend entry.
 		if (ImPlot::BeginLegendPopup(item.info.internalLabel.c_str(), 1))
@@ -2514,7 +2514,8 @@ DearPyGui::set_configuration(PyObject* inDict, mvStairSeriesConfig& outConfig)
 	};
 
 	// flags
-	// flagop("horizontal", ImPlotStairsFlags_Horizontal, outConfig.flags);
+	flagop("pre_step", ImPlotStairsFlags_PreStep, outConfig.flags);
+	flagop("shaded", ImPlotStairsFlags_Shaded, outConfig.flags);
 }
 
 void
@@ -3113,7 +3114,8 @@ DearPyGui::fill_configuration_dict(const mvStairSeriesConfig& inConfig, PyObject
 	};
 
 	// stair flags
-	// checkbitset("horizontal", ImPlotBarsFlags_Horizontal, inConfig.flags);
+	checkbitset("pre_step", ImPlotStairsFlags_PreStep, inConfig.flags);
+	checkbitset("shaded", ImPlotStairsFlags_Shaded, inConfig.flags);
 }
 
 void

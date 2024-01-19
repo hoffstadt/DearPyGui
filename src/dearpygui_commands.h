@@ -2504,6 +2504,9 @@ destroy_context(PyObject* self, PyObject* args, PyObject* kwargs)
 			GContext->started = false;  // return to false after
 			});
 
+		// Doesn't pass tests
+		mvCleanupViewport(*GContext->viewport);
+
 		ImNodes::DestroyContext();
 		ImPlot::DestroyContext();
 		ImGui::DestroyContext();
@@ -2526,10 +2529,9 @@ destroy_context(PyObject* self, PyObject* args, PyObject* kwargs)
 		if (GContext->viewport)
 			delete GContext->viewport;
 
-		// If you uncomment it gives free error like they've already been freed
-		// delete GContext->itemRegistry;
-		// delete GContext->callbackRegistry;
-		// delete GContext;
+		delete GContext->itemRegistry;
+		delete GContext->callbackRegistry;
+		delete GContext;
 		GContext = nullptr;
 	}
 	Py_END_ALLOW_THREADS;
