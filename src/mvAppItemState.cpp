@@ -1,6 +1,7 @@
 #include "mvAppItemState.h"
 #include <imgui.h>
 #include "mvAppItem.h"
+#include "mvItemRegistry.h"
 #include "mvContext.h"
 #include "mvPyUtils.h"
 
@@ -30,6 +31,10 @@ UpdateAppItemState(mvAppItemState& state)
     state.hovered = ImGui::IsItemHovered();
     state.active = ImGui::IsItemActive();
     state.focused = ImGui::IsItemFocused();
+    if (state.focused)
+    {
+        GContext->itemRegistry->focusedItem = state.parent->uuid;
+    }
     state.leftclicked = ImGui::IsItemClicked();
     state.rightclicked = ImGui::IsItemClicked(1);
     state.middleclicked = ImGui::IsItemClicked(2);

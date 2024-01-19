@@ -79,6 +79,7 @@ struct mvItemRegistry
     std::stack<mvAppItem*>                  containers;      // parent stack, top of stack becomes widget's parent
     std::unordered_map<std::string, mvUUID> aliases;
     mvUUID                                  activeWindow = 0;
+    mvUUID                                  focusedItem = 0;
     std::vector<mvAppItem*>                 delayedSearch;
     b8                                      showImGuiDebug = false;
     b8                                      showImPlotDebug = false;

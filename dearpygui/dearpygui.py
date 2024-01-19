@@ -8167,6 +8167,16 @@ def get_active_window(**kwargs) -> Union[int, str]:
 
 	return internal_dpg.get_active_window(**kwargs)
 
+def get_focused_item(**kwargs) -> Union[int, str]:
+	"""	 Returns the item currently having focus.
+
+	Args:
+	Returns:
+		Union[int, str]
+	"""
+
+	return internal_dpg.get_focused_item(**kwargs)
+
 def get_alias_id(alias : str, **kwargs) -> Union[int, str]:
 	"""	 Returns the ID associated with an alias.
 
