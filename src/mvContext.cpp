@@ -39,20 +39,6 @@ UpdateInputs(mvInput& input)
         }
     }
 
-
-    // route key events
-    for (int i = 0; i < IM_ARRAYSIZE(ImGui::GetIO().KeysData); i++)
-    {
-        input.keysdown[i] = ImGui::IsKeyDown((ImGuiKey)i);
-        input.keyspressed[i] = ImGui::IsKeyPressed((ImGuiKey)i);
-        input.keysreleased[i] = ImGui::IsKeyReleased((ImGuiKey)i);
-
-        ImGuiKeyData& key = ImGui::GetIO().KeysData[i];
-        // route key down event
-        if (key.DownDuration >= 0.0f)
-            input.keysdownduration[i] = (i32)(key.DownDuration * 100.0);
-    }
-
     // route mouse wheel event
     if (ImGui::GetIO().MouseWheel != 0.0f)
         input.mousewheel = (i32)ImGui::GetIO().MouseWheel;

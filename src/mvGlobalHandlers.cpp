@@ -12,20 +12,19 @@ void mvHandlerRegistry::draw(ImDrawList* drawlist, float x, float y)
 
 void mvKeyDownHandler::draw(ImDrawList* drawlist, float x, float y)
 {
-
-	if (_key == -1)
+	if (_key == ImGuiKey_None)
 	{
-		for (int i = 0; i < IM_ARRAYSIZE(ImGui::GetIO().KeysData); i++)
+		for (int i = ImGuiKey_NamedKey_BEGIN; i < ImGuiKey_NamedKey_END; i++)
 		{
-			ImGuiKeyData& key = ImGui::GetIO().KeysData[i];
-			if (key.Down)
+			auto key = ImGui::GetKeyData(static_cast<ImGuiKey>(i));
+			if (key->Down)
 			{
 				mvSubmitCallback([=]()
 					{
 						if (config.alias.empty())
-							mvRunCallback(getCallback(false), uuid, ToPyMPair(i, key.DownDuration), config.user_data);
+							mvRunCallback(getCallback(false), uuid, ToPyMPair(i, key->DownDuration), config.user_data);
 						else
-							mvRunCallback(getCallback(false), config.alias, ToPyMPair(i, key.DownDuration), config.user_data);
+							mvRunCallback(getCallback(false), config.alias, ToPyMPair(i, key->DownDuration), config.user_data);
 					});
 			}
 		}
@@ -36,9 +35,9 @@ void mvKeyDownHandler::draw(ImDrawList* drawlist, float x, float y)
 		mvSubmitCallback([=]()
 			{
 				if (config.alias.empty())
-					mvRunCallback(getCallback(false), uuid, ToPyMPair(_key, ImGui::GetIO().KeysData[_key].DownDurationPrev), config.user_data);
+					mvRunCallback(getCallback(false), uuid, ToPyMPair(_key, ImGui::GetKeyData(_key)->DownDurationPrev), config.user_data);
 				else
-					mvRunCallback(getCallback(false), config.alias, ToPyMPair(_key, ImGui::GetIO().KeysData[_key].DownDurationPrev), config.user_data);
+					mvRunCallback(getCallback(false), config.alias, ToPyMPair(_key, ImGui::GetKeyData(_key)->DownDurationPrev), config.user_data);
 			});
 	}
 }
@@ -69,11 +68,11 @@ void mvKeyDownHandler::getSpecificConfiguration(PyObject* dict)
 
 void mvKeyPressHandler::draw(ImDrawList* drawlist, float x, float y)
 {
-	if (_key == -1)
+	if (_key == ImGuiKey_None)
 	{
-		for (int i = 0; i < IM_ARRAYSIZE(ImGui::GetIO().KeysData); i++)
+		for (int i = ImGuiKey_NamedKey_BEGIN; i < ImGuiKey_NamedKey_END; i++)
 		{
-			if (ImGui::IsKeyDown((ImGuiKey)i) && ImGui::IsKeyPressed((ImGuiKey)i))
+			if (ImGui::IsKeyPressed(static_cast<ImGuiKey>(i)))
 			{
 				mvSubmitCallback([=]()
 					{
@@ -136,12 +135,11 @@ void mvKeyPressHandler::getSpecificConfiguration(PyObject* dict)
 
 void mvKeyReleaseHandler::draw(ImDrawList* drawlist, float x, float y)
 {
-	if (_key == -1)
+	if (_key == ImGuiKey_None)
 	{
-		for (int i = 0; i < IM_ARRAYSIZE(ImGui::GetIO().KeysData); i++)
+		for (int i = ImGuiKey_NamedKey_BEGIN; i < ImGuiKey_NamedKey_END; i++)
 		{
-			ImGuiKeyData& key = ImGui::GetIO().KeysData[i];
-			if (key.DownDurationPrev >= 0.0f && !key.Down)
+			if (ImGui::IsKeyReleased(static_cast<ImGuiKey>(i)))
 			{
 				mvSubmitCallback([=]()
 					{

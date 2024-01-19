@@ -2700,34 +2700,34 @@ get_mouse_drag_delta(PyObject* self, PyObject* arg, PyObject* kwargss)
 static PyObject*
 is_key_pressed(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	i32 key;
+	ImGuiKey key;
 
 	if (!Parse((GetParsers())["is_key_pressed"], args, kwargs, __FUNCTION__, &key))
 		return GetPyNone();
 
-	return ToPyBool(GContext->input.keyspressed[key]);
+	return ToPyBool(ImGui::IsKeyPressed(key));
 }
 
 static PyObject*
 is_key_released(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	i32 key;
+	ImGuiKey key;
 
 	if (!Parse((GetParsers())["is_key_released"], args, kwargs, __FUNCTION__, &key))
 		return GetPyNone();
 
-	return ToPyBool(GContext->input.keysreleased[key]);
+	return ToPyBool(ImGui::IsKeyReleased(key));
 }
 
 static PyObject*
 is_key_down(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	i32 key;
+	ImGuiKey key;
 
 	if (!Parse((GetParsers())["is_key_down"], args, kwargs, __FUNCTION__, &key))
 		return GetPyNone();
 
-	return ToPyBool(GContext->input.keysdown[key]);
+	return ToPyBool(ImGui::IsKeyDown(key));
 }
 
 static PyObject*
@@ -2739,7 +2739,8 @@ is_mouse_button_dragging(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["is_mouse_button_dragging"], args, kwargs, __FUNCTION__, &button, &threshold))
 		return GetPyNone();
 
-	return ToPyBool((f32)GContext->input.mousedownduration[button] / 100.0f >= threshold);
+	// TODO: Can this be changed?
+	return ToPyBool((f32)ImGui::GetIO().MouseDownDuration[button] >= threshold);
 }
 
 static PyObject*
@@ -2750,7 +2751,7 @@ is_mouse_button_down(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["is_mouse_button_down"], args, kwargs, __FUNCTION__, &button))
 		return GetPyNone();
 
-	return ToPyBool(GContext->input.mousedown[button]);
+	return ToPyBool(ImGui::IsMouseDown(button));
 }
 
 static PyObject*
@@ -2761,7 +2762,7 @@ is_mouse_button_clicked(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["is_mouse_button_clicked"], args, kwargs, __FUNCTION__, &button))
 		return GetPyNone();
 
-	return ToPyBool(GContext->input.mouseclick[button]);
+	return ToPyBool(ImGui::IsMouseClicked(button));
 }
 
 static PyObject*
@@ -2772,7 +2773,7 @@ is_mouse_button_double_clicked(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["is_mouse_button_double_clicked"], args, kwargs, __FUNCTION__, &button))
 		return GetPyNone();
 
-	return ToPyBool(GContext->input.mousedoubleclick[button]);
+	return ToPyBool(ImGui::IsMouseDoubleClicked(button));
 }
 
 static PyObject*
@@ -2783,7 +2784,7 @@ is_mouse_button_released(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["is_mouse_button_released"], args, kwargs, __FUNCTION__, &button))
 		return GetPyNone();
 
-	return ToPyBool(GContext->input.mousereleased[button]);
+	return ToPyBool(ImGui::IsMouseReleased(button));
 }
 
 static PyObject*

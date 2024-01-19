@@ -22,9 +22,9 @@ pip install ../dearpygui/
     - [ ] Update demo with new functions
 - [ ] Bugfix:
     - [x] Crash when opening table in demo: `void ImGui::TableSetColumnEnabled(int, bool): Assertion 'table->Flags & ImGuiTableFlags_Hideable' failed.`
-    - [ ] Crash when opening some plots in demo:
-        - [ ] Line series: `void ImPlot::SetupLegend(ImPlotLocation, ImPlotLegendFlags): Assertion '((gp.CurrentPlot != nullptr && !gp.CurrentPlot->SetupLocked) || (gp.CurrentSubplot != nullptr && gp.CurrentPlot == nullptr)) && "Setup needs to be called after BeginPlot or BeginSubplots and before any setup locking functions (e.g. PlotX)!"' failed.` (Already investigated a little bit, probably some deep memory leak error)
-        - [ ] Query: `void ImPlot::SetupAxis(ImAxis, const char*, ImPlotAxisFlags): Assertion '(gp.CurrentPlot != nullptr && !gp.CurrentPlot->SetupLocked) && "Setup needs to be called after BeginPlot and before any setup locking functions (e.g. PlotX)!"' failed.`
+    - [x] Crash when opening some plots in demo:
+        - [x] Line series: `void ImPlot::SetupLegend(ImPlotLocation, ImPlotLegendFlags): Assertion '((gp.CurrentPlot != nullptr && !gp.CurrentPlot->SetupLocked) || (gp.CurrentSubplot != nullptr && gp.CurrentPlot == nullptr)) && "Setup needs to be called after BeginPlot or BeginSubplots and before any setup locking functions (e.g. PlotX)!"' failed.` (Already investigated a little bit, probably some deep memory leak error)
+        - [x] Query: `void ImPlot::SetupAxis(ImAxis, const char*, ImPlotAxisFlags): Assertion '(gp.CurrentPlot != nullptr && !gp.CurrentPlot->SetupLocked) && "Setup needs to be called after BeginPlot and before any setup locking functions (e.g. PlotX)!"' failed.`
     - [ ] While scrolling on plots before start tracing: `bool ImPlot::BeginPlot(const char*, const ImVec2&, ImPlotFlags): Assertion '(gp.CurrentPlot == nullptr) && "Mismatched BeginPlot()/EndPlot()!"' failed.`
     - [x] When adding mvTool_Metrics it gives `T& ImVector<T>::operator[](int) [with T = ImVec2]: Assertion 'i >= 0 && i < Size' failed.`
     - mvTool_Metrics doesn't show the "Presentation" plot anymore.
