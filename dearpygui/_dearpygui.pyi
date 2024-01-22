@@ -1107,8 +1107,16 @@ def set_axis_limits_auto(axis : Union[int, str]) -> None:
 	"""Removes all limits on specified axis."""
 	...
 
+def set_axis_limits_constraints(axis : Union[int, str], vmin : float, vmax : float) -> None:
+	"""Sets an axis' limits constraints so that users can't pan beyond a min or max value"""
+	...
+
 def set_axis_ticks(axis : Union[int, str], label_pairs : Any) -> None:
 	"""Replaces axis ticks with 'label_pairs' argument."""
+	...
+
+def set_axis_zoom_constraints(axis : Union[int, str], vmin : float, vmax : float) -> None:
+	"""Sets an axis' zoom constraints so that users can't zoom beyond a min or max value"""
 	...
 
 def set_clip_space(item : Union[int, str], top_left_x : float, top_left_y : float, width : float, height : float, min_depth : float, max_depth : float) -> None:

@@ -8136,6 +8136,19 @@ def set_axis_limits_auto(axis):
 
 	return internal_dpg.set_axis_limits_auto(axis)
 
+def set_axis_limits_constraints(axis, vmin, vmax):
+	"""	 Sets an axis' limits constraints so that users can't pan beyond a min or max value
+
+	Args:
+		axis (Union[int, str]): 
+		vmin (float): 
+		vmax (float): 
+	Returns:
+		None
+	"""
+
+	return internal_dpg.set_axis_limits_constraints(axis, vmin, vmax)
+
 def set_axis_ticks(axis, label_pairs):
 	"""	 Replaces axis ticks with 'label_pairs' argument.
 
@@ -8147,6 +8160,19 @@ def set_axis_ticks(axis, label_pairs):
 	"""
 
 	return internal_dpg.set_axis_ticks(axis, label_pairs)
+
+def set_axis_zoom_constraints(axis, vmin, vmax):
+	"""	 Sets an axis' zoom constraints so that users can't zoom beyond a min or max value
+
+	Args:
+		axis (Union[int, str]): 
+		vmin (float): 
+		vmax (float): 
+	Returns:
+		None
+	"""
+
+	return internal_dpg.set_axis_zoom_constraints(axis, vmin, vmax)
 
 def set_clip_space(item, top_left_x, top_left_y, width, height, min_depth, max_depth):
 	"""	 New in 1.1. Set the clip space for depth clipping and 'viewport' transformation.
