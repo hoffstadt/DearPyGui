@@ -264,7 +264,34 @@ InsertParser_Block0(std::map<std::string, mvPythonParser>& parsers)
 		mvPythonParser parser = FinalizeParser(setup, args);
 		parsers.insert({ "get_axis_limits", parser });
 	}
+	{
+		std::vector<mvPythonDataElement> args;
+		args.reserve(3);
+		args.push_back({ mvPyDataType::UUID, "axis" });
+		args.push_back({ mvPyDataType::Float, "vmin" });
+		args.push_back({ mvPyDataType::Float, "vmax" });
 
+		mvPythonParserSetup setup;
+		setup.about = "Sets an axis' limits constraints so that users can't pan beyond a min or max value";
+		setup.category = { "Plotting", "App Item Operations" };
+
+		mvPythonParser parser = FinalizeParser(setup, args);
+		parsers.insert({ "set_axis_limits_constraints", parser });
+	}
+	{
+		std::vector<mvPythonDataElement> args;
+		args.reserve(3);
+		args.push_back({ mvPyDataType::UUID, "axis" });
+		args.push_back({ mvPyDataType::Float, "vmin" });
+		args.push_back({ mvPyDataType::Float, "vmax" });
+
+		mvPythonParserSetup setup;
+		setup.about = "Sets an axis' zoom constraints so that users can't zoom beyond a min or max value";
+		setup.category = { "Plotting", "App Item Operations" };
+
+		mvPythonParser parser = FinalizeParser(setup, args);
+		parsers.insert({ "set_axis_zoom_constraints", parser });
+	}
 	{
 		std::vector<mvPythonDataElement> args;
 		args.reserve(3);

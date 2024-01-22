@@ -15,7 +15,7 @@ pip install ../dearpygui/
 - [ ] Generic:
     - [ ] No downsampling in PyGui, probably problems with recognizing axes limits
     - [x] Fix `void ImGui::Shutdown(): Assertion '(g.IO.BackendPlatformUserData == __null) && "Forgot to shutdown Platform backend?"' failed.` error on shutdown.
-    - [ ] Enable control mods for plots
+    - [ ] Enable control mods for plots!
     - [ ] Check if what you did with DragPoint value is okay or not
     - [x] Find out how py files are created
     - [x] Remove GetKeysConstants because it's deeply linked to new IO (also, I put it, so it can be removed without any worries)
@@ -133,7 +133,7 @@ Take a look at implot.cpp to have a better changelog.
         - [ ] Add ImPlotFlags_CanvasOnly flag.. it's more problematic than expected
     - [ ] Change in plots (https://github.com/epezent/implot/releases/tag/v0.14#:~:text=Besides%20that%2C%20items%20flags%20brings%20about%20a%20few%20other%20API%20breaking%20changes%20users%20should%20be%20aware%20of%3A)
     - [ ] Previously, users could define time and log scales with ImPlotAxisFlags_Log, and ImPlotAxisFlags_Time. These flags have been replaced with a more general system using a new the setup function SetupAxisScale
-    - [ ] You can now constrain axes limits so that users can't pan beyond a min or max value, or zoom beyond a min or max width/height
+    - [x] You can now constrain axes limits so that users can't pan beyond a min or max value, or zoom beyond a min or max width/height
     - [ ] You can now customize the supported types by defining IMPLOT_CUSTOM_NUMERIC_TYPES at compile time to define your own type list (probably not interesting for us)
     - [x] Line plots now honor ImGui's AntiAliasedLines and AntiAliasedLinesUseTex. That's right, ImPlot now uses texture based AA!
     - [x] Legend entries can be sorted using ImPlotLegendFlags_Sort

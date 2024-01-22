@@ -424,6 +424,8 @@ struct mvPlotAxisConfig
     bool                     setLimits = false;
     ImVec2                   limits;
     ImVec2                   limits_actual;
+    ImVec2                   constraints_range;
+    ImVec2                   zoom_range;
     std::vector<std::string> labels;
     std::vector<double>      labelLocations;
     std::vector<const char*> clabels; // to prevent conversion from string to char* every frame

@@ -420,6 +420,10 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 					ImPlot::SetupAxisLimits(ax, axis->configData.limits.x, axis->configData.limits.y, ImGuiCond_Always);
 					axis->configData._dirty = false;
 				}
+				if (axis->configData.constraints_range.x != 0.0f || axis->configData.constraints_range.y != 0.0f)
+					ImPlot::SetupAxisLimitsConstraints(ax, axis->configData.constraints_range.x, axis->configData.constraints_range.y);
+				if (axis->configData.zoom_range.x != 0.0f || axis->configData.zoom_range.y != 0.0f)
+					ImPlot::SetupAxisZoomConstraints(ax, axis->configData.zoom_range.x, axis->configData.zoom_range.y);
 
 				if (!axis->configData.labels.empty())
 				{
