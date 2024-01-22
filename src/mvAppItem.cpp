@@ -4,6 +4,7 @@
 #include "mvCore.h"
 #include "mvAppItemCommons.h"
 #include "mvPyUtils.h"
+#include <iostream>
 
 static void
 UpdateLocations(std::vector<std::shared_ptr<mvAppItem>>* children, i32 slots)
@@ -2672,7 +2673,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "no_legend", mvArgType::KEYWORD_ARG, "False", "the legend will not be displayed"});
         args.push_back({ mvPyDataType::Bool, "no_inputs", mvArgType::KEYWORD_ARG, "False", "the user will not be able to interact with the plot"});
         args.push_back({ mvPyDataType::Bool, "no_frame", mvArgType::KEYWORD_ARG, "False", "the ImGui frame will not be rendered"});
-        args.push_back({ mvPyDataType::Bool, "canvas_only", mvArgType::KEYWORD_ARG, "False", "shortcut for: no_title + no_legend + no_menu + no_box_select + no_mouse_text"});
+        // args.push_back({ mvPyDataType::Bool, "canvas_only", mvArgType::KEYWORD_ARG, "False", "shortcut for: no_title + no_legend + no_menu + no_box_select + no_mouse_text"});
         args.push_back({ mvPyDataType::Bool, "use_local_time", mvArgType::KEYWORD_ARG, "False", "axis labels will be formatted for your timezone when" });
         args.push_back({ mvPyDataType::Bool, "use_ISO8601", mvArgType::KEYWORD_ARG, "False", "dates will be formatted according to ISO 8601 where applicable (e.g. YYYY-MM-DD, YYYY-MM, --MM-DD, etc.)" });
         args.push_back({ mvPyDataType::Bool, "use_24hour_clock", mvArgType::KEYWORD_ARG, "False", "times will be formatted using a 24 hour clock" });
@@ -5234,7 +5235,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
 
         // plot flags
         args.push_back({ mvPyDataType::Bool, "no_title", mvArgType::KEYWORD_ARG, "False", "the subplot title will not be displayed" });
-        args.push_back({ mvPyDataType::Bool, "no_legends", mvArgType::KEYWORD_ARG, "False", "the legend will not be displayed" });
+        args.push_back({ mvPyDataType::Bool, "no_legend", mvArgType::KEYWORD_ARG, "False", "the legend will not be displayed" });
         args.push_back({ mvPyDataType::Bool, "no_menus", mvArgType::KEYWORD_ARG, "False", "the user will not be able to open context menus with right-click" });
         args.push_back({ mvPyDataType::Bool, "no_resize", mvArgType::KEYWORD_ARG, "False", "resize splitters between subplot cells will be not be provided" });
         args.push_back({ mvPyDataType::Bool, "no_align", mvArgType::KEYWORD_ARG, "False", "subplot edges will not be aligned vertically or horizontally" });
