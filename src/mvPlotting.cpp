@@ -2378,10 +2378,8 @@ DearPyGui::set_configuration(PyObject* inDict, mvPlotConfig& outConfig)
 	flagop("equal_aspects", ImPlotFlags_Equal, outConfig._flags);
 	flagop("no_legend", ImPlotFlags_NoLegend, outConfig._flags);
 	flagop("no_inputs", ImPlotFlags_NoInputs, outConfig._flags);
-	flagop("no_frame", ImPlotFlags_NoFrame, outConfig._flags);
-	flagop("canvas_only", ImPlotFlags_CanvasOnly, outConfig._flags);
-
-	// TODO: Add all flags for ImPlotLineFlags, ImPlotBarsFlags, etc... (https://github.com/epezent/implot/commit/63d5ed94b77acdf73201a00074bfd80467f50f0a)
+	flagop("no_frame", ImPlotFlags_NoFrame, outConfig._flags);	
+	// flagop("canvas_only", ImPlotFlags_CanvasOnly, outConfig._flags);
 }
 
 void
@@ -2904,6 +2902,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvPlotAxisConfig& outConfig, mvAp
 	{
 		static_cast<mvPlot*>(item.info.parentPtr)->updateFlags();
 		static_cast<mvPlot*>(item.info.parentPtr)->updateAxesNames();
+		std::cout << "Axis legend!" << static_cast<mvPlot*>(item.info.parentPtr)->configData._flags << std::endl;
 	}
 
 	if (item.info.shownLastFrame)
@@ -2916,6 +2915,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvPlotAxisConfig& outConfig, mvAp
 
 	if (item.info.hiddenLastFrame)
 	{
+		std::cout << "2Hiding legend" << std::endl;
 		item.info.hiddenLastFrame = false;
 		if (auto plot = static_cast<mvPlot*>(item.info.parentPtr))
 			plot->configData._flags |= ImPlotFlags_NoLegend;
@@ -2968,7 +2968,7 @@ DearPyGui::fill_configuration_dict(const mvPlotConfig& inConfig, PyObject* outDi
 	checkbitset("no_legend", ImPlotFlags_NoLegend, inConfig._flags);
 	checkbitset("no_inputs", ImPlotFlags_NoInputs, inConfig._flags);
 	checkbitset("no_frame", ImPlotFlags_NoFrame, inConfig._flags);
-	checkbitset("canvas_only", ImPlotFlags_CanvasOnly, inConfig._flags);
+	// checkbitset("canvas_only", ImPlotFlags_CanvasOnly, inConfig._flags);
 }
 
 void
@@ -3375,6 +3375,8 @@ DearPyGui::fill_configuration_dict(const mvSubPlotsConfig& inConfig, PyObject* o
 	checkbitset("link_all_x", ImPlotSubplotFlags_LinkAllX, inConfig.flags);
 	checkbitset("link_all_y", ImPlotSubplotFlags_LinkAllY, inConfig.flags);
 	checkbitset("column_major", ImPlotSubplotFlags_ColMajor, inConfig.flags);
+	checkbitset("no_legend", ImPlotSubplotFlags_NoLegend, inConfig.flags);
+	checkbitset("share_items", ImPlotSubplotFlags_ShareItems, inConfig.flags);
 }
 
 void

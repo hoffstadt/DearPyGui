@@ -14,19 +14,20 @@ pip install ../dearpygui/
 ### TODO Generic
 - [ ] Generic:
     - [ ] No downsampling in PyGui, probably problems with recognizing axes limits
-    - [ ] Fix `void ImGui::Shutdown(): Assertion '(g.IO.BackendPlatformUserData == __null) && "Forgot to shutdown Platform backend?"' failed.` error on shutdown.
+    - [x] Fix `void ImGui::Shutdown(): Assertion '(g.IO.BackendPlatformUserData == __null) && "Forgot to shutdown Platform backend?"' failed.` error on shutdown.
     - [ ] Enable control mods for plots
     - [ ] Check if what you did with DragPoint value is okay or not
     - [x] Find out how py files are created
     - [x] Remove GetKeysConstants because it's deeply linked to new IO (also, I put it, so it can be removed without any worries)
-    - [ ] Make it work wihout obsolete functions (ImGui and ImPlot)
+    - [x] Make it work wihout obsolete functions (ImGui and ImPlot)
     - [ ] Update demo with new functions
 - [ ] Bugfix:
+    - [ ] Crash on tests teardown
     - [x] Crash when opening table in demo: `void ImGui::TableSetColumnEnabled(int, bool): Assertion 'table->Flags & ImGuiTableFlags_Hideable' failed.`
     - [x] Crash when opening some plots in demo:
         - [x] Line series: `void ImPlot::SetupLegend(ImPlotLocation, ImPlotLegendFlags): Assertion '((gp.CurrentPlot != nullptr && !gp.CurrentPlot->SetupLocked) || (gp.CurrentSubplot != nullptr && gp.CurrentPlot == nullptr)) && "Setup needs to be called after BeginPlot or BeginSubplots and before any setup locking functions (e.g. PlotX)!"' failed.` (Already investigated a little bit, probably some deep memory leak error)
         - [x] Query: `void ImPlot::SetupAxis(ImAxis, const char*, ImPlotAxisFlags): Assertion '(gp.CurrentPlot != nullptr && !gp.CurrentPlot->SetupLocked) && "Setup needs to be called after BeginPlot and before any setup locking functions (e.g. PlotX)!"' failed.`
-    - [ ] While scrolling on plots before start tracing: `bool ImPlot::BeginPlot(const char*, const ImVec2&, ImPlotFlags): Assertion '(gp.CurrentPlot == nullptr) && "Mismatched BeginPlot()/EndPlot()!"' failed.`
+    - [x] While scrolling on plots before start tracing: `bool ImPlot::BeginPlot(const char*, const ImVec2&, ImPlotFlags): Assertion '(gp.CurrentPlot == nullptr) && "Mismatched BeginPlot()/EndPlot()!"' failed.`
     - [x] When adding mvTool_Metrics it gives `T& ImVector<T>::operator[](int) [with T = ImVec2]: Assertion 'i >= 0 && i < Size' failed.`
     - mvTool_Metrics doesn't show the "Presentation" plot anymore.
     - [ ] Crash when pressing button up/down in the `mvTool_ItemRegistry`, probably a problem with function MoveItemUp/Down in `mvItemRegistry.cpp`
@@ -127,12 +128,15 @@ Take a look at implot.cpp to have a better changelog.
     - [ ] Bar plots can now be plotted in groups and stacked.
 - [ ] [V 0.14](https://github.com/epezent/implot/releases/tag/v0.14)
     - [ ] Each of ImPlot's PlotX functions now takes an optional ImPlotXFlags parameter.
+        - [x] Implement generic `ImPlotItemFlags` for every type of Plot
+        - [ ] Implement specific flags for every kind of plot
+        - [ ] Add ImPlotFlags_CanvasOnly flag.. it's more problematic than expected
     - [ ] Change in plots (https://github.com/epezent/implot/releases/tag/v0.14#:~:text=Besides%20that%2C%20items%20flags%20brings%20about%20a%20few%20other%20API%20breaking%20changes%20users%20should%20be%20aware%20of%3A)
     - [ ] Previously, users could define time and log scales with ImPlotAxisFlags_Log, and ImPlotAxisFlags_Time. These flags have been replaced with a more general system using a new the setup function SetupAxisScale
     - [ ] You can now constrain axes limits so that users can't pan beyond a min or max value, or zoom beyond a min or max width/height
     - [ ] You can now customize the supported types by defining IMPLOT_CUSTOM_NUMERIC_TYPES at compile time to define your own type list (probably not interesting for us)
     - [x] Line plots now honor ImGui's AntiAliasedLines and AntiAliasedLinesUseTex. That's right, ImPlot now uses texture based AA!
-    - [ ] Legend entries can be sorted using ImPlotLegendFlags_Sort
+    - [x] Legend entries can be sorted using ImPlotLegendFlags_Sort
 - [x] [V 0.15](https://github.com/epezent/implot/releases/tag/v0.15)
 - [x] [V 0.16](https://github.com/epezent/implot/releases/tag/v0.16) 
 
