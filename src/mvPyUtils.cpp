@@ -1214,7 +1214,7 @@ template<typename T>
 Py_ssize_t GetSizeAndReserveMemoryVectVect(PyObject* value, std::vector<std::vector<T>>& vec, const std::string mode)
 {
     assert((mode == "tuple" || mode == "list") && "mode parameter must be 'tuple' or 'list'");
-    Py_ssize_t size;
+    Py_ssize_t size = 0;
     if (mode == "tuple")
         size = PyTuple_Size(value);
     else if (mode == "list")
@@ -1228,7 +1228,7 @@ template<typename T>
 Py_ssize_t GetSizeAndReserveMemoryVect(PyObject* value, std::vector<T>& vec, const std::string mode)
 {
     assert((mode == "tuple" || mode == "list") && "mode parameter must be 'tuple' or 'list'");
-    Py_ssize_t size;
+    Py_ssize_t size = 0;
     if (mode == "tuple")
         size = PyTuple_Size(value);
     else if (mode == "list")
