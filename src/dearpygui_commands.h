@@ -2573,7 +2573,8 @@ destroy_context(PyObject* self, PyObject* args, PyObject* kwargs)
 			});
 
 		// Doesn't pass tests
-		mvCleanupViewport(*GContext->viewport);
+		if (GContext->viewport != nullptr)
+			mvCleanupViewport(*GContext->viewport);
 
 		ImNodes::DestroyContext();
 		ImPlot::DestroyContext();
