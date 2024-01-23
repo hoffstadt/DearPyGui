@@ -14,6 +14,7 @@ struct mvDragPointConfig;
 struct mvBasicSeriesConfig;
 struct mvLineSeriesConfig;
 struct mvBarSeriesConfig;
+struct mvGroupBarSeriesConfig;
 struct mvStairSeriesConfig;
 struct mvInfLineSeriesConfig;
 struct mvScatterSeriesConfig;
@@ -37,6 +38,7 @@ namespace DearPyGui
     void fill_configuration_dict(const mvDragPointConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvLineSeriesConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvBarSeriesConfig& inConfig, PyObject* outDict);
+    void fill_configuration_dict(const mvGroupBarSeriesConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvStairSeriesConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvInfLineSeriesConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvScatterSeriesConfig& inConfig, PyObject* outDict);
@@ -63,6 +65,7 @@ namespace DearPyGui
     void set_configuration(PyObject* inDict, mvDragPointConfig& outConfig);
     void set_configuration(PyObject* inDict, mvLineSeriesConfig& outConfig);
     void set_configuration(PyObject* inDict, mvBarSeriesConfig& outConfig);
+    void set_configuration(PyObject* inDict, mvGroupBarSeriesConfig& outConfig);
     void set_configuration(PyObject* inDict, mvStairSeriesConfig& outConfig);
     void set_configuration(PyObject* inDict, mvInfLineSeriesConfig& outConfig);
     void set_configuration(PyObject* inDict, mvScatterSeriesConfig& outConfig);
@@ -85,6 +88,7 @@ namespace DearPyGui
     // positional args TODO: combine with above
     void set_positional_configuration(PyObject* inDict, mvLineSeriesConfig& outConfig);
     void set_positional_configuration(PyObject* inDict, mvBarSeriesConfig& outConfig);
+    void set_positional_configuration(PyObject* inDict, mvGroupBarSeriesConfig& outConfig);
     void set_positional_configuration(PyObject* inDict, mvStairSeriesConfig& outConfig);
     void set_positional_configuration(PyObject* inDict, mvInfLineSeriesConfig& outConfig);
     void set_positional_configuration(PyObject* inDict, mvScatterSeriesConfig& outConfig);
@@ -120,6 +124,7 @@ namespace DearPyGui
     void draw_drag_rect         (ImDrawList* drawlist, mvAppItem& item, mvDragRectConfig& config);
     void draw_drag_point        (ImDrawList* drawlist, mvAppItem& item, mvDragPointConfig& config);
     void draw_bar_series        (ImDrawList* drawlist, mvAppItem& item, const mvBarSeriesConfig& config);
+    void draw_group_bar_series  (ImDrawList* drawlist, mvAppItem& item, const mvGroupBarSeriesConfig& config);
     void draw_inf_lines_series  (ImDrawList* drawlist, mvAppItem& item, const mvInfLineSeriesConfig& config);
     void draw_line_series       (ImDrawList* drawlist, mvAppItem& item, const mvLineSeriesConfig& config);
     void draw_scatter_series    (ImDrawList* drawlist, mvAppItem& item, const mvScatterSeriesConfig& config);
@@ -177,6 +182,18 @@ struct mvBarSeriesConfig
         std::vector<double>{},
         std::vector<double>{},
         std::vector<double>{} });
+};
+
+struct mvGroupBarSeriesConfig
+{
+    ImPlotBarsFlags flags = ImPlotBarsFlags_None;
+    float group_size = 0.67f;
+    int shift;
+    std::vector<std::string> label_ids;
+    int item_count;
+    int group_count;
+    std::shared_ptr<std::vector<std::vector<double>>> value = std::make_shared<std::vector<std::vector<double>>>(
+        std::vector<std::vector<double>>{ std::vector<double>{} });
 };
 
 struct mvStairSeriesConfig
@@ -443,9 +460,6 @@ struct mvPlotConfig
     ImGuiMouseButton             select;        // RMB    begins box selection when pressed and confirms selection when released
     ImGuiKey                     select_mod = ImGuiKey_None;     // none   optional modifier that must be held for box selection
     ImGuiMouseButton             select_cancel;  // LMB    cancels active box selection when pressed; cannot be same as Select
-    int             query_button = 0;
-    int             query_mod = 0;  // TODO: Check if these variables are used, then delete them
-    int             query_toggle_mod = 0;
     ImGuiKey                     select_horz_mod = ImGuiMod_Alt; // Alt    expands active box selection horizontally to plot edge when held
     ImGuiKey                     select_vert_mod = ImGuiMod_Shift; // Shift  expands active box selection vertically to plot edge when held
 
@@ -461,7 +475,7 @@ struct mvPlotConfig
     bool                            _useColorMap = false;
     ImPlotColormap                  _colormap = ImPlotColormap_Deep;
     bool                            _equalAspectRatios = false;
-    std::vector<ImRect>             rects = std::vector<ImRect>();
+    std::vector<ImPlotRect>         rects = std::vector<ImPlotRect>();
     bool                            _fitDirty = false;
     bool                            _axisfitDirty[ImAxis_COUNT] = { false, false, false, false, false, false }; 
     ImPlotInputMap                  _originalMap = ImPlotInputMap(); // custom input mapping
@@ -548,6 +562,21 @@ public:
     explicit mvBarSeries(mvUUID uuid) : mvAppItem(uuid) {}
     void handleSpecificPositionalArgs(PyObject* dict) override { DearPyGui::set_positional_configuration(dict, configData); }
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_bar_series(drawlist, *this, configData); }
+    void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
+    void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
+    void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData.value); }
+    void* getValue() override { return &configData.value; }
+    PyObject* getPyValue() override{ return ToPyList(*configData.value); }
+    void setPyValue(PyObject* value) override { *configData.value = ToVectVectDouble(value); }
+};
+
+class mvGroupBarSeries : public mvAppItem
+{
+public:
+    mvGroupBarSeriesConfig configData{};
+    explicit mvGroupBarSeries(mvUUID uuid) : mvAppItem(uuid) {}
+    void handleSpecificPositionalArgs(PyObject* dict) override { DearPyGui::set_positional_configuration(dict, configData); }
+    void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_group_bar_series(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
     void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData.value); }

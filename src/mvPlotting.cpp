@@ -471,27 +471,34 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 		if (config._useColorMap)
 			ImPlot::PopColormap();
 
-		/* std::cout << drawlist->_ClipRectStack.size() << std::endl;  // Crash here
-		for(auto rect : drawlist->_ClipRectStack) {
-			ImRect area = ImRect(rect.x, rect.y, rect.z, rect.w);
-			config.rects.push_back(area);
-		}
-
-		if (item.config.callback != nullptr && drawlist->_ClipRectStack.size() > 0)
+		if (item.config.callback != nullptr && config.rects.size() > 0)
 		{
-			
 			for(auto rect : config.rects) {
 				const std::string sender = item.config.alias.empty() ? std::to_string(item.uuid) : item.config.alias;
 				mvSubmitCallback([=, &item]() {
-					PyObject* area = PyTuple_New(4);
-					PyTuple_SetItem(area, 0, PyFloat_FromDouble(rect.Min.x));
-					PyTuple_SetItem(area, 1, PyFloat_FromDouble(rect.Min.y));
-					PyTuple_SetItem(area, 2, PyFloat_FromDouble(rect.Max.x));
-					PyTuple_SetItem(area, 3, PyFloat_FromDouble(rect.Max.y));
-					mvAddCallback(item.config.callback, sender, area, item.config.user_data);
+					PyObject* result = PyTuple_New(config.rects.size());
+					for (int i = 0; i < config.rects.size(); ++i) {
+						auto rectMin = config.rects[i].Min();
+						auto rectMax = config.rects[i].Max();
+						PyTuple_SetItem(result, i, Py_BuildValue("(dddd)", rectMin.x, rectMin.y, rectMax.x, rectMax.y));
+					}
+					mvAddCallback(item.config.callback, sender, result, item.config.user_data);
 				});
 			}
-		} */
+		}
+
+		if (ImPlot::IsPlotSelected()) {
+            ImPlotRect select = ImPlot::GetPlotSelection();
+            if (ImGui::IsMouseClicked(ImPlot::GetInputMap().SelectCancel)) {
+                ImPlot::CancelPlotSelection();
+                config.rects.push_back(select);
+            }
+        }
+        for (int i = 0; i < config.rects.size(); ++i) {
+			// TODO: Implement flags
+			// TODO: how to delete?
+            ImPlot::DragRect(i,&config.rects[i].X.Min,&config.rects[i].Y.Min,&config.rects[i].X.Max,&config.rects[i].Y.Max,ImVec4(1,0,1,1));
+        }
 
 		if (ImPlot::IsPlotHovered())
 		{
@@ -791,6 +798,77 @@ DearPyGui::draw_bar_series(ImDrawList* drawlist, mvAppItem& item, const mvBarSer
 		yptr = &(*config.value.get())[1];
 
 		ImPlot::PlotBars(item.info.internalLabel.c_str(), xptr->data(), yptr->data(), (int)xptr->size(), config.weight, config.flags);
+
+		// Begin a popup for a legend entry.
+		if (ImPlot::BeginLegendPopup(item.info.internalLabel.c_str(), 1))
+		{
+			for (auto& childset : item.childslots)
+			{
+				for (auto& item : childset)
+				{
+					// skip item if it's not shown
+					if (!item->config.show)
+						continue;
+					item->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
+					UpdateAppItemState(item->state);
+				}
+			}
+			ImPlot::EndLegendPopup();
+		}
+	}
+
+	//-----------------------------------------------------------------------------
+	// update state
+	//   * only update if applicable
+	//-----------------------------------------------------------------------------
+
+
+	//-----------------------------------------------------------------------------
+	// post draw
+	//-----------------------------------------------------------------------------
+
+	// pop font off stack
+	if (item.font)
+		ImGui::PopFont();
+
+	// handle popping themes
+	cleanup_local_theming(&item);
+}
+
+void
+DearPyGui::draw_group_bar_series(ImDrawList* drawlist, mvAppItem& item, const mvGroupBarSeriesConfig& config)
+{
+
+	//-----------------------------------------------------------------------------
+	// pre draw
+	//-----------------------------------------------------------------------------
+	if (!item.config.show)
+		return;
+
+	// push font if a font object is attached
+	if (item.font)
+	{
+		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
+		ImGui::PushFont(fontptr);
+	}
+
+	// themes
+	apply_local_theming(&item);
+
+	//-----------------------------------------------------------------------------
+	// draw
+	//-----------------------------------------------------------------------------
+	{
+
+		static const std::vector<double>* values;
+
+		values = &(*config.value.get())[0];
+
+		// item.info.internalLabel.c_str()
+		std::vector<const char*> strings;
+		for (int i = 0; i < config.label_ids.size(); ++i)
+			strings.push_back(config.label_ids[i].c_str());
+		ImPlot::PlotBarGroups(strings.data(), values->data(), config.item_count, config.group_count, config.group_size, config.shift, config.flags);
 
 		// Begin a popup for a legend entry.
 		if (ImPlot::BeginLegendPopup(item.info.internalLabel.c_str(), 1))
@@ -2095,6 +2173,18 @@ DearPyGui::set_positional_configuration(PyObject* inDict, mvBarSeriesConfig& out
 }
 
 void
+DearPyGui::set_positional_configuration(PyObject* inDict, mvGroupBarSeriesConfig& outConfig)
+{
+	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(mvAppItemType::mvGroupBarSeries)], inDict))
+		return;
+
+	(*outConfig.value)[0] = ToDoubleVect(PyTuple_GetItem(inDict, 0));
+	outConfig.label_ids = ToStringVect(PyTuple_GetItem(inDict, 1));
+	outConfig.item_count = ToInt(PyTuple_GetItem(inDict, 2));
+	outConfig.group_count = ToInt(PyTuple_GetItem(inDict, 3));
+}
+
+void
 DearPyGui::set_positional_configuration(PyObject* inDict, mvStairSeriesConfig& outConfig)
 {
 	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(mvAppItemType::mvStairSeries)], inDict))
@@ -2356,9 +2446,6 @@ DearPyGui::set_configuration(PyObject* inDict, mvPlotConfig& outConfig)
 	if (PyObject* item = PyDict_GetItemString(inDict, "menu")) outConfig.menu = ToInt(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "select")) outConfig.select = ToInt(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "select_cancel")) outConfig.select_cancel = ToInt(item);
-	if (PyObject* item = PyDict_GetItemString(inDict, "query_button")) outConfig.query_button = ToInt(item);
-	if (PyObject* item = PyDict_GetItemString(inDict, "query_mod")) outConfig.query_mod = ToInt(item);
-	if (PyObject* item = PyDict_GetItemString(inDict, "query_toggle_mod")) outConfig.query_toggle_mod = ToInt(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "zoom_rate")) outConfig.zoom_rate = ToFloat(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "use_local_time")) outConfig.localTime = ToBool(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "use_ISO8601")) outConfig.iSO8601 = ToBool(item);
@@ -2501,6 +2588,30 @@ DearPyGui::set_configuration(PyObject* inDict, mvBarSeriesConfig& outConfig)
 
 	// flags
 	flagop("horizontal", ImPlotBarsFlags_Horizontal, outConfig.flags);
+}
+
+void
+DearPyGui::set_configuration(PyObject* inDict, mvGroupBarSeriesConfig& outConfig)
+{
+	if (inDict == nullptr)
+		return;
+
+	if (PyObject* item = PyDict_GetItemString(inDict, "values")) { (*outConfig.value)[0] = ToDoubleVect(item); }
+	if (PyObject* item = PyDict_GetItemString(inDict, "label_ids")) { outConfig.label_ids = ToStringVect(item); }
+	if (PyObject* item = PyDict_GetItemString(inDict, "item_count")) { outConfig.item_count = ToInt(item); }
+	if (PyObject* item = PyDict_GetItemString(inDict, "group_count")) { outConfig.group_count = ToInt(item); }
+	if (PyObject* item = PyDict_GetItemString(inDict, "group_size")) outConfig.group_size = ToFloat(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "shift")) outConfig.shift = ToInt(item);
+
+	// helper for bit flipping
+	auto flagop = [inDict](const char* keyword, int flag, int& flags)
+	{
+		if (PyObject* item = PyDict_GetItemString(inDict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+	};
+
+	// flags
+	flagop("horizontal", ImPlotBarGroupsFlags_Horizontal, outConfig.flags);
+	flagop("stacked", ImPlotBarGroupsFlags_Stacked, outConfig.flags);
 }
 
 void
@@ -2946,9 +3057,6 @@ DearPyGui::fill_configuration_dict(const mvPlotConfig& inConfig, PyObject* outDi
 	PyDict_SetItemString(outDict, "select", mvPyObject(ToPyInt(inConfig.select)));
 	PyDict_SetItemString(outDict, "select_mod", mvPyObject(ToPyInt(inConfig.select_mod)));
 	PyDict_SetItemString(outDict, "select_cancel", mvPyObject(ToPyInt(inConfig.select_cancel)));
-	PyDict_SetItemString(outDict, "query_button", mvPyObject(ToPyInt(inConfig.query_button)));
-	PyDict_SetItemString(outDict, "query_mod", mvPyObject(ToPyInt(inConfig.query_mod)));
-	PyDict_SetItemString(outDict, "query_toggle_mod", mvPyObject(ToPyInt(inConfig.query_toggle_mod)));
 	PyDict_SetItemString(outDict, "select_horz_mod", mvPyObject(ToPyInt(inConfig.select_horz_mod)));
 	PyDict_SetItemString(outDict, "select_vert_mod", mvPyObject(ToPyInt(inConfig.select_vert_mod)));
 	PyDict_SetItemString(outDict, "override_mod", mvPyObject(ToPyInt(inConfig.override_mod)));
@@ -3106,6 +3214,29 @@ DearPyGui::fill_configuration_dict(const mvBarSeriesConfig& inConfig, PyObject* 
 
 	// bar flags
 	checkbitset("horizontal", ImPlotBarsFlags_Horizontal, inConfig.flags);
+}
+
+void
+DearPyGui::fill_configuration_dict(const mvGroupBarSeriesConfig& inConfig, PyObject* outDict)
+{
+	if (outDict == nullptr)
+		return;
+
+	PyDict_SetItemString(outDict, "label_ids", ToPyList(inConfig.label_ids));
+	PyDict_SetItemString(outDict, "group_size", ToPyFloat(inConfig.group_size));
+	PyDict_SetItemString(outDict, "item_count", ToPyInt(inConfig.item_count));
+	PyDict_SetItemString(outDict, "group_count", ToPyInt(inConfig.group_count));
+	PyDict_SetItemString(outDict, "shift", ToPyInt(inConfig.shift));
+
+	// helper to check and set bit
+	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)
+	{
+		PyDict_SetItemString(outDict, keyword, mvPyObject(ToPyBool(flags & flag)));
+	};
+
+	// flags
+	checkbitset("horizontal", ImPlotBarGroupsFlags_Horizontal, inConfig.flags);
+	checkbitset("stacked", ImPlotBarGroupsFlags_Stacked, inConfig.flags);
 }
 
 void

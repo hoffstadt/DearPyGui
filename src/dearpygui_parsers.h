@@ -244,9 +244,9 @@ InsertParser_Block0(std::map<std::string, mvPythonParser>& parsers)
 		args.push_back({ mvPyDataType::UUID, "plot" });
 
 		mvPythonParserSetup setup;
-		setup.about = "Returns the query rects of the plot. (Requires plot 'query' kwarg to be enabled)";
+		setup.about = "Returns the query rects of the plot. Returns an array of array containing the top-left coordinates and bottom-right coordinates of the plot area.";
 		setup.category = { "Plotting", "App Item Operations" };
-		setup.returnType = mvPyDataType::FloatList;
+		setup.returnType = mvPyDataType::ListFloatList;
 
 		mvPythonParser parser = FinalizeParser(setup, args);
 		parsers.insert({ "get_plot_query_rects", parser });

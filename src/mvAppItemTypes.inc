@@ -80,6 +80,7 @@
     X( mvStemSeries ) \
     X( mvStairSeries ) \
     X( mvBarSeries ) \
+    X( mvGroupBarSeries ) \
     X( mvErrorSeries ) \
     X( mvInfLineSeries ) \
     X( mvHeatSeries ) \

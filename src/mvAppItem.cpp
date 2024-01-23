@@ -929,6 +929,7 @@ DearPyGui::GetEntityDesciptionFlags(mvAppItemType type)
     case mvAppItemType::mv2dHistogramSeries:
     case mvAppItemType::mvAreaSeries:
     case mvAppItemType::mvBarSeries:
+    case mvAppItemType::mvGroupBarSeries:
     case mvAppItemType::mvCandleSeries:
     case mvAppItemType::mvCustomSeries:
     case mvAppItemType::mvErrorSeries:
@@ -1099,6 +1100,7 @@ DearPyGui::GetEntityValueType(mvAppItemType type)
     case mvAppItemType::mv2dHistogramSeries:
     case mvAppItemType::mvAreaSeries:
     case mvAppItemType::mvBarSeries:
+    case mvAppItemType::mvGroupBarSeries:
     case mvAppItemType::mvCandleSeries:
     case mvAppItemType::mvCustomSeries:
     case mvAppItemType::mvErrorSeries:
@@ -1364,6 +1366,7 @@ DearPyGui::GetAllowableParents(mvAppItemType type)
 
     case mvAppItemType::mvAreaSeries:
     case mvAppItemType::mvBarSeries:
+    case mvAppItemType::mvGroupBarSeries:
     case mvAppItemType::mvCandleSeries:
     case mvAppItemType::mvErrorSeries:
     case mvAppItemType::mvHeatSeries:
@@ -2692,9 +2695,6 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Integer, "select", mvArgType::KEYWORD_ARG, "internal_dpg.mvMouseButton_Right", "begins box selection when pressed and confirms selection when released" });
         args.push_back({ mvPyDataType::Integer, "select_mod", mvArgType::KEYWORD_ARG, "0", "begins box selection when pressed and confirms selection when released" });
         args.push_back({ mvPyDataType::Integer, "select_cancel", mvArgType::KEYWORD_ARG, "internal_dpg.mvMouseButton_Left", "cancels active box selection when pressed" });
-        args.push_back({ mvPyDataType::Integer, "query_button", mvArgType::KEYWORD_ARG, "-1", "begins query selection when pressed and end query selection when released" });
-        args.push_back({ mvPyDataType::Integer, "query_mod", mvArgType::KEYWORD_ARG, "-1", "optional modifier that must be held for query selection" });
-        args.push_back({ mvPyDataType::Integer, "query_toggle_mod", mvArgType::KEYWORD_ARG, "-1", "when held, active box selections turn into queries" });
         args.push_back({ mvPyDataType::Integer, "select_horz_mod", mvArgType::KEYWORD_ARG, "internal_dpg.mvKey_LAlt", "expands active box selection/query horizontally to plot edge when held" });
         args.push_back({ mvPyDataType::Integer, "select_vert_mod", mvArgType::KEYWORD_ARG, "internal_dpg.mvKey_LShift", "expands active box selection/query vertically to plot edge when held" });
         args.push_back({ mvPyDataType::Integer, "override_mod", mvArgType::KEYWORD_ARG, "internal_dpg.mvKey_LControl", "when held, all input is ignored; used to enable axis/plots as DND sources" });
@@ -3994,6 +3994,29 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "horizontal", mvArgType::KEYWORD_ARG, "False", "bars will be rendered horizontally on the current y-axis" });
 
         setup.about = "Adds a bar series to a plot.";
+        setup.category = { "Plotting", "Containers", "Widgets" };
+        break;
+    }
+    case mvAppItemType::mvGroupBarSeries:                   
+    {
+        AddCommonArgs(args, (CommonParserArgs)(
+            MV_PARSER_ARG_ID |
+            MV_PARSER_ARG_PARENT |
+            MV_PARSER_ARG_BEFORE |
+            MV_PARSER_ARG_SOURCE |
+            MV_PARSER_ARG_SHOW)
+        );
+
+        args.push_back({ mvPyDataType::DoubleList, "values" });
+        args.push_back({ mvPyDataType::StringList, "label_ids" });
+        args.push_back({ mvPyDataType::Integer, "item_count" });
+        args.push_back({ mvPyDataType::Integer, "group_count"});
+        args.push_back({ mvPyDataType::Float, "group_size", mvArgType::KEYWORD_ARG, "0.67", "Size of bar groups" });
+        args.push_back({ mvPyDataType::Integer, "shift", mvArgType::KEYWORD_ARG, "0", "The position on the x axis where to start plotting bar groups" });
+        args.push_back({ mvPyDataType::Bool, "horizontal", mvArgType::KEYWORD_ARG, "False", "bar groups will be rendered horizontally on the current y-axis" });
+        args.push_back({ mvPyDataType::Bool, "stacked", mvArgType::KEYWORD_ARG, "False", "items in a group will be stacked on top of each other" });
+
+        setup.about = "Adds a bar groups series to a plot. 'values' is a row-major matrix with 'item_count' rows and 'group_count' cols. 'label_ids' should have 'item_count' elements.";
         setup.category = { "Plotting", "Containers", "Widgets" };
         break;
     }

@@ -2123,9 +2123,6 @@ def plot(**kwargs):
 		select (int, optional): begins box selection when pressed and confirms selection when released
 		select_mod (int, optional): begins box selection when pressed and confirms selection when released
 		select_cancel (int, optional): cancels active box selection when pressed
-		query_button (int, optional): begins query selection when pressed and end query selection when released
-		query_mod (int, optional): optional modifier that must be held for query selection
-		query_toggle_mod (int, optional): when held, active box selections turn into queries
 		select_horz_mod (int, optional): expands active box selection/query horizontally to plot edge when held
 		select_vert_mod (int, optional): expands active box selection/query vertically to plot edge when held
 		override_mod (int, optional): when held, all input is ignored; used to enable axis/plots as DND sources
@@ -4115,6 +4112,33 @@ def add_group(**kwargs):
 
 	return internal_dpg.add_group(**kwargs)
 
+def add_group_bar_series(values, label_ids, item_count, group_count, **kwargs):
+	"""	 Adds a bar groups series to a plot. 'values' is a row-major matrix with 'item_count' rows and 'group_count' cols. 'label_ids' should have 'item_count' elements.
+
+	Args:
+		values (Any): 
+		label_ids (Union[List[str], Tuple[str, ...]]): 
+		item_count (int): 
+		group_count (int): 
+		label (str, optional): Overrides 'name' as label.
+		user_data (Any, optional): User data for callbacks
+		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
+		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
+		source (Union[int, str], optional): Overrides 'id' as value storage key.
+		show (bool, optional): Attempt to render widget.
+		group_size (float, optional): Size of bar groups
+		shift (int, optional): The position on the x axis where to start plotting bar groups
+		horizontal (bool, optional): bar groups will be rendered horizontally on the current y-axis
+		stacked (bool, optional): items in a group will be stacked on top of each other
+		id (Union[int, str], optional): (deprecated)
+	Returns:
+		Union[int, str]
+	"""
+
+	return internal_dpg.add_group_bar_series(values, label_ids, item_count, group_count, **kwargs)
+
 def add_handler_registry(**kwargs):
 	"""	 Adds a handler registry.
 
@@ -4577,6 +4601,12 @@ def add_input_text(**kwargs):
 		password (bool, optional): Display all input characters as '*'.
 		scientific (bool, optional): Only allow characters 0123456789.+-*/eE (Scientific notation input)
 		on_enter (bool, optional): Only runs callback on enter key press.
+		auto_select_all (bool, optional): Select entire text when first taking mouse focus
+		ctrl_enter_for_new_line (bool, optional): In multi-line mode, unfocus with Enter, add new line with Ctrl+Enter (default is opposite: unfocus with Ctrl+Enter, add line with Enter).
+		no_horizontal_scroll (bool, optional): Disable following the cursor horizontally
+		always_overwrite (bool, optional): Overwrite mode
+		no_undo_redo (bool, optional): Disable undo/redo. Note that input text owns the text data while active, if you want to provide your own undo/redo stack you need e.g. to call ClearActiveID().
+		escape_clears_all (bool, optional): Escape key clears content if not empty, and deactivate otherwise (contrast to default behavior of Escape to revert)
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -5414,9 +5444,6 @@ def add_plot(**kwargs):
 		select (int, optional): begins box selection when pressed and confirms selection when released
 		select_mod (int, optional): begins box selection when pressed and confirms selection when released
 		select_cancel (int, optional): cancels active box selection when pressed
-		query_button (int, optional): begins query selection when pressed and end query selection when released
-		query_mod (int, optional): optional modifier that must be held for query selection
-		query_toggle_mod (int, optional): when held, active box selections turn into queries
 		select_horz_mod (int, optional): expands active box selection/query horizontally to plot edge when held
 		select_vert_mod (int, optional): expands active box selection/query vertically to plot edge when held
 		override_mod (int, optional): when held, all input is ignored; used to enable axis/plots as DND sources
@@ -7624,12 +7651,12 @@ def get_plot_mouse_pos():
 	return internal_dpg.get_plot_mouse_pos()
 
 def get_plot_query_rects(plot):
-	"""	 Returns the query rects of the plot. (Requires plot 'query' kwarg to be enabled)
+	"""	 Returns the query rects of the plot. Returns an array of array containing the top-left coordinates and bottom-right coordinates of the plot area.
 
 	Args:
 		plot (Union[int, str]): 
 	Returns:
-		Union[List[float], Tuple[float, ...]]
+		List[List[float]]
 	"""
 
 	return internal_dpg.get_plot_query_rects(plot)
@@ -9101,6 +9128,7 @@ mvScatterSeries=internal_dpg.mvScatterSeries
 mvStemSeries=internal_dpg.mvStemSeries
 mvStairSeries=internal_dpg.mvStairSeries
 mvBarSeries=internal_dpg.mvBarSeries
+mvGroupBarSeries=internal_dpg.mvGroupBarSeries
 mvErrorSeries=internal_dpg.mvErrorSeries
 mvInfLineSeries=internal_dpg.mvInfLineSeries
 mvHeatSeries=internal_dpg.mvHeatSeries
