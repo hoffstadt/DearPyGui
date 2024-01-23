@@ -1626,6 +1626,8 @@ def custom_series(x, y, channel_count, **kwargs):
 		y2 (Any, optional): 
 		y3 (Any, optional): 
 		tooltip (bool, optional): Show tooltip when plot is hovered.
+		no_fit (bool, optional): the item won't be considered for plot fits
+		no_legend (bool, optional): the item won't have a legend entry displayed
 		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
@@ -2103,26 +2105,32 @@ def plot(**kwargs):
 		no_title (bool, optional): the plot title will not be displayed
 		no_menus (bool, optional): the user will not be able to open context menus with right-click
 		no_box_select (bool, optional): the user will not be able to box-select with right-click drag
-		no_mouse_text (bool, optional): the mouse position, in plot coordinates, will not be displayed inside of the plot
+		no_mouse_text (bool, optional): the text of mouse position, in plot coordinates, will not be displayed inside of the plot
 		no_highlight (bool, optional): plot items will not be highlighted when their legend entry is hovered
 		query (bool, optional): the user will be able to draw query rects with middle - mouse or CTRL + right - click drag
 		crosshairs (bool, optional): the default mouse cursor will be replaced with a crosshair when hovered
 		equal_aspects (bool, optional): primary x and y axes will be constrained to have the same units/pixel (does not apply to auxiliary y-axes)
+		no_legend (bool, optional): the legend will not be displayed
+		no_inputs (bool, optional): the user will not be able to interact with the plot
+		no_frame (bool, optional): the ImGui frame will not be rendered
 		use_local_time (bool, optional): axis labels will be formatted for your timezone when
 		use_ISO8601 (bool, optional): dates will be formatted according to ISO 8601 where applicable (e.g. YYYY-MM-DD, YYYY-MM, --MM-DD, etc.)
 		use_24hour_clock (bool, optional): times will be formatted using a 24 hour clock
 		pan (int, optional): mouse button that enables panning when held
 		pan_mod (int, optional): optional modifier that must be held for panning
-		fit_button (int, optional): fits visible data when double clicked
-		context_menu_button (int, optional): opens plot context menu (if enabled) when clicked
-		box_select_button (int, optional): begins box selection when pressed and confirms selection when released
-		box_select_mod (int, optional): begins box selection when pressed and confirms selection when released
-		box_select_cancel_button (int, optional): cancels active box selection when pressed
+		menu (int, optional): opens context menus (if enabled) when clicked
+		fit (int, optional): fits visible data when double clicked
+		select (int, optional): begins box selection when pressed and confirms selection when released
+		select_mod (int, optional): begins box selection when pressed and confirms selection when released
+		select_cancel (int, optional): cancels active box selection when pressed
 		query_button (int, optional): begins query selection when pressed and end query selection when released
 		query_mod (int, optional): optional modifier that must be held for query selection
 		query_toggle_mod (int, optional): when held, active box selections turn into queries
-		horizontal_mod (int, optional): expands active box selection/query horizontally to plot edge when held
-		vertical_mod (int, optional): expands active box selection/query vertically to plot edge when held
+		select_horz_mod (int, optional): expands active box selection/query horizontally to plot edge when held
+		select_vert_mod (int, optional): expands active box selection/query vertically to plot edge when held
+		override_mod (int, optional): when held, all input is ignored; used to enable axis/plots as DND sources
+		zoom_mod (int, optional): optional modifier that must be held for scroll wheel zooming
+		zoom_rate (int, optional): zoom rate for scroll (e.g. 0.1f = 10% plot range every scroll click); make negative to invert
 		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
@@ -2148,14 +2156,24 @@ def plot_axis(axis, **kwargs):
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
-		no_gridlines (bool, optional): 
-		no_tick_marks (bool, optional): 
-		no_tick_labels (bool, optional): 
-		log_scale (bool, optional): 
-		invert (bool, optional): 
-		lock_min (bool, optional): 
-		lock_max (bool, optional): 
-		time (bool, optional): 
+		no_label (bool, optional): the axis label will not be displayed (axis labels are also hidden if the supplied string name is nullptr)
+		no_gridlines (bool, optional): no grid lines will be displayed
+		no_tick_marks (bool, optional): no tick marks will be displayed
+		no_tick_labels (bool, optional): no text labels will be displayed
+		no_initial_fit (bool, optional): axis will not be initially fit to data extents on the first rendered frame
+		no_menus (bool, optional): the user will not be able to open context menus with right-click
+		no_side_switch (bool, optional): the user will not be able to switch the axis side by dragging it
+		no_highlight (bool, optional): the axis will not have its background highlighted when hovered or held
+		opposite (bool, optional): axis ticks and labels will be rendered on the conventionally opposite side (i.e, right or top)
+		foreground (bool, optional): grid lines will be displayed in the foreground (i.e. on top of data) instead of the background
+		formatter (str, optional): Sets a custom tick label formatter
+		scale (int, optional): Sets the axis' scale. Can have only mvPlotScale_ values
+		invert (bool, optional): the axis will be inverted
+		auto_fit (bool, optional): axis will be auto-fitting to data extents
+		range_fit (bool, optional): axis will only fit points if the point is in the visible range of the **orthogonal** axis
+		pan_stretch (bool, optional): panning in a locked or constrained state will cause the axis to stretch if possible
+		lock_min (bool, optional): the axis minimum value will be locked when panning/zooming
+		lock_max (bool, optional): the axis maximum value will be locked when panning/zooming
 		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
@@ -2212,10 +2230,12 @@ def subplots(rows, columns, **kwargs):
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		row_ratios (Union[List[float], Tuple[float, ...]], optional): 
 		column_ratios (Union[List[float], Tuple[float, ...]], optional): 
-		no_title (bool, optional): 
+		no_title (bool, optional): the subplot title will not be displayed
+		no_legend (bool, optional): the legend will not be displayed
 		no_menus (bool, optional): the user will not be able to open context menus with right-click
 		no_resize (bool, optional): resize splitters between subplot cells will be not be provided
 		no_align (bool, optional): subplot edges will not be aligned vertically or horizontally
+		share_items (bool, optional): items across all subplots will be shared and rendered into a single legend entry
 		link_rows (bool, optional): link the y-axis limits of all plots in each row (does not apply auxiliary y-axes)
 		link_columns (bool, optional): link the x-axis limits of all plots in each column
 		link_all_x (bool, optional): link the x-axis limits in every plot in the subplot
@@ -2693,8 +2713,9 @@ def add_2d_histogram_series(x, y, **kwargs):
 		xmax_range (float, optional): 
 		ymin_range (float, optional): 
 		ymax_range (float, optional): 
-		density (bool, optional): 
-		outliers (bool, optional): 
+		density (bool, optional): counts will be normalized, i.e. the PDF will be visualized, or the CDF will be visualized if Cumulative is also set
+		no_outliers (bool, optional): exclude values outside the specifed histogram range from the count toward normalizing and cumulative counts
+		col_major (bool, optional): data will be read in column major order (not supported by PlotHistogram)
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -2790,7 +2811,7 @@ def add_bar_series(x, y, **kwargs):
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		show (bool, optional): Attempt to render widget.
 		weight (float, optional): 
-		horizontal (bool, optional): 
+		horizontal (bool, optional): bars will be rendered horizontally on the current y-axis
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -3340,6 +3361,8 @@ def add_custom_series(x, y, channel_count, **kwargs):
 		y2 (Any, optional): 
 		y3 (Any, optional): 
 		tooltip (bool, optional): Show tooltip when plot is hovered.
+		no_fit (bool, optional): the item won't be considered for plot fits
+		no_legend (bool, optional): the item won't have a legend entry displayed
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -3654,6 +3677,10 @@ def add_drag_line(**kwargs):
 		color (Union[List[int], Tuple[int, ...]], optional): 
 		thickness (float, optional): 
 		vertical (bool, optional): 
+		delayed (bool, optional): 
+		no_cursor (bool, optional): 
+		no_fit (bool, optional): 
+		no_inputs (bool, optional): 
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -3697,12 +3724,43 @@ def add_drag_point(**kwargs):
 		default_value (Any, optional): 
 		color (Union[List[int], Tuple[int, ...]], optional): 
 		thickness (float, optional): 
+		delayed (bool, optional): 
+		no_cursor (bool, optional): 
+		no_fit (bool, optional): 
+		no_inputs (bool, optional): 
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 
 	return internal_dpg.add_drag_point(**kwargs)
+
+def add_drag_rect(**kwargs):
+	"""	 Adds a drag rectangle to a plot.
+
+	Args:
+		label (str, optional): Overrides 'name' as label.
+		user_data (Any, optional): User data for callbacks
+		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
+		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
+		source (Union[int, str], optional): Overrides 'id' as value storage key.
+		callback (Callable, optional): Registers a callback.
+		show (bool, optional): Attempt to render widget.
+		default_value (Any, optional): 
+		color (Union[List[int], Tuple[int, ...]], optional): 
+		thickness (float, optional): 
+		delayed (bool, optional): 
+		no_cursor (bool, optional): 
+		no_fit (bool, optional): 
+		no_inputs (bool, optional): 
+		id (Union[int, str], optional): (deprecated)
+	Returns:
+		Union[int, str]
+	"""
+
+	return internal_dpg.add_drag_rect(**kwargs)
 
 def add_draw_layer(**kwargs):
 	"""	 New in 1.1. Creates a layer useful for grouping drawlist items.
@@ -4094,6 +4152,7 @@ def add_heat_series(x, rows, cols, **kwargs):
 		bounds_max (Any, optional): 
 		format (str, optional): 
 		contribute_to_bounds (bool, optional): 
+		col_major (bool, optional): data will be read in column major order
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -4118,9 +4177,10 @@ def add_histogram_series(x, **kwargs):
 		bar_scale (float, optional): 
 		min_range (float, optional): 
 		max_range (float, optional): 
-		cumlative (bool, optional): 
-		density (bool, optional): 
-		outliers (bool, optional): 
+		cumulative (bool, optional): each bin will contain its count plus the counts of all previous bins (not supported by PlotHistogram2D)
+		density (bool, optional): counts will be normalized, i.e. the PDF will be visualized, or the CDF will be visualized if Cumulative is also set
+		no_outliers (bool, optional): exclude values outside the specifed histogram range from the count toward normalizing and cumulative counts
+		horizontal (bool, optional): histogram bars will be rendered horizontally (not supported by PlotHistogram2D)
 		contribute_to_bounds (bool, optional): 
 		id (Union[int, str], optional): (deprecated)
 	Returns:
@@ -4128,26 +4188,6 @@ def add_histogram_series(x, **kwargs):
 	"""
 
 	return internal_dpg.add_histogram_series(x, **kwargs)
-
-def add_hline_series(x, **kwargs):
-	"""	 Adds an infinite horizontal line series to a plot.
-
-	Args:
-		x (Any): 
-		label (str, optional): Overrides 'name' as label.
-		user_data (Any, optional): User data for callbacks
-		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
-		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
-		source (Union[int, str], optional): Overrides 'id' as value storage key.
-		show (bool, optional): Attempt to render widget.
-		id (Union[int, str], optional): (deprecated)
-	Returns:
-		Union[int, str]
-	"""
-
-	return internal_dpg.add_hline_series(x, **kwargs)
 
 def add_image(texture_tag, **kwargs):
 	"""	 Adds an image from a specified texture. uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown. Using range (0.0,0.0)->(1.0,1.0) for texture coordinates will generally display the entire texture.
@@ -4244,6 +4284,27 @@ def add_image_series(texture_tag, bounds_min, bounds_max, **kwargs):
 	"""
 
 	return internal_dpg.add_image_series(texture_tag, bounds_min, bounds_max, **kwargs)
+
+def add_inf_line_series(x, **kwargs):
+	"""	 Adds an infinite line series to a plot.
+
+	Args:
+		x (Any): 
+		label (str, optional): Overrides 'name' as label.
+		user_data (Any, optional): User data for callbacks
+		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
+		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
+		source (Union[int, str], optional): Overrides 'id' as value storage key.
+		show (bool, optional): Attempt to render widget.
+		horizontal (bool, optional): 
+		id (Union[int, str], optional): (deprecated)
+	Returns:
+		Union[int, str]
+	"""
+
+	return internal_dpg.add_inf_line_series(x, **kwargs)
 
 def add_input_double(**kwargs):
 	"""	 Adds input for an double. Useful when input float is not accurate enough. +/- buttons can be activated by setting the value of step.
@@ -4898,6 +4959,11 @@ def add_line_series(x, y, **kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		show (bool, optional): Attempt to render widget.
+		segments (bool, optional): a line segment will be rendered from every two consecutive points
+		loop (bool, optional): the last and first point will be connected to form a closed loop
+		skip_nan (bool, optional): NaNs values will be skipped instead of rendered as missing data
+		no_clip (bool, optional): markers (if displayed) on the edge of a plot will not be clipped
+		shaded (bool, optional): a filled region between the line and horizontal origin will be rendered; use PlotShaded for more advanced cases
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -5295,7 +5361,8 @@ def add_pie_series(x, y, radius, values, labels, **kwargs):
 		show (bool, optional): Attempt to render widget.
 		format (str, optional): 
 		angle (float, optional): 
-		normalize (bool, optional): 
+		normalize (bool, optional): force normalization of pie chart values (i.e. always make a full circle if sum < 0)
+		ignore_hidden (bool, optional): ignore hidden slices when drawing the pie chart (as if they were not there)
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -5304,7 +5371,6 @@ def add_pie_series(x, y, radius, values, labels, **kwargs):
 	return internal_dpg.add_pie_series(x, y, radius, values, labels, **kwargs)
 
 def add_plot(**kwargs):
-	# TODO: Update this doc and plot() doc
 	"""	 Adds a plot which is used to hold series, and can be drawn to with draw commands.
 
 	Args:
@@ -5330,26 +5396,32 @@ def add_plot(**kwargs):
 		no_title (bool, optional): the plot title will not be displayed
 		no_menus (bool, optional): the user will not be able to open context menus with right-click
 		no_box_select (bool, optional): the user will not be able to box-select with right-click drag
-		no_mouse_text (bool, optional): the mouse position, in plot coordinates, will not be displayed inside of the plot
+		no_mouse_text (bool, optional): the text of mouse position, in plot coordinates, will not be displayed inside of the plot
 		no_highlight (bool, optional): plot items will not be highlighted when their legend entry is hovered
 		query (bool, optional): the user will be able to draw query rects with middle - mouse or CTRL + right - click drag
 		crosshairs (bool, optional): the default mouse cursor will be replaced with a crosshair when hovered
 		equal_aspects (bool, optional): primary x and y axes will be constrained to have the same units/pixel (does not apply to auxiliary y-axes)
+		no_legend (bool, optional): the legend will not be displayed
+		no_inputs (bool, optional): the user will not be able to interact with the plot
+		no_frame (bool, optional): the ImGui frame will not be rendered
 		use_local_time (bool, optional): axis labels will be formatted for your timezone when
 		use_ISO8601 (bool, optional): dates will be formatted according to ISO 8601 where applicable (e.g. YYYY-MM-DD, YYYY-MM, --MM-DD, etc.)
 		use_24hour_clock (bool, optional): times will be formatted using a 24 hour clock
 		pan (int, optional): mouse button that enables panning when held
 		pan_mod (int, optional): optional modifier that must be held for panning
-		fit_button (int, optional): fits visible data when double clicked
-		context_menu_button (int, optional): opens plot context menu (if enabled) when clicked
-		box_select_button (int, optional): begins box selection when pressed and confirms selection when released
-		box_select_mod (int, optional): begins box selection when pressed and confirms selection when released
-		box_select_cancel_button (int, optional): cancels active box selection when pressed
+		menu (int, optional): opens context menus (if enabled) when clicked
+		fit (int, optional): fits visible data when double clicked
+		select (int, optional): begins box selection when pressed and confirms selection when released
+		select_mod (int, optional): begins box selection when pressed and confirms selection when released
+		select_cancel (int, optional): cancels active box selection when pressed
 		query_button (int, optional): begins query selection when pressed and end query selection when released
 		query_mod (int, optional): optional modifier that must be held for query selection
 		query_toggle_mod (int, optional): when held, active box selections turn into queries
-		horizontal_mod (int, optional): expands active box selection/query horizontally to plot edge when held
-		vertical_mod (int, optional): expands active box selection/query vertically to plot edge when held
+		select_horz_mod (int, optional): expands active box selection/query horizontally to plot edge when held
+		select_vert_mod (int, optional): expands active box selection/query vertically to plot edge when held
+		override_mod (int, optional): when held, all input is ignored; used to enable axis/plots as DND sources
+		zoom_mod (int, optional): optional modifier that must be held for scroll wheel zooming
+		zoom_rate (int, optional): zoom rate for scroll (e.g. 0.1f = 10% plot range every scroll click); make negative to invert
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -5393,14 +5465,24 @@ def add_plot_axis(axis, **kwargs):
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
-		no_gridlines (bool, optional): 
-		no_tick_marks (bool, optional): 
-		no_tick_labels (bool, optional): 
-		log_scale (bool, optional): 
-		invert (bool, optional): 
-		lock_min (bool, optional): 
-		lock_max (bool, optional): 
-		time (bool, optional): 
+		no_label (bool, optional): the axis label will not be displayed (axis labels are also hidden if the supplied string name is nullptr)
+		no_gridlines (bool, optional): no grid lines will be displayed
+		no_tick_marks (bool, optional): no tick marks will be displayed
+		no_tick_labels (bool, optional): no text labels will be displayed
+		no_initial_fit (bool, optional): axis will not be initially fit to data extents on the first rendered frame
+		no_menus (bool, optional): the user will not be able to open context menus with right-click
+		no_side_switch (bool, optional): the user will not be able to switch the axis side by dragging it
+		no_highlight (bool, optional): the axis will not have its background highlighted when hovered or held
+		opposite (bool, optional): axis ticks and labels will be rendered on the conventionally opposite side (i.e, right or top)
+		foreground (bool, optional): grid lines will be displayed in the foreground (i.e. on top of data) instead of the background
+		formatter (str, optional): Sets a custom tick label formatter
+		scale (int, optional): Sets the axis' scale. Can have only mvPlotScale_ values
+		invert (bool, optional): the axis will be inverted
+		auto_fit (bool, optional): axis will be auto-fitting to data extents
+		range_fit (bool, optional): axis will only fit points if the point is in the visible range of the **orthogonal** axis
+		pan_stretch (bool, optional): panning in a locked or constrained state will cause the axis to stretch if possible
+		lock_min (bool, optional): the axis minimum value will be locked when panning/zooming
+		lock_max (bool, optional): the axis maximum value will be locked when panning/zooming
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -5421,13 +5503,17 @@ def add_plot_legend(**kwargs):
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		location (int, optional): location, mvPlot_Location_*
-		horizontal (bool, optional): 
-		outside (bool, optional): 
+		horizontal (bool, optional): legend entries will be displayed horizontally
+		sort (bool, optional): legend entries will be displayed in alphabetical order
+		outside (bool, optional): legend will be rendered outside of the plot area
+		no_highlight_item (bool, optional): plot items will not be highlighted when their legend entry is hovered
+		no_highlight_axis (bool, optional): axes will not be highlighted when legend entries are hovered (only relevant if x/y-axis count > 1)
+		no_menus (bool, optional): the user will not be able to open context menus with right-click
+		no_buttons (bool, optional): legend icons will not function as hide/show buttons
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
-	# TODO: Check if these parameters are added automatically from things like mvAppItem.cpp or other files
 
 	return internal_dpg.add_plot_legend(**kwargs)
 
@@ -5528,6 +5614,7 @@ def add_scatter_series(x, y, **kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		show (bool, optional): Attempt to render widget.
+		no_clip (bool, optional): markers on the edge of a plot will not be clipped
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -5582,6 +5669,7 @@ def add_separator(**kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		text (str, optional): Add a label
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -5939,6 +6027,8 @@ def add_stair_series(x, y, **kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		show (bool, optional): Attempt to render widget.
+		pre_step (bool, optional): the y value is continued constantly to the left from every x position, i.e. the interval (x[i-1], x[i]] has the value y[i]
+		shaded (bool, optional): a filled region between the line and horizontal origin will be rendered; use PlotShaded for more advanced cases
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -5980,6 +6070,7 @@ def add_stem_series(x, y, **kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		show (bool, optional): Attempt to render widget.
+		horizontal (bool, optional): stems will be rendered horizontally on the current y-axis
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -6029,10 +6120,12 @@ def add_subplots(rows, columns, **kwargs):
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		row_ratios (Union[List[float], Tuple[float, ...]], optional): 
 		column_ratios (Union[List[float], Tuple[float, ...]], optional): 
-		no_title (bool, optional): 
+		no_title (bool, optional): the subplot title will not be displayed
+		no_legend (bool, optional): the legend will not be displayed
 		no_menus (bool, optional): the user will not be able to open context menus with right-click
 		no_resize (bool, optional): resize splitters between subplot cells will be not be provided
 		no_align (bool, optional): subplot edges will not be aligned vertically or horizontally
+		share_items (bool, optional): items across all subplots will be shared and rendered into a single legend entry
 		link_rows (bool, optional): link the y-axis limits of all plots in each row (does not apply auxiliary y-axes)
 		link_columns (bool, optional): link the x-axis limits of all plots in each column
 		link_all_x (bool, optional): link the x-axis limits in every plot in the subplot
@@ -6234,6 +6327,9 @@ def add_table_column(**kwargs):
 		prefer_sort_descending (bool, optional): Make the initial sort direction Descending when first sorting on this column.
 		indent_enable (bool, optional): Use current Indent value when entering cell (default for column 0).
 		indent_disable (bool, optional): Ignore current Indent value when entering cell (default for columns > 0). Indentation changes _within_ the cell will still be honored.
+		angle_header (bool, optional): TableHeadersRow() will submit an angled header row for this column. Note this will add an extra row.
+		disabled (bool, optional): Default as a hidden/disabled column.
+		no_header_label (bool, optional): TableHeadersRow() will not submit horizontal label for this column. Convenient for some small columns. Name will still appear in context menu or in angled headers.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -6555,26 +6651,6 @@ def add_viewport_menu_bar(**kwargs):
 	"""
 
 	return internal_dpg.add_viewport_menu_bar(**kwargs)
-
-def add_vline_series(x, **kwargs):
-	"""	 Adds an infinite vertical line series to a plot.
-
-	Args:
-		x (Any): 
-		label (str, optional): Overrides 'name' as label.
-		user_data (Any, optional): User data for callbacks
-		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
-		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
-		source (Union[int, str], optional): Overrides 'id' as value storage key.
-		show (bool, optional): Attempt to render widget.
-		id (Union[int, str], optional): (deprecated)
-	Returns:
-		Union[int, str]
-	"""
-
-	return internal_dpg.add_vline_series(x, **kwargs)
 
 def add_window(**kwargs):
 	"""	 Creates a new window for following items to be added to.
@@ -7548,7 +7624,7 @@ def get_plot_mouse_pos():
 	return internal_dpg.get_plot_mouse_pos()
 
 def get_plot_query_rects(plot):
-	"""	 Returns the coordinates of all the query rects of the plot (Requires plot 'query' kwarg to be enabled)
+	"""	 Returns the query rects of the plot. (Requires plot 'query' kwarg to be enabled)
 
 	Args:
 		plot (Union[int, str]): 
@@ -8566,79 +8642,26 @@ mvKey_Y=internal_dpg.mvKey_Y
 mvKey_Z=internal_dpg.mvKey_Z
 mvKey_Back=internal_dpg.mvKey_Back
 mvKey_Tab=internal_dpg.mvKey_Tab
-mvKey_Clear=internal_dpg.mvKey_Clear
 mvKey_Return=internal_dpg.mvKey_Return
-mvKey_Shift=internal_dpg.mvKey_Shift
-mvKey_Control=internal_dpg.mvKey_Control
-mvKey_Alt=internal_dpg.mvKey_Alt
+mvKey_LShift=internal_dpg.mvKey_LShift
+mvKey_RShift=internal_dpg.mvKey_RShift
+mvKey_LControl=internal_dpg.mvKey_LControl
+mvKey_RControl=internal_dpg.mvKey_RControl
+mvKey_LAlt=internal_dpg.mvKey_LAlt
+mvKey_RAlt=internal_dpg.mvKey_RAlt
 mvKey_Pause=internal_dpg.mvKey_Pause
-mvKey_Keypad0=internal_dpg.mvKey_Keypad0
-mvKey_Keypad1=internal_dpg.mvKey_Keypad1
-mvKey_Keypad2=internal_dpg.mvKey_Keypad2
-mvKey_Keypad3=internal_dpg.mvKey_Keypad3
-mvKey_Keypad4=internal_dpg.mvKey_Keypad4
-mvKey_Keypad5=internal_dpg.mvKey_Keypad5
-mvKey_Keypad6=internal_dpg.mvKey_Keypad6
-mvKey_Keypad7=internal_dpg.mvKey_Keypad7
-mvKey_Keypad8=internal_dpg.mvKey_Keypad8
-mvKey_Keypad9=internal_dpg.mvKey_Keypad9
-mvKey_KeypadDecimal=internal_dpg.mvKey_KeypadDecimal
-mvKey_KeypadDivide=internal_dpg.mvKey_KeypadDivide
-mvKey_KeypadMultiply=internal_dpg.mvKey_KeypadMultiply
-mvKey_KeypadSubtract=internal_dpg.mvKey_KeypadSubtract
-mvKey_KeypadAdd=internal_dpg.mvKey_KeypadAdd
-mvKey_KeypadEnter=internal_dpg.mvKey_KeypadEnter
-mvKey_KeypadEqual=internal_dpg.mvKey_KeypadEqual
-mvKey_GamepadStart=internal_dpg.mvKey_GamepadStart
-mvKey_GamepadBack=internal_dpg.mvKey_GamepadBack
-mvKey_GamepadFaceUp=internal_dpg.mvKey_GamepadFaceUp
-mvKey_GamepadFaceDown=internal_dpg.mvKey_GamepadFaceDown
-mvKey_GamepadFaceLeft=internal_dpg.mvKey_GamepadFaceLeft
-mvKey_GamepadFaceRight=internal_dpg.mvKey_GamepadFaceRight
-mvKey_GamepadDpadUp=internal_dpg.mvKey_GamepadDpadUp
-mvKey_GamepadDpadDown=internal_dpg.mvKey_GamepadDpadDown
-mvKey_GamepadDpadLeft=internal_dpg.mvKey_GamepadDpadLeft
-mvKey_GamepadDpadRight=internal_dpg.mvKey_GamepadDpadRight
-mvKey_GamepadL1=internal_dpg.mvKey_GamepadL1
-mvKey_GamepadR1=internal_dpg.mvKey_GamepadR1
-mvKey_GamepadL2=internal_dpg.mvKey_GamepadL2
-mvKey_GamepadR2=internal_dpg.mvKey_GamepadR2
-mvKey_GamepadL3=internal_dpg.mvKey_GamepadL3
-mvKey_GamepadR3=internal_dpg.mvKey_GamepadR3
-mvKey_GamepadLStickUp=internal_dpg.mvKey_GamepadLStickUp
-mvKey_GamepadLStickDown=internal_dpg.mvKey_GamepadLStickDown
-mvKey_GamepadLStickLeft=internal_dpg.mvKey_GamepadLStickLeft
-mvKey_GamepadLStickRight=internal_dpg.mvKey_GamepadLStickRight
-mvKey_GamepadRStickUp=internal_dpg.mvKey_GamepadRStickUp
-mvKey_GamepadRStickDown=internal_dpg.mvKey_GamepadRStickDown
-mvKey_GamepadRStickLeft=internal_dpg.mvKey_GamepadRStickLeft
-mvKey_GamepadRStickRight=internal_dpg.mvKey_GamepadRStickRight
-mvKey_ModCtrl=internal_dpg.mvKey_ModCtrl
-mvKey_ModShift=internal_dpg.mvKey_ModShift
-mvKey_ModAlt=internal_dpg.mvKey_ModAlt
-mvKey_ModSuper=internal_dpg.mvKey_ModSuper
-mvKey_Capital=internal_dpg.mvKey_Capital
+mvKey_CapsLock=internal_dpg.mvKey_CapsLock
 mvKey_Escape=internal_dpg.mvKey_Escape
 mvKey_Spacebar=internal_dpg.mvKey_Spacebar
-mvKey_Prior=internal_dpg.mvKey_Prior
-mvKey_Next=internal_dpg.mvKey_Next
 mvKey_End=internal_dpg.mvKey_End
 mvKey_Home=internal_dpg.mvKey_Home
 mvKey_Left=internal_dpg.mvKey_Left
 mvKey_Up=internal_dpg.mvKey_Up
 mvKey_Right=internal_dpg.mvKey_Right
 mvKey_Down=internal_dpg.mvKey_Down
-mvKey_Select=internal_dpg.mvKey_Select
-mvKey_Print=internal_dpg.mvKey_Print
-mvKey_Execute=internal_dpg.mvKey_Execute
 mvKey_PrintScreen=internal_dpg.mvKey_PrintScreen
 mvKey_Insert=internal_dpg.mvKey_Insert
 mvKey_Delete=internal_dpg.mvKey_Delete
-mvKey_Help=internal_dpg.mvKey_Help
-mvKey_LWin=internal_dpg.mvKey_LWin
-mvKey_RWin=internal_dpg.mvKey_RWin
-mvKey_Apps=internal_dpg.mvKey_Apps
-mvKey_Sleep=internal_dpg.mvKey_Sleep
 mvKey_NumPad0=internal_dpg.mvKey_NumPad0
 mvKey_NumPad1=internal_dpg.mvKey_NumPad1
 mvKey_NumPad2=internal_dpg.mvKey_NumPad2
@@ -8649,9 +8672,6 @@ mvKey_NumPad6=internal_dpg.mvKey_NumPad6
 mvKey_NumPad7=internal_dpg.mvKey_NumPad7
 mvKey_NumPad8=internal_dpg.mvKey_NumPad8
 mvKey_NumPad9=internal_dpg.mvKey_NumPad9
-mvKey_Multiply=internal_dpg.mvKey_Multiply
-mvKey_Add=internal_dpg.mvKey_Add
-mvKey_Separator=internal_dpg.mvKey_Separator
 mvKey_Subtract=internal_dpg.mvKey_Subtract
 mvKey_Decimal=internal_dpg.mvKey_Decimal
 mvKey_Divide=internal_dpg.mvKey_Divide
@@ -8679,51 +8699,28 @@ mvKey_F21=internal_dpg.mvKey_F21
 mvKey_F22=internal_dpg.mvKey_F22
 mvKey_F23=internal_dpg.mvKey_F23
 mvKey_F24=internal_dpg.mvKey_F24
-mvKey_F25=internal_dpg.mvKey_F25
-mvKey_CapsLock=internal_dpg.mvKey_CapsLock
 mvKey_NumLock=internal_dpg.mvKey_NumLock
 mvKey_ScrollLock=internal_dpg.mvKey_ScrollLock
 mvKey_LShift=internal_dpg.mvKey_LShift
 mvKey_RShift=internal_dpg.mvKey_RShift
 mvKey_LControl=internal_dpg.mvKey_LControl
 mvKey_RControl=internal_dpg.mvKey_RControl
-mvKey_LMenu=internal_dpg.mvKey_LMenu
-mvKey_RMenu=internal_dpg.mvKey_RMenu
-mvKey_Browser_Back=internal_dpg.mvKey_Browser_Back
-mvKey_Browser_Forward=internal_dpg.mvKey_Browser_Forward
-mvKey_Browser_Refresh=internal_dpg.mvKey_Browser_Refresh
-mvKey_Browser_Stop=internal_dpg.mvKey_Browser_Stop
-mvKey_Browser_Search=internal_dpg.mvKey_Browser_Search
-mvKey_Browser_Favorites=internal_dpg.mvKey_Browser_Favorites
-mvKey_Browser_Home=internal_dpg.mvKey_Browser_Home
-mvKey_Volume_Mute=internal_dpg.mvKey_Volume_Mute
-mvKey_Volume_Down=internal_dpg.mvKey_Volume_Down
-mvKey_Volume_Up=internal_dpg.mvKey_Volume_Up
-mvKey_Media_Next_Track=internal_dpg.mvKey_Media_Next_Track
-mvKey_Media_Prev_Track=internal_dpg.mvKey_Media_Prev_Track
-mvKey_Media_Stop=internal_dpg.mvKey_Media_Stop
-mvKey_Media_Play_Pause=internal_dpg.mvKey_Media_Play_Pause
-mvKey_Launch_Mail=internal_dpg.mvKey_Launch_Mail
-mvKey_Launch_Media_Select=internal_dpg.mvKey_Launch_Media_Select
-mvKey_Launch_App1=internal_dpg.mvKey_Launch_App1
-mvKey_Launch_App2=internal_dpg.mvKey_Launch_App2
-mvKey_Colon=internal_dpg.mvKey_Colon
-mvKey_Plus=internal_dpg.mvKey_Plus
-mvKey_Comma=internal_dpg.mvKey_Comma
-mvKey_Minus=internal_dpg.mvKey_Minus
 mvKey_Period=internal_dpg.mvKey_Period
 mvKey_Slash=internal_dpg.mvKey_Slash
-mvKey_Tilde=internal_dpg.mvKey_Tilde
-mvKey_Open_Brace=internal_dpg.mvKey_Open_Brace
 mvKey_Backslash=internal_dpg.mvKey_Backslash
+mvKey_Open_Brace=internal_dpg.mvKey_Open_Brace
 mvKey_Close_Brace=internal_dpg.mvKey_Close_Brace
-mvKey_Quote=internal_dpg.mvKey_Quote
+mvKey_Browser_Back=internal_dpg.mvKey_Browser_Back
+mvKey_Browser_Forward=internal_dpg.mvKey_Browser_Forward
+mvKey_Comma=internal_dpg.mvKey_Comma
+mvKey_Minus=internal_dpg.mvKey_Minus
 mvAll=internal_dpg.mvAll
 mvTool_About=internal_dpg.mvTool_About
 mvTool_Debug=internal_dpg.mvTool_Debug
 mvTool_Doc=internal_dpg.mvTool_Doc
 mvTool_ItemRegistry=internal_dpg.mvTool_ItemRegistry
 mvTool_Metrics=internal_dpg.mvTool_Metrics
+mvTool_Stack=internal_dpg.mvTool_Stack
 mvTool_Style=internal_dpg.mvTool_Style
 mvTool_Font=internal_dpg.mvTool_Font
 mvFontAtlas=internal_dpg.mvFontAtlas
@@ -8815,6 +8812,10 @@ mvXAxis3=internal_dpg.mvXAxis3
 mvYAxis=internal_dpg.mvYAxis
 mvYAxis2=internal_dpg.mvYAxis2
 mvYAxis3=internal_dpg.mvYAxis3
+mvPlotScale_Linear=internal_dpg.mvPlotScale_Linear
+mvPlotScale_Time=internal_dpg.mvPlotScale_Time
+mvPlotScale_Log10=internal_dpg.mvPlotScale_Log10
+mvPlotScale_SymLog=internal_dpg.mvPlotScale_SymLog
 mvPlotMarker_None=internal_dpg.mvPlotMarker_None
 mvPlotMarker_Circle=internal_dpg.mvPlotMarker_Circle
 mvPlotMarker_Square=internal_dpg.mvPlotMarker_Square
@@ -8973,8 +8974,12 @@ mvStyleVar_ScrollbarRounding=internal_dpg.mvStyleVar_ScrollbarRounding
 mvStyleVar_GrabMinSize=internal_dpg.mvStyleVar_GrabMinSize
 mvStyleVar_GrabRounding=internal_dpg.mvStyleVar_GrabRounding
 mvStyleVar_TabRounding=internal_dpg.mvStyleVar_TabRounding
+mvStyleVar_TabBarBorderSize=internal_dpg.mvStyleVar_TabBarBorderSize
 mvStyleVar_ButtonTextAlign=internal_dpg.mvStyleVar_ButtonTextAlign
 mvStyleVar_SelectableTextAlign=internal_dpg.mvStyleVar_SelectableTextAlign
+mvStyleVar_SeparatorTextBorderSize=internal_dpg.mvStyleVar_SeparatorTextBorderSize
+mvStyleVar_SeparatorTextAlign=internal_dpg.mvStyleVar_SeparatorTextAlign
+mvStyleVar_SeparatorTextPadding=internal_dpg.mvStyleVar_SeparatorTextPadding
 mvPlotStyleVar_LineWeight=internal_dpg.mvPlotStyleVar_LineWeight
 mvPlotStyleVar_Marker=internal_dpg.mvPlotStyleVar_Marker
 mvPlotStyleVar_MarkerSize=internal_dpg.mvPlotStyleVar_MarkerSize
@@ -9088,8 +9093,8 @@ mvSliderIntMulti=internal_dpg.mvSliderIntMulti
 mvInputIntMulti=internal_dpg.mvInputIntMulti
 mvInputFloatMulti=internal_dpg.mvInputFloatMulti
 mvDragPoint=internal_dpg.mvDragPoint
-mvDragRect=internal_dpg.mvDragRect
 mvDragLine=internal_dpg.mvDragLine
+mvDragRect=internal_dpg.mvDragRect
 mvAnnotation=internal_dpg.mvAnnotation
 mvLineSeries=internal_dpg.mvLineSeries
 mvScatterSeries=internal_dpg.mvScatterSeries
@@ -9097,6 +9102,7 @@ mvStemSeries=internal_dpg.mvStemSeries
 mvStairSeries=internal_dpg.mvStairSeries
 mvBarSeries=internal_dpg.mvBarSeries
 mvErrorSeries=internal_dpg.mvErrorSeries
+mvInfLineSeries=internal_dpg.mvInfLineSeries
 mvHeatSeries=internal_dpg.mvHeatSeries
 mvImageSeries=internal_dpg.mvImageSeries
 mvPieSeries=internal_dpg.mvPieSeries
@@ -9192,3 +9198,4 @@ mvReservedUUID_6=internal_dpg.mvReservedUUID_6
 mvReservedUUID_7=internal_dpg.mvReservedUUID_7
 mvReservedUUID_8=internal_dpg.mvReservedUUID_8
 mvReservedUUID_9=internal_dpg.mvReservedUUID_9
+mvReservedUUID_10=internal_dpg.mvReservedUUID_10

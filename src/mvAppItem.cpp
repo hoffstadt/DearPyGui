@@ -1880,6 +1880,12 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "password", mvArgType::KEYWORD_ARG, "False", "Display all input characters as '*'." });
         args.push_back({ mvPyDataType::Bool, "scientific", mvArgType::KEYWORD_ARG, "False", "Only allow characters 0123456789.+-*/eE (Scientific notation input)" });
         args.push_back({ mvPyDataType::Bool, "on_enter", mvArgType::KEYWORD_ARG, "False", "Only runs callback on enter key press." });
+        args.push_back({ mvPyDataType::Bool, "auto_select_all", mvArgType::KEYWORD_ARG, "False", "Select entire text when first taking mouse focus" });
+        args.push_back({ mvPyDataType::Bool, "ctrl_enter_for_new_line", mvArgType::KEYWORD_ARG, "False", "In multi-line mode, unfocus with Enter, add new line with Ctrl+Enter (default is opposite: unfocus with Ctrl+Enter, add line with Enter)." });
+        args.push_back({ mvPyDataType::Bool, "no_horizontal_scroll", mvArgType::KEYWORD_ARG, "False", "Disable following the cursor horizontally" });
+        args.push_back({ mvPyDataType::Bool, "always_overwrite", mvArgType::KEYWORD_ARG, "False", "Overwrite mode" });
+        args.push_back({ mvPyDataType::Bool, "no_undo_redo", mvArgType::KEYWORD_ARG, "False", "Disable undo/redo. Note that input text owns the text data while active, if you want to provide your own undo/redo stack you need e.g. to call ClearActiveID()." });
+        args.push_back({ mvPyDataType::Bool, "escape_clears_all", mvArgType::KEYWORD_ARG, "False", "Escape key clears content if not empty, and deactivate otherwise (contrast to default behavior of Escape to revert)" });
 
         setup.about = "Adds input for text.";
         break;
@@ -4535,15 +4541,14 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "no_highlight", mvArgType::KEYWORD_ARG, "False", "the axis will not have its background highlighted when hovered or held" });
         args.push_back({ mvPyDataType::Bool, "opposite", mvArgType::KEYWORD_ARG, "False", "axis ticks and labels will be rendered on the conventionally opposite side (i.e, right or top)" });
         args.push_back({ mvPyDataType::Bool, "foreground", mvArgType::KEYWORD_ARG, "False", "grid lines will be displayed in the foreground (i.e. on top of data) instead of the background" });
-        // args.push_back({ mvPyDataType::Bool, "log_scale", mvArgType::KEYWORD_ARG, "False" });
+        args.push_back({ mvPyDataType::String, "formatter", mvArgType::KEYWORD_ARG, "''", "Sets a custom tick label formatter" });
+        args.push_back({ mvPyDataType::Integer, "scale", mvArgType::KEYWORD_ARG, "0", "Sets the axis' scale. Can have only mvPlotScale_ values"});
         args.push_back({ mvPyDataType::Bool, "invert", mvArgType::KEYWORD_ARG, "False", "the axis will be inverted" });
         args.push_back({ mvPyDataType::Bool, "auto_fit", mvArgType::KEYWORD_ARG, "False", "axis will be auto-fitting to data extents" });
         args.push_back({ mvPyDataType::Bool, "range_fit", mvArgType::KEYWORD_ARG, "False", "axis will only fit points if the point is in the visible range of the **orthogonal** axis" });
         args.push_back({ mvPyDataType::Bool, "pan_stretch", mvArgType::KEYWORD_ARG, "False", "panning in a locked or constrained state will cause the axis to stretch if possible" });
         args.push_back({ mvPyDataType::Bool, "lock_min", mvArgType::KEYWORD_ARG, "False", "the axis minimum value will be locked when panning/zooming"});
         args.push_back({ mvPyDataType::Bool, "lock_max", mvArgType::KEYWORD_ARG, "False", "the axis maximum value will be locked when panning/zooming" });
-        // args.push_back({ mvPyDataType::Bool, "time", mvArgType::KEYWORD_ARG, "False" });
-
 
 
         setup.about = "Adds an axis to a plot.";

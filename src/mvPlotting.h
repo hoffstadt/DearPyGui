@@ -219,29 +219,28 @@ struct mvPlotLegendConfig
     bool                dirty = true;
 };
 
-struct mvDragPointConfig
+struct _mvDragItem {
+    ImPlotDragToolFlags          flags = ImPlotDragToolFlags_None;
+    mvColor                      color = mvColor(0.0f, 0.0f, 0.0f, -1.0f);
+};
+
+struct mvDragPointConfig : _mvDragItem
 {
     std::shared_ptr<std::array<double, 2>> value = std::make_shared<std::array<double, 2>>(std::array<double, 2>{0.0, 0.0});
     double                       disabled_value[2]{};
-    ImPlotDragToolFlags          flags = ImPlotDragToolFlags_None;
-    mvColor                      color = mvColor(0.0f, 0.0f, 0.0f, -1.0f);
     float                        radius = 4.0f;
 };
 
-struct mvDragRectConfig
+struct mvDragRectConfig : _mvDragItem
 {
     std::shared_ptr<std::array<double, 4>> value = std::make_shared<std::array<double, 4>>(std::array<double, 4>{0.0, 0.0, 0.0, 0.0});
     double                       disabled_value[4]{};
-    ImPlotDragToolFlags          flags = ImPlotDragToolFlags_None;
-    mvColor                      color = mvColor(0.0f, 0.0f, 0.0f, -1.0f);
 };
 
-struct mvDragLineConfig
+struct mvDragLineConfig : _mvDragItem
 {
     std::shared_ptr<double> value = std::make_shared<double>(0.0);
     float               disabled_value = 0.0;
-    ImPlotDragToolFlags flags = ImPlotDragToolFlags_None;
-    mvColor             color = mvColor(0.0f, 0.0f, 0.0f, -1.0f);
     float               thickness = 1.0f;
     bool                vertical = true;
 };
@@ -422,6 +421,8 @@ struct mvPlotAxisConfig
     ImPlotAxisFlags          flags = ImPlotAxisFlags_None;
     ImAxis                   axis = ImAxis_X1;
     bool                     setLimits = false;
+    ImPlotScale              scale = ImPlotScale_Linear;
+    std::string              formatter;
     ImVec2                   limits;
     ImVec2                   limits_actual;
     ImVec2                   constraints_range;

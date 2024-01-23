@@ -413,22 +413,27 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 			if (child->type == mvAppItemType::mvPlotAxis)
 			{
 				mvPlotAxis* axis = static_cast<mvPlotAxis*>(child.get());
-				ImAxis_ ax = static_cast<ImAxis_>(axis->configData.axis);
-				ImPlot::SetupAxis(ax, config.axesNames[ax].c_str(), axis->configData.flags);
+				ImAxis_ id_axis = static_cast<ImAxis_>(axis->configData.axis);
+				ImPlot::SetupAxis(id_axis, config.axesNames[id_axis].c_str(), axis->configData.flags);
 				if (axis->configData.setLimits || axis->configData._dirty)
 				{
-					ImPlot::SetupAxisLimits(ax, axis->configData.limits.x, axis->configData.limits.y, ImGuiCond_Always);
+					ImPlot::SetupAxisLimits(id_axis, axis->configData.limits.x, axis->configData.limits.y, ImGuiCond_Always);
 					axis->configData._dirty = false;
 				}
+				if (!axis->configData.formatter.empty())
+					ImPlot::SetupAxisFormat(id_axis, axis->configData.formatter.c_str());
+
+				ImPlot::SetupAxisScale(id_axis, axis->configData.scale);
+
 				if (axis->configData.constraints_range.x != 0.0f || axis->configData.constraints_range.y != 0.0f)
-					ImPlot::SetupAxisLimitsConstraints(ax, axis->configData.constraints_range.x, axis->configData.constraints_range.y);
+					ImPlot::SetupAxisLimitsConstraints(id_axis, axis->configData.constraints_range.x, axis->configData.constraints_range.y);
 				if (axis->configData.zoom_range.x != 0.0f || axis->configData.zoom_range.y != 0.0f)
-					ImPlot::SetupAxisZoomConstraints(ax, axis->configData.zoom_range.x, axis->configData.zoom_range.y);
+					ImPlot::SetupAxisZoomConstraints(id_axis, axis->configData.zoom_range.x, axis->configData.zoom_range.y);
 
 				if (!axis->configData.labels.empty())
 				{
 					// TODO: Checks (from original dpg)
-					ImPlot::SetupAxisTicks(ax, axis->configData.labelLocations.data(), (int)axis->configData.labels.size(), axis->configData.clabels.data());
+					ImPlot::SetupAxisTicks(id_axis, axis->configData.labelLocations.data(), (int)axis->configData.labels.size(), axis->configData.clabels.data());
 				}
 			}
 			else
@@ -590,8 +595,6 @@ DearPyGui::draw_plot_axis(ImDrawList* drawlist, mvAppItem& item, mvPlotAxisConfi
 	{
 		config.limits_actual.x = (float)ImPlot::GetPlotLimits(config.axis, IMPLOT_AUTO).X.Min;
 		config.limits_actual.y = (float)ImPlot::GetPlotLimits(config.axis, IMPLOT_AUTO).X.Max;
-		// std::cout << "X AXIS config FLAGS: " << config.flags << std::endl;
-		// std::cout << "X AXIS FLAGS: " << context->CurrentPlot->Axes[config.axis].Flags << std::endl;
 	}
 
 	// y axis
@@ -2604,7 +2607,7 @@ DearPyGui::set_configuration(PyObject* inDict, mv2dHistogramSeriesConfig& outCon
 
 	// 2D histogram series flags
 	flagop("density", ImPlotHistogramFlags_Density, outConfig.flags);
-	flagop("outliers", ImPlotHistogramFlags_NoOutliers, outConfig.flags);
+	flagop("no_outliers", ImPlotHistogramFlags_NoOutliers, outConfig.flags);
 	flagop("col_major", ImPlotHistogramFlags_ColMajor, outConfig.flags);
 }
 
@@ -2674,10 +2677,8 @@ DearPyGui::set_configuration(PyObject* inDict, mvHistogramSeriesConfig& outConfi
 	// histogram series flags
 	flagop("cumulative", ImPlotHistogramFlags_Cumulative, outConfig.flags);
 	flagop("density", ImPlotHistogramFlags_Density, outConfig.flags);
-	flagop("outliers", ImPlotHistogramFlags_NoOutliers, outConfig.flags);  // TODO: Check if outliers is the same as flag "noOutliers"
+	flagop("no_outliers", ImPlotHistogramFlags_NoOutliers, outConfig.flags);
 	flagop("horizontal", ImPlotHistogramFlags_Horizontal, outConfig.flags);
-	// TODO: Update docs
-
 }
 
 void
@@ -2876,6 +2877,9 @@ DearPyGui::set_configuration(PyObject* inDict, mvPlotAxisConfig& outConfig, mvAp
 	if (inDict == nullptr)
 		return;
 
+	if (PyObject* item = PyDict_GetItemString(inDict, "scale")) outConfig.scale = ToInt(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "formatter")) outConfig.formatter = ToString(item);
+
 	// helper for bit flipping
 	auto flagop = [inDict](const char* keyword, int flag, int& flags)
 	{
@@ -2893,7 +2897,6 @@ DearPyGui::set_configuration(PyObject* inDict, mvPlotAxisConfig& outConfig, mvAp
 	flagop("no_highlight", ImPlotAxisFlags_NoHighlight, outConfig.flags);
 	flagop("opposite", ImPlotAxisFlags_Opposite, outConfig.flags);
 	flagop("foreground", ImPlotAxisFlags_Foreground, outConfig.flags);
-	// flagop("log_scale", ImPlotAxisFlags_LogScale, outConfig.flags);
 	flagop("invert", ImPlotAxisFlags_Invert, outConfig.flags);
 	flagop("auto_fit", ImPlotAxisFlags_AutoFit, outConfig.flags);
 	flagop("range_fit", ImPlotAxisFlags_RangeFit, outConfig.flags);
@@ -3183,7 +3186,7 @@ DearPyGui::fill_configuration_dict(const mv2dHistogramSeriesConfig& inConfig, Py
 
 	// flags
 	checkbitset("density", ImPlotHistogramFlags_Density, inConfig.flags);
-	checkbitset("outliers", ImPlotHistogramFlags_NoOutliers, inConfig.flags);
+	checkbitset("no_outliers", ImPlotHistogramFlags_NoOutliers, inConfig.flags);
 	checkbitset("col_amjor", ImPlotHistogramFlags_ColMajor, inConfig.flags);
 }
 
@@ -3240,7 +3243,7 @@ DearPyGui::fill_configuration_dict(const mvHistogramSeriesConfig& inConfig, PyOb
 	// histogram flags
 	checkbitset("horizontal", ImPlotHistogramFlags_Horizontal, inConfig.flags);
 	checkbitset("cumulative", ImPlotHistogramFlags_Cumulative, inConfig.flags);
-	checkbitset("outliers", ImPlotHistogramFlags_NoOutliers, inConfig.flags);
+	checkbitset("no_outliers", ImPlotHistogramFlags_NoOutliers, inConfig.flags);
 	checkbitset("density", ImPlotHistogramFlags_Density, inConfig.flags);
 }
 
@@ -3389,6 +3392,9 @@ DearPyGui::fill_configuration_dict(const mvPlotAxisConfig& inConfig, PyObject* o
 	if (outDict == nullptr)
 		return;
 
+	PyDict_SetItemString(outDict, "scale", mvPyObject(ToPyInt(inConfig.scale)));
+	PyDict_SetItemString(outDict, "formatter", mvPyObject(ToPyString(inConfig.formatter)));
+
 	// helper to check and set bit
 	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)
 	{
@@ -3407,7 +3413,6 @@ DearPyGui::fill_configuration_dict(const mvPlotAxisConfig& inConfig, PyObject* o
 	checkbitset("no_highlight", ImPlotAxisFlags_NoHighlight, inConfig.flags);
 	checkbitset("opposite", ImPlotAxisFlags_Opposite, inConfig.flags);
 	checkbitset("foreground", ImPlotAxisFlags_Foreground, inConfig.flags);
-	// checkbitset("log_scale", ImPlotAxisFlags_LogScale, inConfig.flags);
 	checkbitset("invert", ImPlotAxisFlags_Invert, inConfig.flags);
 	checkbitset("auto_fit", ImPlotAxisFlags_AutoFit, inConfig.flags);
 	checkbitset("range_fit", ImPlotAxisFlags_RangeFit, inConfig.flags);
