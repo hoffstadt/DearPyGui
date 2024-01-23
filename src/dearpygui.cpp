@@ -158,6 +158,11 @@ GetModuleConstants()
 		ModuleConstants.push_back({ "mvYAxis", ImAxis_Y1});
 		ModuleConstants.push_back({ "mvYAxis2", ImAxis_Y2});
 		ModuleConstants.push_back({ "mvYAxis3", ImAxis_Y3});
+    
+		ModuleConstants.push_back({ "mvPlotScale_Linear", ImPlotScale_Linear});  // default linear scale
+		ModuleConstants.push_back({ "mvPlotScale_Time", ImPlotScale_Time});  // date/time scale
+		ModuleConstants.push_back({ "mvPlotScale_Log10", ImPlotScale_Log10});  // base 10 logartithmic scale
+		ModuleConstants.push_back({ "mvPlotScale_SymLog", ImPlotScale_SymLog});  // symmetric log scale
 
 		ModuleConstants.push_back({ "mvPlotMarker_None", ImPlotMarker_None});  // no marker
 		ModuleConstants.push_back({ "mvPlotMarker_Circle",  ImPlotMarker_Circle});  // a circle marker will be rendered at each point

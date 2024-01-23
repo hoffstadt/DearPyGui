@@ -2016,7 +2016,7 @@ def show_demo():
 
                         with dpg.plot(label="Candle Series", height=400, width=-1):
                             dpg.add_plot_legend()
-                            xaxis = dpg.add_plot_axis(dpg.mvXAxis, label="Day", time=True)
+                            xaxis = dpg.add_plot_axis(dpg.mvXAxis, label="Day", scale=dpg.mvPlotScale_Time)
                             with dpg.plot_axis(dpg.mvYAxis, label="USD"):
                                 dpg.add_candle_series(dates, opens, closes, lows, highs, label="GOOGL", time_unit=dpg.mvTimeUnit_Day)
                                 dpg.fit_axis_data(dpg.top_container_stack())
@@ -2161,7 +2161,7 @@ def show_demo():
                         dpg.add_text("UNIX timestamps are seconds since 00:00:00 UTC on 1 January 1970", bullet=True)
                 
                         with dpg.plot(label="Time Plot", height=400, width=-1):
-                            xaxis = dpg.add_plot_axis(dpg.mvXAxis, label="Date", time=True)
+                            xaxis = dpg.add_plot_axis(dpg.mvXAxis, label="Date", scale=dpg.mvPlotScale_Time)
                             with dpg.plot_axis(dpg.mvYAxis, label="Days since 1970"):
                                 dpg.add_line_series(timedatax, timedatay, label="Days")
                                 dpg.fit_axis_data(dpg.top_container_stack())

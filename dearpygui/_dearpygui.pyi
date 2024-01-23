@@ -6,7 +6,7 @@ from dearpygui._dearpygui import *
 ##########################################################
 
 # ~ Dear PyGui Version: master
-def add_2d_histogram_series(x : Union[List[float], Tuple[float, ...]], y : Union[List[float], Tuple[float, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', show: bool ='', xbins: int ='', ybins: int ='', xmin_range: float ='', xmax_range: float ='', ymin_range: float ='', ymax_range: float ='', density: bool ='', outliers: bool ='') -> Union[int, str]:
+def add_2d_histogram_series(x : Union[List[float], Tuple[float, ...]], y : Union[List[float], Tuple[float, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', show: bool ='', xbins: int ='', ybins: int ='', xmin_range: float ='', xmax_range: float ='', ymin_range: float ='', ymax_range: float ='', density: bool ='', no_outliers: bool ='', col_major: bool ='') -> Union[int, str]:
 	"""Adds a 2d histogram series."""
 	...
 
@@ -46,7 +46,7 @@ def add_checkbox(*, label: str ='', user_data: Any ='', use_internal_label: bool
 	"""Adds a checkbox."""
 	...
 
-def add_child_window(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', drop_callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', delay_search: bool ='', tracked: bool ='', track_offset: float ='', border: bool ='', autosize_x: bool ='', autosize_y: bool ='', no_scrollbar: bool ='', horizontal_scrollbar: bool ='', menubar: bool ='', no_scroll_with_mouse: bool ='') -> Union[int, str]:
+def add_child_window(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', drop_callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', delay_search: bool ='', tracked: bool ='', track_offset: float ='', border: bool ='', autosize_x: bool ='', autosize_y: bool ='', no_scrollbar: bool ='', horizontal_scrollbar: bool ='', menubar: bool ='', no_scroll_with_mouse: bool ='', flattened_navigation: bool ='') -> Union[int, str]:
 	"""Adds an embedded child window. Will show scrollbars when items do not fit."""
 	...
 
@@ -138,7 +138,7 @@ def add_drag_intx(*, label: str ='', user_data: Any ='', use_internal_label: boo
 	"""Adds drag input for a set of int values up to 4. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the drag. Use clamped keyword to also apply limits to the direct entry modes."""
 	...
 
-def add_drag_line(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', callback: Callable ='', show: bool ='', default_value: Any ='', color: Union[List[int], Tuple[int, ...]] ='', thickness: float ='', delayed: bool ='', no_cursor: bool='', no_fit: bool='', no_inputs: bool='', vertical: bool ='') -> Union[int, str]:
+def add_drag_line(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', callback: Callable ='', show: bool ='', default_value: Any ='', color: Union[List[int], Tuple[int, ...]] ='', thickness: float ='', vertical: bool ='', delayed: bool ='', no_cursor: bool ='', no_fit: bool ='', no_inputs: bool ='') -> Union[int, str]:
 	"""Adds a drag line to a plot."""
 	...
 
@@ -146,12 +146,12 @@ def add_drag_payload(*, label: str ='', user_data: Any ='', use_internal_label: 
 	"""User data payload for drag and drop operations."""
 	...
 
-def add_drag_point(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', callback: Callable ='', show: bool ='', default_value: Any ='', color: Union[List[int], Tuple[int, ...]] ='', thickness: float ='', delayed: bool ='', no_cursor: bool='', no_fit: bool='', no_inputs: bool='',) -> Union[int, str]:
+def add_drag_point(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', callback: Callable ='', show: bool ='', default_value: Any ='', color: Union[List[int], Tuple[int, ...]] ='', thickness: float ='', delayed: bool ='', no_cursor: bool ='', no_fit: bool ='', no_inputs: bool ='') -> Union[int, str]:
 	"""Adds a drag point to a plot."""
 	...
 
-def add_drag_rect(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', callback: Callable ='', show: bool ='', default_value: Any ='', color: Union[List[int], Tuple[int, ...]] ='', thickness: float ='', delayed: bool ='', no_cursor: bool='', no_fit: bool='', no_inputs: bool='',) -> Union[int, str]:
-	"""Adds a drag rect to a plot."""
+def add_drag_rect(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', callback: Callable ='', show: bool ='', default_value: Any ='', color: Union[List[int], Tuple[int, ...]] ='', thickness: float ='', delayed: bool ='', no_cursor: bool ='', no_fit: bool ='', no_inputs: bool ='') -> Union[int, str]:
+	"""Adds a drag rectangle to a plot."""
 	...
 
 def add_draw_layer(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', show: bool ='', perspective_divide: bool ='', depth_clipping: bool ='', cull_mode: int ='') -> Union[int, str]:
@@ -226,16 +226,12 @@ def add_handler_registry(*, label: str ='', user_data: Any ='', use_internal_lab
 	"""Adds a handler registry."""
 	...
 
-def add_heat_series(x : Union[List[float], Tuple[float, ...]], rows : int, cols : int, *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', show: bool ='', scale_min: float ='', scale_max: float ='', bounds_min: Any ='', bounds_max: Any ='', format: str ='', contribute_to_bounds: bool ='') -> Union[int, str]:
+def add_heat_series(x : Union[List[float], Tuple[float, ...]], rows : int, cols : int, *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', show: bool ='', scale_min: float ='', scale_max: float ='', bounds_min: Any ='', bounds_max: Any ='', format: str ='', contribute_to_bounds: bool ='', col_major: bool ='') -> Union[int, str]:
 	"""Adds a heat series to a plot."""
 	...
 
-def add_histogram_series(x : Union[List[float], Tuple[float, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', show: bool ='', bins: int ='', bar_scale: float ='', min_range: float ='', max_range: float ='', cumlative: bool ='', density: bool ='', outliers: bool ='', contribute_to_bounds: bool ='') -> Union[int, str]:
+def add_histogram_series(x : Union[List[float], Tuple[float, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', show: bool ='', bins: int ='', bar_scale: float ='', min_range: float ='', max_range: float ='', cumulative: bool ='', density: bool ='', no_outliers: bool ='', horizontal: bool ='', contribute_to_bounds: bool ='') -> Union[int, str]:
 	"""Adds a histogram series to a plot."""
-	...
-
-def add_hline_series(x : Union[List[float], Tuple[float, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', show: bool ='') -> Union[int, str]:
-	"""Adds an infinite horizontal line series to a plot."""
 	...
 
 def add_image(texture_tag : Union[int, str], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', tint_color: Union[List[float], Tuple[float, ...]] ='', border_color: Union[List[float], Tuple[float, ...]] ='', uv_min: Union[List[float], Tuple[float, ...]] ='', uv_max: Union[List[float], Tuple[float, ...]] ='') -> Union[int, str]:
@@ -248,6 +244,10 @@ def add_image_button(texture_tag : Union[int, str], *, label: str ='', user_data
 
 def add_image_series(texture_tag : Union[int, str], bounds_min : Union[List[float], Tuple[float, ...]], bounds_max : Union[List[float], Tuple[float, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', show: bool ='', uv_min: Union[List[float], Tuple[float, ...]] ='', uv_max: Union[List[float], Tuple[float, ...]] ='', tint_color: Union[List[int], Tuple[int, ...]] ='') -> Union[int, str]:
 	"""Adds an image series to a plot."""
+	...
+
+def add_inf_line_series(x : Union[List[float], Tuple[float, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', show: bool ='', horizontal: bool ='') -> Union[int, str]:
+	"""Adds an infinite line series to a plot."""
 	...
 
 def add_input_double(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: float ='', format: str ='', min_value: float ='', max_value: float ='', step: float ='', step_fast: float ='', min_clamped: bool ='', max_clamped: bool ='', on_enter: bool ='', readonly: bool ='') -> Union[int, str]:
@@ -354,7 +354,7 @@ def add_knob_float(*, label: str ='', user_data: Any ='', use_internal_label: bo
 	"""Adds a knob that rotates based on change in x mouse position."""
 	...
 
-def add_line_series(x : Union[List[float], Tuple[float, ...]], y : Union[List[float], Tuple[float, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', show: bool ='') -> Union[int, str]:
+def add_line_series(x : Union[List[float], Tuple[float, ...]], y : Union[List[float], Tuple[float, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', show: bool ='', segments: bool ='', loop: bool ='', skip_nan: bool ='', no_clip: bool ='', shaded: bool ='') -> Union[int, str]:
 	"""Adds a line series to a plot."""
 	...
 
@@ -422,11 +422,11 @@ def add_node_link(attr_1 : Union[int, str], attr_2 : Union[int, str], *, label: 
 	"""Adds a node link between 2 node attributes."""
 	...
 
-def add_pie_series(x : float, y : float, radius : float, values : Union[List[float], Tuple[float, ...]], labels : Union[List[str], Tuple[str, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', show: bool ='', format: str ='', angle: float ='', normalize: bool ='') -> Union[int, str]:
+def add_pie_series(x : float, y : float, radius : float, values : Union[List[float], Tuple[float, ...]], labels : Union[List[str], Tuple[str, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', show: bool ='', format: str ='', angle: float ='', normalize: bool ='', ignore_hidden: bool ='') -> Union[int, str]:
 	"""Adds an pie series to a plot."""
 	...
 
-def add_plot(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', delay_search: bool ='', tracked: bool ='', track_offset: float ='', no_title: bool ='', no_menus: bool ='', no_box_select: bool ='', no_mouse_text: bool ='', no_highlight: bool ='', query: bool ='', crosshairs: bool ='', equal_aspects: bool ='', use_local_time: bool ='', use_ISO8601: bool ='', use_24hour_clock: bool ='', pan: int ='', pan_mod: int ='', fit: int ='', menu: int ='', select: int ='', select_mod: int ='', select_cancel: int ='', query_button: int ='', query_mod: int ='', query_toggle_mod: int ='', select_horz_mod: int ='', select_vert_mod: int ='', override_mod: int ='', zoom_mod: int ='', zoom_rate: float ='') -> Union[int, str]:
+def add_plot(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', delay_search: bool ='', tracked: bool ='', track_offset: float ='', no_title: bool ='', no_menus: bool ='', no_box_select: bool ='', no_mouse_text: bool ='', no_highlight: bool ='', query: bool ='', crosshairs: bool ='', equal_aspects: bool ='', no_legend: bool ='', no_inputs: bool ='', no_frame: bool ='', use_local_time: bool ='', use_ISO8601: bool ='', use_24hour_clock: bool ='', pan: int ='', pan_mod: int ='', menu: int ='', fit: int ='', select: int ='', select_mod: int ='', select_cancel: int ='', query_button: int ='', query_mod: int ='', query_toggle_mod: int ='', select_horz_mod: int ='', select_vert_mod: int ='', override_mod: int ='', zoom_mod: int ='', zoom_rate: int ='') -> Union[int, str]:
 	"""Adds a plot which is used to hold series, and can be drawn to with draw commands."""
 	...
 
@@ -434,11 +434,11 @@ def add_plot_annotation(*, label: str ='', user_data: Any ='', use_internal_labe
 	"""Adds an annotation to a plot."""
 	...
 
-def add_plot_axis(axis : int, *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', payload_type: str ='', drop_callback: Callable ='', show: bool ='', no_gridlines: bool ='', no_tick_marks: bool ='', no_tick_labels: bool ='', log_scale: bool ='', invert: bool ='', lock_min: bool ='', lock_max: bool ='', time: bool ='') -> Union[int, str]:
+def add_plot_axis(axis : int, *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', payload_type: str ='', drop_callback: Callable ='', show: bool ='', no_label: bool ='', no_gridlines: bool ='', no_tick_marks: bool ='', no_tick_labels: bool ='', no_initial_fit: bool ='', no_menus: bool ='', no_side_switch: bool ='', no_highlight: bool ='', opposite: bool ='', foreground: bool ='', formatter: str ='', scale: int ='', invert: bool ='', auto_fit: bool ='', range_fit: bool ='', pan_stretch: bool ='', lock_min: bool ='', lock_max: bool ='') -> Union[int, str]:
 	"""Adds an axis to a plot."""
 	...
 
-def add_plot_legend(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', payload_type: str ='', drop_callback: Callable ='', show: bool ='', location: int ='', horizontal: bool ='', outside: bool ='', no_highlight_item: bool ='', no_highlight_axis: bool ='', no_menus: bool ='', no_buttons: bool ='') -> Union[int, str]:
+def add_plot_legend(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', payload_type: str ='', drop_callback: Callable ='', show: bool ='', location: int ='', horizontal: bool ='', sort: bool ='', outside: bool ='', no_highlight_item: bool ='', no_highlight_axis: bool ='', no_menus: bool ='', no_buttons: bool ='') -> Union[int, str]:
 	"""Adds a plot legend to a plot."""
 	...
 
@@ -454,7 +454,7 @@ def add_raw_texture(width : int, height : int, default_value : Union[List[float]
 	"""Adds a raw texture."""
 	...
 
-def add_scatter_series(x : Union[List[float], Tuple[float, ...]], y : Union[List[float], Tuple[float, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', show: bool ='') -> Union[int, str]:
+def add_scatter_series(x : Union[List[float], Tuple[float, ...]], y : Union[List[float], Tuple[float, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', show: bool ='', no_clip: bool ='') -> Union[int, str]:
 	"""Adds a scatter series to a plot."""
 	...
 
@@ -510,7 +510,7 @@ def add_stage(*, label: str ='', user_data: Any ='', use_internal_label: bool ='
 	"""Adds a stage."""
 	...
 
-def add_stair_series(x : Union[List[float], Tuple[float, ...]], y : Union[List[float], Tuple[float, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', show: bool ='') -> Union[int, str]:
+def add_stair_series(x : Union[List[float], Tuple[float, ...]], y : Union[List[float], Tuple[float, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', show: bool ='', pre_step: bool ='', shaded: bool ='') -> Union[int, str]:
 	"""Adds a stair series to a plot."""
 	...
 
@@ -518,7 +518,7 @@ def add_static_texture(width : int, height : int, default_value : Union[List[flo
 	"""Adds a static texture."""
 	...
 
-def add_stem_series(x : Union[List[float], Tuple[float, ...]], y : Union[List[float], Tuple[float, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', show: bool ='') -> Union[int, str]:
+def add_stem_series(x : Union[List[float], Tuple[float, ...]], y : Union[List[float], Tuple[float, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', show: bool ='', horizontal: bool ='') -> Union[int, str]:
 	"""Adds a stem series to a plot."""
 	...
 
@@ -526,7 +526,7 @@ def add_string_value(*, label: str ='', user_data: Any ='', use_internal_label: 
 	"""Adds a string value."""
 	...
 
-def add_subplots(rows : int, columns : int, *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', delay_search: bool ='', tracked: bool ='', track_offset: float ='', row_ratios: Union[List[float], Tuple[float, ...]] ='', column_ratios: Union[List[float], Tuple[float, ...]] ='', no_title: bool ='', no_menus: bool ='', no_resize: bool ='', no_align: bool ='', link_rows: bool ='', link_columns: bool ='', link_all_x: bool ='', link_all_y: bool ='', column_major: bool ='') -> Union[int, str]:
+def add_subplots(rows : int, columns : int, *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', delay_search: bool ='', tracked: bool ='', track_offset: float ='', row_ratios: Union[List[float], Tuple[float, ...]] ='', column_ratios: Union[List[float], Tuple[float, ...]] ='', no_title: bool ='', no_legend: bool ='', no_menus: bool ='', no_resize: bool ='', no_align: bool ='', share_items: bool ='', link_rows: bool ='', link_columns: bool ='', link_all_x: bool ='', link_all_y: bool ='', column_major: bool ='') -> Union[int, str]:
 	"""Adds a collection of plots."""
 	...
 
@@ -614,10 +614,6 @@ def add_viewport_menu_bar(*, label: str ='', user_data: Any ='', use_internal_la
 	"""Adds a menubar to the viewport."""
 	...
 
-def add_vline_series(x : Union[List[float], Tuple[float, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', show: bool ='') -> Union[int, str]:
-	"""Adds an infinite vertical line series to a plot."""
-	...
-
 def add_window(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', delay_search: bool ='', min_size: Union[List[int], Tuple[int, ...]] ='', max_size: Union[List[int], Tuple[int, ...]] ='', menubar: bool ='', collapsed: bool ='', autosize: bool ='', no_resize: bool ='', no_title_bar: bool ='', no_move: bool ='', no_scrollbar: bool ='', no_collapse: bool ='', horizontal_scrollbar: bool ='', no_focus_on_appearing: bool ='', no_bring_to_front_on_focus: bool ='', no_close: bool ='', no_background: bool ='', modal: bool ='', popup: bool ='', no_saved_settings: bool ='', no_open_over_existing_popup: bool ='', no_scroll_with_mouse: bool ='', on_close: Callable ='') -> Union[int, str]:
 	"""Creates a new window for following items to be added to."""
 	...
@@ -662,7 +658,7 @@ def clear_selected_nodes(node_editor : Union[int, str]) -> None:
 	"""Clears a node editor's selected nodes."""
 	...
 
-def configure_app(*, load_init_file: str ='', init_file: str ='', auto_save_init_file: bool ='', device: int ='', auto_device: bool ='', allow_alias_overwrites: bool ='', manual_alias_management: bool ='', skip_required_args: bool ='', skip_positional_args: bool ='', skip_keyword_args: bool ='', wait_for_input: bool ='', manual_callback_management: bool ='', **kwargs) -> None:
+def configure_app(*, load_init_file: str ='', init_file: str ='', auto_save_init_file: bool ='', device: int ='', auto_device: bool ='', allow_alias_overwrites: bool ='', manual_alias_management: bool ='', skip_required_args: bool ='', skip_positional_args: bool ='', skip_keyword_args: bool ='', wait_for_input: bool ='', manual_callback_management: bool ='', keyboard_navigation: bool ='', **kwargs) -> None:
 	"""Configures app."""
 	...
 
@@ -770,7 +766,7 @@ def draw_quad(p1 : Union[List[float], Tuple[float, ...]], p2 : Union[List[float]
 	"""Adds a quad."""
 	...
 
-def draw_rectangle(pmin : Union[List[float], Tuple[float, ...]], pmax : Union[List[float], Tuple[float, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', show: bool ='', color: Union[List[int], Tuple[int, ...]] ='', color_upper_left: Union[List[int], Tuple[int, ...]] ='', color_upper_right: Union[List[int], Tuple[int, ...]] ='', color_bottom_right: Union[List[int], Tuple[int, ...]] ='', color_bottom_left: Union[List[int], Tuple[int, ...]] ='', fill: Union[List[int], Tuple[int, ...]] ='', multicolor: bool ='', rounding: float ='', thickness: float ='') -> Union[int, str]:
+def draw_rectangle(pmin : Union[List[float], Tuple[float, ...]], pmax : Union[List[float], Tuple[float, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', show: bool ='', color: Union[List[int], Tuple[int, ...]] ='', color_upper_left: Union[List[int], Tuple[int, ...]] ='', color_upper_right: Union[List[int], Tuple[int, ...]] ='', color_bottom_right: Union[List[int], Tuple[int, ...]] ='', color_bottom_left: Union[List[int], Tuple[int, ...]] ='', fill: Union[List[int], Tuple[int, ...]] ='', multicolor: bool ='', rounding: float ='', thickness: float ='', corner_colors: Any ='') -> Union[int, str]:
 	"""Adds a rectangle."""
 	...
 
@@ -899,7 +895,7 @@ def get_plot_mouse_pos() -> Union[List[int], Tuple[int, ...]]:
 	...
 
 def get_plot_query_rects(plot : Union[int, str]) -> Union[List[float], Tuple[float, ...]]:
-	"""Returns the last/current query area of the plot. (Requires plot 'query' kwarg to be enabled)"""
+	"""Returns the query rects of the plot. (Requires plot 'query' kwarg to be enabled)"""
 	...
 
 def get_selected_links(node_editor : Union[int, str]) -> List[List[str]]:
@@ -997,7 +993,6 @@ def is_mouse_button_dragging(button : int, threshold : float) -> bool:
 def is_mouse_button_released(button : int) -> bool:
 	"""Checks if mouse button is released."""
 	...
-
 
 def is_table_cell_highlighted(table : Union[int, str], row : int, column : int) -> bool:
 	"""Checks if a table cell is highlighted."""
@@ -1284,51 +1279,6 @@ mvKey_Z=0
 mvKey_Back=0
 mvKey_Tab=0
 mvKey_Return=0
-mvKey_Keypad0=0
-mvKey_Keypad1=0
-mvKey_Keypad2=0
-mvKey_Keypad3=0
-mvKey_Keypad4=0
-mvKey_Keypad5=0
-mvKey_Keypad6=0
-mvKey_Keypad7=0
-mvKey_Keypad8=0
-mvKey_Keypad9=0
-mvKey_KeypadDecimal=0
-mvKey_KeypadDivide=0
-mvKey_KeypadMultiply=0
-mvKey_KeypadSubtract=0
-mvKey_KeypadAdd=0
-mvKey_KeypadEnter=0
-mvKey_KeypadEqual=0
-mvKey_GamepadStart=0
-mvKey_GamepadBack=0
-mvKey_GamepadFaceUp=0
-mvKey_GamepadFaceDown=0
-mvKey_GamepadFaceLeft=0
-mvKey_GamepadFaceRight=0
-mvKey_GamepadDpadUp=0
-mvKey_GamepadDpadDown=0
-mvKey_GamepadDpadLeft=0
-mvKey_GamepadDpadRight=0
-mvKey_GamepadL1=0
-mvKey_GamepadR1=0
-mvKey_GamepadL2=0
-mvKey_GamepadR2=0
-mvKey_GamepadL3=0
-mvKey_GamepadR3=0
-mvKey_GamepadLStickUp=0
-mvKey_GamepadLStickDown=0
-mvKey_GamepadLStickLeft=0
-mvKey_GamepadLStickRight=0
-mvKey_GamepadRStickUp=0
-mvKey_GamepadRStickDown=0
-mvKey_GamepadRStickLeft=0
-mvKey_GamepadRStickRight=0
-mvKey_ModCtrl=0
-mvKey_ModShift=0
-mvKey_ModAlt=0
-mvKey_ModSuper=0
 mvKey_LShift=0
 mvKey_RShift=0
 mvKey_LControl=0
@@ -1398,57 +1348,8 @@ mvKey_Open_Brace=0
 mvKey_Close_Brace=0
 mvKey_Browser_Back=0
 mvKey_Browser_Forward=0
-mvKey_Multiply=0
-mvKey_Add=0
-mvKey_Separator=0
-mvKey_Prior=0
-mvKey_Next=0
-mvKey_Select=0
-mvKey_Print=0
-mvKey_Execute=0
-mvKey_LWin=0
-mvKey_RWin=0
-mvKey_Apps=0
-mvKey_Sleep=0
-mvKey_Clear=0
-mvKey_Prior=0
-mvKey_Next=0
-mvKey_Select=0
-mvKey_Print=0
-mvKey_Execute=0
-mvKey_Help=0
-mvKey_LWin=0
-mvKey_RWin=0
-mvKey_Apps=0
-mvKey_Sleep=0
-mvKey_Multiply=0
-mvKey_Add=0
-mvKey_Separator=0
-mvKey_F25=0
-mvKey_LMenu=0
-mvKey_RMenu=0
-mvKey_Browser_Refresh=0
-mvKey_Browser_Stop=0
-mvKey_Browser_Search=0
-mvKey_Browser_Favorites=0
-mvKey_Browser_Home=0
-mvKey_Volume_Mute=0
-mvKey_Volume_Down=0
-mvKey_Volume_Up=0
-mvKey_Media_Next_Track=0
-mvKey_Media_Prev_Track=0
-mvKey_Media_Stop=0
-mvKey_Media_Play_Pause=0
-mvKey_Launch_Mail=0
-mvKey_Launch_Media_Select=0
-mvKey_Launch_App1=0
-mvKey_Launch_App2=0
-mvKey_Colon=0
-mvKey_Plus=0
 mvKey_Comma=0
 mvKey_Minus=0
-mvKey_Tilde=0
-mvKey_Quote=0
 mvAll=0
 mvTool_About=0
 mvTool_Debug=0
@@ -1547,6 +1448,10 @@ mvXAxis3=0
 mvYAxis=0
 mvYAxis2=0
 mvYAxis3=0
+mvPlotScale_Linear=0
+mvPlotScale_Time=0
+mvPlotScale_Log10=0
+mvPlotScale_SymLog=0
 mvPlotMarker_None=0
 mvPlotMarker_Circle=0
 mvPlotMarker_Square=0
@@ -1705,8 +1610,12 @@ mvStyleVar_ScrollbarRounding=0
 mvStyleVar_GrabMinSize=0
 mvStyleVar_GrabRounding=0
 mvStyleVar_TabRounding=0
+mvStyleVar_TabBarBorderSize=0
 mvStyleVar_ButtonTextAlign=0
 mvStyleVar_SelectableTextAlign=0
+mvStyleVar_SeparatorTextBorderSize=0
+mvStyleVar_SeparatorTextAlign=0
+mvStyleVar_SeparatorTextPadding=0
 mvPlotStyleVar_LineWeight=0
 mvPlotStyleVar_Marker=0
 mvPlotStyleVar_MarkerSize=0
@@ -1820,8 +1729,8 @@ mvSliderIntMulti=0
 mvInputIntMulti=0
 mvInputFloatMulti=0
 mvDragPoint=0
-mvDragRect=0
 mvDragLine=0
+mvDragRect=0
 mvAnnotation=0
 mvLineSeries=0
 mvScatterSeries=0
@@ -1829,6 +1738,7 @@ mvStemSeries=0
 mvStairSeries=0
 mvBarSeries=0
 mvErrorSeries=0
+mvInfLineSeries=0
 mvHeatSeries=0
 mvImageSeries=0
 mvPieSeries=0
