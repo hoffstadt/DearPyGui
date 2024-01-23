@@ -222,6 +222,10 @@ def add_group(*, label: str ='', user_data: Any ='', use_internal_label: bool ='
 	"""Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members."""
 	...
 
+def add_group_bar_series(values : Union[List[float], Tuple[float, ...]], label_ids : Union[List[str], Tuple[str, ...]], item_count : int, group_count : int, *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', show: bool ='', group_size: float ='', shift: int ='', horizontal: bool ='', stacked: bool ='') -> Union[int, str]:
+	"""Adds a bar groups series to a plot. 'values' is a row-major matrix with 'item_count' rows and 'group_count' cols. 'label_ids' should have 'item_count' elements."""
+	...
+
 def add_handler_registry(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', show: bool ='') -> Union[int, str]:
 	"""Adds a handler registry."""
 	...
@@ -274,7 +278,7 @@ def add_input_intx(*, label: str ='', user_data: Any ='', use_internal_label: bo
 	"""Adds multi int input for up to 4 integer values."""
 	...
 
-def add_input_text(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: str ='', hint: str ='', multiline: bool ='', no_spaces: bool ='', uppercase: bool ='', tab_input: bool ='', decimal: bool ='', hexadecimal: bool ='', readonly: bool ='', password: bool ='', scientific: bool ='', on_enter: bool ='') -> Union[int, str]:
+def add_input_text(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: str ='', hint: str ='', multiline: bool ='', no_spaces: bool ='', uppercase: bool ='', tab_input: bool ='', decimal: bool ='', hexadecimal: bool ='', readonly: bool ='', password: bool ='', scientific: bool ='', on_enter: bool ='', auto_select_all: bool ='', ctrl_enter_for_new_line: bool ='', no_horizontal_scroll: bool ='', always_overwrite: bool ='', no_undo_redo: bool ='', escape_clears_all: bool ='') -> Union[int, str]:
 	"""Adds input for text."""
 	...
 
@@ -426,7 +430,7 @@ def add_pie_series(x : float, y : float, radius : float, values : Union[List[flo
 	"""Adds an pie series to a plot."""
 	...
 
-def add_plot(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', delay_search: bool ='', tracked: bool ='', track_offset: float ='', no_title: bool ='', no_menus: bool ='', no_box_select: bool ='', no_mouse_text: bool ='', no_highlight: bool ='', query: bool ='', crosshairs: bool ='', equal_aspects: bool ='', no_legend: bool ='', no_inputs: bool ='', no_frame: bool ='', use_local_time: bool ='', use_ISO8601: bool ='', use_24hour_clock: bool ='', pan: int ='', pan_mod: int ='', menu: int ='', fit: int ='', select: int ='', select_mod: int ='', select_cancel: int ='', query_button: int ='', query_mod: int ='', query_toggle_mod: int ='', select_horz_mod: int ='', select_vert_mod: int ='', override_mod: int ='', zoom_mod: int ='', zoom_rate: int ='') -> Union[int, str]:
+def add_plot(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', delay_search: bool ='', tracked: bool ='', track_offset: float ='', no_title: bool ='', no_menus: bool ='', no_box_select: bool ='', no_mouse_text: bool ='', no_highlight: bool ='', query: bool ='', crosshairs: bool ='', equal_aspects: bool ='', no_legend: bool ='', no_inputs: bool ='', no_frame: bool ='', use_local_time: bool ='', use_ISO8601: bool ='', use_24hour_clock: bool ='', pan: int ='', pan_mod: int ='', menu: int ='', fit: int ='', select: int ='', select_mod: int ='', select_cancel: int ='', select_horz_mod: int ='', select_vert_mod: int ='', override_mod: int ='', zoom_mod: int ='', zoom_rate: int ='') -> Union[int, str]:
 	"""Adds a plot which is used to hold series, and can be drawn to with draw commands."""
 	...
 
@@ -894,8 +898,8 @@ def get_plot_mouse_pos() -> Union[List[int], Tuple[int, ...]]:
 	"""Returns mouse position in plot."""
 	...
 
-def get_plot_query_rects(plot : Union[int, str]) -> Union[List[float], Tuple[float, ...]]:
-	"""Returns the query rects of the plot. (Requires plot 'query' kwarg to be enabled)"""
+def get_plot_query_rects(plot : Union[int, str]) -> List[List[float]]:
+	"""Returns the query rects of the plot. Returns an array of array containing the top-left coordinates and bottom-right coordinates of the plot area."""
 	...
 
 def get_selected_links(node_editor : Union[int, str]) -> List[List[str]]:
@@ -1737,6 +1741,7 @@ mvScatterSeries=0
 mvStemSeries=0
 mvStairSeries=0
 mvBarSeries=0
+mvGroupBarSeries=0
 mvErrorSeries=0
 mvInfLineSeries=0
 mvHeatSeries=0

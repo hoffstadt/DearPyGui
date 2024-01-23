@@ -2,7 +2,6 @@
 
 ### TODO Generic
 - [ ] Generic:
-    - [ ] No downsampling in PyGui, probably problems with recognizing axes limits
     - [x] Fix `void ImGui::Shutdown(): Assertion '(g.IO.BackendPlatformUserData == __null) && "Forgot to shutdown Platform backend?"' failed.` error on shutdown.
     - [ ] Enable control mods for plots!
     - [ ] Check if what you did with DragPoint value is okay or not
@@ -10,6 +9,7 @@
     - [x] Remove GetKeysConstants because it's deeply linked to new IO (also, I put it, so it can be removed without any worries)
     - [x] Make it work wihout obsolete functions (ImGui and ImPlot)
     - [ ] Update demo with new functions
+    - [ ] Improve demo with multiple axes
 - [ ] Bugfix:
     - [x] Crash on tests teardown
     - [x] Crash when opening table in demo: `void ImGui::TableSetColumnEnabled(int, bool): Assertion 'table->Flags & ImGuiTableFlags_Hideable' failed.`
@@ -95,7 +95,8 @@ Probably all the IO "issues" are deeply linked between them
 Take a look at implot.cpp to have a better changelog.
 
 - [ ] [V 0.13](https://github.com/epezent/implot/releases/tag/v0.13)
-    - [ ] Query: Implement new DragRect (now commented)
+    - [x] Query: Implement new DragRect
+        - [ ] Find a way to give to those Query Rects the DragToolFlags (if possible)
     - [ ] Axis: custom tick label formatting via ImPlotFormatter callbacks passed to SetupAxisFormat
         - [x] String: Implement string formatter
         - [ ] ImPlotFormatter: Implement custom callback

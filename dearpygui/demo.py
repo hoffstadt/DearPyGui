@@ -2192,19 +2192,20 @@ def show_demo():
 
                     with dpg.tree_node(label="Querying"):
 
-                        dpg.add_text("Click and drag the middle mouse button!")
+                        dpg.add_text("Right click to box select and then click using the cancel button (standard to Left click)")
                         def query(sender, app_data, user_data):
-                            dpg.set_axis_limits(user_data[0], app_data[0], app_data[1])
-                            dpg.set_axis_limits(user_data[1], app_data[2], app_data[3])
+                            dpg.set_axis_limits(user_data[0], app_data[0][0], app_data[0][2])
+                            dpg.set_axis_limits(user_data[1], app_data[0][3], app_data[0][1])
 
                         # plot 1
                         with dpg.plot(no_title=True, height=400, callback=query, query=True, no_menus=True, width=-1) as plot_id:
                             dpg.add_plot_axis(dpg.mvXAxis, label="x")
                             with dpg.plot_axis(dpg.mvYAxis, label="y"):
                                 dpg.add_line_series(sindatax, sindatay)
-
+                                
+                        dpg.add_text("This plot takes care only of the firs query rect")
                         # plot 2
-                        with dpg.plot(no_title=True, height=400, no_menus=True, width=-1):          
+                        with dpg.plot(no_title=True, height=400, no_menus=True, width=-1, tag="plot2"):          
                             xaxis_id2 = dpg.add_plot_axis(dpg.mvXAxis, label="x")
                             yaxis_id2 = dpg.add_plot_axis(dpg.mvYAxis, label="y")
                             dpg.add_line_series(sindatax, sindatay, parent=yaxis_id2)

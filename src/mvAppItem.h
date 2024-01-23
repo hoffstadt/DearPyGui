@@ -322,6 +322,7 @@ GetEntityCommand(mvAppItemType type)
     case mvAppItemType::mvStemSeries:                  return "add_stem_series";
     case mvAppItemType::mvStairSeries:                 return "add_stair_series";
     case mvAppItemType::mvBarSeries:                   return "add_bar_series";
+    case mvAppItemType::mvGroupBarSeries:              return "add_group_bar_series";
     case mvAppItemType::mvErrorSeries:                 return "add_error_series";
     case mvAppItemType::mvCustomSeries:                return "add_custom_series";
     case mvAppItemType::mvInfLineSeries:               return "add_inf_line_series";

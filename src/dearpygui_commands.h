@@ -1038,11 +1038,12 @@ get_plot_query_rects(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	mvPlot* graph = static_cast<mvPlot*>(aplot);
 
-	PyObject* result = PyTuple_New(4);
 	auto rects = graph->configData.rects;
+	PyObject* result = PyTuple_New(rects.size());
 	for (int i = 0; i < rects.size(); ++i) {
-		auto rect = rects[i].ToVec4();
-		PyTuple_SetItem(result, i, Py_BuildValue("(dddd)", rect.x, rect.y, rect.z, rect.w));  // TODO: Check if it's okay
+		auto rectMin = rects[i].Min();
+		auto rectMax = rects[i].Max();
+		PyTuple_SetItem(result, i, Py_BuildValue("(dddd)", rectMin.x, rectMin.y, rectMax.x, rectMax.y));
 	}
 	return result;
 }
