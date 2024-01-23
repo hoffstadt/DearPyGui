@@ -36,7 +36,7 @@ jobs:
     runs-on: windows-2019
     strategy:
       matrix:
-        python-version: [ 3.7, 3.8, 3.9, "3.10", "3.11", "3.12" ]
+        python-version: [ 3.8, 3.9, "3.10", "3.11", "3.12" ]
 
     steps:
 
@@ -53,7 +53,7 @@ jobs:
       run: |
         git submodule update --init --recursive ./thirdparty/imgui
         git submodule update --init --recursive ./thirdparty/freetype
-      
+
     - name: Mark Versions
       shell: cmd
       run: |
@@ -66,7 +66,7 @@ jobs:
         cd %GITHUB_WORKSPACE%
         python -m pip install --upgrade pip twine wheel setuptools
         python -m setup bdist_wheel --plat-name win_amd64 --dist-dir dist
-    
+
     - name: Upload Windows ${{ matrix.python-version }} Wheel
       uses: actions/upload-artifact@v2
       with:
@@ -79,7 +79,7 @@ jobs:
     runs-on: macos-11
     strategy:
       matrix:
-        python-version: [ 3.7, 3.8, 3.9, "3.10", "3.11", "3.12" ]
+        python-version: [ 3.8, 3.9, "3.10", "3.11", "3.12" ]
 
     steps:
 
@@ -95,7 +95,7 @@ jobs:
       run: |
         git submodule update --init --recursive ./thirdparty/imgui
         git submodule update --init --recursive ./thirdparty/glfw
-    
+
     - name: Mark Versions
       run: |
         cd $GITHUB_WORKSPACE
@@ -106,13 +106,53 @@ jobs:
         cd $GITHUB_WORKSPACE
         python -m pip install --upgrade pip twine wheel setuptools
         python -m setup bdist_wheel --plat-name macosx-10.6-x86_64 --dist-dir dist
-   
+
     - name: Upload MacOS 10.15 ${{ matrix.python-version }} Wheel
       uses: actions/upload-artifact@v2
       with:
         name: apple10build${{ matrix.python-version }}
         path: ${{ github.workspace }}/dist/*.whl
         retention-days: 2
+
+  build-mac-silicon-wheels:
+
+    runs-on: macos-latest-large
+    strategy:
+      matrix:
+        python-version: [ "3.10", "3.11", "3.12" ]
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Retrieve submodules
+        run: |
+          git submodule update --init --recursive ./thirdparty/imgui
+          git submodule update --init --recursive ./thirdparty/glfw
+
+      - name: Mark Versions
+        run: |
+          cd $GITHUB_WORKSPACE
+          echo ${{ github.event.inputs.version }} > version_number.txt
+
+      - name: Build Wheel
+        run: |
+          cd $GITHUB_WORKSPACE
+          python -m pip install --upgrade pip twine wheel setuptools
+          python -m setup bdist_wheel --plat-name macosx-13.0-arm64 --dist-dir dist
+
+      - name: Upload MacOS ${{ matrix.python-version }} Wheel
+        uses: actions/upload-artifact@v3
+        with:
+          name: apple10sbuild${{ matrix.python-version }}
+          path: ${{ github.workspace }}/dist/*.whl
+          retention-days: 2
 
   build-linux-wheels:
 
@@ -121,7 +161,7 @@ jobs:
       CXX: g++-9
     strategy:
       matrix:
-        python-version: [ 3.7, 3.8, 3.9, "3.10", "3.11", "3.12" ]
+        python-version: [ 3.8, 3.9, "3.10", "3.11", "3.12" ]
 
     steps:
 
@@ -139,7 +179,7 @@ jobs:
         git submodule update --init --recursive ./thirdparty/glfw
         sudo apt-get update
         sudo apt-get install libglu1-mesa-dev libgl1-mesa-dev xorg-dev libxrandr-dev -y
-    
+
     - name: Mark Versions
       run: |
         cd $GITHUB_WORKSPACE
@@ -152,7 +192,7 @@ jobs:
         python -m setup bdist_wheel --plat-name manylinux1_x86_64 --dist-dir dist
 
     - name: Upload Linux ${{ matrix.python-version }} Wheel
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: linuxbuild${{ matrix.python-version }}
         path: ${{ github.workspace }}/dist/*.whl
@@ -160,7 +200,7 @@ jobs:
 
   deploy-packages:
 
-    needs: [build-windows-wheels, build-mac10-wheels, build-linux-wheels]
+    needs: [build-windows-wheels, build-mac10-wheels, build-linux-wheels, build-mac-silicon-wheels]
     runs-on: windows-2019
 
     steps:
@@ -186,6 +226,7 @@ jobs:
       run: |
         python -m twine upload windowsbuild*/* -u __token__ -p ${{ secrets.PYPI_PASSWORD }} --skip-existing
         python -m twine upload apple10build*/* -u __token__ -p ${{ secrets.PYPI_PASSWORD }} --skip-existing
+        python -m twine upload apple10sbuild*/* -u __token__ -p ${{ secrets.PYPI_PASSWORD }} --skip-existing
         python -m twine upload linuxbuild*/* -u __token__ -p ${{ secrets.PYPI_PASSWORD }} --skip-existing
 
     - name: Test PyPi Deployment
@@ -195,4 +236,5 @@ jobs:
         dir
         python -m twine upload --repository testpypi windowsbuild*/* -u __token__ -p ${{ secrets.TEST_PYPI_PASSWORD }} --skip-existing
         python -m twine upload --repository testpypi apple10build*/* -u __token__ -p ${{ secrets.TEST_PYPI_PASSWORD }} --skip-existing
+        python -m twine upload --repository testpypi apple10sbuild*/* -u __token__ -p ${{ secrets.TEST_PYPI_PASSWORD }} --skip-existing
         python -m twine upload --repository testpypi linuxbuild*/* -u __token__ -p ${{ secrets.TEST_PYPI_PASSWORD }} --skip-existing
