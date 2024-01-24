@@ -279,7 +279,7 @@ InsertConstants_mvContext(std::vector<std::pair<std::string, long>>& constants)
     constants.emplace_back("mvKey_Up", ImGuiKey_UpArrow);
     constants.emplace_back("mvKey_Right", ImGuiKey_RightArrow);
     constants.emplace_back("mvKey_Down", ImGuiKey_DownArrow);
-    constants.emplace_back("mvKey_PrintScreen", ImGuiKey_PrintScreen);
+    constants.emplace_back("mvKey_Print", ImGuiKey_PrintScreen);
     constants.emplace_back("mvKey_Insert", ImGuiKey_Insert);
     constants.emplace_back("mvKey_Delete", ImGuiKey_Delete);
     constants.emplace_back("mvKey_NumPad0", ImGuiKey_Keypad0);
@@ -295,6 +295,8 @@ InsertConstants_mvContext(std::vector<std::pair<std::string, long>>& constants)
     constants.emplace_back("mvKey_Subtract", ImGuiKey_KeypadSubtract);
     constants.emplace_back("mvKey_Decimal", ImGuiKey_KeypadDecimal);
     constants.emplace_back("mvKey_Divide", ImGuiKey_KeypadDivide);
+    constants.emplace_back("mvKey_Multiply", ImGuiKey_KeypadMultiply);
+    constants.emplace_back("mvKey_Add", ImGuiKey_KeypadAdd);
     constants.emplace_back("mvKey_F1", ImGuiKey_F1);
     constants.emplace_back("mvKey_F2", ImGuiKey_F2);
     constants.emplace_back("mvKey_F3", ImGuiKey_F3);
@@ -332,24 +334,20 @@ InsertConstants_mvContext(std::vector<std::pair<std::string, long>>& constants)
     constants.emplace_back("mvKey_Close_Brace", ImGuiKey_RightBracket);
     constants.emplace_back("mvKey_Browser_Back", ImGuiKey_AppBack);
     constants.emplace_back("mvKey_Browser_Forward", ImGuiKey_AppForward);
-    constants.emplace_back("mvKey_Comma", ImGuiKey_Comma);
+    constants.emplace_back("mvKey_Comma", ImGuiKey_Comma); // -> it seems to be the old mvKey_Separator
     constants.emplace_back("mvKey_Minus", ImGuiKey_Minus);
+    constants.emplace_back("mvKey_Menu", ImGuiKey_Menu);
 #if !defined (IMGUI_DISABLE_OBSOLETE_KEYIO)
-        constants.emplace_back("mvKey_Multiply", 0x6A);
-        constants.emplace_back("mvKey_Add", 0x6B);
-        constants.emplace_back("mvKey_Separator", 0x6C);
         // constants.emplace_back("mvKey_Help", 0x2F);
         constants.emplace_back("mvKey_Prior", 0x21);
         constants.emplace_back("mvKey_Next", 0x22);
         constants.emplace_back("mvKey_Select", 0x29);
-        constants.emplace_back("mvKey_Print", 0x2A);
         constants.emplace_back("mvKey_Execute", 0x2B);
         constants.emplace_back("mvKey_LWin", 0x5B);
         constants.emplace_back("mvKey_RWin", 0x5C);
         constants.emplace_back("mvKey_Apps", 0x5D);
         constants.emplace_back("mvKey_Sleep", 0x5F);
     #if defined (_WIN32)
-        constants.emplace_back("mvKey_LMenu", ImGuiKey_Menu);ImGuiKey_Alt
         constants.emplace_back("mvKey_Volume_Down", 0xAE);
         constants.emplace_back("mvKey_Volume_Up", 0xAF);
         constants.emplace_back("mvKey_Media_Next_Track", 0xB0);
@@ -363,7 +361,6 @@ InsertConstants_mvContext(std::vector<std::pair<std::string, long>>& constants)
         constants.emplace_back("mvKey_Colon", 0xBA);
         constants.emplace_back("mvKey_Plus", 0xBB);
         constants.emplace_back("mvKey_Comma", 0xBC);
-        constants.emplace_back("mvKey_Minus", 0xBD);
         constants.emplace_back("mvKey_Slash", 0xBF);
         constants.emplace_back("mvKey_Tilde", 0xC0);
         constants.emplace_back("mvKey_Quote", 0xDE);
@@ -372,19 +369,13 @@ InsertConstants_mvContext(std::vector<std::pair<std::string, long>>& constants)
         constants.emplace_back("mvKey_Prior", 266);
         constants.emplace_back("mvKey_Next", 267);
         constants.emplace_back("mvKey_Select", -1);
-        constants.emplace_back("mvKey_Print", -1);
         constants.emplace_back("mvKey_Execute", -1);
         constants.emplace_back("mvKey_Help", -1);
         constants.emplace_back("mvKey_LWin", 343);
         constants.emplace_back("mvKey_RWin", 347);
         constants.emplace_back("mvKey_Apps", -1);
         constants.emplace_back("mvKey_Sleep", -1);
-        constants.emplace_back("mvKey_Multiply", 332);
-        constants.emplace_back("mvKey_Add", 334);
-        constants.emplace_back("mvKey_Separator", -1);
         constants.emplace_back("mvKey_F25", 314);
-        constants.emplace_back("mvKey_LMenu", -1);
-        constants.emplace_back("mvKey_RMenu", -1);
         constants.emplace_back("mvKey_Browser_Refresh", -1);
         constants.emplace_back("mvKey_Browser_Stop", -1);
         constants.emplace_back("mvKey_Browser_Search", -1);

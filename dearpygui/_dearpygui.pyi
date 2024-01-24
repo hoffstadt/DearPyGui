@@ -18,10 +18,6 @@ def add_alias(alias : str, item : Union[int, str]) -> None:
 	"""Adds an alias."""
 	...
 
-def add_area_series(x : Union[List[float], Tuple[float, ...]], y : Union[List[float], Tuple[float, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', show: bool ='', fill: Union[List[int], Tuple[int, ...]] ='', contribute_to_bounds: bool ='') -> Union[int, str]:
-	"""Adds an area series to a plot."""
-	...
-
 def add_bar_series(x : Union[List[float], Tuple[float, ...]], y : Union[List[float], Tuple[float, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', show: bool ='', weight: float ='', horizontal: bool ='') -> Union[int, str]:
 	"""Adds a bar series to a plot."""
 	...
@@ -46,8 +42,8 @@ def add_checkbox(*, label: str ='', user_data: Any ='', use_internal_label: bool
 	"""Adds a checkbox."""
 	...
 
-def add_child_window(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', drop_callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', delay_search: bool ='', tracked: bool ='', track_offset: float ='', border: bool ='', autosize_x: bool ='', autosize_y: bool ='', no_scrollbar: bool ='', horizontal_scrollbar: bool ='', menubar: bool ='', no_scroll_with_mouse: bool ='', flattened_navigation: bool ='') -> Union[int, str]:
-	"""Adds an embedded child window. Will show scrollbars when items do not fit."""
+def add_child_window(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', drop_callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', delay_search: bool ='', tracked: bool ='', track_offset: float ='', border: bool ='', autosize_x: bool ='', autosize_y: bool ='', no_scrollbar: bool ='', horizontal_scrollbar: bool ='', menubar: bool ='', no_scroll_with_mouse: bool ='', flattened_navigation: bool ='', always_use_window_padding: bool ='', resize_x: bool ='', resize_y: bool ='', always_auto_resize: bool ='', frame_style: bool ='', auto_resize_x: bool ='', auto_resize_y: bool ='') -> Union[int, str]:
+	"""[Copied and edited a little bit from ImGui]  Adds an embedded child window. Will show scrollbars when items do not fit. About using AutoResizeX/AutoResizeY flags: - May be combined with SetNextWindowSizeConstraints() to set a min/max size for each axis (see 'Demo->Child->Auto-resize with Constraints').- Size measurement for a given axis is only performed when the child window is within visible boundaries, or is just appearing.- This allows BeginChild() to return false when not within boundaries (e.g. when scrolling), which is more optimal. BUT it won't update its auto-size while clipped.  While not perfect, it is a better default behavior as the always-on performance gain is more valuable than the occasional 'resizing after becoming visible again' glitch.- You may also use always_auto_resize to force an update even when child window is not in view.  HOWEVER PLEASE UNDERSTAND THAT DOING SO WILL PREVENT BeginChild() FROM EVER RETURNING FALSE, disabling benefits of coarse clipping.  Remember that combining both auto_resize_x and auto_resize_y defeats purpose of a scrolling region and is NOT recommended."""
 	...
 
 def add_clipper(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', show: bool ='', delay_search: bool ='') -> Union[int, str]:
@@ -534,7 +530,7 @@ def add_subplots(rows : int, columns : int, *, label: str ='', user_data: Any ='
 	"""Adds a collection of plots."""
 	...
 
-def add_tab(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', drop_callback: Callable ='', show: bool ='', filter_key: str ='', delay_search: bool ='', tracked: bool ='', track_offset: float ='', closable: bool ='', no_tooltip: bool ='', order_mode: bool ='') -> Union[int, str]:
+def add_tab(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', drop_callback: Callable ='', show: bool ='', filter_key: str ='', delay_search: bool ='', tracked: bool ='', track_offset: float ='', closable: bool ='', no_tooltip: bool ='', order_mode: int ='') -> Union[int, str]:
 	"""Adds a tab to a tab bar."""
 	...
 
@@ -1299,7 +1295,7 @@ mvKey_Left=0
 mvKey_Up=0
 mvKey_Right=0
 mvKey_Down=0
-mvKey_PrintScreen=0
+mvKey_Print=0
 mvKey_Insert=0
 mvKey_Delete=0
 mvKey_NumPad0=0
@@ -1315,6 +1311,8 @@ mvKey_NumPad9=0
 mvKey_Subtract=0
 mvKey_Decimal=0
 mvKey_Divide=0
+mvKey_Multiply=0
+mvKey_Add=0
 mvKey_F1=0
 mvKey_F2=0
 mvKey_F3=0
@@ -1354,6 +1352,7 @@ mvKey_Browser_Back=0
 mvKey_Browser_Forward=0
 mvKey_Comma=0
 mvKey_Minus=0
+mvKey_Menu=0
 mvAll=0
 mvTool_About=0
 mvTool_Debug=0
@@ -1752,7 +1751,6 @@ mvLabelSeries=0
 mvHistogramSeries=0
 mv2dHistogramSeries=0
 mvCandleSeries=0
-mvAreaSeries=0
 mvColorMapScale=0
 mvSlider3D=0
 mvKnobFloat=0

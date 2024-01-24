@@ -11,9 +11,10 @@ struct mvPlotLegendConfig;
 struct mvDragLineConfig;
 struct mvDragRectConfig;
 struct mvDragPointConfig;
-struct mvBasicSeriesConfig;
 struct mvLineSeriesConfig;
+struct mvShadeSeriesConfig;
 struct mvBarSeriesConfig;
+struct mvStemSeriesConfig;
 struct mvGroupBarSeriesConfig;
 struct mvStairSeriesConfig;
 struct mvInfLineSeriesConfig;
@@ -25,7 +26,6 @@ struct mvHeatSeriesConfig;
 struct mvPieSeriesConfig;
 struct mvLabelSeriesConfig;
 struct mvImageSeriesConfig;
-struct mvAreaSeriesConfig;
 struct mvCandleSeriesConfig;
 struct mvCustomSeriesConfig;
 
@@ -37,12 +37,13 @@ namespace DearPyGui
     void fill_configuration_dict(const mvDragRectConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvDragPointConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvLineSeriesConfig& inConfig, PyObject* outDict);
+    void fill_configuration_dict(const mvShadeSeriesConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvBarSeriesConfig& inConfig, PyObject* outDict);
+    void fill_configuration_dict(const mvStemSeriesConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvGroupBarSeriesConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvStairSeriesConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvInfLineSeriesConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvScatterSeriesConfig& inConfig, PyObject* outDict);
-    void fill_configuration_dict(const mvBasicSeriesConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mv2dHistogramSeriesConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvErrorSeriesConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvHeatSeriesConfig& inConfig, PyObject* outDict);
@@ -50,7 +51,6 @@ namespace DearPyGui
     void fill_configuration_dict(const mvPieSeriesConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvLabelSeriesConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvImageSeriesConfig& inConfig, PyObject* outDict);
-    void fill_configuration_dict(const mvAreaSeriesConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvCandleSeriesConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvCustomSeriesConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvAnnotationConfig& inConfig, PyObject* outDict);
@@ -64,12 +64,13 @@ namespace DearPyGui
     void set_configuration(PyObject* inDict, mvDragRectConfig& outConfig);
     void set_configuration(PyObject* inDict, mvDragPointConfig& outConfig);
     void set_configuration(PyObject* inDict, mvLineSeriesConfig& outConfig);
+    void set_configuration(PyObject* inDict, mvShadeSeriesConfig& outConfig);
     void set_configuration(PyObject* inDict, mvBarSeriesConfig& outConfig);
+    void set_configuration(PyObject* inDict, mvStemSeriesConfig& outConfig);
     void set_configuration(PyObject* inDict, mvGroupBarSeriesConfig& outConfig);
     void set_configuration(PyObject* inDict, mvStairSeriesConfig& outConfig);
     void set_configuration(PyObject* inDict, mvInfLineSeriesConfig& outConfig);
     void set_configuration(PyObject* inDict, mvScatterSeriesConfig& outConfig);
-    void set_configuration(PyObject* inDict, mvBasicSeriesConfig& outConfig);
     void set_configuration(PyObject* inDict, mv2dHistogramSeriesConfig& outConfig);
     void set_configuration(PyObject* inDict, mvErrorSeriesConfig& outConfig);
     void set_configuration(PyObject* inDict, mvHeatSeriesConfig& outConfig);
@@ -77,7 +78,6 @@ namespace DearPyGui
     void set_configuration(PyObject* inDict, mvPieSeriesConfig& outConfig);
     void set_configuration(PyObject* inDict, mvLabelSeriesConfig& outConfig);
     void set_configuration(PyObject* inDict, mvImageSeriesConfig& outConfig);
-    void set_configuration(PyObject* inDict, mvAreaSeriesConfig& outConfig);
     void set_configuration(PyObject* inDict, mvCandleSeriesConfig& outConfig);
     void set_configuration(PyObject* inDict, mvCustomSeriesConfig& outConfig);
     void set_configuration(PyObject* inDict, mvAnnotationConfig& outConfig);
@@ -87,12 +87,13 @@ namespace DearPyGui
 
     // positional args TODO: combine with above
     void set_positional_configuration(PyObject* inDict, mvLineSeriesConfig& outConfig);
+    void set_positional_configuration(PyObject* inDict, mvShadeSeriesConfig& outConfig);
     void set_positional_configuration(PyObject* inDict, mvBarSeriesConfig& outConfig);
+    void set_positional_configuration(PyObject* inDict, mvStemSeriesConfig& outConfig);
     void set_positional_configuration(PyObject* inDict, mvGroupBarSeriesConfig& outConfig);
     void set_positional_configuration(PyObject* inDict, mvStairSeriesConfig& outConfig);
     void set_positional_configuration(PyObject* inDict, mvInfLineSeriesConfig& outConfig);
     void set_positional_configuration(PyObject* inDict, mvScatterSeriesConfig& outConfig);
-    void set_positional_configuration(PyObject* inDict, mvBasicSeriesConfig& outConfig);
     void set_positional_configuration(PyObject* inDict, mv2dHistogramSeriesConfig& outConfig);
     void set_positional_configuration(PyObject* inDict, mvErrorSeriesConfig& outConfig);
     void set_positional_configuration(PyObject* inDict, mvHeatSeriesConfig& outConfig);
@@ -103,7 +104,6 @@ namespace DearPyGui
     // required args
     void set_required_configuration(PyObject* inDict, mvSubPlotsConfig& outConfig);
     void set_required_configuration(PyObject* inDict, mvImageSeriesConfig& outConfig);
-    void set_required_configuration(PyObject* inDict, mvAreaSeriesConfig& outConfig);
     void set_required_configuration(PyObject* inDict, mvCandleSeriesConfig& outConfig);
     void set_required_configuration(PyObject* inDict, mvCustomSeriesConfig& outConfig);
     void set_required_configuration(PyObject* inDict, mvPlotAxisConfig& outConfig);
@@ -129,10 +129,8 @@ namespace DearPyGui
     void draw_line_series       (ImDrawList* drawlist, mvAppItem& item, const mvLineSeriesConfig& config);
     void draw_scatter_series    (ImDrawList* drawlist, mvAppItem& item, const mvScatterSeriesConfig& config);
     void draw_stair_series      (ImDrawList* drawlist, mvAppItem& item, const mvStairSeriesConfig& config);
-    void draw_stem_series       (ImDrawList* drawlist, mvAppItem& item, const mvBasicSeriesConfig& config);
-    void draw_shade_series      (ImDrawList* drawlist, mvAppItem& item, const mvBasicSeriesConfig& config);
-    void draw_hline_series      (ImDrawList* drawlist, mvAppItem& item, const mvBasicSeriesConfig& config);
-    void draw_vline_series      (ImDrawList* drawlist, mvAppItem& item, const mvBasicSeriesConfig& config);
+    void draw_stem_series       (ImDrawList* drawlist, mvAppItem& item, const mvStemSeriesConfig& config);
+    void draw_shade_series      (ImDrawList* drawlist, mvAppItem& item, const mvShadeSeriesConfig& config);
     void draw_2dhistogram_series(ImDrawList* drawlist, mvAppItem& item, const mv2dHistogramSeriesConfig& config);
     void draw_error_series      (ImDrawList* drawlist, mvAppItem& item, const mvErrorSeriesConfig& config);
     void draw_heat_series       (ImDrawList* drawlist, mvAppItem& item, const mvHeatSeriesConfig& config);
@@ -140,7 +138,6 @@ namespace DearPyGui
     void draw_pie_series        (ImDrawList* drawlist, mvAppItem& item, const mvPieSeriesConfig& config);
     void draw_label_series      (ImDrawList* drawlist, mvAppItem& item, const mvLabelSeriesConfig& config);
     void draw_image_series      (ImDrawList* drawlist, mvAppItem& item, mvImageSeriesConfig& config);
-    void draw_area_series       (ImDrawList* drawlist, mvAppItem& item, const mvAreaSeriesConfig& config);
     void draw_candle_series     (ImDrawList* drawlist, mvAppItem& item, const mvCandleSeriesConfig& config);
     void draw_custom_series     (ImDrawList* drawlist, mvAppItem& item, mvCustomSeriesConfig& config);
     void draw_plot_annotation   (ImDrawList* drawlist, mvAppItem& item, mvAnnotationConfig& config);
@@ -150,9 +147,8 @@ namespace DearPyGui
 // Structs
 //-----------------------------------------------------------------------------
 
-struct mvBasicSeriesConfig
+struct _mvBasicSeriesConfig
 {
-    mvAppItemType type = mvAppItemType::All;
     std::shared_ptr<std::vector<std::vector<double>>> value = std::make_shared<std::vector<std::vector<double>>>(
         std::vector<std::vector<double>>{ std::vector<double>{},
         std::vector<double>{},
@@ -161,27 +157,25 @@ struct mvBasicSeriesConfig
         std::vector<double>{} });
 };
 
-struct mvLineSeriesConfig
+struct mvLineSeriesConfig : _mvBasicSeriesConfig
 {
     ImPlotLineFlags flags = ImPlotLineFlags_None;
-    std::shared_ptr<std::vector<std::vector<double>>> value = std::make_shared<std::vector<std::vector<double>>>(
-        std::vector<std::vector<double>>{ std::vector<double>{},
-        std::vector<double>{},
-        std::vector<double>{},
-        std::vector<double>{},
-        std::vector<double>{} });
 };
 
-struct mvBarSeriesConfig
+struct mvShadeSeriesConfig : _mvBasicSeriesConfig
+{
+    ImPlotShadedFlags flags = ImPlotShadedFlags_None;
+};
+
+struct mvStemSeriesConfig : _mvBasicSeriesConfig
+{
+    ImPlotStemsFlags flags = ImPlotStemsFlags_None;
+};
+
+struct mvBarSeriesConfig : _mvBasicSeriesConfig
 {
     ImPlotBarsFlags flags = ImPlotBarsFlags_None;
     float weight = 1.0f;
-    std::shared_ptr<std::vector<std::vector<double>>> value = std::make_shared<std::vector<std::vector<double>>>(
-        std::vector<std::vector<double>>{ std::vector<double>{},
-        std::vector<double>{},
-        std::vector<double>{},
-        std::vector<double>{},
-        std::vector<double>{} });
 };
 
 struct mvGroupBarSeriesConfig
@@ -196,37 +190,19 @@ struct mvGroupBarSeriesConfig
         std::vector<std::vector<double>>{ std::vector<double>{} });
 };
 
-struct mvStairSeriesConfig
+struct mvStairSeriesConfig : _mvBasicSeriesConfig
 {
     ImPlotStairsFlags flags = ImPlotStairsFlags_None;
-    std::shared_ptr<std::vector<std::vector<double>>> value = std::make_shared<std::vector<std::vector<double>>>(
-        std::vector<std::vector<double>>{ std::vector<double>{},
-        std::vector<double>{},
-        std::vector<double>{},
-        std::vector<double>{},
-        std::vector<double>{} });
 };
 
-struct mvInfLineSeriesConfig
+struct mvInfLineSeriesConfig : _mvBasicSeriesConfig
 {
     ImPlotInfLinesFlags flags = ImPlotInfLinesFlags_None;
-    std::shared_ptr<std::vector<std::vector<double>>> value = std::make_shared<std::vector<std::vector<double>>>(
-        std::vector<std::vector<double>>{ std::vector<double>{},
-        std::vector<double>{},
-        std::vector<double>{},
-        std::vector<double>{},
-        std::vector<double>{} });
 };
 
-struct mvScatterSeriesConfig
+struct mvScatterSeriesConfig : _mvBasicSeriesConfig
 {
     ImPlotScatterFlags flags = ImPlotScatterFlags_None;
-    std::shared_ptr<std::vector<std::vector<double>>> value = std::make_shared<std::vector<std::vector<double>>>(
-        std::vector<std::vector<double>>{ std::vector<double>{},
-        std::vector<double>{},
-        std::vector<double>{},
-        std::vector<double>{},
-        std::vector<double>{} });
 };
 
 struct mvPlotLegendConfig
@@ -262,7 +238,7 @@ struct mvDragLineConfig : _mvDragItem
     bool                vertical = true;
 };
 
-struct mv2dHistogramSeriesConfig
+struct mv2dHistogramSeriesConfig : _mvBasicSeriesConfig
 {
     int    xbins = -1;
     int    ybins = -1;
@@ -271,26 +247,14 @@ struct mv2dHistogramSeriesConfig
     double xmax = 1.0;
     double ymin = 0.0;
     double ymax = 1.0;
-    std::shared_ptr<std::vector<std::vector<double>>> value = std::make_shared<std::vector<std::vector<double>>>(
-        std::vector<std::vector<double>>{ std::vector<double>{},
-        std::vector<double>{},
-        std::vector<double>{},
-        std::vector<double>{},
-        std::vector<double>{} });
 };
 
-struct mvErrorSeriesConfig
+struct mvErrorSeriesConfig : _mvBasicSeriesConfig
 {
     ImPlotErrorBarsFlags flags = ImPlotErrorBarsFlags_None;
-    std::shared_ptr<std::vector<std::vector<double>>> value = std::make_shared<std::vector<std::vector<double>>>(
-        std::vector<std::vector<double>>{ std::vector<double>{},
-        std::vector<double>{},
-        std::vector<double>{},
-        std::vector<double>{},
-        std::vector<double>{} });
 };
 
-struct mvHeatSeriesConfig
+struct mvHeatSeriesConfig : _mvBasicSeriesConfig
 {
     int         rows = 1;
     int         cols = 1;
@@ -299,30 +263,18 @@ struct mvHeatSeriesConfig
     std::string format = "%0.1f";
     ImPlotPoint bounds_min = { 0.0, 0.0 };
     ImPlotPoint bounds_max = { 1.0, 1.0 };
-    std::shared_ptr<std::vector<std::vector<double>>> value = std::make_shared<std::vector<std::vector<double>>>(
-        std::vector<std::vector<double>>{ std::vector<double>{},
-        std::vector<double>{},
-        std::vector<double>{},
-        std::vector<double>{},
-        std::vector<double>{} });
 };
 
-struct mvHistogramSeriesConfig
+struct mvHistogramSeriesConfig : _mvBasicSeriesConfig
 {
     int    bins = -1;
     ImPlotHistogramFlags flags = ImPlotHistogramFlags_None;
     float  barScale = 1.0f;
     double min = 0.0;
     double max = 1.0;
-    std::shared_ptr<std::vector<std::vector<double>>> value = std::make_shared<std::vector<std::vector<double>>>(
-        std::vector<std::vector<double>>{ std::vector<double>{},
-        std::vector<double>{},
-        std::vector<double>{},
-        std::vector<double>{},
-        std::vector<double>{} });
 };
 
-struct mvPieSeriesConfig
+struct mvPieSeriesConfig : _mvBasicSeriesConfig
 {
     double                   x = 0.0;
     double                   y = 0.0;
@@ -332,28 +284,16 @@ struct mvPieSeriesConfig
     std::string              format;
     std::vector<std::string> labels;
     std::vector<const char*> clabels;
-    std::shared_ptr<std::vector<std::vector<double>>> value = std::make_shared<std::vector<std::vector<double>>>(
-        std::vector<std::vector<double>>{ std::vector<double>{},
-        std::vector<double>{},
-        std::vector<double>{},
-        std::vector<double>{},
-        std::vector<double>{} });
 };
 
-struct mvLabelSeriesConfig
+struct mvLabelSeriesConfig : _mvBasicSeriesConfig
 {
     int  xoffset = 0;
     int  yoffset = 0;
     ImPlotTextFlags flags = ImPlotTextFlags_None;
-    std::shared_ptr<std::vector<std::vector<double>>> value = std::make_shared<std::vector<std::vector<double>>>(
-        std::vector<std::vector<double>>{ std::vector<double>{},
-        std::vector<double>{},
-        std::vector<double>{},
-        std::vector<double>{},
-        std::vector<double>{} });
 };
 
-struct mvImageSeriesConfig
+struct mvImageSeriesConfig : _mvBasicSeriesConfig
 {
     // config
     mvUUID      textureUUID = 0;
@@ -366,52 +306,22 @@ struct mvImageSeriesConfig
     // pointer to existing item or internal
     std::shared_ptr<mvAppItem> _texture = nullptr;
     bool _internalTexture = false; // create a local texture if necessary
-
-    std::shared_ptr<std::vector<std::vector<double>>> value = std::make_shared<std::vector<std::vector<double>>>(
-        std::vector<std::vector<double>>{ std::vector<double>{},
-        std::vector<double>{},
-        std::vector<double>{},
-        std::vector<double>{},
-        std::vector<double>{} });
 };
 
-struct mvAreaSeriesConfig
-{
-    mvColor fill = MV_DEFAULT_COLOR;
-    std::shared_ptr<std::vector<std::vector<double>>> value = std::make_shared<std::vector<std::vector<double>>>(
-        std::vector<std::vector<double>>{ std::vector<double>{},
-        std::vector<double>{},
-        std::vector<double>{},
-        std::vector<double>{},
-        std::vector<double>{} });
-};
-
-struct mvCandleSeriesConfig
+struct mvCandleSeriesConfig : _mvBasicSeriesConfig
 {
     float   weight = 0.25f;
     bool    tooltip = true;
     int     timeunit = ImPlotTimeUnit_Day;
     mvColor bullColor = { 0, 255, 113, 255 };
     mvColor bearColor = { 218, 13, 79, 255 };
-    std::shared_ptr<std::vector<std::vector<double>>> value = std::make_shared<std::vector<std::vector<double>>>(
-        std::vector<std::vector<double>>{ std::vector<double>{},
-        std::vector<double>{},
-        std::vector<double>{},
-        std::vector<double>{},
-        std::vector<double>{} });
 };
 
-struct mvCustomSeriesConfig
+struct mvCustomSeriesConfig : _mvBasicSeriesConfig
 {
     int channelCount = 2; // must be between 2 and 5 inclusive
     bool tooltip = true;
     ImPlotItemFlags flags = ImPlotItemFlags_None;
-    std::shared_ptr<std::vector<std::vector<double>>> value = std::make_shared<std::vector<std::vector<double>>>(
-        std::vector<std::vector<double>>{ std::vector<double>{},
-        std::vector<double>{},
-        std::vector<double>{},
-        std::vector<double>{},
-        std::vector<double>{} });
     std::vector<std::vector<double>> _transformedValues;
 };
 
@@ -633,8 +543,8 @@ public:
 class mvShadeSeries : public mvAppItem
 {
 public:
-    mvBasicSeriesConfig configData{};
-    explicit mvShadeSeries(mvUUID uuid) : mvAppItem(uuid) { configData.type = mvAppItemType::mvShadeSeries; }
+    mvShadeSeriesConfig configData{};
+    explicit mvShadeSeries(mvUUID uuid) : mvAppItem(uuid) {}
     void handleSpecificPositionalArgs(PyObject* dict) override { DearPyGui::set_positional_configuration(dict, configData); }
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_shade_series(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
@@ -663,8 +573,8 @@ public:
 class mvStemSeries : public mvAppItem
 {
 public:
-    mvBasicSeriesConfig configData{};
-    explicit mvStemSeries(mvUUID uuid) : mvAppItem(uuid) { configData.type = mvAppItemType::mvStemSeries; }
+    mvStemSeriesConfig configData{};
+    explicit mvStemSeries(mvUUID uuid) : mvAppItem(uuid) {}
     void handleSpecificPositionalArgs(PyObject* dict) override { DearPyGui::set_positional_configuration(dict, configData); }
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_stem_series(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
@@ -772,21 +682,6 @@ public:
     explicit mvImageSeries(mvUUID uuid) : mvAppItem(uuid) {}
     void handleSpecificRequiredArgs(PyObject* dict) override { DearPyGui::set_required_configuration(dict, configData); }
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_image_series(drawlist, *this, configData); }
-    void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
-    void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
-    void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData.value); }
-    void* getValue() override { return &configData.value; }
-    PyObject* getPyValue() override { return ToPyList(*configData.value); }
-    void setPyValue(PyObject* value) override { *configData.value = ToVectVectDouble(value); }
-};
-
-class mvAreaSeries : public mvAppItem
-{
-public:
-    mvAreaSeriesConfig configData{};
-    explicit mvAreaSeries(mvUUID uuid) : mvAppItem(uuid) {}
-    void handleSpecificRequiredArgs(PyObject* dict) override { DearPyGui::set_required_configuration(dict, configData); }
-    void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_area_series(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
     void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData.value); }

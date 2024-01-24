@@ -13,6 +13,8 @@ That means going:
 
 These versions are 3 years old, and in the meanwhile many improvements have been developed!
 
+If you want to see all the potentialities of the real ImPlot, take a look at the [demo online](https://traineq.org/implot_demo/src/implot_demo.html)
+
 ## Features  
 - **Modern look** — Complete theme and style control
 - **Great performance** —  GPU-based rendering and efficient C/C++ code
