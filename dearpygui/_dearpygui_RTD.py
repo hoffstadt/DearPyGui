@@ -2087,7 +2087,7 @@ def node_editor(**kwargs):
 
 @contextmanager
 def plot(**kwargs):
-	"""	 Adds a plot which is used to hold series, and can be drawn to with draw commands.
+	"""	 Adds a plot which is used to hold series, and can be drawn to with draw commands. For all _mod parameters use mvKey_ModX enums.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -5392,7 +5392,7 @@ def add_pie_series(x, y, radius, values, labels, **kwargs):
 	return internal_dpg.add_pie_series(x, y, radius, values, labels, **kwargs)
 
 def add_plot(**kwargs):
-	"""	 Adds a plot which is used to hold series, and can be drawn to with draw commands.
+	"""	 Adds a plot which is used to hold series, and can be drawn to with draw commands. For all _mod parameters use mvKey_ModX enums.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -8622,6 +8622,7 @@ mvMouseButton_Right=internal_dpg.mvMouseButton_Right
 mvMouseButton_Middle=internal_dpg.mvMouseButton_Middle
 mvMouseButton_X1=internal_dpg.mvMouseButton_X1
 mvMouseButton_X2=internal_dpg.mvMouseButton_X2
+mvKey_None=internal_dpg.mvKey_None
 mvKey_0=internal_dpg.mvKey_0
 mvKey_1=internal_dpg.mvKey_1
 mvKey_2=internal_dpg.mvKey_2
@@ -8721,10 +8722,6 @@ mvKey_F23=internal_dpg.mvKey_F23
 mvKey_F24=internal_dpg.mvKey_F24
 mvKey_NumLock=internal_dpg.mvKey_NumLock
 mvKey_ScrollLock=internal_dpg.mvKey_ScrollLock
-mvKey_LShift=internal_dpg.mvKey_LShift
-mvKey_RShift=internal_dpg.mvKey_RShift
-mvKey_LControl=internal_dpg.mvKey_LControl
-mvKey_RControl=internal_dpg.mvKey_RControl
 mvKey_Period=internal_dpg.mvKey_Period
 mvKey_Slash=internal_dpg.mvKey_Slash
 mvKey_Backslash=internal_dpg.mvKey_Backslash
@@ -8735,6 +8732,10 @@ mvKey_Browser_Forward=internal_dpg.mvKey_Browser_Forward
 mvKey_Comma=internal_dpg.mvKey_Comma
 mvKey_Minus=internal_dpg.mvKey_Minus
 mvKey_Menu=internal_dpg.mvKey_Menu
+mvKey_ModSuper=internal_dpg.mvKey_ModSuper
+mvKey_ModShift=internal_dpg.mvKey_ModShift
+mvKey_ModAlt=internal_dpg.mvKey_ModAlt
+mvKey_ModCtrl=internal_dpg.mvKey_ModCtrl
 mvAll=internal_dpg.mvAll
 mvTool_About=internal_dpg.mvTool_About
 mvTool_Debug=internal_dpg.mvTool_Debug

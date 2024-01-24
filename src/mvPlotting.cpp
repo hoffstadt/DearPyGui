@@ -281,14 +281,12 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 	ImPlot::GetInputMap().Menu = config.menu;
 	ImPlot::GetInputMap().ZoomRate = config.zoom_rate;
 
-	// std::cout << "override mod: " << config.override_mod << std::endl;
-	// std::cout << "zoom mod: " << config.zoom_mod << std::endl;
-	if (config.pan_mod != ImGuiMod_None) ImPlot::GetInputMap().PanMod = config.pan_mod;
-	if (config.select_mod != ImGuiMod_None) ImPlot::GetInputMap().SelectMod = config.select_mod;
-	if (config.zoom_mod != ImGuiMod_None) ImPlot::GetInputMap().ZoomMod = config.zoom_mod;
-	if (config.override_mod != ImGuiMod_None) ImPlot::GetInputMap().OverrideMod = config.override_mod;
-	if (config.select_horz_mod != ImGuiMod_None) ImPlot::GetInputMap().SelectHorzMod = config.select_horz_mod;
-	if (config.select_vert_mod != ImGuiMod_None) ImPlot::GetInputMap().SelectVertMod = config.select_vert_mod;
+	if (config.pan_mod != ImPlot::GetInputMap().PanMod) ImPlot::GetInputMap().PanMod = config.pan_mod;
+	if (config.select_mod != ImPlot::GetInputMap().SelectMod) ImPlot::GetInputMap().SelectMod = config.select_mod;
+	if (config.zoom_mod != ImPlot::GetInputMap().ZoomMod) ImPlot::GetInputMap().ZoomMod = config.zoom_mod;
+	if (config.override_mod != ImPlot::GetInputMap().OverrideMod) ImPlot::GetInputMap().OverrideMod = config.override_mod;
+	if (config.select_horz_mod != ImPlot::GetInputMap().SelectHorzMod) ImPlot::GetInputMap().SelectHorzMod = config.select_horz_mod;
+	if (config.select_vert_mod != ImPlot::GetInputMap().SelectVertMod) ImPlot::GetInputMap().SelectVertMod = config.select_vert_mod;
 
 	if (config._fitDirty)
 	{
@@ -2278,12 +2276,12 @@ DearPyGui::set_configuration(PyObject* inDict, mvPlotConfig& outConfig)
 	if (PyObject* item = PyDict_GetItemString(inDict, "use_local_time")) outConfig.localTime = ToBool(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "use_ISO8601")) outConfig.iSO8601 = ToBool(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "use_24hour_clock")) outConfig.clock24Hour = ToBool(item);
-	if (PyObject* item = PyDict_GetItemString(inDict, "pan_mod")) outConfig.pan_mod = (ImGuiKey)ToInt(item);
-	if (PyObject* item = PyDict_GetItemString(inDict, "select_mod")) outConfig.select_mod = (ImGuiKey)ToInt(item);
-	if (PyObject* item = PyDict_GetItemString(inDict, "select_horz_mod")) outConfig.select_horz_mod = (ImGuiKey)ToInt(item);
-	if (PyObject* item = PyDict_GetItemString(inDict, "select_vert_mod")) outConfig.select_vert_mod = (ImGuiKey)ToInt(item);
-	if (PyObject* item = PyDict_GetItemString(inDict, "override_mod")) outConfig.override_mod = (ImGuiKey)ToInt(item);
-	if (PyObject* item = PyDict_GetItemString(inDict, "zoom_mod")) outConfig.zoom_mod = (ImGuiKey)ToInt(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "pan_mod")) outConfig.pan_mod = static_cast<ImGuiKey>(ToInt(item));
+	if (PyObject* item = PyDict_GetItemString(inDict, "select_mod")) outConfig.select_mod = static_cast<ImGuiKey>(ToInt(item));
+	if (PyObject* item = PyDict_GetItemString(inDict, "select_horz_mod")) outConfig.select_horz_mod = static_cast<ImGuiKey>(ToInt(item));
+	if (PyObject* item = PyDict_GetItemString(inDict, "select_vert_mod")) outConfig.select_vert_mod = static_cast<ImGuiKey>(ToInt(item));
+	if (PyObject* item = PyDict_GetItemString(inDict, "override_mod")) outConfig.override_mod = static_cast<ImGuiKey>(ToInt(item));
+	if (PyObject* item = PyDict_GetItemString(inDict, "zoom_mod")) outConfig.zoom_mod = static_cast<ImGuiKey>(ToInt(item));
 
 	// helper for bit flipping
 	auto flagop = [inDict](const char* keyword, int flag, int& flags)

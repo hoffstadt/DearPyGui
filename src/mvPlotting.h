@@ -362,21 +362,18 @@ struct mvPlotAxisConfig
 
 struct mvPlotConfig
 {
-    // TODO: Maybe they must be all initialized here
-    ImGuiMouseButton             pan = 0;       // LMB    enables panning when held,
-    ImGuiKey                     pan_mod = ImGuiKey_None;   // none   optional modifier that must be held for panning/fitting
-    ImGuiMouseButton             fit;           // LMB    initiates fit when double clicked
-    ImGuiMouseButton             menu;          // RMB    opens context menus (if enabled) when clicked
-    ImGuiMouseButton             select;        // RMB    begins box selection when pressed and confirms selection when released
-    ImGuiKey                     select_mod = ImGuiKey_None;     // none   optional modifier that must be held for box selection
-    ImGuiMouseButton             select_cancel;  // LMB    cancels active box selection when pressed; cannot be same as Select
-    ImGuiKey                     select_horz_mod = ImGuiMod_Alt; // Alt    expands active box selection horizontally to plot edge when held
-    ImGuiKey                     select_vert_mod = ImGuiMod_Shift; // Shift  expands active box selection vertically to plot edge when held
-
-    // Input map
-    ImGuiKey                     override_mod = ImGuiMod_Ctrl;   // Ctrl   when held, all input is ignored; used to enable axis/plots as DND sources
-    ImGuiKey                     zoom_mod = ImGuiKey_None;       // none   optional modifier that must be held for scroll wheel zooming
-    float                        zoom_rate;      // 0.1f   zoom rate for scroll (e.g. 0.1f = 10% plot range every scroll click); make negative to invert
+    ImGuiMouseButton             pan;               // LMB    enables panning when held,
+    ImGuiKey                     pan_mod;           // none   optional modifier that must be held for panning/fitting
+    ImGuiMouseButton             fit;               // LMB    initiates fit when double clicked
+    ImGuiMouseButton             menu;              // RMB    opens context menus (if enabled) when clicked
+    ImGuiMouseButton             select;            // RMB    begins box selection when pressed and confirms selection when released
+    ImGuiKey                     select_mod;        // none   optional modifier that must be held for box selection
+    ImGuiMouseButton             select_cancel;     // LMB    cancels active box selection when pressed; cannot be same as Select
+    ImGuiKey                     select_horz_mod;   // Alt    expands active box selection horizontally to plot edge when held
+    ImGuiKey                     select_vert_mod;   // Shift  expands active box selection vertically to plot edge when held
+    ImGuiKey                     override_mod;      // Ctrl   when held, all input is ignored; used to enable axis/plots as DND sources
+    ImGuiKey                     zoom_mod;          // none   optional modifier that must be held for scroll wheel zooming
+    float                        zoom_rate = 0.1f;  // 0.1f   zoom rate for scroll (e.g. 0.1f = 10% plot range every scroll click); make negative to invert
     
     std::vector<std::string>        axesNames = std::vector<std::string>(ImAxis_COUNT);
     ImPlotFlags                     _flags = ImPlotFlags_NoLegend;

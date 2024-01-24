@@ -3,7 +3,7 @@
 ### TODO Generic
 - [ ] Generic:
     - [x] Fix `void ImGui::Shutdown(): Assertion '(g.IO.BackendPlatformUserData == __null) && "Forgot to shutdown Platform backend?"' failed.` error on shutdown.
-    - [ ] Enable control mods for plots!
+    - [x] Enable control mods for plots!
     - [ ] Check if what you did with DragPoint value is okay or not
     - [x] Find out how py files are created
     - [x] Remove GetKeysConstants because it's deeply linked to new IO (also, I put it, so it can be removed without any worries)

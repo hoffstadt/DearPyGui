@@ -2706,13 +2706,13 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Integer, "select", mvArgType::KEYWORD_ARG, "internal_dpg.mvMouseButton_Right", "begins box selection when pressed and confirms selection when released" });
         args.push_back({ mvPyDataType::Integer, "select_mod", mvArgType::KEYWORD_ARG, "0", "begins box selection when pressed and confirms selection when released" });
         args.push_back({ mvPyDataType::Integer, "select_cancel", mvArgType::KEYWORD_ARG, "internal_dpg.mvMouseButton_Left", "cancels active box selection when pressed" });
-        args.push_back({ mvPyDataType::Integer, "select_horz_mod", mvArgType::KEYWORD_ARG, "internal_dpg.mvKey_LAlt", "expands active box selection/query horizontally to plot edge when held" });
-        args.push_back({ mvPyDataType::Integer, "select_vert_mod", mvArgType::KEYWORD_ARG, "internal_dpg.mvKey_LShift", "expands active box selection/query vertically to plot edge when held" });
-        args.push_back({ mvPyDataType::Integer, "override_mod", mvArgType::KEYWORD_ARG, "internal_dpg.mvKey_LControl", "when held, all input is ignored; used to enable axis/plots as DND sources" });
+        args.push_back({ mvPyDataType::Integer, "select_horz_mod", mvArgType::KEYWORD_ARG, "internal_dpg.mvKey_ModAlt", "expands active box selection/query horizontally to plot edge when held" });
+        args.push_back({ mvPyDataType::Integer, "select_vert_mod", mvArgType::KEYWORD_ARG, "internal_dpg.mvKey_ModShift", "expands active box selection/query vertically to plot edge when held" });
+        args.push_back({ mvPyDataType::Integer, "override_mod", mvArgType::KEYWORD_ARG, "internal_dpg.mvKey_ModCtrl", "when held, all input is ignored; used to enable axis/plots as DND sources" });
         args.push_back({ mvPyDataType::Integer, "zoom_mod", mvArgType::KEYWORD_ARG, "0", "optional modifier that must be held for scroll wheel zooming" });
         args.push_back({ mvPyDataType::Integer, "zoom_rate", mvArgType::KEYWORD_ARG, "0.1", "zoom rate for scroll (e.g. 0.1f = 10% plot range every scroll click); make negative to invert" });
 
-        setup.about = "Adds a plot which is used to hold series, and can be drawn to with draw commands.";
+        setup.about = "Adds a plot which is used to hold series, and can be drawn to with draw commands. For all _mod parameters use mvKey_ModX enums.";
         setup.category = { "Plotting", "Containers", "Widgets" };
         setup.createContextManager = true;
         break;
