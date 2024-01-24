@@ -427,7 +427,7 @@ def add_pie_series(x : float, y : float, radius : float, values : Union[List[flo
 	...
 
 def add_plot(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', delay_search: bool ='', tracked: bool ='', track_offset: float ='', no_title: bool ='', no_menus: bool ='', no_box_select: bool ='', no_mouse_text: bool ='', no_highlight: bool ='', query: bool ='', crosshairs: bool ='', equal_aspects: bool ='', no_legend: bool ='', no_inputs: bool ='', no_frame: bool ='', use_local_time: bool ='', use_ISO8601: bool ='', use_24hour_clock: bool ='', pan: int ='', pan_mod: int ='', menu: int ='', fit: int ='', select: int ='', select_mod: int ='', select_cancel: int ='', select_horz_mod: int ='', select_vert_mod: int ='', override_mod: int ='', zoom_mod: int ='', zoom_rate: int ='') -> Union[int, str]:
-	"""Adds a plot which is used to hold series, and can be drawn to with draw commands."""
+	"""Adds a plot which is used to hold series, and can be drawn to with draw commands. For all _mod parameters use mvKey_ModX enums."""
 	...
 
 def add_plot_annotation(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', show: bool ='', default_value: Any ='', offset: Union[List[float], Tuple[float, ...]] ='', color: Union[List[int], Tuple[int, ...]] ='', clamped: bool ='') -> Union[int, str]:
@@ -1240,6 +1240,7 @@ mvMouseButton_Right=0
 mvMouseButton_Middle=0
 mvMouseButton_X1=0
 mvMouseButton_X2=0
+mvKey_None=0
 mvKey_0=0
 mvKey_1=0
 mvKey_2=0
@@ -1339,10 +1340,6 @@ mvKey_F23=0
 mvKey_F24=0
 mvKey_NumLock=0
 mvKey_ScrollLock=0
-mvKey_LShift=0
-mvKey_RShift=0
-mvKey_LControl=0
-mvKey_RControl=0
 mvKey_Period=0
 mvKey_Slash=0
 mvKey_Backslash=0
@@ -1353,6 +1350,10 @@ mvKey_Browser_Forward=0
 mvKey_Comma=0
 mvKey_Minus=0
 mvKey_Menu=0
+mvKey_ModSuper=0
+mvKey_ModShift=0
+mvKey_ModAlt=0
+mvKey_ModCtrl=0
 mvAll=0
 mvTool_About=0
 mvTool_Debug=0

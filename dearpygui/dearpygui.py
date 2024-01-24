@@ -2174,8 +2174,8 @@ def node_editor(*, label: str =None, user_data: Any =None, use_internal_label: b
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def plot(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, no_title: bool =False, no_menus: bool =False, no_box_select: bool =False, no_mouse_text: bool =False, no_highlight: bool =False, query: bool =False, crosshairs: bool =False, equal_aspects: bool =False, no_legend: bool =False, no_inputs: bool =False, no_frame: bool =False, use_local_time: bool =False, use_ISO8601: bool =False, use_24hour_clock: bool =False, pan: int =internal_dpg.mvMouseButton_Left, pan_mod: int =0, menu: int =internal_dpg.mvMouseButton_Right, fit: int =internal_dpg.mvMouseButton_Left, select: int =internal_dpg.mvMouseButton_Right, select_mod: int =0, select_cancel: int =internal_dpg.mvMouseButton_Left, select_horz_mod: int =internal_dpg.mvKey_LAlt, select_vert_mod: int =internal_dpg.mvKey_LShift, override_mod: int =internal_dpg.mvKey_LControl, zoom_mod: int =0, zoom_rate: int =0.1, **kwargs) -> Union[int, str]:
-	"""	 Adds a plot which is used to hold series, and can be drawn to with draw commands.
+def plot(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, no_title: bool =False, no_menus: bool =False, no_box_select: bool =False, no_mouse_text: bool =False, no_highlight: bool =False, query: bool =False, crosshairs: bool =False, equal_aspects: bool =False, no_legend: bool =False, no_inputs: bool =False, no_frame: bool =False, use_local_time: bool =False, use_ISO8601: bool =False, use_24hour_clock: bool =False, pan: int =internal_dpg.mvMouseButton_Left, pan_mod: int =0, menu: int =internal_dpg.mvMouseButton_Right, fit: int =internal_dpg.mvMouseButton_Left, select: int =internal_dpg.mvMouseButton_Right, select_mod: int =0, select_cancel: int =internal_dpg.mvMouseButton_Left, select_horz_mod: int =internal_dpg.mvKey_ModAlt, select_vert_mod: int =internal_dpg.mvKey_ModShift, override_mod: int =internal_dpg.mvKey_ModCtrl, zoom_mod: int =0, zoom_rate: int =0.1, **kwargs) -> Union[int, str]:
+	"""	 Adds a plot which is used to hold series, and can be drawn to with draw commands. For all _mod parameters use mvKey_ModX enums.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -5999,8 +5999,8 @@ def add_pie_series(x : float, y : float, radius : float, values : Union[List[flo
 
 	return internal_dpg.add_pie_series(x, y, radius, values, labels, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, source=source, show=show, format=format, angle=angle, normalize=normalize, ignore_hidden=ignore_hidden, **kwargs)
 
-def add_plot(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, no_title: bool =False, no_menus: bool =False, no_box_select: bool =False, no_mouse_text: bool =False, no_highlight: bool =False, query: bool =False, crosshairs: bool =False, equal_aspects: bool =False, no_legend: bool =False, no_inputs: bool =False, no_frame: bool =False, use_local_time: bool =False, use_ISO8601: bool =False, use_24hour_clock: bool =False, pan: int =internal_dpg.mvMouseButton_Left, pan_mod: int =0, menu: int =internal_dpg.mvMouseButton_Right, fit: int =internal_dpg.mvMouseButton_Left, select: int =internal_dpg.mvMouseButton_Right, select_mod: int =0, select_cancel: int =internal_dpg.mvMouseButton_Left, select_horz_mod: int =internal_dpg.mvKey_LAlt, select_vert_mod: int =internal_dpg.mvKey_LShift, override_mod: int =internal_dpg.mvKey_LControl, zoom_mod: int =0, zoom_rate: int =0.1, **kwargs) -> Union[int, str]:
-	"""	 Adds a plot which is used to hold series, and can be drawn to with draw commands.
+def add_plot(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, no_title: bool =False, no_menus: bool =False, no_box_select: bool =False, no_mouse_text: bool =False, no_highlight: bool =False, query: bool =False, crosshairs: bool =False, equal_aspects: bool =False, no_legend: bool =False, no_inputs: bool =False, no_frame: bool =False, use_local_time: bool =False, use_ISO8601: bool =False, use_24hour_clock: bool =False, pan: int =internal_dpg.mvMouseButton_Left, pan_mod: int =0, menu: int =internal_dpg.mvMouseButton_Right, fit: int =internal_dpg.mvMouseButton_Left, select: int =internal_dpg.mvMouseButton_Right, select_mod: int =0, select_cancel: int =internal_dpg.mvMouseButton_Left, select_horz_mod: int =internal_dpg.mvKey_ModAlt, select_vert_mod: int =internal_dpg.mvKey_ModShift, override_mod: int =internal_dpg.mvKey_ModCtrl, zoom_mod: int =0, zoom_rate: int =0.1, **kwargs) -> Union[int, str]:
+	"""	 Adds a plot which is used to hold series, and can be drawn to with draw commands. For all _mod parameters use mvKey_ModX enums.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -9496,6 +9496,7 @@ mvMouseButton_Right=internal_dpg.mvMouseButton_Right
 mvMouseButton_Middle=internal_dpg.mvMouseButton_Middle
 mvMouseButton_X1=internal_dpg.mvMouseButton_X1
 mvMouseButton_X2=internal_dpg.mvMouseButton_X2
+mvKey_None=internal_dpg.mvKey_None
 mvKey_0=internal_dpg.mvKey_0
 mvKey_1=internal_dpg.mvKey_1
 mvKey_2=internal_dpg.mvKey_2
@@ -9595,10 +9596,6 @@ mvKey_F23=internal_dpg.mvKey_F23
 mvKey_F24=internal_dpg.mvKey_F24
 mvKey_NumLock=internal_dpg.mvKey_NumLock
 mvKey_ScrollLock=internal_dpg.mvKey_ScrollLock
-mvKey_LShift=internal_dpg.mvKey_LShift
-mvKey_RShift=internal_dpg.mvKey_RShift
-mvKey_LControl=internal_dpg.mvKey_LControl
-mvKey_RControl=internal_dpg.mvKey_RControl
 mvKey_Period=internal_dpg.mvKey_Period
 mvKey_Slash=internal_dpg.mvKey_Slash
 mvKey_Backslash=internal_dpg.mvKey_Backslash
@@ -9609,6 +9606,10 @@ mvKey_Browser_Forward=internal_dpg.mvKey_Browser_Forward
 mvKey_Comma=internal_dpg.mvKey_Comma
 mvKey_Minus=internal_dpg.mvKey_Minus
 mvKey_Menu=internal_dpg.mvKey_Menu
+mvKey_ModSuper=internal_dpg.mvKey_ModSuper
+mvKey_ModShift=internal_dpg.mvKey_ModShift
+mvKey_ModAlt=internal_dpg.mvKey_ModAlt
+mvKey_ModCtrl=internal_dpg.mvKey_ModCtrl
 mvAll=internal_dpg.mvAll
 mvTool_About=internal_dpg.mvTool_About
 mvTool_Debug=internal_dpg.mvTool_Debug

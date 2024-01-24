@@ -222,6 +222,7 @@ InsertConstants_mvContext(std::vector<std::pair<std::string, long>>& constants)
     //-----------------------------------------------------------------------------
     // Key Codes
     //-----------------------------------------------------------------------------
+    constants.emplace_back("mvKey_None", ImGuiKey_None);
     constants.emplace_back("mvKey_0", ImGuiKey_0);
     constants.emplace_back("mvKey_1", ImGuiKey_1);
     constants.emplace_back("mvKey_2", ImGuiKey_2);
@@ -323,10 +324,6 @@ InsertConstants_mvContext(std::vector<std::pair<std::string, long>>& constants)
     constants.emplace_back("mvKey_F24", ImGuiKey_F24);
     constants.emplace_back("mvKey_NumLock", ImGuiKey_NumLock);
     constants.emplace_back("mvKey_ScrollLock", ImGuiKey_ScrollLock);
-    constants.emplace_back("mvKey_LShift", ImGuiKey_LeftShift);
-    constants.emplace_back("mvKey_RShift", ImGuiKey_RightShift);
-    constants.emplace_back("mvKey_LControl", ImGuiKey_LeftCtrl);
-    constants.emplace_back("mvKey_RControl", ImGuiKey_RightCtrl);
     constants.emplace_back("mvKey_Period", ImGuiKey_Period);
     constants.emplace_back("mvKey_Slash", ImGuiKey_Slash);
     constants.emplace_back("mvKey_Backslash", ImGuiKey_Backslash);
@@ -337,6 +334,10 @@ InsertConstants_mvContext(std::vector<std::pair<std::string, long>>& constants)
     constants.emplace_back("mvKey_Comma", ImGuiKey_Comma); // -> it seems to be the old mvKey_Separator
     constants.emplace_back("mvKey_Minus", ImGuiKey_Minus);
     constants.emplace_back("mvKey_Menu", ImGuiKey_Menu);
+    constants.emplace_back("mvKey_ModSuper", ImGuiMod_Super); // Cmd/Super/Windows
+    constants.emplace_back("mvKey_ModShift", ImGuiMod_Shift);
+    constants.emplace_back("mvKey_ModAlt", ImGuiMod_Alt);
+    constants.emplace_back("mvKey_ModCtrl", ImGuiMod_Ctrl);
 #if !defined (IMGUI_DISABLE_OBSOLETE_KEYIO)
         // constants.emplace_back("mvKey_Help", 0x2F);
         constants.emplace_back("mvKey_Prior", 0x21);
