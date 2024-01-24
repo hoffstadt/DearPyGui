@@ -73,7 +73,6 @@ DearPyGui::fill_configuration_dict(const mvChildWindowConfig& inConfig, PyObject
 
     // child flags
     checkbitset("border", ImGuiChildFlags_Border, inConfig.childFlags);
-    // TODO: Update documentation to reflect this change (and check for autosize and auto_resize do the same thing)
     checkbitset("always_auto_resize", ImGuiChildFlags_AlwaysAutoResize, inConfig.childFlags);
     checkbitset("always_use_window_padding", ImGuiChildFlags_AlwaysUseWindowPadding, inConfig.childFlags);
     checkbitset("auto_resize_x", ImGuiChildFlags_AutoResizeX, inConfig.childFlags);
@@ -289,7 +288,6 @@ DearPyGui::set_configuration(PyObject* inDict, mvChildWindowConfig& outConfig)
 
     // child flags
     flagop("border", ImGuiChildFlags_Border, outConfig.childFlags);
-    // TODO: Update documentation to reflect this change
     flagop("always_auto_resize", ImGuiChildFlags_AlwaysAutoResize, outConfig.childFlags);
     flagop("always_use_window_padding", ImGuiChildFlags_AlwaysUseWindowPadding, outConfig.childFlags);
     flagop("auto_resize_x", ImGuiChildFlags_AutoResizeX, outConfig.childFlags);
@@ -946,6 +944,7 @@ DearPyGui::draw_child_window(ImDrawList* drawlist, mvAppItem& item, mvChildWindo
     {
         ScopedID id(item.uuid);
 
+        // TODO: Do we want to put an if statement to prevent further drawing if not shown?
         ImGui::BeginChild(item.info.internalLabel.c_str(), ImVec2(config.autosize_x ? 0 : (float)item.config.width, config.autosize_y ? 0 : (float)item.config.height), config.childFlags, config.windowflags);
         item.state.lastFrameUpdate = GContext->frame;
         item.state.active = ImGui::IsItemActive();

@@ -106,8 +106,8 @@ Take a look at implot.cpp to have a better changelog.
     - [ ] Bar plots can now be plotted in groups and stacked.
 - [ ] [V 0.14](https://github.com/epezent/implot/releases/tag/v0.14)
     - [ ] Each of ImPlot's PlotX functions now takes an optional ImPlotXFlags parameter.
-        - [x] Implement generic `ImPlotItemFlags` for every type of Plot
-        - [ ] Implement specific flags for every kind of plot
+        - [ ] Implement generic `ImPlotItemFlags` for every type of Plot (also the ones for `custom_series` don't work)
+        - [x] Implement specific flags for every kind of plot
         - [ ] Add ImPlotFlags_CanvasOnly flag.. it's more problematic than expected
     - [x] Implement axis ImPlotAxisFlags_Log with SetupAxisScale
     - [ ] Implement axis ImPlotAxisFlags_Time with SetupAxisScale (and modify demo)

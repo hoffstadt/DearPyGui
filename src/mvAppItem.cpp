@@ -927,7 +927,6 @@ DearPyGui::GetEntityDesciptionFlags(mvAppItemType type)
     case mvAppItemType::mvTableCell:
     case mvAppItemType::mvTableRow:
     case mvAppItemType::mv2dHistogramSeries:
-    case mvAppItemType::mvAreaSeries:
     case mvAppItemType::mvBarSeries:
     case mvAppItemType::mvGroupBarSeries:
     case mvAppItemType::mvCandleSeries:
@@ -1098,7 +1097,6 @@ DearPyGui::GetEntityValueType(mvAppItemType type)
         
     case mvAppItemType::mvSeriesValue:
     case mvAppItemType::mv2dHistogramSeries:
-    case mvAppItemType::mvAreaSeries:
     case mvAppItemType::mvBarSeries:
     case mvAppItemType::mvGroupBarSeries:
     case mvAppItemType::mvCandleSeries:
@@ -1364,7 +1362,6 @@ DearPyGui::GetAllowableParents(mvAppItemType type)
         MV_ADD_PARENT(mvAppItemType::mvPlot)
         MV_END_PARENTS
 
-    case mvAppItemType::mvAreaSeries:
     case mvAppItemType::mvBarSeries:
     case mvAppItemType::mvGroupBarSeries:
     case mvAppItemType::mvCandleSeries:
@@ -1959,8 +1956,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
 
         args.push_back({ mvPyDataType::Bool, "closable", mvArgType::KEYWORD_ARG, "False", "Creates a button on the tab that can hide the tab." });
         args.push_back({ mvPyDataType::Bool, "no_tooltip", mvArgType::KEYWORD_ARG, "False", "Disable tooltip for the given tab." });
-        // TODO: Why is this a bool?
-        args.push_back({ mvPyDataType::Bool, "order_mode", mvArgType::KEYWORD_ARG, "0", "set using a constant: mvTabOrder_Reorderable: allows reordering, mvTabOrder_Fixed: fixed ordering, mvTabOrder_Leading: adds tab to front, mvTabOrder_Trailing: adds tab to back" });
+        args.push_back({ mvPyDataType::Integer, "order_mode", mvArgType::KEYWORD_ARG, "0", "set using a constant: mvTabOrder_Reorderable: allows reordering, mvTabOrder_Fixed: fixed ordering, mvTabOrder_Leading: adds tab to front, mvTabOrder_Trailing: adds tab to back" });
 
         setup.about = "Adds a tab to a tab bar.";
         setup.category = { "Containers", "Widgets" };
@@ -2096,8 +2092,23 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "menubar", mvArgType::KEYWORD_ARG, "False", "Shows/Hides the menubar at the top." });
         args.push_back({ mvPyDataType::Bool, "no_scroll_with_mouse", mvArgType::KEYWORD_ARG, "False", "Disable user vertically scrolling with mouse wheel." });
         args.push_back({ mvPyDataType::Bool, "flattened_navigation", mvArgType::KEYWORD_ARG, "True", "Allow gamepad/keyboard navigation to cross over parent border to this child (only use on child that have no scrolling!)" });
+        args.push_back({ mvPyDataType::Bool, "always_use_window_padding", mvArgType::KEYWORD_ARG, "False", "Pad with style.WindowPadding even if no border are drawn (no padding by default for non-bordered child windows because it makes more sense)" });
+        args.push_back({ mvPyDataType::Bool, "resize_x", mvArgType::KEYWORD_ARG, "False", "Allow resize from right border (layout direction). Enable .ini saving (unless ImGuiWindowFlags_NoSavedSettings passed to window flags)" });
+        args.push_back({ mvPyDataType::Bool, "resize_y", mvArgType::KEYWORD_ARG, "False", "Allow resize from bottom border (layout direction). " });
+        args.push_back({ mvPyDataType::Bool, "always_auto_resize", mvArgType::KEYWORD_ARG, "False", "Combined with AutoResizeX/AutoResizeY. Always measure size even when child is hidden, always return true, always disable clipping optimization! NOT RECOMMENDED." });
+        args.push_back({ mvPyDataType::Bool, "frame_style", mvArgType::KEYWORD_ARG, "False", "Style the child window like a framed item: use FrameBg, FrameRounding, FrameBorderSize, FramePadding instead of ChildBg, ChildRounding, ChildBorderSize, WindowPadding." });
+        args.push_back({ mvPyDataType::Bool, "auto_resize_x", mvArgType::KEYWORD_ARG, "False", "Enable auto-resizing width based on child content. Read 'IMPORTANT: Size measurement' details above." });
+        args.push_back({ mvPyDataType::Bool, "auto_resize_y", mvArgType::KEYWORD_ARG, "False", "Enable auto-resizing height based on child content. Read 'IMPORTANT: Size measurement' details above." });
 
-        setup.about = "Adds an embedded child window. Will show scrollbars when items do not fit.";
+        setup.about = "[Copied and edited a little bit from ImGui]"
+            "  Adds an embedded child window. Will show scrollbars when items do not fit. About using AutoResizeX/AutoResizeY flags: "
+            "- May be combined with SetNextWindowSizeConstraints() to set a min/max size for each axis (see 'Demo->Child->Auto-resize with Constraints')."
+            "- Size measurement for a given axis is only performed when the child window is within visible boundaries, or is just appearing."
+            "- This allows BeginChild() to return false when not within boundaries (e.g. when scrolling), which is more optimal. BUT it won't update its auto-size while clipped."
+            "  While not perfect, it is a better default behavior as the always-on performance gain is more valuable than the occasional 'resizing after becoming visible again' glitch."
+            "- You may also use always_auto_resize to force an update even when child window is not in view."
+            "  HOWEVER PLEASE UNDERSTAND THAT DOING SO WILL PREVENT BeginChild() FROM EVER RETURNING FALSE, disabling benefits of coarse clipping."
+            "  Remember that combining both auto_resize_x and auto_resize_y defeats purpose of a scrolling region and is NOT recommended.";
         setup.category = { "Containers", "Widgets" };
         setup.createContextManager = true;
         break;
@@ -3822,16 +3833,15 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::DoubleList, "default_value", mvArgType::KEYWORD_ARG, "(0.0, 0.0)" });
         args.push_back({ mvPyDataType::IntList, "color", mvArgType::KEYWORD_ARG, "(0, 0, 0, -255)" });
         args.push_back({ mvPyDataType::Float, "thickness", mvArgType::KEYWORD_ARG, "1.0" });
-        args.push_back({ mvPyDataType::Bool, "delayed", mvArgType::KEYWORD_ARG, "False" });
-        args.push_back({ mvPyDataType::Bool, "no_cursor", mvArgType::KEYWORD_ARG, "False" });
-        args.push_back({ mvPyDataType::Bool, "no_fit", mvArgType::KEYWORD_ARG, "False" });
-        args.push_back({ mvPyDataType::Bool, "no_inputs", mvArgType::KEYWORD_ARG, "False" });
+        args.push_back({ mvPyDataType::Bool, "delayed", mvArgType::KEYWORD_ARG, "False", "tool rendering will be delayed one frame; useful when applying position-constraints" });
+        args.push_back({ mvPyDataType::Bool, "no_cursor", mvArgType::KEYWORD_ARG, "False", "drag tools won't change cursor icons when hovered or held" });
+        args.push_back({ mvPyDataType::Bool, "no_fit", mvArgType::KEYWORD_ARG, "False", "the drag tool won't be considered for plot fits" });
+        args.push_back({ mvPyDataType::Bool, "no_inputs", mvArgType::KEYWORD_ARG, "False", "lock the tool from user inputs" });
 
         setup.about = "Adds a drag point to a plot.";
         setup.category = { "Plotting", "Widgets" };
         break;
     }
-    // TODO: Update all the variables (corresponding with the flags) for these drag widgets
 
     case mvAppItemType::mvDragRect:                   
     {
@@ -3847,10 +3857,10 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::DoubleList, "default_value", mvArgType::KEYWORD_ARG, "(0.0, 0.0)" });
         args.push_back({ mvPyDataType::IntList, "color", mvArgType::KEYWORD_ARG, "(0, 0, 0, -255)" });
         args.push_back({ mvPyDataType::Float, "thickness", mvArgType::KEYWORD_ARG, "1.0" });
-        args.push_back({ mvPyDataType::Bool, "delayed", mvArgType::KEYWORD_ARG, "False" });
-        args.push_back({ mvPyDataType::Bool, "no_cursor", mvArgType::KEYWORD_ARG, "False" });
-        args.push_back({ mvPyDataType::Bool, "no_fit", mvArgType::KEYWORD_ARG, "False" });
-        args.push_back({ mvPyDataType::Bool, "no_inputs", mvArgType::KEYWORD_ARG, "False" });
+        args.push_back({ mvPyDataType::Bool, "delayed", mvArgType::KEYWORD_ARG, "False", "tool rendering will be delayed one frame; useful when applying position-constraints" });
+        args.push_back({ mvPyDataType::Bool, "no_cursor", mvArgType::KEYWORD_ARG, "False", "drag tools won't change cursor icons when hovered or held" });
+        args.push_back({ mvPyDataType::Bool, "no_fit", mvArgType::KEYWORD_ARG, "False", "the drag tool won't be considered for plot fits" });
+        args.push_back({ mvPyDataType::Bool, "no_inputs", mvArgType::KEYWORD_ARG, "False", "lock the tool from user inputs" });
 
         setup.about = "Adds a drag rectangle to a plot.";
         setup.category = { "Plotting", "Widgets" };
@@ -3872,10 +3882,10 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::IntList, "color", mvArgType::KEYWORD_ARG, "(0, 0, 0, -255)" });
         args.push_back({ mvPyDataType::Float, "thickness", mvArgType::KEYWORD_ARG, "1.0" });
         args.push_back({ mvPyDataType::Bool, "vertical", mvArgType::KEYWORD_ARG, "True" });
-        args.push_back({ mvPyDataType::Bool, "delayed", mvArgType::KEYWORD_ARG, "False" });
-        args.push_back({ mvPyDataType::Bool, "no_cursor", mvArgType::KEYWORD_ARG, "False" });
-        args.push_back({ mvPyDataType::Bool, "no_fit", mvArgType::KEYWORD_ARG, "False" });
-        args.push_back({ mvPyDataType::Bool, "no_inputs", mvArgType::KEYWORD_ARG, "False" });
+        args.push_back({ mvPyDataType::Bool, "delayed", mvArgType::KEYWORD_ARG, "False", "tool rendering will be delayed one frame; useful when applying position-constraints" });
+        args.push_back({ mvPyDataType::Bool, "no_cursor", mvArgType::KEYWORD_ARG, "False", "drag tools won't change cursor icons when hovered or held" });
+        args.push_back({ mvPyDataType::Bool, "no_fit", mvArgType::KEYWORD_ARG, "False", "the drag tool won't be considered for plot fits" });
+        args.push_back({ mvPyDataType::Bool, "no_inputs", mvArgType::KEYWORD_ARG, "False", "lock the tool from user inputs" });
 
         setup.about = "Adds a drag line to a plot.";
         setup.category = { "Plotting", "Widgets" };
@@ -4266,25 +4276,6 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.about = "Adds a custom series to a plot. New in 1.6.";
         setup.category = { "Plotting", "Containers", "Widgets" };
         setup.createContextManager = true;
-        break;
-    }
-    case mvAppItemType::mvAreaSeries:                  
-    {
-        AddCommonArgs(args, (CommonParserArgs)(
-            MV_PARSER_ARG_ID |
-            MV_PARSER_ARG_PARENT |
-            MV_PARSER_ARG_BEFORE |
-            MV_PARSER_ARG_SOURCE |
-            MV_PARSER_ARG_SHOW)
-        );
-
-        args.push_back({ mvPyDataType::DoubleList, "x" });
-        args.push_back({ mvPyDataType::DoubleList, "y" });
-        args.push_back({ mvPyDataType::IntList, "fill", mvArgType::KEYWORD_ARG, "(0, 0, 0, -255)" });
-        args.push_back({ mvPyDataType::Bool, "contribute_to_bounds", mvArgType::KEYWORD_ARG, "True" });
-
-        setup.about = "Adds an area series to a plot.";
-        setup.category = { "Plotting", "Containers", "Widgets" };
         break;
     }
     case mvAppItemType::mvColorMapScale:               

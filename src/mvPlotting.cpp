@@ -11,107 +11,6 @@
 #include "mvItemHandlers.h"
 #include <iostream>
 
-static void
-draw_polygon(const mvAreaSeriesConfig& config)
-{
-
-	static const std::vector<double>* xptr;
-	static const std::vector<double>* yptr;
-
-	xptr = &(*config.value.get())[0];
-	yptr = &(*config.value.get())[1];
-
-	std::vector<ImVec2> points;
-	for (unsigned i = 0; i < xptr->size(); i++)
-	{
-		auto p = ImPlot::PlotToPixels({ (*xptr)[i], (*yptr)[i] });
-		points.push_back(p);
-	}
-
-	if (config.fill.r > 0.0f)
-	{
-		size_t i;
-		double y;
-		double miny, maxy;
-		double x1, y1;
-		double x2, y2;
-		int ind1, ind2;
-		size_t ints;
-		size_t n = points.size();
-		int* polyints = new int[n];
-
-
-		/* Get plot Y range in pixels */
-		ImPlotRect limits = ImPlot::GetPlotLimits();
-		auto upperLimitsPix = ImPlot::PlotToPixels({ limits.X.Max, limits.Y.Max });
-		auto lowerLimitsPix = ImPlot::PlotToPixels({ limits.X.Min, limits.Y.Min });
-
-		/* Determine Y range of data*/
-		miny = (int)points[0].y;
-		maxy = (int)points[0].y;
-		for (i = 1; i < n; i++)
-		{
-			miny = std::min((int)miny, (int)points[i].y);
-			maxy = std::max((int)maxy, (int)points[i].y);
-		}
-
-		/* Determine to clip scans based on plot bounds y or data bounds y
-		when the plot data is converted the min and max y invert (due to plot to graphics coord)
-		so we comapre min with max and max with min*/
-		miny = std::max((int)miny, (int)upperLimitsPix.y);
-		maxy = std::min((int)maxy, (int)lowerLimitsPix.y);
-
-		/* Draw, scanning y */
-		for (y = miny; y <= maxy; y++) {
-			ints = 0;
-			for (i = 0; (i < n); i++) {
-				if (!i)
-				{
-					ind1 = (int)n - 1;
-					ind2 = 0;
-				}
-				else
-				{
-					ind1 = (int)i - 1;
-					ind2 = (int)i;
-				}
-				y1 = (int)points[ind1].y;
-				y2 = (int)points[ind2].y;
-				if (y1 < y2)
-				{
-					x1 = (int)points[ind1].x;
-					x2 = (int)points[ind2].x;
-				}
-				else if (y1 > y2)
-				{
-					y2 = (int)points[ind1].y;
-					y1 = (int)points[ind2].y;
-					x2 = (int)points[ind1].x;
-					x1 = (int)points[ind2].x;
-				}
-				else
-					continue;
-
-				if (((y >= y1) && (y < y2)) || ((y == maxy) && (y > y1) && (y <= y2)))
-					polyints[ints++] = (y - y1) * (x2 - x1) / (y2 - y1) + x1;
-
-			}
-
-			auto compare_int = [](const void* a, const void* b)
-			{
-				return (*(const int*)a) - (*(const int*)b);
-			};
-
-			qsort(polyints, ints, sizeof(int), compare_int);
-
-			for (i = 0; i < ints; i += 2)
-				ImGui::GetWindowDrawList()->AddLine({ (float)polyints[i], (float)y }, { (float)polyints[i + 1], (float)y }, config.fill, 1.0f);
-		}
-		delete[] polyints;
-	}
-
-}
-
 template <typename T>
 int BinarySearch(const T* arr, int l, int r, T x) {
 	if (r >= l) {
@@ -394,10 +293,13 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 	if (config._fitDirty)
 	{
 		// This must be called before BeginPlot
-		ImPlot::SetNextAxesToFit();
+		for(int i = 0; i < ImAxis_COUNT; i++) {
+			if (config._axisfitDirty[i] == true) {
+				ImPlot::SetNextAxisToFit(i);
+				config._axisfitDirty[i] = false;
+			}
+		}
 		config._fitDirty = false;
-		for(int i = 0; i < ImAxis_COUNT; i++)
-			config._axisfitDirty[i] = false;  // TODO: Is it really necessary to have all of this "config._axisfitDirty" now?
 	}
 
 	if (ImPlot::BeginPlot(item.info.internalLabel.c_str(), ImVec2((float)item.config.width, (float)item.config.height), config._flags))
@@ -543,6 +445,7 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 		}
 
 		// TODO: find a better way to handle this
+		// We could use std::find_if from <algorithm> but it'd require item.childslots[0] to be a std::vector
 		for (auto& child : item.childslots[0])
 		{
 			if (child->type == mvAppItemType::mvPlotLegend)
@@ -729,9 +632,10 @@ DearPyGui::draw_drag_rect(ImDrawList* drawlist, mvAppItem& item, mvDragRectConfi
 	static double ymin = (*config.value.get())[1];
 	static double xmax = (*config.value.get())[2];
 	static double ymax = (*config.value.get())[3];
+	// I still don't get why we need to do this
 	xmin = (*config.value.get())[0];
 	ymin = (*config.value.get())[1];
-	xmax = (*config.value.get())[2];  // TODO: Why??
+	xmax = (*config.value.get())[2];
 	ymax = (*config.value.get())[3];
 
 	// item.config.specifiedLabel.c_str(),
@@ -1111,7 +1015,7 @@ DearPyGui::draw_stair_series(ImDrawList* drawlist, mvAppItem& item, const mvStai
 }
 
 void
-DearPyGui::draw_stem_series(ImDrawList* drawlist, mvAppItem& item, const mvBasicSeriesConfig& config)
+DearPyGui::draw_stem_series(ImDrawList* drawlist, mvAppItem& item, const mvStemSeriesConfig& config)
 {
 	//-----------------------------------------------------------------------------
 	// pre draw
@@ -1140,7 +1044,7 @@ DearPyGui::draw_stem_series(ImDrawList* drawlist, mvAppItem& item, const mvBasic
 		xptr = &(*config.value.get())[0];
 		yptr = &(*config.value.get())[1];
 
-		ImPlot::PlotStems(item.info.internalLabel.c_str(), xptr->data(), yptr->data(), (int)xptr->size());
+		ImPlot::PlotStems(item.info.internalLabel.c_str(), xptr->data(), yptr->data(), (int)xptr->size(), config.flags);
 
 		// Begin a popup for a legend entry.
 		if (ImPlot::BeginLegendPopup(item.info.internalLabel.c_str(), 1))
@@ -1179,7 +1083,7 @@ DearPyGui::draw_stem_series(ImDrawList* drawlist, mvAppItem& item, const mvBasic
 }
 
 void
-DearPyGui::draw_shade_series(ImDrawList* drawlist, mvAppItem& item, const mvBasicSeriesConfig& config)
+DearPyGui::draw_shade_series(ImDrawList* drawlist, mvAppItem& item, const mvShadeSeriesConfig& config)
 {
 	//-----------------------------------------------------------------------------
 	// pre draw
@@ -1211,10 +1115,10 @@ DearPyGui::draw_shade_series(ImDrawList* drawlist, mvAppItem& item, const mvBasi
 		y2ptr = &(*config.value.get())[2];
 
 		ImPlot::PlotShaded(item.info.internalLabel.c_str(), xptr->data(), y1ptr->data(),
-			y2ptr->data(), (int)xptr->size());
+			y2ptr->data(), (int)xptr->size(), config.flags);
 
 		// Begin a popup for a legend entry.
-		if (ImPlot::BeginLegendPopup(item.info.internalLabel.c_str(), 1))
+		if (ImPlot::BeginLegendPopup(item.info.internalLabel.c_str(), ImGuiMouseButton_Right))
 		{
 			for (auto& childset : item.childslots)
 			{
@@ -1809,79 +1713,6 @@ DearPyGui::draw_image_series(ImDrawList* drawlist, mvAppItem& item, mvImageSerie
 }
 
 void
-DearPyGui::draw_area_series(ImDrawList* drawlist, mvAppItem& item, const mvAreaSeriesConfig& config)
-{
-	//-----------------------------------------------------------------------------
-	// pre draw
-	//-----------------------------------------------------------------------------
-	if (!item.config.show)
-		return;
-
-	// push font if a font object is attached
-	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
-
-	// themes
-	apply_local_theming(&item);
-
-	//-----------------------------------------------------------------------------
-	// draw
-	//-----------------------------------------------------------------------------
-	{
-
-		static const std::vector<double>* xptr;
-		static const std::vector<double>* yptr;
-
-		xptr = &(*config.value.get())[0];
-		yptr = &(*config.value.get())[1];
-
-		ImPlot::PlotLine(item.info.internalLabel.c_str(), xptr->data(), yptr->data(), (int)xptr->size());
-
-		ImPlot::PushPlotClipRect();
-		ImPlot::RegisterOrGetItem(item.info.internalLabel.c_str(), 0); //TODO 0 for flags
-		draw_polygon(config);
-		ImPlot::PopPlotClipRect();
-
-		// Begin a popup for a legend entry.
-		if (ImPlot::BeginLegendPopup(item.info.internalLabel.c_str(), 1))
-		{
-			for (auto& childset : item.childslots)
-			{
-				for (auto& item : childset)
-				{
-					// skip item if it's not shown
-					if (!item->config.show)
-						continue;
-					item->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
-					UpdateAppItemState(item->state);
-				}
-			}
-			ImPlot::EndLegendPopup();
-		}
-	}
-
-	//-----------------------------------------------------------------------------
-	// update state
-	//   * only update if applicable
-	//-----------------------------------------------------------------------------
-
-
-	//-----------------------------------------------------------------------------
-	// post draw
-	//-----------------------------------------------------------------------------
-
-	// pop font off stack
-	if (item.font)
-		ImGui::PopFont();
-
-	// handle popping themes
-	cleanup_local_theming(&item);
-}
-
-void
 DearPyGui::draw_candle_series(ImDrawList* drawlist, mvAppItem& item, const mvCandleSeriesConfig& config)
 {
 	//-----------------------------------------------------------------------------
@@ -2156,7 +1987,7 @@ void
 DearPyGui::set_positional_configuration(PyObject* inDict, mvLineSeriesConfig& outConfig)
 {
 	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(mvAppItemType::mvLineSeries)], inDict))
-		return; // TODO: Check if this is okay
+		return;
 
 	for(int i = 0; i < PyTuple_Size(inDict); i++)
 		(*outConfig.value)[i] = ToDoubleVect(PyTuple_GetItem(inDict, i));
@@ -2204,20 +2035,27 @@ DearPyGui::set_positional_configuration(PyObject* inDict, mvInfLineSeriesConfig&
 }
 
 void
-DearPyGui::set_positional_configuration(PyObject* inDict, mvBasicSeriesConfig& outConfig)
+DearPyGui::set_positional_configuration(PyObject* inDict, mvShadeSeriesConfig& outConfig)
 {
-	//if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(mvAppItemType::mvLineSeries)], inDict))
-	//	return;
+	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(mvAppItemType::mvShadeSeries)], inDict))
+		return;
 
 	for(int i = 0; i < PyTuple_Size(inDict); i++)
 		(*outConfig.value)[i] = ToDoubleVect(PyTuple_GetItem(inDict, i));
 
-	if (outConfig.type == mvAppItemType::mvShadeSeries)
-	{
-		(*outConfig.value)[2] = (*outConfig.value)[1];
-		for (auto& item : (*outConfig.value)[2])
-			item = 0.0;
-	}
+	(*outConfig.value)[2] = (*outConfig.value)[1];
+	for (auto& item : (*outConfig.value)[2])
+		item = 0.0;
+}
+
+void
+DearPyGui::set_positional_configuration(PyObject* inDict, mvStemSeriesConfig& outConfig)
+{
+	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(mvAppItemType::mvStemSeries)], inDict))
+		return;
+
+	for(int i = 0; i < PyTuple_Size(inDict); i++)
+		(*outConfig.value)[i] = ToDoubleVect(PyTuple_GetItem(inDict, i));
 }
 
 void
@@ -2234,7 +2072,7 @@ void
 DearPyGui::set_positional_configuration(PyObject* inDict, mvScatterSeriesConfig& outConfig)
 {
 	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(mvAppItemType::mvScatterSeries)], inDict))
-		return; // TODO: Check if this is okay
+		return;
 
 	for(int i = 0; i < PyTuple_Size(inDict); i++)
 		(*outConfig.value)[i] = ToDoubleVect(PyTuple_GetItem(inDict, i));
@@ -2334,16 +2172,6 @@ DearPyGui::set_required_configuration(PyObject* inDict, mvSubPlotsConfig& outCon
 
 	outConfig.rows = ToInt(PyTuple_GetItem(inDict, 0));
 	outConfig.cols = ToInt(PyTuple_GetItem(inDict, 1));
-}
-
-void
-DearPyGui::set_required_configuration(PyObject* inDict, mvAreaSeriesConfig& outConfig)
-{
-	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(mvAppItemType::mvAreaSeries)], inDict))
-		return;
-
-	(*outConfig.value)[0] = ToDoubleVect(PyTuple_GetItem(inDict, 0));
-	(*outConfig.value)[1] = ToDoubleVect(PyTuple_GetItem(inDict, 1));
 }
 
 void
@@ -2615,6 +2443,49 @@ DearPyGui::set_configuration(PyObject* inDict, mvGroupBarSeriesConfig& outConfig
 }
 
 void
+DearPyGui::set_configuration(PyObject* inDict, mvShadeSeriesConfig& outConfig)
+{
+	if (inDict == nullptr)
+		return;
+
+	bool valueChanged = false;
+	if (PyObject* item = PyDict_GetItemString(inDict, "x")) { valueChanged = true; (*outConfig.value)[0] = ToDoubleVect(item); }
+	if (PyObject* item = PyDict_GetItemString(inDict, "y")) { valueChanged = true; (*outConfig.value)[1] = ToDoubleVect(item); }
+	if (PyObject* item = PyDict_GetItemString(inDict, "y1")) { valueChanged = true; (*outConfig.value)[1] = ToDoubleVect(item); }
+	if (PyObject* item = PyDict_GetItemString(inDict, "y2")) { valueChanged = true; (*outConfig.value)[2] = ToDoubleVect(item); }
+
+	if (valueChanged)
+	{
+		if ((*outConfig.value)[1].size() != (*outConfig.value)[2].size())
+		{
+			(*outConfig.value)[2].clear();
+			for (size_t i = 0; i < (*outConfig.value)[1].size(); i++)
+				(*outConfig.value)[2].push_back(0.0);
+
+		}
+	}
+}
+
+void
+DearPyGui::set_configuration(PyObject* inDict, mvStemSeriesConfig& outConfig)
+{
+	if (inDict == nullptr)
+		return;
+
+	if (PyObject* item = PyDict_GetItemString(inDict, "x")) { (*outConfig.value)[0] = ToDoubleVect(item); }
+	if (PyObject* item = PyDict_GetItemString(inDict, "y")) { (*outConfig.value)[1] = ToDoubleVect(item); }
+
+	// helper for bit flipping
+	auto flagop = [inDict](const char* keyword, int flag, int& flags)
+	{
+		if (PyObject* item = PyDict_GetItemString(inDict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+	};
+
+	// flags
+	flagop("horizontal", ImPlotStemsFlags_Horizontal, outConfig.flags);
+}
+
+void
 DearPyGui::set_configuration(PyObject* inDict, mvStairSeriesConfig& outConfig)
 {
 	if (inDict == nullptr)
@@ -2670,30 +2541,6 @@ DearPyGui::set_configuration(PyObject* inDict, mvScatterSeriesConfig& outConfig)
 
 	// flags
 	flagop("no_clip", ImPlotScatterFlags_NoClip, outConfig.flags);
-}
-
-void
-DearPyGui::set_configuration(PyObject* inDict, mvBasicSeriesConfig& outConfig)
-{
-	if (inDict == nullptr)
-		return;
-
-	bool valueChanged = false;
-	if (PyObject* item = PyDict_GetItemString(inDict, "x")) { valueChanged = true; (*outConfig.value)[0] = ToDoubleVect(item); }
-	if (PyObject* item = PyDict_GetItemString(inDict, "y")) { valueChanged = true; (*outConfig.value)[1] = ToDoubleVect(item); }
-	if (PyObject* item = PyDict_GetItemString(inDict, "y1")) { valueChanged = true; (*outConfig.value)[1] = ToDoubleVect(item); }
-	if (PyObject* item = PyDict_GetItemString(inDict, "y2")) { valueChanged = true; (*outConfig.value)[2] = ToDoubleVect(item); }
-
-	if (valueChanged && outConfig.type == mvAppItemType::mvShadeSeries)
-	{
-		if ((*outConfig.value)[1].size() != (*outConfig.value)[2].size())
-		{
-			(*outConfig.value)[2].clear();
-			for (size_t i = 0; i < (*outConfig.value)[1].size(); i++)
-				(*outConfig.value)[2].push_back(0.0);
-
-		}
-	}
 }
 
 void
@@ -2887,17 +2734,6 @@ DearPyGui::set_configuration(PyObject* inDict, mvImageSeriesConfig& outConfig)
 			mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(mvAppItemType::mvImageSeries), "Texture not found.", nullptr);
 		}
 	}
-}
-
-void
-DearPyGui::set_configuration(PyObject* inDict, mvAreaSeriesConfig& outConfig)
-{
-	if (inDict == nullptr)
-		return;
-
-	if (PyObject* item = PyDict_GetItemString(inDict, "fill")) outConfig.fill = ToColor(item);
-	if (PyObject* item = PyDict_GetItemString(inDict, "x")) { (*outConfig.value)[0] = ToDoubleVect(item); }
-	if (PyObject* item = PyDict_GetItemString(inDict, "y")) { (*outConfig.value)[1] = ToDoubleVect(item); }
 }
 
 void
@@ -3199,6 +3035,13 @@ DearPyGui::fill_configuration_dict(const mvLineSeriesConfig& inConfig, PyObject*
 }
 
 void
+DearPyGui::fill_configuration_dict(const mvShadeSeriesConfig& inConfig, PyObject* outDict)
+{
+	if (outDict == nullptr)
+		return;
+}
+
+void
 DearPyGui::fill_configuration_dict(const mvBarSeriesConfig& inConfig, PyObject* outDict)
 {
 	if (outDict == nullptr)
@@ -3214,6 +3057,23 @@ DearPyGui::fill_configuration_dict(const mvBarSeriesConfig& inConfig, PyObject* 
 
 	// bar flags
 	checkbitset("horizontal", ImPlotBarsFlags_Horizontal, inConfig.flags);
+}
+
+
+void
+DearPyGui::fill_configuration_dict(const mvStemSeriesConfig& inConfig, PyObject* outDict)
+{
+	if (outDict == nullptr)
+		return;
+
+	// helper to check and set bit
+	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)
+	{
+		PyDict_SetItemString(outDict, keyword, mvPyObject(ToPyBool(flags & flag)));
+	};
+
+	// flags
+	checkbitset("horizontal", ImPlotStemsFlags_Horizontal, inConfig.flags);
 }
 
 void
@@ -3286,13 +3146,6 @@ DearPyGui::fill_configuration_dict(const mvScatterSeriesConfig& inConfig, PyObje
 
 	// flags
 	checkbitset("no_clip", ImPlotScatterFlags_NoClip, inConfig.flags);
-}
-
-void
-DearPyGui::fill_configuration_dict(const mvBasicSeriesConfig& inConfig, PyObject* outDict)
-{
-	if (outDict == nullptr)
-		return;
 }
 
 void
@@ -3434,14 +3287,6 @@ DearPyGui::fill_configuration_dict(const mvImageSeriesConfig& inConfig, PyObject
 	PyDict_SetItemString(outDict, "tint_color", mvPyObject(ToPyColor(inConfig.tintColor)));
 	PyDict_SetItemString(outDict, "bounds_min", mvPyObject(ToPyPair(inConfig.bounds_min.x, inConfig.bounds_min.y)));
 	PyDict_SetItemString(outDict, "bounds_max", mvPyObject(ToPyPair(inConfig.bounds_max.x, inConfig.bounds_max.y)));
-}
-
-void
-DearPyGui::fill_configuration_dict(const mvAreaSeriesConfig& inConfig, PyObject* outDict)
-{
-	if (outDict == nullptr)
-		return;
-	PyDict_SetItemString(outDict, "fill", mvPyObject(ToPyColor(inConfig.fill)));
 }
 
 void

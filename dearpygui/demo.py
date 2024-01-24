@@ -1971,15 +1971,6 @@ def show_demo():
                                 dpg.add_bar_series([11, 21, 31], [83, 75, 72], label="Midterm Exam", weight=1)
                                 dpg.add_bar_series([12, 22, 32], [42, 68, 23], label="Course Grade", weight=1)
 
-                    with dpg.tree_node(label="Area Series"):
-
-                        with dpg.plot(label="Area Series", height=400, width=-1):
-                            xaxis = dpg.add_plot_axis(dpg.mvXAxis, label="x")
-                            with dpg.plot_axis(dpg.mvYAxis, label="y"):
-                                dpg.add_area_series([1,5,3],[0,0,3], fill=[255,50,100,190])
-                                dpg.fit_axis_data(dpg.top_container_stack())
-                            dpg.fit_axis_data(xaxis)
-
                     with dpg.tree_node(label="Infinite Lines"):
 
                         infinite_x_data = (3, 5, 6, 7)

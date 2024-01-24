@@ -1481,7 +1481,7 @@ def set_start_callback(callback):
 
 @contextmanager
 def child_window(**kwargs):
-	"""	 Adds an embedded child window. Will show scrollbars when items do not fit.
+	"""	 [Copied and edited a little bit from ImGui]  Adds an embedded child window. Will show scrollbars when items do not fit. About using AutoResizeX/AutoResizeY flags: - May be combined with SetNextWindowSizeConstraints() to set a min/max size for each axis (see 'Demo->Child->Auto-resize with Constraints').- Size measurement for a given axis is only performed when the child window is within visible boundaries, or is just appearing.- This allows BeginChild() to return false when not within boundaries (e.g. when scrolling), which is more optimal. BUT it won't update its auto-size while clipped.  While not perfect, it is a better default behavior as the always-on performance gain is more valuable than the occasional 'resizing after becoming visible again' glitch.- You may also use always_auto_resize to force an update even when child window is not in view.  HOWEVER PLEASE UNDERSTAND THAT DOING SO WILL PREVENT BeginChild() FROM EVER RETURNING FALSE, disabling benefits of coarse clipping.  Remember that combining both auto_resize_x and auto_resize_y defeats purpose of a scrolling region and is NOT recommended.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -1509,6 +1509,13 @@ def child_window(**kwargs):
 		menubar (bool, optional): Shows/Hides the menubar at the top.
 		no_scroll_with_mouse (bool, optional): Disable user vertically scrolling with mouse wheel.
 		flattened_navigation (bool, optional): Allow gamepad/keyboard navigation to cross over parent border to this child (only use on child that have no scrolling!)
+		always_use_window_padding (bool, optional): Pad with style.WindowPadding even if no border are drawn (no padding by default for non-bordered child windows because it makes more sense)
+		resize_x (bool, optional): Allow resize from right border (layout direction). Enable .ini saving (unless ImGuiWindowFlags_NoSavedSettings passed to window flags)
+		resize_y (bool, optional): Allow resize from bottom border (layout direction). 
+		always_auto_resize (bool, optional): Combined with AutoResizeX/AutoResizeY. Always measure size even when child is hidden, always return true, always disable clipping optimization! NOT RECOMMENDED.
+		frame_style (bool, optional): Style the child window like a framed item: use FrameBg, FrameRounding, FrameBorderSize, FramePadding instead of ChildBg, ChildRounding, ChildBorderSize, WindowPadding.
+		auto_resize_x (bool, optional): Enable auto-resizing width based on child content. Read 'IMPORTANT: Size measurement' details above.
+		auto_resize_y (bool, optional): Enable auto-resizing height based on child content. Read 'IMPORTANT: Size measurement' details above.
 		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
@@ -2270,7 +2277,7 @@ def tab(**kwargs):
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		closable (bool, optional): Creates a button on the tab that can hide the tab.
 		no_tooltip (bool, optional): Disable tooltip for the given tab.
-		order_mode (bool, optional): set using a constant: mvTabOrder_Reorderable: allows reordering, mvTabOrder_Fixed: fixed ordering, mvTabOrder_Leading: adds tab to front, mvTabOrder_Trailing: adds tab to back
+		order_mode (int, optional): set using a constant: mvTabOrder_Reorderable: allows reordering, mvTabOrder_Fixed: fixed ordering, mvTabOrder_Leading: adds tab to front, mvTabOrder_Trailing: adds tab to back
 		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
@@ -2770,29 +2777,6 @@ def add_alias(alias, item):
 
 	return internal_dpg.add_alias(alias, item)
 
-def add_area_series(x, y, **kwargs):
-	"""	 Adds an area series to a plot.
-
-	Args:
-		x (Any): 
-		y (Any): 
-		label (str, optional): Overrides 'name' as label.
-		user_data (Any, optional): User data for callbacks
-		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
-		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
-		source (Union[int, str], optional): Overrides 'id' as value storage key.
-		show (bool, optional): Attempt to render widget.
-		fill (Union[List[int], Tuple[int, ...]], optional): 
-		contribute_to_bounds (bool, optional): 
-		id (Union[int, str], optional): (deprecated)
-	Returns:
-		Union[int, str]
-	"""
-
-	return internal_dpg.add_area_series(x, y, **kwargs)
-
 def add_bar_series(x, y, **kwargs):
 	"""	 Adds a bar series to a plot.
 
@@ -2945,7 +2929,7 @@ def add_checkbox(**kwargs):
 	return internal_dpg.add_checkbox(**kwargs)
 
 def add_child_window(**kwargs):
-	"""	 Adds an embedded child window. Will show scrollbars when items do not fit.
+	"""	 [Copied and edited a little bit from ImGui]  Adds an embedded child window. Will show scrollbars when items do not fit. About using AutoResizeX/AutoResizeY flags: - May be combined with SetNextWindowSizeConstraints() to set a min/max size for each axis (see 'Demo->Child->Auto-resize with Constraints').- Size measurement for a given axis is only performed when the child window is within visible boundaries, or is just appearing.- This allows BeginChild() to return false when not within boundaries (e.g. when scrolling), which is more optimal. BUT it won't update its auto-size while clipped.  While not perfect, it is a better default behavior as the always-on performance gain is more valuable than the occasional 'resizing after becoming visible again' glitch.- You may also use always_auto_resize to force an update even when child window is not in view.  HOWEVER PLEASE UNDERSTAND THAT DOING SO WILL PREVENT BeginChild() FROM EVER RETURNING FALSE, disabling benefits of coarse clipping.  Remember that combining both auto_resize_x and auto_resize_y defeats purpose of a scrolling region and is NOT recommended.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -2973,6 +2957,13 @@ def add_child_window(**kwargs):
 		menubar (bool, optional): Shows/Hides the menubar at the top.
 		no_scroll_with_mouse (bool, optional): Disable user vertically scrolling with mouse wheel.
 		flattened_navigation (bool, optional): Allow gamepad/keyboard navigation to cross over parent border to this child (only use on child that have no scrolling!)
+		always_use_window_padding (bool, optional): Pad with style.WindowPadding even if no border are drawn (no padding by default for non-bordered child windows because it makes more sense)
+		resize_x (bool, optional): Allow resize from right border (layout direction). Enable .ini saving (unless ImGuiWindowFlags_NoSavedSettings passed to window flags)
+		resize_y (bool, optional): Allow resize from bottom border (layout direction). 
+		always_auto_resize (bool, optional): Combined with AutoResizeX/AutoResizeY. Always measure size even when child is hidden, always return true, always disable clipping optimization! NOT RECOMMENDED.
+		frame_style (bool, optional): Style the child window like a framed item: use FrameBg, FrameRounding, FrameBorderSize, FramePadding instead of ChildBg, ChildRounding, ChildBorderSize, WindowPadding.
+		auto_resize_x (bool, optional): Enable auto-resizing width based on child content. Read 'IMPORTANT: Size measurement' details above.
+		auto_resize_y (bool, optional): Enable auto-resizing height based on child content. Read 'IMPORTANT: Size measurement' details above.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -3674,10 +3665,10 @@ def add_drag_line(**kwargs):
 		color (Union[List[int], Tuple[int, ...]], optional): 
 		thickness (float, optional): 
 		vertical (bool, optional): 
-		delayed (bool, optional): 
-		no_cursor (bool, optional): 
-		no_fit (bool, optional): 
-		no_inputs (bool, optional): 
+		delayed (bool, optional): tool rendering will be delayed one frame; useful when applying position-constraints
+		no_cursor (bool, optional): drag tools won't change cursor icons when hovered or held
+		no_fit (bool, optional): the drag tool won't be considered for plot fits
+		no_inputs (bool, optional): lock the tool from user inputs
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -3721,10 +3712,10 @@ def add_drag_point(**kwargs):
 		default_value (Any, optional): 
 		color (Union[List[int], Tuple[int, ...]], optional): 
 		thickness (float, optional): 
-		delayed (bool, optional): 
-		no_cursor (bool, optional): 
-		no_fit (bool, optional): 
-		no_inputs (bool, optional): 
+		delayed (bool, optional): tool rendering will be delayed one frame; useful when applying position-constraints
+		no_cursor (bool, optional): drag tools won't change cursor icons when hovered or held
+		no_fit (bool, optional): the drag tool won't be considered for plot fits
+		no_inputs (bool, optional): lock the tool from user inputs
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -3748,10 +3739,10 @@ def add_drag_rect(**kwargs):
 		default_value (Any, optional): 
 		color (Union[List[int], Tuple[int, ...]], optional): 
 		thickness (float, optional): 
-		delayed (bool, optional): 
-		no_cursor (bool, optional): 
-		no_fit (bool, optional): 
-		no_inputs (bool, optional): 
+		delayed (bool, optional): tool rendering will be delayed one frame; useful when applying position-constraints
+		no_cursor (bool, optional): drag tools won't change cursor icons when hovered or held
+		no_fit (bool, optional): the drag tool won't be considered for plot fits
+		no_inputs (bool, optional): lock the tool from user inputs
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -6185,7 +6176,7 @@ def add_tab(**kwargs):
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		closable (bool, optional): Creates a button on the tab that can hide the tab.
 		no_tooltip (bool, optional): Disable tooltip for the given tab.
-		order_mode (bool, optional): set using a constant: mvTabOrder_Reorderable: allows reordering, mvTabOrder_Fixed: fixed ordering, mvTabOrder_Leading: adds tab to front, mvTabOrder_Trailing: adds tab to back
+		order_mode (int, optional): set using a constant: mvTabOrder_Reorderable: allows reordering, mvTabOrder_Fixed: fixed ordering, mvTabOrder_Leading: adds tab to front, mvTabOrder_Trailing: adds tab to back
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -8686,7 +8677,7 @@ mvKey_Left=internal_dpg.mvKey_Left
 mvKey_Up=internal_dpg.mvKey_Up
 mvKey_Right=internal_dpg.mvKey_Right
 mvKey_Down=internal_dpg.mvKey_Down
-mvKey_PrintScreen=internal_dpg.mvKey_PrintScreen
+mvKey_Print=internal_dpg.mvKey_Print
 mvKey_Insert=internal_dpg.mvKey_Insert
 mvKey_Delete=internal_dpg.mvKey_Delete
 mvKey_NumPad0=internal_dpg.mvKey_NumPad0
@@ -8702,6 +8693,8 @@ mvKey_NumPad9=internal_dpg.mvKey_NumPad9
 mvKey_Subtract=internal_dpg.mvKey_Subtract
 mvKey_Decimal=internal_dpg.mvKey_Decimal
 mvKey_Divide=internal_dpg.mvKey_Divide
+mvKey_Multiply=internal_dpg.mvKey_Multiply
+mvKey_Add=internal_dpg.mvKey_Add
 mvKey_F1=internal_dpg.mvKey_F1
 mvKey_F2=internal_dpg.mvKey_F2
 mvKey_F3=internal_dpg.mvKey_F3
@@ -8741,6 +8734,7 @@ mvKey_Browser_Back=internal_dpg.mvKey_Browser_Back
 mvKey_Browser_Forward=internal_dpg.mvKey_Browser_Forward
 mvKey_Comma=internal_dpg.mvKey_Comma
 mvKey_Minus=internal_dpg.mvKey_Minus
+mvKey_Menu=internal_dpg.mvKey_Menu
 mvAll=internal_dpg.mvAll
 mvTool_About=internal_dpg.mvTool_About
 mvTool_Debug=internal_dpg.mvTool_Debug
@@ -9139,7 +9133,6 @@ mvLabelSeries=internal_dpg.mvLabelSeries
 mvHistogramSeries=internal_dpg.mvHistogramSeries
 mv2dHistogramSeries=internal_dpg.mv2dHistogramSeries
 mvCandleSeries=internal_dpg.mvCandleSeries
-mvAreaSeries=internal_dpg.mvAreaSeries
 mvColorMapScale=internal_dpg.mvColorMapScale
 mvSlider3D=internal_dpg.mvSlider3D
 mvKnobFloat=internal_dpg.mvKnobFloat
