@@ -119,6 +119,8 @@ struct mvContext
     mvItemRegistry*     itemRegistry = nullptr;
     mvCallbackRegistry* callbackRegistry = nullptr;
     mvInput             input;
+    mvUUID              activeWindow = 0;
+    mvUUID              focusedItem = 0;
 
 };
     
