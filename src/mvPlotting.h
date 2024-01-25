@@ -302,6 +302,7 @@ struct mvImageSeriesConfig : _mvBasicSeriesConfig
     mvVec2      uv_min = { 0.0f, 0.0f };
     mvVec2      uv_max = { 1.0f, 1.0f };
     mvColor     tintColor = { 1.0f, 1.0f, 1.0f, 1.0f };
+    ImPlotImageFlags    flags = ImPlotImageFlags_None;
 
     // pointer to existing item or internal
     std::shared_ptr<mvAppItem> _texture = nullptr;

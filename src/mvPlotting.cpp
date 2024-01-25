@@ -1671,7 +1671,7 @@ DearPyGui::draw_image_series(ImDrawList* drawlist, mvAppItem& item, mvImageSerie
 			else
 				texture = static_cast<mvDynamicTexture*>(config._texture.get())->_texture;
 
-			ImPlot::PlotImage(item.info.internalLabel.c_str(), texture, config.bounds_min, config.bounds_max, config.uv_min, config.uv_max, config.tintColor);
+			ImPlot::PlotImage(item.info.internalLabel.c_str(), texture, config.bounds_min, config.bounds_max, config.uv_min, config.uv_max, config.tintColor, config.flags);
 
 			// Begin a popup for a legend entry.
 			if (ImPlot::BeginLegendPopup(item.info.internalLabel.c_str(), 1))
@@ -2210,10 +2210,6 @@ DearPyGui::set_required_configuration(PyObject* inDict, mvPlotAxisConfig& outCon
 		return;
 
 	outConfig.axis = ToInt(PyTuple_GetItem(inDict, 0));
-	/* if (outConfig.axis > 1)
-		outConfig.axis = 1;
-	Probably something related to item.info.location (i.e. this is used only to see if it's on Y axis and then you check the exact one in item.info.location)	
-	*/
 }
 
 void
@@ -3446,28 +3442,18 @@ void mvAnnotation::setPyValue(PyObject* value)
 
 void mvPlot::updateFlags()
 {
-	for (size_t i = 0; i < childslots[1].size(); i++)
+	for (auto& child : childslots[1])
 	{
-		auto child = static_cast<mvPlotAxis*>(childslots[1][i].get());
-		configData.axesFlags[child->configData.axis] = child->configData.flags;
-		/* if (i != ImAxis_X1 && i != ImAxis_Y1) {
-			if (child -> config.show)
-				configData._flags |= getImAxisFromIndex(i);  // TODO: Check if it's fine, probably not (actually maybe it's okay to remove this? read down)
-			else 
-				configData._flags &= ~getImAxisFromIndex(i);
-			
-			// The primary X and Y axis (ImAxis_X1 and ImAxis_Y1) are always enabled. To enable auxiliary axes, you must call, e.g. SetupAxis(ImAxis_Y2,...). This replaces the existing method of enabling auxiliary axes, i.e. passing ImPlotFlags_YAxis2/3.
-			 
-		} */
+		mvPlotAxis* axis = static_cast<mvPlotAxis*>(child.get());
+		configData.axesFlags[axis->configData.axis] = axis->configData.flags;
 	}
-
 }
 
 void mvPlot::updateAxesNames()
 {
 	configData.axesNames.clear();
 
-	for (auto child : childslots[1])
+	for (auto& child : childslots[1])
 	{
 		mvPlotAxis* axis = static_cast<mvPlotAxis*>(child.get());
 		configData.axesNames[axis->configData.axis] = axis->config.specifiedLabel;
