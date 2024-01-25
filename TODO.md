@@ -18,7 +18,7 @@
         - [x] Query: `void ImPlot::SetupAxis(ImAxis, const char*, ImPlotAxisFlags): Assertion '(gp.CurrentPlot != nullptr && !gp.CurrentPlot->SetupLocked) && "Setup needs to be called after BeginPlot and before any setup locking functions (e.g. PlotX)!"' failed.`
     - [x] While scrolling on plots before start tracing: `bool ImPlot::BeginPlot(const char*, const ImVec2&, ImPlotFlags): Assertion '(gp.CurrentPlot == nullptr) && "Mismatched BeginPlot()/EndPlot()!"' failed.`
     - [x] When adding mvTool_Metrics it gives `T& ImVector<T>::operator[](int) [with T = ImVec2]: Assertion 'i >= 0 && i < Size' failed.`
-    - [ ] mvTool_Metrics doesn't show the "Presentation" plot anymore.
+    - [x] mvTool_Metrics doesn't show the "Presentation" plot anymore.
     - [ ] Crash when pressing button up/down in the `mvTool_ItemRegistry`, probably a problem with function MoveItemUp/Down in `mvItemRegistry.cpp`
 - Not sure:
     - [ ] Expose `GetMouseClickedCount()` to Python?
@@ -103,14 +103,14 @@ Take a look at implot.cpp to have a better changelog.
     - [ ] TagX and TagY have been added and allow you to add custom labels to axes. These use either the axis' formatter, or a custom provided string. You can combine these with other tools like DragLine to create custom interactivity.
     - [ ] DragPoint and DragLine no longer take a string ID. Instead they now expect an int ID, and as a result no longer display the optional label. Instead, use TagX/Y and Annotation to add labels too these tools if needed.
     - [ ] additional options for drag tools via ImPlotDragToolFlags
-    - [ ] Bar plots can now be plotted in groups and stacked.
+    - [x] Bar plots can now be plotted in groups and stacked.
 - [ ] [V 0.14](https://github.com/epezent/implot/releases/tag/v0.14)
     - [ ] Each of ImPlot's PlotX functions now takes an optional ImPlotXFlags parameter.
         - [ ] Implement generic `ImPlotItemFlags` for every type of Plot (also the ones for `custom_series` don't work)
         - [x] Implement specific flags for every kind of plot
         - [ ] Add ImPlotFlags_CanvasOnly flag.. it's more problematic than expected
     - [x] Implement axis ImPlotAxisFlags_Log with SetupAxisScale
-    - [ ] Implement axis ImPlotAxisFlags_Time with SetupAxisScale (and modify demo)
+    - [x] Implement axis ImPlotAxisFlags_Time with SetupAxisScale (and modify demo)
     - [x] You can now constrain axes limits so that users can't pan beyond a min or max value, or zoom beyond a min or max width/height
     - [ ] You can now customize the supported types by defining IMPLOT_CUSTOM_NUMERIC_TYPES at compile time to define your own type list (probably not interesting for us)
     - [x] Line plots now honor ImGui's AntiAliasedLines and AntiAliasedLinesUseTex. That's right, ImPlot now uses texture based AA!

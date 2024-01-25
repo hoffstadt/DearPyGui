@@ -1436,8 +1436,6 @@ AddItemWithRuntimeChecks(mvItemRegistry& registry, std::shared_ptr<mvAppItem> it
     //---------------------------------------------------------------------------
     if (parentPtr == nullptr)
     {
-        std::cout << "Parent not deduced alias:" << item.get()->config.alias << std::endl;
-        std::cout << "Parent not deduced type: " << (int)item.get()->type << std::endl;
         mvThrowPythonError(mvErrorCode::mvParentNotDeduced, "add_*", "Parent could not be deduced.", item.get());
         IM_ASSERT(false && "Parent could not be deduced.");
         return false;
@@ -1476,7 +1474,7 @@ AddItemWithRuntimeChecks(mvItemRegistry& registry, std::shared_ptr<mvAppItem> it
             mvThrowPythonError(mvErrorCode::mvIncompatibleParent, GetEntityCommand(item->type),
                 "Incompatible parent. Acceptable parents include:\t" + acceptableParentTypes, item.get());
 
-            assert(false);
+            IM_ASSERT(false && "Incompatible parent.");
             return false;
         }
     }
@@ -1514,7 +1512,7 @@ AddItemWithRuntimeChecks(mvItemRegistry& registry, std::shared_ptr<mvAppItem> it
             mvThrowPythonError(mvErrorCode::mvIncompatibleChild, GetEntityCommand(parentPtr->type),
                 "Incompatible child. Acceptable children include:\t" + acceptableChildTypes, parentPtr);
 
-            assert(false);
+            IM_ASSERT(false && "Incompatible child.");
             return false;
         }
     }
