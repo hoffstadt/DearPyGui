@@ -668,8 +668,7 @@ DearPyGui::draw_menu(ImDrawList* drawlist, mvAppItem& item, mvMenuConfig& config
                 GContext->input.mousePos.y = (int)y;
 
 
-                if (GContext->itemRegistry->activeWindow != item.uuid)
-                    GContext->itemRegistry->activeWindow = item.uuid;
+                GContext->activeWindow = item.uuid;
 
             }
 
@@ -977,8 +976,7 @@ DearPyGui::draw_child_window(ImDrawList* drawlist, mvAppItem& item, mvChildWindo
             GContext->input.mousePos.x = (int)x;
             GContext->input.mousePos.y = (int)y;
 
-            if (GContext->itemRegistry->activeWindow != item.uuid)
-                GContext->itemRegistry->activeWindow = item.uuid;
+            GContext->activeWindow = item.uuid;
 
         }
 
@@ -1656,8 +1654,7 @@ DearPyGui::draw_window(ImDrawList* drawlist, mvAppItem& item, mvWindowAppItemCon
         GContext->input.mousePos.x = (int)x;
         GContext->input.mousePos.y = (int)y;
 
-        if (GContext->itemRegistry->activeWindow != item.uuid)
-            GContext->itemRegistry->activeWindow = item.uuid;
+        GContext->activeWindow = item.uuid;
 
     }
 

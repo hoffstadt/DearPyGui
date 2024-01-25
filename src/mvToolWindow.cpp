@@ -40,8 +40,7 @@ void mvToolWindow::draw()
 
         std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
-        if (GContext->itemRegistry->activeWindow != getUUID())
-            GContext->itemRegistry->activeWindow = getUUID();
+        GContext->activeWindow = getUUID();
 
     }
 

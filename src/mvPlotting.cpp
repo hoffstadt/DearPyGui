@@ -531,9 +531,7 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 			GContext->input.mousePos.x = (int)x;
 			GContext->input.mousePos.y = (int)y;
 
-
-			if (GContext->itemRegistry->activeWindow != item.uuid)
-				GContext->itemRegistry->activeWindow = item.uuid;
+			GContext->activeWindow = item.uuid;
 
 		}
 
