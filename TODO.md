@@ -121,3 +121,14 @@ Take a look at implot.cpp to have a better changelog.
 
 ### Completed Column ✓
 - [x] mo_mouse_pos -> no_mouse_text
+
+
+### Non working functions in demo
+- [] in heatmap plots the col_major flag (ImPlotHeatmapFlags_ColMajor) is not working
+- [] in histogram series min and max range should not be 0 and 1, but the min/max of the values
+- [] check density flag of histogram series
+- [] in histogram 2D  minX, minY, maxX and maxY range values should not be 0 and 1, but the min/max of the values
+- [] digitalplot is missing
+
+
+
