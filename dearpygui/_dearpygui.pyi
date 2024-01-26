@@ -142,7 +142,7 @@ def add_drag_payload(*, label: str ='', user_data: Any ='', use_internal_label: 
 	"""User data payload for drag and drop operations."""
 	...
 
-def add_drag_point(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', callback: Callable ='', show: bool ='', default_value: Any ='', color: Union[List[int], Tuple[int, ...]] ='', thickness: float ='', delayed: bool ='', no_cursor: bool ='', no_fit: bool ='', no_inputs: bool ='') -> Union[int, str]:
+def add_drag_point(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', callback: Callable ='', show: bool ='', default_value: Any ='', color: Union[List[int], Tuple[int, ...]] ='', thickness: float ='', offset: Union[List[float], Tuple[float, ...]] ='', clamped: bool ='', delayed: bool ='', no_cursor: bool ='', no_fit: bool ='', no_inputs: bool ='') -> Union[int, str]:
 	"""Adds a drag point to a plot."""
 	...
 
@@ -440,6 +440,10 @@ def add_plot_axis(axis : int, *, label: str ='', user_data: Any ='', use_interna
 
 def add_plot_legend(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', payload_type: str ='', drop_callback: Callable ='', show: bool ='', location: int ='', horizontal: bool ='', sort: bool ='', outside: bool ='', no_highlight_item: bool ='', no_highlight_axis: bool ='', no_menus: bool ='', no_buttons: bool ='') -> Union[int, str]:
 	"""Adds a plot legend to a plot."""
+	...
+
+def add_plot_tag(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', show: bool ='', default_value: float ='', vertical: bool ='', color: Union[List[int], Tuple[int, ...]] ='', round: bool ='') -> Union[int, str]:
+	"""Adds custom labels to axes."""
 	...
 
 def add_progress_bar(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', overlay: str ='', default_value: float ='') -> Union[int, str]:
@@ -1354,45 +1358,6 @@ mvKey_ModSuper=0
 mvKey_ModShift=0
 mvKey_ModAlt=0
 mvKey_ModCtrl=0
-mvKey_Prior=0
-mvKey_Next=0
-mvKey_Select=0
-mvKey_Execute=0
-mvKey_LWin=0
-mvKey_RWin=0
-mvKey_Apps=0
-mvKey_Sleep=0
-mvKey_Clear=0
-mvKey_Prior=0
-mvKey_Next=0
-mvKey_Select=0
-mvKey_Execute=0
-mvKey_Help=0
-mvKey_LWin=0
-mvKey_RWin=0
-mvKey_Apps=0
-mvKey_Sleep=0
-mvKey_F25=0
-mvKey_Browser_Refresh=0
-mvKey_Browser_Stop=0
-mvKey_Browser_Search=0
-mvKey_Browser_Favorites=0
-mvKey_Browser_Home=0
-mvKey_Volume_Mute=0
-mvKey_Volume_Down=0
-mvKey_Volume_Up=0
-mvKey_Media_Next_Track=0
-mvKey_Media_Prev_Track=0
-mvKey_Media_Stop=0
-mvKey_Media_Play_Pause=0
-mvKey_Launch_Mail=0
-mvKey_Launch_Media_Select=0
-mvKey_Launch_App1=0
-mvKey_Launch_App2=0
-mvKey_Colon=0
-mvKey_Plus=0
-mvKey_Tilde=0
-mvKey_Quote=0
 mvAll=0
 mvTool_About=0
 mvTool_Debug=0
@@ -1775,6 +1740,7 @@ mvDragPoint=0
 mvDragLine=0
 mvDragRect=0
 mvAnnotation=0
+mvTag=0
 mvLineSeries=0
 mvScatterSeries=0
 mvStemSeries=0

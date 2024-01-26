@@ -3712,6 +3712,8 @@ def add_drag_point(**kwargs):
 		default_value (Any, optional): 
 		color (Union[List[int], Tuple[int, ...]], optional): 
 		thickness (float, optional): 
+		offset (Union[List[float], Tuple[float, ...]], optional): Offset of the shown label
+		clamped (bool, optional): Set if the label will be clamped
 		delayed (bool, optional): tool rendering will be delayed one frame; useful when applying position-constraints
 		no_cursor (bool, optional): drag tools won't change cursor icons when hovered or held
 		no_fit (bool, optional): the drag tool won't be considered for plot fits
@@ -5534,6 +5536,29 @@ def add_plot_legend(**kwargs):
 	"""
 
 	return internal_dpg.add_plot_legend(**kwargs)
+
+def add_plot_tag(**kwargs):
+	"""	 Adds custom labels to axes.
+
+	Args:
+		label (str, optional): Overrides 'name' as label.
+		user_data (Any, optional): User data for callbacks
+		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
+		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
+		source (Union[int, str], optional): Overrides 'id' as value storage key.
+		show (bool, optional): Attempt to render widget.
+		default_value (float, optional): 
+		vertical (bool, optional): 
+		color (Union[List[int], Tuple[int, ...]], optional): 
+		round (bool, optional): This can be enabled only if there's no label
+		id (Union[int, str], optional): (deprecated)
+	Returns:
+		Union[int, str]
+	"""
+
+	return internal_dpg.add_plot_tag(**kwargs)
 
 def add_progress_bar(**kwargs):
 	"""	 Adds a progress bar.
@@ -8736,45 +8761,6 @@ mvKey_ModSuper=internal_dpg.mvKey_ModSuper
 mvKey_ModShift=internal_dpg.mvKey_ModShift
 mvKey_ModAlt=internal_dpg.mvKey_ModAlt
 mvKey_ModCtrl=internal_dpg.mvKey_ModCtrl
-mvKey_Prior=internal_dpg.mvKey_Prior
-mvKey_Next=internal_dpg.mvKey_Next
-mvKey_Select=internal_dpg.mvKey_Select
-mvKey_Execute=internal_dpg.mvKey_Execute
-mvKey_LWin=internal_dpg.mvKey_LWin
-mvKey_RWin=internal_dpg.mvKey_RWin
-mvKey_Apps=internal_dpg.mvKey_Apps
-mvKey_Sleep=internal_dpg.mvKey_Sleep
-mvKey_Clear=internal_dpg.mvKey_Clear
-mvKey_Prior=internal_dpg.mvKey_Prior
-mvKey_Next=internal_dpg.mvKey_Next
-mvKey_Select=internal_dpg.mvKey_Select
-mvKey_Execute=internal_dpg.mvKey_Execute
-mvKey_Help=internal_dpg.mvKey_Help
-mvKey_LWin=internal_dpg.mvKey_LWin
-mvKey_RWin=internal_dpg.mvKey_RWin
-mvKey_Apps=internal_dpg.mvKey_Apps
-mvKey_Sleep=internal_dpg.mvKey_Sleep
-mvKey_F25=internal_dpg.mvKey_F25
-mvKey_Browser_Refresh=internal_dpg.mvKey_Browser_Refresh
-mvKey_Browser_Stop=internal_dpg.mvKey_Browser_Stop
-mvKey_Browser_Search=internal_dpg.mvKey_Browser_Search
-mvKey_Browser_Favorites=internal_dpg.mvKey_Browser_Favorites
-mvKey_Browser_Home=internal_dpg.mvKey_Browser_Home
-mvKey_Volume_Mute=internal_dpg.mvKey_Volume_Mute
-mvKey_Volume_Down=internal_dpg.mvKey_Volume_Down
-mvKey_Volume_Up=internal_dpg.mvKey_Volume_Up
-mvKey_Media_Next_Track=internal_dpg.mvKey_Media_Next_Track
-mvKey_Media_Prev_Track=internal_dpg.mvKey_Media_Prev_Track
-mvKey_Media_Stop=internal_dpg.mvKey_Media_Stop
-mvKey_Media_Play_Pause=internal_dpg.mvKey_Media_Play_Pause
-mvKey_Launch_Mail=internal_dpg.mvKey_Launch_Mail
-mvKey_Launch_Media_Select=internal_dpg.mvKey_Launch_Media_Select
-mvKey_Launch_App1=internal_dpg.mvKey_Launch_App1
-mvKey_Launch_App2=internal_dpg.mvKey_Launch_App2
-mvKey_Colon=internal_dpg.mvKey_Colon
-mvKey_Plus=internal_dpg.mvKey_Plus
-mvKey_Tilde=internal_dpg.mvKey_Tilde
-mvKey_Quote=internal_dpg.mvKey_Quote
 mvAll=internal_dpg.mvAll
 mvTool_About=internal_dpg.mvTool_About
 mvTool_Debug=internal_dpg.mvTool_Debug
@@ -9157,6 +9143,7 @@ mvDragPoint=internal_dpg.mvDragPoint
 mvDragLine=internal_dpg.mvDragLine
 mvDragRect=internal_dpg.mvDragRect
 mvAnnotation=internal_dpg.mvAnnotation
+mvTag=internal_dpg.mvTag
 mvLineSeries=internal_dpg.mvLineSeries
 mvScatterSeries=internal_dpg.mvScatterSeries
 mvStemSeries=internal_dpg.mvStemSeries

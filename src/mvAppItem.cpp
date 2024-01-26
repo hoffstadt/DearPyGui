@@ -1004,6 +1004,7 @@ DearPyGui::GetEntityTargetSlot(mvAppItemType type)
     case mvAppItemType::mvFontRangeHint:
     case mvAppItemType::mvNodeLink:
     case mvAppItemType::mvAnnotation:
+    case mvAppItemType::mvTag:
     case mvAppItemType::mvDragLine:
     case mvAppItemType::mvDragPoint:
     case mvAppItemType::mvDragRect:
@@ -1116,6 +1117,7 @@ DearPyGui::GetEntityValueType(mvAppItemType type)
 
     case mvAppItemType::mvDoubleValue:
     case mvAppItemType::mvDragDouble:
+    case mvAppItemType::mvTag:
     case mvAppItemType::mvInputDouble:
     case mvAppItemType::mvSliderDouble:
     case mvAppItemType::mvDragLine: return StorageValueTypes::Double;
@@ -1356,6 +1358,7 @@ DearPyGui::GetAllowableParents(mvAppItemType type)
     case mvAppItemType::mvDragRect:
     case mvAppItemType::mvDragPoint:
     case mvAppItemType::mvAnnotation:
+    case mvAppItemType::mvTag:
         MV_START_PARENTS
         MV_ADD_PARENT(mvAppItemType::mvStage),
         MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
@@ -1557,6 +1560,7 @@ DearPyGui::GetAllowableChildren(mvAppItemType type)
         MV_ADD_CHILD(mvAppItemType::mvDragRect),
         MV_ADD_CHILD(mvAppItemType::mvDragLine),
         MV_ADD_CHILD(mvAppItemType::mvAnnotation),
+        MV_ADD_CHILD(mvAppItemType::mvTag),
         MV_ADD_CHILD(mvAppItemType::mvDrawLine),
         MV_ADD_CHILD(mvAppItemType::mvDrawArrow),
         MV_ADD_CHILD(mvAppItemType::mvDrawTriangle),
@@ -3833,6 +3837,8 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::DoubleList, "default_value", mvArgType::KEYWORD_ARG, "(0.0, 0.0)" });
         args.push_back({ mvPyDataType::IntList, "color", mvArgType::KEYWORD_ARG, "(0, 0, 0, -255)" });
         args.push_back({ mvPyDataType::Float, "thickness", mvArgType::KEYWORD_ARG, "1.0" });
+        args.push_back({ mvPyDataType::FloatList, "offset", mvArgType::KEYWORD_ARG, "(0.0, 0.0)", "Offset of the shown label" });
+        args.push_back({ mvPyDataType::Bool, "clamped", mvArgType::KEYWORD_ARG, "True", "Set if the label will be clamped" });  // TODO: Doesn't work yet
         args.push_back({ mvPyDataType::Bool, "delayed", mvArgType::KEYWORD_ARG, "False", "tool rendering will be delayed one frame; useful when applying position-constraints" });
         args.push_back({ mvPyDataType::Bool, "no_cursor", mvArgType::KEYWORD_ARG, "False", "drag tools won't change cursor icons when hovered or held" });
         args.push_back({ mvPyDataType::Bool, "no_fit", mvArgType::KEYWORD_ARG, "False", "the drag tool won't be considered for plot fits" });
@@ -3907,6 +3913,26 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "clamped", mvArgType::KEYWORD_ARG, "True" });
 
         setup.about = "Adds an annotation to a plot.";
+        setup.category = { "Plotting", "Widgets" };
+        break;
+    }
+    case mvAppItemType::mvTag:                  
+    {
+        AddCommonArgs(args, (CommonParserArgs)(
+            MV_PARSER_ARG_ID |
+            MV_PARSER_ARG_PARENT |
+            MV_PARSER_ARG_BEFORE |
+            MV_PARSER_ARG_SOURCE |
+            MV_PARSER_ARG_SHOW)
+        );
+
+        args.push_back({ mvPyDataType::Double, "default_value", mvArgType::KEYWORD_ARG, "0.0" });
+        args.push_back({ mvPyDataType::Bool, "vertical", mvArgType::KEYWORD_ARG, "False" });
+        args.push_back({ mvPyDataType::IntList, "color", mvArgType::KEYWORD_ARG, "(0, 0, 0, -255)" });
+        args.push_back({ mvPyDataType::Bool, "round", mvArgType::KEYWORD_ARG, "False", "This can be enabled only if there's no label" });
+
+        // TODO: Add this to DragLine and DragPoint (directly in their widget)
+        setup.about = "Adds custom labels to axes.";
         setup.category = { "Plotting", "Widgets" };
         break;
     }
