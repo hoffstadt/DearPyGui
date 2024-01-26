@@ -1,6 +1,6 @@
 import dearpygui.dearpygui as dpg
 import math
-from math import sin, cos
+from math import sin, cos, log10
 import random
 import webbrowser
 
@@ -2012,8 +2012,53 @@ def show_demo():
                                 dpg.add_group_bar_series(values=values_group_series, label_ids=ilabels, 
                                     item_count=item_c, group_count=groups_c, tag="bar_group_series", label="Final Exam", )
 
-                    # BAR STACK SERIES IGNORED BECAUSE IT'S DERIVED FROM BAR GROUP SERIES
+                    with dpg.tree_node(label="Bar Stacks"):
 
+                        liars_data = [4282515870, 4282609140, 4287357182, 4294630301, 4294945280, 4294921472]
+
+                        politicians = (("Trump", 0), ("Bachman", 1), ("Cruz", 2), ("Gingrich", 3), ("Palin", 4), ("Santorum", 5),
+                        ("Walker", 6), ("Perry", 7), ("Ryan", 8), ("McCain", 9), ("Rubio", 10), ("Romney", 11), ("Rand Paul", 12), ("Christie", 13),
+                        ("Biden", 14), ("Kasich", 15), ("Sanders", 16), ("J Bush", 17), ("H Clinton", 18), ("Obama", 19))
+                        data_reg = [18,26,7,14,10,8,6,11,4,4,3,8,6,8,6,5,0,3,1,2,  # Pants on Fire
+                            43,36,30,21,30,27,25,17,11,22,15,16,16,17,12,12,14,6,13,12,  # False
+                            16,13,28,22,15,21,15,18,30,17,24,18,13,10,14,15,17,22,14,12, # Mostly False
+                            17,10,13,25,12,22,19,26,23,17,22,27,20,26,29,17,18,22,21,27, # Half True
+                            5,7,16,10,10,12,23,13,17,20,22,16,23,19,20,26,36,29,27,26,   # Mostly True
+                            1,8,6,8,23,10,12,15,15,20,14,15,22,20,19,25,15,18,24,21]    # True
+                        labels_reg = ["Pants on Fire","False","Mostly False","Half True","Mostly True","True"]
+
+
+                        data_div = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,                              # Pants on Fire (dummy, to order legend logically)
+                            0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,                                         # False         (dummy, to order legend logically)
+                            0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,                                         # Mostly False  (dummy, to order legend logically)
+                            -16,-13,-28,-22,-15,-21,-15,-18,-30,-17,-24,-18,-13,-10,-14,-15,-17,-22,-14,-12, # Mostly False
+                            -43,-36,-30,-21,-30,-27,-25,-17,-11,-22,-15,-16,-16,-17,-12,-12,-14,-6,-13,-12,  # False
+                            -18,-26,-7,-14,-10,-8,-6,-11,-4,-4,-3,-8,-6,-8,-6,-5,0,-3,-1,-2,                 # Pants on Fire
+                            17,10,13,25,12,22,19,26,23,17,22,27,20,26,29,17,18,22,21,27,                     # Half True
+                            5,7,16,10,10,12,23,13,17,20,22,16,23,19,20,26,36,29,27,26,                       # Mostly True
+                            1,8,6,8,23,10,12,15,15,20,14,15,22,20,19,25,15,18,24,21]                      # True
+                        labels_div = ["Pants on Fire","False","Mostly False","Mostly False",
+                        "False","Pants on Fire","Half True","Mostly True","True"]
+                        
+                        def divergent_stack_cb(sender, app_data, user_data):
+                            if app_data:
+                                dpg.configure_item("divergent_stack_series", values=data_div, label_ids=labels_div, item_count=9, group_count=20, group_size=0.75, shift=0, stacked=True, horizontal=True)
+                            else:
+                                dpg.configure_item("divergent_stack_series", values=data_reg, label_ids=labels_reg, item_count=6, group_count=20, group_size=0.75, shift=0, stacked=True, horizontal=True)
+                        
+                        dpg.add_checkbox(label="Divergent", tag="divergent_stack_cb", default_value=True, callback=divergent_stack_cb)
+                        with dpg.plot(label="PolitiFact: Who Lies More?", height=400, width=-1):
+                            dpg.add_plot_legend()
+                            # create x axis
+                            dpg.add_plot_axis(dpg.mvXAxis, no_gridlines=True)
+                            # create y axis
+                            with dpg.plot_axis(dpg.mvYAxis) as yaxis:
+                                dpg.set_axis_ticks(yaxis, politicians)
+                                dpg.set_axis_limits(yaxis, -0.5, 19.5)
+                                dpg.add_group_bar_series(tag="divergent_stack_series", values=data_div, label_ids=labels_div,
+                                    item_count=9, group_count=20, group_size=0.75, shift=0, stacked=True, horizontal=True)
+                                # dpg.add_group_bar_series(values=data_reg, label_ids=labels_reg,
+                                #     item_count=6, group_count=20, group_size=0.75, shift=0, stacked=True, horizontal=True)
 
                     with dpg.tree_node(label="Error Series"):
 
@@ -2204,7 +2249,6 @@ def show_demo():
                             dpg.fit_axis_data(xaxis)
 
 
-
                 with dpg.tab(label="Subplots"):
 
                     with dpg.tree_node(label="Basic"):
@@ -2275,25 +2319,104 @@ def show_demo():
                             dpg.fit_axis_data(xaxis)
 
                     with dpg.tree_node(label="Multi Axes Plot"):
+                        def show_hide_axis(axis, value):
+                            dpg.configure_item(axis, show=value)
+                        
+                        dpg.add_checkbox(label="Show Y1", tag="show_y1", default_value=True, callback=lambda:show_hide_axis("y1_axis", dpg.get_value("show_y1")))
+                        dpg.add_checkbox(label="Show Y2", tag="show_y2", default_value=True, callback=lambda:show_hide_axis("y2_axis", dpg.get_value("show_y2")))
+                        dpg.add_checkbox(label="Show Y3", tag="show_y3", default_value=True, callback=lambda:show_hide_axis("y3_axis", dpg.get_value("show_y3")))
+                        dpg.add_checkbox(label="Show X1", tag="show_x1", default_value=True, callback=lambda:show_hide_axis("x1_axis", dpg.get_value("show_x1")))
+                        dpg.add_checkbox(label="Show X2", tag="show_x2", default_value=True, callback=lambda:show_hide_axis("x2_axis", dpg.get_value("show_x2")))
+                        dpg.add_checkbox(label="Show X3", tag="show_x3", default_value=True, callback=lambda:show_hide_axis("x3_axis", dpg.get_value("show_x3")))
 
+                        #TODO Dragging a label from left to right is a bit sketchy
                         with dpg.plot(label="Multi Axes Plot", height=400, width=-1):
 
                             dpg.add_plot_legend()
 
                             # create x axis
-                            dpg.add_plot_axis(dpg.mvXAxis, label="x")
-
+                            dpg.add_plot_axis(dpg.mvXAxis, label="x1", tag="x1_axis")
                             # create y axis 1
-                            with dpg.plot_axis(dpg.mvYAxis, label="y1"):
+                            with dpg.plot_axis(dpg.mvYAxis, label="y1", tag="y1_axis"):
+                                dpg.add_line_series(sindatax, sindatay, label="y1")
+
+                            dpg.add_plot_axis(dpg.mvXAxis2, label="x2", tag="x2_axis", opposite=True)
+                            # create y axis 2
+                            with dpg.plot_axis(dpg.mvYAxis2, label="y2", tag="y2_axis", opposite=True):
+                                dpg.add_line_series(sindatax, cosdatay, label="y2")
+
+                            dpg.add_plot_axis(dpg.mvXAxis3, label="x3", tag="x3_axis")
+                            # create y axis 3
+                            with dpg.plot_axis(dpg.mvYAxis3, label="y3", tag="y3_axis"):
                                 dpg.add_line_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)")
 
-                            # create y axis 2
-                            with dpg.plot_axis(dpg.mvYAxis, label="y2"):
-                                dpg.add_line_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)")
-                
-                            # create y axis 3
-                            with dpg.plot_axis(dpg.mvYAxis, label="y3"):
-                                dpg.add_line_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)")
+                    with dpg.tree_node(label="Log Axis Scale"):
+                        xs = [0.0 for i in range(1001)]
+                        ys1 = [0.0 for i in range(1001)]
+                        ys2 = [0.0 for i in range(1001)]
+                        ys3 = [0.0 for i in range(1001)]
+                        for i in range(1,1001):
+                            xs[i]  = i*0.1
+                            ys1[i] = sin(xs[i]) + 1
+                            ys2[i] = log10(xs[i])
+                            ys3[i] = pow(10.0, xs[i])
+
+                        with dpg.plot(label="Log Axes Plot", height=400, width=-1):
+                            dpg.add_plot_legend()
+
+                            # create x axis
+                            xaxis = dpg.add_plot_axis(dpg.mvXAxis, label="x1", scale=dpg.mvPlotScale_Log10)
+                            dpg.set_axis_limits(xaxis, 0.1, 100)
+                            # create y axis 1
+                            with dpg.plot_axis(dpg.mvYAxis) as yaxis:
+                                dpg.add_line_series(xs, xs, label="x")
+                                dpg.add_line_series(xs, ys1, label="sin(x)+1")
+                                dpg.add_line_series(xs, ys2, label="log(x)")
+                                dpg.add_line_series(xs, ys3, label="10^x")
+                            dpg.set_axis_limits(yaxis, 0, 10)
+
+
+                    with dpg.tree_node(label="Time Axis"):
+                        t_min = 1609459200; # 01/01/2021 @ 12:00:00am (UTC)
+                        t_max = 1640995200; # 01/01/2022 @ 12:00:00am (UTC)
+                        t_temp = t_min
+                        while t_temp < t_max:
+                            xs.append(t_temp)
+                            ys1.append(sin(t_temp))
+                            ys2.append(cos(t_temp))
+                            t_temp += 86400
+
+                        with dpg.plot(label="Time Plot", height=400, width=-1):
+                            dpg.add_plot_legend()
+
+                            # create x axis
+                            xaxis = dpg.add_plot_axis(dpg.mvXAxis, label="x1", scale=dpg.mvPlotScale_Time)
+                            dpg.set_axis_limits(xaxis, t_min, t_max)
+                            # create y axis 1
+                            with dpg.plot_axis(dpg.mvYAxis) as yaxis:
+                                dpg.add_line_series(xs, ys1, label="sin(x)+1")
+                                dpg.add_line_series(xs, ys2, label="log(x)")
+
+                    with dpg.tree_node(label="Symmetric Log Axis Scale"):
+                        xs = [0.0 for i in range(1000)]
+                        ys1 = [0.0 for i in range(1000)]
+                        ys2 = [0.0 for i in range(1000)]
+                        for i in range(1000):
+                            xs[i]  = i*0.1-50
+                            ys1[i] = sin(xs[i])
+                            ys2[i] = i*0.002 - 1
+
+                        with dpg.plot(label="Symmetric Log Axes Plot", height=400, width=-1):
+                            dpg.add_plot_legend()
+
+                            # create x axis
+                            dpg.add_plot_axis(dpg.mvXAxis, label="x1", scale=dpg.mvPlotScale_SymLog)
+                            # create y axis 1
+                            with dpg.plot_axis(dpg.mvYAxis):
+                                dpg.add_line_series(xs, ys1, label="y1")
+                                dpg.add_line_series(xs, ys2, label="y2")
+
+
 
                 with dpg.tab(label="Tools"):
 
@@ -2324,14 +2447,38 @@ def show_demo():
 
                         with dpg.plot(label="Drag Lines/Points", height=400, width=-1):
                             dpg.add_plot_legend()
-                            dpg.add_plot_axis(dpg.mvXAxis, label="x")
+                            x_axis = dpg.add_plot_axis(dpg.mvXAxis, label="x")
+                            #TODO: TO BE FIXED
+                            # dpg.add_plot_tag(label="CIAO", parent=x_axis)
                             dpg.add_plot_axis(dpg.mvYAxis, label="y")
 
                             # drag lines/points belong to the plot NOT axis
-                            dpg.add_drag_line(label="dline1", color=[255, 0, 0, 255])
-                            dpg.add_drag_line(label="dline2", color=[255, 255, 0, 255], vertical=False)
+                            dpg.add_drag_line(label="dline1", color=[255, 0, 0, 255], )
+                            dpg.add_drag_line(color=[255, 255, 0, 255], vertical=False)
                             dpg.add_drag_point(label="dpoint1", color=[255, 0, 255, 255])
                             dpg.add_drag_point(label="dpoint2", color=[255, 0, 255, 255])
+                            
+                    with dpg.tree_node(label="Drag Rects"):
+
+                        def drag_query(sender, app_data, user_data):
+                            dpg.set_axis_limits(user_data[0], app_data[0][0], app_data[0][2])
+                            dpg.set_axis_limits(user_data[1], app_data[0][3], app_data[0][1])
+
+                        with dpg.plot(label="Drag Rects", height=400, width=-1, callback=drag_query) as plot_drag:
+                            
+                            dpg.add_plot_axis(dpg.mvXAxis, label="x")
+                            with dpg.plot_axis(dpg.mvYAxis, label="y"):
+                                dpg.add_line_series(sindatax, sindatay)
+                            # drag rects belong to the plot NOT axis
+                            dpg.add_drag_rect(label="drag rect 1", tag="drag_rect", color=[255, 0, 0, 255], default_value=(-1,1))
+
+                        with dpg.plot(no_title=True, height=400, no_menus=True, width=-1, tag="drag_plot2"):
+                            xaxis_drag2 = dpg.add_plot_axis(dpg.mvXAxis, label="x")
+                            yaxis_drag2 = dpg.add_plot_axis(dpg.mvYAxis, label="y")
+                            dpg.add_line_series(sindatax, sindatay, parent=yaxis_drag2)
+
+                            # set plot 1 user data to axis so the query callback has access
+                            dpg.configure_item(plot_drag, user_data=(xaxis_drag2,yaxis_drag2))
 
                     with dpg.tree_node(label="Annotations"):
 
