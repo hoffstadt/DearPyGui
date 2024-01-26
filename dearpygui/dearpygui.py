@@ -4008,7 +4008,7 @@ def add_drag_payload(*, label: str =None, user_data: Any =None, use_internal_lab
 
 	return internal_dpg.add_drag_payload(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, show=show, drag_data=drag_data, drop_data=drop_data, payload_type=payload_type, **kwargs)
 
-def add_drag_point(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, callback: Callable =None, show: bool =True, default_value: Any =(0.0, 0.0), color: Union[List[int], Tuple[int, ...]] =(0, 0, 0, -255), thickness: float =1.0, delayed: bool =False, no_cursor: bool =False, no_fit: bool =False, no_inputs: bool =False, **kwargs) -> Union[int, str]:
+def add_drag_point(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, callback: Callable =None, show: bool =True, default_value: Any =(0.0, 0.0), color: Union[List[int], Tuple[int, ...]] =(0, 0, 0, -255), thickness: float =1.0, offset: Union[List[float], Tuple[float, ...]] =(0.0, 0.0), clamped: bool =True, delayed: bool =False, no_cursor: bool =False, no_fit: bool =False, no_inputs: bool =False, **kwargs) -> Union[int, str]:
 	"""	 Adds a drag point to a plot.
 
 	Args:
@@ -4024,6 +4024,8 @@ def add_drag_point(*, label: str =None, user_data: Any =None, use_internal_label
 		default_value (Any, optional): 
 		color (Union[List[int], Tuple[int, ...]], optional): 
 		thickness (float, optional): 
+		offset (Union[List[float], Tuple[float, ...]], optional): Offset of the shown label
+		clamped (bool, optional): Set if the label will be clamped
 		delayed (bool, optional): tool rendering will be delayed one frame; useful when applying position-constraints
 		no_cursor (bool, optional): drag tools won't change cursor icons when hovered or held
 		no_fit (bool, optional): the drag tool won't be considered for plot fits
@@ -4037,7 +4039,7 @@ def add_drag_point(*, label: str =None, user_data: Any =None, use_internal_label
 		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
 		tag=kwargs['id']
 
-	return internal_dpg.add_drag_point(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, source=source, callback=callback, show=show, default_value=default_value, color=color, thickness=thickness, delayed=delayed, no_cursor=no_cursor, no_fit=no_fit, no_inputs=no_inputs, **kwargs)
+	return internal_dpg.add_drag_point(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, source=source, callback=callback, show=show, default_value=default_value, color=color, thickness=thickness, offset=offset, clamped=clamped, delayed=delayed, no_cursor=no_cursor, no_fit=no_fit, no_inputs=no_inputs, **kwargs)
 
 def add_drag_rect(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, callback: Callable =None, show: bool =True, default_value: Any =(0.0, 0.0), color: Union[List[int], Tuple[int, ...]] =(0, 0, 0, -255), thickness: float =1.0, delayed: bool =False, no_cursor: bool =False, no_fit: bool =False, no_inputs: bool =False, **kwargs) -> Union[int, str]:
 	"""	 Adds a drag rectangle to a plot.
@@ -6158,6 +6160,33 @@ def add_plot_legend(*, label: str =None, user_data: Any =None, use_internal_labe
 		tag=kwargs['id']
 
 	return internal_dpg.add_plot_legend(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, payload_type=payload_type, drop_callback=drop_callback, show=show, location=location, horizontal=horizontal, sort=sort, outside=outside, no_highlight_item=no_highlight_item, no_highlight_axis=no_highlight_axis, no_menus=no_menus, no_buttons=no_buttons, **kwargs)
+
+def add_plot_tag(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, show: bool =True, default_value: float =0.0, vertical: bool =False, color: Union[List[int], Tuple[int, ...]] =(0, 0, 0, -255), round: bool =False, **kwargs) -> Union[int, str]:
+	"""	 Adds custom labels to axes.
+
+	Args:
+		label (str, optional): Overrides 'name' as label.
+		user_data (Any, optional): User data for callbacks
+		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
+		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
+		source (Union[int, str], optional): Overrides 'id' as value storage key.
+		show (bool, optional): Attempt to render widget.
+		default_value (float, optional): 
+		vertical (bool, optional): 
+		color (Union[List[int], Tuple[int, ...]], optional): 
+		round (bool, optional): This can be enabled only if there's no label
+		id (Union[int, str], optional): (deprecated) 
+	Returns:
+		Union[int, str]
+	"""
+
+	if 'id' in kwargs.keys():
+		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
+		tag=kwargs['id']
+
+	return internal_dpg.add_plot_tag(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, source=source, show=show, default_value=default_value, vertical=vertical, color=color, round=round, **kwargs)
 
 def add_progress_bar(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, overlay: str ='', default_value: float =0.0, **kwargs) -> Union[int, str]:
 	"""	 Adds a progress bar.
@@ -9610,45 +9639,6 @@ mvKey_ModSuper=internal_dpg.mvKey_ModSuper
 mvKey_ModShift=internal_dpg.mvKey_ModShift
 mvKey_ModAlt=internal_dpg.mvKey_ModAlt
 mvKey_ModCtrl=internal_dpg.mvKey_ModCtrl
-mvKey_Prior=internal_dpg.mvKey_Prior
-mvKey_Next=internal_dpg.mvKey_Next
-mvKey_Select=internal_dpg.mvKey_Select
-mvKey_Execute=internal_dpg.mvKey_Execute
-mvKey_LWin=internal_dpg.mvKey_LWin
-mvKey_RWin=internal_dpg.mvKey_RWin
-mvKey_Apps=internal_dpg.mvKey_Apps
-mvKey_Sleep=internal_dpg.mvKey_Sleep
-mvKey_Clear=internal_dpg.mvKey_Clear
-mvKey_Prior=internal_dpg.mvKey_Prior
-mvKey_Next=internal_dpg.mvKey_Next
-mvKey_Select=internal_dpg.mvKey_Select
-mvKey_Execute=internal_dpg.mvKey_Execute
-mvKey_Help=internal_dpg.mvKey_Help
-mvKey_LWin=internal_dpg.mvKey_LWin
-mvKey_RWin=internal_dpg.mvKey_RWin
-mvKey_Apps=internal_dpg.mvKey_Apps
-mvKey_Sleep=internal_dpg.mvKey_Sleep
-mvKey_F25=internal_dpg.mvKey_F25
-mvKey_Browser_Refresh=internal_dpg.mvKey_Browser_Refresh
-mvKey_Browser_Stop=internal_dpg.mvKey_Browser_Stop
-mvKey_Browser_Search=internal_dpg.mvKey_Browser_Search
-mvKey_Browser_Favorites=internal_dpg.mvKey_Browser_Favorites
-mvKey_Browser_Home=internal_dpg.mvKey_Browser_Home
-mvKey_Volume_Mute=internal_dpg.mvKey_Volume_Mute
-mvKey_Volume_Down=internal_dpg.mvKey_Volume_Down
-mvKey_Volume_Up=internal_dpg.mvKey_Volume_Up
-mvKey_Media_Next_Track=internal_dpg.mvKey_Media_Next_Track
-mvKey_Media_Prev_Track=internal_dpg.mvKey_Media_Prev_Track
-mvKey_Media_Stop=internal_dpg.mvKey_Media_Stop
-mvKey_Media_Play_Pause=internal_dpg.mvKey_Media_Play_Pause
-mvKey_Launch_Mail=internal_dpg.mvKey_Launch_Mail
-mvKey_Launch_Media_Select=internal_dpg.mvKey_Launch_Media_Select
-mvKey_Launch_App1=internal_dpg.mvKey_Launch_App1
-mvKey_Launch_App2=internal_dpg.mvKey_Launch_App2
-mvKey_Colon=internal_dpg.mvKey_Colon
-mvKey_Plus=internal_dpg.mvKey_Plus
-mvKey_Tilde=internal_dpg.mvKey_Tilde
-mvKey_Quote=internal_dpg.mvKey_Quote
 mvAll=internal_dpg.mvAll
 mvTool_About=internal_dpg.mvTool_About
 mvTool_Debug=internal_dpg.mvTool_Debug
@@ -10031,6 +10021,7 @@ mvDragPoint=internal_dpg.mvDragPoint
 mvDragLine=internal_dpg.mvDragLine
 mvDragRect=internal_dpg.mvDragRect
 mvAnnotation=internal_dpg.mvAnnotation
+mvTag=internal_dpg.mvTag
 mvLineSeries=internal_dpg.mvLineSeries
 mvScatterSeries=internal_dpg.mvScatterSeries
 mvStemSeries=internal_dpg.mvStemSeries

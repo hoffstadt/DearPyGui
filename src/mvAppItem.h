@@ -16,6 +16,7 @@
 #include "mvPyUtils.h"
 #include <implot_internal.h>
 #include "mvAppItemTypes.inc"
+#include <iostream>
 
 // forward declarations
 class mvThemeManager;
@@ -162,7 +163,7 @@ public:
     std::shared_ptr<mvAppItemDrawInfo>     drawInfo = nullptr;
 
     // slots
-    //   * 0 : mvFileExtension, mvFontRangeHint, mvNodeLink, mvAnnotation
+    //   * 0 : mvFileExtension, mvFontRangeHint, mvNodeLink, mvAnnotation, mvTag
     //         mvDragLine, mvDragPoint, mvDragRect, mvLegend, mvTableColumn
     //   * 1 : Most widgets
     //   * 2 : Draw Commands
@@ -317,6 +318,7 @@ GetEntityCommand(mvAppItemType type)
     case mvAppItemType::mvDragRect:                    return "add_drag_rect";
     case mvAppItemType::mvDragLine:                    return "add_drag_line";
     case mvAppItemType::mvAnnotation:                  return "add_plot_annotation";
+    case mvAppItemType::mvTag:                         return "add_plot_tag";
     case mvAppItemType::mvLineSeries:                  return "add_line_series";
     case mvAppItemType::mvScatterSeries:               return "add_scatter_series";
     case mvAppItemType::mvStemSeries:                  return "add_stem_series";
@@ -405,7 +407,7 @@ GetEntityCommand(mvAppItemType type)
     case mvAppItemType::mvItemHandlerRegistry:         return "add_item_handler_registry";
     default:
     {
-        assert(false);
+        IM_ASSERT(false && "No command");
         return "no command";
     }
     }

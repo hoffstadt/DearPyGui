@@ -145,6 +145,29 @@ DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mvAnnotationConfi
 }
 
 void
+DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mvTagConfig& outConfig)
+{
+	// TODO: Finish this
+	if (dataSource == item.config.source) return;
+	item.config.source = dataSource;
+
+	mvAppItem* srcItem = GetItem((*GContext->itemRegistry), dataSource);
+	if (!srcItem)
+	{
+		mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
+			"Source item not found: " + std::to_string(dataSource), &item);
+		return;
+	}
+	if (DearPyGui::GetEntityValueType(srcItem->type) != DearPyGui::GetEntityValueType(item.type))
+	{
+		mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
+			"Values types do not match: " + std::to_string(dataSource), &item);
+		return;
+	}
+	outConfig.value = *static_cast<std::shared_ptr<double>*>(srcItem->getValue());
+}
+
+void
 DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mvDragLineConfig& outConfig)
 {
 	if (dataSource == item.config.source) return;
@@ -608,12 +631,40 @@ DearPyGui::draw_drag_line(ImDrawList* drawlist, mvAppItem& item, mvDragLineConfi
 		{
 			mvAddCallback(item.config.callback, item.uuid, nullptr, item.config.user_data);
 		}
+		if (!item.config.specifiedLabel.empty()) {
+			ImPlot::TagX(*config.value.get(), config.color, "%s", item.config.specifiedLabel.c_str());
+		}
 	}
 	else
 	{
 		if (ImPlot::DragLineY(item.uuid, config.value.get(), config.color, config.thickness, config.flags))
 		{
 			mvAddCallback(item.config.callback, item.uuid, nullptr, item.config.user_data);
+		}
+		if (!item.config.specifiedLabel.empty()) {
+			ImPlot::TagY(*config.value.get(), config.color, "%s", item.config.specifiedLabel.c_str());
+		}
+	}
+}
+
+void
+DearPyGui::draw_plot_tag(ImDrawList* drawlist, mvAppItem& item, mvTagConfig& config)
+{
+	if (!item.config.show)
+		return;
+
+	if (config.vertical) {
+		if (!item.config.specifiedLabel.empty()) {
+			ImPlot::TagY(*config.value.get(), config.color, "%s", item.config.specifiedLabel.c_str());	
+		} else {
+			ImPlot::TagY(*config.value.get(), config.color, config.round);
+		}
+	}
+	else {
+		if (!item.config.specifiedLabel.empty()) {
+			ImPlot::TagX(*config.value.get(), config.color, "%s", item.config.specifiedLabel.c_str());	
+		} else {
+			ImPlot::TagX(*config.value.get(), config.color, config.round);
 		}
 	}
 }
@@ -665,6 +716,9 @@ DearPyGui::draw_drag_point(ImDrawList* drawlist, mvAppItem& item, mvDragPointCon
 		(*config.value.get())[0] = dummyx;
 		(*config.value.get())[1] = dummyy;
 		mvAddCallback(item.config.callback, item.uuid, nullptr, item.config.user_data);
+	}
+	if (!item.config.specifiedLabel.empty()) {
+		ImPlot::Annotation(dummyx, dummyy, config.color, config.pixOffset, config.clamped, "%s", item.config.specifiedLabel.c_str());
 	}
 }
 
@@ -2306,6 +2360,8 @@ DearPyGui::set_configuration(PyObject* inDict, mvDragPointConfig& outConfig)
 
 	if (PyObject* item = PyDict_GetItemString(inDict, "color")) outConfig.color = ToColor(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "radius")) outConfig.radius = ToFloat(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "clamped")) outConfig.clamped = ToBool(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "offset")) outConfig.pixOffset = ToVec2(item);
 
 	// helper for bit flipping
 	auto flagop = [inDict](const char* keyword, int flag, int& flags)
@@ -2782,6 +2838,17 @@ DearPyGui::set_configuration(PyObject* inDict, mvAnnotationConfig& outConfig)
 }
 
 void
+DearPyGui::set_configuration(PyObject* inDict, mvTagConfig& outConfig)
+{
+	if (inDict == nullptr)
+		return;
+
+	if (PyObject* item = PyDict_GetItemString(inDict, "color")) outConfig.color = ToColor(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "round")) outConfig.round = ToBool(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "vertical")) outConfig.vertical = ToBool(item);
+}
+
+void
 DearPyGui::set_configuration(PyObject* inDict, mvSubPlotsConfig& outConfig)
 {
 	if (inDict == nullptr)
@@ -2966,6 +3033,11 @@ DearPyGui::fill_configuration_dict(const mvDragPointConfig& inConfig, PyObject* 
 {
 	if (outDict == nullptr)
 		return;
+
+	PyDict_SetItemString(outDict, "raidus", mvPyObject(ToPyFloat(inConfig.radius)));
+	PyDict_SetItemString(outDict, "color", mvPyObject(ToPyColor(inConfig.color)));
+	PyDict_SetItemString(outDict, "clamped", mvPyObject(ToPyBool(inConfig.clamped)));
+	PyDict_SetItemString(outDict, "offset", mvPyObject(ToPyPair(inConfig.pixOffset.x, inConfig.pixOffset.y)));
 
 	// helper to check and set bit
 	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)
@@ -3326,6 +3398,16 @@ DearPyGui::fill_configuration_dict(const mvAnnotationConfig& inConfig, PyObject*
 }
 
 void
+DearPyGui::fill_configuration_dict(const mvTagConfig& inConfig, PyObject* outDict)
+{
+	if (outDict == nullptr)
+		return;
+	PyDict_SetItemString(outDict, "color", mvPyObject(ToPyColor(inConfig.color)));
+	PyDict_SetItemString(outDict, "round", mvPyObject(ToPyBool(inConfig.round)));
+	PyDict_SetItemString(outDict, "vertical", mvPyObject(ToPyBool(inConfig.vertical)));
+}
+
+void
 DearPyGui::fill_configuration_dict(const mvSubPlotsConfig& inConfig, PyObject* outDict)
 {
 	if (outDict == nullptr)
@@ -3438,6 +3520,15 @@ void mvAnnotation::setPyValue(PyObject* value)
 		*configData.value = temp_array;
 	else
 		configData.value = std::make_shared<std::array<double, 4>>(temp_array);
+}
+
+void mvTag::setPyValue(PyObject* value)
+{
+	double temp = ToDouble(value);
+	if (configData.value)
+		*configData.value = 0.0;
+	else
+		configData.value = std::make_shared<double>(temp);
 }
 
 void mvPlot::updateFlags()
