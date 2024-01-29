@@ -131,5 +131,6 @@ Take a look at implot.cpp to have a better changelog.
 - [ ] digitalplot is missing
 - [ ] mvTag not working on axes
 - [ ] custom axis is missing
+- [ ] plot's context menu (right click on plot) works only for changes in X axis
 
 
