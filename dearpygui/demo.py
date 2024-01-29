@@ -2537,6 +2537,72 @@ def show_demo():
                                 dpg.add_plot_axis(dpg.mvYAxis, label="y1", drop_callback=_axis_drop, payload_type="plotting")
                                 dpg.add_plot_axis(dpg.mvYAxis, label="y2", drop_callback=_axis_drop, payload_type="plotting")
                                 dpg.add_plot_axis(dpg.mvYAxis, label="y3", drop_callback=_axis_drop, payload_type="plotting")
+                                
+
+
+                    with dpg.tree_node(label="Legend Options"):
+                        def add_remove_location(type, add):
+                            if add:
+                                dpg.configure_item("plot_legend",
+                                                    location = dpg.get_item_configuration("plot_legend")['location'] + type)
+                            else:
+                                dpg.configure_item("plot_legend",
+                                                    location = dpg.get_item_configuration("plot_legend")['location'] - type)
+                        with dpg.group(horizontal=True):
+                            dpg.add_checkbox(label="North", tag="north_legend",
+                                            callback=lambda: add_remove_location(dpg.mvPlot_Location_North, dpg.get_value("north_legend")))
+                            dpg.add_checkbox(label="East", tag="east_legend",
+                                            callback=lambda: add_remove_location(dpg.mvPlot_Location_East, dpg.get_value("east_legend")))
+                            dpg.add_checkbox(label="West", tag="west_legend",
+                                            callback=lambda: add_remove_location(dpg.mvPlot_Location_West, dpg.get_value("west_legend")))
+                            dpg.add_checkbox(label="South", tag="south_legend",
+                                            callback=lambda: add_remove_location(dpg.mvPlot_Location_South, dpg.get_value("south_legend")))
+                        dpg.add_checkbox(label="Horizontal", tag="horizontal_legend",
+                                        callback=lambda: dpg.configure_item("plot_legend",  horizontal=dpg.get_value("horizontal_legend")))
+                        dpg.add_checkbox(label="Outside", tag="outside_legend",
+                                        callback=lambda: dpg.configure_item("plot_legend",  outside=dpg.get_value("outside_legend")))
+                        dpg.add_checkbox(label="Sort", tag="sort_legend",
+                                        callback=lambda: dpg.configure_item("plot_legend",  sort=dpg.get_value("sort_legend")))
+
+                        with dpg.plot():
+                            dpg.add_plot_legend(tag="plot_legend", location=0, outside=False, sort=False, horizontal=False)
+                            with dpg.plot_axis(dpg.mvYAxis):
+                                dpg.add_line_series(sindatax, sindatay, label="2")
+                                dpg.add_line_series(sindatax, sindatay, label="1")
+                                dpg.add_line_series(sindatax, sindatay, label="3")
+
+                    with dpg.tree_node(label="Legend Popups"):
+                        vals=[]
+                        frequency = 0.1
+                        amplitude = 0.5
+                        color     = (1,1,0,1)
+                        alpha     = 1.0
+                        line      = False
+                        thickness = 1
+                        markers   = False
+                        shaded    = False
+                        x = [i for i in range(101)]
+                        vals = [0.0 for i in range(101)]
+                        for i in range(101):
+                            vals[i] = amplitude * sin(frequency * i)
+                        
+                        def recalculate_vals(amplitude, frequency):
+                            for i in range(101):
+                                vals[i] = amplitude * sin(frequency * i)
+                            dpg.configure_item("bar_custom_legend", y=vals)
+                        
+                        with dpg.plot(label="Line Series"):
+                            dpg.add_plot_legend()
+                            dpg.add_plot_axis(dpg.mvXAxis, label="x")
+
+                            with dpg.plot_axis(dpg.mvYAxis):
+                                dpg.add_bar_series(x, vals, tag="bar_custom_legend", label="Right Click Me!")
+                                with dpg.group(parent=dpg.last_item()):
+                                    dpg.add_slider_float(label="Frequency", default_value=frequency, min_value=0.01, max_value=5.0, 
+                                        tag="frequency", callback=lambda: recalculate_vals(dpg.get_value("amplitude"), dpg.get_value("frequency")))
+                                    dpg.add_slider_float(label="Amplitude", default_value=amplitude, min_value=0.01, max_value=5.0,
+                                                         tag="amplitude", callback=lambda: recalculate_vals(dpg.get_value("amplitude"), dpg.get_value("frequency")))
+                                    dpg.add_separator()
 
                 with dpg.tab(label="Custom"):
 
