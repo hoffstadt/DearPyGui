@@ -1,6 +1,7 @@
 import dearpygui.dearpygui as dpg
 import math
 from math import sin, cos, log10
+import numpy as np
 import random
 import webbrowser
 
@@ -1970,6 +1971,9 @@ def show_demo():
                             dpg.add_plot_axis(dpg.mvXAxis, label="Student", no_gridlines=True)
                             dpg.set_axis_limits(dpg.last_item(), 9, 33)
                             dpg.set_axis_ticks(dpg.last_item(), (("S1", 11), ("S2", 21), ("S3", 31)))
+                            dpg.add_plot_axis(dpg.mvXAxis2, label="hor_value", no_gridlines=True)
+                            dpg.set_axis_limits(dpg.last_item(), 0, 110)
+                            
                 
                             # create y axis
                             with dpg.plot_axis(dpg.mvYAxis, label="Score"):
@@ -1980,15 +1984,30 @@ def show_demo():
                                 
 
                     with dpg.tree_node(label="Bar Group Series"):
-                        #TODO: Horizontal has to change also the Y and X axis. Not doing it for now.
-                        dpg.add_checkbox(label="horizontal", tag="horizontal_group_bar_cb", default_value=False, 
-                            callback=lambda: dpg.configure_item("bar_group_series", horizontal=dpg.get_value("horizontal_group_bar_cb")))
-                        dpg.add_checkbox(label="stacked", tag="stacked_group_bar_cb", default_value=False, 
+
+                        
+                        def set_horizontal(sender, app_data, user_data):
+                            dpg.configure_item("bar_group_series", horizontal=app_data)
+                            if app_data:
+                                dpg.set_axis_limits("yaxis_bar_group", 0, 9)
+                                dpg.set_axis_ticks("yaxis_bar_group", glabels)
+                                dpg.reset_axis_ticks("xaxis_bar_group")
+                                dpg.set_axis_limits_auto("xaxis_bar_group")
+                            else:
+                                dpg.set_axis_limits("xaxis_bar_group", 0, 9)
+                                dpg.set_axis_ticks("xaxis_bar_group", glabels)
+                                dpg.reset_axis_ticks("yaxis_bar_group")
+                                dpg.set_axis_limits_auto("yaxis_bar_group")
+                            
+                        dpg.add_checkbox(label="Horizontal", tag="horizontal_group_bar_cb", default_value=False, 
+                            callback=set_horizontal)
+                        dpg.add_checkbox(label="Stacked", tag="stacked_group_bar_cb", default_value=False, 
                             callback=lambda: dpg.configure_item("bar_group_series", stacked=dpg.get_value("stacked_group_bar_cb")))
-
-
+                        dpg.add_slider_float(label="Bar Width", tag="bar_width_group_bar", default_value=0.67, max_value=1.0, 
+                                             min_value=0.1, callback=lambda s, a, u: dpg.configure_item("bar_group_series", group_size=a))
+                        dpg.add_slider_int(label="Item count", tag="item_count_group_bar", default_value=3, max_value=3, 
+                                             min_value=1, callback=lambda s, a, u: dpg.configure_item("bar_group_series", item_count=a))
                         with dpg.plot(label="Bar Group Series", height=400, width=-1):
-
                             dpg.add_plot_legend()
                             
                             values_group_series = [83, 67, 23, 89, 83, 78, 91, 82, 85, 90,
@@ -2002,12 +2021,12 @@ def show_demo():
                             positions = [0,1,2,3,4,5,6,7,8,9]
 
                             # create x axis
-                            dpg.add_plot_axis(dpg.mvXAxis, label="Student", no_gridlines=True)
+                            dpg.add_plot_axis(dpg.mvXAxis, label="Student", tag="xaxis_bar_group", no_gridlines=True, auto_fit=True)
                             dpg.set_axis_limits(dpg.last_item(), 0, 9)
                             dpg.set_axis_ticks(dpg.last_item(), glabels)
 
                             # create y axis
-                            with dpg.plot_axis(dpg.mvYAxis, label="Score"):
+                            with dpg.plot_axis(dpg.mvYAxis, label="Score", tag="yaxis_bar_group", auto_fit=True):
                                 dpg.set_axis_limits(dpg.last_item(), 0, 110)
                                 dpg.add_group_bar_series(values=values_group_series, label_ids=ilabels, 
                                     item_count=item_c, group_count=groups_c, tag="bar_group_series", label="Final Exam", )
@@ -2178,8 +2197,11 @@ def show_demo():
                             x = random.randrange(1, 11)
                             x_data.append(x)
 
+                        def update_density(user_data, app_data, other_data):
+                            dpg.configure_item("histogram_series", density=app_data)
+                        
                         dpg.add_checkbox(label="density", tag="density_histograms_cb", default_value=False, 
-                            callback=lambda: dpg.configure_item("histogram_series", density=dpg.get_value("density_histograms_cb")))
+                            callback=update_density)
                         dpg.add_checkbox(label="cumulative", tag="cumulative_histograms_cb", default_value=False, 
                             callback=lambda: dpg.configure_item("histogram_series", cumulative=dpg.get_value("cumulative_histograms_cb")))
 
@@ -2187,35 +2209,50 @@ def show_demo():
                         with dpg.plot(label="Histogram Plot", height=400, width=-1):
                             dpg.add_plot_legend()
                             xaxis = dpg.add_plot_axis(dpg.mvXAxis, label="x")
-                            dpg.set_axis_limits(dpg.last_item(), 1, 10)
-                            dpg.set_axis_ticks(dpg.last_item(), (("S1", 1), ("S2", 2), ("S3", 3), ("S4", 4), ("S5", 5), ("S6", 6), ("S7", 7), ("S8", 8), ("S9", 9), ("S10", 10)))
-                            with dpg.plot_axis(dpg.mvYAxis, label="y axis"):
+                            dpg.set_axis_limits(xaxis, 1, 10)
+                            dpg.set_axis_ticks(xaxis, (("S1", 1), ("S2", 2), ("S3", 3), ("S4", 4), ("S5", 5), ("S6", 6), ("S7", 7), ("S8", 8), ("S9", 9), ("S10", 10)))
+                            with dpg.plot_axis(dpg.mvYAxis, label="y axis", tag="yaxis_histogram", auto_fit=True) as yaxis:
                                 dpg.add_histogram_series(x_data, tag="histogram_series", label="histogram", max_range=10)
                             dpg.fit_axis_data(xaxis)
                             
                     with dpg.tree_node(label="Histogram 2D Series"):
+                        count = 5000
+                        xybin = (100,100)
 
-                        x_data = []
-                        x_data2 = []
-                        for i in range(10000):
-                            x = random.randrange(1, 101)
-                            x_data.append(x)
-                            x2 = random.randrange(1, 11)
-                            x_data2.append(x2)
+                        def update_count(sender, app_data, user_data):
+                            global count
+                            count = app_data
+                            x_data = np.random.normal(0, 1.0, count)
+                            x_data2 = np.random.normal(0, 1.0, count)
+                            dpg.set_axis_limits_auto(xaxis)
 
-                        # dpg.add_checkbox(label="density", tag="density_histograms_cb", default_value=False, 
-                        #     callback=lambda: dpg.configure_item("histogram_series", density=dpg.get_value("density_histograms_cb")))
-                        # dpg.add_checkbox(label="cumulative", tag="cumulative_histograms_cb", default_value=False, 
-                        #     callback=lambda: dpg.configure_item("histogram_series", cumulative=dpg.get_value("cumulative_histograms_cb")))
+                            dpg.configure_item("histogram_2d_series", x=x_data, y=x_data2)
+                        
+                        def update_bins(sender, app_data, user_data):
+                            global xybin
+                            xybin = app_data
+                            dpg.set_axis_limits_auto(xaxis)
 
+                            dpg.configure_item("histogram_2d_series", xbins=app_data[0], ybins=app_data[1])
+
+                        
+                        x_data = np.random.normal(0, 1, 100000)
+                        x_data2 = np.random.normal(0, 2, 100000)
+                        
+                        dpg.add_slider_int(label="Count", min_value=100, max_value=50000, callback=update_count, default_value=count, tag="count")
+                        dpg.add_slider_intx(label="Bins", min_value=1, max_value=500, default_value=xybin, tag="bins", callback=update_bins, size=2)
+                        dpg.add_checkbox(label="density", tag="density_histograms_2d_cb", default_value=False, 
+                            callback=lambda: dpg.configure_item("histogram_2d_series", density=dpg.get_value("density_histograms_2d_cb")))
+                        
+                        
                         with dpg.plot(label="Histogram 2D Plot", height=400, width=-1):
                             dpg.add_plot_legend()
                             xaxis = dpg.add_plot_axis(dpg.mvXAxis, label="x")
-                            dpg.set_axis_limits(dpg.last_item(), 1, 10)
-                            dpg.set_axis_ticks(dpg.last_item(), (("S1", 1), ("S2", 2), ("S3", 3), ("S4", 4), ("S5", 5), ("S6", 6), ("S7", 7), ("S8", 8), ("S9", 9), ("S10", 10)))
-                            with dpg.plot_axis(dpg.mvYAxis, label="y axis"):
-                                dpg.add_2d_histogram_series(x_data, x_data2, tag="histogram_2d_series", label="histogram", 
-                                    xmax_range=10, ymax_range=10)
+                            with dpg.plot_axis(dpg.mvYAxis, label="y axis") as yaxis:
+                                dpg.set_axis_limits_auto(dpg.last_item())
+                                dpg.set_axis_limits_auto(xaxis)
+                                dpg.add_2d_histogram_series(x_data, x_data2, xbins=xybin[0], ybins=xybin[1], xmax_range=6, ymax_range=6, xmin_range=-6, ymin_range=-6,
+                                    tag="histogram_2d_series", label="histogram")
                             # dpg.set_axis_limits_auto(dpg.mvYAxis)
                             dpg.fit_axis_data(xaxis)
 
