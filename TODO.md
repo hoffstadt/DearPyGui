@@ -9,7 +9,9 @@
     - [x] Remove GetKeysConstants because it's deeply linked to new IO (also, I put it, so it can be removed without any worries)
     - [x] Make it work wihout obsolete functions (ImGui and ImPlot)
     - [ ] Update demo with new functions
-    - [ ] Improve demo with multiple axes
+    - [x] Improve demo with multiple axes
+    - [ ] Antialiasing activated?
+    - [ ] Disable keyboard navigation
 - [ ] Bugfix:
     - [x] Crash on tests teardown
     - [x] Crash when opening table in demo: `void ImGui::TableSetColumnEnabled(int, bool): Assertion 'table->Flags & ImGuiTableFlags_Hideable' failed.`
@@ -97,12 +99,11 @@ Take a look at implot.cpp to have a better changelog.
 - [ ] [V 0.13](https://github.com/epezent/implot/releases/tag/v0.13)
     - [x] Query: Implement new DragRect
         - [ ] Find a way to give to those Query Rects the DragToolFlags (if possible)
-    - [ ] Axis: custom tick label formatting via ImPlotFormatter callbacks passed to SetupAxisFormat
-        - [x] String: Implement string formatter
-        - [ ] ImPlotFormatter: Implement custom callback
+    - [x] Axis: custom tick label formatting via ImPlotFormatter callbacks passed to SetupAxisFormat
+    - [x] String: Implement string formatter
     - [ ] TagX and TagY have been added and allow you to add custom labels to axes. These use either the axis' formatter, or a custom provided string. You can combine these with other tools like DragLine to create custom interactivity.
-    - [ ] DragPoint and DragLine no longer take a string ID. Instead they now expect an int ID, and as a result no longer display the optional label. Instead, use TagX/Y and Annotation to add labels too these tools if needed.
-    - [ ] additional options for drag tools via ImPlotDragToolFlags
+    - [x] DragPoint and DragLine no longer take a string ID. Instead they now expect an int ID, and as a result no longer display the optional label. Instead, use TagX/Y and Annotation to add labels too these tools if needed.
+    - [x] additional options for drag tools via ImPlotDragToolFlags
     - [x] Bar plots can now be plotted in groups and stacked.
 - [ ] [V 0.14](https://github.com/epezent/implot/releases/tag/v0.14)
     - [ ] Each of ImPlot's PlotX functions now takes an optional ImPlotXFlags parameter.
@@ -127,8 +128,6 @@ Take a look at implot.cpp to have a better changelog.
 - [ ] in heatmap plots the col_major flag (ImPlotHeatmapFlags_ColMajor) is not working
 - [ ] in histogram series min and max range should not be 0 and 1, but the min/max of the values
 - [ ] check density flag of histogram series
-- [ ] in histogram 2D  minX, minY, maxX and maxY range values should not be 0 and 1, but the min/max of the values
-- [ ] digitalplot is missing
 - [ ] mvTag not working on axes
 - [ ] custom axis is missing
 - [ ] plot's context menu (right click on plot) works only for changes in X axis
