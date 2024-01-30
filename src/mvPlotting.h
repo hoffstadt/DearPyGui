@@ -785,8 +785,8 @@ public:
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
     void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
     void* getValue() override { return &configData.value; }
-    PyObject* getPyValue() override { return +ToPyDouble(*configData.value.get()); }
-    void setPyValue(PyObject* value) override;
+    PyObject* getPyValue() override { return ToPyDouble(*configData.value.get()); }
+    void setPyValue(PyObject* value) override { *configData.value = ToDouble(value); }
 };
 
 class mvPlotAxis : public mvAppItem
