@@ -3564,7 +3564,6 @@ DearPyGui::fill_configuration_dict(const mvPlotAxisConfig& inConfig, PyObject* o
 	checkbitset("pan_stretch", ImPlotAxisFlags_PanStretch, inConfig.flags);
 	checkbitset("lock_min", ImPlotAxisFlags_LockMin, inConfig.flags);
 	checkbitset("lock_max", ImPlotAxisFlags_LockMax, inConfig.flags);
-	// checkbitset("time", ImPlotAxisFlags_Time, inConfig.flags);
 }
 
 //-----------------------------------------------------------------------------
@@ -3613,15 +3612,6 @@ void mvAnnotation::setPyValue(PyObject* value)
 		*configData.value = temp_array;
 	else
 		configData.value = std::make_shared<std::array<double, 4>>(temp_array);
-}
-
-void mvTag::setPyValue(PyObject* value)
-{
-	double temp = ToDouble(value);
-	if (configData.value)
-		*configData.value = 0.0;
-	else
-		configData.value = std::make_shared<double>(temp);
 }
 
 void mvPlot::updateFlags()
