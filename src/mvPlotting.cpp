@@ -2659,7 +2659,6 @@ DearPyGui::set_configuration(PyObject* inDict, mvScatterSeriesConfig& outConfig)
 	if (inDict == nullptr)
 		return;
 
-	// TODO: Check this x/y assignment values
 	if (PyObject* item = PyDict_GetItemString(inDict, "x")) { (*outConfig.value)[0] = ToDoubleVect(item); }
 	if (PyObject* item = PyDict_GetItemString(inDict, "y")) { (*outConfig.value)[1] = ToDoubleVect(item); }
 

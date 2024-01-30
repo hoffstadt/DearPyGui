@@ -1891,6 +1891,41 @@ def show_demo():
                                 
                                 
                     with dpg.tree_node(label="Shade Series"):
+                        std_alpha = 0.25
+
+                        def _cb_alpha(_, app_data):
+                            with dpg.theme() as alpha_theme:
+                                with dpg.theme_component(0):
+                                    dpg.add_theme_style(dpg.mvPlotStyleVar_FillAlpha, app_data, category=dpg.mvThemeCat_Plots)
+                            dpg.bind_item_theme("shaded_plot_1", alpha_theme)
+
+                        dpg.add_drag_float(min_value=0, max_value=1, callback=_cb_alpha, speed=0.01, default_value=std_alpha)
+                        with dpg.theme() as alpha_theme:
+                            with dpg.theme_component(0):
+                                dpg.add_theme_style(dpg.mvPlotStyleVar_FillAlpha, std_alpha, category=dpg.mvThemeCat_Plots)
+                        with dpg.plot(label="Shaded Plot", tag="shaded_plot_1", height=400, width=-1):
+                            xs = []
+                            ys = []
+                            ys1 = []
+                            ys2 = []
+                            ys3 = []
+                            ys4 = []
+                            random.seed(0)
+                            for i in range(1001):
+                                xs.append(i * 0.001)
+                                ys.append(0.25 + 0.25 * sin(25 * xs[i]) * sin(5 * xs[i]) + random.uniform(-0.01, 0.01))
+                                ys1.append(ys[i] + random.uniform(0.1, 0.12))
+                                ys2.append(ys[i] - random.uniform(0.1, 0.12))
+                                ys3.append(0.75 + 0.2 * sin(25 * xs[i]))
+                                ys4.append(0.75 + 0.1 * cos(25 * xs[i]))
+                            dpg.add_plot_axis(dpg.mvXAxis, label="x")
+                            with dpg.plot_axis(dpg.mvYAxis, label="y"):
+                                dpg.add_shade_series(xs, ys1, y2=ys2, label="Uncertain data")
+                                dpg.add_line_series(xs, ys, label="Uncertain data")
+                                dpg.add_shade_series(xs, ys3, y2=ys4, label="Overlapping")
+                                dpg.add_line_series(xs, ys3, label="Overlapping")
+                                dpg.add_line_series(xs, ys4, label="Overlapping")
+                        dpg.bind_item_theme("shaded_plot_1", alpha_theme)
 
                         stock_datax = []
                         stock_datay2 = []
@@ -1926,12 +1961,6 @@ def show_demo():
                         with dpg.theme(tag="stock_theme4"):
                             with dpg.theme_component(0):
                                 dpg.add_theme_color(dpg.mvPlotCol_Fill, (255, 255, 100, 64), category=dpg.mvThemeCat_Plots)
-
-                        with dpg.plot(label="Shaded Plot", height=400, width=-1):
-                            dpg.add_plot_legend()
-                            dpg.add_plot_axis(dpg.mvXAxis, label="x")
-                            with dpg.plot_axis(dpg.mvYAxis, label="y"):
-                                dpg.add_shade_series(sindatax, sindatay, y2=cosdatay, tag="shaded_series", label="0.5 + 0.5 * sin(x)", )
 
                         with dpg.plot(label="Stock Prices", height=400, width=-1):
                             dpg.add_plot_legend()
@@ -2563,8 +2592,6 @@ def show_demo():
                         with dpg.plot(label="Drag Lines/Points", height=400, width=-1):
                             dpg.add_plot_legend()
                             x_axis = dpg.add_plot_axis(dpg.mvXAxis, label="x")
-                            #TODO: TO BE FIXED
-                            # dpg.add_plot_tag(label="CIAO", parent=x_axis)
                             dpg.add_plot_axis(dpg.mvYAxis, label="y")
 
                             # drag lines/points belong to the plot NOT axis

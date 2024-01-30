@@ -3941,7 +3941,6 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::IntList, "color", mvArgType::KEYWORD_ARG, "(0, 0, 0, -255)" });
         args.push_back({ mvPyDataType::Bool, "round", mvArgType::KEYWORD_ARG, "False", "This can be enabled only if there's no label" });
 
-        // TODO: Add this to DragLine and DragPoint (directly in their widget)
         setup.about = "Adds custom labels to axes.";
         setup.category = { "Plotting", "Widgets" };
         break;
