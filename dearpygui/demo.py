@@ -2638,6 +2638,18 @@ def show_demo():
                             dpg.add_plot_annotation(label="TL", default_value=(0.25, 0.75), offset=(-15, -15), color=[255, 255, 0, 255])
                             dpg.add_plot_annotation(label="Center", default_value=(0.5, 0.5), color=[255, 255, 0, 255])
 
+                    with dpg.tree_node(label="Tags"):
+                        with dpg.plot(height=400, width=-1):
+                            dpg.add_plot_axis(dpg.mvXAxis)
+                            dpg.add_plot_axis(dpg.mvYAxis)
+                            dpg.add_plot_tag(default_value=0.25, color=(255, 255, 0, 255))
+                            dpg.add_plot_tag(default_value=0.75, vertical=True, color=(255, 255, 0, 255))
+                            dpg.add_drag_line(vertical=False, label="Drag", default_value=0.25, color=(255, 0, 0, 255), no_fit=True)
+                            dpg.add_plot_axis(dpg.mvXAxis2)
+                            dpg.add_plot_axis(dpg.mvYAxis2)
+                            dpg.add_plot_tag(default_value=0.5, color=(0, 255, 255, 255), label="MyTag")
+                            dpg.add_plot_tag(default_value=0.5, vertical=True, color=(0, 255, 255, 255), label="Tag: 42")
+
                     with dpg.tree_node(label="Drag & Drop"):
 
                         sindatax = []
