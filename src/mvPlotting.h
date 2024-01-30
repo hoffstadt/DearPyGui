@@ -22,6 +22,7 @@ struct mvInfLineSeriesConfig;
 struct mvScatterSeriesConfig;
 struct mv2dHistogramSeriesConfig;
 struct mvHistogramSeriesConfig;
+struct mvDigitalSeriesConfig;
 struct mvErrorSeriesConfig;
 struct mvHeatSeriesConfig;
 struct mvPieSeriesConfig;
@@ -49,6 +50,7 @@ namespace DearPyGui
     void fill_configuration_dict(const mvErrorSeriesConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvHeatSeriesConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvHistogramSeriesConfig& inConfig, PyObject* outDict);
+    void fill_configuration_dict(const mvDigitalSeriesConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvPieSeriesConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvLabelSeriesConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvImageSeriesConfig& inConfig, PyObject* outDict);
@@ -77,6 +79,7 @@ namespace DearPyGui
     void set_configuration(PyObject* inDict, mvErrorSeriesConfig& outConfig);
     void set_configuration(PyObject* inDict, mvHeatSeriesConfig& outConfig);
     void set_configuration(PyObject* inDict, mvHistogramSeriesConfig& outConfig);
+    void set_configuration(PyObject* inDict, mvDigitalSeriesConfig& outConfig);
     void set_configuration(PyObject* inDict, mvPieSeriesConfig& outConfig);
     void set_configuration(PyObject* inDict, mvLabelSeriesConfig& outConfig);
     void set_configuration(PyObject* inDict, mvImageSeriesConfig& outConfig);
@@ -101,6 +104,7 @@ namespace DearPyGui
     void set_positional_configuration(PyObject* inDict, mvErrorSeriesConfig& outConfig);
     void set_positional_configuration(PyObject* inDict, mvHeatSeriesConfig& outConfig);
     void set_positional_configuration(PyObject* inDict, mvHistogramSeriesConfig& outConfig);
+    void set_positional_configuration(PyObject* inDict, mvDigitalSeriesConfig& outConfig);
     void set_positional_configuration(PyObject* inDict, mvPieSeriesConfig& outConfig);
     void set_positional_configuration(PyObject* inDict, mvLabelSeriesConfig& outConfig);
 
@@ -139,6 +143,7 @@ namespace DearPyGui
     void draw_error_series      (ImDrawList* drawlist, mvAppItem& item, const mvErrorSeriesConfig& config);
     void draw_heat_series       (ImDrawList* drawlist, mvAppItem& item, const mvHeatSeriesConfig& config);
     void draw_histogram_series  (ImDrawList* drawlist, mvAppItem& item, const mvHistogramSeriesConfig& config);
+    void draw_digital_series    (ImDrawList* drawlist, mvAppItem& item, const mvDigitalSeriesConfig& config);
     void draw_pie_series        (ImDrawList* drawlist, mvAppItem& item, const mvPieSeriesConfig& config);
     void draw_label_series      (ImDrawList* drawlist, mvAppItem& item, const mvLabelSeriesConfig& config);
     void draw_image_series      (ImDrawList* drawlist, mvAppItem& item, mvImageSeriesConfig& config);
@@ -280,6 +285,12 @@ struct mvHistogramSeriesConfig : _mvBasicSeriesConfig
     float  barScale = 1.0f;
     double min = 0.0;
     double max = 1.0;
+};
+
+struct mvDigitalSeriesConfig : _mvBasicSeriesConfig
+{
+    ImPlotDigitalFlags flags = ImPlotDigitalFlags_None;
+    int offset  = 0;
 };
 
 struct mvPieSeriesConfig : _mvBasicSeriesConfig
@@ -652,6 +663,21 @@ public:
     explicit mvHistogramSeries(mvUUID uuid) : mvAppItem(uuid) {}
     void handleSpecificPositionalArgs(PyObject* dict) override { DearPyGui::set_positional_configuration(dict, configData); }
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_histogram_series(drawlist, *this, configData); }
+    void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
+    void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
+    void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData.value); }
+    void* getValue() override { return &configData.value; }
+    PyObject* getPyValue() override { return ToPyList(*configData.value); }
+    void setPyValue(PyObject* value) override { *configData.value = ToVectVectDouble(value); }
+};
+
+class mvDigitalSeries : public mvAppItem
+{
+public:
+    mvDigitalSeriesConfig configData{};
+    explicit mvDigitalSeries(mvUUID uuid) : mvAppItem(uuid) {}
+    void handleSpecificPositionalArgs(PyObject* dict) override { DearPyGui::set_positional_configuration(dict, configData); }
+    void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_digital_series(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
     void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData.value); }

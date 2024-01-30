@@ -90,6 +90,7 @@
     X( mvShadeSeries ) \
     X( mvLabelSeries ) \
     X( mvHistogramSeries ) \
+    X( mvDigitalSeries ) \
     X( mv2dHistogramSeries ) \
     X( mvCandleSeries ) \
     X( mvColorMapScale ) \

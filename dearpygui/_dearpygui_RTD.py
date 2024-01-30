@@ -3255,6 +3255,10 @@ def add_colormap_scale(**kwargs):
 		colormap (Union[int, str], optional): mvPlotColormap_* constants or mvColorMap uuid from a color map registry
 		min_scale (float, optional): Sets the min number of the color scale. Typically is the same as the min scale from the heat series.
 		max_scale (float, optional): Sets the max number of the color scale. Typically is the same as the max scale from the heat series.
+		format (str, optional): Formatting used for the labels.
+		invert (bool, optional): invert the colormap bar and axis scale (this only affects rendering; if you only want to reverse the scale mapping, make scale_min > scale_max)
+		no_label (bool, optional): the colormap axis label will not be displayed
+		opposite (bool, optional): render the colormap label and tick labels on the opposite side
 		id (Union[int, str], optional): (deprecated)
 		drag_callback (Callable, optional): (deprecated)
 	Returns:
@@ -3386,6 +3390,28 @@ def add_date_picker(**kwargs):
 	"""
 
 	return internal_dpg.add_date_picker(**kwargs)
+
+def add_digital_series(x, y, **kwargs):
+	"""	 Adds a digital series to a plot. Digital plots do not respond to y drag or zoom, and are always referenced to the bottom of the plot.
+
+	Args:
+		x (Any): 
+		y (Any): 
+		label (str, optional): Overrides 'name' as label.
+		user_data (Any, optional): User data for callbacks
+		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
+		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
+		source (Union[int, str], optional): Overrides 'id' as value storage key.
+		show (bool, optional): Attempt to render widget.
+		offset (int, optional): 
+		id (Union[int, str], optional): (deprecated)
+	Returns:
+		Union[int, str]
+	"""
+
+	return internal_dpg.add_digital_series(x, y, **kwargs)
 
 def add_double4_value(**kwargs):
 	"""	 Adds a double value.
@@ -9158,6 +9184,7 @@ mvPieSeries=internal_dpg.mvPieSeries
 mvShadeSeries=internal_dpg.mvShadeSeries
 mvLabelSeries=internal_dpg.mvLabelSeries
 mvHistogramSeries=internal_dpg.mvHistogramSeries
+mvDigitalSeries=internal_dpg.mvDigitalSeries
 mv2dHistogramSeries=internal_dpg.mv2dHistogramSeries
 mvCandleSeries=internal_dpg.mvCandleSeries
 mvColorMapScale=internal_dpg.mvColorMapScale

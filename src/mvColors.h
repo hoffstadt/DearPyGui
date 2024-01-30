@@ -11,7 +11,7 @@ struct mvColorMapButtonConfig;
 struct mvColorMapScaleConfig;
 struct mvColorMapSliderConfig;
 
-namespace DearPyGui 
+namespace DearPyGui
 {
     // draw commands
     void draw_color_button(ImDrawList* drawlist, mvAppItem& item, mvColorButtonConfig& config);
@@ -109,9 +109,11 @@ struct mvColorMapButtonConfig
 
 struct mvColorMapScaleConfig
 {
-    double          scale_min = 0;
-    double          scale_max = 0;
-    ImPlotColormap  colorMap = 0;
+    double                      scale_min = 0;
+    double                      scale_max = 0;
+    ImPlotColormap              colorMap = 0;
+    std::string                 format = "%g";
+    ImPlotColormapScaleFlags    flags = ImPlotColormapScaleFlags_None;
 };
 
 struct mvColorMapSliderConfig

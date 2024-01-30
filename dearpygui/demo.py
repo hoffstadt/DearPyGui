@@ -1,9 +1,12 @@
 import dearpygui.dearpygui as dpg
 import math
 from math import sin, cos, log10
-import numpy as np
 import random
 import webbrowser
+
+count_2d_histogram = 50_000
+xybin_2d_histogram = [100, 100]
+t_digital_plot = 0
 
 def _help(message):
     last_item = dpg.last_item()
@@ -2216,45 +2219,106 @@ def show_demo():
                             dpg.fit_axis_data(xaxis)
                             
                     with dpg.tree_node(label="Histogram 2D Series"):
-                        count = 5000
-                        xybin = (100,100)
+                        def update_count(_, app_data):
+                            global count_2d_histogram
+                            count_2d_histogram = app_data
+                            x_dist = [random.gauss(1, 2) for _ in range(count_2d_histogram)]
+                            y_dist = [random.gauss(1, 1) for _ in range(count_2d_histogram)]
+                            max_count = max(*x_dist, *y_dist)
 
-                        def update_count(sender, app_data, user_data):
-                            global count
-                            count = app_data
-                            x_data = np.random.normal(0, 1.0, count)
-                            x_data2 = np.random.normal(0, 1.0, count)
-                            dpg.set_axis_limits_auto(xaxis)
+                            dpg.configure_item("histogram_2d_series", x=x_dist, y=y_dist)
+                            dpg.configure_item("2d_hist_colormap_scale", max_scale=max_count)
 
-                            dpg.configure_item("histogram_2d_series", x=x_data, y=x_data2)
-                        
-                        def update_bins(sender, app_data, user_data):
-                            global xybin
-                            xybin = app_data
-                            dpg.set_axis_limits_auto(xaxis)
-
+                        def update_bins(_, app_data):
+                            global xybin_2d_histogram
+                            xybin_2d_histogram = app_data
                             dpg.configure_item("histogram_2d_series", xbins=app_data[0], ybins=app_data[1])
 
-                        
-                        x_data = np.random.normal(0, 1, 100000)
-                        x_data2 = np.random.normal(0, 2, 100000)
-                        
-                        dpg.add_slider_int(label="Count", min_value=100, max_value=50000, callback=update_count, default_value=count, tag="count")
-                        dpg.add_slider_intx(label="Bins", min_value=1, max_value=500, default_value=xybin, tag="bins", callback=update_bins, size=2)
-                        dpg.add_checkbox(label="density", tag="density_histograms_2d_cb", default_value=False, 
-                            callback=lambda: dpg.configure_item("histogram_2d_series", density=dpg.get_value("density_histograms_2d_cb")))
-                        
-                        
-                        with dpg.plot(label="Histogram 2D Plot", height=400, width=-1):
-                            dpg.add_plot_legend()
-                            xaxis = dpg.add_plot_axis(dpg.mvXAxis, label="x")
-                            with dpg.plot_axis(dpg.mvYAxis, label="y axis") as yaxis:
-                                dpg.set_axis_limits_auto(dpg.last_item())
-                                dpg.set_axis_limits_auto(xaxis)
-                                dpg.add_2d_histogram_series(x_data, x_data2, xbins=xybin[0], ybins=xybin[1], xmax_range=6, ymax_range=6, xmin_range=-6, ymin_range=-6,
-                                    tag="histogram_2d_series", label="histogram")
-                            # dpg.set_axis_limits_auto(dpg.mvYAxis)
-                            dpg.fit_axis_data(xaxis)
+                        dpg.add_slider_int(label="Count", min_value=100, max_value=100000, callback=update_count,
+                                           default_value=count_2d_histogram, tag="count_histograms_2d", width=300)
+                        with dpg.group(horizontal=True):
+                            dpg.add_slider_intx(label="Bins", min_value=1, max_value=500, tag="bins", size=2,
+                                                callback=update_bins, width=300, default_value=xybin_2d_histogram)
+                            dpg.add_checkbox(label="density", tag="density_histograms_2d_cb", default_value=False,
+                                             callback=lambda _, a: dpg.configure_item("histogram_2d_series",
+                                                                                 density=a))
+
+                        max_count = 0.0
+                        with dpg.group(horizontal=True, tag="histogram_2d_plot_group"):
+                            with dpg.plot(label="Histogram 2D Plot", tag="2d_histogram_plot", height=400, width=650):
+                                x_dist = [random.gauss(1, 2) for _ in range(count_2d_histogram)]
+                                y_dist = [random.gauss(1, 1) for _ in range(count_2d_histogram)]
+                                max_count = float(max(*x_dist, *y_dist))
+
+                                x_axis = dpg.add_plot_axis(dpg.mvXAxis, label="x", auto_fit=True, foreground=True)
+                                dpg.set_axis_limits(dpg.last_item(), -6, 6)
+                                with dpg.plot_axis(dpg.mvYAxis, label="y", auto_fit=True, foreground=True):
+                                    dpg.set_axis_limits(dpg.last_item(), -6, 6)
+                                    dpg.add_2d_histogram_series(x_dist, y_dist, tag="histogram_2d_series",
+                                                                label="histogram", xbins=xybin_2d_histogram[0], ybins=xybin_2d_histogram[1],
+                                                                xmax_range=6, ymax_range=6, ymin_range=-6,
+                                                                xmin_range=-6)
+
+                            dpg.add_colormap_scale(tag="2d_hist_colormap_scale", label="Density", colormap=dpg.mvPlotColormap_Hot,
+                                                   min_scale=0.0, max_scale=max_count, height=400)
+                            dpg.bind_colormap("2d_histogram_plot", dpg.mvPlotColormap_Hot)
+
+                    with dpg.tree_node(label="Digital Plots"):
+                        dpg.add_text(default_value="Digital plots do not respond to Y drag and zoom, so that",
+                                     bullet=True)
+                        dpg.add_text(default_value="you can drag analog plots over the rising/falling digital edge.",
+                                     indent=20)
+                        paused = False
+                        data_digital = [[], []]
+                        data_analog = [[], []]
+                        show_digital = [True, False]
+                        show_analog = [True, False]
+
+                        def change_val(arr, ind, val):
+                            arr[ind] = val
+
+                        with dpg.group(horizontal=True):
+                            dpg.add_checkbox(label="digital_0", callback=lambda s, a: change_val(show_digital, 0, a),
+                                             default_value=True)
+                            dpg.add_checkbox(label="digital_1", callback=lambda s, a: change_val(show_digital, 1, a),
+                                             default_value=False)
+                            dpg.add_checkbox(label="analog_0", callback=lambda s, a: change_val(show_analog, 0, a),
+                                             default_value=True)
+                            dpg.add_checkbox(label="analog_1", callback=lambda s, a: change_val(show_analog, 1, a),
+                                             default_value=False)
+
+                        with dpg.plot(tag="_demo_digital_plot", width=500):
+                            # TODO: better handling of show/hide (more consistency between checkboxes and legend)
+                            dpg.add_plot_axis(dpg.mvXAxis, label="x", tag="x_axis_digital")
+                            dpg.set_axis_limits(dpg.last_item(), -10, 0)
+                            with dpg.plot_axis(dpg.mvYAxis, label="y"):
+                                dpg.set_axis_limits(dpg.last_item(), -2, 1.5)
+                                dpg.add_digital_series([], [], label="digital_0", tag="digital_0")
+                                dpg.add_digital_series([], [], label="digital_1", tag="digital_1")
+                                dpg.add_line_series([], [], label="analog_0", tag="analog_0")
+                                dpg.add_line_series([], [], label="analog_1", tag="analog_1")
+
+                        def _update_plot():
+                            global t_digital_plot
+                            if not paused:
+                                t_digital_plot += dpg.get_delta_time()
+                                dpg.set_axis_limits('x_axis_digital', t_digital_plot - 10, t_digital_plot)
+                                if show_digital[0]:
+                                    data_digital[0].append([t_digital_plot, 1 if sin(t_digital_plot) > 0.45 else 0])
+                                    dpg.set_value("digital_0", [*zip(*data_digital[0])])
+                                if show_digital[1]:
+                                    data_digital[1].append([t_digital_plot, 1 if sin(t_digital_plot) < 0.45 else 0])
+                                    dpg.set_value("digital_1", [*zip(*data_digital[1])])
+                                if show_analog[0]:
+                                    data_analog[0].append([t_digital_plot, sin(t_digital_plot)])
+                                    dpg.set_value("analog_0", [*zip(*data_analog[0])])
+                                if show_analog[1]:
+                                    data_analog[1].append([t_digital_plot, cos(t_digital_plot)])
+                                    dpg.set_value("analog_1", [*zip(*data_analog[1])])
+
+                        with dpg.item_handler_registry(tag="__demo_digital_plot_ref"):
+                            dpg.add_item_visible_handler(callback=_update_plot)
+                        dpg.bind_item_handler_registry("_demo_digital_plot", dpg.last_container())
 
 
                     with dpg.tree_node(label="Image Series"):

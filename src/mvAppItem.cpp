@@ -934,6 +934,7 @@ DearPyGui::GetEntityDesciptionFlags(mvAppItemType type)
     case mvAppItemType::mvErrorSeries:
     case mvAppItemType::mvHeatSeries:
     case mvAppItemType::mvHistogramSeries:
+    case mvAppItemType::mvDigitalSeries:
     case mvAppItemType::mvImageSeries:
     case mvAppItemType::mvInfLineSeries:
     case mvAppItemType::mvLabelSeries:
@@ -1105,6 +1106,7 @@ DearPyGui::GetEntityValueType(mvAppItemType type)
     case mvAppItemType::mvErrorSeries:
     case mvAppItemType::mvHeatSeries:
     case mvAppItemType::mvHistogramSeries:
+    case mvAppItemType::mvDigitalSeries:
     case mvAppItemType::mvImageSeries:
     case mvAppItemType::mvInfLineSeries:
     case mvAppItemType::mvLabelSeries:
@@ -1358,9 +1360,16 @@ DearPyGui::GetAllowableParents(mvAppItemType type)
     case mvAppItemType::mvDragRect:
     case mvAppItemType::mvDragPoint:
     case mvAppItemType::mvAnnotation:
+        MV_START_PARENTS
+        MV_ADD_PARENT(mvAppItemType::mvStage),
+        MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
+        MV_ADD_PARENT(mvAppItemType::mvPlot)
+        MV_END_PARENTS
+
     case mvAppItemType::mvTag:
         MV_START_PARENTS
         MV_ADD_PARENT(mvAppItemType::mvStage),
+        MV_ADD_PARENT(mvAppItemType::mvPlotAxis),
         MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
         MV_ADD_PARENT(mvAppItemType::mvPlot)
         MV_END_PARENTS
@@ -1371,6 +1380,7 @@ DearPyGui::GetAllowableParents(mvAppItemType type)
     case mvAppItemType::mvErrorSeries:
     case mvAppItemType::mvHeatSeries:
     case mvAppItemType::mvHistogramSeries:
+    case mvAppItemType::mvDigitalSeries:
     case mvAppItemType::mvImageSeries:
     case mvAppItemType::mvInfLineSeries:
     case mvAppItemType::mvLabelSeries:
@@ -4202,6 +4212,24 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Plotting", "Containers", "Widgets" };
         break;
     }
+    case mvAppItemType::mvDigitalSeries:             
+    {
+        AddCommonArgs(args, (CommonParserArgs)(
+            MV_PARSER_ARG_ID |
+            MV_PARSER_ARG_PARENT |
+            MV_PARSER_ARG_BEFORE |
+            MV_PARSER_ARG_SOURCE |
+            MV_PARSER_ARG_SHOW)
+        );
+
+        args.push_back({ mvPyDataType::DoubleList, "x" });
+        args.push_back({ mvPyDataType::DoubleList, "y" });
+        args.push_back({ mvPyDataType::Integer, "offset", mvArgType::KEYWORD_ARG, "0" });
+
+        setup.about = "Adds a digital series to a plot. Digital plots do not respond to y drag or zoom, and are always referenced to the bottom of the plot.";
+        setup.category = { "Plotting", "Containers", "Widgets" };
+        break;
+    }
     case mvAppItemType::mvHistogramSeries:             
     {
         AddCommonArgs(args, (CommonParserArgs)(
@@ -4325,6 +4353,10 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::UUID, "colormap", mvArgType::KEYWORD_ARG, "0", "mvPlotColormap_* constants or mvColorMap uuid from a color map registry" });
         args.push_back({ mvPyDataType::Float, "min_scale", mvArgType::KEYWORD_ARG, "0.0", "Sets the min number of the color scale. Typically is the same as the min scale from the heat series." });
         args.push_back({ mvPyDataType::Float, "max_scale", mvArgType::KEYWORD_ARG, "1.0", "Sets the max number of the color scale. Typically is the same as the max scale from the heat series." });
+        args.push_back({mvPyDataType:: String, "format", mvArgType::KEYWORD_ARG, "'%g'", "Formatting used for the labels."});
+        args.push_back({mvPyDataType:: Bool, "invert", mvArgType::KEYWORD_ARG, "False", "invert the colormap bar and axis scale (this only affects rendering; if you only want to reverse the scale mapping, make scale_min > scale_max)"});
+        args.push_back({mvPyDataType:: Bool, "no_label", mvArgType::KEYWORD_ARG, "False", "the colormap axis label will not be displayed"});
+        args.push_back({mvPyDataType:: Bool, "opposite", mvArgType::KEYWORD_ARG, "False", "render the colormap label and tick labels on the opposite side"});
 
         setup.about = "Adds a legend that pairs values with colors. This is typically used with a heat series. ";
         setup.category = { "Widgets", "Colors" };

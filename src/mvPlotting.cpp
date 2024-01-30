@@ -1301,7 +1301,7 @@ DearPyGui::draw_2dhistogram_series(ImDrawList* drawlist, mvAppItem& item, const 
 		xptr = &(*config.value.get())[0];
 		yptr = &(*config.value.get())[1];
 
-		ImPlot::PlotHistogram2D(item.info.internalLabel.c_str(), xptr->data(), yptr->data(), (int)xptr->size(),
+		const double max_count = ImPlot::PlotHistogram2D(item.info.internalLabel.c_str(), xptr->data(), yptr->data(), (int)xptr->size(),
 			config.xbins, config.ybins, ImPlotRect(config.xmin, config.xmax, config.ymin, config.ymax), config.flags);
 
 		// Begin a popup for a legend entry.
@@ -1547,6 +1547,76 @@ DearPyGui::draw_histogram_series(ImDrawList* drawlist, mvAppItem& item, const mv
 	// handle popping themes
 	cleanup_local_theming(&item);
 }
+
+void
+DearPyGui::draw_digital_series(ImDrawList* drawlist, mvAppItem& item, const mvDigitalSeriesConfig& config)
+{
+	//-----------------------------------------------------------------------------
+	// pre draw
+	//-----------------------------------------------------------------------------
+	if (!item.config.show)
+		return;
+
+	// push font if a font object is attached
+	if (item.font)
+	{
+		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
+		ImGui::PushFont(fontptr);
+	}
+
+	// themes
+	apply_local_theming(&item);
+
+	//-----------------------------------------------------------------------------
+	// draw
+	//-----------------------------------------------------------------------------
+	{
+
+		static const std::vector<double>* xptr;
+		static const std::vector<double>* yptr;
+
+		xptr = &(*config.value.get())[0];
+		yptr = &(*config.value.get())[1];
+
+		ImPlot::PlotDigital(item.info.internalLabel.c_str(), xptr->data(), yptr->data(), (int)xptr->size(), config.flags, config.offset);
+		
+		// Begin a popup for a legend entry.
+		if (ImPlot::BeginLegendPopup(item.info.internalLabel.c_str(), 1))
+		{
+			for (auto& childset : item.childslots)
+			{
+				for (auto& item : childset)
+				{
+					// skip item if it's not shown
+					if (!item->config.show)
+						continue;
+					item->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
+					UpdateAppItemState(item->state);
+				}
+			}
+			ImPlot::EndLegendPopup();
+		}
+	}
+
+
+	//-----------------------------------------------------------------------------
+	// update state
+	//   * only update if applicable
+	//-----------------------------------------------------------------------------
+
+
+	//-----------------------------------------------------------------------------
+	// post draw
+	//-----------------------------------------------------------------------------
+
+	// pop font off stack
+	if (item.font)
+		ImGui::PopFont();
+
+	// handle popping themes
+	cleanup_local_theming(&item);
+}
+
 
 void
 DearPyGui::draw_pie_series(ImDrawList* drawlist, mvAppItem& item, const mvPieSeriesConfig& config)
@@ -2039,6 +2109,16 @@ void
 DearPyGui::set_positional_configuration(PyObject* inDict, mvLineSeriesConfig& outConfig)
 {
 	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(mvAppItemType::mvLineSeries)], inDict))
+		return;
+
+	for(int i = 0; i < PyTuple_Size(inDict); i++)
+		(*outConfig.value)[i] = ToDoubleVect(PyTuple_GetItem(inDict, i));
+}
+
+void
+DearPyGui::set_positional_configuration(PyObject* inDict, mvDigitalSeriesConfig& outConfig)
+{
+	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(mvAppItemType::mvDigitalSeries)], inDict))
 		return;
 
 	for(int i = 0; i < PyTuple_Size(inDict); i++)
@@ -2665,6 +2745,17 @@ DearPyGui::set_configuration(PyObject* inDict, mvHeatSeriesConfig& outConfig)
 }
 
 void
+DearPyGui::set_configuration(PyObject* inDict, mvDigitalSeriesConfig& outConfig)
+{
+	if (inDict == nullptr)
+		return;
+
+	if (PyObject* item = PyDict_GetItemString(inDict, "x")) { (*outConfig.value)[0] = ToDoubleVect(item); }
+	if (PyObject* item = PyDict_GetItemString(inDict, "y")) { (*outConfig.value)[1] = ToDoubleVect(item); }
+	if (PyObject* item = PyDict_GetItemString(inDict, "offset")) outConfig.offset = ToInt(item);
+}
+
+void
 DearPyGui::set_configuration(PyObject* inDict, mvHistogramSeriesConfig& outConfig)
 {
 	if (inDict == nullptr)
@@ -2911,13 +3002,11 @@ DearPyGui::set_configuration(PyObject* inDict, mvPlotAxisConfig& outConfig, mvAp
 	flagop("pan_stretch", ImPlotAxisFlags_PanStretch, outConfig.flags);
 	flagop("lock_min", ImPlotAxisFlags_LockMin, outConfig.flags);
 	flagop("lock_max", ImPlotAxisFlags_LockMax, outConfig.flags);
-	// flagop("time", ImPlotAxisFlags_Time, outConfig.flags);
 
 	if (item.info.parentPtr)
 	{
 		static_cast<mvPlot*>(item.info.parentPtr)->updateFlags();
 		static_cast<mvPlot*>(item.info.parentPtr)->updateAxesNames();
-		std::cout << "Axis legend!" << static_cast<mvPlot*>(item.info.parentPtr)->configData._flags << std::endl;
 	}
 
 	if (item.info.shownLastFrame)
@@ -2930,7 +3019,6 @@ DearPyGui::set_configuration(PyObject* inDict, mvPlotAxisConfig& outConfig, mvAp
 
 	if (item.info.hiddenLastFrame)
 	{
-		std::cout << "2Hiding legend" << std::endl;
 		item.info.hiddenLastFrame = false;
 		if (auto plot = static_cast<mvPlot*>(item.info.parentPtr))
 			plot->configData._flags |= ImPlotFlags_NoLegend;
@@ -2943,9 +3031,6 @@ DearPyGui::fill_configuration_dict(const mvPlotConfig& inConfig, PyObject* outDi
 {
 	if (outDict == nullptr)
 		return;
-
-	std::cout << "zoom" << std::endl;
-	std::cout << "zoom mod: " << inConfig.zoom_mod << std::endl;
 
 	PyDict_SetItemString(outDict, "pan", mvPyObject(ToPyInt(inConfig.pan)));
 	PyDict_SetItemString(outDict, "pan_mod", mvPyObject(ToPyInt(inConfig.pan_mod)));
@@ -3270,6 +3355,15 @@ DearPyGui::fill_configuration_dict(const mvHeatSeriesConfig& inConfig, PyObject*
 	PyDict_SetItemString(outDict, "bounds_max", mvPyObject(ToPyPair(inConfig.bounds_max.x, inConfig.bounds_max.y)));
 	PyDict_SetItemString(outDict, "scale_min", mvPyObject(ToPyDouble(inConfig.scale_min)));
 	PyDict_SetItemString(outDict, "scale_max", mvPyObject(ToPyDouble(inConfig.scale_max)));
+}
+
+void
+DearPyGui::fill_configuration_dict(const mvDigitalSeriesConfig& inConfig, PyObject* outDict)
+{
+	if (outDict == nullptr)
+		return;
+
+	PyDict_SetItemString(outDict, "offset", mvPyObject(ToPyInt(inConfig.offset)));
 }
 
 void
