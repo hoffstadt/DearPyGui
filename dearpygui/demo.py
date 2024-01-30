@@ -2234,14 +2234,18 @@ def show_demo():
                             xybin_2d_histogram = app_data
                             dpg.configure_item("histogram_2d_series", xbins=app_data[0], ybins=app_data[1])
 
+                        def _update_density(_, app_data):
+                            dpg.configure_item("histogram_2d_series", density=app_data)
+                            # TODO: Find a way to access max_count 2d histogram
+                            dpg.configure_item("2d_hist_colormap_scale", max_scale=1.0 if app_data else max_count, label="Density" if app_data else "Count")
+
                         dpg.add_slider_int(label="Count", min_value=100, max_value=100000, callback=update_count,
                                            default_value=count_2d_histogram, tag="count_histograms_2d", width=300)
                         with dpg.group(horizontal=True):
                             dpg.add_slider_intx(label="Bins", min_value=1, max_value=500, tag="bins", size=2,
                                                 callback=update_bins, width=300, default_value=xybin_2d_histogram)
                             dpg.add_checkbox(label="density", tag="density_histograms_2d_cb", default_value=False,
-                                             callback=lambda _, a: dpg.configure_item("histogram_2d_series",
-                                                                                 density=a))
+                                             callback=_update_density)
 
                         max_count = 0.0
                         with dpg.group(horizontal=True, tag="histogram_2d_plot_group"):
@@ -2259,7 +2263,7 @@ def show_demo():
                                                                 xmax_range=6, ymax_range=6, ymin_range=-6,
                                                                 xmin_range=-6)
 
-                            dpg.add_colormap_scale(tag="2d_hist_colormap_scale", label="Density", colormap=dpg.mvPlotColormap_Hot,
+                            dpg.add_colormap_scale(tag="2d_hist_colormap_scale", label="Count", colormap=dpg.mvPlotColormap_Hot,
                                                    min_scale=0.0, max_scale=max_count, height=400)
                             dpg.bind_colormap("2d_histogram_plot", dpg.mvPlotColormap_Hot)
 
