@@ -535,7 +535,7 @@ DearPyGui::draw_plot_axis(ImDrawList* drawlist, mvAppItem& item, mvPlotAxisConfi
 		config.limits_actual.y = (float)ImPlot::GetPlotLimits(IMPLOT_AUTO, config.axis).Y.Max;
 	}
 	auto context = ImPlot::GetCurrentContext();
-	context->CurrentPlot->Axes[config.axis].Flags = config.flags;
+	config.flags = context->CurrentPlot->Axes[config.axis].Flags;
 
 	UpdateAppItemState(item.state);
 
