@@ -132,4 +132,10 @@ Take a look at implot.cpp to have a better changelog.
 - [ ] custom axis is missing
 - [ ] plot's context menu (right click on plot) works only for changes in X axis
 
+- [ ] Unsaved document flag is missing
+- [ ] Hold button to repeat missing (see ImGUI's PushButtonRepeat)
+- [ ] Flag "width fit preview" missing for combo (dpg.add_combo)
+- [ ] Flag "mvColorEdit_AlphaPreviewXXX" does not seem to be working
+- [ ] Flag ImGuiColorEditFlags_PickerHueWheel missing
+
 
