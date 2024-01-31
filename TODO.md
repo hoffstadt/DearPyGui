@@ -133,6 +133,3 @@ Take a look at implot.cpp to have a better changelog.
 - [ ] Hold button to repeat missing (see ImGUI's PushButtonRepeat)
 - [ ] Flag "width fit preview" missing for combo (dpg.add_combo)
 - [ ] Flag "mvColorEdit_AlphaPreviewXXX" does not seem to be working
-- [ ] Flag ImGuiColorEditFlags_PickerHueWheel missing
-
-

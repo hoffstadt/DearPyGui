@@ -3096,7 +3096,7 @@ def add_color_edit(default_value=(0, 0, 0, 255), **kwargs):
 		alpha_preview (int, optional): mvColorEdit_AlphaPreviewNone, mvColorEdit_AlphaPreview, or mvColorEdit_AlphaPreviewHalf
 		display_mode (int, optional): mvColorEdit_rgb, mvColorEdit_hsv, or mvColorEdit_hex
 		display_type (int, optional): mvColorEdit_uint8 or mvColorEdit_float
-		input_mode (int, optional): mvColorEdit_input_rgb or mvColorEdit_input_hsv
+		input_mode (int, optional): mvColorEdit_input_* values
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -3142,7 +3142,7 @@ def add_color_picker(default_value=(0, 0, 0, 255), **kwargs):
 		picker_mode (int, optional): mvColorPicker_bar or mvColorPicker_wheel
 		alpha_preview (int, optional): mvColorEdit_AlphaPreviewNone, mvColorEdit_AlphaPreview, or mvColorEdit_AlphaPreviewHalf
 		display_type (int, optional): mvColorEdit_uint8 or mvColorEdit_float
-		input_mode (int, optional): mvColorEdit_input_rgb or mvColorEdit_input_hsv
+		input_mode (int, optional): mvColorEdit_input_* values.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
