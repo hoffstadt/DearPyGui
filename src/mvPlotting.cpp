@@ -147,7 +147,6 @@ DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mvAnnotationConfi
 void
 DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mvTagConfig& outConfig)
 {
-	// TODO: Finish this
 	if (dataSource == item.config.source) return;
 	item.config.source = dataSource;
 
@@ -1442,7 +1441,7 @@ DearPyGui::draw_heat_series(ImDrawList* drawlist, mvAppItem& item, const mvHeatS
 
 
 		ImPlot::PlotHeatmap(item.info.internalLabel.c_str(), xptr->data(), config.rows, config.cols, config.scale_min, config.scale_max,
-			config.format.c_str(), { config.bounds_min.x, config.bounds_min.y }, { config.bounds_max.x, config.bounds_max.y });
+			config.format.c_str(), { config.bounds_min.x, config.bounds_min.y }, { config.bounds_max.x, config.bounds_max.y }, config.flags);
 
 		// Begin a popup for a legend entry.
 		if (ImPlot::BeginLegendPopup(item.info.internalLabel.c_str(), 1))
@@ -2733,6 +2732,15 @@ DearPyGui::set_configuration(PyObject* inDict, mvHeatSeriesConfig& outConfig)
 	if (PyObject* item = PyDict_GetItemString(inDict, "scale_min")) outConfig.scale_min = ToDouble(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "scale_max")) outConfig.scale_max = ToDouble(item);
 
+	// helper for bit flipping
+	auto flagop = [inDict](const char* keyword, int flag, int& flags)
+	{
+		if (PyObject* item = PyDict_GetItemString(inDict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+	};
+
+	// flags
+	flagop("col_major", ImPlotHeatmapFlags_ColMajor, outConfig.flags);
+
 	bool valueChanged = false;
 	if (PyObject* item = PyDict_GetItemString(inDict, "x")) { valueChanged = true; (*outConfig.value)[0] = ToDoubleVect(item); }
 
@@ -3354,6 +3362,16 @@ DearPyGui::fill_configuration_dict(const mvHeatSeriesConfig& inConfig, PyObject*
 	PyDict_SetItemString(outDict, "bounds_max", mvPyObject(ToPyPair(inConfig.bounds_max.x, inConfig.bounds_max.y)));
 	PyDict_SetItemString(outDict, "scale_min", mvPyObject(ToPyDouble(inConfig.scale_min)));
 	PyDict_SetItemString(outDict, "scale_max", mvPyObject(ToPyDouble(inConfig.scale_max)));
+
+	// helper to check and set bit
+	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)
+	{
+		mvPyObject py_result = ToPyBool(flags & flag);
+		PyDict_SetItemString(outDict, keyword, py_result);
+	};
+
+	// flags
+	checkbitset("col_major", ImPlotHeatmapFlags_ColMajor, inConfig.flags);
 }
 
 void

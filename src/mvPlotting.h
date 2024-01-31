@@ -269,13 +269,14 @@ struct mvErrorSeriesConfig : _mvBasicSeriesConfig
 
 struct mvHeatSeriesConfig : _mvBasicSeriesConfig
 {
-    int         rows = 1;
-    int         cols = 1;
-    double      scale_min = 0.0;
-    double      scale_max = 1.0;
-    std::string format = "%0.1f";
-    ImPlotPoint bounds_min = { 0.0, 0.0 };
-    ImPlotPoint bounds_max = { 1.0, 1.0 };
+    int                 rows = 1;
+    int                 cols = 1;
+    double              scale_min = 0.0;
+    double              scale_max = 1.0;
+    std::string         format = "%0.1f";
+    ImPlotPoint         bounds_min = { 0.0, 0.0 };
+    ImPlotPoint         bounds_max = { 1.0, 1.0 };
+    ImPlotHeatmapFlags  flags = ImPlotHeatmapFlags_None;
 };
 
 struct mvHistogramSeriesConfig : _mvBasicSeriesConfig

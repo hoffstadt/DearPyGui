@@ -49,7 +49,7 @@ set(MARVEL_SOURCES
         "mvAboutWindow.cpp"
         "mvDocWindow.cpp"
         "mvMetricsWindow.cpp"
-        # "mvStackWindow.cpp"
+        "mvStackWindow.cpp"
         "mvStyleWindow.cpp"
         "mvDebugWindow.cpp"
         "mvLayoutWindow.cpp"

@@ -20,6 +20,7 @@ target_compile_definitions(coreemb
 
 # Add sources
 target_sources(coreemb PRIVATE ${MARVEL_SOURCES})
+add_definitions(-DIMGUI_DEFINE_MATH_OPERATORS)
 
 ###############################################################################
 # Windows Specifics
