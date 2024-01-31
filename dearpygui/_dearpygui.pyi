@@ -138,7 +138,7 @@ def add_drag_intx(*, label: str ='', user_data: Any ='', use_internal_label: boo
 	"""Adds drag input for a set of int values up to 4. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the drag. Use clamped keyword to also apply limits to the direct entry modes."""
 	...
 
-def add_drag_line(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', callback: Callable ='', show: bool ='', default_value: Any ='', color: Union[List[int], Tuple[int, ...]] ='', thickness: float ='', vertical: bool ='', delayed: bool ='', no_cursor: bool ='', no_fit: bool ='', no_inputs: bool ='') -> Union[int, str]:
+def add_drag_line(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', callback: Callable ='', show: bool ='', default_value: float ='', color: Union[List[int], Tuple[int, ...]] ='', thickness: float ='', vertical: bool ='', delayed: bool ='', no_cursor: bool ='', no_fit: bool ='', no_inputs: bool ='') -> Union[int, str]:
 	"""Adds a drag line to a plot."""
 	...
 
@@ -1128,6 +1128,10 @@ def set_clip_space(item : Union[int, str], top_left_x : float, top_left_y : floa
 
 def set_clipboard_text(text : str) -> None:
 	"""New in 1.3. Sets the clipboard text."""
+	...
+
+def set_decimal_point(decimal_point : str) -> None:
+	"""Change the default decimal_point. Users of non-default decimal point (in particular ',') may be affected by word-selection logic (is_word_boundary_from_right/is_word_boundary_from_left) functions. Use only single character strings."""
 	...
 
 def set_exit_callback(callback : Callable, *, user_data: Any ='') -> str:

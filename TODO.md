@@ -10,7 +10,7 @@
     - [x] Make it work wihout obsolete functions (ImGui and ImPlot)
     - [ ] Update demo with new functions
     - [x] Improve demo with multiple axes
-    - [ ] Antialiasing activated?
+    - [x] Antialiasing activated?
     - [ ] Disable keyboard navigation
     - [ ] Implement TagX/Y also on secondary axes
 - [ ] Bugfix:
@@ -58,7 +58,7 @@ Probably all the IO "issues" are deeply linked between them
     - [ ] InputText: added io.ConfigInputTextEnterKeepActive
     - [ ] Internals: added wip internal APIs to allow handling input/shorting routing and key ownership. Things will be moved into public APIs over time, including a Shortcut() function that magically handle input routing.
     - [ ] Layout: Obsoleted using SetCursorPos() / SetCursorScreenPos() to extend parent window/cell boundaries. (Check what it actually changes)
-    - [ ] Changed signature of ImageButton() function. (Already added a comment there, we need to "fix" the new ID and the frame padding)
+    - [x] Changed signature of ImageButton() function.
 - [x] [V 1.89.1](https://github.com/ocornut/imgui/releases/tag/v1.89.1)
 - [ ] [V 1.89.2](https://github.com/ocornut/imgui/releases/tag/v1.89.2)
     - [ ] Misc: added GetItemID() in public API. (Check if this can be useful)
@@ -84,9 +84,8 @@ Probably all the IO "issues" are deeply linked between them
     - [ ] IO: Obsoleted io.ClearInputCharacters() (added in 1.47) as it now ambiguous and often incorrect/misleading considering the existence of a higher-level input queue. This is automatically cleared by io.ClearInputsKeys().
     - [ ] IO: Added io.ClearEventsQueue() to clear incoming inputs events. 
     - [ ] Many modifications to Clipper
-    - [ ] IO: Exposed io.PlatformLocaleDecimalPoint to configure decimal point ('.' or ',') for languages needing it.
+    - [x] IO: Exposed io.PlatformLocaleDecimalPoint to configure decimal point ('.' or ',') for languages needing it.
 - [ ] [V 1.90](https://github.com/ocornut/imgui/releases/tag/v1.90)
-    - [ ] BeginChild(): Added child-flag ImGuiChildFlags_AlwaysUseWindowPadding as a replacement for the window-flag ImGuiWindowFlags_AlwaysUseWindowPadding
     - [x] Removed IM_OFFSETOF() macro in favor of using offsetof() available in C++11.
 - [ ][V 1.90.1](https://github.com/ocornut/imgui/releases/tag/v1.90.1)
     - [ ] imgui_freetype: commented out ImGuiFreeType::BuildFontAtlas() obsoleted in 1.81. Prefer using #define IMGUI_ENABLE_FREETYPE or see commented code for manual runtime calls.
@@ -126,11 +125,9 @@ Take a look at implot.cpp to have a better changelog.
 
 
 ### Non working functions in demo
-- [ ] in heatmap plots the col_major flag (ImPlotHeatmapFlags_ColMajor) is not working
 - [ ] in histogram series min and max range should not be 0 and 1, but the min/max of the values
 - [ ] check density flag of histogram series
 - [ ] custom axis is missing
-- [ ] plot's context menu (right click on plot) works only for changes in X axis
 
 - [ ] Unsaved document flag is missing
 - [ ] Hold button to repeat missing (see ImGUI's PushButtonRepeat)

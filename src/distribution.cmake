@@ -34,6 +34,8 @@ target_compile_definitions(_dearpygui
 		$<$<CONFIG:Release>:MV_RELEASE>
 )
 
+add_definitions(-DIMGUI_DEFINE_MATH_OPERATORS)
+
 if(WIN32)
 
 	set_target_properties(_dearpygui PROPERTIES SUFFIX ".pyd")

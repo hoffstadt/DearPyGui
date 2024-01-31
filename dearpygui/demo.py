@@ -262,6 +262,7 @@ def show_demo():
                 dpg.add_menu_item(label="Show Style Editor", callback=lambda:dpg.show_tool(dpg.mvTool_Style))
                 dpg.add_menu_item(label="Show Font Manager", callback=lambda:dpg.show_tool(dpg.mvTool_Font))
                 dpg.add_menu_item(label="Show Item Registry", callback=lambda:dpg.show_tool(dpg.mvTool_ItemRegistry))
+                dpg.add_menu_item(label="Show Stack Tool", callback=lambda:dpg.show_tool(dpg.mvTool_Stack))
 
             with dpg.menu(label="Settings"):
 
@@ -2215,7 +2216,7 @@ def show_demo():
                     with dpg.tree_node(label="Heatmaps"):
 
                         dpg.add_checkbox(label="major col", tag="major_col_heat_cb", default_value=False, 
-                            callback=lambda: dpg.configure_item("heat_series", col_major=dpg.get_value("major_col_heat_cb")))
+                            callback=lambda _, a: dpg.configure_item("heat_series", col_major=a))
 
 
                         values = (0.8, 2.4, 2.5, 3.9, 0.0, 4.0, 0.0,

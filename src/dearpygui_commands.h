@@ -1902,6 +1902,21 @@ show_tool(PyObject* self, PyObject* args, PyObject* kwargs)
 }
 
 static PyObject*
+set_decimal_point(PyObject* self, PyObject* args, PyObject* kwargs)
+{
+	const unsigned int* point;
+
+	if (!Parse((GetParsers())["set_decimal_point"], args, kwargs, __FUNCTION__, &point))
+		return GetPyNone();
+
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	
+	GContext->IO.decimalPoint = *point;
+	ImGui::GetIO().PlatformLocaleDecimalPoint = GContext->IO.decimalPoint;
+	return GetPyNone();
+}
+
+static PyObject*
 set_frame_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 	i32 frame = 0;

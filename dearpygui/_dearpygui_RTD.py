@@ -3687,7 +3687,7 @@ def add_drag_line(**kwargs):
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
-		default_value (Any, optional): 
+		default_value (float, optional): 
 		color (Union[List[int], Tuple[int, ...]], optional): 
 		thickness (float, optional): 
 		vertical (bool, optional): 
@@ -8346,6 +8346,17 @@ def set_clipboard_text(text):
 	"""
 
 	return internal_dpg.set_clipboard_text(text)
+
+def set_decimal_point(decimal_point):
+	"""	 Change the default decimal_point. Users of non-default decimal point (in particular ',') may be affected by word-selection logic (is_word_boundary_from_right/is_word_boundary_from_left) functions. Use only single character strings.
+
+	Args:
+		decimal_point (str): 
+	Returns:
+		None
+	"""
+
+	return internal_dpg.set_decimal_point(decimal_point)
 
 def set_exit_callback(callback, **kwargs):
 	"""	 Sets a callback to run on last frame.

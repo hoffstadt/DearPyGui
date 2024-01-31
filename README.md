@@ -27,11 +27,6 @@ If you want to see all the potentialities of the real ImPlot, take a look at the
   
 ## Installation
 
-Uncomment this line in `thirdparty/imgui/imconfig.h` (this isn't an "hacky" thing, it's the standard way until we don't detach from the main ImGui branch):
-```
-#define IMGUI_DEFINE_MATH_OPERATORS
-```
-
 If you have new params/widgets go to the root directory and run:
 ```
 ./build_release.sh

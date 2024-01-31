@@ -594,6 +594,19 @@ InsertParser_Block1(std::map<std::string, mvPythonParser>& parsers)
 	{
 		std::vector<mvPythonDataElement> args;
 		args.reserve(1);
+		args.push_back({ mvPyDataType::String, "decimal_point" });
+
+		mvPythonParserSetup setup;
+		setup.about = "Change the default decimal_point. Users of non-default decimal point (in particular ',') may be affected by word-selection logic (is_word_boundary_from_right/is_word_boundary_from_left) functions. Use only single character strings.";
+		setup.category = { "Utilities" };
+	
+		mvPythonParser parser = FinalizeParser(setup, args);
+		parsers.insert({ "set_decimal_point", parser });
+	}
+
+	{
+		std::vector<mvPythonDataElement> args;
+		args.reserve(1);
 		args.push_back({ mvPyDataType::String, "file", mvArgType::POSITIONAL_ARG, "''"});
 		args.push_back({ mvPyDataType::Callable, "callback", mvArgType::KEYWORD_ARG, "None", "Callback will return framebuffer as an array through the second arg."});
 

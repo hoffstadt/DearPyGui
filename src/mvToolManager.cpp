@@ -3,7 +3,7 @@
 #include "mvAboutWindow.h"
 #include "mvDocWindow.h"
 #include "mvMetricsWindow.h"
-// #include "mvStackWindow.h"
+#include "mvStackWindow.h"
 #include "mvStyleWindow.h"
 #include "mvDebugWindow.h"
 #include "mvFontManager.h"
@@ -16,7 +16,7 @@ std::vector<std::shared_ptr<mvToolWindow>> mvToolManager::s_tools = {
 	std::make_shared<mvAboutWindow>(),
 	std::make_shared<mvDocWindow>(),
 	std::make_shared<mvMetricsWindow>(),
-//	std::make_shared<mvStackWindow>(),
+	std::make_shared<mvStackWindow>(),
 	std::make_shared<mvStyleWindow>(),
 	std::make_shared<mvDebugWindow>(),
 	std::make_shared<mvLayoutWindow>(),
@@ -36,7 +36,7 @@ void mvToolManager::Reset()
 		std::make_shared<mvAboutWindow>(),
 		std::make_shared<mvDocWindow>(),
 		std::make_shared<mvMetricsWindow>(),
-//		std::make_shared<mvStackWindow>(),
+		std::make_shared<mvStackWindow>(),
 		std::make_shared<mvStyleWindow>(),
 		std::make_shared<mvDebugWindow>(),
 		std::make_shared<mvLayoutWindow>(),
