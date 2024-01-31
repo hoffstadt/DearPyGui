@@ -2494,9 +2494,9 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "no_drag_drop", mvArgType::KEYWORD_ARG, "False", "Disable ability to drag and drop small preview (color square) to apply colors to other items." });
         args.push_back({ mvPyDataType::Bool, "alpha_bar", mvArgType::KEYWORD_ARG, "False", "Show vertical alpha bar/gradient in picker." });
         args.push_back({ mvPyDataType::Long, "alpha_preview", mvArgType::KEYWORD_ARG, "0", "mvColorEdit_AlphaPreviewNone, mvColorEdit_AlphaPreview, or mvColorEdit_AlphaPreviewHalf" });
-        args.push_back({ mvPyDataType::Long, "display_mode", mvArgType::KEYWORD_ARG, "1048576", "mvColorEdit_rgb, mvColorEdit_hsv, or mvColorEdit_hex" });
-        args.push_back({ mvPyDataType::Long, "display_type", mvArgType::KEYWORD_ARG, "8388608", "mvColorEdit_uint8 or mvColorEdit_float" });
-        args.push_back({ mvPyDataType::Long, "input_mode", mvArgType::KEYWORD_ARG, "134217728", "mvColorEdit_input_rgb or mvColorEdit_input_hsv" });
+        args.push_back({ mvPyDataType::Long, "display_mode", mvArgType::KEYWORD_ARG, "internal_dpg.mvColorEdit_rgb", "mvColorEdit_rgb, mvColorEdit_hsv, or mvColorEdit_hex" });
+        args.push_back({ mvPyDataType::Long, "display_type", mvArgType::KEYWORD_ARG, "internal_dpg.mvColorEdit_uint8", "mvColorEdit_uint8 or mvColorEdit_float" });
+        args.push_back({ mvPyDataType::Long, "input_mode", mvArgType::KEYWORD_ARG, "internal_dpg.mvColorEdit_input_rgb", "mvColorEdit_input_* values" });
 
         setup.about = "Adds an RGBA color editor. Left clicking the small color preview will provide a color picker. Click and draging the small color preview will copy the color to be applied on any other color widget.";
         setup.category = { "Widgets", "Colors" };
@@ -2551,10 +2551,10 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "display_rgb", mvArgType::KEYWORD_ARG, "False", "Override _display_ type among RGB/HSV/Hex." });
         args.push_back({ mvPyDataType::Bool, "display_hsv", mvArgType::KEYWORD_ARG, "False", "Override _display_ type among RGB/HSV/Hex." });
         args.push_back({ mvPyDataType::Bool, "display_hex", mvArgType::KEYWORD_ARG, "False", "Override _display_ type among RGB/HSV/Hex." });
-        args.push_back({ mvPyDataType::Long, "picker_mode", mvArgType::KEYWORD_ARG, "33554432", "mvColorPicker_bar or mvColorPicker_wheel" });
+        args.push_back({ mvPyDataType::Long, "picker_mode", mvArgType::KEYWORD_ARG, "internal_dpg.mvColorPicker_bar", "mvColorPicker_bar or mvColorPicker_wheel" });
         args.push_back({ mvPyDataType::Long, "alpha_preview", mvArgType::KEYWORD_ARG, "0", "mvColorEdit_AlphaPreviewNone, mvColorEdit_AlphaPreview, or mvColorEdit_AlphaPreviewHalf" });
-        args.push_back({ mvPyDataType::Long, "display_type", mvArgType::KEYWORD_ARG, "8388608", "mvColorEdit_uint8 or mvColorEdit_float" });
-        args.push_back({ mvPyDataType::Long, "input_mode", mvArgType::KEYWORD_ARG, "134217728", "mvColorEdit_input_rgb or mvColorEdit_input_hsv" });
+        args.push_back({ mvPyDataType::Long, "display_type", mvArgType::KEYWORD_ARG, "internal_dpg.mvColorEdit_uint8", "mvColorEdit_uint8 or mvColorEdit_float" });
+        args.push_back({ mvPyDataType::Long, "input_mode", mvArgType::KEYWORD_ARG, "internal_dpg.mvColorEdit_input_rgb", "mvColorEdit_input_* values."});
 
         setup.about = "Adds an RGB color picker. Right click the color picker for options. Click and drag the color preview to copy the color and drop on any other color widget to apply. Right Click allows the style of the color picker to be changed.";
         setup.category = { "Widgets", "Colors" };

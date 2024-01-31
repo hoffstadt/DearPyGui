@@ -453,9 +453,10 @@ def show_demo():
                                            )
 
                 dpg.add_text("Color Picker")
-
+                _before_id = dpg.add_group()
+                
                 with dpg.group(horizontal=True):
-                    _before_id = dpg.add_text("picker_mode:")
+                    dpg.add_text("picker_mode:")
                     dpg.add_radio_button(("mvColorPicker_bar", "mvColorPicker_wheel"), callback=_color_picker_configs, 
                                          user_data=_color_picker_id, horizontal=True)
                 

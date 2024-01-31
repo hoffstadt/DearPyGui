@@ -1042,7 +1042,6 @@ DearPyGui::set_configuration(PyObject* inDict, mvColorEditConfig& outConfig)
 			break;
 		}
 	}
-
 }
 
 void
