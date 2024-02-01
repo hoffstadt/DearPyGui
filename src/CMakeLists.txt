@@ -89,7 +89,6 @@ set(MARVEL_SOURCES
         "$<$<PLATFORM_ID:Darwin>:../thirdparty/imgui/backends/imgui_impl_glfw.cpp>"
         "$<$<PLATFORM_ID:Linux>:../thirdparty/imgui/backends/imgui_impl_glfw.cpp>"
         "$<$<PLATFORM_ID:Linux>:../thirdparty/imgui/backends/imgui_impl_opengl3.cpp>"
-        # "$<$<PLATFORM_ID:Linux>:../thirdparty/imgui/examples/libs/gl3w/GL/gl3w.c>"
 
         # gl3w
         "$<$<PLATFORM_ID:Linux>:../thirdparty/gl3w/GL/gl3w.c>"
@@ -107,7 +106,6 @@ set(MARVEL_INCLUDE_DIR
         "../thirdparty/gl3w/"
         "../thirdparty/imgui/misc/freetype/"
         "../thirdparty/imgui/backends/"
-        # "../thirdparty/imgui/examples/libs/gl3w"
         "../thirdparty/cpython/"
         "../thirdparty/cpython/Include/"
         "../thirdparty/cpython/build/debug/"

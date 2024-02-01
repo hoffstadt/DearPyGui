@@ -37,7 +37,7 @@
     - [x] Tables: Added `ImGuiTableColumnFlags_NoHeaderLabel` to request TableHeadersRow()
     - [ ] Check: Internals: (for custom widgets): because disabled items now sets HoveredID, if you want custom widgets to not react as hovered when disabled, in the majority of use cases it is preferable to check the "hovered" return value of ButtonBehavior() rather than HoveredId == id.
 - [ ] [V 1.85](https://github.com/ocornut/imgui/releases/tag/v1.85)
-    - [ ] Debug: New StackTool.
+    - [x] Debug: New StackTool.
     - [ ] IsWindowFocused: Added ImGuiFocusedFlags_NoPopupHierarchy flag allowing to exclude child popups from the tested windows when combined with ImGuiFocusedFlags_ChildWindows.
     - [ ] IsWindowHovered: Added ImGuiHoveredFlags_NoPopupHierarchy flag allowing to exclude child popups from the tested windows when combined with ImGuiHoveredFlags__ChildWindows.
     - [ ] IO: Added io.WantCaptureMouseUnlessPopupClose alternative to io.WantCaptureMouse
