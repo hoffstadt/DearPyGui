@@ -133,6 +133,8 @@ The following commands can be used to control the plot axes limits
 * `get_axis_limits(...)`
 * `set_axis_limits_auto(...)`
 * `fit_axis_data(...)`
+* `set_axis_limits_constraints(...)`
+* `set_axis_zoom_constraints(...)`
 
 An example demonstrating some of this can be found below:
 
@@ -239,11 +241,11 @@ Plots can contain up to Three Y-axis for different data that needs a different s
             dpg.add_line_series(sindatax, sindatay, label="y1 lines", parent=dpg.last_item())
 
             # create y axis 2
-            dpg.add_plot_axis(dpg.mvYAxis, label="y2")
+            dpg.add_plot_axis(dpg.mvYAxis2, label="y2")
             dpg.add_stem_series(sindatax, sindatay, label="y2 stem", parent=dpg.last_item())
 
             # create y axis 3
-            dpg.add_plot_axis(dpg.mvYAxis, label="y3 scatter")
+            dpg.add_plot_axis(dpg.mvYAxis3, label="y3 scatter")
             dpg.add_scatter_series(sindatax, sindatay, label="y3", parent=dpg.last_item())
 
     dpg.create_viewport(title='Custom Title', width=800, height=600)
@@ -338,15 +340,16 @@ Querying
 --------
 
 Querying allows the user to select a region of the plot by
-clicking and dragging the middle mouse button.
+holding with the right mouse button and clicking with the left one.
 
 Querying requires setting *query* to **True** when creating the plot.
 
 The callback of the plot will run when the plot is being queried.
 
-The query area is sent through the *app_data* argument as *(x_min, x_max, y_min, y_max)*.
+All the query areas are sent through the *app_data* argument as 
+*[(x_min, x_max, y_min, y_max), (x_min, x_max, y_min, y_max), ...]*.
 
-It is also possible to poll the plot for the query area by calling:
+It is also possible to poll the plot for the query areas by calling:
 :py:func:`get_plot_query_rects <dearpygui.dearpygui.get_plot_query_rects>` and
 
 Below is an example using the callback
