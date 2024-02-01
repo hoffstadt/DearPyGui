@@ -8028,7 +8028,7 @@ def draw_quad(p1 : Union[List[float], Tuple[float, ...]], p2 : Union[List[float]
 
 	return internal_dpg.draw_quad(p1, p2, p3, p4, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, show=show, color=color, fill=fill, thickness=thickness, **kwargs)
 
-def draw_rectangle(pmin : Union[List[float], Tuple[float, ...]], pmax : Union[List[float], Tuple[float, ...]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, color: Union[List[int], Tuple[int, ...]] =(255, 255, 255, 255), fill: Union[List[int], Tuple[int, ...]] =(0, 0, 0, -255), multicolor: bool =False, rounding: float =0.0, thickness: float =1.0, corner_colors: Union[List, Tuple, None] =[(255, 255, 255, 255), (255, 255, 255, 255), (255, 255, 255, 255), (255, 255, 255, 255)], **kwargs) -> Union[int, str]:
+def draw_rectangle(pmin : Union[List[float], Tuple[float, ...]], pmax : Union[List[float], Tuple[float, ...]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, color: Union[List[int], Tuple[int, ...]] =(255, 255, 255, 255), fill: Union[List[int], Tuple[int, ...]] =(0, 0, 0, -255), multicolor: bool =False, rounding: float =0.0, thickness: float =1.0, corner_colors: Union[List, Tuple, None] =None, **kwargs) -> Union[int, str]:
 	"""	 Adds a rectangle.
 
 	Args:
