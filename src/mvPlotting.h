@@ -404,7 +404,8 @@ struct mvPlotConfig
     ImGuiKey                     override_mod;      // Ctrl   when held, all input is ignored; used to enable axis/plots as DND sources
     ImGuiKey                     zoom_mod;          // none   optional modifier that must be held for scroll wheel zooming
     float                        zoom_rate = 0.1f;  // 0.1f   zoom rate for scroll (e.g. 0.1f = 10% plot range every scroll click); make negative to invert
-    
+    bool                         delete_rect = true;// true  allows to delete last drag rect created with double left mouse click
+
     std::vector<std::string>        axesNames = std::vector<std::string>(ImAxis_COUNT);
     ImPlotFlags                     _flags = ImPlotFlags_NoLegend;
     std::vector<ImPlotAxisFlags>    axesFlags = std::vector<ImPlotAxisFlags>(ImAxis_COUNT, ImPlotAxisFlags_None);

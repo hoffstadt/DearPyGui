@@ -500,6 +500,10 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 		item.theme->pop_theme_components();
 	}
 
+	if (config.delete_rect && ImGui::IsMouseDoubleClicked(ImPlot::GetInputMap().SelectCancel) && config.rects.size()>0) {
+		config.rects.pop_back();
+	}
+
 	if (item.handlerRegistry)
 		item.handlerRegistry->checkEvents(&item.state);
 
@@ -2411,7 +2415,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvPlotConfig& outConfig)
 	if (PyObject* item = PyDict_GetItemString(inDict, "select_vert_mod")) outConfig.select_vert_mod = static_cast<ImGuiKey>(ToInt(item));
 	if (PyObject* item = PyDict_GetItemString(inDict, "override_mod")) outConfig.override_mod = static_cast<ImGuiKey>(ToInt(item));
 	if (PyObject* item = PyDict_GetItemString(inDict, "zoom_mod")) outConfig.zoom_mod = static_cast<ImGuiKey>(ToInt(item));
-
+	if (PyObject* item = PyDict_GetItemString(inDict, "delete_rect")) outConfig.delete_rect = ToBool(item);
 	// helper for bit flipping
 	auto flagop = [inDict](const char* keyword, int flag, int& flags)
 	{
@@ -3054,6 +3058,7 @@ DearPyGui::fill_configuration_dict(const mvPlotConfig& inConfig, PyObject* outDi
 	PyDict_SetItemString(outDict, "use_local_time", mvPyObject(ToPyBool(inConfig.localTime)));
 	PyDict_SetItemString(outDict, "use_ISO8601", mvPyObject(ToPyBool(inConfig.iSO8601)));
 	PyDict_SetItemString(outDict, "use_24hour_clock", mvPyObject(ToPyBool(inConfig.clock24Hour)));
+	PyDict_SetItemString(outDict, "delete_rect", mvPyObject(ToPyBool(inConfig.delete_rect)));
 
 	// helper to check and set bit
 	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)
