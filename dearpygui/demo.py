@@ -2569,12 +2569,15 @@ def show_demo():
                     with dpg.tree_node(label="Querying"):
 
                         dpg.add_text("Right click to box select and then click using the cancel button (standard to Left click)")
+                        dpg.add_text("Double left click to delete the last drag rect drawn. Deselect the checkbox to disable this feature")
+
                         def query(sender, app_data, user_data):
                             dpg.set_axis_limits(user_data[0], app_data[0][0], app_data[0][2])
                             dpg.set_axis_limits(user_data[1], app_data[0][3], app_data[0][1])
+                        dpg.add_checkbox(label="Delete drag rects", tag="delete_drag_cb", default_value=True, callback=lambda: dpg.configure_item("query_plot_1", delete_rect=dpg.get_value("delete_drag_cb")))
 
                         # plot 1
-                        with dpg.plot(no_title=True, height=400, callback=query, query=True, no_menus=True, width=-1) as plot_id:
+                        with dpg.plot(no_title=True, height=400, tag="query_plot_1", callback=query, query=True, no_menus=True, width=-1) as plot_id:
                             dpg.add_plot_axis(dpg.mvXAxis, label="x")
                             with dpg.plot_axis(dpg.mvYAxis, label="y"):
                                 dpg.add_line_series(sindatax, sindatay)

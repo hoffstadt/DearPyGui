@@ -2123,6 +2123,7 @@ def plot(**kwargs):
 		use_local_time (bool, optional): axis labels will be formatted for your timezone when
 		use_ISO8601 (bool, optional): dates will be formatted according to ISO 8601 where applicable (e.g. YYYY-MM-DD, YYYY-MM, --MM-DD, etc.)
 		use_24hour_clock (bool, optional): times will be formatted using a 24 hour clock
+		delete_drag (bool, optional): allows to delete drag rect with double left mouse click
 		pan (int, optional): mouse button that enables panning when held
 		pan_mod (int, optional): optional modifier that must be held for panning
 		menu (int, optional): opens context menus (if enabled) when clicked
@@ -5456,6 +5457,7 @@ def add_plot(**kwargs):
 		use_local_time (bool, optional): axis labels will be formatted for your timezone when
 		use_ISO8601 (bool, optional): dates will be formatted according to ISO 8601 where applicable (e.g. YYYY-MM-DD, YYYY-MM, --MM-DD, etc.)
 		use_24hour_clock (bool, optional): times will be formatted using a 24 hour clock
+		delete_drag (bool, optional): allows to delete drag rect with double left mouse click
 		pan (int, optional): mouse button that enables panning when held
 		pan_mod (int, optional): optional modifier that must be held for panning
 		menu (int, optional): opens context menus (if enabled) when clicked
