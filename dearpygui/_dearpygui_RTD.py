@@ -3328,6 +3328,7 @@ def add_combo(items=(), **kwargs):
 		popup_align_left (bool, optional): Align the contents on the popup toward the left.
 		no_arrow_button (bool, optional): Display the preview box without the square arrow button indicating dropdown activity.
 		no_preview (bool, optional): Display only the square arrow button and not the selected value.
+		fit_width (bool, optional): Fit the available width.
 		height_mode (int, optional): Controlls the number of items shown in the dropdown by the constants mvComboHeight_Small, mvComboHeight_Regular, mvComboHeight_Large, mvComboHeight_Largest
 		id (Union[int, str], optional): (deprecated)
 	Returns:

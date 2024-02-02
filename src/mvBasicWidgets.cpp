@@ -63,6 +63,7 @@ DearPyGui::fill_configuration_dict(const mvComboConfig& inConfig, PyObject* outD
 	checkbitset("popup_align_left", ImGuiComboFlags_PopupAlignLeft, inConfig.flags);
 	checkbitset("no_arrow_button", ImGuiComboFlags_NoArrowButton, inConfig.flags);
 	checkbitset("no_preview", ImGuiComboFlags_NoPreview, inConfig.flags);
+	checkbitset("fit_width", ImGuiComboFlags_WidthFitPreview, inConfig.flags);
 
 	mvUUID mode = (long)mvComboHeightMode::mvComboHeight_Largest;
 	if (inConfig.flags & ImGuiComboFlags_HeightSmall) mode = (long)mvComboHeightMode::mvComboHeight_Small;
@@ -752,6 +753,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvComboConfig& outConfig)
 	flagop("popup_align_left", ImGuiComboFlags_PopupAlignLeft, outConfig.flags);
 	flagop("no_arrow_button", ImGuiComboFlags_NoArrowButton, outConfig.flags);
 	flagop("no_preview", ImGuiComboFlags_NoPreview, outConfig.flags);
+	flagop("fit_width", ImGuiComboFlags_WidthFitPreview, outConfig.flags);
 }
 
 void

@@ -1856,6 +1856,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "popup_align_left", mvArgType::KEYWORD_ARG, "False", "Align the contents on the popup toward the left." });
         args.push_back({ mvPyDataType::Bool, "no_arrow_button", mvArgType::KEYWORD_ARG, "False", "Display the preview box without the square arrow button indicating dropdown activity." });
         args.push_back({ mvPyDataType::Bool, "no_preview", mvArgType::KEYWORD_ARG, "False", "Display only the square arrow button and not the selected value." });
+        args.push_back({ mvPyDataType::Bool, "fit_width", mvArgType::KEYWORD_ARG, "False", "Fit the available width." });
         args.push_back({ mvPyDataType::Long, "height_mode", mvArgType::KEYWORD_ARG, "1", "Controlls the number of items shown in the dropdown by the constants mvComboHeight_Small, mvComboHeight_Regular, mvComboHeight_Large, mvComboHeight_Largest" });
 
         setup.about = "Adds a combo dropdown that allows a user to select a single option from a drop down window. All items will be shown as selectables on the dropdown.";
