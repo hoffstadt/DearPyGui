@@ -160,6 +160,7 @@ struct mvWindowAppItemConfig
     bool             no_close = false;
     bool             no_background = false;
     bool             collapsed = false;
+    bool             unsaved_document = false;
     bool             no_open_over_existing_popup = true;
     PyObject*        on_close = nullptr;
     mvVec2           min_size = { 100.0f, 100.0f };
