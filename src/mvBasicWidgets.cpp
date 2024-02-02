@@ -39,10 +39,13 @@ DearPyGui::fill_configuration_dict(const mvButtonConfig& inConfig, PyObject* out
 	mvPyObject py_small = ToPyBool(inConfig.small_button);
 	mvPyObject py_arrow = ToPyBool(inConfig.arrow);
 	mvPyObject py_direction = ToPyInt(inConfig.direction);
+	mvPyObject py_repeat = ToPyBool(inConfig.repeat);
+
 
 	PyDict_SetItemString(outDict, "small", py_small);
 	PyDict_SetItemString(outDict, "arrow", py_arrow);
 	PyDict_SetItemString(outDict, "direction", py_direction);
+	PyDict_SetItemString(outDict, "repeat", py_repeat);
 }
 
 void
@@ -722,6 +725,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvButtonConfig& outConfig)
 	if (PyObject* item = PyDict_GetItemString(inDict, "small")) outConfig.small_button = ToBool(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "arrow")) outConfig.arrow = ToBool(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "direction")) outConfig.direction = ToInt(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "repeat")) outConfig.repeat = ToBool(item);
 }
 
 void
@@ -2716,6 +2720,8 @@ DearPyGui::draw_button(ImDrawList* drawlist, mvAppItem& item, const mvButtonConf
 		item.info.focusNextFrame = false;
 	}
 
+	ImGui::PushItemFlag(ImGuiItemFlags_ButtonRepeat, config.repeat);
+
 	// cache old cursor position
 	ImVec2 previousCursorPos = ImGui::GetCursorPos();
 
@@ -2790,6 +2796,9 @@ DearPyGui::draw_button(ImDrawList* drawlist, mvAppItem& item, const mvButtonConf
 	// pop font off stack
 	if (item.font)
 		ImGui::PopFont();
+
+	
+	ImGui::PopItemFlag();
 
 	// handle popping themes
 	cleanup_local_theming(&item);

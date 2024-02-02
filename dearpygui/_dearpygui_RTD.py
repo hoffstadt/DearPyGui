@@ -2846,6 +2846,7 @@ def add_button(**kwargs):
 		small (bool, optional): Shrinks the size of the button to the text of the label it contains. Useful for embedding in text.
 		arrow (bool, optional): Displays an arrow in place of the text string. This requires the direction keyword.
 		direction (int, optional): Sets the cardinal direction for the arrow by using constants mvDir_Left, mvDir_Up, mvDir_Down, mvDir_Right, mvDir_None. Arrow keyword must be set to True.
+		repeat (bool, optional): Hold to continuosly repeat the click.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]

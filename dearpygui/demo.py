@@ -297,6 +297,8 @@ def show_demo():
                     dpg.add_button(label="Button", callback=_log, arrow=True, direction=dpg.mvDir_Left)
                     dpg.add_button(label="Button", callback=_log, arrow=True, direction=dpg.mvDir_Right)
                     dpg.add_button(label="Button", callback=_log, arrow=True, direction=dpg.mvDir_Down)
+                    
+                dpg.add_button(label="Hold me button", callback=_log, repeat=True)
 
                 dpg.add_checkbox(label="checkbox", callback=_log)
                 dpg.add_radio_button(("radio a", "radio b", "radio c"), callback=_log, horizontal=True)
