@@ -1304,6 +1304,12 @@ DearPyGui::draw_2dhistogram_series(ImDrawList* drawlist, mvAppItem& item, const 
 		xptr = &(*config.value.get())[0];
 		yptr = &(*config.value.get())[1];
 
+		ImPlotRect range = ImPlotRect();
+
+		if(config.xmin != 0.0f || config.xmax != 0.0f || config.ymin != 0.0f || config.ymax != 0.0f){
+			range = ImPlotRect(config.xmin, config.xmax, config.ymin, config.ymax);
+		}
+
 		const double max_count = ImPlot::PlotHistogram2D(item.info.internalLabel.c_str(), xptr->data(), yptr->data(), (int)xptr->size(),
 			config.xbins, config.ybins, ImPlotRect(config.xmin, config.xmax, config.ymin, config.ymax), config.flags);
 
@@ -1511,8 +1517,14 @@ DearPyGui::draw_histogram_series(ImDrawList* drawlist, mvAppItem& item, const mv
 
 		xptr = &(*config.value.get())[0];
 
+		ImPlotRange range = ImPlotRange();
+
+		if(config.min != 0.0f || config.max != 0.0f){
+			range = ImPlotRange(config.min, config.max);
+		}
+
 		ImPlot::PlotHistogram(item.info.internalLabel.c_str(), xptr->data(), (int)xptr->size(), config.bins,
-			(double)config.barScale, ImPlotRange(config.min, config.max), config.flags);
+			(double)config.barScale, range, config.flags);
 
 		// Begin a popup for a legend entry.
 		if (ImPlot::BeginLegendPopup(item.info.internalLabel.c_str(), 1))

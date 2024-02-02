@@ -4243,8 +4243,8 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::DoubleList, "x" });
         args.push_back({ mvPyDataType::Integer, "bins", mvArgType::KEYWORD_ARG, "-1" });
         args.push_back({ mvPyDataType::Float, "bar_scale", mvArgType::KEYWORD_ARG, "1.0" });
-        args.push_back({ mvPyDataType::Double, "min_range", mvArgType::KEYWORD_ARG, "0.0" });
-        args.push_back({ mvPyDataType::Double, "max_range", mvArgType::KEYWORD_ARG, "1.0" });
+        args.push_back({ mvPyDataType::Double, "min_range", mvArgType::KEYWORD_ARG, "0.0", "set the min range value, the values under this min will be ignored" });
+        args.push_back({ mvPyDataType::Double, "max_range", mvArgType::KEYWORD_ARG, "0.0", "set the max range value, the values over this max will be ignored. If both min and max are 0.0, then the values will be the min and max values of the series" });
         args.push_back({ mvPyDataType::Bool, "cumulative", mvArgType::KEYWORD_ARG, "False", "each bin will contain its count plus the counts of all previous bins (not supported by PlotHistogram2D)" });
         args.push_back({ mvPyDataType::Bool, "density", mvArgType::KEYWORD_ARG, "False", "counts will be normalized, i.e. the PDF will be visualized, or the CDF will be visualized if Cumulative is also set" });
         args.push_back({ mvPyDataType::Bool, "no_outliers", mvArgType::KEYWORD_ARG, "False", "exclude values outside the specifed histogram range from the count toward normalizing and cumulative counts" });
@@ -4269,10 +4269,10 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::DoubleList, "y" });
         args.push_back({ mvPyDataType::Integer, "xbins", mvArgType::KEYWORD_ARG, "-1" });
         args.push_back({ mvPyDataType::Integer, "ybins", mvArgType::KEYWORD_ARG, "-1" });
-        args.push_back({ mvPyDataType::Double, "xmin_range", mvArgType::KEYWORD_ARG, "0.0" });
-        args.push_back({ mvPyDataType::Double, "xmax_range", mvArgType::KEYWORD_ARG, "1.0" });
-        args.push_back({ mvPyDataType::Double, "ymin_range", mvArgType::KEYWORD_ARG, "0.0" });
-        args.push_back({ mvPyDataType::Double, "ymax_range", mvArgType::KEYWORD_ARG, "1.0" });
+        args.push_back({ mvPyDataType::Double, "xmin_range", mvArgType::KEYWORD_ARG, "0.0", "set the min x range value, the values under this min will be ignored"});
+        args.push_back({ mvPyDataType::Double, "xmax_range", mvArgType::KEYWORD_ARG, "0.0", "set the max x range value, the values over this max will be ignored"});
+        args.push_back({ mvPyDataType::Double, "ymin_range", mvArgType::KEYWORD_ARG, "0.0", "set the min y range value, the values under this min will be ignored"});
+        args.push_back({ mvPyDataType::Double, "ymax_range", mvArgType::KEYWORD_ARG, "0.0", "set the max y range value, the values over this max will be ignored. If all xmin, xmax, ymin and ymax are 0.0, then the values will be the min and max values of the series" });
         args.push_back({ mvPyDataType::Bool, "density", mvArgType::KEYWORD_ARG, "False", "counts will be normalized, i.e. the PDF will be visualized, or the CDF will be visualized if Cumulative is also set" });
         args.push_back({ mvPyDataType::Bool, "no_outliers", mvArgType::KEYWORD_ARG, "False", "exclude values outside the specifed histogram range from the count toward normalizing and cumulative counts" });
         args.push_back({ mvPyDataType::Bool, "col_major", mvArgType::KEYWORD_ARG, "False", "data will be read in column major order (not supported by PlotHistogram)" });

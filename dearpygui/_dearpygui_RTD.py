@@ -2123,7 +2123,7 @@ def plot(**kwargs):
 		use_local_time (bool, optional): axis labels will be formatted for your timezone when
 		use_ISO8601 (bool, optional): dates will be formatted according to ISO 8601 where applicable (e.g. YYYY-MM-DD, YYYY-MM, --MM-DD, etc.)
 		use_24hour_clock (bool, optional): times will be formatted using a 24 hour clock
-		delete_drag (bool, optional): allows to delete drag rect with double left mouse click
+		delete_rect (bool, optional): allows to delete drag rect with double left mouse click
 		pan (int, optional): mouse button that enables panning when held
 		pan_mod (int, optional): optional modifier that must be held for panning
 		menu (int, optional): opens context menus (if enabled) when clicked
@@ -2714,10 +2714,10 @@ def add_2d_histogram_series(x, y, **kwargs):
 		show (bool, optional): Attempt to render widget.
 		xbins (int, optional): 
 		ybins (int, optional): 
-		xmin_range (float, optional): 
-		xmax_range (float, optional): 
-		ymin_range (float, optional): 
-		ymax_range (float, optional): 
+		xmin_range (float, optional): set the min x range value, the values under this min will be ignored
+		xmax_range (float, optional): set the max x range value, the values over this max will be ignored
+		ymin_range (float, optional): set the min y range value, the values under this min will be ignored
+		ymax_range (float, optional): set the max y range value, the values over this max will be ignored. If all xmin, xmax, ymin and ymax are 0.0, then the values will be the min and max values of the series
 		density (bool, optional): counts will be normalized, i.e. the PDF will be visualized, or the CDF will be visualized if Cumulative is also set
 		no_outliers (bool, optional): exclude values outside the specifed histogram range from the count toward normalizing and cumulative counts
 		col_major (bool, optional): data will be read in column major order (not supported by PlotHistogram)
@@ -4219,8 +4219,8 @@ def add_histogram_series(x, **kwargs):
 		show (bool, optional): Attempt to render widget.
 		bins (int, optional): 
 		bar_scale (float, optional): 
-		min_range (float, optional): 
-		max_range (float, optional): 
+		min_range (float, optional): set the min range value, the values under this min will be ignored
+		max_range (float, optional): set the max range value, the values over this max will be ignored. If both min and max are 0.0, then the values will be the min and max values of the series
 		cumulative (bool, optional): each bin will contain its count plus the counts of all previous bins (not supported by PlotHistogram2D)
 		density (bool, optional): counts will be normalized, i.e. the PDF will be visualized, or the CDF will be visualized if Cumulative is also set
 		no_outliers (bool, optional): exclude values outside the specifed histogram range from the count toward normalizing and cumulative counts
@@ -5457,7 +5457,7 @@ def add_plot(**kwargs):
 		use_local_time (bool, optional): axis labels will be formatted for your timezone when
 		use_ISO8601 (bool, optional): dates will be formatted according to ISO 8601 where applicable (e.g. YYYY-MM-DD, YYYY-MM, --MM-DD, etc.)
 		use_24hour_clock (bool, optional): times will be formatted using a 24 hour clock
-		delete_drag (bool, optional): allows to delete drag rect with double left mouse click
+		delete_rect (bool, optional): allows to delete drag rect with double left mouse click
 		pan (int, optional): mouse button that enables panning when held
 		pan_mod (int, optional): optional modifier that must be held for panning
 		menu (int, optional): opens context menus (if enabled) when clicked

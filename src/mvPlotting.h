@@ -257,9 +257,9 @@ struct mv2dHistogramSeriesConfig : _mvBasicSeriesConfig
     int    ybins = -1;
     ImPlotHistogramFlags flags = ImPlotHistogramFlags_None;
     double xmin = 0.0;
-    double xmax = 1.0;
+    double xmax = 0.0;
     double ymin = 0.0;
-    double ymax = 1.0;
+    double ymax = 0.0;
 };
 
 struct mvErrorSeriesConfig : _mvBasicSeriesConfig
@@ -285,7 +285,7 @@ struct mvHistogramSeriesConfig : _mvBasicSeriesConfig
     ImPlotHistogramFlags flags = ImPlotHistogramFlags_None;
     float  barScale = 1.0f;
     double min = 0.0;
-    double max = 1.0;
+    double max = 0.0;
 };
 
 struct mvDigitalSeriesConfig : _mvBasicSeriesConfig

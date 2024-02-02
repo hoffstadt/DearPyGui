@@ -125,7 +125,7 @@ Take a look at implot.cpp to have a better changelog.
 
 
 ### Non working functions in demo
-- [ ] in histogram series min and max range should not be 0 and 1, but the min/max of the values
+- [x] in histogram series min and max range should not be 0 and 1, but the min/max of the values
 - [ ] check density flag of histogram series
 - [ ] custom axis is missing
 

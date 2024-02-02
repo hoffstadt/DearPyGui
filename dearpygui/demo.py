@@ -2255,7 +2255,7 @@ def show_demo():
                             dpg.set_axis_limits(xaxis, 1, 10)
                             dpg.set_axis_ticks(xaxis, (("S1", 1), ("S2", 2), ("S3", 3), ("S4", 4), ("S5", 5), ("S6", 6), ("S7", 7), ("S8", 8), ("S9", 9), ("S10", 10)))
                             with dpg.plot_axis(dpg.mvYAxis, label="y axis", tag="yaxis_histogram", auto_fit=True) as yaxis:
-                                dpg.add_histogram_series(x_data, tag="histogram_series", label="histogram", max_range=10)
+                                dpg.add_histogram_series(x_data, tag="histogram_series", label="histogram")
                             dpg.fit_axis_data(xaxis)
                             
                     with dpg.tree_node(label="Histogram 2D Series"):
