@@ -126,10 +126,10 @@ Take a look at implot.cpp to have a better changelog.
 
 ### Non working functions in demo
 - [x] in histogram series min and max range should not be 0 and 1, but the min/max of the values
-- [ ] check density flag of histogram series
+- [x] check density flag of histogram series
 - [ ] custom axis is missing
 
 - [x] Unsaved document flag is missing
 - [x] Hold button to repeat missing (see ImGUI's PushButtonRepeat)
 - [x] Flag "width fit preview" missing for combo (dpg.add_combo)
-- [ ] Flag "mvColorEdit_AlphaPreviewXXX" does not seem to be working
+- [x] Flag "mvColorEdit_AlphaPreviewXXX" does not seem to be working
