@@ -131,5 +131,5 @@ Take a look at implot.cpp to have a better changelog.
 
 - [x] Unsaved document flag is missing
 - [x] Hold button to repeat missing (see ImGUI's PushButtonRepeat)
-- [ ] Flag "width fit preview" missing for combo (dpg.add_combo)
+- [x] Flag "width fit preview" missing for combo (dpg.add_combo)
 - [ ] Flag "mvColorEdit_AlphaPreviewXXX" does not seem to be working
