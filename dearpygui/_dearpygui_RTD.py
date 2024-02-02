@@ -2668,6 +2668,7 @@ def window(**kwargs):
 		collapsed (bool, optional): Collapse the window.
 		autosize (bool, optional): Autosized the window to fit it's items.
 		no_resize (bool, optional): Allows for the window size to be changed or fixed.
+		unsaved_document (bool, optional): Show a special marker if the document is not saved.
 		no_title_bar (bool, optional): Title name for the title bar of the window.
 		no_move (bool, optional): Allows for the window's position to be changed or fixed.
 		no_scrollbar (bool, optional):  Disable scrollbars. (window can still scroll with mouse or programmatically)
@@ -6743,6 +6744,7 @@ def add_window(**kwargs):
 		collapsed (bool, optional): Collapse the window.
 		autosize (bool, optional): Autosized the window to fit it's items.
 		no_resize (bool, optional): Allows for the window size to be changed or fixed.
+		unsaved_document (bool, optional): Show a special marker if the document is not saved.
 		no_title_bar (bool, optional): Title name for the title bar of the window.
 		no_move (bool, optional): Allows for the window's position to be changed or fixed.
 		no_scrollbar (bool, optional):  Disable scrollbars. (window can still scroll with mouse or programmatically)

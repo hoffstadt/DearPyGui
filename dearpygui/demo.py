@@ -282,7 +282,8 @@ def show_demo():
             _add_config_options("__demo_id", 3, 
                                         "no_title_bar", "no_scrollbar", "menubar", 
                                         "no_move", "no_resize", "no_collapse",
-                                        "no_close", "no_background", "no_bring_to_front_on_focus"
+                                        "no_close", "no_background", "no_bring_to_front_on_focus",
+                                        "unsaved_document"
                                         )
   
         with dpg.collapsing_header(label="Widgets"):
