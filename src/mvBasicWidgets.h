@@ -222,6 +222,7 @@ struct mvButtonConfig
     ImGuiDir direction = ImGuiDir_Up;
     bool     small_button = false;
     bool     arrow = false;
+    bool     repeat = false;
 };
 
 struct mvComboConfig
