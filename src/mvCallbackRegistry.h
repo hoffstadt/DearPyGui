@@ -394,7 +394,7 @@ std::future<typename std::invoke_result<F, Args...>::type> mvSubmitCallback(F f)
 	return res;
 }
 
-auto mvSubmitCallbackJob(mvCallbackJob&& job)
+inline auto mvSubmitCallbackJob(mvCallbackJob&& job)
 {
 	// This gets wrapped in an std::function so it can't be move-only, sadly.
 	auto jobp = std::make_shared<mvCallbackJob>(std::move(job));

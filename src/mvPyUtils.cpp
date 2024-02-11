@@ -79,7 +79,7 @@ void mvPyObject::delRef()
 }
 
 mvPyObjectStrict::mvPyObjectStrict(PyObject* rawObject, bool borrowed)
-    : m_rawObject(m_rawObject)
+    : m_rawObject(rawObject)
 {
     if (borrowed) {
         Py_XINCREF(m_rawObject);
