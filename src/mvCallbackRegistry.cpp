@@ -56,21 +56,20 @@ PyObject* mvCallbackPoint::set_from_python(PyObject* self, PyObject* args, PyObj
 mvCallbackJob::mvCallbackJob(mvCallbackWithData&& cwd, mvUUID sender)
 	: cwd(std::move(cwd)), sender(sender)
 {
-	cwd.null_to_none();
 }
 
 mvCallbackJob::mvCallbackJob(mvCallbackWithData&& cwd, std::string sender)
 	: cwd(std::move(cwd)), sender(0), sender_str(sender)
 {
-	cwd.null_to_none();
 }
 
 PyObject* mvCallbackJob::to_python_tuple(mvCallbackJob&& job)
 {
-	if (!job.is_valid())
-		mvThrowPythonError(mvErrorCode::mvNone, "Trying to convert invalid callback job to PyObject.");
+	if (!job.is_valid()) {
+		mvThrowPythonError(mvErrorCode::mvNone, "Tried to run an invalidated mvCallbackJob (manual callbacks).");
 		PyErr_Print();
 		return nullptr;
+	}
 
 	job.cwd.null_to_none();
 
@@ -176,6 +175,12 @@ void mvAddCallback(PyObject* callback, const std::string& sender, PyObject* app_
 
 void mvRunCallback(mvCallbackJob&& job)
 {
+	if (!job.is_valid()) {
+		mvThrowPythonError(mvErrorCode::mvNone, "Tried to run an invalidated mvCallbackJob.");
+		PyErr_Print();
+		return;
+	}
+
 	job.cwd.null_to_none();
 	if (*job.cwd.callback == Py_None)
 		return;
