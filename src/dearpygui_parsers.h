@@ -9,6 +9,8 @@
 #include "mvViewport.h"
 #include <stb_image.h>
 #include "mvProfiler.h"
+#include <vector>
+#include <utility>
 
 static void
 InsertParser_Block0(std::map<std::string, mvPythonParser>& parsers)
@@ -31,32 +33,48 @@ InsertParser_Block0(std::map<std::string, mvPythonParser>& parsers)
 		parsers.insert({ "set_frame_callback", parser });
 	}
 
+	auto standardArgsCallbacks = std::vector<std::pair<std::string, std::string>>{
+		{
+			{
+				"set_exit_callback",
+				"Sets a callback to run on last frame."
+			},
+			{
+				"set_viewport_resize_callback",
+				"Sets a callback to run on viewport resize."
+			},
+			{
+				"set_drag_enter_callback",
+				"Sets a callback to run when user drags an item into the window."
+			},
+			{
+				"set_drag_leave_callback",
+				"Sets a callback to run when user leaves the window while dragging an item."
+			},
+			{
+				"set_drag_over_callback",
+				"Sets a callback to run while user is dragging an item in the window."
+			},
+			{
+				"set_drop_callback",
+				"Sets a callback to run when user drops an item into the window."
+			},
+		}
+	};
+
+	for (const auto& item : standardArgsCallbacks)
 	{
 		std::vector<mvPythonDataElement> args;
 		args.push_back({ mvPyDataType::Callable, "callback" });
 		args.push_back({ mvPyDataType::Object, "user_data", mvArgType::KEYWORD_ARG, "None", "New in 1.3. Optional user data to send to the callback" });
 
 		mvPythonParserSetup setup;
-		setup.about = "Sets a callback to run on last frame.";
+		setup.about = item.second;
 		setup.category = { "General" };
 		setup.returnType = mvPyDataType::String;
 
 		mvPythonParser parser = FinalizeParser(setup, args);
-		parsers.insert({ "set_exit_callback", parser });
-	}
-
-	{
-		std::vector<mvPythonDataElement> args;
-		args.push_back({ mvPyDataType::Callable, "callback" });
-		args.push_back({ mvPyDataType::Object, "user_data", mvArgType::KEYWORD_ARG, "None", "New in 1.3. Optional user data to send to the callback" });
-
-		mvPythonParserSetup setup;
-		setup.about = "Sets a callback to run on viewport resize.";
-		setup.category = { "General" };
-		setup.returnType = mvPyDataType::String;
-
-		mvPythonParser parser = FinalizeParser(setup, args);
-		parsers.insert({ "set_viewport_resize_callback", parser });
+		parsers.insert({ item.first, parser });
 	}
 
 	//-----------------------------------------------------------------------------
