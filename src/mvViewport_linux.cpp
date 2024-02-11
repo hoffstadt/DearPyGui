@@ -21,7 +21,7 @@ static void
 window_close_callback(GLFWwindow* window)
 {
     if (GContext->viewport->disableClose) {
-        GContext->callbackRegistry->exitCallbackSlot.run();
+        GContext->callbackRegistry->exitCallbackPoint.run();
     }
     else {
         GContext->started = false;

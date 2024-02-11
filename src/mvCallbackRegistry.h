@@ -97,7 +97,8 @@ public:
         return *this;
     }
 
-    void null_to_none() noexcept {
+    void null_to_none() noexcept
+    {
         callback.null_to_none();
         appData.null_to_none();
         userData.null_to_none();
@@ -111,16 +112,16 @@ public:
 };
 
 //-----------------------------------------------------------------------------
-// mvCallbackSlot
+// mvCallbackPoint
 //-----------------------------------------------------------------------------
 
-class mvCallbackSlot
+class mvCallbackPoint
 {
     const char* pythonName;
     mvCallbackWithData cwd;
 
 public:
-    mvCallbackSlot(const char* pythonName)
+    mvCallbackPoint(const char* pythonName)
         : pythonName(pythonName)
     {
     }
@@ -287,7 +288,8 @@ public:
     mvCallbackJob(mvCallbackWithData&& wrapper, mvUUID sender);
     mvCallbackJob(mvCallbackWithData&& wrapper, std::string sender);
 
-    mvCallbackJob(mvCallbackJob&& other) noexcept {
+    mvCallbackJob(mvCallbackJob&& other) noexcept
+    {
         cwd = std::move(other.cwd);
         sender = other.sender;
         sender_str = other.sender_str;
@@ -295,7 +297,8 @@ public:
         other.valid = false;
     }
 
-    mvCallbackJob& operator=(mvCallbackJob&& other) noexcept {
+    mvCallbackJob& operator=(mvCallbackJob&& other) noexcept
+    {
         cwd = std::move(other.cwd);
         sender = other.sender;
         sender_str = other.sender_str;
@@ -304,7 +307,8 @@ public:
         return *this;
     }
 
-    mvCallbackJob copy() {
+    mvCallbackJob copy()
+    {
         // increases the python reference counts
         if (sender == 0)
             return mvCallbackJob(cwd.copy(), sender);
@@ -328,12 +332,12 @@ struct mvCallbackRegistry
 	std::atomic<i32>           callCount = 0;
 
 	// callbacks
-    mvCallbackSlot viewportResizeCallbackSlot { "set_viewport_resize_callback" };
-    mvCallbackSlot exitCallbackSlot { "set_exit_callback" };
-    mvCallbackSlot dragEnterCallbackSlot { "set_drag_enter_callback" };
-    mvCallbackSlot dragLeaveCallbackSlot { "set_drag_leave_callback" };
-    mvCallbackSlot dragOverCallbackSlot { "set_drag_over_callback" };
-    mvCallbackSlot dropCallbackSlot { "set_drop_callback" };
+    mvCallbackPoint viewportResizeCallbackPoint { "set_viewport_resize_callback" };
+    mvCallbackPoint exitCallbackPoint { "set_exit_callback" };
+    mvCallbackPoint dragEnterCallbackPoint { "set_drag_enter_callback" };
+    mvCallbackPoint dragLeaveCallbackPoint { "set_drag_leave_callback" };
+    mvCallbackPoint dragOverCallbackPoint { "set_drag_over_callback" };
+    mvCallbackPoint dropCallbackPoint { "set_drop_callback" };
 
 	i32 highestFrame = 0;
 	std::unordered_map<i32, PyObject*> frameCallbacks;

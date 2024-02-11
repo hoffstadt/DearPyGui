@@ -10,10 +10,10 @@
 
 
 //-----------------------------------------------------------------------------
-// mvCallbackSlot
+// mvCallbackPoint
 //-----------------------------------------------------------------------------
 
-void mvCallbackSlot::run(mvUUID sender, PyObject *appData)
+void mvCallbackPoint::run(mvUUID sender, PyObject *appData)
 {
 	auto cwd = this->cwd.copy();
 	if (appData)
@@ -22,7 +22,7 @@ void mvCallbackSlot::run(mvUUID sender, PyObject *appData)
 	mvSubmitCallbackJob({cwd.copy(), sender});
 }
 
-void mvCallbackSlot::run_blocking(mvUUID sender, PyObject *appData)
+void mvCallbackPoint::run_blocking(mvUUID sender, PyObject *appData)
 {
 	auto cwd = this->cwd.copy();
 	if (appData)
@@ -31,7 +31,7 @@ void mvCallbackSlot::run_blocking(mvUUID sender, PyObject *appData)
 	mvRunCallback(std::move(job));
 }
 
-PyObject* mvCallbackSlot::set_from_python(PyObject* self, PyObject* args, PyObject* kwargs)
+PyObject* mvCallbackPoint::set_from_python(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 	PyObject* callback;
 	PyObject* user_data = nullptr;

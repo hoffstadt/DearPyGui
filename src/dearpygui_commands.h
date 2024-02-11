@@ -1890,37 +1890,37 @@ set_frame_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 static PyObject*
 set_exit_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	return GContext->callbackRegistry->exitCallbackSlot.set_from_python(self, args, kwargs);
+	return GContext->callbackRegistry->exitCallbackPoint.set_from_python(self, args, kwargs);
 }
 
 static PyObject*
 set_viewport_resize_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	return GContext->callbackRegistry->viewportResizeCallbackSlot.set_from_python(self, args, kwargs);
+	return GContext->callbackRegistry->viewportResizeCallbackPoint.set_from_python(self, args, kwargs);
 }
 
 static PyObject*
 set_drag_enter_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	return GContext->callbackRegistry->dragEnterCallbackSlot.set_from_python(self, args, kwargs);
+	return GContext->callbackRegistry->dragEnterCallbackPoint.set_from_python(self, args, kwargs);
 }
 
 static PyObject*
 set_drag_leave_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	return GContext->callbackRegistry->dragLeaveCallbackSlot.set_from_python(self, args, kwargs);
+	return GContext->callbackRegistry->dragLeaveCallbackPoint.set_from_python(self, args, kwargs);
 }
 
 static PyObject*
 set_drag_over_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	return GContext->callbackRegistry->dragOverCallbackSlot.set_from_python(self, args, kwargs);
+	return GContext->callbackRegistry->dragOverCallbackPoint.set_from_python(self, args, kwargs);
 }
 
 static PyObject*
 set_drop_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	return GContext->callbackRegistry->dropCallbackSlot.set_from_python(self, args, kwargs);
+	return GContext->callbackRegistry->dropCallbackPoint.set_from_python(self, args, kwargs);
 }
 
 static PyObject*
@@ -2502,7 +2502,7 @@ destroy_context(PyObject* self, PyObject* args, PyObject* kwargs)
 		// exit callback.
 		GContext->started = true;
 		mvSubmitCallback([=]() {
-			GContext->callbackRegistry->exitCallbackSlot.run_blocking();
+			GContext->callbackRegistry->exitCallbackPoint.run_blocking();
 			GContext->started = false;  // return to false after
 			});
 
