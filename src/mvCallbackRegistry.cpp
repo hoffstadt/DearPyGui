@@ -39,9 +39,11 @@ PyObject* mvCallbackPoint::set_from_python(PyObject* self, PyObject* args, PyObj
 	if (!Parse((GetParsers())[this->pythonName], args, kwargs, this->pythonName, &callback, &user_data))
 		return GetPyNone();
 
+	// callback and user_data are borrowed references
+	// so when the callback is made, it bumps the refcounts
 	auto wrapper_ptr = std::make_shared<mvCallbackWithData>(SanitizeCallback(callback), nullptr, user_data);
 
-	mvSubmitCallback([=]() mutable
+	mvSubmitCallback([=, wrapper_ptr = std::move(wrapper_ptr)]() mutable
 		{
 			this->cwd = std::move(*wrapper_ptr.get());
 		});
