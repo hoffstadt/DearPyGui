@@ -82,7 +82,9 @@
         "xstring": "cpp",
         "xtr1common": "cpp",
         "xtree": "cpp",
-        "xutility": "cpp"
+        "xutility": "cpp",
+        "ranges": "cpp",
+        "span": "cpp"
     },
     "editor.detectIndentation": true,
     "editor.insertSpaces": true

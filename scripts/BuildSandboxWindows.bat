@@ -1,6 +1,6 @@
 cd /d "%~dp0\.."
 rmdir /S /Q cmake-build-debug 2>nul
-mkdir -p cmake-build-debug
+mkdir cmake-build-debug
 cd cmake-build-debug
 cmake ..
 cd ..

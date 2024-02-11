@@ -4,7 +4,9 @@
 #include <mutex>
 #include <vector>
 #include <unordered_map>
+#include <utility>
 #include "mvContext.h"
+#include "mvPyUtils.h"
 
 //-----------------------------------------------------------------------------
 // mvFunctionWrapper
@@ -61,88 +63,72 @@ private:
 };
 
 //-----------------------------------------------------------------------------
-// mvCallbackWrapper
+// mvCallbackWithData
 //-----------------------------------------------------------------------------
 
-class mvCallbackWrapper
+class mvCallbackWithData
 {
-    PyObject* callback = nullptr;
-    PyObject* userData = nullptr;
-
 public:
+    mvPyObjectStrict callback;
+    mvPyObjectStrict appData;
+    mvPyObjectStrict userData;
 
-    mvCallbackWrapper() = default;
+    mvCallbackWithData() = default;
 
-    mvCallbackWrapper(PyObject* callback, PyObject* userData, bool borrow = true)
-        : callback(callback), userData(userData)
+    mvCallbackWithData(PyObject* callback, PyObject* appData, PyObject* userData)
+        : callback(callback),
+          appData(appData),
+          userData(userData)
     {
-        if (borrow) {
-            // If borrowing, we add our own reference.
-            // If taking, we use the reference that the caller had.
-            Py_XINCREF(callback);
-            Py_XINCREF(userData);
-        }
     }
 
-    mvCallbackWrapper(mvCallbackWrapper&& f) noexcept
+    mvCallbackWithData(mvCallbackWithData&& f) noexcept
+        : callback(std::move(f.callback)),
+          appData(std::move(appData)),
+          userData(std::move(f.userData))
     {
-        callback = f.callback;
-        userData = f.userData;
-        f.callback = nullptr;
-        f.userData = nullptr;
     }
 
-    mvCallbackWrapper& operator=(mvCallbackWrapper&& other)
+    mvCallbackWithData& operator=(mvCallbackWithData&& other) noexcept
     {
-        callback = other.callback;
-        userData = other.userData;
-        other.callback = nullptr;
-        other.userData = nullptr;
+        callback = std::move(other.callback);
+        appData = std::move(other.appData);
+        userData = std::move(other.userData);
         return *this;
     }
 
-    void run(mvUUID sender = 0, PyObject *appData = nullptr);
-
-    void run_blocking(mvUUID sender = 0, PyObject *appData = nullptr);
-
-    ~mvCallbackWrapper()
-    {
-        Py_XDECREF(callback);
-        Py_XDECREF(userData);
+    void null_to_none() noexcept {
+        callback.null_to_none();
+        appData.null_to_none();
+        userData.null_to_none();
     }
 
-    // delete copy constructor and assignment operator
-    mvCallbackWrapper(const mvCallbackWrapper&) = delete;
-    mvCallbackWrapper(mvCallbackWrapper&) = delete;
-    mvCallbackWrapper& operator=(const mvCallbackWrapper&) = delete;
+    mvCallbackWithData copy()
+    {
+        // increases the python reference counts
+        return mvCallbackWithData(*callback, *appData, *userData);
+    }
 };
 
 //-----------------------------------------------------------------------------
-// mvCallbackPythonSlot
+// mvCallbackSlot
 //-----------------------------------------------------------------------------
 
-class mvCallbackPythonSlot
+class mvCallbackSlot
 {
     const char* pythonName;
-    mvCallbackWrapper callbackWrapper;
+    mvCallbackWithData cwd;
 
 public:
-    mvCallbackPythonSlot(const char* pythonName)
+    mvCallbackSlot(const char* pythonName)
         : pythonName(pythonName)
     {
     }
 
     PyObject* set_from_python(PyObject* self, PyObject* args, PyObject* kwargs);
     
-    void run(mvUUID sender = 0, PyObject *appData = nullptr)
-    {
-        callbackWrapper.run(sender, appData);
-    }
-
-    void run_blocking(mvUUID sender = 0, PyObject *appData = nullptr)
-    {
-        callbackWrapper.run_blocking(sender, appData);
-    }
+    void run(mvUUID sender = 0, PyObject *appData = nullptr);
+    void run_blocking(mvUUID sender = 0, PyObject *appData = nullptr);
 };
 
 //-----------------------------------------------------------------------------
@@ -289,46 +275,41 @@ static PyObject* SanitizeCallback(PyObject* callback)
 
 class mvCallbackJob
 {
-    PyObject*   callback  = nullptr;
-    mvUUID      sender    = 0;
-    PyObject*   app_data  = nullptr;
-    PyObject*   user_data = nullptr;
-    std::string sender_str;
-    bool valid            = false;
-
     // Set everything but sender.
-    mvCallbackJob(PyObject* callback, PyObject* app_data, PyObject* user_data);
+    mvCallbackJob(mvCallbackWithData&& wrapper);
 
 public:
-    mvCallbackJob(PyObject* callback, mvUUID sender, PyObject* app_data, PyObject* user_data);
-    mvCallbackJob(PyObject* callback, std::string sender, PyObject* app_data, PyObject* user_data);
-    ~mvCallbackJob();
+    mvCallbackWithData cwd;
+    mvUUID sender = 0;
+    std::string sender_str;
+    bool valid = true;
+
+    mvCallbackJob(mvCallbackWithData&& wrapper, mvUUID sender);
+    mvCallbackJob(mvCallbackWithData&& wrapper, std::string sender);
 
     mvCallbackJob(mvCallbackJob&& other) noexcept {
-        callback = other.callback;
-        app_data = other.app_data;
-        user_data = other.user_data;
+        cwd = std::move(other.cwd);
         sender = other.sender;
         sender_str = other.sender_str;
         valid = other.valid;
-        other.callback = nullptr;
-        other.app_data = nullptr;
-        other.user_data = nullptr;
         other.valid = false;
     }
 
-    mvCallbackJob& operator=(mvCallbackJob&& other) {
-        callback = other.callback;
-        app_data = other.app_data;
-        user_data = other.user_data;
+    mvCallbackJob& operator=(mvCallbackJob&& other) noexcept {
+        cwd = std::move(other.cwd);
         sender = other.sender;
         sender_str = other.sender_str;
         valid = other.valid;
-        other.callback = nullptr;
-        other.app_data = nullptr;
-        other.user_data = nullptr;
         other.valid = false;
         return *this;
+    }
+
+    mvCallbackJob copy() {
+        // increases the python reference counts
+        if (sender == 0)
+            return mvCallbackJob(cwd.copy(), sender);
+        else
+            return mvCallbackJob(cwd.copy(), sender_str);
     }
 
     bool is_valid() const { return valid; }
@@ -347,12 +328,12 @@ struct mvCallbackRegistry
 	std::atomic<i32>           callCount = 0;
 
 	// callbacks
-    mvCallbackPythonSlot viewportResizeCallbackSlot { "set_viewport_resize_callback" };
-    mvCallbackPythonSlot exitCallbackSlot { "set_exit_callback" };
-    mvCallbackPythonSlot dragEnterCallbackSlot { "set_drag_enter_callback" };
-    mvCallbackPythonSlot dragLeaveCallbackSlot { "set_drag_leave_callback" };
-    mvCallbackPythonSlot dragOverCallbackSlot { "set_drag_over_callback" };
-    mvCallbackPythonSlot dropCallbackSlot { "set_drop_callback" };
+    mvCallbackSlot viewportResizeCallbackSlot { "set_viewport_resize_callback" };
+    mvCallbackSlot exitCallbackSlot { "set_exit_callback" };
+    mvCallbackSlot dragEnterCallbackSlot { "set_drag_enter_callback" };
+    mvCallbackSlot dragLeaveCallbackSlot { "set_drag_leave_callback" };
+    mvCallbackSlot dragOverCallbackSlot { "set_drag_over_callback" };
+    mvCallbackSlot dropCallbackSlot { "set_drop_callback" };
 
 	i32 highestFrame = 0;
 	std::unordered_map<i32, PyObject*> frameCallbacks;
@@ -363,9 +344,11 @@ void mvRunTasks();
 void mvFrameCallback(i32 frame);
 bool mvRunCallbacks();
 
+void mvAddCallback(mvCallbackJob&& job);
 void mvAddCallback(PyObject* callback, mvUUID sender, PyObject* app_data, PyObject* user_data);
 void mvAddCallback(PyObject* callback, const std::string& sender, PyObject* app_data, PyObject* user_data);
 
+void mvRunCallback(mvCallbackJob&& job);
 void mvRunCallback(PyObject* callback, mvUUID sender, PyObject* app_data, PyObject* user_data);
 void mvRunCallback(PyObject* callback, const std::string& sender, PyObject* app_data, PyObject* user_data);
 
@@ -403,4 +386,14 @@ std::future<typename std::invoke_result<F, Args...>::type> mvSubmitCallback(F f)
 	GContext->callbackRegistry->calls.push(std::move(task));
 
 	return res;
+}
+
+auto mvSubmitCallbackJob(mvCallbackJob&& job)
+{
+	// This gets wrapped in an std::function so it can't be move-only, sadly.
+	auto jobp = std::make_shared<mvCallbackJob>(std::move(job));
+
+	return mvSubmitCallback([jobp = std::move(jobp)]() {
+		mvRunCallback(std::move(*jobp));
+	    });
 }

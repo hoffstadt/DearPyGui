@@ -78,6 +78,62 @@ void mvPyObject::delRef()
 	m_del = true;
 }
 
+mvPyObjectStrict::mvPyObjectStrict(PyObject* rawObject, bool borrowed)
+    : m_rawObject(m_rawObject)
+{
+    if (borrowed) {
+        Py_XINCREF(m_rawObject);
+    }
+}
+
+mvPyObjectStrict::mvPyObjectStrict(mvPyObjectStrict&& other) noexcept
+    : m_rawObject(other.m_rawObject)
+{
+    other.m_rawObject = nullptr;
+}
+
+mvPyObjectStrict& mvPyObjectStrict::operator=(mvPyObjectStrict&& other) noexcept
+{
+    Py_XDECREF(m_rawObject);
+    m_rawObject = other.m_rawObject;
+    other.m_rawObject = nullptr;
+    return *this;
+}
+
+mvPyObjectStrict::~mvPyObjectStrict()
+{
+    Py_XDECREF(m_rawObject);
+}
+
+PyObject* mvPyObjectStrict::operator*()
+{
+    return m_rawObject;
+}
+
+mvPyObjectStrict::operator bool() const
+{
+    return m_rawObject;
+}
+
+PyObject* mvPyObjectStrict::steal()
+{
+    PyObject* ret = m_rawObject;
+    m_rawObject = nullptr;
+    return ret;
+}
+
+mvPyObjectStrict mvPyObjectStrict::copy()
+{
+    return mvPyObjectStrict(m_rawObject, true);
+}
+
+void mvPyObjectStrict::null_to_none() {
+    if (m_rawObject == nullptr) {
+        m_rawObject = Py_None;
+        Py_XINCREF(m_rawObject);
+    }
+}
+
 void
 mvThrowPythonError(mvErrorCode code, const std::string& message)
 {
