@@ -289,11 +289,15 @@ static PyObject* SanitizeCallback(PyObject* callback)
 
 class mvCallbackJob
 {
-	PyObject*   callback  = nullptr;
-	mvUUID      sender    = 0;
-	PyObject*   app_data  = nullptr;
-	PyObject*   user_data = nullptr;
-	std::string sender_str;
+    PyObject*   callback  = nullptr;
+    mvUUID      sender    = 0;
+    PyObject*   app_data  = nullptr;
+    PyObject*   user_data = nullptr;
+    std::string sender_str;
+    bool valid            = false;
+
+    // Set everything but sender.
+    mvCallbackJob(PyObject* callback, PyObject* app_data, PyObject* user_data);
 
 public:
     mvCallbackJob(PyObject* callback, mvUUID sender, PyObject* app_data, PyObject* user_data);
@@ -306,9 +310,11 @@ public:
         user_data = other.user_data;
         sender = other.sender;
         sender_str = other.sender_str;
+        valid = other.valid;
         other.callback = nullptr;
         other.app_data = nullptr;
         other.user_data = nullptr;
+        other.valid = false;
     }
 
     mvCallbackJob& operator=(mvCallbackJob&& other) {
@@ -317,11 +323,15 @@ public:
         user_data = other.user_data;
         sender = other.sender;
         sender_str = other.sender_str;
+        valid = other.valid;
         other.callback = nullptr;
         other.app_data = nullptr;
         other.user_data = nullptr;
+        other.valid = false;
         return *this;
     }
+
+    bool is_valid() const { return valid; }
 
     static PyObject* to_python_tuple(mvCallbackJob&& job);
 };

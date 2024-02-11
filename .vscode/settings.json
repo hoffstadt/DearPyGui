@@ -83,5 +83,7 @@
         "xtr1common": "cpp",
         "xtree": "cpp",
         "xutility": "cpp"
-    }
+    },
+    "editor.detectIndentation": true,
+    "editor.insertSpaces": true
 }

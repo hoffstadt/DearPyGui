@@ -67,20 +67,33 @@ PyObject* mvCallbackPythonSlot::set_from_python(PyObject* self, PyObject* args, 
 // mvCallbackJob
 //-----------------------------------------------------------------------------
 
-mvCallbackJob::mvCallbackJob(PyObject* callback, mvUUID sender, PyObject* app_data, PyObject* user_data)
-	: callback(callback), sender(sender), app_data(app_data), user_data(user_data)
+mvCallbackJob::mvCallbackJob(PyObject* callback, PyObject* app_data, PyObject* user_data)
+	: callback(callback), app_data(app_data), user_data(user_data)
 {
-	Py_XINCREF(callback);
-	Py_XINCREF(app_data);
-	Py_XINCREF(user_data);
+	if (!this->callback)
+		this->callback = Py_None;
+	if (!this->app_data)
+		this->app_data = Py_None;
+	if (!this->user_data)
+		this->user_data = Py_None;
+
+	Py_XINCREF(this->callback);
+	Py_XINCREF(this->app_data);
+	Py_XINCREF(this->user_data);
+	this->valid = true;
+}
+
+mvCallbackJob::mvCallbackJob(PyObject* callback, mvUUID sender, PyObject* app_data, PyObject* user_data)
+	: mvCallbackJob(callback, app_data, user_data)
+{
+	this->sender = sender;
 }
 
 mvCallbackJob::mvCallbackJob(PyObject* callback, std::string sender, PyObject* app_data, PyObject* user_data)
-	: callback(callback), sender(0), app_data(app_data), user_data(user_data), sender_str(sender)
+	: mvCallbackJob(callback, app_data, user_data)
 {
-	Py_XINCREF(callback);
-	Py_XINCREF(app_data);
-	Py_XINCREF(user_data);
+	this->sender = 0;
+	this->sender_str = sender;
 }
 
 mvCallbackJob::~mvCallbackJob()
@@ -92,26 +105,26 @@ mvCallbackJob::~mvCallbackJob()
 
 PyObject* mvCallbackJob::to_python_tuple(mvCallbackJob&& job)
 {
-	PyObject* job_py = PyTuple_New(4);
-	if (job.callback)
-		PyTuple_SetItem(job_py, 0, job.callback);
-	else
-		PyTuple_SetItem(job_py, 0, GetPyNone());
+	if (!job.is_valid())
+		mvThrowPythonError(mvErrorCode::mvNone, "Trying to convert invalid callback job to PyObject.");
+		PyErr_Print();
+		return nullptr;
 
-	if(job.sender == 0)
+	PyObject* job_py = PyTuple_New(4);
+	PyTuple_SetItem(job_py, 0, job.callback);
+
+	if (job.sender == 0)
 		PyTuple_SetItem(job_py, 1, ToPyString(job.sender_str));
 	else
 		PyTuple_SetItem(job_py, 1, ToPyUUID(job.sender));
 
-	if (job.app_data)
-		PyTuple_SetItem(job_py, 2, job.app_data);
-	else
-		PyTuple_SetItem(job_py, 2, GetPyNone());
+	PyTuple_SetItem(job_py, 2, job.app_data);
+	PyTuple_SetItem(job_py, 3, job.user_data);
 
-	if (job.user_data)
-		PyTuple_SetItem(job_py, 3, job.user_data);
-	else
-		PyTuple_SetItem(job_py, 3, GetPyNone());
+	job.callback = nullptr;
+	job.app_data = nullptr;
+	job.user_data = nullptr;
+	job.valid = false;
 
 	return job_py;
 }
@@ -246,10 +259,10 @@ static void _mvRunCallback(PyObject* callable, SENDER sender, PyObject* app_data
 	}
 	Py_XINCREF(user_data);
 
-	//PyErr_Clear();
 	if (PyErr_Occurred())
 		PyErr_Print();
 
+	// Is this called twice in case the last PyErr_Print() errored?
 	if (PyErr_Occurred())
 		PyErr_Print();
 
