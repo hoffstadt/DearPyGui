@@ -60,6 +60,117 @@ private:
 };
 
 //-----------------------------------------------------------------------------
+// mvCallbackWrapper
+//-----------------------------------------------------------------------------
+
+class mvCallbackWrapper
+{
+    PyObject* callback = nullptr;
+    PyObject* userData = nullptr;
+
+public:
+
+    mvCallbackWrapper() = default;
+
+    mvCallbackWrapper(PyObject* callback, PyObject* userData, bool borrow = true)
+        : callback(callback), userData(userData)
+    {
+        if (borrow) {
+            // If borrowing, we add our own reference.
+            // If taking, we use the reference that the caller had.
+            Py_XINCREF(callback);
+            Py_XINCREF(userData);
+        }
+    }
+
+    template<typename F>
+    mvCallbackWrapper(F&& f) noexcept
+    {
+        callback = f.callback;
+        userData = f.userData;
+        f.callback = nullptr;
+        f.userData = nullptr;
+    }
+
+    mvCallbackWrapper& operator=(mvCallbackWrapper&& other)
+    {
+        callback = other.callback;
+        userData = other.userData;
+        other.callback = nullptr;
+        other.userData = nullptr;
+        return *this;
+    }
+
+    void run(mvUUID sender = 0, PyObject *appData = nullptr, bool decrementAppData = true)
+    {
+        if (!callback) {
+            return;
+        }
+        // Bump refs in case this object gets deleted before the callback's run!
+        Py_XINCREF(callback);
+        Py_XINCREF(userData);
+        if (!decrementAppData)
+            Py_XINCREF(appData);
+
+        mvSubmitCallback([=]() {
+            mvRunCallback(callback, sender, appData, userData);
+
+            Py_XDECREF(callback);
+            Py_XDECREF(userData);
+            Py_XDECREF(appData);
+            });
+    }
+
+    void run_blocking(mvUUID sender = 0, PyObject *appData = nullptr, bool decrementAppData = true)
+    {
+        if (!callback) {
+            return;
+        }
+
+        mvRunCallback(callback, sender, appData, userData);
+    }
+
+    ~mvCallbackWrapper()
+    {
+        Py_XDECREF(callback);
+        Py_XDECREF(userData);
+    }
+
+    // delete copy constructor and assignment operator
+    mvCallbackWrapper(const mvCallbackWrapper&) = delete;
+    mvCallbackWrapper(mvCallbackWrapper&) = delete;
+    mvCallbackWrapper& operator=(const mvCallbackWrapper&) = delete;
+};
+
+//-----------------------------------------------------------------------------
+// mvCallbackPythonSlot
+//-----------------------------------------------------------------------------
+
+class mvCallbackPythonSlot
+{
+    const char* pythonName;
+    mvCallbackWrapper callbackWrapper;
+
+public:
+    mvCallbackPythonSlot(const char* pythonName)
+        : pythonName(pythonName)
+    {
+    }
+
+    PyObject* set_from_python(PyObject* self, PyObject* args, PyObject* kwargs);
+    
+    void run(mvUUID sender = 0, PyObject *appData = nullptr, bool decrementAppData = true)
+    {
+        callbackWrapper.run(sender, appData, decrementAppData);
+    }
+
+    void run_blocking(mvUUID sender = 0, PyObject *appData = nullptr, bool decrementAppData = true)
+    {
+        callbackWrapper.run_blocking(sender, appData, decrementAppData);
+    }
+};
+
+//-----------------------------------------------------------------------------
 // mvQueue
 //-----------------------------------------------------------------------------
 template<typename T>
@@ -221,10 +332,12 @@ struct mvCallbackRegistry
 	std::atomic<i32>           callCount = 0;
 
 	// callbacks
-	PyObject* resizeCallback          = nullptr;
-	PyObject* onCloseCallback         = nullptr;
-	PyObject* resizeCallbackUserData  = nullptr;
-	PyObject* onCloseCallbackUserData = nullptr;
+    mvCallbackPythonSlot viewportResizeCallbackSlot { "set_viewport_resize_callback" };
+    mvCallbackPythonSlot exitCallbackSlot { "set_exit_callback" };
+    mvCallbackPythonSlot dragEnterCallbackSlot { "set_drag_enter_callback" };
+    mvCallbackPythonSlot dragLeaveCallbackSlot { "set_drag_leave_callback" };
+    mvCallbackPythonSlot dragOverCallbackSlot { "set_drag_over_callback" };
+    mvCallbackPythonSlot dropCallbackSlot { "set_drop_callback" };
 
 	i32 highestFrame = 0;
 	std::unordered_map<i32, PyObject*> frameCallbacks;

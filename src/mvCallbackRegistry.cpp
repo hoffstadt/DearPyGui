@@ -3,9 +3,36 @@
 #include "mvContext.h"
 #include <chrono>
 #include <iostream>
+#include <utility>
 #include "mvItemRegistry.h"
 #include "mvAppItemCommons.h"
 #include "mvPyUtils.h"
+
+//-----------------------------------------------------------------------------
+// mvCallbackPythonSlot
+//-----------------------------------------------------------------------------
+
+PyObject* mvCallbackPythonSlot::set_from_python(PyObject* self, PyObject* args, PyObject* kwargs)
+{
+	PyObject* callback;
+	PyObject* user_data = nullptr;
+	
+	if (!Parse((GetParsers())[this->pythonName], args, kwargs, this->pythonName, &callback, &user_data))
+		return GetPyNone();
+
+	auto wrapper = mvCallbackWrapper(SanitizeCallback(callback), user_data);
+
+	mvSubmitCallback([=, wrapper=std::move(wrapper)]() mutable
+		{
+			this->callbackWrapper = std::move(wrapper);
+		});
+
+	return GetPyNone();
+}
+
+//-----------------------------------------------------------------------------
+// globals
+//-----------------------------------------------------------------------------
 
 void mvRunTasks()
 {

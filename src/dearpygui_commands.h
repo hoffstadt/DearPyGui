@@ -1890,47 +1890,37 @@ set_frame_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 static PyObject*
 set_exit_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	PyObject* callback;
-	PyObject* user_data = nullptr;
-
-	if (!Parse((GetParsers())["set_exit_callback"], args, kwargs, __FUNCTION__, &callback,
-		&user_data))
-		return GetPyNone();
-
-	Py_XINCREF(callback);
-	if(user_data)
-		Py_XINCREF(user_data);
-	mvSubmitCallback([=]()
-		{
-			GContext->callbackRegistry->onCloseCallback = SanitizeCallback(callback);
-			GContext->callbackRegistry->onCloseCallbackUserData = user_data;
-		});
-	return GetPyNone();
+	return GContext->callbackRegistry->exitCallbackSlot.set_from_python(self, args, kwargs);
 }
 
 static PyObject*
 set_viewport_resize_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	PyObject* callback = nullptr;
-	PyObject* user_data = nullptr;
+	return GContext->callbackRegistry->viewportResizeCallbackSlot.set_from_python(self, args, kwargs);
+}
 
-	if (!Parse((GetParsers())["set_viewport_resize_callback"], args, kwargs, __FUNCTION__,
-		&callback, &user_data))
-		return GetPyNone();
+static PyObject*
+set_drag_enter_callback(PyObject* self, PyObject* args, PyObject* kwargs)
+{
+	return GContext->callbackRegistry->dragEnterCallbackSlot.set_from_python(self, args, kwargs);
+}
 
-	if (callback)
-		Py_XINCREF(callback);
+static PyObject*
+set_drag_leave_callback(PyObject* self, PyObject* args, PyObject* kwargs)
+{
+	return GContext->callbackRegistry->dragLeaveCallbackSlot.set_from_python(self, args, kwargs);
+}
 
-	if (user_data)
-		Py_XINCREF(user_data);
+static PyObject*
+set_drag_over_callback(PyObject* self, PyObject* args, PyObject* kwargs)
+{
+	return GContext->callbackRegistry->dragOverCallbackSlot.set_from_python(self, args, kwargs);
+}
 
-	mvSubmitCallback([=]()
-		{
-			GContext->callbackRegistry->resizeCallback = SanitizeCallback(callback);
-			GContext->callbackRegistry->resizeCallbackUserData = user_data;
-		});
-
-	return GetPyNone();
+static PyObject*
+set_drop_callback(PyObject* self, PyObject* args, PyObject* kwargs)
+{
+	return GContext->callbackRegistry->dropCallbackSlot.set_from_python(self, args, kwargs);
 }
 
 static PyObject*
@@ -2512,7 +2502,7 @@ destroy_context(PyObject* self, PyObject* args, PyObject* kwargs)
 		// exit callback.
 		GContext->started = true;
 		mvSubmitCallback([=]() {
-			mvRunCallback(GContext->callbackRegistry->onCloseCallback, 0, nullptr, GContext->callbackRegistry->onCloseCallbackUserData);
+			GContext->callbackRegistry->exitCallbackSlot.run_blocking();
 			GContext->started = false;  // return to false after
 			});
 
