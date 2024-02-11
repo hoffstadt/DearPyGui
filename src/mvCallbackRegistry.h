@@ -5,7 +5,6 @@
 #include <vector>
 #include <unordered_map>
 #include "mvContext.h"
-#include <type_traits>
 
 //-----------------------------------------------------------------------------
 // mvFunctionWrapper
@@ -85,7 +84,7 @@ public:
         }
     }
 
-    mvCallbackWrapper(mvCallbackWrapper&& f)
+    mvCallbackWrapper(mvCallbackWrapper&& f) noexcept
     {
         callback = f.callback;
         userData = f.userData;
@@ -288,13 +287,43 @@ static PyObject* SanitizeCallback(PyObject* callback)
 	return callback;
 }
 
-struct mvCallbackJob
+class mvCallbackJob
 {
-	mvUUID      sender    = 0;
 	PyObject*   callback  = nullptr;
+	mvUUID      sender    = 0;
 	PyObject*   app_data  = nullptr;
 	PyObject*   user_data = nullptr;
 	std::string sender_str;
+
+public:
+    mvCallbackJob(PyObject* callback, mvUUID sender, PyObject* app_data, PyObject* user_data);
+    mvCallbackJob(PyObject* callback, std::string sender, PyObject* app_data, PyObject* user_data);
+    ~mvCallbackJob();
+
+    mvCallbackJob(mvCallbackJob&& other) noexcept {
+        callback = other.callback;
+        app_data = other.app_data;
+        user_data = other.user_data;
+        sender = other.sender;
+        sender_str = other.sender_str;
+        other.callback = nullptr;
+        other.app_data = nullptr;
+        other.user_data = nullptr;
+    }
+
+    mvCallbackJob& operator=(mvCallbackJob&& other) {
+        callback = other.callback;
+        app_data = other.app_data;
+        user_data = other.user_data;
+        sender = other.sender;
+        sender_str = other.sender_str;
+        other.callback = nullptr;
+        other.app_data = nullptr;
+        other.user_data = nullptr;
+        return *this;
+    }
+
+    static PyObject* to_python_tuple(mvCallbackJob&& job);
 };
 
 struct mvCallbackRegistry
@@ -323,8 +352,10 @@ struct mvCallbackRegistry
 void mvRunTasks();
 void mvFrameCallback(i32 frame);
 bool mvRunCallbacks();
+
 void mvAddCallback(PyObject* callback, mvUUID sender, PyObject* app_data, PyObject* user_data);
 void mvAddCallback(PyObject* callback, const std::string& sender, PyObject* app_data, PyObject* user_data);
+
 void mvRunCallback(PyObject* callback, mvUUID sender, PyObject* app_data, PyObject* user_data);
 void mvRunCallback(PyObject* callback, const std::string& sender, PyObject* app_data, PyObject* user_data);
 

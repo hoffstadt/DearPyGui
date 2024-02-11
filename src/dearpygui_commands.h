@@ -4077,30 +4077,10 @@ get_callback_queue(PyObject* self, PyObject* args, PyObject* kwargs)
 		return GetPyNone();
 
 	PyObject* pArgs = PyTuple_New(GContext->callbackRegistry->jobs.size());
-	for (int i = 0; i < GContext->callbackRegistry->jobs.size(); i++)
+	for (size_t i = 0; i < GContext->callbackRegistry->jobs.size(); i++)
 	{
-		PyObject* job = PyTuple_New(4);
-		if (GContext->callbackRegistry->jobs[i].callback)
-			PyTuple_SetItem(job, 0, GContext->callbackRegistry->jobs[i].callback);
-		else
-			PyTuple_SetItem(job, 0, GetPyNone());
-
-		if(GContext->callbackRegistry->jobs[i].sender == 0)
-			PyTuple_SetItem(job, 1, ToPyString(GContext->callbackRegistry->jobs[i].sender_str));
-		else
-			PyTuple_SetItem(job, 1, ToPyUUID(GContext->callbackRegistry->jobs[i].sender));
-
-		if (GContext->callbackRegistry->jobs[i].app_data)
-			PyTuple_SetItem(job, 2, GContext->callbackRegistry->jobs[i].app_data); // steals data, so don't deref
-		else
-			PyTuple_SetItem(job, 2, GetPyNone());
-
-		if (GContext->callbackRegistry->jobs[i].user_data)
-			PyTuple_SetItem(job, 3, GContext->callbackRegistry->jobs[i].user_data); // steals data, so don't deref
-		else
-			PyTuple_SetItem(job, 3, GetPyNone());
-
-		PyTuple_SetItem(pArgs, i, job);
+		PyObject* job_py = mvCallbackJob::to_python_tuple(std::move(GContext->callbackRegistry->jobs[i]));
+		PyTuple_SetItem(pArgs, i, job_py);
 	}
 
 	GContext->callbackRegistry->jobs.clear();

@@ -64,6 +64,59 @@ PyObject* mvCallbackPythonSlot::set_from_python(PyObject* self, PyObject* args, 
 }
 
 //-----------------------------------------------------------------------------
+// mvCallbackJob
+//-----------------------------------------------------------------------------
+
+mvCallbackJob::mvCallbackJob(PyObject* callback, mvUUID sender, PyObject* app_data, PyObject* user_data)
+	: callback(callback), sender(sender), app_data(app_data), user_data(user_data)
+{
+	Py_XINCREF(callback);
+	Py_XINCREF(app_data);
+	Py_XINCREF(user_data);
+}
+
+mvCallbackJob::mvCallbackJob(PyObject* callback, std::string sender, PyObject* app_data, PyObject* user_data)
+	: callback(callback), sender(0), app_data(app_data), user_data(user_data), sender_str(sender)
+{
+	Py_XINCREF(callback);
+	Py_XINCREF(app_data);
+	Py_XINCREF(user_data);
+}
+
+mvCallbackJob::~mvCallbackJob()
+{
+	Py_XDECREF(callback);
+	Py_XDECREF(app_data);
+	Py_XDECREF(user_data);
+}
+
+PyObject* mvCallbackJob::to_python_tuple(mvCallbackJob&& job)
+{
+	PyObject* job_py = PyTuple_New(4);
+	if (job.callback)
+		PyTuple_SetItem(job_py, 0, job.callback);
+	else
+		PyTuple_SetItem(job_py, 0, GetPyNone());
+
+	if(job.sender == 0)
+		PyTuple_SetItem(job_py, 1, ToPyString(job.sender_str));
+	else
+		PyTuple_SetItem(job_py, 1, ToPyUUID(job.sender));
+
+	if (job.app_data)
+		PyTuple_SetItem(job_py, 2, job.app_data);
+	else
+		PyTuple_SetItem(job_py, 2, GetPyNone());
+
+	if (job.user_data)
+		PyTuple_SetItem(job_py, 3, job.user_data);
+	else
+		PyTuple_SetItem(job_py, 3, GetPyNone());
+
+	return job_py;
+}
+
+//-----------------------------------------------------------------------------
 // globals
 //-----------------------------------------------------------------------------
 
@@ -131,27 +184,18 @@ static void _mvAddCallback(PyObject* callable, SENDER sender, PyObject* app_data
 
 	if (GContext->callbackRegistry->callCount > GContext->callbackRegistry->maxNumberOfCalls)
 	{
-		if (app_data != nullptr)
-			Py_XDECREF(app_data);
-		if (user_data != nullptr)
-			Py_XDECREF(user_data);
+		Py_XDECREF(app_data);
+		Py_XDECREF(user_data);
 		assert(false);
 		return;
 	}
 
 	if (GContext->IO.manualCallbacks)
 	{
-		if (callable != nullptr)
-			Py_XINCREF(callable);
-		if (app_data != nullptr)
-			Py_XINCREF(app_data);
-		if (user_data != nullptr)
-			Py_XINCREF(user_data);
-		if constexpr (std::is_same_v<SENDER, mvUUID>)
-			GContext->callbackRegistry->jobs.push_back(mvCallbackJob{ sender, callable, app_data, user_data });
-		else
-			GContext->callbackRegistry->jobs.push_back(mvCallbackJob{ static_cast<mvUUID>(0), callable, app_data, user_data, sender });
-		return;
+		Py_XINCREF(callable);
+		Py_XINCREF(app_data);
+		Py_XINCREF(user_data);
+		GContext->callbackRegistry->jobs.emplace_back(callable, sender, app_data, user_data);
 	}
 	else {
 		mvSubmitCallback([=]() {
@@ -176,17 +220,13 @@ static void _mvRunCallback(PyObject* callable, SENDER sender, PyObject* app_data
 
 	if (callable == nullptr)
 	{
-		//if (data != nullptr)
-		//	Py_XDECREF(data);
 		return;
 	}
 
 	if (!PyCallable_Check(callable))
 	{
-		if (app_data != nullptr)
-			Py_XDECREF(app_data);
-		if (user_data != nullptr)
-			Py_XDECREF(user_data);
+		Py_XDECREF(app_data);
+		Py_XDECREF(user_data);
 		mvThrowPythonError(mvErrorCode::mvNone, "Callable not callable.");
 		PyErr_Print();
 		return;
