@@ -55,7 +55,7 @@ private:
 };
 
 // python reference counting using strict RAII, no implicit copy
-// shared references to an object can use a shared_ptr<PyObjectRef> or explicit copy()
+// shared references to an object can use a shared_ptr<mvPyObjectStrict> or explicit copy()
 class mvPyObjectStrict
 {
     PyObject* m_rawObject = nullptr;

@@ -84,7 +84,7 @@ public:
 
     mvCallbackWithData(mvCallbackWithData&& f) noexcept
         : callback(std::move(f.callback)),
-          appData(std::move(appData)),
+          appData(std::move(f.appData)),
           userData(std::move(f.userData))
     {
     }
