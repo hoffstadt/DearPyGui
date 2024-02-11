@@ -1,9 +1,11 @@
 #pragma once
 
+#include <memory>
 #include <mutex>
 #include <vector>
 #include <unordered_map>
 #include "mvContext.h"
+#include <type_traits>
 
 //-----------------------------------------------------------------------------
 // mvFunctionWrapper
@@ -83,8 +85,7 @@ public:
         }
     }
 
-    template<typename F>
-    mvCallbackWrapper(F&& f) noexcept
+    mvCallbackWrapper(mvCallbackWrapper&& f)
     {
         callback = f.callback;
         userData = f.userData;
@@ -101,34 +102,9 @@ public:
         return *this;
     }
 
-    void run(mvUUID sender = 0, PyObject *appData = nullptr, bool decrementAppData = true)
-    {
-        if (!callback) {
-            return;
-        }
-        // Bump refs in case this object gets deleted before the callback's run!
-        Py_XINCREF(callback);
-        Py_XINCREF(userData);
-        if (!decrementAppData)
-            Py_XINCREF(appData);
+    void run(mvUUID sender = 0, PyObject *appData = nullptr);
 
-        mvSubmitCallback([=]() {
-            mvRunCallback(callback, sender, appData, userData);
-
-            Py_XDECREF(callback);
-            Py_XDECREF(userData);
-            Py_XDECREF(appData);
-            });
-    }
-
-    void run_blocking(mvUUID sender = 0, PyObject *appData = nullptr, bool decrementAppData = true)
-    {
-        if (!callback) {
-            return;
-        }
-
-        mvRunCallback(callback, sender, appData, userData);
-    }
+    void run_blocking(mvUUID sender = 0, PyObject *appData = nullptr);
 
     ~mvCallbackWrapper()
     {
@@ -159,14 +135,14 @@ public:
 
     PyObject* set_from_python(PyObject* self, PyObject* args, PyObject* kwargs);
     
-    void run(mvUUID sender = 0, PyObject *appData = nullptr, bool decrementAppData = true)
+    void run(mvUUID sender = 0, PyObject *appData = nullptr)
     {
-        callbackWrapper.run(sender, appData, decrementAppData);
+        callbackWrapper.run(sender, appData);
     }
 
-    void run_blocking(mvUUID sender = 0, PyObject *appData = nullptr, bool decrementAppData = true)
+    void run_blocking(mvUUID sender = 0, PyObject *appData = nullptr)
     {
-        callbackWrapper.run_blocking(sender, appData, decrementAppData);
+        callbackWrapper.run_blocking(sender, appData);
     }
 };
 
@@ -344,13 +320,13 @@ struct mvCallbackRegistry
 	std::unordered_map<i32, PyObject*> frameCallbacksUserData;
 };
 
-void mvFrameCallback(i32 frame);
 void mvRunTasks();
-template <typename SENDER>
-void mvRunCallback(PyObject* callback, SENDER sender, PyObject* app_data, PyObject* user_data);
-template <typename SENDER>
-void mvAddCallback(PyObject* callback, SENDER sender, PyObject* app_data, PyObject* user_data);
+void mvFrameCallback(i32 frame);
 bool mvRunCallbacks();
+void mvAddCallback(PyObject* callback, mvUUID sender, PyObject* app_data, PyObject* user_data);
+void mvAddCallback(PyObject* callback, const std::string& sender, PyObject* app_data, PyObject* user_data);
+void mvRunCallback(PyObject* callback, mvUUID sender, PyObject* app_data, PyObject* user_data);
+void mvRunCallback(PyObject* callback, const std::string& sender, PyObject* app_data, PyObject* user_data);
 
 template<typename F, typename ...Args>
 std::future<typename std::invoke_result<F, Args...>::type> mvSubmitTask(F f)

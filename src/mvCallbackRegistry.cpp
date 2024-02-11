@@ -8,6 +8,39 @@
 #include "mvAppItemCommons.h"
 #include "mvPyUtils.h"
 
+
+//-----------------------------------------------------------------------------
+// mvCallbackWrapper
+//-----------------------------------------------------------------------------
+
+void mvCallbackWrapper::run(mvUUID sender, PyObject *appData)
+{
+	if (!callback) {
+		return;
+	}
+	// Bump refs in case this object gets deleted before the callback's run!
+	Py_XINCREF(callback);
+	Py_XINCREF(userData);
+	Py_XINCREF(appData);
+
+	mvSubmitCallback([=]() {
+		mvRunCallback(callback, sender, appData, userData);
+
+		Py_XDECREF(callback);
+		Py_XDECREF(userData);
+		Py_XDECREF(appData);
+		});
+}
+
+void mvCallbackWrapper::run_blocking(mvUUID sender, PyObject *appData)
+{
+	if (!callback) {
+		return;
+	}
+
+	mvRunCallback(callback, sender, appData, userData);
+}
+
 //-----------------------------------------------------------------------------
 // mvCallbackPythonSlot
 //-----------------------------------------------------------------------------
@@ -20,11 +53,11 @@ PyObject* mvCallbackPythonSlot::set_from_python(PyObject* self, PyObject* args, 
 	if (!Parse((GetParsers())[this->pythonName], args, kwargs, this->pythonName, &callback, &user_data))
 		return GetPyNone();
 
-	auto wrapper = mvCallbackWrapper(SanitizeCallback(callback), user_data);
+	auto wrapper_ptr = std::make_shared<mvCallbackWrapper>(SanitizeCallback(callback), user_data);
 
-	mvSubmitCallback([=, wrapper=std::move(wrapper)]() mutable
+	mvSubmitCallback([=]() mutable
 		{
-			this->callbackWrapper = std::move(wrapper);
+			this->callbackWrapper = std::move(*wrapper_ptr.get());
 		});
 
 	return GetPyNone();
@@ -54,7 +87,7 @@ void mvFrameCallback(i32 frame)
 	if (GContext->callbackRegistry->frameCallbacks.count(frame) == 0)
 		return;
 
-	mvAddCallback(GContext->callbackRegistry->frameCallbacks[frame], frame, nullptr,
+	mvAddCallback(GContext->callbackRegistry->frameCallbacks[frame], static_cast<mvUUID>(frame), nullptr,
 		GContext->callbackRegistry->frameCallbacksUserData[frame]);
 }
 
@@ -93,7 +126,7 @@ PyObject* SenderToPyObject<std::string>(const std::string& sender)
 }
 
 template <typename SENDER>
-void mvAddCallback(PyObject* callable, SENDER sender, PyObject* app_data, PyObject* user_data)
+static void _mvAddCallback(PyObject* callable, SENDER sender, PyObject* app_data, PyObject* user_data)
 {
 
 	if (GContext->callbackRegistry->callCount > GContext->callbackRegistry->maxNumberOfCalls)
@@ -114,11 +147,10 @@ void mvAddCallback(PyObject* callable, SENDER sender, PyObject* app_data, PyObje
 			Py_XINCREF(app_data);
 		if (user_data != nullptr)
 			Py_XINCREF(user_data);
-		mvUUID sender_uuid;
 		if constexpr (std::is_same_v<SENDER, mvUUID>)
-			GContext->callbackRegistry->jobs.push_back({ sender_uuid, callable, app_data, user_data });
+			GContext->callbackRegistry->jobs.push_back(mvCallbackJob{ sender, callable, app_data, user_data });
 		else
-			GContext->callbackRegistry->jobs.push_back({ 0, callable, app_data, user_data, sender });
+			GContext->callbackRegistry->jobs.push_back(mvCallbackJob{ static_cast<mvUUID>(0), callable, app_data, user_data, sender });
 		return;
 	}
 	else {
@@ -128,11 +160,18 @@ void mvAddCallback(PyObject* callable, SENDER sender, PyObject* app_data, PyObje
 	}
 }
 
-template void mvAddCallback<mvUUID>(PyObject* callback, mvUUID sender, PyObject* app_data, PyObject* user_data);
-template void mvAddCallback<std::string>(PyObject* callback, std::string sender, PyObject* app_data, PyObject* user_data);
+void mvAddCallback(PyObject* callable, mvUUID sender, PyObject* app_data, PyObject* user_data)
+{
+	_mvAddCallback(callable, sender, app_data, user_data);
+}
+
+void mvAddCallback(PyObject* callable, const std::string& sender, PyObject* app_data, PyObject* user_data)
+{
+	_mvAddCallback(callable, sender, app_data, user_data);
+}
 
 template <typename SENDER>
-void mvRunCallback(PyObject* callable, SENDER sender, PyObject* app_data, PyObject* user_data)
+static void _mvRunCallback(PyObject* callable, SENDER sender, PyObject* app_data, PyObject* user_data)
 {
 
 	if (callable == nullptr)
@@ -256,5 +295,12 @@ void mvRunCallback(PyObject* callable, SENDER sender, PyObject* app_data, PyObje
 	}
 }
 
-template void mvRunCallback<mvUUID>(PyObject* callback, mvUUID sender, PyObject* app_data, PyObject* user_data);
-template void mvRunCallback<std::string>(PyObject* callback, std::string sender, PyObject* app_data, PyObject* user_data);
+void mvRunCallback(PyObject* callable, mvUUID sender, PyObject* app_data, PyObject* user_data)
+{
+	_mvRunCallback(callable, sender, app_data, user_data);
+}
+
+void mvRunCallback(PyObject* callable, const std::string& sender, PyObject* app_data, PyObject* user_data)
+{
+	_mvRunCallback(callable, sender, app_data, user_data);
+}
