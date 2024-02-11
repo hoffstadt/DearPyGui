@@ -347,13 +347,9 @@ struct mvCallbackRegistry
 void mvFrameCallback(i32 frame);
 void mvRunTasks();
 template <typename SENDER>
-void mvRunCallback(PyObject* callback, SENDER sender, PyObject* app_data, PyObject* user_data, bool decrementAppData = true);
-extern template void mvRunCallback<mvUUID>(PyObject* callback, mvUUID sender, PyObject* app_data, PyObject* user_data, bool decrementAppData = true);
-extern template void mvRunCallback<const std::string&>(PyObject* callback, const std::string& sender, PyObject* app_data, PyObject* user_data, bool decrementAppData = true);
+void mvRunCallback(PyObject* callback, SENDER sender, PyObject* app_data, PyObject* user_data);
 template <typename SENDER>
-void mvAddCallback(PyObject* callback, SENDER sender, PyObject* app_data, PyObject* user_data, bool decrementAppData = true);
-extern template void mvAddCallback<mvUUID>(PyObject* callback, mvUUID sender, PyObject* app_data, PyObject* user_data, bool decrementAppData = true);
-extern template void mvAddCallback<const std::string&>(PyObject* callback, const std::string& sender, PyObject* app_data, PyObject* user_data, bool decrementAppData = true);
+void mvAddCallback(PyObject* callback, SENDER sender, PyObject* app_data, PyObject* user_data);
 bool mvRunCallbacks();
 
 template<typename F, typename ...Args>

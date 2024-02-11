@@ -93,7 +93,7 @@ PyObject* SenderToPyObject<std::string>(const std::string& sender)
 }
 
 template <typename SENDER>
-void mvAddCallback(PyObject* callable, SENDER sender, PyObject* app_data, PyObject* user_data, bool decrementAppData)
+void mvAddCallback(PyObject* callable, SENDER sender, PyObject* app_data, PyObject* user_data)
 {
 
 	if (GContext->callbackRegistry->callCount > GContext->callbackRegistry->maxNumberOfCalls)
@@ -123,16 +123,16 @@ void mvAddCallback(PyObject* callable, SENDER sender, PyObject* app_data, PyObje
 	}
 	else {
 		mvSubmitCallback([=]() {
-			mvRunCallback(callable, sender, app_data, user_data, decrementAppData);
+			mvRunCallback(callable, sender, app_data, user_data);
 			});
 	}
 }
 
-template void mvAddCallback<mvUUID>(PyObject* callback, mvUUID sender, PyObject* app_data, PyObject* user_data, bool decrementAppData);
-template void mvAddCallback<std::string>(PyObject* callback, std::string sender, PyObject* app_data, PyObject* user_data, bool decrementAppData);
+template void mvAddCallback<mvUUID>(PyObject* callback, mvUUID sender, PyObject* app_data, PyObject* user_data);
+template void mvAddCallback<std::string>(PyObject* callback, std::string sender, PyObject* app_data, PyObject* user_data);
 
 template <typename SENDER>
-void mvRunCallback(PyObject* callable, SENDER sender, PyObject* app_data, PyObject* user_data, bool decrementAppData)
+void mvRunCallback(PyObject* callable, SENDER sender, PyObject* app_data, PyObject* user_data)
 {
 
 	if (callable == nullptr)
@@ -256,5 +256,5 @@ void mvRunCallback(PyObject* callable, SENDER sender, PyObject* app_data, PyObje
 	}
 }
 
-template void mvRunCallback<mvUUID>(PyObject* callback, mvUUID sender, PyObject* app_data, PyObject* user_data, bool decrementAppData);
-template void mvRunCallback<std::string>(PyObject* callback, std::string sender, PyObject* app_data, PyObject* user_data, bool decrementAppData);
+template void mvRunCallback<mvUUID>(PyObject* callback, mvUUID sender, PyObject* app_data, PyObject* user_data);
+template void mvRunCallback<std::string>(PyObject* callback, std::string sender, PyObject* app_data, PyObject* user_data);
