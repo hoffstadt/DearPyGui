@@ -152,22 +152,22 @@ void mvAddCallback(mvCallbackJob&& job)
 	}
 }
 
-void mvAddCallback(PyObject* callback, mvUUID sender, PyObject* app_data, PyObject* user_data)
+void mvAddCallback(PyObject* callback, mvUUID sender, PyObject* app_data, PyObject* user_data, mvCallbackRefcountFlags flags)
 {
 	mvCallbackWithData cwd;
-	cwd.callback = mvPyObjectStrict(callback, false);
-	cwd.appData = mvPyObjectStrict(app_data, false);
-	cwd.userData = mvPyObjectStrict(user_data, false);
+	cwd.callback = mvPyObjectStrict(callback);
+	cwd.appData = mvPyObjectStrict(app_data, !(flags & MV_CALLBACK_STEAL_APP_DATA));
+	cwd.userData = mvPyObjectStrict(user_data);
 	mvCallbackJob job(std::move(cwd), sender);
 	mvAddCallback(std::move(job));
 }
 
-void mvAddCallback(PyObject* callback, const std::string& sender, PyObject* app_data, PyObject* user_data)
+void mvAddCallback(PyObject* callback, const std::string& sender, PyObject* app_data, PyObject* user_data, mvCallbackRefcountFlags flags)
 {
 	mvCallbackWithData cwd;
-	cwd.callback = mvPyObjectStrict(callback, false);
-	cwd.appData = mvPyObjectStrict(app_data, false);
-	cwd.userData = mvPyObjectStrict(user_data, false);
+	cwd.callback = mvPyObjectStrict(callback);
+	cwd.appData = mvPyObjectStrict(app_data, !(flags & MV_CALLBACK_STEAL_APP_DATA));
+	cwd.userData = mvPyObjectStrict(user_data);
 	mvCallbackJob job(std::move(cwd), sender);
 	mvAddCallback(std::move(job));
 }
@@ -234,22 +234,22 @@ void mvRunCallback(mvCallbackJob&& job)
 	}
 }
 
-void mvRunCallback(PyObject* callback, mvUUID sender, PyObject* app_data, PyObject* user_data)
+void mvRunCallback(PyObject* callback, mvUUID sender, PyObject* app_data, PyObject* user_data, mvCallbackRefcountFlags flags)
 {
 	mvCallbackWithData cwd;
-	cwd.callback = mvPyObjectStrict(callback, false);
-	cwd.appData = mvPyObjectStrict(app_data, false);
-	cwd.userData = mvPyObjectStrict(user_data, false);
+	cwd.callback = mvPyObjectStrict(callback);
+	cwd.appData = mvPyObjectStrict(app_data, !(flags & MV_CALLBACK_STEAL_APP_DATA));
+	cwd.userData = mvPyObjectStrict(user_data);
 	mvCallbackJob job(std::move(cwd), sender);
 	mvRunCallback(std::move(job));
 }
 
-void mvRunCallback(PyObject* callback, const std::string& sender, PyObject* app_data, PyObject* user_data)
+void mvRunCallback(PyObject* callback, const std::string& sender, PyObject* app_data, PyObject* user_data, mvCallbackRefcountFlags flags)
 {
 	mvCallbackWithData cwd;
-	cwd.callback = mvPyObjectStrict(callback, false);
-	cwd.appData = mvPyObjectStrict(app_data, false);
-	cwd.userData = mvPyObjectStrict(user_data, false);
+	cwd.callback = mvPyObjectStrict(callback);
+	cwd.appData = mvPyObjectStrict(app_data, !(flags & MV_CALLBACK_STEAL_APP_DATA));
+	cwd.userData = mvPyObjectStrict(user_data);
 	mvCallbackJob job(std::move(cwd), sender);
 	mvRunCallback(std::move(job));
 }

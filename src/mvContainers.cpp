@@ -1132,9 +1132,9 @@ DearPyGui::draw_drag_payload(ImDrawList* drawlist, mvAppItem& item, mvDragPayloa
         if (item.info.parentPtr->config.dragCallback)
         {
             if (item.info.parentPtr->config.alias.empty())
-                mvAddCallback(item.info.parentPtr->config.dragCallback, item.config.parent, config.dragData, item.config.user_data);
+                mvAddCallback(item.info.parentPtr->config.dragCallback, item.config.parent, config.dragData, item.config.user_data, MV_CALLBACK_BORROW_ALL);
             else
-                mvAddCallback(item.info.parentPtr->config.dragCallback, item.info.parentPtr->config.alias, config.dragData, item.config.user_data);
+                mvAddCallback(item.info.parentPtr->config.dragCallback, item.info.parentPtr->config.alias, config.dragData, item.config.user_data, MV_CALLBACK_BORROW_ALL);
         }
 
         for (auto& childset : item.childslots)
@@ -1700,9 +1700,9 @@ apply_drag_drop(mvAppItem* item)
             {
                 auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
                 if (item->config.alias.empty())
-                    mvAddCallback(item->config.dropCallback, item->uuid, payloadActual->configData.dragData, nullptr);
+                    mvAddCallback(item->config.dropCallback, item->uuid, payloadActual->configData.dragData, nullptr, MV_CALLBACK_BORROW_ALL);
                 else
-                    mvAddCallback(item->config.dropCallback, item->config.alias, payloadActual->configData.dragData, nullptr);
+                    mvAddCallback(item->config.dropCallback, item->config.alias, payloadActual->configData.dragData, nullptr, MV_CALLBACK_BORROW_ALL);
             }
 
             ImGui::EndDragDropTarget();
@@ -1722,9 +1722,9 @@ apply_drag_drop_nodraw(mvAppItem* item)
             {
                 auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
                 if (item->config.alias.empty())
-                    mvAddCallback(item->config.dropCallback, item->uuid, payloadActual->configData.dragData, nullptr);
+                    mvAddCallback(item->config.dropCallback, item->uuid, payloadActual->configData.dragData, nullptr, MV_CALLBACK_BORROW_ALL);
                 else
-                    mvAddCallback(item->config.dropCallback, item->config.alias, payloadActual->configData.dragData, nullptr);
+                    mvAddCallback(item->config.dropCallback, item->config.alias, payloadActual->configData.dragData, nullptr, MV_CALLBACK_BORROW_ALL);
             }
 
             ImGui::EndDragDropTarget();

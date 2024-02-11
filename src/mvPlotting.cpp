@@ -508,9 +508,9 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 				{
 					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
 					if (item.config.alias.empty())
-						mvAddCallback(item.config.dropCallback, item.uuid, payloadActual->configData.dragData, nullptr);
+						mvAddCallback(item.config.dropCallback, item.uuid, payloadActual->configData.dragData, nullptr, MV_CALLBACK_BORROW_ALL);
 					else
-						mvAddCallback(item.config.dropCallback, item.config.alias, payloadActual->configData.dragData, nullptr);
+						mvAddCallback(item.config.dropCallback, item.config.alias, payloadActual->configData.dragData, nullptr, MV_CALLBACK_BORROW_ALL);
 				}
 
 				ImPlot::EndDragDropTarget();
@@ -631,7 +631,7 @@ DearPyGui::draw_plot_axis(ImDrawList* drawlist, mvAppItem& item, mvPlotAxisConfi
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(item.config.payloadType.c_str()))
 			{
 				auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
-				mvAddCallback(item.config.dropCallback, item.uuid, payloadActual->configData.dragData, nullptr);
+				mvAddCallback(item.config.dropCallback, item.uuid, payloadActual->configData.dragData, nullptr, MV_CALLBACK_BORROW_ALL);
 			}
 
 			ImPlot::EndDragDropTarget();
@@ -641,7 +641,7 @@ DearPyGui::draw_plot_axis(ImDrawList* drawlist, mvAppItem& item, mvPlotAxisConfi
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(item.config.payloadType.c_str()))
 			{
 				auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
-				mvAddCallback(item.config.dropCallback, item.uuid, payloadActual->configData.dragData, nullptr);
+				mvAddCallback(item.config.dropCallback, item.uuid, payloadActual->configData.dragData, nullptr, MV_CALLBACK_BORROW_ALL);
 			}
 
 			ImPlot::EndDragDropTarget();
@@ -697,7 +697,7 @@ DearPyGui::draw_plot_legend(ImDrawList* drawlist, mvAppItem& item, mvPlotLegendC
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(item.config.payloadType.c_str()))
 			{
 				auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
-				mvAddCallback(item.config.dropCallback, item.uuid, payloadActual->configData.dragData, nullptr);
+				mvAddCallback(item.config.dropCallback, item.uuid, payloadActual->configData.dragData, nullptr, MV_CALLBACK_BORROW_ALL);
 			}
 
 			ImPlot::EndDragDropTarget();

@@ -344,13 +344,19 @@ void mvRunTasks();
 void mvFrameCallback(i32 frame);
 bool mvRunCallbacks();
 
+enum mvCallbackRefcountFlags
+{
+    MV_CALLBACK_BORROW_ALL = 0,
+    MV_CALLBACK_STEAL_APP_DATA = 1
+};
+
 void mvAddCallback(mvCallbackJob&& job);
-void mvAddCallback(PyObject* callback, mvUUID sender, PyObject* app_data, PyObject* user_data);
-void mvAddCallback(PyObject* callback, const std::string& sender, PyObject* app_data, PyObject* user_data);
+void mvAddCallback(PyObject* callback, mvUUID sender, PyObject* app_data, PyObject* user_data, mvCallbackRefcountFlags flags = MV_CALLBACK_STEAL_APP_DATA);
+void mvAddCallback(PyObject* callback, const std::string& sender, PyObject* app_data, PyObject* user_data, mvCallbackRefcountFlags flags = MV_CALLBACK_STEAL_APP_DATA);
 
 void mvRunCallback(mvCallbackJob&& job);
-void mvRunCallback(PyObject* callback, mvUUID sender, PyObject* app_data, PyObject* user_data);
-void mvRunCallback(PyObject* callback, const std::string& sender, PyObject* app_data, PyObject* user_data);
+void mvRunCallback(PyObject* callback, mvUUID sender, PyObject* app_data, PyObject* user_data, mvCallbackRefcountFlags flags = MV_CALLBACK_STEAL_APP_DATA);
+void mvRunCallback(PyObject* callback, const std::string& sender, PyObject* app_data, PyObject* user_data, mvCallbackRefcountFlags flags = MV_CALLBACK_STEAL_APP_DATA);
 
 template<typename F, typename ...Args>
 std::future<typename std::invoke_result<F, Args...>::type> mvSubmitTask(F f)
