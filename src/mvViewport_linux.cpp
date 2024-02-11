@@ -39,6 +39,17 @@ window_size_callback(GLFWwindow* window, int width, int height)
 }
 
 static void
+window_drop_callback(GLFWwindow* window, int count, const char* paths[])
+{
+    std::vector<std::string> filePaths;
+    for (int i = 0; i < count; i++)
+    {
+        filePaths.emplace_back(paths[i]);
+    }
+    GContext->callbackRegistry->dropCallback(filePaths);
+}
+
+static void
 mvPrerender()
 {
     mvViewport* viewport = GContext->viewport;
@@ -227,6 +238,7 @@ mvShowViewport(mvViewport& viewport, bool minimized, bool maximized)
     // Setup callbacks
     glfwSetWindowSizeCallback(viewportData->handle, window_size_callback);
     glfwSetWindowCloseCallback(viewportData->handle, window_close_callback);
+    glfwSetDropCallback(viewportData->handle, window_drop_callback);
 }
     
  void

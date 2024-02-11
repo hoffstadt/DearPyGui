@@ -9,6 +9,7 @@
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_metal.h"
 #include <stdio.h>
+#include <vector>
 
  mvViewport*
 mvCreateViewport(unsigned width, unsigned height)
@@ -24,13 +25,22 @@ static void
 window_close_callback(GLFWwindow* window)
 {
     if (GContext->viewport->disableClose) {
-        mvSubmitCallback([=]() {
-            mvRunCallback(GContext->callbackRegistry->onCloseCallback, 0, nullptr, GContext->callbackRegistry->onCloseCallbackUserData);
-            });
+        GContext->callbackRegistry->exitCallbackPoint.run();
     }
     else {
         GContext->started = false;
     }
+}
+
+static void
+window_drop_callback(GLFWwindow* window, int count, const char* paths[])
+{
+    std::vector<std::string> filePaths;
+    for (int i = 0; i < count; i++)
+    {
+        filePaths.emplace_back(paths[i]);
+    }
+    GContext->callbackRegistry->dropCallback(filePaths);
 }
 
 static void
@@ -135,6 +145,7 @@ mvShowViewport(mvViewport& viewport, bool minimized, bool maximized)
     glfwSetWindowSizeCallback(viewportData->handle, window_size_callback);
     //glfwSetFramebufferSizeCallback(m_window, window_size_callback);
     glfwSetWindowCloseCallback(viewportData->handle, window_close_callback);
+    glfwSetDropCallback(viewportData->handle, window_drop_callback);
 }
   
  void

@@ -92,6 +92,17 @@ PyObject* mvCallbackJob::to_python_tuple(mvCallbackJob&& job)
 }
 
 //-----------------------------------------------------------------------------
+// mvCallbackRegistry
+//-----------------------------------------------------------------------------
+
+void mvCallbackRegistry::dropCallback(const std::vector<std::string>& files)
+{
+	auto files_p = ToPyList(files);
+	this->dropCallbackPoint.run(MV_APP_UUID, files_p);
+	Py_XDECREF(files_p);
+}
+
+//-----------------------------------------------------------------------------
 // globals
 //-----------------------------------------------------------------------------
 

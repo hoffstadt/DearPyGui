@@ -339,6 +339,9 @@ struct mvCallbackRegistry
     mvCallbackPoint dragOverCallbackPoint { "set_drag_over_callback" };
     mvCallbackPoint dropCallbackPoint { "set_drop_callback" };
 
+    void dropCallback(const std::vector<std::string>& filenames);
+
+    // frame callbacks
 	i32 highestFrame = 0;
 	std::unordered_map<i32, PyObject*> frameCallbacks;
 	std::unordered_map<i32, PyObject*> frameCallbacksUserData;
@@ -348,11 +351,9 @@ void mvRunTasks();
 void mvFrameCallback(i32 frame);
 bool mvRunCallbacks();
 
-enum mvCallbackRefcountFlags
-{
-    MV_CALLBACK_BORROW_ALL = 0,
-    MV_CALLBACK_STEAL_APP_DATA = 1
-};
+using mvCallbackRefcountFlags = unsigned int;
+constexpr mvCallbackRefcountFlags MV_CALLBACK_BORROW_ALL = 0;
+constexpr mvCallbackRefcountFlags MV_CALLBACK_STEAL_APP_DATA = 1;
 
 void mvAddCallback(mvCallbackJob&& job);
 void mvAddCallback(PyObject* callback, mvUUID sender, PyObject* app_data, PyObject* user_data, mvCallbackRefcountFlags flags = MV_CALLBACK_STEAL_APP_DATA);
