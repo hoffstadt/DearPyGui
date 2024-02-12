@@ -75,7 +75,7 @@ public:
     PyObject* steal();
     mvPyObjectStrict copy();
     // If m_rawObject is nullptr, convert it to Py_None.
-    void null_to_none();
+    void nullToNone();
 };
 
 enum class mvErrorCode

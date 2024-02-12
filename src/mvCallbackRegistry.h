@@ -101,11 +101,11 @@ public:
         return *this;
     }
 
-    void null_to_none() noexcept
+    void nullToNone() noexcept
     {
-        callback.null_to_none();
-        appData.null_to_none();
-        userData.null_to_none();
+        callback.nullToNone();
+        appData.nullToNone();
+        userData.nullToNone();
     }
 
     mvCallbackWithData copy()

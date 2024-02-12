@@ -127,7 +127,7 @@ mvPyObjectStrict mvPyObjectStrict::copy()
     return mvPyObjectStrict(m_rawObject, true);
 }
 
-void mvPyObjectStrict::null_to_none() {
+void mvPyObjectStrict::nullToNone() {
     if (m_rawObject == nullptr) {
         m_rawObject = Py_None;
         Py_XINCREF(m_rawObject);

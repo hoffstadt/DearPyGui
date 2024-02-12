@@ -94,7 +94,7 @@ PyObject* mvCallbackJob::to_python_tuple(mvCallbackJob&& job)
 		return nullptr;
 	}
 
-	job.cwd.null_to_none();
+	job.cwd.nullToNone();
 
 	PyObject* job_py = PyTuple_New(4);
 	auto cwd = std::move(job.cwd);
@@ -183,7 +183,7 @@ void mvRunCallbackJob(mvCallbackJob&& job)
 		return;
 	}
 
-	job.cwd.null_to_none();
+	job.cwd.nullToNone();
 	if (*job.cwd.callback == Py_None)
 		return;
 
