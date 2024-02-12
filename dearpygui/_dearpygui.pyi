@@ -1118,22 +1118,6 @@ def set_clipboard_text(text : str) -> None:
 	"""New in 1.3. Sets the clipboard text."""
 	...
 
-def set_drag_enter_callback(callback : Callable, *, user_data: Any ='') -> str:
-	"""Sets a callback to run when user drags an item into the window."""
-	...
-
-def set_drag_leave_callback(callback : Callable, *, user_data: Any ='') -> str:
-	"""Sets a callback to run when user leaves the window while dragging an item."""
-	...
-
-def set_drag_over_callback(callback : Callable, *, user_data: Any ='') -> str:
-	"""Sets a callback to run while user is dragging an item in the window."""
-	...
-
-def set_drop_callback(callback : Callable, *, user_data: Any ='') -> str:
-	"""Sets a callback to run when user drops an item into the window."""
-	...
-
 def set_exit_callback(callback : Callable, *, user_data: Any ='') -> str:
 	"""Sets a callback to run on last frame."""
 	...

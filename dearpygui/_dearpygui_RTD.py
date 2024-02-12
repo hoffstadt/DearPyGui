@@ -8196,54 +8196,6 @@ def set_clipboard_text(text):
 
 	return internal_dpg.set_clipboard_text(text)
 
-def set_drag_enter_callback(callback, **kwargs):
-	"""	 Sets a callback to run when user drags an item into the window.
-
-	Args:
-		callback (Callable): 
-		user_data (Any, optional): New in 1.3. Optional user data to send to the callback
-	Returns:
-		str
-	"""
-
-	return internal_dpg.set_drag_enter_callback(callback, **kwargs)
-
-def set_drag_leave_callback(callback, **kwargs):
-	"""	 Sets a callback to run when user leaves the window while dragging an item.
-
-	Args:
-		callback (Callable): 
-		user_data (Any, optional): New in 1.3. Optional user data to send to the callback
-	Returns:
-		str
-	"""
-
-	return internal_dpg.set_drag_leave_callback(callback, **kwargs)
-
-def set_drag_over_callback(callback, **kwargs):
-	"""	 Sets a callback to run while user is dragging an item in the window.
-
-	Args:
-		callback (Callable): 
-		user_data (Any, optional): New in 1.3. Optional user data to send to the callback
-	Returns:
-		str
-	"""
-
-	return internal_dpg.set_drag_over_callback(callback, **kwargs)
-
-def set_drop_callback(callback, **kwargs):
-	"""	 Sets a callback to run when user drops an item into the window.
-
-	Args:
-		callback (Callable): 
-		user_data (Any, optional): New in 1.3. Optional user data to send to the callback
-	Returns:
-		str
-	"""
-
-	return internal_dpg.set_drop_callback(callback, **kwargs)
-
 def set_exit_callback(callback, **kwargs):
 	"""	 Sets a callback to run on last frame.
 

@@ -334,10 +334,6 @@ struct mvCallbackRegistry
 	// callbacks
     mvCallbackPoint viewportResizeCallbackPoint { "set_viewport_resize_callback" };
     mvCallbackPoint exitCallbackPoint { "set_exit_callback" };
-    mvCallbackPoint dragEnterCallbackPoint { "set_drag_enter_callback" };
-    mvCallbackPoint dragLeaveCallbackPoint { "set_drag_leave_callback" };
-    mvCallbackPoint dragOverCallbackPoint { "set_drag_over_callback" };
-    mvCallbackPoint dropCallbackPoint { "set_drop_callback" };
 
     void dropCallback(const std::vector<std::string>& filenames);
 

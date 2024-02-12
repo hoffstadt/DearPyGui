@@ -1900,30 +1900,6 @@ set_viewport_resize_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 }
 
 static PyObject*
-set_drag_enter_callback(PyObject* self, PyObject* args, PyObject* kwargs)
-{
-	return GContext->callbackRegistry->dragEnterCallbackPoint.set_from_python(self, args, kwargs);
-}
-
-static PyObject*
-set_drag_leave_callback(PyObject* self, PyObject* args, PyObject* kwargs)
-{
-	return GContext->callbackRegistry->dragLeaveCallbackPoint.set_from_python(self, args, kwargs);
-}
-
-static PyObject*
-set_drag_over_callback(PyObject* self, PyObject* args, PyObject* kwargs)
-{
-	return GContext->callbackRegistry->dragOverCallbackPoint.set_from_python(self, args, kwargs);
-}
-
-static PyObject*
-set_drop_callback(PyObject* self, PyObject* args, PyObject* kwargs)
-{
-	return GContext->callbackRegistry->dropCallbackPoint.set_from_python(self, args, kwargs);
-}
-
-static PyObject*
 get_viewport_configuration(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 
