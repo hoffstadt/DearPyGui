@@ -4,6 +4,7 @@
 #include <chrono>
 #include <iostream>
 #include <utility>
+#include "mvAppItem.h"
 #include "mvItemRegistry.h"
 #include "mvAppItemCommons.h"
 #include "mvPyUtils.h"
@@ -19,7 +20,7 @@ void mvCallbackPoint::run(mvUUID sender, PyObject *appData)
 	if (appData)
 		cwd.appData = mvPyObjectStrict(appData);
 
-	mvSubmitCallbackJob({cwd.copy(), sender});
+	mvSubmitRunCallbackJob({cwd.copy(), sender});
 }
 
 void mvCallbackPoint::run_blocking(mvUUID sender, PyObject *appData)
@@ -28,7 +29,7 @@ void mvCallbackPoint::run_blocking(mvUUID sender, PyObject *appData)
 	if (appData)
 		cwd.appData = mvPyObjectStrict(appData);
 	auto job = mvCallbackJob(std::move(cwd), sender);
-	mvRunCallback(std::move(job));
+	mvRunCallbackJob(std::move(job));
 }
 
 PyObject* mvCallbackPoint::set_from_python(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -41,7 +42,7 @@ PyObject* mvCallbackPoint::set_from_python(PyObject* self, PyObject* args, PyObj
 
 	// callback and user_data are borrowed references
 	// so when the callback is made, it bumps the refcounts
-	auto wrapper_ptr = std::make_shared<mvCallbackWithData>(SanitizeCallback(callback), nullptr, user_data);
+	auto wrapper_ptr = std::make_shared<mvCallbackWithData>(SanitizeCallback(callback), nullptr, user_data, MV_CALLBACK_BORROW_ALL);
 
 	mvSubmitCallback([=, wrapper_ptr = std::move(wrapper_ptr)]() mutable
 		{
@@ -55,14 +56,34 @@ PyObject* mvCallbackPoint::set_from_python(PyObject* self, PyObject* args, PyObj
 // mvCallbackJob
 //-----------------------------------------------------------------------------
 
-mvCallbackJob::mvCallbackJob(mvCallbackWithData&& cwd, mvUUID sender)
-	: cwd(std::move(cwd)), sender(sender)
+mvCallbackJob::mvCallbackJob(mvCallbackWithData&& cwd, mvUUID sender, std::string sender_str, bool valid)
+	: cwd(std::move(cwd)), sender(sender), valid(valid)
+{
+	if (sender == 0) {
+		this->sender_str = sender_str;
+	}
+}
+
+mvCallbackJob::mvCallbackJob(PyObject* callback, mvUUID sender, std::string sender_str, PyObject* appData, PyObject* userData, mvCallbackRefcountFlags flags)
+	: mvCallbackJob(mvCallbackWithData(callback, appData, userData, flags), sender, sender_str, true)
 {
 }
 
-mvCallbackJob::mvCallbackJob(mvCallbackWithData&& cwd, std::string sender)
-	: cwd(std::move(cwd)), sender(0), sender_str(sender)
+mvCallbackJob::mvCallbackJob(mvAppItem& item, PyObject* appData, mvCallbackRefcountFlags flags)
+	: mvCallbackJob(item.getCallback(false), item, appData, flags)
 {
+}
+
+mvCallbackJob::mvCallbackJob(PyObject* callback, mvAppItem& item, PyObject* appData, mvCallbackRefcountFlags flags)
+	: cwd(callback, appData, item.config.user_data, flags)
+{
+	if (item.config.alias.empty()) {
+		sender = item.uuid;
+	}
+	else {
+		sender = 0;
+		sender_str = item.config.alias;
+	}
 }
 
 PyObject* mvCallbackJob::to_python_tuple(mvCallbackJob&& job)
@@ -115,8 +136,8 @@ void mvFrameCallback(i32 frame)
 	if (GContext->callbackRegistry->frameCallbacks.count(frame) == 0)
 		return;
 
-	mvAddCallback(GContext->callbackRegistry->frameCallbacks[frame], static_cast<mvUUID>(frame), nullptr,
-		GContext->callbackRegistry->frameCallbacksUserData[frame]);
+	mvAddCallbackJob({GContext->callbackRegistry->frameCallbacks[frame], static_cast<mvUUID>(frame), nullptr,
+		GContext->callbackRegistry->frameCallbacksUserData[frame]});
 }
 
 bool mvRunCallbacks()
@@ -138,44 +159,23 @@ bool mvRunCallbacks()
 	return true;
 }
 
-void mvAddCallback(mvCallbackJob&& job)
+void mvAddCallbackJob(mvCallbackJob&& job, bool allowManualManagement)
 {
-
 	if (GContext->callbackRegistry->callCount > GContext->callbackRegistry->maxNumberOfCalls)
 	{
 		assert(false);
 		return;
 	}
 
-	if (GContext->IO.manualCallbacks) {
+	if (allowManualManagement && GContext->IO.manualCallbacks) {
 		GContext->callbackRegistry->jobs.push_back(std::move(job));
 	}
 	else {
-		mvSubmitCallbackJob(std::move(job));
+		mvSubmitRunCallbackJob(std::move(job));
 	}
 }
 
-void mvAddCallback(PyObject* callback, mvUUID sender, PyObject* app_data, PyObject* user_data, mvCallbackRefcountFlags flags)
-{
-	mvCallbackWithData cwd;
-	cwd.callback = mvPyObjectStrict(callback);
-	cwd.appData = mvPyObjectStrict(app_data, !(flags & MV_CALLBACK_STEAL_APP_DATA));
-	cwd.userData = mvPyObjectStrict(user_data);
-	mvCallbackJob job(std::move(cwd), sender);
-	mvAddCallback(std::move(job));
-}
-
-void mvAddCallback(PyObject* callback, const std::string& sender, PyObject* app_data, PyObject* user_data, mvCallbackRefcountFlags flags)
-{
-	mvCallbackWithData cwd;
-	cwd.callback = mvPyObjectStrict(callback);
-	cwd.appData = mvPyObjectStrict(app_data, !(flags & MV_CALLBACK_STEAL_APP_DATA));
-	cwd.userData = mvPyObjectStrict(user_data);
-	mvCallbackJob job(std::move(cwd), sender);
-	mvAddCallback(std::move(job));
-}
-
-void mvRunCallback(mvCallbackJob&& job)
+void mvRunCallbackJob(mvCallbackJob&& job)
 {
 	if (!job.is_valid()) {
 		mvThrowPythonError(mvErrorCode::mvNone, "Tried to run an invalidated mvCallbackJob.");
@@ -241,24 +241,4 @@ void mvRunCallback(mvCallbackJob&& job)
 				PyErr_Print();
 		}
 	}
-}
-
-void mvRunCallback(PyObject* callback, mvUUID sender, PyObject* app_data, PyObject* user_data, mvCallbackRefcountFlags flags)
-{
-	mvCallbackWithData cwd;
-	cwd.callback = mvPyObjectStrict(callback);
-	cwd.appData = mvPyObjectStrict(app_data, !(flags & MV_CALLBACK_STEAL_APP_DATA));
-	cwd.userData = mvPyObjectStrict(user_data);
-	mvCallbackJob job(std::move(cwd), sender);
-	mvRunCallback(std::move(job));
-}
-
-void mvRunCallback(PyObject* callback, const std::string& sender, PyObject* app_data, PyObject* user_data, mvCallbackRefcountFlags flags)
-{
-	mvCallbackWithData cwd;
-	cwd.callback = mvPyObjectStrict(callback);
-	cwd.appData = mvPyObjectStrict(app_data, !(flags & MV_CALLBACK_STEAL_APP_DATA));
-	cwd.userData = mvPyObjectStrict(user_data);
-	mvCallbackJob job(std::move(cwd), sender);
-	mvRunCallback(std::move(job));
 }

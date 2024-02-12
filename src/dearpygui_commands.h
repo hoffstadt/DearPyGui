@@ -2347,7 +2347,7 @@ output_frame_buffer(PyObject* self, PyObject* args, PyObject* kwargs)
 		newbuffer = PyObject_Init((PyObject*)newbufferview, &PymvBufferType);
 		mvSubmitTask([newbuffer, callback, newbufferview]() {
 			OutputFrameBufferArray(newbufferview);
-			mvAddCallback(callback, 0, newbuffer, nullptr);
+			mvAddCallbackJob({callback, 0, newbuffer, nullptr});
 			});
 
 		return GetPyNone();

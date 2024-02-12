@@ -8,6 +8,10 @@
 #include "mvContext.h"
 #include "mvPyUtils.h"
 
+using mvCallbackRefcountFlags = unsigned int;
+constexpr mvCallbackRefcountFlags MV_CALLBACK_BORROW_ALL = 0;
+constexpr mvCallbackRefcountFlags MV_CALLBACK_STEAL_APP_DATA = 1;
+
 //-----------------------------------------------------------------------------
 // mvFunctionWrapper
 //-----------------------------------------------------------------------------
@@ -75,9 +79,9 @@ public:
 
     mvCallbackWithData() = default;
 
-    mvCallbackWithData(PyObject* callback, PyObject* appData, PyObject* userData)
+    mvCallbackWithData(PyObject* callback, PyObject* appData, PyObject* userData, mvCallbackRefcountFlags flags)
         : callback(callback),
-          appData(appData),
+          appData(appData, !(flags & MV_CALLBACK_STEAL_APP_DATA)),
           userData(userData)
     {
     }
@@ -107,7 +111,7 @@ public:
     mvCallbackWithData copy()
     {
         // increases the python reference counts
-        return mvCallbackWithData(*callback, *appData, *userData);
+        return mvCallbackWithData(*callback, *appData, *userData, MV_CALLBACK_BORROW_ALL);
     }
 };
 
@@ -274,19 +278,40 @@ static PyObject* SanitizeCallback(PyObject* callback)
 	return callback;
 }
 
+// forward declaration: mvCallbackRegistry.h is included in mvAppItem.h
+class mvAppItem;
+
 class mvCallbackJob
 {
-    // Set everything but sender.
-    mvCallbackJob(mvCallbackWithData&& wrapper);
-
 public:
     mvCallbackWithData cwd;
     mvUUID sender = 0;
     std::string sender_str;
     bool valid = true;
 
-    mvCallbackJob(mvCallbackWithData&& wrapper, mvUUID sender);
-    mvCallbackJob(mvCallbackWithData&& wrapper, std::string sender);
+    mvCallbackJob(mvCallbackWithData&& wrapper, mvUUID sender, std::string sender_str, bool valid = true);
+    inline mvCallbackJob(mvCallbackWithData&& wrapper, mvUUID sender, bool valid = true) :
+        mvCallbackJob(std::move(wrapper), sender, std::string(), valid)
+    {
+    }
+    inline mvCallbackJob(mvCallbackWithData&& wrapper, std::string sender, bool valid = true) :
+        mvCallbackJob(std::move(wrapper), 0, sender, valid)
+    {
+    }
+
+    mvCallbackJob(PyObject* callback, mvUUID sender, std::string sender_str, PyObject* app_data, PyObject* user_data, mvCallbackRefcountFlags flags = MV_CALLBACK_STEAL_APP_DATA);
+    inline mvCallbackJob(PyObject* callback, mvUUID sender, PyObject* app_data, PyObject* user_data, mvCallbackRefcountFlags flags = MV_CALLBACK_STEAL_APP_DATA) :
+        mvCallbackJob(callback, sender, std::string(), app_data, user_data, flags)
+    {
+    }
+    inline mvCallbackJob(PyObject* callback, std::string sender, PyObject* app_data, PyObject* user_data, mvCallbackRefcountFlags flags = MV_CALLBACK_STEAL_APP_DATA):
+        mvCallbackJob(callback, 0, sender, app_data, user_data, flags)
+    {
+    }
+
+    // for convenience: a lot of callbacks are generated from mvAppItem
+    mvCallbackJob(mvAppItem& item, PyObject* app_data, mvCallbackRefcountFlags flags = MV_CALLBACK_STEAL_APP_DATA);
+    mvCallbackJob(PyObject* callback, mvAppItem& item, PyObject* app_data, mvCallbackRefcountFlags flags = MV_CALLBACK_STEAL_APP_DATA);
 
     mvCallbackJob(mvCallbackJob&& other) noexcept
     {
@@ -310,10 +335,7 @@ public:
     mvCallbackJob copy()
     {
         // increases the python reference counts
-        if (sender == 0)
-            return mvCallbackJob(cwd.copy(), sender);
-        else
-            return mvCallbackJob(cwd.copy(), sender_str);
+        return mvCallbackJob(cwd.copy(), sender, sender_str, valid);
     }
 
     bool is_valid() const { return valid; }
@@ -347,17 +369,8 @@ void mvRunTasks();
 void mvFrameCallback(i32 frame);
 bool mvRunCallbacks();
 
-using mvCallbackRefcountFlags = unsigned int;
-constexpr mvCallbackRefcountFlags MV_CALLBACK_BORROW_ALL = 0;
-constexpr mvCallbackRefcountFlags MV_CALLBACK_STEAL_APP_DATA = 1;
-
-void mvAddCallback(mvCallbackJob&& job);
-void mvAddCallback(PyObject* callback, mvUUID sender, PyObject* app_data, PyObject* user_data, mvCallbackRefcountFlags flags = MV_CALLBACK_STEAL_APP_DATA);
-void mvAddCallback(PyObject* callback, const std::string& sender, PyObject* app_data, PyObject* user_data, mvCallbackRefcountFlags flags = MV_CALLBACK_STEAL_APP_DATA);
-
-void mvRunCallback(mvCallbackJob&& job);
-void mvRunCallback(PyObject* callback, mvUUID sender, PyObject* app_data, PyObject* user_data, mvCallbackRefcountFlags flags = MV_CALLBACK_STEAL_APP_DATA);
-void mvRunCallback(PyObject* callback, const std::string& sender, PyObject* app_data, PyObject* user_data, mvCallbackRefcountFlags flags = MV_CALLBACK_STEAL_APP_DATA);
+void mvAddCallbackJob(mvCallbackJob&& job, bool allowManualManagement = true);
+void mvRunCallbackJob(mvCallbackJob&& job);
 
 template<typename F, typename ...Args>
 std::future<typename std::invoke_result<F, Args...>::type> mvSubmitTask(F f)
@@ -395,12 +408,22 @@ std::future<typename std::invoke_result<F, Args...>::type> mvSubmitCallback(F f)
 	return res;
 }
 
-inline auto mvSubmitCallbackJob(mvCallbackJob&& job)
+inline auto mvSubmitAddCallbackJob(mvCallbackJob&& job)
+{
+	// This gets wrapped in an std::function so it can't be move-only, sadly.
+	auto jobp = std::make_shared<mvCallbackJob>(std::move(job));
+
+    return mvSubmitCallback([jobp = std::move(jobp)]() {
+        mvAddCallbackJob(std::move(*jobp));
+        });
+}
+
+inline auto mvSubmitRunCallbackJob(mvCallbackJob&& job)
 {
 	// This gets wrapped in an std::function so it can't be move-only, sadly.
 	auto jobp = std::make_shared<mvCallbackJob>(std::move(job));
 
 	return mvSubmitCallback([jobp = std::move(jobp)]() {
-		mvRunCallback(std::move(*jobp));
+		mvRunCallbackJob(std::move(*jobp));
 	    });
 }

@@ -1322,7 +1322,7 @@ AddItemWithRuntimeChecks(mvItemRegistry& registry, std::shared_ptr<mvAppItem> it
   
         // this is a unique situation in that the caller always has the GIL
         registry.capturedItem = item;
-        mvRunCallback(registry.captureCallback, registry.capturedItem->uuid, nullptr, nullptr);
+        mvRunCallbackJob({registry.captureCallback, registry.capturedItem->uuid, nullptr, nullptr});
         Py_XDECREF(registry.captureCallback);
         registry.captureCallback = nullptr;
         return true;

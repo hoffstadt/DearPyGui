@@ -333,20 +333,10 @@ void mvNodeEditor::draw(ImDrawList* drawlist, float x, float y)
 
         if (config.callback)
         {
-            if (config.alias.empty())
-                mvSubmitCallback([=]() {
-                PyObject* link = PyTuple_New(2);
-                PyTuple_SetItem(link, 0, ToPyUUID(node1));
-                PyTuple_SetItem(link, 1, ToPyUUID(node2));
-                mvAddCallback(config.callback, uuid, link, config.user_data);
-                    });
-            else
-                mvSubmitCallback([=]() {
-                PyObject* link = PyTuple_New(2);
-                PyTuple_SetItem(link, 0, ToPyUUID(node1));
-                PyTuple_SetItem(link, 1, ToPyUUID(node2));
-                mvAddCallback(config.callback, config.alias, link, config.user_data);
-                    });
+            PyObject* link = PyTuple_New(2);
+            PyTuple_SetItem(link, 0, ToPyUUID(node1));
+            PyTuple_SetItem(link, 1, ToPyUUID(node2));
+            mvSubmitAddCallbackJob({config.callback, *this, link});
         }
     }
 
@@ -367,16 +357,7 @@ void mvNodeEditor::draw(ImDrawList* drawlist, float x, float y)
         }
         if (_delinkCallback)
         {
-            if (config.alias.empty())
-                mvSubmitCallback([=]() {
-                PyObject* link = ToPyUUID(name);
-                mvAddCallback(_delinkCallback, uuid, link, config.user_data);
-                    });
-            else
-                mvSubmitCallback([=]() {
-                PyObject* link = ToPyUUID(name);
-                mvAddCallback(_delinkCallback, config.alias, link, config.user_data);
-                    });
+            mvSubmitAddCallbackJob({_delinkCallback, *this, ToPyUUID(name)});
         }
     }
 

@@ -103,25 +103,19 @@ void mvFileDialog::draw(ImDrawList* drawlist, float x, float y)
 			// action if OK clicked or if cancel clicked and cancel callback provided
 			if (_instance.IsOk() ||  _cancelCallback)
 			{
-				mvSubmitCallback([&]()
-					{
-						PyObject* callback;
-						PyObject* appData;
-						
-						if(_instance.IsOk())
-						{
-							callback = config.callback;
-							appData = getInfoDict();
-						} else {
-							callback = _cancelCallback;
-							appData = getInfoDict();
-						}
+				PyObject* callback;
+				PyObject* appData;
+				
+				if(_instance.IsOk())
+				{
+					callback = config.callback;
+					appData = getInfoDict();
+				} else {
+					callback = _cancelCallback;
+					appData = getInfoDict();
+				}
 
-						if(config.alias.empty())
-							mvRunCallback(callback, uuid, appData, config.user_data);
-						else
-							mvRunCallback(callback, config.alias, appData, config.user_data);	
-					});
+				mvAddCallbackJob({callback, *this, appData}, false);
 			}
 
 			// close

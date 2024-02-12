@@ -812,12 +812,7 @@ DearPyGui::draw_tab(ImDrawList* drawlist, mvAppItem& item, mvTabConfig& config)
             // run call back if it exists
             if (parent->getSpecificValue() != item.uuid)
             {
-                mvSubmitCallback([=, &item]() {
-                    if (parent->config.alias.empty())
-                        mvAddCallback(parent->getCallback(), parent->uuid, ToPyUUID(item.uuid), parent->config.user_data);
-                    else
-                        mvAddCallback(parent->getCallback(), parent->config.alias, ToPyUUID(item.uuid), parent->config.user_data);
-                    });
+                mvSubmitAddCallbackJob({parent->getCallback(), *parent, ToPyUUID(item.uuid)});
             }
 
             parent->setValue(item.uuid);
@@ -1131,10 +1126,7 @@ DearPyGui::draw_drag_payload(ImDrawList* drawlist, mvAppItem& item, mvDragPayloa
 
         if (item.info.parentPtr->config.dragCallback)
         {
-            if (item.info.parentPtr->config.alias.empty())
-                mvAddCallback(item.info.parentPtr->config.dragCallback, item.config.parent, config.dragData, item.config.user_data, MV_CALLBACK_BORROW_ALL);
-            else
-                mvAddCallback(item.info.parentPtr->config.dragCallback, item.info.parentPtr->config.alias, config.dragData, item.config.user_data, MV_CALLBACK_BORROW_ALL);
+            mvAddCallbackJob({item.info.parentPtr->config.dragCallback, item.config.parent, item.info.parentPtr->config.alias, config.dragData, item.config.user_data, MV_CALLBACK_BORROW_ALL});
         }
 
         for (auto& childset : item.childslots)
@@ -1495,10 +1487,7 @@ DearPyGui::draw_window(ImDrawList* drawlist, mvAppItem& item, mvWindowAppItemCon
             item.state.toggledOpen = false;
             item.state.visible = false;
 
-            if (item.config.alias.empty())
-                mvAddCallback(config.on_close, item.uuid, nullptr, item.config.user_data);
-            else
-                mvAddCallback(config.on_close, item.config.alias, nullptr, item.config.user_data);
+            mvAddCallbackJob({config.on_close, item, nullptr});
 
             // handle popping themes
             cleanup_local_theming(&item);
@@ -1675,10 +1664,7 @@ DearPyGui::draw_window(ImDrawList* drawlist, mvAppItem& item, mvWindowAppItemCon
         item.state.toggledOpen = false;
         item.state.visible = false;
 
-        if (item.config.alias.empty())
-            mvAddCallback(config.on_close, item.uuid, nullptr, item.config.user_data);
-        else
-            mvAddCallback(config.on_close, item.config.alias, nullptr, item.config.user_data);
+        mvAddCallbackJob({config.on_close, item, nullptr});
     }
 
     if (item.handlerRegistry)
@@ -1699,10 +1685,7 @@ apply_drag_drop(mvAppItem* item)
             if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(item->config.payloadType.c_str()))
             {
                 auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
-                if (item->config.alias.empty())
-                    mvAddCallback(item->config.dropCallback, item->uuid, payloadActual->configData.dragData, nullptr, MV_CALLBACK_BORROW_ALL);
-                else
-                    mvAddCallback(item->config.dropCallback, item->config.alias, payloadActual->configData.dragData, nullptr, MV_CALLBACK_BORROW_ALL);
+                mvAddCallbackJob({item->config.dropCallback, item->uuid, item->config.alias, payloadActual->configData.dragData, nullptr, MV_CALLBACK_BORROW_ALL});
             }
 
             ImGui::EndDragDropTarget();
@@ -1721,10 +1704,7 @@ apply_drag_drop_nodraw(mvAppItem* item)
             if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(item->config.payloadType.c_str()))
             {
                 auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
-                if (item->config.alias.empty())
-                    mvAddCallback(item->config.dropCallback, item->uuid, payloadActual->configData.dragData, nullptr, MV_CALLBACK_BORROW_ALL);
-                else
-                    mvAddCallback(item->config.dropCallback, item->config.alias, payloadActual->configData.dragData, nullptr, MV_CALLBACK_BORROW_ALL);
+                mvAddCallbackJob({item->config.dropCallback, item->uuid, item->config.alias, payloadActual->configData.dragData, nullptr, MV_CALLBACK_BORROW_ALL});
             }
 
             ImGui::EndDragDropTarget();
