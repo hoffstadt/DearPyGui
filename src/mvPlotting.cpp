@@ -497,14 +497,18 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(item.config.payloadType.c_str()))
 				{
 					auto dropCallbackPtr = mvPyObjectStrictPtr(item.shared_from_this(), &item.config.dropCallback);
-					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
-					auto dragDataPtr = payloadActual->configData.dragData;
-					mvAddCallbackJob({
-						dropCallbackPtr,
-						item.uuid,
-						item.config.alias,
-						MV_APP_DATA_COPY_FUNC(dragDataPtr),
-						nullptr});
+					mvUUID payloadUuid = *static_cast<const mvUUID*>(payload->Data);
+					auto payloadActual = static_cast<const mvDragPayload*>(GetItem(*GContext->itemRegistry, payloadUuid));
+					if (payloadActual) {
+						auto& dragData = payloadActual->configData.dragData;
+						mvAddCallbackJob({
+							dropCallbackPtr,
+							item.uuid,
+							item.config.alias,
+							MV_APP_DATA_COPY_FUNC(dragData),
+							nullptr
+						});
+					}
 				}
 
 				ImPlot::EndDragDropTarget();
@@ -619,37 +623,25 @@ DearPyGui::draw_plot_axis(ImDrawList* drawlist, mvAppItem& item, mvPlotAxisConfi
 
 	if (item.config.dropCallback)
 	{
+		const ImGuiPayload* payload;
 		ScopedID id(item.uuid);
-		if (item.info.location == 0 && ImPlot::BeginDragDropTargetX())
+		if ((item.info.location == 0 && ImPlot::BeginDragDropTargetX() &&
+				(payload = ImGui::AcceptDragDropPayload(item.config.payloadType.c_str()))) ||
+			(ImPlot::BeginDragDropTargetY(item.info.location - 1) &&
+				(payload = ImGui::AcceptDragDropPayload(item.config.payloadType.c_str()))))
 		{
-			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(item.config.payloadType.c_str()))
-			{
-				auto dropCallbackPtr = mvPyObjectStrictPtr(item.shared_from_this(), &item.config.dropCallback);
-				auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
-				auto dragDataPtr = payloadActual->configData.dragData;
+			auto dropCallbackPtr = mvPyObjectStrictPtr(item.shared_from_this(), &item.config.dropCallback);
+			mvUUID payloadUuid = *static_cast<const mvUUID*>(payload->Data);
+			auto payloadActual = static_cast<const mvDragPayload*>(GetItem(*GContext->itemRegistry, payloadUuid));
+			if (payloadActual) {
+				auto& dragData = payloadActual->configData.dragData;
 				mvAddCallbackJob({
 					dropCallbackPtr,
 					item.uuid,
 					item.config.alias,
-					MV_APP_DATA_COPY_FUNC(dragDataPtr),
-					nullptr});
-			}
-
-			ImPlot::EndDragDropTarget();
-		}
-		else if (ImPlot::BeginDragDropTargetY(item.info.location - 1))
-		{
-			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(item.config.payloadType.c_str()))
-			{
-				auto dropCallbackPtr = mvPyObjectStrictPtr(item.shared_from_this(), &item.config.dropCallback);
-				auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
-				auto dragDataPtr = payloadActual->configData.dragData;
-				mvAddCallbackJob({
-					dropCallbackPtr,
-					item.uuid,
-					item.config.alias,
-					MV_APP_DATA_COPY_FUNC(dragDataPtr),
-					nullptr});
+					MV_APP_DATA_COPY_FUNC(dragData),
+					nullptr
+				});
 			}
 
 			ImPlot::EndDragDropTarget();
@@ -705,14 +697,18 @@ DearPyGui::draw_plot_legend(ImDrawList* drawlist, mvAppItem& item, mvPlotLegendC
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(item.config.payloadType.c_str()))
 			{
 				auto dropCallbackPtr = mvPyObjectStrictPtr(item.shared_from_this(), &item.config.dropCallback);
-				auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
-				auto dragDataPtr = payloadActual->configData.dragData;
-				mvAddCallbackJob({
-					dropCallbackPtr,
-					item.uuid,
-					item.config.alias,
-					MV_APP_DATA_COPY_FUNC(dragDataPtr),
-					nullptr});
+				mvUUID payloadUuid = *static_cast<const mvUUID*>(payload->Data);
+				auto payloadActual = static_cast<const mvDragPayload*>(GetItem(*GContext->itemRegistry, payloadUuid));
+				if (payloadActual) {
+					auto& dragData = payloadActual->configData.dragData;
+					mvAddCallbackJob({
+						dropCallbackPtr,
+						item.uuid,
+						item.config.alias,
+						MV_APP_DATA_COPY_FUNC(dragData),
+						nullptr
+					});
+				}
 			}
 
 			ImPlot::EndDragDropTarget();

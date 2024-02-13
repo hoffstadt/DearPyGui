@@ -1110,19 +1110,20 @@ DearPyGui::draw_drag_payload(ImDrawList* drawlist, mvAppItem& item, mvDragPayloa
 {
     if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID))
     {
-        ImGui::SetDragDropPayload(config.payloadType.c_str(), &item, sizeof(mvDragPayload));
+        ImGui::SetDragDropPayload(config.payloadType.c_str(), &item.uuid, sizeof(item.uuid));
 
         if (item.info.parentPtr->config.dragCallback)
         {
             auto& parentPtr = item.info.parentPtr;
             auto dragCallbackPtr = mvPyObjectStrictPtr(parentPtr->shared_from_this(), &parentPtr->config.dragCallback);
             auto userDataPtr = mvPyObjectStrictPtr(item.shared_from_this(), &item.config.user_data);
+            auto& dragData = config.dragData;
 
             mvAddCallbackJob({
                 dragCallbackPtr,
                 item.config.parent,
                 parentPtr->config.alias,
-                MV_APP_DATA_COPY_FUNC(config.dragData),
+                MV_APP_DATA_COPY_FUNC(dragData),
                 userDataPtr
             });
         }
@@ -1683,15 +1684,18 @@ apply_drag_drop(mvAppItem* item)
             if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(item->config.payloadType.c_str()))
             {
                 auto dropCallbackPtr = mvPyObjectStrictPtr(item->shared_from_this(), &item->config.dropCallback);
-                auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
-
-                mvAddCallbackJob({
-                    dropCallbackPtr,
-                    item->uuid,
-                    item->config.alias,
-                    MV_APP_DATA_COPY_FUNC(payloadActual->configData.dragData),
-                    nullptr
-                });
+                mvUUID payloadUuid = *static_cast<const mvUUID*>(payload->Data);
+                auto payloadActual = static_cast<const mvDragPayload*>(GetItem(*GContext->itemRegistry, payloadUuid));
+                if (payloadActual) {
+                    auto& dragData = payloadActual->configData.dragData;
+                    mvAddCallbackJob({
+                        dropCallbackPtr,
+                        item->uuid,
+                        item->config.alias,
+                        MV_APP_DATA_COPY_FUNC(dragData),
+                        nullptr
+                    });
+                }
             }
 
             ImGui::EndDragDropTarget();
@@ -1710,15 +1714,18 @@ apply_drag_drop_nodraw(mvAppItem* item)
             if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(item->config.payloadType.c_str()))
             {
                 auto dropCallbackPtr = mvPyObjectStrictPtr(item->shared_from_this(), &item->config.dropCallback);
-                auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
-
-                mvAddCallbackJob({
-                    dropCallbackPtr,
-                    item->uuid,
-                    item->config.alias,
-                    MV_APP_DATA_COPY_FUNC(payloadActual->configData.dragData),
-                    nullptr
-                });
+                mvUUID payloadUuid = *static_cast<const mvUUID*>(payload->Data);
+                auto payloadActual = static_cast<const mvDragPayload*>(GetItem(*GContext->itemRegistry, payloadUuid));
+                if (payloadActual) {
+                    auto& dragData = payloadActual->configData.dragData;
+                    mvAddCallbackJob({
+                        dropCallbackPtr,
+                        item->uuid,
+                        item->config.alias,
+                        MV_APP_DATA_COPY_FUNC(dragData),
+                        nullptr
+                    });
+                }
             }
 
             ImGui::EndDragDropTarget();
