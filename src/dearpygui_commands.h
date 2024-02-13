@@ -3573,37 +3573,33 @@ get_item_configuration(PyObject* self, PyObject* args, PyObject* kwargs)
 		PyDict_SetItemString(pdict, "height", py_height);
 		PyDict_SetItemString(pdict, "indent", py_indent);
 
-		if (appitem->config.callback)
-		{
-			Py_XINCREF(*appitem->config.callback);
+		if (appitem->config.callback) {
 			PyDict_SetItemString(pdict, "callback", *appitem->config.callback);
 		}
-		else
-			PyDict_SetItemString(pdict, "callback", GetPyNone());
+		else {
+			PyDict_SetItemString(pdict, "callback", Py_None);
+		}
 
-		if (appitem->config.dropCallback)
-		{
-			Py_XINCREF(*appitem->config.dropCallback);
+		if (appitem->config.dropCallback) {
 			PyDict_SetItemString(pdict, "drop_callback", *appitem->config.dropCallback);
 		}
-		else
-			PyDict_SetItemString(pdict, "drop_callback", GetPyNone());
+		else {
+			PyDict_SetItemString(pdict, "drop_callback", Py_None);
+		}
 
-		if (appitem->config.dragCallback)
-		{
-			Py_XINCREF(*appitem->config.dragCallback);
+		if (appitem->config.dragCallback) {
 			PyDict_SetItemString(pdict, "drag_callback", *appitem->config.dragCallback);
 		}
-		else
-			PyDict_SetItemString(pdict, "drag_callback", GetPyNone());
+		else {
+			PyDict_SetItemString(pdict, "drag_callback", Py_None);
+		}
 
-		if (appitem->config.user_data)
-		{
-			Py_XINCREF(*appitem->config.user_data);
+		if (appitem->config.user_data) {
 			PyDict_SetItemString(pdict, "user_data", *appitem->config.user_data);
 		}
-		else
-			PyDict_SetItemString(pdict, "user_data", GetPyNone());
+		else {
+			PyDict_SetItemString(pdict, "user_data", Py_None);
+		}
 
 		appitem->getSpecificConfiguration(pdict);
 	}
