@@ -216,7 +216,6 @@ mvRawTexture::~mvRawTexture()
 {
 	FreeTexture(_texture);
 
-	mvGlobalIntepreterLock gil;
 	Py_XDECREF(_buffer);
 }
 

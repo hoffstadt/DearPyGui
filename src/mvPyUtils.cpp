@@ -81,7 +81,6 @@ void mvPyObject::delRef()
 mvPyObjectStrict::mvPyObjectStrict(PyObject* rawObject, bool borrowed)
     : m_rawObject(rawObject)
 {
-    mvGlobalIntepreterLock gil;
     if (borrowed) {
         Py_XINCREF(m_rawObject);
     }
@@ -95,10 +94,7 @@ mvPyObjectStrict::mvPyObjectStrict(mvPyObjectStrict&& other) noexcept
 
 mvPyObjectStrict& mvPyObjectStrict::operator=(mvPyObjectStrict&& other) noexcept
 {
-    if (m_rawObject) {
-        mvGlobalIntepreterLock gil;
-        Py_DECREF(m_rawObject);
-    }
+    Py_XDECREF(m_rawObject);
     m_rawObject = other.m_rawObject;
     other.m_rawObject = nullptr;
     return *this;
@@ -106,7 +102,6 @@ mvPyObjectStrict& mvPyObjectStrict::operator=(mvPyObjectStrict&& other) noexcept
 
 mvPyObjectStrict::~mvPyObjectStrict()
 {
-    mvGlobalIntepreterLock gil;
     Py_XDECREF(m_rawObject);
 }
 

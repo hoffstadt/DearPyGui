@@ -104,7 +104,6 @@ void mvFileDialog::draw(ImDrawList* drawlist, float x, float y)
 			if (_instance.IsOk() ||  _cancelCallback)
 			{
 				mvPyObjectStrictPtr callback;
-				PyObject* appData;
 				
 				if(_instance.IsOk()) {
 					callback = mvPyObjectStrictPtr(shared_from_this(), &config.callback);

@@ -36,12 +36,6 @@ mvAppItem::~mvAppItem()
     if (type == mvAppItemType::mvTable)
         static_cast<mvTable*>(this)->onChildrenRemoved();
 
-    mvGlobalIntepreterLock gil;
-    config.callback = nullptr;
-    config.user_data = nullptr;
-    config.dragCallback = nullptr;
-    config.dropCallback = nullptr;
-
     // in case item registry is destroyed
     if (GContext->itemRegistry)
     {

@@ -2475,19 +2475,22 @@ destroy_context(PyObject* self, PyObject* args, PyObject* kwargs)
 		// true in order to run DPG commands for the
 		// exit callback.
 		GContext->started = true;
-		mvSubmitCallback([=]() {
+		auto future = mvSubmitCallback([=]() {
 			GContext->callbackRegistry->exitCallbackPoint.run_blocking();
 			GContext->started = false;  // return to false after
 			});
+
+		future.get();
 
 		ImNodes::DestroyContext();
 		ImPlot::DestroyContext();
 		ImGui::DestroyContext();
 
-		mvToolManager::Reset();
-		ClearItemRegistry(*GContext->itemRegistry);
-
-
+		future = mvSubmitCallback([=]() {
+			mvToolManager::Reset();
+			ClearItemRegistry(*GContext->itemRegistry);
+		});
+		future.get();
 
 		//#define X(el) el::s_class_theme_component = nullptr; el::s_class_theme_disabled_component = nullptr;
 		#define X(el) DearPyGui::GetClassThemeComponent(mvAppItemType::el) = nullptr; DearPyGui::GetDisabledClassThemeComponent(mvAppItemType::el) = nullptr;
@@ -2499,13 +2502,16 @@ destroy_context(PyObject* self, PyObject* args, PyObject* kwargs)
 				});
 		if (GContext->future.valid())
 			GContext->future.get();
-		if (GContext->viewport)
-			delete GContext->viewport;
 
-		delete GContext->itemRegistry;
-		delete GContext->callbackRegistry;
-		delete GContext;
-		GContext = nullptr;
+		{
+			mvGlobalIntepreterLock gil;
+			if (GContext->viewport)
+				delete GContext->viewport;
+			delete GContext->itemRegistry;
+			delete GContext->callbackRegistry;
+			delete GContext;
+			GContext = nullptr;
+		}
 	}
 	Py_END_ALLOW_THREADS;
 
