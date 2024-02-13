@@ -72,6 +72,9 @@ public:
     PyObject* operator*();
     explicit operator bool() const;
 
+    // Takes the m_rawObject out of this container.
+    // Shouldn't be done with an mvPyObjectStrict in a shared_ptr, you should
+    // copy it out first.
     PyObject* steal();
     mvPyObjectStrict copy();
 };

@@ -9,10 +9,6 @@
 #include "mvContext.h"
 #include "mvPyUtils.h"
 
-using mvCallbackRefcountFlags = unsigned int;
-constexpr mvCallbackRefcountFlags MV_CALLBACK_BORROW_ALL = 0;
-constexpr mvCallbackRefcountFlags MV_CALLBACK_STEAL_APP_DATA = 1;
-
 //-----------------------------------------------------------------------------
 // mvFunctionWrapper
 //-----------------------------------------------------------------------------

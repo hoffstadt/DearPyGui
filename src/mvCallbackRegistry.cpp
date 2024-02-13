@@ -102,7 +102,6 @@ mvCallbackJob::mvCallbackJob(mvPyObjectStrictPtr callback, mvAppItem& item, mvAp
 	}
 }
 
-
 void mvCallbackJob::prepare()
 {
 	if (makeAppData) {
@@ -271,7 +270,7 @@ void mvRunCallbackJob(mvCallbackJob&& job)
 					PyTuple_SetItem(*pArgs, i, GetPyNone());
 			}
 			
-			mvPyObject result(PyObject_CallObject(*callback, *pArgs));
+			mvPyObject result(PyObject_CallObject(callback.steal(), *pArgs));
 
 			// check if call succeeded
 			if (!result.isOk())
