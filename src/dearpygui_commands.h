@@ -1873,15 +1873,10 @@ set_frame_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (frame > GContext->callbackRegistry->highestFrame)
 		GContext->callbackRegistry->highestFrame = frame;
 
-	// TODO: check previous entry and deprecate if existing
-	Py_XINCREF(callback);
-
-	if(user_data)
-		Py_XINCREF(user_data);
 	mvSubmitCallback([=]()
 		{
-			GContext->callbackRegistry->frameCallbacks[frame] = callback;
-			GContext->callbackRegistry->frameCallbacksUserData[frame] = user_data;
+			GContext->callbackRegistry->frameCallbacks[frame] = std::make_shared<mvPyObjectStrict>(callback);
+			GContext->callbackRegistry->frameCallbacksUserData[frame] = std::make_shared<mvPyObjectStrict>(user_data);
 		});
 
 	return GetPyNone();
@@ -2341,13 +2336,16 @@ output_frame_buffer(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	if (filepathLength == 0 && callback) // not specified, return array instead
 	{
-		//Py_XINCREF(callback);
+		auto callback_ptr = std::make_shared<mvPyObjectStrict>(callback);
+
 		PyObject* newbuffer = nullptr;
 		PymvBuffer* newbufferview = PyObject_New(PymvBuffer, &PymvBufferType);
 		newbuffer = PyObject_Init((PyObject*)newbufferview, &PymvBufferType);
-		mvSubmitTask([newbuffer, callback, newbufferview]() {
+		auto appdata_ptr = std::make_shared<mvPyObjectStrict>(newbuffer, false);
+
+		mvSubmitTask([appdata_ptr, callback_ptr, newbufferview]() {
 			OutputFrameBufferArray(newbufferview);
-			mvAddCallbackJob({callback, 0, newbuffer, nullptr});
+			mvAddCallbackJob({callback_ptr, 0, appdata_ptr, nullptr});
 			});
 
 		return GetPyNone();
@@ -3571,32 +3569,32 @@ get_item_configuration(PyObject* self, PyObject* args, PyObject* kwargs)
 
 		if (appitem->config.callback)
 		{
-			Py_XINCREF(appitem->config.callback);
-			PyDict_SetItemString(pdict, "callback", appitem->config.callback);
+			Py_XINCREF(*appitem->config.callback);
+			PyDict_SetItemString(pdict, "callback", *appitem->config.callback);
 		}
 		else
 			PyDict_SetItemString(pdict, "callback", GetPyNone());
 
 		if (appitem->config.dropCallback)
 		{
-			Py_XINCREF(appitem->config.dropCallback);
-			PyDict_SetItemString(pdict, "drop_callback", appitem->config.dropCallback);
+			Py_XINCREF(*appitem->config.dropCallback);
+			PyDict_SetItemString(pdict, "drop_callback", *appitem->config.dropCallback);
 		}
 		else
 			PyDict_SetItemString(pdict, "drop_callback", GetPyNone());
 
 		if (appitem->config.dragCallback)
 		{
-			Py_XINCREF(appitem->config.dragCallback);
-			PyDict_SetItemString(pdict, "drag_callback", appitem->config.dragCallback);
+			Py_XINCREF(*appitem->config.dragCallback);
+			PyDict_SetItemString(pdict, "drag_callback", *appitem->config.dragCallback);
 		}
 		else
 			PyDict_SetItemString(pdict, "drag_callback", GetPyNone());
 
 		if (appitem->config.user_data)
 		{
-			Py_XINCREF(appitem->config.user_data);
-			PyDict_SetItemString(pdict, "user_data", appitem->config.user_data);
+			Py_XINCREF(*appitem->config.user_data);
+			PyDict_SetItemString(pdict, "user_data", *appitem->config.user_data);
 		}
 		else
 			PyDict_SetItemString(pdict, "user_data", GetPyNone());
@@ -4027,21 +4025,12 @@ capture_next_item(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
-	if (GContext->itemRegistry->captureCallback)
-		Py_XDECREF(GContext->itemRegistry->captureCallback);
-
-	if (GContext->itemRegistry->captureCallbackUserData)
-		Py_XDECREF(GContext->itemRegistry->captureCallbackUserData);
-
-	Py_XINCREF(callable);
-	if(user_data)
-		Py_XINCREF(user_data);
 	if (callable == Py_None)
 		GContext->itemRegistry->captureCallback = nullptr;
 	else
-		GContext->itemRegistry->captureCallback = callable;
+		GContext->itemRegistry->captureCallback = std::make_shared<mvPyObjectStrict>(callable);
 
-	GContext->itemRegistry->captureCallbackUserData = user_data;
+	GContext->itemRegistry->captureCallbackUserData = std::make_shared<mvPyObjectStrict>(user_data);
 
 	return GetPyNone();
 }

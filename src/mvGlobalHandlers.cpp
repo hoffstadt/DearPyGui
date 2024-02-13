@@ -19,14 +19,14 @@ void mvKeyDownHandler::draw(ImDrawList* drawlist, float x, float y)
 		{
 			if (ImGui::GetIO().KeysDown[i])
 			{
-				mvAddCallbackJob({*this, ToPyMPair(i, ImGui::GetIO().KeysDownDuration[i])}, false);
+				mvAddCallbackJob({*this, MV_APP_DATA_FUNC(ToPyMPair(i, ImGui::GetIO().KeysDownDuration[i]))}, false);
 			}
 		}
 	}
 
 	else if (ImGui::GetIO().KeysDown[_key])
 	{
-		mvAddCallbackJob({*this, ToPyMPair(_key, ImGui::GetIO().KeysDownDuration[_key])}, false);
+		mvAddCallbackJob({*this, MV_APP_DATA_FUNC(ToPyMPair(_key, ImGui::GetIO().KeysDownDuration[_key]))}, false);
 	}
 }
 
@@ -62,14 +62,14 @@ void mvKeyPressHandler::draw(ImDrawList* drawlist, float x, float y)
 		{
 			if (ImGui::IsKeyPressed(i))
 			{
-				mvAddCallbackJob({*this, ToPyInt(i)}, false);
+				mvAddCallbackJob({*this, MV_APP_DATA_FUNC(ToPyInt(i))}, false);
 			}
 		}
 	}
 
 	else if (ImGui::IsKeyPressed(_key))
 	{
-		mvAddCallbackJob({*this, ToPyInt(_key)}, false);
+		mvAddCallbackJob({*this, MV_APP_DATA_FUNC(ToPyInt(_key))}, false);
 	}
 }
 
@@ -117,14 +117,14 @@ void mvKeyReleaseHandler::draw(ImDrawList* drawlist, float x, float y)
 		{
 			if (ImGui::GetIO().KeysDownDurationPrev[i] >= 0.0f && !ImGui::GetIO().KeysDown[i])
 			{
-				mvAddCallbackJob({*this, ToPyInt(i)}, false);
+				mvAddCallbackJob({*this, MV_APP_DATA_FUNC(ToPyInt(i))}, false);
 			}
 		}
 	}
 
 	else if (ImGui::IsKeyReleased(_key))
 	{
-		mvAddCallbackJob({*this, ToPyInt(_key)}, false);
+		mvAddCallbackJob({*this, MV_APP_DATA_FUNC(ToPyInt(_key))}, false);
 	}
 }
 
@@ -172,14 +172,14 @@ void mvMouseClickHandler::draw(ImDrawList* drawlist, float x, float y)
 		{
 			if (ImGui::IsMouseClicked(i))
 			{
-				mvAddCallbackJob({*this, ToPyInt(i)}, false);
+				mvAddCallbackJob({*this, MV_APP_DATA_FUNC(ToPyInt(i))}, false);
 			}
 		}
 	}
 
 	else if (ImGui::IsMouseClicked(_button))
 	{
-		mvAddCallbackJob({*this, ToPyInt(_button)}, false);
+		mvAddCallbackJob({*this, MV_APP_DATA_FUNC(ToPyInt(_button))}, false);
 	}
 }
 
@@ -227,14 +227,14 @@ void mvMouseDoubleClickHandler::draw(ImDrawList* drawlist, float x, float y)
 		{
 			if (ImGui::IsMouseDoubleClicked(i))
 			{
-				mvAddCallbackJob({*this, ToPyInt(i)}, false);
+				mvAddCallbackJob({*this, MV_APP_DATA_FUNC(ToPyInt(i))}, false);
 			}
 		}
 	}
 
 	else if (ImGui::IsMouseDoubleClicked(_button))
 	{
-		mvAddCallbackJob({*this, ToPyInt(_button)}, false);
+		mvAddCallbackJob({*this, MV_APP_DATA_FUNC(ToPyInt(_button))}, false);
 	}
 }
 
@@ -282,14 +282,14 @@ void mvMouseDownHandler::draw(ImDrawList* drawlist, float x, float y)
 		{
 			if (ImGui::GetIO().MouseDown[i])
 			{
-				mvAddCallbackJob({*this, ToPyMPair(i, ImGui::GetIO().MouseDownDuration[i])}, false);
+				mvAddCallbackJob({*this, MV_APP_DATA_FUNC(ToPyMPair(i, ImGui::GetIO().MouseDownDuration[i]))}, false);
 			}
 		}
 	}
 
 	else if (ImGui::GetIO().MouseDown[_button])
 	{
-		mvAddCallbackJob({*this, ToPyMPair(_button, ImGui::GetIO().MouseDownDuration[_button])}, false);
+		mvAddCallbackJob({*this, MV_APP_DATA_FUNC(ToPyMPair(_button, ImGui::GetIO().MouseDownDuration[_button]))}, false);
 	}
 }
 
@@ -340,7 +340,7 @@ void mvMouseDragHandler::draw(ImDrawList* drawlist, float x, float y)
 
 			if (ImGui::IsMouseDragging(i, _threshold))
 			{
-				mvAddCallbackJob({*this, ToPyMTrip(i, ImGui::GetMouseDragDelta(i).x, ImGui::GetMouseDragDelta(i).y)}, false);
+				mvAddCallbackJob({*this, MV_APP_DATA_FUNC(ToPyMTrip(i, ImGui::GetMouseDragDelta(i).x, ImGui::GetMouseDragDelta(i).y))}, false);
 			}
 		}
 	}
@@ -350,7 +350,7 @@ void mvMouseDragHandler::draw(ImDrawList* drawlist, float x, float y)
 		if (ImGui::IsMouseReleased(_button))
 			ImGui::ResetMouseDragDelta(_button);
 
-		mvAddCallbackJob({*this, ToPyMTrip(_button, ImGui::GetMouseDragDelta(_button).x, ImGui::GetMouseDragDelta(_button).y)}, false);
+		mvAddCallbackJob({*this, MV_APP_DATA_FUNC(ToPyMTrip(_button, ImGui::GetMouseDragDelta(_button).x, ImGui::GetMouseDragDelta(_button).y))}, false);
 	}
 }
 
@@ -408,7 +408,7 @@ void mvMouseMoveHandler::draw(ImDrawList* drawlist, float x, float y)
 		{
 			_oldPos = mousepos;
 
-			mvAddCallbackJob({*this, ToPyPair(mousepos.x, mousepos.y)}, false);
+			mvAddCallbackJob({*this, MV_APP_DATA_FUNC(ToPyPair(mousepos.x, mousepos.y))}, false);
 		}
 	}
 }
@@ -421,14 +421,14 @@ void mvMouseReleaseHandler::draw(ImDrawList* drawlist, float x, float y)
 		{
 			if (ImGui::IsMouseReleased(i))
 			{
-				mvAddCallbackJob({*this, ToPyInt(i)}, false);
+				mvAddCallbackJob({*this, MV_APP_DATA_FUNC(ToPyInt(i))}, false);
 			}
 		}
 	}
 
 	else if (ImGui::IsMouseReleased(_button))
 	{
-		mvAddCallbackJob({*this, ToPyInt(_button)}, false);
+		mvAddCallbackJob({*this, MV_APP_DATA_FUNC(ToPyInt(_button))}, false);
 	}
 }
 
@@ -473,6 +473,6 @@ void mvMouseWheelHandler::draw(ImDrawList* drawlist, float x, float y)
 	int wheel = (int)ImGui::GetIO().MouseWheel;
 	if (wheel)
 	{
-		mvAddCallbackJob({*this, ToPyInt(wheel)}, false);
+		mvAddCallbackJob({*this, MV_APP_DATA_FUNC(ToPyInt(wheel))}, false);
 	}
 }

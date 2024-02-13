@@ -35,16 +35,16 @@ public:
 public:
 
     std::shared_ptr<bool>     _value = std::make_shared<bool>(false);
-    bool            _disabled_value = false;
-    ImGuiFileDialog _instance;
-    bool            _dirtySettings = true;
-    std::string     _filters;
-    std::string     _defaultPath;
-    std::string     _defaultFilename = ".";
-    int             _fileCount = 0;
-    bool            _modal = false;
-    bool            _directory = false;
-    mvVec2          _min_size = { 100.0f, 100.0f };
-    mvVec2          _max_size = { 30000.0f, 30000.0f };
-	PyObject*	    _cancelCallback = nullptr;
+    bool             _disabled_value = false;
+    ImGuiFileDialog  _instance;
+    bool             _dirtySettings = true;
+    std::string      _filters;
+    std::string      _defaultPath;
+    std::string      _defaultFilename = ".";
+    int              _fileCount = 0;
+    bool             _modal = false;
+    bool             _directory = false;
+    mvVec2           _min_size = { 100.0f, 100.0f };
+    mvVec2           _max_size = { 30000.0f, 30000.0f };
+	mvPyObjectStrict _cancelCallback = nullptr;
 };

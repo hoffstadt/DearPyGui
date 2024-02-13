@@ -37,10 +37,10 @@ mvAppItem::~mvAppItem()
         static_cast<mvTable*>(this)->onChildrenRemoved();
 
     mvGlobalIntepreterLock gil;
-    if (config.callback) Py_DECREF(config.callback);
-    if (config.user_data) Py_DECREF(config.user_data);
-    if (config.dragCallback) Py_DECREF(config.dragCallback);
-    if (config.dropCallback) Py_DECREF(config.dropCallback);
+    config.callback = nullptr;
+    config.user_data = nullptr;
+    config.dragCallback = nullptr;
+    config.dropCallback = nullptr;
 
     // in case item registry is destroyed
     if (GContext->itemRegistry)
@@ -54,13 +54,15 @@ mvAppItem::~mvAppItem()
     }
 }
 
-PyObject* 
+std::shared_ptr<mvPyObjectStrict>
 mvAppItem::getCallback(bool ignore_enabled)
 {
-    if (config.enabled)
-        return config.callback;
-
-    return ignore_enabled ? config.callback : nullptr;
+    if (config.enabled || ignore_enabled) {
+        return std::shared_ptr<mvPyObjectStrict>(shared_from_this(), &config.callback);
+    }
+    else {
+        return nullptr;
+    }
 }
 
 void 
@@ -163,52 +165,22 @@ mvAppItem::handleKeywordArgs(PyObject* dict, const std::string& parser)
 
     if (PyObject* item = PyDict_GetItemString(dict, "callback"))
     {
-        if (config.callback)
-            Py_XDECREF(config.callback);
-
-        // TODO: investigate if PyNone should be increffed
-        Py_XINCREF(item);
-        if (item == Py_None)
-            config.callback = nullptr;
-        else
-            config.callback = item;
+        config.callback = mvPyObjectStrict(item);
     }
 
     if (PyObject* item = PyDict_GetItemString(dict, "drag_callback"))
     {
-        if (config.dragCallback)
-            Py_XDECREF(config.dragCallback);
-
-        Py_XINCREF(item);
-        if (item == Py_None)
-            config.dragCallback = nullptr;
-        else
-            config.dragCallback = item;
+        config.dragCallback = mvPyObjectStrict(item);
     }
 
     if (PyObject* item = PyDict_GetItemString(dict, "drop_callback"))
     {
-        if (config.dropCallback)
-            Py_XDECREF(config.dropCallback);
-
-        Py_XINCREF(item);
-
-        if (item == Py_None)
-            config.dropCallback = nullptr;
-        else
-            config.dropCallback = item;
+        config.dropCallback = mvPyObjectStrict(item);
     }
 
     if (PyObject* item = PyDict_GetItemString(dict, "user_data"))
     {
-        if (config.user_data)
-            Py_XDECREF(config.user_data);
-            
-        Py_XINCREF(item);
-        if (item == Py_None)
-            config.user_data = nullptr;
-        else
-            config.user_data = item;
+        config.user_data = mvPyObjectStrict(item);
     }
 
     handleSpecificKeywordArgs(dict);

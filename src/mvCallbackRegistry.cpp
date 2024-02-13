@@ -18,18 +18,16 @@ void mvCallbackPoint::run(mvUUID sender, PyObject *appData)
 {
 	auto cwd = this->cwd.copy();
 	if (appData)
-		cwd.appData = mvPyObjectStrict(appData);
-
-	mvSubmitRunCallbackJob({cwd.copy(), sender});
+		cwd.appData = std::make_shared<mvPyObjectStrict>(appData);
+	mvSubmitRunCallbackJob({std::move(cwd), sender});
 }
 
 void mvCallbackPoint::run_blocking(mvUUID sender, PyObject *appData)
 {
 	auto cwd = this->cwd.copy();
 	if (appData)
-		cwd.appData = mvPyObjectStrict(appData);
-	auto job = mvCallbackJob(std::move(cwd), sender);
-	mvRunCallbackJob(std::move(job));
+		cwd.appData = std::make_shared<mvPyObjectStrict>(appData);
+	mvRunCallbackJob({std::move(cwd), sender});
 }
 
 PyObject* mvCallbackPoint::set_from_python(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -42,7 +40,10 @@ PyObject* mvCallbackPoint::set_from_python(PyObject* self, PyObject* args, PyObj
 
 	// callback and user_data are borrowed references
 	// so when the callback is made, it bumps the refcounts
-	auto wrapper_ptr = std::make_shared<mvCallbackWithData>(SanitizeCallback(callback), nullptr, user_data, MV_CALLBACK_BORROW_ALL);
+	auto wrapper_ptr = std::make_shared<mvCallbackWithData>(
+		std::make_shared<mvPyObjectStrict>(SanitizeCallback(callback)),
+		std::make_shared<mvPyObjectStrict>(),
+		std::make_shared<mvPyObjectStrict>(user_data));
 
 	mvSubmitCallback([=, wrapper_ptr = std::move(wrapper_ptr)]() mutable
 		{
@@ -56,26 +57,41 @@ PyObject* mvCallbackPoint::set_from_python(PyObject* self, PyObject* args, PyObj
 // mvCallbackJob
 //-----------------------------------------------------------------------------
 
-mvCallbackJob::mvCallbackJob(mvCallbackWithData&& cwd, mvUUID sender, std::string sender_str, bool valid)
-	: cwd(std::move(cwd)), sender(sender), valid(valid)
+mvCallbackJob::mvCallbackJob(mvCallbackWithData&& cwd, mvUUID sender, std::string sender_str, std::function<PyObject*()> makeAppData, bool valid)
+	: cwd(std::move(cwd)), sender(sender), makeAppData(makeAppData), valid(valid)
 {
 	if (sender == 0) {
 		this->sender_str = sender_str;
 	}
 }
 
-mvCallbackJob::mvCallbackJob(PyObject* callback, mvUUID sender, std::string sender_str, PyObject* appData, PyObject* userData, mvCallbackRefcountFlags flags)
-	: mvCallbackJob(mvCallbackWithData(callback, appData, userData, flags), sender, sender_str, true)
+mvCallbackJob::mvCallbackJob(mvPyObjectStrictPtr callback, mvUUID sender, std::string sender_str, mvAppDataVariant appData, mvPyObjectStrictPtr userData) :
+	mvCallbackJob(
+		mvCallbackWithData(
+			std::move(callback),
+			appData.index() == 0 ? std::move(std::get<0>(appData)) : nullptr,
+			std::move(userData)),
+		sender,
+		sender_str,
+		appData.index() == 1 ? std::move(std::get<1>(appData)) : nullptr)
 {
 }
 
-mvCallbackJob::mvCallbackJob(mvAppItem& item, PyObject* appData, mvCallbackRefcountFlags flags)
-	: mvCallbackJob(item.getCallback(false), item, appData, flags)
+mvCallbackJob::mvCallbackJob(mvAppItem& item, mvAppDataVariant appData) :
+	mvCallbackJob(item.getCallback(false), item, std::move(appData))
+{
+}
+mvCallbackJob::mvCallbackJob(mvPyObjectStrict* callback, mvAppItem& item, mvAppDataVariant appData) :
+	mvCallbackJob({item.shared_from_this(), std::move(callback)}, item, std::move(appData))
 {
 }
 
-mvCallbackJob::mvCallbackJob(PyObject* callback, mvAppItem& item, PyObject* appData, mvCallbackRefcountFlags flags)
-	: cwd(callback, appData, item.config.user_data, flags)
+mvCallbackJob::mvCallbackJob(mvPyObjectStrictPtr callback, mvAppItem& item, mvAppDataVariant appData) :
+	cwd(
+		std::move(callback),
+		appData.index() == 0 ? std::move(std::get<0>(appData)) : nullptr,
+		{item.shared_from_this(), &item.config.user_data}),
+	makeAppData(appData.index() == 1 ? std::move(std::get<1>(appData)) : nullptr)
 {
 	if (item.config.alias.empty()) {
 		sender = item.uuid;
@@ -86,6 +102,15 @@ mvCallbackJob::mvCallbackJob(PyObject* callback, mvAppItem& item, PyObject* appD
 	}
 }
 
+
+void mvCallbackJob::prepare()
+{
+	if (makeAppData) {
+		cwd.appData = std::make_shared<mvPyObjectStrict>(makeAppData(), false);
+	}
+	cwd.nullToNone();
+}
+
 PyObject* mvCallbackJob::to_python_tuple(mvCallbackJob&& job)
 {
 	if (!job.is_valid()) {
@@ -94,19 +119,22 @@ PyObject* mvCallbackJob::to_python_tuple(mvCallbackJob&& job)
 		return nullptr;
 	}
 
-	job.cwd.nullToNone();
+	job.prepare();
+
+	auto callback = job.cwd.callback->copy();
+	auto appData = job.cwd.appData->copy();
+	auto userData = job.cwd.userData->copy();
 
 	PyObject* job_py = PyTuple_New(4);
-	auto cwd = std::move(job.cwd);
-	PyTuple_SetItem(job_py, 0, cwd.callback.steal());
+	PyTuple_SetItem(job_py, 0, callback.steal());
 
 	if (job.sender == 0)
 		PyTuple_SetItem(job_py, 1, ToPyString(job.sender_str));
 	else
 		PyTuple_SetItem(job_py, 1, ToPyUUID(job.sender));
 
-	PyTuple_SetItem(job_py, 2, cwd.appData.steal());
-	PyTuple_SetItem(job_py, 3, cwd.userData.steal());
+	PyTuple_SetItem(job_py, 2, appData.steal());
+	PyTuple_SetItem(job_py, 3, userData.steal());
 	job.valid = false;
 
 	return job_py;
@@ -161,6 +189,10 @@ bool mvRunCallbacks()
 
 void mvAddCallbackJob(mvCallbackJob&& job, bool allowManualManagement)
 {
+	if (job.no_callback()) {
+		return;
+	}
+
 	if (GContext->callbackRegistry->callCount > GContext->callbackRegistry->maxNumberOfCalls)
 	{
 		assert(false);
@@ -183,11 +215,16 @@ void mvRunCallbackJob(mvCallbackJob&& job)
 		return;
 	}
 
-	job.cwd.nullToNone();
-	if (*job.cwd.callback == Py_None)
+	if (job.no_callback()) {
 		return;
+	}
 
-	if (!PyCallable_Check(*job.cwd.callback))
+	job.prepare();
+	auto callback = job.cwd.callback->copy();
+	auto appData = job.cwd.appData->copy();
+	auto userData = job.cwd.userData->copy();
+
+	if (!PyCallable_Check(*callback))
 	{
 		mvThrowPythonError(mvErrorCode::mvNone, "Callable not callable.");
 		PyErr_Print();
@@ -201,13 +238,13 @@ void mvRunCallbackJob(mvCallbackJob&& job)
 	if (PyErr_Occurred())
 		PyErr_Print();
 
-	auto fc = mvPyObjectStrict(PyObject_GetAttrString(*job.cwd.callback, "__code__"), false);
+	auto fc = mvPyObjectStrict(PyObject_GetAttrString(*callback, "__code__"), false);
 	if (fc) {
 		auto ac = mvPyObjectStrict(PyObject_GetAttrString(*fc, "co_argcount"), false);
 		if (ac) {
 			i32 count = PyLong_AsLong(*ac);
 
-			if (PyMethod_Check(*job.cwd.callback))
+			if (PyMethod_Check(*callback))
 				count--;
 
 			mvPyObjectStrict pArgs(PyTuple_New(count), false);
@@ -224,17 +261,17 @@ void mvRunCallbackJob(mvCallbackJob&& job)
 			}
 
 			if (count >= 2)
-				PyTuple_SetItem(*pArgs, 1, job.cwd.appData.steal());
+				PyTuple_SetItem(*pArgs, 1, appData.steal());
 
 			if (count >= 3)
-				PyTuple_SetItem(*pArgs, 2, job.cwd.userData.steal());
+				PyTuple_SetItem(*pArgs, 2, userData.steal());
 
 			if (count > 3) {
 				for (int i = 3; i < count; i++)
 					PyTuple_SetItem(*pArgs, i, GetPyNone());
 			}
 			
-			mvPyObject result(PyObject_CallObject(*job.cwd.callback, *pArgs));
+			mvPyObject result(PyObject_CallObject(*callback, *pArgs));
 
 			// check if call succeeded
 			if (!result.isOk())

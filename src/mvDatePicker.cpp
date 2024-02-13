@@ -67,7 +67,7 @@ void mvDatePicker::draw(ImDrawList* drawlist, float x, float y)
 		{
 			ImPlot::GetGmtTime(*_imvalue, _value.get());
 			{
-				mvSubmitAddCallbackJob({*this, ToPyTime(*_value)});
+				mvSubmitAddCallbackJob({*this, MV_APP_DATA_FUNC(ToPyTime(*_value))});
 			}
 		}
 	}

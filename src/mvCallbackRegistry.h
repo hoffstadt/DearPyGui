@@ -5,6 +5,7 @@
 #include <vector>
 #include <unordered_map>
 #include <utility>
+#include <variant>
 #include "mvContext.h"
 #include "mvPyUtils.h"
 
@@ -73,27 +74,27 @@ private:
 class mvCallbackWithData
 {
 public:
-    mvPyObjectStrict callback;
-    mvPyObjectStrict appData;
-    mvPyObjectStrict userData;
+    mvPyObjectStrictPtr callback;
+    mvPyObjectStrictPtr appData;
+    mvPyObjectStrictPtr userData;
 
     mvCallbackWithData() = default;
 
-    mvCallbackWithData(PyObject* callback, PyObject* appData, PyObject* userData, mvCallbackRefcountFlags flags)
+    mvCallbackWithData(mvPyObjectStrictPtr callback, mvPyObjectStrictPtr appData, mvPyObjectStrictPtr userData)
         : callback(callback),
-          appData(appData, !(flags & MV_CALLBACK_STEAL_APP_DATA)),
+          appData(appData),
           userData(userData)
     {
     }
 
-    mvCallbackWithData(mvCallbackWithData&& f) noexcept
+    mvCallbackWithData(mvCallbackWithData&& f)
         : callback(std::move(f.callback)),
           appData(std::move(f.appData)),
           userData(std::move(f.userData))
     {
     }
 
-    mvCallbackWithData& operator=(mvCallbackWithData&& other) noexcept
+    mvCallbackWithData& operator=(mvCallbackWithData&& other)
     {
         callback = std::move(other.callback);
         appData = std::move(other.appData);
@@ -101,17 +102,22 @@ public:
         return *this;
     }
 
-    void nullToNone() noexcept
+    void nullToNone()
     {
-        callback.nullToNone();
-        appData.nullToNone();
-        userData.nullToNone();
+        if (!callback || !*callback)
+            callback = mvPyObjectStrictNonePtr();
+
+        if (!appData || !*appData)
+            appData = mvPyObjectStrictNonePtr();
+
+        if (!userData || !*userData)
+            userData = mvPyObjectStrictNonePtr();
     }
 
     mvCallbackWithData copy()
     {
-        // increases the python reference counts
-        return mvCallbackWithData(*callback, *appData, *userData, MV_CALLBACK_BORROW_ALL);
+        // increases shared_ptr reference counts
+        return mvCallbackWithData(callback, appData, userData);
     }
 };
 
@@ -281,43 +287,51 @@ static PyObject* SanitizeCallback(PyObject* callback)
 // forward declaration: mvCallbackRegistry.h is included in mvAppItem.h
 class mvAppItem;
 
+using mvAppDataVariant = std::variant<mvPyObjectStrictPtr, std::function<PyObject*()>, std::nullptr_t>;
+#define MV_APP_DATA_FUNC(x) [=](){return x;}
+#define MV_APP_DATA_COPY_FUNC(x) [=](){Py_XINCREF(**(x)); return **(x);}
+
 class mvCallbackJob
 {
 public:
     mvCallbackWithData cwd;
     mvUUID sender = 0;
     std::string sender_str;
+    std::function<PyObject*()> makeAppData;
     bool valid = true;
 
-    mvCallbackJob(mvCallbackWithData&& wrapper, mvUUID sender, std::string sender_str, bool valid = true);
-    inline mvCallbackJob(mvCallbackWithData&& wrapper, mvUUID sender, bool valid = true) :
-        mvCallbackJob(std::move(wrapper), sender, std::string(), valid)
+    mvCallbackJob(mvCallbackWithData&& wrapper, mvUUID sender, std::string sender_str, std::function<PyObject*()> makeAppData = nullptr, bool valid = true);
+    inline mvCallbackJob(mvCallbackWithData&& wrapper, mvUUID sender, std::function<PyObject*()> makeAppData = nullptr, bool valid = true) :
+        mvCallbackJob(std::move(wrapper), sender, std::string(), makeAppData, valid)
     {
     }
-    inline mvCallbackJob(mvCallbackWithData&& wrapper, std::string sender, bool valid = true) :
-        mvCallbackJob(std::move(wrapper), 0, sender, valid)
+    inline mvCallbackJob(mvCallbackWithData&& wrapper, std::string sender, std::function<PyObject*()> makeAppData = nullptr, bool valid = true) :
+        mvCallbackJob(std::move(wrapper), 0, sender, makeAppData, valid)
     {
     }
 
-    mvCallbackJob(PyObject* callback, mvUUID sender, std::string sender_str, PyObject* app_data, PyObject* user_data, mvCallbackRefcountFlags flags = MV_CALLBACK_STEAL_APP_DATA);
-    inline mvCallbackJob(PyObject* callback, mvUUID sender, PyObject* app_data, PyObject* user_data, mvCallbackRefcountFlags flags = MV_CALLBACK_STEAL_APP_DATA) :
-        mvCallbackJob(callback, sender, std::string(), app_data, user_data, flags)
+    mvCallbackJob(mvPyObjectStrictPtr callback, mvUUID sender, std::string sender_str, mvAppDataVariant app_data, mvPyObjectStrictPtr user_data);
+    inline mvCallbackJob(mvPyObjectStrictPtr callback, mvUUID sender, mvAppDataVariant app_data, mvPyObjectStrictPtr user_data) :
+        mvCallbackJob(callback, sender, std::string(), app_data, user_data)
     {
     }
-    inline mvCallbackJob(PyObject* callback, std::string sender, PyObject* app_data, PyObject* user_data, mvCallbackRefcountFlags flags = MV_CALLBACK_STEAL_APP_DATA):
-        mvCallbackJob(callback, 0, sender, app_data, user_data, flags)
+    inline mvCallbackJob(mvPyObjectStrictPtr callback, std::string sender, mvAppDataVariant app_data, mvPyObjectStrictPtr user_data):
+        mvCallbackJob(callback, 0, sender, app_data, user_data)
     {
     }
 
     // for convenience: a lot of callbacks are generated from mvAppItem
-    mvCallbackJob(mvAppItem& item, PyObject* app_data, mvCallbackRefcountFlags flags = MV_CALLBACK_STEAL_APP_DATA);
-    mvCallbackJob(PyObject* callback, mvAppItem& item, PyObject* app_data, mvCallbackRefcountFlags flags = MV_CALLBACK_STEAL_APP_DATA);
+    mvCallbackJob(mvAppItem& item, mvAppDataVariant app_data);
+    // automatically makes a shared_ptr tied to the mvAppItem
+    mvCallbackJob(mvPyObjectStrict* callback, mvAppItem& item, mvAppDataVariant app_data);
+    mvCallbackJob(mvPyObjectStrictPtr callback, mvAppItem& item, mvAppDataVariant app_data);
 
     mvCallbackJob(mvCallbackJob&& other) noexcept
     {
         cwd = std::move(other.cwd);
         sender = other.sender;
         sender_str = other.sender_str;
+        makeAppData = std::move(other.makeAppData);
         valid = other.valid;
         other.valid = false;
     }
@@ -327,6 +341,7 @@ public:
         cwd = std::move(other.cwd);
         sender = other.sender;
         sender_str = other.sender_str;
+        makeAppData = std::move(other.makeAppData);
         valid = other.valid;
         other.valid = false;
         return *this;
@@ -334,11 +349,17 @@ public:
 
     mvCallbackJob copy()
     {
-        // increases the python reference counts
-        return mvCallbackJob(cwd.copy(), sender, sender_str, valid);
+        return mvCallbackJob(cwd.copy(), sender, sender_str, makeAppData, valid);
     }
 
+    void prepare();
+
     bool is_valid() const { return valid; }
+
+    bool no_callback() const
+    {
+        return !cwd.callback || !*cwd.callback;
+    }
 
     static PyObject* to_python_tuple(mvCallbackJob&& job);
 };
@@ -361,8 +382,8 @@ struct mvCallbackRegistry
 
     // frame callbacks
 	i32 highestFrame = 0;
-	std::unordered_map<i32, PyObject*> frameCallbacks;
-	std::unordered_map<i32, PyObject*> frameCallbacksUserData;
+	std::unordered_map<i32, mvPyObjectStrictPtr> frameCallbacks;
+	std::unordered_map<i32, mvPyObjectStrictPtr> frameCallbacksUserData;
 };
 
 void mvRunTasks();
@@ -408,7 +429,7 @@ std::future<typename std::invoke_result<F, Args...>::type> mvSubmitCallback(F f)
 	return res;
 }
 
-inline auto mvSubmitAddCallbackJob(mvCallbackJob&& job)
+inline std::future<void> mvSubmitAddCallbackJob(mvCallbackJob&& job)
 {
 	// This gets wrapped in an std::function so it can't be move-only, sadly.
 	auto jobp = std::make_shared<mvCallbackJob>(std::move(job));
@@ -418,7 +439,7 @@ inline auto mvSubmitAddCallbackJob(mvCallbackJob&& job)
         });
 }
 
-inline auto mvSubmitRunCallbackJob(mvCallbackJob&& job)
+inline std::future<void> mvSubmitRunCallbackJob(mvCallbackJob&& job)
 {
 	// This gets wrapped in an std::function so it can't be move-only, sadly.
 	auto jobp = std::make_shared<mvCallbackJob>(std::move(job));

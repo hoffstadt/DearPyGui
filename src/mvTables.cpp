@@ -272,15 +272,18 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 							specs.push_back({ idMap[sort_spec->ColumnUserID], sort_spec->SortDirection == ImGuiSortDirection_Ascending ? 1 : -1 });
 						}
 
-						PyObject* pySpec = PyList_New(specs.size());
-						for (size_t i = 0; i < specs.size(); i++)
-						{
-							PyObject* pySingleSpec = PyList_New(2);
-							PyList_SetItem(pySingleSpec, 0, ToPyLong(specs[i].column));
-							PyList_SetItem(pySingleSpec, 1, ToPyInt(specs[i].direction));
-							PyList_SetItem(pySpec, i, pySingleSpec);
-						}
-						mvAddCallbackJob({*this, pySpec}, false);
+						auto appDataFunc = [specs=std::move(specs)]() {
+							PyObject* pySpec = PyList_New(specs.size());
+							for (size_t i = 0; i < specs.size(); i++)
+							{
+								PyObject* pySingleSpec = PyList_New(2);
+								PyList_SetItem(pySingleSpec, 0, ToPyLong(specs[i].column));
+								PyList_SetItem(pySingleSpec, 1, ToPyInt(specs[i].direction));
+								PyList_SetItem(pySpec, i, pySingleSpec);
+							}
+							return pySpec;
+						};
+						mvAddCallbackJob({*this, appDataFunc}, false);
 					}
 					sorts_specs->SpecsDirty = false;
 				}

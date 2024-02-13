@@ -81,6 +81,7 @@ void mvPyObject::delRef()
 mvPyObjectStrict::mvPyObjectStrict(PyObject* rawObject, bool borrowed)
     : m_rawObject(rawObject)
 {
+    mvGlobalIntepreterLock gil;
     if (borrowed) {
         Py_XINCREF(m_rawObject);
     }
@@ -94,7 +95,10 @@ mvPyObjectStrict::mvPyObjectStrict(mvPyObjectStrict&& other) noexcept
 
 mvPyObjectStrict& mvPyObjectStrict::operator=(mvPyObjectStrict&& other) noexcept
 {
-    Py_XDECREF(m_rawObject);
+    if (m_rawObject) {
+        mvGlobalIntepreterLock gil;
+        Py_DECREF(m_rawObject);
+    }
     m_rawObject = other.m_rawObject;
     other.m_rawObject = nullptr;
     return *this;
@@ -102,6 +106,7 @@ mvPyObjectStrict& mvPyObjectStrict::operator=(mvPyObjectStrict&& other) noexcept
 
 mvPyObjectStrict::~mvPyObjectStrict()
 {
+    mvGlobalIntepreterLock gil;
     Py_XDECREF(m_rawObject);
 }
 
@@ -112,7 +117,7 @@ PyObject* mvPyObjectStrict::operator*()
 
 mvPyObjectStrict::operator bool() const
 {
-    return m_rawObject;
+    return m_rawObject && m_rawObject != Py_None;
 }
 
 PyObject* mvPyObjectStrict::steal()
@@ -127,11 +132,12 @@ mvPyObjectStrict mvPyObjectStrict::copy()
     return mvPyObjectStrict(m_rawObject, true);
 }
 
-void mvPyObjectStrict::nullToNone() {
-    if (m_rawObject == nullptr) {
-        m_rawObject = Py_None;
-        Py_XINCREF(m_rawObject);
-    }
+mvPyObjectStrictPtr mvPyObjectStrictNonePtr()
+{
+    static mvPyObjectStrictPtr nonePtr;
+    if (!nonePtr)
+        nonePtr = std::make_shared<mvPyObjectStrict>(Py_None, true);
+    return nonePtr;
 }
 
 void

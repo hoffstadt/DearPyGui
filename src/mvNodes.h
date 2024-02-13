@@ -106,7 +106,7 @@ private:
     bool _clearNodes = false;
     bool _clearLinks = false;
 
-    PyObject*             _delinkCallback = nullptr;
+    mvPyObjectStrict      _delinkCallback = nullptr;
     ImNodesEditorContext* _context = nullptr;
 
     bool                   _minimap = false;

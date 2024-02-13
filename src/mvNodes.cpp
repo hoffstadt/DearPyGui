@@ -52,13 +52,7 @@ void mvNodeEditor::handleSpecificKeywordArgs(PyObject* dict)
 
     if (PyObject* item = PyDict_GetItemString(dict, "delink_callback"))
     {
-
-        if (_delinkCallback)
-            Py_XDECREF(_delinkCallback);
-        item = SanitizeCallback(item);
-        if (item)
-            Py_XINCREF(item);
-        _delinkCallback = item;
+        _delinkCallback = SanitizeCallback(item);
     }
 
     // helper for bit flipping
@@ -81,8 +75,8 @@ void mvNodeEditor::getSpecificConfiguration(PyObject* dict)
 
     if (_delinkCallback)
     {
-        Py_XINCREF(_delinkCallback);
-        PyDict_SetItemString(dict, "delink_callback", _delinkCallback);
+        Py_XINCREF(*_delinkCallback);
+        PyDict_SetItemString(dict, "delink_callback", *_delinkCallback);
     }
     else
         PyDict_SetItemString(dict, "delink_callback", GetPyNone());
@@ -333,10 +327,12 @@ void mvNodeEditor::draw(ImDrawList* drawlist, float x, float y)
 
         if (config.callback)
         {
-            PyObject* link = PyTuple_New(2);
-            PyTuple_SetItem(link, 0, ToPyUUID(node1));
-            PyTuple_SetItem(link, 1, ToPyUUID(node2));
-            mvSubmitAddCallbackJob({config.callback, *this, link});
+            mvSubmitAddCallbackJob({&config.callback, *this, [=]() {
+                PyObject* link = PyTuple_New(2);
+                PyTuple_SetItem(link, 0, ToPyUUID(node1));
+                PyTuple_SetItem(link, 1, ToPyUUID(node2));
+                return link;
+                }});
         }
     }
 
@@ -357,7 +353,7 @@ void mvNodeEditor::draw(ImDrawList* drawlist, float x, float y)
         }
         if (_delinkCallback)
         {
-            mvSubmitAddCallbackJob({_delinkCallback, *this, ToPyUUID(name)});
+            mvSubmitAddCallbackJob({&_delinkCallback, *this, MV_APP_DATA_FUNC(ToPyUUID(name))});
         }
     }
 

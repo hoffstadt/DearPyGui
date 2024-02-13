@@ -158,7 +158,7 @@ DearPyGui::draw_color_edit(ImDrawList* drawlist, mvAppItem& item, mvColorEditCon
 		if (ImGui::ColorEdit4(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.flags))
 		{
 			mvColor color = mvColor((*config.value)[0], (*config.value)[1], (*config.value)[2], (*config.value)[3]);
-			mvSubmitAddCallbackJob({item, ToPyColor(color)});
+			mvSubmitAddCallbackJob({item, MV_APP_DATA_FUNC(ToPyColor(color))});
 		}
 	}
 
@@ -432,8 +432,7 @@ DearPyGui::draw_color_picker(ImDrawList* drawlist, mvAppItem& item, mvColorPicke
 		if (ImGui::ColorPicker4(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.flags))
 		{
 			mvColor color = mvColor((*config.value)[0], (*config.value)[1], (*config.value)[2], (*config.value)[3]);
-
-			mvSubmitAddCallbackJob({item, ToPyColor(color)});
+			mvSubmitAddCallbackJob({item, MV_APP_DATA_FUNC(ToPyColor(color))});
 		}
 	}
 
@@ -522,7 +521,7 @@ DearPyGui::draw_color_map_slider(ImDrawList* drawlist, mvAppItem& item, mvColorM
 
 		if (ImPlot::ColormapSlider(item.info.internalLabel.c_str(), config.value.get(), &config.color, "", config.colorMap))
 		{
-			mvSubmitAddCallbackJob({item, ToPyFloat(*config.value)});
+			mvSubmitAddCallbackJob({item, MV_APP_DATA_FUNC(ToPyFloat(*config.value))});
 		}
 	}
 

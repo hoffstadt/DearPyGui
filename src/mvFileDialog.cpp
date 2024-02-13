@@ -103,19 +103,16 @@ void mvFileDialog::draw(ImDrawList* drawlist, float x, float y)
 			// action if OK clicked or if cancel clicked and cancel callback provided
 			if (_instance.IsOk() ||  _cancelCallback)
 			{
-				PyObject* callback;
+				mvPyObjectStrictPtr callback;
 				PyObject* appData;
 				
-				if(_instance.IsOk())
-				{
-					callback = config.callback;
-					appData = getInfoDict();
+				if(_instance.IsOk()) {
+					callback = mvPyObjectStrictPtr(shared_from_this(), &config.callback);
 				} else {
-					callback = _cancelCallback;
-					appData = getInfoDict();
+					callback = mvPyObjectStrictPtr(shared_from_this(), &_cancelCallback);
 				}
 
-				mvAddCallbackJob({callback, *this, appData}, false);
+				mvAddCallbackJob({callback, *this, MV_APP_DATA_FUNC(getInfoDict())}, false);
 			}
 
 			// close
@@ -183,15 +180,7 @@ void mvFileDialog::handleSpecificKeywordArgs(PyObject* dict)
 
 	if (PyObject* item = PyDict_GetItemString(dict, "cancel_callback"))
 	{
-		Py_XDECREF(_cancelCallback);
-
-		if (item == Py_None)
-			_cancelCallback = nullptr;
-		else
-		{
-			Py_XINCREF(item);
-			_cancelCallback = item;
-		}
+		_cancelCallback = item;
 	}
 
 }

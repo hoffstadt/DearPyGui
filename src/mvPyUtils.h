@@ -74,9 +74,11 @@ public:
 
     PyObject* steal();
     mvPyObjectStrict copy();
-    // If m_rawObject is nullptr, convert it to Py_None.
-    void nullToNone();
 };
+
+using mvPyObjectStrictPtr = std::shared_ptr<mvPyObjectStrict>;
+
+mvPyObjectStrictPtr mvPyObjectStrictNonePtr(void);
 
 enum class mvErrorCode
 {

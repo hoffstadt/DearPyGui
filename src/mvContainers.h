@@ -118,8 +118,8 @@ struct mvGroupConfig
 struct mvDragPayloadConfig
 {
     std::string payloadType = "$$DPG_PAYLOAD";
-    PyObject*   dragData = nullptr;
-    PyObject*   dropData = nullptr;
+    mvPyObjectStrictPtr dragData = nullptr;
+    mvPyObjectStrictPtr dropData = nullptr;
 };
 
 struct mvCollapsingHeaderConfig
@@ -142,40 +142,40 @@ struct mvTabBarConfig
 struct mvWindowAppItemConfig
 {
     ImGuiWindowFlags windowflags = ImGuiWindowFlags_None;
-    bool             mainWindow = false;
-    bool             closing = true;
-    bool             resized = false;
-    bool             modal = false;
-    bool             popup = false;
-    bool             autosize = false;
-    bool             no_resize = false;
-    bool             no_title_bar = false;
-    bool             no_move = false;
-    bool             no_scrollbar = false;
-    bool             no_collapse = false;
-    bool             horizontal_scrollbar = false;
-    bool             no_focus_on_appearing = false;
-    bool             no_bring_to_front_on_focus = false;
-    bool             menubar = false;
-    bool             no_close = false;
-    bool             no_background = false;
-    bool             collapsed = false;
-    bool             no_open_over_existing_popup = true;
-    PyObject*        on_close = nullptr;
-    mvVec2           min_size = { 100.0f, 100.0f };
-    mvVec2           max_size = { 30000.0f, 30000.0f };
-    float            scrollX = 0.0f;
-    float            scrollY = 0.0f;
-    float            scrollMaxX = 0.0f;
-    float            scrollMaxY = 0.0f;
-    bool             _collapsedDirty = true;
-    bool             _scrollXSet = false;
-    bool             _scrollYSet = false;
-    ImGuiWindowFlags _oldWindowflags = ImGuiWindowFlags_None;
-    float            _oldxpos = 200;
-    float            _oldypos = 200;
-    int              _oldWidth = 200;
-    int              _oldHeight = 200;
+    bool                mainWindow = false;
+    bool                closing = true;
+    bool                resized = false;
+    bool                modal = false;
+    bool                popup = false;
+    bool                autosize = false;
+    bool                no_resize = false;
+    bool                no_title_bar = false;
+    bool                no_move = false;
+    bool                no_scrollbar = false;
+    bool                no_collapse = false;
+    bool                horizontal_scrollbar = false;
+    bool                no_focus_on_appearing = false;
+    bool                no_bring_to_front_on_focus = false;
+    bool                menubar = false;
+    bool                no_close = false;
+    bool                no_background = false;
+    bool                collapsed = false;
+    bool                no_open_over_existing_popup = true;
+    mvPyObjectStrictPtr on_close = nullptr;
+    mvVec2              min_size = { 100.0f, 100.0f };
+    mvVec2              max_size = { 30000.0f, 30000.0f };
+    float               scrollX = 0.0f;
+    float               scrollY = 0.0f;
+    float               scrollMaxX = 0.0f;
+    float               scrollMaxY = 0.0f;
+    bool                _collapsedDirty = true;
+    bool                _scrollXSet = false;
+    bool                _scrollYSet = false;
+    ImGuiWindowFlags    _oldWindowflags = ImGuiWindowFlags_None;
+    float               _oldxpos = 200;
+    float               _oldypos = 200;
+    int                 _oldWidth = 200;
+    int                 _oldHeight = 200;
 };
 
 //-----------------------------------------------------------------------------
@@ -288,5 +288,4 @@ public:
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_window(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, *this, configData); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
-    ~mvWindowAppItem() { PyObject* callback = configData.on_close; mvSubmitCallback([callback]() { if (callback) Py_XDECREF(callback);});}
 };

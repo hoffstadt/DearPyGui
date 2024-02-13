@@ -2823,7 +2823,7 @@ DearPyGui::draw_combo(ImDrawList* drawlist, mvAppItem& item, mvComboConfig& conf
 					if (item.config.enabled) { *config.value = name; }
 
 					auto value = *config.value;
-					mvSubmitAddCallbackJob({item, ToPyString(value)});
+					mvSubmitAddCallbackJob({item, MV_APP_DATA_FUNC(ToPyString(value))});
 				}
 
 				item.state.edited = ImGui::IsItemEdited();
@@ -2920,7 +2920,7 @@ DearPyGui::draw_checkbox(ImDrawList* drawlist, mvAppItem& item, mvCheckboxConfig
 
 		if (ImGui::Checkbox(item.info.internalLabel.c_str(), item.config.enabled ? config.value.get() : &config.disabled_value))
 		{
-			mvSubmitAddCallbackJob({item, ToPyBool(*config.value)});
+			mvSubmitAddCallbackJob({item, MV_APP_DATA_FUNC(ToPyBool(*config.value))});
 		}
 	}
 
@@ -3012,7 +3012,7 @@ DearPyGui::draw_drag_float(ImDrawList* drawlist, mvAppItem& item, mvDragFloatCon
 			item.config.enabled ? config.value.get() : &config.disabled_value,
 			config.speed, config.minv, config.maxv, config.format.c_str(), config.flags))
 		{
-			mvSubmitAddCallbackJob({item, ToPyFloat(*config.value)});
+			mvSubmitAddCallbackJob({item, MV_APP_DATA_FUNC(ToPyFloat(*config.value))});
 		}
 	}
 
@@ -3105,7 +3105,7 @@ DearPyGui::draw_drag_double(ImDrawList* drawlist, mvAppItem& item, mvDragDoubleC
 			item.config.enabled ? config.value.get() : &config.disabled_value,
 			config.speed, &config.minv, &config.maxv, config.format.c_str(), config.flags))
 		{
-			mvSubmitAddCallbackJob({item, ToPyDouble(*config.value)});
+			mvSubmitAddCallbackJob({item, MV_APP_DATA_FUNC(ToPyDouble(*config.value))});
 		}
 	}
 
@@ -3198,7 +3198,7 @@ DearPyGui::draw_drag_int(ImDrawList* drawlist, mvAppItem& item, mvDragIntConfig&
 			item.config.enabled ? config.value.get() : &config.disabled_value, config.speed,
 			config.minv, config.maxv, config.format.c_str(), config.flags))
 		{
-			mvSubmitAddCallbackJob({item, ToPyInt(*config.value)});
+			mvSubmitAddCallbackJob({item, MV_APP_DATA_FUNC(ToPyInt(*config.value))});
 		}
 	}
 
@@ -3308,7 +3308,7 @@ DearPyGui::draw_drag_intx(ImDrawList* drawlist, mvAppItem& item, mvDragIntMultiC
 		if (activated)
 		{
 			auto value = *config.value;
-			mvSubmitAddCallbackJob({item, ToPyIntList(value.data(), (int)value.size())});
+			mvSubmitAddCallbackJob({item, MV_APP_DATA_FUNC(ToPyIntList(value.data(), (int)value.size()))});
 		}
 	}
 
@@ -3416,7 +3416,7 @@ DearPyGui::draw_drag_floatx(ImDrawList* drawlist, mvAppItem& item, mvDragFloatMu
 		if (activated)
 		{
 			auto value = *config.value;
-			mvSubmitAddCallbackJob({item, ToPyFloatList(value.data(), (int)value.size())});
+			mvSubmitAddCallbackJob({item, MV_APP_DATA_FUNC(ToPyFloatList(value.data(), (int)value.size()))});
 		}
 	}
 	//-----------------------------------------------------------------------------
@@ -3511,7 +3511,7 @@ DearPyGui::draw_drag_doublex(ImDrawList* drawlist, mvAppItem& item, mvDragDouble
 		if (activated)
 		{
 			auto value = *config.value;
-			mvSubmitAddCallbackJob({item, ToPyFloatList(value.data(), (int)value.size())});
+			mvSubmitAddCallbackJob({item, MV_APP_DATA_FUNC(ToPyFloatList(value.data(), (int)value.size()))});
 		}
 	}
 	//-----------------------------------------------------------------------------
@@ -3607,7 +3607,7 @@ DearPyGui::draw_slider_float(ImDrawList* drawlist, mvAppItem& item, mvSliderFloa
 
 			if (ImGui::VSliderFloat(item.info.internalLabel.c_str(), ImVec2((float)item.config.width, (float)item.config.height), item.config.enabled ? config.value.get() : &config.disabled_value, config.minv, config.maxv, config.format.c_str()))
 			{
-				mvSubmitAddCallbackJob({item, ToPyFloat(*config.value)});
+				mvSubmitAddCallbackJob({item, MV_APP_DATA_FUNC(ToPyFloat(*config.value))});
 			}
 
 		}
@@ -3615,7 +3615,7 @@ DearPyGui::draw_slider_float(ImDrawList* drawlist, mvAppItem& item, mvSliderFloa
 		{
 			if (ImGui::SliderFloat(item.info.internalLabel.c_str(), item.config.enabled ? config.value.get() : &config.disabled_value, config.minv, config.maxv, config.format.c_str(), config.flags))
 			{
-				mvSubmitAddCallbackJob({item, ToPyFloat(*config.value)});
+				mvSubmitAddCallbackJob({item, MV_APP_DATA_FUNC(ToPyFloat(*config.value))});
 			}
 
 		}
@@ -3714,7 +3714,7 @@ DearPyGui::draw_slider_double(ImDrawList* drawlist, mvAppItem& item, mvSliderDou
 
 			if (ImGui::VSliderScalar(item.info.internalLabel.c_str(), ImVec2((float)item.config.width, (float)item.config.height), ImGuiDataType_Double, item.config.enabled ? config.value.get() : &config.disabled_value, &config.minv, &config.maxv, config.format.c_str()))
 			{
-				mvSubmitAddCallbackJob({item, ToPyDouble(*config.value)});
+				mvSubmitAddCallbackJob({item, MV_APP_DATA_FUNC(ToPyDouble(*config.value))});
 			}
 
 		}
@@ -3722,7 +3722,7 @@ DearPyGui::draw_slider_double(ImDrawList* drawlist, mvAppItem& item, mvSliderDou
 		{
 			if (ImGui::SliderScalar(item.info.internalLabel.c_str(), ImGuiDataType_Double, item.config.enabled ? config.value.get() : &config.disabled_value, &config.minv, &config.maxv, config.format.c_str(), config.flags))
 			{
-				mvSubmitAddCallbackJob({item, ToPyDouble(*config.value)});
+				mvSubmitAddCallbackJob({item, MV_APP_DATA_FUNC(ToPyDouble(*config.value))});
 			}
 
 		}
@@ -3832,7 +3832,7 @@ DearPyGui::draw_slider_floatx(ImDrawList* drawlist, mvAppItem& item, mvSliderFlo
 		if (activated)
 		{
 			auto value = *config.value;
-			mvSubmitAddCallbackJob({item, ToPyFloatList(value.data(), (int)value.size())});
+			mvSubmitAddCallbackJob({item, MV_APP_DATA_FUNC(ToPyFloatList(value.data(), (int)value.size()))});
 		}
 	}
 
@@ -3928,7 +3928,7 @@ DearPyGui::draw_slider_doublex(ImDrawList* drawlist, mvAppItem& item, mvSliderDo
 		if (activated)
 		{
 			auto value = *config.value;
-			mvSubmitAddCallbackJob({item, ToPyFloatList(value.data(), (int)value.size())});
+			mvSubmitAddCallbackJob({item, MV_APP_DATA_FUNC(ToPyFloatList(value.data(), (int)value.size()))});
 		}
 	}
 
@@ -4025,7 +4025,7 @@ DearPyGui::draw_slider_int(ImDrawList* drawlist, mvAppItem& item, mvSliderIntCon
 
 			if (ImGui::VSliderInt(item.info.internalLabel.c_str(), ImVec2((float)item.config.width, (float)item.config.height), item.config.enabled ? config.value.get() : &config.disabled_value, config.minv, config.maxv, config.format.c_str()))
 			{
-				mvSubmitAddCallbackJob({item, ToPyInt(*config.value)});
+				mvSubmitAddCallbackJob({item, MV_APP_DATA_FUNC(ToPyInt(*config.value))});
 			}
 
 		}
@@ -4033,7 +4033,7 @@ DearPyGui::draw_slider_int(ImDrawList* drawlist, mvAppItem& item, mvSliderIntCon
 		{
 			if (ImGui::SliderInt(item.info.internalLabel.c_str(), item.config.enabled ? config.value.get() : &config.disabled_value, config.minv, config.maxv, config.format.c_str(), config.flags))
 			{
-				mvSubmitAddCallbackJob({item, ToPyInt(*config.value)});
+				mvSubmitAddCallbackJob({item, MV_APP_DATA_FUNC(ToPyInt(*config.value))});
 			}
 
 		}
@@ -4143,7 +4143,7 @@ DearPyGui::draw_slider_intx(ImDrawList* drawlist, mvAppItem& item, mvSliderIntMu
 		if (activated)
 		{
 			auto value = *config.value;
-			mvSubmitAddCallbackJob({item, ToPyIntList(value.data(), (int)value.size())});
+			mvSubmitAddCallbackJob({item, MV_APP_DATA_FUNC(ToPyIntList(value.data(), (int)value.size()))});
 		}
 	}
 
@@ -4244,7 +4244,7 @@ DearPyGui::draw_listbox(ImDrawList *drawlist, mvAppItem &item, mvListboxConfig &
         {
             *config.value = config.names[config.index];
             config.disabled_value = config.names[config.index];
-			mvSubmitAddCallbackJob({item, ToPyString(*config.value)});
+			mvSubmitAddCallbackJob({item, MV_APP_DATA_FUNC(ToPyString(*config.value))});
         }
 
         ImGui::PopStyleColor();
@@ -4350,7 +4350,7 @@ DearPyGui::draw_radio_button(ImDrawList* drawlist, mvAppItem& item, mvRadioButto
 			{
 				*config.value = config.itemnames[config.index];
 				config.disabled_value = config.itemnames[config.index];
-				mvSubmitAddCallbackJob({item, ToPyString(*config.value)});
+				mvSubmitAddCallbackJob({item, MV_APP_DATA_FUNC(ToPyString(*config.value))});
 			}
 
 			item.state.edited = ImGui::IsItemEdited();
@@ -4479,7 +4479,7 @@ DearPyGui::draw_input_text(ImDrawList* drawlist, mvAppItem& item, mvInputTextCon
 
 		if (activated)
 		{
-			mvSubmitAddCallbackJob({item, ToPyString(*config.value)});
+			mvSubmitAddCallbackJob({item, MV_APP_DATA_FUNC(ToPyString(*config.value))});
 		}
 
 	}
@@ -4591,7 +4591,7 @@ DearPyGui::draw_input_int(ImDrawList* drawlist, mvAppItem& item, mvInputIntConfi
 			if (config.last_value != *config.value)
 			{
 				config.last_value = *config.value;
-				mvSubmitAddCallbackJob({item, ToPyInt(*config.value)});
+				mvSubmitAddCallbackJob({item, MV_APP_DATA_FUNC(ToPyInt(*config.value))});
 			}
 		}
 
@@ -4732,7 +4732,7 @@ DearPyGui::draw_input_floatx(ImDrawList* drawlist, mvAppItem& item, mvInputFloat
 			{
 				config.last_value = *config.value;
 				auto value = *config.value;
-				mvSubmitAddCallbackJob({item, ToPyFloatList(value.data(), (int)value.size())});
+				mvSubmitAddCallbackJob({item, MV_APP_DATA_FUNC(ToPyFloatList(value.data(), (int)value.size()))});
 			}
 		}
 
@@ -4846,7 +4846,7 @@ DearPyGui::draw_input_float(ImDrawList* drawlist, mvAppItem& item, mvInputFloatC
 			if (config.last_value != *config.value)
 			{
 				config.last_value = *config.value;
-				mvSubmitAddCallbackJob({item, ToPyFloat(*config.value)});
+				mvSubmitAddCallbackJob({item, MV_APP_DATA_FUNC(ToPyFloat(*config.value))});
 			}
 		}
 	}
@@ -4938,7 +4938,7 @@ DearPyGui::draw_knob_float(ImDrawList* drawlist, mvAppItem& item, mvKnobFloatCon
 
 		if (KnobFloat(item.config.specifiedLabel.c_str(), item.config.enabled ? config.value.get() : &config.disabled_value, config.minv, config.maxv, config.step))
 		{
-			mvSubmitAddCallbackJob({item, ToPyFloat(*config.value)});
+			mvSubmitAddCallbackJob({item, MV_APP_DATA_FUNC(ToPyFloat(*config.value))});
 		}
 	}
 
@@ -5049,7 +5049,7 @@ DearPyGui::draw_input_double(ImDrawList* drawlist, mvAppItem& item, mvInputDoubl
 			if (config.last_value != *config.value)
 			{
 				config.last_value = *config.value;
-				mvSubmitAddCallbackJob({item, ToPyDouble(*config.value)});
+				mvSubmitAddCallbackJob({item, MV_APP_DATA_FUNC(ToPyDouble(*config.value))});
 			}
 		}
 	}
@@ -5177,7 +5177,7 @@ DearPyGui::draw_input_doublex(ImDrawList* drawlist, mvAppItem& item, mvInputDoub
 			{
 				config.last_value = *config.value;
 				auto value = *config.value;
-				mvSubmitAddCallbackJob({item, ToPyFloatList(value.data(), (int)value.size())});
+				mvSubmitAddCallbackJob({item, MV_APP_DATA_FUNC(ToPyFloatList(value.data(), (int)value.size()))});
 			}
 		}
 
@@ -5318,7 +5318,7 @@ DearPyGui::draw_input_intx(ImDrawList* drawlist, mvAppItem& item, mvInputIntMult
 			{
 				config.last_value = *config.value;
 				auto value = *config.value;
-				mvSubmitAddCallbackJob({item, ToPyIntList(value.data(), (int)value.size())});
+				mvSubmitAddCallbackJob({item, MV_APP_DATA_FUNC(ToPyIntList(value.data(), (int)value.size()))});
 			}
 		}
 	}
@@ -5541,7 +5541,7 @@ DearPyGui::draw_selectable(ImDrawList* drawlist, mvAppItem& item, mvSelectableCo
 
 		if (ImGui::Selectable(item.info.internalLabel.c_str(), config.value.get(), config.flags, ImVec2((float)item.config.width, (float)item.config.height)))
 		{
-			mvSubmitAddCallbackJob({item, ToPyBool(*config.value)});
+			mvSubmitAddCallbackJob({item, MV_APP_DATA_FUNC(ToPyBool(*config.value))});
 		}
 	}
 
@@ -5724,7 +5724,7 @@ DearPyGui::draw_menu_item(ImDrawList* drawlist, mvAppItem& item, mvMenuItemConfi
 		// create menu item and see if its selected
 		if (ImGui::MenuItem(item.info.internalLabel.c_str(), config.shortcut.c_str(), config.check ? config.value.get() : nullptr, item.config.enabled))
 		{
-			mvAddCallbackJob({item.config.callback, item, ToPyBool(*config.value)});
+			mvAddCallbackJob({&item.config.callback, item, MV_APP_DATA_FUNC(ToPyBool(*config.value))});
 		}
 
 		ImGui::PopStyleColor();
