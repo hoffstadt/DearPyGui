@@ -2618,9 +2618,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
             MV_PARSER_ARG_POS)
         );
 
-        args.push_back({ mvPyDataType::String, "text", mvArgType::KEYWORD_ARG, "''", "Add a label" });
-
-        setup.about = "Adds a horizontal line separator.";
+        setup.about = "Adds a horizontal line separator. Use 'label' parameter to add text and mvStyleVar_SeparatorText* elements to style it.";
         break;
     }
     case mvAppItemType::mvListbox:                     
@@ -3468,7 +3466,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "multicolor", mvArgType::KEYWORD_ARG, "False" });
         args.push_back({ mvPyDataType::Float, "rounding", mvArgType::KEYWORD_ARG, "0.0", "Number of pixels of the radius that will round the corners of the rectangle. Note: doesn't work with multicolor" });
         args.push_back({ mvPyDataType::Float, "thickness", mvArgType::KEYWORD_ARG, "1.0" });
-        args.push_back({ mvPyDataType::ListListInt, "corner_colors", mvArgType::KEYWORD_ARG, "[(255, 255, 255, 255), (255, 255, 255, 255), (255, 255, 255, 255), (255, 255, 255, 255)]", "Corner colors in a list, starting with upper-left and going clockwise: (upper-left, upper-right, bottom-right, bottom-left). 'multicolor' must be set to 'True'." });
+        args.push_back({ mvPyDataType::ListListInt, "corner_colors", mvArgType::KEYWORD_ARG, "None", "Corner colors in a list, starting with upper-left and going clockwise: (upper-left, upper-right, bottom-right, bottom-left). 'multicolor' must be set to 'True'." });
 
         setup.about = "Adds a rectangle.";
         setup.category = { "Drawlist", "Widgets" };

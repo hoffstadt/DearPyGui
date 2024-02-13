@@ -282,9 +282,9 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 
 	// Must do this because these items are not avalable as style items
 	// these are here because they need to be applied every plot
-		ImPlot::GetStyle().UseLocalTime = config.localTime;
-		ImPlot::GetStyle().UseISO8601 = config.iSO8601;
-		ImPlot::GetStyle().Use24HourClock = config.clock24Hour;
+	ImPlot::GetStyle().UseLocalTime = config.localTime;
+	ImPlot::GetStyle().UseISO8601 = config.iSO8601;
+	ImPlot::GetStyle().Use24HourClock = config.clock24Hour;
 
 	if (config._newColorMap)
 	{
@@ -418,7 +418,6 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
         }
         for (int i = 0; i < config.rects.size(); ++i) {
 			// TODO: Implement flags
-			// TODO: how to delete?
             ImPlot::DragRect(i,&config.rects[i].X.Min,&config.rects[i].Y.Min,&config.rects[i].X.Max,&config.rects[i].Y.Max,ImVec4(1,0,1,1));
         }
 
@@ -455,10 +454,9 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 
 			// update mouse
 			ImVec2 mousePos = ImGui::GetMousePos();
-			float x = mousePos.x - ImGui::GetWindowPos().x;
-			float y = mousePos.y - ImGui::GetWindowPos().y;
-			GContext->input.mousePos.x = (int)x;
-			GContext->input.mousePos.y = (int)y;
+			ImVec2 windowPos = ImGui::GetWindowPos();
+			GContext->input.mousePos.x = (int)(mousePos.x - windowPos.x);
+			GContext->input.mousePos.y = (int)(mousePos.y - windowPos.y);
 
 			GContext->activeWindow = item.uuid;
 
@@ -527,18 +525,20 @@ DearPyGui::draw_plot_axis(ImDrawList* drawlist, mvAppItem& item, mvPlotAxisConfi
 	// x axis
 	if (config.axis <= ImAxis_X3)
 	{
-		config.limits_actual.x = (float)ImPlot::GetPlotLimits(config.axis, IMPLOT_AUTO).X.Min;
-		config.limits_actual.y = (float)ImPlot::GetPlotLimits(config.axis, IMPLOT_AUTO).X.Max;
+		auto plotLimits = ImPlot::GetPlotLimits(config.axis, IMPLOT_AUTO);
+		config.limits_actual.x = (float)plotLimits.X.Min;
+		config.limits_actual.y = (float)plotLimits.X.Max;
 	}
 
 	// y axis
 	else
 	{
-		config.limits_actual.x = (float)ImPlot::GetPlotLimits(IMPLOT_AUTO, config.axis).Y.Min;
-		config.limits_actual.y = (float)ImPlot::GetPlotLimits(IMPLOT_AUTO, config.axis).Y.Max;
+		auto plotLimits = ImPlot::GetPlotLimits(IMPLOT_AUTO, config.axis);
+		config.limits_actual.x = (float)plotLimits.Y.Min;
+		config.limits_actual.y = (float)plotLimits.Y.Max;
 	}
-	auto context = ImPlot::GetCurrentContext();
-	config.flags = context->CurrentPlot->Axes[config.axis].Flags;
+
+	config.flags = ImPlot::GetCurrentContext()->CurrentPlot->Axes[config.axis].Flags;
 
 	UpdateAppItemState(item.state);
 

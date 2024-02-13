@@ -36,7 +36,6 @@ struct mvProgressBarConfig;
 struct mvImageConfig;
 struct mvImageButtonConfig;
 struct mvFilterSetConfig;
-struct mvSeparatorConfig;
 struct mvTooltipConfig;
 struct mvKnobFloatConfig;
 
@@ -76,7 +75,6 @@ namespace DearPyGui
     void fill_configuration_dict(const mvImageButtonConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvKnobFloatConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvTooltipConfig& inConfig, PyObject* outDict);
-    void fill_configuration_dict(const mvSeparatorConfig& inConfig, PyObject* outDict);
 
     // specific part of `configure_item(...)`
     void set_configuration(PyObject* inDict, mvSimplePlotConfig& outConfig);
@@ -111,7 +109,6 @@ namespace DearPyGui
     void set_configuration(PyObject* inDict, mvImageConfig& outConfig);
     void set_configuration(PyObject* inDict, mvImageButtonConfig& outConfig);
     void set_configuration(PyObject* inDict, mvTooltipConfig& outConfig);
-    void set_configuration(PyObject* inDict, mvSeparatorConfig& outConfig);
     void set_configuration(PyObject* inDict, mvKnobFloatConfig& outConfig);
 
     // positional args TODO: combine with above
@@ -191,7 +188,7 @@ namespace DearPyGui
     void draw_image_button (ImDrawList* drawlist, mvAppItem& item, mvImageButtonConfig& config);
     void draw_filter_set   (ImDrawList* drawlist, mvAppItem& item, mvFilterSetConfig& config);
     void draw_knob_float   (ImDrawList* drawlist, mvAppItem& item, mvKnobFloatConfig& config);
-    void draw_separator    (ImDrawList* drawlist, mvAppItem& item, mvSeparatorConfig& config);
+    void draw_separator    (ImDrawList* drawlist, mvAppItem& item);
     void draw_spacer       (ImDrawList* drawlist, mvAppItem& item);
     void draw_menubar      (ImDrawList* drawlist, mvAppItem& item);
     void draw_viewport_menubar(ImDrawList* drawlist, mvAppItem& item);
@@ -576,11 +573,6 @@ struct mvImageButtonConfig
 struct mvFilterSetConfig
 {
     ImGuiTextFilter imguiFilter;
-};
-
-struct mvSeparatorConfig 
-{
-    std::string text;
 };
 
 struct mvTooltipConfig
@@ -1088,11 +1080,8 @@ public:
 class mvSeparator : public mvAppItem
 {
 public:
-    mvSeparatorConfig configData{};
     explicit mvSeparator(mvUUID uuid) : mvAppItem(uuid) {}
-    void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_separator(drawlist, *this, configData); }
-    void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
-    void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
+    void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_separator(drawlist, *this); }
 };
 
 class mvSpacer : public mvAppItem

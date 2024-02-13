@@ -682,15 +682,6 @@ DearPyGui::fill_configuration_dict(const mvKnobFloatConfig& inConfig, PyObject* 
 }
 
 void
-DearPyGui::fill_configuration_dict(const mvSeparatorConfig& inConfig, PyObject* outDict)
-{
-	if (outDict == nullptr)
-		return;
-
-	PyDict_SetItemString(outDict, "text", mvPyObject(ToPyString(inConfig.text)));
-}
-
-void
 DearPyGui::fill_configuration_dict(const mvTooltipConfig& inConfig, PyObject* outDict)
 {
 	if (outDict == nullptr)
@@ -1781,16 +1772,6 @@ DearPyGui::set_configuration(PyObject* inDict, mvImageButtonConfig& outConfig)
 		}
 	}
 }
-
-void
-DearPyGui::set_configuration(PyObject* inDict, mvSeparatorConfig& outConfig)
-{
-	if (inDict == nullptr)
-		return;
-
-	if (PyObject* item = PyDict_GetItemString(inDict, "text")) outConfig.text = ToString(item);
-}
-
 
 void
 DearPyGui::set_positional_configuration(PyObject* inDict, mvTooltipConfig& outConfig, mvAppItemConfig& config)
@@ -6355,12 +6336,12 @@ DearPyGui::draw_filter_set(ImDrawList* drawlist, mvAppItem& item, mvFilterSetCon
 }
 
 void
-DearPyGui::draw_separator(ImDrawList* drawlist, mvAppItem& item, mvSeparatorConfig& config)
+DearPyGui::draw_separator(ImDrawList* drawlist, mvAppItem& item)
 {
 	if (!item.config.show)
 		return;
-	if (!config.text.empty()) {
-		ImGui::SeparatorText(config.text.c_str());
+	if (!item.info.internalLabel.empty()) {
+		ImGui::SeparatorText(item.info.internalLabel.c_str());
 	} else {
 		ImGui::Separator();
 	}

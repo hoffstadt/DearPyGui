@@ -6382,8 +6382,8 @@ def add_selectable(*, label: str =None, user_data: Any =None, use_internal_label
 
 	return internal_dpg.add_selectable(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, span_columns=span_columns, disable_popup_close=disable_popup_close, **kwargs)
 
-def add_separator(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], text: str ='', **kwargs) -> Union[int, str]:
-	"""	 Adds a horizontal line separator.
+def add_separator(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], **kwargs) -> Union[int, str]:
+	"""	 Adds a horizontal line separator. Use 'label' parameter to add text and mvStyleVar_SeparatorText* elements to style it.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -6395,7 +6395,6 @@ def add_separator(*, label: str =None, user_data: Any =None, use_internal_label:
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
-		text (str, optional): Add a label
 		id (Union[int, str], optional): (deprecated) 
 	Returns:
 		Union[int, str]
@@ -6405,7 +6404,7 @@ def add_separator(*, label: str =None, user_data: Any =None, use_internal_label:
 		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
 		tag=kwargs['id']
 
-	return internal_dpg.add_separator(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, indent=indent, parent=parent, before=before, show=show, pos=pos, text=text, **kwargs)
+	return internal_dpg.add_separator(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, indent=indent, parent=parent, before=before, show=show, pos=pos, **kwargs)
 
 def add_series_value(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, source: Union[int, str] =0, default_value: Any =(), parent: Union[int, str] =internal_dpg.mvReservedUUID_3, **kwargs) -> Union[int, str]:
 	"""	 Adds a plot series value.
@@ -8178,7 +8177,7 @@ def draw_quad(p1 : Union[List[float], Tuple[float, ...]], p2 : Union[List[float]
 
 	return internal_dpg.draw_quad(p1, p2, p3, p4, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, show=show, color=color, fill=fill, thickness=thickness, **kwargs)
 
-def draw_rectangle(pmin : Union[List[float], Tuple[float, ...]], pmax : Union[List[float], Tuple[float, ...]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, color: Union[List[int], Tuple[int, ...]] =(255, 255, 255, 255), color_upper_left: Union[List[int], Tuple[int, ...]] =(255, 255, 255, 255), color_upper_right: Union[List[int], Tuple[int, ...]] =(255, 255, 255, 255), color_bottom_right: Union[List[int], Tuple[int, ...]] =(255, 255, 255, 255), color_bottom_left: Union[List[int], Tuple[int, ...]] =(255, 255, 255, 255), fill: Union[List[int], Tuple[int, ...]] =(0, 0, 0, -255), multicolor: bool =False, rounding: float =0.0, thickness: float =1.0, corner_colors: Any =[(255, 255, 255, 255), (255, 255, 255, 255), (255, 255, 255, 255), (255, 255, 255, 255)], **kwargs) -> Union[int, str]:
+def draw_rectangle(pmin : Union[List[float], Tuple[float, ...]], pmax : Union[List[float], Tuple[float, ...]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, color: Union[List[int], Tuple[int, ...]] =(255, 255, 255, 255), color_upper_left: Union[List[int], Tuple[int, ...]] =(255, 255, 255, 255), color_upper_right: Union[List[int], Tuple[int, ...]] =(255, 255, 255, 255), color_bottom_right: Union[List[int], Tuple[int, ...]] =(255, 255, 255, 255), color_bottom_left: Union[List[int], Tuple[int, ...]] =(255, 255, 255, 255), fill: Union[List[int], Tuple[int, ...]] =(0, 0, 0, -255), multicolor: bool =False, rounding: float =0.0, thickness: float =1.0, corner_colors: Any =None, **kwargs) -> Union[int, str]:
 	"""	 Adds a rectangle.
 
 	Args:
@@ -9686,6 +9685,45 @@ mvKey_ModSuper=internal_dpg.mvKey_ModSuper
 mvKey_ModShift=internal_dpg.mvKey_ModShift
 mvKey_ModAlt=internal_dpg.mvKey_ModAlt
 mvKey_ModCtrl=internal_dpg.mvKey_ModCtrl
+mvKey_Prior=internal_dpg.mvKey_Prior
+mvKey_Next=internal_dpg.mvKey_Next
+mvKey_Select=internal_dpg.mvKey_Select
+mvKey_Execute=internal_dpg.mvKey_Execute
+mvKey_LWin=internal_dpg.mvKey_LWin
+mvKey_RWin=internal_dpg.mvKey_RWin
+mvKey_Apps=internal_dpg.mvKey_Apps
+mvKey_Sleep=internal_dpg.mvKey_Sleep
+mvKey_Clear=internal_dpg.mvKey_Clear
+mvKey_Prior=internal_dpg.mvKey_Prior
+mvKey_Next=internal_dpg.mvKey_Next
+mvKey_Select=internal_dpg.mvKey_Select
+mvKey_Execute=internal_dpg.mvKey_Execute
+mvKey_Help=internal_dpg.mvKey_Help
+mvKey_LWin=internal_dpg.mvKey_LWin
+mvKey_RWin=internal_dpg.mvKey_RWin
+mvKey_Apps=internal_dpg.mvKey_Apps
+mvKey_Sleep=internal_dpg.mvKey_Sleep
+mvKey_F25=internal_dpg.mvKey_F25
+mvKey_Browser_Refresh=internal_dpg.mvKey_Browser_Refresh
+mvKey_Browser_Stop=internal_dpg.mvKey_Browser_Stop
+mvKey_Browser_Search=internal_dpg.mvKey_Browser_Search
+mvKey_Browser_Favorites=internal_dpg.mvKey_Browser_Favorites
+mvKey_Browser_Home=internal_dpg.mvKey_Browser_Home
+mvKey_Volume_Mute=internal_dpg.mvKey_Volume_Mute
+mvKey_Volume_Down=internal_dpg.mvKey_Volume_Down
+mvKey_Volume_Up=internal_dpg.mvKey_Volume_Up
+mvKey_Media_Next_Track=internal_dpg.mvKey_Media_Next_Track
+mvKey_Media_Prev_Track=internal_dpg.mvKey_Media_Prev_Track
+mvKey_Media_Stop=internal_dpg.mvKey_Media_Stop
+mvKey_Media_Play_Pause=internal_dpg.mvKey_Media_Play_Pause
+mvKey_Launch_Mail=internal_dpg.mvKey_Launch_Mail
+mvKey_Launch_Media_Select=internal_dpg.mvKey_Launch_Media_Select
+mvKey_Launch_App1=internal_dpg.mvKey_Launch_App1
+mvKey_Launch_App2=internal_dpg.mvKey_Launch_App2
+mvKey_Colon=internal_dpg.mvKey_Colon
+mvKey_Plus=internal_dpg.mvKey_Plus
+mvKey_Tilde=internal_dpg.mvKey_Tilde
+mvKey_Quote=internal_dpg.mvKey_Quote
 mvAll=internal_dpg.mvAll
 mvTool_About=internal_dpg.mvTool_About
 mvTool_Debug=internal_dpg.mvTool_Debug
