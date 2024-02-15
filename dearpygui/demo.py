@@ -330,7 +330,7 @@ def show_demo():
                 with dpg.tooltip(dpg.last_item()):
                     dpg.add_text("I'm a simple tooltip!")
 
-                dpg.add_separator(text="This is a separator with text")
+                dpg.add_separator(label="This is a separator with text")
 
                 dpg.add_text("Value", label="Label", show_label=True)
                 dpg.add_combo(("AAAA", "BBBB", "CCCC", "DDDD", "EEEE", "FFFF", "GGGG", "HHHH", "IIII", "JJJJ", "KKKK"), label="combo", default_value="AAAA", callback=_log)
