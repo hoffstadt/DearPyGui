@@ -378,6 +378,8 @@ struct mvPlotAxisConfig
     ImPlotAxisFlags          flags = ImPlotAxisFlags_None;
     ImAxis                   axis = ImAxis_X1;
     bool                     setLimits = false;
+    bool                     setLimitsRange = false;
+    bool                     setZoomRange = false;
     ImPlotScale              scale = ImPlotScale_Linear;
     std::string              formatter;
     ImVec2                   limits;

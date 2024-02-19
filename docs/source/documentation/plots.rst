@@ -134,7 +134,9 @@ The following commands can be used to control the plot axes limits
 * `set_axis_limits_auto(...)`
 * `fit_axis_data(...)`
 * `set_axis_limits_constraints(...)`
+* `reset_axis_limits_constraints(...)`
 * `set_axis_zoom_constraints(...)`
+* `reset_axis_zoom_constraints(...)`
 
 An example demonstrating some of this can be found below:
 

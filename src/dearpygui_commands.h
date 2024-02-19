@@ -1131,7 +1131,42 @@ set_axis_limits_constraints(PyObject* self, PyObject* args, PyObject* kwargs)
 		return GetPyNone();
 	}
 
-	static_cast<mvPlotAxis*>(aplot)->configData.constraints_range = ImVec2(vmin, vmax);
+	mvPlotAxis* graph = static_cast<mvPlotAxis*>(aplot);
+	graph->configData.setLimitsRange = true;
+	graph->configData.constraints_range = ImVec2(vmin, vmax);
+	return GetPyNone();
+}
+
+static PyObject*
+reset_axis_limits_constraints(PyObject* self, PyObject* args, PyObject* kwargs)
+{
+	PyObject* axisraw;
+	auto tag = "reset_axis_limits_constraints";
+
+	if (!Parse((GetParsers())[tag], args, kwargs, __FUNCTION__, &axisraw))
+		return GetPyNone();
+
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+
+	mvUUID axis = GetIDFromPyObject(axisraw);
+
+	auto aplot = GetItem(*GContext->itemRegistry, axis);
+	if (aplot == nullptr)
+	{
+		mvThrowPythonError(mvErrorCode::mvItemNotFound, tag,
+			"Item not found: " + std::to_string(axis), nullptr);
+		return GetPyNone();
+	}
+
+	if (aplot->type != mvAppItemType::mvPlotAxis)
+	{
+		mvThrowPythonError(mvErrorCode::mvIncompatibleType, tag,
+			"Incompatible type. Expected types include: mvPlotAxis", aplot);
+		return GetPyNone();
+	}
+
+	mvPlotAxis* graph = static_cast<mvPlotAxis*>(aplot);
+	graph->configData.setLimitsRange = false;
 	return GetPyNone();
 }
 
@@ -1165,7 +1200,44 @@ set_axis_zoom_constraints(PyObject* self, PyObject* args, PyObject* kwargs)
 		return GetPyNone();
 	}
 
-	static_cast<mvPlotAxis*>(aplot)->configData.zoom_range = ImVec2(vmin, vmax);
+	mvPlotAxis* graph = static_cast<mvPlotAxis*>(aplot);
+	graph->configData.setZoomRange = true;
+	graph->configData.zoom_range = ImVec2(vmin, vmax);
+	return GetPyNone();
+}
+
+
+static PyObject*
+reset_axis_zoom_constraints(PyObject* self, PyObject* args, PyObject* kwargs)
+{
+	PyObject* axisraw;
+	auto tag = "reset_axis_zoom_constraints";
+
+	if (!Parse((GetParsers())[tag], args, kwargs, __FUNCTION__, &axisraw))
+		return GetPyNone();
+
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+
+	mvUUID axis = GetIDFromPyObject(axisraw);
+
+	auto aplot = GetItem(*GContext->itemRegistry, axis);
+	if (aplot == nullptr)
+	{
+		mvThrowPythonError(mvErrorCode::mvItemNotFound, tag,
+			"Item not found: " + std::to_string(axis), nullptr);
+		return GetPyNone();
+	}
+
+	if (aplot->type != mvAppItemType::mvPlotAxis)
+	{
+		mvThrowPythonError(mvErrorCode::mvIncompatibleType, tag,
+			"Incompatible type. Expected types include: mvPlotAxis", aplot);
+		return GetPyNone();
+	}
+
+	mvPlotAxis* graph = static_cast<mvPlotAxis*>(aplot);
+	graph->configData.setZoomRange = false;
+
 	return GetPyNone();
 }
 

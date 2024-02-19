@@ -559,7 +559,9 @@ PyInit__dearpygui(void)
 	MV_ADD_COMMAND(reset_axis_ticks);
 	MV_ADD_COMMAND(set_axis_ticks);
 	MV_ADD_COMMAND(set_axis_limits_constraints);
+	MV_ADD_COMMAND(reset_axis_limits_constraints);
 	MV_ADD_COMMAND(set_axis_zoom_constraints);
+	MV_ADD_COMMAND(reset_axis_zoom_constraints);
 	MV_ADD_COMMAND(set_axis_limits);
 	MV_ADD_COMMAND(set_axis_limits_auto);
 	MV_ADD_COMMAND(get_axis_limits);
