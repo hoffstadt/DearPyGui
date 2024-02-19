@@ -9071,6 +9071,17 @@ def reorder_items(container : Union[int, str], slot : int, new_order : Union[Lis
 
 	return internal_dpg.reorder_items(container, slot, new_order, **kwargs)
 
+def reset_axis_limits_constraints(axis : Union[int, str], **kwargs) -> None:
+	"""	 Remove an axis' limits constraints
+
+	Args:
+		axis (Union[int, str]): 
+	Returns:
+		None
+	"""
+
+	return internal_dpg.reset_axis_limits_constraints(axis, **kwargs)
+
 def reset_axis_ticks(axis : Union[int, str], **kwargs) -> None:
 	"""	 Removes the manually set axis ticks and applies the default axis ticks
 
@@ -9081,6 +9092,17 @@ def reset_axis_ticks(axis : Union[int, str], **kwargs) -> None:
 	"""
 
 	return internal_dpg.reset_axis_ticks(axis, **kwargs)
+
+def reset_axis_zoom_constraints(axis : Union[int, str], **kwargs) -> None:
+	"""	 Remove an axis' zoom constraints
+
+	Args:
+		axis (Union[int, str]): 
+	Returns:
+		None
+	"""
+
+	return internal_dpg.reset_axis_zoom_constraints(axis, **kwargs)
 
 def reset_pos(item : Union[int, str], **kwargs) -> None:
 	"""	 Resets an item's position after using 'set_item_pos'.

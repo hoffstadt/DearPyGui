@@ -282,6 +282,18 @@ InsertParser_Block0(std::map<std::string, mvPythonParser>& parsers)
 		std::vector<mvPythonDataElement> args;
 		args.reserve(3);
 		args.push_back({ mvPyDataType::UUID, "axis" });
+
+		mvPythonParserSetup setup;
+		setup.about = "Remove an axis' limits constraints";
+		setup.category = { "Plotting", "App Item Operations" };
+
+		mvPythonParser parser = FinalizeParser(setup, args);
+		parsers.insert({ "reset_axis_limits_constraints", parser });
+	}
+	{
+		std::vector<mvPythonDataElement> args;
+		args.reserve(3);
+		args.push_back({ mvPyDataType::UUID, "axis" });
 		args.push_back({ mvPyDataType::Float, "vmin" });
 		args.push_back({ mvPyDataType::Float, "vmax" });
 
@@ -291,6 +303,18 @@ InsertParser_Block0(std::map<std::string, mvPythonParser>& parsers)
 
 		mvPythonParser parser = FinalizeParser(setup, args);
 		parsers.insert({ "set_axis_zoom_constraints", parser });
+	}
+	{
+		std::vector<mvPythonDataElement> args;
+		args.reserve(3);
+		args.push_back({ mvPyDataType::UUID, "axis" });
+
+		mvPythonParserSetup setup;
+		setup.about = "Remove an axis' zoom constraints";
+		setup.category = { "Plotting", "App Item Operations" };
+
+		mvPythonParser parser = FinalizeParser(setup, args);
+		parsers.insert({ "reset_axis_zoom_constraints", parser });
 	}
 	{
 		std::vector<mvPythonDataElement> args;
