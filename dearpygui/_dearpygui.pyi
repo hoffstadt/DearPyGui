@@ -574,7 +574,7 @@ def add_text(default_value : str ='', *, label: str ='', user_data: Any ='', use
 	"""Adds text. Text can have an optional label that will display to the right of the text."""
 	...
 
-def add_text_point(x : float, y : float, *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', show: bool ='', x_offset: int ='', y_offset: int ='', vertical: bool ='') -> Union[int, str]:
+def add_text_point(x : Union[List[float], Tuple[float, ...]], y : Union[List[float], Tuple[float, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', show: bool ='', offset: Union[List[float], Tuple[float, ...]] ='', vertical: bool ='') -> Union[int, str]:
 	"""Adds a label series to a plot."""
 	...
 

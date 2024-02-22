@@ -6481,8 +6481,8 @@ def add_text_point(x, y, **kwargs):
 	"""	 Adds a label series to a plot.
 
 	Args:
-		x (float): 
-		y (float): 
+		x (Any): 
+		y (Any): 
 		label (str, optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
@@ -6491,8 +6491,7 @@ def add_text_point(x, y, **kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		show (bool, optional): Attempt to render widget.
-		x_offset (int, optional): 
-		y_offset (int, optional): 
+		offset (Union[List[float], Tuple[float, ...]], optional): Offset of the shown label
 		vertical (bool, optional): 
 		id (Union[int, str], optional): (deprecated)
 	Returns:

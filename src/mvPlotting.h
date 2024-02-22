@@ -308,8 +308,9 @@ struct mvPieSeriesConfig : _mvBasicSeriesConfig
 
 struct mvLabelSeriesConfig : _mvBasicSeriesConfig
 {
-    int  xoffset = 0;
-    int  yoffset = 0;
+    // In this case it wouldn't be really necessary to use a vector of vectors, 
+    // but it's consistent with the rest of the series
+    ImVec2  offset = ImVec2(0.0f, 0.0f);
     ImPlotTextFlags flags = ImPlotTextFlags_None;
 };
 
@@ -717,7 +718,8 @@ public:
     void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData.value); }
     void* getValue() override { return &configData.value; }
     PyObject* getPyValue() override { return ToPyList(*configData.value); }
-    void setPyValue(PyObject* value) override { *configData.value = ToVectVectDouble(value); }
+    void setPyValue(PyObject* value) override { *configData.value = ToVectVectDouble(value); }  
+    // TODO: This should be changed, it doesn't make sense to force the user to set the value with [[x], [y]] when you could do [x, y]. It creates useless confusion
 };
 
 class mvImageSeries : public mvAppItem
