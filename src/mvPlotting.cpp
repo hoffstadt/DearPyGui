@@ -1730,8 +1730,7 @@ DearPyGui::draw_label_series(ImDrawList* drawlist, mvAppItem& item, const mvLabe
 		xptr = &(*config.value.get())[0];
 		yptr = &(*config.value.get())[1];
 
-		ImPlot::PlotText(item.info.internalLabel.c_str(), (*xptr)[0], (*yptr)[0],
-			ImVec2((float)config.xoffset, (float)config.yoffset), config.flags);
+		ImPlot::PlotText(item.config.specifiedLabel.c_str(), (*xptr)[0], (*yptr)[0], config.offset, config.flags);
 
 		// Begin a popup for a legend entry.
 		if (ImPlot::BeginLegendPopup(item.info.internalLabel.c_str(), 1))
@@ -2278,7 +2277,7 @@ DearPyGui::set_positional_configuration(PyObject* inDict, mvPieSeriesConfig& out
 void
 DearPyGui::set_positional_configuration(PyObject* inDict, mvLabelSeriesConfig& outConfig)
 {
-	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(mvAppItemType::mvPieSeries)], inDict))
+	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(mvAppItemType::mvLabelSeries)], inDict))
 		return;
 
 	(*outConfig.value)[0] = ToDoubleVect(PyTuple_GetItem(inDict, 0));
@@ -2841,8 +2840,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvLabelSeriesConfig& outConfig)
 	if (inDict == nullptr)
 		return;
 
-	if (PyObject* item = PyDict_GetItemString(inDict, "x_offset")) outConfig.xoffset = ToInt(item);
-	if (PyObject* item = PyDict_GetItemString(inDict, "y_offset")) outConfig.yoffset = ToInt(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "offset")) outConfig.offset = ToVec2(item);
 
 	if (PyObject* item = PyDict_GetItemString(inDict, "x")) { (*outConfig.value)[0] = ToDoubleVect(item); }
 	if (PyObject* item = PyDict_GetItemString(inDict, "y")) { (*outConfig.value)[1] = ToDoubleVect(item); }
@@ -3456,8 +3454,7 @@ DearPyGui::fill_configuration_dict(const mvLabelSeriesConfig& inConfig, PyObject
 	if (outDict == nullptr)
 		return;
 
-	PyDict_SetItemString(outDict, "x_offset", mvPyObject(ToPyInt(inConfig.xoffset)));
-	PyDict_SetItemString(outDict, "y_offset", mvPyObject(ToPyInt(inConfig.yoffset)));
+	PyDict_SetItemString(outDict, "offset", mvPyObject(ToPyPair(inConfig.offset.x, inConfig.offset.y)));
 
 	// helper to check and set bit
 	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)

@@ -13,6 +13,7 @@
     - [x] Antialiasing activated?
     - [ ] Disable keyboard navigation
     - [ ] Implement TagX/Y also on secondary axes
+    - [x] mo_mouse_pos -> no_mouse_text
 - [ ] Bugfix:
     - [x] Crash on tests teardown
     - [x] Crash when opening table in demo: `void ImGui::TableSetColumnEnabled(int, bool): Assertion 'table->Flags & ImGuiTableFlags_Hideable' failed.`
@@ -22,7 +23,8 @@
     - [x] While scrolling on plots before start tracing: `bool ImPlot::BeginPlot(const char*, const ImVec2&, ImPlotFlags): Assertion '(gp.CurrentPlot == nullptr) && "Mismatched BeginPlot()/EndPlot()!"' failed.`
     - [x] When adding mvTool_Metrics it gives `T& ImVector<T>::operator[](int) [with T = ImVec2]: Assertion 'i >= 0 && i < Size' failed.`
     - [x] mvTool_Metrics doesn't show the "Presentation" plot anymore.
-    - [ ] Crash when pressing button up/down in the `mvTool_ItemRegistry`, probably a problem with function MoveItemUp/Down in `mvItemRegistry.cpp`
+    - [x] Crash when pressing button up/down in the `mvTool_ItemRegistry`, probably a problem with function MoveItemUp/Down in `mvItemRegistry.cpp`
+    - [x] Fix label series
 - Not sure:
     - [ ] Expose `GetMouseClickedCount()` to Python?
 
@@ -45,11 +47,10 @@
     - [x] Added GetMouseClickedCount() function, returning the number of successive clicks (so IsMouseDoubleClicked(ImGuiMouseButton_Left) is same as GetMouseClickedCount(ImGuiMouseButton_Left) == 2, but it allows testing for triple clicks and more).
 - [ ] [V 1.87](https://github.com/ocornut/imgui/releases/tag/v1.87)
 Probably all the IO "issues" are deeply linked between them
-    - [ ] Reworked IO mouse input API: Added io.AddMousePosEvent(), io.AddMouseButtonEvent(), io.AddMouseWheelEvent() functions, obsoleting writing directly to io.MousePos, io.MouseDown[], io.MouseWheel, etc.
-    - [ ] Reworked IO keyboard input API: Added io.AddKeyEvent() function, obsoleting writing directly to io.KeyMap[], io.KeysDown[] arrays.
+    - [x] Reworked IO mouse input API: Added io.AddMousePosEvent(), io.AddMouseButtonEvent(), io.AddMouseWheelEvent() functions, obsoleting writing directly to io.MousePos, io.MouseDown[], io.MouseWheel, etc.
+    - [x] Reworked IO keyboard input API: Added io.AddKeyEvent() function, obsoleting writing directly to io.KeyMap[], io.KeysDown[] arrays.
     - [ ] Reworked IO nav/gamepad input API and unifying inputs sources: Added full range of ImGuiKey_GamepadXXXX enums (e.g. ImGuiKey_GamepadDpadUp, ImGuiKey_GamepadR2) to use with io.AddKeyEvent(), io.AddKeyAnalogEvent().
         - [ ] Added io.AddKeyAnalogEvent() function, obsoleting writing directly to io.NavInputs[] arrays.
-    - [ ] IO: Added event based input queue API, which now trickles events to support low framerates. Previously the most common issue case (button presses in low framerates) was handled by backend. This is now handled by core automatically for all kind of inputs.
 - [ ] [V 1.88](https://github.com/ocornut/imgui/releases/tag/v1.88)
     - [ ] Internals: calling ButtonBehavior() without calling ItemAdd() now requires a KeepAliveID() call. This is because the KeepAliveID() call was moved from GetID() to ItemAdd() (probably nothing to do)
     - [ ] IO: Added io.SetAppAcceptingEvents() to set a master flag for accepting key/mouse/characters events (default to true). Useful if you have native dialog boxes that are interrupting your application loop/refresh, and you want to disable events being queued while your app is frozen.
@@ -69,14 +70,13 @@ Probably all the IO "issues" are deeply linked between them
     - [ ] Moved the optional "courtesy maths operators" implementation from imgui_internal.h in imgui.h. (important, must be checked)
 - [ ] [V 1.89.5](https://github.com/ocornut/imgui/releases/tag/v1.89.5)
     - [ ] IO: Added io.AddMouseSourceEvent() and ImGuiMouseSource enum.
-- [ ] [V 1.89.6](https://github.com/ocornut/imgui/releases/tag/v1.89.6)
-    - [ ] Check little breaking changes in link
+- [x] [V 1.89.6](https://github.com/ocornut/imgui/releases/tag/v1.89.6)
 - [ ] [V 1.89.7](https://github.com/ocornut/imgui/releases/tag/v1.89.7)
     - [ ] Moved io.HoverDelayShort/io.HoverDelayNormal to style.HoverDelayShort/style.HoverDelayNormal (maybe need to change TooltipConfig activation_delay and other attributes)
     - [ ] Overlapping items
         - [ ] Obsoleted SetItemAllowOverlap(): it didn't and couldn't work reliably since 1.89 (2022-11-15), and relied on ambiguously defined design. Use SetNextItemAllowOverlap() before item instead.
         - [ ] Added SetNextItemAllowOverlap() (called before an item) as a replacement for using SetItemAllowOverlap() (called after an item). This is roughly equivalent to using the legacy SetItemAllowOverlap() call (public API) + ImGuiButtonFlags_AllowOverlap (internal).
-    - [ ] Tooltips: Added SetItemTooltip() and BeginItemTooltip() helper functions. They are shortcuts for the common idiom of using IsItemHovered().
+    - [x] Tooltips: Added SetItemTooltip() and BeginItemTooltip() helper functions. They are shortcuts for the common idiom of using IsItemHovered().
     - [ ] IsItemHovered: Added ImGuiHoveredFlags_Stationary to require mouse being stationary when hovering a new item. Added style.HoverStationaryDelay (~0.15 sec). Once the mouse has been stationary once the state is preserved for same item.
     - [ ] IsItemHovered: Added ImGuiHoveredFlags_ForTooltip as a shortcut for pulling flags from defaults.HoverFlagsForTooltipMouse or style.HoverFlagsForTooltipNav depending on active inputs.
     - [ ] IsWindowHovered: Added support for ImGuiHoveredFlags_Stationary
@@ -118,10 +118,6 @@ Take a look at implot.cpp to have a better changelog.
     - [x] Legend entries can be sorted using ImPlotLegendFlags_Sort
 - [x] [V 0.15](https://github.com/epezent/implot/releases/tag/v0.15)
 - [x] [V 0.16](https://github.com/epezent/implot/releases/tag/v0.16) 
-
-
-### Completed Column ✓
-- [x] mo_mouse_pos -> no_mouse_text
 
 
 ### Non working functions in demo

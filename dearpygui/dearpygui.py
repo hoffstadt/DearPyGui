@@ -7233,12 +7233,12 @@ def add_text(default_value : str ='', *, label: str =None, user_data: Any =None,
 
 	return internal_dpg.add_text(default_value, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, wrap=wrap, bullet=bullet, color=color, show_label=show_label, **kwargs)
 
-def add_text_point(x : float, y : float, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, show: bool =True, x_offset: int =..., y_offset: int =..., vertical: bool =False, **kwargs) -> Union[int, str]:
+def add_text_point(x : Union[List[float], Tuple[float, ...]], y : Union[List[float], Tuple[float, ...]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, show: bool =True, offset: Union[List[float], Tuple[float, ...]] =(0.0, 0.0), vertical: bool =False, **kwargs) -> Union[int, str]:
 	"""	 Adds a label series to a plot.
 
 	Args:
-		x (float): 
-		y (float): 
+		x (Any): 
+		y (Any): 
 		label (str, optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
@@ -7247,8 +7247,7 @@ def add_text_point(x : float, y : float, *, label: str =None, user_data: Any =No
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		show (bool, optional): Attempt to render widget.
-		x_offset (int, optional): 
-		y_offset (int, optional): 
+		offset (Union[List[float], Tuple[float, ...]], optional): Offset of the shown label
 		vertical (bool, optional): 
 		id (Union[int, str], optional): (deprecated) 
 	Returns:
@@ -7259,7 +7258,7 @@ def add_text_point(x : float, y : float, *, label: str =None, user_data: Any =No
 		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
 		tag=kwargs['id']
 
-	return internal_dpg.add_text_point(x, y, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, source=source, show=show, x_offset=x_offset, y_offset=y_offset, vertical=vertical, **kwargs)
+	return internal_dpg.add_text_point(x, y, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, source=source, show=show, offset=offset, vertical=vertical, **kwargs)
 
 def add_texture_registry(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, show: bool =False, **kwargs) -> Union[int, str]:
 	"""	 Adds a dynamic texture.

@@ -4203,13 +4203,12 @@ DearPyGui::GetEntityParser(mvAppItemType type)
             MV_PARSER_ARG_SHOW)
         );
 
-        args.push_back({ mvPyDataType::Double, "x" });
-        args.push_back({ mvPyDataType::Double, "y" });
-        args.push_back({ mvPyDataType::Integer, "x_offset", mvArgType::KEYWORD_ARG });
-        args.push_back({ mvPyDataType::Integer, "y_offset", mvArgType::KEYWORD_ARG });
+        args.push_back({ mvPyDataType::DoubleList, "x" });
+        args.push_back({ mvPyDataType::DoubleList, "y" });
+        args.push_back({ mvPyDataType::FloatList, "offset", mvArgType::KEYWORD_ARG, "(0.0, 0.0)", "Offset of the shown label" });
         args.push_back({ mvPyDataType::Bool, "vertical", mvArgType::KEYWORD_ARG, "False" });
 
-        setup.about = "Adds a label series to a plot.";
+        setup.about = "Adds a label series to a plot. x and y can only have one elements each.";
         setup.category = { "Plotting", "Containers", "Widgets" };
         break;
     }
