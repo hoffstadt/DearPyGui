@@ -1798,6 +1798,7 @@ def filter_set(**kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
+		recursive (bool, optional): Recursive behaviour for the filter. If a child matches the filter, also the parents will do it. (This is still an experimental feature and it can have a slight impact on the performance)
 		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
@@ -3954,6 +3955,7 @@ def add_filter_set(**kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
+		recursive (bool, optional): Recursive behaviour for the filter. If a child matches the filter, also the parents will do it. (This is still an experimental feature and it can have a slight impact on the performance)
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -6478,7 +6480,7 @@ def add_text(default_value='', **kwargs):
 	return internal_dpg.add_text(default_value, **kwargs)
 
 def add_text_point(x, y, **kwargs):
-	"""	 Adds a label series to a plot.
+	"""	 Adds a label series to a plot. x and y can only have one elements each.
 
 	Args:
 		x (Any): 
