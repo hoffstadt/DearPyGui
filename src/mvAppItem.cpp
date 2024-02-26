@@ -2265,6 +2265,8 @@ DearPyGui::GetEntityParser(mvAppItemType type)
             MV_PARSER_ARG_SHOW)
         );
 
+        args.push_back({ mvPyDataType::Bool, "recursive", mvArgType::KEYWORD_ARG, "False", "Recursive behaviour for the filter. If a child matches the filter, also the parents will do it. (This is still an experimental feature and it can have a slight impact on the performance)" });
+
         setup.about = "Helper to parse and apply text filters (e.g. aaaaa[, bbbbb][, ccccc])";
         setup.category = { "Containers", "Widgets" };
         setup.createContextManager = true;

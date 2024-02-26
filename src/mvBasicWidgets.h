@@ -75,6 +75,7 @@ namespace DearPyGui
     void fill_configuration_dict(const mvImageButtonConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvKnobFloatConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvTooltipConfig& inConfig, PyObject* outDict);
+    void fill_configuration_dict(const mvFilterSetConfig& inConfig, PyObject* outDict);
 
     // specific part of `configure_item(...)`
     void set_configuration(PyObject* inDict, mvSimplePlotConfig& outConfig);
@@ -109,6 +110,7 @@ namespace DearPyGui
     void set_configuration(PyObject* inDict, mvImageConfig& outConfig);
     void set_configuration(PyObject* inDict, mvImageButtonConfig& outConfig);
     void set_configuration(PyObject* inDict, mvTooltipConfig& outConfig);
+    void set_configuration(PyObject* inDict, mvFilterSetConfig& outConfig);
     void set_configuration(PyObject* inDict, mvKnobFloatConfig& outConfig);
 
     // positional args TODO: combine with above
@@ -573,6 +575,9 @@ struct mvImageButtonConfig
 struct mvFilterSetConfig
 {
     ImGuiTextFilter imguiFilter;
+    bool recursive = false;
+    // std::unordered_map<mvUUID, bool> _checked_in_frame; /* Elements already checked in this frame*/
+    bool _was_active = false; /* Was the filter active in the last frame */
 };
 
 struct mvTooltipConfig
@@ -1057,6 +1062,8 @@ public:
     mvFilterSetConfig configData{};
     explicit mvFilterSet(mvUUID uuid) : mvAppItem(uuid) {}
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_filter_set(drawlist, *this, configData); }
+    void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
+    void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
     void setPyValue(PyObject* value) override;
     PyObject* getPyValue() override { return ToPyString(std::string(configData.imguiFilter.InputBuf)); }
 };

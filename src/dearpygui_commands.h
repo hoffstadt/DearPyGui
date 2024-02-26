@@ -2660,7 +2660,6 @@ destroy_context(PyObject* self, PyObject* args, PyObject* kwargs)
 			GContext->started = false;  // return to false after
 			});
 
-		// Doesn't pass tests
 		if (GContext->viewport != nullptr)
 			mvCleanupViewport(*GContext->viewport);
 

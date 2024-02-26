@@ -182,7 +182,7 @@ def add_file_extension(extension : str, *, label: str ='', user_data: Any ='', u
 	"""Creates a file extension filter option in the file dialog."""
 	...
 
-def add_filter_set(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', show: bool ='', delay_search: bool ='') -> Union[int, str]:
+def add_filter_set(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', show: bool ='', delay_search: bool ='', recursive: bool ='') -> Union[int, str]:
 	"""Helper to parse and apply text filters (e.g. aaaaa[, bbbbb][, ccccc])"""
 	...
 
@@ -575,7 +575,7 @@ def add_text(default_value : str ='', *, label: str ='', user_data: Any ='', use
 	...
 
 def add_text_point(x : Union[List[float], Tuple[float, ...]], y : Union[List[float], Tuple[float, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', show: bool ='', offset: Union[List[float], Tuple[float, ...]] ='', vertical: bool ='') -> Union[int, str]:
-	"""Adds a label series to a plot."""
+	"""Adds a label series to a plot. x and y can only have one elements each."""
 	...
 
 def add_texture_registry(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', show: bool ='') -> Union[int, str]:

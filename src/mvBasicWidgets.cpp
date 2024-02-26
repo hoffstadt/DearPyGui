@@ -691,6 +691,14 @@ DearPyGui::fill_configuration_dict(const mvTooltipConfig& inConfig, PyObject* ou
 	PyDict_SetItemString(outDict, "hide_on_activity", mvPyObject(ToPyBool(inConfig.hide_on_move)));
 }
 
+void
+DearPyGui::fill_configuration_dict(const mvFilterSetConfig& inConfig, PyObject* outDict)
+{
+	if (outDict == nullptr)
+		return;
+
+	PyDict_SetItemString(outDict, "recursive", mvPyObject(ToPyBool(inConfig.recursive)));
+}
 //-----------------------------------------------------------------------------
 // [SECTION] configure_item(...) specifics
 //-----------------------------------------------------------------------------
@@ -1790,6 +1798,15 @@ DearPyGui::set_configuration(PyObject* inDict, mvTooltipConfig& outConfig)
 
 	if (PyObject* item = PyDict_GetItemString(inDict, "delay")) outConfig.activation_delay = ToFloat(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "hide_on_activity")) outConfig.hide_on_move = ToBool(item);
+}
+
+void
+DearPyGui::set_configuration(PyObject* inDict, mvFilterSetConfig& outConfig)
+{
+	if (inDict == nullptr)
+		return;
+
+	if (PyObject* item = PyDict_GetItemString(inDict, "recursive")) outConfig.recursive = ToBool(item);
 }
 
 void
@@ -6299,6 +6316,41 @@ DearPyGui::draw_image_button(ImDrawList* drawlist, mvAppItem& item, mvImageButto
 	apply_drag_drop(&item);
 }
 
+void set_visibility(mvAppItem& item, bool visible) {
+	item.config.show = visible;
+	item.info.hiddenLastFrame = !visible;
+	item.info.shownLastFrame = visible;
+}
+
+bool
+can_be_visible(ImDrawList* drawlist, mvAppItem& item, mvFilterSetConfig& config, bool forceTrue)
+{	
+	// Let's dive into the children to check them first
+	bool show_from_children = false;
+	for (auto& childset : item.childslots)
+	{
+		for (auto& child : childset)
+		{
+			if (can_be_visible(drawlist, *child, config, forceTrue)) {
+				// config._filtered[item.uuid] = true;
+				show_from_children = true;
+			}
+		}
+	}
+
+	if (forceTrue || show_from_children) {
+		set_visibility(item, true);
+		return true;
+	}
+
+	// If it has no children then we can check the item itself with the filter
+	bool show = config.imguiFilter.PassFilter(item.config.filter.c_str());
+
+	// We update the visibility of the item
+	set_visibility(item, show);
+	return show;
+}
+
 void
 DearPyGui::draw_filter_set(ImDrawList* drawlist, mvAppItem& item, mvFilterSetConfig& config)
 {
@@ -6307,23 +6359,24 @@ DearPyGui::draw_filter_set(ImDrawList* drawlist, mvAppItem& item, mvFilterSetCon
 	if (item.config.width != 0)
 		ImGui::PushItemWidth((float)item.config.width);
 
-	if (config.imguiFilter.IsActive())
-	{
+	if (config.imguiFilter.IsActive()) {
+		if (config.recursive) {
+			config._was_active = true;
+			can_be_visible(drawlist, item, config, false);
+		}
 		for (auto& childset : item.childslots)
 		{
 			for (auto& child : childset)
-			{
-				if (!config.imguiFilter.PassFilter(child->config.filter.c_str()))
-					continue;
-
 				child->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-			}
 		}
-
 	}
 	else
 	{
-
+		if (config._was_active && config.recursive) {
+			/* Reset the situation */
+			config._was_active = false;
+			can_be_visible(drawlist, item, config, true);
+		}
 		for (auto& childset : item.childslots)
 		{
 			for (auto& child : childset)
