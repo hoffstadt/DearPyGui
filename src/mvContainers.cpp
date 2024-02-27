@@ -91,6 +91,7 @@ DearPyGui::fill_configuration_dict(const mvGroupConfig& inConfig, PyObject* outD
     PyDict_SetItemString(outDict, "horizontal", mvPyObject(ToPyBool(inConfig.horizontal)));
     PyDict_SetItemString(outDict, "horizontal_spacing", mvPyObject(ToPyFloat(inConfig.hspacing)));
     PyDict_SetItemString(outDict, "xoffset", mvPyObject(ToPyFloat(inConfig.xoffset)));
+    PyDict_SetItemString(outDict, "disabled", mvPyObject(ToPyBool(inConfig.disabled)));
 }
 
 void
@@ -307,6 +308,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvGroupConfig& outConfig)
     if (PyObject* item = PyDict_GetItemString(inDict, "horizontal")) outConfig.horizontal = ToBool(item);
     if (PyObject* item = PyDict_GetItemString(inDict, "horizontal_spacing")) outConfig.hspacing = ToFloat(item);
     if (PyObject* item = PyDict_GetItemString(inDict, "xoffset")) outConfig.xoffset = ToFloat(item);
+    if (PyObject* item = PyDict_GetItemString(inDict, "disabled")) outConfig.disabled = ToBool(item);
 }
 
 void
@@ -1089,6 +1091,9 @@ DearPyGui::draw_group(ImDrawList* drawlist, mvAppItem& item, mvGroupConfig& conf
         if (item.config.width != 0)
             ImGui::PushItemWidth((float)item.config.width);
 
+        if (config.disabled)
+            ImGui::BeginDisabled();
+
         ImGui::BeginGroup();
 
         for (auto& child : item.childslots[1])
@@ -1115,6 +1120,10 @@ DearPyGui::draw_group(ImDrawList* drawlist, mvAppItem& item, mvGroupConfig& conf
             ImGui::PopItemWidth();
 
         ImGui::EndGroup();
+
+        if (config.disabled)
+            ImGui::EndDisabled();
+    
         UpdateAppItemState(item.state);
 
     }

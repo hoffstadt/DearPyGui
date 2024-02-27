@@ -2151,6 +2151,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "horizontal", mvArgType::KEYWORD_ARG, "False", "Forces child widgets to be added in a horizontal layout." });
         args.push_back({ mvPyDataType::Float, "horizontal_spacing", mvArgType::KEYWORD_ARG, "-1", "Spacing for the horizontal layout." });
         args.push_back({ mvPyDataType::Float, "xoffset", mvArgType::KEYWORD_ARG, "0.0", "Offset from containing window x item location within group." });
+        args.push_back({ mvPyDataType::Bool, "disabled", mvArgType::KEYWORD_ARG, "False", "Disable everything inside the group. (Use mvThemeCol_TextDisabled and mvStyleVar_DisabledAlpha to edit the style of disabled widgets)" });
 
         setup.about = "Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members.";
         setup.category = { "Containers", "Widgets" };

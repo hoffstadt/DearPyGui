@@ -1882,6 +1882,7 @@ def group(**kwargs):
 		horizontal (bool, optional): Forces child widgets to be added in a horizontal layout.
 		horizontal_spacing (float, optional): Spacing for the horizontal layout.
 		xoffset (float, optional): Offset from containing window x item location within group.
+		disabled (bool, optional): Disable everything inside the group. (Use mvThemeCol_TextDisabled and mvStyleVar_DisabledAlpha to edit the style of disabled widgets)
 		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
@@ -4130,6 +4131,7 @@ def add_group(**kwargs):
 		horizontal (bool, optional): Forces child widgets to be added in a horizontal layout.
 		horizontal_spacing (float, optional): Spacing for the horizontal layout.
 		xoffset (float, optional): Offset from containing window x item location within group.
+		disabled (bool, optional): Disable everything inside the group. (Use mvThemeCol_TextDisabled and mvStyleVar_DisabledAlpha to edit the style of disabled widgets)
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]

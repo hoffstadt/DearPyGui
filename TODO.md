@@ -34,7 +34,7 @@
     - [x] Tables: Expose `TableSetColumnEnabled()` in public api. (in the issue is explained that it's just Hide/Show)
 - [ ] [V 1.84](https://github.com/ocornut/imgui/releases/tag/v1.84)
     - [ ] IO: Added `io.AddFocusEvent()` api for backend to tell when host window has gained/lost focus.
-    - [ ] Disabled: Add `BeginDisabled()/EndDisabled()`.
+    - [x] Disabled: Add `BeginDisabled()/EndDisabled()`.
     - [x] Tables: Added `ImGuiTableColumnFlags_Disabled`
     - [x] Tables: Added `ImGuiTableColumnFlags_NoHeaderLabel` to request TableHeadersRow()
     - [ ] Check: Internals: (for custom widgets): because disabled items now sets HoveredID, if you want custom widgets to not react as hovered when disabled, in the majority of use cases it is preferable to check the "hovered" return value of ButtonBehavior() rather than HoveredId == id.
