@@ -113,6 +113,7 @@ struct mvGroupConfig
     bool  horizontal = false;
     float hspacing = -1.0f;
     float xoffset = 0.0f;
+    bool  disabled = false;
 };
 
 struct mvDragPayloadConfig
