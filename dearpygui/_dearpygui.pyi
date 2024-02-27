@@ -182,7 +182,7 @@ def add_file_extension(extension : str, *, label: str ='', user_data: Any ='', u
 	"""Creates a file extension filter option in the file dialog."""
 	...
 
-def add_filter_set(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', show: bool ='', delay_search: bool ='', recursive: bool ='') -> Union[int, str]:
+def add_filter_set(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', show: bool ='', delay_search: bool ='') -> Union[int, str]:
 	"""Helper to parse and apply text filters (e.g. aaaaa[, bbbbb][, ccccc])"""
 	...
 
