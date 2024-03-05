@@ -469,27 +469,17 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 			config._queryArea[3] = area.Y.Max;
 		}
 
-		if (item.config.callback != nullptr && config._queried)
+		if (item.config.callback && config._queried)
 		{
-
-			if (item.config.alias.empty())
-				mvSubmitCallback([=, &item]() {
+			auto appDataFunc = [queryArea = config._queryArea]() {
 				PyObject* area = PyTuple_New(4);
-				PyTuple_SetItem(area, 0, PyFloat_FromDouble(config._queryArea[0]));
-				PyTuple_SetItem(area, 1, PyFloat_FromDouble(config._queryArea[1]));
-				PyTuple_SetItem(area, 2, PyFloat_FromDouble(config._queryArea[2]));
-				PyTuple_SetItem(area, 3, PyFloat_FromDouble(config._queryArea[3]));
-				mvAddCallback(item.config.callback, item.uuid, area, item.config.user_data);
-					});
-			else
-				mvSubmitCallback([=, &item]() {
-				PyObject* area = PyTuple_New(4);
-				PyTuple_SetItem(area, 0, PyFloat_FromDouble(config._queryArea[0]));
-				PyTuple_SetItem(area, 1, PyFloat_FromDouble(config._queryArea[1]));
-				PyTuple_SetItem(area, 2, PyFloat_FromDouble(config._queryArea[2]));
-				PyTuple_SetItem(area, 3, PyFloat_FromDouble(config._queryArea[3]));
-				mvAddCallback(item.config.callback, item.config.alias, area, item.config.user_data);
-					});
+				PyTuple_SetItem(area, 0, PyFloat_FromDouble(queryArea[0]));
+				PyTuple_SetItem(area, 1, PyFloat_FromDouble(queryArea[1]));
+				PyTuple_SetItem(area, 2, PyFloat_FromDouble(queryArea[2]));
+				PyTuple_SetItem(area, 3, PyFloat_FromDouble(queryArea[3]));
+				return area;
+			};
+			mvSubmitAddCallbackJob({&item.config.callback, item, appDataFunc});
 		}
 
 		if (ImPlot::IsPlotHovered())
@@ -506,11 +496,19 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 			{
 				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(item.config.payloadType.c_str()))
 				{
-					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
-					if (item.config.alias.empty())
-						mvAddCallback(item.config.dropCallback, item.uuid, payloadActual->configData.dragData, nullptr);
-					else
-						mvAddCallback(item.config.dropCallback, item.config.alias, payloadActual->configData.dragData, nullptr);
+					auto dropCallbackPtr = mvPyObjectStrictPtr(item.shared_from_this(), &item.config.dropCallback);
+					mvUUID payloadUuid = *static_cast<const mvUUID*>(payload->Data);
+					auto payloadActual = static_cast<const mvDragPayload*>(GetItem(*GContext->itemRegistry, payloadUuid));
+					if (payloadActual) {
+						auto& dragData = payloadActual->configData.dragData;
+						mvAddCallbackJob({
+							dropCallbackPtr,
+							item.uuid,
+							item.config.alias,
+							MV_APP_DATA_COPY_FUNC(dragData),
+							nullptr
+						});
+					}
 				}
 
 				ImPlot::EndDragDropTarget();
@@ -625,23 +623,25 @@ DearPyGui::draw_plot_axis(ImDrawList* drawlist, mvAppItem& item, mvPlotAxisConfi
 
 	if (item.config.dropCallback)
 	{
+		const ImGuiPayload* payload;
 		ScopedID id(item.uuid);
-		if (item.info.location == 0 && ImPlot::BeginDragDropTargetX())
+		if ((item.info.location == 0 && ImPlot::BeginDragDropTargetX() &&
+				(payload = ImGui::AcceptDragDropPayload(item.config.payloadType.c_str()))) ||
+			(ImPlot::BeginDragDropTargetY(item.info.location - 1) &&
+				(payload = ImGui::AcceptDragDropPayload(item.config.payloadType.c_str()))))
 		{
-			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(item.config.payloadType.c_str()))
-			{
-				auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
-				mvAddCallback(item.config.dropCallback, item.uuid, payloadActual->configData.dragData, nullptr);
-			}
-
-			ImPlot::EndDragDropTarget();
-		}
-		else if (ImPlot::BeginDragDropTargetY(item.info.location - 1))
-		{
-			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(item.config.payloadType.c_str()))
-			{
-				auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
-				mvAddCallback(item.config.dropCallback, item.uuid, payloadActual->configData.dragData, nullptr);
+			auto dropCallbackPtr = mvPyObjectStrictPtr(item.shared_from_this(), &item.config.dropCallback);
+			mvUUID payloadUuid = *static_cast<const mvUUID*>(payload->Data);
+			auto payloadActual = static_cast<const mvDragPayload*>(GetItem(*GContext->itemRegistry, payloadUuid));
+			if (payloadActual) {
+				auto& dragData = payloadActual->configData.dragData;
+				mvAddCallbackJob({
+					dropCallbackPtr,
+					item.uuid,
+					item.config.alias,
+					MV_APP_DATA_COPY_FUNC(dragData),
+					nullptr
+				});
 			}
 
 			ImPlot::EndDragDropTarget();
@@ -696,8 +696,19 @@ DearPyGui::draw_plot_legend(ImDrawList* drawlist, mvAppItem& item, mvPlotLegendC
 		{
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(item.config.payloadType.c_str()))
 			{
-				auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
-				mvAddCallback(item.config.dropCallback, item.uuid, payloadActual->configData.dragData, nullptr);
+				auto dropCallbackPtr = mvPyObjectStrictPtr(item.shared_from_this(), &item.config.dropCallback);
+				mvUUID payloadUuid = *static_cast<const mvUUID*>(payload->Data);
+				auto payloadActual = static_cast<const mvDragPayload*>(GetItem(*GContext->itemRegistry, payloadUuid));
+				if (payloadActual) {
+					auto& dragData = payloadActual->configData.dragData;
+					mvAddCallbackJob({
+						dropCallbackPtr,
+						item.uuid,
+						item.config.alias,
+						MV_APP_DATA_COPY_FUNC(dragData),
+						nullptr
+					});
+				}
 			}
 
 			ImPlot::EndDragDropTarget();
@@ -717,14 +728,14 @@ DearPyGui::draw_drag_line(ImDrawList* drawlist, mvAppItem& item, mvDragLineConfi
 	{
 		if (ImPlot::DragLineX(item.config.specifiedLabel.c_str(), config.value.get(), config.show_label, config.color, config.thickness))
 		{
-			mvAddCallback(item.config.callback, item.uuid, nullptr, item.config.user_data);
+			mvAddCallbackJob({item.getCallback(true), item, nullptr});
 		}
 	}
 	else
 	{
 		if (ImPlot::DragLineY(item.config.specifiedLabel.c_str(), config.value.get(), config.show_label, config.color, config.thickness))
 		{
-			mvAddCallback(item.config.callback, item.uuid, nullptr, item.config.user_data);
+			mvAddCallbackJob({item.getCallback(true), item, nullptr});
 		}
 	}
 }
@@ -746,7 +757,7 @@ DearPyGui::draw_drag_point(ImDrawList* drawlist, mvAppItem& item, mvDragPointCon
 	{
 		(*config.value.get())[0] = dummyx;
 		(*config.value.get())[1] = dummyy;
-		mvAddCallback(item.config.callback, item.uuid, nullptr, item.config.user_data);
+		mvAddCallbackJob({item.getCallback(true), item, nullptr});
 	}
 }
 
@@ -2060,18 +2071,23 @@ DearPyGui::draw_custom_series(ImDrawList* drawlist, mvAppItem& item, mvCustomSer
 			ImPlotPoint mouse = ImPlot::GetPlotMousePos();
 			ImVec2 mouse2 = ImPlot::PlotToPixels(mouse.x, mouse.y);
 			static int extras = 4;
-			mvSubmitCallback([&, mouse, mouse2]() {
-				PyObject* helperData = PyDict_New();
-				PyDict_SetItemString(helperData, "MouseX_PlotSpace", ToPyFloat(mouse.x));
-				PyDict_SetItemString(helperData, "MouseY_PlotSpace", ToPyFloat(mouse.y));
-				PyDict_SetItemString(helperData, "MouseX_PixelSpace", ToPyFloat(mouse2.x));
-				PyDict_SetItemString(helperData, "MouseY_PixelSpace", ToPyFloat(mouse2.y));
-				PyObject* appData = PyTuple_New(config.channelCount + extras);
-				PyTuple_SetItem(appData, 0, helperData);
-				for (int i = 1; i < config.channelCount + 1; i++)
-					PyTuple_SetItem(appData, i, ToPyList(config._transformedValues[i-1]));
-				mvAddCallback(item.config.callback, item.uuid, appData, item.config.user_data);
-				});
+
+			if (item.config.callback) {
+				auto appDataFunc = [mouse, mouse2, channelCount=config.channelCount, transformedValues=config._transformedValues]() {
+					PyObject* helperData = PyDict_New();
+					PyDict_SetItemString(helperData, "MouseX_PlotSpace", mvPyObject(ToPyFloat(mouse.x)));
+					PyDict_SetItemString(helperData, "MouseY_PlotSpace", mvPyObject(ToPyFloat(mouse.y)));
+					PyDict_SetItemString(helperData, "MouseX_PixelSpace", mvPyObject(ToPyFloat(mouse2.x)));
+					PyDict_SetItemString(helperData, "MouseY_PixelSpace", mvPyObject(ToPyFloat(mouse2.y)));
+					PyObject* appData = PyTuple_New(channelCount + extras);
+					PyTuple_SetItem(appData, 0, helperData);
+					for (int i = 1; i < channelCount + 1; i++)
+						PyTuple_SetItem(appData, i, ToPyList(transformedValues[i-1]));
+					return appData;
+				};
+
+				mvSubmitAddCallbackJob({&item.config.callback, item, appDataFunc});
+			}
 
 			// drawings
 			ImPlotPlot* currentPlot = ImPlot::GetCurrentContext()->CurrentPlot;

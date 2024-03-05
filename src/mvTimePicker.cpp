@@ -70,12 +70,7 @@ void mvTimePicker::draw(ImDrawList* drawlist, float x, float y)
 			ImPlot::GetGmtTime(*_imvalue, _value.get());
 			{
 				auto value = *_value;
-				mvSubmitCallback([=]() {
-					if(config.alias.empty())
-						mvAddCallback(getCallback(false), uuid, ToPyTime(value), config.user_data);
-					else
-						mvAddCallback(getCallback(false), config.alias, ToPyTime(value), config.user_data);
-					});
+				mvSubmitAddCallbackJob({*this, MV_APP_DATA_FUNC(ToPyTime(value))});
 			}
 		}
 	}

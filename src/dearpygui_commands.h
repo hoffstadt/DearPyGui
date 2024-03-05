@@ -1873,15 +1873,10 @@ set_frame_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (frame > GContext->callbackRegistry->highestFrame)
 		GContext->callbackRegistry->highestFrame = frame;
 
-	// TODO: check previous entry and deprecate if existing
-	Py_XINCREF(callback);
-
-	if(user_data)
-		Py_XINCREF(user_data);
 	mvSubmitCallback([=]()
 		{
-			GContext->callbackRegistry->frameCallbacks[frame] = callback;
-			GContext->callbackRegistry->frameCallbacksUserData[frame] = user_data;
+			GContext->callbackRegistry->frameCallbacks[frame] = std::make_shared<mvPyObjectStrict>(callback);
+			GContext->callbackRegistry->frameCallbacksUserData[frame] = std::make_shared<mvPyObjectStrict>(user_data);
 		});
 
 	return GetPyNone();
@@ -1890,47 +1885,13 @@ set_frame_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 static PyObject*
 set_exit_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	PyObject* callback;
-	PyObject* user_data = nullptr;
-
-	if (!Parse((GetParsers())["set_exit_callback"], args, kwargs, __FUNCTION__, &callback,
-		&user_data))
-		return GetPyNone();
-
-	Py_XINCREF(callback);
-	if(user_data)
-		Py_XINCREF(user_data);
-	mvSubmitCallback([=]()
-		{
-			GContext->callbackRegistry->onCloseCallback = SanitizeCallback(callback);
-			GContext->callbackRegistry->onCloseCallbackUserData = user_data;
-		});
-	return GetPyNone();
+	return GContext->callbackRegistry->exitCallbackPoint.set_from_python(self, args, kwargs);
 }
 
 static PyObject*
 set_viewport_resize_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	PyObject* callback = nullptr;
-	PyObject* user_data = nullptr;
-
-	if (!Parse((GetParsers())["set_viewport_resize_callback"], args, kwargs, __FUNCTION__,
-		&callback, &user_data))
-		return GetPyNone();
-
-	if (callback)
-		Py_XINCREF(callback);
-
-	if (user_data)
-		Py_XINCREF(user_data);
-
-	mvSubmitCallback([=]()
-		{
-			GContext->callbackRegistry->resizeCallback = SanitizeCallback(callback);
-			GContext->callbackRegistry->resizeCallbackUserData = user_data;
-		});
-
-	return GetPyNone();
+	return GContext->callbackRegistry->viewportResizeCallbackPoint.set_from_python(self, args, kwargs);
 }
 
 static PyObject*
@@ -2375,13 +2336,16 @@ output_frame_buffer(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	if (filepathLength == 0 && callback) // not specified, return array instead
 	{
-		//Py_XINCREF(callback);
+		auto callback_ptr = std::make_shared<mvPyObjectStrict>(callback);
+
 		PyObject* newbuffer = nullptr;
 		PymvBuffer* newbufferview = PyObject_New(PymvBuffer, &PymvBufferType);
 		newbuffer = PyObject_Init((PyObject*)newbufferview, &PymvBufferType);
-		mvSubmitTask([newbuffer, callback, newbufferview]() {
+		auto appdata_ptr = std::make_shared<mvPyObjectStrict>(newbuffer, false);
+
+		mvSubmitTask([appdata_ptr, callback_ptr, newbufferview]() {
 			OutputFrameBufferArray(newbufferview);
-			mvAddCallback(callback, 0, newbuffer, nullptr, false);
+			mvAddCallbackJob({callback_ptr, 0, appdata_ptr, nullptr});
 			});
 
 		return GetPyNone();
@@ -2511,19 +2475,22 @@ destroy_context(PyObject* self, PyObject* args, PyObject* kwargs)
 		// true in order to run DPG commands for the
 		// exit callback.
 		GContext->started = true;
-		mvSubmitCallback([=]() {
-			mvRunCallback(GContext->callbackRegistry->onCloseCallback, 0, nullptr, GContext->callbackRegistry->onCloseCallbackUserData);
+		auto future = mvSubmitCallback([=]() {
+			GContext->callbackRegistry->exitCallbackPoint.run_blocking();
 			GContext->started = false;  // return to false after
 			});
+
+		future.get();
 
 		ImNodes::DestroyContext();
 		ImPlot::DestroyContext();
 		ImGui::DestroyContext();
 
-		mvToolManager::Reset();
-		ClearItemRegistry(*GContext->itemRegistry);
-
-
+		future = mvSubmitCallback([=]() {
+			mvToolManager::Reset();
+			ClearItemRegistry(*GContext->itemRegistry);
+		});
+		future.get();
 
 		//#define X(el) el::s_class_theme_component = nullptr; el::s_class_theme_disabled_component = nullptr;
 		#define X(el) DearPyGui::GetClassThemeComponent(mvAppItemType::el) = nullptr; DearPyGui::GetDisabledClassThemeComponent(mvAppItemType::el) = nullptr;
@@ -2535,13 +2502,16 @@ destroy_context(PyObject* self, PyObject* args, PyObject* kwargs)
 				});
 		if (GContext->future.valid())
 			GContext->future.get();
-		if (GContext->viewport)
-			delete GContext->viewport;
 
-		delete GContext->itemRegistry;
-		delete GContext->callbackRegistry;
-		delete GContext;
-		GContext = nullptr;
+		{
+			mvGlobalIntepreterLock gil;
+			if (GContext->viewport)
+				delete GContext->viewport;
+			delete GContext->itemRegistry;
+			delete GContext->callbackRegistry;
+			delete GContext;
+			GContext = nullptr;
+		}
 	}
 	Py_END_ALLOW_THREADS;
 
@@ -3603,37 +3573,33 @@ get_item_configuration(PyObject* self, PyObject* args, PyObject* kwargs)
 		PyDict_SetItemString(pdict, "height", py_height);
 		PyDict_SetItemString(pdict, "indent", py_indent);
 
-		if (appitem->config.callback)
-		{
-			Py_XINCREF(appitem->config.callback);
-			PyDict_SetItemString(pdict, "callback", appitem->config.callback);
+		if (appitem->config.callback) {
+			PyDict_SetItemString(pdict, "callback", *appitem->config.callback);
 		}
-		else
-			PyDict_SetItemString(pdict, "callback", GetPyNone());
+		else {
+			PyDict_SetItemString(pdict, "callback", Py_None);
+		}
 
-		if (appitem->config.dropCallback)
-		{
-			Py_XINCREF(appitem->config.dropCallback);
-			PyDict_SetItemString(pdict, "drop_callback", appitem->config.dropCallback);
+		if (appitem->config.dropCallback) {
+			PyDict_SetItemString(pdict, "drop_callback", *appitem->config.dropCallback);
 		}
-		else
-			PyDict_SetItemString(pdict, "drop_callback", GetPyNone());
+		else {
+			PyDict_SetItemString(pdict, "drop_callback", Py_None);
+		}
 
-		if (appitem->config.dragCallback)
-		{
-			Py_XINCREF(appitem->config.dragCallback);
-			PyDict_SetItemString(pdict, "drag_callback", appitem->config.dragCallback);
+		if (appitem->config.dragCallback) {
+			PyDict_SetItemString(pdict, "drag_callback", *appitem->config.dragCallback);
 		}
-		else
-			PyDict_SetItemString(pdict, "drag_callback", GetPyNone());
+		else {
+			PyDict_SetItemString(pdict, "drag_callback", Py_None);
+		}
 
-		if (appitem->config.user_data)
-		{
-			Py_XINCREF(appitem->config.user_data);
-			PyDict_SetItemString(pdict, "user_data", appitem->config.user_data);
+		if (appitem->config.user_data) {
+			PyDict_SetItemString(pdict, "user_data", *appitem->config.user_data);
 		}
-		else
-			PyDict_SetItemString(pdict, "user_data", GetPyNone());
+		else {
+			PyDict_SetItemString(pdict, "user_data", Py_None);
+		}
 
 		appitem->getSpecificConfiguration(pdict);
 	}
@@ -4061,21 +4027,12 @@ capture_next_item(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
-	if (GContext->itemRegistry->captureCallback)
-		Py_XDECREF(GContext->itemRegistry->captureCallback);
-
-	if (GContext->itemRegistry->captureCallbackUserData)
-		Py_XDECREF(GContext->itemRegistry->captureCallbackUserData);
-
-	Py_XINCREF(callable);
-	if(user_data)
-		Py_XINCREF(user_data);
 	if (callable == Py_None)
 		GContext->itemRegistry->captureCallback = nullptr;
 	else
-		GContext->itemRegistry->captureCallback = callable;
+		GContext->itemRegistry->captureCallback = std::make_shared<mvPyObjectStrict>(callable);
 
-	GContext->itemRegistry->captureCallbackUserData = user_data;
+	GContext->itemRegistry->captureCallbackUserData = std::make_shared<mvPyObjectStrict>(user_data);
 
 	return GetPyNone();
 }
@@ -4087,30 +4044,10 @@ get_callback_queue(PyObject* self, PyObject* args, PyObject* kwargs)
 		return GetPyNone();
 
 	PyObject* pArgs = PyTuple_New(GContext->callbackRegistry->jobs.size());
-	for (int i = 0; i < GContext->callbackRegistry->jobs.size(); i++)
+	for (size_t i = 0; i < GContext->callbackRegistry->jobs.size(); i++)
 	{
-		PyObject* job = PyTuple_New(4);
-		if (GContext->callbackRegistry->jobs[i].callback)
-			PyTuple_SetItem(job, 0, GContext->callbackRegistry->jobs[i].callback);
-		else
-			PyTuple_SetItem(job, 0, GetPyNone());
-
-		if(GContext->callbackRegistry->jobs[i].sender == 0)
-			PyTuple_SetItem(job, 1, ToPyString(GContext->callbackRegistry->jobs[i].sender_str));
-		else
-			PyTuple_SetItem(job, 1, ToPyUUID(GContext->callbackRegistry->jobs[i].sender));
-
-		if (GContext->callbackRegistry->jobs[i].app_data)
-			PyTuple_SetItem(job, 2, GContext->callbackRegistry->jobs[i].app_data); // steals data, so don't deref
-		else
-			PyTuple_SetItem(job, 2, GetPyNone());
-
-		if (GContext->callbackRegistry->jobs[i].user_data)
-			PyTuple_SetItem(job, 3, GContext->callbackRegistry->jobs[i].user_data); // steals data, so don't deref
-		else
-			PyTuple_SetItem(job, 3, GetPyNone());
-
-		PyTuple_SetItem(pArgs, i, job);
+		PyObject* job_py = mvCallbackJob::to_python_tuple(std::move(GContext->callbackRegistry->jobs[i]));
+		PyTuple_SetItem(pArgs, i, job_py);
 	}
 
 	GContext->callbackRegistry->jobs.clear();

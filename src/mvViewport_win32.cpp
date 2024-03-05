@@ -303,9 +303,7 @@ mvHandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 		break;
 	case WM_CLOSE:
 		if (GContext->viewport->disableClose) {
-			mvSubmitCallback([=]() {
-				mvRunCallback(GContext->callbackRegistry->onCloseCallback, 0, nullptr, GContext->callbackRegistry->onCloseCallbackUserData);
-				});
+        	GContext->callbackRegistry->exitCallbackPoint.run();
 			return 0;
 		}
 		GContext->started = false;

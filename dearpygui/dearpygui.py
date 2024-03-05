@@ -8041,7 +8041,7 @@ def draw_rectangle(pmin : Union[List[float], Tuple[float, ...]], pmax : Union[Li
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
-		color (Union[List[int], Tuple[int, ...]], optional): 
+		color (Union[List[int], Tuple[int, ...]], optional):
 		fill (Union[List[int], Tuple[int, ...]], optional): 
 		multicolor (bool, optional): 
 		rounding (float, optional): Number of pixels of the radius that will round the corners of the rectangle. Note: doesn't work with multicolor
@@ -8167,16 +8167,6 @@ def get_active_window(**kwargs) -> Union[int, str]:
 
 	return internal_dpg.get_active_window(**kwargs)
 
-def get_focused_item(**kwargs) -> Union[int, str]:
-	"""	 Returns the item currently having focus.
-
-	Args:
-	Returns:
-		Union[int, str]
-	"""
-
-	return internal_dpg.get_focused_item(**kwargs)
-
 def get_alias_id(alias : str, **kwargs) -> Union[int, str]:
 	"""	 Returns the ID associated with an alias.
 
@@ -8291,6 +8281,16 @@ def get_file_dialog_info(file_dialog : Union[int, str], **kwargs) -> dict:
 	"""
 
 	return internal_dpg.get_file_dialog_info(file_dialog, **kwargs)
+
+def get_focused_item(**kwargs) -> Union[int, str]:
+	"""	 Returns the item currently having focus.
+
+	Args:
+	Returns:
+		Union[int, str]
+	"""
+
+	return internal_dpg.get_focused_item(**kwargs)
 
 def get_frame_count(**kwargs) -> int:
 	"""	 Returns frame count.

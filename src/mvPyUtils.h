@@ -54,6 +54,35 @@ private:
 
 };
 
+// python reference counting using strict RAII, no implicit copy
+// shared references to an object can use a shared_ptr<mvPyObjectStrict> or explicit copy()
+class mvPyObjectStrict
+{
+    PyObject* m_rawObject = nullptr;
+
+public:
+    mvPyObjectStrict() = default;
+    mvPyObjectStrict(PyObject* ptr, bool borrowed=true);
+    mvPyObjectStrict(mvPyObjectStrict&& other) noexcept;
+
+    mvPyObjectStrict& operator=(mvPyObjectStrict&& other) noexcept;
+
+    ~mvPyObjectStrict();
+
+    PyObject* operator*();
+    explicit operator bool() const;
+
+    // Takes the m_rawObject out of this container.
+    // Shouldn't be done with an mvPyObjectStrict in a shared_ptr, you should
+    // copy it out first.
+    PyObject* steal();
+    mvPyObjectStrict copy();
+};
+
+using mvPyObjectStrictPtr = std::shared_ptr<mvPyObjectStrict>;
+
+mvPyObjectStrictPtr mvPyObjectStrictNonePtr(void);
+
 enum class mvErrorCode
 {
     mvNone                = 1000,

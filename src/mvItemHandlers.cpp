@@ -126,83 +126,65 @@ void mvItemHandlerRegistry::onBind(mvAppItem* item)
 
 void mvActivatedHandler::customAction(void* data)
 {
-
 	mvAppItemState* state = static_cast<mvAppItemState*>(data);
 	if (state->activated)
 	{
-		mvSubmitCallback([=]()
-			{
-				if (config.alias.empty())
-					mvRunCallback(getCallback(false), uuid, ToPyUUID(state->parent), config.user_data);
-				else
-					mvRunCallback(getCallback(false), config.alias, ToPyUUID(state->parent), config.user_data);
-			});
+		auto parent_ptr = state->parent->shared_from_this();
+		mvAddCallbackJob({*this, MV_APP_DATA_FUNC(ToPyUUID(parent_ptr.get()))}, false);
 	}
 }
 
 void mvActiveHandler::customAction(void* data)
 {
-
 	mvAppItemState* state = static_cast<mvAppItemState*>(data);
 	if (state->active)
 	{
-		mvSubmitCallback([=]()
-			{
-				if (config.alias.empty())
-					mvRunCallback(getCallback(false), uuid, ToPyUUID(state->parent), config.user_data);
-				else
-					mvRunCallback(getCallback(false), config.alias, ToPyUUID(state->parent), config.user_data);
-			});
+		auto parent_ptr = state->parent->shared_from_this();
+		mvAddCallbackJob({*this, MV_APP_DATA_FUNC(ToPyUUID(parent_ptr.get()))}, false);
 	}
 }
 
 void mvClickedHandler::customAction(void* data)
 {
-
 	mvAppItemState* state = static_cast<mvAppItemState*>(data);
+
 	if (_button == -1 || _button == 0)
 		if (state->leftclicked)
 		{
-			mvSubmitCallback([=]()
-				{
-					mvPyObject pArgs(PyTuple_New(2));
-					PyTuple_SetItem(pArgs, 0, ToPyInt(0));
-					PyTuple_SetItem(pArgs, 1, ToPyUUID(state->parent)); // steals data, so don't deref
-					if (config.alias.empty())
-						mvRunCallback(getCallback(false), uuid, pArgs, config.user_data);
-					else
-						mvRunCallback(getCallback(false), config.alias, pArgs, config.user_data);
-				});
+			auto parent_ptr = state->parent->shared_from_this();
+			auto appDataFunc = [=]() {
+				mvPyObject pArgs(PyTuple_New(2));
+				PyTuple_SetItem(pArgs, 0, ToPyInt(0));
+				PyTuple_SetItem(pArgs, 1, ToPyUUID(parent_ptr.get())); // steals data, so don't deref
+				return pArgs;
+			};
+			mvAddCallbackJob({*this, appDataFunc}, false);
 		}
 
 	if (_button == -1 || _button == 1)
 		if (state->rightclicked)
 		{
-			mvSubmitCallback([=]()
-				{
-					mvPyObject pArgs(PyTuple_New(2));
-					PyTuple_SetItem(pArgs, 0, ToPyInt(1));
-					PyTuple_SetItem(pArgs, 1, ToPyUUID(state->parent)); // steals data, so don't deref
-					if (config.alias.empty())
-						mvRunCallback(getCallback(false), uuid, pArgs, config.user_data);
-					else
-						mvRunCallback(getCallback(false), config.alias, pArgs, config.user_data);
-				});
+			auto parent_ptr = state->parent->shared_from_this();
+			auto appDataFunc = [=]() {
+				mvPyObject pArgs(PyTuple_New(2));
+				PyTuple_SetItem(pArgs, 0, ToPyInt(1));
+				PyTuple_SetItem(pArgs, 1, ToPyUUID(parent_ptr.get())); // steals data, so don't deref
+				return pArgs;
+			};
+			mvAddCallbackJob({*this, appDataFunc}, false);
 		}
 
 	if (_button == -1 || _button == 2)
 		if (state->middleclicked)
 		{
-			mvSubmitCallback([=]()
-				{
-					mvPyObject pArgs(PyTuple_New(2));
-					PyTuple_SetItem(pArgs, 0, ToPyInt(2));
-					PyTuple_SetItem(pArgs, 1, ToPyUUID(state->parent)); // steals data, so don't deref
-					if (config.alias.empty())
-						mvRunCallback(getCallback(false), uuid, pArgs, config.user_data);
-					else
-						mvRunCallback(getCallback(false), config.alias, pArgs, config.user_data);
-				});
+			auto parent_ptr = state->parent->shared_from_this();
+			auto appDataFunc = [=]() {
+				mvPyObject pArgs(PyTuple_New(2));
+				PyTuple_SetItem(pArgs, 0, ToPyInt(2));
+				PyTuple_SetItem(pArgs, 1, ToPyUUID(parent_ptr.get())); // steals data, so don't deref
+				return pArgs;
+			};
+			mvAddCallbackJob({*this, appDataFunc}, false);
 		}
 
 }
@@ -242,16 +224,14 @@ void mvDoubleClickedHandler::customAction(void* data)
 	{
 		if (state->doubleclicked[i])
 		{
-			mvSubmitCallback([=]()
-				{
-					mvPyObject pArgs(PyTuple_New(2));
-					PyTuple_SetItem(pArgs, 0, ToPyInt(i));
-					PyTuple_SetItem(pArgs, 1, ToPyUUID(state->parent)); // steals data, so don't deref
-					if (config.alias.empty())
-						mvRunCallback(getCallback(false), uuid, pArgs, config.user_data);
-					else
-						mvRunCallback(getCallback(false), config.alias, pArgs, config.user_data);
-				});
+			auto parent_ptr = state->parent->shared_from_this();
+			auto appDataFunc = [=]() {
+				mvPyObject pArgs(PyTuple_New(2));
+				PyTuple_SetItem(pArgs, 0, ToPyInt(i));
+				PyTuple_SetItem(pArgs, 1, ToPyUUID(parent_ptr.get())); // steals data, so don't deref
+				return pArgs;
+			};
+			mvAddCallbackJob({*this, appDataFunc}, false);
 		}
 	}
 }
@@ -282,17 +262,11 @@ void mvDoubleClickedHandler::getSpecificConfiguration(PyObject* dict)
 
 void mvDeactivatedAfterEditHandler::customAction(void* data)
 {
-
 	mvAppItemState* state = static_cast<mvAppItemState*>(data);
 	if (state->deactivatedAfterEdit)
 	{
-		mvSubmitCallback([=]()
-			{
-				if (config.alias.empty())
-					mvRunCallback(getCallback(false), uuid, ToPyUUID(state->parent), config.user_data);
-				else
-					mvRunCallback(getCallback(false), config.alias, ToPyUUID(state->parent), config.user_data);
-			});
+		auto parent_ptr = state->parent->shared_from_this();
+		mvAddCallbackJob({*this, MV_APP_DATA_FUNC(ToPyUUID(parent_ptr.get()))}, false);
 	}
 }
 
@@ -301,13 +275,8 @@ void mvDeactivatedHandler::customAction(void* data)
 	mvAppItemState* state = static_cast<mvAppItemState*>(data);
 	if (state->deactivated)
 	{
-		mvSubmitCallback([=]()
-			{
-				if (config.alias.empty())
-					mvRunCallback(getCallback(false), uuid, ToPyUUID(state->parent), config.user_data);
-				else
-					mvRunCallback(getCallback(false), config.alias, ToPyUUID(state->parent), config.user_data);
-			});
+		auto parent_ptr = state->parent->shared_from_this();
+		mvAddCallbackJob({*this, MV_APP_DATA_FUNC(ToPyUUID(parent_ptr.get()))}, false);
 	}
 }
 
@@ -317,13 +286,8 @@ void mvEditedHandler::customAction(void* data)
 	mvAppItemState* state = static_cast<mvAppItemState*>(data);
 	if (state->edited)
 	{
-		mvSubmitCallback([=]()
-			{
-				if (config.alias.empty())
-					mvRunCallback(getCallback(false), uuid, ToPyUUID(state->parent), config.user_data);
-				else
-					mvRunCallback(getCallback(false), config.alias, ToPyUUID(state->parent), config.user_data);
-			});
+		auto parent_ptr = state->parent->shared_from_this();
+		mvAddCallbackJob({*this, MV_APP_DATA_FUNC(ToPyUUID(parent_ptr.get()))}, false);
 	}
 }
 
@@ -333,13 +297,8 @@ void mvFocusHandler::customAction(void* data)
 	mvAppItemState* state = static_cast<mvAppItemState*>(data);
 	if (state->focused)
 	{
-		mvSubmitCallback([=]()
-			{
-				if (config.alias.empty())
-					mvRunCallback(getCallback(false), uuid, ToPyUUID(state->parent), config.user_data);
-				else
-					mvRunCallback(getCallback(false), config.alias, ToPyUUID(state->parent), config.user_data);
-			});
+		auto parent_ptr = state->parent->shared_from_this();
+		mvAddCallbackJob({*this, MV_APP_DATA_FUNC(ToPyUUID(parent_ptr.get()))}, false);
 	}
 }
 
@@ -348,13 +307,8 @@ void mvHoverHandler::customAction(void* data)
 	mvAppItemState* state = static_cast<mvAppItemState*>(data);
 	if (state->hovered)
 	{
-		mvSubmitCallback([=]()
-			{
-				if (config.alias.empty())
-					mvRunCallback(getCallback(false), uuid, ToPyUUID(state->parent), config.user_data);
-				else
-					mvRunCallback(getCallback(false), config.alias, ToPyUUID(state->parent), config.user_data);
-			});
+		auto parent_ptr = state->parent->shared_from_this();
+		mvAddCallbackJob({*this, MV_APP_DATA_FUNC(ToPyUUID(parent_ptr.get()))}, false);
 	}
 }
 
@@ -363,42 +317,23 @@ void mvResizeHandler::customAction(void* data)
 	mvAppItemState* state = static_cast<mvAppItemState*>(data);
 	if (state->mvRectSizeResized)
 	{
-		mvSubmitCallback([=]()
-			{
-				if (config.alias.empty())
-					mvRunCallback(getCallback(false), uuid, ToPyUUID(state->parent), config.user_data);
-				else
-					mvRunCallback(getCallback(false), config.alias, ToPyUUID(state->parent), config.user_data);
-			});
+		auto parent_ptr = state->parent->shared_from_this();
+		mvAddCallbackJob({*this, MV_APP_DATA_FUNC(ToPyUUID(parent_ptr.get()))}, false);
 	}
 }
 
 void mvToggledOpenHandler::customAction(void* data)
 {
-
 	if (static_cast<mvAppItemState*>(data)->toggledOpen)
 	{
-		mvSubmitCallback([=]()
-			{
-				if (config.alias.empty())
-					mvRunCallback(getCallback(false), uuid, GetPyNone(), config.user_data);
-				else
-					mvRunCallback(getCallback(false), config.alias, GetPyNone(), config.user_data);
-			});
+		mvAddCallbackJob({*this, nullptr}, false);
 	}
 }
 
 void mvVisibleHandler::customAction(void* data)
 {
-
 	if (static_cast<mvAppItemState*>(data)->visible)
 	{
-		mvSubmitCallback([=]()
-			{
-				if (config.alias.empty())
-					mvRunCallback(getCallback(false), uuid, GetPyNone(), config.user_data);
-				else
-					mvRunCallback(getCallback(false), config.alias, GetPyNone(), config.user_data);
-			});
+		mvAddCallbackJob({*this, nullptr}, false);
 	}
 }

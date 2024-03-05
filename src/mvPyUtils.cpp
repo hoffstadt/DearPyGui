@@ -78,6 +78,63 @@ void mvPyObject::delRef()
 	m_del = true;
 }
 
+mvPyObjectStrict::mvPyObjectStrict(PyObject* rawObject, bool borrowed)
+    : m_rawObject(rawObject)
+{
+    if (borrowed) {
+        Py_XINCREF(m_rawObject);
+    }
+}
+
+mvPyObjectStrict::mvPyObjectStrict(mvPyObjectStrict&& other) noexcept
+    : m_rawObject(other.m_rawObject)
+{
+    other.m_rawObject = nullptr;
+}
+
+mvPyObjectStrict& mvPyObjectStrict::operator=(mvPyObjectStrict&& other) noexcept
+{
+    Py_XDECREF(m_rawObject);
+    m_rawObject = other.m_rawObject;
+    other.m_rawObject = nullptr;
+    return *this;
+}
+
+mvPyObjectStrict::~mvPyObjectStrict()
+{
+    Py_XDECREF(m_rawObject);
+}
+
+PyObject* mvPyObjectStrict::operator*()
+{
+    return m_rawObject;
+}
+
+mvPyObjectStrict::operator bool() const
+{
+    return m_rawObject && m_rawObject != Py_None;
+}
+
+PyObject* mvPyObjectStrict::steal()
+{
+    PyObject* ret = m_rawObject;
+    m_rawObject = nullptr;
+    return ret;
+}
+
+mvPyObjectStrict mvPyObjectStrict::copy()
+{
+    return mvPyObjectStrict(m_rawObject, true);
+}
+
+mvPyObjectStrictPtr mvPyObjectStrictNonePtr()
+{
+    static mvPyObjectStrictPtr nonePtr;
+    if (!nonePtr)
+        nonePtr = std::make_shared<mvPyObjectStrict>(Py_None, true);
+    return nonePtr;
+}
+
 void
 mvThrowPythonError(mvErrorCode code, const std::string& message)
 {

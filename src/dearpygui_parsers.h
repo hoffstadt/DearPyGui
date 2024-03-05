@@ -9,6 +9,8 @@
 #include "mvViewport.h"
 #include <stb_image.h>
 #include "mvProfiler.h"
+#include <vector>
+#include <utility>
 
 static void
 InsertParser_Block0(std::map<std::string, mvPythonParser>& parsers)

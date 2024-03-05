@@ -81,10 +81,10 @@ struct mvItemRegistry
     std::vector<mvAppItem*>                 delayedSearch;
     b8                                      showImGuiDebug = false;
     b8                                      showImPlotDebug = false;
-    std::vector<std::shared_ptr<mvAppItem>>           debugWindows;
-    std::shared_ptr<mvAppItem>                        capturedItem = nullptr;
-    PyObject*                               captureCallback = nullptr;
-    PyObject*                               captureCallbackUserData = nullptr;
+    std::vector<std::shared_ptr<mvAppItem>> debugWindows;
+    std::shared_ptr<mvAppItem>              capturedItem = nullptr;
+    mvPyObjectStrictPtr                     captureCallback = nullptr;
+    mvPyObjectStrictPtr                     captureCallbackUserData = nullptr;
 
     // roots
     std::vector<std::shared_ptr<mvAppItem>> colormapRoots;

@@ -89,21 +89,19 @@ DearPyGui::fill_configuration_dict(const mvDragPayloadConfig& inConfig, PyObject
     if (outDict == nullptr)
         return;
 
-    if (inConfig.dragData)
-    {
-        Py_XINCREF(inConfig.dragData);
-        PyDict_SetItemString(outDict, "drag_data", inConfig.dragData);
+    if (inConfig.dragData && *inConfig.dragData) {
+        PyDict_SetItemString(outDict, "drag_data", **inConfig.dragData);
     }
-    else
-        PyDict_SetItemString(outDict, "drag_data", GetPyNone());
+    else {
+        PyDict_SetItemString(outDict, "drag_data", Py_None);
+    }
 
-    if (inConfig.dropData)
-    {
-        Py_XINCREF(inConfig.dropData);
-        PyDict_SetItemString(outDict, "drop_data", inConfig.dropData);
+    if (inConfig.dropData && *inConfig.dropData) {
+        PyDict_SetItemString(outDict, "drop_data", **inConfig.dropData);
     }
-    else
-        PyDict_SetItemString(outDict, "drop_data", GetPyNone());
+    else {
+        PyDict_SetItemString(outDict, "drop_data", Py_None);
+    }
 }
 
 void
@@ -177,13 +175,12 @@ DearPyGui::fill_configuration_dict(const mvWindowAppItemConfig& inConfig, PyObje
     PyDict_SetItemString(outDict, "collapsed", mvPyObject(ToPyBool(inConfig.collapsed)));
     PyDict_SetItemString(outDict, "min_size", mvPyObject(ToPyPairII(inConfig.min_size.x, inConfig.min_size.y)));
     PyDict_SetItemString(outDict, "max_size", mvPyObject(ToPyPairII(inConfig.max_size.x, inConfig.max_size.y)));
-    if (inConfig.on_close)
-    {
-        Py_XINCREF(inConfig.on_close);
-        PyDict_SetItemString(outDict, "on_close", inConfig.on_close);
+    if (inConfig.on_close && *inConfig.on_close) {
+        PyDict_SetItemString(outDict, "on_close", **inConfig.on_close);
     }
-    else
-        PyDict_SetItemString(outDict, "on_close", GetPyNone());
+    else {
+        PyDict_SetItemString(outDict, "on_close", Py_None);
+    }
 
     // helper to check and set bit
     auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)
@@ -300,20 +297,12 @@ DearPyGui::set_configuration(PyObject* inDict, mvDragPayloadConfig& outConfig)
 
     if (PyObject* item = PyDict_GetItemString(inDict, "drag_data"))
     {
-        if (outConfig.dragData)
-            Py_XDECREF(outConfig.dragData);
-
-        Py_XINCREF(item);
-        outConfig.dragData = item;
+        outConfig.dragData = std::make_shared<mvPyObjectStrict>(item);
     }
 
     if (PyObject* item = PyDict_GetItemString(inDict, "drop_data"))
     {
-        if (outConfig.dropData)
-            Py_XDECREF(outConfig.dropData);
-
-        Py_XINCREF(item);
-        outConfig.dropData = item;
+        outConfig.dropData = std::make_shared<mvPyObjectStrict>(item);
     }
 }
 
@@ -423,12 +412,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvAppItem& itemc, mvWindowAppItem
 
     if (PyObject* item = PyDict_GetItemString(inDict, "on_close"))
     {
-        if (outConfig.on_close)
-            Py_XDECREF(outConfig.on_close);
-        item = SanitizeCallback(item);
-        if (item)
-            Py_XINCREF(item);
-        outConfig.on_close = item;
+        outConfig.on_close = std::make_shared<mvPyObjectStrict>(SanitizeCallback(item));
     }
 
     // helper for bit flipping
@@ -812,12 +796,8 @@ DearPyGui::draw_tab(ImDrawList* drawlist, mvAppItem& item, mvTabConfig& config)
             // run call back if it exists
             if (parent->getSpecificValue() != item.uuid)
             {
-                mvSubmitCallback([=, &item]() {
-                    if (parent->config.alias.empty())
-                        mvAddCallback(parent->getCallback(), parent->uuid, ToPyUUID(item.uuid), parent->config.user_data);
-                    else
-                        mvAddCallback(parent->getCallback(), parent->config.alias, ToPyUUID(item.uuid), parent->config.user_data);
-                    });
+                auto uuid = item.uuid;
+                mvSubmitAddCallbackJob({parent->getCallback(), *parent, MV_APP_DATA_FUNC(ToPyUUID(uuid))});
             }
 
             parent->setValue(item.uuid);
@@ -1127,14 +1107,22 @@ DearPyGui::draw_drag_payload(ImDrawList* drawlist, mvAppItem& item, mvDragPayloa
 {
     if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID))
     {
-        ImGui::SetDragDropPayload(config.payloadType.c_str(), &item, sizeof(mvDragPayload));
+        ImGui::SetDragDropPayload(config.payloadType.c_str(), &item.uuid, sizeof(item.uuid));
 
         if (item.info.parentPtr->config.dragCallback)
         {
-            if (item.info.parentPtr->config.alias.empty())
-                mvAddCallback(item.info.parentPtr->config.dragCallback, item.config.parent, config.dragData, item.config.user_data);
-            else
-                mvAddCallback(item.info.parentPtr->config.dragCallback, item.info.parentPtr->config.alias, config.dragData, item.config.user_data);
+            auto& parentPtr = item.info.parentPtr;
+            auto dragCallbackPtr = mvPyObjectStrictPtr(parentPtr->shared_from_this(), &parentPtr->config.dragCallback);
+            auto userDataPtr = mvPyObjectStrictPtr(item.shared_from_this(), &item.config.user_data);
+            auto& dragData = config.dragData;
+
+            mvAddCallbackJob({
+                dragCallbackPtr,
+                item.config.parent,
+                parentPtr->config.alias,
+                MV_APP_DATA_COPY_FUNC(dragData),
+                userDataPtr
+            });
         }
 
         for (auto& childset : item.childslots)
@@ -1495,10 +1483,7 @@ DearPyGui::draw_window(ImDrawList* drawlist, mvAppItem& item, mvWindowAppItemCon
             item.state.toggledOpen = false;
             item.state.visible = false;
 
-            if (item.config.alias.empty())
-                mvAddCallback(config.on_close, item.uuid, nullptr, item.config.user_data);
-            else
-                mvAddCallback(config.on_close, item.config.alias, nullptr, item.config.user_data);
+            mvAddCallbackJob({config.on_close, item, nullptr});
 
             // handle popping themes
             cleanup_local_theming(&item);
@@ -1675,10 +1660,7 @@ DearPyGui::draw_window(ImDrawList* drawlist, mvAppItem& item, mvWindowAppItemCon
         item.state.toggledOpen = false;
         item.state.visible = false;
 
-        if (item.config.alias.empty())
-            mvAddCallback(config.on_close, item.uuid, nullptr, item.config.user_data);
-        else
-            mvAddCallback(config.on_close, item.config.alias, nullptr, item.config.user_data);
+        mvAddCallbackJob({config.on_close, item, nullptr});
     }
 
     if (item.handlerRegistry)
@@ -1698,11 +1680,19 @@ apply_drag_drop(mvAppItem* item)
         {
             if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(item->config.payloadType.c_str()))
             {
-                auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
-                if (item->config.alias.empty())
-                    mvAddCallback(item->config.dropCallback, item->uuid, payloadActual->configData.dragData, nullptr);
-                else
-                    mvAddCallback(item->config.dropCallback, item->config.alias, payloadActual->configData.dragData, nullptr);
+                auto dropCallbackPtr = mvPyObjectStrictPtr(item->shared_from_this(), &item->config.dropCallback);
+                mvUUID payloadUuid = *static_cast<const mvUUID*>(payload->Data);
+                auto payloadActual = static_cast<const mvDragPayload*>(GetItem(*GContext->itemRegistry, payloadUuid));
+                if (payloadActual) {
+                    auto& dragData = payloadActual->configData.dragData;
+                    mvAddCallbackJob({
+                        dropCallbackPtr,
+                        item->uuid,
+                        item->config.alias,
+                        MV_APP_DATA_COPY_FUNC(dragData),
+                        nullptr
+                    });
+                }
             }
 
             ImGui::EndDragDropTarget();
@@ -1720,11 +1710,19 @@ apply_drag_drop_nodraw(mvAppItem* item)
         {
             if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(item->config.payloadType.c_str()))
             {
-                auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
-                if (item->config.alias.empty())
-                    mvAddCallback(item->config.dropCallback, item->uuid, payloadActual->configData.dragData, nullptr);
-                else
-                    mvAddCallback(item->config.dropCallback, item->config.alias, payloadActual->configData.dragData, nullptr);
+                auto dropCallbackPtr = mvPyObjectStrictPtr(item->shared_from_this(), &item->config.dropCallback);
+                mvUUID payloadUuid = *static_cast<const mvUUID*>(payload->Data);
+                auto payloadActual = static_cast<const mvDragPayload*>(GetItem(*GContext->itemRegistry, payloadUuid));
+                if (payloadActual) {
+                    auto& dragData = payloadActual->configData.dragData;
+                    mvAddCallbackJob({
+                        dropCallbackPtr,
+                        item->uuid,
+                        item->config.alias,
+                        MV_APP_DATA_COPY_FUNC(dragData),
+                        nullptr
+                    });
+                }
             }
 
             ImGui::EndDragDropTarget();

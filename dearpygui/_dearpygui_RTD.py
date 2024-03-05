@@ -7421,6 +7421,16 @@ def get_file_dialog_info(file_dialog):
 
 	return internal_dpg.get_file_dialog_info(file_dialog)
 
+def get_focused_item():
+	"""	 Returns the item currently having focus.
+
+	Args:
+	Returns:
+		Union[int, str]
+	"""
+
+	return internal_dpg.get_focused_item()
+
 def get_frame_count():
 	"""	 Returns frame count.
 

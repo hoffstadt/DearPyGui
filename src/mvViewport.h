@@ -73,7 +73,7 @@ static void mvOnResize()
 		PyTuple_SetItem(dimensions, 1, PyLong_FromLong(GContext->viewport->actualHeight));
 		PyTuple_SetItem(dimensions, 2, PyLong_FromLong(GContext->viewport->clientWidth));
 		PyTuple_SetItem(dimensions, 3, PyLong_FromLong(GContext->viewport->clientHeight));
-		mvAddCallback(
-			GContext->callbackRegistry->resizeCallback, MV_APP_UUID, dimensions, GContext->callbackRegistry->resizeCallbackUserData);
+		GContext->callbackRegistry->viewportResizeCallbackPoint.run(MV_APP_UUID, dimensions);
+		Py_XDECREF(dimensions);
 		});
 }

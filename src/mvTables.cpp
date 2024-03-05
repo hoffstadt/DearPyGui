@@ -255,11 +255,11 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 			{
 				if (sorts_specs->SpecsDirty)
 				{
-					if (sorts_specs->SpecsCount == 0)
-						mvAddCallback(getCallback(false), uuid, GetPyNone(), config.user_data);
+					if (sorts_specs->SpecsCount == 0) {
+						mvAddCallbackJob({*this, nullptr});
+					}
 					else
 					{
-
 						// generate id map for columns
 						std::unordered_map<ImGuiID, mvUUID> idMap;
 						for (size_t i = 0; i < childslots[0].size(); i++)
@@ -272,7 +272,7 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 							specs.push_back({ idMap[sort_spec->ColumnUserID], sort_spec->SortDirection == ImGuiSortDirection_Ascending ? 1 : -1 });
 						}
 
-						mvSubmitCallback([=]() {
+						auto appDataFunc = [specs=std::move(specs)]() {
 							PyObject* pySpec = PyList_New(specs.size());
 							for (size_t i = 0; i < specs.size(); i++)
 							{
@@ -281,13 +281,9 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 								PyList_SetItem(pySingleSpec, 1, ToPyInt(specs[i].direction));
 								PyList_SetItem(pySpec, i, pySingleSpec);
 							}
-
-							if (config.alias.empty())
-								mvRunCallback(getCallback(false), uuid, pySpec, config.user_data);
-							else
-								mvRunCallback(getCallback(false), config.alias, pySpec, config.user_data);
-							Py_XDECREF(pySpec);
-							});
+							return pySpec;
+						};
+						mvAddCallbackJob({*this, appDataFunc}, false);
 					}
 					sorts_specs->SpecsDirty = false;
 				}

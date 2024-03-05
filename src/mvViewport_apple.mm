@@ -9,6 +9,7 @@
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_metal.h"
 #include <stdio.h>
+#include <vector>
 
  mvViewport*
 mvCreateViewport(unsigned width, unsigned height)
@@ -24,9 +25,7 @@ static void
 window_close_callback(GLFWwindow* window)
 {
     if (GContext->viewport->disableClose) {
-        mvSubmitCallback([=]() {
-            mvRunCallback(GContext->callbackRegistry->onCloseCallback, 0, nullptr, GContext->callbackRegistry->onCloseCallbackUserData);
-            });
+        GContext->callbackRegistry->exitCallbackPoint.run();
     }
     else {
         GContext->started = false;

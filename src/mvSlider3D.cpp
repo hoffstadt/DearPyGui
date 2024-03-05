@@ -398,13 +398,7 @@ void mvSlider3D::draw(ImDrawList* drawlist, float x, float y)
 		if(SliderScalar3D(config.specifiedLabel.c_str(), &(*_value)[0], &(*_value)[1], &(*_value)[2], _minX, _maxX, _minY, _maxY, _minZ, _maxZ, _scale))
 		{
 			auto value = *_value;
-			mvSubmitCallback([=]() {
-
-				if(config.alias.empty())
-					mvAddCallback(getCallback(false), uuid, ToPyFloatList(value.data(), (int)value.size()), config.user_data);
-				else
-					mvAddCallback(getCallback(false), config.alias, ToPyFloatList(value.data(), (int)value.size()), config.user_data);
-				});
+			mvSubmitAddCallbackJob({*this, MV_APP_DATA_FUNC(ToPyFloatList(value.data(), (int)value.size()))});
 		}
 	}
 

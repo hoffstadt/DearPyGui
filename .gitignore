@@ -12,3 +12,4 @@ lib_location.txt
 version_number.txt
 dearpygui.egg-info/
 build/
+venv/
