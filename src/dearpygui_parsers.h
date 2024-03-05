@@ -244,25 +244,12 @@ InsertParser_Block0(std::map<std::string, mvPythonParser>& parsers)
 		args.push_back({ mvPyDataType::UUID, "plot" });
 
 		mvPythonParserSetup setup;
-		setup.about = "Returns true if the plot is currently being queried. (Requires plot 'query' kwarg to be enabled)";
+		setup.about = "Returns the query rects of the plot. Returns an array of array containing the top-left coordinates and bottom-right coordinates of the plot area.";
 		setup.category = { "Plotting", "App Item Operations" };
-		setup.returnType = mvPyDataType::Bool;
+		setup.returnType = mvPyDataType::ListFloatList;
 
 		mvPythonParser parser = FinalizeParser(setup, args);
-		parsers.insert({ "is_plot_queried", parser });
-	}
-
-	{
-		std::vector<mvPythonDataElement> args;
-		args.push_back({ mvPyDataType::UUID, "plot" });
-
-		mvPythonParserSetup setup;
-		setup.about = "Returns the last/current query area of the plot. (Requires plot 'query' kwarg to be enabled)";
-		setup.category = { "Plotting", "App Item Operations" };
-		setup.returnType = mvPyDataType::FloatList;
-
-		mvPythonParser parser = FinalizeParser(setup, args);
-		parsers.insert({ "get_plot_query_area", parser });
+		parsers.insert({ "get_plot_query_rects", parser });
 	}
 
 	{
@@ -277,7 +264,58 @@ InsertParser_Block0(std::map<std::string, mvPythonParser>& parsers)
 		mvPythonParser parser = FinalizeParser(setup, args);
 		parsers.insert({ "get_axis_limits", parser });
 	}
+	{
+		std::vector<mvPythonDataElement> args;
+		args.reserve(3);
+		args.push_back({ mvPyDataType::UUID, "axis" });
+		args.push_back({ mvPyDataType::Float, "vmin" });
+		args.push_back({ mvPyDataType::Float, "vmax" });
 
+		mvPythonParserSetup setup;
+		setup.about = "Sets an axis' limits constraints so that users can't pan beyond a min or max value";
+		setup.category = { "Plotting", "App Item Operations" };
+
+		mvPythonParser parser = FinalizeParser(setup, args);
+		parsers.insert({ "set_axis_limits_constraints", parser });
+	}
+	{
+		std::vector<mvPythonDataElement> args;
+		args.reserve(3);
+		args.push_back({ mvPyDataType::UUID, "axis" });
+
+		mvPythonParserSetup setup;
+		setup.about = "Remove an axis' limits constraints";
+		setup.category = { "Plotting", "App Item Operations" };
+
+		mvPythonParser parser = FinalizeParser(setup, args);
+		parsers.insert({ "reset_axis_limits_constraints", parser });
+	}
+	{
+		std::vector<mvPythonDataElement> args;
+		args.reserve(3);
+		args.push_back({ mvPyDataType::UUID, "axis" });
+		args.push_back({ mvPyDataType::Float, "vmin" });
+		args.push_back({ mvPyDataType::Float, "vmax" });
+
+		mvPythonParserSetup setup;
+		setup.about = "Sets an axis' zoom constraints so that users can't zoom beyond a min or max value";
+		setup.category = { "Plotting", "App Item Operations" };
+
+		mvPythonParser parser = FinalizeParser(setup, args);
+		parsers.insert({ "set_axis_zoom_constraints", parser });
+	}
+	{
+		std::vector<mvPythonDataElement> args;
+		args.reserve(3);
+		args.push_back({ mvPyDataType::UUID, "axis" });
+
+		mvPythonParserSetup setup;
+		setup.about = "Remove an axis' zoom constraints";
+		setup.category = { "Plotting", "App Item Operations" };
+
+		mvPythonParser parser = FinalizeParser(setup, args);
+		parsers.insert({ "reset_axis_zoom_constraints", parser });
+	}
 	{
 		std::vector<mvPythonDataElement> args;
 		args.reserve(3);
@@ -482,8 +520,6 @@ InsertParser_Block1(std::map<std::string, mvPythonParser>& parsers)
 	{
 		std::vector<mvPythonDataElement> args;
 		args.reserve(11);
-		args.push_back({ mvPyDataType::Bool, "docking", mvArgType::KEYWORD_ARG, "False", "Enables docking support." });
-		args.push_back({ mvPyDataType::Bool, "docking_space", mvArgType::KEYWORD_ARG, "False", "add explicit dockspace over viewport" });
 		args.push_back({ mvPyDataType::String, "load_init_file", mvArgType::KEYWORD_ARG, "''", "Load .ini file." });
 		args.push_back({ mvPyDataType::String, "init_file", mvArgType::KEYWORD_ARG, "''" });
 		args.push_back({ mvPyDataType::Bool, "auto_save_init_file", mvArgType::KEYWORD_ARG, "False" });
@@ -577,6 +613,19 @@ InsertParser_Block1(std::map<std::string, mvPythonParser>& parsers)
 
 		mvPythonParser parser = FinalizeParser(setup, args);
 		parsers.insert({ "save_image", parser });
+	}
+
+	{
+		std::vector<mvPythonDataElement> args;
+		args.reserve(1);
+		args.push_back({ mvPyDataType::String, "decimal_point" });
+
+		mvPythonParserSetup setup;
+		setup.about = "Change the default decimal_point. Users of non-default decimal point (in particular ',') may be affected by word-selection logic (is_word_boundary_from_right/is_word_boundary_from_left) functions. Use only single character strings.";
+		setup.category = { "Utilities" };
+	
+		mvPythonParser parser = FinalizeParser(setup, args);
+		parsers.insert({ "set_decimal_point", parser });
 	}
 
 	{

@@ -39,10 +39,13 @@ DearPyGui::fill_configuration_dict(const mvButtonConfig& inConfig, PyObject* out
 	mvPyObject py_small = ToPyBool(inConfig.small_button);
 	mvPyObject py_arrow = ToPyBool(inConfig.arrow);
 	mvPyObject py_direction = ToPyInt(inConfig.direction);
+	mvPyObject py_repeat = ToPyBool(inConfig.repeat);
+
 
 	PyDict_SetItemString(outDict, "small", py_small);
 	PyDict_SetItemString(outDict, "arrow", py_arrow);
 	PyDict_SetItemString(outDict, "direction", py_direction);
+	PyDict_SetItemString(outDict, "repeat", py_repeat);
 }
 
 void
@@ -60,6 +63,7 @@ DearPyGui::fill_configuration_dict(const mvComboConfig& inConfig, PyObject* outD
 	checkbitset("popup_align_left", ImGuiComboFlags_PopupAlignLeft, inConfig.flags);
 	checkbitset("no_arrow_button", ImGuiComboFlags_NoArrowButton, inConfig.flags);
 	checkbitset("no_preview", ImGuiComboFlags_NoPreview, inConfig.flags);
+	checkbitset("fit_width", ImGuiComboFlags_WidthFitPreview, inConfig.flags);
 
 	mvUUID mode = (long)mvComboHeightMode::mvComboHeight_Largest;
 	if (inConfig.flags & ImGuiComboFlags_HeightSmall) mode = (long)mvComboHeightMode::mvComboHeight_Small;
@@ -422,6 +426,23 @@ DearPyGui::fill_configuration_dict(const mvInputTextConfig& inConfig, PyObject* 
 	checkbitset("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, inConfig.flags);
 	checkbitset("scientific", ImGuiInputTextFlags_CharsScientific, inConfig.flags);
 	checkbitset("tab_input", ImGuiInputTextFlags_AllowTabInput, inConfig.flags);
+
+	checkbitset("auto_select_all", ImGuiInputTextFlags_AutoSelectAll, inConfig.flags); // Select entire text when first taking mouse focus 
+	checkbitset("ctrl_enter_for_new_line", ImGuiInputTextFlags_CtrlEnterForNewLine, inConfig.flags);  // In multi-line mode, unfocus with Enter, add new line with Ctrl+Enter (default is opposite: unfocus with Ctrl+Enter, add line with Enter).
+	checkbitset("no_horizontal_scroll", ImGuiInputTextFlags_NoHorizontalScroll, inConfig.flags);  // Disable following the cursor horizontally
+	checkbitset("always_overwrite", ImGuiInputTextFlags_AlwaysOverwrite, inConfig.flags);  // Overwrite mode
+	checkbitset("no_undo_redo", ImGuiInputTextFlags_NoUndoRedo, inConfig.flags);  // Disable undo/redo. Note that input text owns the text data while active, if you want to provide your own undo/redo stack you need e.g. to call ClearActiveID().
+	checkbitset("escape_clears_all", ImGuiInputTextFlags_EscapeClearsAll, inConfig.flags);  // Escape key clears content if not empty, and deactivate otherwise (contrast to default behavior of Escape to revert)
+
+	// TODO: Implement all of these (they seem really useful)
+	// Search this:             ImGui::InputText("Completion", buf1, 64, ImGuiInputTextFlags_CallbackCompletion, Funcs::MyCallback);
+	// ImGuiInputTextFlags_CallbackCompletion  = 1 << 6,   // Callback on pressing TAB (for completion handling)
+    // ImGuiInputTextFlags_CallbackHistory     = 1 << 7,   // Callback on pressing Up/Down arrows (for history handling)
+    // ImGuiInputTextFlags_CallbackAlways      = 1 << 8,   // Callback on each iteration. User code may query cursor position, modify text buffer.
+    // ImGuiInputTextFlags_CallbackCharFilter  = 1 << 9,   // Callback on character inputs to replace or discard them. Modify 'EventChar' to replace or discard, or return 1 in callback to discard.
+    // ImGuiInputTextFlags_CallbackResize      = 1 << 18,  // Callback on buffer capacity changes request (beyond 'buf_size' parameter value), allowing the string to grow. Notify when the string wants to be resized (for string types which hold a cache of their Size). You will be provided a new BufSize in the callback and NEED to honor it. (see misc/cpp/imgui_stdlib.h for an example of using this)
+    // ImGuiInputTextFlags_CallbackEdit        = 1 << 19,  // Callback on any edit (note that InputText() already returns true on edit, the callback is useful mainly to manipulate the underlying buffer while focus is active)
+
 }
 
 void
@@ -696,6 +717,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvButtonConfig& outConfig)
 	if (PyObject* item = PyDict_GetItemString(inDict, "small")) outConfig.small_button = ToBool(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "arrow")) outConfig.arrow = ToBool(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "direction")) outConfig.direction = ToInt(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "repeat")) outConfig.repeat = ToBool(item);
 }
 
 void
@@ -722,6 +744,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvComboConfig& outConfig)
 	flagop("popup_align_left", ImGuiComboFlags_PopupAlignLeft, outConfig.flags);
 	flagop("no_arrow_button", ImGuiComboFlags_NoArrowButton, outConfig.flags);
 	flagop("no_preview", ImGuiComboFlags_NoPreview, outConfig.flags);
+	flagop("fit_width", ImGuiComboFlags_WidthFitPreview, outConfig.flags);
 }
 
 void
@@ -1286,6 +1309,14 @@ DearPyGui::set_configuration(PyObject* inDict, mvInputTextConfig& outConfig, mvA
 	flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, outConfig.flags);
 	flagop("scientific", ImGuiInputTextFlags_CharsScientific, outConfig.flags);
 	flagop("tab_input", ImGuiInputTextFlags_AllowTabInput, outConfig.flags);
+
+	flagop("auto_select_all", ImGuiInputTextFlags_AutoSelectAll, outConfig.flags);
+	flagop("ctrl_enter_for_new_line", ImGuiInputTextFlags_CtrlEnterForNewLine, outConfig.flags);
+	flagop("no_horizontal_scroll", ImGuiInputTextFlags_NoHorizontalScroll, outConfig.flags);
+	flagop("always_overwrite", ImGuiInputTextFlags_AlwaysOverwrite, outConfig.flags);
+	flagop("no_undo_redo", ImGuiInputTextFlags_NoUndoRedo, outConfig.flags);
+	flagop("escape_clears_all", ImGuiInputTextFlags_EscapeClearsAll, outConfig.flags);
+
 
 	if (info.enabledLastFrame)
 	{
@@ -2672,6 +2703,8 @@ DearPyGui::draw_button(ImDrawList* drawlist, mvAppItem& item, const mvButtonConf
 		item.info.focusNextFrame = false;
 	}
 
+	ImGui::PushItemFlag(ImGuiItemFlags_ButtonRepeat, config.repeat);
+
 	// cache old cursor position
 	ImVec2 previousCursorPos = ImGui::GetCursorPos();
 
@@ -2746,6 +2779,9 @@ DearPyGui::draw_button(ImDrawList* drawlist, mvAppItem& item, const mvButtonConf
 	// pop font off stack
 	if (item.font)
 		ImGui::PopFont();
+
+	
+	ImGui::PopItemFlag();
 
 	// handle popping themes
 	cleanup_local_theming(&item);
@@ -6220,8 +6256,8 @@ DearPyGui::draw_image_button(ImDrawList* drawlist, mvAppItem& item, mvImageButto
 				texture = static_cast<mvDynamicTexture*>(config.texture.get())->_texture;
 
 			ImGui::PushID(item.uuid);
-			if (ImGui::ImageButton(texture, ImVec2((float)item.config.width, (float)item.config.height),
-				ImVec2(config.uv_min.x, config.uv_min.y), ImVec2(config.uv_max.x, config.uv_max.y), config.framePadding,
+			if (ImGui::ImageButton(std::to_string(item.uuid).c_str(), texture, ImVec2((float)item.config.width, (float)item.config.height),
+				ImVec2(config.uv_min.x, config.uv_min.y), ImVec2(config.uv_max.x, config.uv_max.y),
 				config.backgroundColor, config.tintColor))
 			{
 				if (item.config.alias.empty())
@@ -6271,23 +6307,19 @@ DearPyGui::draw_filter_set(ImDrawList* drawlist, mvAppItem& item, mvFilterSetCon
 	if (item.config.width != 0)
 		ImGui::PushItemWidth((float)item.config.width);
 
-	if (config.imguiFilter.IsActive())
-	{
+	if (config.imguiFilter.IsActive()) {
 		for (auto& childset : item.childslots)
 		{
-			for (auto& child : childset)
-			{
+			for (auto& child : childset) {
 				if (!config.imguiFilter.PassFilter(child->config.filter.c_str()))
 					continue;
 
 				child->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 			}
 		}
-
 	}
 	else
 	{
-
 		for (auto& childset : item.childslots)
 		{
 			for (auto& child : childset)
@@ -6304,7 +6336,11 @@ DearPyGui::draw_separator(ImDrawList* drawlist, mvAppItem& item)
 {
 	if (!item.config.show)
 		return;
-	ImGui::Separator();
+	if (!item.info.internalLabel.empty()) {
+		ImGui::SeparatorText(item.info.internalLabel.c_str());
+	} else {
+		ImGui::Separator();
+	}
 }
 
 void
@@ -6371,6 +6407,7 @@ void
 DearPyGui::draw_tooltip(ImDrawList* drawlist, mvAppItem& item)
 {
 	mvTooltip* tooltip = (mvTooltip*)&item;
+	// TODO: Check if this can be done with a way easier ImGui::SetItemTooltip()  (and check "ImGui::BeginItemTooltip()")
 	if (ImGui::IsItemHovered() && item.config.show)
 	{
 		ImVec2 mousePos = ImGui::GetMousePos();
@@ -6398,17 +6435,17 @@ DearPyGui::draw_tooltip(ImDrawList* drawlist, mvAppItem& item)
 			}
 			apply_local_theming(&item);
 
-			ImGui::BeginTooltip();
+			if(ImGui::BeginTooltip()) {
+				item.state.lastFrameUpdate = GContext->frame;
+				item.state.visible = true;
+				item.state.contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
+				item.state.rectSize = { ImGui::GetWindowSize().x, ImGui::GetWindowSize().y };
 
-			item.state.lastFrameUpdate = GContext->frame;
-			item.state.visible = true;
-			item.state.contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
-			item.state.rectSize = { ImGui::GetWindowSize().x, ImGui::GetWindowSize().y };
+				for (auto& item : item.childslots[1])
+					item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 
-			for (auto& item : item.childslots[1])
-				item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-
-			ImGui::EndTooltip();
+				ImGui::EndTooltip();
+			}
 
 			cleanup_local_theming(&item);
 			if (item.font)
@@ -6683,9 +6720,10 @@ bool KnobFloat(const char* label, float* p_value, float v_min, float v_max, floa
 
     if (is_active || is_hovered) {
         ImGui::SetNextWindowPos(ImVec2(pos.x - style.WindowPadding.x, pos.y - line_height - style.ItemInnerSpacing.y - style.WindowPadding.y));
-        ImGui::BeginTooltip();
-        ImGui::Text("%.3f", *p_value);
-        ImGui::EndTooltip();
+        if(ImGui::BeginTooltip()) {
+			ImGui::Text("%.3f", *p_value);
+			ImGui::EndTooltip();
+		}
     }
 
     return value_changed;

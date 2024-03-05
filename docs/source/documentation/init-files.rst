@@ -6,7 +6,6 @@ Init Files
 * window positions
 * window sizes
 * window collapse state
-* window docking
 * table column widths
 * table column ordering
 * table column visible state

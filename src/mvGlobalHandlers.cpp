@@ -12,32 +12,32 @@ void mvHandlerRegistry::draw(ImDrawList* drawlist, float x, float y)
 
 void mvKeyDownHandler::draw(ImDrawList* drawlist, float x, float y)
 {
-
-	if (_key == -1)
+	if (_key == ImGuiKey_None)
 	{
-		for (int i = 0; i < IM_ARRAYSIZE(ImGui::GetIO().KeysDown); i++)
+		for (int i = ImGuiKey_NamedKey_BEGIN; i < ImGuiKey_NamedKey_END; i++)
 		{
-			if (ImGui::GetIO().KeysDown[i])
+			auto key = ImGui::GetKeyData(static_cast<ImGuiKey>(i));
+			if (key->Down)
 			{
 				mvSubmitCallback([=]()
 					{
 						if (config.alias.empty())
-							mvRunCallback(getCallback(false), uuid, ToPyMPair(i, ImGui::GetIO().KeysDownDuration[i]), config.user_data);
+							mvRunCallback(getCallback(false), uuid, ToPyMPair(i, key->DownDuration), config.user_data);
 						else
-							mvRunCallback(getCallback(false), config.alias, ToPyMPair(i, ImGui::GetIO().KeysDownDuration[i]), config.user_data);
+							mvRunCallback(getCallback(false), config.alias, ToPyMPair(i, key->DownDuration), config.user_data);
 					});
 			}
 		}
 	}
 
-	else if (ImGui::GetIO().KeysDown[_key])
+	else if (ImGui::IsKeyDown(_key))
 	{
 		mvSubmitCallback([=]()
 			{
 				if (config.alias.empty())
-					mvRunCallback(getCallback(false), uuid, ToPyMPair(_key, ImGui::GetIO().KeysDownDuration[_key]), config.user_data);
+					mvRunCallback(getCallback(false), uuid, ToPyMPair(_key, ImGui::GetKeyData(_key)->DownDurationPrev), config.user_data);
 				else
-					mvRunCallback(getCallback(false), config.alias, ToPyMPair(_key, ImGui::GetIO().KeysDownDuration[_key]), config.user_data);
+					mvRunCallback(getCallback(false), config.alias, ToPyMPair(_key, ImGui::GetKeyData(_key)->DownDurationPrev), config.user_data);
 			});
 	}
 }
@@ -47,7 +47,7 @@ void mvKeyDownHandler::handleSpecificRequiredArgs(PyObject* dict)
 	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
 		return;
 
-	_key = ToInt(PyTuple_GetItem(dict, 0));
+	_key = (ImGuiKey)ToInt(PyTuple_GetItem(dict, 0));
 }
 
 void mvKeyDownHandler::handleSpecificKeywordArgs(PyObject* dict)
@@ -55,7 +55,7 @@ void mvKeyDownHandler::handleSpecificKeywordArgs(PyObject* dict)
 	if (dict == nullptr)
 		return;
 
-	if (PyObject* item = PyDict_GetItemString(dict, "key")) _key = ToInt(item);
+	if (PyObject* item = PyDict_GetItemString(dict, "key")) _key = (ImGuiKey)ToInt(item);
 }
 
 void mvKeyDownHandler::getSpecificConfiguration(PyObject* dict)
@@ -68,11 +68,11 @@ void mvKeyDownHandler::getSpecificConfiguration(PyObject* dict)
 
 void mvKeyPressHandler::draw(ImDrawList* drawlist, float x, float y)
 {
-	if (_key == -1)
+	if (_key == ImGuiKey_None)
 	{
-		for (int i = 0; i < IM_ARRAYSIZE(ImGui::GetIO().KeysDown); i++)
+		for (int i = ImGuiKey_NamedKey_BEGIN; i < ImGuiKey_NamedKey_END; i++)
 		{
-			if (ImGui::IsKeyPressed(i))
+			if (ImGui::IsKeyPressed(static_cast<ImGuiKey>(i)))
 			{
 				mvSubmitCallback([=]()
 					{
@@ -108,7 +108,7 @@ void mvKeyPressHandler::handleSpecificPositionalArgs(PyObject* dict)
 		switch (i)
 		{
 		case 0:
-			_key = ToInt(item);
+			_key = (ImGuiKey)ToInt(item);
 			break;
 
 		default:
@@ -122,7 +122,7 @@ void mvKeyPressHandler::handleSpecificKeywordArgs(PyObject* dict)
 	if (dict == nullptr)
 		return;
 
-	if (PyObject* item = PyDict_GetItemString(dict, "key")) _key = ToInt(item);
+	if (PyObject* item = PyDict_GetItemString(dict, "key")) _key = (ImGuiKey)ToInt(item);
 }
 
 void mvKeyPressHandler::getSpecificConfiguration(PyObject* dict)
@@ -135,11 +135,11 @@ void mvKeyPressHandler::getSpecificConfiguration(PyObject* dict)
 
 void mvKeyReleaseHandler::draw(ImDrawList* drawlist, float x, float y)
 {
-	if (_key == -1)
+	if (_key == ImGuiKey_None)
 	{
-		for (int i = 0; i < IM_ARRAYSIZE(ImGui::GetIO().KeysDown); i++)
+		for (int i = ImGuiKey_NamedKey_BEGIN; i < ImGuiKey_NamedKey_END; i++)
 		{
-			if (ImGui::GetIO().KeysDownDurationPrev[i] >= 0.0f && !ImGui::GetIO().KeysDown[i])
+			if (ImGui::IsKeyReleased(static_cast<ImGuiKey>(i)))
 			{
 				mvSubmitCallback([=]()
 					{
@@ -175,7 +175,7 @@ void mvKeyReleaseHandler::handleSpecificPositionalArgs(PyObject* dict)
 		switch (i)
 		{
 		case 0:
-			_key = ToInt(item);
+			_key = (ImGuiKey)ToInt(item);
 			break;
 
 		default:
@@ -189,7 +189,7 @@ void mvKeyReleaseHandler::handleSpecificKeywordArgs(PyObject* dict)
 	if (dict == nullptr)
 		return;
 
-	if (PyObject* item = PyDict_GetItemString(dict, "key")) _key = ToInt(item);
+	if (PyObject* item = PyDict_GetItemString(dict, "key")) _key = (ImGuiKey)ToInt(item);
 }
 
 void mvKeyReleaseHandler::getSpecificConfiguration(PyObject* dict)
@@ -273,7 +273,7 @@ void mvMouseDoubleClickHandler::draw(ImDrawList* drawlist, float x, float y)
 	{
 		for (int i = 0; i < IM_ARRAYSIZE(ImGui::GetIO().MouseDown); i++)
 		{
-			if (ImGui::IsMouseDoubleClicked(i))
+			if (ImGui::GetMouseClickedCount(i) == 2)
 			{
 				mvSubmitCallback([=]()
 					{
@@ -286,7 +286,7 @@ void mvMouseDoubleClickHandler::draw(ImDrawList* drawlist, float x, float y)
 		}
 	}
 
-	else if (ImGui::IsMouseDoubleClicked(_button))
+	else if (ImGui::GetMouseClickedCount(_button) == 2)
 	{
 		mvSubmitCallback([=]()
 			{

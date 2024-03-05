@@ -260,10 +260,11 @@ ImNodesIO& GetIO();
 
 // Returns the global style struct. See the struct declaration for default values.
 ImNodesStyle& GetStyle();
-// Style presets matching the dear imgui styles of the same name.
-void StyleColorsDark(); // on by default
-void StyleColorsClassic();
-void StyleColorsLight();
+// Style presets matching the dear imgui styles of the same name. If dest is NULL, the active
+// context's ImNodesStyle instance will be used as the destination.
+void StyleColorsDark(ImNodesStyle* dest = NULL); // on by default
+void StyleColorsClassic(ImNodesStyle* dest = NULL);
+void StyleColorsLight(ImNodesStyle* dest = NULL);
 
 // The top-level function call. Call this before calling BeginNode/EndNode. Calling this function
 // will result the node editor grid workspace being rendered.

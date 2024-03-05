@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <stb_image.h>
 #include "mvToolManager.h"
+#include <iostream>
 
 static void
 glfw_error_callback(int error, const char* description)
@@ -191,7 +192,6 @@ mvShowViewport(mvViewport& viewport, bool minimized, bool maximized)
         glfwSetWindowIcon(viewportData->handle, images.size(), images.data());
 
     glfwMakeContextCurrent(viewportData->handle);
-
     gl3wInit();
 
     ImGuiIO& io = ImGui::GetIO(); (void)io;
@@ -214,9 +214,6 @@ mvShowViewport(mvViewport& viewport, bool minimized, bool maximized)
 
     if(GContext->IO.kbdNavigation)
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  // Enable Keyboard Controls
-
-    if (GContext->IO.docking)
-        io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
     // Setup style
     ImGui::StyleColorsDark();

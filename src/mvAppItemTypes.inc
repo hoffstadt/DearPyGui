@@ -73,24 +73,26 @@
     X( mvInputFloatMulti ) \
     X( mvDragPoint ) \
     X( mvDragLine ) \
+    X( mvDragRect ) \
     X( mvAnnotation ) \
+    X( mvTag ) \
     X( mvLineSeries ) \
     X( mvScatterSeries ) \
     X( mvStemSeries ) \
     X( mvStairSeries ) \
     X( mvBarSeries ) \
+    X( mvGroupBarSeries ) \
     X( mvErrorSeries ) \
-    X( mvVLineSeries ) \
-    X( mvHLineSeries ) \
+    X( mvInfLineSeries ) \
     X( mvHeatSeries ) \
     X( mvImageSeries ) \
     X( mvPieSeries ) \
     X( mvShadeSeries ) \
     X( mvLabelSeries ) \
     X( mvHistogramSeries ) \
+    X( mvDigitalSeries ) \
     X( mv2dHistogramSeries ) \
     X( mvCandleSeries ) \
-    X( mvAreaSeries ) \
     X( mvColorMapScale ) \
     X( mvSlider3D ) \
     X( mvKnobFloat ) \

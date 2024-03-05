@@ -92,8 +92,8 @@ void mvDrawArrow::draw(ImDrawList* drawlist, float x, float y)
 	if (ImPlot::GetCurrentContext()->CurrentPlot)
 	{
 		drawlist->AddTriangleFilled(ImPlot::PlotToPixels(tpp1), ImPlot::PlotToPixels(tpp2), ImPlot::PlotToPixels(tpp3), _color);
-		drawlist->AddLine(ImPlot::PlotToPixels(tp1), ImPlot::PlotToPixels(tp2), _color, (float)ImPlot::GetCurrentContext()->Mx * _thickness);
-		drawlist->AddTriangle(ImPlot::PlotToPixels(tpp1), ImPlot::PlotToPixels(tpp2), ImPlot::PlotToPixels(tpp3), _color, (float)ImPlot::GetCurrentContext()->Mx * _thickness);
+		drawlist->AddLine(ImPlot::PlotToPixels(tp1), ImPlot::PlotToPixels(tp2), _color, (float)ImPlot::GetCurrentContext()->Style.LineWeight * _thickness);
+		drawlist->AddTriangle(ImPlot::PlotToPixels(tpp1), ImPlot::PlotToPixels(tpp2), ImPlot::PlotToPixels(tpp3), _color, (float)ImPlot::GetCurrentContext()->Style.LineWeight * _thickness);
 	}
 	else
 	{
@@ -183,7 +183,7 @@ void mvDrawBezierCubic::draw(ImDrawList* drawlist, float x, float y)
 
 	if (ImPlot::GetCurrentContext()->CurrentPlot)
 		drawlist->AddBezierCubic(ImPlot::PlotToPixels(tp1), ImPlot::PlotToPixels(tp2), ImPlot::PlotToPixels(tp3),
-			ImPlot::PlotToPixels(tp4), _color, ImPlot::GetCurrentContext()->Mx * _thickness, _segments);
+			ImPlot::PlotToPixels(tp4), _color, ImPlot::GetCurrentContext()->Style.LineWeight * _thickness, _segments);
 	else
 	{
 		mvVec2 start = { x, y };
@@ -269,7 +269,7 @@ void mvDrawBezierQuadratic::draw(ImDrawList* drawlist, float x, float y)
 
 	if (ImPlot::GetCurrentContext()->CurrentPlot)
 		drawlist->AddBezierQuadratic(ImPlot::PlotToPixels(tp1),
-			ImPlot::PlotToPixels(tp2), ImPlot::PlotToPixels(tp3), _color, ImPlot::GetCurrentContext()->Mx * _thickness, _segments);
+			ImPlot::PlotToPixels(tp2), ImPlot::PlotToPixels(tp3), _color, ImPlot::GetCurrentContext()->Style.LineWeight * _thickness, _segments);
 	else
 	{
 		mvVec2 start = { x, y };
@@ -339,9 +339,9 @@ void mvDrawCircle::draw(ImDrawList* drawlist, float x, float y)
 	if (ImPlot::GetCurrentContext()->CurrentPlot)
 	{
 		if (_fill.r >= 0.0f)
-			drawlist->AddCircleFilled(ImPlot::PlotToPixels(tcenter), ImPlot::GetCurrentContext()->Mx * _radius, _fill, _segments);
-		drawlist->AddCircle(ImPlot::PlotToPixels(tcenter), ImPlot::GetCurrentContext()->Mx * _radius, _color,
-			ImPlot::GetCurrentContext()->Mx * _segments, _thickness);
+			drawlist->AddCircleFilled(ImPlot::PlotToPixels(tcenter), ImPlot::GetCurrentContext()->Style.LineWeight * _radius, _fill, _segments);
+		drawlist->AddCircle(ImPlot::PlotToPixels(tcenter), ImPlot::GetCurrentContext()->Style.LineWeight * _radius, _color,
+			ImPlot::GetCurrentContext()->Style.LineWeight * _segments, _thickness);
 	}
 	else
 	{
@@ -464,7 +464,7 @@ void mvDrawEllipse::draw(ImDrawList* drawlist, float x, float y)
 		drawlist->AddConvexPolyFilled(finalpoints.data(), (int)finalpoints.size(), _fill);
 	if (ImPlot::GetCurrentContext()->CurrentPlot)
 		drawlist->AddPolyline(finalpoints.data(), (int)finalpoints.size(),
-			_color, false, ImPlot::GetCurrentContext()->Mx * _thickness);
+			_color, false, ImPlot::GetCurrentContext()->Style.LineWeight * _thickness);
 	else
 		drawlist->AddPolyline(finalpoints.data(), (int)finalpoints.size(),
 			_color, false, _thickness);
@@ -867,7 +867,7 @@ void mvDrawLine::draw(ImDrawList* drawlist, float x, float y)
 
 	if (ImPlot::GetCurrentContext()->CurrentPlot)
 		drawlist->AddLine(ImPlot::PlotToPixels(tp1), ImPlot::PlotToPixels(tp2), _color,
-			ImPlot::GetCurrentContext()->Mx * _thickness);
+			ImPlot::GetCurrentContext()->Style.LineWeight * _thickness);
 	else
 	{
 		mvVec2 start = { x, y };
@@ -1139,7 +1139,7 @@ void mvDrawPolygon::draw(ImDrawList* drawlist, float x, float y)
 			{
 				if (ImPlot::GetCurrentContext()->CurrentPlot)
 					drawlist->AddLine(ImPlot::PlotToPixels({ (float)polyints[i], (float)y }),
-						ImPlot::PlotToPixels({ (float)polyints[i + 1], (float)y }), _fill, ImPlot::GetCurrentContext()->Mx * _thickness);
+						ImPlot::PlotToPixels({ (float)polyints[i + 1], (float)y }), _fill, ImPlot::GetCurrentContext()->Style.LineWeight * _thickness);
 				else
 				{
 					drawlist->AddLine({ (float)polyints[i], (float)y },
@@ -1230,7 +1230,7 @@ void mvDrawPolyline::draw(ImDrawList* drawlist, float x, float y)
 		}
 
 		drawlist->AddPolyline(finalpoints.data(), (int)finalpoints.size(), _color,
-			_closed, ImPlot::GetCurrentContext()->Mx * _thickness);
+			_closed, ImPlot::GetCurrentContext()->Style.LineWeight * _thickness);
 	}
 	else
 	{
@@ -1320,7 +1320,7 @@ void mvDrawQuad::draw(ImDrawList* drawlist, float x, float y)
 			drawlist->AddQuadFilled(ImPlot::PlotToPixels(tp1), ImPlot::PlotToPixels(tp2), ImPlot::PlotToPixels(tp3),
 				ImPlot::PlotToPixels(tp4), _fill);
 		drawlist->AddQuad(ImPlot::PlotToPixels(tp1), ImPlot::PlotToPixels(tp2), ImPlot::PlotToPixels(tp3),
-			ImPlot::PlotToPixels(tp4), _color, ImPlot::GetCurrentContext()->Mx * _thickness);
+			ImPlot::PlotToPixels(tp4), _color, ImPlot::GetCurrentContext()->Style.LineWeight * _thickness);
 	}
 	else
 	{
@@ -1409,9 +1409,9 @@ void mvDrawRect::draw(ImDrawList* drawlist, float x, float y)
 		if (_multicolor)
 			drawlist->AddRectFilledMultiColor(ImPlot::PlotToPixels(tpmin), ImPlot::PlotToPixels(tpmax), _color_bottom_right, _color_bottom_left, _color_upper_left, _color_upper_right);
 		else if (_fill.r >= 0.0f)
-			drawlist->AddRectFilled(ImPlot::PlotToPixels(tpmin), ImPlot::PlotToPixels(tpmax), _fill, ImPlot::GetCurrentContext()->Mx * _rounding, ImDrawCornerFlags_All);
+			drawlist->AddRectFilled(ImPlot::PlotToPixels(tpmin), ImPlot::PlotToPixels(tpmax), _fill, ImPlot::GetCurrentContext()->Style.LineWeight * _rounding, ImDrawFlags_RoundCornersAll);
 		drawlist->AddRect(ImPlot::PlotToPixels(tpmin), ImPlot::PlotToPixels(tpmax), _color,
-			ImPlot::GetCurrentContext()->Mx * _rounding, ImDrawCornerFlags_All, ImPlot::GetCurrentContext()->Mx * _thickness);
+			ImPlot::GetCurrentContext()->Style.LineWeight * _rounding, ImDrawFlags_RoundCornersAll, ImPlot::GetCurrentContext()->Style.LineWeight * _thickness);
 	}
 	else
 	{
@@ -1419,8 +1419,8 @@ void mvDrawRect::draw(ImDrawList* drawlist, float x, float y)
 		if (_multicolor)
 			drawlist->AddRectFilledMultiColor(tpmin + start, tpmax + start, _color_bottom_right, _color_bottom_left, _color_upper_left, _color_upper_right);
 		else if (_fill.r >= 0.0f)
-			drawlist->AddRectFilled(tpmin + start, tpmax + start, _fill, _rounding, ImDrawCornerFlags_All);
-		drawlist->AddRect(tpmin + start, tpmax + start, _color, _rounding, ImDrawCornerFlags_All, _thickness);
+			drawlist->AddRectFilled(tpmin + start, tpmax + start, _fill, _rounding, ImDrawFlags_RoundCornersAll);
+		drawlist->AddRect(tpmin + start, tpmax + start, _color, _rounding, ImDrawFlags_RoundCornersAll, _thickness);
 	}
 }
 
@@ -1525,7 +1525,7 @@ void mvDrawText::draw(ImDrawList* drawlist, float x, float y)
 		fontptr = static_cast<mvFont*>(font.get())->getFontPtr();
 
 	if (ImPlot::GetCurrentContext()->CurrentPlot)
-		drawlist->AddText(fontptr, ImPlot::GetCurrentContext()->Mx * (float)_size, ImPlot::PlotToPixels(tpos), _color, _text.c_str());
+		drawlist->AddText(fontptr, ImPlot::GetCurrentContext()->Style.LineWeight * (float)_size, ImPlot::PlotToPixels(tpos), _color, _text.c_str());
 	else
 	{
 		mvVec2 start = { x, y };
@@ -1620,7 +1620,7 @@ void mvDrawTriangle::draw(ImDrawList* drawlist, float x, float y)
 				_fill);
 		}
 		drawlist->AddTriangle(ImPlot::PlotToPixels(tp1), ImPlot::PlotToPixels(tp2), ImPlot::PlotToPixels(tp3),
-			_color, ImPlot::GetCurrentContext()->Mx * _thickness);
+			_color, ImPlot::GetCurrentContext()->Style.LineWeight * _thickness);
 	}
 	else
 	{

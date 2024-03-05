@@ -16,6 +16,7 @@
 #include "mvPyUtils.h"
 #include <implot_internal.h>
 #include "mvAppItemTypes.inc"
+#include <iostream>
 
 // forward declarations
 class mvThemeManager;
@@ -162,8 +163,8 @@ public:
     std::shared_ptr<mvAppItemDrawInfo>     drawInfo = nullptr;
 
     // slots
-    //   * 0 : mvFileExtension, mvFontRangeHint, mvNodeLink, mvAnnotation
-    //         mvDragLine, mvDragPoint, mvLegend, mvTableColumn
+    //   * 0 : mvFileExtension, mvFontRangeHint, mvNodeLink, mvAnnotation, mvTag
+    //         mvDragLine, mvDragPoint, mvDragRect, mvLegend, mvTableColumn
     //   * 1 : Most widgets
     //   * 2 : Draw Commands
     //   * 3 : mvDragPayload
@@ -314,17 +315,19 @@ GetEntityCommand(mvAppItemType type)
     case mvAppItemType::mvInputFloatMulti:             return "add_input_floatx";
     case mvAppItemType::mvInputDoubleMulti:            return "add_input_doublex";
     case mvAppItemType::mvDragPoint:                   return "add_drag_point";
+    case mvAppItemType::mvDragRect:                    return "add_drag_rect";
     case mvAppItemType::mvDragLine:                    return "add_drag_line";
     case mvAppItemType::mvAnnotation:                  return "add_plot_annotation";
+    case mvAppItemType::mvTag:                         return "add_plot_tag";
     case mvAppItemType::mvLineSeries:                  return "add_line_series";
     case mvAppItemType::mvScatterSeries:               return "add_scatter_series";
     case mvAppItemType::mvStemSeries:                  return "add_stem_series";
     case mvAppItemType::mvStairSeries:                 return "add_stair_series";
     case mvAppItemType::mvBarSeries:                   return "add_bar_series";
+    case mvAppItemType::mvGroupBarSeries:              return "add_group_bar_series";
     case mvAppItemType::mvErrorSeries:                 return "add_error_series";
     case mvAppItemType::mvCustomSeries:                return "add_custom_series";
-    case mvAppItemType::mvVLineSeries:                 return "add_vline_series";
-    case mvAppItemType::mvHLineSeries:                 return "add_hline_series";
+    case mvAppItemType::mvInfLineSeries:               return "add_inf_line_series";
     case mvAppItemType::mvHeatSeries:                  return "add_heat_series";
     case mvAppItemType::mvImageSeries:                 return "add_image_series";
     case mvAppItemType::mvPieSeries:                   return "add_pie_series";
@@ -332,8 +335,8 @@ GetEntityCommand(mvAppItemType type)
     case mvAppItemType::mvLabelSeries:                 return "add_text_point";
     case mvAppItemType::mvHistogramSeries:             return "add_histogram_series";
     case mvAppItemType::mv2dHistogramSeries:           return "add_2d_histogram_series";
+    case mvAppItemType::mvDigitalSeries:               return "add_digital_series";
     case mvAppItemType::mvCandleSeries:                return "add_candle_series";
-    case mvAppItemType::mvAreaSeries:                  return "add_area_series";
     case mvAppItemType::mvColorMapScale:               return "add_colormap_scale";
     case mvAppItemType::mvSlider3D:                    return "add_3d_slider";
     case mvAppItemType::mvKnobFloat:                   return "add_knob_float";
@@ -405,7 +408,7 @@ GetEntityCommand(mvAppItemType type)
     case mvAppItemType::mvItemHandlerRegistry:         return "add_item_handler_registry";
     default:
     {
-        assert(false);
+        IM_ASSERT(false && "No command");
         return "no command";
     }
     }
@@ -457,8 +460,6 @@ GetEntityCommand(mvAppItemType type)
 #define mvImGuiCol_TabActive MV_BASE_COL_panelActiveColor
 #define mvImGuiCol_TabUnfocused MV_BASE_COL_panelColor
 #define mvImGuiCol_TabUnfocusedActive MV_BASE_COL_panelActiveColor
-#define mvImGuiCol_DockingPreview MV_BASE_COL_panelActiveColor
-#define mvImGuiCol_DockingEmptyBg mvColor(51, 51, 51, 255)
 #define mvImGuiCol_PlotLines MV_BASE_COL_panelActiveColor
 #define mvImGuiCol_PlotLinesHovered MV_BASE_COL_panelHoverColor
 #define mvImGuiCol_PlotHistogram MV_BASE_COL_panelActiveColor

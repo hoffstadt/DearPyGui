@@ -256,7 +256,7 @@ void mvLayoutWindow::drawWidgets()
     ImGui::BeginGroup();
     _imguiFilter.Draw();
     _startFiltering = false;
-    ImGui::BeginChild("TreeChild", ImVec2(-1.0f, -1.0f), true);
+    ImGui::BeginChild("TreeChild", ImVec2(-1.0f, -1.0f), ImGuiChildFlags_Border);
     renderRootCategory("Windows", GContext->itemRegistry->windowRoots);
     renderRootCategory("Themes", GContext->itemRegistry->themeRegistryRoots);
     renderRootCategory("Template Registries", GContext->itemRegistry->itemTemplatesRoots);

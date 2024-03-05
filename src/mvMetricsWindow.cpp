@@ -1,6 +1,7 @@
 #include "mvMetricsWindow.h"
 #include "mvProfiler.h"
 #include "mvContext.h"
+#include "imgui_internal.h"
 
 static void
 DebugItem(const char* label, const char* item)
@@ -74,7 +75,6 @@ void mvMetricsWindow::drawWidgets()
             ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
             ImGui::Text("%d vertices, %d indices (%d triangles)", io.MetricsRenderVertices, io.MetricsRenderIndices, io.MetricsRenderIndices / 3);
             ImGui::Text("%d active windows (%d visible)", io.MetricsActiveWindows, io.MetricsRenderWindows);
-            ImGui::Text("%d active allocations", io.MetricsActiveAllocations);
 
             static std::map<std::string, ScrollingBuffer> buffers;
             static float t = 0;
@@ -82,8 +82,9 @@ void mvMetricsWindow::drawWidgets()
 
             const auto& results = mvInstrumentor::Get().getResults();
 
-            for (const auto& item : results)
+            for (const auto& item : results) {
                 buffers[item.first].AddPoint(t, (float)item.second.count());
+            }
 
             static float history = 10.0f;
             ImGui::SliderFloat("History", &history, 1, 30, "%.1f s");
@@ -106,11 +107,12 @@ void mvMetricsWindow::drawWidgets()
             ImPlot::PushStyleColor(ImPlotCol_PlotBg, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
             ImPlot::PushStyleColor(ImPlotCol_PlotBorder, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
 
-            static ImPlotAxisFlags rt_axis = ImPlotAxisFlags_NoTickLabels | ImPlotAxisFlags_NoGridLines | ImPlotAxisFlags_NoTickMarks;
-            ImPlot::SetNextPlotLimitsX(t - history, t, ImGuiCond_Always);
-            ImPlot::FitNextPlotAxes(false);
-            if (ImPlot::BeginPlot("##Scrolling1", nullptr, nullptr, ImVec2(-1, 200), 0, rt_axis, ImPlotAxisFlags_NoGridLines | ImPlotAxisFlags_LockMin))
+            ImPlot::SetNextAxisToFit(ImAxis_X1);
+            static ImPlotAxisFlags rt_axis = ImPlotAxisFlags_NoTickLabels | ImPlotAxisFlags_NoGridLines | ImPlotAxisFlags_NoTickMarks | ImPlotAxisFlags_LockMin;
+            if (ImPlot::BeginPlot("##Scrolling1", ImVec2(-1, 200), ImPlotFlags_None))
             {
+                ImPlot::SetupAxis(ImAxis_X1, (const char *)nullptr, rt_axis);
+                ImPlot::SetupAxisLimits(ImAxis_X1, t - history, t, ImGuiCond_Always);
                 static float fps_h[2] = { 0.0f, 0.0f };
                 static float fps_x[2] = { 0.0f, 10.0f };
                 fps_x[0] = t - history;
@@ -131,25 +133,26 @@ void mvMetricsWindow::drawWidgets()
                 ImPlot::PopStyleColor();
 
                 if (!buffers["Frame"].Data.empty())
-                {
-                    ImPlot::PlotLine("Frame", &buffers["Frame"].Data[0].x, &buffers["Frame"].Data[0].y, buffers["Frame"].Data.size(), buffers["Frame"].Offset, 2 * sizeof(float));
-                    ImPlot::PlotLine("Presentation", &buffers["Presentation"].Data[0].x, &buffers["Presentation"].Data[0].y, buffers["Presentation"].Data.size(), buffers["Presentation"].Offset, 2 * sizeof(float));
-                }
+                    ImPlot::PlotLine("Frame", &buffers["Frame"].Data[0].x, &buffers["Frame"].Data[0].y, buffers["Frame"].Data.size(), ImPlotLineFlags_None, buffers["Frame"].Offset, 2 * sizeof(float));
+                if (!buffers["Presentation"].Data.empty())
+                    ImPlot::PlotLine("Presentation", &buffers["Presentation"].Data[0].x, &buffers["Presentation"].Data[0].y, buffers["Presentation"].Data.size(), ImPlotLineFlags_None, buffers["Presentation"].Offset, 2 * sizeof(float));
                 ImPlot::EndPlot();
             }
             ImPlot::PopStyleColor(3);
 
             ImPlot::PushStyleColor(ImPlotCol_PlotBorder, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
-            ImPlot::SetNextPlotLimitsX(t - history, t, ImGuiCond_Always);
-            ImPlot::FitNextPlotAxes(false);
-            if (ImPlot::BeginPlot("##Scrolling2", nullptr, nullptr, ImVec2(-1, -1), 0, rt_axis, 0 | ImPlotAxisFlags_LockMin))
+            
+            ImPlot::SetNextAxisToFit(ImAxis_X1);
+            ImPlot::SetNextAxisToFit(ImAxis_Y1); // Is it okay?
+            if (ImPlot::BeginPlot("##Scrolling2", ImVec2(-1, -1), ImPlotFlags_None))
             {
-
+                ImPlot::SetupAxis(ImAxis_X1, (const char *)nullptr, rt_axis);
+                ImPlot::SetupAxisLimits(ImAxis_X1, t - history, t, ImGuiCond_Always);
                 for (const auto& item : results)
                 {
                     if (item.first == "Frame" || item.first == "Presentation")
                         continue;
-                    ImPlot::PlotLine(item.first.c_str(), &buffers[item.first].Data[0].x, &buffers[item.first].Data[0].y, buffers[item.first].Data.size(), buffers[item.first].Offset, 2 * sizeof(float));
+                    ImPlot::PlotLine(item.first.c_str(), &buffers[item.first].Data[0].x, &buffers[item.first].Data[0].y, buffers[item.first].Data.size(), ImPlotLineFlags_None, buffers[item.first].Offset, 2 * sizeof(float));
                 }
                 ImPlot::EndPlot();
             }
@@ -174,16 +177,18 @@ void mvMetricsWindow::drawWidgets()
             ImGui::Spacing();
             ImGui::Text("ImGui State Inputs");
 
+            //TODO: Finish here with migration!
             ImGui::Text("Mouse delta: (%g, %g)", io.MouseDelta.x, io.MouseDelta.y);
             ImGui::Text("Mouse down:");     for (int i = 0; i < IM_ARRAYSIZE(io.MouseDown); i++) if (io.MouseDownDuration[i] >= 0.0f) { ImGui::SameLine(); ImGui::Text("b%d (%.02f secs)", i, io.MouseDownDuration[i]); }
             ImGui::Text("Mouse clicked:");  for (int i = 0; i < IM_ARRAYSIZE(io.MouseDown); i++) if (ImGui::IsMouseClicked(i)) { ImGui::SameLine(); ImGui::Text("b%d", i); }
             ImGui::Text("Mouse dblclick:"); for (int i = 0; i < IM_ARRAYSIZE(io.MouseDown); i++) if (ImGui::IsMouseDoubleClicked(i)) { ImGui::SameLine(); ImGui::Text("b%d", i); }
+            ImGui::Text("Mouse clicks count:"); for (int i = 0; i < IM_ARRAYSIZE(io.MouseDown); i++) if (ImGui::GetMouseClickedCount(i)) { ImGui::SameLine(); ImGui::Text("b%d", i); }
             ImGui::Text("Mouse released:"); for (int i = 0; i < IM_ARRAYSIZE(io.MouseDown); i++) if (ImGui::IsMouseReleased(i)) { ImGui::SameLine(); ImGui::Text("b%d", i); }
             ImGui::Text("Mouse wheel: %.1f", io.MouseWheel);
 
-            ImGui::Text("Keys down:");      for (int i = 0; i < IM_ARRAYSIZE(io.KeysDown); i++) if (io.KeysDownDuration[i] >= 0.0f) { ImGui::SameLine(); ImGui::Text("%d (0x%X) (%.02f secs)", i, i, io.KeysDownDuration[i]); }
-            ImGui::Text("Keys pressed:");   for (int i = 0; i < IM_ARRAYSIZE(io.KeysDown); i++) if (ImGui::IsKeyPressed(i)) { ImGui::SameLine(); ImGui::Text("%d (0x%X)", i, i); }
-            ImGui::Text("Keys release:");   for (int i = 0; i < IM_ARRAYSIZE(io.KeysDown); i++) if (ImGui::IsKeyReleased(i)) { ImGui::SameLine(); ImGui::Text("%d (0x%X)", i, i); }
+            ImGui::Text("Keys down:");      for (int i = ImGuiKey_NamedKey_BEGIN; i < ImGuiKey_NamedKey_END; i++) if (ImGui::GetKeyData(static_cast<ImGuiKey>(i))->DownDuration >= 0.0f) { ImGui::SameLine(); ImGui::Text("%d (0x%X) (%.02f secs)", i, i, ImGui::GetKeyData(static_cast<ImGuiKey>(i))->DownDuration); }
+            ImGui::Text("Keys pressed:");   for (int i = ImGuiKey_NamedKey_BEGIN; i < ImGuiKey_NamedKey_END; i++) if (ImGui::IsKeyPressed(static_cast<ImGuiKey>(i))) { ImGui::SameLine(); ImGui::Text("%d (0x%X)", i, i); }
+            ImGui::Text("Keys release:");   for (int i = ImGuiKey_NamedKey_BEGIN; i < ImGuiKey_NamedKey_END; i++) if (ImGui::IsKeyReleased(static_cast<ImGuiKey>(i))) { ImGui::SameLine(); ImGui::Text("%d (0x%X)", i, i); }
             ImGui::Text("Keys mods: %s%s%s%s", io.KeyCtrl ? "CTRL " : "", io.KeyShift ? "SHIFT " : "", io.KeyAlt ? "ALT " : "", io.KeySuper ? "SUPER " : "");
             ImGui::Text("Chars queue:");    for (int i = 0; i < io.InputQueueCharacters.Size; i++) { ImWchar c = io.InputQueueCharacters[i]; ImGui::SameLine();  ImGui::Text("\'%c\' (0x%04X)", (c > ' ' && c <= 255) ? (char)c : '?', c); }
 

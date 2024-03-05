@@ -8,7 +8,7 @@
 #include "mvContainers.h"
 #include "mvItemHandlers.h"
 
-void 
+void
 DearPyGui::draw_color_button(ImDrawList* drawlist, mvAppItem& item, mvColorButtonConfig& config)
 {
 
@@ -68,7 +68,7 @@ DearPyGui::draw_color_button(ImDrawList* drawlist, mvAppItem& item, mvColorButto
 		{
 			if(item.config.alias.empty())
 				mvAddCallback(item.getCallback(false), item.uuid, nullptr, item.config.user_data);
-			else	
+			else
 				mvAddCallback(item.getCallback(false), item.config.alias, nullptr, item.config.user_data);
 		}
 	}
@@ -103,7 +103,7 @@ DearPyGui::draw_color_button(ImDrawList* drawlist, mvAppItem& item, mvColorButto
 	apply_drag_drop(&item);
 }
 
-void 
+void
 DearPyGui::draw_color_edit(ImDrawList* drawlist, mvAppItem& item, mvColorEditConfig& config)
 {
 
@@ -207,7 +207,7 @@ DearPyGui::draw_color_map(ImDrawList* drawlist, mvAppItem& item, mvColorMapConfi
 	ImPlot::ColormapButton(item.info.internalLabel.c_str(), ImVec2(-1.0f, 0.0f), config.colorMap);
 }
 
-void 
+void
 DearPyGui::draw_color_map_button(ImDrawList* drawlist, mvAppItem& item, mvColorMapButtonConfig& config)
 {
 
@@ -298,7 +298,7 @@ DearPyGui::draw_color_map_button(ImDrawList* drawlist, mvAppItem& item, mvColorM
 	apply_drag_drop(&item);
 }
 
-void 
+void
 DearPyGui::draw_color_map_scale(ImDrawList* drawlist, mvAppItem& item, mvColorMapScaleConfig& config)
 {
 
@@ -351,7 +351,7 @@ DearPyGui::draw_color_map_scale(ImDrawList* drawlist, mvAppItem& item, mvColorMa
 	{
 		ScopedID id(item.uuid);
 
-		ImPlot::ColormapScale(item.info.internalLabel.c_str(), config.scale_min, config.scale_max, ImVec2((float)item.config.width, (float)item.config.height), config.colorMap);
+		ImPlot::ColormapScale(item.info.internalLabel.c_str(), config.scale_min, config.scale_max, ImVec2((float)item.config.width, (float)item.config.height), config.format.c_str(), config.flags, config.colorMap);
 	}
 
 	//-----------------------------------------------------------------------------
@@ -480,7 +480,7 @@ DearPyGui::draw_color_picker(ImDrawList* drawlist, mvAppItem& item, mvColorPicke
 	apply_drag_drop(&item);
 }
 
-void 
+void
 DearPyGui::draw_color_map_slider(ImDrawList* drawlist, mvAppItem& item, mvColorMapSliderConfig& config)
 {
 
@@ -602,7 +602,7 @@ DearPyGui::draw_color_map_registry(ImDrawList* drawlist, mvAppItem& item)
 	ImGui::PopID();
 }
 
-void 
+void
 DearPyGui::set_positional_configuration(PyObject* inDict, mvColorButtonConfig& outConfig)
 {
 	if (!VerifyPositionalArguments(GetParsers()[GetEntityCommand(mvAppItemType::mvColorButton)], inDict))
@@ -748,7 +748,7 @@ DearPyGui::set_data_source(mvColorButtonConfig& outConfig)
 	return ToPyColor(color);
 }
 
-PyObject* 
+PyObject*
 DearPyGui::set_data_source(mvColorEditConfig& outConfig)
 {
 	// nasty hack
@@ -801,7 +801,7 @@ DearPyGui::set_py_value(PyObject* inDict, mvColorMapSliderConfig& outConfig)
 	*outConfig.value = ToFloat(inDict);
 }
 
-void 
+void
 DearPyGui::set_py_value(PyObject* inDict, mvColorEditConfig& outConfig)
 {
 	mvColor color = ToColor(inDict);
@@ -831,7 +831,7 @@ DearPyGui::set_py_value(PyObject* inDict, mvColorPickerConfig& outConfig)
 		outConfig.value = std::make_shared<std::array<float, 4>>(temp_array);
 }
 
-void 
+void
 DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mvColorButtonConfig& outConfig)
 {
 	if (dataSource == item.config.source) return;
@@ -921,7 +921,7 @@ DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mvColorMapSliderC
 
 }
 
-void 
+void
 DearPyGui::set_configuration(PyObject* inDict, mvColorButtonConfig& outConfig)
 {
 	if (inDict == nullptr)
@@ -1042,7 +1042,6 @@ DearPyGui::set_configuration(PyObject* inDict, mvColorEditConfig& outConfig)
 			break;
 		}
 	}
-
 }
 
 void
@@ -1156,6 +1155,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvColorMapScaleConfig& outConfig)
 
 	if (PyObject* item = PyDict_GetItemString(inDict, "min_scale")) outConfig.scale_min = (double)ToFloat(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "max_scale")) outConfig.scale_max = (double)ToFloat(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "format")) outConfig.format = ToString(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "colormap"))
 	{
 		outConfig.colorMap = (ImPlotColormap)GetIDFromPyObject(item);
@@ -1176,6 +1176,17 @@ DearPyGui::set_configuration(PyObject* inDict, mvColorMapScaleConfig& outConfig)
 			}
 		}
 	}
+
+	// helpers for bit flipping
+	auto flagop = [inDict](const char* keyword, int flag, int& flags)
+	{
+		if (PyObject* item = PyDict_GetItemString(inDict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+	};
+
+
+	flagop("invert", ImPlotColormapScaleFlags_Invert, outConfig.flags);
+	flagop("no_label", ImPlotColormapScaleFlags_NoLabel, outConfig.flags);
+	flagop("opposite", ImPlotColormapScaleFlags_Opposite, outConfig.flags);
 }
 
 void
@@ -1305,4 +1316,15 @@ DearPyGui::fill_configuration_dict(const mvColorMapScaleConfig& inConfig, PyObje
 
 	PyDict_SetItemString(outDict, "min_scale", mvPyObject(ToPyFloat((float)inConfig.scale_min)));
 	PyDict_SetItemString(outDict, "max_scale", mvPyObject(ToPyFloat((float)inConfig.scale_max)));
+	PyDict_SetItemString(outDict, "format", mvPyObject(ToPyString(inConfig.format)));
+
+	// helper to check and set bit
+	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)
+	{
+		PyDict_SetItemString(outDict, keyword, mvPyObject(ToPyBool(flags & flag)));
+	};
+
+	checkbitset("invert", ImPlotColormapScaleFlags_Invert, inConfig.flags);
+	checkbitset("no_label", ImPlotColormapScaleFlags_NoLabel, inConfig.flags);
+	checkbitset("opposite", ImPlotColormapScaleFlags_Opposite, inConfig.flags);
 }

@@ -42,11 +42,6 @@ def deprecated(reason):
 
 		return new_func2
 
-@deprecated("Use 'configure_app(docking=True, docking_space=dock_space)'.")
-def enable_docking(dock_space=False):
-    """ deprecated function """
-    internal_dpg.configure_app(docking=True, docking_space=dock_space)
-
 @deprecated("Use 'configure_app(init_file=file)'.")
 def set_init_file(file="dpg.ini"):
     """ deprecated function """

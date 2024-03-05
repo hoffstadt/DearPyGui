@@ -53,6 +53,7 @@ GetModuleConstants()
 		ModuleConstants.push_back({"mvTool_Doc", MV_TOOL_DOC_UUID });
 		ModuleConstants.push_back({"mvTool_ItemRegistry", MV_TOOL_ITEM_REGISTRY_UUID });
 		ModuleConstants.push_back({"mvTool_Metrics", MV_TOOL_METRICS_UUID });
+		ModuleConstants.push_back({"mvTool_Stack", MV_TOOL_STACK_UUID });
 		ModuleConstants.push_back({"mvTool_Style", MV_TOOL_STYLE_UUID });
 		ModuleConstants.push_back({"mvTool_Font", MV_TOOL_FONT_UUID });
 		ModuleConstants.push_back({"mvFontAtlas", MV_ATLAS_UUID });
@@ -83,23 +84,23 @@ GetModuleConstants()
 		ModuleConstants.push_back({"mvColorEdit_input_rgb", ImGuiColorEditFlags_InputRGB});
 		ModuleConstants.push_back({"mvColorEdit_input_hsv", ImGuiColorEditFlags_InputHSV});
 
-		ModuleConstants.push_back({ "mvPlotColormap_Default", 0L }); // ImPlot default colormap         (n=10)
-		ModuleConstants.push_back({ "mvPlotColormap_Deep", 0L }); // ImPlot default colormap         (n=10)
-		ModuleConstants.push_back({ "mvPlotColormap_Dark", 1L }); // a.k.a. matplotlib "Set1"        (n=9)
-		ModuleConstants.push_back({ "mvPlotColormap_Pastel", 2L}); // a.k.a. matplotlib "Pastel1"     (n=9)
-		ModuleConstants.push_back({ "mvPlotColormap_Paired", 3L}); // a.k.a. matplotlib "Paired"      (n=12)
-		ModuleConstants.push_back({ "mvPlotColormap_Viridis", 4L }); // a.k.a. matplotlib "viridis"     (n=11)
-		ModuleConstants.push_back({ "mvPlotColormap_Plasma", 5L }); // a.k.a. matplotlib "plasma"      (n=11)
-		ModuleConstants.push_back({ "mvPlotColormap_Hot", 6L }); // a.k.a. matplotlib/MATLAB "hot"  (n=11)
-		ModuleConstants.push_back({ "mvPlotColormap_Cool", 7L }); // a.k.a. matplotlib/MATLAB "cool" (n=11)
-		ModuleConstants.push_back({ "mvPlotColormap_Pink", 8L }); // a.k.a. matplotlib/MATLAB "pink" (n=11)
-		ModuleConstants.push_back({ "mvPlotColormap_Jet", 9L }); // a.k.a. MATLAB "jet"             (n=11)
-		ModuleConstants.push_back({ "mvPlotColormap_Twilight", 10L }); // a.k.a. MATLAB "jet"             (n=11)
-		ModuleConstants.push_back({ "mvPlotColormap_RdBu", 11L }); // a.k.a. MATLAB "jet"             (n=11)
-		ModuleConstants.push_back({ "mvPlotColormap_BrBG", 12L }); // a.k.a. MATLAB "jet"             (n=11)
-		ModuleConstants.push_back({ "mvPlotColormap_PiYG", 13L }); // a.k.a. MATLAB "jet"             (n=11)
-		ModuleConstants.push_back({ "mvPlotColormap_Spectral", 14L }); // a.k.a. MATLAB "jet"             (n=11)
-		ModuleConstants.push_back({ "mvPlotColormap_Greys", 15L }); // a.k.a. MATLAB "jet"             (n=11)
+		ModuleConstants.push_back({ "mvPlotColormap_Default", ImPlotColormap_Deep }); // ImPlot default colormap         (n=10)
+		ModuleConstants.push_back({ "mvPlotColormap_Deep", ImPlotColormap_Deep }); // a.k.a. seaborn deep (default) (n=10)
+		ModuleConstants.push_back({ "mvPlotColormap_Dark", ImPlotColormap_Dark }); // a.k.a. matplotlib "Set1"        (n=9)
+		ModuleConstants.push_back({ "mvPlotColormap_Pastel", ImPlotColormap_Pastel }); // a.k.a. matplotlib "Pastel1"     (n=9)
+		ModuleConstants.push_back({ "mvPlotColormap_Paired", ImPlotColormap_Paired }); // a.k.a. matplotlib "Paired"      (n=12)
+		ModuleConstants.push_back({ "mvPlotColormap_Viridis", ImPlotColormap_Viridis }); // a.k.a. matplotlib "viridis"     (n=11)
+		ModuleConstants.push_back({ "mvPlotColormap_Plasma", ImPlotColormap_Plasma }); // a.k.a. matplotlib "plasma"      (n=11)
+		ModuleConstants.push_back({ "mvPlotColormap_Hot", ImPlotColormap_Hot }); // a.k.a. matplotlib/MATLAB "hot"  (n=11)
+		ModuleConstants.push_back({ "mvPlotColormap_Cool", ImPlotColormap_Cool }); // a.k.a. matplotlib/MATLAB "cool" (n=11)
+		ModuleConstants.push_back({ "mvPlotColormap_Pink", ImPlotColormap_Pink }); // a.k.a. matplotlib/MATLAB "pink" (n=11)
+		ModuleConstants.push_back({ "mvPlotColormap_Jet", ImPlotColormap_Jet }); // a.k.a. MATLAB "jet"             (n=11)
+		ModuleConstants.push_back({ "mvPlotColormap_Twilight", ImPlotColormap_Twilight }); // a.k.a. MATLAB "twilight"             (n=11)
+		ModuleConstants.push_back({ "mvPlotColormap_RdBu", ImPlotColormap_RdBu }); // red/blue, Color Brewer            (n=11)
+		ModuleConstants.push_back({ "mvPlotColormap_BrBG", ImPlotColormap_BrBG }); // brown/blue-green, Color Brewer             (n=11)
+		ModuleConstants.push_back({ "mvPlotColormap_PiYG", ImPlotColormap_PiYG }); // pink/yellow-green, Color Brewer             (n=11)
+		ModuleConstants.push_back({ "mvPlotColormap_Spectral", ImPlotColormap_Spectral }); // color spectrum, Color Brewer             (n=11)
+		ModuleConstants.push_back({ "mvPlotColormap_Greys", ImPlotColormap_Greys }); // white/black             (n=11)
 
 		ModuleConstants.push_back({ "mvColorPicker_bar", ImGuiColorEditFlags_PickerHueBar });
 		ModuleConstants.push_back({ "mvColorPicker_wheel", ImGuiColorEditFlags_PickerHueWheel });
@@ -151,20 +152,29 @@ GetModuleConstants()
 		ModuleConstants.push_back({ "mvPlotBin_Rice", -3L });
 		ModuleConstants.push_back({ "mvPlotBin_Scott", -4L });
 
-		ModuleConstants.push_back({ "mvXAxis", 0L});
-		ModuleConstants.push_back({ "mvYAxis", 1L});
+		ModuleConstants.push_back({ "mvXAxis", ImAxis_X1});
+		ModuleConstants.push_back({ "mvXAxis2", ImAxis_X2});
+		ModuleConstants.push_back({ "mvXAxis3", ImAxis_X3});
+		ModuleConstants.push_back({ "mvYAxis", ImAxis_Y1});
+		ModuleConstants.push_back({ "mvYAxis2", ImAxis_Y2});
+		ModuleConstants.push_back({ "mvYAxis3", ImAxis_Y3});
+    
+		ModuleConstants.push_back({ "mvPlotScale_Linear", ImPlotScale_Linear});  // default linear scale
+		ModuleConstants.push_back({ "mvPlotScale_Time", ImPlotScale_Time});  // date/time scale
+		ModuleConstants.push_back({ "mvPlotScale_Log10", ImPlotScale_Log10});  // base 10 logartithmic scale
+		ModuleConstants.push_back({ "mvPlotScale_SymLog", ImPlotScale_SymLog});  // symmetric log scale
 
-		ModuleConstants.push_back({ "mvPlotMarker_None", -1L});  // no marker
-		ModuleConstants.push_back({ "mvPlotMarker_Circle",  0L});  // a circle marker will be rendered at each point
-		ModuleConstants.push_back({ "mvPlotMarker_Square",  1L});  // a square maker will be rendered at each point
-		ModuleConstants.push_back({ "mvPlotMarker_Diamond",  2L});  // a diamond marker will be rendered at each point
-		ModuleConstants.push_back({ "mvPlotMarker_Up",  3L});  // an upward-pointing triangle marker will up rendered at each point
-		ModuleConstants.push_back({ "mvPlotMarker_Down",  4L});  // an downward-pointing triangle marker will up rendered at each point
-		ModuleConstants.push_back({ "mvPlotMarker_Left",  5L});  // an leftward-pointing triangle marker will up rendered at each point
-		ModuleConstants.push_back({ "mvPlotMarker_Right",  6L});  // an rightward-pointing triangle marker will up rendered at each point
-		ModuleConstants.push_back({ "mvPlotMarker_Cross",  7L});  // a cross marker will be rendered at each point (not filled)
-		ModuleConstants.push_back({ "mvPlotMarker_Plus",  8L});  // a plus marker will be rendered at each point (not filled)
-		ModuleConstants.push_back({ "mvPlotMarker_Asterisk",  9L}); // a asterisk marker will be rendered at each point (not filled)
+		ModuleConstants.push_back({ "mvPlotMarker_None", ImPlotMarker_None});  // no marker
+		ModuleConstants.push_back({ "mvPlotMarker_Circle",  ImPlotMarker_Circle});  // a circle marker will be rendered at each point
+		ModuleConstants.push_back({ "mvPlotMarker_Square",  ImPlotMarker_Square});  // a square maker will be rendered at each point
+		ModuleConstants.push_back({ "mvPlotMarker_Diamond",  ImPlotMarker_Diamond});  // a diamond marker will be rendered at each point
+		ModuleConstants.push_back({ "mvPlotMarker_Up",  ImPlotMarker_Up});  // an upward-pointing triangle marker will up rendered at each point
+		ModuleConstants.push_back({ "mvPlotMarker_Down",  ImPlotMarker_Down});  // an downward-pointing triangle marker will up rendered at each point
+		ModuleConstants.push_back({ "mvPlotMarker_Left",  ImPlotMarker_Left});  // an leftward-pointing triangle marker will up rendered at each point
+		ModuleConstants.push_back({ "mvPlotMarker_Right",  ImPlotMarker_Right});  // an rightward-pointing triangle marker will up rendered at each point
+		ModuleConstants.push_back({ "mvPlotMarker_Cross",  ImPlotMarker_Cross});  // a cross marker will be rendered at each point (not filled)
+		ModuleConstants.push_back({ "mvPlotMarker_Plus",  ImPlotMarker_Plus});  // a plus marker will be rendered at each point (not filled)
+		ModuleConstants.push_back({ "mvPlotMarker_Asterisk",  ImPlotMarker_Asterisk}); // a asterisk marker will be rendered at each point (not filled)
 
 		ModuleConstants.push_back({ "mvPlot_Location_Center", ImPlotLocation_Center });
 		ModuleConstants.push_back({ "mvPlot_Location_North", ImPlotLocation_North });
@@ -231,8 +241,6 @@ GetModuleConstants()
 		ModuleConstants.push_back({ "mvThemeCol_TabActive", ImGuiCol_TabActive });
 		ModuleConstants.push_back({ "mvThemeCol_TabUnfocused", ImGuiCol_TabUnfocused });
 		ModuleConstants.push_back({ "mvThemeCol_TabUnfocusedActive", ImGuiCol_TabUnfocusedActive });
-		ModuleConstants.push_back({ "mvThemeCol_DockingPreview", ImGuiCol_DockingPreview });      // Preview overlay color when about to docking something
-		ModuleConstants.push_back({ "mvThemeCol_DockingEmptyBg", ImGuiCol_DockingEmptyBg });      // Background color for empty node (e.g. CentralNode with no window docked into it)
 		ModuleConstants.push_back({ "mvThemeCol_PlotLines", ImGuiCol_PlotLines });
 		ModuleConstants.push_back({ "mvThemeCol_PlotLinesHovered", ImGuiCol_PlotLinesHovered });
 		ModuleConstants.push_back({ "mvThemeCol_PlotHistogram", ImGuiCol_PlotHistogram });
@@ -267,16 +275,12 @@ GetModuleConstants()
 		ModuleConstants.push_back({ "mvPlotCol_LegendText", ImPlotCol_LegendText });     // legend text color (defaults to ImPlotCol_InlayText)
 		ModuleConstants.push_back({ "mvPlotCol_TitleText", ImPlotCol_TitleText });       // plot title text color (defaults to ImGuiCol_Text)
 		ModuleConstants.push_back({ "mvPlotCol_InlayText", ImPlotCol_InlayText });       // color of text appearing inside of plots (defaults to ImGuiCol_Text)
-		ModuleConstants.push_back({ "mvPlotCol_XAxis", ImPlotCol_XAxis });               // x-axis label and tick lables color (defaults to ImGuiCol_Text)
-		ModuleConstants.push_back({ "mvPlotCol_XAxisGrid", ImPlotCol_XAxisGrid });       // x-axis grid color (defaults to 25% ImPlotCol_XAxis)
-		ModuleConstants.push_back({ "mvPlotCol_YAxis", ImPlotCol_YAxis });               // y-axis label and tick labels color (defaults to ImGuiCol_Text)
-		ModuleConstants.push_back({ "mvPlotCol_YAxisGrid", ImPlotCol_YAxisGrid });       // y-axis grid color (defaults to 25% ImPlotCol_YAxis)
-		ModuleConstants.push_back({ "mvPlotCol_YAxis2", ImPlotCol_YAxis2 });             // 2nd y-axis label and tick labels color (defaults to ImGuiCol_Text)
-		ModuleConstants.push_back({ "mvPlotCol_YAxisGrid2", ImPlotCol_YAxisGrid2 });     // 2nd y-axis grid/label color (defaults to 25% ImPlotCol_YAxis2)
-		ModuleConstants.push_back({ "mvPlotCol_YAxis3", ImPlotCol_YAxis3 });             // 3rd y-axis label and tick labels color (defaults to ImGuiCol_Text)
-		ModuleConstants.push_back({ "mvPlotCol_YAxisGrid3", ImPlotCol_YAxisGrid3 });     // 3rd y-axis grid/label color (defaults to 25% ImPlotCol_YAxis3)
+		ModuleConstants.push_back({ "mvPlotCol_AxisBg", ImPlotCol_AxisBg });             // background color of axis hover region (defaults to transparent)
+		ModuleConstants.push_back({ "mvPlotCol_AxisBgActive", ImPlotCol_AxisBgActive }); // axis active color (defaults to ImGuiCol_ButtonActive)
+		ModuleConstants.push_back({ "mvPlotCol_AxisBgHovered", ImPlotCol_AxisBgHovered});// axis hover color (defaults to ImGuiCol_ButtonHovered)
+		ModuleConstants.push_back({ "mvPlotCol_AxisGrid", ImPlotCol_AxisGrid });         // axis tick lables color (defaults to ImGuiCol_Text)
+		ModuleConstants.push_back({ "mvPlotCol_AxisText", ImPlotCol_AxisText });         // axis label color (defaults to ImGuiCol_Text)
 		ModuleConstants.push_back({ "mvPlotCol_Selection", ImPlotCol_Selection });       // box-selection color (defaults to yellow)
-		ModuleConstants.push_back({ "mvPlotCol_Query", ImPlotCol_Query });               // box-query color (defaults to green)
 		ModuleConstants.push_back({ "mvPlotCol_Crosshairs", ImPlotCol_Crosshairs });     // crosshairs color (defaults to ImPlotCol_PlotBorder)
 
 		// nodes
@@ -312,6 +316,7 @@ GetModuleConstants()
 
 
 		ModuleConstants.push_back({ "mvStyleVar_Alpha", ImGuiStyleVar_Alpha });                             // float     Alpha
+		ModuleConstants.push_back({ "mvStyleVar_DisabledAlpha", ImGuiStyleVar_DisabledAlpha });             // float     DisabledAlpha
 		ModuleConstants.push_back({ "mvStyleVar_WindowPadding", ImGuiStyleVar_WindowPadding });             // ImVec2    WindowPadding
 		ModuleConstants.push_back({ "mvStyleVar_WindowRounding", ImGuiStyleVar_WindowRounding });           // float     WindowRounding
 		ModuleConstants.push_back({ "mvStyleVar_WindowBorderSize", ImGuiStyleVar_WindowBorderSize });       // float     WindowBorderSize
@@ -333,8 +338,12 @@ GetModuleConstants()
 		ModuleConstants.push_back({ "mvStyleVar_GrabMinSize", ImGuiStyleVar_GrabMinSize });                 // float     GrabMinSize
 		ModuleConstants.push_back({ "mvStyleVar_GrabRounding", ImGuiStyleVar_GrabRounding });               // float     GrabRounding
 		ModuleConstants.push_back({ "mvStyleVar_TabRounding", ImGuiStyleVar_TabRounding });                 // float     TabRounding
+		ModuleConstants.push_back({ "mvStyleVar_TabBarBorderSize", ImGuiStyleVar_TabBarBorderSize });    	// float     TabBorderSize
 		ModuleConstants.push_back({ "mvStyleVar_ButtonTextAlign", ImGuiStyleVar_ButtonTextAlign });         // ImVec2    ButtonTextAlign
 		ModuleConstants.push_back({ "mvStyleVar_SelectableTextAlign", ImGuiStyleVar_SelectableTextAlign }); // ImVec2    SelectableTextAlign
+		ModuleConstants.push_back({ "mvStyleVar_SeparatorTextBorderSize", ImGuiStyleVar_SeparatorTextBorderSize });	// float     SeparatorTextBorderSize
+		ModuleConstants.push_back({ "mvStyleVar_SeparatorTextAlign", ImGuiStyleVar_SeparatorTextAlign });    		// ImVec2     SeparatorTextAlign
+		ModuleConstants.push_back({ "mvStyleVar_SeparatorTextPadding", ImGuiStyleVar_SeparatorTextPadding });    	// ImVec2     SeparatorTextPadding
 
 		// item styling variables
 		ModuleConstants.push_back({ "mvPlotStyleVar_LineWeight",         ImPlotStyleVar_LineWeight });         // float,  plot item line weight in pixels
@@ -544,12 +553,15 @@ PyInit__dearpygui(void)
 	MV_ADD_COMMAND(clear_selected_links);
 
 	// plots
-	MV_ADD_COMMAND(is_plot_queried);
-	MV_ADD_COMMAND(get_plot_query_area);
+	MV_ADD_COMMAND(get_plot_query_rects);
 
 	// plot axes
 	MV_ADD_COMMAND(reset_axis_ticks);
 	MV_ADD_COMMAND(set_axis_ticks);
+	MV_ADD_COMMAND(set_axis_limits_constraints);
+	MV_ADD_COMMAND(reset_axis_limits_constraints);
+	MV_ADD_COMMAND(set_axis_zoom_constraints);
+	MV_ADD_COMMAND(reset_axis_zoom_constraints);
 	MV_ADD_COMMAND(set_axis_limits);
 	MV_ADD_COMMAND(set_axis_limits_auto);
 	MV_ADD_COMMAND(get_axis_limits);
@@ -605,6 +617,7 @@ PyInit__dearpygui(void)
 	MV_ADD_COMMAND(output_frame_buffer);
 	MV_ADD_COMMAND(load_image);
 	MV_ADD_COMMAND(save_image);
+	MV_ADD_COMMAND(set_decimal_point);
 	MV_ADD_COMMAND(split_frame);
 	MV_ADD_COMMAND(get_frame_count);
 	MV_ADD_COMMAND(get_frame_rate);

@@ -99,7 +99,7 @@ void mvAboutWindow::drawWidgets()
         ImGuiStyle& style = ImGui::GetStyle();
 
         bool copy_to_clipboard = ImGui::Button("Copy to clipboard");
-        ImGui::BeginChildFrame(ImGui::GetID("cfginfos"), ImVec2(0, ImGui::GetTextLineHeightWithSpacing() * 18), ImGuiWindowFlags_NoMove);
+        ImGui::BeginChild(ImGui::GetID("cfginfos"), ImVec2(0, ImGui::GetTextLineHeightWithSpacing() * 18), ImGuiChildFlags_FrameStyle, ImGuiWindowFlags_NoMove);
         if (copy_to_clipboard)
         {
             ImGui::LogToClipboard();
@@ -153,7 +153,7 @@ void mvAboutWindow::drawWidgets()
             ImGui::LogText("\n```\n");
             ImGui::LogFinish();
         }
-        ImGui::EndChildFrame();
+        ImGui::EndChild();
     }
 
 }

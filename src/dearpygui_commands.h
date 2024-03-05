@@ -11,6 +11,7 @@
 #include "stb_image_write.h"
 #include "mvProfiler.h"
 #include "mvUtilities.h"
+#include <iostream>
 
 static PyObject*
 bind_colormap(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -1010,11 +1011,12 @@ clear_selected_nodes(PyObject* self, PyObject* args, PyObject* kwargs)
 }
 
 static PyObject*
-is_plot_queried(PyObject* self, PyObject* args, PyObject* kwargs)
+get_plot_query_rects(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 	PyObject* plotraw;
+	auto tag = "get_plot_query_rects";
 
-	if (!Parse((GetParsers())["is_plot_queried"], args, kwargs, __FUNCTION__, &plotraw))
+	if (!Parse((GetParsers())[tag], args, kwargs, __FUNCTION__, &plotraw))
 		return GetPyNone();
 
 	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
@@ -1024,54 +1026,26 @@ is_plot_queried(PyObject* self, PyObject* args, PyObject* kwargs)
 	auto aplot = GetItem(*GContext->itemRegistry, plot);
 	if (aplot == nullptr)
 	{
-		mvThrowPythonError(mvErrorCode::mvItemNotFound, "is_plot_queried",
-			"Item not found: " + std::to_string(plot), nullptr);
+		mvThrowPythonError(mvErrorCode::mvItemNotFound, tag, "Item not found: " + std::to_string(plot), nullptr);
 		return GetPyNone();
 	}
 
 	if (aplot->type != mvAppItemType::mvPlot)
 	{
-		mvThrowPythonError(mvErrorCode::mvIncompatibleType, "is_plot_queried",
-			"Incompatible type. Expected types include: mvPlot", aplot);
+		mvThrowPythonError(mvErrorCode::mvIncompatibleType, tag, "Incompatible type. Expected types include: mvPlot", aplot);
 		return GetPyNone();
 	}
 
 	mvPlot* graph = static_cast<mvPlot*>(aplot);
 
-	return ToPyBool(graph->configData._queried);
-}
-
-static PyObject*
-get_plot_query_area(PyObject* self, PyObject* args, PyObject* kwargs)
-{
-	PyObject* plotraw;
-
-	if (!Parse((GetParsers())["get_plot_query_area"], args, kwargs, __FUNCTION__, &plotraw))
-		return GetPyNone();
-
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
-
-	mvUUID plot = GetIDFromPyObject(plotraw);
-
-	auto aplot = GetItem(*GContext->itemRegistry, plot);
-	if (aplot == nullptr)
-	{
-		mvThrowPythonError(mvErrorCode::mvItemNotFound, "get_plot_query_area",
-			"Item not found: " + std::to_string(plot), nullptr);
-		return GetPyNone();
+	auto rects = graph->configData.rects;
+	PyObject* result = PyTuple_New(rects.size());
+	for (int i = 0; i < rects.size(); ++i) {
+		auto rectMin = rects[i].Min();
+		auto rectMax = rects[i].Max();
+		PyTuple_SetItem(result, i, Py_BuildValue("(dddd)", rectMin.x, rectMin.y, rectMax.x, rectMax.y));
 	}
-
-	if (aplot->type != mvAppItemType::mvPlot)
-	{
-		mvThrowPythonError(mvErrorCode::mvIncompatibleType, "is_plot_queried",
-			"Incompatible type. Expected types include: mvPlot", aplot);
-		return GetPyNone();
-	}
-
-	mvPlot* graph = static_cast<mvPlot*>(aplot);
-
-	double* result = graph->configData._queryArea;
-	return Py_BuildValue("(dddd)", result[0], result[1], result[2], result[3]);
+	return result;
 }
 
 static PyObject*
@@ -1123,6 +1097,146 @@ set_axis_ticks(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	for (const auto& item : graph->configData.labels)
 		graph->configData.clabels.push_back(item.data());
+
+	return GetPyNone();
+}
+
+static PyObject*
+set_axis_limits_constraints(PyObject* self, PyObject* args, PyObject* kwargs)
+{
+	PyObject* axisraw;
+	float vmin;
+	float vmax;
+	auto tag = "set_axis_limits_constraints";
+
+	if (!Parse((GetParsers())[tag], args, kwargs, __FUNCTION__, &axisraw, &vmin, &vmax))
+		return GetPyNone();
+
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+
+	mvUUID axis = GetIDFromPyObject(axisraw);
+
+	auto aplot = GetItem(*GContext->itemRegistry, axis);
+	if (aplot == nullptr)
+	{
+		mvThrowPythonError(mvErrorCode::mvItemNotFound, tag,
+			"Item not found: " + std::to_string(axis), nullptr);
+		return GetPyNone();
+	}
+
+	if (aplot->type != mvAppItemType::mvPlotAxis)
+	{
+		mvThrowPythonError(mvErrorCode::mvIncompatibleType, tag,
+			"Incompatible type. Expected types include: mvPlotAxis", aplot);
+		return GetPyNone();
+	}
+
+	mvPlotAxis* graph = static_cast<mvPlotAxis*>(aplot);
+	graph->configData.setLimitsRange = true;
+	graph->configData.constraints_range = ImVec2(vmin, vmax);
+	return GetPyNone();
+}
+
+static PyObject*
+reset_axis_limits_constraints(PyObject* self, PyObject* args, PyObject* kwargs)
+{
+	PyObject* axisraw;
+	auto tag = "reset_axis_limits_constraints";
+
+	if (!Parse((GetParsers())[tag], args, kwargs, __FUNCTION__, &axisraw))
+		return GetPyNone();
+
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+
+	mvUUID axis = GetIDFromPyObject(axisraw);
+
+	auto aplot = GetItem(*GContext->itemRegistry, axis);
+	if (aplot == nullptr)
+	{
+		mvThrowPythonError(mvErrorCode::mvItemNotFound, tag,
+			"Item not found: " + std::to_string(axis), nullptr);
+		return GetPyNone();
+	}
+
+	if (aplot->type != mvAppItemType::mvPlotAxis)
+	{
+		mvThrowPythonError(mvErrorCode::mvIncompatibleType, tag,
+			"Incompatible type. Expected types include: mvPlotAxis", aplot);
+		return GetPyNone();
+	}
+
+	mvPlotAxis* graph = static_cast<mvPlotAxis*>(aplot);
+	graph->configData.setLimitsRange = false;
+	return GetPyNone();
+}
+
+static PyObject*
+set_axis_zoom_constraints(PyObject* self, PyObject* args, PyObject* kwargs)
+{
+	PyObject* axisraw;
+	float vmin;
+	float vmax;
+	auto tag = "set_axis_zoom_constraints";
+
+	if (!Parse((GetParsers())[tag], args, kwargs, __FUNCTION__, &axisraw, &vmin, &vmax))
+		return GetPyNone();
+
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+
+	mvUUID axis = GetIDFromPyObject(axisraw);
+
+	auto aplot = GetItem(*GContext->itemRegistry, axis);
+	if (aplot == nullptr)
+	{
+		mvThrowPythonError(mvErrorCode::mvItemNotFound, tag,
+			"Item not found: " + std::to_string(axis), nullptr);
+		return GetPyNone();
+	}
+
+	if (aplot->type != mvAppItemType::mvPlotAxis)
+	{
+		mvThrowPythonError(mvErrorCode::mvIncompatibleType, tag,
+			"Incompatible type. Expected types include: mvPlotAxis", aplot);
+		return GetPyNone();
+	}
+
+	mvPlotAxis* graph = static_cast<mvPlotAxis*>(aplot);
+	graph->configData.setZoomRange = true;
+	graph->configData.zoom_range = ImVec2(vmin, vmax);
+	return GetPyNone();
+}
+
+
+static PyObject*
+reset_axis_zoom_constraints(PyObject* self, PyObject* args, PyObject* kwargs)
+{
+	PyObject* axisraw;
+	auto tag = "reset_axis_zoom_constraints";
+
+	if (!Parse((GetParsers())[tag], args, kwargs, __FUNCTION__, &axisraw))
+		return GetPyNone();
+
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+
+	mvUUID axis = GetIDFromPyObject(axisraw);
+
+	auto aplot = GetItem(*GContext->itemRegistry, axis);
+	if (aplot == nullptr)
+	{
+		mvThrowPythonError(mvErrorCode::mvItemNotFound, tag,
+			"Item not found: " + std::to_string(axis), nullptr);
+		return GetPyNone();
+	}
+
+	if (aplot->type != mvAppItemType::mvPlotAxis)
+	{
+		mvThrowPythonError(mvErrorCode::mvIncompatibleType, tag,
+			"Incompatible type. Expected types include: mvPlotAxis", aplot);
+		return GetPyNone();
+	}
+
+	mvPlotAxis* graph = static_cast<mvPlotAxis*>(aplot);
+	graph->configData.setZoomRange = false;
 
 	return GetPyNone();
 }
@@ -1227,7 +1341,7 @@ fit_axis_data(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	// fit axis data
 	static_cast<mvPlot*>(graph->info.parentPtr)->configData._fitDirty = true;
-	static_cast<mvPlot*>(graph->info.parentPtr)->configData._axisfitDirty[graph->info.location] = true;
+	static_cast<mvPlot*>(graph->info.parentPtr)->configData._axisfitDirty[graph->configData.axis] = true;
 
 	return GetPyNone();
 }
@@ -1860,6 +1974,21 @@ show_tool(PyObject* self, PyObject* args, PyObject* kwargs)
 }
 
 static PyObject*
+set_decimal_point(PyObject* self, PyObject* args, PyObject* kwargs)
+{
+	const unsigned int* point;
+
+	if (!Parse((GetParsers())["set_decimal_point"], args, kwargs, __FUNCTION__, &point))
+		return GetPyNone();
+
+	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	
+	GContext->IO.decimalPoint = *point;
+	ImGui::GetIO().PlatformLocaleDecimalPoint = GContext->IO.decimalPoint;
+	return GetPyNone();
+}
+
+static PyObject*
 set_frame_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 	i32 frame = 0;
@@ -2063,7 +2192,6 @@ show_viewport(PyObject* self, PyObject* args, PyObject* kwargs)
 	}
 	else
 		mvThrowPythonError(mvErrorCode::mvNone, "No viewport created");
-
 	return GetPyNone();
 }
 
@@ -2243,6 +2371,23 @@ load_image(PyObject* self, PyObject* args, PyObject* kwargs)
 	return result;
 }
 
+/*  returns 1 iff str ends with suffix  */
+static int 
+str_ends_with(const char * str, const char * suffix) {
+
+  /*  note - it would be better to abort or return an error code here; see the comments  */
+  if( str == NULL || suffix == NULL )
+    return 0;
+
+  size_t str_len = strlen(str);
+  size_t suffix_len = strlen(suffix);
+
+  if(suffix_len > str_len)
+    return 0;
+
+  return 0 == strncmp( str + str_len - suffix_len, suffix, suffix_len );
+}
+
 static PyObject*
 save_image(PyObject* self, PyObject* args, PyObject* kwargs)
 {
@@ -2295,24 +2440,24 @@ save_image(PyObject* self, PyObject* args, PyObject* kwargs)
 		return GetPyNone();
 	}
 
-	// TODO: support other formats and make this better
-	if (file[filepathLength - 3] == 'p' && file[filepathLength - 2] == 'n' && file[filepathLength - 1] == 'g')
+	// TODO: support other formats
+	if (str_ends_with(file, "png"))
 	{
 		imageType = MV_IMAGE_TYPE_PNG_;
 	}
-	else if (file[filepathLength - 3] == 'b' && file[filepathLength - 2] == 'm' && file[filepathLength - 1] == 'p')
+	else if (str_ends_with(file, "bmp"))
 	{
 		imageType = MV_IMAGE_TYPE_BMP_;
 	}
-	else if (file[filepathLength - 3] == 't' && file[filepathLength - 2] == 'g' && file[filepathLength - 1] == 'a')
+	else if (str_ends_with(file, "tga"))
 	{
 		imageType = MV_IMAGE_TYPE_TGA_;
 	}
-	else if (file[filepathLength - 3] == 'h' && file[filepathLength - 2] == 'd' && file[filepathLength - 1] == 'r')
+	else if (str_ends_with(file, "hdr"))
 	{
 		imageType = MV_IMAGE_TYPE_HDR_;
 	}
-	else if (file[filepathLength - 3] == 'j' && file[filepathLength - 2] == 'p' && file[filepathLength - 1] == 'g')
+	else if (str_ends_with(file, "jpg"))
 	{
 		imageType = MV_IMAGE_TYPE_JPG_;
 	}
@@ -2398,7 +2543,7 @@ output_frame_buffer(PyObject* self, PyObject* args, PyObject* kwargs)
 	}
 
 	// TODO: support other formats
-	if (file[filepathLength - 3] == 'p' && file[filepathLength - 2] == 'n' && file[filepathLength - 1] == 'g')
+	if (str_ends_with(file, "png"))
 	{
         std::string fileStored = file;
         mvSubmitTask([fileStored](){
@@ -2474,7 +2619,6 @@ create_context(PyObject* self, PyObject* args, PyObject* kwargs)
 	}
 	else
 	{
-
 		GContext = new mvContext();
 
 		GContext->itemRegistry = new mvItemRegistry();
@@ -2515,6 +2659,9 @@ destroy_context(PyObject* self, PyObject* args, PyObject* kwargs)
 			mvRunCallback(GContext->callbackRegistry->onCloseCallback, 0, nullptr, GContext->callbackRegistry->onCloseCallbackUserData);
 			GContext->started = false;  // return to false after
 			});
+
+		if (GContext->viewport != nullptr)
+			mvCleanupViewport(*GContext->viewport);
 
 		ImNodes::DestroyContext();
 		ImPlot::DestroyContext();
@@ -2607,8 +2754,6 @@ configure_app(PyObject* self, PyObject* args, PyObject* kwargs)
 	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
 	if (PyObject* item = PyDict_GetItemString(kwargs, "auto_device")) GContext->IO.info_auto_device = ToBool(item);
-	if (PyObject* item = PyDict_GetItemString(kwargs, "docking")) GContext->IO.docking = ToBool(item);
-	if (PyObject* item = PyDict_GetItemString(kwargs, "docking_space")) GContext->IO.dockingViewport = ToBool(item);
 	if (PyObject* item = PyDict_GetItemString(kwargs, "load_init_file"))
 	{
 		std::string load_init_file = ToString(item);
@@ -2640,8 +2785,6 @@ get_app_configuration(PyObject* self, PyObject* args, PyObject* kwargs)
 	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 	PyObject* pdict = PyDict_New();
 	PyDict_SetItemString(pdict, "auto_device", mvPyObject(ToPyBool(GContext->IO.info_auto_device)));
-	PyDict_SetItemString(pdict, "docking", mvPyObject(ToPyBool(GContext->IO.docking)));
-	PyDict_SetItemString(pdict, "docking_space", mvPyObject(ToPyBool(GContext->IO.docking)));
 	PyDict_SetItemString(pdict, "load_init_file", mvPyObject(ToPyBool(GContext->IO.loadIniFile)));
 	PyDict_SetItemString(pdict, "version", mvPyObject(ToPyString(MV_SANDBOX_VERSION)));
 	PyDict_SetItemString(pdict, "major_version", mvPyObject(ToPyInt(MV_DPG_MAJOR_VERSION)));
@@ -2715,34 +2858,34 @@ get_mouse_drag_delta(PyObject* self, PyObject* arg, PyObject* kwargss)
 static PyObject*
 is_key_pressed(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	i32 key;
+	ImGuiKey key;
 
 	if (!Parse((GetParsers())["is_key_pressed"], args, kwargs, __FUNCTION__, &key))
 		return GetPyNone();
 
-	return ToPyBool(GContext->input.keyspressed[key]);
+	return ToPyBool(ImGui::IsKeyPressed(key));
 }
 
 static PyObject*
 is_key_released(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	i32 key;
+	ImGuiKey key;
 
 	if (!Parse((GetParsers())["is_key_released"], args, kwargs, __FUNCTION__, &key))
 		return GetPyNone();
 
-	return ToPyBool(GContext->input.keysreleased[key]);
+	return ToPyBool(ImGui::IsKeyReleased(key));
 }
 
 static PyObject*
 is_key_down(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	i32 key;
+	ImGuiKey key;
 
 	if (!Parse((GetParsers())["is_key_down"], args, kwargs, __FUNCTION__, &key))
 		return GetPyNone();
 
-	return ToPyBool(GContext->input.keysdown[key]);
+	return ToPyBool(ImGui::IsKeyDown(key));
 }
 
 static PyObject*
@@ -2754,7 +2897,8 @@ is_mouse_button_dragging(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["is_mouse_button_dragging"], args, kwargs, __FUNCTION__, &button, &threshold))
 		return GetPyNone();
 
-	return ToPyBool((f32)GContext->input.mousedownduration[button] / 100.0f >= threshold);
+	// TODO: Can this be changed?
+	return ToPyBool((f32)ImGui::GetIO().MouseDownDuration[button] >= threshold);
 }
 
 static PyObject*
@@ -2765,7 +2909,7 @@ is_mouse_button_down(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["is_mouse_button_down"], args, kwargs, __FUNCTION__, &button))
 		return GetPyNone();
 
-	return ToPyBool(GContext->input.mousedown[button]);
+	return ToPyBool(ImGui::IsMouseDown(button));
 }
 
 static PyObject*
@@ -2776,7 +2920,7 @@ is_mouse_button_clicked(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["is_mouse_button_clicked"], args, kwargs, __FUNCTION__, &button))
 		return GetPyNone();
 
-	return ToPyBool(GContext->input.mouseclick[button]);
+	return ToPyBool(ImGui::IsMouseClicked(button));
 }
 
 static PyObject*
@@ -2787,7 +2931,7 @@ is_mouse_button_double_clicked(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["is_mouse_button_double_clicked"], args, kwargs, __FUNCTION__, &button))
 		return GetPyNone();
 
-	return ToPyBool(GContext->input.mousedoubleclick[button]);
+	return ToPyBool(ImGui::IsMouseDoubleClicked(button));
 }
 
 static PyObject*
@@ -2798,7 +2942,7 @@ is_mouse_button_released(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["is_mouse_button_released"], args, kwargs, __FUNCTION__, &button))
 		return GetPyNone();
 
-	return ToPyBool(GContext->input.mousereleased[button]);
+	return ToPyBool(ImGui::IsMouseReleased(button));
 }
 
 static PyObject*
@@ -4083,12 +4227,14 @@ capture_next_item(PyObject* self, PyObject* args, PyObject* kwargs)
 static PyObject*
 get_callback_queue(PyObject* self, PyObject* args, PyObject* kwargs)
 {
+	// std::cout << "[GET_CALLBACK_QUEUE] jobs size: " << GContext->callbackRegistry->jobs.size() << std::endl;
 	if (GContext->callbackRegistry->jobs.empty())
 		return GetPyNone();
 
 	PyObject* pArgs = PyTuple_New(GContext->callbackRegistry->jobs.size());
 	for (int i = 0; i < GContext->callbackRegistry->jobs.size(); i++)
 	{
+		// std::cout << "[JOB]: " << GContext->callbackRegistry->jobs[i].sender_str << std::endl;
 		PyObject* job = PyTuple_New(4);
 		if (GContext->callbackRegistry->jobs[i].callback)
 			PyTuple_SetItem(job, 0, GContext->callbackRegistry->jobs[i].callback);

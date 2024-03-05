@@ -28,7 +28,7 @@ void mvDebugWindow::drawWidgets()
         filter.Draw();
 
         ImGui::PushItemWidth(-1);
-        ImGui::BeginChild("CommandsChild##debug", ImVec2(400.0f, 400.0f), true);
+        ImGui::BeginChild("CommandsChild##debug", ImVec2(400.0f, 400.0f), ImGuiChildFlags_Border);
         ImGui::PushStyleColor(ImGuiCol_Text, { 1.0f, 1.0f, 0.0f, 1.0f });
         for (size_t i = 0; i < m_commands.size(); i++)
         {
@@ -43,7 +43,7 @@ void mvDebugWindow::drawWidgets()
         ImGui::PopStyleColor();
         ImGui::EndChild();
         ImGui::SameLine();
-        ImGui::BeginChild("CommandsDoc##debug", ImVec2(-1.0f, 400.0f), true);
+        ImGui::BeginChild("CommandsDoc##debug", ImVec2(-1.0f, 400.0f), ImGuiChildFlags_Border);
         ImGui::PushStyleColor(ImGuiCol_Text, { 1.0f, 0.0f, 1.0f, 1.0f });
         ImGui::PushTextWrapPos(500);
         ImGui::Text("%s", commanddoc);

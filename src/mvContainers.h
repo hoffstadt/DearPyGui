@@ -88,7 +88,7 @@ enum class TabOrdering {
 
 struct mvChildWindowConfig
 {
-    bool             border = true;
+    ImGuiChildFlags  childFlags = ImGuiChildFlags_Border;
     bool             autosize_x = false;
     bool             autosize_y = false;
     ImGuiWindowFlags windowflags = ImGuiWindowFlags_NoSavedSettings|ImGuiWindowFlags_NavFlattened;
@@ -113,6 +113,7 @@ struct mvGroupConfig
     bool  horizontal = false;
     float hspacing = -1.0f;
     float xoffset = 0.0f;
+    bool  disabled = false;
 };
 
 struct mvDragPayloadConfig
@@ -160,6 +161,7 @@ struct mvWindowAppItemConfig
     bool             no_close = false;
     bool             no_background = false;
     bool             collapsed = false;
+    bool             unsaved_document = false;
     bool             no_open_over_existing_popup = true;
     PyObject*        on_close = nullptr;
     mvVec2           min_size = { 100.0f, 100.0f };

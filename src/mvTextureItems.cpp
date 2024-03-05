@@ -30,7 +30,7 @@ void mvTextureRegistry::show_debugger()
 
 		ImGui::Text("Textures");
 
-		ImGui::BeginChild("##TextureStorageChild", ImVec2(400, 0), true, ImGuiWindowFlags_AlwaysVerticalScrollbar);
+		ImGui::BeginChild("##TextureStorageChild", ImVec2(400, 0), ImGuiChildFlags_Border, ImGuiWindowFlags_AlwaysVerticalScrollbar);
 
 		int index = 0;
 		for (auto& texture : childslots[1])
@@ -77,7 +77,7 @@ void mvTextureRegistry::show_debugger()
 				ImGui::Image(textureRaw, ImVec2((float)childslots[1][_selection]->config.width, (float)childslots[1][_selection]->config.height));
 
 				ImPlot::PushStyleColor(ImPlotCol_FrameBg, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
-				if (ImPlot::BeginPlot("##texture plot", 0, 0, ImVec2(-1, -1),
+				if (ImPlot::BeginPlot("##texture plot", ImVec2(-1, -1),
 					ImPlotFlags_NoTitle | ImPlotFlags_NoLegend | ImPlotFlags_NoMenus | ImPlotFlags_Equal))
 				{
 					ImPlot::PlotImage(childslots[1][_selection]->info.internalLabel.c_str(), textureRaw, ImPlotPoint(0.0, 0.0),

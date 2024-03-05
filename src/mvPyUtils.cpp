@@ -9,6 +9,7 @@
 #include "dearpygui.h"
 #include <ctime>
 #include <frameobject.h>
+#include <iostream>
 
 mvGlobalIntepreterLock::mvGlobalIntepreterLock()
 {
@@ -2166,7 +2167,8 @@ VerifyKeywordArguments(const mvPythonParser& parser, PyObject* args)
             continue;
 
         mvThrowPythonError(mvErrorCode::mvNone, sitem + " keyword does not exist.");
-        assert(false);
+        std::cout << sitem << " keyword does not exist." << std::endl;
+        IM_ASSERT(false);
         exists = false;
         break;
     }

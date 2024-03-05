@@ -219,6 +219,7 @@ struct mvButtonConfig
     ImGuiDir direction = ImGuiDir_Up;
     bool     small_button = false;
     bool     arrow = false;
+    bool     repeat = false;
 };
 
 struct mvComboConfig
@@ -227,6 +228,7 @@ struct mvComboConfig
     std::vector<std::string> items;
     bool                     popup_align_left = false;
     bool                     no_preview = false;
+    bool                     fit_width = false;
     std::shared_ptr<std::string>       value = std::make_shared<std::string>("");
     std::string              disabled_value;
 };
