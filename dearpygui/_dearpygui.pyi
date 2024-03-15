@@ -842,6 +842,10 @@ def get_file_dialog_info(file_dialog : Union[int, str]) -> dict:
 	"""Returns information related to the file dialog. Typically used while the file dialog is in use to query data about the state or info related to the file dialog."""
 	...
 
+def get_focused_item() -> Union[int, str]:
+	"""Returns the item currently having focus."""
+	...
+
 def get_frame_count() -> int:
 	"""Returns frame count."""
 	...

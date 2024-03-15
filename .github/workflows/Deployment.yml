@@ -116,7 +116,7 @@ jobs:
 
   build-mac-silicon-wheels:
 
-    runs-on: macos-latest-large
+    runs-on: macos-latest-xlarge
     strategy:
       matrix:
         python-version: [ "3.10", "3.11", "3.12" ]

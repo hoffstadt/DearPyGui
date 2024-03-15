@@ -8028,7 +8028,7 @@ def draw_quad(p1 : Union[List[float], Tuple[float, ...]], p2 : Union[List[float]
 
 	return internal_dpg.draw_quad(p1, p2, p3, p4, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, show=show, color=color, fill=fill, thickness=thickness, **kwargs)
 
-def draw_rectangle(pmin : Union[List[float], Tuple[float, ...]], pmax : Union[List[float], Tuple[float, ...]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, color: Union[List[int], Tuple[int, ...]] =(255, 255, 255, 255), fill: Union[List[int], Tuple[int, ...]] =(0, 0, 0, -255), multicolor: bool =False, rounding: float =0.0, thickness: float =1.0, corner_colors: Union[List, Tuple, None] =None, **kwargs) -> Union[int, str]:
+def draw_rectangle(pmin : Union[List[float], Tuple[float, ...]], pmax : Union[List[float], Tuple[float, ...]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, color: Union[List[int], Tuple[int, ...]] =(255, 255, 255, 255), color_upper_left: Union[List[int], Tuple[int, ...]] =(255, 255, 255, 255), color_upper_right: Union[List[int], Tuple[int, ...]] =(255, 255, 255, 255), color_bottom_right: Union[List[int], Tuple[int, ...]] =(255, 255, 255, 255), color_bottom_left: Union[List[int], Tuple[int, ...]] =(255, 255, 255, 255), fill: Union[List[int], Tuple[int, ...]] =(0, 0, 0, -255), multicolor: bool =False, rounding: float =0.0, thickness: float =1.0, corner_colors: Any =[(255, 255, 255, 255), (255, 255, 255, 255), (255, 255, 255, 255), (255, 255, 255, 255)], **kwargs) -> Union[int, str]:
 	"""	 Adds a rectangle.
 
 	Args:
@@ -8042,11 +8042,15 @@ def draw_rectangle(pmin : Union[List[float], Tuple[float, ...]], pmax : Union[Li
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
 		color (Union[List[int], Tuple[int, ...]], optional): 
+		color_upper_left (Union[List[int], Tuple[int, ...]], optional): 'multicolor' must be set to 'True'
+		color_upper_right (Union[List[int], Tuple[int, ...]], optional): 'multicolor' must be set to 'True'
+		color_bottom_right (Union[List[int], Tuple[int, ...]], optional): 'multicolor' must be set to 'True'
+		color_bottom_left (Union[List[int], Tuple[int, ...]], optional): 'multicolor' must be set to 'True'
 		fill (Union[List[int], Tuple[int, ...]], optional): 
 		multicolor (bool, optional): 
 		rounding (float, optional): Number of pixels of the radius that will round the corners of the rectangle. Note: doesn't work with multicolor
 		thickness (float, optional): 
-		corner_colors (Union[List, Tuple], optional): Corner colors in a list, starting with upper-left and going clockwise: (upper-left, upper-right, bottom-right, bottom-left). 'multicolor' must be set to 'True'.
+		corner_colors (Any, optional): Corner colors in a list, starting with upper-left and going clockwise: (upper-left, upper-right, bottom-right, bottom-left). 'multicolor' must be set to 'True'.
 		id (Union[int, str], optional): (deprecated) 
 	Returns:
 		Union[int, str]
@@ -8056,10 +8060,7 @@ def draw_rectangle(pmin : Union[List[float], Tuple[float, ...]], pmax : Union[Li
 		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
 		tag=kwargs['id']
 
-	if any(parm in kwargs.keys() for parm in ("color_upper_left", "color_upper_right", "color_bottom_left", "color_bottom_right")):
-		warnings.warn('Use corner_colors instead of color_x_y', DeprecationWarning, 2)
-
-	return internal_dpg.draw_rectangle(pmin, pmax, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, show=show, color=color, fill=fill, multicolor=multicolor, rounding=rounding, thickness=thickness, corner_colors=corner_colors, **kwargs)
+	return internal_dpg.draw_rectangle(pmin, pmax, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, show=show, color=color, color_upper_left=color_upper_left, color_upper_right=color_upper_right, color_bottom_right=color_bottom_right, color_bottom_left=color_bottom_left, fill=fill, multicolor=multicolor, rounding=rounding, thickness=thickness, corner_colors=corner_colors, **kwargs)
 
 def draw_text(pos : Union[List[float], Tuple[float, ...]], text : str, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, color: Union[List[int], Tuple[int, ...]] =(255, 255, 255, 255), size: float =10.0, **kwargs) -> Union[int, str]:
 	"""	 Adds text (drawlist).
@@ -8166,16 +8167,6 @@ def get_active_window(**kwargs) -> Union[int, str]:
 	"""
 
 	return internal_dpg.get_active_window(**kwargs)
-
-def get_focused_item(**kwargs) -> Union[int, str]:
-	"""	 Returns the item currently having focus.
-
-	Args:
-	Returns:
-		Union[int, str]
-	"""
-
-	return internal_dpg.get_focused_item(**kwargs)
 
 def get_alias_id(alias : str, **kwargs) -> Union[int, str]:
 	"""	 Returns the ID associated with an alias.
@@ -8291,6 +8282,16 @@ def get_file_dialog_info(file_dialog : Union[int, str], **kwargs) -> dict:
 	"""
 
 	return internal_dpg.get_file_dialog_info(file_dialog, **kwargs)
+
+def get_focused_item(**kwargs) -> Union[int, str]:
+	"""	 Returns the item currently having focus.
+
+	Args:
+	Returns:
+		Union[int, str]
+	"""
+
+	return internal_dpg.get_focused_item(**kwargs)
 
 def get_frame_count(**kwargs) -> int:
 	"""	 Returns frame count.
