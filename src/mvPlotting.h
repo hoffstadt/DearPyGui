@@ -256,8 +256,7 @@ struct mvPieSeriesConfig
 
 struct mvLabelSeriesConfig
 {
-    int  xoffset = 0;
-    int  yoffset = 0;
+    ImVec2  offset = ImVec2(0.0f, 0.0f);
     bool vertical = false;
     std::shared_ptr<std::vector<std::vector<double>>> value = std::make_shared<std::vector<std::vector<double>>>(
         std::vector<std::vector<double>>{ std::vector<double>{},
