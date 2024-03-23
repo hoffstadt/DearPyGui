@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <memory>
 #include <time.h>
 #include <functional>
 #include <cstring>
