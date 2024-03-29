@@ -153,7 +153,7 @@ void mvClickedHandler::customAction(void* data)
 		{
 			auto parent_ptr = state->parent->shared_from_this();
 			auto appDataFunc = [=]() {
-				mvPyObject pArgs(PyTuple_New(2));
+				PyObject* pArgs = PyTuple_New(2);
 				PyTuple_SetItem(pArgs, 0, ToPyInt(0));
 				PyTuple_SetItem(pArgs, 1, ToPyUUID(parent_ptr.get())); // steals data, so don't deref
 				return pArgs;
@@ -166,7 +166,7 @@ void mvClickedHandler::customAction(void* data)
 		{
 			auto parent_ptr = state->parent->shared_from_this();
 			auto appDataFunc = [=]() {
-				mvPyObject pArgs(PyTuple_New(2));
+				PyObject* pArgs = PyTuple_New(2);
 				PyTuple_SetItem(pArgs, 0, ToPyInt(1));
 				PyTuple_SetItem(pArgs, 1, ToPyUUID(parent_ptr.get())); // steals data, so don't deref
 				return pArgs;
@@ -179,7 +179,7 @@ void mvClickedHandler::customAction(void* data)
 		{
 			auto parent_ptr = state->parent->shared_from_this();
 			auto appDataFunc = [=]() {
-				mvPyObject pArgs(PyTuple_New(2));
+				PyObject* pArgs = PyTuple_New(2);
 				PyTuple_SetItem(pArgs, 0, ToPyInt(2));
 				PyTuple_SetItem(pArgs, 1, ToPyUUID(parent_ptr.get())); // steals data, so don't deref
 				return pArgs;
@@ -226,7 +226,7 @@ void mvDoubleClickedHandler::customAction(void* data)
 		{
 			auto parent_ptr = state->parent->shared_from_this();
 			auto appDataFunc = [=]() {
-				mvPyObject pArgs(PyTuple_New(2));
+				PyObject* pArgs = PyTuple_New(2);
 				PyTuple_SetItem(pArgs, 0, ToPyInt(i));
 				PyTuple_SetItem(pArgs, 1, ToPyUUID(parent_ptr.get())); // steals data, so don't deref
 				return pArgs;
