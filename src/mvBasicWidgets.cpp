@@ -6332,8 +6332,8 @@ DearPyGui::draw_separator(ImDrawList* drawlist, mvAppItem& item)
 {
 	if (!item.config.show)
 		return;
-	if (!item.info.internalLabel.empty()) {
-		ImGui::SeparatorText(item.info.internalLabel.c_str());
+	if (!item.config.specifiedLabel.empty()) {
+		ImGui::SeparatorText(item.config.specifiedLabel.c_str());
 	} else {
 		ImGui::Separator();
 	}
