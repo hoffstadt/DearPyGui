@@ -9,7 +9,6 @@
 #include "mvContainers.h"
 #include "mvTextureItems.h"
 #include "mvItemHandlers.h"
-#include <iostream>
 
 template <typename T>
 int BinarySearch(const T* arr, int l, int r, T x) {

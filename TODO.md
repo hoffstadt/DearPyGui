@@ -11,7 +11,6 @@
     - [ ] Update demo with new functions
     - [x] Improve demo with multiple axes
     - [x] Antialiasing activated?
-    - [ ] Disable keyboard navigation
     - [ ] Implement TagX/Y also on secondary axes
     - [x] mo_mouse_pos -> no_mouse_text
 - [ ] Bugfix:
@@ -33,7 +32,6 @@
 - [x] [V 1.83](https://github.com/ocornut/imgui/releases/tag/v1.83)
     - [x] Tables: Expose `TableSetColumnEnabled()` in public api. (in the issue is explained that it's just Hide/Show)
 - [ ] [V 1.84](https://github.com/ocornut/imgui/releases/tag/v1.84)
-    - [ ] IO: Added `io.AddFocusEvent()` api for backend to tell when host window has gained/lost focus.
     - [x] Disabled: Add `BeginDisabled()/EndDisabled()`.
     - [x] Tables: Added `ImGuiTableColumnFlags_Disabled`
     - [x] Tables: Added `ImGuiTableColumnFlags_NoHeaderLabel` to request TableHeadersRow()
@@ -58,7 +56,6 @@ Probably all the IO "issues" are deeply linked between them
     - [ ] IsItemHovered: added ImGuiHoveredFlags_DelayNormal and ImGuiHoveredFlags_DelayShort for delayed hover test (work on items that have no persistent identifier e.g. Text items).
     - [ ] InputText: added io.ConfigInputTextEnterKeepActive
     - [ ] Internals: added wip internal APIs to allow handling input/shorting routing and key ownership. Things will be moved into public APIs over time, including a Shortcut() function that magically handle input routing.
-    - [ ] Layout: Obsoleted using SetCursorPos() / SetCursorScreenPos() to extend parent window/cell boundaries. (Check what it actually changes)
     - [x] Changed signature of ImageButton() function.
 - [x] [V 1.89.1](https://github.com/ocornut/imgui/releases/tag/v1.89.1)
 - [ ] [V 1.89.2](https://github.com/ocornut/imgui/releases/tag/v1.89.2)
@@ -87,8 +84,7 @@ Probably all the IO "issues" are deeply linked between them
     - [x] IO: Exposed io.PlatformLocaleDecimalPoint to configure decimal point ('.' or ',') for languages needing it.
 - [ ] [V 1.90](https://github.com/ocornut/imgui/releases/tag/v1.90)
     - [x] Removed IM_OFFSETOF() macro in favor of using offsetof() available in C++11.
-- [ ][V 1.90.1](https://github.com/ocornut/imgui/releases/tag/v1.90.1)
-    - [ ] imgui_freetype: commented out ImGuiFreeType::BuildFontAtlas() obsoleted in 1.81. Prefer using #define IMGUI_ENABLE_FREETYPE or see commented code for manual runtime calls.
+- [ ] [V 1.90.1](https://github.com/ocornut/imgui/releases/tag/v1.90.1)
     - [ ] Tabs: Added ImGuiTabItemFlags_NoAssumedClosure to enable app to react on closure attempt, without having to draw an unsaved document marker (ImGuiTabItemFlags_UnsavedDocument sets _NoAssumedClosure automatically).
     - [ ] Debug Tools: Added io.ConfigDebugIsDebuggerPresent option. 
     - [ ] Added DebugFlashStyleColor() to identify a style color. Added to Style Editor.

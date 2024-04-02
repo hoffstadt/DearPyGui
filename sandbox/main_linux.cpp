@@ -2,7 +2,6 @@
 #include <Python.h>
 #include "dearpygui.h"
 #include "mvViewport.h"
-#include <iostream>
 #include <fstream>
 #include <string>
 #include <sstream>

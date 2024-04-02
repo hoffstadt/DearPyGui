@@ -4,7 +4,6 @@
 #include "mvCore.h"
 #include "mvAppItemCommons.h"
 #include "mvPyUtils.h"
-#include <iostream>
 
 static void
 UpdateLocations(std::vector<std::shared_ptr<mvAppItem>>* children, i32 slots)

@@ -15,7 +15,6 @@
 #include <codecvt>
 #include <sstream>
 #include <filesystem>
-#include <iostream>
 #include <d3d11.h>
 #include "mvWindowsSpecifics.h"
 #include "mvCustomTypes.h"
