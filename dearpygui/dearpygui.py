@@ -9245,17 +9245,6 @@ def set_clipboard_text(text : str, **kwargs) -> None:
 
 	return internal_dpg.set_clipboard_text(text, **kwargs)
 
-def set_decimal_point(decimal_point : str, **kwargs) -> None:
-	"""	 Change the default decimal_point. Users of non-default decimal point (in particular ',') may be affected by word-selection logic (is_word_boundary_from_right/is_word_boundary_from_left) functions. Use only single character strings.
-
-	Args:
-		decimal_point (str): 
-	Returns:
-		None
-	"""
-
-	return internal_dpg.set_decimal_point(decimal_point, **kwargs)
-
 def set_exit_callback(callback : Callable, *, user_data: Any =None, **kwargs) -> str:
 	"""	 Sets a callback to run on last frame.
 

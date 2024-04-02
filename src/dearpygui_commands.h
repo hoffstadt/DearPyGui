@@ -1972,12 +1972,14 @@ show_tool(PyObject* self, PyObject* args, PyObject* kwargs)
 	return GetPyNone();
 }
 
+/* 
 static PyObject*
 set_decimal_point(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 	const unsigned int* point;
+	const bool* from_locale;
 
-	if (!Parse((GetParsers())["set_decimal_point"], args, kwargs, __FUNCTION__, &point))
+	if (!Parse((GetParsers())["set_decimal_point"], args, kwargs, __FUNCTION__, &point, &from_locale))
 		return GetPyNone();
 
 	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
@@ -1986,6 +1988,7 @@ set_decimal_point(PyObject* self, PyObject* args, PyObject* kwargs)
 	ImGui::GetIO().PlatformLocaleDecimalPoint = GContext->IO.decimalPoint;
 	return GetPyNone();
 }
+*/
 
 static PyObject*
 set_frame_callback(PyObject* self, PyObject* args, PyObject* kwargs)
