@@ -11,6 +11,11 @@
 #include "stb_image_write.h"
 #include "mvProfiler.h"
 #include "mvUtilities.h"
+#include <string.h>
+
+#ifndef strnicmp
+#define strnicmp(s1, s2, len) strncasecmp(s1, s2, len)
+#endif
 
 static PyObject*
 bind_colormap(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -2387,7 +2392,7 @@ str_ends_with(const char * str, const char * suffix) {
   if(suffix_len > str_len)
     return 0;
 
-  return 0 == strncmp( str + str_len - suffix_len, suffix, suffix_len );
+  return 0 == strnicmp( str + str_len - suffix_len, suffix, suffix_len );
 }
 
 static PyObject*
@@ -2443,23 +2448,23 @@ save_image(PyObject* self, PyObject* args, PyObject* kwargs)
 	}
 
 	// TODO: support other formats
-	if (str_ends_with(file, "png"))
+	if (str_ends_with(file, ".png"))
 	{
 		imageType = MV_IMAGE_TYPE_PNG_;
 	}
-	else if (str_ends_with(file, "bmp"))
+	else if (str_ends_with(file, ".bmp"))
 	{
 		imageType = MV_IMAGE_TYPE_BMP_;
 	}
-	else if (str_ends_with(file, "tga"))
+	else if (str_ends_with(file, ".tga"))
 	{
 		imageType = MV_IMAGE_TYPE_TGA_;
 	}
-	else if (str_ends_with(file, "hdr"))
+	else if (str_ends_with(file, ".hdr"))
 	{
 		imageType = MV_IMAGE_TYPE_HDR_;
 	}
-	else if (str_ends_with(file, "jpg"))
+	else if (str_ends_with(file, ".jpg"))
 	{
 		imageType = MV_IMAGE_TYPE_JPG_;
 	}
@@ -2545,7 +2550,7 @@ output_frame_buffer(PyObject* self, PyObject* args, PyObject* kwargs)
 	}
 
 	// TODO: support other formats
-	if (str_ends_with(file, "png"))
+	if (str_ends_with(file, ".png"))
 	{
         std::string fileStored = file;
         mvSubmitTask([fileStored](){
