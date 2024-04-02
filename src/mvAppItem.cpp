@@ -4648,7 +4648,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
             MV_PARSER_ARG_SHOW)
         );
 
-        args.push_back({ mvPyDataType::Integer, "key", mvArgType::POSITIONAL_ARG, "-1", "Submits callback for all keys" });
+        args.push_back({ mvPyDataType::Integer, "key", mvArgType::POSITIONAL_ARG, "internal_dpg.mvKey_None", "Submits callback for all keys" });
         args.push_back({ mvPyDataType::UUID, "parent", mvArgType::KEYWORD_ARG, "internal_dpg.mvReservedUUID_1", "Parent to add this item to. (runtime adding)" });
 
         setup.about = "Adds a key down handler.";
@@ -4663,7 +4663,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
             MV_PARSER_ARG_SHOW)
         );
 
-        args.push_back({ mvPyDataType::Integer, "key", mvArgType::POSITIONAL_ARG, "-1", "Submits callback for all keys" });
+        args.push_back({ mvPyDataType::Integer, "key", mvArgType::POSITIONAL_ARG, "internal_dpg.mvKey_None", "Submits callback for all keys" });
         args.push_back({ mvPyDataType::UUID, "parent", mvArgType::KEYWORD_ARG, "internal_dpg.mvReservedUUID_1", "Parent to add this item to. (runtime adding)" });
 
         setup.about = "Adds a key press handler.";
@@ -4678,7 +4678,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
             MV_PARSER_ARG_SHOW)
         );
 
-        args.push_back({ mvPyDataType::Integer, "key", mvArgType::POSITIONAL_ARG, "-1", "Submits callback for all keys" });
+        args.push_back({ mvPyDataType::Integer, "key", mvArgType::POSITIONAL_ARG, "internal_dpg.mvKey_None", "Submits callback for all keys" });
         args.push_back({ mvPyDataType::UUID, "parent", mvArgType::KEYWORD_ARG, "internal_dpg.mvReservedUUID_1", "Parent to add this item to. (runtime adding)" });
 
         setup.about = "Adds a key release handler.";

@@ -5427,7 +5427,7 @@ def add_item_visible_handler(*, label: str =None, user_data: Any =None, use_inte
 
 	return internal_dpg.add_item_visible_handler(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, callback=callback, show=show, **kwargs)
 
-def add_key_down_handler(key : int =-1, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, callback: Callable =None, show: bool =True, parent: Union[int, str] =internal_dpg.mvReservedUUID_1, **kwargs) -> Union[int, str]:
+def add_key_down_handler(key : int =internal_dpg.mvKey_None, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, callback: Callable =None, show: bool =True, parent: Union[int, str] =internal_dpg.mvReservedUUID_1, **kwargs) -> Union[int, str]:
 	"""	 Adds a key down handler.
 
 	Args:
@@ -5450,7 +5450,7 @@ def add_key_down_handler(key : int =-1, *, label: str =None, user_data: Any =Non
 
 	return internal_dpg.add_key_down_handler(key, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, callback=callback, show=show, parent=parent, **kwargs)
 
-def add_key_press_handler(key : int =-1, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, callback: Callable =None, show: bool =True, parent: Union[int, str] =internal_dpg.mvReservedUUID_1, **kwargs) -> Union[int, str]:
+def add_key_press_handler(key : int =internal_dpg.mvKey_None, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, callback: Callable =None, show: bool =True, parent: Union[int, str] =internal_dpg.mvReservedUUID_1, **kwargs) -> Union[int, str]:
 	"""	 Adds a key press handler.
 
 	Args:
@@ -5473,7 +5473,7 @@ def add_key_press_handler(key : int =-1, *, label: str =None, user_data: Any =No
 
 	return internal_dpg.add_key_press_handler(key, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, callback=callback, show=show, parent=parent, **kwargs)
 
-def add_key_release_handler(key : int =-1, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, callback: Callable =None, show: bool =True, parent: Union[int, str] =internal_dpg.mvReservedUUID_1, **kwargs) -> Union[int, str]:
+def add_key_release_handler(key : int =internal_dpg.mvKey_None, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, callback: Callable =None, show: bool =True, parent: Union[int, str] =internal_dpg.mvReservedUUID_1, **kwargs) -> Union[int, str]:
 	"""	 Adds a key release handler.
 
 	Args:

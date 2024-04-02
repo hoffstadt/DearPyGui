@@ -35,9 +35,9 @@ void mvKeyDownHandler::draw(ImDrawList* drawlist, float x, float y)
 		mvSubmitCallback([=]()
 			{
 				if (config.alias.empty())
-					mvRunCallback(getCallback(false), uuid, ToPyMPair(_key, ImGui::GetKeyData(_key)->DownDurationPrev), config.user_data);
+					mvRunCallback(getCallback(false), uuid, ToPyMPair(_key, ImGui::GetKeyData(_key)->DownDuration), config.user_data);
 				else
-					mvRunCallback(getCallback(false), config.alias, ToPyMPair(_key, ImGui::GetKeyData(_key)->DownDurationPrev), config.user_data);
+					mvRunCallback(getCallback(false), config.alias, ToPyMPair(_key, ImGui::GetKeyData(_key)->DownDuration), config.user_data);
 			});
 	}
 }
@@ -273,7 +273,7 @@ void mvMouseDoubleClickHandler::draw(ImDrawList* drawlist, float x, float y)
 	{
 		for (int i = 0; i < IM_ARRAYSIZE(ImGui::GetIO().MouseDown); i++)
 		{
-			if (ImGui::GetMouseClickedCount(i) == 2)
+			if (ImGui::IsMouseDoubleClicked(i))
 			{
 				mvSubmitCallback([=]()
 					{
@@ -286,7 +286,7 @@ void mvMouseDoubleClickHandler::draw(ImDrawList* drawlist, float x, float y)
 		}
 	}
 
-	else if (ImGui::GetMouseClickedCount(_button) == 2)
+	else if (ImGui::IsMouseDoubleClicked(_button) == 2)
 	{
 		mvSubmitCallback([=]()
 			{
