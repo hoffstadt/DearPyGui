@@ -3,7 +3,6 @@
 #include "dearpygui.h"
 #include "mvContext.h"
 #include <Windows.h>
-#include <iostream>
 #include <fstream>
 #include <string>
 #include <sstream>

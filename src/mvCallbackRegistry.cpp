@@ -2,7 +2,6 @@
 #include "mvProfiler.h"
 #include "mvContext.h"
 #include <chrono>
-#include <iostream>
 #include "mvItemRegistry.h"
 #include "mvAppItemCommons.h"
 #include "mvPyUtils.h"

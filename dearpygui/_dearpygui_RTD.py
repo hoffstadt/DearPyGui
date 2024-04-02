@@ -4909,7 +4909,7 @@ def add_item_visible_handler(**kwargs):
 
 	return internal_dpg.add_item_visible_handler(**kwargs)
 
-def add_key_down_handler(key=-1, **kwargs):
+def add_key_down_handler(key=internal_dpg.mvKey_None, **kwargs):
 	"""	 Adds a key down handler.
 
 	Args:
@@ -4928,7 +4928,7 @@ def add_key_down_handler(key=-1, **kwargs):
 
 	return internal_dpg.add_key_down_handler(key, **kwargs)
 
-def add_key_press_handler(key=-1, **kwargs):
+def add_key_press_handler(key=internal_dpg.mvKey_None, **kwargs):
 	"""	 Adds a key press handler.
 
 	Args:
@@ -4947,7 +4947,7 @@ def add_key_press_handler(key=-1, **kwargs):
 
 	return internal_dpg.add_key_press_handler(key, **kwargs)
 
-def add_key_release_handler(key=-1, **kwargs):
+def add_key_release_handler(key=internal_dpg.mvKey_None, **kwargs):
 	"""	 Adds a key release handler.
 
 	Args:
@@ -8374,17 +8374,6 @@ def set_clipboard_text(text):
 	"""
 
 	return internal_dpg.set_clipboard_text(text)
-
-def set_decimal_point(decimal_point):
-	"""	 Change the default decimal_point. Users of non-default decimal point (in particular ',') may be affected by word-selection logic (is_word_boundary_from_right/is_word_boundary_from_left) functions. Use only single character strings.
-
-	Args:
-		decimal_point (str): 
-	Returns:
-		None
-	"""
-
-	return internal_dpg.set_decimal_point(decimal_point)
 
 def set_exit_callback(callback, **kwargs):
 	"""	 Sets a callback to run on last frame.

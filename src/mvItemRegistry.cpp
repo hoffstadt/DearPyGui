@@ -5,7 +5,6 @@
 #include "mvPyUtils.h"
 #include "mvToolManager.h"
 #include "mvFontManager.h"
-#include <iostream>
 
 mvItemRegistry::mvItemRegistry()
 {
@@ -1199,7 +1198,6 @@ GetItem(mvItemRegistry& registry, mvUUID uuid)
         if (registry.cachedContainersID[i] == uuid)
             return registry.cachedContainersPTR[i];
         if (registry.cachedItemsID[i] == uuid) {
-            // DEBUG: std::cout << "found cached item with uuid: " << uuid << " at index " << i << " with address " << registry.cachedItemsPTR[i] << std::endl;
             return registry.cachedItemsPTR[i];
         }
     }

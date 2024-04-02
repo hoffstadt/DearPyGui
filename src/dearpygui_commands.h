@@ -11,7 +11,6 @@
 #include "stb_image_write.h"
 #include "mvProfiler.h"
 #include "mvUtilities.h"
-#include <iostream>
 
 static PyObject*
 bind_colormap(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -4227,14 +4226,12 @@ capture_next_item(PyObject* self, PyObject* args, PyObject* kwargs)
 static PyObject*
 get_callback_queue(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	// std::cout << "[GET_CALLBACK_QUEUE] jobs size: " << GContext->callbackRegistry->jobs.size() << std::endl;
 	if (GContext->callbackRegistry->jobs.empty())
 		return GetPyNone();
 
 	PyObject* pArgs = PyTuple_New(GContext->callbackRegistry->jobs.size());
 	for (int i = 0; i < GContext->callbackRegistry->jobs.size(); i++)
 	{
-		// std::cout << "[JOB]: " << GContext->callbackRegistry->jobs[i].sender_str << std::endl;
 		PyObject* job = PyTuple_New(4);
 		if (GContext->callbackRegistry->jobs[i].callback)
 			PyTuple_SetItem(job, 0, GContext->callbackRegistry->jobs[i].callback);

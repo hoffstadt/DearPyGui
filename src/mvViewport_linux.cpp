@@ -10,7 +10,6 @@
 #include <stdio.h>
 #include <stb_image.h>
 #include "mvToolManager.h"
-#include <iostream>
 
 static void
 glfw_error_callback(int error, const char* description)

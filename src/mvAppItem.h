@@ -16,7 +16,6 @@
 #include "mvPyUtils.h"
 #include <implot_internal.h>
 #include "mvAppItemTypes.inc"
-#include <iostream>
 
 // forward declarations
 class mvThemeManager;

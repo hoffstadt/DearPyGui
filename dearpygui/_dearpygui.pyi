@@ -1138,10 +1138,6 @@ def set_clipboard_text(text : str) -> None:
 	"""New in 1.3. Sets the clipboard text."""
 	...
 
-def set_decimal_point(decimal_point : str) -> None:
-	"""Change the default decimal_point. Users of non-default decimal point (in particular ',') may be affected by word-selection logic (is_word_boundary_from_right/is_word_boundary_from_left) functions. Use only single character strings."""
-	...
-
 def set_exit_callback(callback : Callable, *, user_data: Any ='') -> str:
 	"""Sets a callback to run on last frame."""
 	...
