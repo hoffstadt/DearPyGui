@@ -615,18 +615,22 @@ InsertParser_Block1(std::map<std::string, mvPythonParser>& parsers)
 		parsers.insert({ "save_image", parser });
 	}
 
+	/*
+	// TODO: Implement this when it won't be broken anymore https://github.com/ocornut/imgui/issues/6719#issuecomment-1988531279
+	// FIXME: https://github.com/hoffstadt/DearPyGui/pull/2275#discussion_r1542495486
 	{
 		std::vector<mvPythonDataElement> args;
 		args.reserve(1);
 		args.push_back({ mvPyDataType::String, "decimal_point" });
+		args.push_back({ mvPyDataType::Bool, "from_locale", mvArgType::POSITIONAL_ARG, "False"});  // TODO: To be implemented set_decimal_point(locale.localeconv()["decimal_point"])
 
 		mvPythonParserSetup setup;
-		setup.about = "Change the default decimal_point. Users of non-default decimal point (in particular ',') may be affected by word-selection logic (is_word_boundary_from_right/is_word_boundary_from_left) functions. Use only single character strings.";
+		setup.about = "Change the default decimal_point. Use only single character strings.";
 		setup.category = { "Utilities" };
 	
 		mvPythonParser parser = FinalizeParser(setup, args);
 		parsers.insert({ "set_decimal_point", parser });
-	}
+	} */
 
 	{
 		std::vector<mvPythonDataElement> args;

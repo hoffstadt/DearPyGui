@@ -81,7 +81,6 @@ Probably all the IO "issues" are deeply linked between them
     - [ ] IO: Obsoleted io.ClearInputCharacters() (added in 1.47) as it now ambiguous and often incorrect/misleading considering the existence of a higher-level input queue. This is automatically cleared by io.ClearInputsKeys().
     - [ ] IO: Added io.ClearEventsQueue() to clear incoming inputs events. 
     - [ ] Many modifications to Clipper
-    - [x] IO: Exposed io.PlatformLocaleDecimalPoint to configure decimal point ('.' or ',') for languages needing it.
 - [ ] [V 1.90](https://github.com/ocornut/imgui/releases/tag/v1.90)
     - [x] Removed IM_OFFSETOF() macro in favor of using offsetof() available in C++11.
 - [ ] [V 1.90.1](https://github.com/ocornut/imgui/releases/tag/v1.90.1)
