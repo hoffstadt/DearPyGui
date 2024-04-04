@@ -262,14 +262,13 @@ InsertConstants_mvContext(std::vector<std::pair<std::string, long>>& constants)
 
     constants.emplace_back("mvKey_Back", ImGuiKey_Backspace);
     constants.emplace_back("mvKey_Tab", ImGuiKey_Tab);
-    // constants.emplace_back("mvKey_Clear", 0x0C);  // FIXME: No Clear in ImGuiKey_
     constants.emplace_back("mvKey_Return", ImGuiKey_Enter);
     constants.emplace_back("mvKey_LShift", ImGuiKey_LeftShift);
     constants.emplace_back("mvKey_RShift", ImGuiKey_RightShift);
     constants.emplace_back("mvKey_LControl", ImGuiKey_LeftCtrl);
     constants.emplace_back("mvKey_RControl", ImGuiKey_RightCtrl);
     constants.emplace_back("mvKey_LAlt", ImGuiKey_LeftAlt);
-    constants.emplace_back("mvKey_RAlt", ImGuiKey_RightAlt); // Alt gr ??
+    constants.emplace_back("mvKey_RAlt", ImGuiKey_RightAlt);
     constants.emplace_back("mvKey_Pause", ImGuiKey_Pause);
     constants.emplace_back("mvKey_CapsLock", ImGuiKey_CapsLock);
     constants.emplace_back("mvKey_Escape", ImGuiKey_Escape);
@@ -338,8 +337,9 @@ InsertConstants_mvContext(std::vector<std::pair<std::string, long>>& constants)
     constants.emplace_back("mvKey_ModShift", ImGuiMod_Shift);
     constants.emplace_back("mvKey_ModAlt", ImGuiMod_Alt);
     constants.emplace_back("mvKey_ModCtrl", ImGuiMod_Ctrl);
-#if !defined (IMGUI_DISABLE_OBSOLETE_KEYIO)
-        // constants.emplace_back("mvKey_Help", 0x2F);
+#if !defined (IMGUI_DISABLE_OBSOLETE_FUNCTIONS)
+    #if defined (_WIN32)
+        constants.emplace_back("mvKey_Clear", 0x0C);
         constants.emplace_back("mvKey_Prior", 0x21);
         constants.emplace_back("mvKey_Next", 0x22);
         constants.emplace_back("mvKey_Select", 0x29);
@@ -348,7 +348,13 @@ InsertConstants_mvContext(std::vector<std::pair<std::string, long>>& constants)
         constants.emplace_back("mvKey_RWin", 0x5C);
         constants.emplace_back("mvKey_Apps", 0x5D);
         constants.emplace_back("mvKey_Sleep", 0x5F);
-    #if defined (_WIN32)
+        constants.emplace_back("mvKey_Help", 0x2F);
+        constants.emplace_back("mvKey_Browser_Refresh", 0xA8);
+        constants.emplace_back("mvKey_Browser_Stop", 0xA9);
+        constants.emplace_back("mvKey_Browser_Search", 0xAA);
+        constants.emplace_back("mvKey_Browser_Favorites", 0xAB);
+        constants.emplace_back("mvKey_Browser_Home", 0xAC);
+        constants.emplace_back("mvKey_Volume_Mute", 0xAD);
         constants.emplace_back("mvKey_Volume_Down", 0xAE);
         constants.emplace_back("mvKey_Volume_Up", 0xAF);
         constants.emplace_back("mvKey_Media_Next_Track", 0xB0);
@@ -361,22 +367,20 @@ InsertConstants_mvContext(std::vector<std::pair<std::string, long>>& constants)
         constants.emplace_back("mvKey_Launch_App2", 0xB7);
         constants.emplace_back("mvKey_Colon", 0xBA);
         constants.emplace_back("mvKey_Plus", 0xBB);
-        constants.emplace_back("mvKey_Comma", 0xBC);
-        constants.emplace_back("mvKey_Slash", 0xBF);
         constants.emplace_back("mvKey_Tilde", 0xC0);
         constants.emplace_back("mvKey_Quote", 0xDE);
+        constants.emplace_back("mvKey_F25", 0x88);
     #else
         constants.emplace_back("mvKey_Clear", 259);
         constants.emplace_back("mvKey_Prior", 266);
         constants.emplace_back("mvKey_Next", 267);
         constants.emplace_back("mvKey_Select", -1);
         constants.emplace_back("mvKey_Execute", -1);
-        constants.emplace_back("mvKey_Help", -1);
         constants.emplace_back("mvKey_LWin", 343);
         constants.emplace_back("mvKey_RWin", 347);
         constants.emplace_back("mvKey_Apps", -1);
         constants.emplace_back("mvKey_Sleep", -1);
-        constants.emplace_back("mvKey_F25", 314);
+        constants.emplace_back("mvKey_Help", -1);
         constants.emplace_back("mvKey_Browser_Refresh", -1);
         constants.emplace_back("mvKey_Browser_Stop", -1);
         constants.emplace_back("mvKey_Browser_Search", -1);
@@ -397,6 +401,39 @@ InsertConstants_mvContext(std::vector<std::pair<std::string, long>>& constants)
         constants.emplace_back("mvKey_Plus", 61);
         constants.emplace_back("mvKey_Tilde", 96);
         constants.emplace_back("mvKey_Quote", 39);
+        constants.emplace_back("mvKey_F25", 314);
     #endif
+#else
+    constants.emplace_back("mvKey_Clear", ImGuiKey_None);
+    constants.emplace_back("mvKey_Prior", ImGuiKey_None);
+    constants.emplace_back("mvKey_Next", ImGuiKey_None);
+    constants.emplace_back("mvKey_Select", ImGuiKey_None);
+    constants.emplace_back("mvKey_Execute", ImGuiKey_None);
+    constants.emplace_back("mvKey_LWin", ImGuiKey_None);
+    constants.emplace_back("mvKey_RWin", ImGuiKey_None);
+    constants.emplace_back("mvKey_Apps", ImGuiKey_None);
+    constants.emplace_back("mvKey_Sleep", ImGuiKey_None);
+    constants.emplace_back("mvKey_Help", ImGuiKey_None);
+    constants.emplace_back("mvKey_Browser_Refresh", ImGuiKey_None);
+    constants.emplace_back("mvKey_Browser_Stop", ImGuiKey_None);
+    constants.emplace_back("mvKey_Browser_Search", ImGuiKey_None);
+    constants.emplace_back("mvKey_Browser_Favorites", ImGuiKey_None);
+    constants.emplace_back("mvKey_Browser_Home", ImGuiKey_None);
+    constants.emplace_back("mvKey_Volume_Mute", ImGuiKey_None);
+    constants.emplace_back("mvKey_Volume_Down", ImGuiKey_None);
+    constants.emplace_back("mvKey_Volume_Up", ImGuiKey_None);
+    constants.emplace_back("mvKey_Media_Next_Track", ImGuiKey_None);
+    constants.emplace_back("mvKey_Media_Prev_Track", ImGuiKey_None);
+    constants.emplace_back("mvKey_Media_Stop", ImGuiKey_None);
+    constants.emplace_back("mvKey_Media_Play_Pause", ImGuiKey_None);
+    constants.emplace_back("mvKey_Launch_Mail", ImGuiKey_None);
+    constants.emplace_back("mvKey_Launch_Media_Select", ImGuiKey_None);
+    constants.emplace_back("mvKey_Launch_App1", ImGuiKey_None);
+    constants.emplace_back("mvKey_Launch_App2", ImGuiKey_None);
+    constants.emplace_back("mvKey_Colon", ImGuiKey_None);
+    constants.emplace_back("mvKey_Plus", ImGuiKey_None);
+    constants.emplace_back("mvKey_Tilde", ImGuiKey_None);
+    constants.emplace_back("mvKey_Quote", ImGuiKey_None);
+    constants.emplace_back("mvKey_F25", ImGuiKey_None);
 #endif
 }
