@@ -6255,7 +6255,11 @@ DearPyGui::draw_tooltip(ImDrawList* drawlist, mvAppItem& item)
 	{
 		tooltip->hovered_last_frame = false;
 		item.state.visible = false;
+		item.state.lastFrameUpdate = GContext->frame;
+		// TODO: should we reset rectSize and contextRegionAvail?
 	}
+	if (item.handlerRegistry)
+		item.handlerRegistry->checkEvents(&item.state);
 }
 
 void
