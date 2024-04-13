@@ -70,7 +70,7 @@ jobs:
           cd ..
           pvs-studio-analyzer trace -- cmake --build cmake-build-debug --config Debug
           pvs-studio-analyzer analyze -e ./thirdparty -l pvs-studio.lic -o pvs-studio.log
-          plog-converter -a 'GA:1,2;OP:1' -t fullhtml -o pvs-studio.html -w pvs-studio.log
+          plog-converter -a 'GA:1,2;OP:1' -t html -o pvs-studio.html -w pvs-studio.log
 
       - name: Archive code coverage results
         if: ${{ always() }}
