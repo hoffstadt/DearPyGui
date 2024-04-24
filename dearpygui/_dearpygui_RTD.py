@@ -2113,7 +2113,7 @@ def plot(**kwargs):
 		no_title (bool, optional): the plot title will not be displayed
 		no_menus (bool, optional): the user will not be able to open context menus with right-click
 		no_box_select (bool, optional): the user will not be able to box-select with right-click drag
-		no_mouse_text (bool, optional): the text of mouse position, in plot coordinates, will not be displayed inside of the plot
+		no_mouse_pos (bool, optional): the text of mouse position, in plot coordinates, will not be displayed inside of the plot
 		no_highlight (bool, optional): plot items will not be highlighted when their legend entry is hovered
 		query (bool, optional): the user will be able to draw query rects with middle - mouse or CTRL + right - click drag
 		crosshairs (bool, optional): the default mouse cursor will be replaced with a crosshair when hovered
@@ -2138,6 +2138,7 @@ def plot(**kwargs):
 		zoom_mod (int, optional): optional modifier that must be held for scroll wheel zooming
 		zoom_rate (int, optional): zoom rate for scroll (e.g. 0.1f = 10% plot range every scroll click); make negative to invert
 		id (Union[int, str], optional): (deprecated)
+		anti_aliased (bool, optional): (deprecated)This feature was deprecated in ImPlot. To enable/disable anti_aliasing use `dpg.set_anti_aliasing()`.
 	Yields:
 		Union[int, str]
 	"""
@@ -5451,7 +5452,7 @@ def add_plot(**kwargs):
 		no_title (bool, optional): the plot title will not be displayed
 		no_menus (bool, optional): the user will not be able to open context menus with right-click
 		no_box_select (bool, optional): the user will not be able to box-select with right-click drag
-		no_mouse_text (bool, optional): the text of mouse position, in plot coordinates, will not be displayed inside of the plot
+		no_mouse_pos (bool, optional): the text of mouse position, in plot coordinates, will not be displayed inside of the plot
 		no_highlight (bool, optional): plot items will not be highlighted when their legend entry is hovered
 		query (bool, optional): the user will be able to draw query rects with middle - mouse or CTRL + right - click drag
 		crosshairs (bool, optional): the default mouse cursor will be replaced with a crosshair when hovered
@@ -5476,6 +5477,7 @@ def add_plot(**kwargs):
 		zoom_mod (int, optional): optional modifier that must be held for scroll wheel zooming
 		zoom_rate (int, optional): zoom rate for scroll (e.g. 0.1f = 10% plot range every scroll click); make negative to invert
 		id (Union[int, str], optional): (deprecated)
+		anti_aliased (bool, optional): (deprecated)This feature was deprecated in ImPlot. To enable/disable anti_aliasing use `dpg.set_anti_aliasing()`.
 	Returns:
 		Union[int, str]
 	"""
@@ -8285,6 +8287,19 @@ def save_init_file(file):
 
 	return internal_dpg.save_init_file(file)
 
+def set_anti_aliasing(**kwargs):
+	"""	 Sets anti-aliasing options.
+
+	Args:
+		anti_aliased_lines (bool, optional): Enable anti-aliased lines/borders. Disable if you are really tight on CPU/GPU. Latched at the beginning of the frame (copied to ImDrawList).
+		anti_aliased_lines_use_tex (bool, optional): Enable anti-aliased lines/borders using textures where possible. Require backend to render with bilinear filtering (NOT point/nearest filtering). Latched at the beginning of the frame (copied to ImDrawList).
+		anti_aliased_fill (bool, optional): Enable anti-aliased edges around filled shapes (rounded rectangles, circles, etc.). Disable if you are really tight on CPU/GPU. Latched at the beginning of the frame (copied to ImDrawList).
+	Returns:
+		None
+	"""
+
+	return internal_dpg.set_anti_aliasing(**kwargs)
+
 def set_axis_limits(axis, ymin, ymax):
 	"""	 Sets limits on the axis for pan and zoom.
 
@@ -8825,7 +8840,6 @@ mvKey_RWin=internal_dpg.mvKey_RWin
 mvKey_Apps=internal_dpg.mvKey_Apps
 mvKey_Sleep=internal_dpg.mvKey_Sleep
 mvKey_Help=internal_dpg.mvKey_Help
-mvKey_F25=internal_dpg.mvKey_F25
 mvKey_Browser_Refresh=internal_dpg.mvKey_Browser_Refresh
 mvKey_Browser_Stop=internal_dpg.mvKey_Browser_Stop
 mvKey_Browser_Search=internal_dpg.mvKey_Browser_Search

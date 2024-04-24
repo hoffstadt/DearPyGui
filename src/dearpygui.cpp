@@ -615,6 +615,7 @@ PyInit__dearpygui(void)
 	MV_ADD_COMMAND(is_dearpygui_running);
 	MV_ADD_COMMAND(generate_uuid);
 	MV_ADD_COMMAND(save_init_file);
+	MV_ADD_COMMAND(set_anti_aliasing);
 	MV_ADD_COMMAND(output_frame_buffer);
 	MV_ADD_COMMAND(load_image);
 	MV_ADD_COMMAND(save_image);

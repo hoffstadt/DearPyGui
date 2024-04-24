@@ -664,6 +664,21 @@ InsertParser_Block1(std::map<std::string, mvPythonParser>& parsers)
 
 	{
 		std::vector<mvPythonDataElement> args;
+		args.push_back({ mvPyDataType::Bool, "anti_aliased_lines", mvArgType::KEYWORD_ARG, "True", "Enable anti-aliased lines/borders. Disable if you are really tight on CPU/GPU. Latched at the beginning of the frame (copied to ImDrawList)." });
+		args.push_back({ mvPyDataType::Bool, "anti_aliased_lines_use_tex", mvArgType::KEYWORD_ARG, "True", "Enable anti-aliased lines/borders using textures where possible. Require backend to render with bilinear filtering (NOT point/nearest filtering). Latched at the beginning of the frame (copied to ImDrawList)." });
+		args.push_back({ mvPyDataType::Bool, "anti_aliased_fill", mvArgType::KEYWORD_ARG, "True", "Enable anti-aliased edges around filled shapes (rounded rectangles, circles, etc.). Disable if you are really tight on CPU/GPU. Latched at the beginning of the frame (copied to ImDrawList)." });
+  
+		mvPythonParserSetup setup;
+		setup.about = "Sets anti-aliasing options.";
+		setup.category = { "General" };
+		setup.returnType = mvPyDataType::None;
+
+		mvPythonParser parser = FinalizeParser(setup, args);
+		parsers.insert({ "set_anti_aliasing", parser });
+	}
+
+	{
+		std::vector<mvPythonDataElement> args;
 
 		mvPythonParserSetup setup;
 		setup.about = "Locks render thread mutex.";

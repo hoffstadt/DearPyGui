@@ -2175,7 +2175,7 @@ def node_editor(*, label: str =None, user_data: Any =None, use_internal_label: b
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def plot(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, no_title: bool =False, no_menus: bool =False, no_box_select: bool =False, no_mouse_text: bool =False, no_highlight: bool =False, query: bool =False, crosshairs: bool =False, equal_aspects: bool =False, no_legend: bool =False, no_inputs: bool =False, no_frame: bool =False, use_local_time: bool =False, use_ISO8601: bool =False, use_24hour_clock: bool =False, delete_rect: bool =True, pan: int =internal_dpg.mvMouseButton_Left, pan_mod: int =0, menu: int =internal_dpg.mvMouseButton_Right, fit: int =internal_dpg.mvMouseButton_Left, select: int =internal_dpg.mvMouseButton_Right, select_mod: int =0, select_cancel: int =internal_dpg.mvMouseButton_Left, select_horz_mod: int =internal_dpg.mvKey_ModAlt, select_vert_mod: int =internal_dpg.mvKey_ModShift, override_mod: int =internal_dpg.mvKey_ModCtrl, zoom_mod: int =0, zoom_rate: int =0.1, **kwargs) -> Union[int, str]:
+def plot(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, no_title: bool =False, no_menus: bool =False, no_box_select: bool =False, no_mouse_pos: bool =False, no_highlight: bool =False, query: bool =False, crosshairs: bool =False, equal_aspects: bool =False, no_legend: bool =False, no_inputs: bool =False, no_frame: bool =False, use_local_time: bool =False, use_ISO8601: bool =False, use_24hour_clock: bool =False, delete_rect: bool =True, pan: int =internal_dpg.mvMouseButton_Left, pan_mod: int =0, menu: int =internal_dpg.mvMouseButton_Right, fit: int =internal_dpg.mvMouseButton_Left, select: int =internal_dpg.mvMouseButton_Right, select_mod: int =0, select_cancel: int =internal_dpg.mvMouseButton_Left, select_horz_mod: int =internal_dpg.mvKey_ModAlt, select_vert_mod: int =internal_dpg.mvKey_ModShift, override_mod: int =internal_dpg.mvKey_ModCtrl, zoom_mod: int =0, zoom_rate: int =0.1, **kwargs) -> Union[int, str]:
 	"""	 Adds a plot which is used to hold series, and can be drawn to with draw commands. For all _mod parameters use mvKey_ModX enums.
 
 	Args:
@@ -2201,7 +2201,7 @@ def plot(*, label: str =None, user_data: Any =None, use_internal_label: bool =Tr
 		no_title (bool, optional): the plot title will not be displayed
 		no_menus (bool, optional): the user will not be able to open context menus with right-click
 		no_box_select (bool, optional): the user will not be able to box-select with right-click drag
-		no_mouse_text (bool, optional): the text of mouse position, in plot coordinates, will not be displayed inside of the plot
+		no_mouse_pos (bool, optional): the text of mouse position, in plot coordinates, will not be displayed inside of the plot
 		no_highlight (bool, optional): plot items will not be highlighted when their legend entry is hovered
 		query (bool, optional): the user will be able to draw query rects with middle - mouse or CTRL + right - click drag
 		crosshairs (bool, optional): the default mouse cursor will be replaced with a crosshair when hovered
@@ -2226,6 +2226,7 @@ def plot(*, label: str =None, user_data: Any =None, use_internal_label: bool =Tr
 		zoom_mod (int, optional): optional modifier that must be held for scroll wheel zooming
 		zoom_rate (int, optional): zoom rate for scroll (e.g. 0.1f = 10% plot range every scroll click); make negative to invert
 		id (Union[int, str], optional): (deprecated) 
+		anti_aliased (bool, optional): (deprecated) This feature was deprecated in ImPlot. To enable/disable anti_aliasing use `dpg.set_anti_aliasing()`.
 	Yields:
 		Union[int, str]
 	"""
@@ -2234,7 +2235,11 @@ def plot(*, label: str =None, user_data: Any =None, use_internal_label: bool =Tr
 		if 'id' in kwargs.keys():
 			warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
 			tag=kwargs['id']
-		widget = internal_dpg.add_plot(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, no_title=no_title, no_menus=no_menus, no_box_select=no_box_select, no_mouse_text=no_mouse_text, no_highlight=no_highlight, query=query, crosshairs=crosshairs, equal_aspects=equal_aspects, no_legend=no_legend, no_inputs=no_inputs, no_frame=no_frame, use_local_time=use_local_time, use_ISO8601=use_ISO8601, use_24hour_clock=use_24hour_clock, delete_rect=delete_rect, pan=pan, pan_mod=pan_mod, menu=menu, fit=fit, select=select, select_mod=select_mod, select_cancel=select_cancel, select_horz_mod=select_horz_mod, select_vert_mod=select_vert_mod, override_mod=override_mod, zoom_mod=zoom_mod, zoom_rate=zoom_rate, **kwargs)
+
+		if 'anti_aliased' in kwargs.keys():
+			warnings.warn('anti_aliased keyword removed', DeprecationWarning, 2)
+			kwargs.pop('anti_aliased', None)
+		widget = internal_dpg.add_plot(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, no_title=no_title, no_menus=no_menus, no_box_select=no_box_select, no_mouse_pos=no_mouse_pos, no_highlight=no_highlight, query=query, crosshairs=crosshairs, equal_aspects=equal_aspects, no_legend=no_legend, no_inputs=no_inputs, no_frame=no_frame, use_local_time=use_local_time, use_ISO8601=use_ISO8601, use_24hour_clock=use_24hour_clock, delete_rect=delete_rect, pan=pan, pan_mod=pan_mod, menu=menu, fit=fit, select=select, select_mod=select_mod, select_cancel=select_cancel, select_horz_mod=select_horz_mod, select_vert_mod=select_vert_mod, override_mod=override_mod, zoom_mod=zoom_mod, zoom_rate=zoom_rate, **kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
@@ -6037,7 +6042,7 @@ def add_pie_series(x : float, y : float, radius : float, values : Union[List[flo
 
 	return internal_dpg.add_pie_series(x, y, radius, values, labels, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, source=source, show=show, format=format, angle=angle, normalize=normalize, ignore_hidden=ignore_hidden, **kwargs)
 
-def add_plot(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, no_title: bool =False, no_menus: bool =False, no_box_select: bool =False, no_mouse_text: bool =False, no_highlight: bool =False, query: bool =False, crosshairs: bool =False, equal_aspects: bool =False, no_legend: bool =False, no_inputs: bool =False, no_frame: bool =False, use_local_time: bool =False, use_ISO8601: bool =False, use_24hour_clock: bool =False, delete_rect: bool =True, pan: int =internal_dpg.mvMouseButton_Left, pan_mod: int =0, menu: int =internal_dpg.mvMouseButton_Right, fit: int =internal_dpg.mvMouseButton_Left, select: int =internal_dpg.mvMouseButton_Right, select_mod: int =0, select_cancel: int =internal_dpg.mvMouseButton_Left, select_horz_mod: int =internal_dpg.mvKey_ModAlt, select_vert_mod: int =internal_dpg.mvKey_ModShift, override_mod: int =internal_dpg.mvKey_ModCtrl, zoom_mod: int =0, zoom_rate: int =0.1, **kwargs) -> Union[int, str]:
+def add_plot(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, no_title: bool =False, no_menus: bool =False, no_box_select: bool =False, no_mouse_pos: bool =False, no_highlight: bool =False, query: bool =False, crosshairs: bool =False, equal_aspects: bool =False, no_legend: bool =False, no_inputs: bool =False, no_frame: bool =False, use_local_time: bool =False, use_ISO8601: bool =False, use_24hour_clock: bool =False, delete_rect: bool =True, pan: int =internal_dpg.mvMouseButton_Left, pan_mod: int =0, menu: int =internal_dpg.mvMouseButton_Right, fit: int =internal_dpg.mvMouseButton_Left, select: int =internal_dpg.mvMouseButton_Right, select_mod: int =0, select_cancel: int =internal_dpg.mvMouseButton_Left, select_horz_mod: int =internal_dpg.mvKey_ModAlt, select_vert_mod: int =internal_dpg.mvKey_ModShift, override_mod: int =internal_dpg.mvKey_ModCtrl, zoom_mod: int =0, zoom_rate: int =0.1, **kwargs) -> Union[int, str]:
 	"""	 Adds a plot which is used to hold series, and can be drawn to with draw commands. For all _mod parameters use mvKey_ModX enums.
 
 	Args:
@@ -6063,7 +6068,7 @@ def add_plot(*, label: str =None, user_data: Any =None, use_internal_label: bool
 		no_title (bool, optional): the plot title will not be displayed
 		no_menus (bool, optional): the user will not be able to open context menus with right-click
 		no_box_select (bool, optional): the user will not be able to box-select with right-click drag
-		no_mouse_text (bool, optional): the text of mouse position, in plot coordinates, will not be displayed inside of the plot
+		no_mouse_pos (bool, optional): the text of mouse position, in plot coordinates, will not be displayed inside of the plot
 		no_highlight (bool, optional): plot items will not be highlighted when their legend entry is hovered
 		query (bool, optional): the user will be able to draw query rects with middle - mouse or CTRL + right - click drag
 		crosshairs (bool, optional): the default mouse cursor will be replaced with a crosshair when hovered
@@ -6088,6 +6093,7 @@ def add_plot(*, label: str =None, user_data: Any =None, use_internal_label: bool
 		zoom_mod (int, optional): optional modifier that must be held for scroll wheel zooming
 		zoom_rate (int, optional): zoom rate for scroll (e.g. 0.1f = 10% plot range every scroll click); make negative to invert
 		id (Union[int, str], optional): (deprecated) 
+		anti_aliased (bool, optional): (deprecated) This feature was deprecated in ImPlot. To enable/disable anti_aliasing use `dpg.set_anti_aliasing()`.
 	Returns:
 		Union[int, str]
 	"""
@@ -6096,7 +6102,13 @@ def add_plot(*, label: str =None, user_data: Any =None, use_internal_label: bool
 		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
 		tag=kwargs['id']
 
-	return internal_dpg.add_plot(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, no_title=no_title, no_menus=no_menus, no_box_select=no_box_select, no_mouse_text=no_mouse_text, no_highlight=no_highlight, query=query, crosshairs=crosshairs, equal_aspects=equal_aspects, no_legend=no_legend, no_inputs=no_inputs, no_frame=no_frame, use_local_time=use_local_time, use_ISO8601=use_ISO8601, use_24hour_clock=use_24hour_clock, delete_rect=delete_rect, pan=pan, pan_mod=pan_mod, menu=menu, fit=fit, select=select, select_mod=select_mod, select_cancel=select_cancel, select_horz_mod=select_horz_mod, select_vert_mod=select_vert_mod, override_mod=override_mod, zoom_mod=zoom_mod, zoom_rate=zoom_rate, **kwargs)
+	if 'anti_aliased' in kwargs.keys():
+
+		warnings.warn('anti_aliased keyword removed', DeprecationWarning, 2)
+
+		kwargs.pop('anti_aliased', None)
+
+	return internal_dpg.add_plot(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, no_title=no_title, no_menus=no_menus, no_box_select=no_box_select, no_mouse_pos=no_mouse_pos, no_highlight=no_highlight, query=query, crosshairs=crosshairs, equal_aspects=equal_aspects, no_legend=no_legend, no_inputs=no_inputs, no_frame=no_frame, use_local_time=use_local_time, use_ISO8601=use_ISO8601, use_24hour_clock=use_24hour_clock, delete_rect=delete_rect, pan=pan, pan_mod=pan_mod, menu=menu, fit=fit, select=select, select_mod=select_mod, select_cancel=select_cancel, select_horz_mod=select_horz_mod, select_vert_mod=select_vert_mod, override_mod=override_mod, zoom_mod=zoom_mod, zoom_rate=zoom_rate, **kwargs)
 
 def add_plot_annotation(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, show: bool =True, default_value: Any =(0.0, 0.0), offset: Union[List[float], Tuple[float, ...]] =(0.0, 0.0), color: Union[List[int], Tuple[int, ...]] =(0, 0, 0, -255), clamped: bool =True, **kwargs) -> Union[int, str]:
 	"""	 Adds an annotation to a plot.
@@ -9155,6 +9167,19 @@ def save_init_file(file : str, **kwargs) -> None:
 
 	return internal_dpg.save_init_file(file, **kwargs)
 
+def set_anti_aliasing(*, anti_aliased_lines: bool =True, anti_aliased_lines_use_tex: bool =True, anti_aliased_fill: bool =True, **kwargs) -> None:
+	"""	 Sets anti-aliasing options.
+
+	Args:
+		anti_aliased_lines (bool, optional): Enable anti-aliased lines/borders. Disable if you are really tight on CPU/GPU. Latched at the beginning of the frame (copied to ImDrawList).
+		anti_aliased_lines_use_tex (bool, optional): Enable anti-aliased lines/borders using textures where possible. Require backend to render with bilinear filtering (NOT point/nearest filtering). Latched at the beginning of the frame (copied to ImDrawList).
+		anti_aliased_fill (bool, optional): Enable anti-aliased edges around filled shapes (rounded rectangles, circles, etc.). Disable if you are really tight on CPU/GPU. Latched at the beginning of the frame (copied to ImDrawList).
+	Returns:
+		None
+	"""
+
+	return internal_dpg.set_anti_aliasing(anti_aliased_lines=anti_aliased_lines, anti_aliased_lines_use_tex=anti_aliased_lines_use_tex, anti_aliased_fill=anti_aliased_fill, **kwargs)
+
 def set_axis_limits(axis : Union[int, str], ymin : float, ymax : float, **kwargs) -> None:
 	"""	 Sets limits on the axis for pan and zoom.
 
@@ -9707,7 +9732,6 @@ mvKey_RWin=internal_dpg.mvKey_RWin
 mvKey_Apps=internal_dpg.mvKey_Apps
 mvKey_Sleep=internal_dpg.mvKey_Sleep
 mvKey_Help=internal_dpg.mvKey_Help
-mvKey_F25=internal_dpg.mvKey_F25
 mvKey_Browser_Refresh=internal_dpg.mvKey_Browser_Refresh
 mvKey_Browser_Stop=internal_dpg.mvKey_Browser_Stop
 mvKey_Browser_Search=internal_dpg.mvKey_Browser_Search

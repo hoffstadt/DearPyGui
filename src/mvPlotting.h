@@ -409,20 +409,20 @@ struct mvPlotConfig
     float                        zoom_rate = 0.1f;  // 0.1f   zoom rate for scroll (e.g. 0.1f = 10% plot range every scroll click); make negative to invert
     bool                         delete_rect = true;// true  allows to delete last drag rect created with double left mouse click
 
-    std::vector<std::string>        axesNames = std::vector<std::string>(ImAxis_COUNT);
-    ImPlotFlags                     _flags = ImPlotFlags_NoLegend;
-    std::vector<ImPlotAxisFlags>    axesFlags = std::vector<ImPlotAxisFlags>(ImAxis_COUNT, ImPlotAxisFlags_None);
-    bool                            _newColorMap = false; // to bust color cache
-    bool                            _useColorMap = false;
-    ImPlotColormap                  _colormap = ImPlotColormap_Deep;
-    bool                            _equalAspectRatios = false;
-    std::vector<ImPlotRect>         rects = std::vector<ImPlotRect>();
-    bool                            _fitDirty = false;
-    bool                            _axisfitDirty[ImAxis_COUNT] = { false, false, false, false, false, false }; 
-    ImPlotInputMap                  _originalMap = ImPlotInputMap(); // custom input mapping
-    bool                            localTime = false;
-    bool                            iSO8601 = false;
-    bool                            clock24Hour = false;
+    std::array<std::string, ImAxis_COUNT>       axesNames;
+    ImPlotFlags                                 _flags = ImPlotFlags_NoLegend;
+    std::array<ImPlotAxisFlags, ImAxis_COUNT>   axesFlags;  // Automatically set to 0 (which is ImPlotAxisFlags_None)
+    bool                                        _newColorMap = false; // to bust color cache
+    bool                                        _useColorMap = false;
+    ImPlotColormap                              _colormap = ImPlotColormap_Deep;
+    bool                                        _equalAspectRatios = false;
+    std::vector<ImPlotRect>                     rects = std::vector<ImPlotRect>();
+    bool                                        _fitDirty = false;
+    bool                                        _axisfitDirty[ImAxis_COUNT] = { false, false, false, false, false, false }; 
+    ImPlotInputMap                              _originalMap = ImPlotInputMap(); // custom input mapping
+    bool                                        localTime = false;
+    bool                                        iSO8601 = false;
+    bool                                        clock24Hour = false;
 };
 
 //-----------------------------------------------------------------------------

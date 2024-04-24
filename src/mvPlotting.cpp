@@ -2436,7 +2436,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvPlotConfig& outConfig)
 	flagop("no_title", ImPlotFlags_NoTitle, outConfig._flags);
 	flagop("no_menus", ImPlotFlags_NoMenus, outConfig._flags);
 	flagop("no_box_select", ImPlotFlags_NoBoxSelect, outConfig._flags);
-	flagop("no_mouse_text", ImPlotFlags_NoMouseText, outConfig._flags);
+	flagop("no_mouse_pos", ImPlotFlags_NoMouseText, outConfig._flags);
 	flagop("crosshairs", ImPlotFlags_Crosshairs, outConfig._flags);
 	flagop("equal_aspects", ImPlotFlags_Equal, outConfig._flags);
 	flagop("no_legend", ImPlotFlags_NoLegend, outConfig._flags);
@@ -3080,7 +3080,7 @@ DearPyGui::fill_configuration_dict(const mvPlotConfig& inConfig, PyObject* outDi
 	checkbitset("no_title", ImPlotFlags_NoTitle, inConfig._flags);
 	checkbitset("no_menus", ImPlotFlags_NoMenus, inConfig._flags);
 	checkbitset("no_box_select", ImPlotFlags_NoBoxSelect, inConfig._flags);
-	checkbitset("no_mouse_text", ImPlotFlags_NoMouseText, inConfig._flags);
+	checkbitset("no_mouse_pos", ImPlotFlags_NoMouseText, inConfig._flags);
 	checkbitset("crosshairs", ImPlotFlags_Crosshairs, inConfig._flags);
 	checkbitset("equal_aspects", ImPlotFlags_Equal, inConfig._flags);
 	checkbitset("no_legend", ImPlotFlags_NoLegend, inConfig._flags);
@@ -3656,7 +3656,7 @@ void mvPlot::updateFlags()
 
 void mvPlot::updateAxesNames()
 {
-	configData.axesNames.clear();
+	std::fill(configData.axesNames.begin(), configData.axesNames.end(), std::string());  // clear names
 
 	for (auto& child : childslots[1])
 	{
