@@ -275,8 +275,8 @@ Core Colors
 mvThemeCol_Text                 mvThemeCol_TabActive             mvThemeCol_SliderGrabActive
 mvThemeCol_TextDisabled         mvThemeCol_TabUnfocused          mvThemeCol_Button
 mvThemeCol_WindowBg             mvThemeCol_TabUnfocusedActive    mvThemeCol_ButtonHovered
-mvThemeCol_ChildBg              mvThemeCol_ButtonActive
-mvThemeCol_Border               mvThemeCol_Header
+mvThemeCol_ChildBg              mvThemeCol_DockingPreview        mvThemeCol_ButtonActive
+mvThemeCol_Border               mvThemeCol_DockingEmptyBg        mvThemeCol_Header
 mvThemeCol_PopupBg              mvThemeCol_PlotLines             mvThemeCol_HeaderHovered
 mvThemeCol_BorderShadow         mvThemeCol_PlotLinesHovered      mvThemeCol_HeaderActive
 mvThemeCol_FrameBg              mvThemeCol_PlotHistogram         mvThemeCol_Separator

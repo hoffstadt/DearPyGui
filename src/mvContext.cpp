@@ -120,6 +120,8 @@ SetDefaultTheme()
     colors[ImGuiCol_TabActive] = mvImGuiCol_TabActive;
     colors[ImGuiCol_TabUnfocused] = mvImGuiCol_TabUnfocused;
     colors[ImGuiCol_TabUnfocusedActive] = mvImGuiCol_TabUnfocusedActive;
+    colors[ImGuiCol_DockingPreview] = mvImGuiCol_DockingPreview;
+    colors[ImGuiCol_DockingEmptyBg] = mvImGuiCol_DockingEmptyBg;
     colors[ImGuiCol_PlotLines] = mvImGuiCol_PlotLines;
     colors[ImGuiCol_PlotLinesHovered] = mvImGuiCol_PlotLinesHovered;
     colors[ImGuiCol_PlotHistogram] = mvImGuiCol_PlotHistogram;
@@ -166,6 +168,9 @@ Render()
     GContext->framerate = (i32)ImGui::GetIO().Framerate;
 
     ImGui::GetIO().FontGlobalScale = mvToolManager::GetFontManager().getGlobalFontScale();
+
+    if (GContext->IO.dockingViewport)
+        ImGui::DockSpaceOverViewport();
 
     mvFrameCallback(ImGui::GetFrameCount());
 

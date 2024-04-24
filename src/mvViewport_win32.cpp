@@ -456,6 +456,11 @@ mvShowViewport(mvViewport& viewport, bool minimized, bool maximized)
 	if(GContext->IO.kbdNavigation)
 		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  // Enable Keyboard Controls
 
+    if(GContext->IO.docking)
+        io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+
+    io.ConfigDockingWithShift = GContext->IO.dockingShiftOnly;
+
 	// Setup Dear ImGui style
 	ImGui::StyleColorsDark();
 	SetDefaultTheme();

@@ -100,6 +100,8 @@ void mvStyleWindow::drawWidgets()
             ImGui::SliderFloat("mvStyleVar_GrabRounding", &style.GrabRounding, 0.0f, 12.0f, "%.0f");
             ImGui::SliderFloat("mvStyleVar_LogSliderDeadzone", &style.LogSliderDeadzone, 0.0f, 12.0f, "%.0f");
             ImGui::SliderFloat("mvStyleVar_TabRounding", &style.TabRounding, 0.0f, 12.0f, "%.0f");
+            ImGui::Text("Docking");
+            ImGui::SliderFloat("DockingSplitterSize", &style.DockingSeparatorSize, 0.0f, 12.0f, "%.0f");
             ImGui::Text("Alignment");
             ImGui::SliderFloat2("mvStyleVar_WindowTitleAlign", (float*)&style.WindowTitleAlign, 0.0f, 1.0f, "%.2f");
             //int window_menu_button_position = style.WindowMenuButtonPosition + 1;

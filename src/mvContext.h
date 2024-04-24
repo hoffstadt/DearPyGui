@@ -68,6 +68,11 @@ struct mvInput
 
 struct mvIO
 {
+
+    bool docking = false;
+    bool dockingViewport = false;
+    bool dockingShiftOnly = false;
+
     bool kbdNavigation = false;
 
     std::string iniFile;

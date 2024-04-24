@@ -666,7 +666,7 @@ def clear_selected_nodes(node_editor : Union[int, str]) -> None:
 	"""Clears a node editor's selected nodes."""
 	...
 
-def configure_app(*, load_init_file: str ='', init_file: str ='', auto_save_init_file: bool ='', device: int ='', auto_device: bool ='', allow_alias_overwrites: bool ='', manual_alias_management: bool ='', skip_required_args: bool ='', skip_positional_args: bool ='', skip_keyword_args: bool ='', wait_for_input: bool ='', manual_callback_management: bool ='', keyboard_navigation: bool ='', **kwargs) -> None:
+def configure_app(*, load_init_file: str ='', docking: bool ='', docking_space: bool ='', docking_shift_only: bool ='', init_file: str ='', auto_save_init_file: bool ='', device: int ='', auto_device: bool ='', allow_alias_overwrites: bool ='', manual_alias_management: bool ='', skip_required_args: bool ='', skip_positional_args: bool ='', skip_keyword_args: bool ='', wait_for_input: bool ='', manual_callback_management: bool ='', keyboard_navigation: bool ='', **kwargs) -> None:
 	"""Configures app."""
 	...
 
@@ -1668,6 +1668,7 @@ mvStyleVar_SelectableTextAlign=0
 mvStyleVar_SeparatorTextBorderSize=0
 mvStyleVar_SeparatorTextAlign=0
 mvStyleVar_SeparatorTextPadding=0
+mvStyleVar_DockingSeparatorSize=0
 mvPlotStyleVar_LineWeight=0
 mvPlotStyleVar_Marker=0
 mvPlotStyleVar_MarkerSize=0
