@@ -87,6 +87,21 @@ Probably all the IO "issues" are deeply linked between them
     - [ ] Tabs: Added ImGuiTabItemFlags_NoAssumedClosure to enable app to react on closure attempt, without having to draw an unsaved document marker (ImGuiTabItemFlags_UnsavedDocument sets _NoAssumedClosure automatically).
     - [ ] Debug Tools: Added io.ConfigDebugIsDebuggerPresent option. 
     - [ ] Added DebugFlashStyleColor() to identify a style color. Added to Style Editor.
+- [x] [V 1.90.2](https://github.com/ocornut/imgui/releases/tag/v1.90.2)
+- [x] [V 1.90.3](https://github.com/ocornut/imgui/releases/tag/v1.90.3)
+- [ ] [V 1.90.4](https://github.com/ocornut/imgui/releases/tag/v1.90.4)
+    - [ ] Made DebugStartItemPicker() public API and wired to Tools menu.
+- [x] [V 1.90.5](https://github.com/ocornut/imgui/releases/tag/v1.90.5)
+
+### Docking/Multi-viewport
+- [ ] Docking: Clicking on the right-most close button of a docking node closes all windows. (Put this in some documentation part)
+- [x] Add io.ConfigDockingWithShift
+- [ ] Added io.AddMouseViewportEvent()
+- [x] added style.DockingSeparatorSize, ImGuiStyleVar_DockingSeparatorSize. Now also scaled by style.ScaleAllSizes().
+- [ ] Docking, Style: resizing separators use same colors as window borders (ImGuiCol_Border) for consistency. 
+- [ ] Added ImGuiDockNodeFlags_NoUndocking
+- [ ] Added ImGuiWindowClass::FocusRouteParentWindowId
+- [ ] Added ImGuiDockNodeFlags_DockedWindowsInFocusRoute
 
 ### TODO ImPlot
 Take a look at implot.cpp to have a better changelog.

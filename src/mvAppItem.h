@@ -459,6 +459,8 @@ GetEntityCommand(mvAppItemType type)
 #define mvImGuiCol_TabActive MV_BASE_COL_panelActiveColor
 #define mvImGuiCol_TabUnfocused MV_BASE_COL_panelColor
 #define mvImGuiCol_TabUnfocusedActive MV_BASE_COL_panelActiveColor
+#define mvImGuiCol_DockingPreview MV_BASE_COL_panelActiveColor
+#define mvImGuiCol_DockingEmptyBg mvColor(51, 51, 51, 255)
 #define mvImGuiCol_PlotLines MV_BASE_COL_panelActiveColor
 #define mvImGuiCol_PlotLinesHovered MV_BASE_COL_panelHoverColor
 #define mvImGuiCol_PlotHistogram MV_BASE_COL_panelActiveColor

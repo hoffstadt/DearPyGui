@@ -123,6 +123,9 @@ void mvThemeColor::push_theme_color()
 
 	if (_libType == mvLibType::MV_IMGUI)
 	{
+		if (_targetColor == ImGuiCol_DockingPreview)
+			GImGui->Style.Colors[_targetColor] = color;
+	
 		ImGui::PushStyleColor(_targetColor, color);
 	}
 	else if (_libType == mvLibType::OT)
@@ -389,6 +392,7 @@ static const mvGuiStyleVarInfo GStyleVarInfo[] =
 	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, SeparatorTextBorderSize) }, // ImGuiStyleVar_SeparatorTextBorderSize
 	{ ImGuiDataType_Float, 2, (ImU32)offsetof(ImGuiStyle, SeparatorTextAlign) },      // ImGuiStyleVar_SeparatorTextAlign
 	{ ImGuiDataType_Float, 2, (ImU32)offsetof(ImGuiStyle, SeparatorTextPadding) },    // ImGuiStyleVar_SeparatorTextPadding
+	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, DockingSeparatorSize) },    // ImGuiStyleVar_DockingSeparatorSize
 };
 
 static const mvGuiStyleVarInfo* GetStyleVarInfo(ImGuiStyleVar idx)

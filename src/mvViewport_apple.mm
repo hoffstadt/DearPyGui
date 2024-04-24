@@ -121,6 +121,11 @@ mvShowViewport(mvViewport& viewport, bool minimized, bool maximized)
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  // Enable Keyboard Controls
 
     //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;   // Enable Gamepad Controls
+    
+    if(GContext->IO.docking)
+        io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+
+    io.ConfigDockingWithShift = GContext->IO.dockingShiftOnly;
 
     // Setup style
     ImGui::StyleColorsDark();
