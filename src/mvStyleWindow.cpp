@@ -100,6 +100,10 @@ void mvStyleWindow::drawWidgets()
             ImGui::SliderFloat("mvStyleVar_GrabRounding", &style.GrabRounding, 0.0f, 12.0f, "%.0f");
             ImGui::SliderFloat("mvStyleVar_LogSliderDeadzone", &style.LogSliderDeadzone, 0.0f, 12.0f, "%.0f");
             ImGui::SliderFloat("mvStyleVar_TabRounding", &style.TabRounding, 0.0f, 12.0f, "%.0f");
+            ImGui::Text("AntiAliasing");
+            ImGui::Checkbox("AntiAliasedLines", &style.AntiAliasedLines);
+            ImGui::Checkbox("AntiAliasedLinesUseTex", &style.AntiAliasedLinesUseTex);
+            ImGui::Checkbox("AntiAliasedFill", &style.AntiAliasedFill);
             ImGui::Text("Docking");
             ImGui::SliderFloat("DockingSplitterSize", &style.DockingSeparatorSize, 0.0f, 12.0f, "%.0f");
             ImGui::Text("Alignment");

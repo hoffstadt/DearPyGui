@@ -12,7 +12,6 @@
     - [x] Improve demo with multiple axes
     - [x] Antialiasing activated?
     - [ ] Implement TagX/Y also on secondary axes
-    - [x] mo_mouse_pos -> no_mouse_text
 - [ ] Bugfix:
     - [x] Crash on tests teardown
     - [x] Crash when opening table in demo: `void ImGui::TableSetColumnEnabled(int, bool): Assertion 'table->Flags & ImGuiTableFlags_Hideable' failed.`

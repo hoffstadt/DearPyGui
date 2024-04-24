@@ -430,7 +430,7 @@ def add_pie_series(x : float, y : float, radius : float, values : Union[List[flo
 	"""Adds an pie series to a plot."""
 	...
 
-def add_plot(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', delay_search: bool ='', tracked: bool ='', track_offset: float ='', no_title: bool ='', no_menus: bool ='', no_box_select: bool ='', no_mouse_text: bool ='', no_highlight: bool ='', query: bool ='', crosshairs: bool ='', equal_aspects: bool ='', no_legend: bool ='', no_inputs: bool ='', no_frame: bool ='', use_local_time: bool ='', use_ISO8601: bool ='', use_24hour_clock: bool ='', delete_rect: bool ='', pan: int ='', pan_mod: int ='', menu: int ='', fit: int ='', select: int ='', select_mod: int ='', select_cancel: int ='', select_horz_mod: int ='', select_vert_mod: int ='', override_mod: int ='', zoom_mod: int ='', zoom_rate: int ='') -> Union[int, str]:
+def add_plot(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', delay_search: bool ='', tracked: bool ='', track_offset: float ='', no_title: bool ='', no_menus: bool ='', no_box_select: bool ='', no_mouse_pos: bool ='', no_highlight: bool ='', query: bool ='', crosshairs: bool ='', equal_aspects: bool ='', no_legend: bool ='', no_inputs: bool ='', no_frame: bool ='', use_local_time: bool ='', use_ISO8601: bool ='', use_24hour_clock: bool ='', delete_rect: bool ='', pan: int ='', pan_mod: int ='', menu: int ='', fit: int ='', select: int ='', select_mod: int ='', select_cancel: int ='', select_horz_mod: int ='', select_vert_mod: int ='', override_mod: int ='', zoom_mod: int ='', zoom_rate: int ='') -> Union[int, str]:
 	"""Adds a plot which is used to hold series, and can be drawn to with draw commands. For all _mod parameters use mvKey_ModX enums."""
 	...
 
@@ -558,7 +558,7 @@ def add_table_cell(*, label: str ='', user_data: Any ='', use_internal_label: bo
 	"""Adds a table."""
 	...
 
-def add_table_column(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', show: bool ='', enabled: bool ='', init_width_or_weight: float ='', default_hide: bool ='', default_sort: bool ='', width_stretch: bool ='', width_fixed: bool ='', no_resize: bool ='', no_reorder: bool ='', no_hide: bool ='', no_clip: bool ='', no_sort: bool ='', no_sort_ascending: bool ='', no_sort_descending: bool ='', no_header_width: bool ='', prefer_sort_ascending: bool ='', prefer_sort_descending: bool ='', indent_enable: bool ='', indent_disable: bool ='', angle_header: bool ='', disabled: bool ='', no_header_label: bool ='') -> Union[int, str]:
+def add_table_column(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', show: bool ='', enabled: bool ='', init_width_or_weight: float ='', default_hide: bool ='', default_sort: bool ='', width_stretch: bool ='', width_fixed: bool ='', no_resize: bool ='', no_reorder: bool ='', no_hide: bool ='', no_clip: bool ='', no_sort: bool ='', no_sort_ascending: bool ='', no_sort_descending: bool ='', no_header_width: bool ='', prefer_sort_ascending: bool ='', prefer_sort_descending: bool ='', indent_enable: bool ='', indent_disable: bool ='', angled_header: bool ='', disabled: bool ='', no_header_label: bool ='') -> Union[int, str]:
 	"""Adds a table column."""
 	...
 
@@ -1110,6 +1110,10 @@ def save_init_file(file : str) -> None:
 	"""Save dpg.ini file."""
 	...
 
+def set_anti_aliasing(*, anti_aliased_lines: bool ='', anti_aliased_lines_use_tex: bool ='', anti_aliased_fill: bool ='') -> None:
+	"""Sets anti-aliasing options."""
+	...
+
 def set_axis_limits(axis : Union[int, str], ymin : float, ymax : float) -> None:
 	"""Sets limits on the axis for pan and zoom."""
 	...
@@ -1380,7 +1384,6 @@ mvKey_RWin=0
 mvKey_Apps=0
 mvKey_Sleep=0
 mvKey_Help=0
-mvKey_F25=0
 mvKey_Browser_Refresh=0
 mvKey_Browser_Stop=0
 mvKey_Browser_Search=0
