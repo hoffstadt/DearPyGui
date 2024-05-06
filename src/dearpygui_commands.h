@@ -13,7 +13,7 @@
 #include "mvUtilities.h"
 #include <string.h>
 
-#ifndef strnicmp
+#ifndef _WIN32
 #define strnicmp(s1, s2, len) strncasecmp(s1, s2, len)
 #endif
 
