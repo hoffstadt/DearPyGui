@@ -1184,7 +1184,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvColorMapScaleConfig& outConfig)
 	};
 
 
-	flagop("invert", ImPlotColormapScaleFlags_Invert, outConfig.flags);
+	flagop("reverse_dir", ImPlotColormapScaleFlags_Invert, outConfig.flags);
 	flagop("no_label", ImPlotColormapScaleFlags_NoLabel, outConfig.flags);
 	flagop("opposite", ImPlotColormapScaleFlags_Opposite, outConfig.flags);
 }
@@ -1324,7 +1324,7 @@ DearPyGui::fill_configuration_dict(const mvColorMapScaleConfig& inConfig, PyObje
 		PyDict_SetItemString(outDict, keyword, mvPyObject(ToPyBool(flags & flag)));
 	};
 
-	checkbitset("invert", ImPlotColormapScaleFlags_Invert, inConfig.flags);
+	checkbitset("reverse_dir", ImPlotColormapScaleFlags_Invert, inConfig.flags);
 	checkbitset("no_label", ImPlotColormapScaleFlags_NoLabel, inConfig.flags);
 	checkbitset("opposite", ImPlotColormapScaleFlags_Opposite, inConfig.flags);
 }
