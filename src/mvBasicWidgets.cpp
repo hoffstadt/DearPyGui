@@ -6303,7 +6303,8 @@ DearPyGui::draw_filter_set(ImDrawList* drawlist, mvAppItem& item, mvFilterSetCon
 	if (item.config.width != 0)
 		ImGui::PushItemWidth((float)item.config.width);
 
-	if (config.imguiFilter.IsActive()) {
+	if (config.imguiFilter.IsActive()) 
+	{
 		for (auto& childset : item.childslots)
 		{
 			for (auto& child : childset) {

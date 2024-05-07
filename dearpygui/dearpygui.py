@@ -1386,6 +1386,50 @@ def add_same_line(**kwargs):
     return group
 
 
+@deprecated("Use: `add_inf_line_series(horizontal=True)`")
+def add_hline_series(**kwargs):
+	"""	(deprecated function) Adds an infinite horizontal line series to a plot.
+
+	Args:
+		x (Any): 
+		label (str, optional): Overrides 'name' as label.
+		user_data (Any, optional): User data for callbacks
+		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
+		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
+		source (Union[int, str], optional): Overrides 'id' as value storage key.
+		show (bool, optional): Attempt to render widget.
+		id (Union[int, str], optional): (deprecated)
+	Returns:
+		Union[int, str]
+	"""
+
+	return internal_dpg.add_inf_line_series(**kwargs, horizontal=True)
+            
+
+@deprecated("Use: `add_inf_line_series()`")
+def add_vline_series(**kwargs):
+	"""	(deprecated function) Adds an infinite vertical line series to a plot.
+
+	Args:
+		x (Any): 
+		label (str, optional): Overrides 'name' as label.
+		user_data (Any, optional): User data for callbacks
+		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
+		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
+		source (Union[int, str], optional): Overrides 'id' as value storage key.
+		show (bool, optional): Attempt to render widget.
+		id (Union[int, str], optional): (deprecated)
+	Returns:
+		Union[int, str]
+	"""
+
+	return internal_dpg.add_inf_line_series(**kwargs)
+
+
 @deprecated("Use: `add_child_window()`")
 def add_child(**kwargs):
 	"""	(deprecated function) Adds an embedded child window. Will show scrollbars when items do not fit.
@@ -1937,7 +1981,7 @@ def group(*, label: str =None, user_data: Any =None, use_internal_label: bool =T
 		horizontal (bool, optional): Forces child widgets to be added in a horizontal layout.
 		horizontal_spacing (float, optional): Spacing for the horizontal layout.
 		xoffset (float, optional): Offset from containing window x item location within group.
-		disabled (bool, optional): Disable everything inside the group. (Use mvThemeCol_TextDisabled and mvStyleVar_DisabledAlpha to edit the style of disabled widgets)
+		disabled (bool, optional): Disable everything inside the group. (Use mvStyleVar_DisabledAlpha to edit colors within the disabled group.)
 		id (Union[int, str], optional): (deprecated) 
 	Yields:
 		Union[int, str]
@@ -2259,7 +2303,7 @@ def plot_axis(axis : int, *, label: str =None, user_data: Any =None, use_interna
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
-		no_label (bool, optional): the axis label will not be displayed (axis labels are also hidden if the supplied string name is nullptr)
+		no_label (bool, optional): the axis label will not be displayed
 		no_gridlines (bool, optional): no grid lines will be displayed
 		no_tick_marks (bool, optional): no tick marks will be displayed
 		no_tick_labels (bool, optional): no text labels will be displayed
@@ -2893,9 +2937,9 @@ def add_2d_histogram_series(x : Union[List[float], Tuple[float, ...]], y : Union
 		xmax_range (float, optional): set the max x range value, the values over this max will be ignored
 		ymin_range (float, optional): set the min y range value, the values under this min will be ignored
 		ymax_range (float, optional): set the max y range value, the values over this max will be ignored. If all xmin, xmax, ymin and ymax are 0.0, then the values will be the min and max values of the series
-		density (bool, optional): counts will be normalized, i.e. the PDF will be visualized, or the CDF will be visualized if Cumulative is also set
 		no_outliers (bool, optional): exclude values outside the specifed histogram range from the count toward normalizing and cumulative counts
-		col_major (bool, optional): data will be read in column major order (not supported by PlotHistogram)
+		density (bool, optional): counts will be normalized, i.e. the PDF will be visualized
+		col_major (bool, optional): data will be read in column major order
 		id (Union[int, str], optional): (deprecated) 
 	Returns:
 		Union[int, str]
@@ -3483,7 +3527,7 @@ def add_colormap_registry(*, label: str =None, user_data: Any =None, use_interna
 
 	return internal_dpg.add_colormap_registry(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, show=show, **kwargs)
 
-def add_colormap_scale(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], colormap: Union[int, str] =0, min_scale: float =0.0, max_scale: float =1.0, format: str ='%g', invert: bool =False, no_label: bool =False, opposite: bool =False, **kwargs) -> Union[int, str]:
+def add_colormap_scale(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], colormap: Union[int, str] =0, min_scale: float =0.0, max_scale: float =1.0, format: str ='%g', reverse_dir: bool =False, no_label: bool =False, opposite: bool =False, **kwargs) -> Union[int, str]:
 	"""	 Adds a legend that pairs values with colors. This is typically used with a heat series. 
 
 	Args:
@@ -3505,7 +3549,7 @@ def add_colormap_scale(*, label: str =None, user_data: Any =None, use_internal_l
 		min_scale (float, optional): Sets the min number of the color scale. Typically is the same as the min scale from the heat series.
 		max_scale (float, optional): Sets the max number of the color scale. Typically is the same as the max scale from the heat series.
 		format (str, optional): Formatting used for the labels.
-		invert (bool, optional): invert the colormap bar and axis scale (this only affects rendering; if you only want to reverse the scale mapping, make scale_min > scale_max)
+		reverse_dir (bool, optional): invert the colormap bar and axis scale (this only affects rendering; if you only want to reverse the scale mapping, make scale_min > scale_max)
 		no_label (bool, optional): the colormap axis label will not be displayed
 		opposite (bool, optional): render the colormap label and tick labels on the opposite side
 		id (Union[int, str], optional): (deprecated) 
@@ -3524,7 +3568,7 @@ def add_colormap_scale(*, label: str =None, user_data: Any =None, use_internal_l
 
 		kwargs.pop('drag_callback', None)
 
-	return internal_dpg.add_colormap_scale(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, drop_callback=drop_callback, show=show, pos=pos, colormap=colormap, min_scale=min_scale, max_scale=max_scale, format=format, invert=invert, no_label=no_label, opposite=opposite, **kwargs)
+	return internal_dpg.add_colormap_scale(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, drop_callback=drop_callback, show=show, pos=pos, colormap=colormap, min_scale=min_scale, max_scale=max_scale, format=format, reverse_dir=reverse_dir, no_label=no_label, opposite=opposite, **kwargs)
 
 def add_colormap_slider(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: float =0.0, **kwargs) -> Union[int, str]:
 	"""	 Adds a color slider that a color map can be bound to.
@@ -4064,8 +4108,8 @@ def add_drag_point(*, label: str =None, user_data: Any =None, use_internal_label
 		default_value (Any, optional): 
 		color (Union[List[int], Tuple[int, ...]], optional): 
 		thickness (float, optional): 
-		offset (Union[List[float], Tuple[float, ...]], optional): Offset of the shown label
-		clamped (bool, optional): Set if the label will be clamped
+		offset (Union[List[float], Tuple[float, ...]], optional): Offset of the label, in pixels, relative to the drag point itself
+		clamped (bool, optional): Keep the label within the visible area of the plot even if the drag point itself goes outside of the visible area
 		delayed (bool, optional): tool rendering will be delayed one frame; useful when applying position-constraints
 		no_cursor (bool, optional): drag tools won't change cursor icons when hovered or held
 		no_fit (bool, optional): the drag tool won't be considered for plot fits
@@ -4528,7 +4572,7 @@ def add_group(*, label: str =None, user_data: Any =None, use_internal_label: boo
 		horizontal (bool, optional): Forces child widgets to be added in a horizontal layout.
 		horizontal_spacing (float, optional): Spacing for the horizontal layout.
 		xoffset (float, optional): Offset from containing window x item location within group.
-		disabled (bool, optional): Disable everything inside the group. (Use mvThemeCol_TextDisabled and mvStyleVar_DisabledAlpha to edit the style of disabled widgets)
+		disabled (bool, optional): Disable everything inside the group. (Use mvStyleVar_DisabledAlpha to edit colors within the disabled group.)
 		id (Union[int, str], optional): (deprecated) 
 	Returns:
 		Union[int, str]
@@ -4641,12 +4685,13 @@ def add_histogram_series(x : Union[List[float], Tuple[float, ...]], *, label: st
 		bar_scale (float, optional): 
 		min_range (float, optional): set the min range value, the values under this min will be ignored
 		max_range (float, optional): set the max range value, the values over this max will be ignored. If both min and max are 0.0, then the values will be the min and max values of the series
-		cumulative (bool, optional): each bin will contain its count plus the counts of all previous bins (not supported by PlotHistogram2D)
+		cumulative (bool, optional): each bin will contain its count plus the counts of all previous bins
 		density (bool, optional): counts will be normalized, i.e. the PDF will be visualized, or the CDF will be visualized if Cumulative is also set
 		no_outliers (bool, optional): exclude values outside the specifed histogram range from the count toward normalizing and cumulative counts
-		horizontal (bool, optional): histogram bars will be rendered horizontally (not supported by PlotHistogram2D)
+		horizontal (bool, optional): histogram bars will be rendered horizontally
 		contribute_to_bounds (bool, optional): 
 		id (Union[int, str], optional): (deprecated) 
+		cumlative (bool, optional): (deprecated) Deprecated because of typo
 	Returns:
 		Union[int, str]
 	"""
@@ -4654,6 +4699,10 @@ def add_histogram_series(x : Union[List[float], Tuple[float, ...]], *, label: st
 	if 'id' in kwargs.keys():
 		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
 		tag=kwargs['id']
+
+	if 'cumlative' in kwargs.keys():
+		warnings.warn('cumlative keyword renamed to cumulative', DeprecationWarning, 2)
+		cumulative=kwargs['cumlative']
 
 	return internal_dpg.add_histogram_series(x, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, source=source, show=show, bins=bins, bar_scale=bar_scale, min_range=min_range, max_range=max_range, cumulative=cumulative, density=density, no_outliers=no_outliers, horizontal=horizontal, contribute_to_bounds=contribute_to_bounds, **kwargs)
 
@@ -5557,7 +5606,7 @@ def add_line_series(x : Union[List[float], Tuple[float, ...]], y : Union[List[fl
 		loop (bool, optional): the last and first point will be connected to form a closed loop
 		skip_nan (bool, optional): NaNs values will be skipped instead of rendered as missing data
 		no_clip (bool, optional): markers (if displayed) on the edge of a plot will not be clipped
-		shaded (bool, optional): a filled region between the line and horizontal origin will be rendered; use PlotShaded for more advanced cases
+		shaded (bool, optional): a filled region between the line and horizontal origin will be rendered; use add_shade_series for more advanced cases
 		id (Union[int, str], optional): (deprecated) 
 	Returns:
 		Union[int, str]
@@ -6150,7 +6199,7 @@ def add_plot_axis(axis : int, *, label: str =None, user_data: Any =None, use_int
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
-		no_label (bool, optional): the axis label will not be displayed (axis labels are also hidden if the supplied string name is nullptr)
+		no_label (bool, optional): the axis label will not be displayed
 		no_gridlines (bool, optional): no grid lines will be displayed
 		no_tick_marks (bool, optional): no tick marks will be displayed
 		no_tick_labels (bool, optional): no text labels will be displayed
@@ -6815,7 +6864,7 @@ def add_stair_series(x : Union[List[float], Tuple[float, ...]], y : Union[List[f
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		show (bool, optional): Attempt to render widget.
 		pre_step (bool, optional): the y value is continued constantly to the left from every x position, i.e. the interval (x[i-1], x[i]] has the value y[i]
-		shaded (bool, optional): a filled region between the line and horizontal origin will be rendered; use PlotShaded for more advanced cases
+		shaded (bool, optional): a filled region between the line and horizontal origin will be rendered; add_shade_series for more advanced cases
 		id (Union[int, str], optional): (deprecated) 
 	Returns:
 		Union[int, str]

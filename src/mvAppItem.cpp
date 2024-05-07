@@ -2150,7 +2150,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "horizontal", mvArgType::KEYWORD_ARG, "False", "Forces child widgets to be added in a horizontal layout." });
         args.push_back({ mvPyDataType::Float, "horizontal_spacing", mvArgType::KEYWORD_ARG, "-1", "Spacing for the horizontal layout." });
         args.push_back({ mvPyDataType::Float, "xoffset", mvArgType::KEYWORD_ARG, "0.0", "Offset from containing window x item location within group." });
-        args.push_back({ mvPyDataType::Bool, "disabled", mvArgType::KEYWORD_ARG, "False", "Disable everything inside the group. (Use mvThemeCol_TextDisabled and mvStyleVar_DisabledAlpha to edit the style of disabled widgets)" });
+        args.push_back({ mvPyDataType::Bool, "disabled", mvArgType::KEYWORD_ARG, "False", "Disable everything inside the group. (Use mvStyleVar_DisabledAlpha to edit colors within the disabled group.)" });
 
         setup.about = "Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members.";
         setup.category = { "Containers", "Widgets" };
@@ -3851,8 +3851,8 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::DoubleList, "default_value", mvArgType::KEYWORD_ARG, "(0.0, 0.0)" });
         args.push_back({ mvPyDataType::IntList, "color", mvArgType::KEYWORD_ARG, "(0, 0, 0, -255)" });
         args.push_back({ mvPyDataType::Float, "thickness", mvArgType::KEYWORD_ARG, "1.0" });
-        args.push_back({ mvPyDataType::FloatList, "offset", mvArgType::KEYWORD_ARG, "(0.0, 0.0)", "Offset of the shown label" });
-        args.push_back({ mvPyDataType::Bool, "clamped", mvArgType::KEYWORD_ARG, "True", "Set if the label will be clamped" });
+        args.push_back({ mvPyDataType::FloatList, "offset", mvArgType::KEYWORD_ARG, "(0.0, 0.0)", "Offset of the label, in pixels, relative to the drag point itself" });
+        args.push_back({ mvPyDataType::Bool, "clamped", mvArgType::KEYWORD_ARG, "True", "Keep the label within the visible area of the plot even if the drag point itself goes outside of the visible area" });
         args.push_back({ mvPyDataType::Bool, "delayed", mvArgType::KEYWORD_ARG, "False", "tool rendering will be delayed one frame; useful when applying position-constraints" });
         args.push_back({ mvPyDataType::Bool, "no_cursor", mvArgType::KEYWORD_ARG, "False", "drag tools won't change cursor icons when hovered or held" });
         args.push_back({ mvPyDataType::Bool, "no_fit", mvArgType::KEYWORD_ARG, "False", "the drag tool won't be considered for plot fits" });
@@ -3965,7 +3965,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "loop", mvArgType::KEYWORD_ARG, "False", "the last and first point will be connected to form a closed loop" });
         args.push_back({ mvPyDataType::Bool, "skip_nan", mvArgType::KEYWORD_ARG, "False", "NaNs values will be skipped instead of rendered as missing data" });
         args.push_back({ mvPyDataType::Bool, "no_clip", mvArgType::KEYWORD_ARG, "False", "markers (if displayed) on the edge of a plot will not be clipped" });
-        args.push_back({ mvPyDataType::Bool, "shaded", mvArgType::KEYWORD_ARG, "False", "a filled region between the line and horizontal origin will be rendered; use PlotShaded for more advanced cases" });
+        args.push_back({ mvPyDataType::Bool, "shaded", mvArgType::KEYWORD_ARG, "False", "a filled region between the line and horizontal origin will be rendered; use add_shade_series for more advanced cases" });
 
         setup.about = "Adds a line series to a plot.";
         setup.category = { "Plotting", "Containers", "Widgets" };
@@ -4021,7 +4021,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::DoubleList, "x" });
         args.push_back({ mvPyDataType::DoubleList, "y" });
         args.push_back({ mvPyDataType::Bool, "pre_step", mvArgType::KEYWORD_ARG, "False", "the y value is continued constantly to the left from every x position, i.e. the interval (x[i-1], x[i]] has the value y[i]" });
-        args.push_back({ mvPyDataType::Bool, "shaded", mvArgType::KEYWORD_ARG, "False", "a filled region between the line and horizontal origin will be rendered; use PlotShaded for more advanced cases" });
+        args.push_back({ mvPyDataType::Bool, "shaded", mvArgType::KEYWORD_ARG, "False", "a filled region between the line and horizontal origin will be rendered; use add_shade_series for more advanced cases" });
 
         setup.about = "Adds a stair series to a plot.";
         setup.category = { "Plotting", "Containers", "Widgets" };
@@ -4247,10 +4247,11 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Float, "bar_scale", mvArgType::KEYWORD_ARG, "1.0" });
         args.push_back({ mvPyDataType::Double, "min_range", mvArgType::KEYWORD_ARG, "0.0", "set the min range value, the values under this min will be ignored" });
         args.push_back({ mvPyDataType::Double, "max_range", mvArgType::KEYWORD_ARG, "0.0", "set the max range value, the values over this max will be ignored. If both min and max are 0.0, then the values will be the min and max values of the series" });
-        args.push_back({ mvPyDataType::Bool, "cumulative", mvArgType::KEYWORD_ARG, "False", "each bin will contain its count plus the counts of all previous bins (not supported by PlotHistogram2D)" });
+        args.push_back({ mvPyDataType::Bool, "cumulative", mvArgType::KEYWORD_ARG, "False", "each bin will contain its count plus the counts of all previous bins" });
+        args.push_back({ mvPyDataType::Bool, "cumlative", mvArgType::DEPRECATED_RENAME_KEYWORD_ARG, "False", "Deprecated because of typo", "cumulative" });
         args.push_back({ mvPyDataType::Bool, "density", mvArgType::KEYWORD_ARG, "False", "counts will be normalized, i.e. the PDF will be visualized, or the CDF will be visualized if Cumulative is also set" });
         args.push_back({ mvPyDataType::Bool, "no_outliers", mvArgType::KEYWORD_ARG, "False", "exclude values outside the specifed histogram range from the count toward normalizing and cumulative counts" });
-        args.push_back({ mvPyDataType::Bool, "horizontal", mvArgType::KEYWORD_ARG, "False", "histogram bars will be rendered horizontally (not supported by PlotHistogram2D)" });
+        args.push_back({ mvPyDataType::Bool, "horizontal", mvArgType::KEYWORD_ARG, "False", "histogram bars will be rendered horizontally" });
         args.push_back({ mvPyDataType::Bool, "contribute_to_bounds", mvArgType::KEYWORD_ARG, "True" });
 
         setup.about = "Adds a histogram series to a plot.";
@@ -4275,9 +4276,9 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Double, "xmax_range", mvArgType::KEYWORD_ARG, "0.0", "set the max x range value, the values over this max will be ignored"});
         args.push_back({ mvPyDataType::Double, "ymin_range", mvArgType::KEYWORD_ARG, "0.0", "set the min y range value, the values under this min will be ignored"});
         args.push_back({ mvPyDataType::Double, "ymax_range", mvArgType::KEYWORD_ARG, "0.0", "set the max y range value, the values over this max will be ignored. If all xmin, xmax, ymin and ymax are 0.0, then the values will be the min and max values of the series" });
-        args.push_back({ mvPyDataType::Bool, "density", mvArgType::KEYWORD_ARG, "False", "counts will be normalized, i.e. the PDF will be visualized, or the CDF will be visualized if Cumulative is also set" });
         args.push_back({ mvPyDataType::Bool, "no_outliers", mvArgType::KEYWORD_ARG, "False", "exclude values outside the specifed histogram range from the count toward normalizing and cumulative counts" });
-        args.push_back({ mvPyDataType::Bool, "col_major", mvArgType::KEYWORD_ARG, "False", "data will be read in column major order (not supported by PlotHistogram)" });
+        args.push_back({ mvPyDataType::Bool, "density", mvArgType::KEYWORD_ARG, "False", "counts will be normalized, i.e. the PDF will be visualized" });
+        args.push_back({ mvPyDataType::Bool, "col_major", mvArgType::KEYWORD_ARG, "False", "data will be read in column major order" });
 
         setup.about = "Adds a 2d histogram series.";
         setup.category = { "Plotting", "Containers", "Widgets" };
@@ -4356,7 +4357,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Float, "min_scale", mvArgType::KEYWORD_ARG, "0.0", "Sets the min number of the color scale. Typically is the same as the min scale from the heat series." });
         args.push_back({ mvPyDataType::Float, "max_scale", mvArgType::KEYWORD_ARG, "1.0", "Sets the max number of the color scale. Typically is the same as the max scale from the heat series." });
         args.push_back({mvPyDataType:: String, "format", mvArgType::KEYWORD_ARG, "'%g'", "Formatting used for the labels."});
-        args.push_back({mvPyDataType:: Bool, "invert", mvArgType::KEYWORD_ARG, "False", "invert the colormap bar and axis scale (this only affects rendering; if you only want to reverse the scale mapping, make scale_min > scale_max)"});
+        args.push_back({mvPyDataType:: Bool, "reverse_dir", mvArgType::KEYWORD_ARG, "False", "invert the colormap bar and axis scale (this only affects rendering; if you only want to reverse the scale mapping, make scale_min > scale_max)"});
         args.push_back({mvPyDataType:: Bool, "no_label", mvArgType::KEYWORD_ARG, "False", "the colormap axis label will not be displayed"});
         args.push_back({mvPyDataType:: Bool, "opposite", mvArgType::KEYWORD_ARG, "False", "render the colormap label and tick labels on the opposite side"});
 
@@ -4605,7 +4606,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         );
 
         args.push_back({ mvPyDataType::Integer, "axis" });
-        args.push_back({ mvPyDataType::Bool, "no_label", mvArgType::KEYWORD_ARG, "False", "the axis label will not be displayed (axis labels are also hidden if the supplied string name is nullptr)" });
+        args.push_back({ mvPyDataType::Bool, "no_label", mvArgType::KEYWORD_ARG, "False", "the axis label will not be displayed" });
         args.push_back({ mvPyDataType::Bool, "no_gridlines", mvArgType::KEYWORD_ARG, "False", "no grid lines will be displayed" });
         args.push_back({ mvPyDataType::Bool, "no_tick_marks", mvArgType::KEYWORD_ARG, "False", "no tick marks will be displayed" });
         args.push_back({ mvPyDataType::Bool, "no_tick_labels", mvArgType::KEYWORD_ARG, "False", "no text labels will be displayed" });

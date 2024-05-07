@@ -328,7 +328,7 @@ Core Styles
 
 =================================== ==========
 Constant                            Components
-===============================     ==========
+=================================== ==========
 mvStyleVar_Alpha                    1
 mvStyleVar_DisabledAlpha            1
 mvStyleVar_WindowPadding            2

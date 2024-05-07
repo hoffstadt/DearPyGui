@@ -254,6 +254,50 @@ def add_same_line(**kwargs):
     return group
 
 
+@deprecated("Use: `add_inf_line_series(horizontal=True)`")
+def add_hline_series(**kwargs):
+	"""	(deprecated function) Adds an infinite horizontal line series to a plot.
+
+	Args:
+		x (Any): 
+		label (str, optional): Overrides 'name' as label.
+		user_data (Any, optional): User data for callbacks
+		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
+		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
+		source (Union[int, str], optional): Overrides 'id' as value storage key.
+		show (bool, optional): Attempt to render widget.
+		id (Union[int, str], optional): (deprecated)
+	Returns:
+		Union[int, str]
+	"""
+
+	return internal_dpg.add_inf_line_series(**kwargs, horizontal=True)
+            
+
+@deprecated("Use: `add_inf_line_series()`")
+def add_vline_series(**kwargs):
+	"""	(deprecated function) Adds an infinite vertical line series to a plot.
+
+	Args:
+		x (Any): 
+		label (str, optional): Overrides 'name' as label.
+		user_data (Any, optional): User data for callbacks
+		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
+		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
+		source (Union[int, str], optional): Overrides 'id' as value storage key.
+		show (bool, optional): Attempt to render widget.
+		id (Union[int, str], optional): (deprecated)
+	Returns:
+		Union[int, str]
+	"""
+
+	return internal_dpg.add_inf_line_series(**kwargs)
+
+
 @deprecated("Use: `add_child_window()`")
 def add_child(**kwargs):
 	"""	(deprecated function) Adds an embedded child window. Will show scrollbars when items do not fit.

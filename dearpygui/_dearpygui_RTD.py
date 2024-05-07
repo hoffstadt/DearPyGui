@@ -1386,6 +1386,50 @@ def add_same_line(**kwargs):
     return group
 
 
+@deprecated("Use: `add_inf_line_series(horizontal=True)`")
+def add_hline_series(**kwargs):
+	"""	(deprecated function) Adds an infinite horizontal line series to a plot.
+
+	Args:
+		x (Any): 
+		label (str, optional): Overrides 'name' as label.
+		user_data (Any, optional): User data for callbacks
+		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
+		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
+		source (Union[int, str], optional): Overrides 'id' as value storage key.
+		show (bool, optional): Attempt to render widget.
+		id (Union[int, str], optional): (deprecated)
+	Returns:
+		Union[int, str]
+	"""
+
+	return internal_dpg.add_inf_line_series(**kwargs, horizontal=True)
+            
+
+@deprecated("Use: `add_inf_line_series()`")
+def add_vline_series(**kwargs):
+	"""	(deprecated function) Adds an infinite vertical line series to a plot.
+
+	Args:
+		x (Any): 
+		label (str, optional): Overrides 'name' as label.
+		user_data (Any, optional): User data for callbacks
+		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
+		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
+		source (Union[int, str], optional): Overrides 'id' as value storage key.
+		show (bool, optional): Attempt to render widget.
+		id (Union[int, str], optional): (deprecated)
+	Returns:
+		Union[int, str]
+	"""
+
+	return internal_dpg.add_inf_line_series(**kwargs)
+
+
 @deprecated("Use: `add_child_window()`")
 def add_child(**kwargs):
 	"""	(deprecated function) Adds an embedded child window. Will show scrollbars when items do not fit.
@@ -1881,7 +1925,7 @@ def group(**kwargs):
 		horizontal (bool, optional): Forces child widgets to be added in a horizontal layout.
 		horizontal_spacing (float, optional): Spacing for the horizontal layout.
 		xoffset (float, optional): Offset from containing window x item location within group.
-		disabled (bool, optional): Disable everything inside the group. (Use mvThemeCol_TextDisabled and mvStyleVar_DisabledAlpha to edit the style of disabled widgets)
+		disabled (bool, optional): Disable everything inside the group. (Use mvStyleVar_DisabledAlpha to edit colors within the disabled group.)
 		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
@@ -2163,7 +2207,7 @@ def plot_axis(axis, **kwargs):
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
-		no_label (bool, optional): the axis label will not be displayed (axis labels are also hidden if the supplied string name is nullptr)
+		no_label (bool, optional): the axis label will not be displayed
 		no_gridlines (bool, optional): no grid lines will be displayed
 		no_tick_marks (bool, optional): no tick marks will be displayed
 		no_tick_labels (bool, optional): no text labels will be displayed
@@ -2721,9 +2765,9 @@ def add_2d_histogram_series(x, y, **kwargs):
 		xmax_range (float, optional): set the max x range value, the values over this max will be ignored
 		ymin_range (float, optional): set the min y range value, the values under this min will be ignored
 		ymax_range (float, optional): set the max y range value, the values over this max will be ignored. If all xmin, xmax, ymin and ymax are 0.0, then the values will be the min and max values of the series
-		density (bool, optional): counts will be normalized, i.e. the PDF will be visualized, or the CDF will be visualized if Cumulative is also set
 		no_outliers (bool, optional): exclude values outside the specifed histogram range from the count toward normalizing and cumulative counts
-		col_major (bool, optional): data will be read in column major order (not supported by PlotHistogram)
+		density (bool, optional): counts will be normalized, i.e. the PDF will be visualized
+		col_major (bool, optional): data will be read in column major order
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -3261,7 +3305,7 @@ def add_colormap_scale(**kwargs):
 		min_scale (float, optional): Sets the min number of the color scale. Typically is the same as the min scale from the heat series.
 		max_scale (float, optional): Sets the max number of the color scale. Typically is the same as the max scale from the heat series.
 		format (str, optional): Formatting used for the labels.
-		invert (bool, optional): invert the colormap bar and axis scale (this only affects rendering; if you only want to reverse the scale mapping, make scale_min > scale_max)
+		reverse_dir (bool, optional): invert the colormap bar and axis scale (this only affects rendering; if you only want to reverse the scale mapping, make scale_min > scale_max)
 		no_label (bool, optional): the colormap axis label will not be displayed
 		opposite (bool, optional): render the colormap label and tick labels on the opposite side
 		id (Union[int, str], optional): (deprecated)
@@ -3744,8 +3788,8 @@ def add_drag_point(**kwargs):
 		default_value (Any, optional): 
 		color (Union[List[int], Tuple[int, ...]], optional): 
 		thickness (float, optional): 
-		offset (Union[List[float], Tuple[float, ...]], optional): Offset of the shown label
-		clamped (bool, optional): Set if the label will be clamped
+		offset (Union[List[float], Tuple[float, ...]], optional): Offset of the label, in pixels, relative to the drag point itself
+		clamped (bool, optional): Keep the label within the visible area of the plot even if the drag point itself goes outside of the visible area
 		delayed (bool, optional): tool rendering will be delayed one frame; useful when applying position-constraints
 		no_cursor (bool, optional): drag tools won't change cursor icons when hovered or held
 		no_fit (bool, optional): the drag tool won't be considered for plot fits
@@ -4130,7 +4174,7 @@ def add_group(**kwargs):
 		horizontal (bool, optional): Forces child widgets to be added in a horizontal layout.
 		horizontal_spacing (float, optional): Spacing for the horizontal layout.
 		xoffset (float, optional): Offset from containing window x item location within group.
-		disabled (bool, optional): Disable everything inside the group. (Use mvThemeCol_TextDisabled and mvStyleVar_DisabledAlpha to edit the style of disabled widgets)
+		disabled (bool, optional): Disable everything inside the group. (Use mvStyleVar_DisabledAlpha to edit colors within the disabled group.)
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -4227,12 +4271,13 @@ def add_histogram_series(x, **kwargs):
 		bar_scale (float, optional): 
 		min_range (float, optional): set the min range value, the values under this min will be ignored
 		max_range (float, optional): set the max range value, the values over this max will be ignored. If both min and max are 0.0, then the values will be the min and max values of the series
-		cumulative (bool, optional): each bin will contain its count plus the counts of all previous bins (not supported by PlotHistogram2D)
+		cumulative (bool, optional): each bin will contain its count plus the counts of all previous bins
 		density (bool, optional): counts will be normalized, i.e. the PDF will be visualized, or the CDF will be visualized if Cumulative is also set
 		no_outliers (bool, optional): exclude values outside the specifed histogram range from the count toward normalizing and cumulative counts
-		horizontal (bool, optional): histogram bars will be rendered horizontally (not supported by PlotHistogram2D)
+		horizontal (bool, optional): histogram bars will be rendered horizontally
 		contribute_to_bounds (bool, optional): 
 		id (Union[int, str], optional): (deprecated)
+		cumlative (bool, optional): (deprecated)Deprecated because of typo
 	Returns:
 		Union[int, str]
 	"""
@@ -5019,7 +5064,7 @@ def add_line_series(x, y, **kwargs):
 		loop (bool, optional): the last and first point will be connected to form a closed loop
 		skip_nan (bool, optional): NaNs values will be skipped instead of rendered as missing data
 		no_clip (bool, optional): markers (if displayed) on the edge of a plot will not be clipped
-		shaded (bool, optional): a filled region between the line and horizontal origin will be rendered; use PlotShaded for more advanced cases
+		shaded (bool, optional): a filled region between the line and horizontal origin will be rendered; use add_shade_series for more advanced cases
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -5520,7 +5565,7 @@ def add_plot_axis(axis, **kwargs):
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
-		no_label (bool, optional): the axis label will not be displayed (axis labels are also hidden if the supplied string name is nullptr)
+		no_label (bool, optional): the axis label will not be displayed
 		no_gridlines (bool, optional): no grid lines will be displayed
 		no_tick_marks (bool, optional): no tick marks will be displayed
 		no_tick_labels (bool, optional): no text labels will be displayed
@@ -6105,7 +6150,7 @@ def add_stair_series(x, y, **kwargs):
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		show (bool, optional): Attempt to render widget.
 		pre_step (bool, optional): the y value is continued constantly to the left from every x position, i.e. the interval (x[i-1], x[i]] has the value y[i]
-		shaded (bool, optional): a filled region between the line and horizontal origin will be rendered; use PlotShaded for more advanced cases
+		shaded (bool, optional): a filled region between the line and horizontal origin will be rendered; use add_shade_series for more advanced cases
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
