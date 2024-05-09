@@ -1,4 +1,7 @@
 
+from typing import Union
+
+
 def deprecated(reason):
 
 	string_types = (type(b''), type(u''))
@@ -253,6 +256,32 @@ def add_same_line(**kwargs):
     internal_dpg.capture_next_item(lambda s: internal_dpg.move_item(s, parent=group))
     return group
 
+@deprecated("Use: `get_plot_query_rects()`")
+def is_plot_queried(plot: Union[int, str], **kwargs):
+	"""	(deprecated function) Returns true if the plot is currently being queried. 
+
+	Args:
+		plot (Union[int, str]): 
+	Returns:
+		bool
+	"""
+
+	return len(internal_dpg.get_plot_query_rects(plot, **kwargs)) > 0
+
+@deprecated("Use: `get_plot_query_rects()`")
+def get_plot_query_area(plot: Union[int, str], **kwargs):
+	"""	(deprecated function) Returns the last/current query area of the plot. If no area is available [0, 0, 0, 0] will be returned.
+
+	Args:
+		plot (Union[int, str]): 
+	Returns:
+		Union[List[float], Tuple[float, ...]]
+	"""
+
+	if rects := internal_dpg.get_plot_query_rects(plot, **kwargs):
+		return rects[0]
+	else:
+		return [0, 0, 0, 0]
 
 @deprecated("Use: `add_inf_line_series(horizontal=True)`")
 def add_hline_series(**kwargs):

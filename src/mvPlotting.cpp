@@ -144,7 +144,7 @@ DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mvAnnotationConfi
 }
 
 void
-DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mvTagConfig& outConfig)
+DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mvAxisTagConfig& outConfig)
 {
 	if (dataSource == item.config.source) return;
 	item.config.source = dataSource;
@@ -650,23 +650,27 @@ DearPyGui::draw_drag_line(ImDrawList* drawlist, mvAppItem& item, mvDragLineConfi
 }
 
 void
-DearPyGui::draw_plot_tag(ImDrawList* drawlist, mvAppItem& item, mvTagConfig& config)
+DearPyGui::draw_plot_tag(ImDrawList* drawlist, mvAppItem& item, mvAxisTagConfig& config)
 {
 	if (!item.config.show)
 		return;
 
-	if (config.vertical) {
+	auto parent = (mvPlotAxis*)item.info.parentPtr;
+	auto axis_id = parent->configData.axis;
+	const bool vertical = (axis_id >= ImAxis_Y1);
+
+	if (vertical) {
 		if (!item.config.specifiedLabel.empty()) {
 			ImPlot::TagY(*config.value.get(), config.color, "%s", item.config.specifiedLabel.c_str());	
 		} else {
-			ImPlot::TagY(*config.value.get(), config.color, config.round);
+			ImPlot::TagY(*config.value.get(), config.color, config.auto_rounding);
 		}
 	}
 	else {
 		if (!item.config.specifiedLabel.empty()) {
 			ImPlot::TagX(*config.value.get(), config.color, "%s", item.config.specifiedLabel.c_str());	
 		} else {
-			ImPlot::TagX(*config.value.get(), config.color, config.round);
+			ImPlot::TagX(*config.value.get(), config.color, config.auto_rounding);
 		}
 	}
 }
@@ -794,7 +798,7 @@ DearPyGui::draw_bar_series(ImDrawList* drawlist, mvAppItem& item, const mvBarSer
 }
 
 void
-DearPyGui::draw_group_bar_series(ImDrawList* drawlist, mvAppItem& item, const mvGroupBarSeriesConfig& config)
+DearPyGui::draw_bar_group_series(ImDrawList* drawlist, mvAppItem& item, const mvBarGroupSeriesConfig& config)
 {
 
 	//-----------------------------------------------------------------------------
@@ -826,7 +830,10 @@ DearPyGui::draw_group_bar_series(ImDrawList* drawlist, mvAppItem& item, const mv
 		std::vector<const char*> strings;
 		for (int i = 0; i < config.label_ids.size(); ++i)
 			strings.push_back(config.label_ids[i].c_str());
-		ImPlot::PlotBarGroups(strings.data(), values->data(), config.item_count, config.group_count, config.group_size, config.shift, config.flags);
+
+		const int item_count = int(values->size() / config.group_size);
+
+		ImPlot::PlotBarGroups(strings.data(), values->data(), item_count, config.group_size, config.group_width, config.shift, config.flags);
 
 		// Begin a popup for a legend entry.
 		if (ImPlot::BeginLegendPopup(item.info.internalLabel.c_str(), 1))
@@ -1302,12 +1309,6 @@ DearPyGui::draw_2dhistogram_series(ImDrawList* drawlist, mvAppItem& item, const 
 
 		xptr = &(*config.value.get())[0];
 		yptr = &(*config.value.get())[1];
-
-		ImPlotRect range = ImPlotRect();
-
-		if(config.xmin != 0.0f || config.xmax != 0.0f || config.ymin != 0.0f || config.ymax != 0.0f){
-			range = ImPlotRect(config.xmin, config.xmax, config.ymin, config.ymax);
-		}
 
 		const double max_count = ImPlot::PlotHistogram2D(item.info.internalLabel.c_str(), xptr->data(), yptr->data(), (int)xptr->size(),
 			config.xbins, config.ybins, ImPlotRect(config.xmin, config.xmax, config.ymin, config.ymax), config.flags);
@@ -2148,16 +2149,38 @@ DearPyGui::set_positional_configuration(PyObject* inDict, mvBarSeriesConfig& out
 	(*outConfig.value)[1] = ToDoubleVect(PyTuple_GetItem(inDict, 1));
 }
 
-void
-DearPyGui::set_positional_configuration(PyObject* inDict, mvGroupBarSeriesConfig& outConfig)
+static bool ValidateBarGroupConfig(mvBarGroupSeriesConfig& outConfig) 
 {
-	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(mvAppItemType::mvGroupBarSeries)], inDict))
+	const std::vector<double>* values = &(*outConfig.value.get())[0];
+	const auto values_size = values->size();
+	const int item_count = values_size / outConfig.group_size;
+
+	if (values_size % outConfig.group_size != 0)
+	{
+		mvThrowPythonError(mvErrorCode::mvNone, "draw_bar_group_series",
+			"`values` size " + std::to_string(values_size) + " must be a multiple of `group_size` " + std::to_string(outConfig.group_size), nullptr);
+		return false;
+	}
+	else if (values_size % outConfig.group_size != 0 || outConfig.label_ids.size() != item_count) 
+	{
+		mvThrowPythonError(mvErrorCode::mvNone, "draw_bar_group_series",
+			"The number of labels " + std::to_string(outConfig.label_ids.size()) + " must be equel to the number of items in a group " + std::to_string(item_count) , nullptr);
+		return false;
+	}
+	return true;
+}
+
+void
+DearPyGui::set_positional_configuration(PyObject* inDict, mvBarGroupSeriesConfig& outConfig)
+{
+	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(mvAppItemType::mvBarGroupSeries)], inDict))
 		return;
 
 	(*outConfig.value)[0] = ToDoubleVect(PyTuple_GetItem(inDict, 0));
 	outConfig.label_ids = ToStringVect(PyTuple_GetItem(inDict, 1));
-	outConfig.item_count = ToInt(PyTuple_GetItem(inDict, 2));
-	outConfig.group_count = ToInt(PyTuple_GetItem(inDict, 3));
+	outConfig.group_size = ToInt(PyTuple_GetItem(inDict, 2));
+
+	ValidateBarGroupConfig(outConfig);	
 }
 
 void
@@ -2410,21 +2433,21 @@ DearPyGui::set_configuration(PyObject* inDict, mvPlotConfig& outConfig)
 	if (inDict == nullptr)
 		return;
 
-	if (PyObject* item = PyDict_GetItemString(inDict, "pan")) outConfig.pan = ToInt(item);
-	if (PyObject* item = PyDict_GetItemString(inDict, "fit")) outConfig.fit = ToInt(item);
-	if (PyObject* item = PyDict_GetItemString(inDict, "menu")) outConfig.menu = ToInt(item);
-	if (PyObject* item = PyDict_GetItemString(inDict, "select")) outConfig.select = ToInt(item);
-	if (PyObject* item = PyDict_GetItemString(inDict, "select_cancel")) outConfig.select_cancel = ToInt(item);
-	if (PyObject* item = PyDict_GetItemString(inDict, "zoom_rate")) outConfig.zoom_rate = ToFloat(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "pan_button")) outConfig.pan = ToInt(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "fit_button")) outConfig.fit = ToInt(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "context_menu_button")) outConfig.menu = ToInt(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "box_select_button")) outConfig.select = ToInt(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "box_select_cancel_button")) outConfig.select_cancel = ToInt(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "box_select_mod_button")) outConfig.select_mod = static_cast<ImGuiKey>(ToInt(item));
+	if (PyObject* item = PyDict_GetItemString(inDict, "horizontal_mod")) outConfig.select_horz_mod = static_cast<ImGuiKey>(ToInt(item));
+	if (PyObject* item = PyDict_GetItemString(inDict, "vertical_mod")) outConfig.select_vert_mod = static_cast<ImGuiKey>(ToInt(item));
 	if (PyObject* item = PyDict_GetItemString(inDict, "use_local_time")) outConfig.localTime = ToBool(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "use_ISO8601")) outConfig.iSO8601 = ToBool(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "use_24hour_clock")) outConfig.clock24Hour = ToBool(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "pan_mod")) outConfig.pan_mod = static_cast<ImGuiKey>(ToInt(item));
-	if (PyObject* item = PyDict_GetItemString(inDict, "select_mod")) outConfig.select_mod = static_cast<ImGuiKey>(ToInt(item));
-	if (PyObject* item = PyDict_GetItemString(inDict, "select_horz_mod")) outConfig.select_horz_mod = static_cast<ImGuiKey>(ToInt(item));
-	if (PyObject* item = PyDict_GetItemString(inDict, "select_vert_mod")) outConfig.select_vert_mod = static_cast<ImGuiKey>(ToInt(item));
 	if (PyObject* item = PyDict_GetItemString(inDict, "override_mod")) outConfig.override_mod = static_cast<ImGuiKey>(ToInt(item));
 	if (PyObject* item = PyDict_GetItemString(inDict, "zoom_mod")) outConfig.zoom_mod = static_cast<ImGuiKey>(ToInt(item));
+	if (PyObject* item = PyDict_GetItemString(inDict, "zoom_rate")) outConfig.zoom_rate = ToFloat(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "delete_rect")) outConfig.delete_rect = ToBool(item);
 	// helper for bit flipping
 	auto flagop = [inDict](const char* keyword, int flag, int& flags)
@@ -2562,17 +2585,19 @@ DearPyGui::set_configuration(PyObject* inDict, mvBarSeriesConfig& outConfig)
 }
 
 void
-DearPyGui::set_configuration(PyObject* inDict, mvGroupBarSeriesConfig& outConfig)
+DearPyGui::set_configuration(PyObject* inDict, mvBarGroupSeriesConfig& outConfig)
 {
 	if (inDict == nullptr)
 		return;
 
 	if (PyObject* item = PyDict_GetItemString(inDict, "values")) { (*outConfig.value)[0] = ToDoubleVect(item); }
 	if (PyObject* item = PyDict_GetItemString(inDict, "label_ids")) { outConfig.label_ids = ToStringVect(item); }
-	if (PyObject* item = PyDict_GetItemString(inDict, "item_count")) { outConfig.item_count = ToInt(item); }
-	if (PyObject* item = PyDict_GetItemString(inDict, "group_count")) { outConfig.group_count = ToInt(item); }
-	if (PyObject* item = PyDict_GetItemString(inDict, "group_size")) outConfig.group_size = ToFloat(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "group_size")) { outConfig.group_size = ToInt(item); }
+	if (PyObject* item = PyDict_GetItemString(inDict, "group_width")) outConfig.group_width = ToFloat(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "shift")) outConfig.shift = ToInt(item);
+
+	if (!ValidateBarGroupConfig(outConfig))
+		return;
 
 	// helper for bit flipping
 	auto flagop = [inDict](const char* keyword, int flag, int& flags)
@@ -2705,9 +2730,14 @@ DearPyGui::set_configuration(PyObject* inDict, mv2dHistogramSeriesConfig& outCon
 		if (PyObject* item = PyDict_GetItemString(inDict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
 	};
 
+	auto reverse_flagop = [inDict](const char* keyword, int flag, int& flags)
+	{
+		if (PyObject* item = PyDict_GetItemString(inDict, keyword)) ToBool(item) ? flags &= ~flag : flags |= flag;
+	};
+
 	// 2D histogram series flags
 	flagop("density", ImPlotHistogramFlags_Density, outConfig.flags);
-	flagop("no_outliers", ImPlotHistogramFlags_NoOutliers, outConfig.flags);
+	reverse_flagop("outliers", ImPlotHistogramFlags_NoOutliers, outConfig.flags);
 	flagop("col_major", ImPlotHistogramFlags_ColMajor, outConfig.flags);
 }
 
@@ -2794,10 +2824,15 @@ DearPyGui::set_configuration(PyObject* inDict, mvHistogramSeriesConfig& outConfi
 		if (PyObject* item = PyDict_GetItemString(inDict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
 	};
 
+	auto reverse_flagop = [inDict](const char* keyword, int flag, int& flags)
+	{
+		if (PyObject* item = PyDict_GetItemString(inDict, keyword)) ToBool(item) ? flags &= ~flag : flags |= flag;
+	};
+
 	// histogram series flags
 	flagop("cumulative", ImPlotHistogramFlags_Cumulative, outConfig.flags);
 	flagop("density", ImPlotHistogramFlags_Density, outConfig.flags);
-	flagop("no_outliers", ImPlotHistogramFlags_NoOutliers, outConfig.flags);
+	reverse_flagop("outliers", ImPlotHistogramFlags_NoOutliers, outConfig.flags);
 	flagop("horizontal", ImPlotHistogramFlags_Horizontal, outConfig.flags);
 }
 
@@ -2949,14 +2984,13 @@ DearPyGui::set_configuration(PyObject* inDict, mvAnnotationConfig& outConfig)
 }
 
 void
-DearPyGui::set_configuration(PyObject* inDict, mvTagConfig& outConfig)
+DearPyGui::set_configuration(PyObject* inDict, mvAxisTagConfig& outConfig)
 {
 	if (inDict == nullptr)
 		return;
 
 	if (PyObject* item = PyDict_GetItemString(inDict, "color")) outConfig.color = ToColor(item);
-	if (PyObject* item = PyDict_GetItemString(inDict, "round")) outConfig.round = ToBool(item);
-	if (PyObject* item = PyDict_GetItemString(inDict, "vertical")) outConfig.vertical = ToBool(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "auto_rounding")) outConfig.auto_rounding = ToBool(item);
 }
 
 void
@@ -2997,7 +3031,11 @@ DearPyGui::set_configuration(PyObject* inDict, mvPlotAxisConfig& outConfig, mvAp
 		return;
 
 	if (PyObject* item = PyDict_GetItemString(inDict, "scale")) outConfig.scale = ToInt(item);
-	if (PyObject* item = PyDict_GetItemString(inDict, "formatter")) outConfig.formatter = ToString(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "tick_format")) outConfig.formatter = ToString(item);
+
+	// Legacy
+	if (PyObject* item = PyDict_GetItemString(inDict, "log_scale")) outConfig.scale = (ToBool(item) ? ImPlotScale_Log10 : outConfig.scale);
+	if (PyObject* item = PyDict_GetItemString(inDict, "time")) outConfig.scale = (ToBool(item) ? ImPlotScale_Time : outConfig.scale);
 
 	// helper for bit flipping
 	auto flagop = [inDict](const char* keyword, int flag, int& flags)
@@ -3015,8 +3053,8 @@ DearPyGui::set_configuration(PyObject* inDict, mvPlotAxisConfig& outConfig, mvAp
 	flagop("no_side_switch", ImPlotAxisFlags_NoSideSwitch, outConfig.flags);
 	flagop("no_highlight", ImPlotAxisFlags_NoHighlight, outConfig.flags);
 	flagop("opposite", ImPlotAxisFlags_Opposite, outConfig.flags);
-	flagop("foreground", ImPlotAxisFlags_Foreground, outConfig.flags);
-	flagop("invert", ImPlotAxisFlags_Invert, outConfig.flags);
+	flagop("foreground_grid", ImPlotAxisFlags_Foreground, outConfig.flags);
+	flagop("axis_opposite", ImPlotAxisFlags_Invert, outConfig.flags);
 	flagop("auto_fit", ImPlotAxisFlags_AutoFit, outConfig.flags);
 	flagop("range_fit", ImPlotAxisFlags_RangeFit, outConfig.flags);
 	flagop("pan_stretch", ImPlotAxisFlags_PanStretch, outConfig.flags);
@@ -3052,15 +3090,15 @@ DearPyGui::fill_configuration_dict(const mvPlotConfig& inConfig, PyObject* outDi
 	if (outDict == nullptr)
 		return;
 
-	PyDict_SetItemString(outDict, "pan", mvPyObject(ToPyInt(inConfig.pan)));
+	PyDict_SetItemString(outDict, "pan_button", mvPyObject(ToPyInt(inConfig.pan)));
 	PyDict_SetItemString(outDict, "pan_mod", mvPyObject(ToPyInt(inConfig.pan_mod)));
-	PyDict_SetItemString(outDict, "fit", mvPyObject(ToPyInt(inConfig.fit)));
-	PyDict_SetItemString(outDict, "menu", mvPyObject(ToPyInt(inConfig.menu)));
-	PyDict_SetItemString(outDict, "select", mvPyObject(ToPyInt(inConfig.select)));
-	PyDict_SetItemString(outDict, "select_mod", mvPyObject(ToPyInt(inConfig.select_mod)));
-	PyDict_SetItemString(outDict, "select_cancel", mvPyObject(ToPyInt(inConfig.select_cancel)));
-	PyDict_SetItemString(outDict, "select_horz_mod", mvPyObject(ToPyInt(inConfig.select_horz_mod)));
-	PyDict_SetItemString(outDict, "select_vert_mod", mvPyObject(ToPyInt(inConfig.select_vert_mod)));
+	PyDict_SetItemString(outDict, "fit_button", mvPyObject(ToPyInt(inConfig.fit)));
+	PyDict_SetItemString(outDict, "context_menu_button", mvPyObject(ToPyInt(inConfig.menu)));
+	PyDict_SetItemString(outDict, "box_select_button", mvPyObject(ToPyInt(inConfig.select)));
+	PyDict_SetItemString(outDict, "box_select_mod", mvPyObject(ToPyInt(inConfig.select_mod)));
+	PyDict_SetItemString(outDict, "box_select_cancel_button", mvPyObject(ToPyInt(inConfig.select_cancel)));
+	PyDict_SetItemString(outDict, "horizontal_mod", mvPyObject(ToPyInt(inConfig.select_horz_mod)));
+	PyDict_SetItemString(outDict, "vertical_mod", mvPyObject(ToPyInt(inConfig.select_vert_mod)));
 	PyDict_SetItemString(outDict, "override_mod", mvPyObject(ToPyInt(inConfig.override_mod)));
 	PyDict_SetItemString(outDict, "zoom_mod", mvPyObject(ToPyInt(inConfig.zoom_mod)));
 	PyDict_SetItemString(outDict, "zoom_rate", mvPyObject(ToPyFloat(inConfig.zoom_rate)));
@@ -3249,15 +3287,14 @@ DearPyGui::fill_configuration_dict(const mvStemSeriesConfig& inConfig, PyObject*
 }
 
 void
-DearPyGui::fill_configuration_dict(const mvGroupBarSeriesConfig& inConfig, PyObject* outDict)
+DearPyGui::fill_configuration_dict(const mvBarGroupSeriesConfig& inConfig, PyObject* outDict)
 {
 	if (outDict == nullptr)
 		return;
 
 	PyDict_SetItemString(outDict, "label_ids", ToPyList(inConfig.label_ids));
-	PyDict_SetItemString(outDict, "group_size", ToPyFloat(inConfig.group_size));
-	PyDict_SetItemString(outDict, "item_count", ToPyInt(inConfig.item_count));
-	PyDict_SetItemString(outDict, "group_count", ToPyInt(inConfig.group_count));
+	PyDict_SetItemString(outDict, "group_width", ToPyFloat(inConfig.group_width));
+	PyDict_SetItemString(outDict, "group_size", ToPyInt(inConfig.group_size));
 	PyDict_SetItemString(outDict, "shift", ToPyInt(inConfig.shift));
 
 	// helper to check and set bit
@@ -3340,9 +3377,15 @@ DearPyGui::fill_configuration_dict(const mv2dHistogramSeriesConfig& inConfig, Py
 		PyDict_SetItemString(outDict, keyword, py_result);
 	};
 
+	auto reverse_checkbitset = [outDict](const char* keyword, int flag, const int& flags)
+	{
+		mvPyObject py_result = ToPyBool(!ImHasFlag(flags, flag));
+		PyDict_SetItemString(outDict, keyword, py_result);
+	};
+
 	// flags
 	checkbitset("density", ImPlotHistogramFlags_Density, inConfig.flags);
-	checkbitset("no_outliers", ImPlotHistogramFlags_NoOutliers, inConfig.flags);
+	reverse_checkbitset("outliers", ImPlotHistogramFlags_NoOutliers, inConfig.flags);
 	checkbitset("col_amjor", ImPlotHistogramFlags_ColMajor, inConfig.flags);
 }
 
@@ -3415,10 +3458,16 @@ DearPyGui::fill_configuration_dict(const mvHistogramSeriesConfig& inConfig, PyOb
 		PyDict_SetItemString(outDict, keyword, py_result);
 	};
 
+	auto reverse_checkbitset = [outDict](const char* keyword, int flag, const int& flags)
+	{
+		mvPyObject py_result = ToPyBool(!ImHasFlag(flags, flag));
+		PyDict_SetItemString(outDict, keyword, py_result);
+	};
+
 	// histogram flags
 	checkbitset("horizontal", ImPlotHistogramFlags_Horizontal, inConfig.flags);
 	checkbitset("cumulative", ImPlotHistogramFlags_Cumulative, inConfig.flags);
-	checkbitset("no_outliers", ImPlotHistogramFlags_NoOutliers, inConfig.flags);
+	reverse_checkbitset("outliers", ImPlotHistogramFlags_NoOutliers, inConfig.flags);
 	checkbitset("density", ImPlotHistogramFlags_Density, inConfig.flags);
 }
 
@@ -3522,13 +3571,12 @@ DearPyGui::fill_configuration_dict(const mvAnnotationConfig& inConfig, PyObject*
 }
 
 void
-DearPyGui::fill_configuration_dict(const mvTagConfig& inConfig, PyObject* outDict)
+DearPyGui::fill_configuration_dict(const mvAxisTagConfig& inConfig, PyObject* outDict)
 {
 	if (outDict == nullptr)
 		return;
 	PyDict_SetItemString(outDict, "color", mvPyObject(ToPyColor(inConfig.color)));
-	PyDict_SetItemString(outDict, "round", mvPyObject(ToPyBool(inConfig.round)));
-	PyDict_SetItemString(outDict, "vertical", mvPyObject(ToPyBool(inConfig.vertical)));
+	PyDict_SetItemString(outDict, "auto_rounding", mvPyObject(ToPyBool(inConfig.auto_rounding)));
 }
 
 void
@@ -3569,7 +3617,10 @@ DearPyGui::fill_configuration_dict(const mvPlotAxisConfig& inConfig, PyObject* o
 		return;
 
 	PyDict_SetItemString(outDict, "scale", mvPyObject(ToPyInt(inConfig.scale)));
-	PyDict_SetItemString(outDict, "formatter", mvPyObject(ToPyString(inConfig.formatter)));
+	PyDict_SetItemString(outDict, "tick_format", mvPyObject(ToPyString(inConfig.formatter)));
+	// Legacy
+	PyDict_SetItemString(outDict, "log_scale", mvPyObject(ToPyBool(inConfig.scale == ImPlotScale_Log10)));
+	PyDict_SetItemString(outDict, "time", mvPyObject(ToPyBool(inConfig.scale == ImPlotScale_Time)));
 
 	// helper to check and set bit
 	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)
@@ -3588,8 +3639,8 @@ DearPyGui::fill_configuration_dict(const mvPlotAxisConfig& inConfig, PyObject* o
 	checkbitset("no_side_switch", ImPlotAxisFlags_NoSideSwitch, inConfig.flags);
 	checkbitset("no_highlight", ImPlotAxisFlags_NoHighlight, inConfig.flags);
 	checkbitset("opposite", ImPlotAxisFlags_Opposite, inConfig.flags);
-	checkbitset("foreground", ImPlotAxisFlags_Foreground, inConfig.flags);
-	checkbitset("invert", ImPlotAxisFlags_Invert, inConfig.flags);
+	checkbitset("foreground_grid", ImPlotAxisFlags_Foreground, inConfig.flags);
+	checkbitset("axis_opposite", ImPlotAxisFlags_Invert, inConfig.flags);
 	checkbitset("auto_fit", ImPlotAxisFlags_AutoFit, inConfig.flags);
 	checkbitset("range_fit", ImPlotAxisFlags_RangeFit, inConfig.flags);
 	checkbitset("pan_stretch", ImPlotAxisFlags_PanStretch, inConfig.flags);
