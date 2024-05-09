@@ -268,7 +268,7 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 						const char* column_name = ImGui::TableGetColumnName(column); // Retrieve name passed to TableSetupColumn()
 						ImGui::PushID(column);
 
-						bool with_label = ImGui::TableGetColumnFlags(column) & ImGuiTableColumnFlags_NoHeaderLabel;
+						bool with_label = !ImHasFlag(ImGui::TableGetColumnFlags(column), ImGuiTableColumnFlags_NoHeaderLabel);
 						ImGui::TableHeader(with_label ? column_name : "");
 
 						if (childslots[2][column])
