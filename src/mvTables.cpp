@@ -72,7 +72,7 @@ void mvTableColumn::handleSpecificKeywordArgs(PyObject* dict)
 	flagop("prefer_sort_descending", ImGuiTableColumnFlags_PreferSortDescending, _flags);
 	flagop("indent_enable", ImGuiTableColumnFlags_IndentEnable, _flags);
 	flagop("indent_disable", ImGuiTableColumnFlags_IndentDisable, _flags);
-	flagop("angle_header", ImGuiTableColumnFlags_AngledHeader, _flags);
+	flagop("angled_header", ImGuiTableColumnFlags_AngledHeader, _flags);
 	flagop("disabled", ImGuiTableColumnFlags_Disabled, _flags);
 	flagop("no_header_label", ImGuiTableColumnFlags_NoHeaderLabel, _flags); 
 }
@@ -109,7 +109,7 @@ void mvTableColumn::getSpecificConfiguration(PyObject* dict)
 	checkbitset("prefer_sort_descending", ImGuiTableColumnFlags_PreferSortDescending, _flags);
 	checkbitset("indent_enable", ImGuiTableColumnFlags_IndentEnable, _flags);
 	checkbitset("indent_disable", ImGuiTableColumnFlags_IndentDisable, _flags);
-	checkbitset("angle_header", ImGuiTableColumnFlags_AngledHeader, _flags);
+	checkbitset("angled_header", ImGuiTableColumnFlags_AngledHeader, _flags);
 	checkbitset("disabled", ImGuiTableColumnFlags_Disabled, _flags);
 	checkbitset("no_header_label", ImGuiTableColumnFlags_NoHeaderLabel, _flags); 
 }
@@ -157,7 +157,7 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 			//We have to specify themes in a way that it captures the theme for the previous
 			//*visible* row, not for the current one.  That's why we apply the theme *after*
 			//TableNextRow() and leave it active through the next TableNextRow() call.
-			ImGui::TableNextRow(0, (float)row->config.height);
+			ImGui::TableNextRow(ImGuiTableRowFlags_None, (float)row->config.height);
 
 			if (prev_visible_row)
 				cleanup_local_theming(prev_visible_row);
@@ -232,28 +232,58 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 
 			if (_tableHeader)
 			{
-				//ImGui::TableHeadersRow();
-				ImGui::TableNextRow(ImGuiTableRowFlags_Headers);
+				bool has_angled_header = false;
+				bool has_no_header_label = false;
 				for (int column = 0; column < childslots[0].size(); column++)
 				{
-					ImGui::TableSetColumnIndex(column);
-					const char* column_name = ImGui::TableGetColumnName(column); // Retrieve name passed to TableSetupColumn()
-					ImGui::PushID(column);
-					ImGui::TableHeader(column_name);
-
-					if (childslots[2][column])
-					{
-						// columns
-						auto& item = childslots[2][column];
-						// skip item if it's not shown
-						if (!item->config.show)
-							continue;
-
-						item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-					}
-					ImGui::PopID();
+					ImGuiTableColumnFlags flags_column = ImGui::TableGetColumnFlags(column);
+					has_angled_header |= (flags_column & ImGuiTableColumnFlags_AngledHeader) != 0;
+					has_no_header_label |= (flags_column & ImGuiTableColumnFlags_NoHeaderLabel) != 0;
 				}
 
+				if (has_angled_header || has_no_header_label) {
+					for (int column = 0; column < childslots[0].size(); column++)
+					{
+						if (childslots[2][column])
+						{
+							// columns
+							auto& item = childslots[2][column];
+							// skip item if it's not shown
+							if (!item->config.show)
+								continue;
+
+							item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
+						}
+					}
+					if (has_angled_header)
+						ImGui::TableAngledHeadersRow();
+					ImGui::TableHeadersRow();
+				}
+				else {
+					ImGui::TableNextRow(ImGuiTableRowFlags_Headers);
+					for (int column = 0; column < childslots[0].size(); column++)
+					{
+						ImGui::TableSetColumnIndex(column);
+
+						const char* column_name = ImGui::TableGetColumnName(column); // Retrieve name passed to TableSetupColumn()
+						ImGui::PushID(column);
+
+						bool with_label = ImGui::TableGetColumnFlags(column) & ImGuiTableColumnFlags_NoHeaderLabel;
+						ImGui::TableHeader(with_label ? column_name : "");
+
+						if (childslots[2][column])
+						{
+							// columns
+							auto& item = childslots[2][column];
+							// skip item if it's not shown
+							if (!item->config.show)
+								continue;
+
+							item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
+						}
+						ImGui::PopID();
+					}
+				}
 			}
 
 			if (ImGuiTableSortSpecs* sorts_specs = ImGui::TableGetSortSpecs())

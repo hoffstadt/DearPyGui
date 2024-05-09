@@ -11,7 +11,7 @@
     - [ ] Update demo with new functions
     - [x] Improve demo with multiple axes
     - [x] Antialiasing activated?
-    - [ ] Implement TagX/Y also on secondary axes
+    - [x] Implement TagX/Y also on secondary axes
 - [ ] Bugfix:
     - [x] Crash on tests teardown
     - [x] Crash when opening table in demo: `void ImGui::TableSetColumnEnabled(int, bool): Assertion 'table->Flags & ImGuiTableFlags_Hideable' failed.`
@@ -78,29 +78,35 @@ Probably all the IO "issues" are deeply linked between them
     - [ ] IsWindowHovered: Added support for ImGuiHoveredFlags_Stationary
 - [ ] [V 1.89.8](https://github.com/ocornut/imgui/releases/tag/v1.89.8)
     - [ ] IO: Obsoleted io.ClearInputCharacters() (added in 1.47) as it now ambiguous and often incorrect/misleading considering the existence of a higher-level input queue. This is automatically cleared by io.ClearInputsKeys().
-    - [ ] IO: Added io.ClearEventsQueue() to clear incoming inputs events. 
+    - [ ] IO: Added `io.ClearEventsQueue()` to clear incoming inputs events. 
     - [ ] Many modifications to Clipper
 - [ ] [V 1.90](https://github.com/ocornut/imgui/releases/tag/v1.90)
     - [x] Removed IM_OFFSETOF() macro in favor of using offsetof() available in C++11.
 - [ ] [V 1.90.1](https://github.com/ocornut/imgui/releases/tag/v1.90.1)
-    - [ ] Tabs: Added ImGuiTabItemFlags_NoAssumedClosure to enable app to react on closure attempt, without having to draw an unsaved document marker (ImGuiTabItemFlags_UnsavedDocument sets _NoAssumedClosure automatically).
-    - [ ] Debug Tools: Added io.ConfigDebugIsDebuggerPresent option. 
+    - [ ] Tabs: Added `ImGuiTabItemFlags_NoAssumedClosure` to enable app to react on closure attempt, without having to draw an unsaved document marker (ImGuiTabItemFlags_UnsavedDocument sets _NoAssumedClosure automatically).
+    - [ ] Debug Tools: Added `io.ConfigDebugIsDebuggerPresent` option. 
     - [ ] Added DebugFlashStyleColor() to identify a style color. Added to Style Editor.
 - [x] [V 1.90.2](https://github.com/ocornut/imgui/releases/tag/v1.90.2)
 - [x] [V 1.90.3](https://github.com/ocornut/imgui/releases/tag/v1.90.3)
 - [ ] [V 1.90.4](https://github.com/ocornut/imgui/releases/tag/v1.90.4)
     - [ ] Made DebugStartItemPicker() public API and wired to Tools menu.
-- [x] [V 1.90.5](https://github.com/ocornut/imgui/releases/tag/v1.90.5)
+- [ ] [V 1.90.5](https://github.com/ocornut/imgui/releases/tag/v1.90.5)
+    - [x] Style: Added `ImGuiStyleVar_TabBorderSize`, `ImGuiStyleVar_TableAngledHeadersAngle` for consistency. 
+    - [ ] DrawList: Added `AddConcavePolyFilled()`, `PathFillConcave()` concave filling.
+- [ ] [V 1.90.6](https://github.com/ocornut/imgui/releases/tag/v1.90.6)
+    - [x] Tables: Angled headers: added `style.TableAngledHeadersTextAlign` and corresponding `ImGuiStyleVar_TableAngledHeadersTextAlign` variable
+    - [x] ProgressBar: Added support for indeterminate progress bar by passing an animated negative fraction, e.g. `ProgressBar(-1.0f * GetTime())`  (update documentation)
+    - [x] TreeNode: Added `ImGuiTreeNodeFlags_SpanTextWidth` to make hitbox and highlight only cover the label.
 
 ### Docking/Multi-viewport
 - [ ] Docking: Clicking on the right-most close button of a docking node closes all windows. (Put this in some documentation part)
-- [x] Add io.ConfigDockingWithShift
-- [ ] Added io.AddMouseViewportEvent()
-- [x] added style.DockingSeparatorSize, ImGuiStyleVar_DockingSeparatorSize. Now also scaled by style.ScaleAllSizes().
+- [x] Add `io.ConfigDockingWithShift`
+- [ ] Added `io.AddMouseViewportEvent()`
+- [x] added `style.DockingSeparatorSize`, `ImGuiStyleVar_DockingSeparatorSize`. Now also scaled by `style.ScaleAllSizes()`.
 - [ ] Docking, Style: resizing separators use same colors as window borders (ImGuiCol_Border) for consistency. 
-- [ ] Added ImGuiDockNodeFlags_NoUndocking
-- [ ] Added ImGuiWindowClass::FocusRouteParentWindowId
-- [ ] Added ImGuiDockNodeFlags_DockedWindowsInFocusRoute
+- [ ] Added `ImGuiDockNodeFlags_NoUndocking`
+- [ ] Added `ImGuiWindowClass::FocusRouteParentWindowId`
+- [ ] Added `ImGuiDockNodeFlags_DockedWindowsInFocusRoute`
 
 ### TODO ImPlot
 Take a look at implot.cpp to have a better changelog.

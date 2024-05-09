@@ -2648,6 +2648,8 @@ def tree_node(**kwargs):
 		leaf (bool, optional): No collapsing, no arrow (use as a convenience for leaf nodes).
 		bullet (bool, optional): Display a bullet instead of arrow.
 		selectable (bool, optional): Makes the tree selectable.
+		span_text_width (bool, optional): Makes hitbox and highlight only cover the label.
+		span_full_width (bool, optional): Extend hit box to the left-most and right-most edges (cover the indent area).
 		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
@@ -4398,12 +4400,12 @@ def add_image_button(texture_tag, **kwargs):
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
-		frame_padding (int, optional): Empty space around the outside of the texture. Button will show around the texture.
 		tint_color (Union[List[float], Tuple[float, ...]], optional): Applies a color tint to the entire texture.
 		background_color (Union[List[float], Tuple[float, ...]], optional): Displays a border of the specified color around the texture.
 		uv_min (Union[List[float], Tuple[float, ...]], optional): Normalized texture coordinates min point.
 		uv_max (Union[List[float], Tuple[float, ...]], optional): Normalized texture coordinates max point.
 		id (Union[int, str], optional): (deprecated)
+		frame_padding (int, optional): (deprecated)Empty space around the outside of the texture. Button will show around the texture. This is not supported anymore by ImGui but still used here as deprecated.
 	Returns:
 		Union[int, str]
 	"""
@@ -5700,7 +5702,7 @@ def add_progress_bar(**kwargs):
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		overlay (str, optional): Overlayed text onto the bar that typically used to display the value of the progress.
-		default_value (float, optional): Normalized value to fill the bar from 0.0 to 1.0.
+		default_value (float, optional): Normalized value to fill the bar from 0.0 to 1.0. Put a negative value to show an indeterminate progress bar.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -6752,6 +6754,8 @@ def add_tree_node(**kwargs):
 		leaf (bool, optional): No collapsing, no arrow (use as a convenience for leaf nodes).
 		bullet (bool, optional): Display a bullet instead of arrow.
 		selectable (bool, optional): Makes the tree selectable.
+		span_text_width (bool, optional): Makes hitbox and highlight only cover the label.
+		span_full_width (bool, optional): Extend hit box to the left-most and right-most edges (cover the indent area).
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -9205,7 +9209,10 @@ mvStyleVar_ScrollbarRounding=internal_dpg.mvStyleVar_ScrollbarRounding
 mvStyleVar_GrabMinSize=internal_dpg.mvStyleVar_GrabMinSize
 mvStyleVar_GrabRounding=internal_dpg.mvStyleVar_GrabRounding
 mvStyleVar_TabRounding=internal_dpg.mvStyleVar_TabRounding
+mvStyleVar_TabBorderSize=internal_dpg.mvStyleVar_TabBorderSize
 mvStyleVar_TabBarBorderSize=internal_dpg.mvStyleVar_TabBarBorderSize
+mvStyleVar_TableAngledHeadersAngle=internal_dpg.mvStyleVar_TableAngledHeadersAngle
+mvStyleVar_TableAngledHeadersTextAlign=internal_dpg.mvStyleVar_TableAngledHeadersTextAlign
 mvStyleVar_ButtonTextAlign=internal_dpg.mvStyleVar_ButtonTextAlign
 mvStyleVar_SelectableTextAlign=internal_dpg.mvStyleVar_SelectableTextAlign
 mvStyleVar_SeparatorTextBorderSize=internal_dpg.mvStyleVar_SeparatorTextBorderSize

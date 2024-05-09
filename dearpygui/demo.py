@@ -755,6 +755,14 @@ def show_demo():
 
                 dpg.add_3d_slider(label="3D Slider", scale=0.5)
 
+            with dpg.tree_node(label="Tree nodes"):
+
+                dpg.add_tree_node(label="Span text width", span_text_width=True)
+                # dpg.add_tree_node(label="Span available width", span_available_width=True)
+                dpg.add_tree_node(label="Span full width", span_full_width=True)
+                # dpg.add_tree_node(label="Span all columns", span_all_columns=True)
+                
+
         with dpg.collapsing_header(label="Layout & Scrolling"):
 
             with dpg.tree_node(label="Widgets Width"):
@@ -1541,6 +1549,20 @@ def show_demo():
                 _add_config_options(table_id, 3, 
                                             "pad_outerX", "no_pad_outerX", "no_pad_innerX", 
                                             "borders_outerV", "borders_innerV", "header_row", before=table_id)
+
+            with dpg.tree_node(label="Angled headers"):
+
+                with dpg.table(header_row=True, resizable=True, delay_search=True,
+                            hideable=True, reorderable=True) as table_id:
+
+                    dpg.add_table_column(label="One", angled_header=True)
+                    dpg.add_table_column(label="Two", angled_header=True)
+                    dpg.add_table_column(label="three", angled_header=True)
+
+                    for i in range(5):
+                        with dpg.table_row():
+                            for j in range(3):
+                                dpg.add_text(f"Hello {i}, {j}")
 
             with dpg.tree_node(label="Reorderable, hideable, with headers"):
 

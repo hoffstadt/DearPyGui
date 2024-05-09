@@ -6250,9 +6250,12 @@ DearPyGui::draw_image_button(ImDrawList* drawlist, mvAppItem& item, mvImageButto
 				texture = static_cast<mvRawTexture*>(config.texture.get())->_texture;
 			else
 				texture = static_cast<mvDynamicTexture*>(config.texture.get())->_texture;
-
+			
+			if (config.framePadding >= 0)
+        		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2((float)config.framePadding, (float)config.framePadding));
+			
 			ImGui::PushID(item.uuid);
-			if (ImGui::ImageButton(std::to_string(item.uuid).c_str(), texture, ImVec2((float)item.config.width, (float)item.config.height),
+			if (ImGui::ImageButton(item.info.internalLabel.c_str(), texture, ImVec2((float)item.config.width, (float)item.config.height),
 				ImVec2(config.uv_min.x, config.uv_min.y), ImVec2(config.uv_max.x, config.uv_max.y),
 				config.backgroundColor, config.tintColor))
 			{
@@ -6262,6 +6265,9 @@ DearPyGui::draw_image_button(ImDrawList* drawlist, mvAppItem& item, mvImageButto
 					mvAddCallback(item.getCallback(false), item.config.alias, nullptr, item.config.user_data);
 			}
 			ImGui::PopID();
+
+			if (config.framePadding >= 0)
+        		ImGui::PopStyleVar();
 		}
 	}
 

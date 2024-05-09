@@ -338,7 +338,10 @@ GetModuleConstants()
 		ModuleConstants.push_back({ "mvStyleVar_GrabMinSize", ImGuiStyleVar_GrabMinSize });                 // float     GrabMinSize
 		ModuleConstants.push_back({ "mvStyleVar_GrabRounding", ImGuiStyleVar_GrabRounding });               // float     GrabRounding
 		ModuleConstants.push_back({ "mvStyleVar_TabRounding", ImGuiStyleVar_TabRounding });                 // float     TabRounding
-		ModuleConstants.push_back({ "mvStyleVar_TabBarBorderSize", ImGuiStyleVar_TabBarBorderSize });    	// float     TabBorderSize
+		ModuleConstants.push_back({ "mvStyleVar_TabBorderSize", ImGuiStyleVar_TabBorderSize });    			// float     TabBorderSize
+		ModuleConstants.push_back({ "mvStyleVar_TabBarBorderSize", ImGuiStyleVar_TabBarBorderSize });    	// float     TabBarBorderSize
+		ModuleConstants.push_back({ "mvStyleVar_TableAngledHeadersAngle", ImGuiStyleVar_TableAngledHeadersAngle });    		// float     TableAngledHeadersAngle
+		ModuleConstants.push_back({ "mvStyleVar_TableAngledHeadersTextAlign", ImGuiStyleVar_TableAngledHeadersTextAlign }); // ImVec2     TableAngledHeadersTextAlign
 		ModuleConstants.push_back({ "mvStyleVar_ButtonTextAlign", ImGuiStyleVar_ButtonTextAlign });         // ImVec2    ButtonTextAlign
 		ModuleConstants.push_back({ "mvStyleVar_SelectableTextAlign", ImGuiStyleVar_SelectableTextAlign }); // ImVec2    SelectableTextAlign
 		ModuleConstants.push_back({ "mvStyleVar_SeparatorTextBorderSize", ImGuiStyleVar_SeparatorTextBorderSize });	// float     SeparatorTextBorderSize
