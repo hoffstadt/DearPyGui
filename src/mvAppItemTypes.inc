@@ -75,13 +75,13 @@
     X( mvDragLine ) \
     X( mvDragRect ) \
     X( mvAnnotation ) \
-    X( mvTag ) \
+    X( mvAxisTag ) \
     X( mvLineSeries ) \
     X( mvScatterSeries ) \
     X( mvStemSeries ) \
     X( mvStairSeries ) \
     X( mvBarSeries ) \
-    X( mvGroupBarSeries ) \
+    X( mvBarGroupSeries ) \
     X( mvErrorSeries ) \
     X( mvInfLineSeries ) \
     X( mvHeatSeries ) \

@@ -162,7 +162,7 @@ public:
     std::shared_ptr<mvAppItemDrawInfo>     drawInfo = nullptr;
 
     // slots
-    //   * 0 : mvFileExtension, mvFontRangeHint, mvNodeLink, mvAnnotation, mvTag
+    //   * 0 : mvFileExtension, mvFontRangeHint, mvNodeLink, mvAnnotation, mvAxisTag
     //         mvDragLine, mvDragPoint, mvDragRect, mvLegend, mvTableColumn
     //   * 1 : Most widgets
     //   * 2 : Draw Commands
@@ -317,13 +317,13 @@ GetEntityCommand(mvAppItemType type)
     case mvAppItemType::mvDragRect:                    return "add_drag_rect";
     case mvAppItemType::mvDragLine:                    return "add_drag_line";
     case mvAppItemType::mvAnnotation:                  return "add_plot_annotation";
-    case mvAppItemType::mvTag:                         return "add_plot_tag";
+    case mvAppItemType::mvAxisTag:                         return "add_axis_tag";
     case mvAppItemType::mvLineSeries:                  return "add_line_series";
     case mvAppItemType::mvScatterSeries:               return "add_scatter_series";
     case mvAppItemType::mvStemSeries:                  return "add_stem_series";
     case mvAppItemType::mvStairSeries:                 return "add_stair_series";
     case mvAppItemType::mvBarSeries:                   return "add_bar_series";
-    case mvAppItemType::mvGroupBarSeries:              return "add_group_bar_series";
+    case mvAppItemType::mvBarGroupSeries:              return "add_bar_group_series";
     case mvAppItemType::mvErrorSeries:                 return "add_error_series";
     case mvAppItemType::mvCustomSeries:                return "add_custom_series";
     case mvAppItemType::mvInfLineSeries:               return "add_inf_line_series";

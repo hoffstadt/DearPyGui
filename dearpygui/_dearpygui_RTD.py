@@ -1131,6 +1131,9 @@ def is_viewport_decorated() -> bool:
 # Deprecated Commands
 ##########################################################
 
+from typing import Union
+
+
 def deprecated(reason):
 
 	string_types = (type(b''), type(u''))
@@ -1385,6 +1388,32 @@ def add_same_line(**kwargs):
     internal_dpg.capture_next_item(lambda s: internal_dpg.move_item(s, parent=group))
     return group
 
+@deprecated("Use: `get_plot_query_rects()`")
+def is_plot_queried(plot: Union[int, str], **kwargs):
+	"""	(deprecated function) Returns true if the plot is currently being queried. 
+
+	Args:
+		plot (Union[int, str]): 
+	Returns:
+		bool
+	"""
+
+	return len(internal_dpg.get_plot_query_rects(plot, **kwargs)) > 0
+
+@deprecated("Use: `get_plot_query_rects()`")
+def get_plot_query_area(plot: Union[int, str], **kwargs):
+	"""	(deprecated function) Returns the last/current query area of the plot. If no area is available [0, 0, 0, 0] will be returned.
+
+	Args:
+		plot (Union[int, str]): 
+	Returns:
+		Union[List[float], Tuple[float, ...]]
+	"""
+
+	if rects := internal_dpg.get_plot_query_rects(plot, **kwargs):
+		return rects[0]
+	else:
+		return [0, 0, 0, 0]
 
 @deprecated("Use: `add_inf_line_series(horizontal=True)`")
 def add_hline_series(**kwargs):
@@ -2158,7 +2187,6 @@ def plot(**kwargs):
 		no_menus (bool, optional): the user will not be able to open context menus with right-click
 		no_box_select (bool, optional): the user will not be able to box-select with right-click drag
 		no_mouse_pos (bool, optional): the text of mouse position, in plot coordinates, will not be displayed inside of the plot
-		no_highlight (bool, optional): plot items will not be highlighted when their legend entry is hovered
 		query (bool, optional): the user will be able to draw query rects with middle - mouse or CTRL + right - click drag
 		crosshairs (bool, optional): the default mouse cursor will be replaced with a crosshair when hovered
 		equal_aspects (bool, optional): primary x and y axes will be constrained to have the same units/pixel (does not apply to auxiliary y-axes)
@@ -2169,20 +2197,24 @@ def plot(**kwargs):
 		use_ISO8601 (bool, optional): dates will be formatted according to ISO 8601 where applicable (e.g. YYYY-MM-DD, YYYY-MM, --MM-DD, etc.)
 		use_24hour_clock (bool, optional): times will be formatted using a 24 hour clock
 		delete_rect (bool, optional): allows to delete drag rect with double left mouse click
-		pan (int, optional): mouse button that enables panning when held
+		pan_button (int, optional): mouse button that enables panning when held
 		pan_mod (int, optional): optional modifier that must be held for panning
-		menu (int, optional): opens context menus (if enabled) when clicked
-		fit (int, optional): fits visible data when double clicked
-		select (int, optional): begins box selection when pressed and confirms selection when released
-		select_mod (int, optional): begins box selection when pressed and confirms selection when released
-		select_cancel (int, optional): cancels active box selection when pressed
-		select_horz_mod (int, optional): expands active box selection/query horizontally to plot edge when held
-		select_vert_mod (int, optional): expands active box selection/query vertically to plot edge when held
+		context_menu_button (int, optional): opens context menus (if enabled) when clicked
+		fit_button (int, optional): fits visible data when double clicked
+		box_select_button (int, optional): begins box selection when pressed and confirms selection when released
+		box_select_mod (int, optional): begins box selection when pressed and confirms selection when released
+		box_select_cancel_button (int, optional): cancels active box selection when pressed
+		horizontal_mod (int, optional): expands active box selection/query horizontally to plot edge when held
+		vertical_mod (int, optional): expands active box selection/query vertically to plot edge when held
 		override_mod (int, optional): when held, all input is ignored; used to enable axis/plots as DND sources
 		zoom_mod (int, optional): optional modifier that must be held for scroll wheel zooming
 		zoom_rate (int, optional): zoom rate for scroll (e.g. 0.1f = 10% plot range every scroll click); make negative to invert
 		id (Union[int, str], optional): (deprecated)
+		no_highlight (bool, optional): (deprecated)Removed because not supported from the backend anymore. To control the highlighting of series use the same argument in `add_plot_legend`
 		anti_aliased (bool, optional): (deprecated)This feature was deprecated in ImPlot. To enable/disable anti_aliasing use `dpg.set_anti_aliasing()`.
+		query_button (int, optional): (deprecated)This refers to the old way of querying of ImPlot, now replaced with `DragRect()`
+		query_mod (int, optional): (deprecated)This refers to the old way of querying of ImPlot, now replaced with `DragRect()`
+		query_toggle_mod (int, optional): (deprecated)This refers to the old way of querying of ImPlot, now replaced with `DragRect()`
 	Yields:
 		Union[int, str]
 	"""
@@ -2216,16 +2248,18 @@ def plot_axis(axis, **kwargs):
 		no_side_switch (bool, optional): the user will not be able to switch the axis side by dragging it
 		no_highlight (bool, optional): the axis will not have its background highlighted when hovered or held
 		opposite (bool, optional): axis ticks and labels will be rendered on the conventionally opposite side (i.e, right or top)
-		foreground (bool, optional): grid lines will be displayed in the foreground (i.e. on top of data) instead of the background
-		formatter (str, optional): Sets a custom tick label formatter
+		foreground_grid (bool, optional): grid lines will be displayed in the foreground (i.e. on top of data) instead of the background
+		tick_format (str, optional): Sets a custom tick label formatter
 		scale (int, optional): Sets the axis' scale. Can have only mvPlotScale_ values
-		invert (bool, optional): the axis will be inverted
+		axis_opposite (bool, optional): the axis will be inverted
 		auto_fit (bool, optional): axis will be auto-fitting to data extents
 		range_fit (bool, optional): axis will only fit points if the point is in the visible range of the **orthogonal** axis
 		pan_stretch (bool, optional): panning in a locked or constrained state will cause the axis to stretch if possible
 		lock_min (bool, optional): the axis minimum value will be locked when panning/zooming
 		lock_max (bool, optional): the axis maximum value will be locked when panning/zooming
 		id (Union[int, str], optional): (deprecated)
+		log_scale (bool, optional): (deprecated)Old way to set log scale in the axis. Use 'scale' argument instead.
+		time (bool, optional): (deprecated)Old way to set time scale in the axis. Use 'scale' argument instead.
 	Yields:
 		Union[int, str]
 	"""
@@ -2286,7 +2320,7 @@ def subplots(rows, columns, **kwargs):
 		no_menus (bool, optional): the user will not be able to open context menus with right-click
 		no_resize (bool, optional): resize splitters between subplot cells will be not be provided
 		no_align (bool, optional): subplot edges will not be aligned vertically or horizontally
-		share_items (bool, optional): items across all subplots will be shared and rendered into a single legend entry
+		share_series (bool, optional): when set to True, series from all sub-plots will be shared to some extent, using a single common color set and showing them in a single legend in the subplots item. Otherwise each plot will be independent from others and will have its own legend
 		link_rows (bool, optional): link the y-axis limits of all plots in each row (does not apply auxiliary y-axes)
 		link_columns (bool, optional): link the x-axis limits of all plots in each column
 		link_all_x (bool, optional): link the x-axis limits in every plot in the subplot
@@ -2765,8 +2799,8 @@ def add_2d_histogram_series(x, y, **kwargs):
 		xmax_range (float, optional): set the max x range value, the values over this max will be ignored
 		ymin_range (float, optional): set the min y range value, the values under this min will be ignored
 		ymax_range (float, optional): set the max y range value, the values over this max will be ignored. If all xmin, xmax, ymin and ymax are 0.0, then the values will be the min and max values of the series
-		no_outliers (bool, optional): exclude values outside the specifed histogram range from the count toward normalizing and cumulative counts
 		density (bool, optional): counts will be normalized, i.e. the PDF will be visualized
+		outliers (bool, optional): exclude values outside the specified histogram range from the count used for normalizing
 		col_major (bool, optional): data will be read in column major order
 		id (Union[int, str], optional): (deprecated)
 	Returns:
@@ -2824,6 +2858,54 @@ def add_alias(alias, item):
 	"""
 
 	return internal_dpg.add_alias(alias, item)
+
+def add_axis_tag(**kwargs):
+	"""	 Adds custom labels to axes.
+
+	Args:
+		label (str, optional): Overrides 'name' as label.
+		user_data (Any, optional): User data for callbacks
+		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
+		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
+		source (Union[int, str], optional): Overrides 'id' as value storage key.
+		show (bool, optional): Attempt to render widget.
+		default_value (float, optional): 
+		color (Union[List[int], Tuple[int, ...]], optional): 
+		auto_rounding (bool, optional): When enabled, the value displayed on the tag will be automatically rounded to the precision of other values displayed at axis' ticks. Only makes sense when label is not set, i.e. when the tag displays its location on the axis.
+		id (Union[int, str], optional): (deprecated)
+	Returns:
+		Union[int, str]
+	"""
+
+	return internal_dpg.add_axis_tag(**kwargs)
+
+def add_bar_group_series(values, label_ids, group_size, **kwargs):
+	"""	 Adds a bar groups series to a plot.
+
+	Args:
+		values (Any): 
+		label_ids (Union[List[str], Tuple[str, ...]]): Label of each bar in a group
+		group_size (int): Number of bars in a group
+		label (str, optional): Overrides 'name' as label.
+		user_data (Any, optional): User data for callbacks
+		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
+		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
+		source (Union[int, str], optional): Overrides 'id' as value storage key.
+		show (bool, optional): Attempt to render widget.
+		group_width (float, optional): Size of bar groups
+		shift (int, optional): The position on the x axis where to start plotting bar groups
+		horizontal (bool, optional): bar groups will be rendered horizontally on the current y-axis
+		stacked (bool, optional): items in a group will be stacked on top of each other
+		id (Union[int, str], optional): (deprecated)
+	Returns:
+		Union[int, str]
+	"""
+
+	return internal_dpg.add_bar_group_series(values, label_ids, group_size, **kwargs)
 
 def add_bar_series(x, y, **kwargs):
 	"""	 Adds a bar series to a plot.
@@ -4182,33 +4264,6 @@ def add_group(**kwargs):
 
 	return internal_dpg.add_group(**kwargs)
 
-def add_group_bar_series(values, label_ids, item_count, group_count, **kwargs):
-	"""	 Adds a bar groups series to a plot. 'values' is a row-major matrix with 'item_count' rows and 'group_count' cols. 'label_ids' should have 'item_count' elements.
-
-	Args:
-		values (Any): 
-		label_ids (Union[List[str], Tuple[str, ...]]): 
-		item_count (int): 
-		group_count (int): 
-		label (str, optional): Overrides 'name' as label.
-		user_data (Any, optional): User data for callbacks
-		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
-		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
-		source (Union[int, str], optional): Overrides 'id' as value storage key.
-		show (bool, optional): Attempt to render widget.
-		group_size (float, optional): Size of bar groups
-		shift (int, optional): The position on the x axis where to start plotting bar groups
-		horizontal (bool, optional): bar groups will be rendered horizontally on the current y-axis
-		stacked (bool, optional): items in a group will be stacked on top of each other
-		id (Union[int, str], optional): (deprecated)
-	Returns:
-		Union[int, str]
-	"""
-
-	return internal_dpg.add_group_bar_series(values, label_ids, item_count, group_count, **kwargs)
-
 def add_handler_registry(**kwargs):
 	"""	 Adds a handler registry.
 
@@ -4273,7 +4328,7 @@ def add_histogram_series(x, **kwargs):
 		max_range (float, optional): set the max range value, the values over this max will be ignored. If both min and max are 0.0, then the values will be the min and max values of the series
 		cumulative (bool, optional): each bin will contain its count plus the counts of all previous bins
 		density (bool, optional): counts will be normalized, i.e. the PDF will be visualized, or the CDF will be visualized if Cumulative is also set
-		no_outliers (bool, optional): exclude values outside the specifed histogram range from the count toward normalizing and cumulative counts
+		outliers (bool, optional): exclude values outside the specifed histogram range from the count toward normalizing and cumulative counts
 		horizontal (bool, optional): histogram bars will be rendered horizontally
 		contribute_to_bounds (bool, optional): 
 		id (Union[int, str], optional): (deprecated)
@@ -5498,7 +5553,6 @@ def add_plot(**kwargs):
 		no_menus (bool, optional): the user will not be able to open context menus with right-click
 		no_box_select (bool, optional): the user will not be able to box-select with right-click drag
 		no_mouse_pos (bool, optional): the text of mouse position, in plot coordinates, will not be displayed inside of the plot
-		no_highlight (bool, optional): plot items will not be highlighted when their legend entry is hovered
 		query (bool, optional): the user will be able to draw query rects with middle - mouse or CTRL + right - click drag
 		crosshairs (bool, optional): the default mouse cursor will be replaced with a crosshair when hovered
 		equal_aspects (bool, optional): primary x and y axes will be constrained to have the same units/pixel (does not apply to auxiliary y-axes)
@@ -5509,20 +5563,24 @@ def add_plot(**kwargs):
 		use_ISO8601 (bool, optional): dates will be formatted according to ISO 8601 where applicable (e.g. YYYY-MM-DD, YYYY-MM, --MM-DD, etc.)
 		use_24hour_clock (bool, optional): times will be formatted using a 24 hour clock
 		delete_rect (bool, optional): allows to delete drag rect with double left mouse click
-		pan (int, optional): mouse button that enables panning when held
+		pan_button (int, optional): mouse button that enables panning when held
 		pan_mod (int, optional): optional modifier that must be held for panning
-		menu (int, optional): opens context menus (if enabled) when clicked
-		fit (int, optional): fits visible data when double clicked
-		select (int, optional): begins box selection when pressed and confirms selection when released
-		select_mod (int, optional): begins box selection when pressed and confirms selection when released
-		select_cancel (int, optional): cancels active box selection when pressed
-		select_horz_mod (int, optional): expands active box selection/query horizontally to plot edge when held
-		select_vert_mod (int, optional): expands active box selection/query vertically to plot edge when held
+		context_menu_button (int, optional): opens context menus (if enabled) when clicked
+		fit_button (int, optional): fits visible data when double clicked
+		box_select_button (int, optional): begins box selection when pressed and confirms selection when released
+		box_select_mod (int, optional): begins box selection when pressed and confirms selection when released
+		box_select_cancel_button (int, optional): cancels active box selection when pressed
+		horizontal_mod (int, optional): expands active box selection/query horizontally to plot edge when held
+		vertical_mod (int, optional): expands active box selection/query vertically to plot edge when held
 		override_mod (int, optional): when held, all input is ignored; used to enable axis/plots as DND sources
 		zoom_mod (int, optional): optional modifier that must be held for scroll wheel zooming
 		zoom_rate (int, optional): zoom rate for scroll (e.g. 0.1f = 10% plot range every scroll click); make negative to invert
 		id (Union[int, str], optional): (deprecated)
+		no_highlight (bool, optional): (deprecated)Removed because not supported from the backend anymore. To control the highlighting of series use the same argument in `add_plot_legend`
 		anti_aliased (bool, optional): (deprecated)This feature was deprecated in ImPlot. To enable/disable anti_aliasing use `dpg.set_anti_aliasing()`.
+		query_button (int, optional): (deprecated)This refers to the old way of querying of ImPlot, now replaced with `DragRect()`
+		query_mod (int, optional): (deprecated)This refers to the old way of querying of ImPlot, now replaced with `DragRect()`
+		query_toggle_mod (int, optional): (deprecated)This refers to the old way of querying of ImPlot, now replaced with `DragRect()`
 	Returns:
 		Union[int, str]
 	"""
@@ -5574,16 +5632,18 @@ def add_plot_axis(axis, **kwargs):
 		no_side_switch (bool, optional): the user will not be able to switch the axis side by dragging it
 		no_highlight (bool, optional): the axis will not have its background highlighted when hovered or held
 		opposite (bool, optional): axis ticks and labels will be rendered on the conventionally opposite side (i.e, right or top)
-		foreground (bool, optional): grid lines will be displayed in the foreground (i.e. on top of data) instead of the background
-		formatter (str, optional): Sets a custom tick label formatter
+		foreground_grid (bool, optional): grid lines will be displayed in the foreground (i.e. on top of data) instead of the background
+		tick_format (str, optional): Sets a custom tick label formatter
 		scale (int, optional): Sets the axis' scale. Can have only mvPlotScale_ values
-		invert (bool, optional): the axis will be inverted
+		axis_opposite (bool, optional): the axis will be inverted
 		auto_fit (bool, optional): axis will be auto-fitting to data extents
 		range_fit (bool, optional): axis will only fit points if the point is in the visible range of the **orthogonal** axis
 		pan_stretch (bool, optional): panning in a locked or constrained state will cause the axis to stretch if possible
 		lock_min (bool, optional): the axis minimum value will be locked when panning/zooming
 		lock_max (bool, optional): the axis maximum value will be locked when panning/zooming
 		id (Union[int, str], optional): (deprecated)
+		log_scale (bool, optional): (deprecated)Old way to set log scale in the axis. Use 'scale' argument instead.
+		time (bool, optional): (deprecated)Old way to set time scale in the axis. Use 'scale' argument instead.
 	Returns:
 		Union[int, str]
 	"""
@@ -5616,29 +5676,6 @@ def add_plot_legend(**kwargs):
 	"""
 
 	return internal_dpg.add_plot_legend(**kwargs)
-
-def add_plot_tag(**kwargs):
-	"""	 Adds custom labels to axes.
-
-	Args:
-		label (str, optional): Overrides 'name' as label.
-		user_data (Any, optional): User data for callbacks
-		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
-		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
-		source (Union[int, str], optional): Overrides 'id' as value storage key.
-		show (bool, optional): Attempt to render widget.
-		default_value (float, optional): 
-		vertical (bool, optional): 
-		color (Union[List[int], Tuple[int, ...]], optional): 
-		round (bool, optional): This can be enabled only if there's no label
-		id (Union[int, str], optional): (deprecated)
-	Returns:
-		Union[int, str]
-	"""
-
-	return internal_dpg.add_plot_tag(**kwargs)
 
 def add_progress_bar(**kwargs):
 	"""	 Adds a progress bar.
@@ -6247,7 +6284,7 @@ def add_subplots(rows, columns, **kwargs):
 		no_menus (bool, optional): the user will not be able to open context menus with right-click
 		no_resize (bool, optional): resize splitters between subplot cells will be not be provided
 		no_align (bool, optional): subplot edges will not be aligned vertically or horizontally
-		share_items (bool, optional): items across all subplots will be shared and rendered into a single legend entry
+		share_series (bool, optional): when set to True, series from all sub-plots will be shared to some extent, using a single common color set and showing them in a single legend in the subplots item. Otherwise each plot will be independent from others and will have its own legend
 		link_rows (bool, optional): link the y-axis limits of all plots in each row (does not apply auxiliary y-axes)
 		link_columns (bool, optional): link the x-axis limits of all plots in each column
 		link_all_x (bool, optional): link the x-axis limits in every plot in the subplot
@@ -6449,7 +6486,7 @@ def add_table_column(**kwargs):
 		prefer_sort_descending (bool, optional): Make the initial sort direction Descending when first sorting on this column.
 		indent_enable (bool, optional): Use current Indent value when entering cell (default for column 0).
 		indent_disable (bool, optional): Ignore current Indent value when entering cell (default for columns > 0). Indentation changes _within_ the cell will still be honored.
-		angle_header (bool, optional): TableHeadersRow() will submit an angled header row for this column. Note this will add an extra row.
+		angled_header (bool, optional): TableHeadersRow() will submit an angled header row for this column. Note this will add an extra row.
 		disabled (bool, optional): Default as a hidden/disabled column.
 		no_header_label (bool, optional): TableHeadersRow() will not submit horizontal label for this column. Convenient for some small columns. Name will still appear in context menu or in angled headers.
 		id (Union[int, str], optional): (deprecated)
@@ -6540,9 +6577,11 @@ def add_text_point(x, y, **kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		show (bool, optional): Attempt to render widget.
-		offset (Union[List[float], Tuple[float, ...]], optional): Offset of the shown label
+		offset (Union[List[float], Tuple[float, ...]], optional): Offset of the label, in pixels, relative to the coordinates.
 		vertical (bool, optional): 
 		id (Union[int, str], optional): (deprecated)
+		x_offset (int, optional): (deprecated)Old way to set x offset of the label. Use `offset` argument instead.
+		y_offset (int, optional): (deprecated)Old way to set y offset of the label. Use `offset` argument instead.
 	Returns:
 		Union[int, str]
 	"""
@@ -9289,13 +9328,13 @@ mvDragPoint=internal_dpg.mvDragPoint
 mvDragLine=internal_dpg.mvDragLine
 mvDragRect=internal_dpg.mvDragRect
 mvAnnotation=internal_dpg.mvAnnotation
-mvTag=internal_dpg.mvTag
+mvAxisTag=internal_dpg.mvAxisTag
 mvLineSeries=internal_dpg.mvLineSeries
 mvScatterSeries=internal_dpg.mvScatterSeries
 mvStemSeries=internal_dpg.mvStemSeries
 mvStairSeries=internal_dpg.mvStairSeries
 mvBarSeries=internal_dpg.mvBarSeries
-mvGroupBarSeries=internal_dpg.mvGroupBarSeries
+mvBarGroupSeries=internal_dpg.mvBarGroupSeries
 mvErrorSeries=internal_dpg.mvErrorSeries
 mvInfLineSeries=internal_dpg.mvInfLineSeries
 mvHeatSeries=internal_dpg.mvHeatSeries

@@ -2051,8 +2051,6 @@ def show_demo():
                             callback=lambda: dpg.configure_item("bar_group_series", stacked=dpg.get_value("stacked_group_bar_cb")))
                         dpg.add_slider_float(label="Bar Width", tag="bar_width_group_bar", default_value=0.67, max_value=1.0, 
                                              min_value=0.1, callback=lambda s, a, u: dpg.configure_item("bar_group_series", group_size=a))
-                        dpg.add_slider_int(label="Item count", tag="item_count_group_bar", default_value=3, max_value=3, 
-                                             min_value=1, callback=lambda s, a, u: dpg.configure_item("bar_group_series", item_count=a))
                         with dpg.plot(label="Bar Group Series", height=400, width=-1):
                             dpg.add_plot_legend()
                             
@@ -2062,7 +2060,6 @@ def show_demo():
                             
                             ilabels = ["Midterm Exam","Final Exam","Course Grade"]
                             glabels = (("S1",0), ("S2",1), ("S3",2), ("S4",3), ("S5",4), ("S6",5), ("S7",6), ("S8",7), ("S9",8), ("S10",9))
-                            item_c = 3
                             groups_c = 10
                             positions = [0,1,2,3,4,5,6,7,8,9]
 
@@ -2074,8 +2071,8 @@ def show_demo():
                             # create y axis
                             with dpg.plot_axis(dpg.mvYAxis, label="Score", tag="yaxis_bar_group", auto_fit=True):
                                 dpg.set_axis_limits(dpg.last_item(), 0, 110)
-                                dpg.add_group_bar_series(values=values_group_series, label_ids=ilabels, 
-                                    item_count=item_c, group_count=groups_c, tag="bar_group_series", label="Final Exam", )
+                                dpg.add_bar_group_series(values=values_group_series, label_ids=ilabels, 
+                                    group_size=groups_c, tag="bar_group_series", label="Final Exam", )
 
                     with dpg.tree_node(label="Bar Stacks"):
 
@@ -2107,9 +2104,9 @@ def show_demo():
                         
                         def divergent_stack_cb(sender, app_data, user_data):
                             if app_data:
-                                dpg.configure_item("divergent_stack_series", values=data_div, label_ids=labels_div, item_count=9, group_count=20, group_size=0.75, shift=0, stacked=True, horizontal=True)
+                                dpg.configure_item("divergent_stack_series", values=data_div, label_ids=labels_div, group_size=20, group_width=0.75, shift=0, stacked=True, horizontal=True)
                             else:
-                                dpg.configure_item("divergent_stack_series", values=data_reg, label_ids=labels_reg, item_count=6, group_count=20, group_size=0.75, shift=0, stacked=True, horizontal=True)
+                                dpg.configure_item("divergent_stack_series", values=data_reg, label_ids=labels_reg, group_size=20, group_width=0.75, shift=0, stacked=True, horizontal=True)
                         
                         dpg.add_checkbox(label="Divergent", tag="divergent_stack_cb", default_value=True, callback=divergent_stack_cb)
                         with dpg.plot(label="PolitiFact: Who Lies More?", height=400, width=-1):
@@ -2120,10 +2117,10 @@ def show_demo():
                             with dpg.plot_axis(dpg.mvYAxis) as yaxis:
                                 dpg.set_axis_ticks(yaxis, politicians)
                                 dpg.set_axis_limits(yaxis, -0.5, 19.5)
-                                dpg.add_group_bar_series(tag="divergent_stack_series", values=data_div, label_ids=labels_div,
-                                    item_count=9, group_count=20, group_size=0.75, shift=0, stacked=True, horizontal=True)
-                                # dpg.add_group_bar_series(values=data_reg, label_ids=labels_reg,
-                                #     item_count=6, group_count=20, group_size=0.75, shift=0, stacked=True, horizontal=True)
+                                dpg.add_bar_group_series(tag="divergent_stack_series", values=data_div, label_ids=labels_div,
+                                    group_size=20, group_width=0.75, shift=0, stacked=True, horizontal=True)
+                                # dpg.add_bar_group_series(values=data_reg, label_ids=labels_reg,
+                                #      group_size=20, group_width=0.75, shift=0, stacked=True, horizontal=True)
 
                     with dpg.tree_node(label="Error Series"):
 
@@ -2297,9 +2294,9 @@ def show_demo():
                                 y_dist = [random.gauss(1, 1) for _ in range(count_2d_histogram)]
                                 max_count = float(max(*x_dist, *y_dist))
 
-                                x_axis = dpg.add_plot_axis(dpg.mvXAxis, label="x", auto_fit=True, foreground=True)
+                                x_axis = dpg.add_plot_axis(dpg.mvXAxis, label="x", auto_fit=True, foreground_grid=True)
                                 dpg.set_axis_limits(dpg.last_item(), -6, 6)
-                                with dpg.plot_axis(dpg.mvYAxis, label="y", auto_fit=True, foreground=True):
+                                with dpg.plot_axis(dpg.mvYAxis, label="y", auto_fit=True, foreground_grid=True):
                                     dpg.set_axis_limits(dpg.last_item(), -6, 6)
                                     dpg.add_2d_histogram_series(x_dist, y_dist, tag="histogram_2d_series",
                                                                 label="histogram", xbins=xybin_2d_histogram[0], ybins=xybin_2d_histogram[1],
@@ -2647,15 +2644,15 @@ def show_demo():
 
                     with dpg.tree_node(label="Tags"):
                         with dpg.plot(height=400, width=-1):
-                            dpg.add_plot_axis(dpg.mvXAxis)
-                            dpg.add_plot_axis(dpg.mvYAxis)
-                            dpg.add_plot_tag(default_value=0.25, color=(255, 255, 0, 255))
-                            dpg.add_plot_tag(default_value=0.75, vertical=True, color=(255, 255, 0, 255))
+                            with dpg.plot_axis(dpg.mvXAxis):
+                                dpg.add_axis_tag(default_value=0.25, color=(255, 255, 0, 255))
+                            with dpg.plot_axis(dpg.mvYAxis):
+                                dpg.add_axis_tag(default_value=0.75, color=(255, 255, 0, 255))
                             dpg.add_drag_line(vertical=False, label="Drag", default_value=0.25, color=(255, 0, 0, 255), no_fit=True)
-                            dpg.add_plot_axis(dpg.mvXAxis2)
-                            dpg.add_plot_axis(dpg.mvYAxis2)
-                            dpg.add_plot_tag(default_value=0.5, color=(0, 255, 255, 255), label="MyTag")
-                            dpg.add_plot_tag(default_value=0.5, vertical=True, color=(0, 255, 255, 255), label="Tag: 42")
+                            with dpg.plot_axis(dpg.mvXAxis2):
+                                dpg.add_axis_tag(default_value=0.5, color=(0, 255, 255, 255), label="MyTag")
+                            with dpg.plot_axis(dpg.mvYAxis2):
+                                dpg.add_axis_tag(default_value=0.5, color=(0, 255, 255, 255), label="Tag: 42")
 
                     with dpg.tree_node(label="Drag & Drop"):
 
