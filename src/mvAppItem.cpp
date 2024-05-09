@@ -2871,6 +2871,11 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "leaf", mvArgType::KEYWORD_ARG, "False", "No collapsing, no arrow (use as a convenience for leaf nodes)." });
         args.push_back({ mvPyDataType::Bool, "bullet", mvArgType::KEYWORD_ARG, "False", "Display a bullet instead of arrow." });
         args.push_back({ mvPyDataType::Bool, "selectable", mvArgType::KEYWORD_ARG, "False", "Makes the tree selectable." });
+        args.push_back({ mvPyDataType::Bool, "span_text_width", mvArgType::KEYWORD_ARG, "False", "Makes hitbox and highlight only cover the label." });
+        args.push_back({ mvPyDataType::Bool, "span_full_width", mvArgType::KEYWORD_ARG, "False", "Extend hit box to the left-most and right-most edges (cover the indent area)." });
+        // TODO: Test these 2 arguments
+        // args.push_back({ mvPyDataType::Bool, "span_available_width", mvArgType::KEYWORD_ARG, "False", "Extend hit box to the right-most edge, even if not framed." });
+        // args.push_back({ mvPyDataType::Bool, "span_all_columns", mvArgType::KEYWORD_ARG, "False", "Frame will span all columns of its container table (text will still fit in current column)." });
 
         setup.about = "Adds a tree node to add items to.";
         setup.category = { "Containers", "Widgets" };
@@ -2897,7 +2902,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         );
 
         args.push_back({ mvPyDataType::String, "overlay", mvArgType::KEYWORD_ARG, "''", "Overlayed text onto the bar that typically used to display the value of the progress." });
-        args.push_back({ mvPyDataType::Float, "default_value", mvArgType::KEYWORD_ARG, "0.0", "Normalized value to fill the bar from 0.0 to 1.0." });
+        args.push_back({ mvPyDataType::Float, "default_value", mvArgType::KEYWORD_ARG, "0.0", "Normalized value to fill the bar from 0.0 to 1.0. Put a negative value to show an indeterminate progress bar." });
 
         setup.about = "Adds a progress bar.";
         break;
@@ -2940,7 +2945,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         );
 
         args.push_back({ mvPyDataType::UUID, "texture_tag", mvArgType::REQUIRED_ARG, "", "The texture_tag should come from a texture that was added to a texture registry." });
-        args.push_back({ mvPyDataType::Integer, "frame_padding", mvArgType::KEYWORD_ARG, "-1", "Empty space around the outside of the texture. Button will show around the texture." });
+        args.push_back({ mvPyDataType::Integer, "frame_padding", mvArgType::DEPRECATED_KEYWORD_ARG, "-1", "Empty space around the outside of the texture. Button will show around the texture. This is not supported anymore by ImGui but still used here as deprecated.", "''" });
         args.push_back({ mvPyDataType::FloatList, "tint_color", mvArgType::KEYWORD_ARG, "(255, 255, 255, 255)", "Applies a color tint to the entire texture." });
         args.push_back({ mvPyDataType::FloatList, "background_color", mvArgType::KEYWORD_ARG, "(0, 0, 0, 0)", "Displays a border of the specified color around the texture." });
         args.push_back({ mvPyDataType::FloatList, "uv_min", mvArgType::KEYWORD_ARG, "(0.0, 0.0)", "Normalized texture coordinates min point." });
@@ -3236,7 +3241,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "prefer_sort_descending", mvArgType::KEYWORD_ARG, "False", "Make the initial sort direction Descending when first sorting on this column." });
         args.push_back({ mvPyDataType::Bool, "indent_enable", mvArgType::KEYWORD_ARG, "False", "Use current Indent value when entering cell (default for column 0)." });
         args.push_back({ mvPyDataType::Bool, "indent_disable", mvArgType::KEYWORD_ARG, "False", "Ignore current Indent value when entering cell (default for columns > 0). Indentation changes _within_ the cell will still be honored." });
-        args.push_back({ mvPyDataType::Bool, "angle_header", mvArgType::KEYWORD_ARG, "False", "TableHeadersRow() will submit an angled header row for this column. Note this will add an extra row." });
+        args.push_back({ mvPyDataType::Bool, "angled_header", mvArgType::KEYWORD_ARG, "False", "TableHeadersRow() will submit an angled header row for this column. Note this will add an extra row." });
         args.push_back({ mvPyDataType::Bool, "disabled", mvArgType::KEYWORD_ARG, "False", "Default as a hidden/disabled column." });
         args.push_back({ mvPyDataType::Bool, "no_header_label", mvArgType::KEYWORD_ARG, "False", "TableHeadersRow() will not submit horizontal label for this column. Convenient for some small columns. Name will still appear in context menu or in angled headers." });
 

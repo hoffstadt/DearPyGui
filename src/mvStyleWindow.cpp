@@ -91,6 +91,7 @@ void mvStyleWindow::drawWidgets()
             ImGui::SliderFloat("mvStyleVar_PopupBorderSize", &style.PopupBorderSize, 0.0f, 1.0f, "%.0f");
             ImGui::SliderFloat("mvStyleVar_FrameBorderSize", &style.FrameBorderSize, 0.0f, 1.0f, "%.0f");
             ImGui::SliderFloat("mvStyleVar_TabBorderSize", &style.TabBorderSize, 0.0f, 1.0f, "%.0f");
+            ImGui::SliderFloat("mvStyleVar_TabBarBorderSize", &style.TabBarBorderSize, 0.0f, 1.0f, "%.0f");
             ImGui::Text("Rounding");
             ImGui::SliderFloat("mvStyleVar_WindowRounding", &style.WindowRounding, 0.0f, 12.0f, "%.0f");
             ImGui::SliderFloat("mvStyleVar_ChildRounding", &style.ChildRounding, 0.0f, 12.0f, "%.0f");
@@ -108,6 +109,7 @@ void mvStyleWindow::drawWidgets()
             ImGui::SliderFloat("DockingSplitterSize", &style.DockingSeparatorSize, 0.0f, 12.0f, "%.0f");
             ImGui::Text("Alignment");
             ImGui::SliderFloat2("mvStyleVar_WindowTitleAlign", (float*)&style.WindowTitleAlign, 0.0f, 1.0f, "%.2f");
+            ImGui::SliderFloat2("mvStyleVar_TableAngledHeadersTextAlign", (float*)&style.TableAngledHeadersTextAlign, 0.0f, 1.0f, "%.2f");
             //int window_menu_button_position = style.WindowMenuButtonPosition + 1;
             //if (ImGui::Combo("WindowMenuButtonPosition", (int*)&window_menu_button_position, "None\0Left\0Right\0"))
             //    style.WindowMenuButtonPosition = window_menu_button_position - 1;
@@ -169,6 +171,8 @@ void mvStyleWindow::drawWidgets()
             ImGui::SliderFloat("mvNodeStyleVar_PinOffset", &ImNodes::GetStyle().PinOffset, 0.0f, 10.0f, "%.0f");
             ImGui::SliderFloat2("mvNodesStyleVar_MiniMapPadding", (float*)&ImNodes::GetStyle().MiniMapPadding.x, 0.0f, 10.0f, "%.0f");
             ImGui::SliderFloat2("mvNodesStyleVar_MiniMapOffset", (float*)&ImNodes::GetStyle().MiniMapOffset.y, 0.0f, 10.0f, "%.0f");
+            ImGui::Text("Tables");
+            ImGui::SliderFloat("mvStyleVar_TableAngledHeadersAngle", &style.TableAngledHeadersAngle, -1.0f, +1.0f, "%.2f");
 
             ImGui::EndTabItem();
         }

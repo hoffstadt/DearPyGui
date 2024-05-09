@@ -246,7 +246,7 @@ def add_image(texture_tag : Union[int, str], *, label: str ='', user_data: Any =
 	"""Adds an image from a specified texture. uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown. Using range (0.0,0.0)->(1.0,1.0) for texture coordinates will generally display the entire texture."""
 	...
 
-def add_image_button(texture_tag : Union[int, str], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', frame_padding: int ='', tint_color: Union[List[float], Tuple[float, ...]] ='', background_color: Union[List[float], Tuple[float, ...]] ='', uv_min: Union[List[float], Tuple[float, ...]] ='', uv_max: Union[List[float], Tuple[float, ...]] ='') -> Union[int, str]:
+def add_image_button(texture_tag : Union[int, str], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', tint_color: Union[List[float], Tuple[float, ...]] ='', background_color: Union[List[float], Tuple[float, ...]] ='', uv_min: Union[List[float], Tuple[float, ...]] ='', uv_max: Union[List[float], Tuple[float, ...]] ='') -> Union[int, str]:
 	"""Adds an button with a texture. uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown. Using range (0.0,0.0)->(1.0,1.0) texture coordinates will generally display the entire texture"""
 	...
 
@@ -606,7 +606,7 @@ def add_tooltip(parent : Union[int, str], *, label: str ='', user_data: Any ='',
 	"""Adds a tooltip window."""
 	...
 
-def add_tree_node(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', delay_search: bool ='', tracked: bool ='', track_offset: float ='', default_open: bool ='', open_on_double_click: bool ='', open_on_arrow: bool ='', leaf: bool ='', bullet: bool ='', selectable: bool ='') -> Union[int, str]:
+def add_tree_node(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', delay_search: bool ='', tracked: bool ='', track_offset: float ='', default_open: bool ='', open_on_double_click: bool ='', open_on_arrow: bool ='', leaf: bool ='', bullet: bool ='', selectable: bool ='', span_text_width: bool ='', span_full_width: bool ='') -> Union[int, str]:
 	"""Adds a tree node to add items to."""
 	...
 
@@ -1665,7 +1665,10 @@ mvStyleVar_ScrollbarRounding=0
 mvStyleVar_GrabMinSize=0
 mvStyleVar_GrabRounding=0
 mvStyleVar_TabRounding=0
+mvStyleVar_TabBorderSize=0
 mvStyleVar_TabBarBorderSize=0
+mvStyleVar_TableAngledHeadersAngle=0
+mvStyleVar_TableAngledHeadersTextAlign=0
 mvStyleVar_ButtonTextAlign=0
 mvStyleVar_SelectableTextAlign=0
 mvStyleVar_SeparatorTextBorderSize=0
