@@ -2603,7 +2603,7 @@ def show_demo():
                             with dpg.plot_axis(dpg.mvYAxis, label="y"):
                                 dpg.add_line_series(sindatax, sindatay)
                                 
-                        dpg.add_text("This plot takes care only of the firs query rect")
+                        dpg.add_text("This plot takes care only of the first query rect")
                         # plot 2
                         with dpg.plot(no_title=True, height=400, no_menus=True, width=-1, tag="plot2"):          
                             xaxis_id2 = dpg.add_plot_axis(dpg.mvXAxis, label="x")

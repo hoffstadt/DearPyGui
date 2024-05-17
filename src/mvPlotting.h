@@ -417,6 +417,7 @@ struct mvPlotConfig
     std::vector<ImPlotRect>                     rects = std::vector<ImPlotRect>();
     bool                                        _fitDirty = false;
     bool                                        _axisfitDirty[ImAxis_COUNT] = { false, false, false, false, false, false }; 
+    bool                                        _query_dirty = false;
     ImPlotInputMap                              _originalMap = ImPlotInputMap(); // custom input mapping
     bool                                        localTime = false;
     bool                                        iSO8601 = false;

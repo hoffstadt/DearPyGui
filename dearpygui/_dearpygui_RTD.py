@@ -1583,9 +1583,9 @@ def child_window(**kwargs):
 		no_scroll_with_mouse (bool, optional): Disable user vertically scrolling with mouse wheel.
 		flattened_navigation (bool, optional): Allow gamepad/keyboard navigation to cross over parent border to this child (only use on child that have no scrolling!)
 		always_use_window_padding (bool, optional): Pad with style.WindowPadding even if no border are drawn (no padding by default for non-bordered child windows because it makes more sense)
-		resize_x (bool, optional): Allow resize from right border (layout direction). Enable .ini saving (unless ImGuiWindowFlags_NoSavedSettings passed to window flags)
+		resize_x (bool, optional): Allow resize from right border (layout direction). Enable .ini saving (unless 'no_saved_settings' is passed as parameter)
 		resize_y (bool, optional): Allow resize from bottom border (layout direction). 
-		always_auto_resize (bool, optional): Combined with AutoResizeX/AutoResizeY. Always measure size even when child is hidden, always return true, always disable clipping optimization! NOT RECOMMENDED.
+		always_auto_resize (bool, optional): Combined with auto_resize_x/auto_resize_y. Always measure size even when child is hidden and always disable clipping optimization! NOT RECOMMENDED.
 		frame_style (bool, optional): Style the child window like a framed item: use FrameBg, FrameRounding, FrameBorderSize, FramePadding instead of ChildBg, ChildRounding, ChildBorderSize, WindowPadding.
 		auto_resize_x (bool, optional): Enable auto-resizing width based on child content. Read 'IMPORTANT: Size measurement' details above.
 		auto_resize_y (bool, optional): Enable auto-resizing height based on child content. Read 'IMPORTANT: Size measurement' details above.
@@ -2211,7 +2211,7 @@ def plot(**kwargs):
 		zoom_rate (int, optional): zoom rate for scroll (e.g. 0.1f = 10% plot range every scroll click); make negative to invert
 		id (Union[int, str], optional): (deprecated)
 		no_highlight (bool, optional): (deprecated)Removed because not supported from the backend anymore. To control the highlighting of series use the same argument in `add_plot_legend`
-		anti_aliased (bool, optional): (deprecated)This feature was deprecated in ImPlot. To enable/disable anti_aliasing use `dpg.set_anti_aliasing()`.
+		anti_aliased (bool, optional): (deprecated)This feature was deprecated in ImPlot. To enable/disable anti_aliasing use `dpg.configure_app()` with the `anti_aliasing` parameters.
 		query_button (int, optional): (deprecated)This refers to the old way of querying of ImPlot, now replaced with `DragRect()`
 		query_mod (int, optional): (deprecated)This refers to the old way of querying of ImPlot, now replaced with `DragRect()`
 		query_toggle_mod (int, optional): (deprecated)This refers to the old way of querying of ImPlot, now replaced with `DragRect()`
@@ -3091,9 +3091,9 @@ def add_child_window(**kwargs):
 		no_scroll_with_mouse (bool, optional): Disable user vertically scrolling with mouse wheel.
 		flattened_navigation (bool, optional): Allow gamepad/keyboard navigation to cross over parent border to this child (only use on child that have no scrolling!)
 		always_use_window_padding (bool, optional): Pad with style.WindowPadding even if no border are drawn (no padding by default for non-bordered child windows because it makes more sense)
-		resize_x (bool, optional): Allow resize from right border (layout direction). Enable .ini saving (unless ImGuiWindowFlags_NoSavedSettings passed to window flags)
+		resize_x (bool, optional): Allow resize from right border (layout direction). Enable .ini saving (unless 'no_saved_settings' is passed as parameter)
 		resize_y (bool, optional): Allow resize from bottom border (layout direction). 
-		always_auto_resize (bool, optional): Combined with AutoResizeX/AutoResizeY. Always measure size even when child is hidden, always return true, always disable clipping optimization! NOT RECOMMENDED.
+		always_auto_resize (bool, optional): Combined with auto_resize_x/auto_resize_y. Always measure size even when child is hidden and always disable clipping optimization! NOT RECOMMENDED.
 		frame_style (bool, optional): Style the child window like a framed item: use FrameBg, FrameRounding, FrameBorderSize, FramePadding instead of ChildBg, ChildRounding, ChildBorderSize, WindowPadding.
 		auto_resize_x (bool, optional): Enable auto-resizing width based on child content. Read 'IMPORTANT: Size measurement' details above.
 		auto_resize_y (bool, optional): Enable auto-resizing height based on child content. Read 'IMPORTANT: Size measurement' details above.
@@ -3898,9 +3898,8 @@ def add_drag_rect(**kwargs):
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
-		default_value (Any, optional): 
+		default_value (Any, optional): The coordinates are specified in a sequence of: (xmin, ymin, xmax, ymax)
 		color (Union[List[int], Tuple[int, ...]], optional): 
-		thickness (float, optional): 
 		delayed (bool, optional): tool rendering will be delayed one frame; useful when applying position-constraints
 		no_cursor (bool, optional): drag tools won't change cursor icons when hovered or held
 		no_fit (bool, optional): the drag tool won't be considered for plot fits
@@ -4405,7 +4404,7 @@ def add_image_button(texture_tag, **kwargs):
 		uv_min (Union[List[float], Tuple[float, ...]], optional): Normalized texture coordinates min point.
 		uv_max (Union[List[float], Tuple[float, ...]], optional): Normalized texture coordinates max point.
 		id (Union[int, str], optional): (deprecated)
-		frame_padding (int, optional): (deprecated)Empty space around the outside of the texture. Button will show around the texture. This is not supported anymore by ImGui but still used here as deprecated.
+		frame_padding (int, optional): (deprecated)Empty space around the outside of the texture. Button will show around the texture.
 	Returns:
 		Union[int, str]
 	"""
@@ -5579,7 +5578,7 @@ def add_plot(**kwargs):
 		zoom_rate (int, optional): zoom rate for scroll (e.g. 0.1f = 10% plot range every scroll click); make negative to invert
 		id (Union[int, str], optional): (deprecated)
 		no_highlight (bool, optional): (deprecated)Removed because not supported from the backend anymore. To control the highlighting of series use the same argument in `add_plot_legend`
-		anti_aliased (bool, optional): (deprecated)This feature was deprecated in ImPlot. To enable/disable anti_aliasing use `dpg.set_anti_aliasing()`.
+		anti_aliased (bool, optional): (deprecated)This feature was deprecated in ImPlot. To enable/disable anti_aliasing use `dpg.configure_app()` with the `anti_aliasing` parameters.
 		query_button (int, optional): (deprecated)This refers to the old way of querying of ImPlot, now replaced with `DragRect()`
 		query_mod (int, optional): (deprecated)This refers to the old way of querying of ImPlot, now replaced with `DragRect()`
 		query_toggle_mod (int, optional): (deprecated)This refers to the old way of querying of ImPlot, now replaced with `DragRect()`
@@ -6488,9 +6487,9 @@ def add_table_column(**kwargs):
 		prefer_sort_descending (bool, optional): Make the initial sort direction Descending when first sorting on this column.
 		indent_enable (bool, optional): Use current Indent value when entering cell (default for column 0).
 		indent_disable (bool, optional): Ignore current Indent value when entering cell (default for columns > 0). Indentation changes _within_ the cell will still be honored.
-		angled_header (bool, optional): TableHeadersRow() will submit an angled header row for this column. Note this will add an extra row.
+		angled_header (bool, optional): Set this parameter to True to display the header text for this column in an angled (diagonal) orientation. This will add an additional row to accommodate the angled text.
 		disabled (bool, optional): Default as a hidden/disabled column.
-		no_header_label (bool, optional): TableHeadersRow() will not submit horizontal label for this column. Convenient for some small columns. Name will still appear in context menu or in angled headers.
+		no_header_label (bool, optional): Disable horizontal label for this column. Name will still appear in context menu or in angled headers.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -8375,19 +8374,6 @@ def save_init_file(file):
 
 	return internal_dpg.save_init_file(file)
 
-def set_anti_aliasing(**kwargs):
-	"""	 Sets anti-aliasing options.
-
-	Args:
-		anti_aliased_lines (bool, optional): Enable anti-aliased lines/borders. Disable if you are really tight on CPU/GPU. Latched at the beginning of the frame (copied to ImDrawList).
-		anti_aliased_lines_use_tex (bool, optional): Enable anti-aliased lines/borders using textures where possible. Require backend to render with bilinear filtering (NOT point/nearest filtering). Latched at the beginning of the frame (copied to ImDrawList).
-		anti_aliased_fill (bool, optional): Enable anti-aliased edges around filled shapes (rounded rectangles, circles, etc.). Disable if you are really tight on CPU/GPU. Latched at the beginning of the frame (copied to ImDrawList).
-	Returns:
-		None
-	"""
-
-	return internal_dpg.set_anti_aliasing(**kwargs)
-
 def set_axis_limits(axis, ymin, ymax):
 	"""	 Sets limits on the axis for pan and zoom.
 
@@ -9122,6 +9108,8 @@ mvThemeCol_TabHovered=internal_dpg.mvThemeCol_TabHovered
 mvThemeCol_TabActive=internal_dpg.mvThemeCol_TabActive
 mvThemeCol_TabUnfocused=internal_dpg.mvThemeCol_TabUnfocused
 mvThemeCol_TabUnfocusedActive=internal_dpg.mvThemeCol_TabUnfocusedActive
+mvThemeCol_DockingPreview=internal_dpg.mvThemeCol_DockingPreview
+mvThemeCol_DockingEmptyBg=internal_dpg.mvThemeCol_DockingEmptyBg
 mvThemeCol_PlotLines=internal_dpg.mvThemeCol_PlotLines
 mvThemeCol_PlotLinesHovered=internal_dpg.mvThemeCol_PlotLinesHovered
 mvThemeCol_PlotHistogram=internal_dpg.mvThemeCol_PlotHistogram

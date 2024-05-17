@@ -232,57 +232,36 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 
 			if (_tableHeader)
 			{
-				bool has_angled_header = false;
-				bool has_no_header_label = false;
+				// Checking if we need the angled header row
+				ImGuiTableColumnFlags flags = ImGuiTableColumnFlags_None;
+				for (int column = 0; column < childslots[0].size(); column++)
+					flags |= ImGui::TableGetColumnFlags(column);
+
+				if (ImHasFlag(flags, ImGuiTableColumnFlags_AngledHeader))
+					ImGui::TableAngledHeadersRow();
+
+				ImGui::TableNextRow(ImGuiTableRowFlags_Headers);
 				for (int column = 0; column < childslots[0].size(); column++)
 				{
-					ImGuiTableColumnFlags flags_column = ImGui::TableGetColumnFlags(column);
-					has_angled_header |= (flags_column & ImGuiTableColumnFlags_AngledHeader) != 0;
-					has_no_header_label |= (flags_column & ImGuiTableColumnFlags_NoHeaderLabel) != 0;
-				}
+					ImGui::TableSetColumnIndex(column);
 
-				if (has_angled_header || has_no_header_label) {
-					for (int column = 0; column < childslots[0].size(); column++)
+					const char* column_name = ImGui::TableGetColumnName(column); // Retrieve name passed to TableSetupColumn()
+					ImGui::PushID(column);
+
+					bool with_label = !ImHasFlag(ImGui::TableGetColumnFlags(column), ImGuiTableColumnFlags_NoHeaderLabel);
+					ImGui::TableHeader(with_label ? column_name : "");
+
+					if (childslots[2][column])
 					{
-						if (childslots[2][column])
-						{
-							// columns
-							auto& item = childslots[2][column];
-							// skip item if it's not shown
-							if (!item->config.show)
-								continue;
+						// columns
+						auto& item = childslots[2][column];
+						// skip item if it's not shown
+						if (!item->config.show)
+							continue;
 
-							item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-						}
+						item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 					}
-					if (has_angled_header)
-						ImGui::TableAngledHeadersRow();
-					ImGui::TableHeadersRow();
-				}
-				else {
-					ImGui::TableNextRow(ImGuiTableRowFlags_Headers);
-					for (int column = 0; column < childslots[0].size(); column++)
-					{
-						ImGui::TableSetColumnIndex(column);
-
-						const char* column_name = ImGui::TableGetColumnName(column); // Retrieve name passed to TableSetupColumn()
-						ImGui::PushID(column);
-
-						bool with_label = !ImHasFlag(ImGui::TableGetColumnFlags(column), ImGuiTableColumnFlags_NoHeaderLabel);
-						ImGui::TableHeader(with_label ? column_name : "");
-
-						if (childslots[2][column])
-						{
-							// columns
-							auto& item = childslots[2][column];
-							// skip item if it's not shown
-							if (!item->config.show)
-								continue;
-
-							item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-						}
-						ImGui::PopID();
-					}
+					ImGui::PopID();
 				}
 			}
 

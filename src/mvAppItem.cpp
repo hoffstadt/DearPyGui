@@ -2099,21 +2099,18 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "no_scroll_with_mouse", mvArgType::KEYWORD_ARG, "False", "Disable user vertically scrolling with mouse wheel." });
         args.push_back({ mvPyDataType::Bool, "flattened_navigation", mvArgType::KEYWORD_ARG, "True", "Allow gamepad/keyboard navigation to cross over parent border to this child (only use on child that have no scrolling!)" });
         args.push_back({ mvPyDataType::Bool, "always_use_window_padding", mvArgType::KEYWORD_ARG, "False", "Pad with style.WindowPadding even if no border are drawn (no padding by default for non-bordered child windows because it makes more sense)" });
-        args.push_back({ mvPyDataType::Bool, "resize_x", mvArgType::KEYWORD_ARG, "False", "Allow resize from right border (layout direction). Enable .ini saving (unless ImGuiWindowFlags_NoSavedSettings passed to window flags)" });
+        args.push_back({ mvPyDataType::Bool, "resize_x", mvArgType::KEYWORD_ARG, "False", "Allow resize from right border (layout direction). Enable .ini saving (unless 'no_saved_settings' is passed as parameter)" });
         args.push_back({ mvPyDataType::Bool, "resize_y", mvArgType::KEYWORD_ARG, "False", "Allow resize from bottom border (layout direction). " });
-        args.push_back({ mvPyDataType::Bool, "always_auto_resize", mvArgType::KEYWORD_ARG, "False", "Combined with AutoResizeX/AutoResizeY. Always measure size even when child is hidden, always return true, always disable clipping optimization! NOT RECOMMENDED." });
+        args.push_back({ mvPyDataType::Bool, "always_auto_resize", mvArgType::KEYWORD_ARG, "False", "Combined with auto_resize_x/auto_resize_y. Always measure size even when child is hidden and always disable clipping optimization! NOT RECOMMENDED." });
         args.push_back({ mvPyDataType::Bool, "frame_style", mvArgType::KEYWORD_ARG, "False", "Style the child window like a framed item: use FrameBg, FrameRounding, FrameBorderSize, FramePadding instead of ChildBg, ChildRounding, ChildBorderSize, WindowPadding." });
         args.push_back({ mvPyDataType::Bool, "auto_resize_x", mvArgType::KEYWORD_ARG, "False", "Enable auto-resizing width based on child content. Read 'IMPORTANT: Size measurement' details above." });
         args.push_back({ mvPyDataType::Bool, "auto_resize_y", mvArgType::KEYWORD_ARG, "False", "Enable auto-resizing height based on child content. Read 'IMPORTANT: Size measurement' details above." });
 
         setup.about = "[Copied and edited a little bit from ImGui]"
-            "  Adds an embedded child window. Will show scrollbars when items do not fit. About using AutoResizeX/AutoResizeY flags: "
-            "- May be combined with SetNextWindowSizeConstraints() to set a min/max size for each axis (see 'Demo->Child->Auto-resize with Constraints')."
-            "- Size measurement for a given axis is only performed when the child window is within visible boundaries, or is just appearing."
-            "- This allows BeginChild() to return false when not within boundaries (e.g. when scrolling), which is more optimal. BUT it won't update its auto-size while clipped."
+            "  Adds an embedded child window. Will show scrollbars when items do not fit. About using auto_resize flags: "
+            "  size measurement for a given axis is only performed when the child window is within visible boundaries, or is just appearing and it won't update its auto-size while clipped."
             "  While not perfect, it is a better default behavior as the always-on performance gain is more valuable than the occasional 'resizing after becoming visible again' glitch."
-            "- You may also use always_auto_resize to force an update even when child window is not in view."
-            "  HOWEVER PLEASE UNDERSTAND THAT DOING SO WILL PREVENT BeginChild() FROM EVER RETURNING FALSE, disabling benefits of coarse clipping."
+            "  You may also use always_auto_resize to force an update even when child window is not in view. However doing so will degrade performance."
             "  Remember that combining both auto_resize_x and auto_resize_y defeats purpose of a scrolling region and is NOT recommended.";
         setup.category = { "Containers", "Widgets" };
         setup.createContextManager = true;
@@ -2695,7 +2692,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         // args.push_back({ mvPyDataType::Bool, "no_child", mvArgType::DEPRECATED_REMOVE_KEYWORD_ARG, "False", "a child window region will not be used to capture mouse scroll (can boost performance for single ImGui window applications)"});
         args.push_back({ mvPyDataType::Bool, "query", mvArgType::KEYWORD_ARG, "False", "the user will be able to draw query rects with middle - mouse or CTRL + right - click drag"});
         args.push_back({ mvPyDataType::Bool, "crosshairs", mvArgType::KEYWORD_ARG, "False", "the default mouse cursor will be replaced with a crosshair when hovered"});
-        args.push_back({ mvPyDataType::Bool, "anti_aliased", mvArgType::DEPRECATED_REMOVE_KEYWORD_ARG, "True", "This feature was deprecated in ImPlot. To enable/disable anti_aliasing use `dpg.set_anti_aliasing()`."});
+        args.push_back({ mvPyDataType::Bool, "anti_aliased", mvArgType::DEPRECATED_REMOVE_KEYWORD_ARG, "True", "This feature was deprecated in ImPlot. To enable/disable anti_aliasing use `dpg.configure_app()` with the `anti_aliasing` parameters."});
         args.push_back({ mvPyDataType::Bool, "equal_aspects", mvArgType::KEYWORD_ARG, "False", "primary x and y axes will be constrained to have the same units/pixel (does not apply to auxiliary y-axes)"});
         args.push_back({ mvPyDataType::Bool, "no_legend", mvArgType::KEYWORD_ARG, "False", "the legend will not be displayed"});
         args.push_back({ mvPyDataType::Bool, "no_inputs", mvArgType::KEYWORD_ARG, "False", "the user will not be able to interact with the plot"});
@@ -2945,7 +2942,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         );
 
         args.push_back({ mvPyDataType::UUID, "texture_tag", mvArgType::REQUIRED_ARG, "", "The texture_tag should come from a texture that was added to a texture registry." });
-        args.push_back({ mvPyDataType::Integer, "frame_padding", mvArgType::DEPRECATED_KEYWORD_ARG, "-1", "Empty space around the outside of the texture. Button will show around the texture. This is not supported anymore by ImGui but still used here as deprecated.", "''" });
+        args.push_back({ mvPyDataType::Integer, "frame_padding", mvArgType::DEPRECATED_KEYWORD_ARG, "-1", "Empty space around the outside of the texture. Button will show around the texture.", "This is not supported anymore by ImGui but still used here as deprecated." });
         args.push_back({ mvPyDataType::FloatList, "tint_color", mvArgType::KEYWORD_ARG, "(255, 255, 255, 255)", "Applies a color tint to the entire texture." });
         args.push_back({ mvPyDataType::FloatList, "background_color", mvArgType::KEYWORD_ARG, "(0, 0, 0, 0)", "Displays a border of the specified color around the texture." });
         args.push_back({ mvPyDataType::FloatList, "uv_min", mvArgType::KEYWORD_ARG, "(0.0, 0.0)", "Normalized texture coordinates min point." });
@@ -3241,9 +3238,9 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "prefer_sort_descending", mvArgType::KEYWORD_ARG, "False", "Make the initial sort direction Descending when first sorting on this column." });
         args.push_back({ mvPyDataType::Bool, "indent_enable", mvArgType::KEYWORD_ARG, "False", "Use current Indent value when entering cell (default for column 0)." });
         args.push_back({ mvPyDataType::Bool, "indent_disable", mvArgType::KEYWORD_ARG, "False", "Ignore current Indent value when entering cell (default for columns > 0). Indentation changes _within_ the cell will still be honored." });
-        args.push_back({ mvPyDataType::Bool, "angled_header", mvArgType::KEYWORD_ARG, "False", "TableHeadersRow() will submit an angled header row for this column. Note this will add an extra row." });
+        args.push_back({ mvPyDataType::Bool, "angled_header", mvArgType::KEYWORD_ARG, "False", "Set this parameter to True to display the header text for this column in an angled (diagonal) orientation. This will add an additional row to accommodate the angled text." });
         args.push_back({ mvPyDataType::Bool, "disabled", mvArgType::KEYWORD_ARG, "False", "Default as a hidden/disabled column." });
-        args.push_back({ mvPyDataType::Bool, "no_header_label", mvArgType::KEYWORD_ARG, "False", "TableHeadersRow() will not submit horizontal label for this column. Convenient for some small columns. Name will still appear in context menu or in angled headers." });
+        args.push_back({ mvPyDataType::Bool, "no_header_label", mvArgType::KEYWORD_ARG, "False", "Disable horizontal label for this column. Name will still appear in context menu or in angled headers." });
 
         setup.about = "Adds a table column.";
         setup.category = { "Tables", "Widgets" };
@@ -3873,9 +3870,8 @@ DearPyGui::GetEntityParser(mvAppItemType type)
             MV_PARSER_ARG_SHOW)
         );
 
-        args.push_back({ mvPyDataType::DoubleList, "default_value", mvArgType::KEYWORD_ARG, "(0.0, 0.0)" });
+        args.push_back({ mvPyDataType::DoubleList, "default_value", mvArgType::KEYWORD_ARG, "(0.0, 0.0, 0.0, 0.0)", "The coordinates are specified in a sequence of: (xmin, ymin, xmax, ymax)" });
         args.push_back({ mvPyDataType::IntList, "color", mvArgType::KEYWORD_ARG, "(0, 0, 0, -255)" });
-        args.push_back({ mvPyDataType::Float, "thickness", mvArgType::KEYWORD_ARG, "1.0" });
         args.push_back({ mvPyDataType::Bool, "delayed", mvArgType::KEYWORD_ARG, "False", "tool rendering will be delayed one frame; useful when applying position-constraints" });
         args.push_back({ mvPyDataType::Bool, "no_cursor", mvArgType::KEYWORD_ARG, "False", "drag tools won't change cursor icons when hovered or held" });
         args.push_back({ mvPyDataType::Bool, "no_fit", mvArgType::KEYWORD_ARG, "False", "the drag tool won't be considered for plot fits" });
@@ -4204,8 +4200,8 @@ DearPyGui::GetEntityParser(mvAppItemType type)
 
         args.push_back({ mvPyDataType::DoubleList, "x" });
         args.push_back({ mvPyDataType::DoubleList, "y" });
-        args.push_back({ mvPyDataType::Integer, "x_offset", mvArgType::DEPRECATED_KEYWORD_ARG, "0", "Old way to set x offset of the label. Use `offset` argument instead.", "offset" });
-        args.push_back({ mvPyDataType::Integer, "y_offset", mvArgType::DEPRECATED_KEYWORD_ARG, "0", "Old way to set y offset of the label. Use `offset` argument instead.", "offset" });
+        args.push_back({ mvPyDataType::Integer, "x_offset", mvArgType::DEPRECATED_KEYWORD_ARG, "0", "Old way to set x offset of the label. Use `offset` argument instead.", "See the new offset argument." });
+        args.push_back({ mvPyDataType::Integer, "y_offset", mvArgType::DEPRECATED_KEYWORD_ARG, "0", "Old way to set y offset of the label. Use `offset` argument instead.", "See the new offset argument." });
         args.push_back({ mvPyDataType::FloatList, "offset", mvArgType::KEYWORD_ARG, "(0.0, 0.0)", "Offset of the label, in pixels, relative to the coordinates." });
         args.push_back({ mvPyDataType::Bool, "vertical", mvArgType::KEYWORD_ARG, "False" });
 
@@ -4617,8 +4613,8 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "foreground_grid", mvArgType::KEYWORD_ARG, "False", "grid lines will be displayed in the foreground (i.e. on top of data) instead of the background" });
         args.push_back({ mvPyDataType::String, "tick_format", mvArgType::KEYWORD_ARG, "''", "Sets a custom tick label formatter" });
         args.push_back({ mvPyDataType::Integer, "scale", mvArgType::KEYWORD_ARG, "internal_dpg.mvPlotScale_Linear", "Sets the axis' scale. Can have only mvPlotScale_ values"});
-        args.push_back({ mvPyDataType::Bool, "log_scale", mvArgType::DEPRECATED_KEYWORD_ARG, "False", "Old way to set log scale in the axis. Use 'scale' argument instead.", "scale" });
-        args.push_back({ mvPyDataType::Bool, "time", mvArgType::DEPRECATED_KEYWORD_ARG, "False", "Old way to set time scale in the axis. Use 'scale' argument instead.", "scale" });
+        args.push_back({ mvPyDataType::Bool, "log_scale", mvArgType::DEPRECATED_KEYWORD_ARG, "False", "Old way to set log scale in the axis. Use 'scale' argument instead.", "See the new scale argument." });
+        args.push_back({ mvPyDataType::Bool, "time", mvArgType::DEPRECATED_KEYWORD_ARG, "False", "Old way to set time scale in the axis. Use 'scale' argument instead.", "See the new scale argument." });
         args.push_back({ mvPyDataType::Bool, "axis_opposite", mvArgType::KEYWORD_ARG, "False", "the axis will be inverted" });
         args.push_back({ mvPyDataType::Bool, "auto_fit", mvArgType::KEYWORD_ARG, "False", "axis will be auto-fitting to data extents" });
         args.push_back({ mvPyDataType::Bool, "range_fit", mvArgType::KEYWORD_ARG, "False", "axis will only fit points if the point is in the visible range of the **orthogonal** axis" });

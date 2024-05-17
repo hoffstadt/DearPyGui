@@ -5,5 +5,6 @@
 
 void mvStackWindow::drawWidgets()
 {
+    ImGui::SetWindowPos({1000000, 1000000});
     ImGui::ShowIDStackToolWindow();
 }

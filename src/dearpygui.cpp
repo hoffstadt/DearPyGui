@@ -241,6 +241,8 @@ GetModuleConstants()
 		ModuleConstants.push_back({ "mvThemeCol_TabActive", ImGuiCol_TabActive });
 		ModuleConstants.push_back({ "mvThemeCol_TabUnfocused", ImGuiCol_TabUnfocused });
 		ModuleConstants.push_back({ "mvThemeCol_TabUnfocusedActive", ImGuiCol_TabUnfocusedActive });
+		ModuleConstants.push_back({ "mvThemeCol_DockingPreview", ImGuiCol_DockingPreview });
+		ModuleConstants.push_back({ "mvThemeCol_DockingEmptyBg", ImGuiCol_DockingEmptyBg });
 		ModuleConstants.push_back({ "mvThemeCol_PlotLines", ImGuiCol_PlotLines });
 		ModuleConstants.push_back({ "mvThemeCol_PlotLinesHovered", ImGuiCol_PlotLinesHovered });
 		ModuleConstants.push_back({ "mvThemeCol_PlotHistogram", ImGuiCol_PlotHistogram });
@@ -618,7 +620,6 @@ PyInit__dearpygui(void)
 	MV_ADD_COMMAND(is_dearpygui_running);
 	MV_ADD_COMMAND(generate_uuid);
 	MV_ADD_COMMAND(save_init_file);
-	MV_ADD_COMMAND(set_anti_aliasing);
 	MV_ADD_COMMAND(output_frame_buffer);
 	MV_ADD_COMMAND(load_image);
 	MV_ADD_COMMAND(save_image);

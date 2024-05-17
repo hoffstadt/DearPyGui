@@ -317,7 +317,7 @@ GetEntityCommand(mvAppItemType type)
     case mvAppItemType::mvDragRect:                    return "add_drag_rect";
     case mvAppItemType::mvDragLine:                    return "add_drag_line";
     case mvAppItemType::mvAnnotation:                  return "add_plot_annotation";
-    case mvAppItemType::mvAxisTag:                         return "add_axis_tag";
+    case mvAppItemType::mvAxisTag:                     return "add_axis_tag";
     case mvAppItemType::mvLineSeries:                  return "add_line_series";
     case mvAppItemType::mvScatterSeries:               return "add_scatter_series";
     case mvAppItemType::mvStemSeries:                  return "add_stem_series";
