@@ -536,6 +536,9 @@ InsertParser_Block1(std::map<std::string, mvPythonParser>& parsers)
 		args.push_back({ mvPyDataType::Bool, "wait_for_input", mvArgType::KEYWORD_ARG, "False", "New in 1.1. Only update when user input occurs" });
 		args.push_back({ mvPyDataType::Bool, "manual_callback_management", mvArgType::KEYWORD_ARG, "False", "New in 1.2"});
 		args.push_back({ mvPyDataType::Bool, "keyboard_navigation", mvArgType::KEYWORD_ARG, "False", "Keyboard navigation using arrow keys" });
+		args.push_back({ mvPyDataType::Bool, "anti_aliased_lines", mvArgType::KEYWORD_ARG, "False", "Enable anti-aliased lines/borders. Disable if you are really tight on CPU/GPU. Latched at the beginning of the frame." });
+		args.push_back({ mvPyDataType::Bool, "anti_aliased_lines_use_tex", mvArgType::KEYWORD_ARG, "False", "Enable anti-aliased lines/borders using textures where possible. Require backend to render with bilinear filtering (NOT point/nearest filtering). Latched at the beginning of the frame." });
+		args.push_back({ mvPyDataType::Bool, "anti_aliased_fill", mvArgType::KEYWORD_ARG, "False", "Enable anti-aliased edges around filled shapes (rounded rectangles, circles, etc.). Disable if you are really tight on CPU/GPU. Latched at the beginning of the frame." });
 
 		mvPythonParserSetup setup;
 		setup.about = "Configures app.";
@@ -660,21 +663,6 @@ InsertParser_Block1(std::map<std::string, mvPythonParser>& parsers)
 
 		mvPythonParser parser = FinalizeParser(setup, args);
 		parsers.insert({ "generate_uuid", parser });
-	}
-
-	{
-		std::vector<mvPythonDataElement> args;
-		args.push_back({ mvPyDataType::Bool, "anti_aliased_lines", mvArgType::KEYWORD_ARG, "True", "Enable anti-aliased lines/borders. Disable if you are really tight on CPU/GPU. Latched at the beginning of the frame (copied to ImDrawList)." });
-		args.push_back({ mvPyDataType::Bool, "anti_aliased_lines_use_tex", mvArgType::KEYWORD_ARG, "True", "Enable anti-aliased lines/borders using textures where possible. Require backend to render with bilinear filtering (NOT point/nearest filtering). Latched at the beginning of the frame (copied to ImDrawList)." });
-		args.push_back({ mvPyDataType::Bool, "anti_aliased_fill", mvArgType::KEYWORD_ARG, "True", "Enable anti-aliased edges around filled shapes (rounded rectangles, circles, etc.). Disable if you are really tight on CPU/GPU. Latched at the beginning of the frame (copied to ImDrawList)." });
-  
-		mvPythonParserSetup setup;
-		setup.about = "Sets anti-aliasing options.";
-		setup.category = { "General" };
-		setup.returnType = mvPyDataType::None;
-
-		mvPythonParser parser = FinalizeParser(setup, args);
-		parsers.insert({ "set_anti_aliasing", parser });
 	}
 
 	{

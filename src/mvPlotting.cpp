@@ -392,22 +392,6 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 		if (config._useColorMap)
 			ImPlot::PopColormap();
 
-		if (item.config.callback != nullptr && config.rects.size() > 0)
-		{
-			for(auto rect : config.rects) {
-				const std::string sender = item.config.alias.empty() ? std::to_string(item.uuid) : item.config.alias;
-				mvSubmitCallback([=, &item]() {
-					PyObject* result = PyTuple_New(config.rects.size());
-					for (int i = 0; i < config.rects.size(); ++i) {
-						auto rectMin = config.rects[i].Min();
-						auto rectMax = config.rects[i].Max();
-						PyTuple_SetItem(result, i, Py_BuildValue("(dddd)", rectMin.x, rectMin.y, rectMax.x, rectMax.y));
-					}
-					mvAddCallback(item.config.callback, sender, result, item.config.user_data);
-				});
-			}
-		}
-
 		if (ImPlot::IsPlotSelected()) {
             ImPlotRect select = ImPlot::GetPlotSelection();
             if (ImGui::IsMouseClicked(ImPlot::GetInputMap().SelectCancel)) {
@@ -415,10 +399,38 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
                 config.rects.push_back(select);
             }
         }
+
         for (int i = 0; i < config.rects.size(); ++i) {
 			// TODO: Implement flags
-            ImPlot::DragRect(i,&config.rects[i].X.Min,&config.rects[i].Y.Min,&config.rects[i].X.Max,&config.rects[i].Y.Max,ImVec4(1,0,1,1));
+            config._query_dirty |= ImPlot::DragRect(i,&config.rects[i].X.Min,&config.rects[i].Y.Min,&config.rects[i].X.Max,&config.rects[i].Y.Max,ImVec4(1,0,1,1));
         }
+
+		if (item.config.callback != nullptr && config._query_dirty)
+		{
+			for(auto rect : config.rects) {
+				if (item.config.alias.empty()) {
+					mvSubmitCallback([=, &item]() {
+						PyObject* result = PyTuple_New(config.rects.size());
+						for (int i = 0; i < config.rects.size(); ++i) {
+							auto rectMin = config.rects[i].Min();
+							auto rectMax = config.rects[i].Max();
+							PyTuple_SetItem(result, i, Py_BuildValue("(dddd)", rectMin.x, rectMin.y, rectMax.x, rectMax.y));
+						}
+						mvAddCallback(item.config.callback, item.uuid, result, item.config.user_data);
+					});
+				} else {
+					mvSubmitCallback([=, &item]() {
+						PyObject* result = PyTuple_New(config.rects.size());
+						for (int i = 0; i < config.rects.size(); ++i) {
+							auto rectMin = config.rects[i].Min();
+							auto rectMax = config.rects[i].Max();
+							PyTuple_SetItem(result, i, Py_BuildValue("(dddd)", rectMin.x, rectMin.y, rectMax.x, rectMax.y));
+						}
+						mvAddCallback(item.config.callback, item.config.alias, result, item.config.user_data);
+					});
+				}
+			}
+		}
 
 		if (ImPlot::IsPlotHovered())
 		{

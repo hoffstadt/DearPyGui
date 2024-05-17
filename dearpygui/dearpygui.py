@@ -1583,9 +1583,9 @@ def child_window(*, label: str =None, user_data: Any =None, use_internal_label: 
 		no_scroll_with_mouse (bool, optional): Disable user vertically scrolling with mouse wheel.
 		flattened_navigation (bool, optional): Allow gamepad/keyboard navigation to cross over parent border to this child (only use on child that have no scrolling!)
 		always_use_window_padding (bool, optional): Pad with style.WindowPadding even if no border are drawn (no padding by default for non-bordered child windows because it makes more sense)
-		resize_x (bool, optional): Allow resize from right border (layout direction). Enable .ini saving (unless ImGuiWindowFlags_NoSavedSettings passed to window flags)
+		resize_x (bool, optional): Allow resize from right border (layout direction). Enable .ini saving (unless 'no_saved_settings' is passed as parameter)
 		resize_y (bool, optional): Allow resize from bottom border (layout direction). 
-		always_auto_resize (bool, optional): Combined with AutoResizeX/AutoResizeY. Always measure size even when child is hidden, always return true, always disable clipping optimization! NOT RECOMMENDED.
+		always_auto_resize (bool, optional): Combined with auto_resize_x/auto_resize_y. Always measure size even when child is hidden and always disable clipping optimization! NOT RECOMMENDED.
 		frame_style (bool, optional): Style the child window like a framed item: use FrameBg, FrameRounding, FrameBorderSize, FramePadding instead of ChildBg, ChildRounding, ChildBorderSize, WindowPadding.
 		auto_resize_x (bool, optional): Enable auto-resizing width based on child content. Read 'IMPORTANT: Size measurement' details above.
 		auto_resize_y (bool, optional): Enable auto-resizing height based on child content. Read 'IMPORTANT: Size measurement' details above.
@@ -2299,7 +2299,7 @@ def plot(*, label: str =None, user_data: Any =None, use_internal_label: bool =Tr
 		zoom_rate (int, optional): zoom rate for scroll (e.g. 0.1f = 10% plot range every scroll click); make negative to invert
 		id (Union[int, str], optional): (deprecated) 
 		no_highlight (bool, optional): (deprecated) Removed because not supported from the backend anymore. To control the highlighting of series use the same argument in `add_plot_legend`
-		anti_aliased (bool, optional): (deprecated) This feature was deprecated in ImPlot. To enable/disable anti_aliasing use `dpg.set_anti_aliasing()`.
+		anti_aliased (bool, optional): (deprecated) This feature was deprecated in ImPlot. To enable/disable anti_aliasing use `dpg.configure_app()` with the `anti_aliasing` parameters.
 		query_button (int, optional): (deprecated) This refers to the old way of querying of ImPlot, now replaced with `DragRect()`
 		query_mod (int, optional): (deprecated) This refers to the old way of querying of ImPlot, now replaced with `DragRect()`
 		query_toggle_mod (int, optional): (deprecated) This refers to the old way of querying of ImPlot, now replaced with `DragRect()`
@@ -2382,10 +2382,10 @@ def plot_axis(axis : int, *, label: str =None, user_data: Any =None, use_interna
 			tag=kwargs['id']
 
 		if 'log_scale' in kwargs.keys():
-			warnings.warn('log_scale keyword deprecated. See scale argument', DeprecationWarning, 2)
+			warnings.warn('log_scale keyword deprecated.See the new scale argument.', DeprecationWarning, 2)
 
 		if 'time' in kwargs.keys():
-			warnings.warn('time keyword deprecated. See scale argument', DeprecationWarning, 2)
+			warnings.warn('time keyword deprecated.See the new scale argument.', DeprecationWarning, 2)
 		widget = internal_dpg.add_plot_axis(axis, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, payload_type=payload_type, drop_callback=drop_callback, show=show, no_label=no_label, no_gridlines=no_gridlines, no_tick_marks=no_tick_marks, no_tick_labels=no_tick_labels, no_initial_fit=no_initial_fit, no_menus=no_menus, no_side_switch=no_side_switch, no_highlight=no_highlight, opposite=opposite, foreground_grid=foreground_grid, tick_format=tick_format, scale=scale, axis_opposite=axis_opposite, auto_fit=auto_fit, range_fit=range_fit, pan_stretch=pan_stretch, lock_min=lock_min, lock_max=lock_max, **kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
@@ -3325,9 +3325,9 @@ def add_child_window(*, label: str =None, user_data: Any =None, use_internal_lab
 		no_scroll_with_mouse (bool, optional): Disable user vertically scrolling with mouse wheel.
 		flattened_navigation (bool, optional): Allow gamepad/keyboard navigation to cross over parent border to this child (only use on child that have no scrolling!)
 		always_use_window_padding (bool, optional): Pad with style.WindowPadding even if no border are drawn (no padding by default for non-bordered child windows because it makes more sense)
-		resize_x (bool, optional): Allow resize from right border (layout direction). Enable .ini saving (unless ImGuiWindowFlags_NoSavedSettings passed to window flags)
+		resize_x (bool, optional): Allow resize from right border (layout direction). Enable .ini saving (unless 'no_saved_settings' is passed as parameter)
 		resize_y (bool, optional): Allow resize from bottom border (layout direction). 
-		always_auto_resize (bool, optional): Combined with AutoResizeX/AutoResizeY. Always measure size even when child is hidden, always return true, always disable clipping optimization! NOT RECOMMENDED.
+		always_auto_resize (bool, optional): Combined with auto_resize_x/auto_resize_y. Always measure size even when child is hidden and always disable clipping optimization! NOT RECOMMENDED.
 		frame_style (bool, optional): Style the child window like a framed item: use FrameBg, FrameRounding, FrameBorderSize, FramePadding instead of ChildBg, ChildRounding, ChildBorderSize, WindowPadding.
 		auto_resize_x (bool, optional): Enable auto-resizing width based on child content. Read 'IMPORTANT: Size measurement' details above.
 		auto_resize_y (bool, optional): Enable auto-resizing height based on child content. Read 'IMPORTANT: Size measurement' details above.
@@ -4239,7 +4239,7 @@ def add_drag_point(*, label: str =None, user_data: Any =None, use_internal_label
 
 	return internal_dpg.add_drag_point(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, source=source, callback=callback, show=show, default_value=default_value, color=color, thickness=thickness, offset=offset, clamped=clamped, delayed=delayed, no_cursor=no_cursor, no_fit=no_fit, no_inputs=no_inputs, **kwargs)
 
-def add_drag_rect(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, callback: Callable =None, show: bool =True, default_value: Any =(0.0, 0.0), color: Union[List[int], Tuple[int, ...]] =(0, 0, 0, -255), thickness: float =1.0, delayed: bool =False, no_cursor: bool =False, no_fit: bool =False, no_inputs: bool =False, **kwargs) -> Union[int, str]:
+def add_drag_rect(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, callback: Callable =None, show: bool =True, default_value: Any =(0.0, 0.0, 0.0, 0.0), color: Union[List[int], Tuple[int, ...]] =(0, 0, 0, -255), delayed: bool =False, no_cursor: bool =False, no_fit: bool =False, no_inputs: bool =False, **kwargs) -> Union[int, str]:
 	"""	 Adds a drag rectangle to a plot.
 
 	Args:
@@ -4252,9 +4252,8 @@ def add_drag_rect(*, label: str =None, user_data: Any =None, use_internal_label:
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
-		default_value (Any, optional): 
+		default_value (Any, optional): The coordinates are specified in a sequence of: (xmin, ymin, xmax, ymax)
 		color (Union[List[int], Tuple[int, ...]], optional): 
-		thickness (float, optional): 
 		delayed (bool, optional): tool rendering will be delayed one frame; useful when applying position-constraints
 		no_cursor (bool, optional): drag tools won't change cursor icons when hovered or held
 		no_fit (bool, optional): the drag tool won't be considered for plot fits
@@ -4268,7 +4267,7 @@ def add_drag_rect(*, label: str =None, user_data: Any =None, use_internal_label:
 		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
 		tag=kwargs['id']
 
-	return internal_dpg.add_drag_rect(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, source=source, callback=callback, show=show, default_value=default_value, color=color, thickness=thickness, delayed=delayed, no_cursor=no_cursor, no_fit=no_fit, no_inputs=no_inputs, **kwargs)
+	return internal_dpg.add_drag_rect(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, source=source, callback=callback, show=show, default_value=default_value, color=color, delayed=delayed, no_cursor=no_cursor, no_fit=no_fit, no_inputs=no_inputs, **kwargs)
 
 def add_draw_layer(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, perspective_divide: bool =False, depth_clipping: bool =False, cull_mode: int =0, **kwargs) -> Union[int, str]:
 	"""	 New in 1.1. Creates a layer useful for grouping drawlist items.
@@ -4857,7 +4856,7 @@ def add_image_button(texture_tag : Union[int, str], *, label: str =None, user_da
 		uv_min (Union[List[float], Tuple[float, ...]], optional): Normalized texture coordinates min point.
 		uv_max (Union[List[float], Tuple[float, ...]], optional): Normalized texture coordinates max point.
 		id (Union[int, str], optional): (deprecated) 
-		frame_padding (int, optional): (deprecated) Empty space around the outside of the texture. Button will show around the texture. This is not supported anymore by ImGui but still used here as deprecated.
+		frame_padding (int, optional): (deprecated) Empty space around the outside of the texture. Button will show around the texture.
 	Returns:
 		Union[int, str]
 	"""
@@ -4867,7 +4866,7 @@ def add_image_button(texture_tag : Union[int, str], *, label: str =None, user_da
 		tag=kwargs['id']
 
 	if 'frame_padding' in kwargs.keys():
-		warnings.warn('frame_padding keyword deprecated. See '' argument', DeprecationWarning, 2)
+		warnings.warn('frame_padding keyword deprecated.This is not supported anymore by ImGui but still used here as deprecated.', DeprecationWarning, 2)
 
 	return internal_dpg.add_image_button(texture_tag, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, tint_color=tint_color, background_color=background_color, uv_min=uv_min, uv_max=uv_max, **kwargs)
 
@@ -6228,7 +6227,7 @@ def add_plot(*, label: str =None, user_data: Any =None, use_internal_label: bool
 		zoom_rate (int, optional): zoom rate for scroll (e.g. 0.1f = 10% plot range every scroll click); make negative to invert
 		id (Union[int, str], optional): (deprecated) 
 		no_highlight (bool, optional): (deprecated) Removed because not supported from the backend anymore. To control the highlighting of series use the same argument in `add_plot_legend`
-		anti_aliased (bool, optional): (deprecated) This feature was deprecated in ImPlot. To enable/disable anti_aliasing use `dpg.set_anti_aliasing()`.
+		anti_aliased (bool, optional): (deprecated) This feature was deprecated in ImPlot. To enable/disable anti_aliasing use `dpg.configure_app()` with the `anti_aliasing` parameters.
 		query_button (int, optional): (deprecated) This refers to the old way of querying of ImPlot, now replaced with `DragRect()`
 		query_mod (int, optional): (deprecated) This refers to the old way of querying of ImPlot, now replaced with `DragRect()`
 		query_toggle_mod (int, optional): (deprecated) This refers to the old way of querying of ImPlot, now replaced with `DragRect()`
@@ -6342,10 +6341,10 @@ def add_plot_axis(axis : int, *, label: str =None, user_data: Any =None, use_int
 		tag=kwargs['id']
 
 	if 'log_scale' in kwargs.keys():
-		warnings.warn('log_scale keyword deprecated. See scale argument', DeprecationWarning, 2)
+		warnings.warn('log_scale keyword deprecated.See the new scale argument.', DeprecationWarning, 2)
 
 	if 'time' in kwargs.keys():
-		warnings.warn('time keyword deprecated. See scale argument', DeprecationWarning, 2)
+		warnings.warn('time keyword deprecated.See the new scale argument.', DeprecationWarning, 2)
 
 	return internal_dpg.add_plot_axis(axis, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, payload_type=payload_type, drop_callback=drop_callback, show=show, no_label=no_label, no_gridlines=no_gridlines, no_tick_marks=no_tick_marks, no_tick_labels=no_tick_labels, no_initial_fit=no_initial_fit, no_menus=no_menus, no_side_switch=no_side_switch, no_highlight=no_highlight, opposite=opposite, foreground_grid=foreground_grid, tick_format=tick_format, scale=scale, axis_opposite=axis_opposite, auto_fit=auto_fit, range_fit=range_fit, pan_stretch=pan_stretch, lock_min=lock_min, lock_max=lock_max, **kwargs)
 
@@ -7297,9 +7296,9 @@ def add_table_column(*, label: str =None, user_data: Any =None, use_internal_lab
 		prefer_sort_descending (bool, optional): Make the initial sort direction Descending when first sorting on this column.
 		indent_enable (bool, optional): Use current Indent value when entering cell (default for column 0).
 		indent_disable (bool, optional): Ignore current Indent value when entering cell (default for columns > 0). Indentation changes _within_ the cell will still be honored.
-		angled_header (bool, optional): TableHeadersRow() will submit an angled header row for this column. Note this will add an extra row.
+		angled_header (bool, optional): Set this parameter to True to display the header text for this column in an angled (diagonal) orientation. This will add an additional row to accommodate the angled text.
 		disabled (bool, optional): Default as a hidden/disabled column.
-		no_header_label (bool, optional): TableHeadersRow() will not submit horizontal label for this column. Convenient for some small columns. Name will still appear in context menu or in angled headers.
+		no_header_label (bool, optional): Disable horizontal label for this column. Name will still appear in context menu or in angled headers.
 		id (Union[int, str], optional): (deprecated) 
 	Returns:
 		Union[int, str]
@@ -7418,10 +7417,10 @@ def add_text_point(x : Union[List[float], Tuple[float, ...]], y : Union[List[flo
 		tag=kwargs['id']
 
 	if 'x_offset' in kwargs.keys():
-		warnings.warn('x_offset keyword deprecated. See offset argument', DeprecationWarning, 2)
+		warnings.warn('x_offset keyword deprecated.See the new offset argument.', DeprecationWarning, 2)
 
 	if 'y_offset' in kwargs.keys():
-		warnings.warn('y_offset keyword deprecated. See offset argument', DeprecationWarning, 2)
+		warnings.warn('y_offset keyword deprecated.See the new offset argument.', DeprecationWarning, 2)
 
 	return internal_dpg.add_text_point(x, y, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, source=source, show=show, offset=offset, vertical=vertical, **kwargs)
 
@@ -9320,19 +9319,6 @@ def save_init_file(file : str, **kwargs) -> None:
 
 	return internal_dpg.save_init_file(file, **kwargs)
 
-def set_anti_aliasing(*, anti_aliased_lines: bool =True, anti_aliased_lines_use_tex: bool =True, anti_aliased_fill: bool =True, **kwargs) -> None:
-	"""	 Sets anti-aliasing options.
-
-	Args:
-		anti_aliased_lines (bool, optional): Enable anti-aliased lines/borders. Disable if you are really tight on CPU/GPU. Latched at the beginning of the frame (copied to ImDrawList).
-		anti_aliased_lines_use_tex (bool, optional): Enable anti-aliased lines/borders using textures where possible. Require backend to render with bilinear filtering (NOT point/nearest filtering). Latched at the beginning of the frame (copied to ImDrawList).
-		anti_aliased_fill (bool, optional): Enable anti-aliased edges around filled shapes (rounded rectangles, circles, etc.). Disable if you are really tight on CPU/GPU. Latched at the beginning of the frame (copied to ImDrawList).
-	Returns:
-		None
-	"""
-
-	return internal_dpg.set_anti_aliasing(anti_aliased_lines=anti_aliased_lines, anti_aliased_lines_use_tex=anti_aliased_lines_use_tex, anti_aliased_fill=anti_aliased_fill, **kwargs)
-
 def set_axis_limits(axis : Union[int, str], ymin : float, ymax : float, **kwargs) -> None:
 	"""	 Sets limits on the axis for pan and zoom.
 
@@ -10079,6 +10065,8 @@ mvThemeCol_TabHovered=internal_dpg.mvThemeCol_TabHovered
 mvThemeCol_TabActive=internal_dpg.mvThemeCol_TabActive
 mvThemeCol_TabUnfocused=internal_dpg.mvThemeCol_TabUnfocused
 mvThemeCol_TabUnfocusedActive=internal_dpg.mvThemeCol_TabUnfocusedActive
+mvThemeCol_DockingPreview=internal_dpg.mvThemeCol_DockingPreview
+mvThemeCol_DockingEmptyBg=internal_dpg.mvThemeCol_DockingEmptyBg
 mvThemeCol_PlotLines=internal_dpg.mvThemeCol_PlotLines
 mvThemeCol_PlotLinesHovered=internal_dpg.mvThemeCol_PlotLinesHovered
 mvThemeCol_PlotHistogram=internal_dpg.mvThemeCol_PlotHistogram

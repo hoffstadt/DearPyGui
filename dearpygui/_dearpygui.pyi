@@ -158,7 +158,7 @@ def add_drag_point(*, label: str ='', user_data: Any ='', use_internal_label: bo
 	"""Adds a drag point to a plot."""
 	...
 
-def add_drag_rect(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', callback: Callable ='', show: bool ='', default_value: Any ='', color: Union[List[int], Tuple[int, ...]] ='', thickness: float ='', delayed: bool ='', no_cursor: bool ='', no_fit: bool ='', no_inputs: bool ='') -> Union[int, str]:
+def add_drag_rect(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', callback: Callable ='', show: bool ='', default_value: Any ='', color: Union[List[int], Tuple[int, ...]] ='', delayed: bool ='', no_cursor: bool ='', no_fit: bool ='', no_inputs: bool ='') -> Union[int, str]:
 	"""Adds a drag rectangle to a plot."""
 	...
 
@@ -666,7 +666,7 @@ def clear_selected_nodes(node_editor : Union[int, str]) -> None:
 	"""Clears a node editor's selected nodes."""
 	...
 
-def configure_app(*, load_init_file: str ='', docking: bool ='', docking_space: bool ='', docking_shift_only: bool ='', init_file: str ='', auto_save_init_file: bool ='', device: int ='', auto_device: bool ='', allow_alias_overwrites: bool ='', manual_alias_management: bool ='', skip_required_args: bool ='', skip_positional_args: bool ='', skip_keyword_args: bool ='', wait_for_input: bool ='', manual_callback_management: bool ='', keyboard_navigation: bool ='', **kwargs) -> None:
+def configure_app(*, load_init_file: str ='', docking: bool ='', docking_space: bool ='', docking_shift_only: bool ='', init_file: str ='', auto_save_init_file: bool ='', device: int ='', auto_device: bool ='', allow_alias_overwrites: bool ='', manual_alias_management: bool ='', skip_required_args: bool ='', skip_positional_args: bool ='', skip_keyword_args: bool ='', wait_for_input: bool ='', manual_callback_management: bool ='', keyboard_navigation: bool ='', anti_aliased_lines: bool ='', anti_aliased_lines_use_tex: bool ='', anti_aliased_fill: bool ='', **kwargs) -> None:
 	"""Configures app."""
 	...
 
@@ -1108,10 +1108,6 @@ def save_image(file : str, width : int, height : int, data : Any, *, components:
 
 def save_init_file(file : str) -> None:
 	"""Save dpg.ini file."""
-	...
-
-def set_anti_aliasing(*, anti_aliased_lines: bool ='', anti_aliased_lines_use_tex: bool ='', anti_aliased_fill: bool ='') -> None:
-	"""Sets anti-aliasing options."""
 	...
 
 def set_axis_limits(axis : Union[int, str], ymin : float, ymax : float) -> None:
@@ -1578,6 +1574,8 @@ mvThemeCol_TabHovered=0
 mvThemeCol_TabActive=0
 mvThemeCol_TabUnfocused=0
 mvThemeCol_TabUnfocusedActive=0
+mvThemeCol_DockingPreview=0
+mvThemeCol_DockingEmptyBg=0
 mvThemeCol_PlotLines=0
 mvThemeCol_PlotLinesHovered=0
 mvThemeCol_PlotHistogram=0

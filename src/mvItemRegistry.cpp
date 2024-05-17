@@ -1024,7 +1024,6 @@ RenderItemRegistry(mvItemRegistry& registry)
             root->draw(nullptr, 0.0f, 0.0f);
     }
 
-
     if (mvToolManager::GetFontManager()._newDefault)
     {
         ImGuiIO& io = ImGui::GetIO();
@@ -1197,9 +1196,8 @@ GetItem(mvItemRegistry& registry, mvUUID uuid)
     {
         if (registry.cachedContainersID[i] == uuid)
             return registry.cachedContainersPTR[i];
-        if (registry.cachedItemsID[i] == uuid) {
+        if (registry.cachedItemsID[i] == uuid)
             return registry.cachedItemsPTR[i];
-        }
     }
 
     if (auto foundItem = GetItemRoot(registry, registry.colormapRoots, uuid)) return foundItem;

@@ -227,6 +227,8 @@ enable_docking() will enable experimental docking.
 
 By default, the user needs to hold the shift key to enable docking.
 
+The keyword shift_only = False enables docking without holding the shift key.
+
 The keyword dock_space = True enables docking windows to the viewport.
 
 The docking feature is experimental because you cannot programmatically

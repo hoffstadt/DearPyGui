@@ -877,26 +877,6 @@ get_text_size(PyObject* self, PyObject* args, PyObject* kwargs)
 }
 
 static PyObject*
-set_anti_aliasing(PyObject* self, PyObject* args, PyObject* kwargs)
-{
-	bool anti_aliased_lines = true;
-	bool anti_aliased_lines_use_tex = true;
-	bool anti_aliased_fill = true;
-
-	if (!Parse((GetParsers())["set_anti_aliasing"], args, kwargs, __FUNCTION__, &anti_aliased_lines, &anti_aliased_lines_use_tex, &anti_aliased_fill))
-		return GetPyNone();
-
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
-
-	ImGuiStyle& style = ImGui::GetStyle();
-	style.AntiAliasedLines = anti_aliased_lines;
-	style.AntiAliasedLinesUseTex = anti_aliased_lines_use_tex;
-	style.AntiAliasedFill = anti_aliased_fill;
-
-	return GetPyNone();
-}
-
-static PyObject*
 get_selected_nodes(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 
@@ -2805,6 +2785,11 @@ configure_app(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (PyObject* item = PyDict_GetItemString(kwargs, "device")) GContext->IO.info_device = ToInt(item);
 
 	if (PyObject* item = PyDict_GetItemString(kwargs, "keyboard_navigation")) GContext->IO.kbdNavigation = ToBool(item);
+
+	ImGuiStyle& style = ImGui::GetStyle();
+	if (PyObject* item = PyDict_GetItemString(kwargs, "anti_aliased_lines")) style.AntiAliasedLines = ToBool(item);
+	if (PyObject* item = PyDict_GetItemString(kwargs, "anti_aliased_lines_use_tex")) style.AntiAliasedLinesUseTex = ToBool(item);
+	if (PyObject* item = PyDict_GetItemString(kwargs, "anti_aliased_fill")) style.AntiAliasedFill = ToBool(item);
 
 	return GetPyNone();
 }

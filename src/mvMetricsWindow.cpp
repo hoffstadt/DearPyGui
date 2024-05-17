@@ -82,9 +82,8 @@ void mvMetricsWindow::drawWidgets()
 
             const auto& results = mvInstrumentor::Get().getResults();
 
-            for (const auto& item : results) {
+            for (const auto& item : results)
                 buffers[item.first].AddPoint(t, (float)item.second.count());
-            }
 
             static float history = 10.0f;
             ImGui::SliderFloat("History", &history, 1, 30, "%.1f s");
@@ -177,12 +176,11 @@ void mvMetricsWindow::drawWidgets()
             ImGui::Spacing();
             ImGui::Text("ImGui State Inputs");
 
-            //TODO: Finish here with migration!
             ImGui::Text("Mouse delta: (%g, %g)", io.MouseDelta.x, io.MouseDelta.y);
             ImGui::Text("Mouse down:");     for (int i = 0; i < IM_ARRAYSIZE(io.MouseDown); i++) if (io.MouseDownDuration[i] >= 0.0f) { ImGui::SameLine(); ImGui::Text("b%d (%.02f secs)", i, io.MouseDownDuration[i]); }
             ImGui::Text("Mouse clicked:");  for (int i = 0; i < IM_ARRAYSIZE(io.MouseDown); i++) if (ImGui::IsMouseClicked(i)) { ImGui::SameLine(); ImGui::Text("b%d", i); }
             ImGui::Text("Mouse dblclick:"); for (int i = 0; i < IM_ARRAYSIZE(io.MouseDown); i++) if (ImGui::IsMouseDoubleClicked(i)) { ImGui::SameLine(); ImGui::Text("b%d", i); }
-            ImGui::Text("Mouse clicks count:"); for (int i = 0; i < IM_ARRAYSIZE(io.MouseDown); i++) if (ImGui::GetMouseClickedCount(i)) { ImGui::SameLine(); ImGui::Text("b%d", i); }
+            ImGui::Text("Mouse clicks count:"); for (int i = 0; i < IM_ARRAYSIZE(io.MouseDown); i++) if (ImGui::GetMouseClickedCount(i)) { ImGui::SameLine(); ImGui::Text("b%d", ImGui::GetMouseClickedCount(i)); }
             ImGui::Text("Mouse released:"); for (int i = 0; i < IM_ARRAYSIZE(io.MouseDown); i++) if (ImGui::IsMouseReleased(i)) { ImGui::SameLine(); ImGui::Text("b%d", i); }
             ImGui::Text("Mouse wheel: %.1f", io.MouseWheel);
 
