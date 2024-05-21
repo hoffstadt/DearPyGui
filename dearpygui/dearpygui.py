@@ -1553,8 +1553,8 @@ def set_start_callback(callback):
 
 
 @contextmanager
-def child_window(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, border: bool =True, autosize_x: bool =False, autosize_y: bool =False, no_scrollbar: bool =False, horizontal_scrollbar: bool =False, menubar: bool =False, no_scroll_with_mouse: bool =False, flattened_navigation: bool =True, always_use_window_padding: bool =False, resize_x: bool =False, resize_y: bool =False, always_auto_resize: bool =False, frame_style: bool =False, auto_resize_x: bool =False, auto_resize_y: bool =False, **kwargs) -> Union[int, str]:
-	"""	 [Copied and edited a little bit from ImGui]  Adds an embedded child window. Will show scrollbars when items do not fit. About using AutoResizeX/AutoResizeY flags: - May be combined with SetNextWindowSizeConstraints() to set a min/max size for each axis (see 'Demo->Child->Auto-resize with Constraints').- Size measurement for a given axis is only performed when the child window is within visible boundaries, or is just appearing.- This allows BeginChild() to return false when not within boundaries (e.g. when scrolling), which is more optimal. BUT it won't update its auto-size while clipped.  While not perfect, it is a better default behavior as the always-on performance gain is more valuable than the occasional 'resizing after becoming visible again' glitch.- You may also use always_auto_resize to force an update even when child window is not in view.  HOWEVER PLEASE UNDERSTAND THAT DOING SO WILL PREVENT BeginChild() FROM EVER RETURNING FALSE, disabling benefits of coarse clipping.  Remember that combining both auto_resize_x and auto_resize_y defeats purpose of a scrolling region and is NOT recommended.
+def child_window(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, border: bool =True, autosize_x: bool =False, autosize_y: bool =False, no_scrollbar: bool =False, horizontal_scrollbar: bool =False, menubar: bool =False, no_scroll_with_mouse: bool =False, flattened_navigation: bool =True, always_use_window_padding: bool =False, resizable_x: bool =False, resizable_y: bool =False, always_auto_resize: bool =False, frame_style: bool =False, auto_resize_x: bool =False, auto_resize_y: bool =False, **kwargs) -> Union[int, str]:
+	"""	 Adds an embedded child window. Will show scrollbars when items do not fit. About using auto_resize/resizable flags: size measurement for a given axis is only performed when the child window is within visible boundaries, or is just appearing and it won't update its auto-size while clipped.While not perfect, it is a better default behavior as the always-on performance gain is more valuable than the occasional 'resizing after becoming visible again' glitch.You may also use always_auto_resize to force an update even when child window is not in view. However doing so will degrade performance.Remember that combining both resizable_x and resizable_y defeats purpose of a scrolling region and is NOT recommended.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -1583,8 +1583,8 @@ def child_window(*, label: str =None, user_data: Any =None, use_internal_label: 
 		no_scroll_with_mouse (bool, optional): Disable user vertically scrolling with mouse wheel.
 		flattened_navigation (bool, optional): Allow gamepad/keyboard navigation to cross over parent border to this child (only use on child that have no scrolling!)
 		always_use_window_padding (bool, optional): Pad with style.WindowPadding even if no border are drawn (no padding by default for non-bordered child windows because it makes more sense)
-		resize_x (bool, optional): Allow resize from right border (layout direction). Enable .ini saving (unless 'no_saved_settings' is passed as parameter)
-		resize_y (bool, optional): Allow resize from bottom border (layout direction). 
+		resizable_x (bool, optional): Allow resize from right border (layout direction). Enable .ini saving (unless 'no_saved_settings' is passed as parameter)
+		resizable_y (bool, optional): Allow resize from bottom border (layout direction). 
 		always_auto_resize (bool, optional): Combined with auto_resize_x/auto_resize_y. Always measure size even when child is hidden and always disable clipping optimization! NOT RECOMMENDED.
 		frame_style (bool, optional): Style the child window like a framed item: use FrameBg, FrameRounding, FrameBorderSize, FramePadding instead of ChildBg, ChildRounding, ChildBorderSize, WindowPadding.
 		auto_resize_x (bool, optional): Enable auto-resizing width based on child content. Read 'IMPORTANT: Size measurement' details above.
@@ -1598,7 +1598,7 @@ def child_window(*, label: str =None, user_data: Any =None, use_internal_label: 
 		if 'id' in kwargs.keys():
 			warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
 			tag=kwargs['id']
-		widget = internal_dpg.add_child_window(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, border=border, autosize_x=autosize_x, autosize_y=autosize_y, no_scrollbar=no_scrollbar, horizontal_scrollbar=horizontal_scrollbar, menubar=menubar, no_scroll_with_mouse=no_scroll_with_mouse, flattened_navigation=flattened_navigation, always_use_window_padding=always_use_window_padding, resize_x=resize_x, resize_y=resize_y, always_auto_resize=always_auto_resize, frame_style=frame_style, auto_resize_x=auto_resize_x, auto_resize_y=auto_resize_y, **kwargs)
+		widget = internal_dpg.add_child_window(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, border=border, autosize_x=autosize_x, autosize_y=autosize_y, no_scrollbar=no_scrollbar, horizontal_scrollbar=horizontal_scrollbar, menubar=menubar, no_scroll_with_mouse=no_scroll_with_mouse, flattened_navigation=flattened_navigation, always_use_window_padding=always_use_window_padding, resizable_x=resizable_x, resizable_y=resizable_y, always_auto_resize=always_auto_resize, frame_style=frame_style, auto_resize_x=auto_resize_x, auto_resize_y=auto_resize_y, **kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
@@ -2382,10 +2382,10 @@ def plot_axis(axis : int, *, label: str =None, user_data: Any =None, use_interna
 			tag=kwargs['id']
 
 		if 'log_scale' in kwargs.keys():
-			warnings.warn('log_scale keyword deprecated.See the new scale argument.', DeprecationWarning, 2)
+			warnings.warn('log_scale keyword deprecated. See the new scale argument.', DeprecationWarning, 2)
 
 		if 'time' in kwargs.keys():
-			warnings.warn('time keyword deprecated.See the new scale argument.', DeprecationWarning, 2)
+			warnings.warn('time keyword deprecated. See the new scale argument.', DeprecationWarning, 2)
 		widget = internal_dpg.add_plot_axis(axis, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, payload_type=payload_type, drop_callback=drop_callback, show=show, no_label=no_label, no_gridlines=no_gridlines, no_tick_marks=no_tick_marks, no_tick_labels=no_tick_labels, no_initial_fit=no_initial_fit, no_menus=no_menus, no_side_switch=no_side_switch, no_highlight=no_highlight, opposite=opposite, foreground_grid=foreground_grid, tick_format=tick_format, scale=scale, axis_opposite=axis_opposite, auto_fit=auto_fit, range_fit=range_fit, pan_stretch=pan_stretch, lock_min=lock_min, lock_max=lock_max, **kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
@@ -3295,8 +3295,8 @@ def add_checkbox(*, label: str =None, user_data: Any =None, use_internal_label: 
 
 	return internal_dpg.add_checkbox(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, **kwargs)
 
-def add_child_window(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, border: bool =True, autosize_x: bool =False, autosize_y: bool =False, no_scrollbar: bool =False, horizontal_scrollbar: bool =False, menubar: bool =False, no_scroll_with_mouse: bool =False, flattened_navigation: bool =True, always_use_window_padding: bool =False, resize_x: bool =False, resize_y: bool =False, always_auto_resize: bool =False, frame_style: bool =False, auto_resize_x: bool =False, auto_resize_y: bool =False, **kwargs) -> Union[int, str]:
-	"""	 [Copied and edited a little bit from ImGui]  Adds an embedded child window. Will show scrollbars when items do not fit. About using AutoResizeX/AutoResizeY flags: - May be combined with SetNextWindowSizeConstraints() to set a min/max size for each axis (see 'Demo->Child->Auto-resize with Constraints').- Size measurement for a given axis is only performed when the child window is within visible boundaries, or is just appearing.- This allows BeginChild() to return false when not within boundaries (e.g. when scrolling), which is more optimal. BUT it won't update its auto-size while clipped.  While not perfect, it is a better default behavior as the always-on performance gain is more valuable than the occasional 'resizing after becoming visible again' glitch.- You may also use always_auto_resize to force an update even when child window is not in view.  HOWEVER PLEASE UNDERSTAND THAT DOING SO WILL PREVENT BeginChild() FROM EVER RETURNING FALSE, disabling benefits of coarse clipping.  Remember that combining both auto_resize_x and auto_resize_y defeats purpose of a scrolling region and is NOT recommended.
+def add_child_window(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, border: bool =True, autosize_x: bool =False, autosize_y: bool =False, no_scrollbar: bool =False, horizontal_scrollbar: bool =False, menubar: bool =False, no_scroll_with_mouse: bool =False, flattened_navigation: bool =True, always_use_window_padding: bool =False, resizable_x: bool =False, resizable_y: bool =False, always_auto_resize: bool =False, frame_style: bool =False, auto_resize_x: bool =False, auto_resize_y: bool =False, **kwargs) -> Union[int, str]:
+	"""	 Adds an embedded child window. Will show scrollbars when items do not fit. About using auto_resize/resizable flags: size measurement for a given axis is only performed when the child window is within visible boundaries, or is just appearing and it won't update its auto-size while clipped.While not perfect, it is a better default behavior as the always-on performance gain is more valuable than the occasional 'resizing after becoming visible again' glitch.You may also use always_auto_resize to force an update even when child window is not in view. However doing so will degrade performance.Remember that combining both resizable_x and resizable_y defeats purpose of a scrolling region and is NOT recommended.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -3325,8 +3325,8 @@ def add_child_window(*, label: str =None, user_data: Any =None, use_internal_lab
 		no_scroll_with_mouse (bool, optional): Disable user vertically scrolling with mouse wheel.
 		flattened_navigation (bool, optional): Allow gamepad/keyboard navigation to cross over parent border to this child (only use on child that have no scrolling!)
 		always_use_window_padding (bool, optional): Pad with style.WindowPadding even if no border are drawn (no padding by default for non-bordered child windows because it makes more sense)
-		resize_x (bool, optional): Allow resize from right border (layout direction). Enable .ini saving (unless 'no_saved_settings' is passed as parameter)
-		resize_y (bool, optional): Allow resize from bottom border (layout direction). 
+		resizable_x (bool, optional): Allow resize from right border (layout direction). Enable .ini saving (unless 'no_saved_settings' is passed as parameter)
+		resizable_y (bool, optional): Allow resize from bottom border (layout direction). 
 		always_auto_resize (bool, optional): Combined with auto_resize_x/auto_resize_y. Always measure size even when child is hidden and always disable clipping optimization! NOT RECOMMENDED.
 		frame_style (bool, optional): Style the child window like a framed item: use FrameBg, FrameRounding, FrameBorderSize, FramePadding instead of ChildBg, ChildRounding, ChildBorderSize, WindowPadding.
 		auto_resize_x (bool, optional): Enable auto-resizing width based on child content. Read 'IMPORTANT: Size measurement' details above.
@@ -3340,7 +3340,7 @@ def add_child_window(*, label: str =None, user_data: Any =None, use_internal_lab
 		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
 		tag=kwargs['id']
 
-	return internal_dpg.add_child_window(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, border=border, autosize_x=autosize_x, autosize_y=autosize_y, no_scrollbar=no_scrollbar, horizontal_scrollbar=horizontal_scrollbar, menubar=menubar, no_scroll_with_mouse=no_scroll_with_mouse, flattened_navigation=flattened_navigation, always_use_window_padding=always_use_window_padding, resize_x=resize_x, resize_y=resize_y, always_auto_resize=always_auto_resize, frame_style=frame_style, auto_resize_x=auto_resize_x, auto_resize_y=auto_resize_y, **kwargs)
+	return internal_dpg.add_child_window(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, border=border, autosize_x=autosize_x, autosize_y=autosize_y, no_scrollbar=no_scrollbar, horizontal_scrollbar=horizontal_scrollbar, menubar=menubar, no_scroll_with_mouse=no_scroll_with_mouse, flattened_navigation=flattened_navigation, always_use_window_padding=always_use_window_padding, resizable_x=resizable_x, resizable_y=resizable_y, always_auto_resize=always_auto_resize, frame_style=frame_style, auto_resize_x=auto_resize_x, auto_resize_y=auto_resize_y, **kwargs)
 
 def add_clipper(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, delay_search: bool =False, **kwargs) -> Union[int, str]:
 	"""	 Helper to manually clip large list of items. Increases performance by not searching or drawing widgets outside of the clipped region.
@@ -4866,7 +4866,7 @@ def add_image_button(texture_tag : Union[int, str], *, label: str =None, user_da
 		tag=kwargs['id']
 
 	if 'frame_padding' in kwargs.keys():
-		warnings.warn('frame_padding keyword deprecated.This is not supported anymore by ImGui but still used here as deprecated.', DeprecationWarning, 2)
+		warnings.warn('frame_padding keyword deprecated. This is not supported anymore by ImGui but still used here as deprecated.', DeprecationWarning, 2)
 
 	return internal_dpg.add_image_button(texture_tag, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, tint_color=tint_color, background_color=background_color, uv_min=uv_min, uv_max=uv_max, **kwargs)
 
@@ -5223,7 +5223,7 @@ def add_input_text(*, label: str =None, user_data: Any =None, use_internal_label
 		ctrl_enter_for_new_line (bool, optional): In multi-line mode, unfocus with Enter, add new line with Ctrl+Enter (default is opposite: unfocus with Ctrl+Enter, add line with Enter).
 		no_horizontal_scroll (bool, optional): Disable following the cursor horizontally
 		always_overwrite (bool, optional): Overwrite mode
-		no_undo_redo (bool, optional): Disable undo/redo. Note that input text owns the text data while active, if you want to provide your own undo/redo stack you need e.g. to call ClearActiveID().
+		no_undo_redo (bool, optional): Disable undo/redo.
 		escape_clears_all (bool, optional): Escape key clears content if not empty, and deactivate otherwise (contrast to default behavior of Escape to revert)
 		id (Union[int, str], optional): (deprecated) 
 	Returns:
@@ -6341,10 +6341,10 @@ def add_plot_axis(axis : int, *, label: str =None, user_data: Any =None, use_int
 		tag=kwargs['id']
 
 	if 'log_scale' in kwargs.keys():
-		warnings.warn('log_scale keyword deprecated.See the new scale argument.', DeprecationWarning, 2)
+		warnings.warn('log_scale keyword deprecated. See the new scale argument.', DeprecationWarning, 2)
 
 	if 'time' in kwargs.keys():
-		warnings.warn('time keyword deprecated.See the new scale argument.', DeprecationWarning, 2)
+		warnings.warn('time keyword deprecated. See the new scale argument.', DeprecationWarning, 2)
 
 	return internal_dpg.add_plot_axis(axis, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, payload_type=payload_type, drop_callback=drop_callback, show=show, no_label=no_label, no_gridlines=no_gridlines, no_tick_marks=no_tick_marks, no_tick_labels=no_tick_labels, no_initial_fit=no_initial_fit, no_menus=no_menus, no_side_switch=no_side_switch, no_highlight=no_highlight, opposite=opposite, foreground_grid=foreground_grid, tick_format=tick_format, scale=scale, axis_opposite=axis_opposite, auto_fit=auto_fit, range_fit=range_fit, pan_stretch=pan_stretch, lock_min=lock_min, lock_max=lock_max, **kwargs)
 
@@ -7266,7 +7266,7 @@ def add_table_cell(*, label: str =None, user_data: Any =None, use_internal_label
 
 	return internal_dpg.add_table_cell(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, height=height, parent=parent, before=before, show=show, filter_key=filter_key, **kwargs)
 
-def add_table_column(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, enabled: bool =True, init_width_or_weight: float =0.0, default_hide: bool =False, default_sort: bool =False, width_stretch: bool =False, width_fixed: bool =False, no_resize: bool =False, no_reorder: bool =False, no_hide: bool =False, no_clip: bool =False, no_sort: bool =False, no_sort_ascending: bool =False, no_sort_descending: bool =False, no_header_width: bool =False, prefer_sort_ascending: bool =True, prefer_sort_descending: bool =False, indent_enable: bool =False, indent_disable: bool =False, angled_header: bool =False, disabled: bool =False, no_header_label: bool =False, **kwargs) -> Union[int, str]:
+def add_table_column(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, enabled: bool =True, init_width_or_weight: float =0.0, default_hide: bool =False, default_sort: bool =False, width_stretch: bool =False, width_fixed: bool =False, no_resize: bool =False, no_reorder: bool =False, no_hide: bool =False, no_clip: bool =False, no_sort: bool =False, no_sort_ascending: bool =False, no_sort_descending: bool =False, no_header_width: bool =False, prefer_sort_ascending: bool =True, prefer_sort_descending: bool =False, indent_enable: bool =False, indent_disable: bool =False, angled_header: bool =False, no_header_label: bool =False, **kwargs) -> Union[int, str]:
 	"""	 Adds a table column.
 
 	Args:
@@ -7297,7 +7297,6 @@ def add_table_column(*, label: str =None, user_data: Any =None, use_internal_lab
 		indent_enable (bool, optional): Use current Indent value when entering cell (default for column 0).
 		indent_disable (bool, optional): Ignore current Indent value when entering cell (default for columns > 0). Indentation changes _within_ the cell will still be honored.
 		angled_header (bool, optional): Set this parameter to True to display the header text for this column in an angled (diagonal) orientation. This will add an additional row to accommodate the angled text.
-		disabled (bool, optional): Default as a hidden/disabled column.
 		no_header_label (bool, optional): Disable horizontal label for this column. Name will still appear in context menu or in angled headers.
 		id (Union[int, str], optional): (deprecated) 
 	Returns:
@@ -7308,7 +7307,7 @@ def add_table_column(*, label: str =None, user_data: Any =None, use_internal_lab
 		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
 		tag=kwargs['id']
 
-	return internal_dpg.add_table_column(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, parent=parent, before=before, show=show, enabled=enabled, init_width_or_weight=init_width_or_weight, default_hide=default_hide, default_sort=default_sort, width_stretch=width_stretch, width_fixed=width_fixed, no_resize=no_resize, no_reorder=no_reorder, no_hide=no_hide, no_clip=no_clip, no_sort=no_sort, no_sort_ascending=no_sort_ascending, no_sort_descending=no_sort_descending, no_header_width=no_header_width, prefer_sort_ascending=prefer_sort_ascending, prefer_sort_descending=prefer_sort_descending, indent_enable=indent_enable, indent_disable=indent_disable, angled_header=angled_header, disabled=disabled, no_header_label=no_header_label, **kwargs)
+	return internal_dpg.add_table_column(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, parent=parent, before=before, show=show, enabled=enabled, init_width_or_weight=init_width_or_weight, default_hide=default_hide, default_sort=default_sort, width_stretch=width_stretch, width_fixed=width_fixed, no_resize=no_resize, no_reorder=no_reorder, no_hide=no_hide, no_clip=no_clip, no_sort=no_sort, no_sort_ascending=no_sort_ascending, no_sort_descending=no_sort_descending, no_header_width=no_header_width, prefer_sort_ascending=prefer_sort_ascending, prefer_sort_descending=prefer_sort_descending, indent_enable=indent_enable, indent_disable=indent_disable, angled_header=angled_header, no_header_label=no_header_label, **kwargs)
 
 def add_table_row(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, height: int =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, filter_key: str ='', **kwargs) -> Union[int, str]:
 	"""	 Adds a table row.
@@ -7417,10 +7416,10 @@ def add_text_point(x : Union[List[float], Tuple[float, ...]], y : Union[List[flo
 		tag=kwargs['id']
 
 	if 'x_offset' in kwargs.keys():
-		warnings.warn('x_offset keyword deprecated.See the new offset argument.', DeprecationWarning, 2)
+		warnings.warn('x_offset keyword deprecated. See the new offset argument.', DeprecationWarning, 2)
 
 	if 'y_offset' in kwargs.keys():
-		warnings.warn('y_offset keyword deprecated.See the new offset argument.', DeprecationWarning, 2)
+		warnings.warn('y_offset keyword deprecated. See the new offset argument.', DeprecationWarning, 2)
 
 	return internal_dpg.add_text_point(x, y, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, source=source, show=show, offset=offset, vertical=vertical, **kwargs)
 

@@ -95,7 +95,7 @@ struct mvIO
     // callback registry
     bool manualCallbacks = false;
 
-    unsigned int decimalPoint = '.';  // Equivalent to ImWChar32
+    ImWchar decimalPoint = '.';
 };
 
 struct mvContext

@@ -2400,7 +2400,7 @@ GenerateCoreFile(std::ofstream& stream)
             else if (args.arg_type == mvArgType::DEPRECATED_KEYWORD_ARG)
             {
                 stream << "\n\n\tif '" << args.name << "' in kwargs.keys():";
-                stream << "\n\t\twarnings.warn('" << args.name << " keyword deprecated." << args.new_name << "', DeprecationWarning, 2)";
+                stream << "\n\t\twarnings.warn('" << args.name << " keyword deprecated. " << args.new_name << "', DeprecationWarning, 2)";
             }
         }
 
@@ -2546,7 +2546,7 @@ GenerateContextsFile(std::ofstream& stream)
             else if (args.arg_type == mvArgType::DEPRECATED_KEYWORD_ARG)
             {
                 stream << "\n\n\t\tif '" << args.name << "' in kwargs.keys():";
-                stream << "\n\t\t\twarnings.warn('" << args.name << " keyword deprecated." << args.new_name << "', DeprecationWarning, 2)";
+                stream << "\n\t\t\twarnings.warn('" << args.name << " keyword deprecated. " << args.new_name << "', DeprecationWarning, 2)";
             }
         }
 
