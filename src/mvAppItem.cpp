@@ -2704,27 +2704,27 @@ DearPyGui::GetEntityParser(mvAppItemType type)
 
         // key modifiers
         args.push_back({ mvPyDataType::Integer, "pan_button", mvArgType::KEYWORD_ARG, "internal_dpg.mvMouseButton_Left", "mouse button that enables panning when held" });
-        args.push_back({ mvPyDataType::Integer, "pan_mod", mvArgType::KEYWORD_ARG, "0", "optional modifier that must be held for panning" });
+        args.push_back({ mvPyDataType::Integer, "pan_mod", mvArgType::KEYWORD_ARG, "internal_dpg.mvKey_None", "optional modifier that must be held for panning" });
         args.push_back({ mvPyDataType::Integer, "context_menu_button", mvArgType::KEYWORD_ARG, "internal_dpg.mvMouseButton_Right", "opens context menus (if enabled) when clicked" });
         args.push_back({ mvPyDataType::Integer, "fit_button", mvArgType::KEYWORD_ARG, "internal_dpg.mvMouseButton_Left", "fits visible data when double clicked" });
         args.push_back({ mvPyDataType::Integer, "box_select_button", mvArgType::KEYWORD_ARG, "internal_dpg.mvMouseButton_Right", "begins box selection when pressed and confirms selection when released" });
-        args.push_back({ mvPyDataType::Integer, "box_select_mod", mvArgType::KEYWORD_ARG, "0", "begins box selection when pressed and confirms selection when released" });
+        args.push_back({ mvPyDataType::Integer, "box_select_mod", mvArgType::KEYWORD_ARG, "internal_dpg.mvKey_None", "begins box selection when pressed and confirms selection when released" });
         args.push_back({ mvPyDataType::Integer, "box_select_cancel_button", mvArgType::KEYWORD_ARG, "internal_dpg.mvMouseButton_Left", "cancels active box selection when pressed" });
         args.push_back({ mvPyDataType::Integer, "horizontal_mod", mvArgType::KEYWORD_ARG, "internal_dpg.mvKey_ModAlt", "expands active box selection/query horizontally to plot edge when held" });
         args.push_back({ mvPyDataType::Integer, "vertical_mod", mvArgType::KEYWORD_ARG, "internal_dpg.mvKey_ModShift", "expands active box selection/query vertically to plot edge when held" });
         args.push_back({ mvPyDataType::Integer, "override_mod", mvArgType::KEYWORD_ARG, "internal_dpg.mvKey_ModCtrl", "when held, all input is ignored; used to enable axis/plots as DND sources" });
-        args.push_back({ mvPyDataType::Integer, "zoom_mod", mvArgType::KEYWORD_ARG, "0", "optional modifier that must be held for scroll wheel zooming" });
+        args.push_back({ mvPyDataType::Integer, "zoom_mod", mvArgType::KEYWORD_ARG, "internal_dpg.mvKey_None", "optional modifier that must be held for scroll wheel zooming" });
         args.push_back({ mvPyDataType::Integer, "zoom_rate", mvArgType::KEYWORD_ARG, "0.1", "zoom rate for scroll (e.g. 0.1f = 10% plot range every scroll click); make negative to invert" });
         args.push_back({ mvPyDataType::Integer, "query_button", mvArgType::DEPRECATED_REMOVE_KEYWORD_ARG, "0", "This refers to the old way of querying of ImPlot, now replaced with `DragRect()`" });
-        args.push_back({ mvPyDataType::Integer, "query_mod", mvArgType::DEPRECATED_REMOVE_KEYWORD_ARG, "0", "This refers to the old way of querying of ImPlot, now replaced with `DragRect()`" });
-        args.push_back({ mvPyDataType::Integer, "query_toggle_mod", mvArgType::DEPRECATED_REMOVE_KEYWORD_ARG, "0", "This refers to the old way of querying of ImPlot, now replaced with `DragRect()`" });
+        args.push_back({ mvPyDataType::Integer, "query_mod", mvArgType::DEPRECATED_REMOVE_KEYWORD_ARG, "internal_dpg.mvKey_None", "This refers to the old way of querying of ImPlot, now replaced with `DragRect()`" });
+        args.push_back({ mvPyDataType::Integer, "query_toggle_mod", mvArgType::DEPRECATED_REMOVE_KEYWORD_ARG, "internal_dpg.mvKey_None", "This refers to the old way of querying of ImPlot, now replaced with `DragRect()`" });
 
-        setup.about = "Adds a plot which is used to hold series, and can be drawn to with draw commands. For all _mod parameters use mvKey_ModX enums.";
+        setup.about = "Adds a plot which is used to hold series, and can be drawn to with draw commands. For all _mod parameters use mvKey_ModX enums, or mvKey_ModDisabled to disable the modifier.";
         setup.category = { "Plotting", "Containers", "Widgets" };
         setup.createContextManager = true;
         break;
     }
-    case mvAppItemType::mvSimplePlot:                  
+    case mvAppItemType::mvSimplePlot:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -3238,7 +3238,6 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "indent_enable", mvArgType::KEYWORD_ARG, "False", "Use current Indent value when entering cell (default for column 0)." });
         args.push_back({ mvPyDataType::Bool, "indent_disable", mvArgType::KEYWORD_ARG, "False", "Ignore current Indent value when entering cell (default for columns > 0). Indentation changes _within_ the cell will still be honored." });
         args.push_back({ mvPyDataType::Bool, "angled_header", mvArgType::KEYWORD_ARG, "False", "Set this parameter to True to display the header text for this column in an angled (diagonal) orientation. This will add an additional row to accommodate the angled text." });
-        args.push_back({ mvPyDataType::Bool, "disabled", mvArgType::KEYWORD_ARG, "False", "Default as a hidden/disabled column." });
         args.push_back({ mvPyDataType::Bool, "no_header_label", mvArgType::KEYWORD_ARG, "False", "Disable horizontal label for this column. Name will still appear in context menu or in angled headers." });
 
         setup.about = "Adds a table column.";
@@ -3846,7 +3845,8 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::DoubleList, "default_value", mvArgType::KEYWORD_ARG, "(0.0, 0.0)" });
         args.push_back({ mvPyDataType::IntList, "color", mvArgType::KEYWORD_ARG, "(0, 0, 0, -255)" });
         args.push_back({ mvPyDataType::Float, "thickness", mvArgType::KEYWORD_ARG, "1.0" });
-        args.push_back({ mvPyDataType::FloatList, "offset", mvArgType::KEYWORD_ARG, "(0.0, 0.0)", "Offset of the label, in pixels, relative to the drag point itself" });
+        args.push_back({ mvPyDataType::Bool, "show_label", mvArgType::KEYWORD_ARG, "True" });
+        args.push_back({ mvPyDataType::FloatList, "offset", mvArgType::KEYWORD_ARG, "(16.0, 8.0)", "Offset of the label, in pixels, relative to the drag point itself" });
         args.push_back({ mvPyDataType::Bool, "clamped", mvArgType::KEYWORD_ARG, "True", "Keep the label within the visible area of the plot even if the drag point itself goes outside of the visible area" });
         args.push_back({ mvPyDataType::Bool, "delayed", mvArgType::KEYWORD_ARG, "False", "tool rendering will be delayed one frame; useful when applying position-constraints" });
         args.push_back({ mvPyDataType::Bool, "no_cursor", mvArgType::KEYWORD_ARG, "False", "drag tools won't change cursor icons when hovered or held" });
@@ -3895,6 +3895,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Double, "default_value", mvArgType::KEYWORD_ARG, "0.0" });
         args.push_back({ mvPyDataType::IntList, "color", mvArgType::KEYWORD_ARG, "(0, 0, 0, -255)" });
         args.push_back({ mvPyDataType::Float, "thickness", mvArgType::KEYWORD_ARG, "1.0" });
+        args.push_back({ mvPyDataType::Bool, "show_label", mvArgType::KEYWORD_ARG, "True" });
         args.push_back({ mvPyDataType::Bool, "vertical", mvArgType::KEYWORD_ARG, "True" });
         args.push_back({ mvPyDataType::Bool, "delayed", mvArgType::KEYWORD_ARG, "False", "tool rendering will be delayed one frame; useful when applying position-constraints" });
         args.push_back({ mvPyDataType::Bool, "no_cursor", mvArgType::KEYWORD_ARG, "False", "drag tools won't change cursor icons when hovered or held" });
@@ -5482,12 +5483,6 @@ DearPyGui::OnChildAdded(mvAppItem* item, std::shared_ptr<mvAppItem> child)
             mvPlot* actualItem = (mvPlot*)item;
             if (child->type == mvAppItemType::mvPlotLegend)
                 actualItem->configData._flags &= ~ImPlotFlags_NoLegend;
-
-            if (child->type == mvAppItemType::mvPlotAxis)
-            {
-                actualItem->updateFlags();
-                actualItem->updateAxesNames();
-            }
             return;
         }
 
@@ -5535,8 +5530,6 @@ DearPyGui::OnChildRemoved(mvAppItem* item, std::shared_ptr<mvAppItem> child)
             mvPlot* actualItem = (mvPlot*)item;
             if (child->type == mvAppItemType::mvPlotLegend)
                 actualItem->configData._flags |= ImPlotFlags_NoLegend;
-            if (child->type == mvAppItemType::mvPlotAxis)
-                actualItem->updateFlags();
             return;
         }
 

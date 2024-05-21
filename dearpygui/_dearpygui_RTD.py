@@ -2161,7 +2161,7 @@ def node_editor(**kwargs):
 
 @contextmanager
 def plot(**kwargs):
-	"""	 Adds a plot which is used to hold series, and can be drawn to with draw commands. For all _mod parameters use mvKey_ModX enums.
+	"""	 Adds a plot which is used to hold series, and can be drawn to with draw commands. For all _mod parameters use mvKey_ModX enums, or mvKey_ModDisabled to disable the modifier.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -2190,7 +2190,6 @@ def plot(**kwargs):
 		query (bool, optional): the user will be able to draw query rects with middle - mouse or CTRL + right - click drag
 		crosshairs (bool, optional): the default mouse cursor will be replaced with a crosshair when hovered
 		equal_aspects (bool, optional): primary x and y axes will be constrained to have the same units/pixel (does not apply to auxiliary y-axes)
-		no_legend (bool, optional): the legend will not be displayed
 		no_inputs (bool, optional): the user will not be able to interact with the plot
 		no_frame (bool, optional): the ImGui frame will not be rendered
 		use_local_time (bool, optional): axis labels will be formatted for your timezone when
@@ -2211,6 +2210,7 @@ def plot(**kwargs):
 		zoom_rate (int, optional): zoom rate for scroll (e.g. 0.1f = 10% plot range every scroll click); make negative to invert
 		id (Union[int, str], optional): (deprecated)
 		no_highlight (bool, optional): (deprecated)Removed because not supported from the backend anymore. To control the highlighting of series use the same argument in `add_plot_legend`
+		no_child (bool, optional): (deprecated)a child window region will not be used to capture mouse scroll (can boost performance for single ImGui window applications)
 		anti_aliased (bool, optional): (deprecated)This feature was deprecated in ImPlot. To enable/disable anti_aliasing use `dpg.configure_app()` with the `anti_aliasing` parameters.
 		query_button (int, optional): (deprecated)This refers to the old way of querying of ImPlot, now replaced with `DragRect()`
 		query_mod (int, optional): (deprecated)This refers to the old way of querying of ImPlot, now replaced with `DragRect()`
@@ -3824,6 +3824,7 @@ def add_drag_line(**kwargs):
 		default_value (float, optional): 
 		color (Union[List[int], Tuple[int, ...]], optional): 
 		thickness (float, optional): 
+		show_label (bool, optional): 
 		vertical (bool, optional): 
 		delayed (bool, optional): tool rendering will be delayed one frame; useful when applying position-constraints
 		no_cursor (bool, optional): drag tools won't change cursor icons when hovered or held
@@ -3872,6 +3873,7 @@ def add_drag_point(**kwargs):
 		default_value (Any, optional): 
 		color (Union[List[int], Tuple[int, ...]], optional): 
 		thickness (float, optional): 
+		show_label (bool, optional): 
 		offset (Union[List[float], Tuple[float, ...]], optional): Offset of the label, in pixels, relative to the drag point itself
 		clamped (bool, optional): Keep the label within the visible area of the plot even if the drag point itself goes outside of the visible area
 		delayed (bool, optional): tool rendering will be delayed one frame; useful when applying position-constraints
@@ -5528,7 +5530,7 @@ def add_pie_series(x, y, radius, values, labels, **kwargs):
 	return internal_dpg.add_pie_series(x, y, radius, values, labels, **kwargs)
 
 def add_plot(**kwargs):
-	"""	 Adds a plot which is used to hold series, and can be drawn to with draw commands. For all _mod parameters use mvKey_ModX enums.
+	"""	 Adds a plot which is used to hold series, and can be drawn to with draw commands. For all _mod parameters use mvKey_ModX enums, or mvKey_ModDisabled to disable the modifier.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -5557,7 +5559,6 @@ def add_plot(**kwargs):
 		query (bool, optional): the user will be able to draw query rects with middle - mouse or CTRL + right - click drag
 		crosshairs (bool, optional): the default mouse cursor will be replaced with a crosshair when hovered
 		equal_aspects (bool, optional): primary x and y axes will be constrained to have the same units/pixel (does not apply to auxiliary y-axes)
-		no_legend (bool, optional): the legend will not be displayed
 		no_inputs (bool, optional): the user will not be able to interact with the plot
 		no_frame (bool, optional): the ImGui frame will not be rendered
 		use_local_time (bool, optional): axis labels will be formatted for your timezone when
@@ -5578,6 +5579,7 @@ def add_plot(**kwargs):
 		zoom_rate (int, optional): zoom rate for scroll (e.g. 0.1f = 10% plot range every scroll click); make negative to invert
 		id (Union[int, str], optional): (deprecated)
 		no_highlight (bool, optional): (deprecated)Removed because not supported from the backend anymore. To control the highlighting of series use the same argument in `add_plot_legend`
+		no_child (bool, optional): (deprecated)a child window region will not be used to capture mouse scroll (can boost performance for single ImGui window applications)
 		anti_aliased (bool, optional): (deprecated)This feature was deprecated in ImPlot. To enable/disable anti_aliasing use `dpg.configure_app()` with the `anti_aliasing` parameters.
 		query_button (int, optional): (deprecated)This refers to the old way of querying of ImPlot, now replaced with `DragRect()`
 		query_mod (int, optional): (deprecated)This refers to the old way of querying of ImPlot, now replaced with `DragRect()`
@@ -8789,6 +8791,7 @@ mvMouseButton_Right=internal_dpg.mvMouseButton_Right
 mvMouseButton_Middle=internal_dpg.mvMouseButton_Middle
 mvMouseButton_X1=internal_dpg.mvMouseButton_X1
 mvMouseButton_X2=internal_dpg.mvMouseButton_X2
+mvKey_ModDisabled=internal_dpg.mvKey_ModDisabled
 mvKey_None=internal_dpg.mvKey_None
 mvKey_0=internal_dpg.mvKey_0
 mvKey_1=internal_dpg.mvKey_1

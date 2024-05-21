@@ -325,6 +325,7 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 	{	
 
 		// gives axes change to make changes to ticks, limits, etc.
+		ImAxis next_y_axis = ImAxis_Y1;
 		for (auto& child : item.childslots[1])
 		{
 			// skip item if it's not shown
@@ -335,7 +336,20 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 			{
 				mvPlotAxis* axis = static_cast<mvPlotAxis*>(child.get());
 				ImAxis_ id_axis = static_cast<ImAxis_>(axis->configData.axis);
-				ImPlot::SetupAxis(id_axis, config.axesNames[id_axis].c_str(), axis->configData.flags);
+
+				// auto-assigning additional Y axes for compatibility with DPG 1.11 and earlier versions
+				auto flags = axis->configData.flags;
+				if (id_axis == ImAxis_Y1)
+				{
+					if (axis->configData.axis < next_y_axis)
+					{
+						id_axis = static_cast<ImAxis_>(next_y_axis);
+						flags |= ImPlotAxisFlags_Opposite;
+					}
+					++next_y_axis;
+				}
+
+				ImPlot::SetupAxis(id_axis, axis->config.specifiedLabel.c_str(), flags);
 				if (axis->configData.setLimits || axis->configData._dirty)
 				{
 					ImPlot::SetupAxisLimits(id_axis, axis->configData.limits.x, axis->configData.limits.y, ImGuiCond_Always);
@@ -639,24 +653,39 @@ DearPyGui::draw_drag_line(ImDrawList* drawlist, mvAppItem& item, mvDragLineConfi
 
 	ScopedID id(item.uuid);
 
+	bool hovered = false;
+	bool held = false;
+
 	if (config.vertical)
 	{
-		if (ImPlot::DragLineX(item.uuid, config.value.get(), config.color, config.thickness, config.flags))
+		if (ImPlot::DragLineX(item.uuid, config.value.get(), config.color, config.thickness, config.flags, nullptr, &hovered, &held))
 		{
 			mvAddCallback(item.config.callback, item.uuid, nullptr, item.config.user_data);
 		}
-		if (!item.config.specifiedLabel.empty()) {
-			ImPlot::TagX(*config.value.get(), config.color, "%s", item.config.specifiedLabel.c_str());
+		if (config.show_label && !item.config.specifiedLabel.empty() && (hovered || held)) {
+            char buff[IMPLOT_LABEL_MAX_SIZE];
+			ImPlotContext& gp = *GImPlot;
+			ImPlotAxis& axis = gp.CurrentPlot->Axes[gp.CurrentPlot->CurrentX];
+			auto pos = *config.value.get();
+    		ImPlot::LabelAxisValue(axis, pos, buff, sizeof(buff), true);
+			ImVec4 color = ImPlot::IsColorAuto(config.color.toVec4()) ? ImGui::GetStyleColorVec4(ImGuiCol_Text) : config.color;
+			ImPlot::Annotation(pos, ImPlot::GetPlotLimits().Min().y, color, ImVec2(0, 0), true, "%s = %s", item.config.specifiedLabel.c_str(), buff);
 		}
 	}
 	else
 	{
-		if (ImPlot::DragLineY(item.uuid, config.value.get(), config.color, config.thickness, config.flags))
+		if (ImPlot::DragLineY(item.uuid, config.value.get(), config.color, config.thickness, config.flags, nullptr, &hovered, &held))
 		{
 			mvAddCallback(item.config.callback, item.uuid, nullptr, item.config.user_data);
 		}
-		if (!item.config.specifiedLabel.empty()) {
-			ImPlot::TagY(*config.value.get(), config.color, "%s", item.config.specifiedLabel.c_str());
+		if (config.show_label && !item.config.specifiedLabel.empty() && (hovered || held)) {
+            char buff[IMPLOT_LABEL_MAX_SIZE];
+			ImPlotContext& gp = *GImPlot;
+			ImPlotAxis& axis = gp.CurrentPlot->Axes[gp.CurrentPlot->CurrentY];
+			auto label_pos = *config.value.get();
+    		ImPlot::LabelAxisValue(axis, label_pos, buff, sizeof(buff), true);
+			ImVec4 color = ImPlot::IsColorAuto(config.color.toVec4()) ? ImGui::GetStyleColorVec4(ImGuiCol_Text) : config.color;
+			ImPlot::Annotation(ImPlot::GetPlotLimits().Min().x, label_pos, color, ImVec2(0, 0), true, "%s = %s", item.config.specifiedLabel.c_str(), buff);
 		}
 	}
 }
@@ -729,14 +758,24 @@ DearPyGui::draw_drag_point(ImDrawList* drawlist, mvAppItem& item, mvDragPointCon
 	dummyx = (*config.value.get())[0];
 	dummyy = (*config.value.get())[1];
 
-	if (ImPlot::DragPoint(item.uuid, &dummyx, &dummyy, config.color, config.radius, config.flags))
+	bool hovered = false;
+	bool held = false;
+	if (ImPlot::DragPoint(item.uuid, &dummyx, &dummyy, config.color, config.radius, config.flags, nullptr, &hovered, &held))
 	{
 		(*config.value.get())[0] = dummyx;
 		(*config.value.get())[1] = dummyy;
 		mvAddCallback(item.config.callback, item.uuid, nullptr, item.config.user_data);
 	}
-	if (!item.config.specifiedLabel.empty()) {
-		ImPlot::Annotation(dummyx, dummyy, config.color, config.pixOffset, config.clamped, "%s", item.config.specifiedLabel.c_str());
+	if (config.show_label && !item.config.specifiedLabel.empty() && (hovered || held)) {
+		ImPlotContext& gp = *GImPlot;
+		char x_buff[IMPLOT_LABEL_MAX_SIZE];
+		ImPlotAxis& x_axis = gp.CurrentPlot->Axes[gp.CurrentPlot->CurrentX];
+		ImPlot::LabelAxisValue(x_axis, dummyx, x_buff, sizeof(x_buff), true);
+		char y_buff[IMPLOT_LABEL_MAX_SIZE];
+		ImPlotAxis& y_axis = gp.CurrentPlot->Axes[gp.CurrentPlot->CurrentY];
+		ImPlot::LabelAxisValue(y_axis, dummyy, y_buff, sizeof(y_buff), true);
+		ImVec4 color = ImPlot::IsColorAuto(config.color.toVec4()) ? ImGui::GetStyleColorVec4(ImGuiCol_Text) : config.color;
+		ImPlot::Annotation(dummyx, dummyy, color, config.pixOffset, config.clamped, "%s = %s, %s", item.config.specifiedLabel.c_str(), x_buff, y_buff);
 	}
 }
 
@@ -2402,6 +2441,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvDragLineConfig& outConfig)
 
 	if (PyObject* item = PyDict_GetItemString(inDict, "color")) outConfig.color = ToColor(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "thickness")) outConfig.thickness = ToFloat(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "show_label")) outConfig.show_label = ToBool(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "vertical")) outConfig.vertical = ToBool(item);
 
 	// helper for bit flipping
@@ -2474,7 +2514,6 @@ DearPyGui::set_configuration(PyObject* inDict, mvPlotConfig& outConfig)
 	flagop("no_mouse_pos", ImPlotFlags_NoMouseText, outConfig._flags);
 	flagop("crosshairs", ImPlotFlags_Crosshairs, outConfig._flags);
 	flagop("equal_aspects", ImPlotFlags_Equal, outConfig._flags);
-	flagop("no_legend", ImPlotFlags_NoLegend, outConfig._flags);
 	flagop("no_inputs", ImPlotFlags_NoInputs, outConfig._flags);
 	flagop("no_frame", ImPlotFlags_NoFrame, outConfig._flags);	
 	// flagop("canvas_only", ImPlotFlags_CanvasOnly, outConfig._flags);
@@ -2488,6 +2527,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvDragPointConfig& outConfig)
 
 	if (PyObject* item = PyDict_GetItemString(inDict, "color")) outConfig.color = ToColor(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "radius")) outConfig.radius = ToFloat(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "show_label")) outConfig.show_label = ToBool(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "clamped")) outConfig.clamped = ToBool(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "offset")) outConfig.pixOffset = ToVec2(item);
 
@@ -3073,12 +3113,6 @@ DearPyGui::set_configuration(PyObject* inDict, mvPlotAxisConfig& outConfig, mvAp
 	flagop("lock_min", ImPlotAxisFlags_LockMin, outConfig.flags);
 	flagop("lock_max", ImPlotAxisFlags_LockMax, outConfig.flags);
 
-	if (item.info.parentPtr)
-	{
-		static_cast<mvPlot*>(item.info.parentPtr)->updateFlags();
-		static_cast<mvPlot*>(item.info.parentPtr)->updateAxesNames();
-	}
-
 	if (item.info.shownLastFrame)
 	{
 		item.info.shownLastFrame = false;
@@ -3133,7 +3167,6 @@ DearPyGui::fill_configuration_dict(const mvPlotConfig& inConfig, PyObject* outDi
 	checkbitset("no_mouse_pos", ImPlotFlags_NoMouseText, inConfig._flags);
 	checkbitset("crosshairs", ImPlotFlags_Crosshairs, inConfig._flags);
 	checkbitset("equal_aspects", ImPlotFlags_Equal, inConfig._flags);
-	checkbitset("no_legend", ImPlotFlags_NoLegend, inConfig._flags);
 	checkbitset("no_inputs", ImPlotFlags_NoInputs, inConfig._flags);
 	checkbitset("no_frame", ImPlotFlags_NoFrame, inConfig._flags);
 	// checkbitset("canvas_only", ImPlotFlags_CanvasOnly, inConfig._flags);
@@ -3147,6 +3180,7 @@ DearPyGui::fill_configuration_dict(const mvDragLineConfig& inConfig, PyObject* o
 
 	PyDict_SetItemString(outDict, "color", ToPyColor(inConfig.color));
 	PyDict_SetItemString(outDict, "thickness", ToPyFloat(inConfig.thickness));
+	PyDict_SetItemString(outDict, "show_label", ToPyBool(inConfig.thickness));
 	PyDict_SetItemString(outDict, "vertical", ToPyBool(inConfig.vertical));
 
 
@@ -3169,7 +3203,7 @@ DearPyGui::fill_configuration_dict(const mvDragRectConfig& inConfig, PyObject* o
 	if (outDict == nullptr)
 		return;
 
-	PyDict_SetItemString(outDict, "color", ToPyColor(inConfig.color));
+	PyDict_SetItemString(outDict, "color", mvPyObject(ToPyColor(inConfig.color)));
 
 	// helper to check and set bit
 	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)
@@ -3192,6 +3226,7 @@ DearPyGui::fill_configuration_dict(const mvDragPointConfig& inConfig, PyObject* 
 
 	PyDict_SetItemString(outDict, "raidus", mvPyObject(ToPyFloat(inConfig.radius)));
 	PyDict_SetItemString(outDict, "color", mvPyObject(ToPyColor(inConfig.color)));
+	PyDict_SetItemString(outDict, "show_label", mvPyObject(ToPyBool(inConfig.show_label)));
 	PyDict_SetItemString(outDict, "clamped", mvPyObject(ToPyBool(inConfig.clamped)));
 	PyDict_SetItemString(outDict, "offset", mvPyObject(ToPyPair(inConfig.pixOffset.x, inConfig.pixOffset.y)));
 
@@ -3206,9 +3241,6 @@ DearPyGui::fill_configuration_dict(const mvDragPointConfig& inConfig, PyObject* 
 	checkbitset("no_cursor", ImPlotDragToolFlags_NoCursors, inConfig.flags);
 	checkbitset("no_fit", ImPlotDragToolFlags_NoFit, inConfig.flags);
 	checkbitset("no_inputs", ImPlotDragToolFlags_NoInputs, inConfig.flags);
-
-	PyDict_SetItemString(outDict, "color", ToPyColor(inConfig.color));
-	PyDict_SetItemString(outDict, "radius", ToPyFloat(inConfig.radius));
 }
 
 void
@@ -3706,25 +3738,4 @@ void mvAnnotation::setPyValue(PyObject* value)
 		*configData.value = temp_array;
 	else
 		configData.value = std::make_shared<std::array<double, 4>>(temp_array);
-}
-
-void mvPlot::updateFlags()
-{
-	for (auto& child : childslots[1])
-	{
-		mvPlotAxis* axis = static_cast<mvPlotAxis*>(child.get());
-		configData.axesFlags[axis->configData.axis] = axis->configData.flags;
-	}
-}
-
-void mvPlot::updateAxesNames()
-{
-	std::fill(configData.axesNames.begin(), configData.axesNames.end(), std::string());  // clear names
-
-	for (auto& child : childslots[1])
-	{
-		mvPlotAxis* axis = static_cast<mvPlotAxis*>(child.get());
-		configData.axesNames[axis->configData.axis] = axis->config.specifiedLabel;
-	}
-
 }

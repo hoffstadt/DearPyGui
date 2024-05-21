@@ -146,7 +146,7 @@ def add_drag_intx(*, label: str ='', user_data: Any ='', use_internal_label: boo
 	"""Adds drag input for a set of int values up to 4. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the drag. Use clamped keyword to also apply limits to the direct entry modes."""
 	...
 
-def add_drag_line(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', callback: Callable ='', show: bool ='', default_value: float ='', color: Union[List[int], Tuple[int, ...]] ='', thickness: float ='', vertical: bool ='', delayed: bool ='', no_cursor: bool ='', no_fit: bool ='', no_inputs: bool ='') -> Union[int, str]:
+def add_drag_line(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', callback: Callable ='', show: bool ='', default_value: float ='', color: Union[List[int], Tuple[int, ...]] ='', thickness: float ='', show_label: bool ='', vertical: bool ='', delayed: bool ='', no_cursor: bool ='', no_fit: bool ='', no_inputs: bool ='') -> Union[int, str]:
 	"""Adds a drag line to a plot."""
 	...
 
@@ -154,7 +154,7 @@ def add_drag_payload(*, label: str ='', user_data: Any ='', use_internal_label: 
 	"""User data payload for drag and drop operations."""
 	...
 
-def add_drag_point(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', callback: Callable ='', show: bool ='', default_value: Any ='', color: Union[List[int], Tuple[int, ...]] ='', thickness: float ='', offset: Union[List[float], Tuple[float, ...]] ='', clamped: bool ='', delayed: bool ='', no_cursor: bool ='', no_fit: bool ='', no_inputs: bool ='') -> Union[int, str]:
+def add_drag_point(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', callback: Callable ='', show: bool ='', default_value: Any ='', color: Union[List[int], Tuple[int, ...]] ='', thickness: float ='', show_label: bool ='', offset: Union[List[float], Tuple[float, ...]] ='', clamped: bool ='', delayed: bool ='', no_cursor: bool ='', no_fit: bool ='', no_inputs: bool ='') -> Union[int, str]:
 	"""Adds a drag point to a plot."""
 	...
 
@@ -434,8 +434,8 @@ def add_pie_series(x : float, y : float, radius : float, values : Union[List[flo
 	"""Adds an pie series to a plot."""
 	...
 
-def add_plot(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', delay_search: bool ='', tracked: bool ='', track_offset: float ='', no_title: bool ='', no_menus: bool ='', no_box_select: bool ='', no_mouse_pos: bool ='', query: bool ='', crosshairs: bool ='', equal_aspects: bool ='', no_legend: bool ='', no_inputs: bool ='', no_frame: bool ='', use_local_time: bool ='', use_ISO8601: bool ='', use_24hour_clock: bool ='', delete_rect: bool ='', pan_button: int ='', pan_mod: int ='', context_menu_button: int ='', fit_button: int ='', box_select_button: int ='', box_select_mod: int ='', box_select_cancel_button: int ='', horizontal_mod: int ='', vertical_mod: int ='', override_mod: int ='', zoom_mod: int ='', zoom_rate: int ='') -> Union[int, str]:
-	"""Adds a plot which is used to hold series, and can be drawn to with draw commands. For all _mod parameters use mvKey_ModX enums."""
+def add_plot(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', delay_search: bool ='', tracked: bool ='', track_offset: float ='', no_title: bool ='', no_menus: bool ='', no_box_select: bool ='', no_mouse_pos: bool ='', query: bool ='', crosshairs: bool ='', equal_aspects: bool ='', no_inputs: bool ='', no_frame: bool ='', use_local_time: bool ='', use_ISO8601: bool ='', use_24hour_clock: bool ='', delete_rect: bool ='', pan_button: int ='', pan_mod: int ='', context_menu_button: int ='', fit_button: int ='', box_select_button: int ='', box_select_mod: int ='', box_select_cancel_button: int ='', horizontal_mod: int ='', vertical_mod: int ='', override_mod: int ='', zoom_mod: int ='', zoom_rate: int ='') -> Union[int, str]:
+	"""Adds a plot which is used to hold series, and can be drawn to with draw commands. For all _mod parameters use mvKey_ModX enums, or mvKey_ModDisabled to disable the modifier."""
 	...
 
 def add_plot_annotation(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', show: bool ='', default_value: Any ='', offset: Union[List[float], Tuple[float, ...]] ='', color: Union[List[int], Tuple[int, ...]] ='', clamped: bool ='') -> Union[int, str]:
@@ -1256,6 +1256,7 @@ mvMouseButton_Right=0
 mvMouseButton_Middle=0
 mvMouseButton_X1=0
 mvMouseButton_X2=0
+mvKey_ModDisabled=0
 mvKey_None=0
 mvKey_0=0
 mvKey_1=0
