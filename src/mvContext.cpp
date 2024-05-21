@@ -227,6 +227,7 @@ InsertConstants_mvContext(std::vector<std::pair<std::string, long>>& constants)
     //-----------------------------------------------------------------------------
     // Key Codes
     //-----------------------------------------------------------------------------
+    constants.emplace_back("mvKey_ModDisabled", -1);
     constants.emplace_back("mvKey_None", ImGuiKey_None);
     constants.emplace_back("mvKey_0", ImGuiKey_0);
     constants.emplace_back("mvKey_1", ImGuiKey_1);
