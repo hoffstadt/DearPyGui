@@ -1181,9 +1181,6 @@ DelaySearch(mvItemRegistry& registry, mvAppItem* item)
 mvAppItem* 
 GetItem(mvItemRegistry& registry, mvUUID uuid)
 {
-    // TODO: This is an improvement in performance, but actually it's been put here because otherwise in "check cache" it crashes -> get informed
-    if (uuid == 0)
-        return nullptr;
     // check captured
     if(registry.capturedItem)
     {

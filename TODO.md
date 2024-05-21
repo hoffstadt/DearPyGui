@@ -12,6 +12,7 @@
     - [x] Improve demo with multiple axes
     - [x] Antialiasing activated?
     - [x] Implement TagX/Y also on secondary axes
+    - [ ] Check `no_undo_redo` in `mvInputText` to implement custom undo/redo stack.
 - [ ] Bugfix:
     - [x] Crash on tests teardown
     - [x] Crash when opening table in demo: `void ImGui::TableSetColumnEnabled(int, bool): Assertion 'table->Flags & ImGuiTableFlags_Hideable' failed.`

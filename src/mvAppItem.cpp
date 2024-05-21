@@ -1890,7 +1890,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "ctrl_enter_for_new_line", mvArgType::KEYWORD_ARG, "False", "In multi-line mode, unfocus with Enter, add new line with Ctrl+Enter (default is opposite: unfocus with Ctrl+Enter, add line with Enter)." });
         args.push_back({ mvPyDataType::Bool, "no_horizontal_scroll", mvArgType::KEYWORD_ARG, "False", "Disable following the cursor horizontally" });
         args.push_back({ mvPyDataType::Bool, "always_overwrite", mvArgType::KEYWORD_ARG, "False", "Overwrite mode" });
-        args.push_back({ mvPyDataType::Bool, "no_undo_redo", mvArgType::KEYWORD_ARG, "False", "Disable undo/redo. Note that input text owns the text data while active, if you want to provide your own undo/redo stack you need e.g. to call ClearActiveID()." });
+        args.push_back({ mvPyDataType::Bool, "no_undo_redo", mvArgType::KEYWORD_ARG, "False", "Disable undo/redo." });
         args.push_back({ mvPyDataType::Bool, "escape_clears_all", mvArgType::KEYWORD_ARG, "False", "Escape key clears content if not empty, and deactivate otherwise (contrast to default behavior of Escape to revert)" });
 
         setup.about = "Adds input for text.";
@@ -2099,19 +2099,19 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "no_scroll_with_mouse", mvArgType::KEYWORD_ARG, "False", "Disable user vertically scrolling with mouse wheel." });
         args.push_back({ mvPyDataType::Bool, "flattened_navigation", mvArgType::KEYWORD_ARG, "True", "Allow gamepad/keyboard navigation to cross over parent border to this child (only use on child that have no scrolling!)" });
         args.push_back({ mvPyDataType::Bool, "always_use_window_padding", mvArgType::KEYWORD_ARG, "False", "Pad with style.WindowPadding even if no border are drawn (no padding by default for non-bordered child windows because it makes more sense)" });
-        args.push_back({ mvPyDataType::Bool, "resize_x", mvArgType::KEYWORD_ARG, "False", "Allow resize from right border (layout direction). Enable .ini saving (unless 'no_saved_settings' is passed as parameter)" });
-        args.push_back({ mvPyDataType::Bool, "resize_y", mvArgType::KEYWORD_ARG, "False", "Allow resize from bottom border (layout direction). " });
+        args.push_back({ mvPyDataType::Bool, "resizable_x", mvArgType::KEYWORD_ARG, "False", "Allow resize from right border (layout direction). Enable .ini saving (unless 'no_saved_settings' is passed as parameter)" });
+        args.push_back({ mvPyDataType::Bool, "resizable_y", mvArgType::KEYWORD_ARG, "False", "Allow resize from bottom border (layout direction). " });
         args.push_back({ mvPyDataType::Bool, "always_auto_resize", mvArgType::KEYWORD_ARG, "False", "Combined with auto_resize_x/auto_resize_y. Always measure size even when child is hidden and always disable clipping optimization! NOT RECOMMENDED." });
         args.push_back({ mvPyDataType::Bool, "frame_style", mvArgType::KEYWORD_ARG, "False", "Style the child window like a framed item: use FrameBg, FrameRounding, FrameBorderSize, FramePadding instead of ChildBg, ChildRounding, ChildBorderSize, WindowPadding." });
         args.push_back({ mvPyDataType::Bool, "auto_resize_x", mvArgType::KEYWORD_ARG, "False", "Enable auto-resizing width based on child content. Read 'IMPORTANT: Size measurement' details above." });
         args.push_back({ mvPyDataType::Bool, "auto_resize_y", mvArgType::KEYWORD_ARG, "False", "Enable auto-resizing height based on child content. Read 'IMPORTANT: Size measurement' details above." });
 
-        setup.about = "[Copied and edited a little bit from ImGui]"
-            "  Adds an embedded child window. Will show scrollbars when items do not fit. About using auto_resize flags: "
-            "  size measurement for a given axis is only performed when the child window is within visible boundaries, or is just appearing and it won't update its auto-size while clipped."
-            "  While not perfect, it is a better default behavior as the always-on performance gain is more valuable than the occasional 'resizing after becoming visible again' glitch."
-            "  You may also use always_auto_resize to force an update even when child window is not in view. However doing so will degrade performance."
-            "  Remember that combining both auto_resize_x and auto_resize_y defeats purpose of a scrolling region and is NOT recommended.";
+        setup.about =
+            "Adds an embedded child window. Will show scrollbars when items do not fit. About using auto_resize/resizable flags: "
+            "size measurement for a given axis is only performed when the child window is within visible boundaries, or is just appearing and it won't update its auto-size while clipped."
+            "While not perfect, it is a better default behavior as the always-on performance gain is more valuable than the occasional 'resizing after becoming visible again' glitch."
+            "You may also use always_auto_resize to force an update even when child window is not in view. However doing so will degrade performance."
+            "Remember that combining both resizable_x and resizable_y defeats purpose of a scrolling region and is NOT recommended.";
         setup.category = { "Containers", "Widgets" };
         setup.createContextManager = true;
         break;
@@ -2689,12 +2689,11 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "no_box_select", mvArgType::KEYWORD_ARG, "False", "the user will not be able to box-select with right-click drag"});
         args.push_back({ mvPyDataType::Bool, "no_mouse_pos", mvArgType::KEYWORD_ARG, "False", "the text of mouse position, in plot coordinates, will not be displayed inside of the plot"});
         args.push_back({ mvPyDataType::Bool, "no_highlight", mvArgType::DEPRECATED_REMOVE_KEYWORD_ARG, "False", "Removed because not supported from the backend anymore. To control the highlighting of series use the same argument in `add_plot_legend`"});
-        // args.push_back({ mvPyDataType::Bool, "no_child", mvArgType::DEPRECATED_REMOVE_KEYWORD_ARG, "False", "a child window region will not be used to capture mouse scroll (can boost performance for single ImGui window applications)"});
+        args.push_back({ mvPyDataType::Bool, "no_child", mvArgType::DEPRECATED_REMOVE_KEYWORD_ARG, "False", "a child window region will not be used to capture mouse scroll (can boost performance for single ImGui window applications)"});
         args.push_back({ mvPyDataType::Bool, "query", mvArgType::KEYWORD_ARG, "False", "the user will be able to draw query rects with middle - mouse or CTRL + right - click drag"});
         args.push_back({ mvPyDataType::Bool, "crosshairs", mvArgType::KEYWORD_ARG, "False", "the default mouse cursor will be replaced with a crosshair when hovered"});
         args.push_back({ mvPyDataType::Bool, "anti_aliased", mvArgType::DEPRECATED_REMOVE_KEYWORD_ARG, "True", "This feature was deprecated in ImPlot. To enable/disable anti_aliasing use `dpg.configure_app()` with the `anti_aliasing` parameters."});
         args.push_back({ mvPyDataType::Bool, "equal_aspects", mvArgType::KEYWORD_ARG, "False", "primary x and y axes will be constrained to have the same units/pixel (does not apply to auxiliary y-axes)"});
-        args.push_back({ mvPyDataType::Bool, "no_legend", mvArgType::KEYWORD_ARG, "False", "the legend will not be displayed"});
         args.push_back({ mvPyDataType::Bool, "no_inputs", mvArgType::KEYWORD_ARG, "False", "the user will not be able to interact with the plot"});
         args.push_back({ mvPyDataType::Bool, "no_frame", mvArgType::KEYWORD_ARG, "False", "the ImGui frame will not be rendered"});
         // args.push_back({ mvPyDataType::Bool, "canvas_only", mvArgType::KEYWORD_ARG, "False", "shortcut for: no_title + no_legend + no_menu + no_box_select + no_mouse_pos"});

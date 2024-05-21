@@ -28,18 +28,21 @@ mvTableColumn::mvTableColumn(mvUUID uuid)
 void mvTableColumn::draw(ImDrawList* drawlist, float x, float y)
 {
 	_id = (ImGuiID)uuid;
-	ImGui::TableSetupColumn(info.internalLabel.c_str(), _flags, _init_width_or_weight, _id);
+	auto flags = _flags;
+	if (!config.enabled)
+		flags |= ImGuiTableColumnFlags_Disabled;
+	ImGui::TableSetupColumn(info.internalLabel.c_str(), flags, _init_width_or_weight, _id);
 
 	if (info.shownLastFrame)
 	{
 		info.shownLastFrame = false;
-		ImGui::TableSetColumnEnabled(info.location, config.enabled);
+		ImGui::TableSetColumnEnabled(info.location, config.show);
 	}
 
 	if (info.hiddenLastFrame)
 	{
 		info.hiddenLastFrame = false;
-		ImGui::TableSetColumnEnabled(info.location, config.enabled);
+		ImGui::TableSetColumnEnabled(info.location, config.show);
 	}
 }
 
@@ -73,7 +76,6 @@ void mvTableColumn::handleSpecificKeywordArgs(PyObject* dict)
 	flagop("indent_enable", ImGuiTableColumnFlags_IndentEnable, _flags);
 	flagop("indent_disable", ImGuiTableColumnFlags_IndentDisable, _flags);
 	flagop("angled_header", ImGuiTableColumnFlags_AngledHeader, _flags);
-	flagop("disabled", ImGuiTableColumnFlags_Disabled, _flags);
 	flagop("no_header_label", ImGuiTableColumnFlags_NoHeaderLabel, _flags); 
 }
 
@@ -151,6 +153,22 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 		if (_columns == 0)
 			return;
 
+		// Validating column visibility: if there are no any visible/enabled columns,
+		// an attempt to render the table will corrupt data structures within ImGui,
+		// and will most probably lead to a crash on app shutdown.  On the other hand,
+		// if there are no visible columns, we don't have anything to draw, really.
+		bool all_hidden = true;
+		for (auto& item : childslots[0])
+		{
+			if (item->config.enabled && item->config.show)
+			{
+				all_hidden = false;
+				break;
+			}
+		}
+		if (all_hidden)
+			return;
+
 		auto row_renderer = [&](mvAppItem* row, mvAppItem* prev_visible_row=nullptr)
 		{
 			//TableNextRow() ends the previous row, if any, and determines background color for it.
@@ -191,6 +209,10 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 				if (column_index >= _columns)
 					break;
 
+				auto& columnItem = childslots[0][column_index];
+                if (!(columnItem->config.enabled && columnItem->config.show))
+					continue;
+
 				ImGui::TableSetColumnIndex(column_index);
 
 				if (_columnColorsSet[column_index])
@@ -199,16 +221,11 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 				if (_cellColorsSet[row_index][column_index])
 					ImGui::TableSetBgColor(ImGuiTableBgTarget_CellBg, _cellColors[row_index][column_index]);
 
-                auto& columnItem = childslots[0][column_index];
-
-                if(columnItem->config.enabled)
-				{
-					apply_local_theming(columnItem.get());
-					apply_local_theming(cell.get());
-				    cell->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-					cleanup_local_theming(cell.get());
-					cleanup_local_theming(columnItem.get());
-				}
+                apply_local_theming(columnItem.get());
+				apply_local_theming(cell.get());
+				cell->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
+				cleanup_local_theming(cell.get());
+				cleanup_local_theming(columnItem.get());
 			}
 		};
 
@@ -223,10 +240,6 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 			// setup columns
 			for (auto& item : childslots[0])
 			{
-				// skip item if it's not shown
-				if (!item->config.show)
-					continue;
-
 				item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 			}
 
@@ -356,7 +369,12 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 				item->state.lastFrameUpdate = GContext->frame;
 				item->state.visible = flags & ImGuiTableColumnFlags_IsVisible;
 				item->state.hovered = flags & ImGuiTableColumnFlags_IsHovered;
-                if(!item->config.enabled && item->state.visible) item->config.enabled = true;
+                if (item->config.enabled)
+				{
+					// Sync the flag with the actual column state controlled by the
+					// user via context menu.
+					item->config.show = flags & ImGuiTableColumnFlags_IsEnabled;
+				}
 				columnnum++;
 			}
 

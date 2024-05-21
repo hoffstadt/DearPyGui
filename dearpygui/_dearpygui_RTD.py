@@ -1554,7 +1554,7 @@ def set_start_callback(callback):
 
 @contextmanager
 def child_window(**kwargs):
-	"""	 [Copied and edited a little bit from ImGui]  Adds an embedded child window. Will show scrollbars when items do not fit. About using AutoResizeX/AutoResizeY flags: - May be combined with SetNextWindowSizeConstraints() to set a min/max size for each axis (see 'Demo->Child->Auto-resize with Constraints').- Size measurement for a given axis is only performed when the child window is within visible boundaries, or is just appearing.- This allows BeginChild() to return false when not within boundaries (e.g. when scrolling), which is more optimal. BUT it won't update its auto-size while clipped.  While not perfect, it is a better default behavior as the always-on performance gain is more valuable than the occasional 'resizing after becoming visible again' glitch.- You may also use always_auto_resize to force an update even when child window is not in view.  HOWEVER PLEASE UNDERSTAND THAT DOING SO WILL PREVENT BeginChild() FROM EVER RETURNING FALSE, disabling benefits of coarse clipping.  Remember that combining both auto_resize_x and auto_resize_y defeats purpose of a scrolling region and is NOT recommended.
+	"""	 Adds an embedded child window. Will show scrollbars when items do not fit. About using auto_resize/resizable flags: size measurement for a given axis is only performed when the child window is within visible boundaries, or is just appearing and it won't update its auto-size while clipped.While not perfect, it is a better default behavior as the always-on performance gain is more valuable than the occasional 'resizing after becoming visible again' glitch.You may also use always_auto_resize to force an update even when child window is not in view. However doing so will degrade performance.Remember that combining both resizable_x and resizable_y defeats purpose of a scrolling region and is NOT recommended.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -1583,8 +1583,8 @@ def child_window(**kwargs):
 		no_scroll_with_mouse (bool, optional): Disable user vertically scrolling with mouse wheel.
 		flattened_navigation (bool, optional): Allow gamepad/keyboard navigation to cross over parent border to this child (only use on child that have no scrolling!)
 		always_use_window_padding (bool, optional): Pad with style.WindowPadding even if no border are drawn (no padding by default for non-bordered child windows because it makes more sense)
-		resize_x (bool, optional): Allow resize from right border (layout direction). Enable .ini saving (unless 'no_saved_settings' is passed as parameter)
-		resize_y (bool, optional): Allow resize from bottom border (layout direction). 
+		resizable_x (bool, optional): Allow resize from right border (layout direction). Enable .ini saving (unless 'no_saved_settings' is passed as parameter)
+		resizable_y (bool, optional): Allow resize from bottom border (layout direction). 
 		always_auto_resize (bool, optional): Combined with auto_resize_x/auto_resize_y. Always measure size even when child is hidden and always disable clipping optimization! NOT RECOMMENDED.
 		frame_style (bool, optional): Style the child window like a framed item: use FrameBg, FrameRounding, FrameBorderSize, FramePadding instead of ChildBg, ChildRounding, ChildBorderSize, WindowPadding.
 		auto_resize_x (bool, optional): Enable auto-resizing width based on child content. Read 'IMPORTANT: Size measurement' details above.
@@ -3062,7 +3062,7 @@ def add_checkbox(**kwargs):
 	return internal_dpg.add_checkbox(**kwargs)
 
 def add_child_window(**kwargs):
-	"""	 [Copied and edited a little bit from ImGui]  Adds an embedded child window. Will show scrollbars when items do not fit. About using AutoResizeX/AutoResizeY flags: - May be combined with SetNextWindowSizeConstraints() to set a min/max size for each axis (see 'Demo->Child->Auto-resize with Constraints').- Size measurement for a given axis is only performed when the child window is within visible boundaries, or is just appearing.- This allows BeginChild() to return false when not within boundaries (e.g. when scrolling), which is more optimal. BUT it won't update its auto-size while clipped.  While not perfect, it is a better default behavior as the always-on performance gain is more valuable than the occasional 'resizing after becoming visible again' glitch.- You may also use always_auto_resize to force an update even when child window is not in view.  HOWEVER PLEASE UNDERSTAND THAT DOING SO WILL PREVENT BeginChild() FROM EVER RETURNING FALSE, disabling benefits of coarse clipping.  Remember that combining both auto_resize_x and auto_resize_y defeats purpose of a scrolling region and is NOT recommended.
+	"""	 Adds an embedded child window. Will show scrollbars when items do not fit. About using auto_resize/resizable flags: size measurement for a given axis is only performed when the child window is within visible boundaries, or is just appearing and it won't update its auto-size while clipped.While not perfect, it is a better default behavior as the always-on performance gain is more valuable than the occasional 'resizing after becoming visible again' glitch.You may also use always_auto_resize to force an update even when child window is not in view. However doing so will degrade performance.Remember that combining both resizable_x and resizable_y defeats purpose of a scrolling region and is NOT recommended.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -3091,8 +3091,8 @@ def add_child_window(**kwargs):
 		no_scroll_with_mouse (bool, optional): Disable user vertically scrolling with mouse wheel.
 		flattened_navigation (bool, optional): Allow gamepad/keyboard navigation to cross over parent border to this child (only use on child that have no scrolling!)
 		always_use_window_padding (bool, optional): Pad with style.WindowPadding even if no border are drawn (no padding by default for non-bordered child windows because it makes more sense)
-		resize_x (bool, optional): Allow resize from right border (layout direction). Enable .ini saving (unless 'no_saved_settings' is passed as parameter)
-		resize_y (bool, optional): Allow resize from bottom border (layout direction). 
+		resizable_x (bool, optional): Allow resize from right border (layout direction). Enable .ini saving (unless 'no_saved_settings' is passed as parameter)
+		resizable_y (bool, optional): Allow resize from bottom border (layout direction). 
 		always_auto_resize (bool, optional): Combined with auto_resize_x/auto_resize_y. Always measure size even when child is hidden and always disable clipping optimization! NOT RECOMMENDED.
 		frame_style (bool, optional): Style the child window like a framed item: use FrameBg, FrameRounding, FrameBorderSize, FramePadding instead of ChildBg, ChildRounding, ChildBorderSize, WindowPadding.
 		auto_resize_x (bool, optional): Enable auto-resizing width based on child content. Read 'IMPORTANT: Size measurement' details above.
@@ -4732,7 +4732,7 @@ def add_input_text(**kwargs):
 		ctrl_enter_for_new_line (bool, optional): In multi-line mode, unfocus with Enter, add new line with Ctrl+Enter (default is opposite: unfocus with Ctrl+Enter, add line with Enter).
 		no_horizontal_scroll (bool, optional): Disable following the cursor horizontally
 		always_overwrite (bool, optional): Overwrite mode
-		no_undo_redo (bool, optional): Disable undo/redo. Note that input text owns the text data while active, if you want to provide your own undo/redo stack you need e.g. to call ClearActiveID().
+		no_undo_redo (bool, optional): Disable undo/redo.
 		escape_clears_all (bool, optional): Escape key clears content if not empty, and deactivate otherwise (contrast to default behavior of Escape to revert)
 		id (Union[int, str], optional): (deprecated)
 	Returns:
@@ -6488,7 +6488,6 @@ def add_table_column(**kwargs):
 		indent_enable (bool, optional): Use current Indent value when entering cell (default for column 0).
 		indent_disable (bool, optional): Ignore current Indent value when entering cell (default for columns > 0). Indentation changes _within_ the cell will still be honored.
 		angled_header (bool, optional): Set this parameter to True to display the header text for this column in an angled (diagonal) orientation. This will add an additional row to accommodate the angled text.
-		disabled (bool, optional): Default as a hidden/disabled column.
 		no_header_label (bool, optional): Disable horizontal label for this column. Name will still appear in context menu or in angled headers.
 		id (Union[int, str], optional): (deprecated)
 	Returns:

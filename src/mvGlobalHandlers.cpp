@@ -286,7 +286,7 @@ void mvMouseDoubleClickHandler::draw(ImDrawList* drawlist, float x, float y)
 		}
 	}
 
-	else if (ImGui::IsMouseDoubleClicked(_button) == 2)
+	else if (ImGui::IsMouseDoubleClicked(_button))
 	{
 		mvSubmitCallback([=]()
 			{

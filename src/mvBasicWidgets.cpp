@@ -6438,7 +6438,8 @@ DearPyGui::draw_tooltip(ImDrawList* drawlist, mvAppItem& item)
 			}
 			apply_local_theming(&item);
 
-			if(ImGui::BeginTooltip()) {
+			if(ImGui::BeginTooltip()) 
+			{
 				item.state.lastFrameUpdate = GContext->frame;
 				item.state.visible = true;
 				item.state.contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
@@ -6448,6 +6449,12 @@ DearPyGui::draw_tooltip(ImDrawList* drawlist, mvAppItem& item)
 					item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 
 				ImGui::EndTooltip();
+			} 
+			else 
+			{
+				item.state.visible = false;
+				item.state.contextRegionAvail = { 0.0f, 0.0f };
+				item.state.rectSize = { 0.0f, 0.0f };
 			}
 
 			cleanup_local_theming(&item);
