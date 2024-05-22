@@ -778,7 +778,7 @@ def draw_quad(p1 : Union[List[float], Tuple[float, ...]], p2 : Union[List[float]
 	"""Adds a quad."""
 	...
 
-def draw_rectangle(pmin : Union[List[float], Tuple[float, ...]], pmax : Union[List[float], Tuple[float, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', show: bool ='', color: Union[List[int], Tuple[int, ...]] ='', color_upper_left: Union[List[int], Tuple[int, ...]] ='', color_upper_right: Union[List[int], Tuple[int, ...]] ='', color_bottom_right: Union[List[int], Tuple[int, ...]] ='', color_bottom_left: Union[List[int], Tuple[int, ...]] ='', fill: Union[List[int], Tuple[int, ...]] ='', multicolor: bool ='', rounding: float ='', thickness: float ='', corner_colors: Any ='') -> Union[int, str]:
+def draw_rectangle(pmin : Union[List[float], Tuple[float, ...]], pmax : Union[List[float], Tuple[float, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', show: bool ='', color: Union[List[int], Tuple[int, ...]] ='', fill: Union[List[int], Tuple[int, ...]] ='', multicolor: bool ='', rounding: float ='', thickness: float ='', corner_colors: Any ='') -> Union[int, str]:
 	"""Adds a rectangle."""
 	...
 
