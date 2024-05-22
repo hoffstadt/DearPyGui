@@ -7447,16 +7447,16 @@ def draw_rectangle(pmin, pmax, **kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
 		color (Union[List[int], Tuple[int, ...]], optional): 
-		color_upper_left (Union[List[int], Tuple[int, ...]], optional): 'multicolor' must be set to 'True'
-		color_upper_right (Union[List[int], Tuple[int, ...]], optional): 'multicolor' must be set to 'True'
-		color_bottom_right (Union[List[int], Tuple[int, ...]], optional): 'multicolor' must be set to 'True'
-		color_bottom_left (Union[List[int], Tuple[int, ...]], optional): 'multicolor' must be set to 'True'
 		fill (Union[List[int], Tuple[int, ...]], optional): 
 		multicolor (bool, optional): 
 		rounding (float, optional): Number of pixels of the radius that will round the corners of the rectangle. Note: doesn't work with multicolor
 		thickness (float, optional): 
 		corner_colors (Any, optional): Corner colors in a list, starting with upper-left and going clockwise: (upper-left, upper-right, bottom-right, bottom-left). 'multicolor' must be set to 'True'.
 		id (Union[int, str], optional): (deprecated)
+		color_upper_left (Union[List[int], Tuple[int, ...]], optional): (deprecated)Use corner_colors instead
+		color_upper_right (Union[List[int], Tuple[int, ...]], optional): (deprecated)Use corner_colors instead
+		color_bottom_right (Union[List[int], Tuple[int, ...]], optional): (deprecated)Use corner_colors instead
+		color_bottom_left (Union[List[int], Tuple[int, ...]], optional): (deprecated)Use corner_colors instead
 	Returns:
 		Union[int, str]
 	"""

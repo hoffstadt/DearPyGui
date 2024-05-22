@@ -221,8 +221,8 @@ InsertConstants_mvContext(std::vector<std::pair<std::string, long>>& constants)
     constants.emplace_back("mvMouseButton_Left", ImGuiMouseButton_Left);
     constants.emplace_back("mvMouseButton_Right", ImGuiMouseButton_Right);
     constants.emplace_back("mvMouseButton_Middle", ImGuiMouseButton_Middle);
-    constants.emplace_back("mvMouseButton_X1", ImGuiKey_MouseX1); // TODO: Probably not okay like this
-    constants.emplace_back("mvMouseButton_X2", ImGuiKey_MouseX2);
+    constants.emplace_back("mvMouseButton_X1", 3);  // ImGuiKey_MouseX1
+    constants.emplace_back("mvMouseButton_X2", 4);  // ImGuiKey_MouseX2
 
     //-----------------------------------------------------------------------------
     // Key Codes
