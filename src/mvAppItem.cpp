@@ -926,6 +926,7 @@ DearPyGui::GetEntityDesciptionFlags(mvAppItemType type)
     case mvAppItemType::mvTableCell:
     case mvAppItemType::mvTableRow:
     case mvAppItemType::mv2dHistogramSeries:
+    case mvAppItemType::mvAreaSeries:
     case mvAppItemType::mvBarSeries:
     case mvAppItemType::mvBarGroupSeries:
     case mvAppItemType::mvCandleSeries:
@@ -1097,6 +1098,7 @@ DearPyGui::GetEntityValueType(mvAppItemType type)
         
     case mvAppItemType::mvSeriesValue:
     case mvAppItemType::mv2dHistogramSeries:
+    case mvAppItemType::mvAreaSeries:
     case mvAppItemType::mvBarSeries:
     case mvAppItemType::mvBarGroupSeries:
     case mvAppItemType::mvCandleSeries:
@@ -1365,6 +1367,7 @@ DearPyGui::GetAllowableParents(mvAppItemType type)
         MV_END_PARENTS
 
     case mvAppItemType::mvAxisTag:
+    case mvAppItemType::mvAreaSeries:
     case mvAppItemType::mvBarSeries:
     case mvAppItemType::mvBarGroupSeries:
     case mvAppItemType::mvCandleSeries:
@@ -2710,6 +2713,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Integer, "box_select_button", mvArgType::KEYWORD_ARG, "internal_dpg.mvMouseButton_Right", "begins box selection when pressed and confirms selection when released" });
         args.push_back({ mvPyDataType::Integer, "box_select_mod", mvArgType::KEYWORD_ARG, "internal_dpg.mvKey_None", "begins box selection when pressed and confirms selection when released" });
         args.push_back({ mvPyDataType::Integer, "box_select_cancel_button", mvArgType::KEYWORD_ARG, "internal_dpg.mvMouseButton_Left", "cancels active box selection when pressed" });
+        args.push_back({ mvPyDataType::Integer, "query_toggle_mod", mvArgType::KEYWORD_ARG, "internal_dpg.mvKey_ModCtrl", "when held, active box selections turn into queries" });
         args.push_back({ mvPyDataType::Integer, "horizontal_mod", mvArgType::KEYWORD_ARG, "internal_dpg.mvKey_ModAlt", "expands active box selection/query horizontally to plot edge when held" });
         args.push_back({ mvPyDataType::Integer, "vertical_mod", mvArgType::KEYWORD_ARG, "internal_dpg.mvKey_ModShift", "expands active box selection/query vertically to plot edge when held" });
         args.push_back({ mvPyDataType::Integer, "override_mod", mvArgType::KEYWORD_ARG, "internal_dpg.mvKey_ModCtrl", "when held, all input is ignored; used to enable axis/plots as DND sources" });
@@ -2717,7 +2721,6 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Integer, "zoom_rate", mvArgType::KEYWORD_ARG, "0.1", "zoom rate for scroll (e.g. 0.1f = 10% plot range every scroll click); make negative to invert" });
         args.push_back({ mvPyDataType::Integer, "query_button", mvArgType::DEPRECATED_REMOVE_KEYWORD_ARG, "0", "This refers to the old way of querying of ImPlot, now replaced with `DragRect()`" });
         args.push_back({ mvPyDataType::Integer, "query_mod", mvArgType::DEPRECATED_REMOVE_KEYWORD_ARG, "internal_dpg.mvKey_None", "This refers to the old way of querying of ImPlot, now replaced with `DragRect()`" });
-        args.push_back({ mvPyDataType::Integer, "query_toggle_mod", mvArgType::DEPRECATED_REMOVE_KEYWORD_ARG, "internal_dpg.mvKey_None", "This refers to the old way of querying of ImPlot, now replaced with `DragRect()`" });
 
         setup.about = "Adds a plot which is used to hold series, and can be drawn to with draw commands. For all _mod parameters use mvKey_ModX enums, or mvKey_ModDisabled to disable the modifier.";
         setup.category = { "Plotting", "Containers", "Widgets" };
@@ -3454,10 +3457,10 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::FloatList, "pmin", mvArgType::REQUIRED_ARG, "...", "Min point of bounding rectangle." });
         args.push_back({ mvPyDataType::FloatList, "pmax", mvArgType::REQUIRED_ARG, "...", "Max point of bounding rectangle." });
         args.push_back({ mvPyDataType::IntList, "color", mvArgType::KEYWORD_ARG, "(255, 255, 255, 255)" });
-        args.push_back({ mvPyDataType::IntList, "color_upper_left", mvArgType::KEYWORD_ARG, "(255, 255, 255, 255)", "'multicolor' must be set to 'True'" });
-        args.push_back({ mvPyDataType::IntList, "color_upper_right", mvArgType::KEYWORD_ARG, "(255, 255, 255, 255)", "'multicolor' must be set to 'True'" });
-        args.push_back({ mvPyDataType::IntList, "color_bottom_right", mvArgType::KEYWORD_ARG, "(255, 255, 255, 255)", "'multicolor' must be set to 'True'" });
-        args.push_back({ mvPyDataType::IntList, "color_bottom_left", mvArgType::KEYWORD_ARG, "(255, 255, 255, 255)", "'multicolor' must be set to 'True'" });
+        args.push_back({ mvPyDataType::IntList, "color_upper_left", mvArgType::DEPRECATED_KEYWORD_ARG, "(255, 255, 255, 255)", "Use corner_colors instead", "Use corner_colors instead." });
+        args.push_back({ mvPyDataType::IntList, "color_upper_right", mvArgType::DEPRECATED_KEYWORD_ARG, "(255, 255, 255, 255)", "Use corner_colors instead", "Use corner_colors instead." });
+        args.push_back({ mvPyDataType::IntList, "color_bottom_right", mvArgType::DEPRECATED_KEYWORD_ARG, "(255, 255, 255, 255)", "Use corner_colors instead", "Use corner_colors instead." });
+        args.push_back({ mvPyDataType::IntList, "color_bottom_left", mvArgType::DEPRECATED_KEYWORD_ARG, "(255, 255, 255, 255)", "Use corner_colors instead", "Use corner_colors instead." });
         args.push_back({ mvPyDataType::IntList, "fill", mvArgType::KEYWORD_ARG, "(0, 0, 0, -255)" });
         args.push_back({ mvPyDataType::Bool, "multicolor", mvArgType::KEYWORD_ARG, "False" });
         args.push_back({ mvPyDataType::Float, "rounding", mvArgType::KEYWORD_ARG, "0.0", "Number of pixels of the radius that will round the corners of the rectangle. Note: doesn't work with multicolor" });
@@ -4328,6 +4331,25 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.about = "Adds a custom series to a plot. New in 1.6.";
         setup.category = { "Plotting", "Containers", "Widgets" };
         setup.createContextManager = true;
+        break;
+    }
+    case mvAppItemType::mvAreaSeries:
+    {
+        AddCommonArgs(args, (CommonParserArgs)(
+            MV_PARSER_ARG_ID |
+            MV_PARSER_ARG_PARENT |
+            MV_PARSER_ARG_BEFORE |
+            MV_PARSER_ARG_SOURCE |
+            MV_PARSER_ARG_SHOW)
+        );
+
+        args.push_back({ mvPyDataType::DoubleList, "x" });
+        args.push_back({ mvPyDataType::DoubleList, "y" });
+        args.push_back({ mvPyDataType::IntList, "fill", mvArgType::KEYWORD_ARG, "(0, 0, 0, -255)" });
+        args.push_back({ mvPyDataType::Bool, "contribute_to_bounds", mvArgType::KEYWORD_ARG, "True" });
+
+        setup.about = "Adds an area series to a plot.";
+        setup.category = { "Plotting", "Containers", "Widgets" };
         break;
     }
     case mvAppItemType::mvColorMapScale:               

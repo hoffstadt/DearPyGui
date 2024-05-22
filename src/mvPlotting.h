@@ -28,6 +28,7 @@ struct mvHeatSeriesConfig;
 struct mvPieSeriesConfig;
 struct mvLabelSeriesConfig;
 struct mvImageSeriesConfig;
+struct mvAreaSeriesConfig;
 struct mvCandleSeriesConfig;
 struct mvCustomSeriesConfig;
 
@@ -54,6 +55,7 @@ namespace DearPyGui
     void fill_configuration_dict(const mvPieSeriesConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvLabelSeriesConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvImageSeriesConfig& inConfig, PyObject* outDict);
+    void fill_configuration_dict(const mvAreaSeriesConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvCandleSeriesConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvCustomSeriesConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvAnnotationConfig& inConfig, PyObject* outDict);
@@ -83,6 +85,7 @@ namespace DearPyGui
     void set_configuration(PyObject* inDict, mvPieSeriesConfig& outConfig);
     void set_configuration(PyObject* inDict, mvLabelSeriesConfig& outConfig);
     void set_configuration(PyObject* inDict, mvImageSeriesConfig& outConfig);
+    void set_configuration(PyObject* inDict, mvAreaSeriesConfig& outConfig);
     void set_configuration(PyObject* inDict, mvCandleSeriesConfig& outConfig);
     void set_configuration(PyObject* inDict, mvCustomSeriesConfig& outConfig);
     void set_configuration(PyObject* inDict, mvAnnotationConfig& outConfig);
@@ -111,6 +114,7 @@ namespace DearPyGui
     // required args
     void set_required_configuration(PyObject* inDict, mvSubPlotsConfig& outConfig);
     void set_required_configuration(PyObject* inDict, mvImageSeriesConfig& outConfig);
+    void set_required_configuration(PyObject* inDict, mvAreaSeriesConfig& outConfig);
     void set_required_configuration(PyObject* inDict, mvCandleSeriesConfig& outConfig);
     void set_required_configuration(PyObject* inDict, mvCustomSeriesConfig& outConfig);
     void set_required_configuration(PyObject* inDict, mvPlotAxisConfig& outConfig);
@@ -147,6 +151,7 @@ namespace DearPyGui
     void draw_pie_series        (ImDrawList* drawlist, mvAppItem& item, const mvPieSeriesConfig& config);
     void draw_label_series      (ImDrawList* drawlist, mvAppItem& item, const mvLabelSeriesConfig& config);
     void draw_image_series      (ImDrawList* drawlist, mvAppItem& item, mvImageSeriesConfig& config);
+    void draw_area_series       (ImDrawList* drawlist, mvAppItem& item, const mvAreaSeriesConfig& config);
     void draw_candle_series     (ImDrawList* drawlist, mvAppItem& item, const mvCandleSeriesConfig& config);
     void draw_custom_series     (ImDrawList* drawlist, mvAppItem& item, mvCustomSeriesConfig& config);
     void draw_plot_annotation   (ImDrawList* drawlist, mvAppItem& item, mvAnnotationConfig& config);
@@ -331,6 +336,11 @@ struct mvImageSeriesConfig : _mvBasicSeriesConfig
     bool _internalTexture = false; // create a local texture if necessary
 };
 
+struct mvAreaSeriesConfig : _mvBasicSeriesConfig
+{
+    mvColor fill = MV_DEFAULT_COLOR;
+};
+
 struct mvCandleSeriesConfig : _mvBasicSeriesConfig
 {
     float   weight = 0.25f;
@@ -402,6 +412,7 @@ struct mvPlotConfig
     ImGuiMouseButton             select;            // RMB    begins box selection when pressed and confirms selection when released
     ImGuiKey                     select_mod;        // none   optional modifier that must be held for box selection
     ImGuiMouseButton             select_cancel;     // LMB    cancels active box selection when pressed; cannot be same as Select
+    ImGuiKey                     query_toggle_mod;  // Ctrl   when held during selection, adds a query rect; has higher priority than override_mod
     ImGuiKey                     select_horz_mod;   // Alt    expands active box selection horizontally to plot edge when held
     ImGuiKey                     select_vert_mod;   // Shift  expands active box selection vertically to plot edge when held
     ImGuiKey                     override_mod;      // Ctrl   when held, all input is ignored; used to enable axis/plots as DND sources
@@ -415,6 +426,8 @@ struct mvPlotConfig
     ImPlotColormap                              _colormap = ImPlotColormap_Deep;
     bool                                        _equalAspectRatios = false;
     std::vector<ImPlotRect>                     rects = std::vector<ImPlotRect>();
+    bool                                        querying = false;
+    ImPlotRect                                  query_rect;
     bool                                        _fitDirty = false;
     bool                                        _axisfitDirty[ImAxis_COUNT] = { false, false, false, false, false, false }; 
     bool                                        _query_dirty = false;
@@ -728,6 +741,21 @@ public:
     explicit mvImageSeries(mvUUID uuid) : mvAppItem(uuid) {}
     void handleSpecificRequiredArgs(PyObject* dict) override { DearPyGui::set_required_configuration(dict, configData); }
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_image_series(drawlist, *this, configData); }
+    void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
+    void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
+    void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData.value); }
+    void* getValue() override { return &configData.value; }
+    PyObject* getPyValue() override { return ToPyList(*configData.value); }
+    void setPyValue(PyObject* value) override { *configData.value = ToVectVectDouble(value); }
+};
+
+class mvAreaSeries : public mvAppItem
+{
+public:
+    mvAreaSeriesConfig configData{};
+    explicit mvAreaSeries(mvUUID uuid) : mvAppItem(uuid) {}
+    void handleSpecificRequiredArgs(PyObject* dict) override { DearPyGui::set_required_configuration(dict, configData); }
+    void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_area_series(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
     void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData.value); }

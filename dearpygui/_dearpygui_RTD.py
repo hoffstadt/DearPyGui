@@ -2203,6 +2203,7 @@ def plot(**kwargs):
 		box_select_button (int, optional): begins box selection when pressed and confirms selection when released
 		box_select_mod (int, optional): begins box selection when pressed and confirms selection when released
 		box_select_cancel_button (int, optional): cancels active box selection when pressed
+		query_toggle_mod (int, optional): when held, active box selections turn into queries
 		horizontal_mod (int, optional): expands active box selection/query horizontally to plot edge when held
 		vertical_mod (int, optional): expands active box selection/query vertically to plot edge when held
 		override_mod (int, optional): when held, all input is ignored; used to enable axis/plots as DND sources
@@ -2214,7 +2215,6 @@ def plot(**kwargs):
 		anti_aliased (bool, optional): (deprecated)This feature was deprecated in ImPlot. To enable/disable anti_aliasing use `dpg.configure_app()` with the `anti_aliasing` parameters.
 		query_button (int, optional): (deprecated)This refers to the old way of querying of ImPlot, now replaced with `DragRect()`
 		query_mod (int, optional): (deprecated)This refers to the old way of querying of ImPlot, now replaced with `DragRect()`
-		query_toggle_mod (int, optional): (deprecated)This refers to the old way of querying of ImPlot, now replaced with `DragRect()`
 	Yields:
 		Union[int, str]
 	"""
@@ -2860,6 +2860,29 @@ def add_alias(alias, item):
 	"""
 
 	return internal_dpg.add_alias(alias, item)
+
+def add_area_series(x, y, **kwargs):
+	"""	 Adds an area series to a plot.
+
+	Args:
+		x (Any): 
+		y (Any): 
+		label (str, optional): Overrides 'name' as label.
+		user_data (Any, optional): User data for callbacks
+		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
+		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
+		source (Union[int, str], optional): Overrides 'id' as value storage key.
+		show (bool, optional): Attempt to render widget.
+		fill (Union[List[int], Tuple[int, ...]], optional): 
+		contribute_to_bounds (bool, optional): 
+		id (Union[int, str], optional): (deprecated)
+	Returns:
+		Union[int, str]
+	"""
+
+	return internal_dpg.add_area_series(x, y, **kwargs)
 
 def add_axis_tag(**kwargs):
 	"""	 Adds custom labels to axes.
@@ -5572,6 +5595,7 @@ def add_plot(**kwargs):
 		box_select_button (int, optional): begins box selection when pressed and confirms selection when released
 		box_select_mod (int, optional): begins box selection when pressed and confirms selection when released
 		box_select_cancel_button (int, optional): cancels active box selection when pressed
+		query_toggle_mod (int, optional): when held, active box selections turn into queries
 		horizontal_mod (int, optional): expands active box selection/query horizontally to plot edge when held
 		vertical_mod (int, optional): expands active box selection/query vertically to plot edge when held
 		override_mod (int, optional): when held, all input is ignored; used to enable axis/plots as DND sources
@@ -5583,7 +5607,6 @@ def add_plot(**kwargs):
 		anti_aliased (bool, optional): (deprecated)This feature was deprecated in ImPlot. To enable/disable anti_aliasing use `dpg.configure_app()` with the `anti_aliasing` parameters.
 		query_button (int, optional): (deprecated)This refers to the old way of querying of ImPlot, now replaced with `DragRect()`
 		query_mod (int, optional): (deprecated)This refers to the old way of querying of ImPlot, now replaced with `DragRect()`
-		query_toggle_mod (int, optional): (deprecated)This refers to the old way of querying of ImPlot, now replaced with `DragRect()`
 	Returns:
 		Union[int, str]
 	"""
@@ -9343,6 +9366,7 @@ mvHistogramSeries=internal_dpg.mvHistogramSeries
 mvDigitalSeries=internal_dpg.mvDigitalSeries
 mv2dHistogramSeries=internal_dpg.mv2dHistogramSeries
 mvCandleSeries=internal_dpg.mvCandleSeries
+mvAreaSeries=internal_dpg.mvAreaSeries
 mvColorMapScale=internal_dpg.mvColorMapScale
 mvSlider3D=internal_dpg.mvSlider3D
 mvKnobFloat=internal_dpg.mvKnobFloat

@@ -93,6 +93,7 @@
     X( mvDigitalSeries ) \
     X( mv2dHistogramSeries ) \
     X( mvCandleSeries ) \
+    X( mvAreaSeries ) \
     X( mvColorMapScale ) \
     X( mvSlider3D ) \
     X( mvKnobFloat ) \

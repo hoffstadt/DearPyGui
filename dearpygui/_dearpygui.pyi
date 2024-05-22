@@ -18,6 +18,10 @@ def add_alias(alias : str, item : Union[int, str]) -> None:
 	"""Adds an alias."""
 	...
 
+def add_area_series(x : Union[List[float], Tuple[float, ...]], y : Union[List[float], Tuple[float, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', show: bool ='', fill: Union[List[int], Tuple[int, ...]] ='', contribute_to_bounds: bool ='') -> Union[int, str]:
+	"""Adds an area series to a plot."""
+	...
+
 def add_axis_tag(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', show: bool ='', default_value: float ='', color: Union[List[int], Tuple[int, ...]] ='', auto_rounding: bool ='') -> Union[int, str]:
 	"""Adds custom labels to axes."""
 	...
@@ -434,7 +438,7 @@ def add_pie_series(x : float, y : float, radius : float, values : Union[List[flo
 	"""Adds an pie series to a plot."""
 	...
 
-def add_plot(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', delay_search: bool ='', tracked: bool ='', track_offset: float ='', no_title: bool ='', no_menus: bool ='', no_box_select: bool ='', no_mouse_pos: bool ='', query: bool ='', crosshairs: bool ='', equal_aspects: bool ='', no_inputs: bool ='', no_frame: bool ='', use_local_time: bool ='', use_ISO8601: bool ='', use_24hour_clock: bool ='', delete_rect: bool ='', pan_button: int ='', pan_mod: int ='', context_menu_button: int ='', fit_button: int ='', box_select_button: int ='', box_select_mod: int ='', box_select_cancel_button: int ='', horizontal_mod: int ='', vertical_mod: int ='', override_mod: int ='', zoom_mod: int ='', zoom_rate: int ='') -> Union[int, str]:
+def add_plot(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', delay_search: bool ='', tracked: bool ='', track_offset: float ='', no_title: bool ='', no_menus: bool ='', no_box_select: bool ='', no_mouse_pos: bool ='', query: bool ='', crosshairs: bool ='', equal_aspects: bool ='', no_inputs: bool ='', no_frame: bool ='', use_local_time: bool ='', use_ISO8601: bool ='', use_24hour_clock: bool ='', delete_rect: bool ='', pan_button: int ='', pan_mod: int ='', context_menu_button: int ='', fit_button: int ='', box_select_button: int ='', box_select_mod: int ='', box_select_cancel_button: int ='', query_toggle_mod: int ='', horizontal_mod: int ='', vertical_mod: int ='', override_mod: int ='', zoom_mod: int ='', zoom_rate: int ='') -> Union[int, str]:
 	"""Adds a plot which is used to hold series, and can be drawn to with draw commands. For all _mod parameters use mvKey_ModX enums, or mvKey_ModDisabled to disable the modifier."""
 	...
 
@@ -1808,6 +1812,7 @@ mvHistogramSeries=0
 mvDigitalSeries=0
 mv2dHistogramSeries=0
 mvCandleSeries=0
+mvAreaSeries=0
 mvColorMapScale=0
 mvSlider3D=0
 mvKnobFloat=0
