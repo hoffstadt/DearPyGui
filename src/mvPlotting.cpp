@@ -10,6 +10,107 @@
 #include "mvTextureItems.h"
 #include "mvItemHandlers.h"
 
+static void
+draw_polygon(const mvAreaSeriesConfig& config)
+{
+
+	static const std::vector<double>* xptr;
+	static const std::vector<double>* yptr;
+
+	xptr = &(*config.value.get())[0];
+	yptr = &(*config.value.get())[1];
+
+	std::vector<ImVec2> points;
+	for (unsigned i = 0; i < xptr->size(); i++)
+	{
+		auto p = ImPlot::PlotToPixels({ (*xptr)[i], (*yptr)[i] });
+		points.push_back(p);
+	}
+
+	if (config.fill.r > 0.0f)
+	{
+		size_t i;
+		double y;
+		double miny, maxy;
+		double x1, y1;
+		double x2, y2;
+		int ind1, ind2;
+		size_t ints;
+		size_t n = points.size();
+		int* polyints = new int[n];
+
+
+		/* Get plot Y range in pixels */
+		ImPlotRect limits = ImPlot::GetPlotLimits();
+		auto upperLimitsPix = ImPlot::PlotToPixels({ limits.X.Max, limits.Y.Max });
+		auto lowerLimitsPix = ImPlot::PlotToPixels({ limits.X.Min, limits.Y.Min });
+
+		/* Determine Y range of data*/
+		miny = (int)points[0].y;
+		maxy = (int)points[0].y;
+		for (i = 1; i < n; i++)
+		{
+			miny = std::min((int)miny, (int)points[i].y);
+			maxy = std::max((int)maxy, (int)points[i].y);
+		}
+
+		/* Determine to clip scans based on plot bounds y or data bounds y
+		when the plot data is converted the min and max y invert (due to plot to graphics coord)
+		so we comapre min with max and max with min*/
+		miny = std::max((int)miny, (int)upperLimitsPix.y);
+		maxy = std::min((int)maxy, (int)lowerLimitsPix.y);
+
+		/* Draw, scanning y */
+		for (y = miny; y <= maxy; y++) {
+			ints = 0;
+			for (i = 0; (i < n); i++) {
+				if (!i)
+				{
+					ind1 = (int)n - 1;
+					ind2 = 0;
+				}
+				else
+				{
+					ind1 = (int)i - 1;
+					ind2 = (int)i;
+				}
+				y1 = (int)points[ind1].y;
+				y2 = (int)points[ind2].y;
+				if (y1 < y2)
+				{
+					x1 = (int)points[ind1].x;
+					x2 = (int)points[ind2].x;
+				}
+				else if (y1 > y2)
+				{
+					y2 = (int)points[ind1].y;
+					y1 = (int)points[ind2].y;
+					x2 = (int)points[ind1].x;
+					x1 = (int)points[ind2].x;
+				}
+				else
+					continue;
+
+				if (((y >= y1) && (y < y2)) || ((y == maxy) && (y > y1) && (y <= y2)))
+					polyints[ints++] = (y - y1) * (x2 - x1) / (y2 - y1) + x1;
+
+			}
+
+			auto compare_int = [](const void* a, const void* b)
+			{
+				return (*(const int*)a) - (*(const int*)b);
+			};
+
+			qsort(polyints, ints, sizeof(int), compare_int);
+
+			for (i = 0; i < ints; i += 2)
+				ImGui::GetWindowDrawList()->AddLine({ (float)polyints[i], (float)y }, { (float)polyints[i + 1], (float)y }, config.fill, 1.0f);
+		}
+		delete[] polyints;
+	}
+
+}
+
 template <typename T>
 int BinarySearch(const T* arr, int l, int r, T x) {
 	if (r >= l) {
@@ -376,6 +477,33 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 		}
 		auto context = ImPlot::GetCurrentContext();
 
+		ImGuiIO& IO = ImGui::GetIO();
+		// Note: we can't use `config.querying` here because in the frame when
+		// the query modifier gets pressed, `querying` is still false but we already
+		// need to disable `OverrideMod`.
+		if (ImHasFlag(IO.KeyMods, config.query_toggle_mod) &&
+			(ImGui::IsMouseDown(config.select) || ImGui::IsMouseReleased(config.select)))
+		{
+			// Preventing ImPlot from getting stuck on selection if override modifier
+			// is pressed (e.g. when the override mod is the same as query toggle mod).
+			ImPlot::GetInputMap().OverrideMod = ImGuiMod_None;
+		}
+		else
+			ImPlot::GetInputMap().OverrideMod = config.override_mod;
+
+		if (config.querying && ImGui::IsMouseReleased(config.select))
+		{
+			config.rects.push_back(config.query_rect);
+			config.querying = false;
+			// Prevent ImPlot from handling mouse release on its own. This will block
+			// input handling in the current frame (later we'll reset OverrideMod).
+			ImPlot::GetInputMap().OverrideMod = IO.KeyMods;
+			// Note: this will lock the setup and might therefore skip changes
+			// to the legend, drag points, and lines in this frame.  Nothing we
+			// can do about that, really.
+			ImPlot::CancelPlotSelection();
+		}
+
 		// legend, drag point and lines
 		for (auto& child : item.childslots[0]) // Using "ImPlot::GetPlotPos()" here trigger an assert
 			child->draw(drawlist, context->CurrentPlot->PlotRect.Min.x, context->CurrentPlot->PlotRect.Min.y);
@@ -406,13 +534,9 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 		if (config._useColorMap)
 			ImPlot::PopColormap();
 
-		if (ImPlot::IsPlotSelected()) {
-            ImPlotRect select = ImPlot::GetPlotSelection();
-            if (ImGui::IsMouseClicked(ImPlot::GetInputMap().SelectCancel)) {
-                ImPlot::CancelPlotSelection();
-                config.rects.push_back(select);
-            }
-        }
+		config.querying = ImHasFlag(IO.KeyMods, config.query_toggle_mod) && ImPlot::IsPlotSelected();
+		if (config.querying)
+			config.query_rect = ImPlot::GetPlotSelection();
 
         for (int i = 0; i < config.rects.size(); ++i) {
 			// TODO: Implement flags
@@ -1361,7 +1485,7 @@ DearPyGui::draw_2dhistogram_series(ImDrawList* drawlist, mvAppItem& item, const 
 		xptr = &(*config.value.get())[0];
 		yptr = &(*config.value.get())[1];
 
-		const double max_count = ImPlot::PlotHistogram2D(item.info.internalLabel.c_str(), xptr->data(), yptr->data(), (int)xptr->size(),
+		ImPlot::PlotHistogram2D(item.info.internalLabel.c_str(), xptr->data(), yptr->data(), (int)xptr->size(),
 			config.xbins, config.ybins, ImPlotRect(config.xmin, config.xmax, config.ymin, config.ymax), config.flags);
 
 		// Begin a popup for a legend entry.
@@ -1900,6 +2024,79 @@ DearPyGui::draw_image_series(ImDrawList* drawlist, mvAppItem& item, mvImageSerie
 }
 
 void
+DearPyGui::draw_area_series(ImDrawList* drawlist, mvAppItem& item, const mvAreaSeriesConfig& config)
+{
+	//-----------------------------------------------------------------------------
+	// pre draw
+	//-----------------------------------------------------------------------------
+	if (!item.config.show)
+		return;
+
+	// push font if a font object is attached
+	if (item.font)
+	{
+		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
+		ImGui::PushFont(fontptr);
+	}
+
+	// themes
+	apply_local_theming(&item);
+
+	//-----------------------------------------------------------------------------
+	// draw
+	//-----------------------------------------------------------------------------
+	{
+
+		static const std::vector<double>* xptr;
+		static const std::vector<double>* yptr;
+
+		xptr = &(*config.value.get())[0];
+		yptr = &(*config.value.get())[1];
+
+		ImPlot::PlotLine(item.info.internalLabel.c_str(), xptr->data(), yptr->data(), (int)xptr->size());
+
+		ImPlot::PushPlotClipRect();
+		ImPlot::RegisterOrGetItem(item.info.internalLabel.c_str(), ImPlotItemFlags_None);
+		draw_polygon(config);
+		ImPlot::PopPlotClipRect();
+
+		// Begin a popup for a legend entry.
+		if (ImPlot::BeginLegendPopup(item.info.internalLabel.c_str(), 1))
+		{
+			for (auto& childset : item.childslots)
+			{
+				for (auto& item : childset)
+				{
+					// skip item if it's not shown
+					if (!item->config.show)
+						continue;
+					item->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
+					UpdateAppItemState(item->state);
+				}
+			}
+			ImPlot::EndLegendPopup();
+		}
+	}
+
+	//-----------------------------------------------------------------------------
+	// update state
+	//   * only update if applicable
+	//-----------------------------------------------------------------------------
+
+
+	//-----------------------------------------------------------------------------
+	// post draw
+	//-----------------------------------------------------------------------------
+
+	// pop font off stack
+	if (item.font)
+		ImGui::PopFont();
+
+	// handle popping themes
+	cleanup_local_theming(&item);
+}
+
+void
 DearPyGui::draw_candle_series(ImDrawList* drawlist, mvAppItem& item, const mvCandleSeriesConfig& config)
 {
 	//-----------------------------------------------------------------------------
@@ -2227,11 +2424,19 @@ DearPyGui::set_positional_configuration(PyObject* inDict, mvBarGroupSeriesConfig
 	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(mvAppItemType::mvBarGroupSeries)], inDict))
 		return;
 
+	auto backup_value = outConfig.value;
+	auto backup_label_ids = outConfig.label_ids;
+	auto backup_group_size = outConfig.group_size;
+
 	(*outConfig.value)[0] = ToDoubleVect(PyTuple_GetItem(inDict, 0));
 	outConfig.label_ids = ToStringVect(PyTuple_GetItem(inDict, 1));
 	outConfig.group_size = ToInt(PyTuple_GetItem(inDict, 2));
 
-	ValidateBarGroupConfig(outConfig);	
+	if(!ValidateBarGroupConfig(outConfig)) {
+		outConfig.value = backup_value;
+		outConfig.label_ids = backup_label_ids;
+		outConfig.group_size = backup_group_size;
+	}
 }
 
 void
@@ -2394,6 +2599,16 @@ DearPyGui::set_required_configuration(PyObject* inDict, mvSubPlotsConfig& outCon
 }
 
 void
+DearPyGui::set_required_configuration(PyObject* inDict, mvAreaSeriesConfig& outConfig)
+{
+	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(mvAppItemType::mvAreaSeries)], inDict))
+		return;
+
+	(*outConfig.value)[0] = ToDoubleVect(PyTuple_GetItem(inDict, 0));
+	(*outConfig.value)[1] = ToDoubleVect(PyTuple_GetItem(inDict, 1));
+}
+
+void
 DearPyGui::set_required_configuration(PyObject* inDict, mvCandleSeriesConfig& outConfig)
 {
 	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(mvAppItemType::mvCandleSeries)], inDict))
@@ -2491,6 +2706,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvPlotConfig& outConfig)
 	if (PyObject* item = PyDict_GetItemString(inDict, "box_select_button")) outConfig.select = ToInt(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "box_select_cancel_button")) outConfig.select_cancel = ToInt(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "box_select_mod_button")) outConfig.select_mod = static_cast<ImGuiKey>(ToInt(item));
+	if (PyObject* item = PyDict_GetItemString(inDict, "query_toggle_mod")) outConfig.query_toggle_mod = static_cast<ImGuiKey>(ToInt(item));
 	if (PyObject* item = PyDict_GetItemString(inDict, "horizontal_mod")) outConfig.select_horz_mod = static_cast<ImGuiKey>(ToInt(item));
 	if (PyObject* item = PyDict_GetItemString(inDict, "vertical_mod")) outConfig.select_vert_mod = static_cast<ImGuiKey>(ToInt(item));
 	if (PyObject* item = PyDict_GetItemString(inDict, "use_local_time")) outConfig.localTime = ToBool(item);
@@ -2642,14 +2858,23 @@ DearPyGui::set_configuration(PyObject* inDict, mvBarGroupSeriesConfig& outConfig
 	if (inDict == nullptr)
 		return;
 
+	auto backup_value = outConfig.value;
+	auto backup_label_ids = outConfig.label_ids;
+	auto backup_group_size = outConfig.group_size;
+
 	if (PyObject* item = PyDict_GetItemString(inDict, "values")) { (*outConfig.value)[0] = ToDoubleVect(item); }
 	if (PyObject* item = PyDict_GetItemString(inDict, "label_ids")) { outConfig.label_ids = ToStringVect(item); }
 	if (PyObject* item = PyDict_GetItemString(inDict, "group_size")) { outConfig.group_size = ToInt(item); }
+
+	if (!ValidateBarGroupConfig(outConfig)) {
+		auto backup_value = outConfig.value;
+		auto backup_label_ids = outConfig.label_ids;
+		auto backup_group_size = outConfig.group_size;
+		return;
+	}
+
 	if (PyObject* item = PyDict_GetItemString(inDict, "group_width")) outConfig.group_width = ToFloat(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "shift")) outConfig.shift = ToInt(item);
-
-	if (!ValidateBarGroupConfig(outConfig))
-		return;
 
 	// helper for bit flipping
 	auto flagop = [inDict](const char* keyword, int flag, int& flags)
@@ -2985,6 +3210,17 @@ DearPyGui::set_configuration(PyObject* inDict, mvImageSeriesConfig& outConfig)
 }
 
 void
+DearPyGui::set_configuration(PyObject* inDict, mvAreaSeriesConfig& outConfig)
+{
+	if (inDict == nullptr)
+		return;
+
+	if (PyObject* item = PyDict_GetItemString(inDict, "fill")) outConfig.fill = ToColor(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "x")) { (*outConfig.value)[0] = ToDoubleVect(item); }
+	if (PyObject* item = PyDict_GetItemString(inDict, "y")) { (*outConfig.value)[1] = ToDoubleVect(item); }
+}
+
+void
 DearPyGui::set_configuration(PyObject* inDict, mvCandleSeriesConfig& outConfig)
 {
 	if (inDict == nullptr)
@@ -3143,6 +3379,7 @@ DearPyGui::fill_configuration_dict(const mvPlotConfig& inConfig, PyObject* outDi
 	PyDict_SetItemString(outDict, "box_select_button", mvPyObject(ToPyInt(inConfig.select)));
 	PyDict_SetItemString(outDict, "box_select_mod", mvPyObject(ToPyInt(inConfig.select_mod)));
 	PyDict_SetItemString(outDict, "box_select_cancel_button", mvPyObject(ToPyInt(inConfig.select_cancel)));
+	PyDict_SetItemString(outDict, "query_toggle_mod", mvPyObject(ToPyInt(inConfig.query_toggle_mod)));
 	PyDict_SetItemString(outDict, "horizontal_mod", mvPyObject(ToPyInt(inConfig.select_horz_mod)));
 	PyDict_SetItemString(outDict, "vertical_mod", mvPyObject(ToPyInt(inConfig.select_vert_mod)));
 	PyDict_SetItemString(outDict, "override_mod", mvPyObject(ToPyInt(inConfig.override_mod)));
@@ -3570,6 +3807,14 @@ DearPyGui::fill_configuration_dict(const mvImageSeriesConfig& inConfig, PyObject
 	PyDict_SetItemString(outDict, "tint_color", mvPyObject(ToPyColor(inConfig.tintColor)));
 	PyDict_SetItemString(outDict, "bounds_min", mvPyObject(ToPyPair(inConfig.bounds_min.x, inConfig.bounds_min.y)));
 	PyDict_SetItemString(outDict, "bounds_max", mvPyObject(ToPyPair(inConfig.bounds_max.x, inConfig.bounds_max.y)));
+}
+
+void
+DearPyGui::fill_configuration_dict(const mvAreaSeriesConfig& inConfig, PyObject* outDict)
+{
+	if (outDict == nullptr)
+		return;
+	PyDict_SetItemString(outDict, "fill", mvPyObject(ToPyColor(inConfig.fill)));
 }
 
 void

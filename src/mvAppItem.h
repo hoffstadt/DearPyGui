@@ -336,6 +336,7 @@ GetEntityCommand(mvAppItemType type)
     case mvAppItemType::mv2dHistogramSeries:           return "add_2d_histogram_series";
     case mvAppItemType::mvDigitalSeries:               return "add_digital_series";
     case mvAppItemType::mvCandleSeries:                return "add_candle_series";
+    case mvAppItemType::mvAreaSeries:                  return "add_area_series";
     case mvAppItemType::mvColorMapScale:               return "add_colormap_scale";
     case mvAppItemType::mvSlider3D:                    return "add_3d_slider";
     case mvAppItemType::mvKnobFloat:                   return "add_knob_float";
