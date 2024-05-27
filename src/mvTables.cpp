@@ -164,8 +164,6 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 	apply_local_theming(this);
 
 	{
-		ScopedID id(uuid);
-
 		auto row_renderer = [&](mvAppItem* row, mvAppItem* prev_visible_row=nullptr)
 		{
 			//TableNextRow() ends the previous row, if any, and determines background color for it.
