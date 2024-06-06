@@ -4201,8 +4201,8 @@ DearPyGui::GetEntityParser(mvAppItemType type)
             MV_PARSER_ARG_SHOW)
         );
 
-        args.push_back({ mvPyDataType::DoubleList, "x" });
-        args.push_back({ mvPyDataType::DoubleList, "y" });
+        args.push_back({ mvPyDataType::Double, "x" });
+        args.push_back({ mvPyDataType::Double, "y" });
         args.push_back({ mvPyDataType::Integer, "x_offset", mvArgType::DEPRECATED_KEYWORD_ARG, "0", "Old way to set x offset of the label. Use `offset` argument instead.", "See the new offset argument." });
         args.push_back({ mvPyDataType::Integer, "y_offset", mvArgType::DEPRECATED_KEYWORD_ARG, "0", "Old way to set y offset of the label. Use `offset` argument instead.", "See the new offset argument." });
         args.push_back({ mvPyDataType::FloatList, "offset", mvArgType::KEYWORD_ARG, "(0.0, 0.0)", "Offset of the label, in pixels, relative to the coordinates." });
@@ -4376,7 +4376,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({mvPyDataType:: String, "format", mvArgType::KEYWORD_ARG, "'%g'", "Formatting used for the labels."});
         args.push_back({mvPyDataType:: Bool, "reverse_dir", mvArgType::KEYWORD_ARG, "False", "invert the colormap bar and axis scale (this only affects rendering; if you only want to reverse the scale mapping, make scale_min > scale_max)"});
         args.push_back({mvPyDataType:: Bool, "no_label", mvArgType::KEYWORD_ARG, "False", "the colormap axis label will not be displayed"});
-        args.push_back({mvPyDataType:: Bool, "opposite", mvArgType::KEYWORD_ARG, "False", "render the colormap label and tick labels on the opposite side"});
+        args.push_back({mvPyDataType:: Bool, "mirror", mvArgType::KEYWORD_ARG, "False", "render the colormap label and tick labels on the opposite side"});
 
         setup.about = "Adds a legend that pairs values with colors. This is typically used with a heat series. ";
         setup.category = { "Widgets", "Colors" };
@@ -4637,7 +4637,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Integer, "scale", mvArgType::KEYWORD_ARG, "internal_dpg.mvPlotScale_Linear", "Sets the axis' scale. Can have only mvPlotScale_ values"});
         args.push_back({ mvPyDataType::Bool, "log_scale", mvArgType::DEPRECATED_KEYWORD_ARG, "False", "Old way to set log scale in the axis. Use 'scale' argument instead.", "See the new scale argument." });
         args.push_back({ mvPyDataType::Bool, "time", mvArgType::DEPRECATED_KEYWORD_ARG, "False", "Old way to set time scale in the axis. Use 'scale' argument instead.", "See the new scale argument." });
-        args.push_back({ mvPyDataType::Bool, "axis_opposite", mvArgType::KEYWORD_ARG, "False", "the axis will be inverted" });
+        args.push_back({ mvPyDataType::Bool, "invert_order", mvArgType::KEYWORD_ARG, "False", "the axis values will be inverted (i.e. growing from right to left)" });
         args.push_back({ mvPyDataType::Bool, "auto_fit", mvArgType::KEYWORD_ARG, "False", "axis will be auto-fitting to data extents" });
         args.push_back({ mvPyDataType::Bool, "range_fit", mvArgType::KEYWORD_ARG, "False", "axis will only fit points if the point is in the visible range of the **orthogonal** axis" });
         args.push_back({ mvPyDataType::Bool, "pan_stretch", mvArgType::KEYWORD_ARG, "False", "panning in a locked or constrained state will cause the axis to stretch if possible" });

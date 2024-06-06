@@ -2558,8 +2558,8 @@ DearPyGui::set_positional_configuration(PyObject* inDict, mvLabelSeriesConfig& o
 	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(mvAppItemType::mvLabelSeries)], inDict))
 		return;
 
-	(*outConfig.value)[0] = ToDoubleVect(PyTuple_GetItem(inDict, 0));
-	(*outConfig.value)[1] = ToDoubleVect(PyTuple_GetItem(inDict, 1));
+	(*outConfig.value)[0] = std::vector<double>{ToDouble(PyTuple_GetItem(inDict, 0))};
+	(*outConfig.value)[1] = std::vector<double>{ToDouble(PyTuple_GetItem(inDict, 1))};
 }
 
 void
@@ -3153,8 +3153,8 @@ DearPyGui::set_configuration(PyObject* inDict, mvLabelSeriesConfig& outConfig)
 
 	if (PyObject* item = PyDict_GetItemString(inDict, "offset")) outConfig.offset = ToVec2(item);
 
-	if (PyObject* item = PyDict_GetItemString(inDict, "x")) { (*outConfig.value)[0] = ToDoubleVect(item); }
-	if (PyObject* item = PyDict_GetItemString(inDict, "y")) { (*outConfig.value)[1] = ToDoubleVect(item); }
+	if (PyObject* item = PyDict_GetItemString(inDict, "x")) { (*outConfig.value)[0] = std::vector<double>{ToDouble(item)}; }
+	if (PyObject* item = PyDict_GetItemString(inDict, "y")) { (*outConfig.value)[1] = std::vector<double>{ToDouble(item)}; }
 
 	// helper for bit flipping
 	auto flagop = [inDict](const char* keyword, int flag, int& flags)
@@ -3342,7 +3342,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvPlotAxisConfig& outConfig, mvAp
 	flagop("no_highlight", ImPlotAxisFlags_NoHighlight, outConfig.flags);
 	flagop("opposite", ImPlotAxisFlags_Opposite, outConfig.flags);
 	flagop("foreground_grid", ImPlotAxisFlags_Foreground, outConfig.flags);
-	flagop("axis_opposite", ImPlotAxisFlags_Invert, outConfig.flags);
+	flagop("invert_order", ImPlotAxisFlags_Invert, outConfig.flags);
 	flagop("auto_fit", ImPlotAxisFlags_AutoFit, outConfig.flags);
 	flagop("range_fit", ImPlotAxisFlags_RangeFit, outConfig.flags);
 	flagop("pan_stretch", ImPlotAxisFlags_PanStretch, outConfig.flags);
@@ -3929,7 +3929,7 @@ DearPyGui::fill_configuration_dict(const mvPlotAxisConfig& inConfig, PyObject* o
 	checkbitset("no_highlight", ImPlotAxisFlags_NoHighlight, inConfig.flags);
 	checkbitset("opposite", ImPlotAxisFlags_Opposite, inConfig.flags);
 	checkbitset("foreground_grid", ImPlotAxisFlags_Foreground, inConfig.flags);
-	checkbitset("axis_opposite", ImPlotAxisFlags_Invert, inConfig.flags);
+	checkbitset("invert_order", ImPlotAxisFlags_Invert, inConfig.flags);
 	checkbitset("auto_fit", ImPlotAxisFlags_AutoFit, inConfig.flags);
 	checkbitset("range_fit", ImPlotAxisFlags_RangeFit, inConfig.flags);
 	checkbitset("pan_stretch", ImPlotAxisFlags_PanStretch, inConfig.flags);

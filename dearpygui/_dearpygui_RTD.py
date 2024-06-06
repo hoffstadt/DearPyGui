@@ -2251,7 +2251,7 @@ def plot_axis(axis, **kwargs):
 		foreground_grid (bool, optional): grid lines will be displayed in the foreground (i.e. on top of data) instead of the background
 		tick_format (str, optional): Sets a custom tick label formatter
 		scale (int, optional): Sets the axis' scale. Can have only mvPlotScale_ values
-		axis_opposite (bool, optional): the axis will be inverted
+		invert_order (bool, optional): the axis values will be inverted (i.e. growing from right to left)
 		auto_fit (bool, optional): axis will be auto-fitting to data extents
 		range_fit (bool, optional): axis will only fit points if the point is in the visible range of the **orthogonal** axis
 		pan_stretch (bool, optional): panning in a locked or constrained state will cause the axis to stretch if possible
@@ -3414,7 +3414,7 @@ def add_colormap_scale(**kwargs):
 		format (str, optional): Formatting used for the labels.
 		reverse_dir (bool, optional): invert the colormap bar and axis scale (this only affects rendering; if you only want to reverse the scale mapping, make scale_min > scale_max)
 		no_label (bool, optional): the colormap axis label will not be displayed
-		opposite (bool, optional): render the colormap label and tick labels on the opposite side
+		mirror (bool, optional): render the colormap label and tick labels on the opposite side
 		id (Union[int, str], optional): (deprecated)
 		drag_callback (Callable, optional): (deprecated)
 	Returns:
@@ -5661,7 +5661,7 @@ def add_plot_axis(axis, **kwargs):
 		foreground_grid (bool, optional): grid lines will be displayed in the foreground (i.e. on top of data) instead of the background
 		tick_format (str, optional): Sets a custom tick label formatter
 		scale (int, optional): Sets the axis' scale. Can have only mvPlotScale_ values
-		axis_opposite (bool, optional): the axis will be inverted
+		invert_order (bool, optional): the axis values will be inverted (i.e. growing from right to left)
 		auto_fit (bool, optional): axis will be auto-fitting to data extents
 		range_fit (bool, optional): axis will only fit points if the point is in the visible range of the **orthogonal** axis
 		pan_stretch (bool, optional): panning in a locked or constrained state will cause the axis to stretch if possible
@@ -6592,8 +6592,8 @@ def add_text_point(x, y, **kwargs):
 	"""	 Adds a label series to a plot. x and y can only have one elements each.
 
 	Args:
-		x (Any): 
-		y (Any): 
+		x (float): 
+		y (float): 
 		label (str, optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).

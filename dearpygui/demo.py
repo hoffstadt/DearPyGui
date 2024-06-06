@@ -1915,6 +1915,20 @@ def show_demo():
                             with dpg.plot_axis(dpg.mvYAxis, label="y"):
                                 dpg.add_line_series(sindatax, sindatay, tag="filled_line_series", label="0.5 + 0.5 * sin(x)")
                                 
+                    with dpg.tree_node(label="Text point"):                
+                        # create plot
+                        with dpg.plot(label="Text point", height=400, width=-1):
+                            
+                            # optionally create legend
+                            dpg.add_plot_legend()
+
+                            # REQUIRED: create x and y axes
+                            dpg.add_plot_axis(dpg.mvXAxis, label="x")
+                            
+                            with dpg.plot_axis(dpg.mvYAxis, label="y"):
+
+                                # series belong to a y axis
+                                dpg.add_text_point(2., 1.5, label="Text point label")
                                 
                     with dpg.tree_node(label="Shade Series"):
                         std_alpha = 0.25
@@ -2516,6 +2530,26 @@ def show_demo():
                             # create y axis 3
                             with dpg.plot_axis(dpg.mvYAxis3, label="y3", tag="y3_axis"):
                                 dpg.add_line_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)")
+
+                    with dpg.tree_node(label="Ordering Axes Plot"):
+                        dpg.add_checkbox(label="Opposite X", default_value=False,
+                                         callback=lambda _, val: dpg.configure_item("x_axis_ordering", opposite=val))
+                        dpg.add_checkbox(label="Invert X", default_value=False,
+                                         callback=lambda _, val: dpg.configure_item("x_axis_ordering", invert_order=val))
+                        dpg.add_checkbox(label="Opposite Y", default_value=False,
+                                         callback=lambda _, val: dpg.configure_item("y_axis_ordering", opposite=val))
+                        dpg.add_checkbox(label="Invert Y", default_value=False,
+                                         callback=lambda _, val: dpg.configure_item("y_axis_ordering", invert_order=val))
+                        
+                        with dpg.plot(label="Ordering Axes Plot", height=400, width=-1):
+
+                            dpg.add_plot_legend()
+
+                            # create x axis
+                            dpg.add_plot_axis(dpg.mvXAxis, label="x", tag="x_axis_ordering")
+                            # create y axis 1
+                            with dpg.plot_axis(dpg.mvYAxis, label="y", tag="y_axis_ordering"):
+                                dpg.add_line_series(sindatax, sindatay)
 
                     with dpg.tree_node(label="Log Axis Scale"):
                         xs = [0.0 for i in range(1001)]
