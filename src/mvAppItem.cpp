@@ -2135,15 +2135,15 @@ DearPyGui::GetEntityParser(mvAppItemType type)
             MV_PARSER_ARG_PAYLOAD_TYPE |
             MV_PARSER_ARG_TRACKED |
             MV_PARSER_ARG_SEARCH_DELAY |
+            MV_PARSER_ARG_ENABLED |
             MV_PARSER_ARG_POS)
         );
 
         args.push_back({ mvPyDataType::Bool, "horizontal", mvArgType::KEYWORD_ARG, "False", "Forces child widgets to be added in a horizontal layout." });
         args.push_back({ mvPyDataType::Float, "horizontal_spacing", mvArgType::KEYWORD_ARG, "-1", "Spacing for the horizontal layout." });
         args.push_back({ mvPyDataType::Float, "xoffset", mvArgType::KEYWORD_ARG, "0.0", "Offset from containing window x item location within group." });
-        args.push_back({ mvPyDataType::Bool, "disabled", mvArgType::KEYWORD_ARG, "False", "Disable everything inside the group. (Use mvStyleVar_DisabledAlpha to edit colors within the disabled group.)" });
 
-        setup.about = "Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members.";
+        setup.about = "Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members.\nEnable property acts in a special way enabling/disabling everything inside the group. (Use mvStyleVar_DisabledAlpha to edit colors within the disabled group.)";
         setup.category = { "Containers", "Widgets" };
         setup.createContextManager = true;
         break;
