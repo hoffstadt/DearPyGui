@@ -6440,7 +6440,6 @@ DearPyGui::draw_tooltip(ImDrawList* drawlist, mvAppItem& item)
 
 			if(ImGui::BeginTooltip()) 
 			{
-				item.state.lastFrameUpdate = GContext->frame;
 				item.state.visible = true;
 				item.state.contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
 				item.state.rectSize = { ImGui::GetWindowSize().x, ImGui::GetWindowSize().y };
@@ -6456,6 +6455,7 @@ DearPyGui::draw_tooltip(ImDrawList* drawlist, mvAppItem& item)
 				item.state.contextRegionAvail = { 0.0f, 0.0f };
 				item.state.rectSize = { 0.0f, 0.0f };
 			}
+			item.state.lastFrameUpdate = GContext->frame;
 
 			cleanup_local_theming(&item);
 			if (item.font)

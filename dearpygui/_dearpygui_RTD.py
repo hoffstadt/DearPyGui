@@ -1931,6 +1931,7 @@ def font_registry(**kwargs):
 @contextmanager
 def group(**kwargs):
 	"""	 Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members.
+Enable property acts in a special way enabling/disabling everything inside the group. (Use mvStyleVar_DisabledAlpha to edit colors within the disabled group.)
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -1946,6 +1947,7 @@ def group(**kwargs):
 		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
+		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
@@ -1954,7 +1956,6 @@ def group(**kwargs):
 		horizontal (bool, optional): Forces child widgets to be added in a horizontal layout.
 		horizontal_spacing (float, optional): Spacing for the horizontal layout.
 		xoffset (float, optional): Offset from containing window x item location within group.
-		disabled (bool, optional): Disable everything inside the group. (Use mvStyleVar_DisabledAlpha to edit colors within the disabled group.)
 		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
@@ -4259,6 +4260,7 @@ def add_font_registry(**kwargs):
 
 def add_group(**kwargs):
 	"""	 Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members.
+Enable property acts in a special way enabling/disabling everything inside the group. (Use mvStyleVar_DisabledAlpha to edit colors within the disabled group.)
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -4274,6 +4276,7 @@ def add_group(**kwargs):
 		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
+		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
@@ -4282,7 +4285,6 @@ def add_group(**kwargs):
 		horizontal (bool, optional): Forces child widgets to be added in a horizontal layout.
 		horizontal_spacing (float, optional): Spacing for the horizontal layout.
 		xoffset (float, optional): Offset from containing window x item location within group.
-		disabled (bool, optional): Disable everything inside the group. (Use mvStyleVar_DisabledAlpha to edit colors within the disabled group.)
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
