@@ -731,7 +731,6 @@ public:
     void* getValue() override { return &configData.value; }
     PyObject* getPyValue() override { return ToPyList(*configData.value); }
     void setPyValue(PyObject* value) override { *configData.value = ToVectVectDouble(value); }  
-    // TODO: This should be changed, it doesn't make sense to force the user to set the value with [[x], [y]] when you could do [x, y]. It creates useless confusion
 };
 
 class mvImageSeries : public mvAppItem

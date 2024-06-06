@@ -94,7 +94,7 @@ def add_colormap_registry(*, label: str ='', user_data: Any ='', use_internal_la
 	"""Adds a colormap registry."""
 	...
 
-def add_colormap_scale(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', drop_callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', colormap: Union[int, str] ='', min_scale: float ='', max_scale: float ='', format: str ='', reverse_dir: bool ='', no_label: bool ='', opposite: bool ='') -> Union[int, str]:
+def add_colormap_scale(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', drop_callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', colormap: Union[int, str] ='', min_scale: float ='', max_scale: float ='', format: str ='', reverse_dir: bool ='', no_label: bool ='', mirror: bool ='') -> Union[int, str]:
 	"""Adds a legend that pairs values with colors. This is typically used with a heat series. """
 	...
 
@@ -446,7 +446,7 @@ def add_plot_annotation(*, label: str ='', user_data: Any ='', use_internal_labe
 	"""Adds an annotation to a plot."""
 	...
 
-def add_plot_axis(axis : int, *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', payload_type: str ='', drop_callback: Callable ='', show: bool ='', no_label: bool ='', no_gridlines: bool ='', no_tick_marks: bool ='', no_tick_labels: bool ='', no_initial_fit: bool ='', no_menus: bool ='', no_side_switch: bool ='', no_highlight: bool ='', opposite: bool ='', foreground_grid: bool ='', tick_format: str ='', scale: int ='', axis_opposite: bool ='', auto_fit: bool ='', range_fit: bool ='', pan_stretch: bool ='', lock_min: bool ='', lock_max: bool ='') -> Union[int, str]:
+def add_plot_axis(axis : int, *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', payload_type: str ='', drop_callback: Callable ='', show: bool ='', no_label: bool ='', no_gridlines: bool ='', no_tick_marks: bool ='', no_tick_labels: bool ='', no_initial_fit: bool ='', no_menus: bool ='', no_side_switch: bool ='', no_highlight: bool ='', opposite: bool ='', foreground_grid: bool ='', tick_format: str ='', scale: int ='', invert_order: bool ='', auto_fit: bool ='', range_fit: bool ='', pan_stretch: bool ='', lock_min: bool ='', lock_max: bool ='') -> Union[int, str]:
 	"""Adds an axis to a plot."""
 	...
 
@@ -578,7 +578,7 @@ def add_text(default_value : str ='', *, label: str ='', user_data: Any ='', use
 	"""Adds text. Text can have an optional label that will display to the right of the text."""
 	...
 
-def add_text_point(x : Union[List[float], Tuple[float, ...]], y : Union[List[float], Tuple[float, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', show: bool ='', offset: Union[List[float], Tuple[float, ...]] ='', vertical: bool ='') -> Union[int, str]:
+def add_text_point(x : float, y : float, *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', show: bool ='', offset: Union[List[float], Tuple[float, ...]] ='', vertical: bool ='') -> Union[int, str]:
 	"""Adds a label series to a plot. x and y can only have one elements each."""
 	...
 

@@ -7,7 +7,21 @@ NEW_SANDBOX_DIR="${WORKING_DIR}DearSandbox/"
 
 cd scripts
 chmod +x BuildPythonForLinux.sh
-./BuildPythonForLinux.sh clean
+
+clean_cpython=false
+
+while getopts "c" opt; do
+  case $opt in
+    c) clean_cpython=true ;;
+	*) echo 'Error in command line parsing' >&2
+	   exit 1 ;;
+  esac
+done
+
+if [ "$clean_cpython" = true ] ; then
+	echo "Cleaning up the previous build"
+	./BuildPythonForLinux.sh clean
+fi
 
 if [ $(dpkg-query -W -f='${Status}' libffi-dev 2>/dev/null | grep -c "ok installed") -eq 0 ];
 then
