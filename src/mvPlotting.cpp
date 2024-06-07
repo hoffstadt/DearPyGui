@@ -2867,9 +2867,9 @@ DearPyGui::set_configuration(PyObject* inDict, mvBarGroupSeriesConfig& outConfig
 	if (PyObject* item = PyDict_GetItemString(inDict, "group_size")) { outConfig.group_size = ToInt(item); }
 
 	if (!ValidateBarGroupConfig(outConfig)) {
-		auto backup_value = outConfig.value;
-		auto backup_label_ids = outConfig.label_ids;
-		auto backup_group_size = outConfig.group_size;
+		outConfig.value = backup_value;
+		outConfig.label_ids = backup_label_ids;
+		outConfig.group_size = backup_group_size;
 		return;
 	}
 
