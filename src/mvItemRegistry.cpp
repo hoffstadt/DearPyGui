@@ -386,115 +386,68 @@ MoveDownRoot(std::vector<std::shared_ptr<mvAppItem>>& roots, mvUUID uuid)
 static b8
 AddRuntimeChild(mvAppItem* rootitem, mvUUID parent, mvUUID before, std::shared_ptr<mvAppItem> item)
 {
-    if (before == 0 && parent == 0)
-        return false;
-
-    for (auto& children : rootitem->childslots)
+    //this is the container, add item to end.
+    if (before == 0)
     {
-        //this is the container, add item to end.
-        if (before == 0)
+        // checking if `rootitem` is the parent we're looking for
+        if (rootitem->uuid == parent)
         {
-
-            if (rootitem->uuid == parent)
-            {
-                i32 targetSlot = DearPyGui::GetEntityTargetSlot(item->type);
-                item->info.location = (i32)rootitem->childslots[targetSlot].size();
-                rootitem->childslots[targetSlot].push_back(item);
-                DearPyGui::OnChildAdded(rootitem, item);
-                item->info.parentPtr = rootitem;
-                item->config.parent = rootitem->uuid;
-                return true;
-            }
-
-            // check children
-            for (auto& childslot : rootitem->childslots)
-            {
-                for (auto& child : childslot)
-                {
-
-                    if (!child)
-                        continue;
-
-                    if (DearPyGui::GetEntityDesciptionFlags(child->type) & MV_ITEM_DESC_CONTAINER
-                        || DearPyGui::GetEntityDesciptionFlags(item->type) & MV_ITEM_DESC_HANDLER)
-                    {
-                        // parent found
-                        if (AddRuntimeChild(child.get(), parent, before, item))
-                            return true;
-                    }
-                }
-            }
+            i32 targetSlot = DearPyGui::GetEntityTargetSlot(item->type);
+            item->info.location = (i32)rootitem->childslots[targetSlot].size();
+            rootitem->childslots[targetSlot].push_back(item);
+            item->info.parentPtr = rootitem;
+            item->config.parent = rootitem->uuid;
+            DearPyGui::OnChildAdded(rootitem, item);
+            return true;
         }
 
-        // this is the container, add item to beginning.
-        else
+    }
+    // this is the container, add item to beginning.
+    else
+    {
+        for (auto& childslot : rootitem->childslots)
         {
-            bool beforeFound = false;
-
-            // check children
-            for (auto& child : children)
+            for (auto it = childslot.begin(); it != childslot.end(); ++it)
+            // for (auto& child : childslot)
             {
+                auto child = *it;
                 if (!child)
                     continue;
 
                 if (child->uuid == before)
                 {
-                    beforeFound = true;
-                    break;
+                    childslot.insert(it, item);
+                    item->info.parentPtr = rootitem;
+                    item->config.parent = rootitem->uuid;
+                    // TODO: this one can be optimized a lot (we only need to update
+                    // locations in the tail of the current slot, not in all 4 slots).
+                    UpdateChildLocations(rootitem->childslots, 4);
+                    DearPyGui::OnChildAdded(rootitem, item);
+                    return true;
                 }
-            }
-
-
-            // after item is in this container
-            if (beforeFound)
-            {
-                item->info.parentPtr = rootitem;
-
-                std::vector<std::shared_ptr<mvAppItem>> oldchildren = children;
-                children.clear();
-
-                int location = 0;
-                for (auto& child : oldchildren)
-                {
-                    if (!child)
-                        continue;
-
-                    if (child->uuid == before)
-                    {
-                        children.push_back(item);
-                        item->info.location = location;
-                        DearPyGui::OnChildAdded(rootitem, item);
-                        ++location;
-                    }
-                    children.push_back(child);
-                    ++location;
-
-                }
-
-                // TODO: maybe remove this call since location gets updated inside the loop
-                UpdateChildLocations(rootitem->childslots, 4);
-
-                return true;
             }
         }
+    }
 
-        // check children
-        for (auto& child : children)
+    bool is_handler = (DearPyGui::GetEntityDesciptionFlags(item->type) & MV_ITEM_DESC_HANDLER);
+
+    // check children
+    for (auto& childslot : rootitem->childslots)
+    {
+        for (auto& child : childslot)
         {
+
             if (!child)
                 continue;
 
-            if (DearPyGui::GetEntityDesciptionFlags(child->type) & MV_ITEM_DESC_CONTAINER
-                || DearPyGui::GetEntityDesciptionFlags(item->type) & MV_ITEM_DESC_HANDLER)
+            if (DearPyGui::GetEntityDesciptionFlags(child->type) & MV_ITEM_DESC_CONTAINER || is_handler)
             {
                 // parent found
                 if (AddRuntimeChild(child.get(), parent, before, item))
                     return true;
             }
         }
-
-    };
-
+    }
     return false;
 }
 
@@ -623,6 +576,8 @@ AddItem(mvItemRegistry& registry, std::shared_ptr<mvAppItem> item)
 static b8
 AddRuntimeItem(mvItemRegistry& registry, mvUUID parent, mvUUID before, std::shared_ptr<mvAppItem> item)
 {
+    if (before == 0 && parent == 0)
+        return false;
 
     if (AddRuntimeChildRoot(registry.colormapRoots, parent, before, item)) return true;
     else if (AddRuntimeChildRoot(registry.filedialogRoots, parent, before, item)) return true;
