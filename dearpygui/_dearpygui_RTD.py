@@ -1707,7 +1707,6 @@ def custom_series(x, y, channel_count, **kwargs):
 		y3 (Any, optional): 
 		tooltip (bool, optional): Show tooltip when plot is hovered.
 		no_fit (bool, optional): the item won't be considered for plot fits
-		no_legend (bool, optional): the item won't have a legend entry displayed
 		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
@@ -2196,7 +2195,6 @@ def plot(**kwargs):
 		use_local_time (bool, optional): axis labels will be formatted for your timezone when
 		use_ISO8601 (bool, optional): dates will be formatted according to ISO 8601 where applicable (e.g. YYYY-MM-DD, YYYY-MM, --MM-DD, etc.)
 		use_24hour_clock (bool, optional): times will be formatted using a 24 hour clock
-		delete_rect (bool, optional): allows to delete drag rect with double left mouse click
 		pan_button (int, optional): mouse button that enables panning when held
 		pan_mod (int, optional): optional modifier that must be held for panning
 		context_menu_button (int, optional): opens context menus (if enabled) when clicked
@@ -2252,7 +2250,7 @@ def plot_axis(axis, **kwargs):
 		foreground_grid (bool, optional): grid lines will be displayed in the foreground (i.e. on top of data) instead of the background
 		tick_format (str, optional): Sets a custom tick label formatter
 		scale (int, optional): Sets the axis' scale. Can have only mvPlotScale_ values
-		invert_order (bool, optional): the axis values will be inverted (i.e. growing from right to left)
+		invert (bool, optional): the axis values will be inverted (i.e. growing from right to left)
 		auto_fit (bool, optional): axis will be auto-fitting to data extents
 		range_fit (bool, optional): axis will only fit points if the point is in the visible range of the **orthogonal** axis
 		pan_stretch (bool, optional): panning in a locked or constrained state will cause the axis to stretch if possible
@@ -3512,7 +3510,6 @@ def add_custom_series(x, y, channel_count, **kwargs):
 		y3 (Any, optional): 
 		tooltip (bool, optional): Show tooltip when plot is hovered.
 		no_fit (bool, optional): the item won't be considered for plot fits
-		no_legend (bool, optional): the item won't have a legend entry displayed
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -5589,7 +5586,6 @@ def add_plot(**kwargs):
 		use_local_time (bool, optional): axis labels will be formatted for your timezone when
 		use_ISO8601 (bool, optional): dates will be formatted according to ISO 8601 where applicable (e.g. YYYY-MM-DD, YYYY-MM, --MM-DD, etc.)
 		use_24hour_clock (bool, optional): times will be formatted using a 24 hour clock
-		delete_rect (bool, optional): allows to delete drag rect with double left mouse click
 		pan_button (int, optional): mouse button that enables panning when held
 		pan_mod (int, optional): optional modifier that must be held for panning
 		context_menu_button (int, optional): opens context menus (if enabled) when clicked
@@ -5663,7 +5659,7 @@ def add_plot_axis(axis, **kwargs):
 		foreground_grid (bool, optional): grid lines will be displayed in the foreground (i.e. on top of data) instead of the background
 		tick_format (str, optional): Sets a custom tick label formatter
 		scale (int, optional): Sets the axis' scale. Can have only mvPlotScale_ values
-		invert_order (bool, optional): the axis values will be inverted (i.e. growing from right to left)
+		invert (bool, optional): the axis values will be inverted (i.e. growing from right to left)
 		auto_fit (bool, optional): axis will be auto-fitting to data extents
 		range_fit (bool, optional): axis will only fit points if the point is in the visible range of the **orthogonal** axis
 		pan_stretch (bool, optional): panning in a locked or constrained state will cause the axis to stretch if possible

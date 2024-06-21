@@ -2703,7 +2703,6 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "use_local_time", mvArgType::KEYWORD_ARG, "False", "axis labels will be formatted for your timezone when" });
         args.push_back({ mvPyDataType::Bool, "use_ISO8601", mvArgType::KEYWORD_ARG, "False", "dates will be formatted according to ISO 8601 where applicable (e.g. YYYY-MM-DD, YYYY-MM, --MM-DD, etc.)" });
         args.push_back({ mvPyDataType::Bool, "use_24hour_clock", mvArgType::KEYWORD_ARG, "False", "times will be formatted using a 24 hour clock" });
-        args.push_back({ mvPyDataType::Bool, "delete_rect", mvArgType::KEYWORD_ARG, "True", "allows to delete drag rect with double left mouse click" });
 
         // key modifiers
         args.push_back({ mvPyDataType::Integer, "pan_button", mvArgType::KEYWORD_ARG, "internal_dpg.mvMouseButton_Left", "mouse button that enables panning when held" });
@@ -4326,7 +4325,6 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::DoubleList, "y3", mvArgType::KEYWORD_ARG, "[]" });
         args.push_back({ mvPyDataType::Bool, "tooltip", mvArgType::KEYWORD_ARG, "True", "Show tooltip when plot is hovered." });
         args.push_back({ mvPyDataType::Bool, "no_fit", mvArgType::KEYWORD_ARG, "False", "the item won't be considered for plot fits" });
-        args.push_back({ mvPyDataType::Bool, "no_legend", mvArgType::KEYWORD_ARG, "False", "the item won't have a legend entry displayed" });
 
         setup.about = "Adds a custom series to a plot. New in 1.6.";
         setup.category = { "Plotting", "Containers", "Widgets" };
@@ -4637,7 +4635,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Integer, "scale", mvArgType::KEYWORD_ARG, "internal_dpg.mvPlotScale_Linear", "Sets the axis' scale. Can have only mvPlotScale_ values"});
         args.push_back({ mvPyDataType::Bool, "log_scale", mvArgType::DEPRECATED_KEYWORD_ARG, "False", "Old way to set log scale in the axis. Use 'scale' argument instead.", "See the new scale argument." });
         args.push_back({ mvPyDataType::Bool, "time", mvArgType::DEPRECATED_KEYWORD_ARG, "False", "Old way to set time scale in the axis. Use 'scale' argument instead.", "See the new scale argument." });
-        args.push_back({ mvPyDataType::Bool, "invert_order", mvArgType::KEYWORD_ARG, "False", "the axis values will be inverted (i.e. growing from right to left)" });
+        args.push_back({ mvPyDataType::Bool, "invert", mvArgType::KEYWORD_ARG, "False", "the axis values will be inverted (i.e. growing from right to left)" });
         args.push_back({ mvPyDataType::Bool, "auto_fit", mvArgType::KEYWORD_ARG, "False", "axis will be auto-fitting to data extents" });
         args.push_back({ mvPyDataType::Bool, "range_fit", mvArgType::KEYWORD_ARG, "False", "axis will only fit points if the point is in the visible range of the **orthogonal** axis" });
         args.push_back({ mvPyDataType::Bool, "pan_stretch", mvArgType::KEYWORD_ARG, "False", "panning in a locked or constrained state will cause the axis to stretch if possible" });

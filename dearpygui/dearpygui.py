@@ -1702,7 +1702,7 @@ def colormap_registry(*, label: str =None, user_data: Any =None, use_internal_la
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def custom_series(x : Union[List[float], Tuple[float, ...]], y : Union[List[float], Tuple[float, ...]], channel_count : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, callback: Callable =None, show: bool =True, y1: Any =[], y2: Any =[], y3: Any =[], tooltip: bool =True, no_fit: bool =False, no_legend: bool =False, **kwargs) -> Union[int, str]:
+def custom_series(x : Union[List[float], Tuple[float, ...]], y : Union[List[float], Tuple[float, ...]], channel_count : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, callback: Callable =None, show: bool =True, y1: Any =[], y2: Any =[], y3: Any =[], tooltip: bool =True, no_fit: bool =False, **kwargs) -> Union[int, str]:
 	"""	 Adds a custom series to a plot. New in 1.6.
 
 	Args:
@@ -1723,7 +1723,6 @@ def custom_series(x : Union[List[float], Tuple[float, ...]], y : Union[List[floa
 		y3 (Any, optional): 
 		tooltip (bool, optional): Show tooltip when plot is hovered.
 		no_fit (bool, optional): the item won't be considered for plot fits
-		no_legend (bool, optional): the item won't have a legend entry displayed
 		id (Union[int, str], optional): (deprecated) 
 	Yields:
 		Union[int, str]
@@ -1733,7 +1732,7 @@ def custom_series(x : Union[List[float], Tuple[float, ...]], y : Union[List[floa
 		if 'id' in kwargs.keys():
 			warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
 			tag=kwargs['id']
-		widget = internal_dpg.add_custom_series(x, y, channel_count, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, source=source, callback=callback, show=show, y1=y1, y2=y2, y3=y3, tooltip=tooltip, no_fit=no_fit, no_legend=no_legend, **kwargs)
+		widget = internal_dpg.add_custom_series(x, y, channel_count, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, source=source, callback=callback, show=show, y1=y1, y2=y2, y3=y3, tooltip=tooltip, no_fit=no_fit, **kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
@@ -2249,7 +2248,7 @@ def node_editor(*, label: str =None, user_data: Any =None, use_internal_label: b
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def plot(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, no_title: bool =False, no_menus: bool =False, no_box_select: bool =False, no_mouse_pos: bool =False, query: bool =False, crosshairs: bool =False, equal_aspects: bool =False, no_inputs: bool =False, no_frame: bool =False, use_local_time: bool =False, use_ISO8601: bool =False, use_24hour_clock: bool =False, delete_rect: bool =True, pan_button: int =internal_dpg.mvMouseButton_Left, pan_mod: int =internal_dpg.mvKey_None, context_menu_button: int =internal_dpg.mvMouseButton_Right, fit_button: int =internal_dpg.mvMouseButton_Left, box_select_button: int =internal_dpg.mvMouseButton_Right, box_select_mod: int =internal_dpg.mvKey_None, box_select_cancel_button: int =internal_dpg.mvMouseButton_Left, query_toggle_mod: int =internal_dpg.mvKey_ModCtrl, horizontal_mod: int =internal_dpg.mvKey_ModAlt, vertical_mod: int =internal_dpg.mvKey_ModShift, override_mod: int =internal_dpg.mvKey_ModCtrl, zoom_mod: int =internal_dpg.mvKey_None, zoom_rate: int =0.1, **kwargs) -> Union[int, str]:
+def plot(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, no_title: bool =False, no_menus: bool =False, no_box_select: bool =False, no_mouse_pos: bool =False, query: bool =False, crosshairs: bool =False, equal_aspects: bool =False, no_inputs: bool =False, no_frame: bool =False, use_local_time: bool =False, use_ISO8601: bool =False, use_24hour_clock: bool =False, pan_button: int =internal_dpg.mvMouseButton_Left, pan_mod: int =internal_dpg.mvKey_None, context_menu_button: int =internal_dpg.mvMouseButton_Right, fit_button: int =internal_dpg.mvMouseButton_Left, box_select_button: int =internal_dpg.mvMouseButton_Right, box_select_mod: int =internal_dpg.mvKey_None, box_select_cancel_button: int =internal_dpg.mvMouseButton_Left, query_toggle_mod: int =internal_dpg.mvKey_ModCtrl, horizontal_mod: int =internal_dpg.mvKey_ModAlt, vertical_mod: int =internal_dpg.mvKey_ModShift, override_mod: int =internal_dpg.mvKey_ModCtrl, zoom_mod: int =internal_dpg.mvKey_None, zoom_rate: int =0.1, **kwargs) -> Union[int, str]:
 	"""	 Adds a plot which is used to hold series, and can be drawn to with draw commands. For all _mod parameters use mvKey_ModX enums, or mvKey_ModDisabled to disable the modifier.
 
 	Args:
@@ -2284,7 +2283,6 @@ def plot(*, label: str =None, user_data: Any =None, use_internal_label: bool =Tr
 		use_local_time (bool, optional): axis labels will be formatted for your timezone when
 		use_ISO8601 (bool, optional): dates will be formatted according to ISO 8601 where applicable (e.g. YYYY-MM-DD, YYYY-MM, --MM-DD, etc.)
 		use_24hour_clock (bool, optional): times will be formatted using a 24 hour clock
-		delete_rect (bool, optional): allows to delete drag rect with double left mouse click
 		pan_button (int, optional): mouse button that enables panning when held
 		pan_mod (int, optional): optional modifier that must be held for panning
 		context_menu_button (int, optional): opens context menus (if enabled) when clicked
@@ -2332,14 +2330,14 @@ def plot(*, label: str =None, user_data: Any =None, use_internal_label: bool =Tr
 		if 'query_mod' in kwargs.keys():
 			warnings.warn('query_mod keyword removed', DeprecationWarning, 2)
 			kwargs.pop('query_mod', None)
-		widget = internal_dpg.add_plot(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, no_title=no_title, no_menus=no_menus, no_box_select=no_box_select, no_mouse_pos=no_mouse_pos, query=query, crosshairs=crosshairs, equal_aspects=equal_aspects, no_inputs=no_inputs, no_frame=no_frame, use_local_time=use_local_time, use_ISO8601=use_ISO8601, use_24hour_clock=use_24hour_clock, delete_rect=delete_rect, pan_button=pan_button, pan_mod=pan_mod, context_menu_button=context_menu_button, fit_button=fit_button, box_select_button=box_select_button, box_select_mod=box_select_mod, box_select_cancel_button=box_select_cancel_button, query_toggle_mod=query_toggle_mod, horizontal_mod=horizontal_mod, vertical_mod=vertical_mod, override_mod=override_mod, zoom_mod=zoom_mod, zoom_rate=zoom_rate, **kwargs)
+		widget = internal_dpg.add_plot(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, no_title=no_title, no_menus=no_menus, no_box_select=no_box_select, no_mouse_pos=no_mouse_pos, query=query, crosshairs=crosshairs, equal_aspects=equal_aspects, no_inputs=no_inputs, no_frame=no_frame, use_local_time=use_local_time, use_ISO8601=use_ISO8601, use_24hour_clock=use_24hour_clock, pan_button=pan_button, pan_mod=pan_mod, context_menu_button=context_menu_button, fit_button=fit_button, box_select_button=box_select_button, box_select_mod=box_select_mod, box_select_cancel_button=box_select_cancel_button, query_toggle_mod=query_toggle_mod, horizontal_mod=horizontal_mod, vertical_mod=vertical_mod, override_mod=override_mod, zoom_mod=zoom_mod, zoom_rate=zoom_rate, **kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def plot_axis(axis : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drop_callback: Callable =None, show: bool =True, no_label: bool =False, no_gridlines: bool =False, no_tick_marks: bool =False, no_tick_labels: bool =False, no_initial_fit: bool =False, no_menus: bool =False, no_side_switch: bool =False, no_highlight: bool =False, opposite: bool =False, foreground_grid: bool =False, tick_format: str ='', scale: int =internal_dpg.mvPlotScale_Linear, invert_order: bool =False, auto_fit: bool =False, range_fit: bool =False, pan_stretch: bool =False, lock_min: bool =False, lock_max: bool =False, **kwargs) -> Union[int, str]:
+def plot_axis(axis : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drop_callback: Callable =None, show: bool =True, no_label: bool =False, no_gridlines: bool =False, no_tick_marks: bool =False, no_tick_labels: bool =False, no_initial_fit: bool =False, no_menus: bool =False, no_side_switch: bool =False, no_highlight: bool =False, opposite: bool =False, foreground_grid: bool =False, tick_format: str ='', scale: int =internal_dpg.mvPlotScale_Linear, invert: bool =False, auto_fit: bool =False, range_fit: bool =False, pan_stretch: bool =False, lock_min: bool =False, lock_max: bool =False, **kwargs) -> Union[int, str]:
 	"""	 Adds an axis to a plot.
 
 	Args:
@@ -2364,7 +2362,7 @@ def plot_axis(axis : int, *, label: str =None, user_data: Any =None, use_interna
 		foreground_grid (bool, optional): grid lines will be displayed in the foreground (i.e. on top of data) instead of the background
 		tick_format (str, optional): Sets a custom tick label formatter
 		scale (int, optional): Sets the axis' scale. Can have only mvPlotScale_ values
-		invert_order (bool, optional): the axis values will be inverted (i.e. growing from right to left)
+		invert (bool, optional): the axis values will be inverted (i.e. growing from right to left)
 		auto_fit (bool, optional): axis will be auto-fitting to data extents
 		range_fit (bool, optional): axis will only fit points if the point is in the visible range of the **orthogonal** axis
 		pan_stretch (bool, optional): panning in a locked or constrained state will cause the axis to stretch if possible
@@ -2387,7 +2385,7 @@ def plot_axis(axis : int, *, label: str =None, user_data: Any =None, use_interna
 
 		if 'time' in kwargs.keys():
 			warnings.warn('time keyword deprecated. See the new scale argument.', DeprecationWarning, 2)
-		widget = internal_dpg.add_plot_axis(axis, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, payload_type=payload_type, drop_callback=drop_callback, show=show, no_label=no_label, no_gridlines=no_gridlines, no_tick_marks=no_tick_marks, no_tick_labels=no_tick_labels, no_initial_fit=no_initial_fit, no_menus=no_menus, no_side_switch=no_side_switch, no_highlight=no_highlight, opposite=opposite, foreground_grid=foreground_grid, tick_format=tick_format, scale=scale, invert_order=invert_order, auto_fit=auto_fit, range_fit=range_fit, pan_stretch=pan_stretch, lock_min=lock_min, lock_max=lock_max, **kwargs)
+		widget = internal_dpg.add_plot_axis(axis, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, payload_type=payload_type, drop_callback=drop_callback, show=show, no_label=no_label, no_gridlines=no_gridlines, no_tick_marks=no_tick_marks, no_tick_labels=no_tick_labels, no_initial_fit=no_initial_fit, no_menus=no_menus, no_side_switch=no_side_switch, no_highlight=no_highlight, opposite=opposite, foreground_grid=foreground_grid, tick_format=tick_format, scale=scale, invert=invert, auto_fit=auto_fit, range_fit=range_fit, pan_stretch=pan_stretch, lock_min=lock_min, lock_max=lock_max, **kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
@@ -3793,7 +3791,7 @@ def add_combo(items : Union[List[str], Tuple[str, ...]] =(), *, label: str =None
 
 	return internal_dpg.add_combo(items, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, popup_align_left=popup_align_left, no_arrow_button=no_arrow_button, no_preview=no_preview, fit_width=fit_width, height_mode=height_mode, **kwargs)
 
-def add_custom_series(x : Union[List[float], Tuple[float, ...]], y : Union[List[float], Tuple[float, ...]], channel_count : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, callback: Callable =None, show: bool =True, y1: Any =[], y2: Any =[], y3: Any =[], tooltip: bool =True, no_fit: bool =False, no_legend: bool =False, **kwargs) -> Union[int, str]:
+def add_custom_series(x : Union[List[float], Tuple[float, ...]], y : Union[List[float], Tuple[float, ...]], channel_count : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, callback: Callable =None, show: bool =True, y1: Any =[], y2: Any =[], y3: Any =[], tooltip: bool =True, no_fit: bool =False, **kwargs) -> Union[int, str]:
 	"""	 Adds a custom series to a plot. New in 1.6.
 
 	Args:
@@ -3814,7 +3812,6 @@ def add_custom_series(x : Union[List[float], Tuple[float, ...]], y : Union[List[
 		y3 (Any, optional): 
 		tooltip (bool, optional): Show tooltip when plot is hovered.
 		no_fit (bool, optional): the item won't be considered for plot fits
-		no_legend (bool, optional): the item won't have a legend entry displayed
 		id (Union[int, str], optional): (deprecated) 
 	Returns:
 		Union[int, str]
@@ -3824,7 +3821,7 @@ def add_custom_series(x : Union[List[float], Tuple[float, ...]], y : Union[List[
 		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
 		tag=kwargs['id']
 
-	return internal_dpg.add_custom_series(x, y, channel_count, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, source=source, callback=callback, show=show, y1=y1, y2=y2, y3=y3, tooltip=tooltip, no_fit=no_fit, no_legend=no_legend, **kwargs)
+	return internal_dpg.add_custom_series(x, y, channel_count, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, source=source, callback=callback, show=show, y1=y1, y2=y2, y3=y3, tooltip=tooltip, no_fit=no_fit, **kwargs)
 
 def add_date_picker(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: dict ={'month_day': 14, 'year':20, 'month':5}, level: int =0, **kwargs) -> Union[int, str]:
 	"""	 Adds a data picker.
@@ -6207,7 +6204,7 @@ def add_pie_series(x : float, y : float, radius : float, values : Union[List[flo
 
 	return internal_dpg.add_pie_series(x, y, radius, values, labels, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, source=source, show=show, format=format, angle=angle, normalize=normalize, ignore_hidden=ignore_hidden, **kwargs)
 
-def add_plot(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, no_title: bool =False, no_menus: bool =False, no_box_select: bool =False, no_mouse_pos: bool =False, query: bool =False, crosshairs: bool =False, equal_aspects: bool =False, no_inputs: bool =False, no_frame: bool =False, use_local_time: bool =False, use_ISO8601: bool =False, use_24hour_clock: bool =False, delete_rect: bool =True, pan_button: int =internal_dpg.mvMouseButton_Left, pan_mod: int =internal_dpg.mvKey_None, context_menu_button: int =internal_dpg.mvMouseButton_Right, fit_button: int =internal_dpg.mvMouseButton_Left, box_select_button: int =internal_dpg.mvMouseButton_Right, box_select_mod: int =internal_dpg.mvKey_None, box_select_cancel_button: int =internal_dpg.mvMouseButton_Left, query_toggle_mod: int =internal_dpg.mvKey_ModCtrl, horizontal_mod: int =internal_dpg.mvKey_ModAlt, vertical_mod: int =internal_dpg.mvKey_ModShift, override_mod: int =internal_dpg.mvKey_ModCtrl, zoom_mod: int =internal_dpg.mvKey_None, zoom_rate: int =0.1, **kwargs) -> Union[int, str]:
+def add_plot(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, no_title: bool =False, no_menus: bool =False, no_box_select: bool =False, no_mouse_pos: bool =False, query: bool =False, crosshairs: bool =False, equal_aspects: bool =False, no_inputs: bool =False, no_frame: bool =False, use_local_time: bool =False, use_ISO8601: bool =False, use_24hour_clock: bool =False, pan_button: int =internal_dpg.mvMouseButton_Left, pan_mod: int =internal_dpg.mvKey_None, context_menu_button: int =internal_dpg.mvMouseButton_Right, fit_button: int =internal_dpg.mvMouseButton_Left, box_select_button: int =internal_dpg.mvMouseButton_Right, box_select_mod: int =internal_dpg.mvKey_None, box_select_cancel_button: int =internal_dpg.mvMouseButton_Left, query_toggle_mod: int =internal_dpg.mvKey_ModCtrl, horizontal_mod: int =internal_dpg.mvKey_ModAlt, vertical_mod: int =internal_dpg.mvKey_ModShift, override_mod: int =internal_dpg.mvKey_ModCtrl, zoom_mod: int =internal_dpg.mvKey_None, zoom_rate: int =0.1, **kwargs) -> Union[int, str]:
 	"""	 Adds a plot which is used to hold series, and can be drawn to with draw commands. For all _mod parameters use mvKey_ModX enums, or mvKey_ModDisabled to disable the modifier.
 
 	Args:
@@ -6242,7 +6239,6 @@ def add_plot(*, label: str =None, user_data: Any =None, use_internal_label: bool
 		use_local_time (bool, optional): axis labels will be formatted for your timezone when
 		use_ISO8601 (bool, optional): dates will be formatted according to ISO 8601 where applicable (e.g. YYYY-MM-DD, YYYY-MM, --MM-DD, etc.)
 		use_24hour_clock (bool, optional): times will be formatted using a 24 hour clock
-		delete_rect (bool, optional): allows to delete drag rect with double left mouse click
 		pan_button (int, optional): mouse button that enables panning when held
 		pan_mod (int, optional): optional modifier that must be held for panning
 		context_menu_button (int, optional): opens context menus (if enabled) when clicked
@@ -6300,7 +6296,7 @@ def add_plot(*, label: str =None, user_data: Any =None, use_internal_label: bool
 
 		kwargs.pop('query_mod', None)
 
-	return internal_dpg.add_plot(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, no_title=no_title, no_menus=no_menus, no_box_select=no_box_select, no_mouse_pos=no_mouse_pos, query=query, crosshairs=crosshairs, equal_aspects=equal_aspects, no_inputs=no_inputs, no_frame=no_frame, use_local_time=use_local_time, use_ISO8601=use_ISO8601, use_24hour_clock=use_24hour_clock, delete_rect=delete_rect, pan_button=pan_button, pan_mod=pan_mod, context_menu_button=context_menu_button, fit_button=fit_button, box_select_button=box_select_button, box_select_mod=box_select_mod, box_select_cancel_button=box_select_cancel_button, query_toggle_mod=query_toggle_mod, horizontal_mod=horizontal_mod, vertical_mod=vertical_mod, override_mod=override_mod, zoom_mod=zoom_mod, zoom_rate=zoom_rate, **kwargs)
+	return internal_dpg.add_plot(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, no_title=no_title, no_menus=no_menus, no_box_select=no_box_select, no_mouse_pos=no_mouse_pos, query=query, crosshairs=crosshairs, equal_aspects=equal_aspects, no_inputs=no_inputs, no_frame=no_frame, use_local_time=use_local_time, use_ISO8601=use_ISO8601, use_24hour_clock=use_24hour_clock, pan_button=pan_button, pan_mod=pan_mod, context_menu_button=context_menu_button, fit_button=fit_button, box_select_button=box_select_button, box_select_mod=box_select_mod, box_select_cancel_button=box_select_cancel_button, query_toggle_mod=query_toggle_mod, horizontal_mod=horizontal_mod, vertical_mod=vertical_mod, override_mod=override_mod, zoom_mod=zoom_mod, zoom_rate=zoom_rate, **kwargs)
 
 def add_plot_annotation(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, show: bool =True, default_value: Any =(0.0, 0.0), offset: Union[List[float], Tuple[float, ...]] =(0.0, 0.0), color: Union[List[int], Tuple[int, ...]] =(0, 0, 0, -255), clamped: bool =True, **kwargs) -> Union[int, str]:
 	"""	 Adds an annotation to a plot.
@@ -6329,7 +6325,7 @@ def add_plot_annotation(*, label: str =None, user_data: Any =None, use_internal_
 
 	return internal_dpg.add_plot_annotation(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, source=source, show=show, default_value=default_value, offset=offset, color=color, clamped=clamped, **kwargs)
 
-def add_plot_axis(axis : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drop_callback: Callable =None, show: bool =True, no_label: bool =False, no_gridlines: bool =False, no_tick_marks: bool =False, no_tick_labels: bool =False, no_initial_fit: bool =False, no_menus: bool =False, no_side_switch: bool =False, no_highlight: bool =False, opposite: bool =False, foreground_grid: bool =False, tick_format: str ='', scale: int =internal_dpg.mvPlotScale_Linear, invert_order: bool =False, auto_fit: bool =False, range_fit: bool =False, pan_stretch: bool =False, lock_min: bool =False, lock_max: bool =False, **kwargs) -> Union[int, str]:
+def add_plot_axis(axis : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drop_callback: Callable =None, show: bool =True, no_label: bool =False, no_gridlines: bool =False, no_tick_marks: bool =False, no_tick_labels: bool =False, no_initial_fit: bool =False, no_menus: bool =False, no_side_switch: bool =False, no_highlight: bool =False, opposite: bool =False, foreground_grid: bool =False, tick_format: str ='', scale: int =internal_dpg.mvPlotScale_Linear, invert: bool =False, auto_fit: bool =False, range_fit: bool =False, pan_stretch: bool =False, lock_min: bool =False, lock_max: bool =False, **kwargs) -> Union[int, str]:
 	"""	 Adds an axis to a plot.
 
 	Args:
@@ -6354,7 +6350,7 @@ def add_plot_axis(axis : int, *, label: str =None, user_data: Any =None, use_int
 		foreground_grid (bool, optional): grid lines will be displayed in the foreground (i.e. on top of data) instead of the background
 		tick_format (str, optional): Sets a custom tick label formatter
 		scale (int, optional): Sets the axis' scale. Can have only mvPlotScale_ values
-		invert_order (bool, optional): the axis values will be inverted (i.e. growing from right to left)
+		invert (bool, optional): the axis values will be inverted (i.e. growing from right to left)
 		auto_fit (bool, optional): axis will be auto-fitting to data extents
 		range_fit (bool, optional): axis will only fit points if the point is in the visible range of the **orthogonal** axis
 		pan_stretch (bool, optional): panning in a locked or constrained state will cause the axis to stretch if possible
@@ -6377,7 +6373,7 @@ def add_plot_axis(axis : int, *, label: str =None, user_data: Any =None, use_int
 	if 'time' in kwargs.keys():
 		warnings.warn('time keyword deprecated. See the new scale argument.', DeprecationWarning, 2)
 
-	return internal_dpg.add_plot_axis(axis, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, payload_type=payload_type, drop_callback=drop_callback, show=show, no_label=no_label, no_gridlines=no_gridlines, no_tick_marks=no_tick_marks, no_tick_labels=no_tick_labels, no_initial_fit=no_initial_fit, no_menus=no_menus, no_side_switch=no_side_switch, no_highlight=no_highlight, opposite=opposite, foreground_grid=foreground_grid, tick_format=tick_format, scale=scale, invert_order=invert_order, auto_fit=auto_fit, range_fit=range_fit, pan_stretch=pan_stretch, lock_min=lock_min, lock_max=lock_max, **kwargs)
+	return internal_dpg.add_plot_axis(axis, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, payload_type=payload_type, drop_callback=drop_callback, show=show, no_label=no_label, no_gridlines=no_gridlines, no_tick_marks=no_tick_marks, no_tick_labels=no_tick_labels, no_initial_fit=no_initial_fit, no_menus=no_menus, no_side_switch=no_side_switch, no_highlight=no_highlight, opposite=opposite, foreground_grid=foreground_grid, tick_format=tick_format, scale=scale, invert=invert, auto_fit=auto_fit, range_fit=range_fit, pan_stretch=pan_stretch, lock_min=lock_min, lock_max=lock_max, **kwargs)
 
 def add_plot_legend(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drop_callback: Callable =None, show: bool =True, location: int =5, horizontal: bool =False, sort: bool =False, outside: bool =False, no_highlight_item: bool =False, no_highlight_axis: bool =False, no_menus: bool =False, no_buttons: bool =False, **kwargs) -> Union[int, str]:
 	"""	 Adds a plot legend to a plot.

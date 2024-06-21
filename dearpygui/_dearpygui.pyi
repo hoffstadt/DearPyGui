@@ -106,7 +106,7 @@ def add_combo(items : Union[List[str], Tuple[str, ...]] ='', *, label: str ='', 
 	"""Adds a combo dropdown that allows a user to select a single option from a drop down window. All items will be shown as selectables on the dropdown."""
 	...
 
-def add_custom_series(x : Union[List[float], Tuple[float, ...]], y : Union[List[float], Tuple[float, ...]], channel_count : int, *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', callback: Callable ='', show: bool ='', y1: Any ='', y2: Any ='', y3: Any ='', tooltip: bool ='', no_fit: bool ='', no_legend: bool ='') -> Union[int, str]:
+def add_custom_series(x : Union[List[float], Tuple[float, ...]], y : Union[List[float], Tuple[float, ...]], channel_count : int, *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', callback: Callable ='', show: bool ='', y1: Any ='', y2: Any ='', y3: Any ='', tooltip: bool ='', no_fit: bool ='') -> Union[int, str]:
 	"""Adds a custom series to a plot. New in 1.6."""
 	...
 
@@ -439,7 +439,7 @@ def add_pie_series(x : float, y : float, radius : float, values : Union[List[flo
 	"""Adds an pie series to a plot."""
 	...
 
-def add_plot(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', delay_search: bool ='', tracked: bool ='', track_offset: float ='', no_title: bool ='', no_menus: bool ='', no_box_select: bool ='', no_mouse_pos: bool ='', query: bool ='', crosshairs: bool ='', equal_aspects: bool ='', no_inputs: bool ='', no_frame: bool ='', use_local_time: bool ='', use_ISO8601: bool ='', use_24hour_clock: bool ='', delete_rect: bool ='', pan_button: int ='', pan_mod: int ='', context_menu_button: int ='', fit_button: int ='', box_select_button: int ='', box_select_mod: int ='', box_select_cancel_button: int ='', query_toggle_mod: int ='', horizontal_mod: int ='', vertical_mod: int ='', override_mod: int ='', zoom_mod: int ='', zoom_rate: int ='') -> Union[int, str]:
+def add_plot(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', delay_search: bool ='', tracked: bool ='', track_offset: float ='', no_title: bool ='', no_menus: bool ='', no_box_select: bool ='', no_mouse_pos: bool ='', query: bool ='', crosshairs: bool ='', equal_aspects: bool ='', no_inputs: bool ='', no_frame: bool ='', use_local_time: bool ='', use_ISO8601: bool ='', use_24hour_clock: bool ='', pan_button: int ='', pan_mod: int ='', context_menu_button: int ='', fit_button: int ='', box_select_button: int ='', box_select_mod: int ='', box_select_cancel_button: int ='', query_toggle_mod: int ='', horizontal_mod: int ='', vertical_mod: int ='', override_mod: int ='', zoom_mod: int ='', zoom_rate: int ='') -> Union[int, str]:
 	"""Adds a plot which is used to hold series, and can be drawn to with draw commands. For all _mod parameters use mvKey_ModX enums, or mvKey_ModDisabled to disable the modifier."""
 	...
 
@@ -447,7 +447,7 @@ def add_plot_annotation(*, label: str ='', user_data: Any ='', use_internal_labe
 	"""Adds an annotation to a plot."""
 	...
 
-def add_plot_axis(axis : int, *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', payload_type: str ='', drop_callback: Callable ='', show: bool ='', no_label: bool ='', no_gridlines: bool ='', no_tick_marks: bool ='', no_tick_labels: bool ='', no_initial_fit: bool ='', no_menus: bool ='', no_side_switch: bool ='', no_highlight: bool ='', opposite: bool ='', foreground_grid: bool ='', tick_format: str ='', scale: int ='', invert_order: bool ='', auto_fit: bool ='', range_fit: bool ='', pan_stretch: bool ='', lock_min: bool ='', lock_max: bool ='') -> Union[int, str]:
+def add_plot_axis(axis : int, *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', payload_type: str ='', drop_callback: Callable ='', show: bool ='', no_label: bool ='', no_gridlines: bool ='', no_tick_marks: bool ='', no_tick_labels: bool ='', no_initial_fit: bool ='', no_menus: bool ='', no_side_switch: bool ='', no_highlight: bool ='', opposite: bool ='', foreground_grid: bool ='', tick_format: str ='', scale: int ='', invert: bool ='', auto_fit: bool ='', range_fit: bool ='', pan_stretch: bool ='', lock_min: bool ='', lock_max: bool ='') -> Union[int, str]:
 	"""Adds an axis to a plot."""
 	...
 
