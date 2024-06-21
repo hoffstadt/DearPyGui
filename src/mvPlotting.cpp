@@ -623,7 +623,23 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 				break;
 			}
 		}
-
+		
+		if (ImPlot::IsPlotHovered())
+		{
+			// Delete rect on double click
+			if (config.rects.size() > 0 && ImGui::IsMouseDoubleClicked(ImPlot::GetInputMap().SelectCancel)) {
+				float x = GContext->input.mousePlotPos.x;
+				float y = GContext->input.mousePlotPos.y;
+				// Starting from the end to delete the upper element
+				for(int i = config.rects.size() - 1; i >= 0; i--) {
+					auto rect = config.rects[i];
+					if (x > rect.Min().x && x < rect.Max().x && y > rect.Min().y && y < rect.Max().y) {
+						config.rects.erase(config.rects.begin() + i);
+						break;
+					}
+				}
+			}
+		}
 
 		ImPlot::EndPlot();
 
@@ -645,10 +661,6 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 	if (item.theme)
 	{
 		item.theme->pop_theme_components();
-	}
-
-	if (config.delete_rect && ImGui::IsMouseDoubleClicked(ImPlot::GetInputMap().SelectCancel) && config.rects.size()>0) {
-		config.rects.pop_back();
 	}
 
 	if (item.handlerRegistry)
@@ -2716,7 +2728,6 @@ DearPyGui::set_configuration(PyObject* inDict, mvPlotConfig& outConfig)
 	if (PyObject* item = PyDict_GetItemString(inDict, "override_mod")) outConfig.override_mod = static_cast<ImGuiKey>(ToInt(item));
 	if (PyObject* item = PyDict_GetItemString(inDict, "zoom_mod")) outConfig.zoom_mod = static_cast<ImGuiKey>(ToInt(item));
 	if (PyObject* item = PyDict_GetItemString(inDict, "zoom_rate")) outConfig.zoom_rate = ToFloat(item);
-	if (PyObject* item = PyDict_GetItemString(inDict, "delete_rect")) outConfig.delete_rect = ToBool(item);
 	// helper for bit flipping
 	auto flagop = [inDict](const char* keyword, int flag, int& flags)
 	{
@@ -3257,7 +3268,6 @@ DearPyGui::set_configuration(PyObject* inDict, mvCustomSeriesConfig& outConfig)
 
 	// flags
 	flagop("no_fit", ImPlotItemFlags_NoFit, outConfig.flags);
-	flagop("no_legend", ImPlotItemFlags_NoLegend, outConfig.flags);
 }
 
 void
@@ -3342,7 +3352,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvPlotAxisConfig& outConfig, mvAp
 	flagop("no_highlight", ImPlotAxisFlags_NoHighlight, outConfig.flags);
 	flagop("opposite", ImPlotAxisFlags_Opposite, outConfig.flags);
 	flagop("foreground_grid", ImPlotAxisFlags_Foreground, outConfig.flags);
-	flagop("invert_order", ImPlotAxisFlags_Invert, outConfig.flags);
+	flagop("invert", ImPlotAxisFlags_Invert, outConfig.flags);
 	flagop("auto_fit", ImPlotAxisFlags_AutoFit, outConfig.flags);
 	flagop("range_fit", ImPlotAxisFlags_RangeFit, outConfig.flags);
 	flagop("pan_stretch", ImPlotAxisFlags_PanStretch, outConfig.flags);
@@ -3388,7 +3398,6 @@ DearPyGui::fill_configuration_dict(const mvPlotConfig& inConfig, PyObject* outDi
 	PyDict_SetItemString(outDict, "use_local_time", mvPyObject(ToPyBool(inConfig.localTime)));
 	PyDict_SetItemString(outDict, "use_ISO8601", mvPyObject(ToPyBool(inConfig.iSO8601)));
 	PyDict_SetItemString(outDict, "use_24hour_clock", mvPyObject(ToPyBool(inConfig.clock24Hour)));
-	PyDict_SetItemString(outDict, "delete_rect", mvPyObject(ToPyBool(inConfig.delete_rect)));
 
 	// helper to check and set bit
 	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)
@@ -3846,7 +3855,6 @@ DearPyGui::fill_configuration_dict(const mvCustomSeriesConfig& inConfig, PyObjec
 
 	// flags
 	checkbitset("no_fit", ImPlotItemFlags_NoFit, inConfig.flags);
-	checkbitset("no_legend", ImPlotItemFlags_NoLegend, inConfig.flags);
 }
 
 void
@@ -3929,7 +3937,7 @@ DearPyGui::fill_configuration_dict(const mvPlotAxisConfig& inConfig, PyObject* o
 	checkbitset("no_highlight", ImPlotAxisFlags_NoHighlight, inConfig.flags);
 	checkbitset("opposite", ImPlotAxisFlags_Opposite, inConfig.flags);
 	checkbitset("foreground_grid", ImPlotAxisFlags_Foreground, inConfig.flags);
-	checkbitset("invert_order", ImPlotAxisFlags_Invert, inConfig.flags);
+	checkbitset("invert", ImPlotAxisFlags_Invert, inConfig.flags);
 	checkbitset("auto_fit", ImPlotAxisFlags_AutoFit, inConfig.flags);
 	checkbitset("range_fit", ImPlotAxisFlags_RangeFit, inConfig.flags);
 	checkbitset("pan_stretch", ImPlotAxisFlags_PanStretch, inConfig.flags);
