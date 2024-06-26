@@ -2102,7 +2102,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "no_scroll_with_mouse", mvArgType::KEYWORD_ARG, "False", "Disable user vertically scrolling with mouse wheel." });
         args.push_back({ mvPyDataType::Bool, "flattened_navigation", mvArgType::KEYWORD_ARG, "True", "Allow gamepad/keyboard navigation to cross over parent border to this child (only use on child that have no scrolling!)" });
         args.push_back({ mvPyDataType::Bool, "always_use_window_padding", mvArgType::KEYWORD_ARG, "False", "Pad with style.WindowPadding even if no border are drawn (no padding by default for non-bordered child windows because it makes more sense)" });
-        args.push_back({ mvPyDataType::Bool, "resizable_x", mvArgType::KEYWORD_ARG, "False", "Allow resize from right border (layout direction). Enable .ini saving (unless 'no_saved_settings' is passed as parameter)" });
+        args.push_back({ mvPyDataType::Bool, "resizable_x", mvArgType::KEYWORD_ARG, "False", "Allow resize from right border (layout direction). Enable .ini saving." });
         args.push_back({ mvPyDataType::Bool, "resizable_y", mvArgType::KEYWORD_ARG, "False", "Allow resize from bottom border (layout direction). " });
         args.push_back({ mvPyDataType::Bool, "always_auto_resize", mvArgType::KEYWORD_ARG, "False", "Combined with auto_resize_x/auto_resize_y. Always measure size even when child is hidden and always disable clipping optimization! NOT RECOMMENDED." });
         args.push_back({ mvPyDataType::Bool, "frame_style", mvArgType::KEYWORD_ARG, "False", "Style the child window like a framed item: use FrameBg, FrameRounding, FrameBorderSize, FramePadding instead of ChildBg, ChildRounding, ChildBorderSize, WindowPadding." });
@@ -2111,10 +2111,10 @@ DearPyGui::GetEntityParser(mvAppItemType type)
 
         setup.about =
             "Adds an embedded child window. Will show scrollbars when items do not fit. About using auto_resize/resizable flags: "
-            "size measurement for a given axis is only performed when the child window is within visible boundaries, or is just appearing and it won't update its auto-size while clipped."
-            "While not perfect, it is a better default behavior as the always-on performance gain is more valuable than the occasional 'resizing after becoming visible again' glitch."
-            "You may also use always_auto_resize to force an update even when child window is not in view. However doing so will degrade performance."
-            "Remember that combining both resizable_x and resizable_y defeats purpose of a scrolling region and is NOT recommended.";
+            "size measurement for a given axis is only performed when the child window is within visible boundaries, or is just appearing and it won't update its auto-size while clipped. "
+            "While not perfect, it is a better default behavior as the always-on performance gain is more valuable than the occasional 'resizing after becoming visible again' glitch. "
+            "You may also use always_auto_resize to force an update even when child window is not in view. However doing so will degrade performance. "
+            "Remember that combining both auto_resize_x and auto_resize_y defeats purpose of a scrolling region and is NOT recommended.";
         setup.category = { "Containers", "Widgets" };
         setup.createContextManager = true;
         break;
@@ -2693,7 +2693,8 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "no_mouse_pos", mvArgType::KEYWORD_ARG, "False", "the text of mouse position, in plot coordinates, will not be displayed inside of the plot"});
         args.push_back({ mvPyDataType::Bool, "no_highlight", mvArgType::DEPRECATED_REMOVE_KEYWORD_ARG, "False", "Removed because not supported from the backend anymore. To control the highlighting of series use the same argument in `add_plot_legend`"});
         args.push_back({ mvPyDataType::Bool, "no_child", mvArgType::DEPRECATED_REMOVE_KEYWORD_ARG, "False", "a child window region will not be used to capture mouse scroll (can boost performance for single ImGui window applications)"});
-        args.push_back({ mvPyDataType::Bool, "query", mvArgType::KEYWORD_ARG, "False", "the user will be able to draw query rects with middle - mouse or CTRL + right - click drag"});
+        args.push_back({ mvPyDataType::Bool, "query", mvArgType::KEYWORD_ARG, "False", "the user will be able to draw query rects with CTRL + right-click drag"});
+        args.push_back({ mvPyDataType::FloatList, "query_color", mvArgType::KEYWORD_ARG, "(0, 255, 0, 255)", "Color of the query rectangles." });
         args.push_back({ mvPyDataType::Bool, "crosshairs", mvArgType::KEYWORD_ARG, "False", "the default mouse cursor will be replaced with a crosshair when hovered"});
         args.push_back({ mvPyDataType::Bool, "anti_aliased", mvArgType::DEPRECATED_REMOVE_KEYWORD_ARG, "True", "This feature was deprecated in ImPlot. To enable/disable anti_aliasing use `dpg.configure_app()` with the `anti_aliasing` parameters."});
         args.push_back({ mvPyDataType::Bool, "equal_aspects", mvArgType::KEYWORD_ARG, "False", "primary x and y axes will be constrained to have the same units/pixel (does not apply to auxiliary y-axes)"});
@@ -5332,7 +5333,6 @@ DearPyGui::GetEntityParser(mvAppItemType type)
 
         // plot flags
         args.push_back({ mvPyDataType::Bool, "no_title", mvArgType::KEYWORD_ARG, "False", "the subplot title will not be displayed" });
-        args.push_back({ mvPyDataType::Bool, "no_legend", mvArgType::KEYWORD_ARG, "False", "the legend will not be displayed" });
         args.push_back({ mvPyDataType::Bool, "no_menus", mvArgType::KEYWORD_ARG, "False", "the user will not be able to open context menus with right-click" });
         args.push_back({ mvPyDataType::Bool, "no_resize", mvArgType::KEYWORD_ARG, "False", "resize splitters between subplot cells will be not be provided" });
         args.push_back({ mvPyDataType::Bool, "no_align", mvArgType::KEYWORD_ARG, "False", "subplot edges will not be aligned vertically or horizontally" });

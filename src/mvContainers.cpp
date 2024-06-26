@@ -77,8 +77,8 @@ DearPyGui::fill_configuration_dict(const mvChildWindowConfig& inConfig, PyObject
     checkbitset("auto_resize_x", ImGuiChildFlags_AutoResizeX, inConfig.childFlags);
     checkbitset("auto_resize_y", ImGuiChildFlags_AutoResizeY, inConfig.childFlags);
     checkbitset("frame_style", ImGuiChildFlags_FrameStyle, inConfig.childFlags);
-    checkbitset("resize_x", ImGuiChildFlags_ResizeX, inConfig.childFlags);
-    checkbitset("resize_y", ImGuiChildFlags_ResizeY, inConfig.childFlags);
+    checkbitset("resizable_x", ImGuiChildFlags_ResizeX, inConfig.childFlags);
+    checkbitset("resizable_y", ImGuiChildFlags_ResizeY, inConfig.childFlags);
 }
 
 void

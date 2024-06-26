@@ -491,7 +491,7 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 		else
 			ImPlot::GetInputMap().OverrideMod = config.override_mod;
 
-		if (config.querying && ImGui::IsMouseReleased(config.select))
+		if (config.query_enabled && config.querying && ImGui::IsMouseReleased(config.select))
 		{
 			config.rects.push_back(config.query_rect);
 			config.querying = false;
@@ -538,12 +538,40 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 		if (config.querying)
 			config.query_rect = ImPlot::GetPlotSelection();
 
+		// While rendering query rects, we'll see which of them the user asks to
+		// delete (by double-clicking it).  We need to run through the entire list
+		// to make sure that we pick the topmost candidate if there's more than one.
+		int delete_idx = -1;
+		bool query_dirty = false;
         for (int i = 0; i < config.rects.size(); ++i) {
 			// TODO: Implement flags
-            config._query_dirty |= ImPlot::DragRect(i,&config.rects[i].X.Min,&config.rects[i].Y.Min,&config.rects[i].X.Max,&config.rects[i].Y.Max,ImVec4(1,0,1,1));
+			bool hovered = false;
+			query_dirty |= ImPlot::DragRect(i,&config.rects[i].X.Min,&config.rects[i].Y.Min,&config.rects[i].X.Max,&config.rects[i].Y.Max, config.query_color, ImPlotDragToolFlags_None, nullptr, &hovered);
+			if (hovered && ImGui::IsMouseDoubleClicked(config.select_cancel))
+			{
+				// remember it for future deletion
+				delete_idx = i;
+			}
         }
+		// Delete rect on double click.
+		// We're not interested in double-clicks that modify a query rect
+		// (in particular, double-clicks on rect edges), and to filter them out,
+		// we additionally check for `query_dirty` to be false.
+		if (delete_idx >= 0 && !query_dirty)
+		{
+			config.rects.erase(config.rects.begin() + delete_idx);
+			// Preventing plot auto-fit if it uses the same mouse button.
+			// Kind of a dirty trick but double-click has already set
+			// all `FitThisFrame` to true anyway.
+			if (config.fit == config.select_cancel)
+			{
+				context->CurrentPlot->FitThisFrame = false;
+				for (int j = 0; j < ImAxis_COUNT; ++j)
+					context->CurrentPlot->Axes[j].FitThisFrame = false;
+			}
+		}
 
-		if (item.config.callback != nullptr && config._query_dirty)
+		if (item.config.callback != nullptr && query_dirty)
 		{
 			for(auto rect : config.rects) {
 				if (item.config.alias.empty()) {
@@ -621,23 +649,6 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 				legend->configData.legendLocation = context->CurrentPlot->Items.Legend.Location;
 				legend->configData.flags = context->CurrentPlot->Items.Legend.Flags;
 				break;
-			}
-		}
-		
-		if (ImPlot::IsPlotHovered())
-		{
-			// Delete rect on double click
-			if (config.rects.size() > 0 && ImGui::IsMouseDoubleClicked(ImPlot::GetInputMap().SelectCancel)) {
-				float x = GContext->input.mousePlotPos.x;
-				float y = GContext->input.mousePlotPos.y;
-				// Starting from the end to delete the upper element
-				for(int i = config.rects.size() - 1; i >= 0; i--) {
-					auto rect = config.rects[i];
-					if (x > rect.Min().x && x < rect.Max().x && y > rect.Min().y && y < rect.Max().y) {
-						config.rects.erase(config.rects.begin() + i);
-						break;
-					}
-				}
 			}
 		}
 
@@ -1020,7 +1031,7 @@ DearPyGui::draw_bar_group_series(ImDrawList* drawlist, mvAppItem& item, const mv
 
 		const int item_count = int(values->size() / config.group_size);
 
-		ImPlot::PlotBarGroups(strings.data(), values->data(), item_count, config.group_size, config.group_width, config.shift, config.flags);
+		ImPlot::PlotBarGroups(strings.data(), values->data(), config.group_size, item_count, config.group_width, config.shift, config.flags);
 
 		// Begin a popup for a legend entry.
 		if (ImPlot::BeginLegendPopup(item.info.internalLabel.c_str(), 1))
@@ -1896,6 +1907,16 @@ DearPyGui::draw_label_series(ImDrawList* drawlist, mvAppItem& item, const mvLabe
 	if (!item.config.show)
 		return;
 
+	static const std::vector<double>* xptr;
+	static const std::vector<double>* yptr;
+
+	xptr = &(*config.value.get())[0];
+	yptr = &(*config.value.get())[1];
+
+	if (xptr->size() == 0 || yptr->size() == 0) {
+		return;
+	}
+
 	// push font if a font object is attached
 	if (item.font)
 	{
@@ -1910,12 +1931,6 @@ DearPyGui::draw_label_series(ImDrawList* drawlist, mvAppItem& item, const mvLabe
 	// draw
 	//-----------------------------------------------------------------------------
 	{
-
-		static const std::vector<double>* xptr;
-		static const std::vector<double>* yptr;
-
-		xptr = &(*config.value.get())[0];
-		yptr = &(*config.value.get())[1];
 
 		ImPlot::PlotText(item.config.specifiedLabel.c_str(), (*xptr)[0], (*yptr)[0], config.offset, config.flags);
 
@@ -2411,6 +2426,11 @@ DearPyGui::set_positional_configuration(PyObject* inDict, mvBarSeriesConfig& out
 
 static bool ValidateBarGroupConfig(mvBarGroupSeriesConfig& outConfig) 
 {
+	if (outConfig.group_size == 0)
+	{
+		mvThrowPythonError(mvErrorCode::mvNone, "draw_bar_group_series", "`group_size` must be 0", nullptr);
+		return false;
+	}
 	const std::vector<double>* values = &(*outConfig.value.get())[0];
 	const auto values_size = values->size();
 	const int item_count = values_size / outConfig.group_size;
@@ -2424,7 +2444,7 @@ static bool ValidateBarGroupConfig(mvBarGroupSeriesConfig& outConfig)
 	else if (values_size % outConfig.group_size != 0 || outConfig.label_ids.size() != item_count) 
 	{
 		mvThrowPythonError(mvErrorCode::mvNone, "draw_bar_group_series",
-			"The number of labels " + std::to_string(outConfig.label_ids.size()) + " must be equel to the number of items in a group " + std::to_string(item_count) , nullptr);
+			"The number of labels " + std::to_string(outConfig.label_ids.size()) + " must be equal to the number of items in a group " + std::to_string(item_count) , nullptr);
 		return false;
 	}
 	return true;
@@ -2728,6 +2748,8 @@ DearPyGui::set_configuration(PyObject* inDict, mvPlotConfig& outConfig)
 	if (PyObject* item = PyDict_GetItemString(inDict, "override_mod")) outConfig.override_mod = static_cast<ImGuiKey>(ToInt(item));
 	if (PyObject* item = PyDict_GetItemString(inDict, "zoom_mod")) outConfig.zoom_mod = static_cast<ImGuiKey>(ToInt(item));
 	if (PyObject* item = PyDict_GetItemString(inDict, "zoom_rate")) outConfig.zoom_rate = ToFloat(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "query")) outConfig.query_enabled = ToBool(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "query_color")) outConfig.query_color = ToColor(item);
 	// helper for bit flipping
 	auto flagop = [inDict](const char* keyword, int flag, int& flags)
 	{
@@ -3310,7 +3332,6 @@ DearPyGui::set_configuration(PyObject* inDict, mvSubPlotsConfig& outConfig)
 
 	// subplot flags
 	flagop("no_title", ImPlotSubplotFlags_NoTitle, outConfig.flags);
-	flagop("no_legend", ImPlotSubplotFlags_NoLegend, outConfig.flags);
 	flagop("no_menus", ImPlotSubplotFlags_NoMenus, outConfig.flags);
 	flagop("no_resize", ImPlotSubplotFlags_NoResize, outConfig.flags);
 	flagop("no_align", ImPlotSubplotFlags_NoAlign, outConfig.flags);
@@ -3398,6 +3419,8 @@ DearPyGui::fill_configuration_dict(const mvPlotConfig& inConfig, PyObject* outDi
 	PyDict_SetItemString(outDict, "use_local_time", mvPyObject(ToPyBool(inConfig.localTime)));
 	PyDict_SetItemString(outDict, "use_ISO8601", mvPyObject(ToPyBool(inConfig.iSO8601)));
 	PyDict_SetItemString(outDict, "use_24hour_clock", mvPyObject(ToPyBool(inConfig.clock24Hour)));
+	PyDict_SetItemString(outDict, "query", mvPyObject(ToPyBool(inConfig.query_enabled)));
+	PyDict_SetItemString(outDict, "query_color", mvPyObject(ToPyColor(inConfig.query_color)));
 
 	// helper to check and set bit
 	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)
@@ -3470,7 +3493,7 @@ DearPyGui::fill_configuration_dict(const mvDragPointConfig& inConfig, PyObject* 
 	if (outDict == nullptr)
 		return;
 
-	PyDict_SetItemString(outDict, "raidus", mvPyObject(ToPyFloat(inConfig.radius)));
+	PyDict_SetItemString(outDict, "radius", mvPyObject(ToPyFloat(inConfig.radius)));
 	PyDict_SetItemString(outDict, "color", mvPyObject(ToPyColor(inConfig.color)));
 	PyDict_SetItemString(outDict, "show_label", mvPyObject(ToPyBool(inConfig.show_label)));
 	PyDict_SetItemString(outDict, "clamped", mvPyObject(ToPyBool(inConfig.clamped)));

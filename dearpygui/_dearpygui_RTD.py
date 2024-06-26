@@ -1416,7 +1416,7 @@ def get_plot_query_area(plot: Union[int, str], **kwargs):
 		return [0, 0, 0, 0]
 
 @deprecated("Use: `add_inf_line_series(horizontal=True)`")
-def add_hline_series(**kwargs):
+def add_hline_series(x, **kwargs):
 	"""	(deprecated function) Adds an infinite horizontal line series to a plot.
 
 	Args:
@@ -1434,11 +1434,11 @@ def add_hline_series(**kwargs):
 		Union[int, str]
 	"""
 
-	return internal_dpg.add_inf_line_series(**kwargs, horizontal=True)
+	return internal_dpg.add_inf_line_series(x, **kwargs, horizontal=True)
             
 
 @deprecated("Use: `add_inf_line_series()`")
-def add_vline_series(**kwargs):
+def add_vline_series(x, **kwargs):
 	"""	(deprecated function) Adds an infinite vertical line series to a plot.
 
 	Args:
@@ -1456,7 +1456,7 @@ def add_vline_series(**kwargs):
 		Union[int, str]
 	"""
 
-	return internal_dpg.add_inf_line_series(**kwargs)
+	return internal_dpg.add_inf_line_series(x, **kwargs)
 
 
 @deprecated("Use: `add_child_window()`")
@@ -1554,7 +1554,7 @@ def set_start_callback(callback):
 
 @contextmanager
 def child_window(**kwargs):
-	"""	 Adds an embedded child window. Will show scrollbars when items do not fit. About using auto_resize/resizable flags: size measurement for a given axis is only performed when the child window is within visible boundaries, or is just appearing and it won't update its auto-size while clipped.While not perfect, it is a better default behavior as the always-on performance gain is more valuable than the occasional 'resizing after becoming visible again' glitch.You may also use always_auto_resize to force an update even when child window is not in view. However doing so will degrade performance.Remember that combining both resizable_x and resizable_y defeats purpose of a scrolling region and is NOT recommended.
+	"""	 Adds an embedded child window. Will show scrollbars when items do not fit. About using auto_resize/resizable flags: size measurement for a given axis is only performed when the child window is within visible boundaries, or is just appearing and it won't update its auto-size while clipped. While not perfect, it is a better default behavior as the always-on performance gain is more valuable than the occasional 'resizing after becoming visible again' glitch. You may also use always_auto_resize to force an update even when child window is not in view. However doing so will degrade performance. Remember that combining both auto_resize_x and auto_resize_y defeats purpose of a scrolling region and is NOT recommended.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -1583,7 +1583,7 @@ def child_window(**kwargs):
 		no_scroll_with_mouse (bool, optional): Disable user vertically scrolling with mouse wheel.
 		flattened_navigation (bool, optional): Allow gamepad/keyboard navigation to cross over parent border to this child (only use on child that have no scrolling!)
 		always_use_window_padding (bool, optional): Pad with style.WindowPadding even if no border are drawn (no padding by default for non-bordered child windows because it makes more sense)
-		resizable_x (bool, optional): Allow resize from right border (layout direction). Enable .ini saving (unless 'no_saved_settings' is passed as parameter)
+		resizable_x (bool, optional): Allow resize from right border (layout direction). Enable .ini saving.
 		resizable_y (bool, optional): Allow resize from bottom border (layout direction). 
 		always_auto_resize (bool, optional): Combined with auto_resize_x/auto_resize_y. Always measure size even when child is hidden and always disable clipping optimization! NOT RECOMMENDED.
 		frame_style (bool, optional): Style the child window like a framed item: use FrameBg, FrameRounding, FrameBorderSize, FramePadding instead of ChildBg, ChildRounding, ChildBorderSize, WindowPadding.
@@ -2187,7 +2187,8 @@ def plot(**kwargs):
 		no_menus (bool, optional): the user will not be able to open context menus with right-click
 		no_box_select (bool, optional): the user will not be able to box-select with right-click drag
 		no_mouse_pos (bool, optional): the text of mouse position, in plot coordinates, will not be displayed inside of the plot
-		query (bool, optional): the user will be able to draw query rects with middle - mouse or CTRL + right - click drag
+		query (bool, optional): the user will be able to draw query rects with CTRL + right-click drag
+		query_color (Union[List[float], Tuple[float, ...]], optional): Color of the query rectangles.
 		crosshairs (bool, optional): the default mouse cursor will be replaced with a crosshair when hovered
 		equal_aspects (bool, optional): primary x and y axes will be constrained to have the same units/pixel (does not apply to auxiliary y-axes)
 		no_inputs (bool, optional): the user will not be able to interact with the plot
@@ -2315,7 +2316,6 @@ def subplots(rows, columns, **kwargs):
 		row_ratios (Union[List[float], Tuple[float, ...]], optional): 
 		column_ratios (Union[List[float], Tuple[float, ...]], optional): 
 		no_title (bool, optional): the subplot title will not be displayed
-		no_legend (bool, optional): the legend will not be displayed
 		no_menus (bool, optional): the user will not be able to open context menus with right-click
 		no_resize (bool, optional): resize splitters between subplot cells will be not be provided
 		no_align (bool, optional): subplot edges will not be aligned vertically or horizontally
@@ -3084,7 +3084,7 @@ def add_checkbox(**kwargs):
 	return internal_dpg.add_checkbox(**kwargs)
 
 def add_child_window(**kwargs):
-	"""	 Adds an embedded child window. Will show scrollbars when items do not fit. About using auto_resize/resizable flags: size measurement for a given axis is only performed when the child window is within visible boundaries, or is just appearing and it won't update its auto-size while clipped.While not perfect, it is a better default behavior as the always-on performance gain is more valuable than the occasional 'resizing after becoming visible again' glitch.You may also use always_auto_resize to force an update even when child window is not in view. However doing so will degrade performance.Remember that combining both resizable_x and resizable_y defeats purpose of a scrolling region and is NOT recommended.
+	"""	 Adds an embedded child window. Will show scrollbars when items do not fit. About using auto_resize/resizable flags: size measurement for a given axis is only performed when the child window is within visible boundaries, or is just appearing and it won't update its auto-size while clipped. While not perfect, it is a better default behavior as the always-on performance gain is more valuable than the occasional 'resizing after becoming visible again' glitch. You may also use always_auto_resize to force an update even when child window is not in view. However doing so will degrade performance. Remember that combining both auto_resize_x and auto_resize_y defeats purpose of a scrolling region and is NOT recommended.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -3113,7 +3113,7 @@ def add_child_window(**kwargs):
 		no_scroll_with_mouse (bool, optional): Disable user vertically scrolling with mouse wheel.
 		flattened_navigation (bool, optional): Allow gamepad/keyboard navigation to cross over parent border to this child (only use on child that have no scrolling!)
 		always_use_window_padding (bool, optional): Pad with style.WindowPadding even if no border are drawn (no padding by default for non-bordered child windows because it makes more sense)
-		resizable_x (bool, optional): Allow resize from right border (layout direction). Enable .ini saving (unless 'no_saved_settings' is passed as parameter)
+		resizable_x (bool, optional): Allow resize from right border (layout direction). Enable .ini saving.
 		resizable_y (bool, optional): Allow resize from bottom border (layout direction). 
 		always_auto_resize (bool, optional): Combined with auto_resize_x/auto_resize_y. Always measure size even when child is hidden and always disable clipping optimization! NOT RECOMMENDED.
 		frame_style (bool, optional): Style the child window like a framed item: use FrameBg, FrameRounding, FrameBorderSize, FramePadding instead of ChildBg, ChildRounding, ChildBorderSize, WindowPadding.
@@ -5578,7 +5578,8 @@ def add_plot(**kwargs):
 		no_menus (bool, optional): the user will not be able to open context menus with right-click
 		no_box_select (bool, optional): the user will not be able to box-select with right-click drag
 		no_mouse_pos (bool, optional): the text of mouse position, in plot coordinates, will not be displayed inside of the plot
-		query (bool, optional): the user will be able to draw query rects with middle - mouse or CTRL + right - click drag
+		query (bool, optional): the user will be able to draw query rects with CTRL + right-click drag
+		query_color (Union[List[float], Tuple[float, ...]], optional): Color of the query rectangles.
 		crosshairs (bool, optional): the default mouse cursor will be replaced with a crosshair when hovered
 		equal_aspects (bool, optional): primary x and y axes will be constrained to have the same units/pixel (does not apply to auxiliary y-axes)
 		no_inputs (bool, optional): the user will not be able to interact with the plot
@@ -6304,7 +6305,6 @@ def add_subplots(rows, columns, **kwargs):
 		row_ratios (Union[List[float], Tuple[float, ...]], optional): 
 		column_ratios (Union[List[float], Tuple[float, ...]], optional): 
 		no_title (bool, optional): the subplot title will not be displayed
-		no_legend (bool, optional): the legend will not be displayed
 		no_menus (bool, optional): the user will not be able to open context menus with right-click
 		no_resize (bool, optional): resize splitters between subplot cells will be not be provided
 		no_align (bool, optional): subplot edges will not be aligned vertically or horizontally
