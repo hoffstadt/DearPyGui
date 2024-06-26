@@ -284,7 +284,7 @@ def get_plot_query_area(plot: Union[int, str], **kwargs):
 		return [0, 0, 0, 0]
 
 @deprecated("Use: `add_inf_line_series(horizontal=True)`")
-def add_hline_series(**kwargs):
+def add_hline_series(x, **kwargs):
 	"""	(deprecated function) Adds an infinite horizontal line series to a plot.
 
 	Args:
@@ -302,11 +302,11 @@ def add_hline_series(**kwargs):
 		Union[int, str]
 	"""
 
-	return internal_dpg.add_inf_line_series(**kwargs, horizontal=True)
+	return internal_dpg.add_inf_line_series(x, **kwargs, horizontal=True)
             
 
 @deprecated("Use: `add_inf_line_series()`")
-def add_vline_series(**kwargs):
+def add_vline_series(x, **kwargs):
 	"""	(deprecated function) Adds an infinite vertical line series to a plot.
 
 	Args:
@@ -324,7 +324,7 @@ def add_vline_series(**kwargs):
 		Union[int, str]
 	"""
 
-	return internal_dpg.add_inf_line_series(**kwargs)
+	return internal_dpg.add_inf_line_series(x, **kwargs)
 
 
 @deprecated("Use: `add_child_window()`")

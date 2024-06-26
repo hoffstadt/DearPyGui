@@ -1416,7 +1416,7 @@ def get_plot_query_area(plot: Union[int, str], **kwargs):
 		return [0, 0, 0, 0]
 
 @deprecated("Use: `add_inf_line_series(horizontal=True)`")
-def add_hline_series(**kwargs):
+def add_hline_series(x, **kwargs):
 	"""	(deprecated function) Adds an infinite horizontal line series to a plot.
 
 	Args:
@@ -1434,11 +1434,11 @@ def add_hline_series(**kwargs):
 		Union[int, str]
 	"""
 
-	return internal_dpg.add_inf_line_series(**kwargs, horizontal=True)
+	return internal_dpg.add_inf_line_series(x, **kwargs, horizontal=True)
             
 
 @deprecated("Use: `add_inf_line_series()`")
-def add_vline_series(**kwargs):
+def add_vline_series(x, **kwargs):
 	"""	(deprecated function) Adds an infinite vertical line series to a plot.
 
 	Args:
@@ -1456,7 +1456,7 @@ def add_vline_series(**kwargs):
 		Union[int, str]
 	"""
 
-	return internal_dpg.add_inf_line_series(**kwargs)
+	return internal_dpg.add_inf_line_series(x, **kwargs)
 
 
 @deprecated("Use: `add_child_window()`")
@@ -1554,7 +1554,7 @@ def set_start_callback(callback):
 
 @contextmanager
 def child_window(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, border: bool =True, autosize_x: bool =False, autosize_y: bool =False, no_scrollbar: bool =False, horizontal_scrollbar: bool =False, menubar: bool =False, no_scroll_with_mouse: bool =False, flattened_navigation: bool =True, always_use_window_padding: bool =False, resizable_x: bool =False, resizable_y: bool =False, always_auto_resize: bool =False, frame_style: bool =False, auto_resize_x: bool =False, auto_resize_y: bool =False, **kwargs) -> Union[int, str]:
-	"""	 Adds an embedded child window. Will show scrollbars when items do not fit. About using auto_resize/resizable flags: size measurement for a given axis is only performed when the child window is within visible boundaries, or is just appearing and it won't update its auto-size while clipped.While not perfect, it is a better default behavior as the always-on performance gain is more valuable than the occasional 'resizing after becoming visible again' glitch.You may also use always_auto_resize to force an update even when child window is not in view. However doing so will degrade performance.Remember that combining both resizable_x and resizable_y defeats purpose of a scrolling region and is NOT recommended.
+	"""	 Adds an embedded child window. Will show scrollbars when items do not fit. About using auto_resize/resizable flags: size measurement for a given axis is only performed when the child window is within visible boundaries, or is just appearing and it won't update its auto-size while clipped. While not perfect, it is a better default behavior as the always-on performance gain is more valuable than the occasional 'resizing after becoming visible again' glitch. You may also use always_auto_resize to force an update even when child window is not in view. However doing so will degrade performance. Remember that combining both auto_resize_x and auto_resize_y defeats purpose of a scrolling region and is NOT recommended.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -1583,7 +1583,7 @@ def child_window(*, label: str =None, user_data: Any =None, use_internal_label: 
 		no_scroll_with_mouse (bool, optional): Disable user vertically scrolling with mouse wheel.
 		flattened_navigation (bool, optional): Allow gamepad/keyboard navigation to cross over parent border to this child (only use on child that have no scrolling!)
 		always_use_window_padding (bool, optional): Pad with style.WindowPadding even if no border are drawn (no padding by default for non-bordered child windows because it makes more sense)
-		resizable_x (bool, optional): Allow resize from right border (layout direction). Enable .ini saving (unless 'no_saved_settings' is passed as parameter)
+		resizable_x (bool, optional): Allow resize from right border (layout direction). Enable .ini saving.
 		resizable_y (bool, optional): Allow resize from bottom border (layout direction). 
 		always_auto_resize (bool, optional): Combined with auto_resize_x/auto_resize_y. Always measure size even when child is hidden and always disable clipping optimization! NOT RECOMMENDED.
 		frame_style (bool, optional): Style the child window like a framed item: use FrameBg, FrameRounding, FrameBorderSize, FramePadding instead of ChildBg, ChildRounding, ChildBorderSize, WindowPadding.
@@ -2248,7 +2248,7 @@ def node_editor(*, label: str =None, user_data: Any =None, use_internal_label: b
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def plot(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, no_title: bool =False, no_menus: bool =False, no_box_select: bool =False, no_mouse_pos: bool =False, query: bool =False, crosshairs: bool =False, equal_aspects: bool =False, no_inputs: bool =False, no_frame: bool =False, use_local_time: bool =False, use_ISO8601: bool =False, use_24hour_clock: bool =False, pan_button: int =internal_dpg.mvMouseButton_Left, pan_mod: int =internal_dpg.mvKey_None, context_menu_button: int =internal_dpg.mvMouseButton_Right, fit_button: int =internal_dpg.mvMouseButton_Left, box_select_button: int =internal_dpg.mvMouseButton_Right, box_select_mod: int =internal_dpg.mvKey_None, box_select_cancel_button: int =internal_dpg.mvMouseButton_Left, query_toggle_mod: int =internal_dpg.mvKey_ModCtrl, horizontal_mod: int =internal_dpg.mvKey_ModAlt, vertical_mod: int =internal_dpg.mvKey_ModShift, override_mod: int =internal_dpg.mvKey_ModCtrl, zoom_mod: int =internal_dpg.mvKey_None, zoom_rate: int =0.1, **kwargs) -> Union[int, str]:
+def plot(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, no_title: bool =False, no_menus: bool =False, no_box_select: bool =False, no_mouse_pos: bool =False, query: bool =False, query_color: Union[List[float], Tuple[float, ...]] =(0, 255, 0, 255), crosshairs: bool =False, equal_aspects: bool =False, no_inputs: bool =False, no_frame: bool =False, use_local_time: bool =False, use_ISO8601: bool =False, use_24hour_clock: bool =False, pan_button: int =internal_dpg.mvMouseButton_Left, pan_mod: int =internal_dpg.mvKey_None, context_menu_button: int =internal_dpg.mvMouseButton_Right, fit_button: int =internal_dpg.mvMouseButton_Left, box_select_button: int =internal_dpg.mvMouseButton_Right, box_select_mod: int =internal_dpg.mvKey_None, box_select_cancel_button: int =internal_dpg.mvMouseButton_Left, query_toggle_mod: int =internal_dpg.mvKey_ModCtrl, horizontal_mod: int =internal_dpg.mvKey_ModAlt, vertical_mod: int =internal_dpg.mvKey_ModShift, override_mod: int =internal_dpg.mvKey_ModCtrl, zoom_mod: int =internal_dpg.mvKey_None, zoom_rate: int =0.1, **kwargs) -> Union[int, str]:
 	"""	 Adds a plot which is used to hold series, and can be drawn to with draw commands. For all _mod parameters use mvKey_ModX enums, or mvKey_ModDisabled to disable the modifier.
 
 	Args:
@@ -2275,7 +2275,8 @@ def plot(*, label: str =None, user_data: Any =None, use_internal_label: bool =Tr
 		no_menus (bool, optional): the user will not be able to open context menus with right-click
 		no_box_select (bool, optional): the user will not be able to box-select with right-click drag
 		no_mouse_pos (bool, optional): the text of mouse position, in plot coordinates, will not be displayed inside of the plot
-		query (bool, optional): the user will be able to draw query rects with middle - mouse or CTRL + right - click drag
+		query (bool, optional): the user will be able to draw query rects with CTRL + right-click drag
+		query_color (Union[List[float], Tuple[float, ...]], optional): Color of the query rectangles.
 		crosshairs (bool, optional): the default mouse cursor will be replaced with a crosshair when hovered
 		equal_aspects (bool, optional): primary x and y axes will be constrained to have the same units/pixel (does not apply to auxiliary y-axes)
 		no_inputs (bool, optional): the user will not be able to interact with the plot
@@ -2330,7 +2331,7 @@ def plot(*, label: str =None, user_data: Any =None, use_internal_label: bool =Tr
 		if 'query_mod' in kwargs.keys():
 			warnings.warn('query_mod keyword removed', DeprecationWarning, 2)
 			kwargs.pop('query_mod', None)
-		widget = internal_dpg.add_plot(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, no_title=no_title, no_menus=no_menus, no_box_select=no_box_select, no_mouse_pos=no_mouse_pos, query=query, crosshairs=crosshairs, equal_aspects=equal_aspects, no_inputs=no_inputs, no_frame=no_frame, use_local_time=use_local_time, use_ISO8601=use_ISO8601, use_24hour_clock=use_24hour_clock, pan_button=pan_button, pan_mod=pan_mod, context_menu_button=context_menu_button, fit_button=fit_button, box_select_button=box_select_button, box_select_mod=box_select_mod, box_select_cancel_button=box_select_cancel_button, query_toggle_mod=query_toggle_mod, horizontal_mod=horizontal_mod, vertical_mod=vertical_mod, override_mod=override_mod, zoom_mod=zoom_mod, zoom_rate=zoom_rate, **kwargs)
+		widget = internal_dpg.add_plot(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, no_title=no_title, no_menus=no_menus, no_box_select=no_box_select, no_mouse_pos=no_mouse_pos, query=query, query_color=query_color, crosshairs=crosshairs, equal_aspects=equal_aspects, no_inputs=no_inputs, no_frame=no_frame, use_local_time=use_local_time, use_ISO8601=use_ISO8601, use_24hour_clock=use_24hour_clock, pan_button=pan_button, pan_mod=pan_mod, context_menu_button=context_menu_button, fit_button=fit_button, box_select_button=box_select_button, box_select_mod=box_select_mod, box_select_cancel_button=box_select_cancel_button, query_toggle_mod=query_toggle_mod, horizontal_mod=horizontal_mod, vertical_mod=vertical_mod, override_mod=override_mod, zoom_mod=zoom_mod, zoom_rate=zoom_rate, **kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
@@ -2416,7 +2417,7 @@ def stage(*, label: str =None, user_data: Any =None, use_internal_label: bool =T
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def subplots(rows : int, columns : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, row_ratios: Union[List[float], Tuple[float, ...]] =[], column_ratios: Union[List[float], Tuple[float, ...]] =[], no_title: bool =False, no_legend: bool =False, no_menus: bool =False, no_resize: bool =False, no_align: bool =False, share_series: bool =False, link_rows: bool =False, link_columns: bool =False, link_all_x: bool =False, link_all_y: bool =False, column_major: bool =False, **kwargs) -> Union[int, str]:
+def subplots(rows : int, columns : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, row_ratios: Union[List[float], Tuple[float, ...]] =[], column_ratios: Union[List[float], Tuple[float, ...]] =[], no_title: bool =False, no_menus: bool =False, no_resize: bool =False, no_align: bool =False, share_series: bool =False, link_rows: bool =False, link_columns: bool =False, link_all_x: bool =False, link_all_y: bool =False, column_major: bool =False, **kwargs) -> Union[int, str]:
 	"""	 Adds a collection of plots.
 
 	Args:
@@ -2441,7 +2442,6 @@ def subplots(rows : int, columns : int, *, label: str =None, user_data: Any =Non
 		row_ratios (Union[List[float], Tuple[float, ...]], optional): 
 		column_ratios (Union[List[float], Tuple[float, ...]], optional): 
 		no_title (bool, optional): the subplot title will not be displayed
-		no_legend (bool, optional): the legend will not be displayed
 		no_menus (bool, optional): the user will not be able to open context menus with right-click
 		no_resize (bool, optional): resize splitters between subplot cells will be not be provided
 		no_align (bool, optional): subplot edges will not be aligned vertically or horizontally
@@ -2460,7 +2460,7 @@ def subplots(rows : int, columns : int, *, label: str =None, user_data: Any =Non
 		if 'id' in kwargs.keys():
 			warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
 			tag=kwargs['id']
-		widget = internal_dpg.add_subplots(rows, columns, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, callback=callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, row_ratios=row_ratios, column_ratios=column_ratios, no_title=no_title, no_legend=no_legend, no_menus=no_menus, no_resize=no_resize, no_align=no_align, share_series=share_series, link_rows=link_rows, link_columns=link_columns, link_all_x=link_all_x, link_all_y=link_all_y, column_major=column_major, **kwargs)
+		widget = internal_dpg.add_subplots(rows, columns, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, callback=callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, row_ratios=row_ratios, column_ratios=column_ratios, no_title=no_title, no_menus=no_menus, no_resize=no_resize, no_align=no_align, share_series=share_series, link_rows=link_rows, link_columns=link_columns, link_all_x=link_all_x, link_all_y=link_all_y, column_major=column_major, **kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
@@ -3322,7 +3322,7 @@ def add_checkbox(*, label: str =None, user_data: Any =None, use_internal_label: 
 	return internal_dpg.add_checkbox(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, **kwargs)
 
 def add_child_window(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, border: bool =True, autosize_x: bool =False, autosize_y: bool =False, no_scrollbar: bool =False, horizontal_scrollbar: bool =False, menubar: bool =False, no_scroll_with_mouse: bool =False, flattened_navigation: bool =True, always_use_window_padding: bool =False, resizable_x: bool =False, resizable_y: bool =False, always_auto_resize: bool =False, frame_style: bool =False, auto_resize_x: bool =False, auto_resize_y: bool =False, **kwargs) -> Union[int, str]:
-	"""	 Adds an embedded child window. Will show scrollbars when items do not fit. About using auto_resize/resizable flags: size measurement for a given axis is only performed when the child window is within visible boundaries, or is just appearing and it won't update its auto-size while clipped.While not perfect, it is a better default behavior as the always-on performance gain is more valuable than the occasional 'resizing after becoming visible again' glitch.You may also use always_auto_resize to force an update even when child window is not in view. However doing so will degrade performance.Remember that combining both resizable_x and resizable_y defeats purpose of a scrolling region and is NOT recommended.
+	"""	 Adds an embedded child window. Will show scrollbars when items do not fit. About using auto_resize/resizable flags: size measurement for a given axis is only performed when the child window is within visible boundaries, or is just appearing and it won't update its auto-size while clipped. While not perfect, it is a better default behavior as the always-on performance gain is more valuable than the occasional 'resizing after becoming visible again' glitch. You may also use always_auto_resize to force an update even when child window is not in view. However doing so will degrade performance. Remember that combining both auto_resize_x and auto_resize_y defeats purpose of a scrolling region and is NOT recommended.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -3351,7 +3351,7 @@ def add_child_window(*, label: str =None, user_data: Any =None, use_internal_lab
 		no_scroll_with_mouse (bool, optional): Disable user vertically scrolling with mouse wheel.
 		flattened_navigation (bool, optional): Allow gamepad/keyboard navigation to cross over parent border to this child (only use on child that have no scrolling!)
 		always_use_window_padding (bool, optional): Pad with style.WindowPadding even if no border are drawn (no padding by default for non-bordered child windows because it makes more sense)
-		resizable_x (bool, optional): Allow resize from right border (layout direction). Enable .ini saving (unless 'no_saved_settings' is passed as parameter)
+		resizable_x (bool, optional): Allow resize from right border (layout direction). Enable .ini saving.
 		resizable_y (bool, optional): Allow resize from bottom border (layout direction). 
 		always_auto_resize (bool, optional): Combined with auto_resize_x/auto_resize_y. Always measure size even when child is hidden and always disable clipping optimization! NOT RECOMMENDED.
 		frame_style (bool, optional): Style the child window like a framed item: use FrameBg, FrameRounding, FrameBorderSize, FramePadding instead of ChildBg, ChildRounding, ChildBorderSize, WindowPadding.
@@ -6204,7 +6204,7 @@ def add_pie_series(x : float, y : float, radius : float, values : Union[List[flo
 
 	return internal_dpg.add_pie_series(x, y, radius, values, labels, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, source=source, show=show, format=format, angle=angle, normalize=normalize, ignore_hidden=ignore_hidden, **kwargs)
 
-def add_plot(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, no_title: bool =False, no_menus: bool =False, no_box_select: bool =False, no_mouse_pos: bool =False, query: bool =False, crosshairs: bool =False, equal_aspects: bool =False, no_inputs: bool =False, no_frame: bool =False, use_local_time: bool =False, use_ISO8601: bool =False, use_24hour_clock: bool =False, pan_button: int =internal_dpg.mvMouseButton_Left, pan_mod: int =internal_dpg.mvKey_None, context_menu_button: int =internal_dpg.mvMouseButton_Right, fit_button: int =internal_dpg.mvMouseButton_Left, box_select_button: int =internal_dpg.mvMouseButton_Right, box_select_mod: int =internal_dpg.mvKey_None, box_select_cancel_button: int =internal_dpg.mvMouseButton_Left, query_toggle_mod: int =internal_dpg.mvKey_ModCtrl, horizontal_mod: int =internal_dpg.mvKey_ModAlt, vertical_mod: int =internal_dpg.mvKey_ModShift, override_mod: int =internal_dpg.mvKey_ModCtrl, zoom_mod: int =internal_dpg.mvKey_None, zoom_rate: int =0.1, **kwargs) -> Union[int, str]:
+def add_plot(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, no_title: bool =False, no_menus: bool =False, no_box_select: bool =False, no_mouse_pos: bool =False, query: bool =False, query_color: Union[List[float], Tuple[float, ...]] =(0, 255, 0, 255), crosshairs: bool =False, equal_aspects: bool =False, no_inputs: bool =False, no_frame: bool =False, use_local_time: bool =False, use_ISO8601: bool =False, use_24hour_clock: bool =False, pan_button: int =internal_dpg.mvMouseButton_Left, pan_mod: int =internal_dpg.mvKey_None, context_menu_button: int =internal_dpg.mvMouseButton_Right, fit_button: int =internal_dpg.mvMouseButton_Left, box_select_button: int =internal_dpg.mvMouseButton_Right, box_select_mod: int =internal_dpg.mvKey_None, box_select_cancel_button: int =internal_dpg.mvMouseButton_Left, query_toggle_mod: int =internal_dpg.mvKey_ModCtrl, horizontal_mod: int =internal_dpg.mvKey_ModAlt, vertical_mod: int =internal_dpg.mvKey_ModShift, override_mod: int =internal_dpg.mvKey_ModCtrl, zoom_mod: int =internal_dpg.mvKey_None, zoom_rate: int =0.1, **kwargs) -> Union[int, str]:
 	"""	 Adds a plot which is used to hold series, and can be drawn to with draw commands. For all _mod parameters use mvKey_ModX enums, or mvKey_ModDisabled to disable the modifier.
 
 	Args:
@@ -6231,7 +6231,8 @@ def add_plot(*, label: str =None, user_data: Any =None, use_internal_label: bool
 		no_menus (bool, optional): the user will not be able to open context menus with right-click
 		no_box_select (bool, optional): the user will not be able to box-select with right-click drag
 		no_mouse_pos (bool, optional): the text of mouse position, in plot coordinates, will not be displayed inside of the plot
-		query (bool, optional): the user will be able to draw query rects with middle - mouse or CTRL + right - click drag
+		query (bool, optional): the user will be able to draw query rects with CTRL + right-click drag
+		query_color (Union[List[float], Tuple[float, ...]], optional): Color of the query rectangles.
 		crosshairs (bool, optional): the default mouse cursor will be replaced with a crosshair when hovered
 		equal_aspects (bool, optional): primary x and y axes will be constrained to have the same units/pixel (does not apply to auxiliary y-axes)
 		no_inputs (bool, optional): the user will not be able to interact with the plot
@@ -6296,7 +6297,7 @@ def add_plot(*, label: str =None, user_data: Any =None, use_internal_label: bool
 
 		kwargs.pop('query_mod', None)
 
-	return internal_dpg.add_plot(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, no_title=no_title, no_menus=no_menus, no_box_select=no_box_select, no_mouse_pos=no_mouse_pos, query=query, crosshairs=crosshairs, equal_aspects=equal_aspects, no_inputs=no_inputs, no_frame=no_frame, use_local_time=use_local_time, use_ISO8601=use_ISO8601, use_24hour_clock=use_24hour_clock, pan_button=pan_button, pan_mod=pan_mod, context_menu_button=context_menu_button, fit_button=fit_button, box_select_button=box_select_button, box_select_mod=box_select_mod, box_select_cancel_button=box_select_cancel_button, query_toggle_mod=query_toggle_mod, horizontal_mod=horizontal_mod, vertical_mod=vertical_mod, override_mod=override_mod, zoom_mod=zoom_mod, zoom_rate=zoom_rate, **kwargs)
+	return internal_dpg.add_plot(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, no_title=no_title, no_menus=no_menus, no_box_select=no_box_select, no_mouse_pos=no_mouse_pos, query=query, query_color=query_color, crosshairs=crosshairs, equal_aspects=equal_aspects, no_inputs=no_inputs, no_frame=no_frame, use_local_time=use_local_time, use_ISO8601=use_ISO8601, use_24hour_clock=use_24hour_clock, pan_button=pan_button, pan_mod=pan_mod, context_menu_button=context_menu_button, fit_button=fit_button, box_select_button=box_select_button, box_select_mod=box_select_mod, box_select_cancel_button=box_select_cancel_button, query_toggle_mod=query_toggle_mod, horizontal_mod=horizontal_mod, vertical_mod=vertical_mod, override_mod=override_mod, zoom_mod=zoom_mod, zoom_rate=zoom_rate, **kwargs)
 
 def add_plot_annotation(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, show: bool =True, default_value: Any =(0.0, 0.0), offset: Union[List[float], Tuple[float, ...]] =(0.0, 0.0), color: Union[List[int], Tuple[int, ...]] =(0, 0, 0, -255), clamped: bool =True, **kwargs) -> Union[int, str]:
 	"""	 Adds an annotation to a plot.
@@ -7068,7 +7069,7 @@ def add_string_value(*, label: str =None, user_data: Any =None, use_internal_lab
 
 	return internal_dpg.add_string_value(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, source=source, default_value=default_value, parent=parent, **kwargs)
 
-def add_subplots(rows : int, columns : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, row_ratios: Union[List[float], Tuple[float, ...]] =[], column_ratios: Union[List[float], Tuple[float, ...]] =[], no_title: bool =False, no_legend: bool =False, no_menus: bool =False, no_resize: bool =False, no_align: bool =False, share_series: bool =False, link_rows: bool =False, link_columns: bool =False, link_all_x: bool =False, link_all_y: bool =False, column_major: bool =False, **kwargs) -> Union[int, str]:
+def add_subplots(rows : int, columns : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, row_ratios: Union[List[float], Tuple[float, ...]] =[], column_ratios: Union[List[float], Tuple[float, ...]] =[], no_title: bool =False, no_menus: bool =False, no_resize: bool =False, no_align: bool =False, share_series: bool =False, link_rows: bool =False, link_columns: bool =False, link_all_x: bool =False, link_all_y: bool =False, column_major: bool =False, **kwargs) -> Union[int, str]:
 	"""	 Adds a collection of plots.
 
 	Args:
@@ -7093,7 +7094,6 @@ def add_subplots(rows : int, columns : int, *, label: str =None, user_data: Any 
 		row_ratios (Union[List[float], Tuple[float, ...]], optional): 
 		column_ratios (Union[List[float], Tuple[float, ...]], optional): 
 		no_title (bool, optional): the subplot title will not be displayed
-		no_legend (bool, optional): the legend will not be displayed
 		no_menus (bool, optional): the user will not be able to open context menus with right-click
 		no_resize (bool, optional): resize splitters between subplot cells will be not be provided
 		no_align (bool, optional): subplot edges will not be aligned vertically or horizontally
@@ -7112,7 +7112,7 @@ def add_subplots(rows : int, columns : int, *, label: str =None, user_data: Any 
 		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
 		tag=kwargs['id']
 
-	return internal_dpg.add_subplots(rows, columns, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, callback=callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, row_ratios=row_ratios, column_ratios=column_ratios, no_title=no_title, no_legend=no_legend, no_menus=no_menus, no_resize=no_resize, no_align=no_align, share_series=share_series, link_rows=link_rows, link_columns=link_columns, link_all_x=link_all_x, link_all_y=link_all_y, column_major=column_major, **kwargs)
+	return internal_dpg.add_subplots(rows, columns, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, callback=callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, row_ratios=row_ratios, column_ratios=column_ratios, no_title=no_title, no_menus=no_menus, no_resize=no_resize, no_align=no_align, share_series=share_series, link_rows=link_rows, link_columns=link_columns, link_all_x=link_all_x, link_all_y=link_all_y, column_major=column_major, **kwargs)
 
 def add_tab(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drop_callback: Callable =None, show: bool =True, filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, closable: bool =False, no_tooltip: bool =False, order_mode: int =0, **kwargs) -> Union[int, str]:
 	"""	 Adds a tab to a tab bar.

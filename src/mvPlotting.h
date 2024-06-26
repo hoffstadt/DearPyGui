@@ -199,7 +199,7 @@ struct mvBarGroupSeriesConfig
     float group_width = 0.67f;
     int shift;
     std::vector<std::string> label_ids;
-    int group_size;
+    int group_size = 1;
     std::shared_ptr<std::vector<std::vector<double>>> value = std::make_shared<std::vector<std::vector<double>>>(
         std::vector<std::vector<double>>{ std::vector<double>{} });
 };
@@ -405,20 +405,21 @@ struct mvPlotAxisConfig
 
 struct mvPlotConfig
 {
-    ImGuiMouseButton             pan;               // LMB    enables panning when held,
-    ImGuiKey                     pan_mod;           // none   optional modifier that must be held for panning/fitting
-    ImGuiMouseButton             fit;               // LMB    initiates fit when double clicked
-    ImGuiMouseButton             menu;              // RMB    opens context menus (if enabled) when clicked
-    ImGuiMouseButton             select;            // RMB    begins box selection when pressed and confirms selection when released
-    ImGuiKey                     select_mod;        // none   optional modifier that must be held for box selection
-    ImGuiMouseButton             select_cancel;     // LMB    cancels active box selection when pressed; cannot be same as Select
-    ImGuiKey                     query_toggle_mod;  // Ctrl   when held during selection, adds a query rect; has higher priority than override_mod
-    ImGuiKey                     select_horz_mod;   // Alt    expands active box selection horizontally to plot edge when held
-    ImGuiKey                     select_vert_mod;   // Shift  expands active box selection vertically to plot edge when held
-    ImGuiKey                     override_mod;      // Ctrl   when held, all input is ignored; used to enable axis/plots as DND sources
-    ImGuiKey                     zoom_mod;          // none   optional modifier that must be held for scroll wheel zooming
-    float                        zoom_rate = 0.1f;  // 0.1f   zoom rate for scroll (e.g. 0.1f = 10% plot range every scroll click); make negative to invert
-    bool                         delete_rect = true;// true  allows to delete last drag rect created with double left mouse click
+    ImGuiMouseButton             pan;                   // LMB    enables panning when held,
+    ImGuiKey                     pan_mod;               // none   optional modifier that must be held for panning/fitting
+    ImGuiMouseButton             fit;                   // LMB    initiates fit when double clicked
+    ImGuiMouseButton             menu;                  // RMB    opens context menus (if enabled) when clicked
+    ImGuiMouseButton             select;                // RMB    begins box selection when pressed and confirms selection when released
+    ImGuiKey                     select_mod;            // none   optional modifier that must be held for box selection
+    ImGuiMouseButton             select_cancel;         // LMB    cancels active box selection when pressed; cannot be same as Select
+    ImGuiKey                     query_toggle_mod;      // Ctrl   when held during selection, adds a query rect; has higher priority than override_mod
+    ImGuiKey                     select_horz_mod;       // Alt    expands active box selection horizontally to plot edge when held
+    ImGuiKey                     select_vert_mod;       // Shift  expands active box selection vertically to plot edge when held
+    ImGuiKey                     override_mod;          // Ctrl   when held, all input is ignored; used to enable axis/plots as DND sources
+    ImGuiKey                     zoom_mod;              // none   optional modifier that must be held for scroll wheel zooming
+    float                        zoom_rate = 0.1f;      // 0.1f   zoom rate for scroll (e.g. 0.1f = 10% plot range every scroll click); make negative to invert
+    bool                         query_enabled = true;  // false  enables query rects when Select is held
+    mvColor                      query_color = mvColor(0.0f, 1.0f, 0.0f, 1.0f);
 
     ImPlotFlags                                 _flags = ImPlotFlags_NoLegend;
     bool                                        _newColorMap = false; // to bust color cache
@@ -430,7 +431,6 @@ struct mvPlotConfig
     ImPlotRect                                  query_rect;
     bool                                        _fitDirty = false;
     bool                                        _axisfitDirty[ImAxis_COUNT] = { false, false, false, false, false, false }; 
-    bool                                        _query_dirty = false;
     ImPlotInputMap                              _originalMap = ImPlotInputMap(); // custom input mapping
     bool                                        localTime = false;
     bool                                        iSO8601 = false;

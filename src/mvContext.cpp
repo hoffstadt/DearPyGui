@@ -343,7 +343,6 @@ InsertConstants_mvContext(std::vector<std::pair<std::string, long>>& constants)
     constants.emplace_back("mvKey_ModShift", ImGuiMod_Shift);
     constants.emplace_back("mvKey_ModAlt", ImGuiMod_Alt);
     constants.emplace_back("mvKey_ModCtrl", ImGuiMod_Ctrl);
-#if !defined (IMGUI_DISABLE_OBSOLETE_FUNCTIONS)
     #if defined (_WIN32)
         constants.emplace_back("mvKey_Clear", 0x0C);
         constants.emplace_back("mvKey_Prior", 0x21);
@@ -409,37 +408,4 @@ InsertConstants_mvContext(std::vector<std::pair<std::string, long>>& constants)
         constants.emplace_back("mvKey_Quote", 39);
         constants.emplace_back("mvKey_F25", 314);
     #endif
-#else
-    constants.emplace_back("mvKey_Clear", ImGuiKey_None);
-    constants.emplace_back("mvKey_Prior", ImGuiKey_None);
-    constants.emplace_back("mvKey_Next", ImGuiKey_None);
-    constants.emplace_back("mvKey_Select", ImGuiKey_None);
-    constants.emplace_back("mvKey_Execute", ImGuiKey_None);
-    constants.emplace_back("mvKey_LWin", ImGuiKey_None);
-    constants.emplace_back("mvKey_RWin", ImGuiKey_None);
-    constants.emplace_back("mvKey_Apps", ImGuiKey_None);
-    constants.emplace_back("mvKey_Sleep", ImGuiKey_None);
-    constants.emplace_back("mvKey_Help", ImGuiKey_None);
-    constants.emplace_back("mvKey_Browser_Refresh", ImGuiKey_None);
-    constants.emplace_back("mvKey_Browser_Stop", ImGuiKey_None);
-    constants.emplace_back("mvKey_Browser_Search", ImGuiKey_None);
-    constants.emplace_back("mvKey_Browser_Favorites", ImGuiKey_None);
-    constants.emplace_back("mvKey_Browser_Home", ImGuiKey_None);
-    constants.emplace_back("mvKey_Volume_Mute", ImGuiKey_None);
-    constants.emplace_back("mvKey_Volume_Down", ImGuiKey_None);
-    constants.emplace_back("mvKey_Volume_Up", ImGuiKey_None);
-    constants.emplace_back("mvKey_Media_Next_Track", ImGuiKey_None);
-    constants.emplace_back("mvKey_Media_Prev_Track", ImGuiKey_None);
-    constants.emplace_back("mvKey_Media_Stop", ImGuiKey_None);
-    constants.emplace_back("mvKey_Media_Play_Pause", ImGuiKey_None);
-    constants.emplace_back("mvKey_Launch_Mail", ImGuiKey_None);
-    constants.emplace_back("mvKey_Launch_Media_Select", ImGuiKey_None);
-    constants.emplace_back("mvKey_Launch_App1", ImGuiKey_None);
-    constants.emplace_back("mvKey_Launch_App2", ImGuiKey_None);
-    constants.emplace_back("mvKey_Colon", ImGuiKey_None);
-    constants.emplace_back("mvKey_Plus", ImGuiKey_None);
-    constants.emplace_back("mvKey_Tilde", ImGuiKey_None);
-    constants.emplace_back("mvKey_Quote", ImGuiKey_None);
-    constants.emplace_back("mvKey_F25", ImGuiKey_None);
-#endif
 }
