@@ -2625,6 +2625,8 @@ def show_demo():
 
                         dpg.add_text("Right click to box select and then click using the cancel button (standard to Left click)")
                         dpg.add_text("Double left click to delete the last drag rect drawn.")
+                        dpg.add_slider_int(min_value=0, max_value=100, default_value=1, label="Min query rects", callback=lambda _, val: dpg.configure_item("query_plot_1", min_query_rects=val))
+                        dpg.add_slider_int(min_value=0, max_value=100, default_value=1, label="Max query rects", callback=lambda _, val: dpg.configure_item("query_plot_1", max_query_rects=val))
 
                         def query(sender, app_data, user_data):
                             dpg.set_axis_limits(user_data[0], app_data[0][0], app_data[0][2])

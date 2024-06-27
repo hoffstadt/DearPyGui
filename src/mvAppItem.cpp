@@ -2695,6 +2695,8 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "no_child", mvArgType::DEPRECATED_REMOVE_KEYWORD_ARG, "False", "a child window region will not be used to capture mouse scroll (can boost performance for single ImGui window applications)"});
         args.push_back({ mvPyDataType::Bool, "query", mvArgType::KEYWORD_ARG, "False", "the user will be able to draw query rects with CTRL + right-click drag"});
         args.push_back({ mvPyDataType::FloatList, "query_color", mvArgType::KEYWORD_ARG, "(0, 255, 0, 255)", "Color of the query rectangles." });
+        args.push_back({ mvPyDataType::Integer, "min_query_rects", mvArgType::KEYWORD_ARG, "1", "The minimum number of query rects that can be in the plot. If there are less rects than this value, it won't be possible to delete them." });
+        args.push_back({ mvPyDataType::Integer, "max_query_rects", mvArgType::KEYWORD_ARG, "1", "The maximum number of query rects that can be in the plot. If the number is reached any rect added will replace the latest one. (0 means unlimited)" });
         args.push_back({ mvPyDataType::Bool, "crosshairs", mvArgType::KEYWORD_ARG, "False", "the default mouse cursor will be replaced with a crosshair when hovered"});
         args.push_back({ mvPyDataType::Bool, "anti_aliased", mvArgType::DEPRECATED_REMOVE_KEYWORD_ARG, "True", "This feature was deprecated in ImPlot. To enable/disable anti_aliasing use `dpg.configure_app()` with the `anti_aliasing` parameters."});
         args.push_back({ mvPyDataType::Bool, "equal_aspects", mvArgType::KEYWORD_ARG, "False", "primary x and y axes will be constrained to have the same units/pixel (does not apply to auxiliary y-axes)"});

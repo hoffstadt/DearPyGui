@@ -420,6 +420,8 @@ struct mvPlotConfig
     float                        zoom_rate = 0.1f;      // 0.1f   zoom rate for scroll (e.g. 0.1f = 10% plot range every scroll click); make negative to invert
     bool                         query_enabled = true;  // false  enables query rects when Select is held
     mvColor                      query_color = mvColor(0.0f, 1.0f, 0.0f, 1.0f);
+    int                          max_query_rects = 1;   // 1      maximum number of query rects that can be active at once
+    int                          min_query_rects = 1;   // 1      minimum number of query rects that can be active at once
 
     ImPlotFlags                                 _flags = ImPlotFlags_NoLegend;
     bool                                        _newColorMap = false; // to bust color cache
