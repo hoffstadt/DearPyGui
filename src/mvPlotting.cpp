@@ -493,6 +493,8 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 
 		if (config.query_enabled && config.querying && ImGui::IsMouseReleased(config.select))
 		{
+			if (config.rects.size() >= config.max_query_rects)
+				config.rects.pop_back();
 			config.rects.push_back(config.query_rect);
 			config.querying = false;
 			// Prevent ImPlot from handling mouse release on its own. This will block
@@ -547,10 +549,12 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 			// TODO: Implement flags
 			bool hovered = false;
 			query_dirty |= ImPlot::DragRect(i,&config.rects[i].X.Min,&config.rects[i].Y.Min,&config.rects[i].X.Max,&config.rects[i].Y.Max, config.query_color, ImPlotDragToolFlags_None, nullptr, &hovered);
-			if (hovered && ImGui::IsMouseDoubleClicked(config.select_cancel))
-			{
-				// remember it for future deletion
-				delete_idx = i;
+			if (config.rects.size() > config.min_query_rects) {
+				if (hovered && ImGui::IsMouseDoubleClicked(config.select_cancel))
+				{
+					// remember it for future deletion
+					delete_idx = i;
+				}
 			}
         }
 		// Delete rect on double click.
@@ -2750,6 +2754,8 @@ DearPyGui::set_configuration(PyObject* inDict, mvPlotConfig& outConfig)
 	if (PyObject* item = PyDict_GetItemString(inDict, "zoom_rate")) outConfig.zoom_rate = ToFloat(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "query")) outConfig.query_enabled = ToBool(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "query_color")) outConfig.query_color = ToColor(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "min_query_rects")) outConfig.min_query_rects = ToInt(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "max_query_rects")) outConfig.max_query_rects = ToInt(item);
 	// helper for bit flipping
 	auto flagop = [inDict](const char* keyword, int flag, int& flags)
 	{
@@ -3421,6 +3427,8 @@ DearPyGui::fill_configuration_dict(const mvPlotConfig& inConfig, PyObject* outDi
 	PyDict_SetItemString(outDict, "use_24hour_clock", mvPyObject(ToPyBool(inConfig.clock24Hour)));
 	PyDict_SetItemString(outDict, "query", mvPyObject(ToPyBool(inConfig.query_enabled)));
 	PyDict_SetItemString(outDict, "query_color", mvPyObject(ToPyColor(inConfig.query_color)));
+	PyDict_SetItemString(outDict, "", mvPyObject(ToPyInt(inConfig.min_query_rects)));
+	PyDict_SetItemString(outDict, "max_query_rects", mvPyObject(ToPyInt(inConfig.max_query_rects)));
 
 	// helper to check and set bit
 	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)

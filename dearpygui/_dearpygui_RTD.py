@@ -2189,6 +2189,8 @@ def plot(**kwargs):
 		no_mouse_pos (bool, optional): the text of mouse position, in plot coordinates, will not be displayed inside of the plot
 		query (bool, optional): the user will be able to draw query rects with CTRL + right-click drag
 		query_color (Union[List[float], Tuple[float, ...]], optional): Color of the query rectangles.
+		min_query_rects (int, optional): The minimum number of query rects that can be in the plot. If there are less rects than this value, it won't be possible to delete them.
+		max_query_rects (int, optional): The maximum number of query rects that can be in the plot. If the number is reached any rect added will replace the latest one. (0 means unlimited)
 		crosshairs (bool, optional): the default mouse cursor will be replaced with a crosshair when hovered
 		equal_aspects (bool, optional): primary x and y axes will be constrained to have the same units/pixel (does not apply to auxiliary y-axes)
 		no_inputs (bool, optional): the user will not be able to interact with the plot
@@ -5580,6 +5582,8 @@ def add_plot(**kwargs):
 		no_mouse_pos (bool, optional): the text of mouse position, in plot coordinates, will not be displayed inside of the plot
 		query (bool, optional): the user will be able to draw query rects with CTRL + right-click drag
 		query_color (Union[List[float], Tuple[float, ...]], optional): Color of the query rectangles.
+		min_query_rects (int, optional): The minimum number of query rects that can be in the plot. If there are less rects than this value, it won't be possible to delete them.
+		max_query_rects (int, optional): The maximum number of query rects that can be in the plot. If the number is reached any rect added will replace the latest one. (0 means unlimited)
 		crosshairs (bool, optional): the default mouse cursor will be replaced with a crosshair when hovered
 		equal_aspects (bool, optional): primary x and y axes will be constrained to have the same units/pixel (does not apply to auxiliary y-axes)
 		no_inputs (bool, optional): the user will not be able to interact with the plot
