@@ -198,7 +198,9 @@ struct mvBarGroupSeriesConfig
     ImPlotBarsFlags flags = ImPlotBarsFlags_None;
     float group_width = 0.67f;
     int shift;
-    std::vector<std::string> label_ids;
+    // Since our default group size is 1, we need a label for that single item in the group.
+    // The config must be valid at all times.
+    std::vector<std::string> label_ids { std::string() };
     int group_size = 1;
     std::shared_ptr<std::vector<std::vector<double>>> value = std::make_shared<std::vector<std::vector<double>>>(
         std::vector<std::vector<double>>{ std::vector<double>{} });

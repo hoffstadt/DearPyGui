@@ -4376,7 +4376,6 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Float, "max_scale", mvArgType::KEYWORD_ARG, "1.0", "Sets the max number of the color scale. Typically is the same as the max scale from the heat series." });
         args.push_back({mvPyDataType:: String, "format", mvArgType::KEYWORD_ARG, "'%g'", "Formatting used for the labels."});
         args.push_back({mvPyDataType:: Bool, "reverse_dir", mvArgType::KEYWORD_ARG, "False", "invert the colormap bar and axis scale (this only affects rendering; if you only want to reverse the scale mapping, make scale_min > scale_max)"});
-        args.push_back({mvPyDataType:: Bool, "no_label", mvArgType::KEYWORD_ARG, "False", "the colormap axis label will not be displayed"});
         args.push_back({mvPyDataType:: Bool, "mirror", mvArgType::KEYWORD_ARG, "False", "render the colormap label and tick labels on the opposite side"});
 
         setup.about = "Adds a legend that pairs values with colors. This is typically used with a heat series. ";
