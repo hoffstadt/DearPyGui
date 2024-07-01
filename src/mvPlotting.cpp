@@ -2258,7 +2258,7 @@ DearPyGui::draw_custom_series(ImDrawList* drawlist, mvAppItem& item, mvCustomSer
 			ImPlot::GetCurrentItem()->Color = ImGui::ColorConvertFloat4ToU32({ 0.25f, 0.25f, 0.25f, 1.0f });
 
 			// fit data if requested
-			if (ImPlot::FitThisFrame())
+			if (ImPlot::FitThisFrame() && !ImHasFlag(config.flags, ImPlotItemFlags_NoFit))
 			{
 				for (int i = 0; i < xptr->size(); ++i)
 				{
@@ -2432,7 +2432,7 @@ static bool ValidateBarGroupConfig(mvBarGroupSeriesConfig& outConfig)
 {
 	if (outConfig.group_size == 0)
 	{
-		mvThrowPythonError(mvErrorCode::mvNone, "draw_bar_group_series", "`group_size` must be 0", nullptr);
+		mvThrowPythonError(mvErrorCode::mvNone, "draw_bar_group_series", "`group_size` can't be 0", nullptr);
 		return false;
 	}
 	const std::vector<double>* values = &(*outConfig.value.get())[0];
@@ -2445,10 +2445,10 @@ static bool ValidateBarGroupConfig(mvBarGroupSeriesConfig& outConfig)
 			"`values` size " + std::to_string(values_size) + " must be a multiple of `group_size` " + std::to_string(outConfig.group_size), nullptr);
 		return false;
 	}
-	else if (values_size % outConfig.group_size != 0 || outConfig.label_ids.size() != item_count) 
+	if (outConfig.label_ids.size() != outConfig.group_size) 
 	{
 		mvThrowPythonError(mvErrorCode::mvNone, "draw_bar_group_series",
-			"The number of labels " + std::to_string(outConfig.label_ids.size()) + " must be equal to the number of items in a group " + std::to_string(item_count) , nullptr);
+			"The number of labels " + std::to_string(outConfig.label_ids.size()) + " must be equal to the number of items in a group " + std::to_string(outConfig.group_size) , nullptr);
 		return false;
 	}
 	return true;
@@ -2460,7 +2460,7 @@ DearPyGui::set_positional_configuration(PyObject* inDict, mvBarGroupSeriesConfig
 	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(mvAppItemType::mvBarGroupSeries)], inDict))
 		return;
 
-	auto backup_value = outConfig.value;
+	auto backup_value = (*outConfig.value)[0];
 	auto backup_label_ids = outConfig.label_ids;
 	auto backup_group_size = outConfig.group_size;
 
@@ -2469,7 +2469,7 @@ DearPyGui::set_positional_configuration(PyObject* inDict, mvBarGroupSeriesConfig
 	outConfig.group_size = ToInt(PyTuple_GetItem(inDict, 2));
 
 	if(!ValidateBarGroupConfig(outConfig)) {
-		outConfig.value = backup_value;
+		(*outConfig.value)[0] = backup_value;
 		outConfig.label_ids = backup_label_ids;
 		outConfig.group_size = backup_group_size;
 	}
@@ -2897,7 +2897,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvBarGroupSeriesConfig& outConfig
 	if (inDict == nullptr)
 		return;
 
-	auto backup_value = outConfig.value;
+	auto backup_value = (*outConfig.value)[0];
 	auto backup_label_ids = outConfig.label_ids;
 	auto backup_group_size = outConfig.group_size;
 
@@ -2906,7 +2906,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvBarGroupSeriesConfig& outConfig
 	if (PyObject* item = PyDict_GetItemString(inDict, "group_size")) { outConfig.group_size = ToInt(item); }
 
 	if (!ValidateBarGroupConfig(outConfig)) {
-		outConfig.value = backup_value;
+		(*outConfig.value)[0] = backup_value;
 		outConfig.label_ids = backup_label_ids;
 		outConfig.group_size = backup_group_size;
 		return;
