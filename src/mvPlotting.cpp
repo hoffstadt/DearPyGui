@@ -1307,7 +1307,7 @@ DearPyGui::draw_stem_series(ImDrawList* drawlist, mvAppItem& item, const mvStemS
 		xptr = &(*config.value.get())[0];
 		yptr = &(*config.value.get())[1];
 
-		ImPlot::PlotStems(item.info.internalLabel.c_str(), xptr->data(), yptr->data(), (int)xptr->size(), config.flags);
+		ImPlot::PlotStems(item.info.internalLabel.c_str(), xptr->data(), yptr->data(), (int)xptr->size(), 0.0, config.flags);
 
 		// Begin a popup for a legend entry.
 		if (ImPlot::BeginLegendPopup(item.info.internalLabel.c_str(), 1))
@@ -3341,7 +3341,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvSubPlotsConfig& outConfig)
 	flagop("no_menus", ImPlotSubplotFlags_NoMenus, outConfig.flags);
 	flagop("no_resize", ImPlotSubplotFlags_NoResize, outConfig.flags);
 	flagop("no_align", ImPlotSubplotFlags_NoAlign, outConfig.flags);
-	flagop("share_items", ImPlotSubplotFlags_ShareItems, outConfig.flags);
+	flagop("share_series", ImPlotSubplotFlags_ShareItems, outConfig.flags);
 	flagop("link_rows", ImPlotSubplotFlags_LinkRows, outConfig.flags);
 	flagop("link_columns", ImPlotSubplotFlags_LinkCols, outConfig.flags);
 	flagop("link_all_x", ImPlotSubplotFlags_LinkAllX, outConfig.flags);
@@ -3935,7 +3935,7 @@ DearPyGui::fill_configuration_dict(const mvSubPlotsConfig& inConfig, PyObject* o
 	checkbitset("link_all_y", ImPlotSubplotFlags_LinkAllY, inConfig.flags);
 	checkbitset("column_major", ImPlotSubplotFlags_ColMajor, inConfig.flags);
 	checkbitset("no_legend", ImPlotSubplotFlags_NoLegend, inConfig.flags);
-	checkbitset("share_items", ImPlotSubplotFlags_ShareItems, inConfig.flags);
+	checkbitset("share_series", ImPlotSubplotFlags_ShareItems, inConfig.flags);
 }
 
 void

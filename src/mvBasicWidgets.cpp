@@ -712,7 +712,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvButtonConfig& outConfig)
 
 	if (PyObject* item = PyDict_GetItemString(inDict, "small")) outConfig.small_button = ToBool(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "arrow")) outConfig.arrow = ToBool(item);
-	if (PyObject* item = PyDict_GetItemString(inDict, "direction")) outConfig.direction = ToInt(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "direction")) outConfig.direction = static_cast<ImGuiDir>(ToInt(item));
 	if (PyObject* item = PyDict_GetItemString(inDict, "repeat")) outConfig.repeat = ToBool(item);
 }
 

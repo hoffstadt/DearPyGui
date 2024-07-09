@@ -3414,7 +3414,6 @@ def add_colormap_scale(**kwargs):
 		max_scale (float, optional): Sets the max number of the color scale. Typically is the same as the max scale from the heat series.
 		format (str, optional): Formatting used for the labels.
 		reverse_dir (bool, optional): invert the colormap bar and axis scale (this only affects rendering; if you only want to reverse the scale mapping, make scale_min > scale_max)
-		no_label (bool, optional): the colormap axis label will not be displayed
 		mirror (bool, optional): render the colormap label and tick labels on the opposite side
 		id (Union[int, str], optional): (deprecated)
 		drag_callback (Callable, optional): (deprecated)
