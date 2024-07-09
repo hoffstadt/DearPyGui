@@ -94,7 +94,7 @@ def add_colormap_registry(*, label: str ='', user_data: Any ='', use_internal_la
 	"""Adds a colormap registry."""
 	...
 
-def add_colormap_scale(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', drop_callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', colormap: Union[int, str] ='', min_scale: float ='', max_scale: float ='', format: str ='', reverse_dir: bool ='', no_label: bool ='', mirror: bool ='') -> Union[int, str]:
+def add_colormap_scale(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', drop_callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', colormap: Union[int, str] ='', min_scale: float ='', max_scale: float ='', format: str ='', reverse_dir: bool ='', mirror: bool ='') -> Union[int, str]:
 	"""Adds a legend that pairs values with colors. This is typically used with a heat series. """
 	...
 
