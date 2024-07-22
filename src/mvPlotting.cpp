@@ -491,9 +491,10 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 		else
 			ImPlot::GetInputMap().OverrideMod = config.override_mod;
 
+		bool query_dirty = false;
 		if (config.query_enabled && config.querying && ImGui::IsMouseReleased(config.select))
 		{
-			if (config.rects.size() >= config.max_query_rects)
+			if (config.max_query_rects != 0 && config.rects.size() >= config.max_query_rects)
 				config.rects.pop_back();
 			config.rects.push_back(config.query_rect);
 			config.querying = false;
@@ -504,6 +505,8 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 			// to the legend, drag points, and lines in this frame.  Nothing we
 			// can do about that, really.
 			ImPlot::CancelPlotSelection();
+			// We've updated the list, let's report this
+			query_dirty = true;
 		}
 
 		// legend, drag point and lines
@@ -544,7 +547,6 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 		// delete (by double-clicking it).  We need to run through the entire list
 		// to make sure that we pick the topmost candidate if there's more than one.
 		int delete_idx = -1;
-		bool query_dirty = false;
         for (int i = 0; i < config.rects.size(); ++i) {
 			// TODO: Implement flags
 			bool hovered = false;
@@ -573,32 +575,32 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 				for (int j = 0; j < ImAxis_COUNT; ++j)
 					context->CurrentPlot->Axes[j].FitThisFrame = false;
 			}
+			// We've updated the list, let's report this
+			query_dirty = true;
 		}
 
 		if (item.config.callback != nullptr && query_dirty)
 		{
-			for(auto rect : config.rects) {
-				if (item.config.alias.empty()) {
-					mvSubmitCallback([=, &item]() {
-						PyObject* result = PyTuple_New(config.rects.size());
-						for (int i = 0; i < config.rects.size(); ++i) {
-							auto rectMin = config.rects[i].Min();
-							auto rectMax = config.rects[i].Max();
-							PyTuple_SetItem(result, i, Py_BuildValue("(dddd)", rectMin.x, rectMin.y, rectMax.x, rectMax.y));
-						}
-						mvAddCallback(item.config.callback, item.uuid, result, item.config.user_data);
-					});
-				} else {
-					mvSubmitCallback([=, &item]() {
-						PyObject* result = PyTuple_New(config.rects.size());
-						for (int i = 0; i < config.rects.size(); ++i) {
-							auto rectMin = config.rects[i].Min();
-							auto rectMax = config.rects[i].Max();
-							PyTuple_SetItem(result, i, Py_BuildValue("(dddd)", rectMin.x, rectMin.y, rectMax.x, rectMax.y));
-						}
-						mvAddCallback(item.config.callback, item.config.alias, result, item.config.user_data);
-					});
-				}
+			if (item.config.alias.empty()) {
+				mvSubmitCallback([=, &item]() {
+					PyObject* result = PyTuple_New(config.rects.size());
+					for (int i = 0; i < config.rects.size(); ++i) {
+						auto rectMin = config.rects[i].Min();
+						auto rectMax = config.rects[i].Max();
+						PyTuple_SetItem(result, i, Py_BuildValue("(dddd)", rectMin.x, rectMin.y, rectMax.x, rectMax.y));
+					}
+					mvAddCallback(item.config.callback, item.uuid, result, item.config.user_data);
+				});
+			} else {
+				mvSubmitCallback([=, &item]() {
+					PyObject* result = PyTuple_New(config.rects.size());
+					for (int i = 0; i < config.rects.size(); ++i) {
+						auto rectMin = config.rects[i].Min();
+						auto rectMax = config.rects[i].Max();
+						PyTuple_SetItem(result, i, Py_BuildValue("(dddd)", rectMin.x, rectMin.y, rectMax.x, rectMax.y));
+					}
+					mvAddCallback(item.config.callback, item.config.alias, result, item.config.user_data);
+				});
 			}
 		}
 
@@ -2436,7 +2438,7 @@ static bool ValidateBarGroupConfig(mvBarGroupSeriesConfig& outConfig)
 		return false;
 	}
 	const std::vector<double>* values = &(*outConfig.value.get())[0];
-	const auto values_size = values->size();
+	const size_t values_size = values->size();
 	const int item_count = values_size / outConfig.group_size;
 
 	if (values_size % outConfig.group_size != 0)
@@ -2462,7 +2464,7 @@ DearPyGui::set_positional_configuration(PyObject* inDict, mvBarGroupSeriesConfig
 
 	auto backup_value = (*outConfig.value)[0];
 	auto backup_label_ids = outConfig.label_ids;
-	auto backup_group_size = outConfig.group_size;
+	int backup_group_size = outConfig.group_size;
 
 	(*outConfig.value)[0] = ToDoubleVect(PyTuple_GetItem(inDict, 0));
 	outConfig.label_ids = ToStringVect(PyTuple_GetItem(inDict, 1));
@@ -3427,7 +3429,7 @@ DearPyGui::fill_configuration_dict(const mvPlotConfig& inConfig, PyObject* outDi
 	PyDict_SetItemString(outDict, "use_24hour_clock", mvPyObject(ToPyBool(inConfig.clock24Hour)));
 	PyDict_SetItemString(outDict, "query", mvPyObject(ToPyBool(inConfig.query_enabled)));
 	PyDict_SetItemString(outDict, "query_color", mvPyObject(ToPyColor(inConfig.query_color)));
-	PyDict_SetItemString(outDict, "", mvPyObject(ToPyInt(inConfig.min_query_rects)));
+	PyDict_SetItemString(outDict, "min_query_rects", mvPyObject(ToPyInt(inConfig.min_query_rects)));
 	PyDict_SetItemString(outDict, "max_query_rects", mvPyObject(ToPyInt(inConfig.max_query_rects)));
 
 	// helper to check and set bit
@@ -3934,7 +3936,6 @@ DearPyGui::fill_configuration_dict(const mvSubPlotsConfig& inConfig, PyObject* o
 	checkbitset("link_all_x", ImPlotSubplotFlags_LinkAllX, inConfig.flags);
 	checkbitset("link_all_y", ImPlotSubplotFlags_LinkAllY, inConfig.flags);
 	checkbitset("column_major", ImPlotSubplotFlags_ColMajor, inConfig.flags);
-	checkbitset("no_legend", ImPlotSubplotFlags_NoLegend, inConfig.flags);
 	checkbitset("share_series", ImPlotSubplotFlags_ShareItems, inConfig.flags);
 }
 

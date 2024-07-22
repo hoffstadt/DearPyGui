@@ -297,8 +297,8 @@ DearPyGui::set_configuration(PyObject* inDict, mvChildWindowConfig& outConfig)
     flagop("auto_resize_x", ImGuiChildFlags_AutoResizeX, outConfig.childFlags);
     flagop("auto_resize_y", ImGuiChildFlags_AutoResizeY, outConfig.childFlags);
     flagop("frame_style", ImGuiChildFlags_FrameStyle, outConfig.childFlags);
-    flagop("resize_x", ImGuiChildFlags_ResizeX, outConfig.childFlags);
-    flagop("resize_y", ImGuiChildFlags_ResizeY, outConfig.childFlags);
+    flagop("resizable_x", ImGuiChildFlags_ResizeX, outConfig.childFlags);
+    flagop("resizable_y", ImGuiChildFlags_ResizeY, outConfig.childFlags);
 }
 
 void

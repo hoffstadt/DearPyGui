@@ -303,10 +303,10 @@ mvPlotCol_Line          mvPlotCol_LegendBg     mvPlotCol_AxisBgHovered
 mvPlotCol_Fill          mvPlotCol_LegendBorder mvPlotCol_AxisGrid
 mvPlotCol_MarkerOutline mvPlotCol_LegendText   mvPlotCol_AxisText
 mvPlotCol_MarkerFill    mvPlotCol_TitleText    mvPlotCol_Selection
-mvPlotCol_ErrorBar      mvPlotCol_InlayText    mvPlotCol_Crosshairs
+mvPlotCol_ErrorBar      mvPlotCol_InlayText    
 mvPlotCol_FrameBg       mvPlotCol_AxisBg       
 mvPlotCol_PlotBg        mvPlotCol_AxisBgActive 
-mvPlotCol_PlotBorder    mvPlotCol_YAxis        
+mvPlotCol_PlotBorder    mvPlotCol_Crosshairs        
 ======================= ====================== =======================
 
 Node Colors
