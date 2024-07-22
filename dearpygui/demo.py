@@ -1394,7 +1394,7 @@ def show_demo():
             with dpg.tree_node(label="Resizable, mixed"):
 
                 with dpg.table(header_row=True, policy=dpg.mvTable_SizingFixedFit, row_background=True, reorderable=True, 
-                            resizable=True, no_host_extendX=False, 
+                            resizable=True, no_host_extendX=False, hideable=True,
                             borders_innerV=True, delay_search=True, borders_outerV=True, borders_innerH=True, borders_outerH=True):
 
                     dpg.add_table_column(label="AAA", width_fixed=True)
@@ -1410,7 +1410,7 @@ def show_demo():
                                     dpg.add_text(f"Fixed {i}, {j}")
 
                 with dpg.table(header_row=True, policy=dpg.mvTable_SizingFixedFit, row_background=True, reorderable=True, 
-                            resizable=True, no_host_extendX=False, 
+                            resizable=True, no_host_extendX=False, hideable=True,
                             borders_innerV=True, delay_search=True, borders_outerV=True, borders_innerH=True, borders_outerH=True):
 
                     dpg.add_table_column(label="AAA", width_fixed=True)
@@ -2066,27 +2066,33 @@ def show_demo():
                                 
 
                     with dpg.tree_node(label="Bar Group Series"):
-
+                        limits_group_series = [-0.5, 9.5]
                         
                         def set_horizontal(sender, app_data, user_data):
                             dpg.configure_item("bar_group_series", horizontal=app_data)
                             if app_data:
-                                dpg.set_axis_limits("yaxis_bar_group", 0, 9)
+                                dpg.set_axis_limits("yaxis_bar_group", *limits_group_series)
                                 dpg.set_axis_ticks("yaxis_bar_group", glabels)
                                 dpg.reset_axis_ticks("xaxis_bar_group")
                                 dpg.set_axis_limits_auto("xaxis_bar_group")
                             else:
-                                dpg.set_axis_limits("xaxis_bar_group", 0, 9)
+                                dpg.set_axis_limits("xaxis_bar_group", *limits_group_series)
                                 dpg.set_axis_ticks("xaxis_bar_group", glabels)
                                 dpg.reset_axis_ticks("yaxis_bar_group")
                                 dpg.set_axis_limits_auto("yaxis_bar_group")
+                        
+                        def _callback_stacked(sender, app_data, user_data):
+                            dpg.configure_item("bar_group_series", stacked=app_data)
+                            is_horizontal = dpg.get_item_configuration("bar_group_series")["horizontal"]
+                            if is_horizontal:
+                                dpg.set_axis_limits_auto("xaxis_bar_group")
+                            else:
+                                dpg.set_axis_limits_auto("yaxis_bar_group")
                             
-                        dpg.add_checkbox(label="Horizontal", tag="horizontal_group_bar_cb", default_value=False, 
-                            callback=set_horizontal)
-                        dpg.add_checkbox(label="Stacked", tag="stacked_group_bar_cb", default_value=False, 
-                            callback=lambda: dpg.configure_item("bar_group_series", stacked=dpg.get_value("stacked_group_bar_cb")))
-                        dpg.add_slider_float(label="Bar Width", tag="bar_width_group_bar", default_value=0.67, max_value=1.0, 
-                                             min_value=0.1, callback=lambda s, a, u: dpg.configure_item("bar_group_series", group_size=a))
+                        dpg.add_checkbox(label="Horizontal", default_value=False, callback=set_horizontal)
+                        dpg.add_checkbox(label="Stacked", default_value=False, callback=_callback_stacked)
+                        dpg.add_slider_float(label="Bar Width", default_value=0.67, max_value=1.0, 
+                                             min_value=0.1, callback=lambda _, val: dpg.configure_item("bar_group_series", group_width=val))
                         with dpg.plot(label="Bar Group Series", height=400, width=-1):
                             dpg.add_plot_legend()
                             
@@ -2096,12 +2102,11 @@ def show_demo():
                             
                             ilabels = ["Midterm Exam","Final Exam","Course Grade"]
                             glabels = (("S1",0), ("S2",1), ("S3",2), ("S4",3), ("S5",4), ("S6",5), ("S7",6), ("S8",7), ("S9",8), ("S10",9))
-                            groups_c = 10
-                            positions = [0,1,2,3,4,5,6,7,8,9]
+                            groups_c = 3
 
                             # create x axis
                             dpg.add_plot_axis(dpg.mvXAxis, label="Student", tag="xaxis_bar_group", no_gridlines=True, auto_fit=True)
-                            dpg.set_axis_limits(dpg.last_item(), 0, 9)
+                            dpg.set_axis_limits(dpg.last_item(), *limits_group_series)
                             dpg.set_axis_ticks(dpg.last_item(), glabels)
 
                             # create y axis
@@ -2111,9 +2116,6 @@ def show_demo():
                                     group_size=groups_c, tag="bar_group_series", label="Final Exam")
 
                     with dpg.tree_node(label="Bar Stacks"):
-
-                        liars_data = [4282515870, 4282609140, 4287357182, 4294630301, 4294945280, 4294921472]
-
                         politicians = (("Trump", 0), ("Bachman", 1), ("Cruz", 2), ("Gingrich", 3), ("Palin", 4), ("Santorum", 5),
                         ("Walker", 6), ("Perry", 7), ("Ryan", 8), ("McCain", 9), ("Rubio", 10), ("Romney", 11), ("Rand Paul", 12), ("Christie", 13),
                         ("Biden", 14), ("Kasich", 15), ("Sanders", 16), ("J Bush", 17), ("H Clinton", 18), ("Obama", 19))
@@ -2140,9 +2142,9 @@ def show_demo():
                         
                         def divergent_stack_cb(sender, app_data, user_data):
                             if app_data:
-                                dpg.configure_item("divergent_stack_series", values=data_div, label_ids=labels_div, group_size=20, group_width=0.75, shift=0, stacked=True, horizontal=True)
+                                dpg.configure_item("divergent_stack_series", values=data_div, label_ids=labels_div, group_size=len(labels_reg), group_width=0.75, shift=0, stacked=True, horizontal=True)
                             else:
-                                dpg.configure_item("divergent_stack_series", values=data_reg, label_ids=labels_reg, group_size=20, group_width=0.75, shift=0, stacked=True, horizontal=True)
+                                dpg.configure_item("divergent_stack_series", values=data_reg, label_ids=labels_reg, group_size=len(labels_div), group_width=0.75, shift=0, stacked=True, horizontal=True)
                         
                         dpg.add_checkbox(label="Divergent", tag="divergent_stack_cb", default_value=True, callback=divergent_stack_cb)
                         with dpg.plot(label="PolitiFact: Who Lies More?", height=400, width=-1):
@@ -2154,7 +2156,7 @@ def show_demo():
                                 dpg.set_axis_ticks(yaxis, politicians)
                                 dpg.set_axis_limits(yaxis, -0.5, 19.5)
                                 dpg.add_bar_group_series(tag="divergent_stack_series", values=data_div, label_ids=labels_div,
-                                    group_size=20, group_width=0.75, shift=0, stacked=True, horizontal=True)
+                                    group_size=len(labels_div), group_width=0.75, shift=0, stacked=True, horizontal=True)
                                 # dpg.add_bar_group_series(values=data_reg, label_ids=labels_reg,
                                 #      group_size=20, group_width=0.75, shift=0, stacked=True, horizontal=True)
 
@@ -2629,6 +2631,8 @@ def show_demo():
                         dpg.add_slider_int(min_value=0, max_value=100, default_value=1, label="Max query rects", callback=lambda _, val: dpg.configure_item("query_plot_1", max_query_rects=val))
 
                         def query(sender, app_data, user_data):
+                            if not len(app_data):
+                                return
                             dpg.set_axis_limits(user_data[0], app_data[0][0], app_data[0][2])
                             dpg.set_axis_limits(user_data[1], app_data[0][3], app_data[0][1])
 
