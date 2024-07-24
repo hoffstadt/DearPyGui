@@ -1797,7 +1797,7 @@ DearPyGui::draw_digital_series(ImDrawList* drawlist, mvAppItem& item, const mvDi
 		xptr = &(*config.value.get())[0];
 		yptr = &(*config.value.get())[1];
 
-		ImPlot::PlotDigital(item.info.internalLabel.c_str(), xptr->data(), yptr->data(), (int)xptr->size(), config.flags, config.offset);
+		ImPlot::PlotDigital(item.info.internalLabel.c_str(), xptr->data(), yptr->data(), (int)xptr->size(), config.flags, 0);
 		
 		// Begin a popup for a legend entry.
 		if (ImPlot::BeginLegendPopup(item.info.internalLabel.c_str(), 1))
@@ -3121,7 +3121,6 @@ DearPyGui::set_configuration(PyObject* inDict, mvDigitalSeriesConfig& outConfig)
 
 	if (PyObject* item = PyDict_GetItemString(inDict, "x")) { (*outConfig.value)[0] = ToDoubleVect(item); }
 	if (PyObject* item = PyDict_GetItemString(inDict, "y")) { (*outConfig.value)[1] = ToDoubleVect(item); }
-	if (PyObject* item = PyDict_GetItemString(inDict, "offset")) outConfig.offset = ToInt(item);
 }
 
 void
@@ -3709,7 +3708,7 @@ DearPyGui::fill_configuration_dict(const mv2dHistogramSeriesConfig& inConfig, Py
 	// flags
 	checkbitset("density", ImPlotHistogramFlags_Density, inConfig.flags);
 	reverse_checkbitset("outliers", ImPlotHistogramFlags_NoOutliers, inConfig.flags);
-	checkbitset("col_amjor", ImPlotHistogramFlags_ColMajor, inConfig.flags);
+	checkbitset("col_major", ImPlotHistogramFlags_ColMajor, inConfig.flags);
 }
 
 void
@@ -3759,8 +3758,6 @@ DearPyGui::fill_configuration_dict(const mvDigitalSeriesConfig& inConfig, PyObje
 {
 	if (outDict == nullptr)
 		return;
-
-	PyDict_SetItemString(outDict, "offset", mvPyObject(ToPyInt(inConfig.offset)));
 }
 
 void

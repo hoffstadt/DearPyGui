@@ -4226,7 +4226,6 @@ DearPyGui::GetEntityParser(mvAppItemType type)
 
         args.push_back({ mvPyDataType::DoubleList, "x" });
         args.push_back({ mvPyDataType::DoubleList, "y" });
-        args.push_back({ mvPyDataType::Integer, "offset", mvArgType::KEYWORD_ARG, "0" });
 
         setup.about = "Adds a digital series to a plot. Digital plots do not respond to y drag or zoom, and are always referenced to the bottom of the plot.";
         setup.category = { "Plotting", "Containers", "Widgets" };

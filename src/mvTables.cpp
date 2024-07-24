@@ -112,7 +112,6 @@ void mvTableColumn::getSpecificConfiguration(PyObject* dict)
 	checkbitset("indent_enable", ImGuiTableColumnFlags_IndentEnable, _flags);
 	checkbitset("indent_disable", ImGuiTableColumnFlags_IndentDisable, _flags);
 	checkbitset("angled_header", ImGuiTableColumnFlags_AngledHeader, _flags);
-	checkbitset("disabled", ImGuiTableColumnFlags_Disabled, _flags);
 	checkbitset("no_header_label", ImGuiTableColumnFlags_NoHeaderLabel, _flags); 
 }
 

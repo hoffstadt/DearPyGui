@@ -136,9 +136,9 @@ DearPyGui::fill_configuration_dict(const mvTreeNodeConfig& inConfig, PyObject* o
     checkbitset("leaf", ImGuiTreeNodeFlags_Leaf, inConfig.flags);
     checkbitset("bullet", ImGuiTreeNodeFlags_Bullet, inConfig.flags);
     checkbitset("span_text_width", ImGuiTreeNodeFlags_SpanTextWidth, inConfig.flags);
-    checkbitset("span_available_width", ImGuiTreeNodeFlags_SpanAvailWidth, inConfig.flags);
+    // checkbitset("span_available_width", ImGuiTreeNodeFlags_SpanAvailWidth, inConfig.flags);
     checkbitset("span_full_width", ImGuiTreeNodeFlags_SpanFullWidth, inConfig.flags);
-    checkbitset("span_all_columns", ImGuiTreeNodeFlags_SpanAllColumns, inConfig.flags);
+    // checkbitset("span_all_columns", ImGuiTreeNodeFlags_SpanAllColumns, inConfig.flags);
 }
 
 void
@@ -361,9 +361,9 @@ DearPyGui::set_configuration(PyObject* inDict, mvTreeNodeConfig& outConfig)
     flagop("leaf", ImGuiTreeNodeFlags_Leaf, outConfig.flags);
     flagop("bullet", ImGuiTreeNodeFlags_Bullet, outConfig.flags);
     flagop("span_text_width", ImGuiTreeNodeFlags_SpanTextWidth, outConfig.flags);
-    flagop("span_available_width", ImGuiTreeNodeFlags_SpanAvailWidth, outConfig.flags);
+    // flagop("span_available_width", ImGuiTreeNodeFlags_SpanAvailWidth, outConfig.flags);
     flagop("span_full_width", ImGuiTreeNodeFlags_SpanFullWidth, outConfig.flags);
-    flagop("span_all_columns", ImGuiTreeNodeFlags_SpanAllColumns, outConfig.flags);
+    // flagop("span_all_columns", ImGuiTreeNodeFlags_SpanAllColumns, outConfig.flags);
 }
 
 void

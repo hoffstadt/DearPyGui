@@ -299,7 +299,6 @@ struct mvHistogramSeriesConfig : _mvBasicSeriesConfig
 struct mvDigitalSeriesConfig : _mvBasicSeriesConfig
 {
     ImPlotDigitalFlags flags = ImPlotDigitalFlags_None;
-    int offset  = 0;
 };
 
 struct mvPieSeriesConfig : _mvBasicSeriesConfig

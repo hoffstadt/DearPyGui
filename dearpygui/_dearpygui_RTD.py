@@ -3561,7 +3561,6 @@ def add_digital_series(x, y, **kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		show (bool, optional): Attempt to render widget.
-		offset (int, optional): 
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]

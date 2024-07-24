@@ -287,6 +287,7 @@ mvThemeCol_TitleBgActive        mvThemeCol_TableBorderLight      mvThemeCol_Resi
 mvThemeCol_TitleBgCollapsed     mvThemeCol_TableRowBg            mvThemeCol_ResizeGripActive
 mvThemeCol_MenuBarBg            mvThemeCol_TableRowBgAlt         mvThemeCol_Tab
 mvThemeCol_ScrollbarBg          mvThemeCol_TextSelectedBg        mvThemeCol_TabHovered
+mvThemeCol_ScrollbarGrab        mvThemeCol_DragDropTarget
 mvThemeCol_ScrollbarGrabHovered mvThemeCol_NavHighlight
 mvThemeCol_ScrollbarGrabActive  mvThemeCol_NavWindowingHighlight
 mvThemeCol_CheckMark            mvThemeCol_NavWindowingDimBg
