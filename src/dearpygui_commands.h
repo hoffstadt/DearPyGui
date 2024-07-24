@@ -2820,6 +2820,12 @@ get_app_configuration(PyObject* self, PyObject* args, PyObject* kwargs)
 	PyDict_SetItemString(pdict, "wait_for_input", mvPyObject(ToPyBool(GContext->IO.waitForInput)));
 	PyDict_SetItemString(pdict, "manual_callback_management", mvPyObject(ToPyBool(GContext->IO.manualCallbacks)));
 	PyDict_SetItemString(pdict, "keyboard_navigation", mvPyObject(ToPyBool(GContext->IO.kbdNavigation)));
+
+	ImGuiStyle& style = ImGui::GetStyle();
+	PyDict_SetItemString(pdict, "anti_aliased_lines", mvPyObject(ToPyBool(style.AntiAliasedLines)));
+	PyDict_SetItemString(pdict, "anti_aliased_lines_use_tex", mvPyObject(ToPyBool(style.AntiAliasedLinesUseTex)));
+	PyDict_SetItemString(pdict, "anti_aliased_fill", mvPyObject(ToPyBool(style.AntiAliasedFill)));
+
 	return pdict;
 }
 
