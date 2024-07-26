@@ -219,18 +219,6 @@ UpdateTexture(void* texture, unsigned width, unsigned height, std::vector<float>
 {
     auto textureId = (GLuint)(size_t)texture;
 
-    // start to copy from PBO to texture object ///////
-
-    // bind the texture and PBO
-    glBindTexture(GL_TEXTURE_2D, textureId);
-    glBindBuffer(GL_PIXEL_UNPACK_BUFFER, PBO_ids[textureId]);
-
-    // copy pixels from PBO to texture object
-    // Use offset instead of ponter.
-    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_RGBA, GL_FLOAT, 0);
-
-    ///////////////////////////////////////////////////
-
     // start to modify pixel values ///////////////////
 
     // bind PBO to update pixel values
@@ -256,6 +244,18 @@ UpdateTexture(void* texture, unsigned width, unsigned height, std::vector<float>
 
     ///////////////////////////////////////////////////
 
+    // start to copy from PBO to texture object ///////
+
+    // bind the texture and PBO
+    glBindTexture(GL_TEXTURE_2D, textureId);
+    glBindBuffer(GL_PIXEL_UNPACK_BUFFER, PBO_ids[textureId]);
+
+    // copy pixels from PBO to texture object
+    // Use offset instead of ponter.
+    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_RGBA, GL_FLOAT, 0);
+
+    ///////////////////////////////////////////////////
+
     // it is good idea to release PBOs with ID 0 after use.
     // Once bound with 0, all pixel operations behave normal ways.
     glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
@@ -265,21 +265,6 @@ UpdateTexture(void* texture, unsigned width, unsigned height, std::vector<float>
 UpdateRawTexture(void* texture, unsigned width, unsigned height, float* data, int components)
 {
     auto textureId = (GLuint)(size_t)texture;
-
-    // start to copy from PBO to texture object ///////
-
-    // bind the texture and PBO
-    glBindTexture(GL_TEXTURE_2D, textureId);
-    glBindBuffer(GL_PIXEL_UNPACK_BUFFER, PBO_ids[textureId]);
-
-    // copy pixels from PBO to texture object
-    // Use offset instead of ponter.
-    if(components == 4)
-        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_RGBA, GL_FLOAT, 0);
-    else
-        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_RGB, GL_FLOAT, 0);
-
-    ///////////////////////////////////////////////////
 
     // start to modify pixel values ///////////////////
 
@@ -303,6 +288,21 @@ UpdateRawTexture(void* texture, unsigned width, unsigned height, float* data, in
 
         glUnmapBuffer(GL_PIXEL_UNPACK_BUFFER);  // release pointer to mapping buffer
     }
+
+    ///////////////////////////////////////////////////
+
+    // start to copy from PBO to texture object ///////
+
+    // bind the texture and PBO
+    glBindTexture(GL_TEXTURE_2D, textureId);
+    glBindBuffer(GL_PIXEL_UNPACK_BUFFER, PBO_ids[textureId]);
+
+    // copy pixels from PBO to texture object
+    // Use offset instead of ponter.
+    if(components == 4)
+        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_RGBA, GL_FLOAT, 0);
+    else
+        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_RGB, GL_FLOAT, 0);
 
     ///////////////////////////////////////////////////
 
