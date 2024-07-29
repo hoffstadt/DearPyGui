@@ -1430,7 +1430,7 @@ def show_demo():
 
                 with dpg.table(header_row=True, no_host_extendX=True,
                                 borders_innerH=True, borders_outerH=True, borders_innerV=True,
-                                borders_outerV=True, row_background=True, reorderable=True,
+                                borders_outerV=True, row_background=True, hideable=True, reorderable=True,
                                 resizable=True, sortable=True, policy=dpg.mvTable_SizingFixedFit,
                                 scrollX=True, delay_search=True, scrollY=True):
 
@@ -1535,7 +1535,7 @@ def show_demo():
             with dpg.tree_node(label="Padding"):
 
                 with dpg.table(header_row=False, resizable=True, delay_search=True,
-                            reorderable=True, borders_outerV=True, borders_innerH=True) as table_id:
+                            hideable=True, reorderable=True, borders_outerV=True, borders_innerH=True) as table_id:
 
                     dpg.add_table_column(label="One")
                     dpg.add_table_column(label="Two")
@@ -1567,7 +1567,7 @@ def show_demo():
             with dpg.tree_node(label="Reorderable, hideable, with headers"):
 
                 with dpg.table(header_row=True, resizable=True, delay_search=True,
-                            reorderable=True) as table_id:
+                            hideable=True, reorderable=True) as table_id:
 
                     dpg.add_table_column(label="One")
                     dpg.add_table_column(label="Two")
@@ -3005,7 +3005,7 @@ def show_demo():
                     draw_x = draw_x + draw_spacing + draw_size
                     dpg.draw_triangle([draw_x+draw_size*0.5,draw_y], [draw_x+draw_size, draw_y+draw_size-0.5], [draw_x, draw_y+draw_size-0.5], thickness=_draw_t, color=draw_color, fill=draw_color)
                     draw_x = draw_x + draw_spacing + draw_size
-                    dpg.draw_rectangle([draw_size + draw_x, draw_size + draw_y], [draw_x, draw_y], color=[0, 0, 0, 0], thickness=_draw_t, color_upper_left=[0, 0, 0], color_upper_right=[255, 0, 0], color_bottom_left=[255, 255, 0], color_bottom_right=[0, 255, 0], multicolor=True)
+                    dpg.draw_rectangle([draw_size + draw_x, draw_size + draw_y], [draw_x, draw_y], color=[0, 0, 0, 0], thickness=_draw_t, corner_colors=[[0, 0, 0], [255, 0, 0], [0, 255, 0], [255, 255, 0]], multicolor=True)
 
             with dpg.tree_node(label="Draw Nodes & 3D transforms"):
 
