@@ -2152,6 +2152,25 @@ save_init_file(PyObject* self, PyObject* args, PyObject* kwargs)
 	return GetPyNone();
 }
 
+
+static PyObject*
+load_init_file(PyObject* self, PyObject* args, PyObject* kwargs)
+{
+	const char* file;
+
+	if (!Parse((GetParsers())["load_init_file"], args, kwargs, __FUNCTION__, &file))
+		return GetPyNone();
+
+	if (GContext->started)
+		ImGui::LoadIniSettingsFromDisk(file);
+	else
+		mvThrowPythonError(mvErrorCode::mvNone, "Dear PyGui must be started to use \"load_init_file\".");
+
+	return GetPyNone();
+}
+
+
+
 static PyObject*
 split_frame(PyObject* self, PyObject* args, PyObject* kwargs)
 {

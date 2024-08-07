@@ -522,6 +522,20 @@ InsertParser_Block1(std::map<std::string, mvPythonParser>& parsers)
 
 	{
 		std::vector<mvPythonDataElement> args;
+		args.push_back({ mvPyDataType::String, "file" });
+
+		mvPythonParserSetup setup;
+		setup.about = "Load dpg.ini file.";
+		setup.category = { "General" };
+
+		mvPythonParser parser = FinalizeParser(setup, args);
+		parsers.insert({ "load_init_file", parser });
+	}
+
+
+
+	{
+		std::vector<mvPythonDataElement> args;
 		args.push_back({ mvPyDataType::Integer, "delay", mvArgType::KEYWORD_ARG, "32", "Minimal delay in in milliseconds" });
 
 		mvPythonParserSetup setup;
