@@ -1184,11 +1184,6 @@ def set_init_file(file="dpg.ini"):
     """ deprecated function """
     internal_dpg.configure_app(init_file=file)
 
-@deprecated("Use 'configure_app(init_file=file, load_init_file=True)'.")
-def load_init_file(file):
-    """ deprecated function """
-    internal_dpg.configure_app(init_file=file, load_init_file=True)
-
 @deprecated("Use: `is_viewport_ok(...)`")
 def is_viewport_created():
     """ deprecated function """
@@ -8993,6 +8988,18 @@ def save_init_file(file : str, **kwargs) -> None:
 	"""
 
 	return internal_dpg.save_init_file(file, **kwargs)
+
+def load_init_file(file: str, **kwargs) -> None:
+    """	 Load dpg.ini file.
+
+	Args:
+		file (str): 
+	Returns:
+		None
+	"""
+
+    return internal_dpg.load_init_file(file, **kwargs)
+
 
 def set_axis_limits(axis : Union[int, str], ymin : float, ymax : float, **kwargs) -> None:
 	"""	 Sets limits on the axis for pan and zoom.
