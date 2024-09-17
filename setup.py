@@ -9,7 +9,7 @@ import sys
 import shutil
 import subprocess
 
-wip_version = "1.11.1"
+wip_version = "1.12.0"
 
 def version_number():
     """This function reads the version number which is populated by github actions"""
@@ -169,7 +169,7 @@ def setup_package():
         long_description_content_type='text/markdown',         # Optional
         url='https://github.com/hoffstadt/DearPyGui',          # Optional
         license = 'MIT',
-        python_requires='>=3.7',
+        python_requires='>=3.8',
         classifiers=[
                 'Development Status :: 5 - Production/Stable',
                 'Intended Audience :: Education',

@@ -8,9 +8,7 @@ on:
   push:
 
     branches:
-      - master
-      - development
-      - development_*
+      - 1.x
 
     paths-ignore:
       - 'docs/**'
@@ -31,7 +29,7 @@ jobs:
     steps:
 
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Retrieve submodules
       shell: cmd
@@ -70,7 +68,7 @@ jobs:
     steps:
 
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Retrieve submodules
       run: git submodule update --init --recursive
@@ -105,7 +103,7 @@ jobs:
     steps:
 
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Retrieve submodules
       run: git submodule update --init --recursive
