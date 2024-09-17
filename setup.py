@@ -169,7 +169,7 @@ def setup_package():
         long_description_content_type='text/markdown',         # Optional
         url='https://github.com/hoffstadt/DearPyGui',          # Optional
         license = 'MIT',
-        python_requires='>=3.8',
+        python_requires='>=3.7',
         classifiers=[
                 'Development Status :: 5 - Production/Stable',
                 'Intended Audience :: Education',
