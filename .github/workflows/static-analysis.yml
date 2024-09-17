@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-20.04
     if: ${{! contains(github.event.head_commit.message, '[individual]') || contains(github.event.head_commit.message, '[static analysis]')}}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         #with:
         #  fetch-depth: 1
 
@@ -74,7 +74,7 @@ jobs:
 
       - name: Archive code coverage results
         if: ${{ always() }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: pvs-results
           path: /home/runner/work/DearPyGui/DearPyGui/pvs-studio.html

@@ -17,7 +17,7 @@ on:
       version:
         description: 'Dear PyGui Version'
         required: false
-        default: '1.12.0'
+        default: '2.0.0b'
     
       deploy:
         description: 'Deploy (true will deploy to pypi)'
@@ -41,7 +41,7 @@ jobs:
     steps:
 
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Setup Python ${{ matrix.python-version }}
       uses: actions/setup-python@v4
@@ -68,15 +68,15 @@ jobs:
         python -m setup bdist_wheel --plat-name win_amd64 --dist-dir dist
 
     - name: Upload Windows ${{ matrix.python-version }} Wheel
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: windowsbuild${{ matrix.python-version }}
         path: ${{ github.workspace }}/dist/*.whl
-        retention-days: 2
+        overwrite: true
 
   build-mac10-wheels:
 
-    runs-on: macos-11
+    runs-on: macos-12
     strategy:
       matrix:
         python-version: [ 3.8, 3.9, "3.10", "3.11", "3.12" ]
@@ -84,7 +84,7 @@ jobs:
     steps:
 
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Setup Python ${{ matrix.python-version }}
       uses: actions/setup-python@v4
@@ -108,11 +108,11 @@ jobs:
         python -m setup bdist_wheel --plat-name macosx-10.6-x86_64 --dist-dir dist
 
     - name: Upload MacOS 10.15 ${{ matrix.python-version }} Wheel
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: apple10build${{ matrix.python-version }}
         path: ${{ github.workspace }}/dist/*.whl
-        retention-days: 2
+        overwrite: true
 
   build-mac-silicon-wheels:
 
@@ -124,7 +124,7 @@ jobs:
     steps:
 
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
@@ -148,11 +148,11 @@ jobs:
           python -m setup bdist_wheel --plat-name macosx-13.0-arm64 --dist-dir dist
 
       - name: Upload MacOS ${{ matrix.python-version }} Wheel
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: apple10sbuild${{ matrix.python-version }}
           path: ${{ github.workspace }}/dist/*.whl
-          retention-days: 2
+          overwrite: true
 
   build-linux-wheels:
 
@@ -166,7 +166,7 @@ jobs:
     steps:
 
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Setup Python ${{ matrix.python-version }}
       uses: actions/setup-python@v4
@@ -192,11 +192,11 @@ jobs:
         python -m setup bdist_wheel --plat-name manylinux1_x86_64 --dist-dir dist
 
     - name: Upload Linux ${{ matrix.python-version }} Wheel
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: linuxbuild${{ matrix.python-version }}
         path: ${{ github.workspace }}/dist/*.whl
-        retention-days: 2
+        overwrite: true
 
   deploy-packages:
 
@@ -206,7 +206,7 @@ jobs:
     steps:
 
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Set up Python 3.9
       uses: actions/setup-python@v4
@@ -218,7 +218,7 @@ jobs:
         python -m pip install --upgrade pip setuptools wheel twine
 
     - name: Download artifacts
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
 
     - name: PyPi Deployment
       shell: cmd
