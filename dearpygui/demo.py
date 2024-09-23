@@ -363,12 +363,12 @@ def show_demo():
                 dpg.add_slider_float(label="slider float", max_value=1.0, format="ratio = %.3f", callback=_log)
                 dpg.add_slider_double(label="slider double", max_value=1.0, format="ratio = %.14f", callback=_log)
                 dpg.add_slider_int(label="slider angle", min_value=-360, max_value=360, format="%d deg", callback=_log)
+                dpg.add_color_edit((102, 179, 0, 128), label="color edit 4", callback=_log)
                 _help(
                         "Click on the colored square to open a color picker.\n"
                         "Click and hold to use drag and drop.\n"
                         "Right-click on the colored square to show options.\n"
                         "CTRL+click on individual component to input value.\n")
-                dpg.add_color_edit((102, 179, 0, 128), label="color edit 4", callback=_log)
                 dpg.add_color_edit(default_value=(.5, 1, .25, .1), label="color edit 4", callback=_log)
                 dpg.add_listbox(("Apple", "Banana", "Cherry", "Kiwi", "Mango", "Orange", "Pineapple", "Strawberry", "Watermelon"), label="listbox", num_items=4, callback=_log)
                 dpg.add_color_button()
