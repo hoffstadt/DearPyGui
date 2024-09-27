@@ -3385,3 +3385,17 @@ def show_demo():
                         dpg.add_dynamic_texture(app_data.get_width(), app_data.get_height(), app_data, parent="__demo_texture_container")
                     dpg.add_text("Outputs frame buffer an mvBuffer object, creates a dynamic texture, and shows the texture registry (check final item)")
                     dpg.add_button(label="Output Framebuffer", callback=lambda:dpg.output_frame_buffer(callback=_framebuffer_callback))
+
+
+if __name__ == '__main__':
+    import dearpygui.dearpygui as dpg
+
+    dpg.create_context()
+    dpg.create_viewport(title='Custom Title', width=600, height=600)
+
+    show_demo()
+
+    dpg.setup_dearpygui()
+    dpg.show_viewport()
+    dpg.start_dearpygui()
+    dpg.destroy_context()
