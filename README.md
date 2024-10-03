@@ -205,3 +205,7 @@ _Dear PyGui_ includes a drawing API to create custom drawings, plot, and even 2D
  ![](https://github.com/hoffstadt/DearPyGui/blob/assets/readme/mandlebrot.gif)
  
  ![](https://github.com/hoffstadt/DearPyGui/blob/assets/readme/nodes4.png)
+
+## SAST Tools
+
+[PVS-Studio](https://pvs-studio.com/en/pvs-studio/?utm_source=website&utm_medium=github&utm_campaign=open_source) - static analyzer for C, C++, C#, and Java code.
