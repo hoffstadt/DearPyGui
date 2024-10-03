@@ -550,7 +550,7 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
         for (int i = 0; i < config.rects.size(); ++i) {
 			// TODO: Implement flags
 			bool hovered = false;
-			query_dirty |= ImPlot::DragRect(i,&config.rects[i].X.Min,&config.rects[i].Y.Min,&config.rects[i].X.Max,&config.rects[i].Y.Max, config.query_color, ImPlotDragToolFlags_None, nullptr, &hovered);
+			query_dirty |= ImPlot::DragRect(i,&config.rects[i].X.Min,&config.rects[i].Y.Min,&config.rects[i].X.Max,&config.rects[i].Y.Max, config.query_color, ImPlotDragToolFlags_NoFit, nullptr, &hovered);
 			if (config.rects.size() > config.min_query_rects) {
 				if (hovered && ImGui::IsMouseDoubleClicked(config.select_cancel))
 				{
