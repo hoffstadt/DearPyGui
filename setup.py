@@ -40,7 +40,7 @@ def get_platform():
     }
     if sys.platform not in platforms:
         return sys.platform
-    
+
     return platforms[sys.platform]
 
 class BinaryDistribution(Distribution):
@@ -48,7 +48,7 @@ class BinaryDistribution(Distribution):
         return True
 
 class DPGBuildCommand(distutils.cmd.Command):
-  
+
   description = 'DPG Build Command'
   user_options = []
 
@@ -86,7 +86,7 @@ class DPGBuildCommand(distutils.cmd.Command):
         subprocess.check_call(''.join(command), shell=True)
         src_path = os.path.dirname(os.path.abspath(__file__))
         shutil.copy("cmake-build-local/DearPyGui/_dearpygui.so", src_path +"/output/dearpygui")
-    
+
     elif get_platform() == "OS X":
         command = ["mkdir cmake-build-local; "]
         command.append("cd cmake-build-local; ")
@@ -186,6 +186,7 @@ def setup_package():
                 'Programming Language :: Python :: 3.10',
                 'Programming Language :: Python :: 3.11',
                 'Programming Language :: Python :: 3.12',
+                'Programming Language :: Python :: 3.13',
                 'Programming Language :: Python :: Implementation :: CPython',
                 'Programming Language :: Python :: 3 :: Only',
                 'Topic :: Software Development :: User Interfaces',
