@@ -113,6 +113,7 @@ struct mvGroupConfig
     bool  horizontal = false;
     float hspacing = -1.0f;
     float xoffset = 0.0f;
+    ImGuiMouseCursor    cursor_on_hover = ImGuiMouseCursor_None;
 };
 
 struct mvDragPayloadConfig

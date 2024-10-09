@@ -1794,6 +1794,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "arrow", mvArgType::KEYWORD_ARG, "False", "Displays an arrow in place of the text string. This requires the direction keyword." });
         args.push_back({ mvPyDataType::Integer, "direction", mvArgType::KEYWORD_ARG, "0", "Sets the cardinal direction for the arrow by using constants mvDir_Left, mvDir_Up, mvDir_Down, mvDir_Right, mvDir_None. Arrow keyword must be set to True." });
         args.push_back({ mvPyDataType::Bool, "repeat", mvArgType::KEYWORD_ARG, "False", "Hold to continuosly repeat the click." });
+        args.push_back({ mvPyDataType::Integer, "cursor_on_hover", mvArgType::KEYWORD_ARG, "internal_dpg.mvMouseCursor_None", "Select mouse cursor type when hovering the button (if supported)." });
 
         setup.about = "Adds a button.";
         break;
@@ -2142,6 +2143,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "horizontal", mvArgType::KEYWORD_ARG, "False", "Forces child widgets to be added in a horizontal layout." });
         args.push_back({ mvPyDataType::Float, "horizontal_spacing", mvArgType::KEYWORD_ARG, "-1", "Spacing for the horizontal layout." });
         args.push_back({ mvPyDataType::Float, "xoffset", mvArgType::KEYWORD_ARG, "0.0", "Offset from containing window x item location within group." });
+        args.push_back({ mvPyDataType::Integer, "cursor_on_hover", mvArgType::KEYWORD_ARG, "internal_dpg.mvMouseCursor_None", "Select mouse cursor type when hovering the group (if supported)." });
 
         setup.about = "Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members.\nEnable property acts in a special way enabling/disabling everything inside the group. (Use mvStyleVar_DisabledAlpha to edit colors within the disabled group.)";
         setup.category = { "Containers", "Widgets" };

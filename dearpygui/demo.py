@@ -3252,6 +3252,21 @@ def show_demo():
             for handler in dpg.get_item_children("__demo_mouse_handler", 1):
                 dpg.set_item_callback(handler, _event_handler)
 
+            with dpg.tree_node(label="Mouse Cursors"):
+                cursors = [("Arrow", dpg.mvMouseCursor_Arrow), ("TextInput", dpg.mvMouseCursor_TextInput),
+                               ("ResizeAll", dpg.mvMouseCursor_ResizeAll), ("ResizeNS", dpg.mvMouseCursor_ResizeNS),
+                               ("ResizeEW", dpg.mvMouseCursor_ResizeEW), ("ResizeNESW", dpg.mvMouseCursor_ResizeNESW),
+                               ("ResizeNWSE", dpg.mvMouseCursor_ResizeNWSE), ("Hand", dpg.mvMouseCursor_Hand),
+                               ("NotAllowed", dpg.mvMouseCursor_NotAllowed)]
+                dpg.add_text("Hover to see mouse cursors:")
+                with dpg.tooltip(dpg.last_item()):
+                    dpg.add_text("Your application can render a different mouse cursor based on what ImGui::GetMouseCursor() returns.\n"
+                "If software cursor rendering (io.MouseDrawCursor) is set ImGui will draw the right cursor for you,\n"
+                "otherwise your backend needs to handle it.")
+                for i in range(len(cursors)):
+                    with dpg.group(horizontal=True, cursor_on_hover=cursors[i][1]):
+                        dpg.add_text(cursors[i][0], bullet=True)
+
         with dpg.collapsing_header(label="Drag & Drop"):
            
            with dpg.tree_node(label="Help"):

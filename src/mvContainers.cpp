@@ -90,6 +90,7 @@ DearPyGui::fill_configuration_dict(const mvGroupConfig& inConfig, PyObject* outD
     PyDict_SetItemString(outDict, "horizontal", mvPyObject(ToPyBool(inConfig.horizontal)));
     PyDict_SetItemString(outDict, "horizontal_spacing", mvPyObject(ToPyFloat(inConfig.hspacing)));
     PyDict_SetItemString(outDict, "xoffset", mvPyObject(ToPyFloat(inConfig.xoffset)));
+    PyDict_SetItemString(outDict, "cursor_on_hover", mvPyObject(ToPyInt(inConfig.cursor_on_hover)));
 }
 
 void
@@ -310,6 +311,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvGroupConfig& outConfig)
     if (PyObject* item = PyDict_GetItemString(inDict, "horizontal")) outConfig.horizontal = ToBool(item);
     if (PyObject* item = PyDict_GetItemString(inDict, "horizontal_spacing")) outConfig.hspacing = ToFloat(item);
     if (PyObject* item = PyDict_GetItemString(inDict, "xoffset")) outConfig.xoffset = ToFloat(item);
+    if (PyObject* item = PyDict_GetItemString(inDict, "cursor_on_hover")) outConfig.cursor_on_hover = ToInt(item);
 }
 
 void
@@ -1125,6 +1127,9 @@ DearPyGui::draw_group(ImDrawList* drawlist, mvAppItem& item, mvGroupConfig& conf
             ImGui::PopItemWidth();
 
         ImGui::EndGroup();
+
+        if (config.cursor_on_hover != ImGuiMouseCursor_None && ImGui::IsItemHovered())
+            ImGui::SetMouseCursor(config.cursor_on_hover);
 
         if (!item.config.enabled)
             ImGui::EndDisabled();

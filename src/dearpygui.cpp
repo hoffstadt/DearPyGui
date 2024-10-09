@@ -143,6 +143,17 @@ GetModuleConstants()
 		ModuleConstants.push_back({ "mvNode_PinShape_Quad", ImNodesPinShape_Quad });
 		ModuleConstants.push_back({ "mvNode_PinShape_QuadFilled", ImNodesPinShape_QuadFilled });
 
+		ModuleConstants.push_back({ "mvMouseCursor_None", ImGuiMouseCursor_None});
+		ModuleConstants.push_back({ "mvMouseCursor_Arrow", ImGuiMouseCursor_Arrow});
+		ModuleConstants.push_back({ "mvMouseCursor_TextInput", ImGuiMouseCursor_TextInput });
+		ModuleConstants.push_back({ "mvMouseCursor_ResizeAll", ImGuiMouseCursor_ResizeAll});
+		ModuleConstants.push_back({ "mvMouseCursor_ResizeNS", ImGuiMouseCursor_ResizeNS});
+		ModuleConstants.push_back({ "mvMouseCursor_ResizeEW", ImGuiMouseCursor_ResizeEW});
+		ModuleConstants.push_back({ "mvMouseCursor_ResizeNESW", ImGuiMouseCursor_ResizeNESW});
+		ModuleConstants.push_back({ "mvMouseCursor_ResizeNWSE", ImGuiMouseCursor_ResizeNWSE});
+		ModuleConstants.push_back({ "mvMouseCursor_Hand", ImGuiMouseCursor_Hand});
+		ModuleConstants.push_back({ "mvMouseCursor_NotAllowed", ImGuiMouseCursor_NotAllowed});
+
 		ModuleConstants.push_back({ "mvNode_Attr_Input", 0L });
 		ModuleConstants.push_back({ "mvNode_Attr_Output", 1L});
 		ModuleConstants.push_back({ "mvNode_Attr_Static", 2L});
