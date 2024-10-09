@@ -38,7 +38,7 @@ def add_bool_value(*, label: str ='', user_data: Any ='', use_internal_label: bo
 	"""Adds a bool value."""
 	...
 
-def add_button(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', small: bool ='', arrow: bool ='', direction: int ='', repeat: bool ='') -> Union[int, str]:
+def add_button(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', small: bool ='', arrow: bool ='', direction: int ='', repeat: bool ='', cursor_on_hover: int ='') -> Union[int, str]:
 	"""Adds a button."""
 	...
 
@@ -230,7 +230,7 @@ def add_font_registry(*, label: str ='', user_data: Any ='', use_internal_label:
 	"""Adds a font registry."""
 	...
 
-def add_group(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', delay_search: bool ='', tracked: bool ='', track_offset: float ='', horizontal: bool ='', horizontal_spacing: float ='', xoffset: float ='') -> Union[int, str]:
+def add_group(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', delay_search: bool ='', tracked: bool ='', track_offset: float ='', horizontal: bool ='', horizontal_spacing: float ='', xoffset: float ='', cursor_on_hover: int ='') -> Union[int, str]:
 	"""Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members.
 Enable property acts in a special way enabling/disabling everything inside the group. (Use mvStyleVar_DisabledAlpha to edit colors within the disabled group.)"""
 	...
@@ -1492,6 +1492,16 @@ mvNode_PinShape_Triangle=0
 mvNode_PinShape_TriangleFilled=0
 mvNode_PinShape_Quad=0
 mvNode_PinShape_QuadFilled=0
+mvMouseCursor_None=0
+mvMouseCursor_Arrow=0
+mvMouseCursor_TextInput=0
+mvMouseCursor_ResizeAll=0
+mvMouseCursor_ResizeNS=0
+mvMouseCursor_ResizeEW=0
+mvMouseCursor_ResizeNESW=0
+mvMouseCursor_ResizeNWSE=0
+mvMouseCursor_Hand=0
+mvMouseCursor_NotAllowed=0
 mvNode_Attr_Input=0
 mvNode_Attr_Output=0
 mvNode_Attr_Static=0
