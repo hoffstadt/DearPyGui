@@ -453,7 +453,7 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 				ImPlot::SetupAxis(id_axis, axis->config.specifiedLabel.c_str(), flags);
 				if (axis->configData.setLimits || axis->configData._dirty)
 				{
-					ImPlot::SetupAxisLimits(id_axis, axis->configData.limits.x, axis->configData.limits.y, ImGuiCond_Always);
+					ImPlot::SetupAxisLimits(id_axis, axis->configData.limits.Min, axis->configData.limits.Max, ImGuiCond_Always);
 					axis->configData._dirty = false;  // TODO: Check if this is it really useful
 				}
 				if (!axis->configData.formatter.empty())
@@ -462,7 +462,7 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 				ImPlot::SetupAxisScale(id_axis, axis->configData.scale);
 
 				if (axis->configData.setLimitsRange)
-					ImPlot::SetupAxisLimitsConstraints(id_axis, axis->configData.constraints_range.x, axis->configData.constraints_range.y);
+					ImPlot::SetupAxisLimitsConstraints(id_axis, axis->configData.constraints_range.Min, axis->configData.constraints_range.Max);
 				if (axis->configData.setZoomRange)
 					ImPlot::SetupAxisZoomConstraints(id_axis, axis->configData.zoom_range.x, axis->configData.zoom_range.y);
 
@@ -702,19 +702,11 @@ DearPyGui::draw_plot_axis(ImDrawList* drawlist, mvAppItem& item, mvPlotAxisConfi
 
 	// x axis
 	if (config.axis <= ImAxis_X3)
-	{
-		auto plotLimits = ImPlot::GetPlotLimits(config.axis, IMPLOT_AUTO);
-		config.limits_actual.x = (float)plotLimits.X.Min;
-		config.limits_actual.y = (float)plotLimits.X.Max;
-	}
+		config.limits_actual = ImPlot::GetPlotLimits(config.axis, IMPLOT_AUTO).X;
 
 	// y axis
 	else
-	{
-		auto plotLimits = ImPlot::GetPlotLimits(IMPLOT_AUTO, config.axis);
-		config.limits_actual.x = (float)plotLimits.Y.Min;
-		config.limits_actual.y = (float)plotLimits.Y.Max;
-	}
+		config.limits_actual = ImPlot::GetPlotLimits(config.axis, IMPLOT_AUTO).Y;
 
 	config.flags = ImPlot::GetCurrentContext()->CurrentPlot->Axes[config.axis].Flags;
 
@@ -2323,8 +2315,8 @@ DearPyGui::draw_custom_series(ImDrawList* drawlist, mvAppItem& item, mvCustomSer
 			static int extras = 4;
 			mvSubmitCallback([&, mouse, mouse2]() {
 				PyObject* helperData = PyDict_New();
-				PyDict_SetItemString(helperData, "MouseX_PlotSpace", ToPyFloat(mouse.x));
-				PyDict_SetItemString(helperData, "MouseY_PlotSpace", ToPyFloat(mouse.y));
+				PyDict_SetItemString(helperData, "MouseX_PlotSpace", ToPyDouble(mouse.x));
+				PyDict_SetItemString(helperData, "MouseY_PlotSpace", ToPyDouble(mouse.y));
 				PyDict_SetItemString(helperData, "MouseX_PixelSpace", ToPyFloat(mouse2.x));
 				PyDict_SetItemString(helperData, "MouseY_PixelSpace", ToPyFloat(mouse2.y));
 				PyObject* appData = PyTuple_New(config.channelCount + extras);

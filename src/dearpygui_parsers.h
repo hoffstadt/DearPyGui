@@ -268,8 +268,8 @@ InsertParser_Block0(std::map<std::string, mvPythonParser>& parsers)
 		std::vector<mvPythonDataElement> args;
 		args.reserve(3);
 		args.push_back({ mvPyDataType::UUID, "axis" });
-		args.push_back({ mvPyDataType::Float, "vmin" });
-		args.push_back({ mvPyDataType::Float, "vmax" });
+		args.push_back({ mvPyDataType::Double, "vmin" });
+		args.push_back({ mvPyDataType::Double, "vmax" });
 
 		mvPythonParserSetup setup;
 		setup.about = "Sets an axis' limits constraints so that users can't pan beyond a min or max value";
@@ -320,8 +320,8 @@ InsertParser_Block0(std::map<std::string, mvPythonParser>& parsers)
 		std::vector<mvPythonDataElement> args;
 		args.reserve(3);
 		args.push_back({ mvPyDataType::UUID, "axis" });
-		args.push_back({ mvPyDataType::Float, "ymin" });
-		args.push_back({ mvPyDataType::Float, "ymax" });
+		args.push_back({ mvPyDataType::Double, "ymin" });
+		args.push_back({ mvPyDataType::Double, "ymax" });
 
 		mvPythonParserSetup setup;
 		setup.about = "Sets limits on the axis for pan and zoom.";
