@@ -1109,8 +1109,8 @@ static PyObject*
 set_axis_limits_constraints(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 	PyObject* axisraw;
-	float vmin;
-	float vmax;
+	double vmin;
+	double vmax;
 	auto tag = "set_axis_limits_constraints";
 
 	if (!Parse((GetParsers())[tag], args, kwargs, __FUNCTION__, &axisraw, &vmin, &vmax))
@@ -1137,7 +1137,7 @@ set_axis_limits_constraints(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	mvPlotAxis* graph = static_cast<mvPlotAxis*>(aplot);
 	graph->configData.setLimitsRange = true;
-	graph->configData.constraints_range = ImVec2(vmin, vmax);
+	graph->configData.constraints_range = ImPlotRange(vmin, vmax);
 	return GetPyNone();
 }
 
@@ -1249,8 +1249,8 @@ static PyObject*
 set_axis_limits(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 	PyObject* axisraw;
-	float ymin;
-	float ymax;
+	double ymin;
+	double ymax;
 
 	if (!Parse((GetParsers())["set_axis_limits"], args, kwargs, __FUNCTION__, &axisraw, &ymin, &ymax))
 		return GetPyNone();
@@ -1276,7 +1276,7 @@ set_axis_limits(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	mvPlotAxis* graph = static_cast<mvPlotAxis*>(aplot);
 	graph->configData.setLimits = true;
-	graph->configData.limits = ImVec2(ymin, ymax);
+	graph->configData.limits = ImPlotRange(ymin, ymax);
 	return GetPyNone();
 }
 
@@ -1379,8 +1379,8 @@ get_axis_limits(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	mvPlotAxis* graph = static_cast<mvPlotAxis*>(aplot);
 
-	const ImVec2& lim = graph->configData.limits_actual;
-	return ToPyPair(lim.x, lim.y);
+	const ImPlotRange& lim = graph->configData.limits_actual;
+	return ToPyPair(lim.Min, lim.Max);
 }
 
 static PyObject*
@@ -2854,9 +2854,7 @@ get_plot_mouse_pos(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["get_plot_mouse_pos"], args, kwargs, __FUNCTION__))
 		return GetPyNone();
 
-	mvVec2 pos = { (f32)GContext->input.mousePlotPos.x, (f32)GContext->input.mousePlotPos.y };
-
-	return ToPyPair(pos.x, pos.y);
+	return ToPyPair(GContext->input.mousePlotPos.x, GContext->input.mousePlotPos.y);
 }
 
 static PyObject*

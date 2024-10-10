@@ -49,9 +49,15 @@ struct mvInput
         std::atomic<float> y;
     };
 
+    struct AtomicDoubleVec2
+    {
+        std::atomic<double> x;
+        std::atomic<double> y;
+    };
+
     AtomicVec2       mousePos = { 0, 0 };
     AtomicVec2       mouseGlobalPos = { 0, 0 };
-    AtomicFloatVec2  mousePlotPos = { 0, 0 };
+    AtomicDoubleVec2 mousePlotPos = { 0, 0 };
     AtomicVec2       mouseDrawingPos = { 0, 0 };
     std::atomic_int  mouseDragThreshold = 20;
     AtomicVec2       mouseDragDelta = { 0, 0 };

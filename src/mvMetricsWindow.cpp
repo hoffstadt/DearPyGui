@@ -168,7 +168,7 @@ void mvMetricsWindow::drawWidgets()
             //DebugItem("Active Window: ", GContext->itemRegistry->getActiveWindow().c_str());
             DebugItem("Local Mouse Position:", (float)GContext->input.mousePos.x, (float)GContext->input.mousePos.y);
             DebugItem("Global Mouse Position:", (float)io.MousePos.x, (float)io.MousePos.y);
-            DebugItem("Plot Mouse Position:", (float)GContext->input.mousePlotPos.x, (float)GContext->input.mousePlotPos.y);
+            DebugItem("Plot Mouse Position:", (double)GContext->input.mousePlotPos.x, (double)GContext->input.mousePlotPos.y);
             DebugItem("Mouse Drag Delta:", (float)GContext->input.mouseDragDelta.x, (float)GContext->input.mouseDragDelta.y);
             DebugItem("Mouse Drag Threshold:", (float)GContext->input.mouseDragThreshold);
 
