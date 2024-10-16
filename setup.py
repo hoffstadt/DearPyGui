@@ -9,7 +9,7 @@ import sys
 import shutil
 import subprocess
 
-wip_version = "2.0.0b1"
+wip_version = "2.0.0b2"
 
 def version_number():
     """This function reads the version number which is populated by github actions"""
@@ -169,7 +169,7 @@ def setup_package():
         long_description_content_type='text/markdown',         # Optional
         url='https://github.com/hoffstadt/DearPyGui',          # Optional
         license = 'MIT',
-        python_requires='>=3.7',
+        python_requires='>=3.8',
         classifiers=[
                 'Development Status :: 5 - Production/Stable',
                 'Intended Audience :: Education',
@@ -180,12 +180,12 @@ def setup_package():
                 'Operating System :: Microsoft :: Windows :: Windows 10',
                 'Operating System :: POSIX',
                 'Operating System :: Unix',
-                'Programming Language :: Python :: 3.7',
                 'Programming Language :: Python :: 3.8',
                 'Programming Language :: Python :: 3.9',
                 'Programming Language :: Python :: 3.10',
                 'Programming Language :: Python :: 3.11',
                 'Programming Language :: Python :: 3.12',
+                'Programming Language :: Python :: 3.13',
                 'Programming Language :: Python :: Implementation :: CPython',
                 'Programming Language :: Python :: 3 :: Only',
                 'Topic :: Software Development :: User Interfaces',
