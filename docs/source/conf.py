@@ -16,7 +16,7 @@ import sphinx_rtd_theme
 # -- Project information -----------------------------------------------------
 
 project = 'Dear PyGui'
-copyright = '2021, Jonathan Hoffstadt and Preston Cothren'
+copyright = '2024, Jonathan Hoffstadt and Preston Cothren'
 author = 'Jonathan Hoffstadt and Preston Cothren'
 
 
