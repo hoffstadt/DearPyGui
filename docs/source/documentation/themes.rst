@@ -313,16 +313,16 @@ mvPlotCol_PlotBorder    mvPlotCol_Crosshairs
 Node Colors
 -----------
 
-================================ ========================== ============================
+================================ ========================== ============================ ======================================== ===============================
 Node Colors
-================================ ========================== ============================
-mvNodeCol_NodeBackground         mvNodeCol_TitleBarSelected mvNodeCol_BoxSelector
-mvNodeCol_NodeBackgroundHovered  mvNodeCol_Link             mvNodeCol_BoxSelectorOutline
-mvNodeCol_NodeBackgroundSelected mvNodeCol_LinkHovered      mvNodeCol_GridBackground
-mvNodeCol_NodeOutline            mvNodeCol_LinkSelected     mvNodeCol_GridLine
-mvNodeCol_TitleBar               mvNodeCol_Pin              mvNodeCol_PinHovered
-mvNodeCol_TitleBarHovered
-================================ ========================== ============================
+================================ ========================== ============================ ======================================== ===============================
+mvNodeCol_NodeBackground         mvNodeCol_TitleBarSelected mvNodeCol_BoxSelector        mvNodesCol_MiniMapBackgroundHovered      mvNodesCol_MiniMapNodeOutline
+mvNodeCol_NodeBackgroundHovered  mvNodeCol_Link             mvNodeCol_BoxSelectorOutline mvNodesCol_MiniMapOutline                mvNodesCol_MiniMapLink
+mvNodeCol_NodeBackgroundSelected mvNodeCol_LinkHovered      mvNodeCol_GridBackground     mvNodesCol_MiniMapOutlineHovered         mvNodesCol_MiniMapLinkSelected
+mvNodeCol_NodeOutline            mvNodeCol_LinkSelected     mvNodeCol_GridLine           mvNodesCol_MiniMapNodeBackground         mvNodesCol_MiniMapCanvas
+mvNodeCol_TitleBar               mvNodeCol_Pin              mvNodesCol_GridLinePrimary   mvNodesCol_MiniMapNodeBackgroundHovered  mvNodesCol_MiniMapCanvasOutline
+mvNodeCol_TitleBarHovered        mvNodeCol_PinHovered       mvNodesCol_MiniMapBackground mvNodesCol_MiniMapNodeBackgroundSelected 
+================================ ========================== ============================ ======================================== ===============================
 
 Core Styles
 -----------
@@ -407,8 +407,7 @@ Constant                                 Components
 ======================================== ==========
 mvNodeStyleVar_GridSpacing               1
 mvNodeStyleVar_NodeCornerRounding        1
-mvNodeStyleVar_NodePaddingHorizontal     1
-mvNodeStyleVar_NodePaddingVertical       1
+mvNodeStyleVar_NodePadding               2
 mvNodeStyleVar_NodeBorderThickness       1
 mvNodeStyleVar_LinkThickness             1
 mvNodeStyleVar_LinkLineSegmentsPerLength 1
@@ -419,4 +418,6 @@ mvNodeStyleVar_PinTriangleSideLength     1
 mvNodeStyleVar_PinLineThickness          1
 mvNodeStyleVar_PinHoverRadius            1
 mvNodeStyleVar_PinOffset                 1
+mvNodesStyleVar_MiniMapPadding           2
+mvNodesStyleVar_MiniMapOffset            2
 ======================================== ==========
