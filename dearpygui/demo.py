@@ -2754,8 +2754,8 @@ def show_demo():
 
                                 # create y axes with drop callbacks
                                 dpg.add_plot_axis(dpg.mvYAxis, label="y1", drop_callback=_axis_drop, payload_type="plotting")
-                                dpg.add_plot_axis(dpg.mvYAxis, label="y2", drop_callback=_axis_drop, payload_type="plotting")
-                                dpg.add_plot_axis(dpg.mvYAxis, label="y3", drop_callback=_axis_drop, payload_type="plotting")
+                                dpg.add_plot_axis(dpg.mvYAxis2, label="y2", drop_callback=_axis_drop, payload_type="plotting")
+                                dpg.add_plot_axis(dpg.mvYAxis3, label="y3", drop_callback=_axis_drop, payload_type="plotting")
                                 
 
 
