@@ -220,6 +220,7 @@ struct mvButtonConfig
     bool     small_button = false;
     bool     arrow = false;
     bool     repeat = false;
+    ImGuiMouseCursor cursor_on_hover = ImGuiMouseCursor_None;
 };
 
 struct mvComboConfig

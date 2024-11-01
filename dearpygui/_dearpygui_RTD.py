@@ -1955,6 +1955,7 @@ Enable property acts in a special way enabling/disabling everything inside the g
 		horizontal (bool, optional): Forces child widgets to be added in a horizontal layout.
 		horizontal_spacing (float, optional): Spacing for the horizontal layout.
 		xoffset (float, optional): Offset from containing window x item location within group.
+		cursor_on_hover (int, optional): Select mouse cursor type when hovering the group (if supported).
 		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
@@ -3001,6 +3002,7 @@ def add_button(**kwargs):
 		arrow (bool, optional): Displays an arrow in place of the text string. This requires the direction keyword.
 		direction (int, optional): Sets the cardinal direction for the arrow by using constants mvDir_Left, mvDir_Up, mvDir_Down, mvDir_Right, mvDir_None. Arrow keyword must be set to True.
 		repeat (bool, optional): Hold to continuosly repeat the click.
+		cursor_on_hover (int, optional): Select mouse cursor type when hovering the button (if supported).
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -4282,6 +4284,7 @@ Enable property acts in a special way enabling/disabling everything inside the g
 		horizontal (bool, optional): Forces child widgets to be added in a horizontal layout.
 		horizontal_spacing (float, optional): Spacing for the horizontal layout.
 		xoffset (float, optional): Offset from containing window x item location within group.
+		cursor_on_hover (int, optional): Select mouse cursor type when hovering the group (if supported).
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -9045,6 +9048,16 @@ mvNode_PinShape_Triangle=internal_dpg.mvNode_PinShape_Triangle
 mvNode_PinShape_TriangleFilled=internal_dpg.mvNode_PinShape_TriangleFilled
 mvNode_PinShape_Quad=internal_dpg.mvNode_PinShape_Quad
 mvNode_PinShape_QuadFilled=internal_dpg.mvNode_PinShape_QuadFilled
+mvMouseCursor_None=internal_dpg.mvMouseCursor_None
+mvMouseCursor_Arrow=internal_dpg.mvMouseCursor_Arrow
+mvMouseCursor_TextInput=internal_dpg.mvMouseCursor_TextInput
+mvMouseCursor_ResizeAll=internal_dpg.mvMouseCursor_ResizeAll
+mvMouseCursor_ResizeNS=internal_dpg.mvMouseCursor_ResizeNS
+mvMouseCursor_ResizeEW=internal_dpg.mvMouseCursor_ResizeEW
+mvMouseCursor_ResizeNESW=internal_dpg.mvMouseCursor_ResizeNESW
+mvMouseCursor_ResizeNWSE=internal_dpg.mvMouseCursor_ResizeNWSE
+mvMouseCursor_Hand=internal_dpg.mvMouseCursor_Hand
+mvMouseCursor_NotAllowed=internal_dpg.mvMouseCursor_NotAllowed
 mvNode_Attr_Input=internal_dpg.mvNode_Attr_Input
 mvNode_Attr_Output=internal_dpg.mvNode_Attr_Output
 mvNode_Attr_Static=internal_dpg.mvNode_Attr_Static
