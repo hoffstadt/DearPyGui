@@ -446,16 +446,15 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 					{
 						id_axis = static_cast<ImAxis_>(next_y_axis);
 						flags |= ImPlotAxisFlags_Opposite;
+						axis->configData.axis = next_y_axis;
 					}
 					++next_y_axis;
 				}
 
 				ImPlot::SetupAxis(id_axis, axis->config.specifiedLabel.c_str(), flags);
-				if (axis->configData.setLimits || axis->configData._dirty)
-				{
+				if (axis->configData.setLimits)
 					ImPlot::SetupAxisLimits(id_axis, axis->configData.limits.x, axis->configData.limits.y, ImGuiCond_Always);
-					axis->configData._dirty = false;  // TODO: Check if this is it really useful
-				}
+
 				if (!axis->configData.formatter.empty())
 					ImPlot::SetupAxisFormat(id_axis, axis->configData.formatter.c_str());
 

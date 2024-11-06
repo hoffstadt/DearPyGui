@@ -401,7 +401,6 @@ struct mvPlotAxisConfig
     std::vector<std::string> labels;
     std::vector<double>      labelLocations;
     std::vector<const char*> clabels; // to prevent conversion from string to char* every frame
-    bool                     _dirty = false;
 };
 
 struct mvPlotConfig
