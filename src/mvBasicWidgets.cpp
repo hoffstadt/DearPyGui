@@ -253,7 +253,6 @@ DearPyGui::fill_configuration_dict(const mvSliderIntConfig& inConfig, PyObject* 
 		return;
 
 	PyDict_SetItemString(outDict, "format", mvPyObject(ToPyString(inConfig.format)));
-	PyDict_SetItemString(outDict, "vertical", mvPyObject(ToPyBool(inConfig.vertical)));
 	PyDict_SetItemString(outDict, "min_value", mvPyObject(ToPyInt(inConfig.minv)));
 	PyDict_SetItemString(outDict, "max_value", mvPyObject(ToPyInt(inConfig.maxv)));
 
@@ -266,6 +265,8 @@ DearPyGui::fill_configuration_dict(const mvSliderIntConfig& inConfig, PyObject* 
 	// window flags
 	checkbitset("clamped", ImGuiSliderFlags_AlwaysClamp, inConfig.flags);
 	checkbitset("no_input", ImGuiSliderFlags_NoInput, inConfig.flags);
+	checkbitset("vertical", ImGuiSliderFlags_Vertical, inConfig.flags);
+	checkbitset("logarithmic", ImGuiSliderFlags_Logarithmic, inConfig.flags);
 }
 
 void
@@ -297,7 +298,6 @@ DearPyGui::fill_configuration_dict(const mvSliderFloatConfig& inConfig, PyObject
 		return;
 
 	PyDict_SetItemString(outDict, "format", mvPyObject(ToPyString(inConfig.format)));
-	PyDict_SetItemString(outDict, "vertical", mvPyObject(ToPyBool(inConfig.vertical)));
 	PyDict_SetItemString(outDict, "min_value", mvPyObject(ToPyFloat(inConfig.minv)));
 	PyDict_SetItemString(outDict, "max_value", mvPyObject(ToPyFloat(inConfig.maxv)));
 
@@ -310,6 +310,8 @@ DearPyGui::fill_configuration_dict(const mvSliderFloatConfig& inConfig, PyObject
 	// window flags
 	checkbitset("clamped", ImGuiSliderFlags_AlwaysClamp, inConfig.flags);
 	checkbitset("no_input", ImGuiSliderFlags_NoInput, inConfig.flags);
+	checkbitset("vertical", ImGuiSliderFlags_Vertical, inConfig.flags);
+	checkbitset("logarithmic", ImGuiSliderFlags_Logarithmic, inConfig.flags);
 }
 
 void
@@ -350,7 +352,6 @@ DearPyGui::fill_configuration_dict(const mvSliderDoubleConfig& inConfig, PyObjec
 		return;
 
 	PyDict_SetItemString(outDict, "format", mvPyObject(ToPyString(inConfig.format)));
-	PyDict_SetItemString(outDict, "vertical", mvPyObject(ToPyBool(inConfig.vertical)));
 	PyDict_SetItemString(outDict, "min_value", mvPyObject(ToPyDouble(inConfig.minv)));
 	PyDict_SetItemString(outDict, "max_value", mvPyObject(ToPyDouble(inConfig.maxv)));
 
@@ -363,6 +364,8 @@ DearPyGui::fill_configuration_dict(const mvSliderDoubleConfig& inConfig, PyObjec
 	// window flags
 	checkbitset("clamped", ImGuiSliderFlags_AlwaysClamp, inConfig.flags);
 	checkbitset("no_input", ImGuiSliderFlags_NoInput, inConfig.flags);
+	checkbitset("vertical", ImGuiSliderFlags_Vertical, inConfig.flags);
+	checkbitset("logarithmic", ImGuiSliderFlags_Logarithmic, inConfig.flags);
 }
 
 void
@@ -975,7 +978,6 @@ DearPyGui::set_configuration(PyObject* inDict, mvSliderIntConfig& outConfig, mvA
 		return;
 
 	if (PyObject* item = PyDict_GetItemString(inDict, "format")) outConfig.format = ToString(item);
-	if (PyObject* item = PyDict_GetItemString(inDict, "vertical")) outConfig.vertical = ToBool(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "min_value")) outConfig.minv = ToInt(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "max_value")) outConfig.maxv = ToInt(item);
 
@@ -1027,6 +1029,10 @@ DearPyGui::set_configuration(PyObject* inDict, mvSliderIntMultiConfig& outConfig
 	flagop("clamped", ImGuiSliderFlags_AlwaysClamp, outConfig.stor_flags);
 	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.flags);
 	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.stor_flags);
+	flagop("vertical", ImGuiSliderFlags_Vertical, outConfig.flags);
+	flagop("vertical", ImGuiSliderFlags_Vertical, outConfig.stor_flags);
+	flagop("logarithmic", ImGuiSliderFlags_Logarithmic, outConfig.flags);
+	flagop("logarithmic", ImGuiSliderFlags_Logarithmic, outConfig.stor_flags);
 
 	if (info.enabledLastFrame)
 	{
@@ -1049,7 +1055,6 @@ DearPyGui::set_configuration(PyObject* inDict, mvSliderFloatConfig& outConfig, m
 		return;
 
 	if (PyObject* item = PyDict_GetItemString(inDict, "format")) outConfig.format = ToString(item);
-	if (PyObject* item = PyDict_GetItemString(inDict, "vertical")) outConfig.vertical = ToBool(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "min_value")) outConfig.minv = ToFloat(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "max_value")) outConfig.maxv = ToFloat(item);
 
@@ -1102,6 +1107,10 @@ DearPyGui::set_configuration(PyObject* inDict, mvSliderFloatMultiConfig& outConf
 	flagop("clamped", ImGuiSliderFlags_AlwaysClamp, outConfig.stor_flags);
 	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.flags);
 	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.stor_flags);
+	flagop("vertical", ImGuiSliderFlags_Vertical, outConfig.flags);
+	flagop("vertical", ImGuiSliderFlags_Vertical, outConfig.stor_flags);
+	flagop("logarithmic", ImGuiSliderFlags_Logarithmic, outConfig.flags);
+	flagop("logarithmic", ImGuiSliderFlags_Logarithmic, outConfig.stor_flags);
 
 	if (info.enabledLastFrame)
 	{
@@ -1125,7 +1134,6 @@ DearPyGui::set_configuration(PyObject* inDict, mvSliderDoubleConfig& outConfig, 
 		return;
 
 	if (PyObject* item = PyDict_GetItemString(inDict, "format")) outConfig.format = ToString(item);
-	if (PyObject* item = PyDict_GetItemString(inDict, "vertical")) outConfig.vertical = ToBool(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "min_value")) outConfig.minv = ToDouble(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "max_value")) outConfig.maxv = ToDouble(item);
 
@@ -1178,6 +1186,10 @@ DearPyGui::set_configuration(PyObject* inDict, mvSliderDoubleMultiConfig& outCon
 	flagop("clamped", ImGuiSliderFlags_AlwaysClamp, outConfig.stor_flags);
 	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.flags);
 	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.stor_flags);
+	flagop("vertical", ImGuiSliderFlags_Vertical, outConfig.flags);
+	flagop("vertical", ImGuiSliderFlags_Vertical, outConfig.stor_flags);
+	flagop("logarithmic", ImGuiSliderFlags_Logarithmic, outConfig.flags);
+	flagop("logarithmic", ImGuiSliderFlags_Logarithmic, outConfig.stor_flags);
 
 	if (info.enabledLastFrame)
 	{
@@ -3681,7 +3693,7 @@ DearPyGui::draw_slider_float(ImDrawList* drawlist, mvAppItem& item, mvSliderFloa
 
 		if (!item.config.enabled) config.disabled_value = *config.value;
 
-		if (config.vertical)
+		if (ImHasFlag(config.flags, ImGuiSliderFlags_Vertical))
 		{
 			if ((float)item.config.height < 1.0f)
 				item.config.height = 100;
@@ -3797,7 +3809,7 @@ DearPyGui::draw_slider_double(ImDrawList* drawlist, mvAppItem& item, mvSliderDou
 
 		if (!item.config.enabled) config.disabled_value = *config.value;
 
-		if (config.vertical)
+		if (ImHasFlag(config.flags, ImGuiSliderFlags_Vertical))
 		{
 			if ((float)item.config.height < 1.0f)
 				item.config.height = 100;
@@ -4125,7 +4137,7 @@ DearPyGui::draw_slider_int(ImDrawList* drawlist, mvAppItem& item, mvSliderIntCon
 
 		if (!item.config.enabled) config.disabled_value = *config.value;
 
-		if (config.vertical)
+		if (ImHasFlag(config.flags, ImGuiSliderFlags_Vertical))
 		{
 			if ((float)item.config.height < 1.0f)
 				item.config.height = 100;
