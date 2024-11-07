@@ -2586,16 +2586,11 @@ DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mvProgressBarConf
 // [SECTION] draw commands
 //-----------------------------------------------------------------------------
 
-void
-DearPyGui::draw_simple_plot(ImDrawList* drawlist, mvAppItem& item, const mvSimplePlotConfig& config)
-{
-	//-----------------------------------------------------------------------------
-	// pre draw
-	//-----------------------------------------------------------------------------
-
+bool pre_draw(mvAppItem& item)
+{	
 	// show/hide
 	if (!item.config.show)
-		return;
+		return false;
 
 	// focusing
 	if (item.info.focusNextFrame)
@@ -2605,7 +2600,7 @@ DearPyGui::draw_simple_plot(ImDrawList* drawlist, mvAppItem& item, const mvSimpl
 	}
 
 	// cache old cursor position
-	ImVec2 previousCursorPos = ImGui::GetCursorPos();
+	item.info.previousCursorPos = ImGui::GetCursorPos();
 
 	// set cursor position if user set
 	if (item.info.dirtyPos)
@@ -2631,6 +2626,40 @@ DearPyGui::draw_simple_plot(ImDrawList* drawlist, mvAppItem& item, const mvSimpl
 
 	// themes
 	apply_local_theming(&item);
+
+	return true;
+}
+
+void post_draw(mvAppItem& item)
+{
+	// set cursor position to cached position
+	if (item.info.dirtyPos)
+		ImGui::SetCursorPos(item.info.previousCursorPos);
+
+	if (item.config.indent > 0.0f)
+		ImGui::Unindent(item.config.indent);
+
+	// pop font off stack
+	if (item.font)
+		ImGui::PopFont();
+
+	// handle popping themes
+	cleanup_local_theming(&item);
+
+	if (item.handlerRegistry)
+		item.handlerRegistry->checkEvents(&item.state);
+
+	// handle drag & drop if used
+	apply_drag_drop(&item);
+}
+
+void
+DearPyGui::draw_simple_plot(ImDrawList* drawlist, mvAppItem& item, const mvSimplePlotConfig& config)
+{
+	bool is_shown = pre_draw(item);
+	
+	if (!is_shown)
+		return;
 
 	//-----------------------------------------------------------------------------
 	// draw
@@ -2668,78 +2697,18 @@ DearPyGui::draw_simple_plot(ImDrawList* drawlist, mvAppItem& item, const mvSimpl
 	item.state.rectSize = { ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y };
 	item.state.contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
 
-	//-----------------------------------------------------------------------------
-	// post draw
-	//-----------------------------------------------------------------------------
-
-	// set cursor position to cached position
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
-
-	if (item.config.indent > 0.0f)
-		ImGui::Unindent(item.config.indent);
-
-	// pop font off stack
-	if (item.font)
-		ImGui::PopFont();
-
-	// handle popping themes
-	cleanup_local_theming(&item);
-
-	if (item.handlerRegistry)
-		item.handlerRegistry->checkEvents(&item.state);
-
-	// handle drag & drop if used
-	apply_drag_drop(&item);
+	post_draw(item);
 }
 
 void
 DearPyGui::draw_button(ImDrawList* drawlist, mvAppItem& item, const mvButtonConfig& config)
 {
-	//-----------------------------------------------------------------------------
-	// pre draw
-	//-----------------------------------------------------------------------------
-
-	// show/hide
-	if (!item.config.show)
+	bool is_shown = pre_draw(item);
+	
+	if (!is_shown)
 		return;
 
-	// focusing
-	if (item.info.focusNextFrame)
-	{
-		ImGui::SetKeyboardFocusHere();
-		item.info.focusNextFrame = false;
-	}
-
 	ImGui::PushItemFlag(ImGuiItemFlags_ButtonRepeat, config.repeat);
-
-	// cache old cursor position
-	ImVec2 previousCursorPos = ImGui::GetCursorPos();
-
-	// set cursor position if user set
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(item.state.pos);
-
-	// update widget's position state
-	item.state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
-
-	// set item width
-	if (item.config.width != 0)
-		ImGui::SetNextItemWidth((float)item.config.width);
-
-	// set indent
-	if (item.config.indent > 0.0f)
-		ImGui::Indent(item.config.indent);
-
-	// push font if a font object is attached
-	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
-
-	// themes
-	apply_local_theming(&item);
 
 	//-----------------------------------------------------------------------------
 	// draw
@@ -2773,79 +2742,18 @@ DearPyGui::draw_button(ImDrawList* drawlist, mvAppItem& item, const mvButtonConf
 	//-----------------------------------------------------------------------------
 	UpdateAppItemState(item.state);
 
-	//-----------------------------------------------------------------------------
-	// post draw
-	//-----------------------------------------------------------------------------
-
-	// set cursor position to cached position
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
-
-	if (item.config.indent > 0.0f)
-		ImGui::Unindent(item.config.indent);
-
-	// pop font off stack
-	if (item.font)
-		ImGui::PopFont();
-
-	
 	ImGui::PopItemFlag();
 
-	// handle popping themes
-	cleanup_local_theming(&item);
-
-	if (item.handlerRegistry)
-		item.handlerRegistry->checkEvents(&item.state);
-
-	// handle drag & drop if used
-	apply_drag_drop(&item);
+	post_draw(item);
 }
 
 void
 DearPyGui::draw_combo(ImDrawList* drawlist, mvAppItem& item, mvComboConfig& config)
 {
-	//-----------------------------------------------------------------------------
-	// pre draw
-	//-----------------------------------------------------------------------------
-
-	// show/hide
-	if (!item.config.show)
+	bool is_shown = pre_draw(item);
+	
+	if (!is_shown)
 		return;
-
-	// focusing
-	if (item.info.focusNextFrame)
-	{
-		ImGui::SetKeyboardFocusHere();
-		item.info.focusNextFrame = false;
-	}
-
-	// cache old cursor position
-	ImVec2 previousCursorPos = ImGui::GetCursorPos();
-
-	// set cursor position if user set
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(item.state.pos);
-
-	// update widget's position state
-	item.state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
-
-	// set item width
-	if (item.config.width != 0)
-		ImGui::SetNextItemWidth((float)item.config.width);
-
-	// set indent
-	if (item.config.indent > 0.0f)
-		ImGui::Indent(item.config.indent);
-
-	// push font if a font object is attached
-	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
-
-	// themes
-	apply_local_theming(&item);
 
 	//-----------------------------------------------------------------------------
 	// draw
@@ -2890,75 +2798,16 @@ DearPyGui::draw_combo(ImDrawList* drawlist, mvAppItem& item, mvComboConfig& conf
 		}
 	}
 
-	//-----------------------------------------------------------------------------
-	// post draw
-	//-----------------------------------------------------------------------------
-
-	// set cursor position to cached position
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
-
-	if (item.config.indent > 0.0f)
-		ImGui::Unindent(item.config.indent);
-
-	// pop font off stack
-	if (item.font)
-		ImGui::PopFont();
-
-	// handle popping themes
-	cleanup_local_theming(&item);
-
-	if (item.handlerRegistry)
-		item.handlerRegistry->checkEvents(&item.state);
-
-	// handle drag & drop if used
-	apply_drag_drop(&item);
+	post_draw(item);
 }
 
 void
 DearPyGui::draw_checkbox(ImDrawList* drawlist, mvAppItem& item, mvCheckboxConfig& config)
-{
-	//-----------------------------------------------------------------------------
-	// pre draw
-	//-----------------------------------------------------------------------------
-
-	// show/hide
-	if (!item.config.show)
+{	
+	bool is_shown = pre_draw(item);
+	
+	if (!is_shown)
 		return;
-
-	// focusing
-	if (item.info.focusNextFrame)
-	{
-		ImGui::SetKeyboardFocusHere();
-		item.info.focusNextFrame = false;
-	}
-
-	// cache old cursor position
-	ImVec2 previousCursorPos = ImGui::GetCursorPos();
-
-	// set cursor position if user set
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(item.state.pos);
-
-	// update widget's position state
-	item.state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
-
-	// set item width
-	if (item.config.width != 0)
-		ImGui::SetNextItemWidth((float)item.config.width);
-
-	// set indent
-	if (item.config.indent > 0.0f)
-		ImGui::Indent(item.config.indent);
-
-	// push font if a font object is attached
-	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
-
-	apply_local_theming(&item);
 
 	//-----------------------------------------------------------------------------
 	// draw
@@ -2985,77 +2834,18 @@ DearPyGui::draw_checkbox(ImDrawList* drawlist, mvAppItem& item, mvCheckboxConfig
 	//-----------------------------------------------------------------------------
 	UpdateAppItemState(item.state);
 
-	//-----------------------------------------------------------------------------
-	// post draw
-	//-----------------------------------------------------------------------------
-
-	// set cursor position to cached position
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
-
-	if (item.config.indent > 0.0f)
-		ImGui::Unindent(item.config.indent);
-
-	// pop font off stack
-	if (item.font)
-		ImGui::PopFont();
-
-	cleanup_local_theming(&item);
-
-	if (item.handlerRegistry)
-		item.handlerRegistry->checkEvents(&item.state);
-
-	// handle drag & drop if used
-	apply_drag_drop(&item);
+	post_draw(item);
 }
 
 void
 DearPyGui::draw_drag_float(ImDrawList* drawlist, mvAppItem& item, mvDragFloatConfig& config)
 {
 	ScopedID id(item.uuid);
-
-	//-----------------------------------------------------------------------------
-	// pre draw
-	//-----------------------------------------------------------------------------
-
-	// show/hide
-	if (!item.config.show)
+	
+	bool is_shown = pre_draw(item);
+	
+	if (!is_shown)
 		return;
-
-	// focusing
-	if (item.info.focusNextFrame)
-	{
-		ImGui::SetKeyboardFocusHere();
-		item.info.focusNextFrame = false;
-	}
-
-	// cache old cursor position
-	ImVec2 previousCursorPos = ImGui::GetCursorPos();
-
-	// set cursor position if user set
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(item.state.pos);
-
-	// update widget's position state
-	item.state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
-
-	// set item width
-	if (item.config.width != 0)
-		ImGui::SetNextItemWidth((float)item.config.width);
-
-	// set indent
-	if (item.config.indent > 0.0f)
-		ImGui::Indent(item.config.indent);
-
-	// push font if a font object is attached
-	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
-
-	// themes
-	apply_local_theming(&item);
 
 	//-----------------------------------------------------------------------------
 	// draw
@@ -3082,78 +2872,18 @@ DearPyGui::draw_drag_float(ImDrawList* drawlist, mvAppItem& item, mvDragFloatCon
 	//-----------------------------------------------------------------------------
 	UpdateAppItemState(item.state);
 
-	//-----------------------------------------------------------------------------
-	// post draw
-	//-----------------------------------------------------------------------------
-
-	// set cursor position to cached position
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
-
-	if (item.config.indent > 0.0f)
-		ImGui::Unindent(item.config.indent);
-
-	// pop font off stack
-	if (item.font)
-		ImGui::PopFont();
-
-	// handle popping themes
-	cleanup_local_theming(&item);
-
-	if (item.handlerRegistry)
-		item.handlerRegistry->checkEvents(&item.state);
-
-	// handle drag & drop if used
-	apply_drag_drop(&item);
+	post_draw(item);
 }
 
 void
 DearPyGui::draw_drag_double(ImDrawList* drawlist, mvAppItem& item, mvDragDoubleConfig& config)
 {
 	ScopedID id(item.uuid);
-
-	//-----------------------------------------------------------------------------
-	// pre draw
-	//-----------------------------------------------------------------------------
-
-	// show/hide
-	if (!item.config.show)
+	
+	bool is_shown = pre_draw(item);
+	
+	if (!is_shown)
 		return;
-
-	// focusing
-	if (item.info.focusNextFrame)
-	{
-		ImGui::SetKeyboardFocusHere();
-		item.info.focusNextFrame = false;
-	}
-
-	// cache old cursor position
-	ImVec2 previousCursorPos = ImGui::GetCursorPos();
-
-	// set cursor position if user set
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(item.state.pos);
-
-	// update widget's position state
-	item.state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
-
-	// set item width
-	if (item.config.width != 0)
-		ImGui::SetNextItemWidth((float)item.config.width);
-
-	// set indent
-	if (item.config.indent > 0.0f)
-		ImGui::Indent(item.config.indent);
-
-	// push font if a font object is attached
-	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
-
-	// themes
-	apply_local_theming(&item);
 
 	//-----------------------------------------------------------------------------
 	// draw
@@ -3180,76 +2910,16 @@ DearPyGui::draw_drag_double(ImDrawList* drawlist, mvAppItem& item, mvDragDoubleC
 	//-----------------------------------------------------------------------------
 	UpdateAppItemState(item.state);
 
-	//-----------------------------------------------------------------------------
-	// post draw
-	//-----------------------------------------------------------------------------
-
-	// set cursor position to cached position
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
-
-	if (item.config.indent > 0.0f)
-		ImGui::Unindent(item.config.indent);
-
-	// pop font off stack
-	if (item.font)
-		ImGui::PopFont();
-
-	// handle popping themes
-	cleanup_local_theming(&item);
-
-	if (item.handlerRegistry)
-		item.handlerRegistry->checkEvents(&item.state);
-
-	// handle drag & drop if used
-	apply_drag_drop(&item);
+	post_draw(item);
 }
 
 void
 DearPyGui::draw_drag_int(ImDrawList* drawlist, mvAppItem& item, mvDragIntConfig& config)
 {
-	//-----------------------------------------------------------------------------
-	// pre draw
-	//-----------------------------------------------------------------------------
-
-	// show/hide
-	if (!item.config.show)
+	bool is_shown = pre_draw(item);
+	
+	if (!is_shown)
 		return;
-
-	// focusing
-	if (item.info.focusNextFrame)
-	{
-		ImGui::SetKeyboardFocusHere();
-		item.info.focusNextFrame = false;
-	}
-
-	// cache old cursor position
-	ImVec2 previousCursorPos = ImGui::GetCursorPos();
-
-	// set cursor position if user set
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(item.state.pos);
-
-	// update widget's position state
-	item.state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
-
-	// set item width
-	if (item.config.width != 0)
-		ImGui::SetNextItemWidth((float)item.config.width);
-
-	// set indent
-	if (item.config.indent > 0.0f)
-		ImGui::Indent(item.config.indent);
-
-	// push font if a font object is attached
-	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
-
-	// themes
-	apply_local_theming(&item);
 
 	//-----------------------------------------------------------------------------
 	// draw
@@ -3281,77 +2951,16 @@ DearPyGui::draw_drag_int(ImDrawList* drawlist, mvAppItem& item, mvDragIntConfig&
 	//-----------------------------------------------------------------------------
 	UpdateAppItemState(item.state);
 
-	//-----------------------------------------------------------------------------
-	// post draw
-	//-----------------------------------------------------------------------------
-
-	// set cursor position to cached position
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
-
-	if (item.config.indent > 0.0f)
-		ImGui::Unindent(item.config.indent);
-
-	// pop font off stack
-	if (item.font)
-		ImGui::PopFont();
-
-	// handle popping themes
-	cleanup_local_theming(&item);
-
-	if (item.handlerRegistry)
-		item.handlerRegistry->checkEvents(&item.state);
-
-	// handle drag & drop if used
-	apply_drag_drop(&item);
+	post_draw(item);
 }
 
 void
 DearPyGui::draw_drag_intx(ImDrawList* drawlist, mvAppItem& item, mvDragIntMultiConfig& config)
 {
-	//-----------------------------------------------------------------------------
-// pre draw
-//-----------------------------------------------------------------------------
-
-// show/hide
-	if (!item.config.show)
+	bool is_shown = pre_draw(item);
+	
+	if (!is_shown)
 		return;
-
-	// focusing
-	if (item.info.focusNextFrame)
-	{
-		ImGui::SetKeyboardFocusHere();
-		item.info.focusNextFrame = false;
-	}
-
-	// cache old cursor position
-	ImVec2 previousCursorPos = ImGui::GetCursorPos();
-
-	// set cursor position if user set
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(item.state.pos);
-
-	// update widget's position state
-	item.state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
-
-	// set item width
-	if (item.config.width != 0)
-		ImGui::SetNextItemWidth((float)item.config.width);
-
-	// set indent
-	if (item.config.indent > 0.0f)
-		ImGui::Indent(item.config.indent);
-
-	// push font if a font object is attached
-	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
-
-	// themes
-	apply_local_theming(&item);
-
 
 	//-----------------------------------------------------------------------------
 	// draw
@@ -3398,76 +3007,16 @@ DearPyGui::draw_drag_intx(ImDrawList* drawlist, mvAppItem& item, mvDragIntMultiC
 	//-----------------------------------------------------------------------------
 	UpdateAppItemState(item.state);
 
-	//-----------------------------------------------------------------------------
-	// post draw
-	//-----------------------------------------------------------------------------
-
-	// set cursor position to cached position
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
-
-	if (item.config.indent > 0.0f)
-		ImGui::Unindent(item.config.indent);
-
-	// pop font off stack
-	if (item.font)
-		ImGui::PopFont();
-
-	// handle popping themes
-	cleanup_local_theming(&item);
-
-	if (item.handlerRegistry)
-		item.handlerRegistry->checkEvents(&item.state);
-
-	// handle drag & drop if used
-	apply_drag_drop(&item);
+	post_draw(item);
 }
 
 void
 DearPyGui::draw_drag_floatx(ImDrawList* drawlist, mvAppItem& item, mvDragFloatMultiConfig& config)
 {
-	//-----------------------------------------------------------------------------
-	// pre draw
-	//-----------------------------------------------------------------------------
-
-	// show/hide
-	if (!item.config.show)
+	bool is_shown = pre_draw(item);
+	
+	if (!is_shown)
 		return;
-
-	// focusing
-	if (item.info.focusNextFrame)
-	{
-		ImGui::SetKeyboardFocusHere();
-		item.info.focusNextFrame = false;
-	}
-
-	// cache old cursor position
-	ImVec2 previousCursorPos = ImGui::GetCursorPos();
-
-	// set cursor position if user set
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(item.state.pos);
-
-	// update widget's position state
-	item.state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
-
-	// set item width
-	if (item.config.width != 0)
-		ImGui::SetNextItemWidth((float)item.config.width);
-
-	// set indent
-	if (item.config.indent > 0.0f)
-		ImGui::Indent(item.config.indent);
-
-	// push font if a font object is attached
-	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
-
-	// themes
-	apply_local_theming(&item);
 
 	//-----------------------------------------------------------------------------
 	// draw
@@ -3512,76 +3061,16 @@ DearPyGui::draw_drag_floatx(ImDrawList* drawlist, mvAppItem& item, mvDragFloatMu
 	//-----------------------------------------------------------------------------
 	UpdateAppItemState(item.state);
 
-	//-----------------------------------------------------------------------------
-	// post draw
-	//-----------------------------------------------------------------------------
-
-	// set cursor position to cached position
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
-
-	if (item.config.indent > 0.0f)
-		ImGui::Unindent(item.config.indent);
-
-	// pop font off stack
-	if (item.font)
-		ImGui::PopFont();
-
-	// handle popping themes
-	cleanup_local_theming(&item);
-
-	if (item.handlerRegistry)
-		item.handlerRegistry->checkEvents(&item.state);
-
-	// handle drag & drop if used
-	apply_drag_drop(&item);
+	post_draw(item);
 }
 
 void
 DearPyGui::draw_drag_doublex(ImDrawList* drawlist, mvAppItem& item, mvDragDoubleMultiConfig& config)
 {
-	//-----------------------------------------------------------------------------
-	// pre draw
-	//-----------------------------------------------------------------------------
-
-	// show/hide
-	if (!item.config.show)
+	bool is_shown = pre_draw(item);
+	
+	if (!is_shown)
 		return;
-
-	// focusing
-	if (item.info.focusNextFrame)
-	{
-		ImGui::SetKeyboardFocusHere();
-		item.info.focusNextFrame = false;
-	}
-
-	// cache old cursor position
-	ImVec2 previousCursorPos = ImGui::GetCursorPos();
-
-	// set cursor position if user set
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(item.state.pos);
-
-	// update widget's position state
-	item.state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
-
-	// set item width
-	if (item.config.width != 0)
-		ImGui::SetNextItemWidth((float)item.config.width);
-
-	// set indent
-	if (item.config.indent > 0.0f)
-		ImGui::Indent(item.config.indent);
-
-	// push font if a font object is attached
-	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
-
-	// themes
-	apply_local_theming(&item);
 
 	//-----------------------------------------------------------------------------
 	// draw
@@ -3614,76 +3103,16 @@ DearPyGui::draw_drag_doublex(ImDrawList* drawlist, mvAppItem& item, mvDragDouble
 	//-----------------------------------------------------------------------------
 	UpdateAppItemState(item.state);
 
-	//-----------------------------------------------------------------------------
-	// post draw
-	//-----------------------------------------------------------------------------
-
-	// set cursor position to cached position
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
-
-	if (item.config.indent > 0.0f)
-		ImGui::Unindent(item.config.indent);
-
-	// pop font off stack
-	if (item.font)
-		ImGui::PopFont();
-
-	// handle popping themes
-	cleanup_local_theming(&item);
-
-	if (item.handlerRegistry)
-		item.handlerRegistry->checkEvents(&item.state);
-
-	// handle drag & drop if used
-	apply_drag_drop(&item);
+	post_draw(item);
 }
 
 void
 DearPyGui::draw_slider_float(ImDrawList* drawlist, mvAppItem& item, mvSliderFloatConfig& config)
 {
-	//-----------------------------------------------------------------------------
-	// pre draw
-	//-----------------------------------------------------------------------------
-
-	// show/hide
-	if (!item.config.show)
+	bool is_shown = pre_draw(item);
+	
+	if (!is_shown)
 		return;
-
-	// focusing
-	if (item.info.focusNextFrame)
-	{
-		ImGui::SetKeyboardFocusHere();
-		item.info.focusNextFrame = false;
-	}
-
-	// cache old cursor position
-	ImVec2 previousCursorPos = ImGui::GetCursorPos();
-
-	// set cursor position if user set
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(item.state.pos);
-
-	// update widget's position state
-	item.state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
-
-	// set item width
-	if (item.config.width != 0)
-		ImGui::SetNextItemWidth((float)item.config.width);
-
-	// set indent
-	if (item.config.indent > 0.0f)
-		ImGui::Indent(item.config.indent);
-
-	// push font if a font object is attached
-	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
-
-	// themes
-	apply_local_theming(&item);
 
 	//-----------------------------------------------------------------------------
 	// draw
@@ -3730,76 +3159,16 @@ DearPyGui::draw_slider_float(ImDrawList* drawlist, mvAppItem& item, mvSliderFloa
 	//-----------------------------------------------------------------------------
 	UpdateAppItemState(item.state);
 
-	//-----------------------------------------------------------------------------
-	// post draw
-	//-----------------------------------------------------------------------------
-
-	// set cursor position to cached position
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
-
-	if (item.config.indent > 0.0f)
-		ImGui::Unindent(item.config.indent);
-
-	// pop font off stack
-	if (item.font)
-		ImGui::PopFont();
-
-	// handle popping themes
-	cleanup_local_theming(&item);
-
-	if (item.handlerRegistry)
-		item.handlerRegistry->checkEvents(&item.state);
-
-	// handle drag & drop if used
-	apply_drag_drop(&item);
+	post_draw(item);
 }
 
 void
 DearPyGui::draw_slider_double(ImDrawList* drawlist, mvAppItem& item, mvSliderDoubleConfig& config)
 {
-	//-----------------------------------------------------------------------------
-	// pre draw
-	//-----------------------------------------------------------------------------
-
-	// show/hide
-	if (!item.config.show)
+	bool is_shown = pre_draw(item);
+	
+	if (!is_shown)
 		return;
-
-	// focusing
-	if (item.info.focusNextFrame)
-	{
-		ImGui::SetKeyboardFocusHere();
-		item.info.focusNextFrame = false;
-	}
-
-	// cache old cursor position
-	ImVec2 previousCursorPos = ImGui::GetCursorPos();
-
-	// set cursor position if user set
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(item.state.pos);
-
-	// update widget's position state
-	item.state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
-
-	// set item width
-	if (item.config.width != 0)
-		ImGui::SetNextItemWidth((float)item.config.width);
-
-	// set indent
-	if (item.config.indent > 0.0f)
-		ImGui::Indent(item.config.indent);
-
-	// push font if a font object is attached
-	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
-
-	// themes
-	apply_local_theming(&item);
 
 	//-----------------------------------------------------------------------------
 	// draw
@@ -3846,76 +3215,16 @@ DearPyGui::draw_slider_double(ImDrawList* drawlist, mvAppItem& item, mvSliderDou
 	//-----------------------------------------------------------------------------
 	UpdateAppItemState(item.state);
 
-	//-----------------------------------------------------------------------------
-	// post draw
-	//-----------------------------------------------------------------------------
-
-	// set cursor position to cached position
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
-
-	if (item.config.indent > 0.0f)
-		ImGui::Unindent(item.config.indent);
-
-	// pop font off stack
-	if (item.font)
-		ImGui::PopFont();
-
-	// handle popping themes
-	cleanup_local_theming(&item);
-
-	if (item.handlerRegistry)
-		item.handlerRegistry->checkEvents(&item.state);
-
-	// handle drag & drop if used
-	apply_drag_drop(&item);
+	post_draw(item);
 }
 
 void
 DearPyGui::draw_slider_floatx(ImDrawList* drawlist, mvAppItem& item, mvSliderFloatMultiConfig& config)
 {
-	//-----------------------------------------------------------------------------
-	// pre draw
-	//-----------------------------------------------------------------------------
-
-	// show/hide
-	if (!item.config.show)
+	bool is_shown = pre_draw(item);
+	
+	if (!is_shown)
 		return;
-
-	// focusing
-	if (item.info.focusNextFrame)
-	{
-		ImGui::SetKeyboardFocusHere();
-		item.info.focusNextFrame = false;
-	}
-
-	// cache old cursor position
-	ImVec2 previousCursorPos = ImGui::GetCursorPos();
-
-	// set cursor position if user set
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(item.state.pos);
-
-	// update widget's position state
-	item.state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
-
-	// set item width
-	if (item.config.width != 0)
-		ImGui::SetNextItemWidth((float)item.config.width);
-
-	// set indent
-	if (item.config.indent > 0.0f)
-		ImGui::Indent(item.config.indent);
-
-	// push font if a font object is attached
-	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
-
-	// themes
-	apply_local_theming(&item);
 
 	//-----------------------------------------------------------------------------
 	// draw
@@ -3958,76 +3267,16 @@ DearPyGui::draw_slider_floatx(ImDrawList* drawlist, mvAppItem& item, mvSliderFlo
 	//-----------------------------------------------------------------------------
 	UpdateAppItemState(item.state);
 
-	//-----------------------------------------------------------------------------
-	// post draw
-	//-----------------------------------------------------------------------------
-
-	// set cursor position to cached position
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
-
-	if (item.config.indent > 0.0f)
-		ImGui::Unindent(item.config.indent);
-
-	// pop font off stack
-	if (item.font)
-		ImGui::PopFont();
-
-	// handle popping themes
-	cleanup_local_theming(&item);
-
-	if (item.handlerRegistry)
-		item.handlerRegistry->checkEvents(&item.state);
-
-	// handle drag & drop if used
-	apply_drag_drop(&item);
+	post_draw(item);
 }
 
 void
 DearPyGui::draw_slider_doublex(ImDrawList* drawlist, mvAppItem& item, mvSliderDoubleMultiConfig& config)
 {
-	//-----------------------------------------------------------------------------
-	// pre draw
-	//-----------------------------------------------------------------------------
-
-	// show/hide
-	if (!item.config.show)
+	bool is_shown = pre_draw(item);
+	
+	if (!is_shown)
 		return;
-
-	// focusing
-	if (item.info.focusNextFrame)
-	{
-		ImGui::SetKeyboardFocusHere();
-		item.info.focusNextFrame = false;
-	}
-
-	// cache old cursor position
-	ImVec2 previousCursorPos = ImGui::GetCursorPos();
-
-	// set cursor position if user set
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(item.state.pos);
-
-	// update widget's position state
-	item.state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
-
-	// set item width
-	if (item.config.width != 0)
-		ImGui::SetNextItemWidth((float)item.config.width);
-
-	// set indent
-	if (item.config.indent > 0.0f)
-		ImGui::Indent(item.config.indent);
-
-	// push font if a font object is attached
-	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
-
-	// themes
-	apply_local_theming(&item);
 
 	//-----------------------------------------------------------------------------
 	// draw
@@ -4058,76 +3307,16 @@ DearPyGui::draw_slider_doublex(ImDrawList* drawlist, mvAppItem& item, mvSliderDo
 	//-----------------------------------------------------------------------------
 	UpdateAppItemState(item.state);
 
-	//-----------------------------------------------------------------------------
-	// post draw
-	//-----------------------------------------------------------------------------
-
-	// set cursor position to cached position
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
-
-	if (item.config.indent > 0.0f)
-		ImGui::Unindent(item.config.indent);
-
-	// pop font off stack
-	if (item.font)
-		ImGui::PopFont();
-
-	// handle popping themes
-	cleanup_local_theming(&item);
-
-	if (item.handlerRegistry)
-		item.handlerRegistry->checkEvents(&item.state);
-
-	// handle drag & drop if used
-	apply_drag_drop(&item);
+	post_draw(item);
 }
 
 void
 DearPyGui::draw_slider_int(ImDrawList* drawlist, mvAppItem& item, mvSliderIntConfig& config)
 {
-	//-----------------------------------------------------------------------------
-	// pre draw
-	//-----------------------------------------------------------------------------
-
-	// show/hide
-	if (!item.config.show)
+	bool is_shown = pre_draw(item);
+	
+	if (!is_shown)
 		return;
-
-	// focusing
-	if (item.info.focusNextFrame)
-	{
-		ImGui::SetKeyboardFocusHere();
-		item.info.focusNextFrame = false;
-	}
-
-	// cache old cursor position
-	ImVec2 previousCursorPos = ImGui::GetCursorPos();
-
-	// set cursor position if user set
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(item.state.pos);
-
-	// update widget's position state
-	item.state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
-
-	// set item width
-	if (item.config.width != 0)
-		ImGui::SetNextItemWidth((float)item.config.width);
-
-	// set indent
-	if (item.config.indent > 0.0f)
-		ImGui::Indent(item.config.indent);
-
-	// push font if a font object is attached
-	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
-
-	// themes
-	apply_local_theming(&item);
 
 	//-----------------------------------------------------------------------------
 	// draw
@@ -4174,76 +3363,16 @@ DearPyGui::draw_slider_int(ImDrawList* drawlist, mvAppItem& item, mvSliderIntCon
 	//-----------------------------------------------------------------------------
 	UpdateAppItemState(item.state);
 
-	//-----------------------------------------------------------------------------
-	// post draw
-	//-----------------------------------------------------------------------------
-
-	// set cursor position to cached position
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
-
-	if (item.config.indent > 0.0f)
-		ImGui::Unindent(item.config.indent);
-
-	// pop font off stack
-	if (item.font)
-		ImGui::PopFont();
-
-	// handle popping themes
-	cleanup_local_theming(&item);
-
-	if (item.handlerRegistry)
-		item.handlerRegistry->checkEvents(&item.state);
-
-	// handle drag & drop if used
-	apply_drag_drop(&item);
+	post_draw(item);
 }
 
 void
 DearPyGui::draw_slider_intx(ImDrawList* drawlist, mvAppItem& item, mvSliderIntMultiConfig& config)
 {
-	//-----------------------------------------------------------------------------
-	// pre draw
-	//-----------------------------------------------------------------------------
-
-	// show/hide
-	if (!item.config.show)
+	bool is_shown = pre_draw(item);
+	
+	if (!is_shown)
 		return;
-
-	// focusing
-	if (item.info.focusNextFrame)
-	{
-		ImGui::SetKeyboardFocusHere();
-		item.info.focusNextFrame = false;
-	}
-
-	// cache old cursor position
-	ImVec2 previousCursorPos = ImGui::GetCursorPos();
-
-	// set cursor position if user set
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(item.state.pos);
-
-	// update widget's position state
-	item.state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
-
-	// set item width
-	if (item.config.width != 0)
-		ImGui::SetNextItemWidth((float)item.config.width);
-
-	// set indent
-	if (item.config.indent > 0.0f)
-		ImGui::Indent(item.config.indent);
-
-	// push font if a font object is attached
-	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
-
-	// themes
-	apply_local_theming(&item);
 
 	//-----------------------------------------------------------------------------
 	// draw
@@ -4286,76 +3415,16 @@ DearPyGui::draw_slider_intx(ImDrawList* drawlist, mvAppItem& item, mvSliderIntMu
 	//-----------------------------------------------------------------------------
 	UpdateAppItemState(item.state);
 
-	//-----------------------------------------------------------------------------
-	// post draw
-	//-----------------------------------------------------------------------------
-
-	// set cursor position to cached position
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
-
-	if (item.config.indent > 0.0f)
-		ImGui::Unindent(item.config.indent);
-
-	// pop font off stack
-	if (item.font)
-		ImGui::PopFont();
-
-	// handle popping themes
-	cleanup_local_theming(&item);
-
-	if (item.handlerRegistry)
-		item.handlerRegistry->checkEvents(&item.state);
-
-	// handle drag & drop if used
-	apply_drag_drop(&item);
+	post_draw(item);
 }
 
 void
 DearPyGui::draw_listbox(ImDrawList *drawlist, mvAppItem &item, mvListboxConfig &config)
 {
-    //-----------------------------------------------------------------------------
-    // pre draw
-    //-----------------------------------------------------------------------------
-
-    // show/hide
-    if (!item.config.show)
-        return;
-
-    // focusing
-    if (item.info.focusNextFrame)
-    {
-        ImGui::SetKeyboardFocusHere();
-        item.info.focusNextFrame = false;
-    }
-
-    // cache old cursor position
-    ImVec2 previousCursorPos = ImGui::GetCursorPos();
-
-    // set cursor position if user set
-    if (item.info.dirtyPos)
-        ImGui::SetCursorPos(item.state.pos);
-
-    // update widget's position state
-    item.state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
-
-    // set item width
-    if (item.config.width != 0)
-        ImGui::SetNextItemWidth((float)item.config.width);
-
-    // set indent
-    if (item.config.indent > 0.0f)
-        ImGui::Indent(item.config.indent);
-
-    // push font if a font object is attached
-    if (item.font)
-    {
-        ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-        ImGui::PushFont(fontptr);
-    }
-
-    // themes
-    apply_local_theming(&item);
+	bool is_shown = pre_draw(item);
+	
+	if (!is_shown)
+		return;
 
     //-----------------------------------------------------------------------------
     // draw
@@ -4398,76 +3467,16 @@ DearPyGui::draw_listbox(ImDrawList *drawlist, mvAppItem &item, mvListboxConfig &
     //-----------------------------------------------------------------------------
     UpdateAppItemState(item.state);
 
-    //-----------------------------------------------------------------------------
-    // post draw
-    //-----------------------------------------------------------------------------
-
-    // set cursor position to cached position
-    if (item.info.dirtyPos)
-        ImGui::SetCursorPos(previousCursorPos);
-
-    if (item.config.indent > 0.0f)
-        ImGui::Unindent(item.config.indent);
-
-    // pop font off stack
-    if (item.font)
-        ImGui::PopFont();
-
-    // handle popping themes
-    cleanup_local_theming(&item);
-
-    if (item.handlerRegistry)
-        item.handlerRegistry->checkEvents(&item.state);
-
-    // handle drag & drop if used
-    apply_drag_drop(&item);
+    post_draw(item);
 }
 
 void
 DearPyGui::draw_radio_button(ImDrawList* drawlist, mvAppItem& item, mvRadioButtonConfig& config)
 {
-	//-----------------------------------------------------------------------------
-	// pre draw
-	//-----------------------------------------------------------------------------
-
-	// show/hide
-	if (!item.config.show)
+	bool is_shown = pre_draw(item);
+	
+	if (!is_shown)
 		return;
-
-	// focusing
-	if (item.info.focusNextFrame)
-	{
-		ImGui::SetKeyboardFocusHere();
-		item.info.focusNextFrame = false;
-	}
-
-	// cache old cursor position
-	ImVec2 previousCursorPos = ImGui::GetCursorPos();
-
-	// set cursor position if user set
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(item.state.pos);
-
-	// update widget's position state
-	item.state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
-
-	// set item width
-	if (item.config.width != 0)
-		ImGui::SetNextItemWidth((float)item.config.width);
-
-	// set indent
-	if (item.config.indent > 0.0f)
-		ImGui::Indent(item.config.indent);
-
-	// push font if a font object is attached
-	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
-
-	// themes
-	apply_local_theming(&item);
 
 	//-----------------------------------------------------------------------------
 	// draw
@@ -4532,76 +3541,16 @@ DearPyGui::draw_radio_button(ImDrawList* drawlist, mvAppItem& item, mvRadioButto
 	item.state.rectSize = { ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y };
 	item.state.contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
 
-	//-----------------------------------------------------------------------------
-	// post draw
-	//-----------------------------------------------------------------------------
-
-	// set cursor position to cached position
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
-
-	if (item.config.indent > 0.0f)
-		ImGui::Unindent(item.config.indent);
-
-	// pop font off stack
-	if (item.font)
-		ImGui::PopFont();
-
-	// handle popping themes
-	cleanup_local_theming(&item);
-
-	if (item.handlerRegistry)
-		item.handlerRegistry->checkEvents(&item.state);
-
-	// handle drag & drop if used
-	apply_drag_drop(&item);
+	post_draw(item);
 }
 
 void
 DearPyGui::draw_input_text(ImDrawList* drawlist, mvAppItem& item, mvInputTextConfig& config)
 {
-	//-----------------------------------------------------------------------------
-	// pre draw
-	//-----------------------------------------------------------------------------
-
-	// show/hide
-	if (!item.config.show)
+	bool is_shown = pre_draw(item);
+	
+	if (!is_shown)
 		return;
-
-	// focusing
-	if (item.info.focusNextFrame)
-	{
-		ImGui::SetKeyboardFocusHere();
-		item.info.focusNextFrame = false;
-	}
-
-	// cache old cursor position
-	ImVec2 previousCursorPos = ImGui::GetCursorPos();
-
-	// set cursor position if user set
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(item.state.pos);
-
-	// update widget's position state
-	item.state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
-
-	// set item width
-	if (item.config.width != 0)
-		ImGui::SetNextItemWidth((float)item.config.width);
-
-	// set indent
-	if (item.config.indent > 0.0f)
-		ImGui::Indent(item.config.indent);
-
-	// push font if a font object is attached
-	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
-
-	// themes
-	apply_local_theming(&item);
 
 	//-----------------------------------------------------------------------------
 	// draw
@@ -4645,76 +3594,16 @@ DearPyGui::draw_input_text(ImDrawList* drawlist, mvAppItem& item, mvInputTextCon
 	//-----------------------------------------------------------------------------
 	UpdateAppItemState(item.state);
 
-	//-----------------------------------------------------------------------------
-	// post draw
-	//-----------------------------------------------------------------------------
-
-	// set cursor position to cached position
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
-
-	if (item.config.indent > 0.0f)
-		ImGui::Unindent(item.config.indent);
-
-	// pop font off stack
-	if (item.font)
-		ImGui::PopFont();
-
-	// handle popping themes
-	cleanup_local_theming(&item);
-
-	if (item.handlerRegistry)
-		item.handlerRegistry->checkEvents(&item.state);
-
-	// handle drag & drop if used
-	apply_drag_drop(&item);
+	post_draw(item);
 }
 
 void
 DearPyGui::draw_input_int(ImDrawList* drawlist, mvAppItem& item, mvInputIntConfig& config)
 {
-	//-----------------------------------------------------------------------------
-	// pre draw
-	//-----------------------------------------------------------------------------
-
-	// show/hide
-	if (!item.config.show)
+	bool is_shown = pre_draw(item);
+	
+	if (!is_shown)
 		return;
-
-	// focusing
-	if (item.info.focusNextFrame)
-	{
-		ImGui::SetKeyboardFocusHere();
-		item.info.focusNextFrame = false;
-	}
-
-	// cache old cursor position
-	ImVec2 previousCursorPos = ImGui::GetCursorPos();
-
-	// set cursor position if user set
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(item.state.pos);
-
-	// update widget's position state
-	item.state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
-
-	// set item width
-	if (item.config.width != 0)
-		ImGui::SetNextItemWidth((float)item.config.width);
-
-	// set indent
-	if (item.config.indent > 0.0f)
-		ImGui::Indent(item.config.indent);
-
-	// push font if a font object is attached
-	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
-
-	// themes
-	apply_local_theming(&item);
 
 	//-----------------------------------------------------------------------------
 	// draw
@@ -4767,76 +3656,16 @@ DearPyGui::draw_input_int(ImDrawList* drawlist, mvAppItem& item, mvInputIntConfi
 	//-----------------------------------------------------------------------------
 	UpdateAppItemState(item.state);
 
-	//-----------------------------------------------------------------------------
-	// post draw
-	//-----------------------------------------------------------------------------
-
-	// set cursor position to cached position
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
-
-	if (item.config.indent > 0.0f)
-		ImGui::Unindent(item.config.indent);
-
-	// pop font off stack
-	if (item.font)
-		ImGui::PopFont();
-
-	// handle popping themes
-	cleanup_local_theming(&item);
-
-	if (item.handlerRegistry)
-		item.handlerRegistry->checkEvents(&item.state);
-
-	// handle drag & drop if used
-	apply_drag_drop(&item);
+	post_draw(item);
 }
 
 void
 DearPyGui::draw_input_floatx(ImDrawList* drawlist, mvAppItem& item, mvInputFloatMultiConfig& config)
 {
-	//-----------------------------------------------------------------------------
-	// pre draw
-	//-----------------------------------------------------------------------------
-
-	// show/hide
-	if (!item.config.show)
+	bool is_shown = pre_draw(item);
+	
+	if (!is_shown)
 		return;
-
-	// focusing
-	if (item.info.focusNextFrame)
-	{
-		ImGui::SetKeyboardFocusHere();
-		item.info.focusNextFrame = false;
-	}
-
-	// cache old cursor position
-	ImVec2 previousCursorPos = ImGui::GetCursorPos();
-
-	// set cursor position if user set
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(item.state.pos);
-
-	// update widget's position state
-	item.state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
-
-	// set item width
-	if (item.config.width != 0)
-		ImGui::SetNextItemWidth((float)item.config.width);
-
-	// set indent
-	if (item.config.indent > 0.0f)
-		ImGui::Indent(item.config.indent);
-
-	// push font if a font object is attached
-	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
-
-	// themes
-	apply_local_theming(&item);
 
 	//-----------------------------------------------------------------------------
 	// draw
@@ -4916,77 +3745,16 @@ DearPyGui::draw_input_floatx(ImDrawList* drawlist, mvAppItem& item, mvInputFloat
 	//-----------------------------------------------------------------------------
 	UpdateAppItemState(item.state);
 
-	//-----------------------------------------------------------------------------
-	// post draw
-	//-----------------------------------------------------------------------------
-
-	// set cursor position to cached position
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
-
-	if (item.config.indent > 0.0f)
-		ImGui::Unindent(item.config.indent);
-
-	// pop font off stack
-	if (item.font)
-		ImGui::PopFont();
-
-	// handle popping themes
-	cleanup_local_theming(&item);
-
-	if (item.handlerRegistry)
-		item.handlerRegistry->checkEvents(&item.state);
-
-	// handle drag & drop if used
-	apply_drag_drop(&item);
-
+	post_draw(item);
 }
 
 void
 DearPyGui::draw_input_float(ImDrawList* drawlist, mvAppItem& item, mvInputFloatConfig& config)
 {
-	//-----------------------------------------------------------------------------
-	// pre draw
-	//-----------------------------------------------------------------------------
-
-	// show/hide
-	if (!item.config.show)
+	bool is_shown = pre_draw(item);
+	
+	if (!is_shown)
 		return;
-
-	// focusing
-	if (item.info.focusNextFrame)
-	{
-		ImGui::SetKeyboardFocusHere();
-		item.info.focusNextFrame = false;
-	}
-
-	// cache old cursor position
-	ImVec2 previousCursorPos = ImGui::GetCursorPos();
-
-	// set cursor position if user set
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(item.state.pos);
-
-	// update widget's position state
-	item.state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
-
-	// set item width
-	if (item.config.width != 0)
-		ImGui::SetNextItemWidth((float)item.config.width);
-
-	// set indent
-	if (item.config.indent > 0.0f)
-		ImGui::Indent(item.config.indent);
-
-	// push font if a font object is attached
-	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
-
-	// themes
-	apply_local_theming(&item);
 
 	//-----------------------------------------------------------------------------
 	// draw
@@ -5038,76 +3806,16 @@ DearPyGui::draw_input_float(ImDrawList* drawlist, mvAppItem& item, mvInputFloatC
 	//-----------------------------------------------------------------------------
 	UpdateAppItemState(item.state);
 
-	//-----------------------------------------------------------------------------
-	// post draw
-	//-----------------------------------------------------------------------------
-
-	// set cursor position to cached position
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
-
-	if (item.config.indent > 0.0f)
-		ImGui::Unindent(item.config.indent);
-
-	// pop font off stack
-	if (item.font)
-		ImGui::PopFont();
-
-	// handle popping themes
-	cleanup_local_theming(&item);
-
-	if (item.handlerRegistry)
-		item.handlerRegistry->checkEvents(&item.state);
-
-	// handle drag & drop if used
-	apply_drag_drop(&item);
+	post_draw(item);
 }
 
 void
 DearPyGui::draw_knob_float(ImDrawList* drawlist, mvAppItem& item, mvKnobFloatConfig& config)
 {
-	//-----------------------------------------------------------------------------
-	// pre draw
-	//-----------------------------------------------------------------------------
-
-	// show/hide
-	if (!item.config.show)
+	bool is_shown = pre_draw(item);
+	
+	if (!is_shown)
 		return;
-
-	// focusing
-	if (item.info.focusNextFrame)
-	{
-		ImGui::SetKeyboardFocusHere();
-		item.info.focusNextFrame = false;
-	}
-
-	// cache old cursor position
-	ImVec2 previousCursorPos = ImGui::GetCursorPos();
-
-	// set cursor position if user set
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(item.state.pos);
-
-	// update widget's position state
-	item.state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
-
-	// set item width
-	if (item.config.width != 0)
-		ImGui::SetNextItemWidth((float)item.config.width);
-
-	// set indent
-	if (item.config.indent > 0.0f)
-		ImGui::Indent(item.config.indent);
-
-	// push font if a font object is attached
-	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
-
-	// themes
-	apply_local_theming(&item);
 
 	//-----------------------------------------------------------------------------
 	// draw
@@ -5135,76 +3843,16 @@ DearPyGui::draw_knob_float(ImDrawList* drawlist, mvAppItem& item, mvKnobFloatCon
 	//-----------------------------------------------------------------------------
 	UpdateAppItemState(item.state);
 
-	//-----------------------------------------------------------------------------
-	// post draw
-	//-----------------------------------------------------------------------------
-
-	// set cursor position to cached position
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
-
-	if (item.config.indent > 0.0f)
-		ImGui::Unindent(item.config.indent);
-
-	// pop font off stack
-	if (item.font)
-		ImGui::PopFont();
-
-	// handle popping themes
-	cleanup_local_theming(&item);
-
-	if (item.handlerRegistry)
-		item.handlerRegistry->checkEvents(&item.state);
-
-	// handle drag & drop if used
-	apply_drag_drop(&item);
+	post_draw(item);
 }
 
 void
 DearPyGui::draw_input_double(ImDrawList* drawlist, mvAppItem& item, mvInputDoubleConfig& config)
 {
-	//-----------------------------------------------------------------------------
-	// pre draw
-	//-----------------------------------------------------------------------------
-
-	// show/hide
-	if (!item.config.show)
+	bool is_shown = pre_draw(item);
+	
+	if (!is_shown)
 		return;
-
-	// focusing
-	if (item.info.focusNextFrame)
-	{
-		ImGui::SetKeyboardFocusHere();
-		item.info.focusNextFrame = false;
-	}
-
-	// cache old cursor position
-	ImVec2 previousCursorPos = ImGui::GetCursorPos();
-
-	// set cursor position if user set
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(item.state.pos);
-
-	// update widget's position state
-	item.state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
-
-	// set item width
-	if (item.config.width != 0)
-		ImGui::SetNextItemWidth((float)item.config.width);
-
-	// set indent
-	if (item.config.indent > 0.0f)
-		ImGui::Indent(item.config.indent);
-
-	// push font if a font object is attached
-	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
-
-	// themes
-	apply_local_theming(&item);
 
 	//-----------------------------------------------------------------------------
 	// draw
@@ -5256,76 +3904,16 @@ DearPyGui::draw_input_double(ImDrawList* drawlist, mvAppItem& item, mvInputDoubl
 	//-----------------------------------------------------------------------------
 	UpdateAppItemState(item.state);
 
-	//-----------------------------------------------------------------------------
-	// post draw
-	//-----------------------------------------------------------------------------
-
-	// set cursor position to cached position
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
-
-	if (item.config.indent > 0.0f)
-		ImGui::Unindent(item.config.indent);
-
-	// pop font off stack
-	if (item.font)
-		ImGui::PopFont();
-
-	// handle popping themes
-	cleanup_local_theming(&item);
-
-	if (item.handlerRegistry)
-		item.handlerRegistry->checkEvents(&item.state);
-
-	// handle drag & drop if used
-	apply_drag_drop(&item);
+	post_draw(item);
 }
 
 void
 DearPyGui::draw_input_doublex(ImDrawList* drawlist, mvAppItem& item, mvInputDoubleMultiConfig& config)
 {
-	//-----------------------------------------------------------------------------
-	// pre draw
-	//-----------------------------------------------------------------------------
-
-	// show/hide
-	if (!item.config.show)
+	bool is_shown = pre_draw(item);
+	
+	if (!is_shown)
 		return;
-
-	// focusing
-	if (item.info.focusNextFrame)
-	{
-		ImGui::SetKeyboardFocusHere();
-		item.info.focusNextFrame = false;
-	}
-
-	// cache old cursor position
-	ImVec2 previousCursorPos = ImGui::GetCursorPos();
-
-	// set cursor position if user set
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(item.state.pos);
-
-	// update widget's position state
-	item.state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
-
-	// set item width
-	if (item.config.width != 0)
-		ImGui::SetNextItemWidth((float)item.config.width);
-
-	// set indent
-	if (item.config.indent > 0.0f)
-		ImGui::Indent(item.config.indent);
-
-	// push font if a font object is attached
-	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
-
-	// themes
-	apply_local_theming(&item);
 
 	//-----------------------------------------------------------------------------
 	// draw
@@ -5393,77 +3981,17 @@ DearPyGui::draw_input_doublex(ImDrawList* drawlist, mvAppItem& item, mvInputDoub
 	//-----------------------------------------------------------------------------
 	UpdateAppItemState(item.state);
 
-	//-----------------------------------------------------------------------------
-	// post draw
-	//-----------------------------------------------------------------------------
-
-	// set cursor position to cached position
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
-
-	if (item.config.indent > 0.0f)
-		ImGui::Unindent(item.config.indent);
-
-	// pop font off stack
-	if (item.font)
-		ImGui::PopFont();
-
-	// handle popping themes
-	cleanup_local_theming(&item);
-
-	if (item.handlerRegistry)
-		item.handlerRegistry->checkEvents(&item.state);
-
-	// handle drag & drop if used
-	apply_drag_drop(&item);
+	post_draw(item);
 
 }
 
 void
 DearPyGui::draw_input_intx(ImDrawList* drawlist, mvAppItem& item, mvInputIntMultiConfig& config)
 {
-	//-----------------------------------------------------------------------------
-	// pre draw
-	//-----------------------------------------------------------------------------
-
-	// show/hide
-	if (!item.config.show)
+	bool is_shown = pre_draw(item);
+	
+	if (!is_shown)
 		return;
-
-	// focusing
-	if (item.info.focusNextFrame)
-	{
-		ImGui::SetKeyboardFocusHere();
-		item.info.focusNextFrame = false;
-	}
-
-	// cache old cursor position
-	ImVec2 previousCursorPos = ImGui::GetCursorPos();
-
-	// set cursor position if user set
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(item.state.pos);
-
-	// update widget's position state
-	item.state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
-
-	// set item width
-	if (item.config.width != 0)
-		ImGui::SetNextItemWidth((float)item.config.width);
-
-	// set indent
-	if (item.config.indent > 0.0f)
-		ImGui::Indent(item.config.indent);
-
-	// push font if a font object is attached
-	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
-
-	// themes
-	apply_local_theming(&item);
 
 	//-----------------------------------------------------------------------------
 	// draw
@@ -5542,67 +4070,16 @@ DearPyGui::draw_input_intx(ImDrawList* drawlist, mvAppItem& item, mvInputIntMult
 	//-----------------------------------------------------------------------------
 	UpdateAppItemState(item.state);
 
-	//-----------------------------------------------------------------------------
-	// post draw
-	//-----------------------------------------------------------------------------
-
-	// set cursor position to cached position
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
-
-	if (item.config.indent > 0.0f)
-		ImGui::Unindent(item.config.indent);
-
-	// pop font off stack
-	if (item.font)
-		ImGui::PopFont();
-
-	// handle popping themes
-	cleanup_local_theming(&item);
-
-	if (item.handlerRegistry)
-		item.handlerRegistry->checkEvents(&item.state);
-
-	// handle drag & drop if used
-	apply_drag_drop(&item);
+	post_draw(item);
 }
 
 void
 DearPyGui::draw_text(ImDrawList* drawlist, mvAppItem& item, mvTextConfig& config)
 {
-	//-----------------------------------------------------------------------------
-	// predraw
-	//-----------------------------------------------------------------------------
-	if (!item.config.show)
+	bool is_shown = pre_draw(item);
+	
+	if (!is_shown)
 		return;
-
-	if (item.info.focusNextFrame)
-	{
-		ImGui::SetKeyboardFocusHere();
-		item.info.focusNextFrame = false;
-	}
-
-	item.info.previousCursorPos = ImGui::GetCursorPos();
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(item.state.pos);
-
-	item.state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
-
-	// set item width
-	if (item.config.width != 0)
-		ImGui::SetNextItemWidth((float)item.config.width);
-
-	if (item.config.indent > 0.0f)
-		ImGui::Indent(item.config.indent);
-
-	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
-
-	// themes
-	apply_local_theming(&item);
 
 	//-----------------------------------------------------------------------------
 	// draw
@@ -5677,75 +4154,16 @@ DearPyGui::draw_text(ImDrawList* drawlist, mvAppItem& item, mvTextConfig& config
 		}
 	}
 
-	//-----------------------------------------------------------------------------
-	// postdraw
-	//-----------------------------------------------------------------------------
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(item.info.previousCursorPos);
-
-	if (item.config.indent > 0.0f)
-		ImGui::Unindent(item.config.indent);
-
-	if (item.font)
-	{
-		ImGui::PopFont();
-	}
-
-	// handle popping themes
-	cleanup_local_theming(&item);
-
-	if (item.handlerRegistry)
-		item.handlerRegistry->checkEvents(&item.state);
-
-	// handle drag & drop payloads
-	apply_drag_drop(&item);
+	post_draw(item);
 }
 
 void
 DearPyGui::draw_selectable(ImDrawList* drawlist, mvAppItem& item, mvSelectableConfig& config)
 {
-	//-----------------------------------------------------------------------------
-	// pre draw
-	//-----------------------------------------------------------------------------
-
-	// show/hide
-	if (!item.config.show)
+	bool is_shown = pre_draw(item);
+	
+	if (!is_shown)
 		return;
-
-	// focusing
-	if (item.info.focusNextFrame)
-	{
-		ImGui::SetKeyboardFocusHere();
-		item.info.focusNextFrame = false;
-	}
-
-	// cache old cursor position
-	ImVec2 previousCursorPos = ImGui::GetCursorPos();
-
-	// set cursor position if user set
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(item.state.pos);
-
-	// update widget's position state
-	item.state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
-
-	// set item width
-	if (item.config.width != 0)
-		ImGui::SetNextItemWidth((float)item.config.width);
-
-	// set indent
-	if (item.config.indent > 0.0f)
-		ImGui::Indent(item.config.indent);
-
-	// push font if a font object is attached
-	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
-
-	// themes
-	apply_local_theming(&item);
 
 	//-----------------------------------------------------------------------------
 	// draw
@@ -5769,76 +4187,16 @@ DearPyGui::draw_selectable(ImDrawList* drawlist, mvAppItem& item, mvSelectableCo
 	//-----------------------------------------------------------------------------
 	UpdateAppItemState(item.state);
 
-	//-----------------------------------------------------------------------------
-	// post draw
-	//-----------------------------------------------------------------------------
-
-	// set cursor position to cached position
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
-
-	if (item.config.indent > 0.0f)
-		ImGui::Unindent(item.config.indent);
-
-	// pop font off stack
-	if (item.font)
-		ImGui::PopFont();
-
-	// handle popping themes
-	cleanup_local_theming(&item);
-
-	if (item.handlerRegistry)
-		item.handlerRegistry->checkEvents(&item.state);
-
-	// handle drag & drop if used
-	apply_drag_drop(&item);
+	post_draw(item);
 }
 
 void
 DearPyGui::draw_tab_button(ImDrawList* drawlist, mvAppItem& item, mvTabButtonConfig& config)
 {
-	//-----------------------------------------------------------------------------
-	// pre draw
-	//-----------------------------------------------------------------------------
-
-	// show/hide
-	if (!item.config.show)
+	bool is_shown = pre_draw(item);
+	
+	if (!is_shown)
 		return;
-
-	// focusing
-	if (item.info.focusNextFrame)
-	{
-		ImGui::SetKeyboardFocusHere();
-		item.info.focusNextFrame = false;
-	}
-
-	// cache old cursor position
-	ImVec2 previousCursorPos = ImGui::GetCursorPos();
-
-	// set cursor position if user set
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(item.state.pos);
-
-	// update widget's position state
-	item.state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
-
-	// set item width
-	if (item.config.width != 0)
-		ImGui::SetNextItemWidth((float)item.config.width);
-
-	// set indent
-	if (item.config.indent > 0.0f)
-		ImGui::Indent(item.config.indent);
-
-	// push font if a font object is attached
-	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
-
-	// themes
-	apply_local_theming(&item);
 
 	//-----------------------------------------------------------------------------
 	// draw
@@ -5860,76 +4218,16 @@ DearPyGui::draw_tab_button(ImDrawList* drawlist, mvAppItem& item, mvTabButtonCon
 	//-----------------------------------------------------------------------------
 	UpdateAppItemState(item.state);
 
-	//-----------------------------------------------------------------------------
-	// post draw
-	//-----------------------------------------------------------------------------
-
-	// set cursor position to cached position
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
-
-	if (item.config.indent > 0.0f)
-		ImGui::Unindent(item.config.indent);
-
-	// pop font off stack
-	if (item.font)
-		ImGui::PopFont();
-
-	// handle popping themes
-	cleanup_local_theming(&item);
-
-	if (item.handlerRegistry)
-		item.handlerRegistry->checkEvents(&item.state);
-
-	// handle drag & drop if used
-	apply_drag_drop(&item);
+	post_draw(item);
 }
 
 void
 DearPyGui::draw_menu_item(ImDrawList* drawlist, mvAppItem& item, mvMenuItemConfig& config)
 {
-	//-----------------------------------------------------------------------------
-	// pre draw
-	//-----------------------------------------------------------------------------
-
-	// show/hide
-	if (!item.config.show)
+	bool is_shown = pre_draw(item);
+	
+	if (!is_shown)
 		return;
-
-	// focusing
-	if (item.info.focusNextFrame)
-	{
-		ImGui::SetKeyboardFocusHere();
-		item.info.focusNextFrame = false;
-	}
-
-	// cache old cursor position
-	ImVec2 previousCursorPos = ImGui::GetCursorPos();
-
-	// set cursor position if user set
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(item.state.pos);
-
-	// update widget's position state
-	item.state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
-
-	// set item width
-	if (item.config.width != 0)
-		ImGui::SetNextItemWidth((float)item.config.width);
-
-	// set indent
-	if (item.config.indent > 0.0f)
-		ImGui::Indent(item.config.indent);
-
-	// push font if a font object is attached
-	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
-
-	// themes
-	apply_local_theming(&item);
 
 	//-----------------------------------------------------------------------------
 	// draw
@@ -5963,76 +4261,16 @@ DearPyGui::draw_menu_item(ImDrawList* drawlist, mvAppItem& item, mvMenuItemConfi
 	//-----------------------------------------------------------------------------
 	UpdateAppItemState(item.state);
 
-	//-----------------------------------------------------------------------------
-	// post draw
-	//-----------------------------------------------------------------------------
-
-	// set cursor position to cached position
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
-
-	if (item.config.indent > 0.0f)
-		ImGui::Unindent(item.config.indent);
-
-	// pop font off stack
-	if (item.font)
-		ImGui::PopFont();
-
-	// handle popping themes
-	cleanup_local_theming(&item);
-
-	if (item.handlerRegistry)
-		item.handlerRegistry->checkEvents(&item.state);
-
-	// handle drag & drop if used
-	apply_drag_drop(&item);
+	post_draw(item);
 }
 
 void
 DearPyGui::draw_progress_bar(ImDrawList* drawlist, mvAppItem& item, mvProgressBarConfig& config)
 {
-	//-----------------------------------------------------------------------------
-	// pre draw
-	//-----------------------------------------------------------------------------
-
-	// show/hide
-	if (!item.config.show)
+	bool is_shown = pre_draw(item);
+	
+	if (!is_shown)
 		return;
-
-	// focusing
-	if (item.info.focusNextFrame)
-	{
-		ImGui::SetKeyboardFocusHere();
-		item.info.focusNextFrame = false;
-	}
-
-	// cache old cursor position
-	ImVec2 previousCursorPos = ImGui::GetCursorPos();
-
-	// set cursor position if user set
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(item.state.pos);
-
-	// update widget's position state
-	item.state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
-
-	// set item width
-	if (item.config.width != 0)
-		ImGui::SetNextItemWidth((float)item.config.width);
-
-	// set indent
-	if (item.config.indent > 0.0f)
-		ImGui::Indent(item.config.indent);
-
-	// push font if a font object is attached
-	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
-
-	// themes
-	apply_local_theming(&item);
 
 	//-----------------------------------------------------------------------------
 	// draw
@@ -6050,76 +4288,16 @@ DearPyGui::draw_progress_bar(ImDrawList* drawlist, mvAppItem& item, mvProgressBa
 	//-----------------------------------------------------------------------------
 	UpdateAppItemState(item.state);
 
-	//-----------------------------------------------------------------------------
-	// post draw
-	//-----------------------------------------------------------------------------
-
-	// set cursor position to cached position
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
-
-	if (item.config.indent > 0.0f)
-		ImGui::Unindent(item.config.indent);
-
-	// pop font off stack
-	if (item.font)
-		ImGui::PopFont();
-
-	// handle popping themes
-	cleanup_local_theming(&item);
-
-	if (item.handlerRegistry)
-		item.handlerRegistry->checkEvents(&item.state);
-
-	// handle drag & drop if used
-	apply_drag_drop(&item);
+	post_draw(item);
 }
 
 void
 DearPyGui::draw_image(ImDrawList* drawlist, mvAppItem& item, mvImageConfig& config)
 {
-	//-----------------------------------------------------------------------------
-	// pre draw
-	//-----------------------------------------------------------------------------
-
-	// show/hide
-	if (!item.config.show)
+	bool is_shown = pre_draw(item);
+	
+	if (!is_shown)
 		return;
-
-	// focusing
-	if (item.info.focusNextFrame)
-	{
-		ImGui::SetKeyboardFocusHere();
-		item.info.focusNextFrame = false;
-	}
-
-	// cache old cursor position
-	ImVec2 previousCursorPos = ImGui::GetCursorPos();
-
-	// set cursor position if user set
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(item.state.pos);
-
-	// update widget's position state
-	item.state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
-
-	// set item width
-	if (item.config.width != 0)
-		ImGui::SetNextItemWidth((float)item.config.width);
-
-	// set indent
-	if (item.config.indent > 0.0f)
-		ImGui::Indent(item.config.indent);
-
-	// push font if a font object is attached
-	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
-
-	// themes
-	apply_local_theming(&item);
 
 	//-----------------------------------------------------------------------------
 	// draw
@@ -6162,76 +4340,16 @@ DearPyGui::draw_image(ImDrawList* drawlist, mvAppItem& item, mvImageConfig& conf
 	//-----------------------------------------------------------------------------
 	UpdateAppItemState(item.state);
 
-	//-----------------------------------------------------------------------------
-	// post draw
-	//-----------------------------------------------------------------------------
-
-	// set cursor position to cached position
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
-
-	if (item.config.indent > 0.0f)
-		ImGui::Unindent(item.config.indent);
-
-	// pop font off stack
-	if (item.font)
-		ImGui::PopFont();
-
-	// handle popping themes
-	cleanup_local_theming(&item);
-
-	if (item.handlerRegistry)
-		item.handlerRegistry->checkEvents(&item.state);
-
-	// handle drag & drop if used
-	apply_drag_drop(&item);
+	post_draw(item);
 }
 
 void
 DearPyGui::draw_image_button(ImDrawList* drawlist, mvAppItem& item, mvImageButtonConfig& config)
 {
-	//-----------------------------------------------------------------------------
-	// pre draw
-	//-----------------------------------------------------------------------------
-
-	// show/hide
-	if (!item.config.show)
+	bool is_shown = pre_draw(item);
+	
+	if (!is_shown)
 		return;
-
-	// focusing
-	if (item.info.focusNextFrame)
-	{
-		ImGui::SetKeyboardFocusHere();
-		item.info.focusNextFrame = false;
-	}
-
-	// cache old cursor position
-	ImVec2 previousCursorPos = ImGui::GetCursorPos();
-
-	// set cursor position if user set
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(item.state.pos);
-
-	// update widget's position state
-	item.state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
-
-	// set item width
-	if (item.config.width != 0)
-		ImGui::SetNextItemWidth((float)item.config.width);
-
-	// set indent
-	if (item.config.indent > 0.0f)
-		ImGui::Indent(item.config.indent);
-
-	// push font if a font object is attached
-	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
-
-	// themes
-	apply_local_theming(&item);
 
 	//-----------------------------------------------------------------------------
 	// draw
@@ -6288,29 +4406,7 @@ DearPyGui::draw_image_button(ImDrawList* drawlist, mvAppItem& item, mvImageButto
 	//-----------------------------------------------------------------------------
 	UpdateAppItemState(item.state);
 
-	//-----------------------------------------------------------------------------
-	// post draw
-	//-----------------------------------------------------------------------------
-
-	// set cursor position to cached position
-	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
-
-	if (item.config.indent > 0.0f)
-		ImGui::Unindent(item.config.indent);
-
-	// pop font off stack
-	if (item.font)
-		ImGui::PopFont();
-
-	// handle popping themes
-	cleanup_local_theming(&item);
-
-	if (item.handlerRegistry)
-		item.handlerRegistry->checkEvents(&item.state);
-
-	// handle drag & drop if used
-	apply_drag_drop(&item);
+	post_draw(item);
 }
 
 void
