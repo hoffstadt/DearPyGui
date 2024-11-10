@@ -875,7 +875,7 @@ def show_demo():
                         dpg.add_button(label="Button 3")
                 
                 with dpg.tree_node(label="Groups"):
-                    dpg.add_text("Groups are used to control child items placement, width, and provide a hit box for things like is the set of items are hovered, ect...")
+                    dpg.add_text("Groups are used to control child items placement, width, and provide a hit box for things like is the set of items are hovered, etc...")
                     with dpg.group(horizontal=True):
                         dpg.add_button(label="Button 1")
                         dpg.add_button(label="Button 2")
