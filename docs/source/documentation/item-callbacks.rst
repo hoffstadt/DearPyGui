@@ -93,11 +93,11 @@ Drag and Drop callback (and drag payload)
 
 Drag/Drop callback receive its **app_data** from drag_payload's **drag_data**.
 
-**user_data** can be specified in both **drag payload** and **target drop item** for further use in Drag/Drop callback.
+**user_data** (optional) can be specified in both **drag payload** and **target drop item** for further use in Drag/Drop callback.
 
-**payload_type** must be specified the same in both **drag payload** and **target drop item**.
+**payload_type** (optional) can be any string you like. If not specified, **payload_type**'s default value is '$$DPG_PAYLOAD'. 
 
-**payload_type** can be any string you like
+For drop callback to work, **payload_type** must be specified the same in both **drag payload** and **target drop item**.
 
 .. code-block:: python
 
