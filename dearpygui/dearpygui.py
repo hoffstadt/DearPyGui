@@ -3825,7 +3825,7 @@ def add_custom_series(x : Union[List[float], Tuple[float, ...]], y : Union[List[
 	return internal_dpg.add_custom_series(x, y, channel_count, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, source=source, callback=callback, show=show, y1=y1, y2=y2, y3=y3, tooltip=tooltip, no_fit=no_fit, **kwargs)
 
 def add_date_picker(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: dict ={'month_day': 14, 'year':20, 'month':5}, level: int =0, **kwargs) -> Union[int, str]:
-	"""	 Adds a data picker.
+	"""	 Adds a date picker.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
