@@ -702,7 +702,7 @@ void mvDrawImageQuad::draw(ImDrawList* drawlist, float x, float y)
 		else
 		{
 			mvVec2 start = { x, y };
-			drawlist->AddImageQuad(texture, tp1 + start, tp2 + start, tp3.xy(), tp4.xy(), _uv1, _uv2, _uv3, _uv4, _color);
+			drawlist->AddImageQuad(texture, tp1 + start, tp2 + start, tp3 + start, tp4 + start, _uv1, _uv2, _uv3, _uv4, _color);
 		}
 	}
 }
