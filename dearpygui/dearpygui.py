@@ -1984,7 +1984,7 @@ def font_registry(*, label: str =None, user_data: Any =None, use_internal_label:
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def group(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, horizontal: bool =False, horizontal_spacing: float =-1, xoffset: float =0.0, **kwargs) -> Union[int, str]:
+def group(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, horizontal: bool =False, horizontal_spacing: float =-1, xoffset: float =0.0, cursor_on_hover: int =internal_dpg.mvMouseCursor_None, **kwargs) -> Union[int, str]:
 	"""	 Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members.
 Enable property acts in a special way enabling/disabling everything inside the group. (Use mvStyleVar_DisabledAlpha to edit colors within the disabled group.)
 
@@ -2011,6 +2011,7 @@ Enable property acts in a special way enabling/disabling everything inside the g
 		horizontal (bool, optional): Forces child widgets to be added in a horizontal layout.
 		horizontal_spacing (float, optional): Spacing for the horizontal layout.
 		xoffset (float, optional): Offset from containing window x item location within group.
+		cursor_on_hover (int, optional): Select mouse cursor type when hovering the group (if supported).
 		id (Union[int, str], optional): (deprecated) 
 	Yields:
 		Union[int, str]
@@ -2020,7 +2021,7 @@ Enable property acts in a special way enabling/disabling everything inside the g
 		if 'id' in kwargs.keys():
 			warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
 			tag=kwargs['id']
-		widget = internal_dpg.add_group(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, horizontal=horizontal, horizontal_spacing=horizontal_spacing, xoffset=xoffset, **kwargs)
+		widget = internal_dpg.add_group(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, horizontal=horizontal, horizontal_spacing=horizontal_spacing, xoffset=xoffset, cursor_on_hover=cursor_on_hover, **kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
@@ -3196,7 +3197,7 @@ def add_bool_value(*, label: str =None, user_data: Any =None, use_internal_label
 
 	return internal_dpg.add_bool_value(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, source=source, default_value=default_value, parent=parent, **kwargs)
 
-def add_button(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, small: bool =False, arrow: bool =False, direction: int =0, repeat: bool =False, **kwargs) -> Union[int, str]:
+def add_button(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, small: bool =False, arrow: bool =False, direction: int =0, repeat: bool =False, cursor_on_hover: int =internal_dpg.mvMouseCursor_None, **kwargs) -> Union[int, str]:
 	"""	 Adds a button.
 
 	Args:
@@ -3223,6 +3224,7 @@ def add_button(*, label: str =None, user_data: Any =None, use_internal_label: bo
 		arrow (bool, optional): Displays an arrow in place of the text string. This requires the direction keyword.
 		direction (int, optional): Sets the cardinal direction for the arrow by using constants mvDir_Left, mvDir_Up, mvDir_Down, mvDir_Right, mvDir_None. Arrow keyword must be set to True.
 		repeat (bool, optional): Hold to continuosly repeat the click.
+		cursor_on_hover (int, optional): Select mouse cursor type when hovering the button (if supported).
 		id (Union[int, str], optional): (deprecated) 
 	Returns:
 		Union[int, str]
@@ -3232,7 +3234,7 @@ def add_button(*, label: str =None, user_data: Any =None, use_internal_label: bo
 		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
 		tag=kwargs['id']
 
-	return internal_dpg.add_button(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, small=small, arrow=arrow, direction=direction, repeat=repeat, **kwargs)
+	return internal_dpg.add_button(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, small=small, arrow=arrow, direction=direction, repeat=repeat, cursor_on_hover=cursor_on_hover, **kwargs)
 
 def add_candle_series(dates : Union[List[float], Tuple[float, ...]], opens : Union[List[float], Tuple[float, ...]], closes : Union[List[float], Tuple[float, ...]], lows : Union[List[float], Tuple[float, ...]], highs : Union[List[float], Tuple[float, ...]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, show: bool =True, bull_color: Union[List[int], Tuple[int, ...]] =(0, 255, 113, 255), bear_color: Union[List[int], Tuple[int, ...]] =(218, 13, 79, 255), weight: float =0.25, tooltip: bool =True, time_unit: int =5, **kwargs) -> Union[int, str]:
 	"""	 Adds a candle series to a plot.
@@ -4687,7 +4689,7 @@ def add_font_registry(*, label: str =None, user_data: Any =None, use_internal_la
 
 	return internal_dpg.add_font_registry(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, show=show, **kwargs)
 
-def add_group(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, horizontal: bool =False, horizontal_spacing: float =-1, xoffset: float =0.0, **kwargs) -> Union[int, str]:
+def add_group(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, horizontal: bool =False, horizontal_spacing: float =-1, xoffset: float =0.0, cursor_on_hover: int =internal_dpg.mvMouseCursor_None, **kwargs) -> Union[int, str]:
 	"""	 Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members.
 Enable property acts in a special way enabling/disabling everything inside the group. (Use mvStyleVar_DisabledAlpha to edit colors within the disabled group.)
 
@@ -4714,6 +4716,7 @@ Enable property acts in a special way enabling/disabling everything inside the g
 		horizontal (bool, optional): Forces child widgets to be added in a horizontal layout.
 		horizontal_spacing (float, optional): Spacing for the horizontal layout.
 		xoffset (float, optional): Offset from containing window x item location within group.
+		cursor_on_hover (int, optional): Select mouse cursor type when hovering the group (if supported).
 		id (Union[int, str], optional): (deprecated) 
 	Returns:
 		Union[int, str]
@@ -4723,7 +4726,7 @@ Enable property acts in a special way enabling/disabling everything inside the g
 		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
 		tag=kwargs['id']
 
-	return internal_dpg.add_group(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, horizontal=horizontal, horizontal_spacing=horizontal_spacing, xoffset=xoffset, **kwargs)
+	return internal_dpg.add_group(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, horizontal=horizontal, horizontal_spacing=horizontal_spacing, xoffset=xoffset, cursor_on_hover=cursor_on_hover, **kwargs)
 
 def add_handler_registry(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, show: bool =True, **kwargs) -> Union[int, str]:
 	"""	 Adds a handler registry.
@@ -10018,6 +10021,16 @@ mvNode_PinShape_Triangle=internal_dpg.mvNode_PinShape_Triangle
 mvNode_PinShape_TriangleFilled=internal_dpg.mvNode_PinShape_TriangleFilled
 mvNode_PinShape_Quad=internal_dpg.mvNode_PinShape_Quad
 mvNode_PinShape_QuadFilled=internal_dpg.mvNode_PinShape_QuadFilled
+mvMouseCursor_None=internal_dpg.mvMouseCursor_None
+mvMouseCursor_Arrow=internal_dpg.mvMouseCursor_Arrow
+mvMouseCursor_TextInput=internal_dpg.mvMouseCursor_TextInput
+mvMouseCursor_ResizeAll=internal_dpg.mvMouseCursor_ResizeAll
+mvMouseCursor_ResizeNS=internal_dpg.mvMouseCursor_ResizeNS
+mvMouseCursor_ResizeEW=internal_dpg.mvMouseCursor_ResizeEW
+mvMouseCursor_ResizeNESW=internal_dpg.mvMouseCursor_ResizeNESW
+mvMouseCursor_ResizeNWSE=internal_dpg.mvMouseCursor_ResizeNWSE
+mvMouseCursor_Hand=internal_dpg.mvMouseCursor_Hand
+mvMouseCursor_NotAllowed=internal_dpg.mvMouseCursor_NotAllowed
 mvNode_Attr_Input=internal_dpg.mvNode_Attr_Input
 mvNode_Attr_Output=internal_dpg.mvNode_Attr_Output
 mvNode_Attr_Static=internal_dpg.mvNode_Attr_Static
