@@ -362,13 +362,17 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 
 			// columns
 			int columnnum = 0;
+			int last_row = ImGui::TableGetRowIndex();
 			for (auto& item : childslots[0])
 			{
 				ImGuiTableColumnFlags flags = ImGui::TableGetColumnFlags(columnnum);
 				item->state.lastFrameUpdate = GContext->frame;
 				item->state.visible = flags & ImGuiTableColumnFlags_IsVisible;
 				item->state.hovered = flags & ImGuiTableColumnFlags_IsHovered;
-                if (item->config.enabled)
+				// Note: when the table is empty, TableGetColumnFlags will incorrectly return
+				// zero status flags for all columns.  While this is fine for `visible` and `hovered`,
+				// we definitely don't want to push that zero into `show`.
+                if (item->config.enabled && last_row >= 0)
 				{
 					// Sync the flag with the actual column state controlled by the
 					// user via context menu.
