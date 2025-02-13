@@ -298,6 +298,8 @@ InsertConstants_mvContext(std::vector<std::pair<std::string, long>>& constants)
     constants.emplace_back("mvKey_NumPad7", ImGuiKey_Keypad7);
     constants.emplace_back("mvKey_NumPad8", ImGuiKey_Keypad8);
     constants.emplace_back("mvKey_NumPad9", ImGuiKey_Keypad9);
+    constants.emplace_back("mvKey_NumPadEnter", ImGuiKey_KeypadEnter);
+    constants.emplace_back("mvKey_NumPadEqual", ImGuiKey_KeypadEqual);
     constants.emplace_back("mvKey_Subtract", ImGuiKey_KeypadSubtract);
     constants.emplace_back("mvKey_Decimal", ImGuiKey_KeypadDecimal);
     constants.emplace_back("mvKey_Divide", ImGuiKey_KeypadDivide);
