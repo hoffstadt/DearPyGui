@@ -624,7 +624,7 @@ ToPyList(const std::vector<mvVec2>& value)
         PyObject* item = PyList_New(2);
         PyList_SetItem(item, 0, PyFloat_FromDouble (value[i].x));
         PyList_SetItem(item, 1, PyFloat_FromDouble (value[i].y));
-        PyList_SetItem(item, i, item);
+        PyList_SetItem(result, i, item);
     }
 
     return result;
@@ -644,7 +644,7 @@ ToPyList(const std::vector<mvVec4>& value)
         PyList_SetItem(item, 1, PyFloat_FromDouble(value[i].y));
         PyList_SetItem(item, 2, PyFloat_FromDouble(value[i].z));
         PyList_SetItem(item, 3, PyFloat_FromDouble(value[i].w));
-        PyList_SetItem(item, i, item);
+        PyList_SetItem(result, i, item);
     }
 
     return result;
