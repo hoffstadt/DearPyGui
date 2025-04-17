@@ -156,7 +156,7 @@ jobs:
 
   build-linux-wheels:
 
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     env:
       CXX: g++-9
     strategy:
