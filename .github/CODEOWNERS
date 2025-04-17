@@ -4,8 +4,7 @@
 # directories
 /thirdparty/            @hoffstadt
 /scripts/               @hoffstadt
-/src/                   @hoffstadt @Pcothren
-/docs/*                 @hoffstadt @Pcothren
+/docs/*                 @hoffstadt
 
 # specific files
 /src/distribution.cmake @hoffstadt
@@ -18,7 +17,7 @@ setup.py                @hoffstadt
 .gitattributes          @hoffstadt
 .gitignore              @hoffstadt
 .gitmodules             @hoffstadt
-.readthedocs.yaml       @hoffstadt @Pcothren
+.readthedocs.yaml       @hoffstadt
 
 # no owners
 README.md
