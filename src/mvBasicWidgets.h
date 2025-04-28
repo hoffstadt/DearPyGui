@@ -239,151 +239,123 @@ struct mvCheckboxConfig
     bool        disabled_value = false;
 };
 
-struct mvDragFloatConfig
+/* To be used with mv<...>GenericConfig */
+template <typename T>
+struct mvSingleValueConfig
+{
+    std::shared_ptr<T> value = std::make_shared<T>(0);
+    T                  disabled_value = 0;
+};
+
+/* To be used with mv<...>GenericConfig */
+template <typename T>
+struct mvMultiValueConfig
+{
+    int size = 4;
+    std::shared_ptr<std::array<T, 4>> value = std::make_shared<std::array<T, 4>>(std::array<T, 4>{});
+    T                                 disabled_value[4]{};
+};
+
+template <typename T>
+struct mvDragGenericConfig
 {
     float               speed = 1.0f;
-    float               minv = 0.0f;
-    float               maxv = 100.0f;
-    std::string         format = "%.3f";
-    ImGuiInputTextFlags flags = ImGuiSliderFlags_None;
-    ImGuiInputTextFlags stor_flags = ImGuiSliderFlags_None;
-    std::shared_ptr<float>        value = std::make_shared<float>(0.0f);
-    float               disabled_value = 0.0f;
+    ImGuiSliderFlags    flags = ImGuiSliderFlags_None;
+    ImGuiSliderFlags    stor_flags = ImGuiSliderFlags_None;
+    T                   minv = static_cast<T>(0);
+    T                   maxv = static_cast<T>(100);
 };
 
-struct mvDragDoubleConfig
+template <typename T>
+struct mvSliderGenericConfig
 {
-    float               speed = 1.0f;
-    double              minv = 0.0;
-    double              maxv = 100.0;
-    std::string         format = "%.3f";
-    ImGuiInputTextFlags flags = ImGuiSliderFlags_None;
-    ImGuiInputTextFlags stor_flags = ImGuiSliderFlags_None;
-    std::shared_ptr<double>       value = std::make_shared<double>(0.0);
-    double              disabled_value = 0.0;
+    ImGuiSliderFlags  flags = ImGuiSliderFlags_None;
+    ImGuiSliderFlags  stor_flags = ImGuiSliderFlags_None;
+    T                 minv = static_cast<T>(0);
+    T                 maxv = static_cast<T>(100);
 };
 
-struct mvDragIntConfig
+template <typename T>
+struct mvInputGenericConfig
 {
-    float               speed = 1.0f;
-    int                 minv = 0;
-    int                 maxv = 100;
-    std::string         format = "%d";
-    ImGuiInputTextFlags flags = ImGuiSliderFlags_None;
-    ImGuiInputTextFlags stor_flags = ImGuiSliderFlags_None;
-    std::shared_ptr<int>          value = std::make_shared<int>(0);
-    int                 disabled_value = 0;
+    bool                min_clamped = false;
+    bool                max_clamped = false;
+    T                   minv = 0;
+    T                   maxv = 100;
+    ImGuiInputFlags     flags = ImGuiInputFlags_None;
+    ImGuiInputFlags     stor_flags = ImGuiInputFlags_None;
 };
 
-struct mvDragIntMultiConfig
+template <typename T>
+struct mvSingleDragGenericConfig : mvSingleValueConfig<T>, mvDragGenericConfig<T> {};
+
+template <typename T>
+struct mvMultiDragGenericConfig : mvMultiValueConfig<T>, mvDragGenericConfig<T> {};
+
+struct mvDragFloatConfig : mvSingleDragGenericConfig<float>
 {
-    float                     speed = 1.0f;
-    int                       minv = 0;
-    int                       maxv = 100;
-    std::string               format = "%d";
-    ImGuiInputTextFlags       flags = ImGuiSliderFlags_None;
-    ImGuiInputTextFlags       stor_flags = ImGuiSliderFlags_None;
-    int                       size = 4;
-    std::shared_ptr<std::array<int, 4>> value = std::make_shared<std::array<int, 4>>(std::array<int, 4>{0, 0, 0, 0});
-    int                       disabled_value[4]{}; 
+    std::string     format = "%.3f";
 };
 
-struct mvDragFloatMultiConfig
+struct mvDragDoubleConfig : mvSingleDragGenericConfig<double>
 {
-    float                       speed = 1.0f;
-    float                       minv = 0.0f;
-    float                       maxv = 100.0f;
-    std::string                 format = "%.3f";
-    ImGuiInputTextFlags         flags = ImGuiSliderFlags_None;
-    ImGuiInputTextFlags         stor_flags = ImGuiSliderFlags_None;
-    int                         size = 4;
-    std::shared_ptr<std::array<float, 4>> value = std::make_shared<std::array<float, 4>>(std::array<float, 4>{0.0f, 0.0f, 0.0f, 0.0f});
-    float                       disabled_value[4]{};  
+    std::string     format = "%.3f";
 };
 
-struct mvDragDoubleMultiConfig
+struct mvDragIntConfig : mvSingleDragGenericConfig<int>
 {
-    float                       speed = 1.0f;
-    double                      minv = 0.0;
-    double                      maxv = 100.0;
-    std::string                 format = "%.3f";
-    ImGuiInputTextFlags         flags = ImGuiSliderFlags_None;
-    ImGuiInputTextFlags         stor_flags = ImGuiSliderFlags_None;
-    int                         size = 4;
-    std::shared_ptr<std::array<double, 4>>value = std::make_shared<std::array<double, 4>>(std::array<double, 4>{0.0, 0.0, 0.0, 0.0});
-    double                      disabled_value[4]{};
+    std::string     format = "%d";
 };
 
-struct mvSliderIntConfig
+struct mvDragIntMultiConfig : mvMultiDragGenericConfig<int>
 {
-    int                 minv = 0;
-    int                 maxv = 100;
-    std::string         format = "%d";
-    bool                vertical = false;
-    ImGuiInputTextFlags flags = ImGuiSliderFlags_None;
-    ImGuiInputTextFlags stor_flags = ImGuiSliderFlags_None;
-    std::shared_ptr<int>          value = std::make_shared<int>(0);
-    int                 disabled_value = 0;
+    std::string     format = "%d";
 };
 
-struct mvSliderFloatConfig
+struct mvDragFloatMultiConfig : mvMultiDragGenericConfig<float>
 {
-    float               minv = 0.0f;
-    float               maxv = 100.0f;
-    std::string         format = "%.3f";
-    bool                vertical = false;
-    ImGuiInputTextFlags flags = ImGuiSliderFlags_None;
-    ImGuiInputTextFlags stor_flags = ImGuiSliderFlags_None;
-    std::shared_ptr<float>        value = std::make_shared<float>(0.0f);
-    float               disabled_value = 0.0f;
+    std::string     format = "%.3f";
 };
 
-struct mvSliderDoubleConfig
+struct mvDragDoubleMultiConfig : mvMultiDragGenericConfig<double>
 {
-    double               minv = 0.0;
-    double               maxv = 100.0;
-    std::string          format = "%.3f";
-    bool                 vertical = false;
-    ImGuiInputTextFlags  flags = ImGuiSliderFlags_None;
-    ImGuiInputTextFlags  stor_flags = ImGuiSliderFlags_None;
-    std::shared_ptr<double>        value = std::make_shared<double>(0.0);
-    double               disabled_value = 0.0;
+    std::string     format = "%.3f";
 };
 
-struct mvSliderFloatMultiConfig
+template <typename T>
+struct mvSingleSliderGenericConfig : mvSingleValueConfig<T>, mvSliderGenericConfig<T> {};
+
+template <typename T>
+struct mvMultiSliderGenericConfig : mvMultiValueConfig<T>, mvSliderGenericConfig<T> {};
+
+struct mvSliderIntConfig : mvSingleSliderGenericConfig<int>
 {
-    float                       minv = 0.0f;
-    float                       maxv = 100.0f;
-    std::string                 format = "%.3f";
-    ImGuiInputTextFlags         flags = ImGuiSliderFlags_None;
-    ImGuiInputTextFlags         stor_flags = ImGuiSliderFlags_None;
-    int                         size = 4;
-    std::shared_ptr<std::array<float, 4>> value = std::make_shared<std::array<float, 4>>(std::array<float, 4>{0.0f, 0.0f, 0.0f, 0.0f});
-    float                       disabled_value[4]{};
+    std::string     format = "%d";
 };
 
-struct mvSliderIntMultiConfig
+struct mvSliderFloatConfig : mvSingleSliderGenericConfig<float>
 {
-    int                       minv = 0;
-    int                       maxv = 100;
-    std::string               format = "%d";
-    ImGuiInputTextFlags       flags = ImGuiSliderFlags_None;
-    ImGuiInputTextFlags       stor_flags = ImGuiSliderFlags_None;
-    int                       size = 4;
-    std::shared_ptr<std::array<int, 4>> value = std::make_shared<std::array<int, 4>>(std::array<int, 4>{0, 0, 0, 0});
-    int                       disabled_value[4]{};
+    std::string     format = "%.3f";
 };
 
-struct mvSliderDoubleMultiConfig
+struct mvSliderDoubleConfig : mvSingleSliderGenericConfig<double>
 {
-    double                       minv = 0.0;
-    double                       maxv = 100.0;
-    std::string                  format = "%d";
-    ImGuiInputTextFlags          flags = ImGuiSliderFlags_None;
-    ImGuiInputTextFlags          stor_flags = ImGuiSliderFlags_None;
-    int                          size = 4;
-    std::shared_ptr<std::array<double, 4>> value = std::make_shared<std::array<double, 4>>(std::array<double, 4>{0.0, 0.0, 0.0, 0.0});
-    double                       disabled_value[4]{};
+    std::string     format = "%.3f";
+};
+
+struct mvSliderFloatMultiConfig : mvMultiSliderGenericConfig<float>
+{
+    std::string     format = "%.3f";
+};
+
+struct mvSliderIntMultiConfig : mvMultiSliderGenericConfig<int>
+{
+    std::string     format = "%d";
+};
+
+struct mvSliderDoubleMultiConfig : mvMultiSliderGenericConfig<double>
+{
+    std::string     format = "%.3f";
 };
 
 struct mvListboxConfig
@@ -411,101 +383,57 @@ struct mvInputTextConfig
 {
     std::string         hint;
     bool                multiline = false;
-    ImGuiInputTextFlags flags = 0;
-    ImGuiInputTextFlags stor_flags = 0;
+    ImGuiInputTextFlags flags = ImGuiInputTextFlags_None;
+    ImGuiInputTextFlags stor_flags = ImGuiInputTextFlags_None;
     std::shared_ptr<std::string>  value = std::make_shared<std::string>("");
     std::string         disabled_value = "";
 };
 
-struct mvInputIntConfig
+template <typename T>
+struct mvSingleInputGenericConfig : mvSingleValueConfig<T>, mvInputGenericConfig<T> 
+{
+    T                   last_value = 0;
+};
+
+template <typename T>
+struct mvMultiInputGenericConfig : mvMultiValueConfig<T>, mvInputGenericConfig<T> 
+{
+    std::array<T, 4>    last_value = {};
+};
+
+struct mvInputIntConfig : mvSingleInputGenericConfig<int>
 {
     int                 step = 1;
     int                 step_fast = 100;
-    int                 minv = 0;
-    int                 maxv = 100;
-    bool                min_clamped = false;
-    bool                max_clamped = false;
-    ImGuiInputTextFlags flags = 0;
-    ImGuiInputTextFlags stor_flags = 0;
-    int                 last_value = 0;
-    std::shared_ptr<int>          value = std::make_shared<int>(0);
-    int                 disabled_value = 0;
 };
 
-struct mvInputFloatConfig
+struct mvInputFloatConfig : mvSingleInputGenericConfig<float>
 {
-    float               minv = 0.0f;
-    float               maxv = 100.0f;
-    bool                min_clamped = false;
-    bool                max_clamped = false;
     std::string         format = "%.3f";
     float               step = 0.1f;
     float               step_fast = 1.0f;
-    ImGuiInputTextFlags flags = 0;
-    ImGuiInputTextFlags stor_flags = 0;
-    float               last_value = 0.0f;
-    std::shared_ptr<float>        value = std::make_shared<float>(0.0f);
-    float               disabled_value = 0.0f;
 };
 
-struct mvInputDoubleConfig
+struct mvInputDoubleConfig : mvSingleInputGenericConfig<double>
 {
-    double              minv = 0.0;
-    double              maxv = 100.0;
-    bool                min_clamped = false;
-    bool                max_clamped = false;
     std::string         format = "%.3f";
     double              step = 0.1;
     double              step_fast = 1.0;
-    ImGuiInputTextFlags flags = 0;
-    ImGuiInputTextFlags stor_flags = 0;
-    double              last_value = 0.0;
-    std::shared_ptr<double>        value = std::make_shared<double>(0.0);
-    double              disabled_value = 0.0;
 };
 
-struct mvInputFloatMultiConfig
+struct mvInputFloatMultiConfig : mvMultiInputGenericConfig<float>
 {
-    float                       minv = 0.0f;
-    float                       maxv = 100.0f;
-    bool                        min_clamped = false;
-    bool                        max_clamped = false;
-    std::string                 format = "%.3f";
-    ImGuiInputTextFlags         flags = 0;
-    ImGuiInputTextFlags         stor_flags = 0;
-    std::array<float, 4>        last_value = { 0.0f, 0.0f, 0.0f, 0.0f };
-    int                         size = 4;
-    std::shared_ptr<std::array<float, 4>> value = std::make_shared<std::array<float, 4>>(std::array<float, 4>{0.0f, 0.0f, 0.0f, 0.0f});
-    float                       disabled_value[4]{};
+    std::string   format = "%.3f";
 };
 
-struct mvInputIntMultiConfig
+struct mvInputIntMultiConfig : mvMultiInputGenericConfig<int>
 {
-    int                       minv = 0;
-    int                       maxv = 100;
-    bool                      min_clamped = false;
-    bool                      max_clamped = false;
-    ImGuiInputTextFlags       flags = 0;
-    ImGuiInputTextFlags       stor_flags = 0;
-    std::array<int, 4>        last_value = { 0, 0, 0, 0 };
-    int                       size = 4;
-    std::shared_ptr<std::array<int, 4>> value = std::make_shared<std::array<int, 4>>(std::array<int, 4>{0, 0, 0, 0});
-    int                       disabled_value[4]{};
+    std::string   format = "%d";
 };
 
-struct mvInputDoubleMultiConfig
+struct mvInputDoubleMultiConfig : mvMultiInputGenericConfig<double>
 {
-    double                       minv = 0.0;
-    double                       maxv = 100.0;
-    bool                         min_clamped = false;
-    bool                         max_clamped = false;
-    std::string                  format = "%.3f";
-    ImGuiInputTextFlags          flags = 0;
-    ImGuiInputTextFlags          stor_flags = 0;
-    std::array<double, 4>        last_value = { 0.0f, 0.0f, 0.0f, 0.0f };
-    int                          size = 4;
-    std::shared_ptr<std::array<double, 4>> value = std::make_shared<std::array<double, 4>>(std::array<double, 4>{0.0, 0.0, 0.0, 0.0});
-    double                       disabled_value[4]{};
+    std::string   format = "%.3f";
 };
 
 struct mvTextConfig
