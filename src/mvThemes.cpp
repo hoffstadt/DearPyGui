@@ -98,17 +98,18 @@ void mvTheme::pop_theme_components()
 		}
 		else
 		{
+			// Below, we move from comp->_oldComponent to avoid mvThemeComponent 
+			// hanging around even after being deleted from the widget tree.
 			if (_specificEnabled == comp->_specificEnabled)
 			{
-				// Nullifying comp->_oldComponent to avoid mvThemeComponent 
-				// hanging around even after being deleted from the widget tree.
 				*comp->_specificComponentPtr = std::move(comp->_oldComponent);
 			}
 			else
 			{
 				*comp->_specificDisabledComponentPtr = std::move(comp->_oldComponent);
 			}
-
+			// Just in case anyone wants to reuse it
+			comp->_oldComponent = nullptr;
 		}
 	}
 }
