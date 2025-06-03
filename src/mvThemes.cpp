@@ -67,16 +67,16 @@ void mvTheme::push_theme_components()
 			}
 
 		}
-		if (comp->_specificType != _specificType)
+		else
 		{
 			if (_specificEnabled == comp->_specificEnabled)
 			{
-				comp->_oldComponent = *comp->_specificComponentPtr;
+				comp->_oldComponent = std::move(*comp->_specificComponentPtr);
 				*comp->_specificComponentPtr = *(std::shared_ptr<mvThemeComponent>*) & child;
 			}
 			else
 			{
-				comp->_oldComponent = *comp->_specificDisabledComponentPtr;
+				comp->_oldComponent = std::move(*comp->_specificDisabledComponentPtr);
 				*comp->_specificDisabledComponentPtr = *(std::shared_ptr<mvThemeComponent>*) & child;
 			}
 		}
@@ -86,9 +86,9 @@ void mvTheme::push_theme_components()
 void mvTheme::pop_theme_components()
 {
 
-	for (auto& child : childslots[1])
+	for (auto it = childslots[1].rbegin(); it != childslots[1].rend(); it++)
 	{
-		auto comp = static_cast<mvThemeComponent*>(child.get());
+		auto comp = static_cast<mvThemeComponent*>(it->get());
 		if (comp->_specificType == (int)mvAppItemType::All || comp->_specificType == _specificType)
 		{
 			if (_specificEnabled == comp->_specificEnabled)
@@ -96,17 +96,20 @@ void mvTheme::pop_theme_components()
 				comp->pop_theme_items();
 			}
 		}
-		if (comp->_specificType != _specificType)
+		else
 		{
+			// Below, we move from comp->_oldComponent to avoid mvThemeComponent 
+			// hanging around even after being deleted from the widget tree.
 			if (_specificEnabled == comp->_specificEnabled)
 			{
-				*comp->_specificComponentPtr = comp->_oldComponent;
+				*comp->_specificComponentPtr = std::move(comp->_oldComponent);
 			}
 			else
 			{
-				*comp->_specificDisabledComponentPtr = comp->_oldComponent;
+				*comp->_specificDisabledComponentPtr = std::move(comp->_oldComponent);
 			}
-
+			// Just in case anyone wants to reuse it
+			comp->_oldComponent = nullptr;
 		}
 	}
 }
@@ -303,8 +306,6 @@ void mvThemeComponent::pop_theme_items()
 
 void mvThemeComponent::handleSpecificPositionalArgs(PyObject* dict)
 {
-	static std::shared_ptr<mvThemeComponent> all_item_theme_component = nullptr;
-
 	if (!VerifyPositionalArguments(GetParsers()[GetEntityCommand(type)], dict))
 		return;
 
@@ -318,13 +319,6 @@ void mvThemeComponent::handleSpecificPositionalArgs(PyObject* dict)
 			_specificType = ToInt(item);
 			_specificComponentPtr = &DearPyGui::GetClassThemeComponent((mvAppItemType)_specificType);
 			_specificDisabledComponentPtr = &DearPyGui::GetDisabledClassThemeComponent((mvAppItemType)_specificType);
-
-			if (_specificType == (int)mvAppItemType::All)
-			{
-				_specificComponentPtr = &all_item_theme_component;
-				_specificDisabledComponentPtr = &all_item_theme_component;
-			}
-
 			break;
 		}
 		default:
