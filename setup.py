@@ -65,10 +65,10 @@ class DPGBuildCommand(distutils.cmd.Command):
         return
 
     if get_platform() == "Windows":
-        command = [r'set PATH="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin";"C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin";"C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin";%PATH% && ']
+        command = [r'set PATH="C:\Program Files (x86)\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin";"C:\Program Files (x86)\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin";"C:\Program Files (x86)\Microsoft Visual Studio\2022\Professional\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin";%PATH% && ']
         command.append("mkdir cmake-build-local && ")
         command.append("cd cmake-build-local && ")
-        command.append('cmake .. -G "Visual Studio 16 2019" -A "x64" -DMVDIST_ONLY=True -DMVDPG_VERSION=')
+        command.append('cmake .. -G "Visual Studio 17 2022" -A "x64" -DMVDIST_ONLY=True -DMVDPG_VERSION=')
         command.append(version_number() + " -DMV_PY_VERSION=")
         command.append(str(sys.version_info[0]) + "." + str(sys.version_info[1]) + " && ")
         command.append("cd .. && cmake --build cmake-build-local --config Release")

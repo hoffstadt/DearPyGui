@@ -202,7 +202,7 @@ jobs:
   deploy-packages:
 
     needs: [build-windows-wheels, build-mac10-wheels, build-linux-wheels, build-mac-silicon-wheels]
-    runs-on: windows-2019
+    runs-on: windows-2022
 
     steps:
 
