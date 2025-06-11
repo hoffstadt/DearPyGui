@@ -36,12 +36,14 @@ DearPyGui::fill_configuration_dict(const mvButtonConfig& inConfig, PyObject* out
 	mvPyObject py_arrow = ToPyBool(inConfig.arrow);
 	mvPyObject py_direction = ToPyInt(inConfig.direction);
 	mvPyObject py_repeat = ToPyBool(inConfig.repeat);
+	mvPyObject py_cursor_on_hover = ToPyInt(inConfig.cursor_on_hover);
 
 
 	PyDict_SetItemString(outDict, "small", py_small);
 	PyDict_SetItemString(outDict, "arrow", py_arrow);
 	PyDict_SetItemString(outDict, "direction", py_direction);
 	PyDict_SetItemString(outDict, "repeat", py_repeat);
+	PyDict_SetItemString(outDict, "cursor_on_hover", py_cursor_on_hover);
 }
 
 void
@@ -714,6 +716,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvButtonConfig& outConfig)
 	if (PyObject* item = PyDict_GetItemString(inDict, "arrow")) outConfig.arrow = ToBool(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "direction")) outConfig.direction = static_cast<ImGuiDir>(ToInt(item));
 	if (PyObject* item = PyDict_GetItemString(inDict, "repeat")) outConfig.repeat = ToBool(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "cursor_on_hover")) outConfig.cursor_on_hover = ToInt(item);
 }
 
 void
@@ -2754,6 +2757,9 @@ DearPyGui::draw_button(ImDrawList* drawlist, mvAppItem& item, const mvButtonConf
 			else
 				mvAddCallback(item.getCallback(false), item.config.alias, nullptr, item.config.user_data);
 		}
+
+		if (config.cursor_on_hover != ImGuiMouseCursor_None && ImGui::IsItemHovered())
+			ImGui::SetMouseCursor(config.cursor_on_hover);
 	}
 
 	//-----------------------------------------------------------------------------
