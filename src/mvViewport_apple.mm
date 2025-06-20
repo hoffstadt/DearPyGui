@@ -11,11 +11,9 @@
 #include <stdio.h>
 
  mvViewport*
-mvCreateViewport(unsigned width, unsigned height)
+mvCreateViewport()
 {
     auto viewport = new mvViewport();
-    viewport->width = width;
-    viewport->height = height;
     viewport->platformSpecifics = new mvViewportData();
     return viewport;
 }
@@ -235,9 +233,6 @@ mvRenderFrame()
         glfwGetFramebufferSize(viewportData->handle, &width, &height);
         viewportData->layer.drawableSize = CGSizeMake(width, height);
         id <CAMetalDrawable> drawable = [viewportData->layer nextDrawable];
-
-        viewport->width = (unsigned)width;
-        viewport->height = (unsigned)height;
 
         id <MTLCommandBuffer> commandBuffer = [graphicsData->commandQueue commandBuffer];
         graphicsData->renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(viewport->clearColor.r,

@@ -107,11 +107,9 @@ mvPrerender()
 }
 
  mvViewport*
-mvCreateViewport(unsigned width, unsigned height)
+mvCreateViewport()
 {
     mvViewport* viewport = new mvViewport();
-    viewport->width = width;
-    viewport->height = height;
     viewport->platformSpecifics = new mvViewportData();
     return viewport;
 }

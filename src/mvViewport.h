@@ -39,8 +39,6 @@ struct mvViewport
 	// position/size
 	b8  sizeDirty    = false;
 	b8  posDirty     = false;
-	u32 width        = 0;
-	u32 height       = 0;
 	u32 minwidth     = 250;
 	u32 minheight    = 250;
 	u32 maxwidth     = 10000;
@@ -56,7 +54,7 @@ struct mvViewport
 
 };
 
-mvViewport* mvCreateViewport  (u32 width, u32 height);
+mvViewport* mvCreateViewport  ();
 void        mvCleanupViewport (mvViewport& viewport);
 void        mvShowViewport    (mvViewport& viewport, b8 minimized, b8 maximized);
 void        mvMaximizeViewport(mvViewport& viewport);
