@@ -3086,7 +3086,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Dict, "default_value", mvArgType::KEYWORD_ARG, "{'month_day': 14, 'year':20, 'month':5}" });
         args.push_back({ mvPyDataType::Integer, "level", mvArgType::KEYWORD_ARG, "0", "Use avaliable constants. mvDatePickerLevel_Day, mvDatePickerLevel_Month, mvDatePickerLevel_Year" });
 
-        setup.about = "Adds a data picker.";
+        setup.about = "Adds a date picker.";
         break;
     }
     case mvAppItemType::mvColorButton:                 
