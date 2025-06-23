@@ -223,7 +223,7 @@ mvHandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 	case WM_SIZE:
 	case WM_SIZING:
 
-		if (graphicsData != nullptr && wParam != SIZE_MINIMIZED)
+		if (wParam != SIZE_MINIMIZED)
 		{
 			RECT rect;
 			RECT crect;
@@ -267,10 +267,13 @@ mvHandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 			viewport->width = (UINT)LOWORD(lParam);
 			viewport->height = (UINT)HIWORD(lParam);
 
-			if (viewport->decorated)
-				resize_swapchain(graphics, (int)(UINT)LOWORD(lParam), (int)(UINT)HIWORD(lParam));
-			else
-				resize_swapchain(graphics, awidth, aheight);
+			if (graphicsData != nullptr)
+			{
+				if (viewport->decorated)
+					resize_swapchain(graphics, (int)(UINT)LOWORD(lParam), (int)(UINT)HIWORD(lParam));
+				else
+					resize_swapchain(graphics, awidth, aheight);
+			}
 		}
 		return 0;
 
