@@ -4093,6 +4093,17 @@ configure_item(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	if (appitem)
 	{
+		//adding move_item functionality to configure_item
+		//mvUUID before = 0, parent = 0;
+		PyObject* beforeObj = PyDict_GetItemString(kwargs, "before");
+		PyObject* parentObj = PyDict_GetItemString(kwargs, "parent");
+		if (beforeObj && parentObj)
+			MoveItem((*GContext->itemRegistry), item, GetIDFromPyObject(parentObj), GetIDFromPyObject(beforeObj));
+		else if (beforeObj)
+			MoveItem((*GContext->itemRegistry), item, 0, GetIDFromPyObject(beforeObj));
+		else if (parentObj)
+			MoveItem((*GContext->itemRegistry), item, GetIDFromPyObject(parentObj), 0);
+		
 		//appitem->checkArgs(args, kwargs);
 		appitem->handleKeywordArgs(kwargs, GetEntityCommand(appitem->type));
 	}
