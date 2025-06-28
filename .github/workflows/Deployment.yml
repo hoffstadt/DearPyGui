@@ -14,7 +14,7 @@ on:
       version:
         description: 'Dear PyGui Version'
         required: false
-        default: '2.0.0b1'
+        default: '2.1.0'
     
       deploy:
         description: 'Deploy (true will deploy to pypi)'
@@ -30,7 +30,7 @@ jobs:
 
   build-windows-wheels:
 
-    runs-on: windows-2019
+    runs-on: windows-2022
     strategy:
       matrix:
         python-version: [ 3.8, 3.9, "3.10", "3.11", "3.12", "3.13" ]
@@ -74,7 +74,7 @@ jobs:
 
   build-mac10-wheels:
 
-    runs-on: macos-12
+    runs-on: macos-13
     strategy:
       matrix:
         python-version: [ 3.8, 3.9, "3.10", "3.11", "3.12", "3.13" ]
@@ -156,7 +156,7 @@ jobs:
 
   build-linux-wheels:
 
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     env:
       CXX: g++-9
     strategy:
@@ -202,7 +202,7 @@ jobs:
   deploy-packages:
 
     needs: [build-windows-wheels, build-mac10-wheels, build-linux-wheels, build-mac-silicon-wheels]
-    runs-on: windows-2019
+    runs-on: windows-2022
 
     steps:
 

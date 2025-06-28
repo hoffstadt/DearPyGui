@@ -136,6 +136,22 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 	if (!config.show)
 		return;
 
+	// Validating column visibility: if there are no any visible/enabled columns,
+	// an attempt to render the table will corrupt data structures within ImGui,
+	// and will most probably lead to a crash on app shutdown.  On the other hand,
+	// if there are no visible columns, we don't have anything to draw, really.
+	bool all_hidden = true;
+	for (auto& item : childslots[0])
+	{
+		if (item->config.enabled && item->config.show)
+		{
+			all_hidden = false;
+			break;
+		}
+	}
+	if (all_hidden)
+		return;
+
 	// push font if a font object is attached
 	if (font)
 	{
@@ -148,25 +164,6 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 
 	{
 		ScopedID id(uuid);
-
-		if (_columns == 0)
-			return;
-
-		// Validating column visibility: if there are no any visible/enabled columns,
-		// an attempt to render the table will corrupt data structures within ImGui,
-		// and will most probably lead to a crash on app shutdown.  On the other hand,
-		// if there are no visible columns, we don't have anything to draw, really.
-		bool all_hidden = true;
-		for (auto& item : childslots[0])
-		{
-			if (item->config.enabled && item->config.show)
-			{
-				all_hidden = false;
-				break;
-			}
-		}
-		if (all_hidden)
-			return;
 
 		auto row_renderer = [&](mvAppItem* row, mvAppItem* prev_visible_row=nullptr)
 		{
@@ -362,13 +359,17 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 
 			// columns
 			int columnnum = 0;
+			int last_row = ImGui::TableGetRowIndex();
 			for (auto& item : childslots[0])
 			{
 				ImGuiTableColumnFlags flags = ImGui::TableGetColumnFlags(columnnum);
 				item->state.lastFrameUpdate = GContext->frame;
 				item->state.visible = flags & ImGuiTableColumnFlags_IsVisible;
 				item->state.hovered = flags & ImGuiTableColumnFlags_IsHovered;
-                if (item->config.enabled)
+				// Note: when the table is empty, TableGetColumnFlags will incorrectly return
+				// zero status flags for all columns.  While this is fine for `visible` and `hovered`,
+				// we definitely don't want to push that zero into `show`.
+                if (item->config.enabled && last_row >= 0)
 				{
 					// Sync the flag with the actual column state controlled by the
 					// user via context menu.

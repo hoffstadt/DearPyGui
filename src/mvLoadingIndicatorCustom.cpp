@@ -1,5 +1,6 @@
 #include "mvLoadingIndicatorCustom.h"
 #include <utility>
+#include <cmath>
 #include <imgui_internal.h>
 
 // Posted by @alexsr here: https://github.com/ocornut/imgui/issues/1901
