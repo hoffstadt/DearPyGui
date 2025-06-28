@@ -3519,7 +3519,7 @@ def add_custom_series(x, y, channel_count, **kwargs):
 	return internal_dpg.add_custom_series(x, y, channel_count, **kwargs)
 
 def add_date_picker(**kwargs):
-	"""	 Adds a data picker.
+	"""	 Adds a date picker.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
