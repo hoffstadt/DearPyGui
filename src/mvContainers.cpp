@@ -1035,6 +1035,11 @@ DearPyGui::draw_child_window(ImDrawList* drawlist, mvAppItem& item, mvChildWindo
     // handle popping themes
     cleanup_local_theming(&item);
 
+    // update state (for resize handler)
+    if (item.state.mvPrevRectSize.x != item.state.rectSize.x || item.state.mvPrevRectSize.y != item.state.rectSize.y) { item.state.mvRectSizeResized = true; }
+    else item.state.mvRectSizeResized = false;
+    item.state.mvPrevRectSize = item.state.rectSize;
+    
     if (item.handlerRegistry)
         item.handlerRegistry->checkEvents(&item.state);
 
