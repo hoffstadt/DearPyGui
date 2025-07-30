@@ -342,14 +342,23 @@ Querying
 --------
 
 Querying allows the user to select a region of the plot by
-holding with the right mouse button and clicking with the left one.
+**Ctrl + dragging the right mouse button** and dragging five 
+circles of the query rectangle with left mouse button.
+
+Double left click inside a drag rect will remove it (if *min_query_rects* allows).
+If number of rects exceed *max_query_rects* when create new drag rect, it will replace the last one.
+
+Since DearPyGui 2.0, *query_mod* changes to *query_toggle_mod* for swapping the Ctrl key above.
+*query_button* is removed, so **dragging the right mouse button** is hardcoded.
+*min_query_rects, max_query_rects* limit the number of drag rects.
 
 Querying requires setting *query* to **True** when creating the plot.
 
-The callback of the plot will run when the plot is being queried.
+The callback of the plot will run when the plot is being queried (dragging five circles).
+Or not using plot's callback but drag rect's callback *dpg.add_drag_rect(callback=...)*.
 
 All the query areas are sent through the *app_data* argument as 
-*[(x_min, x_max, y_min, y_max), (x_min, x_max, y_min, y_max), ...]*.
+*((x_min, y_min, x_max, y_max), (x_min, y_min, x_max, y_max), ...)*.
 
 It is also possible to poll the plot for the query areas by calling:
 :py:func:`get_plot_query_rects <dearpygui.dearpygui.get_plot_query_rects>` and
@@ -370,16 +379,22 @@ Below is an example using the callback
         sindatay.append(0.5 + 0.5 * sin(50 * i / 100))
 
     with dpg.window(label="Tutorial", width=400, height=600):
-        dpg.add_text("Click and drag the middle mouse button over the top plot!")
+        dpg.add_text("Ctrl and drag the right mouse button over the top plot!")
 
 
         def query(sender, app_data, user_data):
-            dpg.set_axis_limits("xaxis_tag2", app_data[0], app_data[1])
-            dpg.set_axis_limits("yaxis_tag2", app_data[2], app_data[3])
+            # TODO: handle for when app_data is empty - IndexError: tuple index out of range.
+            rect_0 = app_data[0]
+            # other_rects = app_data[1:]
+            dpg.set_axis_limits("xaxis_tag2", rect_0[0], rect_0[2])
+            dpg.set_axis_limits("yaxis_tag2", rect_0[1], rect_0[3])
 
 
         # plot 1
-        with dpg.plot(no_title=True, height=200, callback=query, query=True, no_menus=True, width=-1):
+        with dpg.plot(
+            no_title=True, height=200, callback=query, query=True, no_menus=True, width=-1,
+            min_query_rects=0, max_query_rects=3,
+        ):
             dpg.add_plot_axis(dpg.mvXAxis, label="x")
             dpg.add_plot_axis(dpg.mvYAxis, label="y")
             dpg.add_line_series(sindatax, sindatay, parent=dpg.last_item())
