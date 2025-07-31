@@ -2142,9 +2142,9 @@ def show_demo():
                         
                         def divergent_stack_cb(sender, app_data, user_data):
                             if app_data:
-                                dpg.configure_item("divergent_stack_series", values=data_div, label_ids=labels_div, group_size=len(labels_reg), group_width=0.75, shift=0, stacked=True, horizontal=True)
+                                dpg.configure_item("divergent_stack_series", values=data_div, label_ids=labels_div, group_size=len(labels_div), group_width=0.75, shift=0, stacked=True, horizontal=True)
                             else:
-                                dpg.configure_item("divergent_stack_series", values=data_reg, label_ids=labels_reg, group_size=len(labels_div), group_width=0.75, shift=0, stacked=True, horizontal=True)
+                                dpg.configure_item("divergent_stack_series", values=data_reg, label_ids=labels_reg, group_size=len(labels_reg), group_width=0.75, shift=0, stacked=True, horizontal=True)
                         
                         dpg.add_checkbox(label="Divergent", tag="divergent_stack_cb", default_value=True, callback=divergent_stack_cb)
                         with dpg.plot(label="PolitiFact: Who Lies More?", height=400, width=-1):
