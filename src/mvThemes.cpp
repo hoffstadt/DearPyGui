@@ -388,6 +388,7 @@ static const mvGuiStyleVarInfo GStyleVarInfo[] =
 	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, TabRounding) },         // ImGuiStyleVar_TabRounding
 	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, TabBorderSize) },        // ImGuiStyleVar_TabBorderSize
 	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, TabBarBorderSize) },        // ImGuiStyleVar_TabBarBorderSize
+	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, TabBarOverlineSize) },        // ImGuiStyleVar_TabBarOverlineSize
     { ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, TableAngledHeadersAngle)},    // ImGuiStyleVar_TableAngledHeadersAngle
     { ImGuiDataType_Float, 2, (ImU32)offsetof(ImGuiStyle, TableAngledHeadersTextAlign)},// ImGuiStyleVar_TableAngledHeadersTextAlign
 	{ ImGuiDataType_Float, 2, (ImU32)offsetof(ImGuiStyle, ButtonTextAlign) },         // ImGuiStyleVar_ButtonTextAlign
