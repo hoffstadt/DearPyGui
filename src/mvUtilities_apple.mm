@@ -116,7 +116,13 @@ LoadTextureFromFile(const char* filename, int& width, int& height)
  bool
 UnloadTexture(const std::string& filename)
 {
+    if (texture == nullptr)
+        return;
 
+    auto out_srv = (GLuint)(size_t)texture;
+
+    if (out_srv == 0)
+        return;
 	return true;
 }
 
