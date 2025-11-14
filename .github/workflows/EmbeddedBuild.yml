@@ -99,7 +99,7 @@ jobs:
     
     runs-on: ubuntu-22.04
     env:
-      CXX: g++-9
+      CXX: g++-10
     if: ${{! contains(github.event.head_commit.message, '[individual]') || contains(github.event.head_commit.message, '[linux]')}}
 
     steps:
