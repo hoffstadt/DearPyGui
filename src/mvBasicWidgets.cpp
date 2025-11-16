@@ -341,6 +341,7 @@ DearPyGui::fill_configuration_dict(const mvListboxConfig& inConfig, PyObject* ou
         return;
     PyDict_SetItemString(outDict, "items", mvPyObject(ToPyList(inConfig.names)));
     PyDict_SetItemString(outDict, "num_items", mvPyObject(ToPyInt(inConfig.itemsHeight)));
+	PyDict_SetItemString(outDict, "index", mvPyObject(ToPyBool(inConfig.sendindex)));
 }
 
 void
@@ -1201,6 +1202,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvListboxConfig& outConfig, mvApp
         return;
 
     if (PyObject* item = PyDict_GetItemString(inDict, "num_items")) outConfig.itemsHeight = ToInt(item);
+	if (PyObject* item = PyDict_GetItemString(inDict, "index")) outConfig.sendindex = ToBool(item);
     if (PyObject* item = PyDict_GetItemString(inDict, "items"))
     {
         outConfig.names = ToStringVect(item);
@@ -4364,9 +4366,16 @@ DearPyGui::draw_listbox(ImDrawList *drawlist, mvAppItem &item, mvListboxConfig &
 
         if (ImGui::ListBox(item.info.internalLabel.c_str(), item.config.enabled ? &config.index : &config.disabledindex, config.charNames.data(), (int)config.names.size(), config.itemsHeight))
         {
-            *config.value = config.names[config.index];
-            config.disabled_value = config.names[config.index];
-            auto value = *config.value;
+			if (config.sendindex) {
+				*config.value = std::to_string(config.index);
+				config.disabled_value = std::to_string(config.index);
+			}
+			else {
+				*config.value = config.names[config.index];
+				config.disabled_value = config.names[config.index];
+			}
+
+			auto value = *config.value;
 
             if(item.config.alias.empty())
                 mvSubmitCallback([&item, value]() {
