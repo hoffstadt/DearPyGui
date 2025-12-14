@@ -3,6 +3,15 @@
 #include "mvItemRegistry.h"
 #include <array>
 
+// check_drop_event() implements the typical contents of Dear ImGui's drop target
+// (ImGui::BeginDragDropTarget()) tied to DearPyGui's drop callback.  You usually
+// don't need to call it directly, but it can be used need to implement custom
+// drag'n'drop mechanics.
+// To implement drag'n'drop in an arbitrary ImGui item, use `apply_drag_drop()` -
+// it both implements the entire drop target and renders the drag payload.
+void check_drop_event(mvAppItem* item);
+// During drag'n'drop, renders drag payload and checks whether it's time to call
+// the drop callback.
 void apply_drag_drop(mvAppItem* item);
 void apply_drag_drop_nodraw(mvAppItem* item);
 
@@ -118,8 +127,8 @@ struct mvGroupConfig
 struct mvDragPayloadConfig
 {
     std::string payloadType = "$$DPG_PAYLOAD";
-    PyObject*   dragData = nullptr;
-    PyObject*   dropData = nullptr;
+    std::shared_ptr<mvPyObject> dragData = std::make_shared<mvPyObject>(nullptr);
+    std::shared_ptr<mvPyObject> dropData = std::make_shared<mvPyObject>(nullptr);
 };
 
 struct mvCollapsingHeaderConfig
@@ -161,7 +170,7 @@ struct mvWindowAppItemConfig
     bool             no_background = false;
     bool             collapsed = false;
     bool             no_open_over_existing_popup = true;
-    PyObject*        on_close = nullptr;
+    mvPyObject       on_close = nullptr;
     mvVec2           min_size = { 100.0f, 100.0f };
     mvVec2           max_size = { 30000.0f, 30000.0f };
     float            scrollX = 0.0f;
@@ -288,5 +297,4 @@ public:
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_window(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, *this, configData); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
-    ~mvWindowAppItem() { PyObject* callback = configData.on_close; mvSubmitCallback([callback]() { if (callback) Py_XDECREF(callback);});}
 };

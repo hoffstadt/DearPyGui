@@ -21,12 +21,10 @@ static void
 window_close_callback(GLFWwindow* window)
 {
     if (GContext->viewport->disableClose) {
-        mvSubmitCallback([=]() {
-            mvRunCallback(GContext->callbackRegistry->onCloseCallback, 0, nullptr, GContext->callbackRegistry->onCloseCallbackUserData);
-            });
+        mvAddOwnerlessCallback(GContext->callbackRegistry->onCloseCallback, GContext->callbackRegistry->onCloseCallbackUserData);
     }
     else {
-        GContext->started = false;
+        StopRendering();
     }
 }
 
@@ -125,7 +123,7 @@ mvCleanupViewport(mvViewport& viewport)
 
     glfwDestroyWindow(viewportData->handle);
     glfwTerminate();
-    GContext->started = false;
+    StopRendering();
 
     delete viewportData;
     viewportData = nullptr;

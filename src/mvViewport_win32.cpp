@@ -276,12 +276,10 @@ mvHandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 		break;
 	case WM_CLOSE:
 		if (GContext->viewport->disableClose) {
-			mvSubmitCallback([=]() {
-				mvRunCallback(GContext->callbackRegistry->onCloseCallback, 0, nullptr, GContext->callbackRegistry->onCloseCallbackUserData);
-				});
+			mvAddOwnerlessCallback(GContext->callbackRegistry->onCloseCallback, GContext->callbackRegistry->onCloseCallbackUserData);
 			return 0;
 		}
-		GContext->started = false;
+		StopRendering();
 		DestroyWindow(hWnd);
 		::PostQuitMessage(0);
 		return 0;

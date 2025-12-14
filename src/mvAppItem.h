@@ -127,10 +127,13 @@ struct mvAppItemConfig
     bool        searchDelayed    = false;
     bool        useInternalLabel = true; // when false, will use specificed label
     bool        tracked          = false;
-    PyObject*   callback         = nullptr;
-    PyObject*   user_data        = nullptr;
-    PyObject*   dragCallback     = nullptr;
-    PyObject*   dropCallback     = nullptr;
+    mvPyObject  callback         = nullptr;
+    mvPyObject  dragCallback     = nullptr;
+    mvPyObject  dropCallback     = nullptr;
+    // We store user_data as a pointer because that's how we'll need it when submitting
+    // the callback.  This is to pass user_data into mvAddCallback that comes from a
+    // different source than the callback owner (required for the drag callback).
+    std::shared_ptr<mvPyObject> user_data = std::make_shared<mvPyObject>(nullptr);
 };
 
 struct mvAppItemDrawInfo
@@ -146,7 +149,7 @@ struct mvAppItemDrawInfo
 //-----------------------------------------------------------------------------
 // mvAppItem
 //-----------------------------------------------------------------------------
-class mvAppItem
+class mvAppItem : public std::enable_shared_from_this<mvAppItem>
 {
 
 public:
@@ -207,7 +210,35 @@ public:
     //-----------------------------------------------------------------------------
     // callbacks
     //-----------------------------------------------------------------------------
-    [[nodiscard]] PyObject* getCallback(b8 ignore_enabled = true);  // returns the callback. If ignore_enable false and item is disabled then no callback will be returned.
+    // Submits the specified callback, if any, with user_data from the item config
+    // and app_data created by app_data_func (typically a lambda).
+    // Note: `callback` must be a member of `this` (or of a nested object, like `config`).
+    // It does *not* check if the item is enabled or disabled, because some "custom"
+    // callbacks historically run even on disabled items.
+    template<typename AppDataFunc>
+    void submitCallbackEx(PyObject* callback, AppDataFunc app_data_func)
+    {
+        // The current `mvAppItem` becomes the owner of this callback, and as soon
+        // as it gets deleted, the callback entry will be thrown away.
+        mvAddCallback(weak_from_this(), callback, config.user_data, uuid, config.alias, app_data_func);
+    }
+
+    // Submits the mvAppItem's "default" callback, if any, with user_data from
+    // the item config and app_data created by app_data_func (typically a lambda).
+    // The callback is only submitted if the item is enabled; on a disabled item,
+    // the call is effectively ignored.
+    template<typename AppDataFunc>
+    void submitCallbackEx(AppDataFunc app_data_func)
+    {
+        if (!config.enabled)
+            return;
+        submitCallbackEx(config.callback, app_data_func);
+    }
+
+    template<typename AppDataType>
+    void submitCallback(AppDataType app_data);                      // submits the callback, if any, passing it app_data, and also user_data from the item config
+
+    void submitCallback();                                          // submits the callback with app_data=None
        
     //-----------------------------------------------------------------------------
     // config setters

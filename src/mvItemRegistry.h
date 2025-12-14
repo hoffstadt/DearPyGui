@@ -83,8 +83,8 @@ struct mvItemRegistry
     b8                                      showImPlotDebug = false;
     std::vector<std::shared_ptr<mvAppItem>>           debugWindows;
     std::shared_ptr<mvAppItem>                        capturedItem = nullptr;
-    PyObject*                               captureCallback = nullptr;
-    PyObject*                               captureCallbackUserData = nullptr;
+    mvPyObject                              captureCallback = nullptr;
+    mvPyObject                              captureCallbackUserData = nullptr;
 
     // roots
     std::vector<std::shared_ptr<mvAppItem>> colormapRoots;

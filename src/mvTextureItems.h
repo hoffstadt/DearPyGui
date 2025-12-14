@@ -71,7 +71,7 @@ public:
 
 public:
 
-    PyObject* _buffer = nullptr;
+    mvPyObject _buffer = nullptr;
     void* _value = nullptr;
     void* _texture = nullptr;
     bool          _dirty = true;

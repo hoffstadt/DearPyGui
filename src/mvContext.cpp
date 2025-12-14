@@ -202,6 +202,11 @@ GetParsers()
     return const_cast<std::map<std::string, mvPythonParser>&>(GetModuleParsers());
 }
 
+void StopRendering()
+{
+    GContext->running = false;
+}
+
 void 
 InsertConstants_mvContext(std::vector<std::pair<std::string, long>>& constants)
 {

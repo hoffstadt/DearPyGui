@@ -103,25 +103,21 @@ void mvFileDialog::draw(ImDrawList* drawlist, float x, float y)
 			// action if OK clicked or if cancel clicked and cancel callback provided
 			if (_instance.IsOk() ||  _cancelCallback)
 			{
-				mvSubmitCallback([&]()
+				submitCallbackEx(
+					_instance.IsOk()? config.callback : _cancelCallback,
+					// We're capturing a weak reference to mvFileDialog, so that the dialog can
+					// be safely deleted even if there's a callback still waiting in the queue.
+					[weakThis=weak_from_this()] () -> PyObject*
 					{
-						PyObject* callback;
-						PyObject* appData;
-						
-						if(_instance.IsOk())
+						auto liveThis = weakThis.lock();
+						if (liveThis)
 						{
-							callback = config.callback;
-							appData = getInfoDict();
-						} else {
-							callback = _cancelCallback;
-							appData = getInfoDict();
+							mvFileDialog* dlg = static_cast<mvFileDialog*>(liveThis.get());
+							return dlg->getInfoDict();
 						}
-
-						if(config.alias.empty())
-							mvRunCallback(callback, uuid, appData, config.user_data);
-						else
-							mvRunCallback(callback, config.alias, appData, config.user_data);	
-					});
+						return nullptr;
+					}
+				);
 			}
 
 			// close
@@ -189,15 +185,7 @@ void mvFileDialog::handleSpecificKeywordArgs(PyObject* dict)
 
 	if (PyObject* item = PyDict_GetItemString(dict, "cancel_callback"))
 	{
-		Py_XDECREF(_cancelCallback);
-
-		if (item == Py_None)
-			_cancelCallback = nullptr;
-		else
-		{
-			Py_XINCREF(item);
-			_cancelCallback = item;
-		}
+		_cancelCallback = mvPyObject(item == Py_None? nullptr : item, true);
 	}
 
 }

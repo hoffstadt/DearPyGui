@@ -52,13 +52,7 @@ void mvNodeEditor::handleSpecificKeywordArgs(PyObject* dict)
 
     if (PyObject* item = PyDict_GetItemString(dict, "delink_callback"))
     {
-
-        if (_delinkCallback)
-            Py_XDECREF(_delinkCallback);
-        item = SanitizeCallback(item);
-        if (item)
-            Py_XINCREF(item);
-        _delinkCallback = item;
+        _delinkCallback = mvPyObject(item == Py_None? nullptr : item, true);
     }
 
     // helper for bit flipping
@@ -79,13 +73,7 @@ void mvNodeEditor::getSpecificConfiguration(PyObject* dict)
     if (dict == nullptr)
         return;
 
-    if (_delinkCallback)
-    {
-        Py_XINCREF(_delinkCallback);
-        PyDict_SetItemString(dict, "delink_callback", _delinkCallback);
-    }
-    else
-        PyDict_SetItemString(dict, "delink_callback", GetPyNone());
+    PyDict_SetItemString(dict, "delink_callback", _delinkCallback? (PyObject*)_delinkCallback : Py_None);
 
     // helper to check and set bit
     auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
@@ -333,20 +321,12 @@ void mvNodeEditor::draw(ImDrawList* drawlist, float x, float y)
 
         if (config.callback)
         {
-            if (config.alias.empty())
-                mvSubmitCallback([=]() {
+            submitCallbackEx([=]() {
                 PyObject* link = PyTuple_New(2);
                 PyTuple_SetItem(link, 0, ToPyUUID(node1));
                 PyTuple_SetItem(link, 1, ToPyUUID(node2));
-                mvAddCallback(config.callback, uuid, link, config.user_data);
-                    });
-            else
-                mvSubmitCallback([=]() {
-                PyObject* link = PyTuple_New(2);
-                PyTuple_SetItem(link, 0, ToPyUUID(node1));
-                PyTuple_SetItem(link, 1, ToPyUUID(node2));
-                mvAddCallback(config.callback, config.alias, link, config.user_data);
-                    });
+                return link;
+            });
         }
     }
 
@@ -367,16 +347,7 @@ void mvNodeEditor::draw(ImDrawList* drawlist, float x, float y)
         }
         if (_delinkCallback)
         {
-            if (config.alias.empty())
-                mvSubmitCallback([=]() {
-                PyObject* link = ToPyUUID(name);
-                mvAddCallback(_delinkCallback, uuid, link, config.user_data);
-                    });
-            else
-                mvSubmitCallback([=]() {
-                PyObject* link = ToPyUUID(name);
-                mvAddCallback(_delinkCallback, config.alias, link, config.user_data);
-                    });
+            submitCallbackEx(_delinkCallback, [=]() { return ToPyUUID(name); });
         }
     }
 

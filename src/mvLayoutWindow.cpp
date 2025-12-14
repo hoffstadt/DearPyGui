@@ -210,7 +210,7 @@ void mvLayoutWindow::drawWidgets()
     DebugItem("Enabled:", _itemref->config.enabled ? ts : fs);
     DebugItem("Tracked:", _itemref->config.tracked ? ts : fs);
     DebugItem("Callback:", _itemref->config.callback ? ts : fs);
-    DebugItem("User Data:", _itemref->config.user_data ? ts : fs);
+    DebugItem("User Data:", *(_itemref->config.user_data) ? ts : fs);
     DebugItem("Drop Callback:", _itemref->config.dropCallback ? ts : fs);
     DebugItem("Drag Callback:", _itemref->config.dragCallback ? ts : fs);
 
