@@ -205,19 +205,13 @@ void mvRawTexture::setPyValue(PyObject* value)
 			}
 		}
 		PyBuffer_Release(&buffer_info);
-		if (_buffer)
-			Py_XDECREF(_buffer);
-		Py_XINCREF(value);
-		_buffer = value;
+		_buffer = mvPyObject(value, true);
 	}
 }
 
 mvRawTexture::~mvRawTexture()
 {
 	FreeTexture(_texture);
-
-	mvGlobalIntepreterLock gil;
-	Py_XDECREF(_buffer);
 }
 
 void mvRawTexture::draw(ImDrawList* drawlist, float x, float y)

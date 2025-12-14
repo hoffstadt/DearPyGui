@@ -30,7 +30,12 @@ class mvPyObject
 
 public:
 
-	mvPyObject(PyObject* rawObject, bool borrowed=false);
+    // With `borrowed=false`, the reference is meant for `mvPyObject` to take
+    // ownership of it. `mvPyObject` "steals" the reference from its previous owner;
+    // the reference count is not incremented.
+    // With `borrowed=true`, `mvPyObject` makes its own owned reference by incrementing
+    // the reference count; the original owner keeps ownership too.
+	mvPyObject(PyObject* rawObject, bool borrowed = false);
 	mvPyObject(mvPyObject&& other);
 	mvPyObject& operator=(mvPyObject&& other);
 
@@ -39,18 +44,16 @@ public:
 
 	~mvPyObject();
 
-	void addRef();
-	void delRef();
-	bool isOk() const { return m_ok; }
+	bool isOk() const { return (m_rawObject != nullptr); }
 
-	operator PyObject* ();
+	operator PyObject* () const
+    {
+        return m_rawObject;
+    }
 
 private:
 
 	PyObject* m_rawObject;
-	bool      m_borrowed;
-	bool      m_ok;
-	bool      m_del = false;
 
 };
 
@@ -92,6 +95,7 @@ bool isPyObject_Any           (PyObject* obj);
 PyObject*   GetPyNone ();
 PyObject*   ToPyUUID  (mvAppItem* item);
 PyObject*   ToPyUUID  (mvUUID value);
+PyObject*   ToPyUUID  (mvUUID uuid, const std::string& alias);
 PyObject*   ToPyLong  (long value);
 PyObject*   ToPyInt   (int value);
 PyObject*   ToPyFloat (float value);

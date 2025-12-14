@@ -14,29 +14,38 @@ public:
     void onBind(mvAppItem* item);
 };
 
-class mvActivatedHandler : public mvAppItem
+class mvItemHandler : public mvAppItem
 {
 public:
-    explicit mvActivatedHandler(mvUUID uuid) : mvAppItem(uuid) {}
+    explicit mvItemHandler(mvUUID uuid) : mvAppItem(uuid) {}
+
+protected:
+    void submitHandler(mvAppItem* parent);
+};
+
+class mvActivatedHandler : public mvItemHandler
+{
+public:
+    explicit mvActivatedHandler(mvUUID uuid) : mvItemHandler(uuid) {}
     void draw(ImDrawList* drawlist, float x, float y) override {}
     void customAction(void* data = nullptr) override;
 
 };
 
-class mvActiveHandler : public mvAppItem
+class mvActiveHandler : public mvItemHandler
 {
 public:
-    explicit mvActiveHandler(mvUUID uuid) : mvAppItem(uuid) {}
+    explicit mvActiveHandler(mvUUID uuid) : mvItemHandler(uuid) {}
     void draw(ImDrawList* drawlist, float x, float y) override {}
     void customAction(void* data = nullptr) override;
 
 };
 
-class mvClickedHandler : public mvAppItem
+class mvClickedHandler : public mvItemHandler
 {
 public:
     int _button = -1;
-    explicit mvClickedHandler(mvUUID uuid) : mvAppItem(uuid) {}
+    explicit mvClickedHandler(mvUUID uuid) : mvItemHandler(uuid) {}
     void draw(ImDrawList* drawlist, float x, float y) override {}
     void customAction(void* data = nullptr) override;
     void handleSpecificRequiredArgs(PyObject* dict) override;
@@ -44,11 +53,11 @@ public:
     void getSpecificConfiguration(PyObject* dict) override;
 };
 
-class mvDoubleClickedHandler : public mvAppItem
+class mvDoubleClickedHandler : public mvItemHandler
 {
 public:
     int _button = -1;
-    explicit mvDoubleClickedHandler(mvUUID uuid) : mvAppItem(uuid) {}
+    explicit mvDoubleClickedHandler(mvUUID uuid) : mvItemHandler(uuid) {}
     void draw(ImDrawList* drawlist, float x, float y) override {}
     void customAction(void* data = nullptr) override;
     void handleSpecificRequiredArgs(PyObject* dict) override;
@@ -56,66 +65,66 @@ public:
     void getSpecificConfiguration(PyObject* dict) override;
 };
 
-class mvDeactivatedAfterEditHandler : public mvAppItem
+class mvDeactivatedAfterEditHandler : public mvItemHandler
 {
 public:
-    explicit mvDeactivatedAfterEditHandler(mvUUID uuid) : mvAppItem(uuid) {}
+    explicit mvDeactivatedAfterEditHandler(mvUUID uuid) : mvItemHandler(uuid) {}
     void draw(ImDrawList* drawlist, float x, float y) override {}
     void customAction(void* data = nullptr) override;
 };
 
-class mvDeactivatedHandler : public mvAppItem
+class mvDeactivatedHandler : public mvItemHandler
 {
 public:
-    explicit mvDeactivatedHandler(mvUUID uuid) : mvAppItem(uuid) {}
+    explicit mvDeactivatedHandler(mvUUID uuid) : mvItemHandler(uuid) {}
     void draw(ImDrawList* drawlist, float x, float y) override {}
     void customAction(void* data = nullptr) override;
 };
 
-class mvEditedHandler : public mvAppItem
+class mvEditedHandler : public mvItemHandler
 {
 public:
-    explicit mvEditedHandler(mvUUID uuid) : mvAppItem(uuid) {}
+    explicit mvEditedHandler(mvUUID uuid) : mvItemHandler(uuid) {}
     void draw(ImDrawList* drawlist, float x, float y) override {}
     void customAction(void* data = nullptr) override;
 };
 
-class mvFocusHandler : public mvAppItem
+class mvFocusHandler : public mvItemHandler
 {
 public:
-    explicit mvFocusHandler(mvUUID uuid) : mvAppItem(uuid) {}
+    explicit mvFocusHandler(mvUUID uuid) : mvItemHandler(uuid) {}
     void draw(ImDrawList* drawlist, float x, float y) override {}
     void customAction(void* data = nullptr) override;
 };
 
-class mvHoverHandler : public mvAppItem
+class mvHoverHandler : public mvItemHandler
 {
 public:
-    explicit mvHoverHandler(mvUUID uuid) : mvAppItem(uuid) {}
+    explicit mvHoverHandler(mvUUID uuid) : mvItemHandler(uuid) {}
     void draw(ImDrawList* drawlist, float x, float y) override {}
     void customAction(void* data = nullptr) override;
 };
 
-class mvResizeHandler : public mvAppItem
+class mvResizeHandler : public mvItemHandler
 {
 public:
-    explicit mvResizeHandler(mvUUID uuid) : mvAppItem(uuid) {}
+    explicit mvResizeHandler(mvUUID uuid) : mvItemHandler(uuid) {}
     void draw(ImDrawList* drawlist, float x, float y) override {}
     void customAction(void* data = nullptr) override;
 };
 
-class mvToggledOpenHandler : public mvAppItem
+class mvToggledOpenHandler : public mvItemHandler
 {
 public:
-    explicit mvToggledOpenHandler(mvUUID uuid) : mvAppItem(uuid) {}
+    explicit mvToggledOpenHandler(mvUUID uuid) : mvItemHandler(uuid) {}
     void draw(ImDrawList* drawlist, float x, float y) override {}
     void customAction(void* data = nullptr) override;
 };
 
-class mvVisibleHandler : public mvAppItem
+class mvVisibleHandler : public mvItemHandler
 {
 public:
-    explicit mvVisibleHandler(mvUUID uuid) : mvAppItem(uuid) {}
+    explicit mvVisibleHandler(mvUUID uuid) : mvItemHandler(uuid) {}
     void draw(ImDrawList* drawlist, float x, float y) override {}
     void customAction(void* data = nullptr) override;
 };

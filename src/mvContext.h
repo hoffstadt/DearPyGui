@@ -34,6 +34,8 @@ mvUUID                                 GenerateUUID();
 void                                   SetDefaultTheme();
 void                                   Render();
 std::map<std::string, mvPythonParser>& GetParsers();
+// Signals the rendering loop via GContext->running to quit.
+void                                   StopRendering();
 
 struct mvInput
 {
@@ -101,7 +103,11 @@ struct mvIO
 struct mvContext
 {
     std::atomic_bool    waitOneFrame       = false;
+    // Indicates whether DPG has started at least once in this context, i.e. whether
+    // associated Dear ImGui contexts exist and can be read from.
     std::atomic_bool    started            = false;
+    // If true, more frames are going to be rendered. Goes back to false on shutdown.
+    std::atomic_bool    running            = false;
     std::recursive_mutex mutex;
     std::future<bool>   future;
     float               deltaTime = 0.0f;   // time since last frame

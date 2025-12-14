@@ -66,10 +66,7 @@ DearPyGui::draw_color_button(ImDrawList* drawlist, mvAppItem& item, mvColorButto
 
 		if (ImGui::ColorButton(item.info.internalLabel.c_str(), col, config.flags, ImVec2((float)item.config.width, (float)item.config.height)))
 		{
-			if(item.config.alias.empty())
-				mvAddCallback(item.getCallback(false), item.uuid, nullptr, item.config.user_data);
-			else
-				mvAddCallback(item.getCallback(false), item.config.alias, nullptr, item.config.user_data);
+			item.submitCallback();
 		}
 	}
 
@@ -161,11 +158,7 @@ DearPyGui::draw_color_edit(ImDrawList* drawlist, mvAppItem& item, mvColorEditCon
 		if (ImGui::ColorEdit4(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.flags))
 		{
 			mvColor color = mvColor((*config.value)[0], (*config.value)[1], (*config.value)[2], (*config.value)[3]);
-
-			if (item.config.alias.empty())
-				mvSubmitCallback([&item, color]() { mvAddCallback(item.getCallback(false), item.uuid, ToPyColor(color), item.config.user_data); });
-			else
-				mvSubmitCallback([&item, color]() { mvAddCallback(item.getCallback(false), item.config.alias, ToPyColor(color), item.config.user_data); });
+			item.submitCallback(color);
 		}
 	}
 
@@ -261,10 +254,7 @@ DearPyGui::draw_color_map_button(ImDrawList* drawlist, mvAppItem& item, mvColorM
 		ScopedID id(item.uuid);
 		if (ImPlot::ColormapButton(item.info.internalLabel.c_str(), ImVec2((float)item.config.width, (float)item.config.height), config.colorMap))
 		{
-			if (item.config.alias.empty())
-				mvAddCallback(item.getCallback(false), item.uuid, nullptr, item.config.user_data);
-			else
-				mvAddCallback(item.getCallback(false), item.config.alias, nullptr, item.config.user_data);
+			item.submitCallback();
 		}
 	}
 
@@ -442,11 +432,7 @@ DearPyGui::draw_color_picker(ImDrawList* drawlist, mvAppItem& item, mvColorPicke
 		if (ImGui::ColorPicker4(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.flags))
 		{
 			mvColor color = mvColor((*config.value)[0], (*config.value)[1], (*config.value)[2], (*config.value)[3]);
-
-			if (item.config.alias.empty())
-				mvSubmitCallback([&item, color]() { mvAddCallback(item.getCallback(false), item.uuid, ToPyColor(color), item.config.user_data); });
-			else
-				mvSubmitCallback([&item, color]() { mvAddCallback(item.getCallback(false), item.config.alias, ToPyColor(color), item.config.user_data); });
+			item.submitCallback(color);
 		}
 	}
 
@@ -535,12 +521,7 @@ DearPyGui::draw_color_map_slider(ImDrawList* drawlist, mvAppItem& item, mvColorM
 
 		if (ImPlot::ColormapSlider(item.info.internalLabel.c_str(), config.value.get(), &config.color, "", config.colorMap))
 		{
-			auto value = *config.value;
-
-			if (item.config.alias.empty())
-				mvSubmitCallback([&item, value]() { mvAddCallback(item.getCallback(false), item.uuid, ToPyFloat(value), item.config.user_data); });
-			else
-				mvSubmitCallback([&item, value]() { mvAddCallback(item.getCallback(false), item.config.alias, ToPyFloat(value), item.config.user_data); });
+			item.submitCallback(*config.value);
 		}
 	}
 

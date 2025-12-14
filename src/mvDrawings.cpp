@@ -952,10 +952,7 @@ void mvDrawlist::draw(ImDrawList* drawlist, float x, float y)
 
 	if (ImGui::InvisibleButton(info.internalLabel.c_str(), ImVec2((float)config.width, (float)config.height), ImGuiButtonFlags_MouseButtonLeft | ImGuiButtonFlags_MouseButtonRight | ImGuiButtonFlags_MouseButtonMiddle))
 	{
-		if (config.alias.empty())
-			mvAddCallback(getCallback(false), uuid, nullptr, config.user_data);
-		else
-			mvAddCallback(getCallback(false), config.alias, nullptr, config.user_data);
+		submitCallback();
 	}
 
 	UpdateAppItemState(state);

@@ -65,13 +65,24 @@ void        mvToggleFullScreen(mvViewport& viewport);
 
 static void mvOnResize()
 {
-	mvSubmitCallback([=]() {
-		PyObject* dimensions = PyTuple_New(4);
-		PyTuple_SetItem(dimensions, 0, PyLong_FromLong(GContext->viewport->actualWidth));
-		PyTuple_SetItem(dimensions, 1, PyLong_FromLong(GContext->viewport->actualHeight));
-		PyTuple_SetItem(dimensions, 2, PyLong_FromLong(GContext->viewport->clientWidth));
-		PyTuple_SetItem(dimensions, 3, PyLong_FromLong(GContext->viewport->clientHeight));
-		mvAddCallback(
-			GContext->callbackRegistry->resizeCallback, MV_APP_UUID, dimensions, GContext->callbackRegistry->resizeCallbackUserData);
-		});
+	auto v = GContext->viewport;
+	mvAddOwnerlessCallback(
+		GContext->callbackRegistry->resizeCallback,
+		GContext->callbackRegistry->resizeCallbackUserData,
+		MV_APP_UUID, "",
+		[
+			actualWidth  = v->actualWidth,
+			actualHeight = v->actualHeight,
+			clientWidth  = v->clientWidth,
+			clientHeight = v->clientHeight
+		]
+		() {
+			PyObject* dimensions = PyTuple_New(4);
+			PyTuple_SetItem(dimensions, 0, PyLong_FromLong(actualWidth));
+			PyTuple_SetItem(dimensions, 1, PyLong_FromLong(actualHeight));
+			PyTuple_SetItem(dimensions, 2, PyLong_FromLong(clientWidth));
+			PyTuple_SetItem(dimensions, 3, PyLong_FromLong(clientHeight));
+			return dimensions;
+		}
+	);
 }

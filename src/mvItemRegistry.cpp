@@ -1075,7 +1075,7 @@ RenderItemRegistry(mvItemRegistry& registry)
         DebugItem("Enabled:", root->config.enabled ? ts : fs);
         DebugItem("Tracked:", root->config.tracked ? ts : fs);
         DebugItem("Callback:", root->config.callback ? ts : fs);
-        DebugItem("User Data:", root->config.user_data ? ts : fs);
+        DebugItem("User Data:", *(root->config.user_data) ? ts : fs);
         DebugItem("Drop Callback:", root->config.dropCallback ? ts : fs);
         DebugItem("Drag Callback:", root->config.dragCallback ? ts : fs);
 
@@ -1275,8 +1275,7 @@ AddItemWithRuntimeChecks(mvItemRegistry& registry, std::shared_ptr<mvAppItem> it
   
         // this is a unique situation in that the caller always has the GIL
         registry.capturedItem = item;
-        mvRunCallback(registry.captureCallback, registry.capturedItem->uuid, nullptr, nullptr);
-        Py_XDECREF(registry.captureCallback);
+        mvRunCallback(registry.captureCallback, nullptr, registry.capturedItem->uuid);
         registry.captureCallback = nullptr;
         return true;
     }

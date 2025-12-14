@@ -19,15 +19,27 @@ void mvRunTasks()
 
 void mvFrameCallback(i32 frame)
 {
+	auto callbackRegistry = GContext->callbackRegistry;   // for brevity
 
-	if (frame > GContext->callbackRegistry->highestFrame)
+	if (frame > callbackRegistry->highestFrame)
 		return;
 
-	if (GContext->callbackRegistry->frameCallbacks.count(frame) == 0)
+	if (callbackRegistry->frameCallbacks.count(frame) == 0)
 		return;
 
-	mvAddCallback(GContext->callbackRegistry->frameCallbacks[frame], frame, nullptr,
-		GContext->callbackRegistry->frameCallbacksUserData[frame]);
+	// We have to use `std::unordered_map::at()` instead of indexing it with `[]`:
+	// `mvPyObject` has no default constructor, whereas `operator[]` can insert
+	// a new value into the map and therefore requires a default constructor.
+
+	auto callback = std::make_shared<mvPyObject>(std::move(callbackRegistry->frameCallbacks.at(frame)));
+	auto user_data = std::make_shared<mvPyObject>(std::move(callbackRegistry->frameCallbacksUserData.at(frame)));
+
+	// Since mvPyObject objects remaining in the maps are now "empty", it's safe to
+	// delete them right here even though we don't own the GIL.
+	callbackRegistry->frameCallbacks.erase(frame);
+	callbackRegistry->frameCallbacksUserData.erase(frame);
+
+	mvAddOwnerlessCallback(callback, user_data, (mvUUID)frame, "", []() -> PyObject* { return nullptr; });
 }
 
 bool mvRunCallbacks()
@@ -49,311 +61,89 @@ bool mvRunCallbacks()
 	return true;
 }
 
-void mvAddCallback(PyObject* callable, mvUUID sender, PyObject* app_data, PyObject* user_data, bool decrementAppData)
+void mvAddCallback(const std::weak_ptr<void>& owner,
+                   PyObject* callback,
+                   const std::shared_ptr<mvPyObject>& user_data,
+                   mvUUID sender,
+                   const std::string& alias)
 {
-
-	if (GContext->callbackRegistry->callCount > GContext->callbackRegistry->maxNumberOfCalls)
-	{
-		if (app_data != nullptr)
-			Py_XDECREF(app_data);
-		if (user_data != nullptr)
-			Py_XDECREF(user_data);
-		assert(false);
-		return;
-	}
-
-	if (GContext->IO.manualCallbacks)
-	{
-		if (callable != nullptr)
-			Py_XINCREF(callable);
-		if (app_data != nullptr)
-			Py_XINCREF(app_data);
-		if (user_data != nullptr)
-			Py_XINCREF(user_data);
-		GContext->callbackRegistry->jobs.push_back({ sender, callable, app_data, user_data });
-		return;
-	}
-
-	mvSubmitCallback([=]() {
-		mvRunCallback(callable, sender, app_data, user_data, decrementAppData);
-		});
+    mvAddCallback(owner, callback, user_data, sender, alias, []() -> PyObject* { return nullptr; });
 }
 
-void mvAddCallback(PyObject* callable, const std::string& sender, PyObject* app_data, PyObject* user_data)
+void mvAddOwnerlessCallback(const std::shared_ptr<mvPyObject>& callback,
+                            const std::shared_ptr<mvPyObject>& user_data,
+                            mvUUID sender,
+                            const std::string& alias)
 {
-
-	if (GContext->callbackRegistry->callCount > GContext->callbackRegistry->maxNumberOfCalls)
-	{
-
-		if (app_data != nullptr)
-			Py_XDECREF(app_data);
-		if (user_data != nullptr)
-			Py_XDECREF(user_data);
-		assert(false);
-		return;
-	}
-
-	if (GContext->IO.manualCallbacks)
-	{
-		if (callable != nullptr)
-			Py_XINCREF(callable);
-		if (app_data != nullptr)
-			Py_XINCREF(app_data);
-		if (user_data != nullptr)
-			Py_XINCREF(user_data);
-		GContext->callbackRegistry->jobs.push_back({ 0, callable, app_data, user_data, sender });
-		return;
-	}
-
-	mvSubmitCallback([=]() {
-		mvRunCallback(callable, sender, app_data, user_data);
-		});
+	mvAddOwnerlessCallback(callback, user_data, sender, alias, []() -> PyObject* { return nullptr; });
 }
 
-void mvRunCallback(PyObject* callable, const std::string& sender, PyObject* app_data, PyObject* user_data)
+void mvRunCallback(PyObject* callback, PyObject* user_data, mvUUID sender, const std::string& sender_alias, PyObject* app_data)
 {
 
-	if (callable == nullptr)
-	{
-		//if (data != nullptr)
-		//	Py_XDECREF(data);
+	if (callback == nullptr)
 		return;
-	}
 
-	if (!PyCallable_Check(callable))
+	if (!PyCallable_Check(callback))
 	{
-		if (app_data != nullptr)
-			Py_XDECREF(app_data);
-		if (user_data != nullptr)
-			Py_XDECREF(user_data);
 		mvThrowPythonError(mvErrorCode::mvNone, "Callable not callable.");
 		PyErr_Print();
 		return;
 	}
 
-	if (app_data == nullptr)
-	{
-		app_data = Py_None;
-		Py_XINCREF(app_data);
-	}
-	Py_XINCREF(app_data);
-
-	if (user_data == nullptr)
-	{
-		user_data = Py_None;
-		Py_XINCREF(user_data);
-	}
-	Py_XINCREF(user_data);
-
 	//PyErr_Clear();
 	if (PyErr_Occurred())
 		PyErr_Print();
 
-	if (PyErr_Occurred())
-		PyErr_Print();
-
-	PyObject* fc = PyObject_GetAttrString(callable, "__code__");
+	PyObject* fc = PyObject_GetAttrString(callback, "__code__");
 	if (fc) {
 		PyObject* ac = PyObject_GetAttrString(fc, "co_argcount");
 		if (ac) {
 			i32 count = PyLong_AsLong(ac);
 
-			if (PyMethod_Check(callable))
+			if (PyMethod_Check(callback))
 				count--;
 
-			if (count > 3)
+			mvPyObject pArgs(count > 0 ? PyTuple_New(count) : nullptr);
+
+			if (count > 0)
 			{
-				mvPyObject pArgs(PyTuple_New(count));
-				PyTuple_SetItem(pArgs, 0, ToPyString(sender));
-				PyTuple_SetItem(pArgs, 1, app_data); // steals data, so don't deref
-				PyTuple_SetItem(pArgs, 2, user_data); // steals data, so don't deref
+				PyTuple_SetItem(pArgs, 0, sender_alias.empty()?
+						ToPyUUID(sender) :
+						ToPyString(sender_alias));
 
-				for (int i = 3; i < count; i++)
-					PyTuple_SetItem(pArgs, i, GetPyNone());
+				if (count > 1)
+				{
+					if (app_data == nullptr)
+						app_data = Py_None;
+					// Need an owned ref here: PyTuple_SetItem takes ownership;
+					// this also handles Py_None correctly (need to incref it).
+					Py_INCREF(app_data);
+					PyTuple_SetItem(pArgs, 1, app_data);
 
-				mvPyObject result(PyObject_CallObject(callable, pArgs));
+					if (count > 2)
+					{
+						if (user_data == nullptr)
+							user_data = Py_None;
+						// Need an owned ref here: PyTuple_SetItem takes ownership;
+						// this also handles Py_None correctly (need to incref it).
+						Py_INCREF(user_data);
+						PyTuple_SetItem(pArgs, 2, user_data);
 
-				// check if call succeeded
-				if (!result.isOk())
-					PyErr_Print();
-
+						// If the callback takes more parms, just pass None in there
+						for (int i = 3; i < count; i++)
+							PyTuple_SetItem(pArgs, i, GetPyNone());
+					}
+				}
 			}
-			else if (count == 3)
-			{
-				mvPyObject pArgs(PyTuple_New(3));
-				PyTuple_SetItem(pArgs, 0, ToPyString(sender));
-				PyTuple_SetItem(pArgs, 1, app_data); // steals data, so don't deref
-				PyTuple_SetItem(pArgs, 2, user_data); // steals data, so don't deref
 
-				mvPyObject result(PyObject_CallObject(callable, pArgs));
+			// perform the actual call
+			mvPyObject result(PyObject_CallObject(callback, pArgs));
 
-				pArgs.delRef();
-				// check if call succeeded
-				if (!result.isOk())
-					PyErr_Print();
+			// check if call succeeded
+			if (!result.isOk())
+				PyErr_Print();
 
-			}
-			else if (count == 2)
-			{
-				mvPyObject pArgs(PyTuple_New(2));
-				PyTuple_SetItem(pArgs, 0, ToPyString(sender));
-				PyTuple_SetItem(pArgs, 1, app_data); // steals data, so don't deref
-
-				mvPyObject result(PyObject_CallObject(callable, pArgs));
-
-				pArgs.delRef();
-				// check if call succeeded
-				if (!result.isOk())
-					PyErr_Print();
-
-			}
-			else if (count == 1)
-			{
-				mvPyObject pArgs(PyTuple_New(1));
-				PyTuple_SetItem(pArgs, 0, ToPyString(sender));
-
-				mvPyObject result(PyObject_CallObject(callable, pArgs));
-
-				// check if call succeeded
-				if (!result.isOk())
-					PyErr_Print();
-			}
-			else
-			{
-				mvPyObject result(PyObject_CallObject(callable, nullptr));
-
-				// check if call succeeded
-				if (!result.isOk())
-					PyErr_Print();
-
-
-			}
-			Py_DECREF(ac);
-		}
-		Py_DECREF(fc);
-	}
-
-}
-
-void mvRunCallback(PyObject* callable, mvUUID sender, PyObject* app_data, PyObject* user_data, bool decrementAppData)
-{
-
-	if (callable == nullptr)
-	{
-		//if (data != nullptr)
-		//	Py_XDECREF(data);
-		return;
-	}
-
-	if (!PyCallable_Check(callable))
-	{
-		if (app_data != nullptr)
-			Py_XDECREF(app_data);
-		if (user_data != nullptr)
-			Py_XDECREF(user_data);
-		mvThrowPythonError(mvErrorCode::mvNone, "Callable not callable.");
-		PyErr_Print();
-		return;
-	}
-
-	if (app_data == nullptr)
-	{
-		app_data = Py_None;
-		Py_XINCREF(app_data);
-	}
-	if(decrementAppData)
-		Py_XINCREF(app_data);
-
-	if (user_data == nullptr)
-	{
-		user_data = Py_None;
-		Py_XINCREF(user_data);
-	}
-	Py_XINCREF(user_data);
-
-	//PyErr_Clear();
-	if (PyErr_Occurred())
-		PyErr_Print();
-
-	if (PyErr_Occurred())
-		PyErr_Print();
-
-	PyObject* fc = PyObject_GetAttrString(callable, "__code__");
-	if (fc) {
-		PyObject* ac = PyObject_GetAttrString(fc, "co_argcount");
-		if (ac) {
-			i32 count = PyLong_AsLong(ac);
-
-			if (PyMethod_Check(callable))
-				count--;
-
-			if (count > 3)
-			{
-				mvPyObject pArgs(PyTuple_New(count));
-				PyTuple_SetItem(pArgs, 0, ToPyUUID(sender));
-				PyTuple_SetItem(pArgs, 1, app_data); // steals data, so don't deref
-				PyTuple_SetItem(pArgs, 2, user_data); // steals data, so don't deref
-					
-				for (int i = 3; i < count; i++)
-					PyTuple_SetItem(pArgs, i, GetPyNone());
-
-				mvPyObject result(PyObject_CallObject(callable, pArgs));
-
-				// check if call succeeded
-				if (!result.isOk())
-					PyErr_Print();
-
-			}
-			else if (count == 3)
-			{
-				mvPyObject pArgs(PyTuple_New(3));
-				PyTuple_SetItem(pArgs, 0, ToPyUUID(sender));
-				PyTuple_SetItem(pArgs, 1, app_data); // steals data, so don't deref
-				PyTuple_SetItem(pArgs, 2, user_data); // steals data, so don't deref
-
-				mvPyObject result(PyObject_CallObject(callable, pArgs));
-
-				pArgs.delRef();
-				// check if call succeeded
-				if (!result.isOk())
-					PyErr_Print();
-
-			}
-			else if (count == 2)
-			{
-				mvPyObject pArgs(PyTuple_New(2));
-				PyTuple_SetItem(pArgs, 0, ToPyUUID(sender));
-				PyTuple_SetItem(pArgs, 1, app_data); // steals data, so don't deref
-
-				mvPyObject result(PyObject_CallObject(callable, pArgs));
-
-				pArgs.delRef();
-				// check if call succeeded
-				if (!result.isOk())
-					PyErr_Print();
-
-			}
-			else if(count == 1)
-			{
-				mvPyObject pArgs(PyTuple_New(1));
-				PyTuple_SetItem(pArgs, 0, ToPyUUID(sender));
-
-				mvPyObject result(PyObject_CallObject(callable, pArgs));
-
-				// check if call succeeded
-				if (!result.isOk())
-					PyErr_Print();
-			}
-			else
-			{
-				mvPyObject result(PyObject_CallObject(callable, nullptr));
-
-				// check if call succeeded
-				if (!result.isOk())
-					PyErr_Print();
-
-
-			}
 			Py_DECREF(ac);
 		}
 		Py_DECREF(fc);

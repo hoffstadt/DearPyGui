@@ -36,12 +36,6 @@ mvAppItem::~mvAppItem()
     if (type == mvAppItemType::mvTable)
         static_cast<mvTable*>(this)->onChildrenRemoved();
 
-    mvGlobalIntepreterLock gil;
-    if (config.callback) Py_DECREF(config.callback);
-    if (config.user_data) Py_DECREF(config.user_data);
-    if (config.dragCallback) Py_DECREF(config.dragCallback);
-    if (config.dropCallback) Py_DECREF(config.dropCallback);
-
     // in case item registry is destroyed
     if (GContext->itemRegistry)
     {
@@ -54,13 +48,87 @@ mvAppItem::~mvAppItem()
     }
 }
 
-PyObject* 
-mvAppItem::getCallback(bool ignore_enabled)
+void mvAppItem::submitCallback()
 {
-    if (config.enabled)
-        return config.callback;
+    submitCallbackEx([]() -> PyObject* { return nullptr; });
+}
 
-    return ignore_enabled ? config.callback : nullptr;
+template<>
+void mvAppItem::submitCallback(std::string app_data)
+{
+    submitCallbackEx([app_data=std::move(app_data)]() { return ToPyString(app_data); });
+}
+
+template<>
+void mvAppItem::submitCallback(bool app_data)
+{
+    submitCallbackEx([=]() { return ToPyBool(app_data); });
+}
+
+template<>
+void mvAppItem::submitCallback(float app_data)
+{
+    submitCallbackEx([=]() { return ToPyFloat(app_data); });
+}
+
+template<>
+void mvAppItem::submitCallback(double app_data)
+{
+    submitCallbackEx([=]() { return ToPyDouble(app_data); });
+}
+
+template<>
+void mvAppItem::submitCallback(int app_data)
+{
+    submitCallbackEx([=]() { return ToPyInt(app_data); });
+}
+
+template<>
+void mvAppItem::submitCallback(std::array<int, 4> app_data)
+{
+    submitCallbackEx([app_data=std::move(app_data)]() { return ToPyIntList(app_data.data(), (int) app_data.size()); });
+}
+
+template<>
+void mvAppItem::submitCallback(std::array<float, 4> app_data)
+{
+    submitCallbackEx([app_data=std::move(app_data)]() { return ToPyFloatList(app_data.data(), (int) app_data.size()); });
+}
+
+template<>
+void mvAppItem::submitCallback(std::array<double, 4> app_data)
+{
+    submitCallbackEx([app_data=std::move(app_data)]() { return ToPyFloatList(app_data.data(), (int) app_data.size()); });
+}
+
+template<>
+void mvAppItem::submitCallback(mvColor app_data)
+{
+    submitCallbackEx([=]() { return ToPyColor(app_data); });
+}
+
+template<>
+void mvAppItem::submitCallback(mvUUID app_data)
+{
+    submitCallbackEx([=]() { return ToPyUUID(app_data); });
+}
+
+template<>
+void mvAppItem::submitCallback(tm app_data)
+{
+    submitCallbackEx([=]() { return ToPyTime(app_data); });
+}
+
+template<>
+void mvAppItem::submitCallback(ImVec2 app_data)
+{
+    submitCallbackEx([=]() { return ToPyPair(app_data.x, app_data.y); });
+}
+
+template<>
+void mvAppItem::submitCallback(ImGuiKey app_data)
+{
+    submitCallbackEx([=]() { return ToPyInt(app_data); });
 }
 
 void 
@@ -163,52 +231,22 @@ mvAppItem::handleKeywordArgs(PyObject* dict, const std::string& parser)
 
     if (PyObject* item = PyDict_GetItemString(dict, "callback"))
     {
-        if (config.callback)
-            Py_XDECREF(config.callback);
-
-        // TODO: investigate if PyNone should be increffed
-        Py_XINCREF(item);
-        if (item == Py_None)
-            config.callback = nullptr;
-        else
-            config.callback = item;
+        config.callback = mvPyObject(item == Py_None? nullptr : item, true);
     }
 
     if (PyObject* item = PyDict_GetItemString(dict, "drag_callback"))
     {
-        if (config.dragCallback)
-            Py_XDECREF(config.dragCallback);
-
-        Py_XINCREF(item);
-        if (item == Py_None)
-            config.dragCallback = nullptr;
-        else
-            config.dragCallback = item;
+        config.dragCallback = mvPyObject(item == Py_None? nullptr : item, true);
     }
 
     if (PyObject* item = PyDict_GetItemString(dict, "drop_callback"))
     {
-        if (config.dropCallback)
-            Py_XDECREF(config.dropCallback);
-
-        Py_XINCREF(item);
-
-        if (item == Py_None)
-            config.dropCallback = nullptr;
-        else
-            config.dropCallback = item;
+        config.dropCallback = mvPyObject(item == Py_None? nullptr : item, true);
     }
 
     if (PyObject* item = PyDict_GetItemString(dict, "user_data"))
     {
-        if (config.user_data)
-            Py_XDECREF(config.user_data);
-            
-        Py_XINCREF(item);
-        if (item == Py_None)
-            config.user_data = nullptr;
-        else
-            config.user_data = item;
+        *config.user_data = mvPyObject(item == Py_None? nullptr : item, true);
     }
 
     handleSpecificKeywordArgs(dict);
