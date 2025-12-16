@@ -160,6 +160,9 @@ SetDefaultTheme()
 void 
 Render()
 {
+    // We lock the mutex from the very start so that frame count is kept valid
+    // for API calls.
+    std::lock_guard lk(GContext->mutex);
 
     // update timing
     GContext->deltaTime = ImGui::GetIO().DeltaTime;
@@ -180,7 +183,6 @@ Render()
     mvToolManager::Draw();
 
     {
-        std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
         if (GContext->resetTheme)
         {
             SetDefaultTheme();

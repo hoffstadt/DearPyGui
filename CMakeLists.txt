@@ -48,6 +48,17 @@ if(MV_TESTS_ONLY)
     add_definitions(-DMV_TESTS_ONLY)
 endif()
 
+# Specifying MV_NO_USER_THREADS turns off some thread safety features (might give
+# you some perf gain, yeah, those 0.01%) and must only be used when no user threads
+# (threading.Thread) **ever** call DPG API. With MV_NO_USER_THREADS, it's only
+# allowed to call DPG from the main thread and from handlers/callbacks.
+# Also can be used to get back the behavior of old DPG versions that were thread
+# unsafe (for testing/debugging).
+set(MV_NO_USER_THREADS ${MV_NO_USER_THREADS})
+if(MV_NO_USER_THREADS)
+    add_definitions(-DMV_NO_USER_THREADS)
+endif()
+
 add_subdirectory("thirdparty")
 
 # if this is not a distribution build

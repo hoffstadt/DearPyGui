@@ -41,6 +41,8 @@ window_size_callback(GLFWwindow* window, int width, int height)
 static void
 mvPrerender()
 {
+    std::lock_guard lk(GContext->mutex);
+
     mvViewport* viewport = GContext->viewport;
     auto viewportData = (mvViewportData*)viewport->platformSpecifics;
 
