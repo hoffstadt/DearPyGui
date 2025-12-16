@@ -137,6 +137,7 @@ void mvLayoutWindow::drawWidgets()
         std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
         mvSubmitCallback([&]()
             {
+                mvPySafeLockGuard lk(GContext->mutex);
                 MoveItemUp(*GContext->itemRegistry, m_selectedItem);
             });
     }
@@ -147,6 +148,7 @@ void mvLayoutWindow::drawWidgets()
         std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
         mvSubmitCallback([&]()
             {
+                mvPySafeLockGuard lk(GContext->mutex);
                 MoveItemDown(*GContext->itemRegistry, m_selectedItem);
             });
     }
@@ -156,6 +158,7 @@ void mvLayoutWindow::drawWidgets()
         std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
         mvSubmitCallback([&]()
             {
+                mvPySafeLockGuard lk(GContext->mutex);
                 DeleteItem(*GContext->itemRegistry, m_selectedItem, false);
                 m_selectedItem = 0;
             });

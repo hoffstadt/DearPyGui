@@ -168,6 +168,10 @@ mvFontManager::rebuildAtlas()
 		{
 			item->customAction(nullptr);
 		}
+
+		// Just to make sure g.Font doesn't point to a font already deleted by 
+		// io.Fonts->Clear(), though ideally ImGui should be doing it on its own.
+		ImGui::SetCurrentFont(ImGui::GetDefaultFont());
 	}
 
 	_dirty = false;

@@ -84,7 +84,7 @@ static void
 StartNewFrame()
 {
 	// Font manager is thread-unsafe, so we'd better sync it
-	std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	std::lock_guard lk(GContext->mutex);
 
 	if (mvToolManager::GetFontManager().isInvalid())
 	{
@@ -115,7 +115,7 @@ mvPrerender(mvViewport& viewport)
 	// An extra scope for mutex lock
 	{
 		// TODO: we probably need a separate mutex for this
-		std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+		std::lock_guard lk(GContext->mutex);
 		ApplyViewportParms(viewport);
 	}
 
@@ -176,7 +176,7 @@ mvHandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 
 	case WM_MOVE:
 	{
-		std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+		std::lock_guard lk(GContext->mutex);
 
 		// We explicitly ignore all WM_MOVE messages until the rendering loop
 		// starts.  This is because on Windows 10 and later, the coordinates passed
@@ -217,7 +217,7 @@ mvHandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 				cheight = crect.bottom - crect.top;
 			}
 
-			std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+			std::lock_guard lk(GContext->mutex);
 
 			viewport->actualWidth = awidth;
 			viewport->actualHeight = aheight;
@@ -257,7 +257,7 @@ mvHandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 		if (wParam == resizeTimerID)
 		{
 			// TODO: we probably need a separate mutex for ApplyViewportParms
-			std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+			std::lock_guard lk(GContext->mutex);
 			ApplyViewportParms(*viewport);
 			StartNewFrame();
 			Render();

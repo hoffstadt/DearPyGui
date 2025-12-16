@@ -1280,15 +1280,17 @@ AddItemWithRuntimeChecks(mvItemRegistry& registry, std::shared_ptr<mvAppItem> it
         return true;
     }
 
-    if (DearPyGui::GetEntityDesciptionFlags(item->type) & MV_ITEM_DESC_HANDLER && parent == 0)
-        parent = item->config.parent;
-
     if (item == nullptr)
         return false;
 
     // check if item is ok
     if (!item->state.ok)
         return false;
+
+    mvPySafeLockGuard lk(GContext->mutex);
+
+    if (DearPyGui::GetEntityDesciptionFlags(item->type) & MV_ITEM_DESC_HANDLER && parent == 0)
+        parent = item->config.parent;
 
     //---------------------------------------------------------------------------
     // STEP 0: updata "last" information
@@ -1321,8 +1323,6 @@ AddItemWithRuntimeChecks(mvItemRegistry& registry, std::shared_ptr<mvAppItem> it
         NONE, STAGE, BEFORE, PARENT, STACK
     };
     AddTechnique technique = AddTechnique::NONE;
-
-     std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
 
     //---------------------------------------------------------------------------
     // STEP 2: handle root case
