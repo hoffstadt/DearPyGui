@@ -252,9 +252,6 @@ mvRenderFrame()
 		    // Locking the mutex while we're touching thread-sensitive data
             std::lock_guard lk(GContext->mutex);
 
-            viewport->width = (unsigned)width;
-            viewport->height = (unsigned)height;
-
             // Start the Dear ImGui frame
             ImGui_ImplMetal_NewFrame(graphicsData->renderPassDescriptor);
             ImGui_ImplGlfw_NewFrame();
