@@ -1784,9 +1784,15 @@ InsertParser_Block4(std::map<std::string, mvPythonParser>& parsers)
 	{
 		std::vector<mvPythonDataElement> args;
 		args.push_back({ mvPyDataType::UUID, "item" });
-		args.push_back({ mvPyDataType::Float, "value" });
+		args.push_back({ mvPyDataType::Float, "value", mvArgType::REQUIRED_ARG, "", "Scroll position"});
+		args.push_back({ mvPyDataType::Integer, "when", mvArgType::KEYWORD_ARG, "internal_dpg.mvSetScrollFlags_Delayed",
+			"Specifies whether the scroll position will be set in the nearest frame (mvSetScrollFlags_Now) or with "
+			"a 1-frame delay (mvSetScrollFlags_Delayed).  The former prevents flickering, the latter works better "
+			"if contents change in the same frame as when set_x_scroll called.  mvSetScrollFlags_Both can also be used "
+			"to set the position twice." });
 
 		mvPythonParserSetup setup;
+		setup.about = "Sets horizontal scroll position.";
 
 		mvPythonParser parser = FinalizeParser(setup, args);
 		parsers.insert({ "set_x_scroll", parser });
@@ -1795,8 +1801,16 @@ InsertParser_Block4(std::map<std::string, mvPythonParser>& parsers)
 	{
 		std::vector<mvPythonDataElement> args;
 		args.push_back({ mvPyDataType::UUID, "item" });
-		args.push_back({ mvPyDataType::Float, "value" });
+		args.push_back({ mvPyDataType::Float, "value", mvArgType::REQUIRED_ARG, "", "Scroll position"});
+		args.push_back({ mvPyDataType::Integer, "when", mvArgType::KEYWORD_ARG, "internal_dpg.mvSetScrollFlags_Delayed",
+			"Specifies whether the scroll position will be set in the nearest frame (mvSetScrollFlags_Now) or with "
+			"a 1-frame delay (mvSetScrollFlags_Delayed).  The former prevents flickering, the latter works better "
+			"if contents change in the same frame as when set_x_scroll called.  mvSetScrollFlags_Both can also be used "
+			"to set the position twice." });
+
 		mvPythonParserSetup setup;
+		setup.about = "Sets vertical scroll position.";
+
 		mvPythonParser parser = FinalizeParser(setup, args);
 		parsers.insert({ "set_y_scroll", parser });
 	}

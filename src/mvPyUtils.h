@@ -151,6 +151,7 @@ PyObject*   ToPyPair  (float x, float y);
 PyObject*   ToPyPair  (double x, double y);
 PyObject*   ToPyPairII(int x, int y);
 PyObject*   ToPyPair  (const std::string& x, const std::string& y);
+PyObject*   ToPyTPair (bool x, bool y);         // tuple-based pair (unlike other pairs that are list-based)
 PyObject*   ToPyList  (const std::vector<mvVec2>& value);
 PyObject*   ToPyList  (const std::vector<mvVec4>& value);
 PyObject*   ToPyList  (const std::vector<int>& value);
