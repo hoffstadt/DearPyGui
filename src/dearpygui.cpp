@@ -69,6 +69,11 @@ GetModuleConstants()
 		ModuleConstants.push_back({"mvComboHeight_Large", 2L });
 		ModuleConstants.push_back({"mvComboHeight_Largest", 3L });
 
+		ModuleConstants.push_back({"mvEventType_Off",	mvEventType_Off });
+		ModuleConstants.push_back({"mvEventType_Enter", mvEventType_Enter });
+		ModuleConstants.push_back({"mvEventType_On", 	mvEventType_On });
+		ModuleConstants.push_back({"mvEventType_Leave", mvEventType_Leave });
+
 		ModuleConstants.push_back({"mvPlatform_Windows", 0L });
 		ModuleConstants.push_back({"mvPlatform_Apple", 1L });
 		ModuleConstants.push_back({"mvPlatform_Linux", 2L });

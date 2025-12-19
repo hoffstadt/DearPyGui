@@ -4855,6 +4855,8 @@ DearPyGui::GetEntityParser(mvAppItemType type)
             MV_PARSER_ARG_CALLBACK)
         );
 
+        args.push_back({ mvPyDataType::Integer, "event_type", mvArgType::KEYWORD_ARG, "None", "What kind of events to track: mouse-in (mvEventType_Enter), mouse-over (mvEventType_On), mouse-out (mvEventType_Leave). Can be a combination of these flags. Defaults to mouse-over." });
+
         setup.about = "Adds a hover handler.";
         setup.category = { "Widgets", "Events" };
         break;
@@ -4880,6 +4882,8 @@ DearPyGui::GetEntityParser(mvAppItemType type)
             MV_PARSER_ARG_PARENT |
             MV_PARSER_ARG_CALLBACK)
         );
+
+        args.push_back({ mvPyDataType::Integer, "event_type", mvArgType::KEYWORD_ARG, "None", "What kind of events to track: just got focus (mvEventType_Enter), currently having focus (mvEventType_On), lost focus (mvEventType_Leave). Can be a combination of these flags. Defaults to mvEventType_On." });
 
         setup.about = "Adds a focus handler.";
         setup.category = { "Widgets", "Events" };

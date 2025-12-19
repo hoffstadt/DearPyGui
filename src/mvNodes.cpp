@@ -213,6 +213,7 @@ void mvNodeEditor::draw(ImDrawList* drawlist, float x, float y)
     }
 
     state.lastFrameUpdate = GContext->frame;
+    state.prevHovered = state.hovered;
     state.hovered = ImNodes::IsEditorHovered();
     state.visible = ret;
     state.rectSize = { ImNodes::mvEditorGetSize().Max.x - ImNodes::mvEditorGetSize().Min.x, ImNodes::mvEditorGetSize().Max.y - ImNodes::mvEditorGetSize().Min.y };
@@ -240,6 +241,7 @@ void mvNodeEditor::draw(ImDrawList* drawlist, float x, float y)
     for (auto& child : childslots[0])
     {
         child->state.lastFrameUpdate = GContext->frame;
+        child->state.prevHovered = child->state.hovered;
         child->state.hovered = false;
 
         if (anyLinkHovered && linkHovered == static_cast<mvNodeLink*>(child.get())->getId())
@@ -250,6 +252,7 @@ void mvNodeEditor::draw(ImDrawList* drawlist, float x, float y)
     for (auto& child : childslots[1])
     {
         child->state.lastFrameUpdate = GContext->frame;
+        child->state.prevHovered = child->state.hovered;
         child->state.hovered = false;
 
         if (child->config.show)
@@ -267,6 +270,7 @@ void mvNodeEditor::draw(ImDrawList* drawlist, float x, float y)
         for (auto& grandchild : child->childslots[1])
         {
             grandchild->state.lastFrameUpdate = GContext->frame;
+            grandchild->state.prevHovered = grandchild->state.hovered;
             grandchild->state.hovered = false;
 
             if (anyPinHovered && pinHovered == static_cast<mvNodeAttribute*>(grandchild.get())->getId())

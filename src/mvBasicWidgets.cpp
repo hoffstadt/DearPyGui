@@ -2642,6 +2642,7 @@ DearPyGui::draw_simple_plot(ImDrawList* drawlist, mvAppItem& item, const mvSimpl
 	//   * only update if applicable
 	//-----------------------------------------------------------------------------
 	item.state.lastFrameUpdate = GContext->frame;
+    item.state.prevHovered = item.state.hovered;
 	item.state.hovered = ImGui::IsItemHovered();
 	item.state.leftclicked = ImGui::IsItemClicked();
 	item.state.rightclicked = ImGui::IsItemClicked(1);
@@ -4388,26 +4389,7 @@ DearPyGui::draw_radio_button(ImDrawList* drawlist, mvAppItem& item, mvRadioButto
 	//-----------------------------------------------------------------------------
 	// update state
 	//-----------------------------------------------------------------------------
-	item.state.lastFrameUpdate = GContext->frame;
-	item.state.hovered = ImGui::IsItemHovered();
-	item.state.active = ImGui::IsItemActive();
-	item.state.focused = ImGui::IsItemFocused();
-	item.state.leftclicked = ImGui::IsItemClicked();
-	item.state.rightclicked = ImGui::IsItemClicked(1);
-	item.state.middleclicked = ImGui::IsItemClicked(2);
-    for (int i = 0; i < item.state.doubleclicked.size(); i++)
-    {
-        item.state.doubleclicked[i] = IsItemDoubleClicked(i);
-    }
-	item.state.visible = ImGui::IsItemVisible();
-	item.state.activated = ImGui::IsItemActivated();
-	item.state.deactivated = ImGui::IsItemDeactivated();
-	item.state.deactivatedAfterEdit = ImGui::IsItemDeactivatedAfterEdit();
-	item.state.toggledOpen = ImGui::IsItemToggledOpen();
-	item.state.rectMin = { ImGui::GetItemRectMin().x, ImGui::GetItemRectMin().y };
-	item.state.rectMax = { ImGui::GetItemRectMax().x, ImGui::GetItemRectMax().y };
-	item.state.rectSize = { ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y };
-	item.state.contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
+	UpdateAppItemState(item.state);
 
 	//-----------------------------------------------------------------------------
 	// post draw

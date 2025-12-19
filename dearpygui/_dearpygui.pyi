@@ -327,7 +327,7 @@ def add_item_edited_handler(*, label: str ='', user_data: Any ='', use_internal_
 	"""Adds an edited handler."""
 	...
 
-def add_item_focus_handler(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', callback: Callable ='', show: bool ='') -> Union[int, str]:
+def add_item_focus_handler(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', callback: Callable ='', show: bool ='', event_type: int ='') -> Union[int, str]:
 	"""Adds a focus handler."""
 	...
 
@@ -335,7 +335,7 @@ def add_item_handler_registry(*, label: str ='', user_data: Any ='', use_interna
 	"""Adds an item handler registry."""
 	...
 
-def add_item_hover_handler(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', callback: Callable ='', show: bool ='') -> Union[int, str]:
+def add_item_hover_handler(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', callback: Callable ='', show: bool ='', event_type: int ='') -> Union[int, str]:
 	"""Adds a hover handler."""
 	...
 
@@ -1430,6 +1430,10 @@ mvComboHeight_Small=0
 mvComboHeight_Regular=0
 mvComboHeight_Large=0
 mvComboHeight_Largest=0
+mvEventType_Off=0
+mvEventType_Enter=0
+mvEventType_On=0
+mvEventType_Leave=0
 mvPlatform_Windows=0
 mvPlatform_Apple=0
 mvPlatform_Linux=0

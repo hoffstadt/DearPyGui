@@ -131,6 +131,40 @@ void mvItemHandler::submitHandler(mvAppItem* parent)
 	});
 }
 
+void mvBoolStateHandler::checkEvent(bool curState, bool prevState, mvAppItem* parent)
+{
+	mvEventType eventType = curState?
+			(prevState? mvEventType_On : mvEventType_EnterAndOn) :
+			(prevState? mvEventType_LeaveAndOff : mvEventType_Off);
+
+	if (trackedEventType & eventType)
+	{
+		// We do not pass eventType to callback yet in order to keep it compatible
+		// with the old version.
+		submitHandler(parent);
+	}
+}
+
+void mvBoolStateHandler::handleSpecificKeywordArgs(PyObject* dict)
+{
+	if (dict == nullptr)
+		return;
+
+	if (PyObject* item = PyDict_GetItemString(dict, "event_type"))
+	{
+		if (item != Py_None)
+			trackedEventType = static_cast<mvEventType>(ToInt(item));
+	}
+}
+
+void mvBoolStateHandler::getSpecificConfiguration(PyObject* dict)
+{
+	if (dict == nullptr)
+		return;
+
+	PyDict_SetItemString(dict, "event_type", mvPyObject(ToPyInt(trackedEventType)));
+}
+
 void mvActivatedHandler::customAction(void* data)
 {
 
@@ -277,21 +311,14 @@ void mvEditedHandler::customAction(void* data)
 
 void mvFocusHandler::customAction(void* data)
 {
-
 	mvAppItemState* state = static_cast<mvAppItemState*>(data);
-	if (state->focused)
-	{
-		submitHandler(state->parent);
-	}
+	checkEvent(state->focused, state->prevFocused, state->parent);
 }
 
 void mvHoverHandler::customAction(void* data)
 {
 	mvAppItemState* state = static_cast<mvAppItemState*>(data);
-	if (state->hovered)
-	{
-		submitHandler(state->parent);
-	}
+	checkEvent(state->hovered, state->prevHovered, state->parent);
 }
 
 void mvResizeHandler::customAction(void* data)
