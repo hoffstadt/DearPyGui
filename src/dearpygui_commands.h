@@ -207,9 +207,10 @@ set_x_scroll(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	PyObject* itemraw;
 	float value;
+	int when = (int)mvSetScrollFlags_Delayed;
 
 	if (!Parse((GetParsers())["set_x_scroll"], args, kwargs, __FUNCTION__,
-		&itemraw, &value))
+		&itemraw, &value, &when))
 		return GetPyNone();
 
 	mvPySafeLockGuard lk(GContext->mutex);
@@ -224,25 +225,10 @@ set_x_scroll(PyObject* self, PyObject* args, PyObject* kwargs)
 		return GetPyNone();
 	}
 
-	if (window->type == mvAppItemType::mvWindowAppItem)
+	if (DearPyGui::GetApplicableState(window->type) & MV_STATE_SCROLL)
 	{
-
-		auto pWindow = static_cast<mvWindowAppItem*>(window);
-
-		pWindow->configData.scrollX = value;
-		pWindow->configData._scrollXSet = true;
-	}
-	else if (window->type == mvAppItemType::mvChildWindow)
-	{
-		auto pChild = static_cast<mvChildWindow*>(window);
-		pChild->configData.scrollX = value;
-		pChild->configData._scrollXSet = true;
-	}
-	else if (window->type == mvAppItemType::mvTable)
-	{
-		auto pChild = static_cast<mvTable*>(window);
-		pChild->_scrollX = value;
-		pChild->_scrollXSet = true;
+		window->config.scrollX = value;
+		window->config.scrollXFlags = (mvSetScrollFlags)when;
 	}
 	else
 	{
@@ -259,9 +245,10 @@ set_y_scroll(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	PyObject* itemraw;
 	float value;
+	int when = (int)mvSetScrollFlags_Delayed;
 
 	if (!Parse((GetParsers())["set_y_scroll"], args, kwargs, __FUNCTION__,
-		&itemraw, &value))
+		&itemraw, &value, &when))
 		return GetPyNone();
 
 	mvPySafeLockGuard lk(GContext->mutex);
@@ -276,25 +263,10 @@ set_y_scroll(PyObject* self, PyObject* args, PyObject* kwargs)
 		return GetPyNone();
 	}
 
-	if (window->type == mvAppItemType::mvWindowAppItem)
+	if (DearPyGui::GetApplicableState(window->type) & MV_STATE_SCROLL)
 	{
-
-		auto pWindow = static_cast<mvWindowAppItem*>(window);
-
-		pWindow->configData.scrollY = value;
-		pWindow->configData._scrollYSet = true;
-	}
-	else if (window->type == mvAppItemType::mvChildWindow)
-	{
-		auto pChild = static_cast<mvChildWindow*>(window);
-		pChild->configData.scrollY = value;
-		pChild->configData._scrollYSet = true;
-	}
-	else if (window->type == mvAppItemType::mvTable)
-	{
-		auto pChild = static_cast<mvTable*>(window);
-		pChild->_scrollY = value;
-		pChild->_scrollYSet = true;
+		window->config.scrollY = value;
+		window->config.scrollYFlags = (mvSetScrollFlags)when;
 	}
 	else
 	{
@@ -327,24 +299,9 @@ get_x_scroll(PyObject* self, PyObject* args, PyObject* kwargs)
 		return GetPyNone();
 	}
 
-	if (window->type == mvAppItemType::mvWindowAppItem)
+	if (DearPyGui::GetApplicableState(window->type) & MV_STATE_SCROLL)
 	{
-
-		auto pWindow = static_cast<mvWindowAppItem*>(window);
-
-		return ToPyFloat(pWindow->configData.scrollX);
-	}
-	else if (window->type == mvAppItemType::mvChildWindow)
-	{
-		auto pChild = static_cast<mvChildWindow*>(window);
-
-		return ToPyFloat(pChild->configData.scrollX);
-	}
-	else if (window->type == mvAppItemType::mvTable)
-	{
-		auto pTable = static_cast<mvTable*>(window);
-
-		return ToPyFloat(pTable->_scrollX);
+		return ToPyFloat(window->state.scrollPos.x);
 	}
 	else
 	{
@@ -377,24 +334,9 @@ get_y_scroll(PyObject* self, PyObject* args, PyObject* kwargs)
 		return GetPyNone();
 	}
 
-	if (window->type == mvAppItemType::mvWindowAppItem)
+	if (DearPyGui::GetApplicableState(window->type) & MV_STATE_SCROLL)
 	{
-
-		auto pWindow = static_cast<mvWindowAppItem*>(window);
-
-		return ToPyFloat(pWindow->configData.scrollY);
-	}
-	else if (window->type == mvAppItemType::mvChildWindow)
-	{
-		auto pChild = static_cast<mvChildWindow*>(window);
-
-		return ToPyFloat(pChild->configData.scrollY);
-	}
-	else if (window->type == mvAppItemType::mvTable)
-	{
-		auto pTable = static_cast<mvTable*>(window);
-
-		return ToPyFloat(pTable->_scrollY);
+		return ToPyFloat(window->state.scrollPos.y);
 	}
 	else
 	{
@@ -427,24 +369,9 @@ get_x_scroll_max(PyObject* self, PyObject* args, PyObject* kwargs)
 		return GetPyNone();
 	}
 
-	if (window->type == mvAppItemType::mvWindowAppItem)
+	if (DearPyGui::GetApplicableState(window->type) & MV_STATE_SCROLL)
 	{
-
-		auto pWindow = static_cast<mvWindowAppItem*>(window);
-
-		return ToPyFloat(pWindow->configData.scrollMaxX);
-	}
-	else if (window->type == mvAppItemType::mvChildWindow)
-	{
-		auto pChild = static_cast<mvChildWindow*>(window);
-
-		return ToPyFloat(pChild->configData.scrollMaxX);
-	}
-	else if (window->type == mvAppItemType::mvTable)
-	{
-		auto pTable = static_cast<mvTable*>(window);
-
-		return ToPyFloat(pTable->_scrollMaxX);
+		return ToPyFloat(window->state.scrollMax.x);
 	}
 	else
 	{
@@ -477,28 +404,13 @@ get_y_scroll_max(PyObject* self, PyObject* args, PyObject* kwargs)
 		return GetPyNone();
 	}
 
-	if (window->type == mvAppItemType::mvWindowAppItem)
+	if (DearPyGui::GetApplicableState(window->type) & MV_STATE_SCROLL)
 	{
-
-		auto pWindow = static_cast<mvWindowAppItem*>(window);
-
-		return ToPyFloat(pWindow->configData.scrollMaxY);
-	}
-	else if (window->type == mvAppItemType::mvChildWindow)
-	{
-		auto pChild = static_cast<mvChildWindow*>(window);
-
-		return ToPyFloat(pChild->configData.scrollMaxY);
-	}
-	else if (window->type == mvAppItemType::mvTable)
-	{
-		auto pTable = static_cast<mvTable*>(window);
-
-		return ToPyFloat(pTable->_scrollMaxY);
+		return ToPyFloat(window->state.scrollMax.y);
 	}
 	else
 	{
-		mvThrowPythonError(mvErrorCode::mvIncompatibleType, "set_y_scroll_max",
+		mvThrowPythonError(mvErrorCode::mvIncompatibleType, "get_y_scroll_max",
 			"Incompatible type. Expected types include: mvWindowAppItem, mvChildWindow, mvTable", window);
 	}
 
@@ -3730,7 +3642,8 @@ get_item_info(PyObject* self, PyObject* args, PyObject* kwargs)
 		PyDict_SetItemString(pdict, "deactivatedae_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_DEACTIVATEDAE)));
 		PyDict_SetItemString(pdict, "toggled_open_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_TOGGLED_OPEN)));
 		PyDict_SetItemString(pdict, "resized_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_RECT_SIZE)));
-		
+		PyDict_SetItemString(pdict, "scroll_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_SCROLL)));
+
 	}
 
 	else

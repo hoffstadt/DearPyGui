@@ -130,6 +130,7 @@
     X( mvToggledOpenHandler ) \
     X( mvClickedHandler ) \
     X( mvDoubleClickedHandler ) \
+    X( mvScrollHandler ) \
     X( mvDragPayload ) \
     X( mvResizeHandler ) \
     X( mvFont ) \

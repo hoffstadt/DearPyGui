@@ -119,6 +119,14 @@ void mvItemHandlerRegistry::onBind(mvAppItem* item)
 			break;
 		}
 
+		case mvAppItemType::mvScrollHandler:
+		{
+			if (!(applicableState & ~MV_STATE_SCROLL))
+				mvThrowPythonError(mvErrorCode::mvNone, "bind_item_handler_registry",
+					"Item Handler Registry includes inapplicable handler: mvScrollHandler", item);
+			break;
+		}
+
             default: break;
 		}
 	}
@@ -345,5 +353,47 @@ void mvVisibleHandler::customAction(void* data)
 	if (static_cast<mvAppItemState*>(data)->visible)
 	{
 		submitHandler(state->parent);
+	}
+}
+
+PyObject* mvScrollHandler::makeAppData(mvUUID uuid, const std::string& alias, mvScrollDirection dir, bool isScrolling, float pos, float max)
+{
+	PyObject* app_data = PyTuple_New(5);
+	PyTuple_SetItem(app_data, 0, ToPyUUID(uuid, alias));
+	PyTuple_SetItem(app_data, 1, ToPyInt(dir));
+	PyTuple_SetItem(app_data, 2, ToPyFloat(pos));
+	PyTuple_SetItem(app_data, 3, ToPyFloat(max));
+	PyTuple_SetItem(app_data, 4, ToPyBool(isScrolling));
+	return app_data;
+}
+
+void mvScrollHandler::customAction(void* data)
+{
+	mvAppItemState* state = static_cast<mvAppItemState*>(data);
+	mvAppItem* parent = state->parent;
+	if (state->scrolledX)
+	{
+		submitCallbackEx([=,
+						  uuid=parent->uuid,
+						  alias=parent->config.alias,
+						  isScrolling=state->isScrollingX,
+						  pos=state->scrollPos.x,
+						  max=state->scrollMax.x] ()
+		{
+			return makeAppData(uuid, alias, mvScrollDirection_XAxis, isScrolling, pos, max);
+		});
+	}
+
+	if (state->scrolledY)
+	{
+		submitCallbackEx([=,
+						  uuid=parent->uuid,
+						  alias=parent->config.alias,
+						  isScrolling=state->isScrollingY,
+						  pos=state->scrollPos.y,
+						  max=state->scrollMax.y] ()
+		{
+			return makeAppData(uuid, alias, mvScrollDirection_YAxis, isScrolling, pos, max);
+		});
 	}
 }

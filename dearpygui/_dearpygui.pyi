@@ -343,6 +343,10 @@ def add_item_resize_handler(*, label: str ='', user_data: Any ='', use_internal_
 	"""Adds a resize handler."""
 	...
 
+def add_item_scroll_handler(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', callback: Callable ='', show: bool ='') -> Union[int, str]:
+	"""Adds a scroll handler."""
+	...
+
 def add_item_toggled_open_handler(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', callback: Callable ='', show: bool ='') -> Union[int, str]:
 	"""Adds a togged open handler."""
 	...
@@ -1179,12 +1183,12 @@ def set_viewport_resize_callback(callback : Callable, *, user_data: Any ='') -> 
 	"""Sets a callback to run on viewport resize."""
 	...
 
-def set_x_scroll(item : Union[int, str], value : float) -> None:
-	"""Undocumented"""
+def set_x_scroll(item : Union[int, str], value : float, *, when: int ='') -> None:
+	"""Sets horizontal scroll position."""
 	...
 
-def set_y_scroll(item : Union[int, str], value : float) -> None:
-	"""Undocumented"""
+def set_y_scroll(item : Union[int, str], value : float, *, when: int ='') -> None:
+	"""Sets vertical scroll position."""
 	...
 
 def setup_dearpygui() -> None:
@@ -1434,6 +1438,13 @@ mvEventType_Off=0
 mvEventType_Enter=0
 mvEventType_On=0
 mvEventType_Leave=0
+mvSetScrollFlags_Now=0
+mvSetScrollFlags_Delayed=0
+mvSetScrollFlags_Both=0
+mvScrollDirection_XAxis=0
+mvScrollDirection_YAxis=0
+mvScrollDirection_Horizontal=0
+mvScrollDirection_Vertical=0
 mvPlatform_Windows=0
 mvPlatform_Apple=0
 mvPlatform_Linux=0
@@ -1856,6 +1867,7 @@ mvDeactivatedAfterEditHandler=0
 mvToggledOpenHandler=0
 mvClickedHandler=0
 mvDoubleClickedHandler=0
+mvScrollHandler=0
 mvDragPayload=0
 mvResizeHandler=0
 mvFont=0

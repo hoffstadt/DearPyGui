@@ -5001,6 +5001,24 @@ def add_item_resize_handler(**kwargs):
 
 	return internal_dpg.add_item_resize_handler(**kwargs)
 
+def add_item_scroll_handler(**kwargs):
+	"""	 Adds a scroll handler.
+
+	Args:
+		label (str, optional): Overrides 'name' as label.
+		user_data (Any, optional): User data for callbacks
+		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
+		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		callback (Callable, optional): Registers a callback.
+		show (bool, optional): Attempt to render widget.
+		id (Union[int, str], optional): (deprecated)
+	Returns:
+		Union[int, str]
+	"""
+
+	return internal_dpg.add_item_scroll_handler(**kwargs)
+
 def add_item_toggled_open_handler(**kwargs):
 	"""	 Adds a togged open handler.
 
@@ -8600,29 +8618,31 @@ def set_viewport_resize_callback(callback, **kwargs):
 
 	return internal_dpg.set_viewport_resize_callback(callback, **kwargs)
 
-def set_x_scroll(item, value):
-	"""	 Undocumented
+def set_x_scroll(item, value, **kwargs):
+	"""	 Sets horizontal scroll position.
 
 	Args:
 		item (Union[int, str]): 
-		value (float): 
+		value (float): Scroll position
+		when (int, optional): Specifies whether the scroll position will be set in the nearest frame (mvSetScrollFlags_Now) or with a 1-frame delay (mvSetScrollFlags_Delayed).  The former prevents flickering, the latter works better if contents change in the same frame as when set_x_scroll called.  mvSetScrollFlags_Both can also be used to set the position twice.
 	Returns:
 		None
 	"""
 
-	return internal_dpg.set_x_scroll(item, value)
+	return internal_dpg.set_x_scroll(item, value, **kwargs)
 
-def set_y_scroll(item, value):
-	"""	 Undocumented
+def set_y_scroll(item, value, **kwargs):
+	"""	 Sets vertical scroll position.
 
 	Args:
 		item (Union[int, str]): 
-		value (float): 
+		value (float): Scroll position
+		when (int, optional): Specifies whether the scroll position will be set in the nearest frame (mvSetScrollFlags_Now) or with a 1-frame delay (mvSetScrollFlags_Delayed).  The former prevents flickering, the latter works better if contents change in the same frame as when set_x_scroll called.  mvSetScrollFlags_Both can also be used to set the position twice.
 	Returns:
 		None
 	"""
 
-	return internal_dpg.set_y_scroll(item, value)
+	return internal_dpg.set_y_scroll(item, value, **kwargs)
 
 def setup_dearpygui():
 	"""	 Sets up Dear PyGui
@@ -8989,6 +9009,13 @@ mvEventType_Off=internal_dpg.mvEventType_Off
 mvEventType_Enter=internal_dpg.mvEventType_Enter
 mvEventType_On=internal_dpg.mvEventType_On
 mvEventType_Leave=internal_dpg.mvEventType_Leave
+mvSetScrollFlags_Now=internal_dpg.mvSetScrollFlags_Now
+mvSetScrollFlags_Delayed=internal_dpg.mvSetScrollFlags_Delayed
+mvSetScrollFlags_Both=internal_dpg.mvSetScrollFlags_Both
+mvScrollDirection_XAxis=internal_dpg.mvScrollDirection_XAxis
+mvScrollDirection_YAxis=internal_dpg.mvScrollDirection_YAxis
+mvScrollDirection_Horizontal=internal_dpg.mvScrollDirection_Horizontal
+mvScrollDirection_Vertical=internal_dpg.mvScrollDirection_Vertical
 mvPlatform_Windows=internal_dpg.mvPlatform_Windows
 mvPlatform_Apple=internal_dpg.mvPlatform_Apple
 mvPlatform_Linux=internal_dpg.mvPlatform_Linux
@@ -9411,6 +9438,7 @@ mvDeactivatedAfterEditHandler=internal_dpg.mvDeactivatedAfterEditHandler
 mvToggledOpenHandler=internal_dpg.mvToggledOpenHandler
 mvClickedHandler=internal_dpg.mvClickedHandler
 mvDoubleClickedHandler=internal_dpg.mvDoubleClickedHandler
+mvScrollHandler=internal_dpg.mvScrollHandler
 mvDragPayload=internal_dpg.mvDragPayload
 mvResizeHandler=internal_dpg.mvResizeHandler
 mvFont=internal_dpg.mvFont

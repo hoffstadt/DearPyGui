@@ -571,6 +571,17 @@ ToPyPair(const std::string& x, const std::string& y)
 }
 
 PyObject*
+ToPyTPair(bool x, bool y)
+{
+    PyObject* result = PyTuple_New(2);
+
+    PyTuple_SetItem(result, 0, ToPyBool(x));
+    PyTuple_SetItem(result, 1, ToPyBool(y));
+
+    return result;
+}
+
+PyObject*
 ToPyList(const std::vector<int>& value)
 {
 

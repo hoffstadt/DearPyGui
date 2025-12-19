@@ -23,6 +23,8 @@ ResetAppItemState(mvAppItemState& state)
     state.deactivatedAfterEdit = false;
     state.toggledOpen = false;
     state.mvRectSizeResized = false;
+    state.scrolledX = state.scrolledY = false;
+    state.isScrollingX = state.isScrollingY = false;
 }
 
 void
@@ -61,6 +63,17 @@ UpdateAppItemState(mvAppItemState& state)
     state.mvPrevRectSize = state.rectSize;
 }
 
+void
+UpdateAppItemScrollInfo(mvAppItemState& state)
+{
+    float scrollX = ImGui::GetScrollX();
+    float scrollY = ImGui::GetScrollY();
+    state.scrolledX = (scrollX != state.scrollPos.x);
+    state.scrolledY = (scrollY != state.scrollPos.y);
+    state.scrollPos = { scrollX, scrollY };
+    state.scrollMax = { ImGui::GetScrollMaxX(), ImGui::GetScrollMaxY() };
+}
+
 void 
 FillAppItemState(PyObject* dict, mvAppItemState& state, i32 applicableState)
 {
@@ -96,6 +109,14 @@ FillAppItemState(PyObject* dict, mvAppItemState& state, i32 applicableState)
         PyDict_SetItemString(dict, "resized", mvPyObject(ToPyBool(valid ? state.mvRectSizeResized : false)));
     }
     if(applicableState & MV_STATE_CONT_AVAIL) PyDict_SetItemString(dict, "content_region_avail", mvPyObject(ToPyPairII((i32)state.contextRegionAvail.x, (i32)state.contextRegionAvail.y)));
+
+    if(applicableState & MV_STATE_SCROLL)
+    {
+        PyDict_SetItemString(dict, "scrolled", mvPyObject(ToPyTPair(valid && state.scrolledX, valid && state.scrolledY)));
+        PyDict_SetItemString(dict, "is_scrolling", mvPyObject(ToPyTPair(valid && state.isScrollingX, valid && state.isScrollingY)));
+        PyDict_SetItemString(dict, "scroll_pos", mvPyObject(ToPyPair(state.scrollPos.x, state.scrollPos.y)));
+        PyDict_SetItemString(dict, "scroll_max", mvPyObject(ToPyPair(state.scrollMax.x, state.scrollMax.y)));
+    }
 
 }
 

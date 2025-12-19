@@ -5,6 +5,7 @@
 #include "mvPyUtils.h"
 #include "mvFontItems.h"
 #include "mvThemes.h"
+#include "mvItemHandlers.h"
 
 mvTableCell::mvTableCell(mvUUID uuid)
 	: mvAppItem(uuid)
@@ -225,6 +226,8 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 			}
 		};
 
+		handleImmediateScroll();
+
 		if (ImGui::BeginTable(info.internalLabel.c_str(), _columns, _flags,
 			ImVec2((float)config.width, (float)config.height), (float)_inner_width))
 		{
@@ -374,27 +377,11 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 				columnnum++;
 			}
 
-			if (_scrollXSet)
-			{
-				if (_scrollX < 0.0f)
-					ImGui::SetScrollHereX(1.0f);
-				else
-					ImGui::SetScrollX(_scrollX);
-				_scrollXSet = false;
-			}
-			if (_scrollYSet)
-			{
-				if (_scrollY < 0.0f)
-					ImGui::SetScrollHereY(1.0f);
-				else
-					ImGui::SetScrollY(_scrollY);
-				_scrollYSet = false;
-			}
+			// TODO: maybe it should actually go after EndTable
+			handleDelayedScroll();
+			config.scrollXFlags = config.scrollYFlags = mvSetScrollFlags_None;
 
-			_scrollX = ImGui::GetScrollX();
-			_scrollMaxX = ImGui::GetScrollMaxX();
-			_scrollY = ImGui::GetScrollY();
-			_scrollMaxY = ImGui::GetScrollMaxY();
+		    UpdateAppItemScrollInfo(state);
 
 			ImGui::EndTable();
 
@@ -414,6 +401,8 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 	// handle popping themes
 	cleanup_local_theming(this);
 
+	if (handlerRegistry)
+		handlerRegistry->checkEvents(&state);
 }
 
 void mvTable::onChildAdd(std::shared_ptr<mvAppItem> item)

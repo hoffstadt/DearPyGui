@@ -258,6 +258,37 @@ mvAppItem::setDataSource(mvUUID value)
     config.source = value; 
 }
 
+void 
+mvAppItem::handleImmediateScroll()
+{
+    if (!((config.scrollXFlags | config.scrollYFlags) & mvSetScrollFlags_Now))
+        return;
+
+    ImVec2 scroll = { (config.scrollXFlags & mvSetScrollFlags_Now)? config.scrollX : -1,
+                      (config.scrollYFlags & mvSetScrollFlags_Now)? config.scrollY : -1 };
+    ImGui::SetNextWindowScroll(scroll);
+}
+
+void 
+mvAppItem::handleDelayedScroll()
+{
+    if (config.scrollXFlags & mvSetScrollFlags_Delayed)
+    {
+        if (config.scrollX < 0.0f)
+            ImGui::SetScrollHereX(1.0f);
+        else
+            ImGui::SetScrollX(config.scrollX);
+    }
+
+    if (config.scrollYFlags & mvSetScrollFlags_Delayed)
+    {
+        if (config.scrollY < 0.0f)
+            ImGui::SetScrollHereY(1.0f);
+        else
+            ImGui::SetScrollY(config.scrollY);
+    }
+}
+
 static bool
 CanItemTypeBeHovered(mvAppItemType type)
 {
@@ -912,6 +943,19 @@ CanItemTypeHaveContAvail(mvAppItemType type)
 
 }
 
+static bool
+CanItemTypeBeScrolled(mvAppItemType type)
+{
+    switch (type)
+    {
+    case mvAppItemType::mvWindowAppItem:
+    case mvAppItemType::mvChildWindow:
+    case mvAppItemType::mvTable: return true;
+    default: return false;
+    }
+
+}
+
 int
 DearPyGui::GetApplicableState(mvAppItemType type)
 {
@@ -930,6 +974,7 @@ DearPyGui::GetApplicableState(mvAppItemType type)
     if(CanItemTypeHaveRectMax(type)) applicableState |= MV_STATE_RECT_MAX;
     if(CanItemTypeHaveRectSize(type)) applicableState |= MV_STATE_RECT_SIZE;
     if(CanItemTypeHaveContAvail(type)) applicableState |= MV_STATE_CONT_AVAIL;
+    if(CanItemTypeBeScrolled(type)) applicableState |= MV_STATE_SCROLL;
 
     return applicableState;
 }
@@ -1012,6 +1057,7 @@ DearPyGui::GetEntityDesciptionFlags(mvAppItemType type)
     case mvAppItemType::mvHoverHandler:
     case mvAppItemType::mvResizeHandler:
     case mvAppItemType::mvToggledOpenHandler:
+    case mvAppItemType::mvScrollHandler:
     case mvAppItemType::mvVisibleHandler: return MV_ITEM_DESC_HANDLER;
 
     case mvAppItemType::mvTooltip:
@@ -1227,6 +1273,7 @@ DearPyGui::GetAllowableParents(mvAppItemType type)
     case mvAppItemType::mvHoverHandler:
     case mvAppItemType::mvResizeHandler:
     case mvAppItemType::mvToggledOpenHandler:
+    case mvAppItemType::mvScrollHandler:
     case mvAppItemType::mvVisibleHandler:
         MV_START_PARENTS
         MV_ADD_PARENT(mvAppItemType::mvStage),
@@ -1545,7 +1592,8 @@ DearPyGui::GetAllowableChildren(mvAppItemType type)
         MV_ADD_CHILD(mvAppItemType::mvHoverHandler),
         MV_ADD_CHILD(mvAppItemType::mvResizeHandler),
         MV_ADD_CHILD(mvAppItemType::mvToggledOpenHandler),
-        MV_ADD_CHILD(mvAppItemType::mvVisibleHandler)
+        MV_ADD_CHILD(mvAppItemType::mvVisibleHandler),
+        MV_ADD_CHILD(mvAppItemType::mvScrollHandler),
         MV_END_CHILDREN
 
     case mvAppItemType::mvValueRegistry:
@@ -5024,6 +5072,19 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         );
 
         setup.about = "Adds a resize handler.";
+        setup.category = { "Widgets", "Events" };
+        break;
+    }
+    case mvAppItemType::mvScrollHandler:               
+    {
+        AddCommonArgs(args, (CommonParserArgs)(
+            MV_PARSER_ARG_ID |
+            MV_PARSER_ARG_SHOW |
+            MV_PARSER_ARG_PARENT |
+            MV_PARSER_ARG_CALLBACK)
+        );
+
+        setup.about = "Adds a scroll handler.";
         setup.category = { "Widgets", "Events" };
         break;
     }

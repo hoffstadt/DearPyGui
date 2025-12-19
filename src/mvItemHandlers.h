@@ -159,3 +159,23 @@ public:
     void draw(ImDrawList* drawlist, float x, float y) override {}
     void customAction(void* data = nullptr) override;
 };
+
+enum mvScrollDirection
+{
+    // These constants can be used as a combination of flags
+    mvScrollDirection_XAxis = 1,
+    mvScrollDirection_Horizontal = 1,
+    mvScrollDirection_YAxis = 2,
+    mvScrollDirection_Vertical = 2,
+};
+
+class mvScrollHandler : public mvItemHandler
+{
+public:
+    explicit mvScrollHandler(mvUUID uuid) : mvItemHandler(uuid) {}
+    void draw(ImDrawList* drawlist, float x, float y) override {}
+    void customAction(void* data = nullptr) override;
+
+private:
+    static PyObject* makeAppData(mvUUID uuid, const std::string& alias, mvScrollDirection dir, bool isScrolling, float pos, float max);
+};

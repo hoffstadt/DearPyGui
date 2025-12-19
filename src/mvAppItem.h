@@ -109,6 +109,14 @@ struct mvAppItemInfo
     bool dirtyPos   = false;
 };
 
+enum mvSetScrollFlags
+{
+    mvSetScrollFlags_None       = 0,
+    mvSetScrollFlags_Now        = 1 << 0,
+    mvSetScrollFlags_Delayed    = 1 << 1,
+    mvSetScrollFlags_Both       = mvSetScrollFlags_Now | mvSetScrollFlags_Delayed
+};
+
 struct mvAppItemConfig
 {
     mvUUID      source = 0;
@@ -134,6 +142,10 @@ struct mvAppItemConfig
     // the callback.  This is to pass user_data into mvAddCallback that comes from a
     // different source than the callback owner (required for the drag callback).
     std::shared_ptr<mvPyObject> user_data = std::make_shared<mvPyObject>(nullptr);
+    float       scrollX          = 0.0f;
+    float       scrollY          = 0.0f;
+    mvSetScrollFlags scrollXFlags = mvSetScrollFlags_None;
+    mvSetScrollFlags scrollYFlags = mvSetScrollFlags_None;
 };
 
 struct mvAppItemDrawInfo
@@ -244,7 +256,12 @@ public:
     // config setters
     //-----------------------------------------------------------------------------
     virtual void setDataSource(mvUUID value);
-       
+
+    //-----------------------------------------------------------------------------
+    // scrolling support
+    //-----------------------------------------------------------------------------
+    void handleImmediateScroll();
+    void handleDelayedScroll();
 };
 
 inline bool mvClipPoint(float clipViewport[6], mvVec4& point)
@@ -406,6 +423,7 @@ GetEntityCommand(mvAppItemType type)
     case mvAppItemType::mvDoubleClickedHandler:        return "add_item_double_clicked_handler";
     case mvAppItemType::mvDragPayload:                 return "add_drag_payload";
     case mvAppItemType::mvResizeHandler:               return "add_item_resize_handler";
+    case mvAppItemType::mvScrollHandler:               return "add_item_scroll_handler";
     case mvAppItemType::mvFont:                        return "add_font";
     case mvAppItemType::mvFontRegistry:                return "add_font_registry";
     case mvAppItemType::mvTheme:                       return "add_theme";
