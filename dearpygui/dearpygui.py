@@ -9661,16 +9661,22 @@ def show_viewport(*, minimized: bool =False, maximized: bool =False, **kwargs) -
 
 	return internal_dpg.show_viewport(minimized=minimized, maximized=maximized, **kwargs)
 
-def split_frame(*, delay: int =32, **kwargs) -> None:
+def split_frame(**kwargs) -> None:
 	"""	 Waits one frame.
 
 	Args:
-		delay (int, optional): Minimal delay in in milliseconds
+		delay (int, optional): (deprecated) Do not use it anymore, it has no effect.
 	Returns:
 		None
 	"""
 
-	return internal_dpg.split_frame(delay=delay, **kwargs)
+	if 'delay' in kwargs.keys():
+
+		warnings.warn('delay keyword removed', DeprecationWarning, 2)
+
+		kwargs.pop('delay', None)
+
+	return internal_dpg.split_frame(**kwargs)
 
 def stop_dearpygui(**kwargs) -> None:
 	"""	 Stops Dear PyGui

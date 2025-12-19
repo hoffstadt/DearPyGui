@@ -2271,19 +2271,26 @@ save_init_file(PyObject* self, PyObject* args, PyObject* kwargs)
 static PyObject*
 split_frame(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	i32 delay = 32;
-
-	if (!Parse((GetParsers())["split_frame"], args, kwargs, __FUNCTION__,
-		&delay))
+	if (!Parse((GetParsers())["split_frame"], args, kwargs, __FUNCTION__))
 		return GetPyNone();
 
-	// std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	if (GContext->running)
+	{
+		Py_BEGIN_ALLOW_THREADS;
+		std::unique_lock lk(GContext->frameEndedMutex);
+		GContext->frameEnded = false;
+		GContext->frameEndedEvent.wait(lk, []{return GContext->frameEnded;});
+		lk.unlock();
 
-	Py_BEGIN_ALLOW_THREADS;
-	GContext->waitOneFrame = true;
-	while (GContext->waitOneFrame)
-		std::this_thread::sleep_for(std::chrono::milliseconds(delay));
-	Py_END_ALLOW_THREADS;
+		Py_END_ALLOW_THREADS;
+	}
+
+	// Now let's see if it was successful (there's a chance that DPG got stopped while we were waiting)
+	if (!GContext->running)
+	{
+		mvThrowPythonError(mvErrorCode::mvNone, "split_frame is exiting: there is no active rendering loop.");
+		return nullptr;
+	}
 
 	return GetPyNone();
 }
@@ -2654,7 +2661,7 @@ destroy_context(PyObject* self, PyObject* args, PyObject* kwargs)
 	else
 	{
 		// Make sure everyone knows we're shutting down, even if stop_dearpygui
-		// was not called.
+		// was not called.  This also releases any waiting split_frame calls.
 		StopRendering();
 
 		Py_BEGIN_ALLOW_THREADS;

@@ -182,20 +182,22 @@ Render()
 
     mvToolManager::Draw();
 
+    if (GContext->resetTheme)
     {
-        if (GContext->resetTheme)
-        {
-            SetDefaultTheme();
-            GContext->resetTheme = false;
-        }
-
-        mvRunTasks();
-        RenderItemRegistry(*GContext->itemRegistry);
-        mvRunTasks();
+        SetDefaultTheme();
+        GContext->resetTheme = false;
     }
 
-    if (GContext->waitOneFrame == true)
-        GContext->waitOneFrame = false;
+    mvRunTasks();
+    RenderItemRegistry(*GContext->itemRegistry);
+    mvRunTasks();
+
+    // release split_frame if it's waiting for the frame end
+    {
+        std::lock_guard lk(GContext->frameEndedMutex);
+        GContext->frameEnded = true;
+    }
+    GContext->frameEndedEvent.notify_all();
 }
 
 std::map<std::string, mvPythonParser>& 
@@ -206,7 +208,20 @@ GetParsers()
 
 void StopRendering()
 {
+    // While it may seem reasonable to set it to false with frameEndedMutex locked
+    // (to set it simultaneously with frameEnded), we don't want to spur another
+    // race condition between split_frame() and is_dearpygui_running() in the
+    // rendering loop.  Let's trigger it as early as possible.
     GContext->running = false;
+
+    // Unblock handlers (or other code) that might be waiting in `split_frame()`
+    {
+        std::lock_guard lk(GContext->frameEndedMutex);
+        // Simulate an end of frame even though there's no real frame this time.
+        // Otherwise split_frame will continue waiting.
+        GContext->frameEnded = true;
+    }
+    GContext->frameEndedEvent.notify_all();
 }
 
 void 
