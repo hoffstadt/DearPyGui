@@ -102,7 +102,9 @@ struct mvIO
 
 struct mvContext
 {
-    std::atomic_bool    waitOneFrame       = false;
+    std::mutex          frameEndedMutex;
+    std::condition_variable frameEndedEvent;
+    bool                frameEnded         = false;
     // Indicates whether DPG has started at least once in this context, i.e. whether
     // associated Dear ImGui contexts exist and can be read from.
     std::atomic_bool    started            = false;
