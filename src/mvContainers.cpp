@@ -639,7 +639,9 @@ DearPyGui::draw_menu(ImDrawList* drawlist, mvAppItem& item, mvMenuConfig& config
             item.state.active = ImGui::IsItemActive();
             item.state.activated = ImGui::IsItemActivated();
             item.state.deactivated = ImGui::IsItemDeactivated();
+            item.state.prevFocused = item.state.focused;
             item.state.focused = ImGui::IsWindowFocused();
+            item.state.prevHovered = item.state.hovered;
             item.state.hovered = ImGui::IsWindowHovered();
             item.state.rectSize = { ImGui::GetWindowWidth(), ImGui::GetWindowHeight() };
             item.state.contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
@@ -682,7 +684,9 @@ DearPyGui::draw_menu(ImDrawList* drawlist, mvAppItem& item, mvMenuConfig& config
             item.state.active = ImGui::IsItemActive();
             item.state.activated = ImGui::IsItemActivated();
             item.state.deactivated = ImGui::IsItemDeactivated();
+            item.state.prevFocused = item.state.focused;
             item.state.focused = false;
+            item.state.prevHovered = item.state.hovered;
             item.state.hovered = false;
             item.state.rectSize = { 0.0f, 0.0f };
             item.state.contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
@@ -779,6 +783,7 @@ DearPyGui::draw_tab(ImDrawList* drawlist, mvAppItem& item, mvTabConfig& config)
         }
 
         item.state.lastFrameUpdate = GContext->frame;
+        item.state.prevHovered = item.state.hovered;
         // create tab item and see if it is selected
         if (ImGui::BeginTabItem(item.info.internalLabel.c_str(), config.closable ? &item.config.show : nullptr, config._flags))
         {
@@ -927,7 +932,9 @@ DearPyGui::draw_child_window(ImDrawList* drawlist, mvAppItem& item, mvChildWindo
         item.state.lastFrameUpdate = GContext->frame;
         item.state.active = ImGui::IsItemActive();
         item.state.deactivated = ImGui::IsItemDeactivated();
+        item.state.prevFocused = item.state.focused;
         item.state.focused = ImGui::IsWindowFocused();
+        item.state.prevHovered = item.state.hovered;
         item.state.hovered = ImGui::IsWindowHovered();
         item.state.rectSize = { ImGui::GetWindowWidth(), ImGui::GetWindowHeight() };
         item.state.contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
@@ -1511,7 +1518,9 @@ DearPyGui::draw_window(ImDrawList* drawlist, mvAppItem& item, mvWindowAppItemCon
             // shouldn't have to do this but do. Fix later
             item.config.show = false;
             item.state.lastFrameUpdate = GContext->frame;
+            item.state.prevHovered = item.state.hovered;
             item.state.hovered = false;
+            item.state.prevFocused = item.state.focused;
             item.state.focused = false;
             item.state.toggledOpen = false;
             item.state.visible = false;
@@ -1550,7 +1559,9 @@ DearPyGui::draw_window(ImDrawList* drawlist, mvAppItem& item, mvWindowAppItemCon
                 item.config.show = false;
                 // Update item state so that get_item_state is valid
                 item.state.lastFrameUpdate = GContext->frame;
+                item.state.prevHovered = item.state.hovered;
                 item.state.hovered = false;
+                item.state.prevFocused = item.state.focused;
                 item.state.focused = false;
                 item.state.toggledOpen = false;
                 item.state.visible = false;
@@ -1658,7 +1669,9 @@ DearPyGui::draw_window(ImDrawList* drawlist, mvAppItem& item, mvWindowAppItemCon
 
     item.state.lastFrameUpdate = GContext->frame;
     item.state.visible = true;
+    item.state.prevHovered = item.state.hovered;
     item.state.hovered = ImGui::IsWindowHovered();
+    item.state.prevFocused = item.state.focused;
     item.state.focused = ImGui::IsWindowFocused();
     item.state.rectSize = { ImGui::GetWindowSize().x, ImGui::GetWindowSize().y };
     item.state.toggledOpen = ImGui::IsWindowCollapsed();
@@ -1705,7 +1718,9 @@ DearPyGui::draw_window(ImDrawList* drawlist, mvAppItem& item, mvWindowAppItemCon
     if (!item.config.show)
     {
         item.state.lastFrameUpdate = GContext->frame;
+        item.state.prevHovered = item.state.hovered;
         item.state.hovered = false;
+        item.state.prevFocused = item.state.focused;
         item.state.focused = false;
         item.state.toggledOpen = false;
         item.state.visible = false;

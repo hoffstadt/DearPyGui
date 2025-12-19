@@ -360,6 +360,7 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 				ImGuiTableColumnFlags flags = ImGui::TableGetColumnFlags(columnnum);
 				item->state.lastFrameUpdate = GContext->frame;
 				item->state.visible = flags & ImGuiTableColumnFlags_IsVisible;
+				item->state.prevHovered = item->state.hovered;
 				item->state.hovered = flags & ImGuiTableColumnFlags_IsHovered;
 				// Note: when the table is empty, TableGetColumnFlags will incorrectly return
 				// zero status flags for all columns.  While this is fine for `visible` and `hovered`,
