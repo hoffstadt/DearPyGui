@@ -1211,7 +1211,7 @@ def show_viewport(*, minimized: bool ='', maximized: bool ='') -> None:
 	"""Shows the main viewport."""
 	...
 
-def split_frame(*, delay: int ='') -> None:
+def split_frame() -> None:
 	"""Waits one frame."""
 	...
 

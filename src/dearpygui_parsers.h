@@ -564,7 +564,7 @@ InsertParser_Block1(std::map<std::string, mvPythonParser>& parsers)
 
 	{
 		std::vector<mvPythonDataElement> args;
-		args.push_back({ mvPyDataType::Integer, "delay", mvArgType::KEYWORD_ARG, "32", "Minimal delay in in milliseconds" });
+		args.push_back({ mvPyDataType::Integer, "delay", mvArgType::DEPRECATED_REMOVE_KEYWORD_ARG, "32", "Do not use it anymore, it has no effect." });
 
 		mvPythonParserSetup setup;
 		setup.about = "Waits one frame.";

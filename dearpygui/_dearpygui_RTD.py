@@ -8688,16 +8688,16 @@ def show_viewport(**kwargs):
 
 	return internal_dpg.show_viewport(**kwargs)
 
-def split_frame(**kwargs):
+def split_frame():
 	"""	 Waits one frame.
 
 	Args:
-		delay (int, optional): Minimal delay in in milliseconds
+		delay (int, optional): (deprecated)Do not use it anymore, it has no effect.
 	Returns:
 		None
 	"""
 
-	return internal_dpg.split_frame(**kwargs)
+	return internal_dpg.split_frame()
 
 def stop_dearpygui():
 	"""	 Stops Dear PyGui
