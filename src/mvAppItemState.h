@@ -66,8 +66,10 @@ inline b8 IsItemDoubleClicked(ImGuiMouseButton mouse_button)
 struct mvAppItemState
 {
     b8         hovered              = false;
+    b8         prevHovered          = false;
     b8         active               = false;
     b8         focused              = false;
+    b8         prevFocused          = false;
     b8         leftclicked          = false;
     b8         rightclicked         = false;
     b8         middleclicked        = false;

@@ -4940,6 +4940,7 @@ def add_item_focus_handler(**kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
+		event_type (int, optional): What kind of events to track: just got focus (mvEventType_Enter), currently having focus (mvEventType_On), lost focus (mvEventType_Leave). Can be a combination of these flags. Defaults to mvEventType_On.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -4974,6 +4975,7 @@ def add_item_hover_handler(**kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
+		event_type (int, optional): What kind of events to track: mouse-in (mvEventType_Enter), mouse-over (mvEventType_On), mouse-out (mvEventType_Leave). Can be a combination of these flags. Defaults to mouse-over.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -8983,6 +8985,10 @@ mvComboHeight_Small=internal_dpg.mvComboHeight_Small
 mvComboHeight_Regular=internal_dpg.mvComboHeight_Regular
 mvComboHeight_Large=internal_dpg.mvComboHeight_Large
 mvComboHeight_Largest=internal_dpg.mvComboHeight_Largest
+mvEventType_Off=internal_dpg.mvEventType_Off
+mvEventType_Enter=internal_dpg.mvEventType_Enter
+mvEventType_On=internal_dpg.mvEventType_On
+mvEventType_Leave=internal_dpg.mvEventType_Leave
 mvPlatform_Windows=internal_dpg.mvPlatform_Windows
 mvPlatform_Apple=internal_dpg.mvPlatform_Apple
 mvPlatform_Linux=internal_dpg.mvPlatform_Linux

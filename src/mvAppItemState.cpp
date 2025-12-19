@@ -8,8 +8,10 @@ void
 ResetAppItemState(mvAppItemState& state)
 {
     state.hovered = false;
+    state.prevHovered = false;
     state.active = false;
     state.focused = false;
+    state.prevFocused = false;
     state.leftclicked = false;
     state.rightclicked = false;
     state.middleclicked = false;
@@ -27,8 +29,10 @@ void
 UpdateAppItemState(mvAppItemState& state)
 {
     state.lastFrameUpdate = GContext->frame;
+    state.prevHovered = state.hovered;
     state.hovered = ImGui::IsItemHovered();
     state.active = ImGui::IsItemActive();
+    state.prevFocused = state.focused;
     state.focused = ImGui::IsItemFocused();
     if (state.focused)
     {
