@@ -5552,6 +5552,28 @@ def add_item_resize_handler(*, label: str =None, user_data: Any =None, use_inter
 
 	return internal_dpg.add_item_resize_handler(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, callback=callback, show=show, **kwargs)
 
+def add_item_scroll_handler(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, callback: Callable =None, show: bool =True, **kwargs) -> Union[int, str]:
+	"""	 Adds a scroll handler.
+
+	Args:
+		label (str, optional): Overrides 'name' as label.
+		user_data (Any, optional): User data for callbacks
+		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
+		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		callback (Callable, optional): Registers a callback.
+		show (bool, optional): Attempt to render widget.
+		id (Union[int, str], optional): (deprecated) 
+	Returns:
+		Union[int, str]
+	"""
+
+	if 'id' in kwargs.keys():
+		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
+		tag=kwargs['id']
+
+	return internal_dpg.add_item_scroll_handler(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, callback=callback, show=show, **kwargs)
+
 def add_item_toggled_open_handler(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, callback: Callable =None, show: bool =True, **kwargs) -> Union[int, str]:
 	"""	 Adds a togged open handler.
 
@@ -9561,29 +9583,31 @@ def set_viewport_resize_callback(callback : Callable, *, user_data: Any =None, *
 
 	return internal_dpg.set_viewport_resize_callback(callback, user_data=user_data, **kwargs)
 
-def set_x_scroll(item : Union[int, str], value : float, **kwargs) -> None:
-	"""	 Undocumented
+def set_x_scroll(item : Union[int, str], value : float, *, when: int =internal_dpg.mvSetScrollFlags_Delayed, **kwargs) -> None:
+	"""	 Sets horizontal scroll position.
 
 	Args:
 		item (Union[int, str]): 
-		value (float): 
+		value (float): Scroll position
+		when (int, optional): Specifies whether the scroll position will be set in the nearest frame (mvSetScrollFlags_Now) or with a 1-frame delay (mvSetScrollFlags_Delayed).  The former prevents flickering, the latter works better if contents change in the same frame as when set_x_scroll called.  mvSetScrollFlags_Both can also be used to set the position twice.
 	Returns:
 		None
 	"""
 
-	return internal_dpg.set_x_scroll(item, value, **kwargs)
+	return internal_dpg.set_x_scroll(item, value, when=when, **kwargs)
 
-def set_y_scroll(item : Union[int, str], value : float, **kwargs) -> None:
-	"""	 Undocumented
+def set_y_scroll(item : Union[int, str], value : float, *, when: int =internal_dpg.mvSetScrollFlags_Delayed, **kwargs) -> None:
+	"""	 Sets vertical scroll position.
 
 	Args:
 		item (Union[int, str]): 
-		value (float): 
+		value (float): Scroll position
+		when (int, optional): Specifies whether the scroll position will be set in the nearest frame (mvSetScrollFlags_Now) or with a 1-frame delay (mvSetScrollFlags_Delayed).  The former prevents flickering, the latter works better if contents change in the same frame as when set_x_scroll called.  mvSetScrollFlags_Both can also be used to set the position twice.
 	Returns:
 		None
 	"""
 
-	return internal_dpg.set_y_scroll(item, value, **kwargs)
+	return internal_dpg.set_y_scroll(item, value, when=when, **kwargs)
 
 def setup_dearpygui(**kwargs) -> None:
 	"""	 Sets up Dear PyGui
@@ -9968,6 +9992,13 @@ mvEventType_Off=internal_dpg.mvEventType_Off
 mvEventType_Enter=internal_dpg.mvEventType_Enter
 mvEventType_On=internal_dpg.mvEventType_On
 mvEventType_Leave=internal_dpg.mvEventType_Leave
+mvSetScrollFlags_Now=internal_dpg.mvSetScrollFlags_Now
+mvSetScrollFlags_Delayed=internal_dpg.mvSetScrollFlags_Delayed
+mvSetScrollFlags_Both=internal_dpg.mvSetScrollFlags_Both
+mvScrollDirection_XAxis=internal_dpg.mvScrollDirection_XAxis
+mvScrollDirection_YAxis=internal_dpg.mvScrollDirection_YAxis
+mvScrollDirection_Horizontal=internal_dpg.mvScrollDirection_Horizontal
+mvScrollDirection_Vertical=internal_dpg.mvScrollDirection_Vertical
 mvPlatform_Windows=internal_dpg.mvPlatform_Windows
 mvPlatform_Apple=internal_dpg.mvPlatform_Apple
 mvPlatform_Linux=internal_dpg.mvPlatform_Linux
@@ -10390,6 +10421,7 @@ mvDeactivatedAfterEditHandler=internal_dpg.mvDeactivatedAfterEditHandler
 mvToggledOpenHandler=internal_dpg.mvToggledOpenHandler
 mvClickedHandler=internal_dpg.mvClickedHandler
 mvDoubleClickedHandler=internal_dpg.mvDoubleClickedHandler
+mvScrollHandler=internal_dpg.mvScrollHandler
 mvDragPayload=internal_dpg.mvDragPayload
 mvResizeHandler=internal_dpg.mvResizeHandler
 mvFont=internal_dpg.mvFont

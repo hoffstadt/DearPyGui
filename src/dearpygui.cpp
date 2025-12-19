@@ -74,6 +74,16 @@ GetModuleConstants()
 		ModuleConstants.push_back({"mvEventType_On", 	mvEventType_On });
 		ModuleConstants.push_back({"mvEventType_Leave", mvEventType_Leave });
 
+		// We're not adding 'None' because it's useless in the API
+		ModuleConstants.push_back({"mvSetScrollFlags_Now", mvSetScrollFlags_Now });
+		ModuleConstants.push_back({"mvSetScrollFlags_Delayed", mvSetScrollFlags_Delayed });
+		ModuleConstants.push_back({"mvSetScrollFlags_Both", mvSetScrollFlags_Both });
+
+		ModuleConstants.push_back({"mvScrollDirection_XAxis", mvScrollDirection_XAxis });
+		ModuleConstants.push_back({"mvScrollDirection_YAxis", mvScrollDirection_YAxis });
+		ModuleConstants.push_back({"mvScrollDirection_Horizontal", mvScrollDirection_Horizontal });
+		ModuleConstants.push_back({"mvScrollDirection_Vertical", mvScrollDirection_Vertical });
+
 		ModuleConstants.push_back({"mvPlatform_Windows", 0L });
 		ModuleConstants.push_back({"mvPlatform_Apple", 1L });
 		ModuleConstants.push_back({"mvPlatform_Linux", 2L });

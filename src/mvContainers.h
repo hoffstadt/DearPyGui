@@ -101,12 +101,6 @@ struct mvChildWindowConfig
     bool             autosize_x = false;
     bool             autosize_y = false;
     ImGuiWindowFlags windowflags = ImGuiWindowFlags_NoSavedSettings|ImGuiWindowFlags_NavFlattened;
-    float            scrollX = 0.0f;
-    float            scrollY = 0.0f;
-    float            scrollMaxX = 0.0f;
-    float            scrollMaxY = 0.0f;
-    bool             _scrollXSet = false;
-    bool             _scrollYSet = false;
 };
 
 struct mvTreeNodeConfig
@@ -173,13 +167,7 @@ struct mvWindowAppItemConfig
     mvPyObject       on_close = nullptr;
     mvVec2           min_size = { 100.0f, 100.0f };
     mvVec2           max_size = { 30000.0f, 30000.0f };
-    float            scrollX = 0.0f;
-    float            scrollY = 0.0f;
-    float            scrollMaxX = 0.0f;
-    float            scrollMaxY = 0.0f;
     bool             _collapsedDirty = true;
-    bool             _scrollXSet = false;
-    bool             _scrollYSet = false;
     ImGuiWindowFlags _oldWindowflags = ImGuiWindowFlags_None;
     float            _oldxpos = 200;
     float            _oldypos = 200;

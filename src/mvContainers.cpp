@@ -927,6 +927,8 @@ DearPyGui::draw_child_window(ImDrawList* drawlist, mvAppItem& item, mvChildWindo
     {
         ScopedID id(item.uuid);
 
+        item.handleImmediateScroll();
+
         // TODO: Do we want to put an if statement to prevent further drawing if not shown?
         ImGui::BeginChild(item.info.internalLabel.c_str(), ImVec2(config.autosize_x ? 0 : (float)item.config.width, config.autosize_y ? 0 : (float)item.config.height), config.childFlags, config.windowflags);
         item.state.lastFrameUpdate = GContext->frame;
@@ -951,23 +953,8 @@ DearPyGui::draw_child_window(ImDrawList* drawlist, mvAppItem& item, mvChildWindo
 
         }
 
-        if (config._scrollXSet)
-        {
-            if (config.scrollX < 0.0f)
-                ImGui::SetScrollHereX(1.0f);
-            else
-                ImGui::SetScrollX(config.scrollX);
-            config._scrollXSet = false;
-        }
-
-        if (config._scrollYSet)
-        {
-            if (config.scrollY < 0.0f)
-                ImGui::SetScrollHereY(1.0f);
-            else
-                ImGui::SetScrollY(config.scrollY);
-            config._scrollYSet = false;
-        }
+        item.handleDelayedScroll();
+        item.config.scrollXFlags = item.config.scrollYFlags = mvSetScrollFlags_None;
 
         // allows this item to have a render callback
         if (ImGui::IsWindowFocused(ImGuiFocusedFlags_ChildWindows))
@@ -984,10 +971,7 @@ DearPyGui::draw_child_window(ImDrawList* drawlist, mvAppItem& item, mvChildWindo
 
         }
 
-        config.scrollX = ImGui::GetScrollX();
-        config.scrollY = ImGui::GetScrollY();
-        config.scrollMaxX = ImGui::GetScrollMaxX();
-        config.scrollMaxY = ImGui::GetScrollMaxY();
+        UpdateAppItemScrollInfo(item.state);
 
         ImGui::EndChild();
     }
@@ -1502,6 +1486,8 @@ DearPyGui::draw_window(ImDrawList* drawlist, mvAppItem& item, mvWindowAppItemCon
 
     ImGui::SetNextWindowSizeConstraints(config.min_size, config.max_size);
 
+    item.handleImmediateScroll();
+
     if (config.modal)
     {
         if (item.info.shownLastFrame)
@@ -1640,28 +1626,10 @@ DearPyGui::draw_window(ImDrawList* drawlist, mvAppItem& item, mvWindowAppItemCon
     // handle popping themes
     cleanup_local_theming(&item);
 
-    if (config._scrollXSet)
-    {
-        if (config.scrollX < 0.0f)
-            ImGui::SetScrollHereX(1.0f);
-        else
-            ImGui::SetScrollX(config.scrollX);
-        config._scrollXSet = false;
-    }
+    item.handleDelayedScroll();
+    item.config.scrollXFlags = item.config.scrollYFlags = mvSetScrollFlags_None;
 
-    if (config._scrollYSet)
-    {
-        if (config.scrollY < 0.0f)
-            ImGui::SetScrollHereY(1.0f);
-        else
-            ImGui::SetScrollY(config.scrollY);
-        config._scrollYSet = false;
-    }
-
-    config.scrollX = ImGui::GetScrollX();
-    config.scrollY = ImGui::GetScrollY();
-    config.scrollMaxX = ImGui::GetScrollMaxX();
-    config.scrollMaxY = ImGui::GetScrollMaxY();
+    UpdateAppItemScrollInfo(item.state);
 
     //-----------------------------------------------------------------------------
     // update state
