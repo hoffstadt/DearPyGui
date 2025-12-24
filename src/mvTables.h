@@ -93,3 +93,10 @@ public:
     };
 
 };
+
+class mvSyncedTables : public mvAppItem
+{
+public:
+    explicit mvSyncedTables(mvUUID uuid) : mvAppItem(uuid) {}
+    void draw(ImDrawList* drawlist, float x, float y) override;
+};
