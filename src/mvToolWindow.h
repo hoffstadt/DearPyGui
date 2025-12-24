@@ -32,9 +32,9 @@ protected:
     bool             m_focusNextFrame = false;
     bool             m_dirtySize = true;
     bool             m_dirtyPos = true;
-    int              m_xpos = 200;
+    int              m_xpos = 150;
     int              m_ypos = 200;
-    int              m_width = 500;
+    int              m_width = 600;
     int              m_height = 500;
 
 };
