@@ -1032,7 +1032,7 @@ set_axis_limits_constraints(PyObject* self, PyObject* args, PyObject* kwargs)
 	auto tag = "set_axis_limits_constraints";
 
 	if (!Parse((GetParsers())[tag], args, kwargs, __FUNCTION__, &axisraw, &vmin, &vmax))
-		return GetPyNone();
+		return nullptr;
 
 	mvPySafeLockGuard lk(GContext->mutex);
 
@@ -1043,14 +1043,14 @@ set_axis_limits_constraints(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, tag,
 			"Item not found: " + std::to_string(axis), nullptr);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	if (aplot->type != mvAppItemType::mvPlotAxis)
 	{
 		mvThrowPythonError(mvErrorCode::mvIncompatibleType, tag,
 			"Incompatible type. Expected types include: mvPlotAxis", aplot);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	mvPlotAxis* graph = static_cast<mvPlotAxis*>(aplot);
@@ -1066,7 +1066,7 @@ reset_axis_limits_constraints(PyObject* self, PyObject* args, PyObject* kwargs)
 	auto tag = "reset_axis_limits_constraints";
 
 	if (!Parse((GetParsers())[tag], args, kwargs, __FUNCTION__, &axisraw))
-		return GetPyNone();
+		return nullptr;
 
 	mvPySafeLockGuard lk(GContext->mutex);
 
@@ -1077,14 +1077,14 @@ reset_axis_limits_constraints(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, tag,
 			"Item not found: " + std::to_string(axis), nullptr);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	if (aplot->type != mvAppItemType::mvPlotAxis)
 	{
 		mvThrowPythonError(mvErrorCode::mvIncompatibleType, tag,
 			"Incompatible type. Expected types include: mvPlotAxis", aplot);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	mvPlotAxis* graph = static_cast<mvPlotAxis*>(aplot);
@@ -1101,7 +1101,7 @@ set_axis_zoom_constraints(PyObject* self, PyObject* args, PyObject* kwargs)
 	auto tag = "set_axis_zoom_constraints";
 
 	if (!Parse((GetParsers())[tag], args, kwargs, __FUNCTION__, &axisraw, &vmin, &vmax))
-		return GetPyNone();
+		return nullptr;
 
 	mvPySafeLockGuard lk(GContext->mutex);
 
@@ -1112,14 +1112,14 @@ set_axis_zoom_constraints(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, tag,
 			"Item not found: " + std::to_string(axis), nullptr);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	if (aplot->type != mvAppItemType::mvPlotAxis)
 	{
 		mvThrowPythonError(mvErrorCode::mvIncompatibleType, tag,
 			"Incompatible type. Expected types include: mvPlotAxis", aplot);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	mvPlotAxis* graph = static_cast<mvPlotAxis*>(aplot);
@@ -1136,7 +1136,7 @@ reset_axis_zoom_constraints(PyObject* self, PyObject* args, PyObject* kwargs)
 	auto tag = "reset_axis_zoom_constraints";
 
 	if (!Parse((GetParsers())[tag], args, kwargs, __FUNCTION__, &axisraw))
-		return GetPyNone();
+		return nullptr;
 
 	mvPySafeLockGuard lk(GContext->mutex);
 
@@ -1147,14 +1147,14 @@ reset_axis_zoom_constraints(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, tag,
 			"Item not found: " + std::to_string(axis), nullptr);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	if (aplot->type != mvAppItemType::mvPlotAxis)
 	{
 		mvThrowPythonError(mvErrorCode::mvIncompatibleType, tag,
 			"Incompatible type. Expected types include: mvPlotAxis", aplot);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	mvPlotAxis* graph = static_cast<mvPlotAxis*>(aplot);
