@@ -5792,7 +5792,7 @@ def add_listbox(items : Union[List[str], Tuple[str, ...]] =(), *, label: str =No
 
 	return internal_dpg.add_listbox(items, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, num_items=num_items, **kwargs)
 
-def add_loading_indicator(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], style: int =0, circle_count: int =8, speed: float =1.0, radius: float =3.0, thickness: float =1.0, color: Union[List[int], Tuple[int, ...]] =(51, 51, 55, 255), secondary_color: Union[List[int], Tuple[int, ...]] =(29, 151, 236, 103), **kwargs) -> Union[int, str]:
+def add_loading_indicator(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], style: int =0, circle_count: int =8, speed: float =1.0, radius: float =3.0, thickness: float =1.0, color: Union[List[int], Tuple[int, ...]] =None, secondary_color: Union[List[int], Tuple[int, ...]] =None, **kwargs) -> Union[int, str]:
 	"""	 Adds a rotating animated loading symbol.
 
 	Args:
@@ -5809,13 +5809,13 @@ def add_loading_indicator(*, label: str =None, user_data: Any =None, use_interna
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
-		style (int, optional): 0 is rotating dots style, 1 is rotating bar style.
-		circle_count (int, optional): Number of dots show if dots or size of circle if circle.
-		speed (float, optional): Speed the anamation will rotate.
-		radius (float, optional): Radius size of the loading indicator.
-		thickness (float, optional): Thickness of the circles or line.
-		color (Union[List[int], Tuple[int, ...]], optional): Color of the growing center circle.
-		secondary_color (Union[List[int], Tuple[int, ...]], optional): Background of the dots in dot mode.
+		style (int, optional): mvLoadInd_DottedCircle is rotating dots style, mvLoadInd_Ring is rotating bar style.
+		circle_count (int, optional): DottedCircle style: number of dots to show.
+		speed (float, optional): Speed with which the animation will rotate.
+		radius (float, optional): Scale factor for the loading indicator radius.  The size of the indicator is determined by font size and this scale factor.
+		thickness (float, optional): Ring style: scale factor of line thickness; thickness=1 corresponds to line width being 1/8 of the ring diameter.
+		color (Union[List[int], Tuple[int, ...]], optional): Main color of the indicator.  If omitted, the color for mvThemeCol_Button will be used.
+		secondary_color (Union[List[int], Tuple[int, ...]], optional): DottedCircle style: color of 'inactive' dots.  If omitted, the color for mvThemeCol_ButtonHovered will be used.
 		id (Union[int, str], optional): (deprecated) 
 	Returns:
 		Union[int, str]
@@ -9999,6 +9999,8 @@ mvScrollDirection_XAxis=internal_dpg.mvScrollDirection_XAxis
 mvScrollDirection_YAxis=internal_dpg.mvScrollDirection_YAxis
 mvScrollDirection_Horizontal=internal_dpg.mvScrollDirection_Horizontal
 mvScrollDirection_Vertical=internal_dpg.mvScrollDirection_Vertical
+mvLoadInd_DottedCircle=internal_dpg.mvLoadInd_DottedCircle
+mvLoadInd_Ring=internal_dpg.mvLoadInd_Ring
 mvPlatform_Windows=internal_dpg.mvPlatform_Windows
 mvPlatform_Apple=internal_dpg.mvPlatform_Apple
 mvPlatform_Linux=internal_dpg.mvPlatform_Linux

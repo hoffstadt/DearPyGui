@@ -13,14 +13,21 @@ public:
     void handleSpecificKeywordArgs(PyObject* dict) override;
     void getSpecificConfiguration(PyObject* dict) override;
 
+    enum Style {
+        Style_OldDottedCircle = 0,
+        Style_OldRing,
+        Style_DottedCircle,
+        Style_Ring,
+    };
+
 private:
 
-    int     _style = 0;
+    Style   _style = Style_DottedCircle;
     int     _circleCount = 8;
     float   _radius = 3.0f;
     float   _speed = 1.0f;
     float   _thickness = 1.0f;
-    mvColor _mainColor = mvColor(51, 51, 55, 255);
-    mvColor _optionalColor = mvColor(29, 151, 236, 103);
+    mvColor _mainColor;
+    mvColor _optionalColor;
 
 };

@@ -57,10 +57,33 @@ void mvLoadingIndicator::draw(ImDrawList* drawlist, float x, float y)
     {
         ScopedID id(uuid);
 
-        if (_style == 0)
+        switch (_style)
+        {
+        case Style_OldDottedCircle:
             LoadingIndicatorCircle(config.specifiedLabel.c_str(), _radius, _mainColor, _optionalColor, _circleCount, _speed);
-        else
+            break;
+        case Style_OldRing:
             LoadingIndicatorCircle2(config.specifiedLabel.c_str(), _radius, _thickness, _mainColor);
+            break;
+        case Style_DottedCircle:
+            // This is to align the indicator body to text rather than to framed rect
+            // (can be useful with radius=1).
+		    ImGui::AlignTextToFramePadding();
+            LoadingIndicatorCircle(config.specifiedLabel.c_str(), _radius, _mainColor, _optionalColor, _circleCount, _speed);
+            break;
+        case Style_Ring:
+            {
+                const float pixSize = (_radius > 0? _radius : 1.f) * ImGui::GetTextLineHeight();
+                // `thickness=1` corresponds to line thickness being 1/4 of the ring radius,
+                // i.e. 1/8 of the diameter (pixSize).
+                const float pixThickness = (_thickness > 0? _thickness : 1.f) * pixSize * 0.125f;
+                // This is to align the indicator body to text rather than to framed rect
+                // (can be useful with radius=1).
+                ImGui::AlignTextToFramePadding();
+                LoadingIndicatorRing(config.specifiedLabel.c_str(), pixSize, pixThickness, _speed, _mainColor);
+            }
+            break;
+        }
     }
 
     //-----------------------------------------------------------------------------
@@ -98,13 +121,19 @@ void mvLoadingIndicator::handleSpecificKeywordArgs(PyObject* dict)
     if (dict == nullptr)
         return;
 
-    if (PyObject* item = PyDict_GetItemString(dict, "style")) _style = ToInt(item);
+    if (PyObject* item = PyDict_GetItemString(dict, "style")) _style = static_cast<Style>(ToInt(item));
     if (PyObject* item = PyDict_GetItemString(dict, "circle_count")) _circleCount = ToInt(item);
     if (PyObject* item = PyDict_GetItemString(dict, "radius")) _radius = ToFloat(item);
     if (PyObject* item = PyDict_GetItemString(dict, "thickness")) _thickness = ToFloat(item);
     if (PyObject* item = PyDict_GetItemString(dict, "speed")) _speed = ToFloat(item);
-    if (PyObject* item = PyDict_GetItemString(dict, "color")) _mainColor = ToColor(item);
-    if (PyObject* item = PyDict_GetItemString(dict, "secondary_color")) _optionalColor = ToColor(item);
+    if (PyObject* item = PyDict_GetItemString(dict, "color"))
+    {
+        _mainColor = (item != Py_None)? ToColor(item) : mvColor();
+    }
+    if (PyObject* item = PyDict_GetItemString(dict, "secondary_color"))
+    {
+        _optionalColor = (item != Py_None)? ToColor(item) : mvColor();
+    }
 }
 
 void mvLoadingIndicator::getSpecificConfiguration(PyObject* dict)
