@@ -198,9 +198,9 @@ struct mvCallbackJob
     std::weak_ptr<void> owner;
     // Only valid if `owner` is alive; one must lock() the owner before accessing
     // the callback.
-    PyObject* callback;
+    PyObject* callback = nullptr;
     std::shared_ptr<mvPyObject> user_data;
-    mvUUID sender;
+    mvUUID sender = 0;
     std::string alias;
     std::function<PyObject*()> app_data_func;
     // Either `callback` (and `owner`) or `ownerless_callback` must be set,
