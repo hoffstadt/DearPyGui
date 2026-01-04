@@ -5464,7 +5464,7 @@ def add_item_edited_handler(*, label: str =None, user_data: Any =None, use_inter
 
 	return internal_dpg.add_item_edited_handler(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, callback=callback, show=show, **kwargs)
 
-def add_item_focus_handler(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, callback: Callable =None, show: bool =True, **kwargs) -> Union[int, str]:
+def add_item_focus_handler(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, callback: Callable =None, show: bool =True, event_type: int =None, **kwargs) -> Union[int, str]:
 	"""	 Adds a focus handler.
 
 	Args:
@@ -5475,6 +5475,7 @@ def add_item_focus_handler(*, label: str =None, user_data: Any =None, use_intern
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
+		event_type (int, optional): What kind of events to track: just got focus (mvEventType_Enter), currently having focus (mvEventType_On), lost focus (mvEventType_Leave). Can be a combination of these flags. Defaults to mvEventType_On.
 		id (Union[int, str], optional): (deprecated) 
 	Returns:
 		Union[int, str]
@@ -5484,7 +5485,7 @@ def add_item_focus_handler(*, label: str =None, user_data: Any =None, use_intern
 		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
 		tag=kwargs['id']
 
-	return internal_dpg.add_item_focus_handler(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, callback=callback, show=show, **kwargs)
+	return internal_dpg.add_item_focus_handler(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, callback=callback, show=show, event_type=event_type, **kwargs)
 
 def add_item_handler_registry(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, show: bool =True, **kwargs) -> Union[int, str]:
 	"""	 Adds an item handler registry.
@@ -5506,7 +5507,7 @@ def add_item_handler_registry(*, label: str =None, user_data: Any =None, use_int
 
 	return internal_dpg.add_item_handler_registry(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, show=show, **kwargs)
 
-def add_item_hover_handler(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, callback: Callable =None, show: bool =True, **kwargs) -> Union[int, str]:
+def add_item_hover_handler(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, callback: Callable =None, show: bool =True, event_type: int =None, **kwargs) -> Union[int, str]:
 	"""	 Adds a hover handler.
 
 	Args:
@@ -5517,6 +5518,7 @@ def add_item_hover_handler(*, label: str =None, user_data: Any =None, use_intern
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
+		event_type (int, optional): What kind of events to track: mouse-in (mvEventType_Enter), mouse-over (mvEventType_On), mouse-out (mvEventType_Leave). Can be a combination of these flags. Defaults to mouse-over.
 		id (Union[int, str], optional): (deprecated) 
 	Returns:
 		Union[int, str]
@@ -5526,7 +5528,7 @@ def add_item_hover_handler(*, label: str =None, user_data: Any =None, use_intern
 		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
 		tag=kwargs['id']
 
-	return internal_dpg.add_item_hover_handler(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, callback=callback, show=show, **kwargs)
+	return internal_dpg.add_item_hover_handler(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, callback=callback, show=show, event_type=event_type, **kwargs)
 
 def add_item_resize_handler(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, callback: Callable =None, show: bool =True, **kwargs) -> Union[int, str]:
 	"""	 Adds a resize handler.
@@ -9685,16 +9687,22 @@ def show_viewport(*, minimized: bool =False, maximized: bool =False, **kwargs) -
 
 	return internal_dpg.show_viewport(minimized=minimized, maximized=maximized, **kwargs)
 
-def split_frame(*, delay: int =32, **kwargs) -> None:
+def split_frame(**kwargs) -> None:
 	"""	 Waits one frame.
 
 	Args:
-		delay (int, optional): Minimal delay in in milliseconds
+		delay (int, optional): (deprecated) Do not use it anymore, it has no effect.
 	Returns:
 		None
 	"""
 
-	return internal_dpg.split_frame(delay=delay, **kwargs)
+	if 'delay' in kwargs.keys():
+
+		warnings.warn('delay keyword removed', DeprecationWarning, 2)
+
+		kwargs.pop('delay', None)
+
+	return internal_dpg.split_frame(**kwargs)
 
 def stop_dearpygui(**kwargs) -> None:
 	"""	 Stops Dear PyGui
@@ -9987,6 +9995,10 @@ mvScrollDirection_XAxis=internal_dpg.mvScrollDirection_XAxis
 mvScrollDirection_YAxis=internal_dpg.mvScrollDirection_YAxis
 mvScrollDirection_Horizontal=internal_dpg.mvScrollDirection_Horizontal
 mvScrollDirection_Vertical=internal_dpg.mvScrollDirection_Vertical
+mvEventType_Off=internal_dpg.mvEventType_Off
+mvEventType_Enter=internal_dpg.mvEventType_Enter
+mvEventType_On=internal_dpg.mvEventType_On
+mvEventType_Leave=internal_dpg.mvEventType_Leave
 mvPlatform_Windows=internal_dpg.mvPlatform_Windows
 mvPlatform_Apple=internal_dpg.mvPlatform_Apple
 mvPlatform_Linux=internal_dpg.mvPlatform_Linux

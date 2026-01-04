@@ -78,6 +78,10 @@ GetModuleConstants()
 		ModuleConstants.push_back({"mvScrollDirection_YAxis", mvScrollDirection_YAxis });
 		ModuleConstants.push_back({"mvScrollDirection_Horizontal", mvScrollDirection_Horizontal });
 		ModuleConstants.push_back({"mvScrollDirection_Vertical", mvScrollDirection_Vertical });
+		ModuleConstants.push_back({"mvEventType_Off",	mvEventType_Off });
+		ModuleConstants.push_back({"mvEventType_Enter", mvEventType_Enter });
+		ModuleConstants.push_back({"mvEventType_On", 	mvEventType_On });
+		ModuleConstants.push_back({"mvEventType_Leave", mvEventType_Leave });
 
 		ModuleConstants.push_back({"mvPlatform_Windows", 0L });
 		ModuleConstants.push_back({"mvPlatform_Apple", 1L });
