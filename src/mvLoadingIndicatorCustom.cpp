@@ -19,19 +19,19 @@ void LoadingIndicatorCircle(const char* label, float indicatorRadiusFactor,
 
     if (circle_count <= 0) circle_count = 12;
     if (indicatorRadiusFactor <= 0.f) indicatorRadiusFactor = 1.f;
-    if (!pOptionalMainColor)        pOptionalMainColor = &style.Colors[ImGuiCol_Button];
-    if (!pOptionalBackdropColor)    pOptionalBackdropColor = &style.Colors[ImGuiCol_ButtonHovered];
+    if (!pOptionalMainColor || pOptionalMainColor->w < 0)        pOptionalMainColor = &style.Colors[ImGuiCol_Button];
+    if (!pOptionalBackdropColor || pOptionalBackdropColor->w < 0)    pOptionalBackdropColor = &style.Colors[ImGuiCol_ButtonHovered];
 
     const float lineHeight = ImGui::GetTextLineHeight(); // or GetTextLineHeight() or GetTextLineHeightWithSpacing() ?
     float indicatorRadiusPixels = indicatorRadiusFactor * lineHeight * 0.5f;
 
-    const ImVec2 pos = window->DC.CursorPos;
+    const ImVec2 pos(window->DC.CursorPos.x, window->DC.CursorPos.y + window->DC.CurrLineTextBaseOffset);
     const float circle_radius = indicatorRadiusPixels / 8.f;
     indicatorRadiusPixels -= 2.0f * circle_radius;
     const ImRect bb(pos, ImVec2(pos.x + indicatorRadiusPixels * 2.f + 4.f * circle_radius,
         pos.y + indicatorRadiusPixels * 2.f + 4.f * circle_radius));
-    ImGui::ItemSize(bb, style.FramePadding.y);
-    if (!ImGui::ItemAdd(bb, id)) {
+    ImGui::ItemSize(bb, 0.0f);
+    if (!ImGui::ItemAdd(bb, id, nullptr, ImGuiItemFlags_NoNav)) {
         return;
     }
     const float base_num_segments = circle_radius * 1.f;
@@ -69,7 +69,7 @@ void LoadingIndicatorCircle2(const char* label, float indicatorRadiusFactor, flo
 
     if (indicatorRadiusFactor <= 0.f) indicatorRadiusFactor = 1.f;
     if (indicatorRadiusThicknessFactor <= 0.f) indicatorRadiusThicknessFactor = 1.f;
-    if (!pOptionalColor)    pOptionalColor = &style.Colors[ImGuiCol_Button];
+    if (!pOptionalColor || pOptionalColor->w < 0)    pOptionalColor = &style.Colors[ImGuiCol_Button];
     const ImU32 color = ImGui::GetColorU32(*pOptionalColor);
 
     const float lineHeight = ImGui::GetTextLineHeight(); // or GetTextLineHeight() or GetTextLineHeightWithSpacing() ?
@@ -96,7 +96,7 @@ void LoadingIndicatorCircle2(const char* label, float indicatorRadiusFactor, flo
 
     int num_segments = 30;
 
-    int start = abs(ImSin(g.Time * 1.8f) * (num_segments - 5));
+    int start = abs((int)(ImSin(g.Time * 1.8f) * (num_segments - 5)));
 
     const float a_min = IM_PI * 2.0f * ((float)start) / (float)num_segments;
     const float a_max = IM_PI * 2.0f * ((float)num_segments - 3) / (float)num_segments;
@@ -110,4 +110,56 @@ void LoadingIndicatorCircle2(const char* label, float indicatorRadiusFactor, flo
     }
 
     window->DrawList->PathStroke(color, false, indicatorThicknessPixels);
+}
+
+// A corrected version of LoadingIndicatorCircle2 that calculates sizes/positions properly.
+void LoadingIndicatorRing(const char* label, float size, float thickness, float speed, const ImVec4* pOptionalColor) {
+    ImGuiWindow* window = ImGui::GetCurrentWindow();
+    if (window->SkipItems)
+        return;
+
+    ImGuiContext& g = *GImGui;
+    const ImGuiStyle& style = g.Style;
+    const ImGuiID id = window->GetID(label);
+
+    if (!pOptionalColor || pOptionalColor->w < 0)    pOptionalColor = &style.Colors[ImGuiCol_Button];
+    const ImU32 color = ImGui::GetColorU32(*pOptionalColor);
+
+    float radius = size * 0.5f;
+
+    const ImVec2 pos(window->DC.CursorPos.x, window->DC.CursorPos.y + window->DC.CurrLineTextBaseOffset);
+    const ImRect bb(pos, ImVec2(pos.x + size, pos.y + size));
+
+    ImGui::ItemSize(bb, 0.0f);
+    if (!ImGui::ItemAdd(bb, id, nullptr, ImGuiItemFlags_NoNav))
+        return;
+
+    // Render
+    window->DrawList->PathClear();
+
+    //int num_segments = radius/8.f;
+    //if (num_segments<4) num_segments=4;
+
+    int num_segments = 30;
+
+    float t = g.Time * speed;
+
+    // With this formula it looks very close to the original LoadingIndicatorCircle2
+    // but does not have visual artifacts (jitter of the ring tail when it slows down).
+    float start = 0.5f * (1 - ImSin(t*3.0f)) * (num_segments - 5);
+
+    const float a_min = IM_PI * 2.0f * start / (float)num_segments;
+    const float a_max = IM_PI * 2.0f * ((float)num_segments - 2) / (float)num_segments;
+
+    const ImVec2 centre = ImVec2(pos.x + radius, pos.y + radius);
+
+    radius -= thickness * 0.5f;
+
+    for (int i = 0; i < num_segments; i++) {
+        const float a = a_min + ((float)i / (float)num_segments) * (a_max - a_min);
+        window->DrawList->PathLineTo(ImVec2(centre.x + ImCos(a + t * 8) * radius,
+            centre.y + ImSin(a + t * 8) * radius));
+    }
+
+    window->DrawList->PathStroke(color, false, thickness);
 }
