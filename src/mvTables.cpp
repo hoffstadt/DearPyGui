@@ -369,6 +369,8 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 			}
 
 			// columns
+			ImGuiContext& g = *GImGui;
+			auto table = g.CurrentTable;
 			int columnnum = 0;
 			int last_row = ImGui::TableGetRowIndex();
 			for (auto& item : childslots[0])
@@ -387,6 +389,20 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 					// user via context menu.
 					item->config.show = flags & ImGuiTableColumnFlags_IsEnabled;
 				}
+
+				// Note: we're not using rect height because we're actually not
+				// inside any live cell; row Y coordinates are invalid here.
+				// Even if we were inside a cell, we'd need Y coordinates of the
+				// entire table here, which are less trivial to obtain.  So we
+				// just nullify the height.
+				const ImGuiTableColumn* column = &table->Columns[columnnum];
+				item->state.rectSize = { column->WorkMaxX - column->WorkMinX, 0.0f };
+				item->state.mvRectSizeResized = (item->state.mvPrevRectSize.x != item->state.rectSize.x ||
+												 item->state.mvPrevRectSize.y != item->state.rectSize.y);
+				item->state.mvPrevRectSize = item->state.rectSize;
+				if (item->handlerRegistry)
+					item->handlerRegistry->checkEvents(&item->state);
+
 				columnnum++;
 			}
 
