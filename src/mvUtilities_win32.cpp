@@ -450,6 +450,12 @@ FreeTexture(void* texture)
  bool
 UnloadTexture(const std::string& filename)
 {
-    // TODO : decide if cleanup is necessary
+    if (texture == nullptr)
+        return;
+
+    auto out_srv = (GLuint)(size_t)texture;
+
+    if (out_srv == 0)
+        return;
     return true;
 }

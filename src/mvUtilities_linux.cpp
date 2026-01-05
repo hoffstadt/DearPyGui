@@ -206,7 +206,13 @@ UnloadTexture(const std::string& filename)
  void
 FreeTexture(void* texture)
 {
+    if (texture == nullptr)
+        return;
+
     auto out_srv = (GLuint)(size_t)texture;
+
+    if (out_srv == 0)
+        return;
 
     if(PBO_ids.count(out_srv) != 0)
         PBO_ids.erase(out_srv);
