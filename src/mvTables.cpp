@@ -178,6 +178,12 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 				cleanup_local_theming(prev_visible_row);
 			apply_local_theming(row);
 
+			if (row->font)
+			{
+				ImFont* fontptr = static_cast<mvFont*>(row->font.get())->getFontPtr();
+				ImGui::PushFont(fontptr);
+			}
+
 			row->state.lastFrameUpdate = GContext->frame;
 			row->state.visible = true;
 
@@ -224,6 +230,9 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 				cleanup_local_theming(cell.get());
 				cleanup_local_theming(columnItem.get());
 			}
+
+			if (row->font)
+				ImGui::PopFont();
 		};
 
 		handleImmediateScroll();
