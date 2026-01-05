@@ -153,6 +153,10 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 	if (all_hidden)
 		return;
 
+	// set indent
+	if (config.indent > 0.0f)
+		ImGui::Indent(config.indent);
+
 	// push font if a font object is attached
 	if (font)
 	{
@@ -406,6 +410,9 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 	// pop font off stack
 	if (font)
 		ImGui::PopFont();
+
+	if (config.indent > 0.0f)
+		ImGui::Unindent(config.indent);
 
 	// handle popping themes
 	cleanup_local_theming(this);
