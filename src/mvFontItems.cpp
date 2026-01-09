@@ -153,9 +153,6 @@ void mvFont::draw(ImDrawList* drawlist, float x, float y)
 	builder.BuildRanges(&_ranges);   // Build the final result (ordered ranges with all the unique characters submitted)
 
 	//_dirty = true;
-	auto item = GetItem(*GContext->itemRegistry, MV_ATLAS_UUID);
-	if (item)
-		static_cast<mvStaticTexture*>(item)->markDirty();
 
 	mvToolManager::GetFontManager()._dirty = true;
 }

@@ -554,7 +554,6 @@ struct mvImageConfig
     mvVec2                     uv_max = { 1.0f, 1.0f };
     mvColor                    tintColor = { 1.0f, 1.0f, 1.0f, 1.0f };
     mvColor                    borderColor = { 0.0f, 0.0f, 0.0f, 0.0f };
-    bool                       _internalTexture = false; // create a local texture if necessary
 };
 
 struct mvImageButtonConfig
@@ -567,7 +566,6 @@ struct mvImageButtonConfig
     mvColor                    tintColor = { 1.0f, 1.0f, 1.0f, 1.0f };
     mvColor                    backgroundColor = { 0.0f, 0.0f, 0.0f, 0.0f };
     int                        framePadding = -1;
-    bool                       _internalTexture = false; // create a local texture if necessary
 };
 
 struct mvFilterSetConfig

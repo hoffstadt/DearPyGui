@@ -1970,40 +1970,35 @@ DearPyGui::draw_image_series(ImDrawList* drawlist, mvAppItem& item, mvImageSerie
 	//-----------------------------------------------------------------------------
 	{
 
-		if (config._texture)
+		if (config._texture && config._texture->state.ok)
 		{
-			if (config._internalTexture)
-				config._texture->draw(drawlist, 0.0f, 0.0f);
-
-			if (!config._texture->state.ok)
-				return;
-
-			ImTextureID texture = ImTextureID_Invalid;
-
-			if (config._texture->type == mvAppItemType::mvStaticTexture)
-				texture = static_cast<mvStaticTexture*>(config._texture.get())->_texture;
-			else if (config._texture->type == mvAppItemType::mvRawTexture)
-				texture = static_cast<mvRawTexture*>(config._texture.get())->_texture;
-			else
-				texture = static_cast<mvDynamicTexture*>(config._texture.get())->_texture;
-
-			ImPlot::PlotImage(item.info.internalLabel.c_str(), texture, config.bounds_min, config.bounds_max, config.uv_min, config.uv_max, config.tintColor, config.flags);
-
-			// Begin a popup for a legend entry.
-			if (ImPlot::BeginLegendPopup(item.info.internalLabel.c_str(), 1))
+			auto type = config._texture->type;
+			if (type == mvAppItemType::mvStaticTexture ||
+				type == mvAppItemType::mvDynamicTexture ||
+				type == mvAppItemType::mvRawTexture)
 			{
-				for (auto& childset : item.childslots)
+				// TODO: use this line once ImPlot gets updated to newer version that supports ImTextureRef
+				// ImTextureRef texture = static_cast<mvTextureItem*>(config._texture.get())->getTexRef();
+				ImTextureID texture = static_cast<mvTextureItem*>(config._texture.get())->_texture;
+
+				ImPlot::PlotImage(item.info.internalLabel.c_str(), texture, config.bounds_min, config.bounds_max, config.uv_min, config.uv_max, config.tintColor, config.flags);
+
+				// Begin a popup for a legend entry.
+				if (ImPlot::BeginLegendPopup(item.info.internalLabel.c_str(), 1))
 				{
-					for (auto& item : childset)
+					for (auto& childset : item.childslots)
 					{
-						// skip item if it's not shown
-						if (!item->config.show)
-							continue;
-						item->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
-						UpdateAppItemState(item->state);
+						for (auto& item : childset)
+						{
+							// skip item if it's not shown
+							if (!item->config.show)
+								continue;
+							item->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
+							UpdateAppItemState(item->state);
+						}
 					}
+					ImPlot::EndLegendPopup();
 				}
-				ImPlot::EndLegendPopup();
 			}
 		}
 	}
@@ -2584,17 +2579,16 @@ DearPyGui::set_required_configuration(PyObject* inDict, mvImageSeriesConfig& out
 	outConfig.bounds_min.y = resultmin.y;
 	outConfig.bounds_max.x = resultmax.x;
 	outConfig.bounds_max.y = resultmax.y;
-	outConfig._texture = GetRefItem(*GContext->itemRegistry, outConfig.textureUUID);
-	if (outConfig._texture)
-	{
-	}
-	else if (outConfig.textureUUID == MV_ATLAS_UUID)
+	if (outConfig.textureUUID == MV_ATLAS_UUID)
 	{
 		outConfig._texture = std::make_shared<mvStaticTexture>(outConfig.textureUUID);
-		outConfig._internalTexture = true;
 	}
 	else
-		mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(mvAppItemType::mvImageSeries), "Texture not found.", nullptr);
+	{
+		outConfig._texture = GetRefItem(*GContext->itemRegistry, outConfig.textureUUID);
+		if (!outConfig._texture)
+			mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(mvAppItemType::mvImageSeries), "Texture not found.", nullptr);
+	}
 }
 
 void
@@ -3203,19 +3197,15 @@ DearPyGui::set_configuration(PyObject* inDict, mvImageSeriesConfig& outConfig)
 	if (PyObject* item = PyDict_GetItemString(inDict, "texture_tag"))
 	{
 		outConfig.textureUUID = GetIDFromPyObject(item);
-		outConfig._texture = GetRefItem(*GContext->itemRegistry, outConfig.textureUUID);
 		if (outConfig.textureUUID == MV_ATLAS_UUID)
 		{
 			outConfig._texture = std::make_shared<mvStaticTexture>(outConfig.textureUUID);
-			outConfig._internalTexture = true;
-		}
-		else if (outConfig._texture)
-		{
-			outConfig._internalTexture = false;
 		}
 		else
 		{
-			mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(mvAppItemType::mvImageSeries), "Texture not found.", nullptr);
+			outConfig._texture = GetRefItem(*GContext->itemRegistry, outConfig.textureUUID);
+			if (!outConfig._texture)
+				mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(mvAppItemType::mvImageSeries), "Texture not found.", nullptr);
 		}
 	}
 }

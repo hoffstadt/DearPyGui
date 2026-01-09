@@ -215,7 +215,6 @@ private:
 
     // pointer to existing item or internal
     std::shared_ptr<mvAppItem> _texture = nullptr;
-    bool _internalTexture = false; // create a local texture if necessary
 
 };
 
@@ -248,7 +247,6 @@ private:
 
     // pointer to existing item or internal
     std::shared_ptr<mvAppItem> _texture = nullptr;
-    bool _internalTexture = false; // create a local texture if necessary
 
 };
 
