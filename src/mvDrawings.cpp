@@ -531,7 +531,7 @@ void mvDrawImage::draw(ImDrawList* drawlist, float x, float y)
 		if (!_texture->state.ok)
 			return;
 
-		void* texture = nullptr;
+		ImTextureID texture = ImTextureID_Invalid;
 
 		if (_texture->type == mvAppItemType::mvStaticTexture)
 			texture = static_cast<mvStaticTexture*>(_texture.get())->_texture;
@@ -655,7 +655,7 @@ void mvDrawImageQuad::draw(ImDrawList* drawlist, float x, float y)
 		if (!_texture->state.ok)
 			return;
 
-		void* texture = nullptr;
+		ImTextureID texture = ImTextureID_Invalid;
 
 		if (_texture->type == mvAppItemType::mvStaticTexture)
 			texture = static_cast<mvStaticTexture*>(_texture.get())->_texture;

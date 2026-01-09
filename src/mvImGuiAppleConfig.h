@@ -7,4 +7,6 @@
 #define IMGUI_USE_WCHAR32
 
 // Note: ImTextureID underlying type is backend-specific and is therefore different on different platforms!
-#define ImTextureID GLuint
+// Leaving it defined as void* until we figure out how to declare it properly (like, id<MTLTexture>?).
+// At least void* has been working fine for years.
+#define ImTextureID void*

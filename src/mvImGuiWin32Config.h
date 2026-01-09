@@ -8,3 +8,6 @@
 #define ImDrawIdx unsigned int
 
 #define IMGUI_USE_WCHAR32
+
+// Note: ImTextureID underlying type is backend-specific and is therefore different on different platforms!
+#define ImTextureID ID3D11ShaderResourceView*

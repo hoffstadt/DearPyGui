@@ -88,7 +88,7 @@ OutputFrameBuffer(const char* filepath)
     free(data);
 }
 
- void*
+ ImTextureID
 LoadTextureFromArray(unsigned width, unsigned height, float* data)
 {
 
@@ -105,10 +105,10 @@ LoadTextureFromArray(unsigned width, unsigned height, float* data)
     glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_FLOAT, data);
 
-    return reinterpret_cast<void *>(image_texture);
+    return image_texture;
 }
 
- void*
+ ImTextureID
 LoadTextureFromArrayDynamic(unsigned width, unsigned height, float* data)
 {
 
@@ -132,10 +132,10 @@ LoadTextureFromArrayDynamic(unsigned width, unsigned height, float* data)
     glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
     PBO_ids[image_texture] = pboid;
 
-    return reinterpret_cast<void *>(image_texture);
+    return image_texture;
 }
 
- void*
+ ImTextureID
 LoadTextureFromArrayRaw(unsigned width, unsigned height, float* data, int components)
 {
 
@@ -162,10 +162,10 @@ LoadTextureFromArrayRaw(unsigned width, unsigned height, float* data, int compon
     glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
     PBO_ids[image_texture] = pboid;
 
-    return reinterpret_cast<void*>(image_texture);
+    return image_texture;
 }
 
- void*
+ ImTextureID
 LoadTextureFromFile(const char* filename, int& width, int& height)
 {
 
@@ -174,7 +174,7 @@ LoadTextureFromFile(const char* filename, int& width, int& height)
     int image_height = 0;
     unsigned char* image_data = stbi_load(filename, &image_width, &image_height, nullptr, 4);
     if (image_data == nullptr)
-        return nullptr;
+        return ImTextureID_Invalid;
 
     // Create a OpenGL texture identifier
     GLuint image_texture;
@@ -193,7 +193,7 @@ LoadTextureFromFile(const char* filename, int& width, int& height)
     width = image_width;
     height = image_height;
 
-    return reinterpret_cast<void *>(image_texture);;
+    return image_texture;
 }
 
  bool
@@ -204,9 +204,9 @@ UnloadTexture(const std::string& filename)
 }
 
  void
-FreeTexture(void* texture)
+FreeTexture(ImTextureID texture)
 {
-    auto out_srv = (GLuint)(size_t)texture;
+    GLuint out_srv = texture;
 
     if(PBO_ids.count(out_srv) != 0)
         PBO_ids.erase(out_srv);
@@ -215,9 +215,9 @@ FreeTexture(void* texture)
 }
 
  void
-UpdateTexture(void* texture, unsigned width, unsigned height, std::vector<float>& data)
+UpdateTexture(ImTextureID texture, unsigned width, unsigned height, std::vector<float>& data)
 {
-    auto textureId = (GLuint)(size_t)texture;
+    GLuint textureId = texture;
 
     // start to copy from PBO to texture object ///////
 
@@ -262,9 +262,9 @@ UpdateTexture(void* texture, unsigned width, unsigned height, std::vector<float>
 }
 
  void
-UpdateRawTexture(void* texture, unsigned width, unsigned height, float* data, int components)
+UpdateRawTexture(ImTextureID texture, unsigned width, unsigned height, float* data, int components)
 {
-    auto textureId = (GLuint)(size_t)texture;
+    GLuint textureId = texture;
 
     // start to copy from PBO to texture object ///////
 

@@ -5918,7 +5918,7 @@ DearPyGui::draw_image(ImDrawList* drawlist, mvAppItem& item, mvImageConfig& conf
 			if (item.config.height == 0)
 				item.config.height = config.texture->config.height;
 
-			void* texture = nullptr;
+			ImTextureID texture = ImTextureID_Invalid;
 
 			if (config.texture->type == mvAppItemType::mvStaticTexture)
 				texture = static_cast<mvStaticTexture*>(config.texture.get())->_texture;
@@ -6032,7 +6032,7 @@ DearPyGui::draw_image_button(ImDrawList* drawlist, mvAppItem& item, mvImageButto
 			if (item.config.height == 0)
 				item.config.height = config.texture->config.height;
 
-			void* texture = nullptr;
+			ImTextureID texture = ImTextureID_Invalid;
 
 			if (config.texture->type == mvAppItemType::mvStaticTexture)
 				texture = static_cast<mvStaticTexture*>(config.texture.get())->_texture;
