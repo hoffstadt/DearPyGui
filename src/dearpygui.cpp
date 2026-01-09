@@ -84,6 +84,9 @@ GetModuleConstants()
 		ModuleConstants.push_back({"mvScrollDirection_Horizontal", mvScrollDirection_Horizontal });
 		ModuleConstants.push_back({"mvScrollDirection_Vertical", mvScrollDirection_Vertical });
 
+		ModuleConstants.push_back({"mvLoadInd_DottedCircle", mvLoadingIndicator::Style_DottedCircle });
+		ModuleConstants.push_back({"mvLoadInd_Ring", mvLoadingIndicator::Style_Ring });
+
 		ModuleConstants.push_back({"mvPlatform_Windows", 0L });
 		ModuleConstants.push_back({"mvPlatform_Apple", 1L });
 		ModuleConstants.push_back({"mvPlatform_Linux", 2L });
