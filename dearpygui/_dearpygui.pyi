@@ -547,6 +547,10 @@ def add_subplots(rows : int, columns : int, *, label: str ='', user_data: Any ='
 	"""Adds a collection of plots."""
 	...
 
+def add_synced_tables(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', show: bool ='', filter_key: str ='') -> Union[int, str]:
+	"""Links all tables that are immediate children of this container so that they share their state (mostly column sizes).  Other children are rendered as is.  This is an experimental feature, use with caution."""
+	...
+
 def add_tab(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', drop_callback: Callable ='', show: bool ='', filter_key: str ='', delay_search: bool ='', tracked: bool ='', track_offset: float ='', closable: bool ='', no_tooltip: bool ='', order_mode: int ='') -> Union[int, str]:
 	"""Adds a tab to a tab bar."""
 	...
@@ -1788,6 +1792,7 @@ mvNodeAttribute=0
 mvTable=0
 mvTableColumn=0
 mvTableRow=0
+mvSyncedTables=0
 mvDrawLine=0
 mvDrawArrow=0
 mvDrawTriangle=0
