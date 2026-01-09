@@ -181,9 +181,6 @@ mvFontManager::rebuildAtlas()
 void 
 mvFontManager::updateAtlas()
 {
-	auto item = GetItem(*GContext->itemRegistry, MV_ATLAS_UUID);
-	if (item)
-		static_cast<mvStaticTexture*>(item)->markDirty();
 }
 
 void 

@@ -523,22 +523,15 @@ void mvDrawEllipse::getSpecificConfiguration(PyObject* dict)
 
 void mvDrawImage::draw(ImDrawList* drawlist, float x, float y)
 {
-	if (_texture)
+	if (_texture && _texture->state.ok)
 	{
-		if (_internalTexture)
-			_texture->draw(drawlist, x, y);
-
-		if (!_texture->state.ok)
+		auto type = _texture->type;
+		if (type != mvAppItemType::mvStaticTexture &&
+			type != mvAppItemType::mvDynamicTexture &&
+			type != mvAppItemType::mvRawTexture)
 			return;
 
-		ImTextureID texture = ImTextureID_Invalid;
-
-		if (_texture->type == mvAppItemType::mvStaticTexture)
-			texture = static_cast<mvStaticTexture*>(_texture.get())->_texture;
-		else if (_texture->type == mvAppItemType::mvRawTexture)
-			texture = static_cast<mvRawTexture*>(_texture.get())->_texture;
-		else
-			texture = static_cast<mvDynamicTexture*>(_texture.get())->_texture;
+		ImTextureRef texture = static_cast<mvTextureItem*>(_texture.get())->getTexRef();
 
 		mvVec4  tpmin = drawInfo->transform * _pmin;
 		mvVec4  tpmax = drawInfo->transform * _pmax;
@@ -577,21 +570,16 @@ void mvDrawImage::handleSpecificRequiredArgs(PyObject* dict)
 		return;
 
 	_textureUUID = GetIDFromPyObject(PyTuple_GetItem(dict, 0));
-	_texture = GetRefItem(*GContext->itemRegistry, _textureUUID);
-	if (_texture)
-	{
-		_pmin = ToVec4(PyTuple_GetItem(dict, 1));
-		_pmin.w = 1.0f;
-		_pmax = ToVec4(PyTuple_GetItem(dict, 2));
-		_pmax.w = 1.0f;
-	}
-	else if (_textureUUID == MV_ATLAS_UUID)
+	if (_textureUUID == MV_ATLAS_UUID)
 	{
 		_texture = std::make_shared<mvStaticTexture>(_textureUUID);
-		_internalTexture = true;
 	}
 	else
-		mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(type), "Texture not found.", this);
+	{
+		_texture = GetRefItem(*GContext->itemRegistry, _textureUUID);
+		if (!_texture)
+			mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(type), "Texture not found.", this);
+	}
 
 	_pmin = ToVec4(PyTuple_GetItem(dict, 1));
 	_pmin.w = 1.0f;
@@ -612,19 +600,15 @@ void mvDrawImage::handleSpecificKeywordArgs(PyObject* dict)
 	if (PyObject* item = PyDict_GetItemString(dict, "texture_tag"))
 	{
 		_textureUUID = GetIDFromPyObject(item);
-		_texture = GetRefItem(*GContext->itemRegistry, _textureUUID);
 		if (_textureUUID == MV_ATLAS_UUID)
 		{
 			_texture = std::make_shared<mvStaticTexture>(_textureUUID);
-			_internalTexture = true;
-		}
-		else if (_texture)
-		{
-			_internalTexture = false;
 		}
 		else
 		{
-			mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(type), "Texture not found.", this);
+			_texture = GetRefItem(*GContext->itemRegistry, _textureUUID);
+			if (!_texture)
+				mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(type), "Texture not found.", this);
 		}
 	}
 
@@ -647,22 +631,15 @@ void mvDrawImage::getSpecificConfiguration(PyObject* dict)
 
 void mvDrawImageQuad::draw(ImDrawList* drawlist, float x, float y)
 {
-	if (_texture)
+	if (_texture && _texture->state.ok)
 	{
-		if (_internalTexture)
-			_texture->draw(drawlist, x, y);
-
-		if (!_texture->state.ok)
+		auto type = _texture->type;
+		if (type != mvAppItemType::mvStaticTexture &&
+			type != mvAppItemType::mvDynamicTexture &&
+			type != mvAppItemType::mvRawTexture)
 			return;
 
-		ImTextureID texture = ImTextureID_Invalid;
-
-		if (_texture->type == mvAppItemType::mvStaticTexture)
-			texture = static_cast<mvStaticTexture*>(_texture.get())->_texture;
-		else if (_texture->type == mvAppItemType::mvRawTexture)
-			texture = static_cast<mvRawTexture*>(_texture.get())->_texture;
-		else
-			texture = static_cast<mvDynamicTexture*>(_texture.get())->_texture;
+		ImTextureRef texture = static_cast<mvTextureItem*>(_texture.get())->getTexRef();
 
 		mvVec4  tp1 = drawInfo->transform * _p1;
 		mvVec4  tp2 = drawInfo->transform * _p2;
@@ -713,25 +690,16 @@ void mvDrawImageQuad::handleSpecificRequiredArgs(PyObject* dict)
 		return;
 
 	_textureUUID = GetIDFromPyObject(PyTuple_GetItem(dict, 0));
-	_texture = GetRefItem(*GContext->itemRegistry, _textureUUID);
-	if (_texture)
-	{
-		_p1 = ToVec4(PyTuple_GetItem(dict, 1));
-		_p1.w = 1.0f;
-		_p2 = ToVec4(PyTuple_GetItem(dict, 2));
-		_p2.w = 1.0f;
-		_p3 = ToVec4(PyTuple_GetItem(dict, 3));
-		_p3.w = 1.0f;
-		_p4 = ToVec4(PyTuple_GetItem(dict, 4));
-		_p4.w = 1.0f;
-	}
-	else if (_textureUUID == MV_ATLAS_UUID)
+	if (_textureUUID == MV_ATLAS_UUID)
 	{
 		_texture = std::make_shared<mvStaticTexture>(_textureUUID);
-		_internalTexture = true;
 	}
 	else
-		mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(type), "Texture not found.", this);
+	{
+		_texture = GetRefItem(*GContext->itemRegistry, _textureUUID);
+		if (!_texture)
+			mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(type), "Texture not found.", this);
+	}
 
 	_p1 = ToVec4(PyTuple_GetItem(dict, 1));
 	_p1.w = 1.0f;
@@ -761,19 +729,15 @@ void mvDrawImageQuad::handleSpecificKeywordArgs(PyObject* dict)
 	if (PyObject* item = PyDict_GetItemString(dict, "texture_tag"))
 	{
 		_textureUUID = GetIDFromPyObject(item);
-		_texture = GetRefItem(*GContext->itemRegistry, _textureUUID);
 		if (_textureUUID == MV_ATLAS_UUID)
 		{
 			_texture = std::make_shared<mvStaticTexture>(_textureUUID);
-			_internalTexture = true;
-		}
-		else if (_texture)
-		{
-			_internalTexture = false;
 		}
 		else
 		{
-			mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(type), "Texture not found.", this);
+			_texture = GetRefItem(*GContext->itemRegistry, _textureUUID);
+			if (!_texture)
+				mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(type), "Texture not found.", this);
 		}
 	}
 

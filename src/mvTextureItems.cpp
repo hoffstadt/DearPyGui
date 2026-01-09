@@ -35,17 +35,18 @@ void mvTextureRegistry::show_debugger()
 		int index = 0;
 		for (auto& texture : childslots[1])
 		{
-			bool status = false;
-			ImTextureID textureRaw = ImTextureID_Invalid;
-			if (texture->type == mvAppItemType::mvStaticTexture)
-				textureRaw = static_cast<mvStaticTexture*>(texture.get())->_texture;
-			else
-				textureRaw = static_cast<mvDynamicTexture*>(texture.get())->_texture;
-
-			ImGui::Image(textureRaw, ImVec2(25, 25));
-			ImGui::SameLine();
-			if (ImGui::Selectable(texture->info.internalLabel.c_str(), &status))
-				_selection = index;
+			auto type = texture->type;
+			if (type == mvAppItemType::mvStaticTexture ||
+				type == mvAppItemType::mvDynamicTexture ||
+				type == mvAppItemType::mvRawTexture)
+			{
+				ImTextureRef textureRaw = static_cast<mvTextureItem*>(texture.get())->getTexRef();
+				ImGui::Image(textureRaw, ImVec2(25, 25));
+				ImGui::SameLine();
+				bool status = false;
+				if (ImGui::Selectable(texture->info.internalLabel.c_str(), &status))
+					_selection = index;
+			}
 
 			++index;
 		}
@@ -66,26 +67,28 @@ void mvTextureRegistry::show_debugger()
 				ImGui::Text("Type: %s", childslots[1][_selection]->type == mvAppItemType::mvStaticTexture ? "static" : "dynamic");
 				ImGui::EndGroup();
 
-				ImGui::SameLine();
-
-				ImTextureID textureRaw = ImTextureID_Invalid;
-				if (childslots[1][_selection]->type == mvAppItemType::mvStaticTexture)
-					textureRaw = static_cast<mvStaticTexture*>(childslots[1][_selection].get())->_texture;
-				else
-					textureRaw = static_cast<mvDynamicTexture*>(childslots[1][_selection].get())->_texture;
-
-				ImGui::Image(textureRaw, ImVec2((float)childslots[1][_selection]->config.width, (float)childslots[1][_selection]->config.height));
-
-				ImPlot::PushStyleColor(ImPlotCol_FrameBg, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
-				if (ImPlot::BeginPlot("##texture plot", ImVec2(-1, -1),
-					ImPlotFlags_NoTitle | ImPlotFlags_NoLegend | ImPlotFlags_NoMenus | ImPlotFlags_Equal))
+				auto type = childslots[1][_selection]->type;
+				if (type == mvAppItemType::mvStaticTexture ||
+					type == mvAppItemType::mvDynamicTexture ||
+					type == mvAppItemType::mvRawTexture)
 				{
-					ImPlot::PlotImage(childslots[1][_selection]->info.internalLabel.c_str(), textureRaw, ImPlotPoint(0.0, 0.0),
-						ImPlotPoint(childslots[1][_selection]->config.width, childslots[1][_selection]->config.height));
-					ImPlot::EndPlot();
-				}
-				ImPlot::PopStyleColor();
+					// TODO: use this line once ImPlot gets updated to newer version that supports ImTextureRef
+					// ImTextureRef textureRaw = static_cast<mvTextureItem*>(childslots[1][_selection].get())->getTexRef();
+					ImTextureID textureRaw = static_cast<mvTextureItem*>(childslots[1][_selection].get())->_texture;
 
+					ImGui::SameLine();
+					ImGui::Image(textureRaw, ImVec2((float)childslots[1][_selection]->config.width, (float)childslots[1][_selection]->config.height));
+
+					ImPlot::PushStyleColor(ImPlotCol_FrameBg, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
+					if (ImPlot::BeginPlot("##texture plot", ImVec2(-1, -1),
+						ImPlotFlags_NoTitle | ImPlotFlags_NoLegend | ImPlotFlags_NoMenus | ImPlotFlags_Equal))
+					{
+						ImPlot::PlotImage(childslots[1][_selection]->info.internalLabel.c_str(), textureRaw, ImPlotPoint(0.0, 0.0),
+							ImPlotPoint(childslots[1][_selection]->config.width, childslots[1][_selection]->config.height));
+						ImPlot::EndPlot();
+					}
+					ImPlot::PopStyleColor();
+				}
 
 				ImGui::EndGroup();
 			}
@@ -101,9 +104,20 @@ void mvTextureRegistry::show_debugger()
 	ImGui::PopID();
 }
 
-mvDynamicTexture::~mvDynamicTexture()
+mvTextureItem::~mvTextureItem()
 {
-	FreeTexture(_texture);
+	if (_texture != ImTextureID_Invalid)
+		FreeTexture(_texture);
+}
+
+ImTextureRef mvTextureItem::getTexRef() const
+{
+	// Check for any "special" textures that we do not store directly in mvTextureItem
+	if (uuid == MV_ATLAS_UUID)
+		return ImGui::GetIO().Fonts->TexRef;
+
+	// Okay now this is indeed a stored texture
+	return _texture;
 }
 
 PyObject* mvDynamicTexture::getPyValue()
@@ -209,11 +223,6 @@ void mvRawTexture::setPyValue(PyObject* value)
 	}
 }
 
-mvRawTexture::~mvRawTexture()
-{
-	FreeTexture(_texture);
-}
-
 void mvRawTexture::draw(ImDrawList* drawlist, float x, float y)
 {
 	if (_dirty)
@@ -279,30 +288,27 @@ void mvRawTexture::getSpecificConfiguration(PyObject* dict)
 		return;
 }
 
-mvStaticTexture::~mvStaticTexture()
-{
-	if (uuid == MV_ATLAS_UUID)
-		return;
-	//UnloadTexture(_name);
-	FreeTexture(_texture);
-}
-
 void mvStaticTexture::draw(ImDrawList* drawlist, float x, float y)
 {
+	if (uuid == MV_ATLAS_UUID)
+	{
+		// This is a special kind of texture.  With the current version of ImGui, it's not
+		// actually static anymore, as font atlas can be updated or re-created at any
+		// moment and even the texture ID is not permanent.  However, DPG traditionally
+		// exposed this as a static_texture and we have to retain it for compatibility.
+		// But, since it can change, we'll be pulling some properties from Fonts every frame.
+		config.width = ImGui::GetIO().Fonts->TexData->Width;
+		config.height = ImGui::GetIO().Fonts->TexData->Height;
+		return;
+	}
+
 	if (!_dirty)
 		return;
 
 	if (!state.ok)
 		return;
 
-	if (uuid == MV_ATLAS_UUID)
-	{
-		_texture = ImGui::GetIO().Fonts->TexID;
-		config.width = ImGui::GetIO().Fonts->TexWidth;
-		config.height = ImGui::GetIO().Fonts->TexHeight;
-	}
-	else
-		_texture = LoadTextureFromArray(_permWidth, _permHeight, _value->data());
+	_texture = LoadTextureFromArray(_permWidth, _permHeight, _value->data());
 
 	if (_texture == ImTextureID_Invalid)
 	{

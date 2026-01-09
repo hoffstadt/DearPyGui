@@ -1721,19 +1721,15 @@ DearPyGui::set_configuration(PyObject* inDict, mvImageConfig& outConfig)
 	if (PyObject* item = PyDict_GetItemString(inDict, "texture_tag"))
 	{
 		outConfig.textureUUID = GetIDFromPyObject(item);
-		outConfig.texture = GetRefItem(*GContext->itemRegistry, outConfig.textureUUID);
 		if (outConfig.textureUUID == MV_ATLAS_UUID)
 		{
 			outConfig.texture = std::make_shared<mvStaticTexture>(outConfig.textureUUID);
-			outConfig._internalTexture = true;
-		}
-		else if (outConfig.texture)
-		{
-			outConfig._internalTexture = false;
 		}
 		else
 		{
-			mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(mvAppItemType::mvImage), "Texture not found.", nullptr);
+			outConfig.texture = GetRefItem(*GContext->itemRegistry, outConfig.textureUUID);
+			if (!outConfig.texture)
+				mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(mvAppItemType::mvImage), "Texture not found.", nullptr);
 		}
 	}
 }
@@ -1752,19 +1748,15 @@ DearPyGui::set_configuration(PyObject* inDict, mvImageButtonConfig& outConfig)
 	if (PyObject* item = PyDict_GetItemString(inDict, "texture_tag"))
 	{
 		outConfig.textureUUID = GetIDFromPyObject(item);
-		outConfig.texture = GetRefItem(*GContext->itemRegistry, outConfig.textureUUID);
 		if (outConfig.textureUUID == MV_ATLAS_UUID)
 		{
 			outConfig.texture = std::make_shared<mvStaticTexture>(outConfig.textureUUID);
-			outConfig._internalTexture = true;
-		}
-		else if (outConfig.texture)
-		{
-			outConfig._internalTexture = false;
 		}
 		else
 		{
-			mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(mvAppItemType::mvImageButton), "Texture not found.", nullptr);
+			outConfig.texture = GetRefItem(*GContext->itemRegistry, outConfig.textureUUID);
+			if (!outConfig.texture)
+				mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(mvAppItemType::mvImageButton), "Texture not found.", nullptr);
 		}
 	}
 }
@@ -1809,16 +1801,16 @@ DearPyGui::set_required_configuration(PyObject* inDict, mvImageConfig& outConfig
 		return;
 
 	outConfig.textureUUID = GetIDFromPyObject(PyTuple_GetItem(inDict, 0));
-	outConfig.texture = GetRefItem(*GContext->itemRegistry, outConfig.textureUUID);
-	if (outConfig.texture)
-		return;
-	else if (outConfig.textureUUID == MV_ATLAS_UUID)
+	if (outConfig.textureUUID == MV_ATLAS_UUID)
 	{
 		outConfig.texture = std::make_shared<mvStaticTexture>(outConfig.textureUUID);
-		outConfig._internalTexture = true;
 	}
 	else
-		mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(mvAppItemType::mvImage), "Texture not found.", nullptr);
+	{
+		outConfig.texture = GetRefItem(*GContext->itemRegistry, outConfig.textureUUID);
+		if (!outConfig.texture)
+			mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(mvAppItemType::mvImage), "Texture not found.", nullptr);
+	}
 }
 
 void
@@ -1828,16 +1820,16 @@ DearPyGui::set_required_configuration(PyObject* inDict, mvImageButtonConfig& out
 		return;
 
 	outConfig.textureUUID = GetIDFromPyObject(PyTuple_GetItem(inDict, 0));
-	outConfig.texture = GetRefItem(*GContext->itemRegistry, outConfig.textureUUID);
-	if (outConfig.texture)
-		return;
-	else if (outConfig.textureUUID == MV_ATLAS_UUID)
+	if (outConfig.textureUUID == MV_ATLAS_UUID)
 	{
 		outConfig.texture = std::make_shared<mvStaticTexture>(outConfig.textureUUID);
-		outConfig._internalTexture = true;
 	}
 	else
-		mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(mvAppItemType::mvImageButton), "Texture not found.", nullptr);
+	{
+		outConfig.texture = GetRefItem(*GContext->itemRegistry, outConfig.textureUUID);
+		if (!outConfig.texture)
+			mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(mvAppItemType::mvImageButton), "Texture not found.", nullptr);
+	}
 }
 
 //-----------------------------------------------------------------------------
@@ -5903,14 +5895,8 @@ DearPyGui::draw_image(ImDrawList* drawlist, mvAppItem& item, mvImageConfig& conf
 	// draw
 	//-----------------------------------------------------------------------------
 	{
-		if (config.texture)
+		if (config.texture && config.texture->state.ok)
 		{
-			if (config._internalTexture)
-				config.texture->draw(drawlist, 0.0f, 0.0f);
-
-			if (!config.texture->state.ok)
-				return;
-
 			// if width/height is not set by user, use texture dimensions
 			if (item.config.width == 0)
 				item.config.width = config.texture->config.width;
@@ -5918,19 +5904,16 @@ DearPyGui::draw_image(ImDrawList* drawlist, mvAppItem& item, mvImageConfig& conf
 			if (item.config.height == 0)
 				item.config.height = config.texture->config.height;
 
-			ImTextureID texture = ImTextureID_Invalid;
-
-			if (config.texture->type == mvAppItemType::mvStaticTexture)
-				texture = static_cast<mvStaticTexture*>(config.texture.get())->_texture;
-			else if (config.texture->type == mvAppItemType::mvRawTexture)
-				texture = static_cast<mvRawTexture*>(config.texture.get())->_texture;
-			else
-				texture = static_cast<mvDynamicTexture*>(config.texture.get())->_texture;
-
-			ImGui::Image(texture, ImVec2((float)item.config.width, (float)item.config.height), ImVec2(config.uv_min.x, config.uv_min.y), ImVec2(config.uv_max.x, config.uv_max.y),
-				ImVec4((float)config.tintColor.r, (float)config.tintColor.g, (float)config.tintColor.b, (float)config.tintColor.a),
-				ImVec4((float)config.borderColor.r, (float)config.borderColor.g, (float)config.borderColor.b, (float)config.borderColor.a));
-
+			auto type = config.texture->type;
+			if (type == mvAppItemType::mvStaticTexture ||
+				type == mvAppItemType::mvDynamicTexture ||
+				type == mvAppItemType::mvRawTexture)
+			{
+				ImTextureRef texture = static_cast<mvTextureItem*>(config.texture.get())->getTexRef();
+				ImGui::Image(texture, ImVec2((float)item.config.width, (float)item.config.height), ImVec2(config.uv_min.x, config.uv_min.y), ImVec2(config.uv_max.x, config.uv_max.y),
+					ImVec4((float)config.tintColor.r, (float)config.tintColor.g, (float)config.tintColor.b, (float)config.tintColor.a),
+					ImVec4((float)config.borderColor.r, (float)config.borderColor.g, (float)config.borderColor.b, (float)config.borderColor.a));
+			}
 		}
 	}
 
@@ -6016,15 +5999,8 @@ DearPyGui::draw_image_button(ImDrawList* drawlist, mvAppItem& item, mvImageButto
 	//-----------------------------------------------------------------------------
 	{
 
-		if (config.texture)
+		if (config.texture && config.texture->state.ok)
 		{
-
-			if (config._internalTexture)
-				config.texture->draw(drawlist, 0.0f, 0.0f);
-
-			if (!config.texture->state.ok)
-				return;
-
 			// if width/height is not set by user, use texture dimensions
 			if (item.config.width == 0)
 				item.config.width = config.texture->config.width;
@@ -6032,29 +6008,28 @@ DearPyGui::draw_image_button(ImDrawList* drawlist, mvAppItem& item, mvImageButto
 			if (item.config.height == 0)
 				item.config.height = config.texture->config.height;
 
-			ImTextureID texture = ImTextureID_Invalid;
-
-			if (config.texture->type == mvAppItemType::mvStaticTexture)
-				texture = static_cast<mvStaticTexture*>(config.texture.get())->_texture;
-			else if (config.texture->type == mvAppItemType::mvRawTexture)
-				texture = static_cast<mvRawTexture*>(config.texture.get())->_texture;
-			else
-				texture = static_cast<mvDynamicTexture*>(config.texture.get())->_texture;
-			
-			if (config.framePadding >= 0)
-        		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2((float)config.framePadding, (float)config.framePadding));
-			
-			ImGui::PushID(item.uuid);
-			if (ImGui::ImageButton(item.info.internalLabel.c_str(), texture, ImVec2((float)item.config.width, (float)item.config.height),
-				ImVec2(config.uv_min.x, config.uv_min.y), ImVec2(config.uv_max.x, config.uv_max.y),
-				config.backgroundColor, config.tintColor))
+			auto type = config.texture->type;
+			if (type == mvAppItemType::mvStaticTexture ||
+				type == mvAppItemType::mvDynamicTexture ||
+				type == mvAppItemType::mvRawTexture)
 			{
-				item.submitCallback();
-			}
-			ImGui::PopID();
+				ImTextureRef texture = static_cast<mvTextureItem*>(config.texture.get())->getTexRef();
 
-			if (config.framePadding >= 0)
-        		ImGui::PopStyleVar();
+				if (config.framePadding >= 0)
+					ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2((float)config.framePadding, (float)config.framePadding));
+
+				ImGui::PushID(item.uuid);
+				if (ImGui::ImageButton(item.info.internalLabel.c_str(), texture, ImVec2((float)item.config.width, (float)item.config.height),
+					ImVec2(config.uv_min.x, config.uv_min.y), ImVec2(config.uv_max.x, config.uv_max.y),
+					config.backgroundColor, config.tintColor))
+				{
+					item.submitCallback();
+				}
+				ImGui::PopID();
+
+				if (config.framePadding >= 0)
+					ImGui::PopStyleVar();
+			}
 		}
 	}
 
