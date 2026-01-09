@@ -1978,7 +1978,7 @@ DearPyGui::draw_image_series(ImDrawList* drawlist, mvAppItem& item, mvImageSerie
 			if (!config._texture->state.ok)
 				return;
 
-			void* texture = nullptr;
+			ImTextureID texture = ImTextureID_Invalid;
 
 			if (config._texture->type == mvAppItemType::mvStaticTexture)
 				texture = static_cast<mvStaticTexture*>(config._texture.get())->_texture;

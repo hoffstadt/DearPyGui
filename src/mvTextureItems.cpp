@@ -36,7 +36,7 @@ void mvTextureRegistry::show_debugger()
 		for (auto& texture : childslots[1])
 		{
 			bool status = false;
-			void* textureRaw = nullptr;
+			ImTextureID textureRaw = ImTextureID_Invalid;
 			if (texture->type == mvAppItemType::mvStaticTexture)
 				textureRaw = static_cast<mvStaticTexture*>(texture.get())->_texture;
 			else
@@ -68,7 +68,7 @@ void mvTextureRegistry::show_debugger()
 
 				ImGui::SameLine();
 
-				void* textureRaw = nullptr;
+				ImTextureID textureRaw = ImTextureID_Invalid;
 				if (childslots[1][_selection]->type == mvAppItemType::mvStaticTexture)
 					textureRaw = static_cast<mvStaticTexture*>(childslots[1][_selection].get())->_texture;
 				else
@@ -144,7 +144,7 @@ void mvDynamicTexture::draw(ImDrawList* drawlist, float x, float y)
 
 		_texture = LoadTextureFromArrayDynamic(_permWidth, _permHeight, _value->data());
 
-		if (_texture == nullptr)
+		if (_texture == ImTextureID_Invalid)
 			state.ok = false;
 
 		_dirty = false;
@@ -225,7 +225,7 @@ void mvRawTexture::draw(ImDrawList* drawlist, float x, float y)
 		if (_componentType == ComponentType::MV_FLOAT_COMPONENT)
 			_texture = LoadTextureFromArrayRaw(_permWidth, _permHeight, (float*)_value, _components);
 
-		if (_texture == nullptr)
+		if (_texture == ImTextureID_Invalid)
 			state.ok = false;
 
 		_dirty = false;
@@ -304,7 +304,7 @@ void mvStaticTexture::draw(ImDrawList* drawlist, float x, float y)
 	else
 		_texture = LoadTextureFromArray(_permWidth, _permHeight, _value->data());
 
-	if (_texture == nullptr)
+	if (_texture == ImTextureID_Invalid)
 	{
 		state.ok = false;
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, "add_static_texture",

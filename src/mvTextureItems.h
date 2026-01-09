@@ -40,7 +40,7 @@ public:
 public:
 
     std::shared_ptr<std::vector<float>> _value = std::make_shared<std::vector<float>>(std::vector<float>{0.0f});
-    void* _texture = nullptr;
+    ImTextureID               _texture = ImTextureID_Invalid;
     bool                      _dirty = true;
     int                       _permWidth = 0;
     int                       _permHeight = 0;
@@ -73,7 +73,7 @@ public:
 
     mvPyObject _buffer = nullptr;
     void* _value = nullptr;
-    void* _texture = nullptr;
+    ImTextureID   _texture = ImTextureID_Invalid;
     bool          _dirty = true;
     ComponentType _componentType = ComponentType::MV_FLOAT_COMPONENT;
     int           _components = 4;
@@ -104,7 +104,7 @@ public:
 public:
 
     std::shared_ptr<std::vector<float>> _value = std::make_shared<std::vector<float>>(std::vector<float>{0.0f});
-    void* _texture = nullptr;
+    ImTextureID               _texture = ImTextureID_Invalid;
     bool                      _dirty = true;
     int                       _permWidth = 0;
     int                       _permHeight = 0;

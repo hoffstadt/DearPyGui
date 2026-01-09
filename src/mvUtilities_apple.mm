@@ -31,7 +31,7 @@ OutputFrameBuffer(const char* filepath)
     mvSubmitCallback([](){mvThrowPythonError(mvErrorCode::mvNone, "`output_frame_buffer(...)` has not been implemented for this platform yet.");});
 }
 
- void*
+ ImTextureID
 LoadTextureFromArray(unsigned width, unsigned height, float* data)
 {
     mvGraphics& graphics = GContext->graphics;
@@ -47,10 +47,10 @@ LoadTextureFromArray(unsigned width, unsigned height, float* data)
 
     g_textures.push_back({texture, texture});
 
-    return (__bridge void*)g_textures.back().second;
+    return (__bridge ImTextureID)g_textures.back().second;
 }
 
- void*
+ ImTextureID
 LoadTextureFromArrayDynamic(unsigned width, unsigned height, float* data)
 {
     mvGraphics& graphics = GContext->graphics;
@@ -66,10 +66,10 @@ LoadTextureFromArrayDynamic(unsigned width, unsigned height, float* data)
 
     g_textures.push_back({texture, texture});
 
-    return (__bridge void*)g_textures.back().second;
+    return (__bridge ImTextureID)g_textures.back().second;
 }
 
- void*
+ ImTextureID
 LoadTextureFromArrayRaw(unsigned width, unsigned height, float* data, int components)
 {
     mvGraphics& graphics = GContext->graphics;
@@ -85,10 +85,10 @@ LoadTextureFromArrayRaw(unsigned width, unsigned height, float* data, int compon
 
     g_textures.push_back({texture, texture});
 
-    return (__bridge void*)g_textures.back().second;
+    return (__bridge ImTextureID)g_textures.back().second;
 }
 
- void*
+ ImTextureID
 LoadTextureFromFile(const char* filename, int& width, int& height)
 {
     mvGraphics& graphics = GContext->graphics;
@@ -96,7 +96,7 @@ LoadTextureFromFile(const char* filename, int& width, int& height)
 
     unsigned char* image_data = stbi_load(filename, &width, &height, nullptr, 4);
     if (image_data == nullptr)
-        return nullptr;
+        return ImTextureID_Invalid;
 
     MTLTextureDescriptor *textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatRGBA8Unorm
                                                                                                     width:width
@@ -110,7 +110,7 @@ LoadTextureFromFile(const char* filename, int& width, int& height)
 
     g_textures.push_back({texture, texture});
 
-    return (__bridge void*)g_textures.back().second;
+    return (__bridge ImTextureID)g_textures.back().second;
 }
 
  bool
@@ -121,7 +121,7 @@ UnloadTexture(const std::string& filename)
 }
 
  void
-FreeTexture(void* texture)
+FreeTexture(ImTextureID texture)
 {
     id <MTLTexture> out_srv = (__bridge id <MTLTexture>)texture;
 
@@ -136,13 +136,14 @@ FreeTexture(void* texture)
 }
 
  void
-UpdateTexture(void* texture, unsigned width, unsigned height, std::vector<float>& data)
+UpdateTexture(ImTextureID texture, unsigned width, unsigned height, std::vector<float>& data)
 {
     id <MTLTexture> out_srv = (__bridge id <MTLTexture>)texture;
     [out_srv replaceRegion:MTLRegionMake2D(0, 0, width, height) mipmapLevel:0 withBytes:data.data() bytesPerRow:width * 4 * 4];
 }
 
-    void UpdateRawTexture(void* texture, unsigned width, unsigned height, float* data, int components)
+ void
+UpdateRawTexture(ImTextureID texture, unsigned width, unsigned height, float* data, int components)
 {
     id <MTLTexture> out_srv = (__bridge id <MTLTexture>)texture;
     [out_srv replaceRegion:MTLRegionMake2D(0, 0, width, height) mipmapLevel:0 withBytes:data bytesPerRow:width * components * 4];
