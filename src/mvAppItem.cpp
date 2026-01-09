@@ -881,6 +881,7 @@ CanItemTypeHaveRectSize(mvAppItemType type)
     case mvAppItemType::mvNode:
     case mvAppItemType::mvNodeEditor:
     case mvAppItemType::mvPlot:
+    case mvAppItemType::mvTableColumn:
     case mvAppItemType::mvButton: return true;
     default: return false;
     }
