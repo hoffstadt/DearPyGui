@@ -1,6 +1,3 @@
-//---- Use FreeType to build and rasterize the font atlas (instead of stb_truetype which is embedded by default in Dear ImGui)
-#define IMGUI_ENABLE_FREETYPE
-
 //---- Use 32-bit vertex indices (default is 16-bit) is one way to allow large meshes with more than 64K vertices.
 // Your renderer backend will need to support it (most example renderer backends support both 16/32-bit indices).
 // Another way to allow large meshes while keeping 16-bit indices is to handle ImDrawCmd::VtxOffset in your renderer.
@@ -10,4 +7,5 @@
 #define IMGUI_USE_WCHAR32
 
 // Note: ImTextureID underlying type is backend-specific and is therefore different on different platforms!
-#define ImTextureID ID3D11ShaderResourceView*
+// We don't define ImTextureID here so that it uses the default ImUI64, which is good for
+// passing GLuint around (in Linux world, we need a GLuint for texture ID).
