@@ -3,7 +3,7 @@
 from pathlib import Path
 import re
 from string import Template
-from typing import Any, Dict, Tuple, Union
+from typing import Any, Dict, Set, Tuple, Union
 
 imgui_draw = Path(__file__).parent.parent.parent / "imgui" / "imgui_draw.cpp"
 implot = Path(__file__).parent.parent.parent / "implot" / "implot.cpp"
@@ -73,6 +73,25 @@ def format_color(color: Tuple[Union[float, int], ...]) -> str:
     ])
 
 
+OLD_NODE_COLORS: Set[str] = {
+    "mvNodesCol_NodeBackground",
+    "mvNodesCol_NodeBackgroundHovered",
+    "mvNodesCol_NodeBackgroundSelected",
+    "mvNodesCol_NodeOutline",
+    "mvNodesCol_TitleBar",
+    "mvNodesCol_TitleBarHovered",
+    "mvNodesCol_TitleBarSelected",
+    "mvNodesCol_Link",
+    "mvNodesCol_LinkHovered",
+    "mvNodesCol_LinkSelected",
+    "mvNodesCol_Pin",
+    "mvNodesCol_PinHovered",
+    "mvNodesCol_BoxSelector",
+    "mvNodesCol_BoxSelectorOutline",
+    "mvNodesCol_GridBackground",
+    "mvNodesCol_GridLine",
+}
+
 def format_color_line(name: str, color: Tuple[Union[float, int], ...]) -> str:
     # See what category it is
     cat = (
@@ -82,7 +101,9 @@ def format_color_line(name: str, color: Tuple[Union[float, int], ...]) -> str:
     )
     cat = f", category=dpg.mvThemeCat_{cat}" if cat else ""
     # Replace prefix
-    name = name.replace("ImGuiCol_", "mvThemeCol_").replace("ImPlotCol_", "mvPlotCol_").replace("ImNodesCol_", "mvNodeCol_")
+    name = name.replace("ImGuiCol_", "mvThemeCol_").replace("ImPlotCol_", "mvPlotCol_").replace("ImNodesCol_", "mvNodesCol_")
+    if name in OLD_NODE_COLORS:
+        name = name.replace("mvNodesCol", "mvNodeCol")
 
     return f"            dpg.add_theme_color(dpg.{name:34}, ({format_color(color)}){cat})"
 
