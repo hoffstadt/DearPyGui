@@ -6581,7 +6581,7 @@ DearPyGui::draw_image(ImDrawList* drawlist, mvAppItem& item, mvImageConfig& conf
 			else
 				texture = static_cast<mvDynamicTexture*>(config.texture.get())->_texture;
 
-			ImGui::Image(texture, ImVec2((float)item.config.width, (float)item.config.height), ImVec2(config.uv_min.x, config.uv_min.y), ImVec2(config.uv_max.x, config.uv_max.y),
+			ImGui::Image((ImTextureID)(size_t)texture, ImVec2((float)item.config.width, (float)item.config.height), ImVec2(config.uv_min.x, config.uv_min.y), ImVec2(config.uv_max.x, config.uv_max.y),
 				ImVec4((float)config.tintColor.r, (float)config.tintColor.g, (float)config.tintColor.b, (float)config.tintColor.a),
 				ImVec4((float)config.borderColor.r, (float)config.borderColor.g, (float)config.borderColor.b, (float)config.borderColor.a));
 
@@ -6699,7 +6699,7 @@ DearPyGui::draw_image_button(ImDrawList* drawlist, mvAppItem& item, mvImageButto
         		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2((float)config.framePadding, (float)config.framePadding));
 			
 			ImGui::PushID(item.uuid);
-			if (ImGui::ImageButton(item.info.internalLabel.c_str(), texture, ImVec2((float)item.config.width, (float)item.config.height),
+			if (ImGui::ImageButton(item.info.internalLabel.c_str(), (ImTextureID)(size_t)texture, ImVec2((float)item.config.width, (float)item.config.height),
 				ImVec2(config.uv_min.x, config.uv_min.y), ImVec2(config.uv_max.x, config.uv_max.y),
 				config.backgroundColor, config.tintColor))
 			{

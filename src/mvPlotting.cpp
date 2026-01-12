@@ -2000,7 +2000,7 @@ DearPyGui::draw_image_series(ImDrawList* drawlist, mvAppItem& item, mvImageSerie
 			else
 				texture = static_cast<mvDynamicTexture*>(config._texture.get())->_texture;
 
-			ImPlot::PlotImage(item.info.internalLabel.c_str(), texture, config.bounds_min, config.bounds_max, config.uv_min, config.uv_max, config.tintColor, config.flags);
+			ImPlot::PlotImage(item.info.internalLabel.c_str(), (ImTextureID)(size_t)texture, config.bounds_min, config.bounds_max, config.uv_min, config.uv_max, config.tintColor, config.flags);
 
 			// Begin a popup for a legend entry.
 			if (ImPlot::BeginLegendPopup(item.info.internalLabel.c_str(), 1))

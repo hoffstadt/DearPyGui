@@ -202,11 +202,11 @@ mvFontManager::drawWidgets()
 		NodeFont(font);
 		ImGui::PopID();
 	}
-	if (ImGui::TreeNode("Atlas texture", "Atlas texture (%dx%d pixels)", atlas->TexWidth, atlas->TexHeight))
+	if (ImGui::TreeNode("Atlas texture", "Atlas texture (%dx%d pixels)", atlas->TexData->Width, atlas->TexData->Height))
 	{
 		ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
 		ImVec4 border_col = ImVec4(1.0f, 1.0f, 1.0f, 0.5f);
-		ImGui::Image(atlas->TexID, ImVec2((float)atlas->TexWidth, (float)atlas->TexHeight), ImVec2(0, 0), ImVec2(1, 1), tint_col, border_col);
+		ImGui::Image(atlas->TexRef.GetTexID(), ImVec2((float)atlas->TexData->Width, (float)atlas->TexData->Height), ImVec2(0, 0), ImVec2(1, 1), tint_col, border_col);
 		ImGui::TreePop();
 	}
 
