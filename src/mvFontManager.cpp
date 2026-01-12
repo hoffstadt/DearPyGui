@@ -174,9 +174,10 @@ mvFontManager::rebuildAtlas()
 			item->customAction(nullptr);
 		}
 
-		// Just to make sure g.Font doesn't point to a font already deleted by 
+		// Just to make sure g.Font doesn't point to a font already deleted by
 		// io.Fonts->Clear(), though ideally ImGui should be doing it on its own.
-		ImGui::SetCurrentFont(ImGui::GetDefaultFont());
+		ImFont* defaultFont = ImGui::GetDefaultFont();
+		ImGui::SetCurrentFont(defaultFont, defaultFont->LegacySize, defaultFont->LegacySize);
 	}
 
 	_dirty = false;
