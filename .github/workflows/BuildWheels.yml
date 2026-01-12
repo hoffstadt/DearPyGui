@@ -1,0 +1,151 @@
+name: Build Wheels
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version tag (e.g., v2.1.1-custom)'
+        required: false
+        default: 'v2.1.1-custom'
+
+jobs:
+  build-windows:
+    runs-on: windows-2022
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Build Wheel
+        shell: cmd
+        run: |
+          python -m pip install --upgrade pip wheel setuptools
+          python -m setup bdist_wheel --plat-name win_amd64 --dist-dir dist
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows-py${{ matrix.python-version }}
+          path: dist/*.whl
+
+  build-macos-x64:
+    runs-on: macos-13
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Build Wheel
+        run: |
+          python -m pip install --upgrade pip wheel setuptools
+          python -m setup bdist_wheel --plat-name macosx-10.6-x86_64 --dist-dir dist
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: macos-x64-py${{ matrix.python-version }}
+          path: dist/*.whl
+
+  build-macos-arm64:
+    runs-on: macos-14
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Build Wheel
+        run: |
+          python -m pip install --upgrade pip wheel setuptools
+          python -m setup bdist_wheel --plat-name macosx-14.0-arm64 --dist-dir dist
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: macos-arm64-py${{ matrix.python-version }}
+          path: dist/*.whl
+
+  build-linux:
+    runs-on: ubuntu-22.04
+    env:
+      CXX: g++-10
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libglu1-mesa-dev libgl1-mesa-dev xorg-dev libxrandr-dev
+
+      - name: Build Wheel
+        run: |
+          python -m pip install --upgrade pip wheel setuptools
+          python -m setup bdist_wheel --plat-name manylinux1_x86_64 --dist-dir dist
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linux-py${{ matrix.python-version }}
+          path: dist/*.whl
+
+  create-release:
+    needs: [build-windows, build-macos-x64, build-macos-arm64, build-linux]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          path: wheels
+          merge-multiple: true
+
+      - name: List wheels
+        run: ls -la wheels/
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.event.inputs.version || 'latest' }}
+          name: DearPyGui Custom Build
+          body: |
+            Custom DearPyGui build with:
+            - SliderFloatRange2/SliderIntRange2 widgets
+            - DragFloatRange2/DragIntRange2 widgets
+            - Step snapping support
+
+            Install with:
+            ```
+            pip install <wheel-url>
+            ```
+          files: wheels/*.whl
+          draft: false
+          prerelease: true
