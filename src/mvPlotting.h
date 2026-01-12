@@ -437,6 +437,14 @@ struct mvPlotConfig
     bool                                        localTime = false;
     bool                                        iSO8601 = false;
     bool                                        clock24Hour = false;
+
+    // Cached plot geometry for on-demand mouse position calculation
+    ImVec2                                      _plotRectMin = {0, 0};  // data area top-left (screen coords)
+    ImVec2                                      _plotRectMax = {0, 0};  // data area bottom-right (screen coords)
+    double                                      _xAxisMin = 0;
+    double                                      _xAxisMax = 1;
+    double                                      _yAxisMin = 0;
+    double                                      _yAxisMax = 1;
 };
 
 //-----------------------------------------------------------------------------

@@ -2775,12 +2775,56 @@ get_mouse_pos(PyObject* self, PyObject* args, PyObject* kwargs)
 static PyObject*
 get_plot_mouse_pos(PyObject* self, PyObject* args, PyObject* kwargs)
 {
+	PyObject* plotraw = nullptr;
 
-	if (!Parse((GetParsers())["get_plot_mouse_pos"], args, kwargs, __FUNCTION__))
+	if (!Parse((GetParsers())["get_plot_mouse_pos"], args, kwargs, __FUNCTION__, &plotraw))
 		return GetPyNone();
 
-	mvVec2 pos = { (f32)GContext->input.mousePlotPos.x, (f32)GContext->input.mousePlotPos.y };
+	// If plot specified, calculate position on-demand using cached geometry
+	mvUUID plotId = plotraw ? GetIDFromPyObject(plotraw) : 0;
+	if (plotId != 0)
+	{
+		mvPySafeLockGuard lk(GContext->mutex);
+		auto aplot = GetItem(*GContext->itemRegistry, plotId);
+		if (aplot == nullptr)
+		{
+			mvThrowPythonError(mvErrorCode::mvItemNotFound, "get_plot_mouse_pos",
+				"Item not found: " + std::to_string(plotId), nullptr);
+			return GetPyNone();
+		}
 
+		if (aplot->type != mvAppItemType::mvPlot)
+		{
+			mvThrowPythonError(mvErrorCode::mvIncompatibleType, "get_plot_mouse_pos",
+				"Incompatible type. Expected types include: mvPlot", aplot);
+			return GetPyNone();
+		}
+
+		mvPlot* plot = static_cast<mvPlot*>(aplot);
+		const auto& cfg = plot->configData;
+
+		// Get current mouse position
+		ImVec2 mousePos = ImGui::GetMousePos();
+
+		// Calculate normalized position within plot data area
+		float plotWidth = cfg._plotRectMax.x - cfg._plotRectMin.x;
+		float plotHeight = cfg._plotRectMax.y - cfg._plotRectMin.y;
+
+		if (plotWidth <= 0 || plotHeight <= 0)
+			return ToPyPair(0.0, 0.0);
+
+		float normX = (mousePos.x - cfg._plotRectMin.x) / plotWidth;
+		float normY = (mousePos.y - cfg._plotRectMin.y) / plotHeight;
+
+		// Convert to plot coordinates (note: Y is inverted in screen coords)
+		double plotX = cfg._xAxisMin + normX * (cfg._xAxisMax - cfg._xAxisMin);
+		double plotY = cfg._yAxisMax - normY * (cfg._yAxisMax - cfg._yAxisMin);
+
+		return ToPyPair(plotX, plotY);
+	}
+
+	// No plot specified - return legacy cached value
+	mvVec2 pos = { (f32)GContext->input.mousePlotPos.x, (f32)GContext->input.mousePlotPos.y };
 	return ToPyPair(pos.x, pos.y);
 }
 

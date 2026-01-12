@@ -592,6 +592,19 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 			});
 		}
 
+		// Cache plot geometry for on-demand mouse position calculation
+		{
+			ImVec2 plotPos = ImPlot::GetPlotPos();
+			ImVec2 plotSize = ImPlot::GetPlotSize();
+			config._plotRectMin = plotPos;
+			config._plotRectMax = ImVec2(plotPos.x + plotSize.x, plotPos.y + plotSize.y);
+			ImPlotRect limits = ImPlot::GetPlotLimits();
+			config._xAxisMin = limits.X.Min;
+			config._xAxisMax = limits.X.Max;
+			config._yAxisMin = limits.Y.Min;
+			config._yAxisMax = limits.Y.Max;
+		}
+
 		if (ImPlot::IsPlotHovered())
 		{
 			GContext->input.mousePlotPos.x = ImPlot::GetPlotMousePos().x;
