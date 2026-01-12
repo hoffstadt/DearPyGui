@@ -4,28 +4,61 @@ from itertools import dropwhile, takewhile
 from pathlib import Path
 import re
 from string import Template
+from typing import List, Tuple
 
 
 imgui_h = Path(__file__).parent.parent / "thirdparty" / "imgui" / "imgui.h"
-lines = imgui_h.read_text("utf-8").splitlines()
-lines = list(
-    filter(lambda line: line.strip().startswith("ImGuiStyleVar_"),
-        takewhile(lambda line: not line.strip().startswith("ImGuiStyleVar_COUNT"),
-            dropwhile(lambda line: not line.strip().startswith("ImGuiStyleVar_"), lines)
+implot_h = Path(__file__).parent.parent / "thirdparty" / "implot" / "implot.h"
+imnodes_h = Path(__file__).parent.parent / "thirdparty" / "imnodes" / "imnodes.h"
+
+# Returns a list of (name, comment) tuples
+def read_constants(src_file: Path, enum_name: str) -> List[Tuple[str, str]]:
+    prefix = enum_name + "_"
+    end_marker = prefix + "COUNT"
+    lines = src_file.read_text("utf-8").splitlines()
+    lines = list(
+        filter(lambda line: line.strip().startswith(prefix),
+            takewhile(lambda line: not line.strip().startswith(end_marker),
+                dropwhile(lambda line: not line.strip().startswith(prefix), lines)
+            )
         )
     )
+
+    declarationRe = re.compile(r"\s*" + prefix + r"(\w+)\s*(?:=\s*\w+)?,\s*(.*)")
+
+    parsed = [declarationRe.match(l) for l in lines]
+    return [(m[1], m[2]) for m in parsed if m is not None]
+
+
+def convert_constants(src_file: Path, dpg_prefix: str, enum_name: str, comment_pos: int) -> List[str]:
+    template = Template('\t\tModuleConstants.push_back({ "${dpg_prefix}_$name", ${imgui_prefix}_$name });')
+    defs = read_constants(src_file, enum_name)
+    return [
+        # Regarding comment_pos: we need to subtract 1 to account for 1-based column number,
+        # subtract 1 more to account for the space that we add before the comment,
+        # and subtract 3 twice to account for two tab characters at the start of the template
+        # (with tab width = 4, these take 4 characters on the screen but 1 character in actual text).
+        (template.substitute(name=name, dpg_prefix = dpg_prefix, imgui_prefix = enum_name).ljust(comment_pos - 8) + " " + comment).rstrip()
+        for name, comment in defs
+    ]
+
+
+convert_constants(implot_h, "mvPlotCol", "ImPlotCol", 90)
+
+lines = (
+    convert_constants(imgui_h, "mvThemeCol", "ImGuiCol", 93) +
+    [""] +
+    convert_constants(implot_h, "mvPlotCol", "ImPlotCol", 90) +
+    [""] +
+    # Note: half the mvNodeXXX colors in dearpygui.cpp start with mvNodeCol rather than mvNodesCol -
+    # careful with the update!
+    convert_constants(imnodes_h, "mvNodesCol", "ImNodesCol", 90) +
+    [""] +
+    convert_constants(imgui_h, "mvStyleVar", "ImGuiStyleVar", 109) +
+    [""] +
+    convert_constants(implot_h, "mvPlotStyleVar", "ImPlotStyleVar", 112) +
+    [""] +
+    convert_constants(imnodes_h, "mvNodesStyleVar", "ImNodesStyleVar", 109)
 )
-
-styleRe = re.compile(r"\s*ImGuiStyleVar_(\w+),\s*(.*)")
-
-parsed = [styleRe.match(l) for l in lines]
-styles = [(m[1], m[2]) for m in parsed if m is not None]
-template = Template('\t\tModuleConstants.push_back({ "mvStyleVar_$name", ImGuiStyleVar_$name });')
-
-# name_width = 2 * max(len(name) for name, comment in styles) + len(template.substitute(name=""))
-# Overriding it so that there are fewer changes in dearpygui.cpp
-name_width = 38 + len(template.substitute(name=""))
-
-lines = [template.substitute(name=name).ljust(name_width) + " " + comment for name, comment in styles]
 
 print("\n".join(lines))
