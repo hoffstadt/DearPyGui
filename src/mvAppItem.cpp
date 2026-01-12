@@ -3807,6 +3807,70 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.about = "Adds a drag widget for a range of two float values (min and max). The min value cannot exceed max and vice versa.";
         break;
     }
+    case mvAppItemType::mvSliderIntRange:
+    {
+        AddCommonArgs(args, (CommonParserArgs)(
+            MV_PARSER_ARG_ID |
+            MV_PARSER_ARG_WIDTH |
+            MV_PARSER_ARG_INDENT |
+            MV_PARSER_ARG_PARENT |
+            MV_PARSER_ARG_BEFORE |
+            MV_PARSER_ARG_SOURCE |
+            MV_PARSER_ARG_CALLBACK |
+            MV_PARSER_ARG_SHOW |
+            MV_PARSER_ARG_ENABLED |
+            MV_PARSER_ARG_FILTER |
+            MV_PARSER_ARG_DROP_CALLBACK |
+            MV_PARSER_ARG_DRAG_CALLBACK |
+            MV_PARSER_ARG_PAYLOAD_TYPE |
+            MV_PARSER_ARG_TRACKED |
+            MV_PARSER_ARG_POS)
+        );
+
+        args.push_back({ mvPyDataType::IntList, "default_value", mvArgType::KEYWORD_ARG, "(0, 100)", "Initial (min, max) range values." });
+        args.push_back({ mvPyDataType::String, "format", mvArgType::KEYWORD_ARG, "'%d'", "Determines the format the values will be displayed as." });
+        args.push_back({ mvPyDataType::String, "format_max", mvArgType::KEYWORD_ARG, "''", "Format for the max value (uses format if empty)." });
+        args.push_back({ mvPyDataType::Integer, "min_value", mvArgType::KEYWORD_ARG, "0", "Minimum allowed value for the range." });
+        args.push_back({ mvPyDataType::Integer, "max_value", mvArgType::KEYWORD_ARG, "100", "Maximum allowed value for the range." });
+        args.push_back({ mvPyDataType::Integer, "step", mvArgType::KEYWORD_ARG, "0", "Snap values to multiples of step (0 disables snapping)." });
+        args.push_back({ mvPyDataType::Bool, "no_input", mvArgType::KEYWORD_ARG, "False", "Disable direct entry methods." });
+        args.push_back({ mvPyDataType::Bool, "clamped", mvArgType::KEYWORD_ARG, "False", "Apply min/max limits to direct entry." });
+
+        setup.about = "Adds a visual slider for selecting a range of two int values. Features a colored bar showing the selected range with two draggable handles.";
+        break;
+    }
+    case mvAppItemType::mvSliderFloatRange:
+    {
+        AddCommonArgs(args, (CommonParserArgs)(
+            MV_PARSER_ARG_ID |
+            MV_PARSER_ARG_WIDTH |
+            MV_PARSER_ARG_INDENT |
+            MV_PARSER_ARG_PARENT |
+            MV_PARSER_ARG_BEFORE |
+            MV_PARSER_ARG_SOURCE |
+            MV_PARSER_ARG_CALLBACK |
+            MV_PARSER_ARG_SHOW |
+            MV_PARSER_ARG_ENABLED |
+            MV_PARSER_ARG_FILTER |
+            MV_PARSER_ARG_DROP_CALLBACK |
+            MV_PARSER_ARG_DRAG_CALLBACK |
+            MV_PARSER_ARG_PAYLOAD_TYPE |
+            MV_PARSER_ARG_TRACKED |
+            MV_PARSER_ARG_POS)
+        );
+
+        args.push_back({ mvPyDataType::FloatList, "default_value", mvArgType::KEYWORD_ARG, "(0.0, 100.0)", "Initial (min, max) range values." });
+        args.push_back({ mvPyDataType::String, "format", mvArgType::KEYWORD_ARG, "'%.3f'", "Determines the format the values will be displayed as." });
+        args.push_back({ mvPyDataType::String, "format_max", mvArgType::KEYWORD_ARG, "''", "Format for the max value (uses format if empty)." });
+        args.push_back({ mvPyDataType::Float, "min_value", mvArgType::KEYWORD_ARG, "0.0", "Minimum allowed value for the range." });
+        args.push_back({ mvPyDataType::Float, "max_value", mvArgType::KEYWORD_ARG, "100.0", "Maximum allowed value for the range." });
+        args.push_back({ mvPyDataType::Float, "step", mvArgType::KEYWORD_ARG, "0.0", "Snap values to multiples of step (0 disables snapping)." });
+        args.push_back({ mvPyDataType::Bool, "no_input", mvArgType::KEYWORD_ARG, "False", "Disable direct entry methods." });
+        args.push_back({ mvPyDataType::Bool, "clamped", mvArgType::KEYWORD_ARG, "False", "Apply min/max limits to direct entry." });
+
+        setup.about = "Adds a visual slider for selecting a range of two float values. Features a colored bar showing the selected range with two draggable handles.";
+        break;
+    }
     case mvAppItemType::mvSliderFloatMulti:            
     {
         AddCommonArgs(args, (CommonParserArgs)(

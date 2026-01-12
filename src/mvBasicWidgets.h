@@ -15,6 +15,8 @@ struct mvDragDoubleMultiConfig;
 struct mvDragIntMultiConfig;
 struct mvDragIntRangeConfig;
 struct mvDragFloatRangeConfig;
+struct mvSliderIntRangeConfig;
+struct mvSliderFloatRangeConfig;
 struct mvSliderIntConfig;
 struct mvSliderFloatConfig;
 struct mvSliderDoubleConfig;
@@ -55,6 +57,8 @@ namespace DearPyGui
     void fill_configuration_dict(const mvDragIntMultiConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvDragIntRangeConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvDragFloatRangeConfig& inConfig, PyObject* outDict);
+    void fill_configuration_dict(const mvSliderIntRangeConfig& inConfig, PyObject* outDict);
+    void fill_configuration_dict(const mvSliderFloatRangeConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvSliderIntConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvSliderIntMultiConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvSliderFloatConfig& inConfig, PyObject* outDict);
@@ -92,6 +96,8 @@ namespace DearPyGui
     void set_configuration(PyObject* inDict, mvDragIntMultiConfig& outConfig, mvAppItemInfo& info);
     void set_configuration(PyObject* inDict, mvDragIntRangeConfig& outConfig, mvAppItemInfo& info);
     void set_configuration(PyObject* inDict, mvDragFloatRangeConfig& outConfig, mvAppItemInfo& info);
+    void set_configuration(PyObject* inDict, mvSliderIntRangeConfig& outConfig, mvAppItemInfo& info);
+    void set_configuration(PyObject* inDict, mvSliderFloatRangeConfig& outConfig, mvAppItemInfo& info);
     void set_configuration(PyObject* inDict, mvSliderIntConfig& outConfig, mvAppItemInfo& info);
     void set_configuration(PyObject* inDict, mvSliderIntMultiConfig& outConfig, mvAppItemInfo& info);
     void set_configuration(PyObject* inDict, mvSliderFloatConfig& outConfig, mvAppItemInfo& info);
@@ -140,6 +146,8 @@ namespace DearPyGui
     void set_data_source(mvAppItem& item, mvUUID dataSource, mvDragDoubleMultiConfig& outConfig);
     void set_data_source(mvAppItem& item, mvUUID dataSource, mvDragIntRangeConfig& outConfig);
     void set_data_source(mvAppItem& item, mvUUID dataSource, mvDragFloatRangeConfig& outConfig);
+    void set_data_source(mvAppItem& item, mvUUID dataSource, mvSliderIntRangeConfig& outConfig);
+    void set_data_source(mvAppItem& item, mvUUID dataSource, mvSliderFloatRangeConfig& outConfig);
     void set_data_source(mvAppItem& item, mvUUID dataSource, mvSliderFloatConfig& outConfig);
     void set_data_source(mvAppItem& item, mvUUID dataSource, mvSliderFloatMultiConfig& outConfig);
     void set_data_source(mvAppItem& item, mvUUID dataSource, mvSliderDoubleConfig& outConfig);
@@ -174,6 +182,8 @@ namespace DearPyGui
     void draw_drag_intx    (ImDrawList* drawlist, mvAppItem& item, mvDragIntMultiConfig& config);
     void draw_drag_int_range(ImDrawList* drawlist, mvAppItem& item, mvDragIntRangeConfig& config);
     void draw_drag_float_range(ImDrawList* drawlist, mvAppItem& item, mvDragFloatRangeConfig& config);
+    void draw_slider_int_range(ImDrawList* drawlist, mvAppItem& item, mvSliderIntRangeConfig& config);
+    void draw_slider_float_range(ImDrawList* drawlist, mvAppItem& item, mvSliderFloatRangeConfig& config);
     void draw_slider_float (ImDrawList* drawlist, mvAppItem& item, mvSliderFloatConfig& config);
     void draw_slider_floatx(ImDrawList* drawlist, mvAppItem& item, mvSliderFloatMultiConfig& config);
     void draw_slider_double(ImDrawList* drawlist, mvAppItem& item, mvSliderDoubleConfig& config);
@@ -342,6 +352,32 @@ struct mvDragFloatRangeConfig
     float               speed = 1.0f;
     float               minv = 0.0f;
     float               maxv = 100.0f;
+    std::string         format = "%.3f";
+    std::string         format_max = "";
+    ImGuiInputTextFlags flags = ImGuiSliderFlags_None;
+    ImGuiInputTextFlags stor_flags = ImGuiSliderFlags_None;
+    std::shared_ptr<std::array<float, 2>> value = std::make_shared<std::array<float, 2>>(std::array<float, 2>{0.0f, 100.0f});
+    float               disabled_value[2]{};
+};
+
+struct mvSliderIntRangeConfig
+{
+    int                 minv = 0;
+    int                 maxv = 100;
+    int                 step = 0;
+    std::string         format = "%d";
+    std::string         format_max = "";
+    ImGuiInputTextFlags flags = ImGuiSliderFlags_None;
+    ImGuiInputTextFlags stor_flags = ImGuiSliderFlags_None;
+    std::shared_ptr<std::array<int, 2>> value = std::make_shared<std::array<int, 2>>(std::array<int, 2>{0, 100});
+    int                 disabled_value[2]{};
+};
+
+struct mvSliderFloatRangeConfig
+{
+    float               minv = 0.0f;
+    float               maxv = 100.0f;
+    float               step = 0.0f;
     std::string         format = "%.3f";
     std::string         format_max = "";
     ImGuiInputTextFlags flags = ImGuiSliderFlags_None;
@@ -760,6 +796,34 @@ public:
     mvDragFloatRangeConfig configData{};
     explicit mvDragFloatRange(mvUUID uuid) : mvAppItem(uuid) {}
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_drag_float_range(drawlist, *this, configData); }
+    void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData, info); }
+    void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
+    void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
+    void* getValue() override { return &configData.value; }
+    PyObject* getPyValue() override { return ToPyFloatList(configData.value->data(), 2); }
+    void setPyValue(PyObject* value) override;
+};
+
+class mvSliderIntRange : public mvAppItem
+{
+public:
+    mvSliderIntRangeConfig configData{};
+    explicit mvSliderIntRange(mvUUID uuid) : mvAppItem(uuid) {}
+    void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_slider_int_range(drawlist, *this, configData); }
+    void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData, info); }
+    void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
+    void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
+    void* getValue() override { return &configData.value; }
+    PyObject* getPyValue() override { return ToPyIntList(configData.value->data(), 2); }
+    void setPyValue(PyObject* value) override;
+};
+
+class mvSliderFloatRange : public mvAppItem
+{
+public:
+    mvSliderFloatRangeConfig configData{};
+    explicit mvSliderFloatRange(mvUUID uuid) : mvAppItem(uuid) {}
+    void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_slider_float_range(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData, info); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
     void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
