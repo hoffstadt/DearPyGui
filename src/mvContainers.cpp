@@ -68,10 +68,9 @@ DearPyGui::fill_configuration_dict(const mvChildWindowConfig& inConfig, PyObject
     checkbitset("horizontal_scrollbar", ImGuiWindowFlags_HorizontalScrollbar, inConfig.windowflags);
     checkbitset("menubar", ImGuiWindowFlags_MenuBar, inConfig.windowflags);
     checkbitset("no_scroll_with_mouse", ImGuiWindowFlags_NoScrollWithMouse, inConfig.windowflags);
-    checkbitset("flattened_navigation", ImGuiWindowFlags_NavFlattened, inConfig.windowflags);
-
     // child flags
-    checkbitset("border", ImGuiChildFlags_Border, inConfig.childFlags);
+    checkbitset("flattened_navigation", ImGuiChildFlags_NavFlattened, inConfig.childFlags);
+    checkbitset("border", ImGuiChildFlags_Borders, inConfig.childFlags);
     checkbitset("always_auto_resize", ImGuiChildFlags_AlwaysAutoResize, inConfig.childFlags);
     checkbitset("always_use_window_padding", ImGuiChildFlags_AlwaysUseWindowPadding, inConfig.childFlags);
     checkbitset("auto_resize_x", ImGuiChildFlags_AutoResizeX, inConfig.childFlags);
@@ -274,10 +273,9 @@ DearPyGui::set_configuration(PyObject* inDict, mvChildWindowConfig& outConfig)
     flagop("horizontal_scrollbar", ImGuiWindowFlags_HorizontalScrollbar, outConfig.windowflags);
     flagop("menubar", ImGuiWindowFlags_MenuBar, outConfig.windowflags);
     flagop("no_scroll_with_mouse", ImGuiWindowFlags_NoScrollWithMouse, outConfig.windowflags);
-    flagop("flattened_navigation", ImGuiWindowFlags_NavFlattened, outConfig.windowflags);
-
     // child flags
-    flagop("border", ImGuiChildFlags_Border, outConfig.childFlags);
+    flagop("flattened_navigation", ImGuiChildFlags_NavFlattened, outConfig.childFlags);
+    flagop("border", ImGuiChildFlags_Borders, outConfig.childFlags);
     flagop("always_auto_resize", ImGuiChildFlags_AlwaysAutoResize, outConfig.childFlags);
     flagop("always_use_window_padding", ImGuiChildFlags_AlwaysUseWindowPadding, outConfig.childFlags);
     flagop("auto_resize_x", ImGuiChildFlags_AutoResizeX, outConfig.childFlags);
