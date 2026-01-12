@@ -1,6 +1,6 @@
 [submodule "thirdparty/imgui"]
 	path = thirdparty/imgui
-	url = https://github.com/ocornut/imgui
+	url = https://github.com/Entrpi/imgui
 	branch = docking
 [submodule "thirdparty/implot"]
 	path = thirdparty/implot
