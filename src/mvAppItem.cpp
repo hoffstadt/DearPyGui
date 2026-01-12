@@ -90,7 +90,19 @@ void mvAppItem::submitCallback(std::array<int, 4> app_data)
 }
 
 template<>
+void mvAppItem::submitCallback(std::array<int, 2> app_data)
+{
+    submitCallbackEx([app_data=std::move(app_data)]() { return ToPyIntList(app_data.data(), (int) app_data.size()); });
+}
+
+template<>
 void mvAppItem::submitCallback(std::array<float, 4> app_data)
+{
+    submitCallbackEx([app_data=std::move(app_data)]() { return ToPyFloatList(app_data.data(), (int) app_data.size()); });
+}
+
+template<>
+void mvAppItem::submitCallback(std::array<float, 2> app_data)
 {
     submitCallbackEx([app_data=std::move(app_data)]() { return ToPyFloatList(app_data.data(), (int) app_data.size()); });
 }
@@ -3729,6 +3741,70 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "clamped", mvArgType::KEYWORD_ARG, "False", "Applies the min and max limits to direct entry methods also such as double click and CTRL+Click." });
 
         setup.about = "Adds drag input for a set of int values up to 4. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the drag. Use clamped keyword to also apply limits to the direct entry modes.";
+        break;
+    }
+    case mvAppItemType::mvDragIntRange:
+    {
+        AddCommonArgs(args, (CommonParserArgs)(
+            MV_PARSER_ARG_ID |
+            MV_PARSER_ARG_WIDTH |
+            MV_PARSER_ARG_INDENT |
+            MV_PARSER_ARG_PARENT |
+            MV_PARSER_ARG_BEFORE |
+            MV_PARSER_ARG_SOURCE |
+            MV_PARSER_ARG_CALLBACK |
+            MV_PARSER_ARG_SHOW |
+            MV_PARSER_ARG_ENABLED |
+            MV_PARSER_ARG_FILTER |
+            MV_PARSER_ARG_DROP_CALLBACK |
+            MV_PARSER_ARG_DRAG_CALLBACK |
+            MV_PARSER_ARG_PAYLOAD_TYPE |
+            MV_PARSER_ARG_TRACKED |
+            MV_PARSER_ARG_POS)
+        );
+
+        args.push_back({ mvPyDataType::IntList, "default_value", mvArgType::KEYWORD_ARG, "(0, 100)", "Initial (min, max) range values." });
+        args.push_back({ mvPyDataType::String, "format", mvArgType::KEYWORD_ARG, "'%d'", "Determines the format the values will be displayed as." });
+        args.push_back({ mvPyDataType::String, "format_max", mvArgType::KEYWORD_ARG, "''", "Format for the max value (uses format if empty)." });
+        args.push_back({ mvPyDataType::Float, "speed", mvArgType::KEYWORD_ARG, "1.0", "Sets the sensitivity while dragging." });
+        args.push_back({ mvPyDataType::Integer, "min_value", mvArgType::KEYWORD_ARG, "0", "Minimum allowed value for the range." });
+        args.push_back({ mvPyDataType::Integer, "max_value", mvArgType::KEYWORD_ARG, "100", "Maximum allowed value for the range." });
+        args.push_back({ mvPyDataType::Bool, "no_input", mvArgType::KEYWORD_ARG, "False", "Disable direct entry methods." });
+        args.push_back({ mvPyDataType::Bool, "clamped", mvArgType::KEYWORD_ARG, "False", "Apply min/max limits to direct entry." });
+
+        setup.about = "Adds a drag widget for a range of two int values (min and max). The min value cannot exceed max and vice versa.";
+        break;
+    }
+    case mvAppItemType::mvDragFloatRange:
+    {
+        AddCommonArgs(args, (CommonParserArgs)(
+            MV_PARSER_ARG_ID |
+            MV_PARSER_ARG_WIDTH |
+            MV_PARSER_ARG_INDENT |
+            MV_PARSER_ARG_PARENT |
+            MV_PARSER_ARG_BEFORE |
+            MV_PARSER_ARG_SOURCE |
+            MV_PARSER_ARG_CALLBACK |
+            MV_PARSER_ARG_SHOW |
+            MV_PARSER_ARG_ENABLED |
+            MV_PARSER_ARG_FILTER |
+            MV_PARSER_ARG_DROP_CALLBACK |
+            MV_PARSER_ARG_DRAG_CALLBACK |
+            MV_PARSER_ARG_PAYLOAD_TYPE |
+            MV_PARSER_ARG_TRACKED |
+            MV_PARSER_ARG_POS)
+        );
+
+        args.push_back({ mvPyDataType::FloatList, "default_value", mvArgType::KEYWORD_ARG, "(0.0, 100.0)", "Initial (min, max) range values." });
+        args.push_back({ mvPyDataType::String, "format", mvArgType::KEYWORD_ARG, "'%.3f'", "Determines the format the values will be displayed as." });
+        args.push_back({ mvPyDataType::String, "format_max", mvArgType::KEYWORD_ARG, "''", "Format for the max value (uses format if empty)." });
+        args.push_back({ mvPyDataType::Float, "speed", mvArgType::KEYWORD_ARG, "1.0", "Sets the sensitivity while dragging." });
+        args.push_back({ mvPyDataType::Float, "min_value", mvArgType::KEYWORD_ARG, "0.0", "Minimum allowed value for the range." });
+        args.push_back({ mvPyDataType::Float, "max_value", mvArgType::KEYWORD_ARG, "100.0", "Maximum allowed value for the range." });
+        args.push_back({ mvPyDataType::Bool, "no_input", mvArgType::KEYWORD_ARG, "False", "Disable direct entry methods." });
+        args.push_back({ mvPyDataType::Bool, "clamped", mvArgType::KEYWORD_ARG, "False", "Apply min/max limits to direct entry." });
+
+        setup.about = "Adds a drag widget for a range of two float values (min and max). The min value cannot exceed max and vice versa.";
         break;
     }
     case mvAppItemType::mvSliderFloatMulti:            

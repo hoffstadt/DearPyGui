@@ -1,0 +1,125 @@
+diff --git a/src/dearpygui_commands.h b/src/dearpygui_commands.h
+index e25355b..e3cdf53 100644
+--- a/src/dearpygui_commands.h
++++ b/src/dearpygui_commands.h
+@@ -2775,12 +2775,56 @@ get_mouse_pos(PyObject* self, PyObject* args, PyObject* kwargs)
+ static PyObject*
+ get_plot_mouse_pos(PyObject* self, PyObject* args, PyObject* kwargs)
+ {
++	PyObject* plotraw = nullptr;
+ 
+-	if (!Parse((GetParsers())["get_plot_mouse_pos"], args, kwargs, __FUNCTION__))
++	if (!Parse((GetParsers())["get_plot_mouse_pos"], args, kwargs, __FUNCTION__, &plotraw))
+ 		return GetPyNone();
+ 
+-	mvVec2 pos = { (f32)GContext->input.mousePlotPos.x, (f32)GContext->input.mousePlotPos.y };
++	// If plot specified, calculate position on-demand using cached geometry
++	mvUUID plotId = plotraw ? GetIDFromPyObject(plotraw) : 0;
++	if (plotId != 0)
++	{
++		mvPySafeLockGuard lk(GContext->mutex);
++		auto aplot = GetItem(*GContext->itemRegistry, plotId);
++		if (aplot == nullptr)
++		{
++			mvThrowPythonError(mvErrorCode::mvItemNotFound, "get_plot_mouse_pos",
++				"Item not found: " + std::to_string(plotId), nullptr);
++			return GetPyNone();
++		}
++
++		if (aplot->type != mvAppItemType::mvPlot)
++		{
++			mvThrowPythonError(mvErrorCode::mvIncompatibleType, "get_plot_mouse_pos",
++				"Incompatible type. Expected types include: mvPlot", aplot);
++			return GetPyNone();
++		}
+ 
++		mvPlot* plot = static_cast<mvPlot*>(aplot);
++		const auto& cfg = plot->configData;
++
++		// Get current mouse position
++		ImVec2 mousePos = ImGui::GetMousePos();
++
++		// Calculate normalized position within plot data area
++		float plotWidth = cfg._plotRectMax.x - cfg._plotRectMin.x;
++		float plotHeight = cfg._plotRectMax.y - cfg._plotRectMin.y;
++
++		if (plotWidth <= 0 || plotHeight <= 0)
++			return ToPyPair(0.0, 0.0);
++
++		float normX = (mousePos.x - cfg._plotRectMin.x) / plotWidth;
++		float normY = (mousePos.y - cfg._plotRectMin.y) / plotHeight;
++
++		// Convert to plot coordinates (note: Y is inverted in screen coords)
++		double plotX = cfg._xAxisMin + normX * (cfg._xAxisMax - cfg._xAxisMin);
++		double plotY = cfg._yAxisMax - normY * (cfg._yAxisMax - cfg._yAxisMin);
++
++		return ToPyPair(plotX, plotY);
++	}
++
++	// No plot specified - return legacy cached value
++	mvVec2 pos = { (f32)GContext->input.mousePlotPos.x, (f32)GContext->input.mousePlotPos.y };
+ 	return ToPyPair(pos.x, pos.y);
+ }
+ 
+diff --git a/src/dearpygui_parsers.h b/src/dearpygui_parsers.h
+index 8446225..84ea228 100644
+--- a/src/dearpygui_parsers.h
++++ b/src/dearpygui_parsers.h
+@@ -806,11 +806,12 @@ InsertParser_Block1(std::map<std::string, mvPythonParser>& parsers)
+ 
+ 	{
+ 		std::vector<mvPythonDataElement> args;
++		args.push_back({ mvPyDataType::UUID, "plot", mvArgType::KEYWORD_ARG, "0", "Plot to query. When specified, calculates position on-demand using current mouse position and plot geometry. When not specified, returns cached position from last hovered plot (legacy behavior)." });
+ 
+ 		mvPythonParserSetup setup;
+-		setup.about = "Returns mouse position in plot.";
++		setup.about = "Returns mouse position in plot coordinates. For accurate real-time tracking, pass the plot tag.";
+ 		setup.category = { "Input Polling" };
+-		setup.returnType = mvPyDataType::IntList;
++		setup.returnType = mvPyDataType::FloatList;
+ 
+ 		mvPythonParser parser = FinalizeParser(setup, args);
+ 		parsers.insert({ "get_plot_mouse_pos", parser });
+diff --git a/src/mvPlotting.cpp b/src/mvPlotting.cpp
+index 6eb507e..5406ed8 100644
+--- a/src/mvPlotting.cpp
++++ b/src/mvPlotting.cpp
+@@ -592,6 +592,19 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
+ 			});
+ 		}
+ 
++		// Cache plot geometry for on-demand mouse position calculation
++		{
++			ImVec2 plotPos = ImPlot::GetPlotPos();
++			ImVec2 plotSize = ImPlot::GetPlotSize();
++			config._plotRectMin = plotPos;
++			config._plotRectMax = ImVec2(plotPos.x + plotSize.x, plotPos.y + plotSize.y);
++			ImPlotRect limits = ImPlot::GetPlotLimits();
++			config._xAxisMin = limits.X.Min;
++			config._xAxisMax = limits.X.Max;
++			config._yAxisMin = limits.Y.Min;
++			config._yAxisMax = limits.Y.Max;
++		}
++
+ 		if (ImPlot::IsPlotHovered())
+ 		{
+ 			GContext->input.mousePlotPos.x = ImPlot::GetPlotMousePos().x;
+diff --git a/src/mvPlotting.h b/src/mvPlotting.h
+index 9d35d90..0b15cfd 100644
+--- a/src/mvPlotting.h
++++ b/src/mvPlotting.h
+@@ -437,6 +437,14 @@ struct mvPlotConfig
+     bool                                        localTime = false;
+     bool                                        iSO8601 = false;
+     bool                                        clock24Hour = false;
++
++    // Cached plot geometry for on-demand mouse position calculation
++    ImVec2                                      _plotRectMin = {0, 0};  // data area top-left (screen coords)
++    ImVec2                                      _plotRectMax = {0, 0};  // data area bottom-right (screen coords)
++    double                                      _xAxisMin = 0;
++    double                                      _xAxisMax = 1;
++    double                                      _yAxisMin = 0;
++    double                                      _yAxisMax = 1;
+ };
+ 
+ //-----------------------------------------------------------------------------
