@@ -3,13 +3,13 @@
 project ("DearPyGui")
 
 if(WIN32)
-    add_definitions(-DIMGUI_USER_CONFIG="mvImGuiWin32Config.h")
+    add_definitions(-DIMGUI_USER_CONFIG="mvImGuiConfig_win32.h")
     add_definitions(-DMV_PLATFORM="windows")
 elseif(APPLE)
-    add_definitions(-DIMGUI_USER_CONFIG="mvImGuiAppleConfig.h")
+    add_definitions(-DIMGUI_USER_CONFIG="mvImGuiConfig_apple.h")
     add_definitions(-DMV_PLATFORM="apple")
 else() # Linux
-	add_definitions(-DIMGUI_USER_CONFIG="mvImGuiLinuxConfig.h")
+	add_definitions(-DIMGUI_USER_CONFIG="mvImGuiConfig_linux.h")
     add_definitions(-DMV_PLATFORM="linux")
 endif()
 

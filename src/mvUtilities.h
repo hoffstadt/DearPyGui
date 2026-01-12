@@ -10,6 +10,7 @@
 
 #include <vector>
 #include <string>
+#include <imgui.h>      // Need this for ImTextureID
 #include "mvTypes.h"
 
 #ifndef PyObject_HEAD
