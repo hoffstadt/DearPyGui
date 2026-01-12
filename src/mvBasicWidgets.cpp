@@ -3918,13 +3918,12 @@ DearPyGui::draw_slider_int_range(ImDrawList* drawlist, mvAppItem& item, mvSlider
 		}
 
 		int* value_ptr = item.config.enabled ? config.value->data() : config.disabled_value;
-		const char* format_max = config.format_max.empty() ? nullptr : config.format_max.c_str();
 
 		bool activated = ImGui::SliderIntRange2(
 			item.info.internalLabel.c_str(),
 			&value_ptr[0], &value_ptr[1],
 			config.minv, config.maxv,
-			config.format.c_str(), format_max, config.flags, config.step);
+			config.format.c_str(), config.flags, config.step);
 
 		if (activated)
 			item.submitCallback(*config.value);
@@ -3996,13 +3995,12 @@ DearPyGui::draw_slider_float_range(ImDrawList* drawlist, mvAppItem& item, mvSlid
 		}
 
 		float* value_ptr = item.config.enabled ? config.value->data() : config.disabled_value;
-		const char* format_max = config.format_max.empty() ? nullptr : config.format_max.c_str();
 
 		bool activated = ImGui::SliderFloatRange2(
 			item.info.internalLabel.c_str(),
 			&value_ptr[0], &value_ptr[1],
 			config.minv, config.maxv,
-			config.format.c_str(), format_max, config.flags, config.step);
+			config.format.c_str(), config.flags, config.step);
 
 		if (activated)
 			item.submitCallback(*config.value);
