@@ -699,7 +699,7 @@ DearPyGui::draw_menu(ImDrawList* drawlist, mvAppItem& item, mvMenuConfig& config
 
     // set cursor position to cached position
     if (item.info.dirtyPos)
-        ImGui::SetCursorPos(previousCursorPos);
+        DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
     if (item.config.indent > 0.0f)
         ImGui::Unindent(item.config.indent);
@@ -856,7 +856,7 @@ DearPyGui::draw_tab(ImDrawList* drawlist, mvAppItem& item, mvTabConfig& config)
 
     // set cursor position to cached position
     if (item.info.dirtyPos)
-        ImGui::SetCursorPos(previousCursorPos);
+        DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
     if (item.config.indent > 0.0f)
         ImGui::Unindent(item.config.indent);
@@ -982,7 +982,7 @@ DearPyGui::draw_child_window(ImDrawList* drawlist, mvAppItem& item, mvChildWindo
 
     // set cursor position to cached position
     if (item.info.dirtyPos)
-        ImGui::SetCursorPos(previousCursorPos);
+        DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
     if (item.config.indent > 0.0f)
         ImGui::Unindent(item.config.indent);
@@ -1098,7 +1098,7 @@ DearPyGui::draw_group(ImDrawList* drawlist, mvAppItem& item, mvGroupConfig& conf
 
     // set cursor position to cached position
     if (item.info.dirtyPos)
-        ImGui::SetCursorPos(previousCursorPos);
+        DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
     if (item.config.indent > 0.0f)
         ImGui::Unindent(item.config.indent);
@@ -1257,7 +1257,7 @@ DearPyGui::draw_tree_node(ImDrawList* drawlist, mvAppItem& item, mvTreeNodeConfi
 
     // set cursor position to cached position
     if (item.info.dirtyPos)
-        ImGui::SetCursorPos(previousCursorPos);
+        DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
     if (item.config.indent > 0.0f)
         ImGui::Unindent(item.config.indent);
@@ -1399,7 +1399,7 @@ DearPyGui::draw_collapsing_header(ImDrawList* drawlist, mvAppItem& item, mvColla
 
     // set cursor position to cached position
     if (item.info.dirtyPos)
-        ImGui::SetCursorPos(previousCursorPos);
+        DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
     if (item.config.indent > 0.0f)
         ImGui::Unindent(item.config.indent);

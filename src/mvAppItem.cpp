@@ -5694,3 +5694,15 @@ DearPyGui::OnChildRemoved(mvAppItem* item, std::shared_ptr<mvAppItem> child)
             return;
     }
 }
+
+void
+DearPyGui::RestoreImGuiCursor(const ImVec2& prev_pos)
+{
+    ImGui::SetCursorPos(prev_pos);
+    // Since ImGui 1.92.0, it is necessary to add an item, say a Dummy, if we do
+    // a SetCursorPos at the end of a group or a window (see issue #5548 in Dear ImGui).
+    // To prevent the Dummy from actually moving the cursor, we also zero out item spacing.
+    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));
+    ImGui::Dummy(ImVec2(0, 0));
+    ImGui::PopStyleVar();
+}

@@ -71,7 +71,7 @@ struct ScopedID
 
 namespace DearPyGui
 {
-    std::shared_ptr<mvAppItem>                                CreateEntity                    (mvAppItemType type, mvUUID id);
+    std::shared_ptr<mvAppItem>                      CreateEntity                    (mvAppItemType type, mvUUID id);
     int                                             GetEntityDesciptionFlags        (mvAppItemType type);
     int                                             GetEntityTargetSlot             (mvAppItemType type);
     StorageValueTypes                               GetEntityValueType              (mvAppItemType type);
@@ -79,11 +79,14 @@ namespace DearPyGui
     int                                             GetApplicableState              (mvAppItemType type);
     const std::vector<std::pair<std::string, i32>>& GetAllowableParents             (mvAppItemType type);
     const std::vector<std::pair<std::string, i32>>& GetAllowableChildren            (mvAppItemType type);
-    std::shared_ptr<mvThemeComponent>&                        GetClassThemeComponent          (mvAppItemType type);
-    std::shared_ptr<mvThemeComponent>&                        GetDisabledClassThemeComponent  (mvAppItemType type);
+    std::shared_ptr<mvThemeComponent>&              GetClassThemeComponent          (mvAppItemType type);
+    std::shared_ptr<mvThemeComponent>&              GetDisabledClassThemeComponent  (mvAppItemType type);
     mvPythonParser                                  GetEntityParser                 (mvAppItemType type);
     void                                            OnChildAdded                    (mvAppItem* item, std::shared_ptr<mvAppItem> child);
     void                                            OnChildRemoved                  (mvAppItem* item, std::shared_ptr<mvAppItem> child);
+    // This is purely a helper function that restores cursor position so that subsequent
+    // items follow the normal item flow.  Use it in place of ImGui::SetCursorPos().
+    void                                            RestoreImGuiCursor              (const ImVec2& prev_pos);
 }
 
 struct mvAppItemInfo
