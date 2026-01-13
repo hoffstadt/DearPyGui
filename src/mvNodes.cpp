@@ -419,6 +419,16 @@ void mvNode::draw(ImDrawList* drawlist, float x, float y)
         ImGui::TextUnformatted(config.specifiedLabel.c_str());
         ImNodes::EndNodeTitleBar();
 
+        // Just in case there are no children items within the node: EndNodeTitleBar()
+        // above calls SetCursorPos, and it's invalid to call it like that without adding
+        // yet another item after it (see issue #5548 in Dear ImGui, and also RestoreImGuiCursor
+        // in mvAppItem.cpp).  Once this issue is fixed directly in ImNodes, we can
+        // remove the following three lines.
+        // TODO: recheck on the next update of ImNodes.
+        ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));
+        ImGui::Dummy(ImVec2(0, 0));
+        ImGui::PopStyleVar();
+
         state.lastFrameUpdate = GContext->frame;
         state.leftclicked = ImGui::IsItemClicked();
         state.rightclicked = ImGui::IsItemClicked(1);

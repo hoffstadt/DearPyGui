@@ -81,7 +81,7 @@ DearPyGui::draw_color_button(ImDrawList* drawlist, mvAppItem& item, mvColorButto
 
 	// set cursor position to cached position
 	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
+		DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
 	if (item.config.indent > 0.0f)
 		ImGui::Unindent(item.config.indent);
@@ -173,7 +173,7 @@ DearPyGui::draw_color_edit(ImDrawList* drawlist, mvAppItem& item, mvColorEditCon
 
 	// set cursor position to cached position
 	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
+		DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
 	if (item.config.indent > 0.0f)
 		ImGui::Unindent(item.config.indent);
@@ -269,7 +269,7 @@ DearPyGui::draw_color_map_button(ImDrawList* drawlist, mvAppItem& item, mvColorM
 
 	// set cursor position to cached position
 	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
+		DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
 	if (item.config.indent > 0.0f)
 		ImGui::Unindent(item.config.indent);
@@ -355,7 +355,7 @@ DearPyGui::draw_color_map_scale(ImDrawList* drawlist, mvAppItem& item, mvColorMa
 
 	// set cursor position to cached position
 	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
+		DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
 	if (item.config.indent > 0.0f)
 		ImGui::Unindent(item.config.indent);
@@ -447,7 +447,7 @@ DearPyGui::draw_color_picker(ImDrawList* drawlist, mvAppItem& item, mvColorPicke
 
 	// set cursor position to cached position
 	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
+		DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
 	if (item.config.indent > 0.0f)
 		ImGui::Unindent(item.config.indent);
@@ -536,7 +536,7 @@ DearPyGui::draw_color_map_slider(ImDrawList* drawlist, mvAppItem& item, mvColorM
 
 	// set cursor position to cached position
 	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
+		DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
 	if (item.config.indent > 0.0f)
 		ImGui::Unindent(item.config.indent);

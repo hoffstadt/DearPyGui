@@ -85,7 +85,7 @@ void mvTimePicker::draw(ImDrawList* drawlist, float x, float y)
 
 	// set cursor position to cached position
 	if (info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
+		DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
 	if (config.indent > 0.0f)
 		ImGui::Unindent(config.indent);
