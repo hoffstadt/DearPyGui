@@ -592,6 +592,19 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 			});
 		}
 
+		// Cache plot geometry for on-demand mouse position calculation
+		{
+			ImVec2 plotPos = ImPlot::GetPlotPos();
+			ImVec2 plotSize = ImPlot::GetPlotSize();
+			config._plotRectMin = plotPos;
+			config._plotRectMax = ImVec2(plotPos.x + plotSize.x, plotPos.y + plotSize.y);
+			ImPlotRect limits = ImPlot::GetPlotLimits();
+			config._xAxisMin = limits.X.Min;
+			config._xAxisMax = limits.X.Max;
+			config._yAxisMin = limits.Y.Min;
+			config._yAxisMax = limits.Y.Max;
+		}
+
 		if (ImPlot::IsPlotHovered())
 		{
 			GContext->input.mousePlotPos.x = ImPlot::GetPlotMousePos().x;
@@ -1987,7 +2000,7 @@ DearPyGui::draw_image_series(ImDrawList* drawlist, mvAppItem& item, mvImageSerie
 			else
 				texture = static_cast<mvDynamicTexture*>(config._texture.get())->_texture;
 
-			ImPlot::PlotImage(item.info.internalLabel.c_str(), texture, config.bounds_min, config.bounds_max, config.uv_min, config.uv_max, config.tintColor, config.flags);
+			ImPlot::PlotImage(item.info.internalLabel.c_str(), (ImTextureID)(size_t)texture, config.bounds_min, config.bounds_max, config.uv_min, config.uv_max, config.tintColor, config.flags);
 
 			// Begin a popup for a legend entry.
 			if (ImPlot::BeginLegendPopup(item.info.internalLabel.c_str(), 1))

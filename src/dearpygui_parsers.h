@@ -806,11 +806,12 @@ InsertParser_Block1(std::map<std::string, mvPythonParser>& parsers)
 
 	{
 		std::vector<mvPythonDataElement> args;
+		args.push_back({ mvPyDataType::UUID, "plot", mvArgType::KEYWORD_ARG, "0", "Plot to query. When specified, calculates position on-demand using current mouse position and plot geometry. When not specified, returns cached position from last hovered plot (legacy behavior)." });
 
 		mvPythonParserSetup setup;
-		setup.about = "Returns mouse position in plot.";
+		setup.about = "Returns mouse position in plot coordinates. For accurate real-time tracking, pass the plot tag.";
 		setup.category = { "Input Polling" };
-		setup.returnType = mvPyDataType::IntList;
+		setup.returnType = mvPyDataType::FloatList;
 
 		mvPythonParser parser = FinalizeParser(setup, args);
 		parsers.insert({ "get_plot_mouse_pos", parser });

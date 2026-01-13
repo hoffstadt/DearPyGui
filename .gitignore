@@ -19,3 +19,4 @@ src/CMakeFiles/
 thirdparty/CMakeFiles/
 thirdparty/Makefile
 thirdparty/cmake_install.cmake
+thirdparty/imgui_test_engine/

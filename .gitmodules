@@ -1,11 +1,11 @@
 [submodule "thirdparty/imgui"]
 	path = thirdparty/imgui
-	url = https://github.com/ocornut/imgui
+	url = https://github.com/Entrpi/imgui
 	branch = docking
 [submodule "thirdparty/implot"]
 	path = thirdparty/implot
-	url = https://github.com/epezent/implot
-	branch = master
+	url = https://github.com/Entrpi/implot
+	branch = imgui-1.92-compat
 [submodule "thirdparty/cpython"]
 	path = thirdparty/cpython
 	url = https://github.com/python/cpython

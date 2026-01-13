@@ -30,7 +30,7 @@ void mvTextureRegistry::show_debugger()
 
 		ImGui::Text("Textures");
 
-		ImGui::BeginChild("##TextureStorageChild", ImVec2(400, 0), ImGuiChildFlags_Border, ImGuiWindowFlags_AlwaysVerticalScrollbar);
+		ImGui::BeginChild("##TextureStorageChild", ImVec2(400, 0), ImGuiChildFlags_Borders, ImGuiWindowFlags_AlwaysVerticalScrollbar);
 
 		int index = 0;
 		for (auto& texture : childslots[1])
@@ -42,7 +42,7 @@ void mvTextureRegistry::show_debugger()
 			else
 				textureRaw = static_cast<mvDynamicTexture*>(texture.get())->_texture;
 
-			ImGui::Image(textureRaw, ImVec2(25, 25));
+			ImGui::Image((ImTextureID)(size_t)textureRaw, ImVec2(25, 25));
 			ImGui::SameLine();
 			if (ImGui::Selectable(texture->info.internalLabel.c_str(), &status))
 				_selection = index;
@@ -74,13 +74,13 @@ void mvTextureRegistry::show_debugger()
 				else
 					textureRaw = static_cast<mvDynamicTexture*>(childslots[1][_selection].get())->_texture;
 
-				ImGui::Image(textureRaw, ImVec2((float)childslots[1][_selection]->config.width, (float)childslots[1][_selection]->config.height));
+				ImGui::Image((ImTextureID)(size_t)textureRaw, ImVec2((float)childslots[1][_selection]->config.width, (float)childslots[1][_selection]->config.height));
 
 				ImPlot::PushStyleColor(ImPlotCol_FrameBg, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
 				if (ImPlot::BeginPlot("##texture plot", ImVec2(-1, -1),
 					ImPlotFlags_NoTitle | ImPlotFlags_NoLegend | ImPlotFlags_NoMenus | ImPlotFlags_Equal))
 				{
-					ImPlot::PlotImage(childslots[1][_selection]->info.internalLabel.c_str(), textureRaw, ImPlotPoint(0.0, 0.0),
+					ImPlot::PlotImage(childslots[1][_selection]->info.internalLabel.c_str(), (ImTextureID)(size_t)textureRaw, ImPlotPoint(0.0, 0.0),
 						ImPlotPoint(childslots[1][_selection]->config.width, childslots[1][_selection]->config.height));
 					ImPlot::EndPlot();
 				}
@@ -297,9 +297,9 @@ void mvStaticTexture::draw(ImDrawList* drawlist, float x, float y)
 
 	if (uuid == MV_ATLAS_UUID)
 	{
-		_texture = ImGui::GetIO().Fonts->TexID;
-		config.width = ImGui::GetIO().Fonts->TexWidth;
-		config.height = ImGui::GetIO().Fonts->TexHeight;
+		_texture = (void*)(size_t)ImGui::GetIO().Fonts->TexRef.GetTexID();
+		config.width = ImGui::GetIO().Fonts->TexData->Width;
+		config.height = ImGui::GetIO().Fonts->TexData->Height;
 	}
 	else
 		_texture = LoadTextureFromArray(_permWidth, _permHeight, _value->data());

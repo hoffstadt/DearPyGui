@@ -4175,6 +4175,174 @@ def add_drag_intx(*, label: str =None, user_data: Any =None, use_internal_label:
 
 	return internal_dpg.add_drag_intx(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, size=size, format=format, speed=speed, min_value=min_value, max_value=max_value, no_input=no_input, clamped=clamped, **kwargs)
 
+def add_drag_int_range(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: Union[List[int], Tuple[int, ...]] =(0, 100), format: str ='%d', format_max: str ='', speed: float =1.0, min_value: int =0, max_value: int =100, no_input: bool =False, clamped: bool =False, **kwargs) -> Union[int, str]:
+	"""	 Adds a drag widget for a range of two int values (min and max). The min value cannot exceed max and vice versa.
+
+	Args:
+		label (str, optional): Overrides 'name' as label.
+		user_data (Any, optional): User data for callbacks
+		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
+		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		width (int, optional): Width of the item.
+		indent (int, optional): Offsets the widget to the right the specified number multiplied by the indent style.
+		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
+		source (Union[int, str], optional): Overrides 'id' as value storage key.
+		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
+		callback (Callable, optional): Registers a callback.
+		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
+		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		show (bool, optional): Attempt to render widget.
+		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		filter_key (str, optional): Used by filter widget.
+		tracked (bool, optional): Scroll tracking
+		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
+		default_value (Union[List[int], Tuple[int, ...]], optional): Initial (min, max) range values.
+		format (str, optional): Determines the format the values will be displayed as.
+		format_max (str, optional): Format for the max value (uses format if empty).
+		speed (float, optional): Sets the sensitivity while dragging.
+		min_value (int, optional): Minimum allowed value for the range.
+		max_value (int, optional): Maximum allowed value for the range.
+		no_input (bool, optional): Disable direct entry methods.
+		clamped (bool, optional): Apply min/max limits to direct entry.
+		id (Union[int, str], optional): (deprecated)
+	Returns:
+		Union[int, str]
+	"""
+
+	if 'id' in kwargs.keys():
+		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
+		tag=kwargs['id']
+
+	return internal_dpg.add_drag_int_range(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, format=format, format_max=format_max, speed=speed, min_value=min_value, max_value=max_value, no_input=no_input, clamped=clamped, **kwargs)
+
+def add_drag_float_range(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: Union[List[float], Tuple[float, ...]] =(0.0, 100.0), format: str ='%.3f', format_max: str ='', speed: float =1.0, min_value: float =0.0, max_value: float =100.0, no_input: bool =False, clamped: bool =False, **kwargs) -> Union[int, str]:
+	"""	 Adds a drag widget for a range of two float values (min and max). The min value cannot exceed max and vice versa.
+
+	Args:
+		label (str, optional): Overrides 'name' as label.
+		user_data (Any, optional): User data for callbacks
+		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
+		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		width (int, optional): Width of the item.
+		indent (int, optional): Offsets the widget to the right the specified number multiplied by the indent style.
+		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
+		source (Union[int, str], optional): Overrides 'id' as value storage key.
+		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
+		callback (Callable, optional): Registers a callback.
+		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
+		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		show (bool, optional): Attempt to render widget.
+		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		filter_key (str, optional): Used by filter widget.
+		tracked (bool, optional): Scroll tracking
+		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
+		default_value (Union[List[float], Tuple[float, ...]], optional): Initial (min, max) range values.
+		format (str, optional): Determines the format the values will be displayed as.
+		format_max (str, optional): Format for the max value (uses format if empty).
+		speed (float, optional): Sets the sensitivity while dragging.
+		min_value (float, optional): Minimum allowed value for the range.
+		max_value (float, optional): Maximum allowed value for the range.
+		no_input (bool, optional): Disable direct entry methods.
+		clamped (bool, optional): Apply min/max limits to direct entry.
+		id (Union[int, str], optional): (deprecated)
+	Returns:
+		Union[int, str]
+	"""
+
+	if 'id' in kwargs.keys():
+		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
+		tag=kwargs['id']
+
+	return internal_dpg.add_drag_float_range(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, format=format, format_max=format_max, speed=speed, min_value=min_value, max_value=max_value, no_input=no_input, clamped=clamped, **kwargs)
+
+def add_slider_int_range(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: Union[List[int], Tuple[int, ...]] =(0, 100), format: str ='%d', format_max: str ='', min_value: int =0, max_value: int =100, no_input: bool =False, clamped: bool =False, step: int =0, **kwargs) -> Union[int, str]:
+	"""	 Adds a visual slider for selecting a range of two int values. Features a colored bar showing the selected range with two draggable handles.
+
+	Args:
+		label (str, optional): Overrides 'name' as label.
+		user_data (Any, optional): User data for callbacks
+		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
+		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		width (int, optional): Width of the item.
+		indent (int, optional): Offsets the widget to the right the specified number multiplied by the indent style.
+		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
+		source (Union[int, str], optional): Overrides 'id' as value storage key.
+		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
+		callback (Callable, optional): Registers a callback.
+		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
+		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		show (bool, optional): Attempt to render widget.
+		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		filter_key (str, optional): Used by filter widget.
+		tracked (bool, optional): Scroll tracking
+		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
+		default_value (Union[List[int], Tuple[int, ...]], optional): Initial (min, max) range values.
+		format (str, optional): Determines the format the values will be displayed as.
+		format_max (str, optional): Format for the max value (uses format if empty).
+		min_value (int, optional): Minimum allowed value for the range.
+		max_value (int, optional): Maximum allowed value for the range.
+		no_input (bool, optional): Disable direct entry methods.
+		clamped (bool, optional): Apply min/max limits to direct entry.
+		step (int, optional): Snap values to multiples of step (0 disables snapping).
+		id (Union[int, str], optional): (deprecated)
+	Returns:
+		Union[int, str]
+	"""
+
+	if 'id' in kwargs.keys():
+		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
+		tag=kwargs['id']
+
+	return internal_dpg.add_slider_int_range(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, format=format, format_max=format_max, min_value=min_value, max_value=max_value, no_input=no_input, clamped=clamped, step=step, **kwargs)
+
+def add_slider_float_range(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: Union[List[float], Tuple[float, ...]] =(0.0, 100.0), format: str ='%.3f', format_max: str ='', min_value: float =0.0, max_value: float =100.0, no_input: bool =False, clamped: bool =False, step: float =0.0, **kwargs) -> Union[int, str]:
+	"""	 Adds a visual slider for selecting a range of two float values. Features a colored bar showing the selected range with two draggable handles.
+
+	Args:
+		label (str, optional): Overrides 'name' as label.
+		user_data (Any, optional): User data for callbacks
+		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
+		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		width (int, optional): Width of the item.
+		indent (int, optional): Offsets the widget to the right the specified number multiplied by the indent style.
+		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
+		source (Union[int, str], optional): Overrides 'id' as value storage key.
+		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
+		callback (Callable, optional): Registers a callback.
+		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
+		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		show (bool, optional): Attempt to render widget.
+		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
+		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		filter_key (str, optional): Used by filter widget.
+		tracked (bool, optional): Scroll tracking
+		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
+		default_value (Union[List[float], Tuple[float, ...]], optional): Initial (min, max) range values.
+		format (str, optional): Determines the format the values will be displayed as.
+		format_max (str, optional): Format for the max value (uses format if empty).
+		min_value (float, optional): Minimum allowed value for the range.
+		max_value (float, optional): Maximum allowed value for the range.
+		no_input (bool, optional): Disable direct entry methods.
+		clamped (bool, optional): Apply min/max limits to direct entry.
+		step (float, optional): Snap values to multiples of step (0 disables snapping).
+		id (Union[int, str], optional): (deprecated)
+	Returns:
+		Union[int, str]
+	"""
+
+	if 'id' in kwargs.keys():
+		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
+		tag=kwargs['id']
+
+	return internal_dpg.add_slider_float_range(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, format=format, format_max=format_max, min_value=min_value, max_value=max_value, no_input=no_input, clamped=clamped, step=step, **kwargs)
+
 def add_drag_line(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, callback: Callable =None, show: bool =True, default_value: float =0.0, color: Union[List[int], Tuple[int, ...]] =(0, 0, 0, -255), thickness: float =1.0, show_label: bool =True, vertical: bool =True, delayed: bool =False, no_cursor: bool =False, no_fit: bool =False, no_inputs: bool =False, **kwargs) -> Union[int, str]:
 	"""	 Adds a drag line to a plot.
 

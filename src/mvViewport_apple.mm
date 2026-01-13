@@ -218,9 +218,8 @@ mvRenderFrame()
             if (mvToolManager::GetFontManager().isInvalid())
             {
                 mvToolManager::GetFontManager().rebuildAtlas();
-                ImGui_ImplMetal_DestroyFontsTexture();
                 mvToolManager::GetFontManager().updateAtlas();
-                ImGui_ImplMetal_CreateFontsTexture(graphicsData->device);
+                // Font texture is now handled automatically by the backend
             }
         }
 
