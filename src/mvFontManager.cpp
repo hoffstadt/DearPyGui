@@ -63,11 +63,6 @@ NodeFont(ImFont* font)
 	if (ImGui::SmallButton("Set as default"))
 		ImGui::GetIO().FontDefault = font;
 	ImGui::SameLine();
-	ImGui::BeginDisabled(atlas->Fonts.Size <= 1 || atlas->Locked);
-	if (ImGui::SmallButton("Remove"))
-		atlas->RemoveFont(font);
-	ImGui::EndDisabled();
-	ImGui::SameLine();
 	if (ImGui::SmallButton("Clear bakes"))
 		ImFontAtlasFontDiscardBakes(atlas, font, 0);
 	ImGui::SameLine();
@@ -84,13 +79,12 @@ NodeFont(ImFont* font)
 	for (int src_n = 0; src_n < font->Sources.Size; src_n++)
 	{
 		ImFontConfig* src = font->Sources[src_n];
-		if (ImGui::TreeNode(src, "Input %d: \'%s\' [%d], Oversample: %d,%d, PixelSnapH: %d, Offset: (%.1f,%.1f)",
-			src_n, src->Name, src->FontNo, src->OversampleH, src->OversampleV, src->PixelSnapH, src->GlyphOffset.x, src->GlyphOffset.y))
+		const ImFontLoader* loader = src->FontLoader ? src->FontLoader : atlas->FontLoader;
+		if (ImGui::TreeNodeEx(src, ImGuiTreeNodeFlags_Leaf|ImGuiTreeNodeFlags_Bullet,
+			"Input %d: \'%s\' [%d], Loader: '%s',\nOversample: %d,%d, PixelSnapH: %d, Offset: (%.1f,%.1f)",
+			src_n, src->Name, src->FontNo, loader->Name ? loader->Name : "N/A",
+			src->OversampleH, src->OversampleV, src->PixelSnapH, src->GlyphOffset.x, src->GlyphOffset.y))
 		{
-			// TODO: move this info to the input/oversample/... line (in ImGui, it's a tree node because
-			// it displays extra info for freetype; we won't show that in DPG).
-			const ImFontLoader* loader = src->FontLoader ? src->FontLoader : atlas->FontLoader;
-			ImGui::Text("Loader: '%s'", loader->Name ? loader->Name : "N/A");
 			ImGui::TreePop();
 		}
 	}
@@ -207,6 +201,16 @@ mvFontManager::drawWidgets()
 	}
 	if (ImGui::TreeNode("Atlas texture", "Atlas texture (%dx%d pixels)", atlas->TexData->Width, atlas->TexData->Height))
 	{
+		if (ImGui::Button("Compact"))
+			atlas->CompactCache();
+		ImGui::SameLine();
+		if (ImGui::Button("Grow"))
+			ImFontAtlasTextureGrow(atlas);
+		ImGui::SameLine();
+		if (ImGui::Button("Clear All"))
+			ImFontAtlasBuildClear(atlas);
+		ImGui::SetItemTooltip("Destroy cache and custom rectangles.");
+
 		ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
 		ImVec4 border_col = ImVec4(1.0f, 1.0f, 1.0f, 0.5f);
 		ImGui::Image(atlas->TexRef, ImVec2((float)atlas->TexData->Width, (float)atlas->TexData->Height), ImVec2(0, 0), ImVec2(1, 1), tint_col, border_col);

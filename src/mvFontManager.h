@@ -24,6 +24,7 @@ public:
 	const char* getTitle() const override { return "Font Manager"; }
 
 protected:
+    ImGuiWindowFlags m_windowflags = ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_HorizontalScrollbar;
 
 	void drawWidgets() override;
 
