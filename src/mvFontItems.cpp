@@ -52,8 +52,7 @@ void mvFont::customAction(void* data)
 
 	ImFontConfig cfg;
 	cfg.PixelSnapH = _pixel_snap_h;
-	_fontPtr = io.Fonts->AddFontFromFileTTF(_file.c_str(), _size,
-		&cfg, _ranges.Data);
+	_fontPtr = io.Fonts->AddFontFromFileTTF(_file.c_str(), _size, &cfg);
 
 	if (_fontPtr == nullptr)
 	{
@@ -90,67 +89,6 @@ void mvFont::draw(ImDrawList* drawlist, float x, float y)
 
 	if (!state.ok)
 		return;
-
-	ImFontGlyphRangesBuilder builder;
-
-	static ImFontAtlas atlas;
-
-	// check hints
-	if (childslots[0].empty())
-		builder.AddRanges(atlas.GetGlyphRangesDefault());
-
-	for (const auto& hint : childslots[0])
-	{
-		int hintSelection = static_cast<mvFontRangeHint*>(hint.get())->getHint();
-
-		switch (hintSelection)
-		{
-		case 1:
-			builder.AddRanges(atlas.GetGlyphRangesJapanese());
-			break;
-		case 2:
-			builder.AddRanges(atlas.GetGlyphRangesKorean());
-			break;
-		case 3:
-			builder.AddRanges(atlas.GetGlyphRangesChineseFull());
-			break;
-		case 4:
-			builder.AddRanges(atlas.GetGlyphRangesChineseSimplifiedCommon());
-			break;
-		case 5:
-			builder.AddRanges(atlas.GetGlyphRangesCyrillic());
-			break;
-		case 6:
-			builder.AddRanges(atlas.GetGlyphRangesThai());
-			break;
-		case 7:
-			builder.AddRanges(atlas.GetGlyphRangesVietnamese());
-			break;
-		default:
-			builder.AddRanges(atlas.GetGlyphRangesDefault());
-		}
-
-	}
-
-	// check ranges and chars
-	for (const auto& range : childslots[1])
-	{
-		if (range->type == mvAppItemType::mvFontRange)
-		{
-			const auto rangePtr = static_cast<const mvFontRange*>(range.get());
-			builder.AddRanges(rangePtr->getRange().data());
-		}
-
-		else if (range->type == mvAppItemType::mvFontChars)
-		{
-			const auto rangePtr = static_cast<const mvFontChars*>(range.get());
-
-			for (const auto& specificChar : rangePtr->getCharacters())
-				builder.AddChar(specificChar);
-		}
-	}
-
-	builder.BuildRanges(&_ranges);   // Build the final result (ordered ranges with all the unique characters submitted)
 
 	//_dirty = true;
 
@@ -193,34 +131,4 @@ void mvFont::getSpecificConfiguration(PyObject* dict)
 	PyDict_SetItemString(dict, "file", ToPyString(_file));
 	PyDict_SetItemString(dict, "size", ToPyFloat(_size));
 	PyDict_SetItemString(dict, "pixel_snapH", ToPyBool(_pixel_snap_h));
-}
-
-void mvFontChars::handleSpecificRequiredArgs(PyObject* dict)
-{
-	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
-		return;
-
-	auto charVect = ToIntVect(PyTuple_GetItem(dict, 0));
-	for (auto& item : charVect)
-		_chars.push_back((ImWchar)item);
-
-}
-
-void mvFontRange::handleSpecificRequiredArgs(PyObject* dict)
-{
-	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
-		return;
-
-	_min = ToInt(PyTuple_GetItem(dict, 0));
-	_range[0] = (ImWchar)_min;
-	_max = ToInt(PyTuple_GetItem(dict, 1));
-	_range[1] = (ImWchar)_max;
-}
-
-void mvFontRangeHint::handleSpecificRequiredArgs(PyObject* dict)
-{
-	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
-		return;
-
-	_hint = ToInt(PyTuple_GetItem(dict, 0));
 }

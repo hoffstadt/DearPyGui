@@ -423,3 +423,55 @@ def is_item_search_delayed(item: Union[int, str]) -> Union[bool, None]:
 def set_start_callback(callback):
     """ deprecated function """
     return internal_dpg.set_frame_callback(3, callback)
+
+@deprecated("This call is a no-op because character ranges are now automatic")
+def add_font_chars(chars : Union[List[int], Tuple[int, ...]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, **kwargs) -> Union[int, str]:
+	"""	(deprecated function) Adds specific font characters to a font.
+
+	Args:
+		chars (Union[List[int], Tuple[int, ...]]): 
+		label (str, optional): Overrides 'name' as label.
+		user_data (Any, optional): User data for callbacks
+		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
+		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		id (Union[int, str], optional): (deprecated) 
+	Returns:
+		Union[int, str]
+	"""
+	pass
+
+@deprecated("This call is a no-op because character ranges are now automatic")
+def add_font_range(first_char : int, last_char : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, **kwargs) -> Union[int, str]:
+	"""	(deprecated function)  Adds a range of font characters to a font.
+
+	Args:
+		first_char (int): 
+		last_char (int): 
+		label (str, optional): Overrides 'name' as label.
+		user_data (Any, optional): User data for callbacks
+		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
+		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		id (Union[int, str], optional): (deprecated) 
+	Returns:
+		Union[int, str]
+	"""
+	pass
+
+@deprecated("This call is a no-op because character ranges are now automatic")
+def add_font_range_hint(hint : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, **kwargs) -> Union[int, str]:
+	"""	(deprecated function)  Adds a range of font characters (mvFontRangeHint_ constants).
+
+	Args:
+		hint (int): 
+		label (str, optional): Overrides 'name' as label.
+		user_data (Any, optional): User data for callbacks
+		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
+		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		id (Union[int, str], optional): (deprecated) 
+	Returns:
+		Union[int, str]
+	"""
+	pass

@@ -145,6 +145,10 @@ GetModuleConstants()
 		ModuleConstants.push_back({ "mvCullMode_Back", 1L });
 		ModuleConstants.push_back({ "mvCullMode_Front", 2L });
 
+		// We no longer need these mvFontRangeHint constants, but since there's no way
+		// to declare them deprecated, we'll leave them here for a while.
+		// TODO: decide if we should move definitions entirely to _deprecated.py and
+		// remove them from the "internal" API of DLL/.so file.
 		ModuleConstants.push_back({ "mvFontRangeHint_Default", 0L });
 		ModuleConstants.push_back({ "mvFontRangeHint_Japanese", 1L });
 		ModuleConstants.push_back({ "mvFontRangeHint_Korean", 2L });
