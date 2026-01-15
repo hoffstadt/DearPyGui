@@ -1088,7 +1088,6 @@ DearPyGui::GetEntityTargetSlot(mvAppItemType type)
     switch (type)
     {
     case mvAppItemType::mvFileExtension:
-    case mvAppItemType::mvFontRangeHint:
     case mvAppItemType::mvNodeLink:
     case mvAppItemType::mvAnnotation:
     case mvAppItemType::mvDragLine:
@@ -1493,9 +1492,6 @@ DearPyGui::GetAllowableParents(mvAppItemType type)
         MV_ADD_PARENT(mvAppItemType::mvHandlerRegistry)
         MV_END_PARENTS
 
-    case mvAppItemType::mvFontChars:
-    case mvAppItemType::mvFontRange:
-    case mvAppItemType::mvFontRangeHint:
     case mvAppItemType::mvCharRemap:
         MV_START_PARENTS
         MV_ADD_PARENT(mvAppItemType::mvFont),
@@ -1733,10 +1729,7 @@ DearPyGui::GetAllowableChildren(mvAppItemType type)
 
     case mvAppItemType::mvFont:
         MV_START_CHILDREN
-        MV_ADD_CHILD(mvAppItemType::mvFontChars),
-        MV_ADD_CHILD(mvAppItemType::mvFontRange),
         MV_ADD_CHILD(mvAppItemType::mvCharRemap),
-        MV_ADD_CHILD(mvAppItemType::mvFontRangeHint),
         MV_ADD_CHILD(mvAppItemType::mvTemplateRegistry),
         MV_END_CHILDREN
 
@@ -5195,46 +5188,6 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.about = "Adds a theme component.";
         setup.category = { "Themes", "Containers" };
         setup.createContextManager = true;
-        break;
-    }
-    case mvAppItemType::mvFontRangeHint:               
-    {
-        AddCommonArgs(args, (CommonParserArgs)(
-            MV_PARSER_ARG_ID |
-            MV_PARSER_ARG_PARENT)
-        );
-
-        args.push_back({ mvPyDataType::Integer, "hint" });
-
-        setup.about = "Adds a range of font characters (mvFontRangeHint_ constants).";
-        setup.category = { "Fonts", "Widgets" };
-        break;
-    }
-    case mvAppItemType::mvFontRange:                   
-    {
-        AddCommonArgs(args, (CommonParserArgs)(
-            MV_PARSER_ARG_ID |
-            MV_PARSER_ARG_PARENT)
-        );
-
-        args.push_back({ mvPyDataType::Integer, "first_char" });
-        args.push_back({ mvPyDataType::Integer, "last_char" });
-
-        setup.about = "Adds a range of font characters to a font.";
-        setup.category = { "Fonts", "Widgets" };
-        break;
-    }
-    case mvAppItemType::mvFontChars:                   
-    {
-        AddCommonArgs(args, (CommonParserArgs)(
-            MV_PARSER_ARG_ID |
-            MV_PARSER_ARG_PARENT)
-        );
-
-        args.push_back({ mvPyDataType::IntList, "chars" });
-
-        setup.about = "Adds specific font characters to a font.";
-        setup.category = { "Fonts", "Widgets" };
         break;
     }
     case mvAppItemType::mvCharRemap:                   

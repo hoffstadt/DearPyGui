@@ -65,59 +65,5 @@ public:
 
     // finalized
     ImFont* _fontPtr = nullptr;
-    ImVector<ImWchar> _ranges;
-
-};
-
-class mvFontChars : public mvAppItem
-{
-
-public:
-
-    explicit mvFontChars(mvUUID uuid) : mvAppItem(uuid) {}
-
-    void draw(ImDrawList* drawlist, float x, float y) override {}
-    void handleSpecificRequiredArgs(PyObject* dict) override;
-    const std::vector<ImWchar>& getCharacters() const { return _chars; }
-
-private:
-
-    std::vector<ImWchar>  _chars;
-
-};
-
-class mvFontRange : public mvAppItem
-{
-
-public:
-
-    explicit mvFontRange(mvUUID uuid) : mvAppItem(uuid) {}
-
-    void draw(ImDrawList* drawlist, float x, float y) override {}
-    void handleSpecificRequiredArgs(PyObject* dict) override;
-    const std::array<ImWchar, 3>& getRange() const { return _range; }
-
-private:
-
-    int _min = 0x0370;
-    int _max = 0x03ff;
-    std::array<ImWchar, 3> _range = { 0x0370, 0x03ff, 0 };
-
-};
-
-class mvFontRangeHint : public mvAppItem
-{
-
-public:
-
-    explicit mvFontRangeHint(mvUUID uuid) : mvAppItem(uuid) {}
-
-    void draw(ImDrawList* drawlist, float x, float y) override {}
-    void handleSpecificRequiredArgs(PyObject* dict) override;
-    int getHint() const { return _hint; }
-
-private:
-
-    int _hint = 0;
 
 };

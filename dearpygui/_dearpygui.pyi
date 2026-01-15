@@ -214,18 +214,6 @@ def add_font(file : str, size : int, *, label: str ='', user_data: Any ='', use_
 	"""Adds font to a font registry."""
 	...
 
-def add_font_chars(chars : Union[List[int], Tuple[int, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='') -> Union[int, str]:
-	"""Adds specific font characters to a font."""
-	...
-
-def add_font_range(first_char : int, last_char : int, *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='') -> Union[int, str]:
-	"""Adds a range of font characters to a font."""
-	...
-
-def add_font_range_hint(hint : int, *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='') -> Union[int, str]:
-	"""Adds a range of font characters (mvFontRangeHint_ constants)."""
-	...
-
 def add_font_registry(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', show: bool ='') -> Union[int, str]:
 	"""Adds a font registry."""
 	...
@@ -1901,9 +1889,6 @@ mvTheme=0
 mvThemeColor=0
 mvThemeStyle=0
 mvThemeComponent=0
-mvFontRangeHint=0
-mvFontRange=0
-mvFontChars=0
 mvCharRemap=0
 mvValueRegistry=0
 mvIntValue=0

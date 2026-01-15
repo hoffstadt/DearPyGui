@@ -178,7 +178,7 @@ public:
     std::shared_ptr<mvAppItemDrawInfo>     drawInfo = nullptr;
 
     // slots
-    //   * 0 : mvFileExtension, mvFontRangeHint, mvNodeLink, mvAnnotation, mvAxisTag
+    //   * 0 : mvFileExtension, mvNodeLink, mvAnnotation, mvAxisTag
     //         mvDragLine, mvDragPoint, mvDragRect, mvLegend, mvTableColumn
     //   * 1 : Most widgets
     //   * 2 : Draw Commands
@@ -432,9 +432,6 @@ GetEntityCommand(mvAppItemType type)
     case mvAppItemType::mvThemeColor:                  return "add_theme_color";
     case mvAppItemType::mvThemeStyle:                  return "add_theme_style";
     case mvAppItemType::mvThemeComponent:              return "add_theme_component";
-    case mvAppItemType::mvFontRangeHint:               return "add_font_range_hint";
-    case mvAppItemType::mvFontRange:                   return "add_font_range";
-    case mvAppItemType::mvFontChars:                   return "add_font_chars";
     case mvAppItemType::mvCharRemap:                   return "add_char_remap";
     case mvAppItemType::mvValueRegistry:               return "add_value_registry";
     case mvAppItemType::mvIntValue:                    return "add_int_value";
