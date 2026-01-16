@@ -92,12 +92,7 @@ mvPrerender()
     else
         glfwPollEvents();
 
-    if (mvToolManager::GetFontManager().isInvalid())
-    {
-        mvToolManager::GetFontManager().rebuildAtlas();
-        ImGui_ImplOpenGL3_DestroyDeviceObjects();
-        mvToolManager::GetFontManager().updateAtlas();
-    }
+    mvToolManager::GetFontManager().updateAtlas();
 
     // Start the Dear ImGui frame
     ImGui_ImplOpenGL3_NewFrame();

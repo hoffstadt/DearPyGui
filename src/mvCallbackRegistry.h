@@ -215,6 +215,9 @@ struct mvCallbackRegistry
 
 	std::vector<mvCallbackJob> jobs;
 	mvQueue<mvFunctionWrapper> tasks;
+    // These are like `tasks` but they run very early at the start of the frame,
+    // whereas `tasks` can be run mid-frame either before or after Render().
+    mvQueue<mvFunctionWrapper> earlyTasks;
 	mvQueue<mvFunctionWrapper> calls;
 	std::atomic<b8>            running = false;
 	std::atomic<i32>           callCount = 0;
@@ -231,7 +234,8 @@ struct mvCallbackRegistry
 };
 
 void mvFrameCallback(i32 frame);
-void mvRunTasks();
+// Runs either `tasks` or `earlyTasks` from mvCallbackRegistry, depending on the `early` flag.
+void mvRunTasks(bool early = false);
 // All PyObject references here are borrowed references - caller must release them after this call
 void mvRunCallback(PyObject* callback, PyObject* user_data, mvUUID sender = 0, const std::string& sender_alias = "", PyObject* app_data = nullptr);
 // This version checks if owner is still alive (by obtaining shared_ptr), and if it is,
@@ -309,7 +313,7 @@ void mvAddOwnerlessCallback(const std::shared_ptr<mvPyObject>& callback,
 bool mvRunCallbacks();
 
 template<typename F, typename ...Args>
-std::future<typename std::invoke_result<F, Args...>::type> mvSubmitTask(F f)
+std::future<typename std::invoke_result<F, Args...>::type> mvSubmitTask(F f, bool runEarlyInFrame = false)
 {
 
 	typedef typename std::invoke_result<F, Args...>::type result_type;
@@ -317,7 +321,10 @@ std::future<typename std::invoke_result<F, Args...>::type> mvSubmitTask(F f)
 	std::future<result_type> res(task.get_future());
 
 	if (GContext->running)
-		GContext->callbackRegistry->tasks.push(std::move(task));
+    {
+        auto& tasks = runEarlyInFrame? GContext->callbackRegistry->earlyTasks : GContext->callbackRegistry->tasks;
+        tasks.push(std::move(task));
+    }
 	else
 		task();
 

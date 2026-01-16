@@ -6,13 +6,14 @@
 #include "mvAppItemCommons.h"
 #include "mvPyUtils.h"
 
-void mvRunTasks()
+void mvRunTasks(bool early /* = false */)
 {
 
-	while (!GContext->callbackRegistry->tasks.empty())
+	auto& tasks = early? GContext->callbackRegistry->earlyTasks : GContext->callbackRegistry->tasks;
+	while (!tasks.empty())
 	{
 		mvFunctionWrapper t;
-		GContext->callbackRegistry->tasks.wait_and_pop(t);
+		tasks.wait_and_pop(t);
 		t();
 	}
 }

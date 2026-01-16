@@ -704,34 +704,30 @@ bind_font(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	mvPySafeLockGuard lk(GContext->mutex);
 
-	mvUUID item = GetIDFromPyObject(itemraw);
+	mvUUID itemId = GetIDFromPyObject(itemraw);
 
-	if (item == 0)
+	if (itemId == 0)
 	{
-		for (auto& reg : GContext->itemRegistry->fontRegistryRoots)
-			static_cast<mvFontRegistry*>(reg.get())->resetFont();
+		mvToolManager::GetFontManager()._defaultFont.reset();
 		return GetPyNone();
 	}
 
-	auto aplot = GetItem((*GContext->itemRegistry), item);
-	if (aplot == nullptr)
+	auto item = GetRefItem((*GContext->itemRegistry), itemId);
+	if (item == nullptr)
 	{
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, "bind_font",
-			"Item not found: " + std::to_string(item), nullptr);
+			"Item not found: " + std::to_string(itemId), nullptr);
 		return nullptr;
 	}
 
-	if (aplot->type != mvAppItemType::mvFont)
+	if (item->type != mvAppItemType::mvFont)
 	{
 		mvThrowPythonError(mvErrorCode::mvIncompatibleType, "bind_font",
-			"Incompatible type. Expected types include: mvFont", aplot);
+			"Incompatible type. Expected types include: mvFont", item.get());
 		return nullptr;
 	}
 
-	mvFont* graph = static_cast<mvFont*>(aplot);
-
-	graph->_default = true;
-	mvToolManager::GetFontManager()._newDefault = true;
+	mvToolManager::GetFontManager()._defaultFont = item;
 
 	return GetPyNone();
 }
@@ -2572,8 +2568,6 @@ create_context(PyObject* self, PyObject* args, PyObject* kwargs)
 		ImPlot::CreateContext();
 		ImNodes::CreateContext();
 	}
-
-	mvToolManager::GetFontManager()._dirty = true;
 
 	Py_END_ALLOW_THREADS;
 	return GetPyNone();

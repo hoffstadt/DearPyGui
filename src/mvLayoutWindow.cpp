@@ -4,6 +4,8 @@
 #include "mvItemRegistry.h"
 #include "mvFontItems.h"
 #include "mvThemes.h"
+#include "mvToolManager.h"
+#include "mvFontManager.h"
 #include <misc/cpp/imgui_stdlib.h>
 
 static void
@@ -125,7 +127,7 @@ void mvLayoutWindow::renderTreeNode(std::shared_ptr<mvAppItem>& item)
         ImGui::SetNextItemOpen(true);
     }
 
-    // TODO: add a flag to GetEntityDesciptionFlags for this
+    // TODO: add a flag to GetEntityDescriptionFlags for this
     bool is_bindable = (item->type == mvAppItemType::mvTheme ||
                         item->type == mvAppItemType::mvItemHandlerRegistry ||
                         item->type == mvAppItemType::mvFont );
@@ -136,10 +138,10 @@ void mvLayoutWindow::renderTreeNode(std::shared_ptr<mvAppItem>& item)
     // An extra check for some elements that can have global refs *not* shared
     // via shared_ptr.
     // - the global theme is the only one that has config.show == true
-    // - the global font is the only one having _default == true
+    // - the global font is stored in mvFontManager and the font manager knows how to check this
     if (is_lonely && (
         (item->type == mvAppItemType::mvTheme && item->config.show) ||
-        (item->type == mvAppItemType::mvFont && (static_cast<mvFont*>(item.get()))->_default)))
+        (item->type == mvAppItemType::mvFont && mvToolManager::GetFontManager().isDefaultFont(item))))
     {
         // It's bound as a global entity and therefore is not lonely
         is_lonely = false;

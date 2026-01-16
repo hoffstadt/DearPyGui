@@ -1,5 +1,5 @@
 #include "mvFontManager.h"
-#include "mvToolManager.h"
+#include "mvFontItems.h"
 #include <imgui.h>
 #include <imgui_internal.h>
 #include <assert.h>
@@ -146,41 +146,20 @@ if (ImGui::BeginCombo(label, font_current->GetDebugName()))
 }
 }
 
-bool 
-mvFontManager::isInvalid() const
-{
-	return _dirty;
-}
-
-void 
-mvFontManager::rebuildAtlas()
-{
-	auto& roots = GContext->itemRegistry->fontRegistryRoots;
-
-	if (!roots.empty())
-	{
-		ImGuiIO& io = ImGui::GetIO();
-		io.Fonts->Clear();
-		io.FontDefault = io.Fonts->AddFontDefault();
-
-		for (auto& item : roots[0]->childslots[1])
-		{
-			item->customAction(nullptr);
-		}
-
-		// Just to make sure g.Font doesn't point to a font already deleted by 
-		// io.Fonts->Clear(), though ideally ImGui should be doing it on its own.
-		// TODO: check if we need this at all
-		// ImGui::SetCurrentFont(ImGui::GetDefaultFont());
-	}
-
-	_dirty = false;
-
-}
-
 void 
 mvFontManager::updateAtlas()
 {
+	for (auto& root : GContext->itemRegistry->fontRegistryRoots)
+	{
+		// Tell the font registry to update any fonts that need it
+		root->customAction(nullptr);
+	}
+
+	// Reset the current font so that NewFrame can pick up changes immediately
+	ImGuiIO& io = ImGui::GetIO();
+	auto font = _defaultFont.lock();
+	IM_ASSERT(font->type == mvAppItemType::mvFont && "The default font must be a mvFont.");
+	io.FontDefault = font? static_cast<mvFont*>(font.get())->getFontPtr() : nullptr;
 }
 
 void 
