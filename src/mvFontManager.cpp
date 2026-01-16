@@ -149,6 +149,13 @@ if (ImGui::BeginCombo(label, font_current->GetDebugName()))
 void 
 mvFontManager::updateAtlas()
 {
+	ImGuiIO& io = ImGui::GetIO();
+
+	// See if the built-in ProggyClean font is already there.  We need it just in case
+	// all the DPG fonts (mvFont) are deleted and ImGui needs to render a frame.
+    if (io.Fonts->Sources.Size == 0)
+        io.Fonts->AddFontDefault();
+
 	for (auto& root : GContext->itemRegistry->fontRegistryRoots)
 	{
 		// Tell the font registry to update any fonts that need it
@@ -156,7 +163,6 @@ mvFontManager::updateAtlas()
 	}
 
 	// Reset the current font so that NewFrame can pick up changes immediately
-	ImGuiIO& io = ImGui::GetIO();
 	auto font = _defaultFont.lock();
 	IM_ASSERT(font->type == mvAppItemType::mvFont && "The default font must be a mvFont.");
 	io.FontDefault = font? static_cast<mvFont*>(font.get())->getFontPtr() : nullptr;
