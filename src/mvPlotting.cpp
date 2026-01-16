@@ -372,10 +372,7 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -914,10 +911,7 @@ DearPyGui::draw_bar_series(ImDrawList* drawlist, mvAppItem& item, const mvBarSer
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -983,10 +977,7 @@ DearPyGui::draw_bar_group_series(ImDrawList* drawlist, mvAppItem& item, const mv
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -1056,10 +1047,7 @@ DearPyGui::draw_line_series(ImDrawList* drawlist, mvAppItem& item, const mvLineS
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -1124,10 +1112,7 @@ DearPyGui::draw_scatter_series(ImDrawList* drawlist, mvAppItem& item, const mvSc
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -1192,10 +1177,7 @@ DearPyGui::draw_stair_series(ImDrawList* drawlist, mvAppItem& item, const mvStai
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -1260,10 +1242,7 @@ DearPyGui::draw_stem_series(ImDrawList* drawlist, mvAppItem& item, const mvStemS
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -1328,10 +1307,7 @@ DearPyGui::draw_shade_series(ImDrawList* drawlist, mvAppItem& item, const mvShad
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -1399,10 +1375,7 @@ DearPyGui::draw_inf_lines_series(ImDrawList* drawlist, mvAppItem& item, const mv
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -1465,10 +1438,7 @@ DearPyGui::draw_2dhistogram_series(ImDrawList* drawlist, mvAppItem& item, const 
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -1534,10 +1504,7 @@ DearPyGui::draw_error_series(ImDrawList* drawlist, mvAppItem& item, const mvErro
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -1606,10 +1573,7 @@ DearPyGui::draw_heat_series(ImDrawList* drawlist, mvAppItem& item, const mvHeatS
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -1674,10 +1638,7 @@ DearPyGui::draw_histogram_series(ImDrawList* drawlist, mvAppItem& item, const mv
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -1748,10 +1709,7 @@ DearPyGui::draw_digital_series(ImDrawList* drawlist, mvAppItem& item, const mvDi
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -1818,10 +1776,7 @@ DearPyGui::draw_pie_series(ImDrawList* drawlist, mvAppItem& item, const mvPieSer
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -1895,10 +1850,7 @@ DearPyGui::draw_label_series(ImDrawList* drawlist, mvAppItem& item, const mvLabe
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -1957,10 +1909,7 @@ DearPyGui::draw_image_series(ImDrawList* drawlist, mvAppItem& item, mvImageSerie
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -2032,10 +1981,7 @@ DearPyGui::draw_area_series(ImDrawList* drawlist, mvAppItem& item, const mvAreaS
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -2105,10 +2051,7 @@ DearPyGui::draw_candle_series(ImDrawList* drawlist, mvAppItem& item, const mvCan
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -2182,10 +2125,7 @@ DearPyGui::draw_custom_series(ImDrawList* drawlist, mvAppItem& item, mvCustomSer
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);

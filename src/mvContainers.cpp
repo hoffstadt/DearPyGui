@@ -620,10 +620,7 @@ DearPyGui::draw_menu(ImDrawList* drawlist, mvAppItem& item, mvMenuConfig& config
 
     // push font if a font object is attached
     if (item.font)
-    {
-        ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-        ImGui::PushFont(fontptr);
-    }
+        static_cast<mvFont*>(item.font.get())->pushFont();
 
     // themes
     apply_local_theming(&item);
@@ -756,10 +753,7 @@ DearPyGui::draw_tab(ImDrawList* drawlist, mvAppItem& item, mvTabConfig& config)
 
     // push font if a font object is attached
     if (item.font)
-    {
-        ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-        ImGui::PushFont(fontptr);
-    }
+        static_cast<mvFont*>(item.font.get())->pushFont();
 
     // themes
     apply_local_theming(&item);
@@ -913,10 +907,7 @@ DearPyGui::draw_child_window(ImDrawList* drawlist, mvAppItem& item, mvChildWindo
 
     // push font if a font object is attached
     if (item.font)
-    {
-        ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-        ImGui::PushFont(fontptr);
-    }
+        static_cast<mvFont*>(item.font.get())->pushFont();
 
     // themes
     apply_local_theming(&item);
@@ -1039,10 +1030,7 @@ DearPyGui::draw_group(ImDrawList* drawlist, mvAppItem& item, mvGroupConfig& conf
 
     // push font if a font object is attached
     if (item.font)
-    {
-        ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-        ImGui::PushFont(fontptr);
-    }
+        static_cast<mvFont*>(item.font.get())->pushFont();
 
     // themes
     apply_local_theming(&item);
@@ -1197,10 +1185,7 @@ DearPyGui::draw_tree_node(ImDrawList* drawlist, mvAppItem& item, mvTreeNodeConfi
 
     // push font if a font object is attached
     if (item.font)
-    {
-        ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-        ImGui::PushFont(fontptr);
-    }
+        static_cast<mvFont*>(item.font.get())->pushFont();
 
     // themes
     apply_local_theming(&item);
@@ -1351,10 +1336,7 @@ DearPyGui::draw_collapsing_header(ImDrawList* drawlist, mvAppItem& item, mvColla
 
     // push font if a font object is attached
     if (item.font)
-    {
-        ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-        ImGui::PushFont(fontptr);
-    }
+        static_cast<mvFont*>(item.font.get())->pushFont();
 
     // themes
     apply_local_theming(&item);
@@ -1443,10 +1425,7 @@ DearPyGui::draw_window(ImDrawList* drawlist, mvAppItem& item, mvWindowAppItemCon
 
     // handle fonts
     if (item.font)
-    {
-        ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-        ImGui::PushFont(fontptr);
-    }
+        static_cast<mvFont*>(item.font.get())->pushFont();
 
     // themes
     apply_local_theming(&item);
