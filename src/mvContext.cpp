@@ -179,7 +179,8 @@ Render()
 
     mvRunTasks(true);   // this call runs early tasks only
 
-    ImGui::GetIO().FontGlobalScale = mvToolManager::GetFontManager().getGlobalFontScale();
+    ImGuiStyle& style = ImGui::GetStyle();
+    style.FontScaleMain = mvToolManager::GetFontManager().getGlobalFontScale();
 
     if (GContext->IO.dockingViewport)
         ImGui::DockSpaceOverViewport();
