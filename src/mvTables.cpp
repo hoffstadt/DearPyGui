@@ -159,10 +159,7 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 
 	// push font if a font object is attached
 	if (font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(font.get())->pushFont();
 
 	// themes
 	apply_local_theming(this);
@@ -181,10 +178,7 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 			apply_local_theming(row);
 
 			if (row->font)
-			{
-				ImFont* fontptr = static_cast<mvFont*>(row->font.get())->getFontPtr();
-				ImGui::PushFont(fontptr);
-			}
+				static_cast<mvFont*>(row->font.get())->pushFont();
 
 			row->state.lastFrameUpdate = GContext->frame;
 			row->state.visible = true;
@@ -688,10 +682,7 @@ void mvSyncedTables::draw(ImDrawList* drawlist, float x, float y)
 
     // push font if a font object is attached
     if (font)
-    {
-        ImFont* fontptr = static_cast<mvFont*>(font.get())->getFontPtr();
-        ImGui::PushFont(fontptr);
-    }
+        static_cast<mvFont*>(font.get())->pushFont();
 
     // themes
     apply_local_theming(this);

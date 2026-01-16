@@ -1,6 +1,7 @@
 #pragma once
 
 #include <array>
+#include <imgui.h>
 #include "mvItemRegistry.h"
 
 class mvFontRegistry : public mvAppItem
@@ -53,6 +54,7 @@ public:
     void handleSpecificKeywordArgs(PyObject* dict) override;
     void getSpecificConfiguration(PyObject* dict) override;
     ImFont* getFontPtr() { return _fontPtr; }
+    void pushFont() { ImGui::PushFont(_fontPtr, _size); }
 
 public:
 
