@@ -8,13 +8,11 @@ class mvFontRegistry : public mvAppItem
 
 public:
 
-    explicit mvFontRegistry(mvUUID uuid);
+    explicit mvFontRegistry(mvUUID uuid) : mvAppItem(uuid) {}
 
     void draw(ImDrawList* drawlist, float x, float y) override;
-    void onChildAdd(std::shared_ptr<mvAppItem> item) { config.show = true; }
-
-    bool isInvalid() const { return _dirty; }
-    void resetFont();
+    void customAction(void* data = nullptr) override;
+    void onChildAdd(std::shared_ptr<mvAppItem> item) { _dirty = true; }
 
 private:
 
@@ -47,8 +45,9 @@ class mvFont : public mvAppItem
 public:
 
     explicit mvFont(mvUUID uuid) : mvAppItem(uuid) {}
+    ~mvFont();
 
-    void draw(ImDrawList* drawlist, float x, float y) override;
+    void draw(ImDrawList* drawlist, float x, float y) override {}
     void customAction(void* data = nullptr) override;
     void handleSpecificRequiredArgs(PyObject* dict) override;
     void handleSpecificKeywordArgs(PyObject* dict) override;
@@ -60,7 +59,6 @@ public:
     // config
     std::string _file;
     float       _size = 13.0f;
-    bool        _default = false;
     bool        _pixel_snap_h = false;
 
     // finalized

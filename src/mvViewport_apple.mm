@@ -215,13 +215,7 @@ mvRenderFrame()
         {
 		    // Font manager is thread-unsafe, so we'd better sync it
             std::lock_guard lk(GContext->mutex);
-            if (mvToolManager::GetFontManager().isInvalid())
-            {
-                mvToolManager::GetFontManager().rebuildAtlas();
-                ImGui_ImplMetal_DestroyFontsTexture();
-                mvToolManager::GetFontManager().updateAtlas();
-                ImGui_ImplMetal_CreateFontsTexture(graphicsData->device);
-            }
+            mvToolManager::GetFontManager().updateAtlas();
         }
 
         NSWindow *nswin = glfwGetCocoaWindow(viewportData->handle);

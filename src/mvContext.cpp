@@ -177,6 +177,8 @@ Render()
     GContext->frame = ImGui::GetFrameCount();
     GContext->framerate = (i32)ImGui::GetIO().Framerate;
 
+    mvRunTasks(true);   // this call runs early tasks only
+
     ImGui::GetIO().FontGlobalScale = mvToolManager::GetFontManager().getGlobalFontScale();
 
     if (GContext->IO.dockingViewport)

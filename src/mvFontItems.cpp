@@ -1,37 +1,24 @@
 #include "mvFontItems.h"
 #include "mvTextureItems.h"
 #include "mvPyUtils.h"
-#include "mvToolManager.h"
-#include "mvFontManager.h"
 
-mvFontRegistry::mvFontRegistry(mvUUID uuid)
-	:
-	mvAppItem(uuid)
+void mvFontRegistry::customAction(void* data)
 {
-	config.show = true;
-}
+	if (!_dirty || !config.show)
+		return;
 
-void mvFontRegistry::resetFont()
-{
 	for (auto& item : childslots[1])
-	{
-		static_cast<mvFont*>(item.get())->_default = false;
-	}
+		item->customAction(nullptr);
 
-	mvToolManager::GetFontManager()._resetDefault = true;
+	_dirty = false;
 }
 
 void mvFontRegistry::draw(ImDrawList* drawlist, float x, float y)
 {
-	//ImGuiIO& io = ImGui::GetIO();
-	//io.Fonts->Clear();
-	//io.FontDefault = io.Fonts->AddFontDefault();
-
 	for (auto& item : childslots[1])
 	{
 		item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 	}
-	config.show = false;
 }
 
 void mvCharRemap::handleSpecificRequiredArgs(PyObject* dict)
@@ -43,32 +30,39 @@ void mvCharRemap::handleSpecificRequiredArgs(PyObject* dict)
 	_target = ToInt(PyTuple_GetItem(dict, 1));
 }
 
+mvFont::~mvFont()
+{
+	if (_fontPtr)
+	{
+		mvSubmitTask([=]() {
+			ImGuiIO& io = ImGui::GetIO();
+			io.Fonts->RemoveFont(_fontPtr);
+		}, true);
+	}
+}
+
 void mvFont::customAction(void* data)
 {
+	// If add_font arguments are bad, quit.
 	if (!state.ok)
+		return;
+	// If the font has been already loaded, nothing to do here.
+	if (_fontPtr)
 		return;
 
 	ImGuiIO& io = ImGui::GetIO();
 
 	ImFontConfig cfg;
+	// TODO: add snapV
 	cfg.PixelSnapH = _pixel_snap_h;
 	_fontPtr = io.Fonts->AddFontFromFileTTF(_file.c_str(), _size, &cfg);
 
 	if (_fontPtr == nullptr)
 	{
+		state.ok = false;
 		mvThrowPythonError(mvErrorCode::mvNone, "Font file could not be found");
-		io.Fonts->Build();
 		return;
 	}
-
-	// handled by char remaps
-	//for (auto& item : font.charRemaps)
-	//	_fontPtr->AddRemapChar(item.first, item.second);
-
-	io.Fonts->Build();
-
-	if (_default)
-		io.FontDefault = _fontPtr;
 
 	// check ranges
 	for (const auto& range : childslots[1])
@@ -82,17 +76,6 @@ void mvFont::customAction(void* data)
 		}
 
 	}
-}
-
-void mvFont::draw(ImDrawList* drawlist, float x, float y)
-{
-
-	if (!state.ok)
-		return;
-
-	//_dirty = true;
-
-	mvToolManager::GetFontManager()._dirty = true;
 }
 
 void mvFont::handleSpecificRequiredArgs(PyObject* dict)

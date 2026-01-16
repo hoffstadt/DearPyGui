@@ -85,13 +85,7 @@ StartNewFrame()
 {
 	// Font manager is thread-unsafe, so we'd better sync it
 	std::lock_guard lk(GContext->mutex);
-
-	if (mvToolManager::GetFontManager().isInvalid())
-	{
-		mvToolManager::GetFontManager().rebuildAtlas();
-		ImGui_ImplDX11_InvalidateDeviceObjects();
-		mvToolManager::GetFontManager().updateAtlas();
-	}
+	mvToolManager::GetFontManager().updateAtlas();
 
 	// Start the Dear ImGui frame
 	ImGui_ImplDX11_NewFrame();
