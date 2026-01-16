@@ -204,13 +204,10 @@ mvFontManager::drawWidgets()
 
 	// Post-baking font scaling. Note that this is NOT the nice way of scaling fonts, read below.
 	// (we enforce hard clamping manually as by default DragFloat/SliderFloat allows CTRL+Click text to get out of bounds).
+	// As of ImGui 1.92, things start to change.  There's still a global scale factor and we expose it,
+	// but DPI handling is different.
 	const float MIN_SCALE = 0.3f;
 	const float MAX_SCALE = 2.0f;
-	HelpMarker(
-		"Those are old settings provided for convenience.\n"
-		"However, the _correct_ way of scaling your UI is currently to reload your font at the designed size, "
-		"rebuild the font atlas, and call style.ScaleAllSizes() on a reference ImGuiStyle structure.\n"
-		"Using those settings here will give you poor quality results.");
 	if (ImGui::DragFloat("global scale", &getGlobalFontScale(), 0.005f, MIN_SCALE, MAX_SCALE, "%.2f")) // Scale everything
 		getGlobalFontScale() = IM_MAX(getGlobalFontScale(), MIN_SCALE);
 	ImGui::PopItemWidth();
