@@ -188,7 +188,8 @@ static bool SliderScalar3D(char const* pLabel, float* pValueX, float* pValueY, f
 
 	ImVec2 const vCursorPos((oXYDrag.Max.x - oXYDrag.Min.x) * fScaleX + oXYDrag.Min.x, (oXYDrag.Max.y - oXYDrag.Min.y) * fScaleY + oXYDrag.Min.y);
 
-	ImGui::SetWindowFontScale(0.75f);
+	ImGuiStyle& style = ImGui::GetStyle();
+	ImGui::PushFont(nullptr, style.FontSizeBase * 0.75f);
 
 	ImVec2 const vXSize = ImGui::CalcTextSize(pBufferX);
 	ImVec2 const vYSize = ImGui::CalcTextSize(pBufferY);
@@ -252,7 +253,7 @@ static bool SliderScalar3D(char const* pLabel, float* pValueX, float* pValueY, f
 		vZTextPos,
 		uTextCol,
 		pBufferZ);
-	ImGui::SetWindowFontScale(1.0f);
+	ImGui::PopFont();
 
 	// Handles
 	pDrawList->AddNgonFilled(vHandlePosX, fHandleRadius, uBlue, 4);

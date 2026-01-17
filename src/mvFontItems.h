@@ -54,6 +54,7 @@ public:
     void handleSpecificKeywordArgs(PyObject* dict) override;
     void getSpecificConfiguration(PyObject* dict) override;
     ImFont* getFontPtr() { return _fontPtr; }
+    float getSize() { return _size; }
     void pushFont() { ImGui::PushFont(_fontPtr, _size); }
 
 public:
