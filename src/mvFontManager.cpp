@@ -36,8 +36,8 @@ if (ImGui::IsItemHovered())
 }
 
 // [Internal] Display details for a single font, called by ShowStyleEditor().
-static void
-NodeFont(ImFont* font)
+void
+mvFontManager::drawFontNode(ImFont* font)
 {
 	ImGuiContext& g = *GImGui;
 	ImGuiMetricsConfig* cfg = &g.DebugMetricsConfig;
@@ -61,7 +61,11 @@ NodeFont(ImFont* font)
 		return;
 	}
 	if (ImGui::SmallButton("Set as default"))
+	{
+		_updateDefault = false;
+		_defaultFont.reset();
 		ImGui::GetIO().FontDefault = font;
+	}
 	ImGui::SameLine();
 	if (ImGui::SmallButton("Clear bakes"))
 		ImFontAtlasFontDiscardBakes(atlas, font, 0);
@@ -127,8 +131,8 @@ NodeFont(ImFont* font)
 
 // Demo helper function to select among loaded fonts.
 // Here we use the regular BeginCombo()/EndCombo() api which is more the more flexible one.
-static void
-ShowCustomFontSelector(const char* label)
+void
+mvFontManager::drawFontSelector(const char* label)
 {
 ImGuiIO& io = ImGui::GetIO();
 ImFont* font_current = ImGui::GetFont();
@@ -139,7 +143,11 @@ if (ImGui::BeginCombo(label, font_current->GetDebugName()))
 		ImFont* font = io.Fonts->Fonts[n];
 		ImGui::PushID((void*)font);
 		if (ImGui::Selectable(font->GetDebugName(), font == font_current))
+		{
+			_updateDefault = false;
+			_defaultFont.reset();
 			io.FontDefault = font;
+		}
 		ImGui::PopID();
 	}
 	ImGui::EndCombo();
@@ -163,16 +171,19 @@ mvFontManager::updateAtlas()
 	}
 
 	// Reset the current font so that NewFrame can pick up changes immediately
-	auto font = _defaultFont.lock();
-	IM_ASSERT(font->type == mvAppItemType::mvFont && "The default font must be a mvFont.");
-	io.FontDefault = font? static_cast<mvFont*>(font.get())->getFontPtr() : nullptr;
+	if (_updateDefault)
+	{
+		auto font = _defaultFont.lock();
+		IM_ASSERT(font->type == mvAppItemType::mvFont && "The default font must be a mvFont.");
+		io.FontDefault = font? static_cast<mvFont*>(font.get())->getFontPtr() : nullptr;
+	}
 }
 
 void 
 mvFontManager::drawWidgets()
 {
 
-	ShowCustomFontSelector("Fonts##Selector");
+	drawFontSelector("Fonts##Selector");
 
 	ImGuiIO& io = ImGui::GetIO();
 	ImFontAtlas* atlas = io.Fonts;
@@ -181,7 +192,7 @@ mvFontManager::drawWidgets()
 	{
 		ImFont* font = atlas->Fonts[i];
 		ImGui::PushID(font);
-		NodeFont(font);
+		drawFontNode(font);
 		ImGui::PopID();
 	}
 	if (ImGui::TreeNode("Atlas texture", "Atlas texture (%dx%d pixels)", atlas->TexData->Width, atlas->TexData->Height))
