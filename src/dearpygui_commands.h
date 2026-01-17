@@ -708,7 +708,7 @@ bind_font(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	if (itemId == 0)
 	{
-		mvToolManager::GetFontManager()._defaultFont.reset();
+		mvToolManager::GetFontManager().clearDefaultFont();
 		return GetPyNone();
 	}
 
@@ -727,7 +727,7 @@ bind_font(PyObject* self, PyObject* args, PyObject* kwargs)
 		return nullptr;
 	}
 
-	mvToolManager::GetFontManager()._defaultFont = item;
+	mvToolManager::GetFontManager().setDefaultFont(item);
 
 	return GetPyNone();
 }
