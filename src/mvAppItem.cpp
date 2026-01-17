@@ -5109,7 +5109,8 @@ DearPyGui::GetEntityParser(mvAppItemType type)
 
         args.push_back({ mvPyDataType::String, "file" });
         args.push_back({ mvPyDataType::Integer, "size" });
-        args.push_back({ mvPyDataType::Bool, "pixel_snapH", mvArgType::KEYWORD_ARG, "False", "Align every glyph to pixel boundary. Useful e.g. if you are merging a non-pixel aligned font with the default font, or rendering text piece-by-piece (e.g. for coloring)." });
+        args.push_back({ mvPyDataType::Bool, "pixel_snapH", mvArgType::KEYWORD_ARG, "False", "Align every glyph to pixel boundary in horizontal direction. Useful if you are rendering text piece-by-piece (e.g. for coloring)." });
+        args.push_back({ mvPyDataType::Bool, "pixel_snapV", mvArgType::KEYWORD_ARG, "False", "Align scaled GlyphOffset.y to pixel boundaries in ImGui." });
         args.push_back({ mvPyDataType::UUID, "parent", mvArgType::KEYWORD_ARG, "internal_dpg.mvReservedUUID_0", "Parent to add this item to. (runtime adding)" });
         args.push_back({ mvPyDataType::Bool, "default_font", mvArgType::DEPRECATED_REMOVE_KEYWORD_ARG });
 

@@ -61,7 +61,8 @@ public:
     // config
     std::string _file;
     float       _size = 13.0f;
-    bool        _pixel_snap_h = false;
+    bool        _pixelSnapH = false;
+    bool        _pixelSnapV = false;
 
     // finalized
     ImFont* _fontPtr = nullptr;

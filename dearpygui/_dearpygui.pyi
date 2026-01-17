@@ -210,7 +210,7 @@ def add_float_vect_value(*, label: str ='', user_data: Any ='', use_internal_lab
 	"""Adds a float vect value."""
 	...
 
-def add_font(file : str, size : int, *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', pixel_snapH: bool ='', parent: Union[int, str] ='') -> Union[int, str]:
+def add_font(file : str, size : int, *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', pixel_snapH: bool ='', pixel_snapV: bool ='', parent: Union[int, str] ='') -> Union[int, str]:
 	"""Adds font to a font registry."""
 	...
 
