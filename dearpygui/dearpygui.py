@@ -1993,7 +1993,7 @@ def filter_set(*, label: str =None, user_data: Any =None, use_internal_label: bo
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def font(file : str, size : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, pixel_snapH: bool =False, parent: Union[int, str] =internal_dpg.mvReservedUUID_0, **kwargs) -> Union[int, str]:
+def font(file : str, size : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, pixel_snapH: bool =False, pixel_snapV: bool =False, parent: Union[int, str] =internal_dpg.mvReservedUUID_0, **kwargs) -> Union[int, str]:
 	"""	 Adds font to a font registry.
 
 	Args:
@@ -2003,7 +2003,8 @@ def font(file : str, size : int, *, label: str =None, user_data: Any =None, use_
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		pixel_snapH (bool, optional): Align every glyph to pixel boundary. Useful e.g. if you are merging a non-pixel aligned font with the default font, or rendering text piece-by-piece (e.g. for coloring).
+		pixel_snapH (bool, optional): Align every glyph to pixel boundary in horizontal direction. Useful if you are rendering text piece-by-piece (e.g. for coloring).
+		pixel_snapV (bool, optional): Align scaled GlyphOffset.y to pixel boundaries in ImGui.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		id (Union[int, str], optional): (deprecated) 
 		default_font (bool, optional): (deprecated) 
@@ -2019,7 +2020,7 @@ def font(file : str, size : int, *, label: str =None, user_data: Any =None, use_
 		if 'default_font' in kwargs.keys():
 			warnings.warn('default_font keyword removed', DeprecationWarning, 2)
 			kwargs.pop('default_font', None)
-		widget = internal_dpg.add_font(file, size, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, pixel_snapH=pixel_snapH, parent=parent, **kwargs)
+		widget = internal_dpg.add_font(file, size, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, pixel_snapH=pixel_snapH, pixel_snapV=pixel_snapV, parent=parent, **kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
@@ -4725,7 +4726,7 @@ def add_float_vect_value(*, label: str =None, user_data: Any =None, use_internal
 
 	return internal_dpg.add_float_vect_value(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, source=source, default_value=default_value, parent=parent, **kwargs)
 
-def add_font(file : str, size : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, pixel_snapH: bool =False, parent: Union[int, str] =internal_dpg.mvReservedUUID_0, **kwargs) -> Union[int, str]:
+def add_font(file : str, size : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, pixel_snapH: bool =False, pixel_snapV: bool =False, parent: Union[int, str] =internal_dpg.mvReservedUUID_0, **kwargs) -> Union[int, str]:
 	"""	 Adds font to a font registry.
 
 	Args:
@@ -4735,7 +4736,8 @@ def add_font(file : str, size : int, *, label: str =None, user_data: Any =None, 
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		pixel_snapH (bool, optional): Align every glyph to pixel boundary. Useful e.g. if you are merging a non-pixel aligned font with the default font, or rendering text piece-by-piece (e.g. for coloring).
+		pixel_snapH (bool, optional): Align every glyph to pixel boundary in horizontal direction. Useful if you are rendering text piece-by-piece (e.g. for coloring).
+		pixel_snapV (bool, optional): Align scaled GlyphOffset.y to pixel boundaries in ImGui.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		id (Union[int, str], optional): (deprecated) 
 		default_font (bool, optional): (deprecated) 
@@ -4753,7 +4755,7 @@ def add_font(file : str, size : int, *, label: str =None, user_data: Any =None, 
 
 		kwargs.pop('default_font', None)
 
-	return internal_dpg.add_font(file, size, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, pixel_snapH=pixel_snapH, parent=parent, **kwargs)
+	return internal_dpg.add_font(file, size, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, pixel_snapH=pixel_snapH, pixel_snapV=pixel_snapV, parent=parent, **kwargs)
 
 def add_font_registry(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, show: bool =True, **kwargs) -> Union[int, str]:
 	"""	 Adds a font registry.
