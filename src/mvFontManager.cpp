@@ -173,9 +173,20 @@ mvFontManager::updateAtlas()
 	// Reset the current font so that NewFrame can pick up changes immediately
 	if (_updateDefault)
 	{
-		auto font = _defaultFont.lock();
-		IM_ASSERT(font->type == mvAppItemType::mvFont && "The default font must be a mvFont.");
-		io.FontDefault = font? static_cast<mvFont*>(font.get())->getFontPtr() : nullptr;
+		ImGuiContext& g = *GImGui;
+		auto item = _defaultFont.lock();
+		IM_ASSERT(item->type == mvAppItemType::mvFont && "The default font must be a mvFont.");
+		if (item)
+		{
+			auto font = static_cast<mvFont*>(item.get());
+			io.FontDefault = font->getFontPtr();
+			g.Style.FontSizeBase = font->getSize();
+		}
+		else
+		{
+			io.FontDefault = nullptr;
+			g.Style.FontSizeBase = 0;
+		}
 	}
 }
 
