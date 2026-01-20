@@ -550,15 +550,6 @@ def is_item_tracked(item: Union[int, str]) -> Union[bool, None]:
     return internal_dpg.get_item_configuration(item)["tracked"]
 
 
-def is_item_search_delayed(item: Union[int, str]) -> Union[bool, None]:
-    """Checks if item is search delayed.
-
-    Returns:
-        tracked as a bool or None
-    """
-    return internal_dpg.get_item_configuration(item)["delay_search"]
-
-
 def get_item_indent(item: Union[int, str]) -> Union[int, None]:
     """Gets the item's indent.
 

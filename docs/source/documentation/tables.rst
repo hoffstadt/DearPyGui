@@ -252,7 +252,7 @@ You can also set columns individually by using the
 
         with dpg.table(header_row=True, policy=dpg.mvTable_SizingFixedFit, row_background=True, reorderable=True,
                        resizable=True, no_host_extendX=False, hideable=True,
-                       borders_innerV=True, delay_search=True, borders_outerV=True, borders_innerH=True,
+                       borders_innerV=True, borders_outerV=True, borders_innerH=True,
                        borders_outerH=True):
 
             dpg.add_table_column(label="AAA", width_fixed=True)

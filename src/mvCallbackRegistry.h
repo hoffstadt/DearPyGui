@@ -234,6 +234,11 @@ void mvFrameCallback(i32 frame);
 void mvRunTasks();
 // All PyObject references here are borrowed references - caller must release them after this call
 void mvRunCallback(PyObject* callback, PyObject* user_data, mvUUID sender = 0, const std::string& sender_alias = "", PyObject* app_data = nullptr);
+// This version checks if owner is still alive (by obtaining shared_ptr), and if it is,
+// INCREFs the callback and releases the owner.  The owner is released under mvContext::mutex.
+// All PyObject references except `callback` are borrowed references - the caller must release
+// them after this call.
+void mvRunOwnedCallback(const std::weak_ptr<void>& owner, PyObject* callback, PyObject* user_data, mvUUID sender = 0, const std::string& sender_alias = "", PyObject* app_data = nullptr);
 
 // Note: We pass the `callback` and its `user_data` as two separate arguments (rather
 // than a single object) because, even though they only make sense together, `mvAppItem` may
@@ -261,9 +266,7 @@ void mvAddCallback(const std::weak_ptr<void>& owner,
 		return;
 	}
 	mvSubmitCallback([=, app_data_func = std::forward<AppDataFunc>(app_data_func)] () {
-        auto liveOwner = owner.lock();  // we need it to live through the mvRunCallback, hence constructing it separately rather than within "if"
-        if (liveOwner)
-    		mvRunCallback(callback, *user_data, sender, alias, mvPyObject(app_data_func()));
+        mvRunOwnedCallback(owner, callback, *user_data, sender, alias, mvPyObject(app_data_func()));
     });
 }
 

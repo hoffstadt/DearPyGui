@@ -131,8 +131,6 @@ struct mvAppItemConfig
     float       trackOffset = 0.5f; // 0.0f:top, 0.5f:center, 1.0f:bottom
     bool        show             = true;
     bool        enabled          = true;
-    bool        searchLast       = false;
-    bool        searchDelayed    = false;
     bool        useInternalLabel = true; // when false, will use specificed label
     bool        tracked          = false;
     mvPyObject  callback         = nullptr;

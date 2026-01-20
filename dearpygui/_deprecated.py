@@ -410,6 +410,15 @@ def setup_registries() -> None:
     internal_dpg.add_value_registry(tag=internal_dpg.mvReservedUUID_3)
     internal_dpg.add_colormap_registry(tag=internal_dpg.mvReservedUUID_4)
 
+@deprecated("Useless and doesn't work anyway")
+def is_item_search_delayed(item: Union[int, str]) -> Union[bool, None]:
+    """Checks if item is search delayed.
+
+    Returns:
+        tracked as a bool or None
+    """
+    return internal_dpg.get_item_configuration(item)["delay_search"]
+
 @deprecated("Use: `set_frame_callback()`")
 def set_start_callback(callback):
     """ deprecated function """

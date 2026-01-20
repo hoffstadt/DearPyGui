@@ -2967,7 +2967,7 @@ AddCommonArgs(std::vector<mvPythonDataElement>& args, CommonParserArgs argsFlags
     if (argsFlags & MV_PARSER_ARG_ENABLED)      args.push_back({ mvPyDataType::Bool, "enabled", mvArgType::KEYWORD_ARG, "True", "Turns off functionality of widget and applies the disabled theme." });
     if (argsFlags & MV_PARSER_ARG_POS)		    args.push_back({ mvPyDataType::IntList, "pos", mvArgType::KEYWORD_ARG, "[]", "Places the item relative to window coordinates, [0,0] is top left." });
     if (argsFlags & MV_PARSER_ARG_FILTER)		args.push_back({ mvPyDataType::String, "filter_key", mvArgType::KEYWORD_ARG, "''", "Used by filter widget." });
-    if (argsFlags & MV_PARSER_ARG_SEARCH_DELAY) args.push_back({ mvPyDataType::Bool, "delay_search", mvArgType::KEYWORD_ARG, "False", "Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often." });
+    if (argsFlags & MV_PARSER_ARG_SEARCH_DELAY) args.push_back({ mvPyDataType::Bool, "delay_search", mvArgType::DEPRECATED_KEYWORD_ARG, "False", "This was used as an optimization hint but is not relevant anymore." });
 
     if (argsFlags & MV_PARSER_ARG_TRACKED)
     {
