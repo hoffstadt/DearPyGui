@@ -10,12 +10,11 @@ t_digital_plot = 0
 
 def _help(message):
     last_item = dpg.last_item()
-    group = dpg.add_group(horizontal=True)
-    dpg.move_item(last_item, parent=group)
-    dpg.capture_next_item(lambda s: dpg.move_item(s, parent=group))
-    t = dpg.add_text("(?)", color=[0, 255, 0])
-    with dpg.tooltip(t):
-        dpg.add_text(message)
+    with dpg.group(horizontal=True) as group:
+        dpg.move_item(last_item, parent=group)
+        t = dpg.add_text("(?)", color=[0, 255, 0])
+        with dpg.tooltip(t):
+            dpg.add_text(message)
 
 def _hyperlink(text, address):
     b = dpg.add_button(label=text, callback=lambda:webbrowser.open(address))
