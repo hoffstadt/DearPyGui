@@ -44,6 +44,7 @@ mvAppItem::~mvAppItem()
             if (!GContext->IO.manualAliasManagement)
                 GContext->itemRegistry->aliases.erase(config.alias);
         }
+        GContext->itemRegistry->allItems.erase(uuid);
         CleanUpItem(*GContext->itemRegistry, uuid);
     }
 }
@@ -218,7 +219,6 @@ mvAppItem::handleKeywordArgs(PyObject* dict, const std::string& parser)
         }
     }
     if (PyObject* item = PyDict_GetItemString(dict, "tracked")) config.tracked = ToBool(item);
-    if (PyObject* item = PyDict_GetItemString(dict, "delay_search")) config.searchLast = ToBool(item);
     if (PyObject* item = PyDict_GetItemString(dict, "track_offset"))
     {
         config.trackOffset = ToFloat(item);

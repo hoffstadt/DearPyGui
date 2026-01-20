@@ -513,6 +513,8 @@ common_constructor(const char* command, mvAppItemType type, PyObject* self, PyOb
 
 	AddItemWithRuntimeChecks((*GContext->itemRegistry), item, parent, before);
 
+	GContext->itemRegistry->allItems[id] = item.get();
+
 	// return raw UUID if alias not used
 	if (item->config.alias.empty())
 		return Py_BuildValue("K", id);

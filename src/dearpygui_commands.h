@@ -3128,7 +3128,15 @@ move_item(PyObject* self, PyObject* args, PyObject* kwargs)
 	mvUUID parent = GetIDFromPyObject(parentraw);
 	mvUUID before = GetIDFromPyObject(beforeraw);
 
-	MoveItem((*GContext->itemRegistry), item, parent, before);
+	if (before == 0 && parent == 0)
+	{
+		mvThrowPythonError(mvErrorCode::mvItemNotFound, "move_item",
+			"move_item requires either `parent` or `before` to be specified.", nullptr);
+		return nullptr;
+	}
+
+	if (!MoveItem((*GContext->itemRegistry), item, parent, before))
+		return nullptr;
 
 	return GetPyNone();
 }
@@ -3186,7 +3194,8 @@ move_item_up(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 
-	MoveItemUp((*GContext->itemRegistry), item);
+	if (!MoveItemUp((*GContext->itemRegistry), item))
+		return nullptr;
 
 	return GetPyNone();
 
@@ -3205,7 +3214,8 @@ move_item_down(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 
-	MoveItemDown((*GContext->itemRegistry), item);
+	if (!MoveItemDown((*GContext->itemRegistry), item))
+		return nullptr;
 
 	return GetPyNone();
 }
