@@ -104,6 +104,17 @@ setup_graphics(mvViewport& viewport)
 			return graphics;
 	}
 
+	if (!GContext->IO.altEnterFullscreen)
+	{
+		// Disable DXGI's default Alt+Enter fullscreen behavior.
+		IDXGIFactory* pSwapChainFactory = nullptr;
+		if (SUCCEEDED(graphicsData->swapChain->GetParent(IID_PPV_ARGS(&pSwapChainFactory))))
+		{
+			pSwapChainFactory->MakeWindowAssociation(viewportData->handle, DXGI_MWA_NO_ALT_ENTER);
+			pSwapChainFactory->Release();
+		}
+	}
+
 	// create render target
 	graphicsData->swapChain->GetBuffer(0, IID_PPV_ARGS(&graphicsData->backBuffer));
 	graphicsData->device->CreateRenderTargetView(graphicsData->backBuffer, nullptr, &graphicsData->target);

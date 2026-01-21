@@ -2727,6 +2727,8 @@ configure_app(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (PyObject* item = PyDict_GetItemString(kwargs, "anti_aliased_lines_use_tex")) style.AntiAliasedLinesUseTex = ToBool(item);
 	if (PyObject* item = PyDict_GetItemString(kwargs, "anti_aliased_fill")) style.AntiAliasedFill = ToBool(item);
 
+	if (PyObject* item = PyDict_GetItemString(kwargs, "win32_alt_enter_fullscreen")) GContext->IO.altEnterFullscreen = ToBool(item);
+
 	return GetPyNone();
 }
 
@@ -2761,6 +2763,8 @@ get_app_configuration(PyObject* self, PyObject* args, PyObject* kwargs)
 	PyDict_SetItemString(pdict, "anti_aliased_lines", mvPyObject(ToPyBool(style.AntiAliasedLines)));
 	PyDict_SetItemString(pdict, "anti_aliased_lines_use_tex", mvPyObject(ToPyBool(style.AntiAliasedLinesUseTex)));
 	PyDict_SetItemString(pdict, "anti_aliased_fill", mvPyObject(ToPyBool(style.AntiAliasedFill)));
+
+	PyDict_SetItemString(pdict, "win32_alt_enter_fullscreen", mvPyObject(ToPyBool(GContext->IO.altEnterFullscreen)));
 
 	return pdict;
 }
