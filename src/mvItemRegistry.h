@@ -49,6 +49,7 @@ mvAppItem*       GetItemRoot    (mvItemRegistry& registry, mvUUID uuid);
 // item operations
 b8               AddItemWithRuntimeChecks(mvItemRegistry& registry, std::shared_ptr<mvAppItem> item, mvUUID parent, mvUUID before);
 void             ResetTheme              (mvItemRegistry& registry);
+b8               ReorderChildren         (mvItemRegistry& registry, mvUUID parent, i32 slot, const std::vector<mvUUID>& new_order);
 
 //-----------------------------------------------------------------------------
 // mvItemRegistry

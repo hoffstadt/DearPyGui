@@ -487,6 +487,39 @@ MoveItemDown(mvItemRegistry& registry, mvUUID uuid)
     return false;
 }
 
+b8
+ReorderChildren(mvItemRegistry& registry, mvUUID parent, i32 slot, const std::vector<mvUUID>& new_order)
+{
+	mvAppItem* parentItem = GetItem(registry, parent);
+	if (parentItem == nullptr)
+	{
+		mvThrowPythonError(mvErrorCode::mvItemNotFound, "reorder_items",
+			"Item not found: " + std::to_string(parent), nullptr);
+		return false;
+	}
+
+	std::vector<std::shared_ptr<mvAppItem>>& children = parentItem->childslots[slot];
+
+	std::vector<std::shared_ptr<mvAppItem>> newchildren;
+	newchildren.reserve(children.size());
+
+	// todo: better sorting algorithm
+	for (const auto& item : new_order)
+	{
+		for (auto& child : children)
+		{
+			if (child->uuid == item)
+			{
+				newchildren.emplace_back(child);
+				break;
+			}
+		}
+	}
+	children = newchildren;
+    UpdateChildLocations(&children, 1);
+	return true;
+}
+
 void 
 RenderItemRegistry(mvItemRegistry& registry)
 {
@@ -662,11 +695,8 @@ mvAppItem*
 GetItem(mvItemRegistry& registry, mvUUID uuid)
 {
     // check captured
-    if(registry.capturedItem)
-    {
-        if(registry.capturedItem->uuid == uuid)
-            return registry.capturedItem.get();
-    }
+    if (registry.capturedItem && registry.capturedItem->uuid == uuid)
+        return registry.capturedItem.get();
 
     auto found = registry.allItems.find(uuid);
     return found != registry.allItems.end()? found->second : nullptr;
@@ -675,14 +705,6 @@ GetItem(mvItemRegistry& registry, mvUUID uuid)
 std::shared_ptr<mvAppItem>
 GetRefItem(mvItemRegistry& registry, mvUUID uuid)
 {
-
-    // check captured
-    if(registry.capturedItem)
-    {
-        if(registry.capturedItem->uuid == uuid)
-            return registry.capturedItem;
-    }
-
     mvAppItem* item = GetItem(registry, uuid);
     return item? item->shared_from_this() : nullptr;
 }
@@ -701,7 +723,7 @@ GetWindow(mvItemRegistry& registry, mvUUID uuid)
     if (item->type == mvAppItemType::mvWindowAppItem)
         return static_cast<mvWindowAppItem*>(item);
 
-    assert(false && "Item is not a window not found.");
+    assert(false && "Item is not a window.");
     return nullptr;
 }
 
@@ -814,8 +836,14 @@ AddItemWithRuntimeChecks(mvItemRegistry& registry, std::shared_ptr<mvAppItem> it
     {
         // Adding it before the "before" item - let's find it!
         mvAppItem* beforeItem = GetItem(registry, before);
-        if (beforeItem)
-            parentPtr = beforeItem->info.parentPtr;
+        if (beforeItem == nullptr)
+        {
+            mvThrowPythonError(mvErrorCode::mvItemNotFound, "add_*", "Item not found: " + std::to_string(parent), nullptr);
+            IM_ASSERT(false && "The 'before' item could not be found.");
+            return false;
+        }
+        // We'll need the parent anyway in order to check compatibility
+        parentPtr = beforeItem->info.parentPtr;
     }
 
     else if (parent >= MV_START_UUID)
