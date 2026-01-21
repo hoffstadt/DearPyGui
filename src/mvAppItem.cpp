@@ -45,7 +45,6 @@ mvAppItem::~mvAppItem()
                 GContext->itemRegistry->aliases.erase(config.alias);
         }
         GContext->itemRegistry->allItems.erase(uuid);
-        CleanUpItem(*GContext->itemRegistry, uuid);
     }
 }
 
