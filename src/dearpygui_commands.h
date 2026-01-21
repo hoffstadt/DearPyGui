@@ -3273,10 +3273,7 @@ unstage(PyObject* self, PyObject* args, PyObject* kwargs)
 	}
 
 	if (item_found)
-	{
-		CleanUpItem(*GContext->itemRegistry, item);
 		return GetPyNone();
-	}
 
 	mvThrowPythonError(mvErrorCode::mvItemNotFound, "unstage",
 		"Stage not found: " + std::to_string(item), nullptr);

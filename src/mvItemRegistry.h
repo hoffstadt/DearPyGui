@@ -24,7 +24,6 @@ void             RenderItemRegistry(mvItemRegistry& registry);
 
 // cleanup
 void             ClearItemRegistry(mvItemRegistry& registry);
-void             CleanUpItem      (mvItemRegistry& registry, mvUUID uuid);
 b8               DeleteItem       (mvItemRegistry& registry, mvUUID uuid, b8 childrenOnly = false, i32 slot = -1);
 
 // aliases
@@ -64,18 +63,10 @@ b8               ReorderChildren         (mvItemRegistry& registry, mvUUID paren
 struct mvItemRegistry
 {
 
-    static constexpr i32 CachedContainerCount = 25;
-
-    // caching
+    // "last item" state
     mvUUID     lastItemAdded = 0;
     mvUUID     lastContainerAdded = 0;
     mvUUID     lastRootAdded = 0;
-    i32        cachedContainerIndex = 0;
-    i32        cachedItemsIndex = 0;
-    mvUUID     cachedItemsID[CachedContainerCount];
-    mvAppItem* cachedItemsPTR[CachedContainerCount];
-    mvUUID     cachedContainersID[CachedContainerCount];
-    mvAppItem* cachedContainersPTR[CachedContainerCount];
 
     // misc
     std::stack<mvAppItem*>                  containers;      // parent stack, top of stack becomes widget's parent

@@ -107,7 +107,6 @@ void mvNodeEditor::onChildRemoved(std::shared_ptr<mvAppItem> item)
                     if (i1 == attr_id || i2 == attr_id)
                     {
                         DeleteItem(*GContext->itemRegistry, child->uuid);
-                        CleanUpItem(*GContext->itemRegistry, child->uuid);
                     }
                 }
             }

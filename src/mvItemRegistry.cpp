@@ -8,14 +8,11 @@
 
 mvItemRegistry::mvItemRegistry()
 {
-    // prefill cached containers
-    for (i32 i = 0; i < CachedContainerCount; i++)
-    {
-        cachedContainersID[i] = 0;
-        cachedContainersPTR[i] = nullptr;
-        cachedItemsID[i] = 0;
-        cachedItemsPTR[i] = nullptr;
-    }
+    // We seldom need to do a GetItem(0), and an explicit check for uuid == 0 in GetItem
+    // slows it down.  Instead of this, we add a fake entry to the allItems map,
+    // mapping 0 to nullptr.  This entry will never go away because map items are only
+    // removed in the mvAppItem destructor.
+    allItems[0] = nullptr;
 }
 
 static b8
@@ -45,25 +42,6 @@ TopParent(mvItemRegistry& registry)
     if (!registry.containers.empty())
         return registry.containers.top();
     return nullptr;
-}
-
-static void
-CacheItem(mvItemRegistry& registry, mvAppItem* item)
-{
-    if (DearPyGui::GetEntityDesciptionFlags(item->type) & MV_ITEM_DESC_CONTAINER)
-    {
-        registry.cachedContainersID[registry.cachedContainerIndex] = item->uuid;
-        registry.cachedContainersPTR[registry.cachedContainerIndex] = item;
-        registry.cachedContainerIndex++;
-        if (registry.cachedContainerIndex == registry.CachedContainerCount)
-            registry.cachedContainerIndex = 0;
-    }
-
-    registry.cachedItemsID[registry.cachedItemsIndex] = item->uuid;
-    registry.cachedItemsPTR[registry.cachedItemsIndex] = item;
-    registry.cachedItemsIndex++;
-    if (registry.cachedItemsIndex == registry.CachedContainerCount)
-        registry.cachedItemsIndex = 0;
 }
 
 static void
@@ -310,10 +288,6 @@ RemoveItemFromTree(mvItemRegistry& registry, mvAppItem* item)
 b8
 DeleteItem(mvItemRegistry& registry, mvUUID uuid, b8 childrenOnly, i32 slot)
 {
-
-    // TODO: we probably don't need this anymore (well, only if we remove the cache)
-    CleanUpItem(registry, uuid);
-
     mvAppItem* item = GetItem(registry, uuid);
     if (!item)
     {
@@ -745,25 +719,6 @@ ClearItemRegistry(mvItemRegistry& registry)
     registry.viewportDrawlistRoots.clear();
 }
 
-void 
-CleanUpItem(mvItemRegistry& registry, mvUUID uuid)
-{
-    for (i32 i = 0; i < registry.CachedContainerCount; i++)
-    {
-        if (registry.cachedContainersID[i] == uuid)
-        {
-            registry.cachedContainersID[i] = 0;
-            registry.cachedContainersPTR[i] = nullptr;
-        }
-
-        if (registry.cachedItemsID[i] == uuid)
-        {
-            registry.cachedItemsID[i] = 0;
-            registry.cachedItemsPTR[i] = nullptr;
-        }
-    }
-}
-
 b8
 AddItemWithRuntimeChecks(mvItemRegistry& registry, std::shared_ptr<mvAppItem> item, mvUUID parent, mvUUID before)
 {
@@ -802,8 +757,6 @@ AddItemWithRuntimeChecks(mvItemRegistry& registry, std::shared_ptr<mvAppItem> it
         registry.lastContainerAdded = item->uuid;
 
     registry.lastItemAdded = item->uuid;
-
-    CacheItem(registry, item.get());
 
     //---------------------------------------------------------------------------
     // STEP 1: check if an item with this name exists (NO LONGER NEEDED)
