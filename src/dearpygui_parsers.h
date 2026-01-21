@@ -539,6 +539,7 @@ InsertParser_Block1(std::map<std::string, mvPythonParser>& parsers)
 		args.push_back({ mvPyDataType::Bool, "anti_aliased_lines", mvArgType::KEYWORD_ARG, "False", "Enable anti-aliased lines/borders. Disable if you are really tight on CPU/GPU. Latched at the beginning of the frame." });
 		args.push_back({ mvPyDataType::Bool, "anti_aliased_lines_use_tex", mvArgType::KEYWORD_ARG, "False", "Enable anti-aliased lines/borders using textures where possible. Require backend to render with bilinear filtering (NOT point/nearest filtering). Latched at the beginning of the frame." });
 		args.push_back({ mvPyDataType::Bool, "anti_aliased_fill", mvArgType::KEYWORD_ARG, "False", "Enable anti-aliased edges around filled shapes (rounded rectangles, circles, etc.). Disable if you are really tight on CPU/GPU. Latched at the beginning of the frame." });
+		args.push_back({ mvPyDataType::Bool, "win32_alt_enter_fullscreen", mvArgType::KEYWORD_ARG, "False", "Windows only: configures Alt+Enter as a fullscreen hotkey." });
 
 		mvPythonParserSetup setup;
 		setup.about = "Configures app.";

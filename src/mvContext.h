@@ -97,6 +97,8 @@ struct mvIO
     // callback registry
     bool manualCallbacks = false;
 
+    bool altEnterFullscreen = false;
+
     ImWchar decimalPoint = '.';
 };
 
