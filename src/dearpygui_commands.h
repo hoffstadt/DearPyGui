@@ -3237,26 +3237,9 @@ reorder_items(PyObject* self, PyObject* args, PyObject* kwargs)
 	auto anew_order = ToUUIDVect(new_order);
 	mvUUID container = GetIDFromPyObject(containerraw);
 
-	mvAppItem* parent = GetItem((*GContext->itemRegistry), container);
+	if (!ReorderChildren(*GContext->itemRegistry, container, slot, anew_order))
+		return nullptr;
 
-	std::vector<std::shared_ptr<mvAppItem>>& children = parent->childslots[slot];
-
-	std::vector<std::shared_ptr<mvAppItem>> newchildren;
-	newchildren.reserve(children.size());
-
-	// todo: better sorting algorithm
-	for (const auto& item : anew_order)
-	{
-		for (auto& child : children)
-		{
-			if (child->uuid == item)
-			{
-				newchildren.emplace_back(child);
-				break;
-			}
-		}
-	}
-	children = newchildren;
 	return GetPyNone();
 }
 
