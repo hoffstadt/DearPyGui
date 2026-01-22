@@ -91,8 +91,8 @@ GetModuleConstants()
 		ModuleConstants.push_back({"mvPlatform_Apple", 1L });
 		ModuleConstants.push_back({"mvPlatform_Linux", 2L });
 
-		ModuleConstants.push_back({"mvColorEdit_AlphaPreviewNone", 0L });
-		ModuleConstants.push_back({"mvColorEdit_AlphaPreview", ImGuiColorEditFlags_AlphaPreview });
+		ModuleConstants.push_back({"mvColorEdit_AlphaPreviewNone", ImGuiColorEditFlags_AlphaOpaque });
+		ModuleConstants.push_back({"mvColorEdit_AlphaPreview", ImGuiColorEditFlags_None });
 		ModuleConstants.push_back({"mvColorEdit_AlphaPreviewHalf", ImGuiColorEditFlags_AlphaPreviewHalf });
 		ModuleConstants.push_back({"mvColorEdit_uint8", ImGuiColorEditFlags_Uint8});
 		ModuleConstants.push_back({"mvColorEdit_float", ImGuiColorEditFlags_Float});
