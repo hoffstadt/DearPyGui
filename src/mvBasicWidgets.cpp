@@ -597,7 +597,7 @@ DearPyGui::fill_configuration_dict(const mvSelectableConfig& inConfig, PyObject*
 
 	// window flags
 	checkbitset("span_columns", ImGuiSelectableFlags_SpanAllColumns, inConfig.flags, false);
-	checkbitset("disable_popup_close", ImGuiSelectableFlags_DontClosePopups, inConfig.flags, false);
+	checkbitset("disable_popup_close", ImGuiSelectableFlags_NoAutoClosePopups, inConfig.flags, false);
 }
 
 void
@@ -1651,7 +1651,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvSelectableConfig& outConfig, mv
 
 	// window flags
 	flagop("span_columns", ImGuiSelectableFlags_SpanAllColumns, outConfig.flags, false);
-	flagop("disable_popup_close", ImGuiSelectableFlags_DontClosePopups, outConfig.flags, false);
+	flagop("disable_popup_close", ImGuiSelectableFlags_NoAutoClosePopups, outConfig.flags, false);
 
 	if (info.enabledLastFrame)
 	{
@@ -5814,9 +5814,18 @@ DearPyGui::draw_image(ImDrawList* drawlist, mvAppItem& item, mvImageConfig& conf
 				type == mvAppItemType::mvRawTexture)
 			{
 				ImTextureRef texture = static_cast<mvTextureItem*>(config.texture.get())->getTexRef();
-				ImGui::Image(texture, ImVec2((float)item.config.width, (float)item.config.height), ImVec2(config.uv_min.x, config.uv_min.y), ImVec2(config.uv_max.x, config.uv_max.y),
-					ImVec4((float)config.tintColor.r, (float)config.tintColor.g, (float)config.tintColor.b, (float)config.tintColor.a),
-					ImVec4((float)config.borderColor.r, (float)config.borderColor.g, (float)config.borderColor.b, (float)config.borderColor.a));
+				ImGuiContext& g = *GImGui;
+				ImGui::PushStyleVar(ImGuiStyleVar_ImageBorderSize, (config.borderColor.a > 0.0f) ? ImMax(1.0f, g.Style.ImageBorderSize) : 0.0f);
+				ImGui::PushStyleColor(ImGuiCol_Border, config.borderColor.toVec4());
+				ImGui::ImageWithBg(
+					texture,
+					ImVec2((float)item.config.width, (float)item.config.height),
+					ImVec2(config.uv_min.x, config.uv_min.y),
+					ImVec2(config.uv_max.x, config.uv_max.y),
+					ImVec4(0, 0, 0, 0),
+					config.tintColor.toVec4());
+				ImGui::PopStyleColor();
+				ImGui::PopStyleVar();
 			}
 		}
 	}

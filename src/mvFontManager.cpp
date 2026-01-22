@@ -220,7 +220,11 @@ mvFontManager::drawWidgets()
 
 		ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
 		ImVec4 border_col = ImVec4(1.0f, 1.0f, 1.0f, 0.5f);
-		ImGui::Image(atlas->TexRef, ImVec2((float)atlas->TexData->Width, (float)atlas->TexData->Height), ImVec2(0, 0), ImVec2(1, 1), tint_col, border_col);
+		ImGui::PushStyleVar(ImGuiStyleVar_ImageBorderSize, 1.0f);
+		ImGui::PushStyleColor(ImGuiCol_Border, border_col);
+		ImGui::ImageWithBg(atlas->TexRef, ImVec2((float)atlas->TexData->Width, (float)atlas->TexData->Height), ImVec2(0, 0), ImVec2(1, 1), ImVec4(0, 0, 0, 0), tint_col);
+		ImGui::PopStyleColor();
+		ImGui::PopStyleVar();
 		ImGui::TreePop();
 	}
 

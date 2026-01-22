@@ -929,20 +929,8 @@ DearPyGui::set_configuration(PyObject* inDict, mvColorEditConfig& outConfig)
 		long mode = ToUUID(item);
 
 		// reset target flags
-		outConfig.flags &= ~ImGuiColorEditFlags_AlphaPreview;
-		outConfig.flags &= ~ImGuiColorEditFlags_AlphaPreviewHalf;
-
-		switch (mode)
-		{
-		case ImGuiColorEditFlags_AlphaPreview:
-			outConfig.flags |= ImGuiColorEditFlags_AlphaPreview;
-			break;
-		case ImGuiColorEditFlags_AlphaPreviewHalf:
-			outConfig.flags |= ImGuiColorEditFlags_AlphaPreviewHalf;
-			break;
-		default:
-			break;
-		}
+		outConfig.flags &= ~(ImGuiColorEditFlags_AlphaOpaque | ImGuiColorEditFlags_AlphaPreviewHalf);
+		outConfig.flags |= mode;
 	}
 
 	if (PyObject* item = PyDict_GetItemString(inDict, "display_mode"))
@@ -1055,20 +1043,8 @@ DearPyGui::set_configuration(PyObject* inDict, mvColorPickerConfig& outConfig)
 		long mode = ToUUID(item);
 
 		// reset target flags
-		outConfig.flags &= ~ImGuiColorEditFlags_AlphaPreview;
-		outConfig.flags &= ~ImGuiColorEditFlags_AlphaPreviewHalf;
-
-		switch (mode)
-		{
-		case ImGuiColorEditFlags_AlphaPreview:
-			outConfig.flags |= ImGuiColorEditFlags_AlphaPreview;
-			break;
-		case ImGuiColorEditFlags_AlphaPreviewHalf:
-			outConfig.flags |= ImGuiColorEditFlags_AlphaPreviewHalf;
-			break;
-		default:
-			break;
-		}
+		outConfig.flags &= ~(ImGuiColorEditFlags_AlphaOpaque | ImGuiColorEditFlags_AlphaPreviewHalf);
+		outConfig.flags |= mode;
 	}
 
 	if (PyObject* item = PyDict_GetItemString(inDict, "display_type"))
@@ -1197,12 +1173,8 @@ DearPyGui::fill_configuration_dict(const mvColorEditConfig& inConfig, PyObject* 
 		PyDict_SetItemString(outDict, "input_mode", mvPyObject(ToPyLong(ImGuiColorEditFlags_InputHSV)));
 
 	// alpha_preview
-	if (inConfig.flags & ImGuiColorEditFlags_AlphaPreview)
-		PyDict_SetItemString(outDict, "alpha_preview", mvPyObject(ToPyLong(ImGuiColorEditFlags_AlphaPreview)));
-	else if (inConfig.flags & ImGuiColorEditFlags_AlphaPreviewHalf)
-		PyDict_SetItemString(outDict, "alpha_preview", mvPyObject(ToPyLong(ImGuiColorEditFlags_AlphaPreviewHalf)));
-	else
-		PyDict_SetItemString(outDict, "alpha_preview", mvPyObject(ToPyLong(0l)));
+	auto alphaMode = inConfig.flags & (ImGuiColorEditFlags_AlphaOpaque | ImGuiColorEditFlags_AlphaPreviewHalf);
+	PyDict_SetItemString(outDict, "alpha_preview", mvPyObject(ToPyLong(alphaMode)));
 
 	// display_mode
 	if (inConfig.flags & ImGuiColorEditFlags_DisplayHSV)
@@ -1250,12 +1222,8 @@ DearPyGui::fill_configuration_dict(const mvColorPickerConfig& inConfig, PyObject
 		PyDict_SetItemString(outDict, "input_mode", mvPyObject(ToPyLong(ImGuiColorEditFlags_InputHSV)));
 
 	// alpha_preview
-	if (inConfig.flags & ImGuiColorEditFlags_AlphaPreview)
-		PyDict_SetItemString(outDict, "alpha_preview", mvPyObject(ToPyLong(ImGuiColorEditFlags_AlphaPreview)));
-	else if (inConfig.flags & ImGuiColorEditFlags_AlphaPreviewHalf)
-		PyDict_SetItemString(outDict, "alpha_preview", mvPyObject(ToPyLong(ImGuiColorEditFlags_AlphaPreviewHalf)));
-	else
-		PyDict_SetItemString(outDict, "alpha_preview", mvPyObject(ToPyLong(0)));
+	auto alphaMode = inConfig.flags & (ImGuiColorEditFlags_AlphaOpaque | ImGuiColorEditFlags_AlphaPreviewHalf);
+	PyDict_SetItemString(outDict, "alpha_preview", mvPyObject(ToPyLong(alphaMode)));
 
 	// display_type
 	if (inConfig.flags & ImGuiColorEditFlags_Uint8)
