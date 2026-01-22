@@ -2567,6 +2567,15 @@ create_context(PyObject* self, PyObject* args, PyObject* kwargs)
 		ImGui::CreateContext();
 		ImPlot::CreateContext();
 		ImNodes::CreateContext();
+
+		// Configure some defaults that are common across platforms
+		ImGuiIO &io = ImGui::GetIO();
+		io.ConfigErrorRecoveryEnableAssert = true;
+		// We disable the log by default so that if something goes awry and ImGui
+		// starts spitting an error every frame, the DebugLogBuf doesn't grow unlimited
+		// in production code.  Logging can always be enabled via show_imgui_demo -> Configuration.
+		io.ConfigErrorRecoveryEnableDebugLog = false;
+		io.ConfigErrorRecoveryEnableTooltip = false;
 	}
 
 	Py_END_ALLOW_THREADS;
