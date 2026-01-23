@@ -2894,6 +2894,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "no_saved_settings", mvArgType::KEYWORD_ARG, "False", "Never load/save settings in .ini file." });
         args.push_back({ mvPyDataType::Bool, "no_open_over_existing_popup", mvArgType::KEYWORD_ARG, "True", "Don't open if there's already a popup" });
         args.push_back({ mvPyDataType::Bool, "no_scroll_with_mouse", mvArgType::KEYWORD_ARG, "False", "Disable user vertically scrolling with mouse wheel." });
+        args.push_back({ mvPyDataType::Bool, "copy_contents_shortcut", mvArgType::KEYWORD_ARG, "False", "Experimental. If True, window contents can be copied to clipboard by pressing Ctrl+C. Might be useful for message boxes." });
 
         args.push_back({ mvPyDataType::Callable, "on_close", mvArgType::KEYWORD_ARG, "None", "Callback ran when window is closed." });
 
