@@ -180,6 +180,7 @@ DearPyGui::fill_configuration_dict(const mvWindowAppItemConfig& inConfig, PyObje
     PyDict_SetItemString(outDict, "collapsed", mvPyObject(ToPyBool(inConfig.collapsed)));
     PyDict_SetItemString(outDict, "min_size", mvPyObject(ToPyPairII(inConfig.min_size.x, inConfig.min_size.y)));
     PyDict_SetItemString(outDict, "max_size", mvPyObject(ToPyPairII(inConfig.max_size.x, inConfig.max_size.y)));
+    PyDict_SetItemString(outDict, "copy_contents_shortcut", mvPyObject(ToPyBool(inConfig.copy_contents_shortcut)));
 
 	PyObject* on_close = inConfig.on_close;
 	PyDict_SetItemString(outDict, "on_close", on_close? on_close : Py_None);
@@ -407,6 +408,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvAppItem& itemc, mvWindowAppItem
 
     if (PyObject* item = PyDict_GetItemString(inDict, "no_open_over_existing_popup")) outConfig.no_open_over_existing_popup = ToBool(item);
     if (PyObject* item = PyDict_GetItemString(inDict, "no_close")) outConfig.no_close = ToBool(item);
+    if (PyObject* item = PyDict_GetItemString(inDict, "copy_contents_shortcut")) outConfig.copy_contents_shortcut = ToBool(item);
     if (PyObject* item = PyDict_GetItemString(inDict, "collapsed"))
     {
         outConfig._collapsedDirty = true;
@@ -1539,6 +1541,9 @@ DearPyGui::draw_window(ImDrawList* drawlist, mvAppItem& item, mvWindowAppItemCon
 
     else
     {
+		ImGuiIO &io = ImGui::GetIO();
+        io.ConfigWindowsCopyContentsWithCtrlC = config.copy_contents_shortcut;
+
         if (!ImGui::Begin(item.info.internalLabel.c_str(), config.no_close ? nullptr : &item.config.show, config.windowflags))
         {
             if (config.mainWindow)

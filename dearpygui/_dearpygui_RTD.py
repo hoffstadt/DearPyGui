@@ -2842,6 +2842,7 @@ def window(**kwargs):
 		no_saved_settings (bool, optional): Never load/save settings in .ini file.
 		no_open_over_existing_popup (bool, optional): Don't open if there's already a popup
 		no_scroll_with_mouse (bool, optional): Disable user vertically scrolling with mouse wheel.
+		copy_contents_shortcut (bool, optional): Experimental. If True, window contents can be copied to clipboard by pressing Ctrl+C. Might be useful for message boxes.
 		on_close (Callable, optional): Callback ran when window is closed.
 		id (Union[int, str], optional): (deprecated)
 		delay_search (bool, optional): (deprecated)This was used as an optimization hint but is not relevant anymore.
@@ -6938,6 +6939,7 @@ def add_window(**kwargs):
 		no_saved_settings (bool, optional): Never load/save settings in .ini file.
 		no_open_over_existing_popup (bool, optional): Don't open if there's already a popup
 		no_scroll_with_mouse (bool, optional): Disable user vertically scrolling with mouse wheel.
+		copy_contents_shortcut (bool, optional): Experimental. If True, window contents can be copied to clipboard by pressing Ctrl+C. Might be useful for message boxes.
 		on_close (Callable, optional): Callback ran when window is closed.
 		id (Union[int, str], optional): (deprecated)
 		delay_search (bool, optional): (deprecated)This was used as an optimization hint but is not relevant anymore.
