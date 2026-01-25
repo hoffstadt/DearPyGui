@@ -17,12 +17,28 @@ src_path = Path(__file__).parent.parent / "src"
 # imnodes_h = Path(__file__).parent.parent / "thirdparty" / "imnodes" / "imnodes.h"
 
 
-def get_existing_flags(src_file: Path) -> List[str]:
-    lines = src_file.read_text("utf-8").splitlines()
+# We extract both set_configuration and handleSpecificKeywordArgs
+dpg_func_re = re.compile(
+    r"^(?:DearPyGui::set_configuration\(.*? (mv\w+?)Config&|"
+    r"(?:void\s+)?(mv\w+)::handleSpecificKeywordArgs).*?\n\{(.*?)^\}",
+    re.MULTILINE | re.DOTALL
+)
+
+
+def get_existing_flags(src_file: Path) -> List[Tuple[str, Set[str]]]:
+    text = src_file.read_text("utf-8")
+    func_defs = dpg_func_re.findall(text)
+
     # We don't care what the destination flags variable is named
     declarationRe = re.compile(r'\s*flagop\("\w+",\s*(ImGui\w+),')
-    parsed = [declarationRe.match(l) for l in lines]
-    return [m[1] for m in parsed if m is not None]
+
+    def extract_flags(text: str) -> Set[str]:
+        parsed = [declarationRe.match(l) for l in text.splitlines()]
+        return set([m[1] for m in parsed if m is not None])
+
+    # The widget name is either in the group 1 or group 2, which are 0th and 1st elements
+    # of the find_all result, respectively.
+    return [ (d[0] or d[1], extract_flags(d[2])) for d in func_defs ]
 
 
 def gen_py_name(imgui_name: str) -> str:
@@ -79,15 +95,18 @@ def conv_parser(flags: List[Tuple[str, str]]) -> List[str]:
     ]
 
 
-def process_enum(enum_name: str, existing_flags: Set[str]) -> List[str]:
+def process_enum(enum_name: str, existing_flags: Set[str], widget_name: str) -> List[str]:
     enum_name = enum_name.rstrip("_")
     flags = read_enum(imgui_h, enum_name, existing_flags)
     if not flags:
         return []
 
+    if widget_name:
+        widget_name += ": "
+
     return (
         [
-            f"=== {enum_name} ===",
+            f"=== {widget_name}{enum_name} ===",
             "",
             "Copy this to parser definitions in mvAppItem.cpp:",
             "",
@@ -116,9 +135,8 @@ parser.add_argument("--all", action="store_true", help="refresh all known enums 
 
 args = parser.parse_args()
 
-enums = args.enums
-
-existing = set(
+# This dict maps widget name to a list of ImGui flags
+existing = dict(
     get_existing_flags(src_path / "mvBasicWidgets.cpp") +
     get_existing_flags(src_path / "mvColors.cpp") +
     get_existing_flags(src_path / "mvContainers.cpp") +
@@ -127,9 +145,42 @@ existing = set(
     get_existing_flags(src_path / "mvTables.cpp")
 )
 
-if args.all:
-    enums = sorted(list(set([e.partition("_")[0] for e in existing])))
+# Just squashing all prefixes in each sub-list into a set.
+# The resulting dict maps widget name to a set of ImGui enum prefixes, ideally just
+# one enum per widget (but who knows).
+existing_prefixes = {
+    widget: set([ e.partition("_")[0] for e in flags ]) for widget, flags in existing.items()
+}
 
-lines = itertools.chain.from_iterable([process_enum(e, existing) for e in enums])
+# This will keep a (widget, enum) list, where widget may be empty e.g. if we only
+# have an enum name but it's not used in any known widget
+enums: List[Tuple[str, str]]
+
+if args.all or not args.enums:
+    # Here we get all combinations of (widget, prefix) pairs
+    enums = sorted([
+        (widget, prefix)
+        for widget, prefixes in existing_prefixes.items()
+        for prefix in prefixes
+    ])
+
+else:
+    # Here we're only given enum prefixes, let's find the corresponding widgets
+    prefixes = [e.rstrip("_") for e in args.enums]
+    # We only need this mapping to make sure we don't lose prefixes that are not
+    # found anywhere in existing_prefixes (i.e. something new).  For these, we add
+    # an empty widget name in their list so they are not lost.
+    widgets_per_pref = {
+        prefix: ([w for w, p in existing_prefixes.items() if prefix in p] or [""])
+        for prefix in prefixes
+    }
+    # Now reverse the mapping
+    enums = [
+        (w, p)
+        for p, widgets in widgets_per_pref.items()
+        for w in widgets
+    ]
+
+lines = itertools.chain.from_iterable([process_enum(enum_name, existing[widget], widget) for widget, enum_name in enums])
 
 print("\n".join(lines))
