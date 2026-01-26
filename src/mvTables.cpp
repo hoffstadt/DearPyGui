@@ -168,8 +168,6 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 	apply_local_theming(this);
 
 	{
-		ScopedID id(uuid);
-
 		auto row_renderer = [&](mvAppItem* row, mvAppItem* prev_visible_row=nullptr)
 		{
 			//TableNextRow() ends the previous row, if any, and determines background color for it.
@@ -241,7 +239,14 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 
 		handleImmediateScroll();
 
-		if (ImGui::BeginTable(info.internalLabel.c_str(), _columns, _flags,
+		const char* table_id = info.internalLabel.c_str();
+		// If this table is a part of a synced group, use that group's internalLabel
+		// instead.  In most cases, it will contain UUID so that all groups are distinct
+		// but tables within the group are synced.
+		if (info.parentPtr && info.parentPtr->type == mvAppItemType::mvSyncedTables)
+			table_id = info.parentPtr->info.internalLabel.c_str();
+
+		if (ImGui::BeginTable(table_id, _columns, _flags,
 			ImVec2((float)config.width, (float)config.height), (float)_inner_width))
 		{
 			state.lastFrameUpdate = GContext->frame;
@@ -669,4 +674,52 @@ void mvTable::setPyValue(PyObject* value)
 	}
 	_imguiFilter.InputBuf[i] = 0;
 	_imguiFilter.Build();
+}
+
+void mvSyncedTables::draw(ImDrawList* drawlist, float x, float y)
+{
+    //-----------------------------------------------------------------------------
+    // pre draw
+    //-----------------------------------------------------------------------------
+
+    // show/hide
+    if (!config.show)
+        return;
+
+    // push font if a font object is attached
+    if (font)
+    {
+        ImFont* fontptr = static_cast<mvFont*>(font.get())->getFontPtr();
+        ImGui::PushFont(fontptr);
+    }
+
+    // themes
+    apply_local_theming(this);
+
+    //-----------------------------------------------------------------------------
+    // draw
+    //-----------------------------------------------------------------------------
+    {
+		ScopedID id(uuid);
+
+        for (auto& child : childslots[1])
+        {
+            child->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
+        }
+        UpdateAppItemState(state);
+    }
+
+    //-----------------------------------------------------------------------------
+    // post draw
+    //-----------------------------------------------------------------------------
+
+    // handle popping themes
+    cleanup_local_theming(this);
+
+    // pop font off stack
+    if (font)
+        ImGui::PopFont();
+
+    if (handlerRegistry)
+        handlerRegistry->checkEvents(&state);
 }

@@ -51,6 +51,7 @@
     X( mvTable ) \
     X( mvTableColumn ) \
     X( mvTableRow ) \
+    X( mvSyncedTables ) \
     X( mvDrawLine ) \
     X( mvDrawArrow ) \
     X( mvDrawTriangle ) \

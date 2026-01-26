@@ -2339,6 +2339,30 @@ def subplots(rows, columns, **kwargs):
 		internal_dpg.pop_container_stack()
 
 @contextmanager
+def synced_tables(**kwargs):
+	"""	 Links all tables that are immediate children of this container so that they share their state (mostly column sizes).  Other children are rendered as is.  This is an experimental feature, use with caution.
+
+	Args:
+		label (str, optional): Overrides 'name' as label.
+		user_data (Any, optional): User data for callbacks
+		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
+		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
+		show (bool, optional): Attempt to render widget.
+		filter_key (str, optional): Used by filter widget.
+		id (Union[int, str], optional): (deprecated)
+	Yields:
+		Union[int, str]
+	"""
+	try:
+		widget = internal_dpg.add_synced_tables(**kwargs)
+		internal_dpg.push_container_stack(widget)
+		yield widget
+	finally:
+		internal_dpg.pop_container_stack()
+
+@contextmanager
 def tab(**kwargs):
 	"""	 Adds a tab to a tab bar.
 
@@ -6343,6 +6367,25 @@ def add_subplots(rows, columns, **kwargs):
 
 	return internal_dpg.add_subplots(rows, columns, **kwargs)
 
+def add_synced_tables(**kwargs):
+	"""	 Links all tables that are immediate children of this container so that they share their state (mostly column sizes).  Other children are rendered as is.  This is an experimental feature, use with caution.
+
+	Args:
+		label (str, optional): Overrides 'name' as label.
+		user_data (Any, optional): User data for callbacks
+		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
+		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
+		show (bool, optional): Attempt to render widget.
+		filter_key (str, optional): Used by filter widget.
+		id (Union[int, str], optional): (deprecated)
+	Returns:
+		Union[int, str]
+	"""
+
+	return internal_dpg.add_synced_tables(**kwargs)
+
 def add_tab(**kwargs):
 	"""	 Adds a tab to a tab bar.
 
@@ -9361,6 +9404,7 @@ mvNodeAttribute=internal_dpg.mvNodeAttribute
 mvTable=internal_dpg.mvTable
 mvTableColumn=internal_dpg.mvTableColumn
 mvTableRow=internal_dpg.mvTableRow
+mvSyncedTables=internal_dpg.mvSyncedTables
 mvDrawLine=internal_dpg.mvDrawLine
 mvDrawArrow=internal_dpg.mvDrawArrow
 mvDrawTriangle=internal_dpg.mvDrawTriangle
