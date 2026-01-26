@@ -78,6 +78,28 @@ void mvAddOwnerlessCallback(const std::shared_ptr<mvPyObject>& callback,
 	mvAddOwnerlessCallback(callback, user_data, sender, alias, []() -> PyObject* { return nullptr; });
 }
 
+void mvRunOwnedCallback(const std::weak_ptr<void>& owner, PyObject* callback, PyObject* user_data, mvUUID sender /* = 0 */, const std::string& sender_alias /* = "" */, PyObject* app_data /* = nullptr */)
+{
+	auto liveOwner = owner.lock();
+	if (liveOwner)
+	{
+		// Make our own callback ref
+		mvPyObject ownCallback(callback, true);
+		{
+			// We need to lock the mutex while releasing the `owner` pointer.  When `liveOwner`
+			// goes out of scope, the mvAppItem that it holds might get deleted, thus
+			// invalidating all mvAppItem* pointers that we might be holding in various DPG functions
+			// e.g. in another thread.  By locking the mutex and explicitly resetting
+			// `liveOwner`, we guarantee that destruction of mvAppItem only occurs with
+			// the mutex locked, and thus cannot happen in the middle of an API function
+			// that also locks the mutex.
+			mvPySafeLockGuard lk(GContext->mutex);
+			liveOwner.reset();
+		}
+		mvRunCallback(ownCallback, user_data, sender, sender_alias, app_data);
+	}
+}
+
 void mvRunCallback(PyObject* callback, PyObject* user_data, mvUUID sender, const std::string& sender_alias, PyObject* app_data)
 {
 

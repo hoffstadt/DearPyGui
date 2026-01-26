@@ -8,14 +8,11 @@
 
 mvItemRegistry::mvItemRegistry()
 {
-    // prefill cached containers
-    for (i32 i = 0; i < CachedContainerCount; i++)
-    {
-        cachedContainersID[i] = 0;
-        cachedContainersPTR[i] = nullptr;
-        cachedItemsID[i] = 0;
-        cachedItemsPTR[i] = nullptr;
-    }
+    // We seldom need to do a GetItem(0), and an explicit check for uuid == 0 in GetItem
+    // slows it down.  Instead of this, we add a fake entry to the allItems map,
+    // mapping 0 to nullptr.  This entry will never go away because map items are only
+    // removed in the mvAppItem destructor.
+    allItems[0] = nullptr;
 }
 
 static b8
@@ -48,25 +45,6 @@ TopParent(mvItemRegistry& registry)
 }
 
 static void
-CacheItem(mvItemRegistry& registry, mvAppItem* item)
-{
-    if (DearPyGui::GetEntityDesciptionFlags(item->type) & MV_ITEM_DESC_CONTAINER)
-    {
-        registry.cachedContainersID[registry.cachedContainerIndex] = item->uuid;
-        registry.cachedContainersPTR[registry.cachedContainerIndex] = item;
-        registry.cachedContainerIndex++;
-        if (registry.cachedContainerIndex == registry.CachedContainerCount)
-            registry.cachedContainerIndex = 0;
-    }
-
-    registry.cachedItemsID[registry.cachedItemsIndex] = item->uuid;
-    registry.cachedItemsPTR[registry.cachedItemsIndex] = item;
-    registry.cachedItemsIndex++;
-    if (registry.cachedItemsIndex == registry.CachedContainerCount)
-        registry.cachedItemsIndex = 0;
-}
-
-static void
 UpdateChildLocations(std::vector<std::shared_ptr<mvAppItem>>* children, i32 slots)
 {
     for (i32 i = 0; i < slots; i++)
@@ -84,331 +62,23 @@ UpdateChildLocations(std::vector<std::shared_ptr<mvAppItem>>* children, i32 slot
 }
 
 static b8
-DeleteChild(mvAppItem* item, mvUUID uuid)
+AddRuntimeChild(mvAppItem* rootitem, mvUUID before, std::shared_ptr<mvAppItem> item)
 {
-    for (auto& childset : item->childslots)
-    {
-        b8 childfound = false;
-        b8 itemDeleted = false;
-
-        for (auto& child : childset)
-        {
-            if (child)
-            {
-                if (child->uuid == uuid)
-                {
-                    childfound = true;
-                    break;
-                }
-
-                itemDeleted = DeleteChild(child.get(), uuid);
-                if (itemDeleted)
-                    break;
-            }
-        }
-
-        if (childfound)
-        {
-            std::vector<std::shared_ptr<mvAppItem>> oldchildren = childset;
-
-            childset.clear();
-
-            for (auto& child : oldchildren)
-            {
-                if (child)
-                {
-                    if (child->uuid == uuid)
-                    {
-                        itemDeleted = true;
-                        DearPyGui::OnChildRemoved(item, child);
-                        continue;
-                    }
-                }
-
-                childset.push_back(child);
-            }
-        }
-
-        if (itemDeleted)
-        {
-            UpdateChildLocations(item->childslots, 4);
-            return true;
-        }
-    }
-
-    return false;
-}
-
-static b8
-DeleteRoot(std::vector<std::shared_ptr<mvAppItem>>& roots, mvUUID uuid)
-{
-    b8 deletedItem = false;
-
-    // try to delete build-in item
-    for (auto& root : roots)
-    {
-        deletedItem = DeleteChild(root.get(), uuid);
-        if (deletedItem)
-            break;
-    }
-
-    if (deletedItem)
-        return true;
-
-    b8 rootDeleting = false;
-
-    // check if attempting to delete a window
-    for (auto& window : roots)
-    {
-        if (window->uuid == uuid)
-        {
-            rootDeleting = true;
-            break;
-        }
-    }
-
-    // delete window and update window vector
-    // this should be changed to a different data
-    // structure
-    if (rootDeleting)
-    {
-        std::vector<std::shared_ptr<mvAppItem>> oldroots = roots;
-
-        roots.clear();
-
-        for (auto& root : oldroots)
-        {
-            if (root->uuid == uuid)
-            {
-                deletedItem = true;
-                continue;
-            }
-            roots.push_back(root);
-        }
-
-        return true;
-    }
-
-    return false;
-}
-
-static std::shared_ptr<mvAppItem>
-StealChild(mvAppItem* item, mvUUID uuid)
-{
-    std::shared_ptr<mvAppItem> stolenChild = nullptr;
-
-    for (auto& childset : item->childslots)
-    {
-        b8 childfound = false;
-
-        for (auto& child : childset)
-        {
-            if (!child)
-                continue;
-
-            if (child->uuid == uuid)
-            {
-                childfound = true;
-                break;
-            }
-
-            if (DearPyGui::GetEntityDesciptionFlags(child->type) & MV_ITEM_DESC_CONTAINER)
-            {
-                stolenChild = StealChild(child.get(), uuid);
-                if (stolenChild)
-                    return stolenChild;
-            }
-        }
-
-        if (childfound)
-        {
-            std::vector<std::shared_ptr<mvAppItem>> oldchildren = childset;
-
-            childset.clear();
-
-            for (auto& child : oldchildren)
-            {
-                if (child->uuid == uuid)
-                {
-                    stolenChild = child;
-                    DearPyGui::OnChildRemoved(item, child);
-                    continue;
-                }
-
-                childset.push_back(child);
-            }
-
-            UpdateChildLocations(item->childslots, 4);
-
-            return stolenChild;
-        }
-
-
-        //return static_cast<std::shared_ptr<mvAppItem>>(std::make_shared<mvButton>("Not possible"));
-    }
-
-    return stolenChild;
-}
-
-static b8
-MoveRoot(std::vector<std::shared_ptr<mvAppItem>>& roots, mvUUID uuid, std::shared_ptr<mvAppItem>& item)
-{
-        
-    for (auto& window : roots)
-    {
-        item = StealChild(window.get(), uuid);
-        if (item)
-            return true;
-    }
-    return false;
-}
-
-static b8
-MoveChildUp(mvAppItem* item, mvUUID uuid)
-{
-    b8 found = false;
-    i32 index = 0;
-
-    for (auto& childset : item->childslots)
-    {
-        // check children
-        for (size_t i = 0; i < childset.size(); i++)
-        {
-
-            if (childset[i]->uuid == uuid)
-            {
-                found = true;
-                index = (i32)i;
-                break;
-            }
-
-            if (DearPyGui::GetEntityDesciptionFlags(childset[i]->type) & MV_ITEM_DESC_CONTAINER)
-            {
-                found = MoveChildUp(childset[i].get(), uuid);
-                if (found)
-                    return true;
-            }
-
-        }
-
-        if (found)
-        {
-            if (index > 0)
-            {
-                auto upperitem = childset[index - 1];
-                auto loweritem = childset[index];
-
-                childset[index] = upperitem;
-                childset[index - 1] = loweritem;
-
-                UpdateChildLocations(item->childslots, 4);
-            }
-
-            return true;
-        }
-    }
-
-    return false;
-}
-
-static b8
-MoveUpRoot(std::vector<std::shared_ptr<mvAppItem>>& roots, mvUUID uuid)
-{
-    for (auto& window : roots)
-    {
-        if (MoveChildUp(window.get(), uuid))
-            return true;
-    }
-    return false;
-}
-
-static b8
-MoveChildDown(mvAppItem* item, mvUUID uuid)
-{
-    b8 found = false;
-    size_t index = 0;
-
-    for (auto& childset : item->childslots)
-    {
-        // check children
-        for (size_t i = 0; i < childset.size(); i++)
-        {
-
-            if (childset[i]->uuid == uuid)
-            {
-                found = true;
-                index = i;
-                break;
-            }
-
-            if (DearPyGui::GetEntityDesciptionFlags(childset[i]->type) & MV_ITEM_DESC_CONTAINER)
-            {
-                found = MoveChildDown(childset[i].get(), uuid);
-                if (found)
-                    return true;
-            }
-
-        }
-
-        if (found)
-        {
-            if (index < childset.size() - 1)
-            {
-                auto upperitem = childset[index];
-                auto loweritem = childset[index + 1];
-
-                childset[index] = loweritem;
-                childset[index + 1] = upperitem;
-
-                UpdateChildLocations(item->childslots, 4);
-            }
-
-            return true;
-        }
-
-
-    }
-
-    return false;
-}
-
-static b8
-MoveDownRoot(std::vector<std::shared_ptr<mvAppItem>>& roots, mvUUID uuid)
-{
-    for (auto& window : roots)
-    {
-        if (MoveChildDown(window.get(), uuid))
-            return true;
-    }
-    return false;
-}
-
-static b8
-AddRuntimeChild(mvAppItem* rootitem, mvUUID parent, mvUUID before, std::shared_ptr<mvAppItem> item)
-{
-    //this is the container, add item to end.
     if (before == 0)
     {
-        // checking if `rootitem` is the parent we're looking for
-        if (rootitem->uuid == parent)
-        {
-            i32 targetSlot = DearPyGui::GetEntityTargetSlot(item->type);
-            item->info.location = (i32)rootitem->childslots[targetSlot].size();
-            rootitem->childslots[targetSlot].push_back(item);
-            item->info.parentPtr = rootitem;
-            item->config.parent = rootitem->uuid;
-            DearPyGui::OnChildAdded(rootitem, item);
-            return true;
-        }
-
+        i32 targetSlot = DearPyGui::GetEntityTargetSlot(item->type);
+        item->info.location = (i32)rootitem->childslots[targetSlot].size();
+        rootitem->childslots[targetSlot].push_back(item);
+        item->info.parentPtr = rootitem;
+        item->config.parent = rootitem->uuid;
+        DearPyGui::OnChildAdded(rootitem, item);
+        return true;
     }
-    // this is the container, add item to beginning.
     else
     {
         for (auto& childslot : rootitem->childslots)
         {
             for (auto it = childslot.begin(); it != childslot.end(); ++it)
-            // for (auto& child : childslot)
             {
                 auto child = *it;
                 if (!child)
@@ -419,123 +89,16 @@ AddRuntimeChild(mvAppItem* rootitem, mvUUID parent, mvUUID before, std::shared_p
                     childslot.insert(it, item);
                     item->info.parentPtr = rootitem;
                     item->config.parent = rootitem->uuid;
-                    // TODO: this one can be optimized a lot (we only need to update
-                    // locations in the tail of the current slot, not in all 4 slots).
-                    UpdateChildLocations(rootitem->childslots, 4);
+                    // TODO: this one can be optimized by updating locations in the tail
+                    // of the `childslot` only
+                    UpdateChildLocations(&childslot, 1);
                     DearPyGui::OnChildAdded(rootitem, item);
                     return true;
                 }
             }
         }
     }
-
-    bool is_handler = (DearPyGui::GetEntityDesciptionFlags(item->type) & MV_ITEM_DESC_HANDLER);
-
-    // check children
-    for (auto& childslot : rootitem->childslots)
-    {
-        for (auto& child : childslot)
-        {
-
-            if (!child)
-                continue;
-
-            if (DearPyGui::GetEntityDesciptionFlags(child->type) & MV_ITEM_DESC_CONTAINER || is_handler)
-            {
-                // parent found
-                if (AddRuntimeChild(child.get(), parent, before, item))
-                    return true;
-            }
-        }
-    }
-    return false;
-}
-
-static b8
-AddRuntimeChildRoot(std::vector<std::shared_ptr<mvAppItem>>& roots, mvUUID parent, mvUUID before, std::shared_ptr<mvAppItem> item)
-{
-    for (auto& root : roots)
-    {
-        if (AddRuntimeChild(root.get(), parent, before, item))
-            return true;
-    }
-    return false;
-
-}
-
-static b8
-AddChildAfter(mvAppItem* parent, mvUUID prev, std::shared_ptr<mvAppItem> item)
-{
-    if (prev == 0)
-        return false;
-
-    b8 prevFound = false;
-
-    // check children
-    for (auto& childslot : parent->childslots)
-    {
-        for (auto& child : childslot)
-        {
-            if (!child)
-                continue;
-
-            if (child->uuid == prev)
-            {
-                item->info.parentPtr = parent;
-                prevFound = true;
-                break;
-            }
-
-        }
-    }
-
-    // prev item is in this container
-    if (prevFound)
-    {
-        i32 targetSlot = DearPyGui::GetEntityTargetSlot(item->type);
-        std::vector<std::shared_ptr<mvAppItem>> oldchildren = parent->childslots[targetSlot];
-        parent->childslots[targetSlot].clear();
-
-        for (auto& child : oldchildren)
-        {
-            parent->childslots[targetSlot].push_back(child);
-            if (child->uuid == prev)
-            {
-                parent->childslots[targetSlot].push_back(item);
-                DearPyGui::OnChildAdded(parent, item);
-            }
-        }
-
-        return true;
-    }
-
-
-    // check children
-    for (auto& childslot : parent->childslots)
-    {
-        for (auto& child : childslot)
-        {
-            if (!child)
-                continue;
-
-            // parent found
-            if (AddChildAfter(child.get(), prev, item))
-                return true;
-        }
-    }
-
-    return false;
-}
-
-static b8
-AddItemAfterRoot(std::vector<std::shared_ptr<mvAppItem>>& roots, mvUUID prev, std::shared_ptr<mvAppItem> item)
-{
-    for (auto& root : roots)
-    {
-        if (AddChildAfter(root.get(), prev, item))
-            return true;
-    }
-
+    IM_ASSERT(false && "We could not find `before` in its parent's childslots.");
     return false;
 }
 
@@ -543,179 +106,70 @@ static b8
 AddItemAfter(mvItemRegistry& registry, mvUUID prev, std::shared_ptr<mvAppItem> item)
 {
 
-    if (AddItemAfterRoot(registry.colormapRoots, prev, item)) return true;
-    else if (AddItemAfterRoot(registry.filedialogRoots, prev, item)) return true;
-    else if (AddItemAfterRoot(registry.stagingRoots, prev, item)) return true;
-    else if (AddItemAfterRoot(registry.viewportMenubarRoots, prev, item)) return true;
-    else if (AddItemAfterRoot(registry.fontRegistryRoots, prev, item)) return true;
-    else if (AddItemAfterRoot(registry.handlerRegistryRoots, prev, item)) return true;
-    else if (AddItemAfterRoot(registry.textureRegistryRoots, prev, item)) return true;
-    else if (AddItemAfterRoot(registry.valueRegistryRoots, prev, item)) return true;
-    else if (AddItemAfterRoot(registry.windowRoots, prev, item)) return true;
-    else if (AddItemAfterRoot(registry.themeRegistryRoots, prev, item)) return true;
-    else if (AddItemAfterRoot(registry.itemTemplatesRoots, prev, item)) return true;
-    else if (AddItemAfterRoot(registry.itemHandlerRegistryRoots, prev, item)) return true;
-    else if (AddItemAfterRoot(registry.viewportDrawlistRoots, prev, item)) return true;
+    mvAppItem* prevItem = GetItem(registry, prev);
+    if (!prevItem)
+    {
+        IM_ASSERT(false && "AddItemAfter could not find prev.");
+        return false;
+    }
 
+    mvAppItem* parent = prevItem->info.parentPtr;
+    if (parent)
+    {
+        for (auto& childset : parent->childslots)
+        {
+            for (auto it = childset.begin(); it != childset.end(); ++it)
+            {
+                if (it->get() == prevItem)
+                {
+                    ++it;
+                    childset.insert(it, item);
+                    item->info.parentPtr = parent;
+                    item->config.parent = parent->uuid;
+                    UpdateChildLocations(&childset, 1);
+                    DearPyGui::OnChildAdded(parent, item);
+                    return true;
+                }
+            }
+        }
+        // This must never happen
+        IM_ASSERT(false && "Could not find item in parent's childslots.");
+        return false;
+    }
+    
     assert(false);
     return false;
 }
 
-static b8
-AddItem(mvItemRegistry& registry, std::shared_ptr<mvAppItem> item)
+static std::vector<std::shared_ptr<mvAppItem>>&
+GetRootsList(mvItemRegistry& registry, mvAppItemType type)
 {
-    mvAppItem* parentitem = TopParent(registry);
-    item->info.parentPtr = parentitem;
-    i32 targetSlot = DearPyGui::GetEntityTargetSlot(item->type);
-    item->info.location = (i32)parentitem->childslots[targetSlot].size();
-    parentitem->childslots[targetSlot].push_back(item);
-    DearPyGui::OnChildAdded(parentitem, item);
-    return true;
+    switch (type)
+    {
+        case mvAppItemType::mvWindowAppItem: return registry.windowRoots;
+        case mvAppItemType::mvColorMapRegistry: return registry.colormapRoots;
+        case mvAppItemType::mvFileDialog: return registry.filedialogRoots;
+        case mvAppItemType::mvStage: return registry.stagingRoots;
+        case mvAppItemType::mvViewportMenuBar: return registry.viewportMenubarRoots;
+        case mvAppItemType::mvFontRegistry: return registry.fontRegistryRoots;
+        case mvAppItemType::mvHandlerRegistry: return registry.handlerRegistryRoots;
+        case mvAppItemType::mvTextureRegistry: return registry.textureRegistryRoots;
+        case mvAppItemType::mvValueRegistry: return registry.valueRegistryRoots;
+        case mvAppItemType::mvTheme: return registry.themeRegistryRoots;
+        case mvAppItemType::mvTemplateRegistry: return registry.itemTemplatesRoots;
+        case mvAppItemType::mvItemHandlerRegistry: return registry.itemHandlerRegistryRoots;
+        case mvAppItemType::mvViewportDrawlist: return registry.viewportDrawlistRoots;
+    }
+    // We must never end up here
+    IM_ASSERT(false && "A root container does not have a corresponding list in GetRootsList.");
+    return registry.windowRoots;
 }
 
-static b8
-AddRuntimeItem(mvItemRegistry& registry, mvUUID parent, mvUUID before, std::shared_ptr<mvAppItem> item)
-{
-    if (before == 0 && parent == 0)
-        return false;
-
-    if (AddRuntimeChildRoot(registry.colormapRoots, parent, before, item)) return true;
-    else if (AddRuntimeChildRoot(registry.filedialogRoots, parent, before, item)) return true;
-    else if (AddRuntimeChildRoot(registry.stagingRoots, parent, before, item)) return true;
-    else if (AddRuntimeChildRoot(registry.viewportMenubarRoots, parent, before, item)) return true;
-    else if (AddRuntimeChildRoot(registry.fontRegistryRoots, parent, before, item)) return true;
-    else if (AddRuntimeChildRoot(registry.handlerRegistryRoots, parent, before, item)) return true;
-    else if (AddRuntimeChildRoot(registry.textureRegistryRoots, parent, before, item)) return true;
-    else if (AddRuntimeChildRoot(registry.valueRegistryRoots, parent, before, item)) return true;
-    else if (AddRuntimeChildRoot(registry.windowRoots, parent, before, item)) return true;
-    else if (AddRuntimeChildRoot(registry.themeRegistryRoots, parent, before, item)) return true;
-    else if (AddRuntimeChildRoot(registry.itemTemplatesRoots, parent, before, item)) return true;
-    else if (AddRuntimeChildRoot(registry.itemHandlerRegistryRoots, parent, before, item)) return true;
-    else if (AddRuntimeChildRoot(registry.viewportDrawlistRoots, parent, before, item)) return true;
-
-    return false;
-}
-
-static b8
+static void
 AddRoot(mvItemRegistry& registry, std::shared_ptr<mvAppItem> item)
 {
-
-    if (item->type == mvAppItemType::mvWindowAppItem) registry.windowRoots.push_back(item);
-    if (item->type == mvAppItemType::mvColorMapRegistry) registry.colormapRoots.push_back(item);
-    if (item->type == mvAppItemType::mvFileDialog) registry.filedialogRoots.push_back(item);
-    if (item->type == mvAppItemType::mvStage) registry.stagingRoots.push_back(item);
-    if (item->type == mvAppItemType::mvViewportMenuBar) registry.viewportMenubarRoots.push_back(item);
-    if (item->type == mvAppItemType::mvFontRegistry) registry.fontRegistryRoots.push_back(item);
-    if (item->type == mvAppItemType::mvHandlerRegistry) registry.handlerRegistryRoots.push_back(item);
-    if (item->type == mvAppItemType::mvTextureRegistry) registry.textureRegistryRoots.push_back(item);
-    if (item->type == mvAppItemType::mvValueRegistry) registry.valueRegistryRoots.push_back(item);
-    if (item->type == mvAppItemType::mvTheme) registry.themeRegistryRoots.push_back(item);
-    if (item->type == mvAppItemType::mvTemplateRegistry) registry.itemTemplatesRoots.push_back(item);
-    if (item->type == mvAppItemType::mvItemHandlerRegistry) registry.itemHandlerRegistryRoots.push_back(item);
-    if (item->type == mvAppItemType::mvViewportDrawlist) registry.viewportDrawlistRoots.push_back(item);
-
-    return true;
-}
-
-static mvAppItem*
-GetChild(mvAppItem* rootitem, mvUUID uuid)
-{
-
-    if (rootitem->uuid == uuid)
-        return rootitem;
-
-    if (rootitem->config.searchLast)
-    {
-        if (rootitem->config.searchDelayed)
-            rootitem->config.searchDelayed = false;
-        else
-        {
-            rootitem->config.searchDelayed = true;
-            DelaySearch(*GContext->itemRegistry, rootitem);
-        }
-    }
-
-    for (auto& childset : rootitem->childslots)
-    {
-        for (auto& childitem : childset)
-        {
-            if (!childitem)
-                continue;
-
-            if (childitem->uuid == uuid)
-                return childitem.get();
-
-            auto child = GetChild(childitem.get(), uuid);
-            if (child)
-                return child;
-        }
-    }
-
-    return nullptr;
-}
-
-static std::shared_ptr<mvAppItem>
-GetChildRef(mvAppItem* rootitem, mvUUID uuid)
-{
-
-    for (auto& childset : rootitem->childslots)
-    {
-        for (auto& item : childset)
-        {
-
-            if (!item)
-                continue;
-
-            if (item->uuid == uuid)
-                return item;
-
-            auto child = GetChildRef(item.get(), uuid);
-            if (child)
-                return child;
-        }
-    }
-
-    return nullptr;
-}
-
-static mvAppItem*
-GetItemRoot(mvItemRegistry& registry, std::vector<std::shared_ptr<mvAppItem>>& roots, mvUUID uuid)
-{
-    for (auto& root : roots)
-    {
-        if (root->uuid == uuid)
-        {
-            CacheItem(registry, root.get());
-            return root.get();
-        }
-
-        mvAppItem* child = GetChild(root.get(), uuid);
-        if (child)
-        {
-            CacheItem(registry, child);
-            registry.delayedSearch.clear();
-            return child;
-        }
-    }
-
-    return nullptr;
-}
-
-static std::shared_ptr<mvAppItem>
-GetRefItemRoot(std::vector<std::shared_ptr<mvAppItem>>& roots, mvUUID uuid)
-{
-
-    for (auto& root : roots)
-    {
-        if (root->uuid == uuid)
-            return root;
-
-        auto child = GetChildRef(root.get(), uuid);
-        if (child)
-            return child;
-    }
-
-    return nullptr;
+    auto& roots = GetRootsList(registry, item->type);
+    roots.push_back(item);
 }
 
 static void
@@ -781,63 +235,105 @@ GetItemRoot(mvItemRegistry& registry, mvUUID uuid)
     return nullptr;
 }
 
-b8
-DeleteItem(mvItemRegistry& registry, mvUUID uuid, b8 childrenOnly, i32 slot)
+// Disconnects the item from its parent by removing it from the parent's childslot.
+// For root items, removes it from the "parent" list of roots.
+// When called on an item that's in the tree, must never return false.  The return
+// value is only intended to catch internal errors when the item registry is broken.
+// Note: it does *not* reset item->info.parentPtr!
+static bool
+RemoveItemFromTree(mvItemRegistry& registry, mvAppItem* item)
 {
-
-    CleanUpItem(registry, uuid);
-
-    // delete item's children only
-    if(childrenOnly)
+    mvAppItem* parent = item->info.parentPtr;
+    if (parent)
     {
-        auto item = GetItem(registry, uuid);
-        if (item)
+        for (auto& childset : parent->childslots)
         {
-            if (slot > -1 && slot < 4)
+            for (auto it = childset.begin(); it != childset.end(); ++it)
             {
-                item->childslots[slot].clear();
-            }
-            else
-            {
-                for(size_t i = 0; i < 4; i++)
+                if (it->get() == item)
                 {
-                    item->childslots[i].clear();
+                    auto child = *it;
+                    childset.erase(it);
+                    // TODO: this one can be optimized by updating locations in the tail
+                    // of the `childset` only
+                    UpdateChildLocations(&childset, 1);
+                    DearPyGui::OnChildRemoved(parent, child);
+                    return true;
                 }
             }
-                
-            if(item->type == mvAppItemType::mvTable)
-                static_cast<mvTable*>(item)->onChildrenRemoved();
+        }
+        // This must never happen
+        IM_ASSERT(false && "Could not find item in parent's childslots.");
+        return false;
+    }
 
+    // Now this is a root item
+    IM_ASSERT((DearPyGui::GetEntityDesciptionFlags(item->type) & MV_ITEM_DESC_ROOT) && "Item is neither a child nor a root.");
+
+    auto& roots = GetRootsList(registry, item->type);
+    for (auto it = roots.begin(); it != roots.end(); ++it)
+    {
+        if (it->get() == item)
+        {
+            roots.erase(it);
             return true;
         }
     }
 
-    bool deletedItem = false;
+    // This must never happen
+    IM_ASSERT(false && "Could not find a root item in the corresponding roots list.");
+    return false;
+}
 
-    if (DeleteRoot(registry.colormapRoots, uuid)) deletedItem = true;
-    else if (DeleteRoot(registry.filedialogRoots, uuid)) deletedItem = true;
-    else if (DeleteRoot(registry.stagingRoots, uuid)) deletedItem = true;
-    else if (DeleteRoot(registry.viewportMenubarRoots, uuid)) deletedItem = true;
-    else if (DeleteRoot(registry.fontRegistryRoots, uuid)) deletedItem = true;
-    else if (DeleteRoot(registry.handlerRegistryRoots, uuid)) deletedItem = true;
-    else if (DeleteRoot(registry.textureRegistryRoots, uuid)) deletedItem = true;
-    else if (DeleteRoot(registry.valueRegistryRoots, uuid)) deletedItem = true;
-    else if (DeleteRoot(registry.windowRoots, uuid)) deletedItem = true;
-    else if (DeleteRoot(registry.themeRegistryRoots, uuid)) deletedItem = true;
-    else if (DeleteRoot(registry.itemTemplatesRoots, uuid)) deletedItem = true;
-    else if (DeleteRoot(registry.itemHandlerRegistryRoots, uuid)) deletedItem = true;
-    else if (DeleteRoot(registry.viewportDrawlistRoots, uuid)) deletedItem = true;
-
-    if (deletedItem)
+b8
+DeleteItem(mvItemRegistry& registry, mvUUID uuid, b8 childrenOnly, i32 slot)
+{
+    mvAppItem* item = GetItem(registry, uuid);
+    if (!item)
     {
-        RemoveDebugWindow(registry, uuid);
-    }
-    else
         mvThrowPythonError(mvErrorCode::mvItemNotFound, "delete_item",
             "Item not found: " + std::to_string(uuid), nullptr);
+        return false;
+    }
 
-    assert(deletedItem && "Item to delete not found");
-    return deletedItem;
+    // delete item's children only
+    if (childrenOnly)
+    {
+        if (slot > -1 && slot < 4)
+        {
+            item->childslots[slot].clear();
+        }
+        else
+        {
+            for(size_t i = 0; i < 4; i++)
+            {
+                item->childslots[i].clear();
+            }
+        }
+            
+        if(item->type == mvAppItemType::mvTable)
+            static_cast<mvTable*>(item)->onChildrenRemoved();
+
+        return true;
+    }
+
+    // See if it is the captured item
+    if (registry.capturedItem && registry.capturedItem.get() == item)
+    {
+        registry.capturedItem = nullptr;
+        return true;
+    }
+
+    // Now this is just a regular item in the tree
+    RemoveDebugWindow(registry, uuid);
+    if (!RemoveItemFromTree(registry, item))
+    {
+        mvThrowPythonError(mvErrorCode::mvItemNotFound, "delete_item",
+            "Unable to delete item: " + std::to_string(uuid), item);
+        return false;
+    }
+
+    return true;
 }
 
 b8
@@ -846,119 +342,161 @@ MoveItem(mvItemRegistry& registry, mvUUID uuid, mvUUID parent, mvUUID before)
 
     std::shared_ptr<mvAppItem> child = nullptr;
 
-    b8 movedItem = false;
-
-    if(registry.capturedItem)
+    if (registry.capturedItem && registry.capturedItem->uuid == uuid)
     {
-        if(registry.capturedItem->uuid == uuid)
+        child = registry.capturedItem;
+        registry.capturedItem = nullptr;
+    }
+    else
+    {
+        child = GetRefItem(registry, uuid);
+        if (child == nullptr)
         {
-            child = registry.capturedItem;
-            movedItem = true;
-            registry.capturedItem = nullptr;
+            mvThrowPythonError(mvErrorCode::mvItemNotFound, "move_item",
+                "Item not found: " + std::to_string(uuid), nullptr);
+            return false;
         }
-                
+        // Remove it from its current location in the tree
+        RemoveItemFromTree(registry, child.get());
     }
 
-    if(!movedItem)
-    {
-        if (MoveRoot(registry.colormapRoots, uuid, child)) movedItem = true;
-        else if (MoveRoot(registry.filedialogRoots, uuid, child)) movedItem = true;
-        else if (MoveRoot(registry.stagingRoots, uuid, child)) movedItem = true;
-        else if (MoveRoot(registry.viewportMenubarRoots, uuid, child)) movedItem = true;
-        else if (MoveRoot(registry.fontRegistryRoots, uuid, child)) movedItem = true;
-        else if (MoveRoot(registry.handlerRegistryRoots, uuid, child)) movedItem = true;
-        else if (MoveRoot(registry.textureRegistryRoots, uuid, child)) movedItem = true;
-        else if (MoveRoot(registry.valueRegistryRoots, uuid, child)) movedItem = true;
-        else if (MoveRoot(registry.windowRoots, uuid, child)) movedItem = true;
-        else if (MoveRoot(registry.themeRegistryRoots, uuid, child)) movedItem = true;
-        else if (MoveRoot(registry.itemTemplatesRoots, uuid, child)) movedItem = true;
-        else if (MoveRoot(registry.itemHandlerRegistryRoots, uuid, child)) movedItem = true;
-        else if (MoveRoot(registry.viewportDrawlistRoots, uuid, child)) movedItem = true;
-    }
-        
-    if (child == nullptr)
-    {
-        mvThrowPythonError(mvErrorCode::mvItemNotFound, "move_item",
-            "Item not found: " + std::to_string(uuid), nullptr);
-    }
+    // Resetting parent item or otherwise AddItemWithRuntimeChecks might fall back
+    // to the previously stored value.
+    child->config.parent = 0;
 
-    if (child)
-        AddRuntimeItem(registry, parent, before, child);
-
-    return movedItem;
+    // TODO: AddItemWithRuntimeChecks will refuse to add items with state.ok == false,
+    // which includes fonts and textures that failed to load.  Fix this.
+    return AddItemWithRuntimeChecks(registry, child, parent, before);
 }
 
 b8
 MoveItemUp(mvItemRegistry& registry, mvUUID uuid)
 {
-
-    b8 movedItem = false;
-
-    if (MoveUpRoot(registry.colormapRoots, uuid)) movedItem = true;
-    else if (MoveUpRoot(registry.filedialogRoots, uuid)) movedItem = true;
-    else if (MoveUpRoot(registry.stagingRoots, uuid)) movedItem = true;
-    else if (MoveUpRoot(registry.viewportMenubarRoots, uuid)) movedItem = true;
-    else if (MoveUpRoot(registry.fontRegistryRoots, uuid)) movedItem = true;
-    else if (MoveUpRoot(registry.handlerRegistryRoots, uuid)) movedItem = true;
-    else if (MoveUpRoot(registry.textureRegistryRoots, uuid)) movedItem = true;
-    else if (MoveUpRoot(registry.valueRegistryRoots, uuid)) movedItem = true;
-    else if (MoveUpRoot(registry.windowRoots, uuid)) movedItem = true;
-    else if (MoveUpRoot(registry.themeRegistryRoots, uuid)) movedItem = true;
-    else if (MoveUpRoot(registry.itemTemplatesRoots, uuid)) movedItem = true;
-    else if (MoveUpRoot(registry.itemHandlerRegistryRoots, uuid)) movedItem = true;
-    else if (MoveUpRoot(registry.viewportDrawlistRoots, uuid)) movedItem = true;
-
-    if (!movedItem)
+    mvAppItem* item = GetItem(registry, uuid);
+    if (!item)
     {
-        mvThrowPythonError(mvErrorCode::mvItemNotFound, "move_item",
+        mvThrowPythonError(mvErrorCode::mvItemNotFound, "move_item_up",
             "Item not found: " + std::to_string(uuid), nullptr);
+        return false;
     }
 
-    assert(movedItem && "Item to move not found");
+    mvAppItem* parent = item->info.parentPtr;
+    if (parent)
+    {
+        for (auto& childset : parent->childslots)
+        {
+            for (auto it = childset.begin(), prev_it = childset.end(); it != childset.end(); ++it)
+            {
+                if (it->get() == item)
+                {
+                    if (it != childset.begin())
+                    {
+                        // Swapping locations so that we don't need to recalculate them on all children
+                        std::swap((*prev_it)->info.location, (*it)->info.location);
+                        // Now swap the child items themselves
+                        std::iter_swap(prev_it, it);
+                    }
+                    return true;
+                }
+                prev_it = it;
+            }
+        }
+        // This must never happen
+        IM_ASSERT(false && "Could not find item in parent's childslots.");
+        mvThrowPythonError(mvErrorCode::mvItemNotFound, "move_item_up",
+            "Unable to move item: " + std::to_string(uuid), item);
+        return false;
+    }
 
-    return movedItem;
+    // This is probably a root item, but we don't support moving roots up/down.
+    // It has never worked on roots, and actually has little sense.
+    mvThrowPythonError(mvErrorCode::mvItemNotFound, "move_item_up",
+        "move_item_up for root items is not supported", item);
+    return false;
 }
 
 b8
 MoveItemDown(mvItemRegistry& registry, mvUUID uuid)
 {
-
-    b8 movedItem = false;
-
-    if (MoveDownRoot(registry.colormapRoots, uuid)) movedItem = true;
-    else if (MoveDownRoot(registry.filedialogRoots, uuid)) movedItem = true;
-    else if (MoveDownRoot(registry.stagingRoots, uuid)) movedItem = true;
-    else if (MoveDownRoot(registry.viewportMenubarRoots, uuid)) movedItem = true;
-    else if (MoveDownRoot(registry.fontRegistryRoots, uuid)) movedItem = true;
-    else if (MoveDownRoot(registry.handlerRegistryRoots, uuid)) movedItem = true;
-    else if (MoveDownRoot(registry.textureRegistryRoots, uuid)) movedItem = true;
-    else if (MoveDownRoot(registry.valueRegistryRoots, uuid)) movedItem = true;
-    else if (MoveDownRoot(registry.windowRoots, uuid)) movedItem = true;
-    else if (MoveDownRoot(registry.themeRegistryRoots, uuid)) movedItem = true;
-    else if (MoveDownRoot(registry.itemTemplatesRoots, uuid)) movedItem = true;
-    else if (MoveDownRoot(registry.itemHandlerRegistryRoots, uuid)) movedItem = true;
-    else if (MoveDownRoot(registry.viewportDrawlistRoots, uuid)) movedItem = true;
-
-    if (!movedItem)
+    mvAppItem* item = GetItem(registry, uuid);
+    if (!item)
     {
-        mvThrowPythonError(mvErrorCode::mvItemNotFound, "move_item",
+        mvThrowPythonError(mvErrorCode::mvItemNotFound, "move_item_down",
             "Item not found: " + std::to_string(uuid), nullptr);
+        return false;
     }
 
-    assert(movedItem && "Item to move not found");
+    mvAppItem* parent = item->info.parentPtr;
+    if (parent)
+    {
+        for (auto& childset : parent->childslots)
+        {
+            for (auto it = childset.begin(); it != childset.end(); ++it)
+            {
+                if (it->get() == item)
+                {
+                    auto next_it = std::next(it);
+                    if (next_it != childset.end())
+                    {
+                        // Swapping locations so that we don't need to recalculate them on all children
+                        std::swap((*it)->info.location, (*next_it)->info.location);
+                        // Now swap the child items themselves
+                        std::iter_swap(it, next_it);
+                    }
+                    return true;
+                }
+            }
+        }
+        // This must never happen
+        IM_ASSERT(false && "Could not find item in parent's childslots.");
+        mvThrowPythonError(mvErrorCode::mvItemNotFound, "move_item_down",
+            "Unable to move item: " + std::to_string(uuid), item);
+        return false;
+    }
 
-    return movedItem;
+    // This is probably a root item, but we don't support moving roots up/down.
+    // It has never worked on roots, and actually has little sense.
+    mvThrowPythonError(mvErrorCode::mvItemNotFound, "move_item_down",
+        "move_item_down for root items is not supported", item);
+    return false;
+}
+
+b8
+ReorderChildren(mvItemRegistry& registry, mvUUID parent, i32 slot, const std::vector<mvUUID>& new_order)
+{
+	mvAppItem* parentItem = GetItem(registry, parent);
+	if (parentItem == nullptr)
+	{
+		mvThrowPythonError(mvErrorCode::mvItemNotFound, "reorder_items",
+			"Item not found: " + std::to_string(parent), nullptr);
+		return false;
+	}
+
+	std::vector<std::shared_ptr<mvAppItem>>& children = parentItem->childslots[slot];
+
+	std::vector<std::shared_ptr<mvAppItem>> newchildren;
+	newchildren.reserve(children.size());
+
+	// todo: better sorting algorithm
+	for (const auto& item : new_order)
+	{
+		for (auto& child : children)
+		{
+			if (child->uuid == item)
+			{
+				newchildren.emplace_back(child);
+				break;
+			}
+		}
+	}
+	children = newchildren;
+    UpdateChildLocations(&children, 1);
+	return true;
 }
 
 void 
 RenderItemRegistry(mvItemRegistry& registry)
 {
-    // TODO: figure out why delayedSearch can
-    //       still have values (sometimes).
-    //       It should be empty after every search.
-    if(!registry.delayedSearch.empty())
-        registry.delayedSearch.clear();
-
     MV_PROFILE_SCOPE("Rendering")
 
     if(registry.showImGuiDebug)
@@ -1127,88 +665,22 @@ ResetTheme(mvItemRegistry& registry)
         root->config.show = false;
 }
 
-void 
-DelaySearch(mvItemRegistry& registry, mvAppItem* item)
-{
-    registry.delayedSearch.push_back(item);
-}
-
 mvAppItem* 
 GetItem(mvItemRegistry& registry, mvUUID uuid)
 {
     // check captured
-    if(registry.capturedItem)
-    {
-        if(registry.capturedItem->uuid == uuid)
-            return registry.capturedItem.get();
-    }
+    if (registry.capturedItem && registry.capturedItem->uuid == uuid)
+        return registry.capturedItem.get();
 
-    // check cache
-    for (i32 i = 0; i < registry.CachedContainerCount; i++)
-    {
-        if (registry.cachedContainersID[i] == uuid)
-            return registry.cachedContainersPTR[i];
-        if (registry.cachedItemsID[i] == uuid)
-            return registry.cachedItemsPTR[i];
-    }
-
-    if (auto foundItem = GetItemRoot(registry, registry.colormapRoots, uuid)) return foundItem;
-    if (auto foundItem = GetItemRoot(registry, registry.colormapRoots, uuid)) return foundItem;
-    if (auto foundItem = GetItemRoot(registry, registry.filedialogRoots, uuid)) return foundItem;
-    if (auto foundItem = GetItemRoot(registry, registry.stagingRoots, uuid)) return foundItem;
-    if (auto foundItem = GetItemRoot(registry, registry.viewportMenubarRoots, uuid)) return foundItem;
-    if (auto foundItem = GetItemRoot(registry, registry.fontRegistryRoots, uuid)) return foundItem;
-    if (auto foundItem = GetItemRoot(registry, registry.handlerRegistryRoots, uuid)) return foundItem;
-    if (auto foundItem = GetItemRoot(registry, registry.textureRegistryRoots, uuid)) return foundItem;
-    if (auto foundItem = GetItemRoot(registry, registry.valueRegistryRoots, uuid)) return foundItem;
-    if (auto foundItem = GetItemRoot(registry, registry.windowRoots, uuid)) return foundItem;
-    if (auto foundItem = GetItemRoot(registry, registry.themeRegistryRoots, uuid)) return foundItem;
-    if (auto foundItem = GetItemRoot(registry, registry.itemTemplatesRoots, uuid)) return foundItem;
-    if (auto foundItem = GetItemRoot(registry, registry.itemHandlerRegistryRoots, uuid)) return foundItem;
-    if (auto foundItem = GetItemRoot(registry, registry.viewportDrawlistRoots, uuid)) return foundItem;
-
-    for (auto delayedItem : registry.delayedSearch)
-    {
-        mvAppItem* child = GetChild(delayedItem, uuid);
-        if (child)
-        {
-            CacheItem(registry, child);
-            registry.delayedSearch.clear();
-            return child;
-        }
-    }
-
-    registry.delayedSearch.clear();
-
-    return nullptr;
+    auto found = registry.allItems.find(uuid);
+    return found != registry.allItems.end()? found->second : nullptr;
 }
 
 std::shared_ptr<mvAppItem>
 GetRefItem(mvItemRegistry& registry, mvUUID uuid)
 {
-
-    // check captured
-    if(registry.capturedItem)
-    {
-        if(registry.capturedItem->uuid == uuid)
-            return registry.capturedItem;
-    }
-        
-    if (auto foundItem = GetRefItemRoot(registry.colormapRoots, uuid)) return foundItem;
-    else if (auto foundItem = GetRefItemRoot(registry.filedialogRoots, uuid)) return foundItem;
-    else if (auto foundItem = GetRefItemRoot(registry.stagingRoots, uuid)) return foundItem;
-    else if (auto foundItem = GetRefItemRoot(registry.viewportMenubarRoots, uuid)) return foundItem;
-    else if (auto foundItem = GetRefItemRoot(registry.fontRegistryRoots, uuid)) return foundItem;
-    else if (auto foundItem = GetRefItemRoot(registry.handlerRegistryRoots, uuid)) return foundItem;
-    else if (auto foundItem = GetRefItemRoot(registry.textureRegistryRoots, uuid)) return foundItem;
-    else if (auto foundItem = GetRefItemRoot(registry.valueRegistryRoots, uuid)) return foundItem;
-    else if (auto foundItem = GetRefItemRoot(registry.windowRoots, uuid)) return foundItem;
-    else if (auto foundItem = GetRefItemRoot(registry.themeRegistryRoots, uuid)) return foundItem;
-    else if (auto foundItem = GetRefItemRoot(registry.itemTemplatesRoots, uuid)) return foundItem;
-    else if (auto foundItem = GetRefItemRoot(registry.itemHandlerRegistryRoots, uuid)) return foundItem;
-    else if (auto foundItem = GetRefItemRoot(registry.viewportDrawlistRoots, uuid)) return foundItem;
-
-    return nullptr;
+    mvAppItem* item = GetItem(registry, uuid);
+    return item? item->shared_from_this() : nullptr;
 }
 
 mvWindowAppItem* 
@@ -1225,7 +697,7 @@ GetWindow(mvItemRegistry& registry, mvUUID uuid)
     if (item->type == mvAppItemType::mvWindowAppItem)
         return static_cast<mvWindowAppItem*>(item);
 
-    assert(false && "Item is not a window not found.");
+    assert(false && "Item is not a window.");
     return nullptr;
 }
 
@@ -1247,25 +719,6 @@ ClearItemRegistry(mvItemRegistry& registry)
     registry.viewportDrawlistRoots.clear();
 }
 
-void 
-CleanUpItem(mvItemRegistry& registry, mvUUID uuid)
-{
-    for (i32 i = 0; i < registry.CachedContainerCount; i++)
-    {
-        if (registry.cachedContainersID[i] == uuid)
-        {
-            registry.cachedContainersID[i] = 0;
-            registry.cachedContainersPTR[i] = nullptr;
-        }
-
-        if (registry.cachedItemsID[i] == uuid)
-        {
-            registry.cachedItemsID[i] = 0;
-            registry.cachedItemsPTR[i] = nullptr;
-        }
-    }
-}
-
 b8
 AddItemWithRuntimeChecks(mvItemRegistry& registry, std::shared_ptr<mvAppItem> item, mvUUID parent, mvUUID before)
 {
@@ -1275,8 +728,11 @@ AddItemWithRuntimeChecks(mvItemRegistry& registry, std::shared_ptr<mvAppItem> it
   
         // this is a unique situation in that the caller always has the GIL
         registry.capturedItem = item;
-        mvRunCallback(registry.captureCallback, nullptr, registry.capturedItem->uuid);
+        // resetting captureCallback in advance in order to avoid recursion (if the callback
+        // attempts to add another item or move an item)
+        mvPyObject captureCallback(std::move(registry.captureCallback));
         registry.captureCallback = nullptr;
+        mvRunCallback(captureCallback, nullptr, registry.capturedItem->uuid);
         return true;
     }
 
@@ -1289,11 +745,8 @@ AddItemWithRuntimeChecks(mvItemRegistry& registry, std::shared_ptr<mvAppItem> it
 
     mvPySafeLockGuard lk(GContext->mutex);
 
-    if (DearPyGui::GetEntityDesciptionFlags(item->type) & MV_ITEM_DESC_HANDLER && parent == 0)
-        parent = item->config.parent;
-
     //---------------------------------------------------------------------------
-    // STEP 0: updata "last" information
+    // STEP 0: update "last" information
     //---------------------------------------------------------------------------
     if (DearPyGui::GetEntityDesciptionFlags(item->type) & MV_ITEM_DESC_ROOT)
     {
@@ -1304,8 +757,6 @@ AddItemWithRuntimeChecks(mvItemRegistry& registry, std::shared_ptr<mvAppItem> it
         registry.lastContainerAdded = item->uuid;
 
     registry.lastItemAdded = item->uuid;
-
-    CacheItem(registry, item.get());
 
     //---------------------------------------------------------------------------
     // STEP 1: check if an item with this name exists (NO LONGER NEEDED)
@@ -1318,63 +769,56 @@ AddItemWithRuntimeChecks(mvItemRegistry& registry, std::shared_ptr<mvAppItem> it
     //  return false;
     //}
 
-    enum class AddTechnique
-    {
-        NONE, STAGE, BEFORE, PARENT, STACK
-    };
-    AddTechnique technique = AddTechnique::NONE;
-
     //---------------------------------------------------------------------------
     // STEP 2: handle root case
     //---------------------------------------------------------------------------
     if (DearPyGui::GetEntityDesciptionFlags(item->type) & MV_ITEM_DESC_ROOT)
     {
-
-        if (GContext->started)
-        {
-            AddRoot(registry, item);
-            return true;
-        }
-        return AddRoot(registry, item);
+        AddRoot(registry, item);
+        return true;
     }
 
     //---------------------------------------------------------------------------
     // STEP 3: attempt to deduce parent
     //---------------------------------------------------------------------------
+    if (item->type == mvAppItemType::mvTooltip && parent == 0)
+        parent = item->config.parent;
+
     mvAppItem* parentPtr = nullptr;
     if (before > 0)
     {
-
+        // Adding it before the "before" item - let's find it!
         mvAppItem* beforeItem = GetItem(registry, before);
-        if (beforeItem)
-            parentPtr = beforeItem->info.parentPtr;
-        technique = AddTechnique::BEFORE;
+        if (beforeItem == nullptr)
+        {
+            mvThrowPythonError(mvErrorCode::mvItemNotFound, "add_*", "Item not found: " + std::to_string(parent), nullptr);
+            IM_ASSERT(false && "The 'before' item could not be found.");
+            return false;
+        }
+        // We'll need the parent anyway in order to check compatibility
+        parentPtr = beforeItem->info.parentPtr;
     }
 
-    else if (parent > MV_RESERVED_UUID_start + MV_RESERVED_UUIDs)
+    else if (parent >= MV_START_UUID)
     {
+        // Append to children of the specified parent
         parentPtr = GetItem(registry, parent);
-        technique = AddTechnique::PARENT;
     }
 
     else if (parent == 0)
     {
+        // Take the parent from stack and add to the end
         parentPtr = TopParent(registry);
-        technique = AddTechnique::STACK;
     }
 
     // reserved uuid case
     else
     {
         parentPtr = GetItem(registry, parent);
-        if (parentPtr)
-            technique = AddTechnique::PARENT;
-
-        // revert to stack operation (reserved uuid not used)
-        else
+        if (!parentPtr)
         {
+            // revert to stack operation (reserved uuid not used)
             parentPtr = TopParent(registry);
-            technique = AddTechnique::STACK;
         }
     }
 
@@ -1469,9 +913,10 @@ AddItemWithRuntimeChecks(mvItemRegistry& registry, std::shared_ptr<mvAppItem> it
     //---------------------------------------------------------------------------
     if (item->type == mvAppItemType::mvTooltip)
     {
-        if (parentPtr->info.parentPtr->type == mvAppItemType::mvTable)
+        mvAppItem* prevItemParent = parentPtr->info.parentPtr;
+        if (prevItemParent && prevItemParent->type == mvAppItemType::mvTable)
         {
-            parentPtr->info.parentPtr->childslots[2][parentPtr->info.location] = item;
+            prevItemParent->childslots[2][parentPtr->info.location] = item;
             return true;
         }
         else
@@ -1481,17 +926,9 @@ AddItemWithRuntimeChecks(mvItemRegistry& registry, std::shared_ptr<mvAppItem> it
     }
 
     //---------------------------------------------------------------------------
-    // STEP 8: handle "before" and "after" style adding
+    // STEP 8: Either append it to parent's children or insert before the "before"
     //---------------------------------------------------------------------------
-    if (technique == AddTechnique::BEFORE || technique == AddTechnique::PARENT)
-        return AddRuntimeChild(parentPtr, parent, before, item); // same for run/compile time
-
-    //---------------------------------------------------------------------------
-    // STEP 9: handle "stack" style adding
-    //---------------------------------------------------------------------------
-    if(GContext->started)
-        return AddRuntimeChild(parentPtr, parentPtr->uuid, 0, item);
-    return AddItem(registry, item);
+    return AddRuntimeChild(parentPtr, before, item);
 }
 
 void 

@@ -24,7 +24,6 @@ void             RenderItemRegistry(mvItemRegistry& registry);
 
 // cleanup
 void             ClearItemRegistry(mvItemRegistry& registry);
-void             CleanUpItem      (mvItemRegistry& registry, mvUUID uuid);
 b8               DeleteItem       (mvItemRegistry& registry, mvUUID uuid, b8 childrenOnly = false, i32 slot = -1);
 
 // aliases
@@ -39,15 +38,17 @@ b8               MoveItemDown(mvItemRegistry& registry, mvUUID uuid);
 
 // item retrieval
 mvUUID           GetIDFromPyObject(PyObject* item);
+// Note: this function is *not* threadsafe and must be called with mvContext::mutex locked
 mvAppItem*       GetItem        (mvItemRegistry& registry, mvUUID uuid);
+// Note: this function is *not* threadsafe and must be called with mvContext::mutex locked
 std::shared_ptr<mvAppItem> GetRefItem     (mvItemRegistry& registry, mvUUID uuid);
 mvWindowAppItem* GetWindow      (mvItemRegistry& registry, mvUUID uuid);
 mvAppItem*       GetItemRoot    (mvItemRegistry& registry, mvUUID uuid);
 
 // item operations
-void             DelaySearch             (mvItemRegistry& registry, mvAppItem* item);
 b8               AddItemWithRuntimeChecks(mvItemRegistry& registry, std::shared_ptr<mvAppItem> item, mvUUID parent, mvUUID before);
 void             ResetTheme              (mvItemRegistry& registry);
+b8               ReorderChildren         (mvItemRegistry& registry, mvUUID parent, i32 slot, const std::vector<mvUUID>& new_order);
 
 //-----------------------------------------------------------------------------
 // mvItemRegistry
@@ -62,23 +63,15 @@ void             ResetTheme              (mvItemRegistry& registry);
 struct mvItemRegistry
 {
 
-    static constexpr i32 CachedContainerCount = 25;
-
-    // caching
+    // "last item" state
     mvUUID     lastItemAdded = 0;
     mvUUID     lastContainerAdded = 0;
     mvUUID     lastRootAdded = 0;
-    i32        cachedContainerIndex = 0;
-    i32        cachedItemsIndex = 0;
-    mvUUID     cachedItemsID[CachedContainerCount];
-    mvAppItem* cachedItemsPTR[CachedContainerCount];
-    mvUUID     cachedContainersID[CachedContainerCount];
-    mvAppItem* cachedContainersPTR[CachedContainerCount];
 
     // misc
     std::stack<mvAppItem*>                  containers;      // parent stack, top of stack becomes widget's parent
     std::unordered_map<std::string, mvUUID> aliases;
-    std::vector<mvAppItem*>                 delayedSearch;
+    std::unordered_map<mvUUID, mvAppItem*>  allItems;        // used for quick access to items by UUID
     b8                                      showImGuiDebug = false;
     b8                                      showImPlotDebug = false;
     std::vector<std::shared_ptr<mvAppItem>>           debugWindows;

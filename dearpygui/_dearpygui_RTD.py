@@ -566,15 +566,6 @@ def is_item_tracked(item: Union[int, str]) -> Union[bool, None]:
     return internal_dpg.get_item_configuration(item)["tracked"]
 
 
-def is_item_search_delayed(item: Union[int, str]) -> Union[bool, None]:
-    """Checks if item is search delayed.
-
-    Returns:
-        tracked as a bool or None
-    """
-    return internal_dpg.get_item_configuration(item)["delay_search"]
-
-
 def get_item_indent(item: Union[int, str]) -> Union[int, None]:
     """Gets the item's indent.
 
@@ -1542,6 +1533,15 @@ def setup_registries() -> None:
     internal_dpg.add_value_registry(tag=internal_dpg.mvReservedUUID_3)
     internal_dpg.add_colormap_registry(tag=internal_dpg.mvReservedUUID_4)
 
+@deprecated("Useless and doesn't work anyway")
+def is_item_search_delayed(item: Union[int, str]) -> Union[bool, None]:
+    """Checks if item is search delayed.
+
+    Returns:
+        tracked as a bool or None
+    """
+    return internal_dpg.get_item_configuration(item)["delay_search"]
+
 @deprecated("Use: `set_frame_callback()`")
 def set_start_callback(callback):
     """ deprecated function """
@@ -1571,7 +1571,6 @@ def child_window(**kwargs):
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
-		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		border (bool, optional): Shows/Hides the border around the sides.
@@ -1590,6 +1589,7 @@ def child_window(**kwargs):
 		auto_resize_x (bool, optional): Enable auto-resizing width based on child content. Read 'IMPORTANT: Size measurement' details above.
 		auto_resize_y (bool, optional): Enable auto-resizing height based on child content. Read 'IMPORTANT: Size measurement' details above.
 		id (Union[int, str], optional): (deprecated)
+		delay_search (bool, optional): (deprecated)This was used as an optimization hint but is not relevant anymore.
 	Yields:
 		Union[int, str]
 	"""
@@ -1614,8 +1614,8 @@ def clipper(**kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
-		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		id (Union[int, str], optional): (deprecated)
+		delay_search (bool, optional): (deprecated)This was used as an optimization hint but is not relevant anymore.
 	Yields:
 		Union[int, str]
 	"""
@@ -1644,7 +1644,6 @@ def collapsing_header(**kwargs):
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
-		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		closable (bool, optional): Adds the ability to hide this widget by pressing the (x) in the top right of widget.
@@ -1654,6 +1653,7 @@ def collapsing_header(**kwargs):
 		leaf (bool, optional): No collapsing, no arrow (use as a convenience for leaf nodes).
 		bullet (bool, optional): Display a bullet instead of arrow.
 		id (Union[int, str], optional): (deprecated)
+		delay_search (bool, optional): (deprecated)This was used as an optimization hint but is not relevant anymore.
 	Yields:
 		Union[int, str]
 	"""
@@ -1809,10 +1809,10 @@ def drawlist(width, height, **kwargs):
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
-		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		id (Union[int, str], optional): (deprecated)
+		delay_search (bool, optional): (deprecated)This was used as an optimization hint but is not relevant anymore.
 	Yields:
 		Union[int, str]
 	"""
@@ -1869,8 +1869,8 @@ def filter_set(**kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
-		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		id (Union[int, str], optional): (deprecated)
+		delay_search (bool, optional): (deprecated)This was used as an optimization hint but is not relevant anymore.
 	Yields:
 		Union[int, str]
 	"""
@@ -1949,13 +1949,13 @@ Enable property acts in a special way enabling/disabling everything inside the g
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
-		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		horizontal (bool, optional): Forces child widgets to be added in a horizontal layout.
 		horizontal_spacing (float, optional): Spacing for the horizontal layout.
 		xoffset (float, optional): Offset from containing window x item location within group.
 		id (Union[int, str], optional): (deprecated)
+		delay_search (bool, optional): (deprecated)This was used as an optimization hint but is not relevant anymore.
 	Yields:
 		Union[int, str]
 	"""
@@ -2025,10 +2025,10 @@ def menu(**kwargs):
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
 		filter_key (str, optional): Used by filter widget.
-		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		id (Union[int, str], optional): (deprecated)
+		delay_search (bool, optional): (deprecated)This was used as an optimization hint but is not relevant anymore.
 	Yields:
 		Union[int, str]
 	"""
@@ -2051,8 +2051,8 @@ def menu_bar(**kwargs):
 		indent (int, optional): Offsets the widget to the right the specified number multiplied by the indent style.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		show (bool, optional): Attempt to render widget.
-		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		id (Union[int, str], optional): (deprecated)
+		delay_search (bool, optional): (deprecated)This was used as an optimization hint but is not relevant anymore.
 	Yields:
 		Union[int, str]
 	"""
@@ -2080,11 +2080,11 @@ def node(**kwargs):
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
-		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		draggable (bool, optional): Allow node to be draggable.
 		id (Union[int, str], optional): (deprecated)
+		delay_search (bool, optional): (deprecated)This was used as an optimization hint but is not relevant anymore.
 	Yields:
 		Union[int, str]
 	"""
@@ -2141,7 +2141,6 @@ def node_editor(**kwargs):
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		filter_key (str, optional): Used by filter widget.
-		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		delink_callback (Callable, optional): Callback ran when a link is detached.
@@ -2149,6 +2148,7 @@ def node_editor(**kwargs):
 		minimap (bool, optional): Shows or hides the Minimap. New in 1.6.
 		minimap_location (int, optional): mvNodeMiniMap_Location_* constants. New in 1.6.
 		id (Union[int, str], optional): (deprecated)
+		delay_search (bool, optional): (deprecated)This was used as an optimization hint but is not relevant anymore.
 	Yields:
 		Union[int, str]
 	"""
@@ -2180,7 +2180,6 @@ def plot(**kwargs):
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
-		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		no_title (bool, optional): the plot title will not be displayed
@@ -2212,6 +2211,7 @@ def plot(**kwargs):
 		zoom_mod (int, optional): optional modifier that must be held for scroll wheel zooming
 		zoom_rate (int, optional): zoom rate for scroll (e.g. 0.1f = 10% plot range every scroll click); make negative to invert
 		id (Union[int, str], optional): (deprecated)
+		delay_search (bool, optional): (deprecated)This was used as an optimization hint but is not relevant anymore.
 		no_highlight (bool, optional): (deprecated)Removed because not supported from the backend anymore. To control the highlighting of series use the same argument in `add_plot_legend`
 		no_child (bool, optional): (deprecated)a child window region will not be used to capture mouse scroll (can boost performance for single ImGui window applications)
 		anti_aliased (bool, optional): (deprecated)This feature was deprecated in ImPlot. To enable/disable anti_aliasing use `dpg.configure_app()` with the `anti_aliasing` parameters.
@@ -2312,7 +2312,6 @@ def subplots(rows, columns, **kwargs):
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
-		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		row_ratios (Union[List[float], Tuple[float, ...]], optional): 
@@ -2328,6 +2327,7 @@ def subplots(rows, columns, **kwargs):
 		link_all_y (bool, optional): link the y-axis limits in every plot in the subplot (does not apply to auxiliary y-axes)
 		column_major (bool, optional): subplots are added in column major order instead of the default row major order
 		id (Union[int, str], optional): (deprecated)
+		delay_search (bool, optional): (deprecated)This was used as an optimization hint but is not relevant anymore.
 	Yields:
 		Union[int, str]
 	"""
@@ -2378,13 +2378,13 @@ def tab(**kwargs):
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		filter_key (str, optional): Used by filter widget.
-		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		closable (bool, optional): Creates a button on the tab that can hide the tab.
 		no_tooltip (bool, optional): Disable tooltip for the given tab.
 		order_mode (int, optional): set using a constant: mvTabOrder_Reorderable: allows reordering, mvTabOrder_Fixed: fixed ordering, mvTabOrder_Leading: adds tab to front, mvTabOrder_Trailing: adds tab to back
 		id (Union[int, str], optional): (deprecated)
+		delay_search (bool, optional): (deprecated)This was used as an optimization hint but is not relevant anymore.
 	Yields:
 		Union[int, str]
 	"""
@@ -2411,11 +2411,11 @@ def tab_bar(**kwargs):
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
-		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		reorderable (bool, optional): Allows for the user to change the order of the tabs.
 		id (Union[int, str], optional): (deprecated)
+		delay_search (bool, optional): (deprecated)This was used as an optimization hint but is not relevant anymore.
 	Yields:
 		Union[int, str]
 	"""
@@ -2445,7 +2445,6 @@ def table(**kwargs):
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
-		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		header_row (bool, optional): show headers at the top of the columns
 		clipper (bool, optional): Use clipper (rows must be same height).
 		inner_width (int, optional): 
@@ -2476,6 +2475,7 @@ def table(**kwargs):
 		scrollY (bool, optional): Enable vertical scrolling.
 		no_saved_settings (bool, optional): Never load/save settings in .ini file.
 		id (Union[int, str], optional): (deprecated)
+		delay_search (bool, optional): (deprecated)This was used as an optimization hint but is not relevant anymore.
 	Yields:
 		Union[int, str]
 	"""
@@ -2664,7 +2664,6 @@ def tree_node(**kwargs):
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
-		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		default_open (bool, optional): Sets the tree node open by default.
@@ -2676,6 +2675,7 @@ def tree_node(**kwargs):
 		span_text_width (bool, optional): Makes hitbox and highlight only cover the label.
 		span_full_width (bool, optional): Extend hit box to the left-most and right-most edges (cover the indent area).
 		id (Union[int, str], optional): (deprecated)
+		delay_search (bool, optional): (deprecated)This was used as an optimization hint but is not relevant anymore.
 	Yields:
 		Union[int, str]
 	"""
@@ -2717,9 +2717,9 @@ def viewport_drawlist(**kwargs):
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		show (bool, optional): Attempt to render widget.
 		filter_key (str, optional): Used by filter widget.
-		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		front (bool, optional): Draws to the front of the view port instead of the back.
 		id (Union[int, str], optional): (deprecated)
+		delay_search (bool, optional): (deprecated)This was used as an optimization hint but is not relevant anymore.
 	Yields:
 		Union[int, str]
 	"""
@@ -2742,8 +2742,8 @@ def viewport_menu_bar(**kwargs):
 		indent (int, optional): Offsets the widget to the right the specified number multiplied by the indent style.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		show (bool, optional): Attempt to render widget.
-		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		id (Union[int, str], optional): (deprecated)
+		delay_search (bool, optional): (deprecated)This was used as an optimization hint but is not relevant anymore.
 	Yields:
 		Union[int, str]
 	"""
@@ -2768,7 +2768,6 @@ def window(**kwargs):
 		indent (int, optional): Offsets the widget to the right the specified number multiplied by the indent style.
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
-		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		min_size (Union[List[int], Tuple[int, ...]], optional): Minimum window size.
 		max_size (Union[List[int], Tuple[int, ...]], optional): Maximum window size.
 		menubar (bool, optional): Shows or hides the menubar.
@@ -2792,6 +2791,7 @@ def window(**kwargs):
 		no_scroll_with_mouse (bool, optional): Disable user vertically scrolling with mouse wheel.
 		on_close (Callable, optional): Callback ran when window is closed.
 		id (Union[int, str], optional): (deprecated)
+		delay_search (bool, optional): (deprecated)This was used as an optimization hint but is not relevant anymore.
 	Yields:
 		Union[int, str]
 	"""
@@ -3127,7 +3127,6 @@ def add_child_window(**kwargs):
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
-		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		border (bool, optional): Shows/Hides the border around the sides.
@@ -3146,6 +3145,7 @@ def add_child_window(**kwargs):
 		auto_resize_x (bool, optional): Enable auto-resizing width based on child content. Read 'IMPORTANT: Size measurement' details above.
 		auto_resize_y (bool, optional): Enable auto-resizing height based on child content. Read 'IMPORTANT: Size measurement' details above.
 		id (Union[int, str], optional): (deprecated)
+		delay_search (bool, optional): (deprecated)This was used as an optimization hint but is not relevant anymore.
 	Returns:
 		Union[int, str]
 	"""
@@ -3165,8 +3165,8 @@ def add_clipper(**kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
-		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		id (Union[int, str], optional): (deprecated)
+		delay_search (bool, optional): (deprecated)This was used as an optimization hint but is not relevant anymore.
 	Returns:
 		Union[int, str]
 	"""
@@ -3190,7 +3190,6 @@ def add_collapsing_header(**kwargs):
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
-		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		closable (bool, optional): Adds the ability to hide this widget by pressing the (x) in the top right of widget.
@@ -3200,6 +3199,7 @@ def add_collapsing_header(**kwargs):
 		leaf (bool, optional): No collapsing, no arrow (use as a convenience for leaf nodes).
 		bullet (bool, optional): Display a bullet instead of arrow.
 		id (Union[int, str], optional): (deprecated)
+		delay_search (bool, optional): (deprecated)This was used as an optimization hint but is not relevant anymore.
 	Returns:
 		Union[int, str]
 	"""
@@ -3543,7 +3543,7 @@ def add_custom_series(x, y, channel_count, **kwargs):
 	return internal_dpg.add_custom_series(x, y, channel_count, **kwargs)
 
 def add_date_picker(**kwargs):
-	"""	 Adds a data picker.
+	"""	 Adds a date picker.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -4013,10 +4013,10 @@ def add_drawlist(width, height, **kwargs):
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
-		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		id (Union[int, str], optional): (deprecated)
+		delay_search (bool, optional): (deprecated)This was used as an optimization hint but is not relevant anymore.
 	Returns:
 		Union[int, str]
 	"""
@@ -4129,8 +4129,8 @@ def add_filter_set(**kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
-		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		id (Union[int, str], optional): (deprecated)
+		delay_search (bool, optional): (deprecated)This was used as an optimization hint but is not relevant anymore.
 	Returns:
 		Union[int, str]
 	"""
@@ -4300,13 +4300,13 @@ Enable property acts in a special way enabling/disabling everything inside the g
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
-		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		horizontal (bool, optional): Forces child widgets to be added in a horizontal layout.
 		horizontal_spacing (float, optional): Spacing for the horizontal layout.
 		xoffset (float, optional): Offset from containing window x item location within group.
 		id (Union[int, str], optional): (deprecated)
+		delay_search (bool, optional): (deprecated)This was used as an optimization hint but is not relevant anymore.
 	Returns:
 		Union[int, str]
 	"""
@@ -5246,13 +5246,13 @@ def add_loading_indicator(**kwargs):
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
-		style (int, optional): 0 is rotating dots style, 1 is rotating bar style.
-		circle_count (int, optional): Number of dots show if dots or size of circle if circle.
-		speed (float, optional): Speed the anamation will rotate.
-		radius (float, optional): Radius size of the loading indicator.
-		thickness (float, optional): Thickness of the circles or line.
-		color (Union[List[int], Tuple[int, ...]], optional): Color of the growing center circle.
-		secondary_color (Union[List[int], Tuple[int, ...]], optional): Background of the dots in dot mode.
+		style (int, optional): mvLoadInd_DottedCircle is rotating dots style, mvLoadInd_Ring is rotating bar style.
+		circle_count (int, optional): DottedCircle style: number of dots to show.
+		speed (float, optional): Speed with which the animation will rotate.
+		radius (float, optional): Scale factor for the loading indicator radius.  The size of the indicator is determined by font size and this scale factor.
+		thickness (float, optional): Ring style: scale factor of line thickness; thickness=1 corresponds to line width being 1/8 of the ring diameter.
+		color (Union[List[int], Tuple[int, ...]], optional): Main color of the indicator.  If omitted, the color for mvThemeCol_Button will be used.
+		secondary_color (Union[List[int], Tuple[int, ...]], optional): DottedCircle style: color of 'inactive' dots.  If omitted, the color for mvThemeCol_ButtonHovered will be used.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -5276,10 +5276,10 @@ def add_menu(**kwargs):
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
 		filter_key (str, optional): Used by filter widget.
-		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		id (Union[int, str], optional): (deprecated)
+		delay_search (bool, optional): (deprecated)This was used as an optimization hint but is not relevant anymore.
 	Returns:
 		Union[int, str]
 	"""
@@ -5297,8 +5297,8 @@ def add_menu_bar(**kwargs):
 		indent (int, optional): Offsets the widget to the right the specified number multiplied by the indent style.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		show (bool, optional): Attempt to render widget.
-		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		id (Union[int, str], optional): (deprecated)
+		delay_search (bool, optional): (deprecated)This was used as an optimization hint but is not relevant anymore.
 	Returns:
 		Union[int, str]
 	"""
@@ -5483,11 +5483,11 @@ def add_node(**kwargs):
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
-		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		draggable (bool, optional): Allow node to be draggable.
 		id (Union[int, str], optional): (deprecated)
+		delay_search (bool, optional): (deprecated)This was used as an optimization hint but is not relevant anymore.
 	Returns:
 		Union[int, str]
 	"""
@@ -5534,7 +5534,6 @@ def add_node_editor(**kwargs):
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		filter_key (str, optional): Used by filter widget.
-		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		delink_callback (Callable, optional): Callback ran when a link is detached.
@@ -5542,6 +5541,7 @@ def add_node_editor(**kwargs):
 		minimap (bool, optional): Shows or hides the Minimap. New in 1.6.
 		minimap_location (int, optional): mvNodeMiniMap_Location_* constants. New in 1.6.
 		id (Union[int, str], optional): (deprecated)
+		delay_search (bool, optional): (deprecated)This was used as an optimization hint but is not relevant anymore.
 	Returns:
 		Union[int, str]
 	"""
@@ -5615,7 +5615,6 @@ def add_plot(**kwargs):
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
-		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		no_title (bool, optional): the plot title will not be displayed
@@ -5647,6 +5646,7 @@ def add_plot(**kwargs):
 		zoom_mod (int, optional): optional modifier that must be held for scroll wheel zooming
 		zoom_rate (int, optional): zoom rate for scroll (e.g. 0.1f = 10% plot range every scroll click); make negative to invert
 		id (Union[int, str], optional): (deprecated)
+		delay_search (bool, optional): (deprecated)This was used as an optimization hint but is not relevant anymore.
 		no_highlight (bool, optional): (deprecated)Removed because not supported from the backend anymore. To control the highlighting of series use the same argument in `add_plot_legend`
 		no_child (bool, optional): (deprecated)a child window region will not be used to capture mouse scroll (can boost performance for single ImGui window applications)
 		anti_aliased (bool, optional): (deprecated)This feature was deprecated in ImPlot. To enable/disable anti_aliasing use `dpg.configure_app()` with the `anti_aliasing` parameters.
@@ -6345,7 +6345,6 @@ def add_subplots(rows, columns, **kwargs):
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
-		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		row_ratios (Union[List[float], Tuple[float, ...]], optional): 
@@ -6361,6 +6360,7 @@ def add_subplots(rows, columns, **kwargs):
 		link_all_y (bool, optional): link the y-axis limits in every plot in the subplot (does not apply to auxiliary y-axes)
 		column_major (bool, optional): subplots are added in column major order instead of the default row major order
 		id (Union[int, str], optional): (deprecated)
+		delay_search (bool, optional): (deprecated)This was used as an optimization hint but is not relevant anymore.
 	Returns:
 		Union[int, str]
 	"""
@@ -6401,13 +6401,13 @@ def add_tab(**kwargs):
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		filter_key (str, optional): Used by filter widget.
-		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		closable (bool, optional): Creates a button on the tab that can hide the tab.
 		no_tooltip (bool, optional): Disable tooltip for the given tab.
 		order_mode (int, optional): set using a constant: mvTabOrder_Reorderable: allows reordering, mvTabOrder_Fixed: fixed ordering, mvTabOrder_Leading: adds tab to front, mvTabOrder_Trailing: adds tab to back
 		id (Union[int, str], optional): (deprecated)
+		delay_search (bool, optional): (deprecated)This was used as an optimization hint but is not relevant anymore.
 	Returns:
 		Union[int, str]
 	"""
@@ -6429,11 +6429,11 @@ def add_tab_bar(**kwargs):
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
-		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		reorderable (bool, optional): Allows for the user to change the order of the tabs.
 		id (Union[int, str], optional): (deprecated)
+		delay_search (bool, optional): (deprecated)This was used as an optimization hint but is not relevant anymore.
 	Returns:
 		Union[int, str]
 	"""
@@ -6488,7 +6488,6 @@ def add_table(**kwargs):
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
-		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		header_row (bool, optional): show headers at the top of the columns
 		clipper (bool, optional): Use clipper (rows must be same height).
 		inner_width (int, optional): 
@@ -6519,6 +6518,7 @@ def add_table(**kwargs):
 		scrollY (bool, optional): Enable vertical scrolling.
 		no_saved_settings (bool, optional): Never load/save settings in .ini file.
 		id (Union[int, str], optional): (deprecated)
+		delay_search (bool, optional): (deprecated)This was used as an optimization hint but is not relevant anymore.
 	Returns:
 		Union[int, str]
 	"""
@@ -6831,7 +6831,6 @@ def add_tree_node(**kwargs):
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
-		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		default_open (bool, optional): Sets the tree node open by default.
@@ -6843,6 +6842,7 @@ def add_tree_node(**kwargs):
 		span_text_width (bool, optional): Makes hitbox and highlight only cover the label.
 		span_full_width (bool, optional): Extend hit box to the left-most and right-most edges (cover the indent area).
 		id (Union[int, str], optional): (deprecated)
+		delay_search (bool, optional): (deprecated)This was used as an optimization hint but is not relevant anymore.
 	Returns:
 		Union[int, str]
 	"""
@@ -6874,9 +6874,9 @@ def add_viewport_drawlist(**kwargs):
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		show (bool, optional): Attempt to render widget.
 		filter_key (str, optional): Used by filter widget.
-		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		front (bool, optional): Draws to the front of the view port instead of the back.
 		id (Union[int, str], optional): (deprecated)
+		delay_search (bool, optional): (deprecated)This was used as an optimization hint but is not relevant anymore.
 	Returns:
 		Union[int, str]
 	"""
@@ -6894,8 +6894,8 @@ def add_viewport_menu_bar(**kwargs):
 		indent (int, optional): Offsets the widget to the right the specified number multiplied by the indent style.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		show (bool, optional): Attempt to render widget.
-		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		id (Union[int, str], optional): (deprecated)
+		delay_search (bool, optional): (deprecated)This was used as an optimization hint but is not relevant anymore.
 	Returns:
 		Union[int, str]
 	"""
@@ -6915,7 +6915,6 @@ def add_window(**kwargs):
 		indent (int, optional): Offsets the widget to the right the specified number multiplied by the indent style.
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
-		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		min_size (Union[List[int], Tuple[int, ...]], optional): Minimum window size.
 		max_size (Union[List[int], Tuple[int, ...]], optional): Maximum window size.
 		menubar (bool, optional): Shows or hides the menubar.
@@ -6939,6 +6938,7 @@ def add_window(**kwargs):
 		no_scroll_with_mouse (bool, optional): Disable user vertically scrolling with mouse wheel.
 		on_close (Callable, optional): Callback ran when window is closed.
 		id (Union[int, str], optional): (deprecated)
+		delay_search (bool, optional): (deprecated)This was used as an optimization hint but is not relevant anymore.
 	Returns:
 		Union[int, str]
 	"""
@@ -9059,6 +9059,8 @@ mvScrollDirection_XAxis=internal_dpg.mvScrollDirection_XAxis
 mvScrollDirection_YAxis=internal_dpg.mvScrollDirection_YAxis
 mvScrollDirection_Horizontal=internal_dpg.mvScrollDirection_Horizontal
 mvScrollDirection_Vertical=internal_dpg.mvScrollDirection_Vertical
+mvLoadInd_DottedCircle=internal_dpg.mvLoadInd_DottedCircle
+mvLoadInd_Ring=internal_dpg.mvLoadInd_Ring
 mvPlatform_Windows=internal_dpg.mvPlatform_Windows
 mvPlatform_Apple=internal_dpg.mvPlatform_Apple
 mvPlatform_Linux=internal_dpg.mvPlatform_Linux

@@ -44,7 +44,7 @@ mvAppItem::~mvAppItem()
             if (!GContext->IO.manualAliasManagement)
                 GContext->itemRegistry->aliases.erase(config.alias);
         }
-        CleanUpItem(*GContext->itemRegistry, uuid);
+        GContext->itemRegistry->allItems.erase(uuid);
     }
 }
 
@@ -218,7 +218,6 @@ mvAppItem::handleKeywordArgs(PyObject* dict, const std::string& parser)
         }
     }
     if (PyObject* item = PyDict_GetItemString(dict, "tracked")) config.tracked = ToBool(item);
-    if (PyObject* item = PyDict_GetItemString(dict, "delay_search")) config.searchLast = ToBool(item);
     if (PyObject* item = PyDict_GetItemString(dict, "track_offset"))
     {
         config.trackOffset = ToFloat(item);
@@ -882,6 +881,7 @@ CanItemTypeHaveRectSize(mvAppItemType type)
     case mvAppItemType::mvNode:
     case mvAppItemType::mvNodeEditor:
     case mvAppItemType::mvPlot:
+    case mvAppItemType::mvTableColumn:
     case mvAppItemType::mvButton: return true;
     default: return false;
     }
@@ -3087,7 +3087,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Dict, "default_value", mvArgType::KEYWORD_ARG, "{'month_day': 14, 'year':20, 'month':5}" });
         args.push_back({ mvPyDataType::Integer, "level", mvArgType::KEYWORD_ARG, "0", "Use avaliable constants. mvDatePickerLevel_Day, mvDatePickerLevel_Month, mvDatePickerLevel_Year" });
 
-        setup.about = "Adds a data picker.";
+        setup.about = "Adds a date picker.";
         break;
     }
     case mvAppItemType::mvColorButton:                 
@@ -4562,13 +4562,13 @@ DearPyGui::GetEntityParser(mvAppItemType type)
             MV_PARSER_ARG_POS)
         );
 
-        args.push_back({ mvPyDataType::Integer, "style", mvArgType::KEYWORD_ARG, "0", "0 is rotating dots style, 1 is rotating bar style." });
-        args.push_back({ mvPyDataType::Integer, "circle_count", mvArgType::KEYWORD_ARG, "8", "Number of dots show if dots or size of circle if circle." });
-        args.push_back({ mvPyDataType::Float, "speed", mvArgType::KEYWORD_ARG, "1.0", "Speed the anamation will rotate." });
-        args.push_back({ mvPyDataType::Float, "radius", mvArgType::KEYWORD_ARG, "3.0", "Radius size of the loading indicator." });
-        args.push_back({ mvPyDataType::Float, "thickness", mvArgType::KEYWORD_ARG, "1.0", "Thickness of the circles or line." });
-        args.push_back({ mvPyDataType::IntList, "color", mvArgType::KEYWORD_ARG, "(51, 51, 55, 255)", "Color of the growing center circle." });
-        args.push_back({ mvPyDataType::IntList, "secondary_color", mvArgType::KEYWORD_ARG, "(29, 151, 236, 103)", "Background of the dots in dot mode." });
+        args.push_back({ mvPyDataType::Integer, "style", mvArgType::KEYWORD_ARG, "0", "mvLoadInd_DottedCircle is rotating dots style, mvLoadInd_Ring is rotating bar style." });
+        args.push_back({ mvPyDataType::Integer, "circle_count", mvArgType::KEYWORD_ARG, "8", "DottedCircle style: number of dots to show." });
+        args.push_back({ mvPyDataType::Float, "speed", mvArgType::KEYWORD_ARG, "1.0", "Speed with which the animation will rotate." });
+        args.push_back({ mvPyDataType::Float, "radius", mvArgType::KEYWORD_ARG, "3.0", "Scale factor for the loading indicator radius.  The size of the indicator is determined by font size and this scale factor." });
+        args.push_back({ mvPyDataType::Float, "thickness", mvArgType::KEYWORD_ARG, "1.0", "Ring style: scale factor of line thickness; thickness=1 corresponds to line width being 1/8 of the ring diameter." });
+        args.push_back({ mvPyDataType::IntList, "color", mvArgType::KEYWORD_ARG, "None", "Main color of the indicator.  If omitted, the color for mvThemeCol_Button will be used." });
+        args.push_back({ mvPyDataType::IntList, "secondary_color", mvArgType::KEYWORD_ARG, "None", "DottedCircle style: color of 'inactive' dots.  If omitted, the color for mvThemeCol_ButtonHovered will be used." });
 
         setup.about = "Adds a rotating animated loading symbol.";
         break;

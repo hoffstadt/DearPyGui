@@ -10,12 +10,11 @@ t_digital_plot = 0
 
 def _help(message):
     last_item = dpg.last_item()
-    group = dpg.add_group(horizontal=True)
-    dpg.move_item(last_item, parent=group)
-    dpg.capture_next_item(lambda s: dpg.move_item(s, parent=group))
-    t = dpg.add_text("(?)", color=[0, 255, 0])
-    with dpg.tooltip(t):
-        dpg.add_text(message)
+    with dpg.group(horizontal=True) as group:
+        dpg.move_item(last_item, parent=group)
+        t = dpg.add_text("(?)", color=[0, 255, 0])
+        with dpg.tooltip(t):
+            dpg.add_text(message)
 
 def _hyperlink(text, address):
     b = dpg.add_button(label=text, callback=lambda:webbrowser.open(address))
@@ -245,7 +244,7 @@ def show_demo():
                     dpg.add_menu_item(label="Option 2", check=True, callback=_log)
                     dpg.add_menu_item(label="Option 3", check=True, default_value=True, callback=_log)
 
-                    with dpg.child_window(height=60, autosize_x=True, delay_search=True):
+                    with dpg.child_window(height=60, autosize_x=True):
                         for i in range(10):
                             dpg.add_text(f"Scolling Text{i}")
 
@@ -1047,7 +1046,7 @@ def show_demo():
                         for i in range(5):
                             with dpg.table_cell():
                                 dpg.add_text(text_items[i])
-                                with dpg.child_window(height=200, delay_search=True) as _child_id:
+                                with dpg.child_window(height=200) as _child_id:
                                     for j in range(25):
                                         if j == 13:
                                             dpg.add_text("Item " + str(j), color=(255, 255, 0), tracked=True, track_offset=track_items[i])
@@ -1062,7 +1061,7 @@ def show_demo():
                 for i in range(5):
                     dpg.add_text(text_items[i])
                     with dpg.group(horizontal=True):
-                        with dpg.child_window(height=50, horizontal_scrollbar=True, width=-200, delay_search=True) as _child_id:
+                        with dpg.child_window(height=50, horizontal_scrollbar=True, width=-200) as _child_id:
                             with dpg.group(horizontal=True):
                                 for j in range(25):
                                     if j == 13:
@@ -1288,7 +1287,7 @@ def show_demo():
 
                 with dpg.table(header_row=False, row_background=True,
                             borders_innerH=True, borders_outerH=True, borders_innerV=True,
-                            borders_outerV=True, delay_search=True) as table_id:
+                            borders_outerV=True) as table_id:
 
                     dpg.add_table_column(label="Header 1")
                     dpg.add_table_column(label="Header 2")
@@ -1306,8 +1305,7 @@ def show_demo():
             with dpg.tree_node(label="Colors"):
 
                 dpg.add_text("Highlighting Rows, Columns, Cells:")
-                with dpg.table(header_row=False, row_background=True,
-                             delay_search=True) as table_id:
+                with dpg.table(header_row=False, row_background=True) as table_id:
 
                     dpg.add_table_column()
                     dpg.add_table_column()
@@ -1334,8 +1332,7 @@ def show_demo():
                 _add_config_options(table_id, 1, "row_background", before=table_id)
 
                 dpg.add_text("Coloring rows:")
-                with dpg.table(header_row=False, row_background=True,
-                             delay_search=True) as table_id:
+                with dpg.table(header_row=False, row_background=True) as table_id:
 
                     dpg.add_table_column()
                     dpg.add_table_column()
@@ -1359,7 +1356,7 @@ def show_demo():
 
             with dpg.tree_node(label="Resizable, stretch"):
 
-                with dpg.table(header_row=False, resizable=True, delay_search=True,
+                with dpg.table(header_row=False, resizable=True,
                             borders_outerH=True, borders_innerV=True, borders_outerV=True) as table_id:
 
                     dpg.add_table_column(label="Header 1")
@@ -1378,7 +1375,7 @@ def show_demo():
 
                 dpg.add_text("Only available if scrollX/scrollY are disabled and stretch columns are not used")
                 with dpg.table(header_row=False, policy=dpg.mvTable_SizingFixedFit, resizable=True, no_host_extendX=False, 
-                            borders_innerV=True, delay_search=True, borders_outerV=True,borders_outerH=True) as table_id:
+                            borders_innerV=True, borders_outerV=True,borders_outerH=True) as table_id:
 
                     dpg.add_table_column(label="Header 1")
                     dpg.add_table_column(label="Header 2")
@@ -1395,7 +1392,7 @@ def show_demo():
 
                 with dpg.table(header_row=True, policy=dpg.mvTable_SizingFixedFit, row_background=True, reorderable=True, 
                             resizable=True, no_host_extendX=False, hideable=True,
-                            borders_innerV=True, delay_search=True, borders_outerV=True, borders_innerH=True, borders_outerH=True):
+                            borders_innerV=True, borders_outerV=True, borders_innerH=True, borders_outerH=True):
 
                     dpg.add_table_column(label="AAA", width_fixed=True)
                     dpg.add_table_column(label="BBB", width_fixed=True)
@@ -1411,7 +1408,7 @@ def show_demo():
 
                 with dpg.table(header_row=True, policy=dpg.mvTable_SizingFixedFit, row_background=True, reorderable=True, 
                             resizable=True, no_host_extendX=False, hideable=True,
-                            borders_innerV=True, delay_search=True, borders_outerV=True, borders_innerH=True, borders_outerH=True):
+                            borders_innerV=True, borders_outerV=True, borders_innerH=True, borders_outerH=True):
 
                     dpg.add_table_column(label="AAA", width_fixed=True)
                     dpg.add_table_column(label="BBB", width_fixed=True)
@@ -1432,7 +1429,7 @@ def show_demo():
                                 borders_innerH=True, borders_outerH=True, borders_innerV=True,
                                 borders_outerV=True, row_background=True, hideable=True, reorderable=True,
                                 resizable=True, sortable=True, policy=dpg.mvTable_SizingFixedFit,
-                                scrollX=True, delay_search=True, scrollY=True):
+                                scrollX=True, scrollY=True):
 
                     c1 = dpg.add_table_column(label="One", default_sort=True)
                     c2 = dpg.add_table_column(label="Two")
@@ -1482,7 +1479,7 @@ def show_demo():
 
                 with dpg.table(header_row=True, resizable=True,
                             borders_outerH=True, borders_innerH=True, 
-                            borders_outerV=True, delay_search=True):
+                            borders_outerV=True):
 
                     dpg.add_table_column(label="One")
                     dpg.add_table_column(label="Two")
@@ -1500,7 +1497,7 @@ def show_demo():
                             for j in range(3):
                                 dpg.add_text(f"Hello {i}, {j}")
 
-                with dpg.table(header_row=False, delay_search=True) as table_id:
+                with dpg.table(header_row=False) as table_id:
 
                     dpg.add_table_column(width_fixed=True, init_width_or_weight=100)
                     dpg.add_table_column(width_fixed=True, init_width_or_weight=200)
@@ -1524,7 +1521,7 @@ def show_demo():
 
             with dpg.tree_node(label="Row height"):
 
-                with dpg.table(header_row=False, borders_outerH=True, borders_outerV=True, delay_search=True):
+                with dpg.table(header_row=False, borders_outerH=True, borders_outerV=True):
 
                     dpg.add_table_column()
 
@@ -1534,7 +1531,7 @@ def show_demo():
 
             with dpg.tree_node(label="Padding"):
 
-                with dpg.table(header_row=False, resizable=True, delay_search=True,
+                with dpg.table(header_row=False, resizable=True,
                             hideable=True, reorderable=True, borders_outerV=True, borders_innerH=True) as table_id:
 
                     dpg.add_table_column(label="One")
@@ -1552,7 +1549,7 @@ def show_demo():
 
             with dpg.tree_node(label="Angled headers"):
 
-                with dpg.table(header_row=True, resizable=True, delay_search=True,
+                with dpg.table(header_row=True, resizable=True,
                             reorderable=True) as table_id:
 
                     dpg.add_table_column(label="One", angled_header=True)
@@ -1566,7 +1563,7 @@ def show_demo():
 
             with dpg.tree_node(label="Reorderable, hideable, with headers"):
 
-                with dpg.table(header_row=True, resizable=True, delay_search=True,
+                with dpg.table(header_row=True, resizable=True,
                             hideable=True, reorderable=True) as table_id:
 
                     dpg.add_table_column(label="One")
@@ -1583,7 +1580,7 @@ def show_demo():
 
             with dpg.tree_node(label="Outer Size"):
 
-                with dpg.table(header_row=False, no_host_extendX=True, delay_search=True,
+                with dpg.table(header_row=False, no_host_extendX=True,
                             borders_innerH=True, borders_outerH=True, borders_innerV=True,
                             borders_outerV=True, context_menu_in_body=True, row_background=True,
                             policy=dpg.mvTable_SizingFixedFit, height=150) as table_id:
@@ -1601,7 +1598,7 @@ def show_demo():
                                             "no_host_extendX", "no_host_extendY", "resizable", before=table_id)
 
                 dpg.add_text("Using explicit size:")
-                with dpg.table(header_row=False, no_host_extendX=True, delay_search=True,
+                with dpg.table(header_row=False, no_host_extendX=True,
                             borders_innerH=True, borders_outerH=True, borders_innerV=True,
                             borders_outerV=True, context_menu_in_body=True, row_background=True,
                             policy=dpg.mvTable_SizingFixedFit, height=300, width=300):
@@ -1619,7 +1616,7 @@ def show_demo():
 
                 # without clipping
                 dpg.add_text("Without Clipper")
-                with dpg.table(header_row=True, no_host_extendX=True, delay_search=True,
+                with dpg.table(header_row=True, no_host_extendX=True,
                             borders_innerH=True, borders_outerH=True, borders_innerV=True,
                             borders_outerV=True, context_menu_in_body=True, row_background=True,
                             policy=dpg.mvTable_SizingFixedFit, height=300,
@@ -1637,7 +1634,7 @@ def show_demo():
 
                 # with clipping
                 dpg.add_text("Using Clipper")
-                with dpg.table(header_row=True, no_host_extendX=True, delay_search=True,
+                with dpg.table(header_row=True, no_host_extendX=True,
                             borders_innerH=True, borders_outerH=True, borders_innerV=True,
                             borders_outerV=True, context_menu_in_body=True, row_background=True,
                             policy=dpg.mvTable_SizingFixedFit, height=300,
@@ -1659,7 +1656,7 @@ def show_demo():
                 dpg.add_text("Freezing rows/columns")
                 with dpg.table(header_row=True, borders_innerH=True, borders_outerH=True, borders_innerV=True,
                             borders_outerV=True, row_background=True, height=300, freeze_rows=1, freeze_columns=1,
-                            scrollY=True, scrollX=True, policy=dpg.mvTable_SizingFixedFit, delay_search=True):
+                            scrollY=True, scrollX=True, policy=dpg.mvTable_SizingFixedFit):
 
                     dpg.add_table_column(label="1", width=50)
                     dpg.add_table_column(label="2", width=50)
@@ -1685,7 +1682,7 @@ def show_demo():
                 dpg.add_text("Using Filter (column 3)")
                 _filter_table_id = dpg.generate_uuid()
                 dpg.add_input_text(label="Filter (inc, -exc)", user_data=_filter_table_id, callback=lambda s, a, u: dpg.set_value(u, dpg.get_value(s)))
-                with dpg.table(header_row=True, no_host_extendX=True, delay_search=True,
+                with dpg.table(header_row=True, no_host_extendX=True,
                             borders_innerH=True, borders_outerH=True, borders_innerV=True,
                             borders_outerV=True, context_menu_in_body=True, row_background=True,
                             policy=dpg.mvTable_SizingFixedFit, height=300,
@@ -1744,7 +1741,7 @@ def show_demo():
                             borders_innerH=True, borders_outerH=True, borders_innerV=True,
                             borders_outerV=True, context_menu_in_body=True, row_background=True,
                             policy=dpg.mvTable_SizingFixedFit, height=500, sortable=True, callback=_sort_callback,
-                            scrollY=True, delay_search=True, tag="__demo_sorting_table"):
+                            scrollY=True, tag="__demo_sorting_table"):
 
                     dpg.add_table_column(label="One")
                     dpg.add_table_column(label="Two", no_sort=True)
@@ -1829,7 +1826,7 @@ def show_demo():
 
                 def create_table_set(policy):
 
-                    with dpg.table(header_row=False, policy=policy, delay_search=True,
+                    with dpg.table(header_row=False, policy=policy,
                                 borders_innerH=True, borders_outerH=True, borders_innerV=True,
                                 borders_outerV=True, row_background=True) as table_id1:
                 
