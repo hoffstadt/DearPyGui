@@ -385,7 +385,7 @@ MoveItemUp(mvItemRegistry& registry, mvUUID uuid)
     {
         for (auto& childset : parent->childslots)
         {
-            for (auto it = childset.begin(), prev_it = childset.end(); it != childset.end(); ++it)
+            for (auto it = childset.begin(), prev_it = childset.begin(); it != childset.end(); ++it)
             {
                 if (it->get() == item)
                 {
