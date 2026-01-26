@@ -34,7 +34,7 @@ DebugItem(const char* label, bool value) {
 
 static void InfoHeader(const char* label) {
     ImGui::NewLine();
-    ImGui::Text(label);
+    ImGui::Text("%s", label);
     ImGui::Separator();
 }
 
@@ -103,7 +103,7 @@ void mvLayoutWindow::renderTreeNode(std::shared_ptr<mvAppItem>& item)
     {
         is_labeled = false;
         labelToShow = DearPyGui::GetEntityTypeString(item->type);
-        constexpr char* prefix = "mvAppItemType::";
+        constexpr const char* prefix = "mvAppItemType::";
         // This is a cumbersome way to get string length, but it's the only way
         // that provides a constexpr (note: strlen() is not a constexpr).
         // Well, we could also do a `sizeof(prefix) - 1`...
