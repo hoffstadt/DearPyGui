@@ -2519,8 +2519,9 @@ setup_dearpygui(PyObject* self, PyObject* args, PyObject* kwargs)
 		return nullptr;
 	}
 
-	while (!GContext->itemRegistry->containers.empty())
-		GContext->itemRegistry->containers.pop();
+	// Clear the containers stack. Unfortunately std::stack doesn't have a clear() call,
+	// but assigning a new empty stack does just the same.
+	mvItemRegistry::threadContext.containers = {};
 	GContext->started = true;
 	GContext->running = true;
 	GContext->future = std::async(std::launch::async, []() {return mvRunCallbacks(); });
@@ -2924,18 +2925,19 @@ pop_container_stack(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	mvPySafeLockGuard lk(GContext->mutex);
 
-	if (GContext->itemRegistry->containers.empty())
+	auto& containers = mvItemRegistry::threadContext.containers;
+	if (containers.empty())
 	{
 		mvThrowPythonError(mvErrorCode::mvContainerStackEmpty, "No container to pop.");
 		assert(false);
 		return nullptr;
 	}
 
-	mvAppItem* item = GContext->itemRegistry->containers.top();
-	GContext->itemRegistry->containers.pop();
+	mvAppItem* item = containers.top();
+	containers.pop();
 
 	if (item)
-		return ToPyUUID(item->uuid);
+		return ToPyUUID(item);
 	else
 		return GetPyNone();
 
@@ -2945,8 +2947,9 @@ static PyObject*
 empty_container_stack(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 	mvPySafeLockGuard lk(GContext->mutex);
-	while (!GContext->itemRegistry->containers.empty())
-		GContext->itemRegistry->containers.pop();
+	// Clear the containers stack. Unfortunately std::stack doesn't have a clear() call,
+	// but assigning a new empty stack does just the same.
+	mvItemRegistry::threadContext.containers = {};
 	return GetPyNone();
 }
 
@@ -2956,11 +2959,12 @@ top_container_stack(PyObject* self, PyObject* args, PyObject* kwargs)
 	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvAppItem* item = nullptr;
-	if (!GContext->itemRegistry->containers.empty())
-		item = GContext->itemRegistry->containers.top();
+	auto& containers = mvItemRegistry::threadContext.containers;
+	if (!containers.empty())
+		item = containers.top();
 
 	if (item)
-		return ToPyUUID(item->uuid);
+		return ToPyUUID(item);
 	else
 		return GetPyNone();
 }
@@ -2970,7 +2974,7 @@ last_item(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 	mvPySafeLockGuard lk(GContext->mutex);
 
-	return ToPyUUID(GContext->itemRegistry->lastItemAdded);
+	return ToPyUUID(mvItemRegistry::threadContext.lastItemAdded);
 }
 
 static PyObject*
@@ -2978,7 +2982,7 @@ last_container(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 	mvPySafeLockGuard lk(GContext->mutex);
 
-	return ToPyUUID(GContext->itemRegistry->lastContainerAdded);
+	return ToPyUUID(mvItemRegistry::threadContext.lastContainerAdded);
 }
 
 static PyObject*
@@ -2986,7 +2990,7 @@ last_root(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 	mvPySafeLockGuard lk(GContext->mutex);
 
-	return ToPyUUID(GContext->itemRegistry->lastRootAdded);
+	return ToPyUUID(mvItemRegistry::threadContext.lastRootAdded);
 }
 
 static PyObject*
@@ -3006,7 +3010,7 @@ push_container_stack(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		if (DearPyGui::GetEntityDesciptionFlags(parent->type) & MV_ITEM_DESC_CONTAINER)
 		{
-			GContext->itemRegistry->containers.push(parent);
+			mvItemRegistry::threadContext.containers.push(parent);
 			return ToPyBool(true);
 		}
 	}
@@ -4164,8 +4168,8 @@ capture_next_item(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	mvPySafeLockGuard lk(GContext->mutex);
 
-	GContext->itemRegistry->captureCallback = mvPyObject(callable == Py_None? nullptr : callable, true);
-	GContext->itemRegistry->captureCallbackUserData = mvPyObject(user_data, true);
+	mvItemRegistry::threadContext.captureCallback = mvPyObject(callable == Py_None? nullptr : callable, true);
+	mvItemRegistry::threadContext.captureCallbackUserData = mvPyObject(user_data, true);
 
 	return GetPyNone();
 }
