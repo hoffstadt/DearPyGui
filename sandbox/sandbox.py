@@ -16,8 +16,7 @@ log.log_error("log error")
 log.log_critical("log critical")
 
 with dpg.font_registry():
-    with dpg.font("../../assets/NotoSerifCJKjp-Medium.otf", 20, tag="custom font"):
-        dpg.add_font_range_hint(dpg.mvFontRangeHint_Default)
+    dpg.add_font("../../assets/NotoSerifCJKjp-Medium.otf", 20, tag="custom font")
     dpg.bind_font(dpg.last_container())
 
 demo.show_demo()

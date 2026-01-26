@@ -3287,6 +3287,8 @@ def add_color_button(default_value=(0, 0, 0, 255), **kwargs):
 		no_alpha (bool, optional): Removes the displayed slider that can change alpha channel.
 		no_border (bool, optional): Disable border around the image.
 		no_drag_drop (bool, optional): Disable ability to drag and drop small preview (color square) to apply colors to other items.
+		alpha_preview (int, optional): mvColorEdit_AlphaPreviewNone, mvColorEdit_AlphaPreview, or mvColorEdit_AlphaPreviewHalf
+		no_tooltip (bool, optional): Disable tooltip when hovering the button.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -4541,6 +4543,8 @@ def add_input_double(**kwargs):
 		max_clamped (bool, optional): Activates and deactivates the enforcment of max_value.
 		on_enter (bool, optional): Only runs callback on enter key press.
 		readonly (bool, optional): Activates read only mode where no text can be input but text can still be highlighted.
+		accept_empty_input (bool, optional): Treat empty input as a zero value.
+		display_empty_value (bool, optional): If True, display an empty input if the value is zero. Generally used together with accept_empty_input.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -4580,6 +4584,8 @@ def add_input_doublex(**kwargs):
 		max_clamped (bool, optional): Activates and deactivates the enforcment of max_value.
 		on_enter (bool, optional): Only runs callback on enter key press.
 		readonly (bool, optional): Activates read only mode where no text can be input but text can still be highlighted.
+		accept_empty_input (bool, optional): Treat empty input as a zero value.
+		display_empty_value (bool, optional): If True, display an empty input if the value is zero. Generally used together with accept_empty_input.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -4620,6 +4626,8 @@ def add_input_float(**kwargs):
 		max_clamped (bool, optional): Activates and deactivates the enforcment of max_value.
 		on_enter (bool, optional): Only runs callback on enter key press.
 		readonly (bool, optional): Activates read only mode where no text can be input but text can still be highlighted.
+		accept_empty_input (bool, optional): Treat empty input as a zero value.
+		display_empty_value (bool, optional): If True, display an empty input if the value is zero. Generally used together with accept_empty_input.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -4659,6 +4667,8 @@ def add_input_floatx(**kwargs):
 		max_clamped (bool, optional): Activates and deactivates the enforcment of max_value.
 		on_enter (bool, optional): Only runs callback on enter key press.
 		readonly (bool, optional): Activates read only mode where no text can be input but text can still be highlighted.
+		accept_empty_input (bool, optional): Treat empty input as a zero value.
+		display_empty_value (bool, optional): If True, display an empty input if the value is zero. Generally used together with accept_empty_input.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -4698,6 +4708,8 @@ def add_input_int(**kwargs):
 		max_clamped (bool, optional): Activates and deactivates the enforcment of max_value.
 		on_enter (bool, optional): Only runs callback on enter key press.
 		readonly (bool, optional): Activates read only mode where no text can be input but text can still be highlighted.
+		accept_empty_input (bool, optional): Treat empty input as a zero value.
+		display_empty_value (bool, optional): If True, display an empty input if the value is zero. Generally used together with accept_empty_input.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -4736,6 +4748,8 @@ def add_input_intx(**kwargs):
 		max_clamped (bool, optional): Activates and deactivates the enforcment of max_value.
 		on_enter (bool, optional): Only runs callback on enter.
 		readonly (bool, optional): Activates read only mode where no text can be input but text can still be highlighted.
+		accept_empty_input (bool, optional): Treat empty input as a zero value.
+		display_empty_value (bool, optional): If True, display an empty input if the value is zero. Generally used together with accept_empty_input.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]

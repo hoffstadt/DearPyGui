@@ -447,14 +447,23 @@ DearPyGui::fill_configuration_dict(const mvInputIntConfig& inConfig, PyObject* o
 	if (outDict == nullptr)
 		return;
 
-	PyDict_SetItemString(outDict, "on_enter", mvPyObject(ToPyBool(inConfig.flags & ImGuiInputTextFlags_EnterReturnsTrue)));
-	PyDict_SetItemString(outDict, "readonly", mvPyObject(ToPyBool(inConfig.flags & ImGuiInputTextFlags_ReadOnly)));
 	PyDict_SetItemString(outDict, "step", mvPyObject(ToPyInt(inConfig.step)));
 	PyDict_SetItemString(outDict, "step_fast", mvPyObject(ToPyInt(inConfig.step_fast)));
 	PyDict_SetItemString(outDict, "min_value", mvPyObject(ToPyInt(inConfig.minv)));
 	PyDict_SetItemString(outDict, "max_value", mvPyObject(ToPyInt(inConfig.maxv)));
 	PyDict_SetItemString(outDict, "min_clamped", mvPyObject(ToPyBool(inConfig.min_clamped)));
 	PyDict_SetItemString(outDict, "max_clamped", mvPyObject(ToPyBool(inConfig.max_clamped)));
+
+	// helper to check and set bit
+	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)
+	{
+		PyDict_SetItemString(outDict, keyword, mvPyObject(ToPyBool(flags & flag)));
+	};
+
+	checkbitset("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, inConfig.flags);
+	checkbitset("readonly", ImGuiInputTextFlags_ReadOnly, inConfig.flags);
+	checkbitset("accept_empty_input", ImGuiInputTextFlags_ParseEmptyRefVal, inConfig.flags);
+	checkbitset("display_empty_value", ImGuiInputTextFlags_DisplayEmptyRefVal, inConfig.flags);
 }
 
 void
@@ -480,6 +489,8 @@ DearPyGui::fill_configuration_dict(const mvInputFloatConfig& inConfig, PyObject*
 	// window flags
 	checkbitset("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, inConfig.flags);
 	checkbitset("readonly", ImGuiInputTextFlags_ReadOnly, inConfig.flags);
+	checkbitset("accept_empty_input", ImGuiInputTextFlags_ParseEmptyRefVal, inConfig.flags);
+	checkbitset("display_empty_value", ImGuiInputTextFlags_DisplayEmptyRefVal, inConfig.flags);
 }
 
 void
@@ -505,6 +516,8 @@ DearPyGui::fill_configuration_dict(const mvInputDoubleConfig& inConfig, PyObject
 	// window flags
 	checkbitset("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, inConfig.flags);
 	checkbitset("readonly", ImGuiInputTextFlags_ReadOnly, inConfig.flags);
+	checkbitset("accept_empty_input", ImGuiInputTextFlags_ParseEmptyRefVal, inConfig.flags);
+	checkbitset("display_empty_value", ImGuiInputTextFlags_DisplayEmptyRefVal, inConfig.flags);
 }
 
 void
@@ -529,6 +542,8 @@ DearPyGui::fill_configuration_dict(const mvInputFloatMultiConfig& inConfig, PyOb
 	// window flags
 	checkbitset("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, inConfig.flags);
 	checkbitset("readonly", ImGuiInputTextFlags_ReadOnly, inConfig.flags);
+	checkbitset("accept_empty_input", ImGuiInputTextFlags_ParseEmptyRefVal, inConfig.flags);
+	checkbitset("display_empty_value", ImGuiInputTextFlags_DisplayEmptyRefVal, inConfig.flags);
 }
 
 void
@@ -553,6 +568,8 @@ DearPyGui::fill_configuration_dict(const mvInputDoubleMultiConfig& inConfig, PyO
 	// window flags
 	checkbitset("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, inConfig.flags);
 	checkbitset("readonly", ImGuiInputTextFlags_ReadOnly, inConfig.flags);
+	checkbitset("accept_empty_input", ImGuiInputTextFlags_ParseEmptyRefVal, inConfig.flags);
+	checkbitset("display_empty_value", ImGuiInputTextFlags_DisplayEmptyRefVal, inConfig.flags);
 }
 
 void
@@ -561,13 +578,22 @@ DearPyGui::fill_configuration_dict(const mvInputIntMultiConfig& inConfig, PyObje
 	if (outDict == nullptr)
 		return;
 
-	PyDict_SetItemString(outDict, "on_enter", mvPyObject(ToPyBool(inConfig.flags & ImGuiInputTextFlags_EnterReturnsTrue)));
-	PyDict_SetItemString(outDict, "readonly", mvPyObject(ToPyBool(inConfig.flags & ImGuiInputTextFlags_ReadOnly)));
 	PyDict_SetItemString(outDict, "min_value", mvPyObject(ToPyInt(inConfig.minv)));
 	PyDict_SetItemString(outDict, "max_value", mvPyObject(ToPyInt(inConfig.maxv)));
 	PyDict_SetItemString(outDict, "min_clamped", mvPyObject(ToPyBool(inConfig.min_clamped)));
 	PyDict_SetItemString(outDict, "max_clamped", mvPyObject(ToPyBool(inConfig.max_clamped)));
 	PyDict_SetItemString(outDict, "size", mvPyObject(ToPyInt(inConfig.size)));
+
+	// helper to check and set bit
+	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)
+	{
+		PyDict_SetItemString(outDict, keyword, mvPyObject(ToPyBool(flags & flag)));
+	};
+
+	checkbitset("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, inConfig.flags);
+	checkbitset("readonly", ImGuiInputTextFlags_ReadOnly, inConfig.flags);
+	checkbitset("accept_empty_input", ImGuiInputTextFlags_ParseEmptyRefVal, inConfig.flags);
+	checkbitset("display_empty_value", ImGuiInputTextFlags_DisplayEmptyRefVal, inConfig.flags);
 }
 
 void
@@ -762,22 +788,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvDragFloatConfig& outConfig, mvA
 
 	// flags
 	flagop("clamped", ImGuiSliderFlags_AlwaysClamp, outConfig.flags);
-	flagop("clamped", ImGuiSliderFlags_AlwaysClamp, outConfig.stor_flags);
 	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.flags);
-	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.stor_flags);
-
-	if (info.enabledLastFrame)
-	{
-		info.enabledLastFrame = false;
-		outConfig.flags = outConfig.stor_flags;
-	}
-
-	if (info.disabledLastFrame)
-	{
-		info.disabledLastFrame = false;
-		outConfig.stor_flags = outConfig.flags;
-		outConfig.flags |= ImGuiSliderFlags_NoInput;
-	}
 }
 
 void
@@ -799,22 +810,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvDragDoubleConfig& outConfig, mv
 
 	// flags
 	flagop("clamped", ImGuiSliderFlags_AlwaysClamp, outConfig.flags);
-	flagop("clamped", ImGuiSliderFlags_AlwaysClamp, outConfig.stor_flags);
 	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.flags);
-	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.stor_flags);
-
-	if (info.enabledLastFrame)
-	{
-		info.enabledLastFrame = false;
-		outConfig.flags = outConfig.stor_flags;
-	}
-
-	if (info.disabledLastFrame)
-	{
-		info.disabledLastFrame = false;
-		outConfig.stor_flags = outConfig.flags;
-		outConfig.flags |= ImGuiSliderFlags_NoInput;
-	}
 }
 
 void
@@ -836,22 +832,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvDragIntConfig& outConfig, mvApp
 
 	// flags
 	flagop("clamped", ImGuiSliderFlags_AlwaysClamp, outConfig.flags);
-	flagop("clamped", ImGuiSliderFlags_AlwaysClamp, outConfig.stor_flags);
 	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.flags);
-	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.stor_flags);
-
-	if (info.enabledLastFrame)
-	{
-		info.enabledLastFrame = false;
-		outConfig.flags = outConfig.stor_flags;
-	}
-
-	if (info.disabledLastFrame)
-	{
-		info.disabledLastFrame = false;
-		outConfig.stor_flags = outConfig.flags;
-		outConfig.flags |= ImGuiSliderFlags_NoInput;
-	}
 }
 
 void
@@ -874,22 +855,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvDragIntMultiConfig& outConfig, 
 
 	// flags
 	flagop("clamped", ImGuiSliderFlags_AlwaysClamp, outConfig.flags);
-	flagop("clamped", ImGuiSliderFlags_AlwaysClamp, outConfig.stor_flags);
 	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.flags);
-	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.stor_flags);
-
-	if (info.enabledLastFrame)
-	{
-		info.enabledLastFrame = false;
-		outConfig.flags = outConfig.stor_flags;
-	}
-
-	if (info.disabledLastFrame)
-	{
-		info.disabledLastFrame = false;
-		outConfig.stor_flags = outConfig.flags;
-		outConfig.flags |= ImGuiSliderFlags_NoInput;
-	}
 }
 
 void
@@ -912,22 +878,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvDragFloatMultiConfig& outConfig
 
 	// flags
 	flagop("clamped", ImGuiSliderFlags_AlwaysClamp, outConfig.flags);
-	flagop("clamped", ImGuiSliderFlags_AlwaysClamp, outConfig.stor_flags);
 	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.flags);
-	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.stor_flags);
-
-	if (info.enabledLastFrame)
-	{
-		info.enabledLastFrame = false;
-		outConfig.flags = outConfig.stor_flags;
-	}
-
-	if (info.disabledLastFrame)
-	{
-		info.disabledLastFrame = false;
-		outConfig.stor_flags = outConfig.flags;
-		outConfig.flags |= ImGuiSliderFlags_NoInput;
-	}
 }
 
 void
@@ -950,22 +901,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvDragDoubleMultiConfig& outConfi
 
 	// flags
 	flagop("clamped", ImGuiSliderFlags_AlwaysClamp, outConfig.flags);
-	flagop("clamped", ImGuiSliderFlags_AlwaysClamp, outConfig.stor_flags);
 	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.flags);
-	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.stor_flags);
-
-	if (info.enabledLastFrame)
-	{
-		info.enabledLastFrame = false;
-		outConfig.flags = outConfig.stor_flags;
-	}
-
-	if (info.disabledLastFrame)
-	{
-		info.disabledLastFrame = false;
-		outConfig.stor_flags = outConfig.flags;
-		outConfig.flags |= ImGuiSliderFlags_NoInput;
-	}
 }
 
 void
@@ -987,22 +923,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvSliderIntConfig& outConfig, mvA
 
 	// flags
 	flagop("clamped", ImGuiSliderFlags_AlwaysClamp, outConfig.flags);
-	flagop("clamped", ImGuiSliderFlags_AlwaysClamp, outConfig.stor_flags);
 	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.flags);
-	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.stor_flags);
-
-	if (info.enabledLastFrame)
-	{
-		info.enabledLastFrame = false;
-		outConfig.flags = outConfig.stor_flags;
-	}
-
-	if (info.disabledLastFrame)
-	{
-		info.disabledLastFrame = false;
-		outConfig.stor_flags = outConfig.flags;
-		outConfig.flags |= ImGuiSliderFlags_NoInput;
-	}
 }
 
 void
@@ -1024,22 +945,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvSliderIntMultiConfig& outConfig
 
 	// flags
 	flagop("clamped", ImGuiSliderFlags_AlwaysClamp, outConfig.flags);
-	flagop("clamped", ImGuiSliderFlags_AlwaysClamp, outConfig.stor_flags);
 	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.flags);
-	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.stor_flags);
-
-	if (info.enabledLastFrame)
-	{
-		info.enabledLastFrame = false;
-		outConfig.flags = outConfig.stor_flags;
-	}
-
-	if (info.disabledLastFrame)
-	{
-		info.disabledLastFrame = false;
-		outConfig.stor_flags = outConfig.flags;
-		outConfig.flags |= ImGuiSliderFlags_NoInput;
-	}
 }
 
 void
@@ -1061,22 +967,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvSliderFloatConfig& outConfig, m
 
 	// flags
 	flagop("clamped", ImGuiSliderFlags_AlwaysClamp, outConfig.flags);
-	flagop("clamped", ImGuiSliderFlags_AlwaysClamp, outConfig.stor_flags);
 	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.flags);
-	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.stor_flags);
-
-	if (info.enabledLastFrame)
-	{
-		info.enabledLastFrame = false;
-		outConfig.flags = outConfig.stor_flags;
-	}
-
-	if (info.disabledLastFrame)
-	{
-		info.disabledLastFrame = false;
-		outConfig.stor_flags = outConfig.flags;
-		outConfig.flags |= ImGuiSliderFlags_NoInput;
-	}
 }
 
 void
@@ -1099,23 +990,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvSliderFloatMultiConfig& outConf
 
 	// flags
 	flagop("clamped", ImGuiSliderFlags_AlwaysClamp, outConfig.flags);
-	flagop("clamped", ImGuiSliderFlags_AlwaysClamp, outConfig.stor_flags);
 	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.flags);
-	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.stor_flags);
-
-	if (info.enabledLastFrame)
-	{
-		info.enabledLastFrame = false;
-		outConfig.flags = outConfig.stor_flags;
-	}
-
-	if (info.disabledLastFrame)
-	{
-		info.disabledLastFrame = false;
-		outConfig.stor_flags = outConfig.flags;
-		outConfig.flags |= ImGuiSliderFlags_NoInput;
-	}
-
 }
 
 void
@@ -1137,22 +1012,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvSliderDoubleConfig& outConfig, 
 
 	// flags
 	flagop("clamped", ImGuiSliderFlags_AlwaysClamp, outConfig.flags);
-	flagop("clamped", ImGuiSliderFlags_AlwaysClamp, outConfig.stor_flags);
 	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.flags);
-	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.stor_flags);
-
-	if (info.enabledLastFrame)
-	{
-		info.enabledLastFrame = false;
-		outConfig.flags = outConfig.stor_flags;
-	}
-
-	if (info.disabledLastFrame)
-	{
-		info.disabledLastFrame = false;
-		outConfig.stor_flags = outConfig.flags;
-		outConfig.flags |= ImGuiSliderFlags_NoInput;
-	}
 }
 
 void
@@ -1175,23 +1035,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvSliderDoubleMultiConfig& outCon
 
 	// flags
 	flagop("clamped", ImGuiSliderFlags_AlwaysClamp, outConfig.flags);
-	flagop("clamped", ImGuiSliderFlags_AlwaysClamp, outConfig.stor_flags);
 	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.flags);
-	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.stor_flags);
-
-	if (info.enabledLastFrame)
-	{
-		info.enabledLastFrame = false;
-		outConfig.flags = outConfig.stor_flags;
-	}
-
-	if (info.disabledLastFrame)
-	{
-		info.disabledLastFrame = false;
-		outConfig.stor_flags = outConfig.flags;
-		outConfig.flags |= ImGuiSliderFlags_NoInput;
-	}
-
 }
 
 void
@@ -1312,21 +1156,6 @@ DearPyGui::set_configuration(PyObject* inDict, mvInputTextConfig& outConfig, mvA
 	flagop("always_overwrite", ImGuiInputTextFlags_AlwaysOverwrite, outConfig.flags);
 	flagop("no_undo_redo", ImGuiInputTextFlags_NoUndoRedo, outConfig.flags);
 	flagop("escape_clears_all", ImGuiInputTextFlags_EscapeClearsAll, outConfig.flags);
-
-
-	if (info.enabledLastFrame)
-	{
-		info.enabledLastFrame = false;
-		outConfig.flags = outConfig.stor_flags;
-	}
-
-	if (info.disabledLastFrame)
-	{
-		info.disabledLastFrame = false;
-		outConfig.stor_flags = outConfig.flags;
-		outConfig.flags |= ImGuiInputTextFlags_ReadOnly;
-		outConfig.flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
-	}
 }
 
 void
@@ -1335,10 +1164,6 @@ DearPyGui::set_configuration(PyObject* inDict, mvInputIntConfig& outConfig, mvAp
 	if (inDict == nullptr)
 		return;
 
-	if (PyObject* item = PyDict_GetItemString(inDict, "on_enter")) ToBool(item) ? outConfig.flags |= ImGuiInputTextFlags_EnterReturnsTrue : outConfig.flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
-	if (PyObject* item = PyDict_GetItemString(inDict, "on_enter")) ToBool(item) ? outConfig.stor_flags |= ImGuiInputTextFlags_EnterReturnsTrue : outConfig.stor_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
-	if (PyObject* item = PyDict_GetItemString(inDict, "readonly")) ToBool(item) ? outConfig.flags |= ImGuiInputTextFlags_ReadOnly : outConfig.flags &= ~ImGuiInputTextFlags_ReadOnly;
-	if (PyObject* item = PyDict_GetItemString(inDict, "readonly")) ToBool(item) ? outConfig.stor_flags |= ImGuiInputTextFlags_ReadOnly : outConfig.stor_flags &= ~ImGuiInputTextFlags_ReadOnly;
 	if (PyObject* item = PyDict_GetItemString(inDict, "step")) outConfig.step = ToInt(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "step_fast")) outConfig.step_fast = ToInt(item);
 
@@ -1357,19 +1182,16 @@ DearPyGui::set_configuration(PyObject* inDict, mvInputIntConfig& outConfig, mvAp
 	if (PyObject* item = PyDict_GetItemString(inDict, "min_clamped")) outConfig.min_clamped = ToBool(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "max_clamped")) outConfig.max_clamped = ToBool(item);
 
-	if (info.enabledLastFrame)
+	// helper for bit flipping
+	auto flagop = [inDict](const char* keyword, int flag, int& flags)
 	{
-		info.enabledLastFrame = false;
-		outConfig.flags = outConfig.stor_flags;
-	}
+		if (PyObject* item = PyDict_GetItemString(inDict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+	};
 
-	if (info.disabledLastFrame)
-	{
-		info.disabledLastFrame = false;
-		outConfig.stor_flags = outConfig.flags;
-		outConfig.flags |= ImGuiInputTextFlags_ReadOnly;
-		outConfig.flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
-	}
+	flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, outConfig.flags);
+	flagop("readonly", ImGuiInputTextFlags_ReadOnly, outConfig.flags);
+	flagop("accept_empty_input", ImGuiInputTextFlags_ParseEmptyRefVal, outConfig.flags);
+	flagop("display_empty_value", ImGuiInputTextFlags_DisplayEmptyRefVal, outConfig.flags);
 }
 
 void
@@ -1407,23 +1229,9 @@ DearPyGui::set_configuration(PyObject* inDict, mvInputFloatConfig& outConfig, mv
 
 	// flags
 	flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, outConfig.flags);
-	flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, outConfig.stor_flags);
 	flagop("readonly", ImGuiInputTextFlags_ReadOnly, outConfig.flags);
-	flagop("readonly", ImGuiInputTextFlags_ReadOnly, outConfig.stor_flags);
-
-	if (info.enabledLastFrame)
-	{
-		info.enabledLastFrame = false;
-		outConfig.flags = outConfig.stor_flags;
-	}
-
-	if (info.disabledLastFrame)
-	{
-		info.disabledLastFrame = false;
-		outConfig.stor_flags = outConfig.flags;
-		outConfig.flags |= ImGuiInputTextFlags_ReadOnly;
-		outConfig.flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
-	}
+	flagop("accept_empty_input", ImGuiInputTextFlags_ParseEmptyRefVal, outConfig.flags);
+	flagop("display_empty_value", ImGuiInputTextFlags_DisplayEmptyRefVal, outConfig.flags);
 }
 
 void
@@ -1461,23 +1269,9 @@ DearPyGui::set_configuration(PyObject* inDict, mvInputDoubleConfig& outConfig, m
 
 	// flags
 	flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, outConfig.flags);
-	flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, outConfig.stor_flags);
 	flagop("readonly", ImGuiInputTextFlags_ReadOnly, outConfig.flags);
-	flagop("readonly", ImGuiInputTextFlags_ReadOnly, outConfig.stor_flags);
-
-	if (info.enabledLastFrame)
-	{
-		info.enabledLastFrame = false;
-		outConfig.flags = outConfig.stor_flags;
-	}
-
-	if (info.disabledLastFrame)
-	{
-		info.disabledLastFrame = false;
-		outConfig.stor_flags = outConfig.flags;
-		outConfig.flags |= ImGuiInputTextFlags_ReadOnly;
-		outConfig.flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
-	}
+	flagop("accept_empty_input", ImGuiInputTextFlags_ParseEmptyRefVal, outConfig.flags);
+	flagop("display_empty_value", ImGuiInputTextFlags_DisplayEmptyRefVal, outConfig.flags);
 }
 
 void
@@ -1512,23 +1306,9 @@ DearPyGui::set_configuration(PyObject* inDict, mvInputFloatMultiConfig& outConfi
 
 	// flags
 	flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, outConfig.flags);
-	flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, outConfig.stor_flags);
 	flagop("readonly", ImGuiInputTextFlags_ReadOnly, outConfig.flags);
-	flagop("readonly", ImGuiInputTextFlags_ReadOnly, outConfig.stor_flags);
-
-	if (info.enabledLastFrame)
-	{
-		info.enabledLastFrame = false;
-		outConfig.flags = outConfig.stor_flags;
-	}
-
-	if (info.disabledLastFrame)
-	{
-		info.disabledLastFrame = false;
-		outConfig.stor_flags = outConfig.flags;
-		outConfig.flags |= ImGuiInputTextFlags_ReadOnly;
-		outConfig.flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
-	}
+	flagop("accept_empty_input", ImGuiInputTextFlags_ParseEmptyRefVal, outConfig.flags);
+	flagop("display_empty_value", ImGuiInputTextFlags_DisplayEmptyRefVal, outConfig.flags);
 }
 
 void
@@ -1563,23 +1343,9 @@ DearPyGui::set_configuration(PyObject* inDict, mvInputDoubleMultiConfig& outConf
 
 	// flags
 	flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, outConfig.flags);
-	flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, outConfig.stor_flags);
 	flagop("readonly", ImGuiInputTextFlags_ReadOnly, outConfig.flags);
-	flagop("readonly", ImGuiInputTextFlags_ReadOnly, outConfig.stor_flags);
-
-	if (info.enabledLastFrame)
-	{
-		info.enabledLastFrame = false;
-		outConfig.flags = outConfig.stor_flags;
-	}
-
-	if (info.disabledLastFrame)
-	{
-		info.disabledLastFrame = false;
-		outConfig.stor_flags = outConfig.flags;
-		outConfig.flags |= ImGuiInputTextFlags_ReadOnly;
-		outConfig.flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
-	}
+	flagop("accept_empty_input", ImGuiInputTextFlags_ParseEmptyRefVal, outConfig.flags);
+	flagop("display_empty_value", ImGuiInputTextFlags_DisplayEmptyRefVal, outConfig.flags);
 }
 
 void
@@ -1588,10 +1354,6 @@ DearPyGui::set_configuration(PyObject* inDict, mvInputIntMultiConfig& outConfig,
 	if (inDict == nullptr)
 		return;
 
-	if (PyObject* item = PyDict_GetItemString(inDict, "on_enter")) ToBool(item) ? outConfig.flags |= ImGuiInputTextFlags_EnterReturnsTrue : outConfig.flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
-	if (PyObject* item = PyDict_GetItemString(inDict, "on_enter")) ToBool(item) ? outConfig.stor_flags |= ImGuiInputTextFlags_EnterReturnsTrue : outConfig.stor_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
-	if (PyObject* item = PyDict_GetItemString(inDict, "readonly")) ToBool(item) ? outConfig.flags |= ImGuiInputTextFlags_ReadOnly : outConfig.flags &= ~ImGuiInputTextFlags_ReadOnly;
-	if (PyObject* item = PyDict_GetItemString(inDict, "readonly")) ToBool(item) ? outConfig.stor_flags |= ImGuiInputTextFlags_ReadOnly : outConfig.stor_flags &= ~ImGuiInputTextFlags_ReadOnly;
 	if (PyObject* item = PyDict_GetItemString(inDict, "size")) outConfig.size = ToInt(item);
 
 	if (PyObject* item = PyDict_GetItemString(inDict, "min_value"))
@@ -1609,19 +1371,16 @@ DearPyGui::set_configuration(PyObject* inDict, mvInputIntMultiConfig& outConfig,
 	if (PyObject* item = PyDict_GetItemString(inDict, "min_clamped")) outConfig.min_clamped = ToBool(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "max_clamped")) outConfig.max_clamped = ToBool(item);
 
-	if (info.enabledLastFrame)
+	// helper for bit flipping
+	auto flagop = [inDict](const char* keyword, int flag, int& flags)
 	{
-		info.enabledLastFrame = false;
-		outConfig.flags = outConfig.stor_flags;
-	}
+		if (PyObject* item = PyDict_GetItemString(inDict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+	};
 
-	if (info.disabledLastFrame)
-	{
-		info.disabledLastFrame = false;
-		outConfig.stor_flags = outConfig.flags;
-		outConfig.flags |= ImGuiInputTextFlags_ReadOnly;
-		outConfig.flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
-	}
+	flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, outConfig.flags);
+	flagop("readonly", ImGuiInputTextFlags_ReadOnly, outConfig.flags);
+	flagop("accept_empty_input", ImGuiInputTextFlags_ParseEmptyRefVal, outConfig.flags);
+	flagop("display_empty_value", ImGuiInputTextFlags_DisplayEmptyRefVal, outConfig.flags);
 }
 
 void
@@ -3017,9 +2776,11 @@ DearPyGui::draw_drag_float(ImDrawList* drawlist, mvAppItem& item, mvDragFloatCon
 
 		if (!item.config.enabled) config.disabled_value = *config.value;
 
+		auto flags = config.flags | (item.config.enabled? 0 : ImGuiSliderFlags_NoInput);
+
 		if (ImGui::DragFloat(item.info.internalLabel.c_str(),
 			item.config.enabled ? config.value.get() : &config.disabled_value,
-			config.speed, config.minv, config.maxv, config.format.c_str(), config.flags))
+			config.speed, config.minv, config.maxv, config.format.c_str(), flags))
 		{
 			item.submitCallback(*config.value);
 		}
@@ -3107,9 +2868,11 @@ DearPyGui::draw_drag_double(ImDrawList* drawlist, mvAppItem& item, mvDragDoubleC
 
 		if (!item.config.enabled) config.disabled_value = *config.value;
 
+		auto flags = config.flags | (item.config.enabled? 0 : ImGuiSliderFlags_NoInput);
+
 		if (ImGui::DragScalar(item.info.internalLabel.c_str(), ImGuiDataType_Double,
 			item.config.enabled ? config.value.get() : &config.disabled_value,
-			config.speed, &config.minv, &config.maxv, config.format.c_str(), config.flags))
+			config.speed, &config.minv, &config.maxv, config.format.c_str(), flags))
 		{
 			item.submitCallback(*config.value);
 		}
@@ -3197,9 +2960,11 @@ DearPyGui::draw_drag_int(ImDrawList* drawlist, mvAppItem& item, mvDragIntConfig&
 
 		if (!item.config.enabled) config.disabled_value = *config.value;
 
+		auto flags = config.flags | (item.config.enabled? 0 : ImGuiSliderFlags_NoInput);
+
 		if (ImGui::DragInt(item.info.internalLabel.c_str(),
 			item.config.enabled ? config.value.get() : &config.disabled_value, config.speed,
-			config.minv, config.maxv, config.format.c_str(), config.flags))
+			config.minv, config.maxv, config.format.c_str(), flags))
 		{
 			item.submitCallback(*config.value);
 		}
@@ -3290,16 +3055,18 @@ DearPyGui::draw_drag_intx(ImDrawList* drawlist, mvAppItem& item, mvDragIntMultiC
 
 		if (!item.config.enabled) std::copy(config.value->data(), config.value->data() + 2, config.disabled_value);
 
+		auto flags = config.flags | (item.config.enabled? 0 : ImGuiSliderFlags_NoInput);
+
 		switch (config.size)
 		{
 		case 2:
-			activated = ImGui::DragInt2(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.speed, config.minv, config.maxv, config.format.c_str(), config.flags);
+			activated = ImGui::DragInt2(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.speed, config.minv, config.maxv, config.format.c_str(), flags);
 			break;
 		case 3:
-			activated = ImGui::DragInt3(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.speed, config.minv, config.maxv, config.format.c_str(), config.flags);
+			activated = ImGui::DragInt3(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.speed, config.minv, config.maxv, config.format.c_str(), flags);
 			break;
 		case 4:
-			activated = ImGui::DragInt4(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.speed, config.minv, config.maxv, config.format.c_str(), config.flags);
+			activated = ImGui::DragInt4(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.speed, config.minv, config.maxv, config.format.c_str(), flags);
 			break;
 		default:
 			break;
@@ -3394,16 +3161,18 @@ DearPyGui::draw_drag_floatx(ImDrawList* drawlist, mvAppItem& item, mvDragFloatMu
 
 		if (!item.config.enabled) std::copy(config.value->data(), config.value->data() + 2, config.disabled_value);
 
+		auto flags = config.flags | (item.config.enabled? 0 : ImGuiSliderFlags_NoInput);
+
 		switch (config.size)
 		{
 		case 2:
-			activated = ImGui::DragFloat2(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.speed, config.minv, config.maxv, config.format.c_str(), config.flags);
+			activated = ImGui::DragFloat2(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.speed, config.minv, config.maxv, config.format.c_str(), flags);
 			break;
 		case 3:
-			activated = ImGui::DragFloat3(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.speed, config.minv, config.maxv, config.format.c_str(), config.flags);
+			activated = ImGui::DragFloat3(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.speed, config.minv, config.maxv, config.format.c_str(), flags);
 			break;
 		case 4:
-			activated = ImGui::DragFloat4(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.speed, config.minv, config.maxv, config.format.c_str(), config.flags);
+			activated = ImGui::DragFloat4(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.speed, config.minv, config.maxv, config.format.c_str(), flags);
 			break;
 		default:
 			break;
@@ -3497,8 +3266,10 @@ DearPyGui::draw_drag_doublex(ImDrawList* drawlist, mvAppItem& item, mvDragDouble
 
 		if (!item.config.enabled) std::copy(config.value->data(), config.value->data() + 2, config.disabled_value);
 
+		auto flags = config.flags | (item.config.enabled? 0 : ImGuiSliderFlags_NoInput);
+
 		if(config.size > 1 && config.size < 5)
-			activated = ImGui::DragScalarN(item.info.internalLabel.c_str(), ImGuiDataType_Double, item.config.enabled ? config.value->data() : &config.disabled_value[0], config.size, config.speed, &config.minv, &config.maxv, config.format.c_str(), config.flags);
+			activated = ImGui::DragScalarN(item.info.internalLabel.c_str(), ImGuiDataType_Double, item.config.enabled ? config.value->data() : &config.disabled_value[0], config.size, config.speed, &config.minv, &config.maxv, config.format.c_str(), flags);
 
 		if (activated)
 		{
@@ -3586,6 +3357,8 @@ DearPyGui::draw_slider_float(ImDrawList* drawlist, mvAppItem& item, mvSliderFloa
 
 		if (!item.config.enabled) config.disabled_value = *config.value;
 
+		auto flags = config.flags | (item.config.enabled? 0 : ImGuiSliderFlags_NoInput);
+
 		if (config.vertical)
 		{
 			if ((float)item.config.height < 1.0f)
@@ -3593,7 +3366,7 @@ DearPyGui::draw_slider_float(ImDrawList* drawlist, mvAppItem& item, mvSliderFloa
 			if ((float)item.config.width < 1.0f)
 				item.config.width = 20;
 
-			if (ImGui::VSliderFloat(item.info.internalLabel.c_str(), ImVec2((float)item.config.width, (float)item.config.height), item.config.enabled ? config.value.get() : &config.disabled_value, config.minv, config.maxv, config.format.c_str()))
+			if (ImGui::VSliderFloat(item.info.internalLabel.c_str(), ImVec2((float)item.config.width, (float)item.config.height), item.config.enabled ? config.value.get() : &config.disabled_value, config.minv, config.maxv, config.format.c_str(), flags))
 			{
 				item.submitCallback(*config.value);
 			}
@@ -3601,7 +3374,7 @@ DearPyGui::draw_slider_float(ImDrawList* drawlist, mvAppItem& item, mvSliderFloa
 		}
 		else
 		{
-			if (ImGui::SliderFloat(item.info.internalLabel.c_str(), item.config.enabled ? config.value.get() : &config.disabled_value, config.minv, config.maxv, config.format.c_str(), config.flags))
+			if (ImGui::SliderFloat(item.info.internalLabel.c_str(), item.config.enabled ? config.value.get() : &config.disabled_value, config.minv, config.maxv, config.format.c_str(), flags))
 			{
 				item.submitCallback(*config.value);
 			}
@@ -3690,6 +3463,8 @@ DearPyGui::draw_slider_double(ImDrawList* drawlist, mvAppItem& item, mvSliderDou
 
 		if (!item.config.enabled) config.disabled_value = *config.value;
 
+		auto flags = config.flags | (item.config.enabled? 0 : ImGuiSliderFlags_NoInput);
+
 		if (config.vertical)
 		{
 			if ((float)item.config.height < 1.0f)
@@ -3697,7 +3472,7 @@ DearPyGui::draw_slider_double(ImDrawList* drawlist, mvAppItem& item, mvSliderDou
 			if ((float)item.config.width < 1.0f)
 				item.config.width = 20;
 
-			if (ImGui::VSliderScalar(item.info.internalLabel.c_str(), ImVec2((float)item.config.width, (float)item.config.height), ImGuiDataType_Double, item.config.enabled ? config.value.get() : &config.disabled_value, &config.minv, &config.maxv, config.format.c_str()))
+			if (ImGui::VSliderScalar(item.info.internalLabel.c_str(), ImVec2((float)item.config.width, (float)item.config.height), ImGuiDataType_Double, item.config.enabled ? config.value.get() : &config.disabled_value, &config.minv, &config.maxv, config.format.c_str(), flags))
 			{
 				item.submitCallback(*config.value);
 			}
@@ -3705,7 +3480,7 @@ DearPyGui::draw_slider_double(ImDrawList* drawlist, mvAppItem& item, mvSliderDou
 		}
 		else
 		{
-			if (ImGui::SliderScalar(item.info.internalLabel.c_str(), ImGuiDataType_Double, item.config.enabled ? config.value.get() : &config.disabled_value, &config.minv, &config.maxv, config.format.c_str(), config.flags))
+			if (ImGui::SliderScalar(item.info.internalLabel.c_str(), ImGuiDataType_Double, item.config.enabled ? config.value.get() : &config.disabled_value, &config.minv, &config.maxv, config.format.c_str(), flags))
 			{
 				item.submitCallback(*config.value);
 			}
@@ -3796,16 +3571,18 @@ DearPyGui::draw_slider_floatx(ImDrawList* drawlist, mvAppItem& item, mvSliderFlo
 
 		if (!item.config.enabled) std::copy(config.value->data(), config.value->data() + 4, config.disabled_value);
 
+		auto flags = config.flags | (item.config.enabled? 0 : ImGuiSliderFlags_NoInput);
+
 		switch (config.size)
 		{
 		case 2:
-			activated = ImGui::SliderFloat2(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.minv, config.maxv, config.format.c_str(), config.flags);
+			activated = ImGui::SliderFloat2(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.minv, config.maxv, config.format.c_str(), flags);
 			break;
 		case 3:
-			activated = ImGui::SliderFloat3(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.minv, config.maxv, config.format.c_str(), config.flags);
+			activated = ImGui::SliderFloat3(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.minv, config.maxv, config.format.c_str(), flags);
 			break;
 		case 4:
-			activated = ImGui::SliderFloat4(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.minv, config.maxv, config.format.c_str(), config.flags);
+			activated = ImGui::SliderFloat4(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.minv, config.maxv, config.format.c_str(), flags);
 			break;
 		default:
 			break;
@@ -3900,8 +3677,10 @@ DearPyGui::draw_slider_doublex(ImDrawList* drawlist, mvAppItem& item, mvSliderDo
 
 		if (!item.config.enabled) std::copy(config.value->data(), config.value->data() + 4, config.disabled_value);
 
+		auto flags = config.flags | (item.config.enabled? 0 : ImGuiSliderFlags_NoInput);
+
 		if (config.size > 1 && config.size < 5)
-			activated = ImGui::SliderScalarN(item.info.internalLabel.c_str(), ImGuiDataType_Double, item.config.enabled ? config.value->data() : &config.disabled_value[0], config.size, &config.minv, &config.maxv, config.format.c_str(), config.flags);
+			activated = ImGui::SliderScalarN(item.info.internalLabel.c_str(), ImGuiDataType_Double, item.config.enabled ? config.value->data() : &config.disabled_value[0], config.size, &config.minv, &config.maxv, config.format.c_str(), flags);
 
 		if (activated)
 		{
@@ -3990,6 +3769,8 @@ DearPyGui::draw_slider_int(ImDrawList* drawlist, mvAppItem& item, mvSliderIntCon
 
 		if (!item.config.enabled) config.disabled_value = *config.value;
 
+		auto flags = config.flags | (item.config.enabled? 0 : ImGuiSliderFlags_NoInput);
+
 		if (config.vertical)
 		{
 			if ((float)item.config.height < 1.0f)
@@ -3997,7 +3778,7 @@ DearPyGui::draw_slider_int(ImDrawList* drawlist, mvAppItem& item, mvSliderIntCon
 			if ((float)item.config.width < 1.0f)
 				item.config.width = 20;
 
-			if (ImGui::VSliderInt(item.info.internalLabel.c_str(), ImVec2((float)item.config.width, (float)item.config.height), item.config.enabled ? config.value.get() : &config.disabled_value, config.minv, config.maxv, config.format.c_str()))
+			if (ImGui::VSliderInt(item.info.internalLabel.c_str(), ImVec2((float)item.config.width, (float)item.config.height), item.config.enabled ? config.value.get() : &config.disabled_value, config.minv, config.maxv, config.format.c_str(), flags))
 			{
 				item.submitCallback(*config.value);
 			}
@@ -4005,7 +3786,7 @@ DearPyGui::draw_slider_int(ImDrawList* drawlist, mvAppItem& item, mvSliderIntCon
 		}
 		else
 		{
-			if (ImGui::SliderInt(item.info.internalLabel.c_str(), item.config.enabled ? config.value.get() : &config.disabled_value, config.minv, config.maxv, config.format.c_str(), config.flags))
+			if (ImGui::SliderInt(item.info.internalLabel.c_str(), item.config.enabled ? config.value.get() : &config.disabled_value, config.minv, config.maxv, config.format.c_str(), flags))
 			{
 				item.submitCallback(*config.value);
 			}
@@ -4096,16 +3877,18 @@ DearPyGui::draw_slider_intx(ImDrawList* drawlist, mvAppItem& item, mvSliderIntMu
 
 		if (!item.config.enabled) std::copy(config.value->data(), config.value->data() + 4, config.disabled_value);
 
+		auto flags = config.flags | (item.config.enabled? 0 : ImGuiSliderFlags_NoInput);
+
 		switch (config.size)
 		{
 		case 2:
-			activated = ImGui::SliderInt2(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.minv, config.maxv, config.format.c_str(), config.flags);
+			activated = ImGui::SliderInt2(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.minv, config.maxv, config.format.c_str(), flags);
 			break;
 		case 3:
-			activated = ImGui::SliderInt3(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.minv, config.maxv, config.format.c_str(), config.flags);
+			activated = ImGui::SliderInt3(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.minv, config.maxv, config.format.c_str(), flags);
 			break;
 		case 4:
-			activated = ImGui::SliderInt4(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.minv, config.maxv, config.format.c_str(), config.flags);
+			activated = ImGui::SliderInt4(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.minv, config.maxv, config.format.c_str(), flags);
 			break;
 		default:
 			break;
@@ -4406,18 +4189,20 @@ DearPyGui::draw_input_text(ImDrawList* drawlist, mvAppItem& item, mvInputTextCon
 
 		bool activated = false;
 
+		auto flags = item.config.enabled? config.flags : (config.flags & ~ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_ReadOnly);
+
 		if (config.multiline)
 			config.hint.clear();
 
 		if (config.hint.empty())
 		{
 			if (config.multiline)
-				activated = ImGui::InputTextMultiline(item.info.internalLabel.c_str(), config.value.get(), ImVec2((float)item.config.width, (float)item.config.height), config.flags);
+				activated = ImGui::InputTextMultiline(item.info.internalLabel.c_str(), config.value.get(), ImVec2((float)item.config.width, (float)item.config.height), flags);
 			else
-				activated = ImGui::InputText(item.info.internalLabel.c_str(), config.value.get(), config.flags);
+				activated = ImGui::InputText(item.info.internalLabel.c_str(), config.value.get(), flags);
 		}
 		else
-			activated = ImGui::InputTextWithHint(item.info.internalLabel.c_str(), config.hint.c_str(), config.value.get(), config.flags);
+			activated = ImGui::InputTextWithHint(item.info.internalLabel.c_str(), config.hint.c_str(), config.value.get(), flags);
 
 		if (activated)
 		{
@@ -4506,7 +4291,9 @@ DearPyGui::draw_input_int(ImDrawList* drawlist, mvAppItem& item, mvInputIntConfi
 
 		ScopedID id(item.uuid);
 
-		if (ImGui::InputInt(item.info.internalLabel.c_str(), config.value.get(), config.step, config.step_fast, config.flags))
+		auto flags = item.config.enabled? config.flags : (config.flags & ~ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_ReadOnly);
+
+		if (ImGui::InputInt(item.info.internalLabel.c_str(), config.value.get(), config.step, config.step_fast, flags))
 		{
 			// determines clamped cases
 			if (config.min_clamped && config.max_clamped)
@@ -4618,16 +4405,18 @@ DearPyGui::draw_input_floatx(ImDrawList* drawlist, mvAppItem& item, mvInputFloat
 
 		bool res = false;
 
+		auto flags = item.config.enabled? config.flags : (config.flags & ~ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_ReadOnly);
+
 		switch (config.size)
 		{
 		case 2:
-			res = ImGui::InputFloat2(item.info.internalLabel.c_str(), config.value->data(), config.format.c_str(), config.flags);
+			res = ImGui::InputFloat2(item.info.internalLabel.c_str(), config.value->data(), config.format.c_str(), flags);
 			break;
 		case 3:
-			res = ImGui::InputFloat3(item.info.internalLabel.c_str(), config.value->data(), config.format.c_str(), config.flags);
+			res = ImGui::InputFloat3(item.info.internalLabel.c_str(), config.value->data(), config.format.c_str(), flags);
 			break;
 		case 4:
-			res = ImGui::InputFloat4(item.info.internalLabel.c_str(), config.value->data(), config.format.c_str(), config.flags);
+			res = ImGui::InputFloat4(item.info.internalLabel.c_str(), config.value->data(), config.format.c_str(), flags);
 			break;
 		default:
 			break;
@@ -4754,7 +4543,9 @@ DearPyGui::draw_input_float(ImDrawList* drawlist, mvAppItem& item, mvInputFloatC
 
 		ScopedID id(item.uuid);
 
-		if (ImGui::InputFloat(item.info.internalLabel.c_str(), config.value.get(), config.step, config.step_fast, config.format.c_str(), config.flags))
+		auto flags = item.config.enabled? config.flags : (config.flags & ~ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_ReadOnly);
+
+		if (ImGui::InputFloat(item.info.internalLabel.c_str(), config.value.get(), config.step, config.step_fast, config.format.c_str(), flags))
 		{
 			// determines clamped cases
 			if (config.min_clamped && config.max_clamped)
@@ -4951,7 +4742,9 @@ DearPyGui::draw_input_double(ImDrawList* drawlist, mvAppItem& item, mvInputDoubl
 
 		ScopedID id(item.uuid);
 
-		if (ImGui::InputScalar(item.info.internalLabel.c_str(), ImGuiDataType_Double, (void*)config.value.get(), (void*)(config.step > 0 ? &config.step : NULL), (void*)(config.step_fast > 0 ? &config.step_fast : NULL), config.format.c_str(), config.flags))
+		auto flags = item.config.enabled? config.flags : (config.flags & ~ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_ReadOnly);
+
+		if (ImGui::InputScalar(item.info.internalLabel.c_str(), ImGuiDataType_Double, (void*)config.value.get(), (void*)(config.step > 0 ? &config.step : NULL), (void*)(config.step_fast > 0 ? &config.step_fast : NULL), config.format.c_str(), flags))
 		{
 			// determines clamped cases
 			if (config.min_clamped && config.max_clamped)
@@ -5062,8 +4855,10 @@ DearPyGui::draw_input_doublex(ImDrawList* drawlist, mvAppItem& item, mvInputDoub
 
 		bool res = false;
 
+		auto flags = item.config.enabled? config.flags : (config.flags & ~ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_ReadOnly);
+
 		if (config.size > 1 && config.size < 5)
-			res = ImGui::InputScalarN(item.info.internalLabel.c_str(), ImGuiDataType_Double, config.value->data(), config.size, NULL, NULL, config.format.c_str(), config.flags);
+			res = ImGui::InputScalarN(item.info.internalLabel.c_str(), ImGuiDataType_Double, config.value->data(), config.size, NULL, NULL, config.format.c_str(), flags);
 
 		if (res)
 		{
@@ -5187,16 +4982,18 @@ DearPyGui::draw_input_intx(ImDrawList* drawlist, mvAppItem& item, mvInputIntMult
 
 		bool res = false;
 
+		auto flags = item.config.enabled? config.flags : (config.flags & ~ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_ReadOnly);
+
 		switch (config.size)
 		{
 		case 2:
-			res = ImGui::InputInt2(item.info.internalLabel.c_str(), config.value->data(), config.flags);
+			res = ImGui::InputInt2(item.info.internalLabel.c_str(), config.value->data(), flags);
 			break;
 		case 3:
-			res = ImGui::InputInt3(item.info.internalLabel.c_str(), config.value->data(), config.flags);
+			res = ImGui::InputInt3(item.info.internalLabel.c_str(), config.value->data(), flags);
 			break;
 		case 4:
-			res = ImGui::InputInt4(item.info.internalLabel.c_str(), config.value->data(), config.flags);
+			res = ImGui::InputInt4(item.info.internalLabel.c_str(), config.value->data(), flags);
 			break;
 		default:
 			break;
