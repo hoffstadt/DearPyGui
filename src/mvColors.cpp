@@ -899,6 +899,16 @@ DearPyGui::set_configuration(PyObject* inDict, mvColorButtonConfig& outConfig)
 	flagop("no_alpha", ImGuiColorEditFlags_NoAlpha, outConfig.flags);
 	flagop("no_border", ImGuiColorEditFlags_NoBorder, outConfig.flags);
 	flagop("no_drag_drop", ImGuiColorEditFlags_NoDragDrop, outConfig.flags);
+	flagop("no_tooltip", ImGuiColorEditFlags_NoTooltip, outConfig.flags);
+
+	if (PyObject* item = PyDict_GetItemString(inDict, "alpha_preview"))
+	{
+		long mode = ToUUID(item);
+
+		// reset target flags
+		outConfig.flags &= ~(ImGuiColorEditFlags_AlphaOpaque | ImGuiColorEditFlags_AlphaPreviewHalf);
+		outConfig.flags |= mode;
+	}
 }
 
 void
@@ -1142,6 +1152,11 @@ DearPyGui::fill_configuration_dict(const mvColorButtonConfig& inConfig, PyObject
 	checkbitset("no_alpha", ImGuiColorEditFlags_NoAlpha, inConfig.flags);
 	checkbitset("no_border", ImGuiColorEditFlags_NoBorder, inConfig.flags);
 	checkbitset("no_drag_drop", ImGuiColorEditFlags_NoDragDrop, inConfig.flags);
+	checkbitset("no_tooltip", ImGuiColorEditFlags_NoTooltip, inConfig.flags);
+
+	// alpha_preview
+	auto alphaMode = inConfig.flags & (ImGuiColorEditFlags_AlphaOpaque | ImGuiColorEditFlags_AlphaPreviewHalf);
+	PyDict_SetItemString(outDict, "alpha_preview", mvPyObject(ToPyLong(alphaMode)));
 }
 
 void

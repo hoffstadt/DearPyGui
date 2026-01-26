@@ -2465,6 +2465,8 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "max_clamped", mvArgType::KEYWORD_ARG, "False", "Activates and deactivates the enforcment of max_value." });
         args.push_back({ mvPyDataType::Bool, "on_enter", mvArgType::KEYWORD_ARG, "False", "Only runs callback on enter key press." });
         args.push_back({ mvPyDataType::Bool, "readonly", mvArgType::KEYWORD_ARG, "False", "Activates read only mode where no text can be input but text can still be highlighted." });
+        args.push_back({ mvPyDataType::Bool, "accept_empty_input", mvArgType::KEYWORD_ARG, "False", "Treat empty input as a zero value." });
+        args.push_back({ mvPyDataType::Bool, "display_empty_value", mvArgType::KEYWORD_ARG, "False", "If True, display an empty input if the value is zero. Generally used together with accept_empty_input." });
 
         setup.about = "Adds input for an float. +/- buttons can be activated by setting the value of step.";
         break;
@@ -2499,6 +2501,8 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "max_clamped", mvArgType::KEYWORD_ARG, "False", "Activates and deactivates the enforcment of max_value." });
         args.push_back({ mvPyDataType::Bool, "on_enter", mvArgType::KEYWORD_ARG, "False", "Only runs callback on enter key press." });
         args.push_back({ mvPyDataType::Bool, "readonly", mvArgType::KEYWORD_ARG, "False", "Activates read only mode where no text can be input but text can still be highlighted." });
+        args.push_back({ mvPyDataType::Bool, "accept_empty_input", mvArgType::KEYWORD_ARG, "False", "Treat empty input as a zero value." });
+        args.push_back({ mvPyDataType::Bool, "display_empty_value", mvArgType::KEYWORD_ARG, "False", "If True, display an empty input if the value is zero. Generally used together with accept_empty_input." });
 
         setup.about = "Adds input for an double. Useful when input float is not accurate enough. +/- buttons can be activated by setting the value of step.";
         break;
@@ -2532,6 +2536,8 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "max_clamped", mvArgType::KEYWORD_ARG, "False", "Activates and deactivates the enforcment of max_value." });
         args.push_back({ mvPyDataType::Bool, "on_enter", mvArgType::KEYWORD_ARG, "False", "Only runs callback on enter key press." });
         args.push_back({ mvPyDataType::Bool, "readonly", mvArgType::KEYWORD_ARG, "False", "Activates read only mode where no text can be input but text can still be highlighted." });
+        args.push_back({ mvPyDataType::Bool, "accept_empty_input", mvArgType::KEYWORD_ARG, "False", "Treat empty input as a zero value." });
+        args.push_back({ mvPyDataType::Bool, "display_empty_value", mvArgType::KEYWORD_ARG, "False", "If True, display an empty input if the value is zero. Generally used together with accept_empty_input." });
 
         setup.about = "Adds input for an int. +/- buttons can be activated by setting the value of step.";
         break;
@@ -2567,7 +2573,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "no_label", mvArgType::KEYWORD_ARG, "False", "Disable display of inline text label." });
         args.push_back({ mvPyDataType::Bool, "no_drag_drop", mvArgType::KEYWORD_ARG, "False", "Disable ability to drag and drop small preview (color square) to apply colors to other items." });
         args.push_back({ mvPyDataType::Bool, "alpha_bar", mvArgType::KEYWORD_ARG, "False", "Show vertical alpha bar/gradient in picker." });
-        args.push_back({ mvPyDataType::Long, "alpha_preview", mvArgType::KEYWORD_ARG, "0", "mvColorEdit_AlphaPreviewNone, mvColorEdit_AlphaPreview, or mvColorEdit_AlphaPreviewHalf" });
+        args.push_back({ mvPyDataType::Long, "alpha_preview", mvArgType::KEYWORD_ARG, "internal_dpg.mvColorEdit_AlphaPreviewNone", "mvColorEdit_AlphaPreviewNone, mvColorEdit_AlphaPreview, or mvColorEdit_AlphaPreviewHalf" });
         args.push_back({ mvPyDataType::Long, "display_mode", mvArgType::KEYWORD_ARG, "internal_dpg.mvColorEdit_rgb", "mvColorEdit_rgb, mvColorEdit_hsv, or mvColorEdit_hex" });
         args.push_back({ mvPyDataType::Long, "display_type", mvArgType::KEYWORD_ARG, "internal_dpg.mvColorEdit_uint8", "mvColorEdit_uint8 or mvColorEdit_float" });
         args.push_back({ mvPyDataType::Long, "input_mode", mvArgType::KEYWORD_ARG, "internal_dpg.mvColorEdit_input_rgb", "mvColorEdit_input_* values" });
@@ -2626,7 +2632,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "display_hsv", mvArgType::KEYWORD_ARG, "False", "Override _display_ type among RGB/HSV/Hex." });
         args.push_back({ mvPyDataType::Bool, "display_hex", mvArgType::KEYWORD_ARG, "False", "Override _display_ type among RGB/HSV/Hex." });
         args.push_back({ mvPyDataType::Long, "picker_mode", mvArgType::KEYWORD_ARG, "internal_dpg.mvColorPicker_bar", "mvColorPicker_bar or mvColorPicker_wheel" });
-        args.push_back({ mvPyDataType::Long, "alpha_preview", mvArgType::KEYWORD_ARG, "0", "mvColorEdit_AlphaPreviewNone, mvColorEdit_AlphaPreview, or mvColorEdit_AlphaPreviewHalf" });
+        args.push_back({ mvPyDataType::Long, "alpha_preview", mvArgType::KEYWORD_ARG, "internal_dpg.mvColorEdit_AlphaPreviewNone", "mvColorEdit_AlphaPreviewNone, mvColorEdit_AlphaPreview, or mvColorEdit_AlphaPreviewHalf" });
         args.push_back({ mvPyDataType::Long, "display_type", mvArgType::KEYWORD_ARG, "internal_dpg.mvColorEdit_uint8", "mvColorEdit_uint8 or mvColorEdit_float" });
         args.push_back({ mvPyDataType::Long, "input_mode", mvArgType::KEYWORD_ARG, "internal_dpg.mvColorEdit_input_rgb", "mvColorEdit_input_* values."});
 
@@ -3108,6 +3114,8 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "no_alpha", mvArgType::KEYWORD_ARG, "False", "Removes the displayed slider that can change alpha channel." });
         args.push_back({ mvPyDataType::Bool, "no_border", mvArgType::KEYWORD_ARG, "False", "Disable border around the image." });
         args.push_back({ mvPyDataType::Bool, "no_drag_drop", mvArgType::KEYWORD_ARG, "False", "Disable ability to drag and drop small preview (color square) to apply colors to other items." });
+        args.push_back({ mvPyDataType::Long, "alpha_preview", mvArgType::KEYWORD_ARG, "internal_dpg.mvColorEdit_AlphaPreviewNone", "mvColorEdit_AlphaPreviewNone, mvColorEdit_AlphaPreview, or mvColorEdit_AlphaPreviewHalf" });
+        args.push_back({ mvPyDataType::Bool, "no_tooltip", mvArgType::KEYWORD_ARG, "False", "Disable tooltip when hovering the button." });
 
         setup.about = "Adds a color button.";
         setup.category = { "Widgets", "Colors" };
@@ -3866,6 +3874,8 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "max_clamped", mvArgType::KEYWORD_ARG, "False", "Activates and deactivates the enforcment of max_value." });
         args.push_back({ mvPyDataType::Bool, "on_enter", mvArgType::KEYWORD_ARG, "False", "Only runs callback on enter." });
         args.push_back({ mvPyDataType::Bool, "readonly", mvArgType::KEYWORD_ARG, "False", "Activates read only mode where no text can be input but text can still be highlighted." });
+        args.push_back({ mvPyDataType::Bool, "accept_empty_input", mvArgType::KEYWORD_ARG, "False", "Treat empty input as a zero value." });
+        args.push_back({ mvPyDataType::Bool, "display_empty_value", mvArgType::KEYWORD_ARG, "False", "If True, display an empty input if the value is zero. Generally used together with accept_empty_input." });
 
         setup.about = "Adds multi int input for up to 4 integer values.";
         break;
@@ -3899,6 +3909,8 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "max_clamped", mvArgType::KEYWORD_ARG, "False", "Activates and deactivates the enforcment of max_value." });
         args.push_back({ mvPyDataType::Bool, "on_enter", mvArgType::KEYWORD_ARG, "False", "Only runs callback on enter key press." });
         args.push_back({ mvPyDataType::Bool, "readonly", mvArgType::KEYWORD_ARG, "False", "Activates read only mode where no text can be input but text can still be highlighted." });
+        args.push_back({ mvPyDataType::Bool, "accept_empty_input", mvArgType::KEYWORD_ARG, "False", "Treat empty input as a zero value." });
+        args.push_back({ mvPyDataType::Bool, "display_empty_value", mvArgType::KEYWORD_ARG, "False", "If True, display an empty input if the value is zero. Generally used together with accept_empty_input." });
 
         setup.about = "Adds multi float input for up to 4 float values.";
         break;
@@ -3932,6 +3944,8 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "max_clamped", mvArgType::KEYWORD_ARG, "False", "Activates and deactivates the enforcment of max_value." });
         args.push_back({ mvPyDataType::Bool, "on_enter", mvArgType::KEYWORD_ARG, "False", "Only runs callback on enter key press." });
         args.push_back({ mvPyDataType::Bool, "readonly", mvArgType::KEYWORD_ARG, "False", "Activates read only mode where no text can be input but text can still be highlighted." });
+        args.push_back({ mvPyDataType::Bool, "accept_empty_input", mvArgType::KEYWORD_ARG, "False", "Treat empty input as a zero value." });
+        args.push_back({ mvPyDataType::Bool, "display_empty_value", mvArgType::KEYWORD_ARG, "False", "If True, display an empty input if the value is zero. Generally used together with accept_empty_input." });
 
         setup.about = "Adds multi double input for up to 4 double values. Useful when input float mulit is not accurate enough.";
         break;
