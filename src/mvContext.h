@@ -115,7 +115,7 @@ struct mvContext
     double              time      = 0.0;    // total time since starting
     int                 frame     = 0;      // frame count
     int                 framerate = 0;      // frame rate
-    mvUUID              id = MV_START_UUID; // current ID
+    std::atomic<mvUUID> id = MV_START_UUID; // current ID
     mvViewport*         viewport = nullptr;
     mvGraphics          graphics;
     bool                resetTheme = false;
