@@ -95,7 +95,6 @@ DearPyGui::fill_configuration_dict(const mvDragFloatConfig& inConfig, PyObject* 
 		PyDict_SetItemString(outDict, keyword, py_result);
 	};
 
-	// window flags
 	checkbitset("clamped", ImGuiSliderFlags_AlwaysClamp, inConfig.flags);
 	checkbitset("no_input", ImGuiSliderFlags_NoInput, inConfig.flags);
 }
@@ -123,7 +122,6 @@ DearPyGui::fill_configuration_dict(const mvDragDoubleConfig& inConfig, PyObject*
 		PyDict_SetItemString(outDict, keyword, py_result);
 	};
 
-	// window flags
 	checkbitset("clamped", ImGuiSliderFlags_AlwaysClamp, inConfig.flags);
 	checkbitset("no_input", ImGuiSliderFlags_NoInput, inConfig.flags);
 }
@@ -151,7 +149,6 @@ DearPyGui::fill_configuration_dict(const mvDragIntConfig& inConfig, PyObject* ou
 		PyDict_SetItemString(outDict, keyword, py_result);
 	};
 
-	// window flags
 	checkbitset("clamped", ImGuiSliderFlags_AlwaysClamp, inConfig.flags);
 	checkbitset("no_input", ImGuiSliderFlags_NoInput, inConfig.flags);
 }
@@ -181,7 +178,6 @@ DearPyGui::fill_configuration_dict(const mvDragIntMultiConfig& inConfig, PyObjec
 		PyDict_SetItemString(outDict, keyword, py_result);
 	};
 
-	// window flags
 	checkbitset("clamped", ImGuiSliderFlags_AlwaysClamp, inConfig.flags);
 	checkbitset("no_input", ImGuiSliderFlags_NoInput, inConfig.flags);
 }
@@ -211,7 +207,6 @@ DearPyGui::fill_configuration_dict(const mvDragFloatMultiConfig& inConfig, PyObj
 		PyDict_SetItemString(outDict, keyword, py_result);
 	};
 
-	// window flags
 	checkbitset("clamped", ImGuiSliderFlags_AlwaysClamp, inConfig.flags);
 	checkbitset("no_input", ImGuiSliderFlags_NoInput, inConfig.flags);
 }
@@ -241,7 +236,6 @@ DearPyGui::fill_configuration_dict(const mvDragDoubleMultiConfig& inConfig, PyOb
 		PyDict_SetItemString(outDict, keyword, py_result);
 	};
 
-	// window flags
 	checkbitset("clamped", ImGuiSliderFlags_AlwaysClamp, inConfig.flags);
 	checkbitset("no_input", ImGuiSliderFlags_NoInput, inConfig.flags);
 }
@@ -263,7 +257,6 @@ DearPyGui::fill_configuration_dict(const mvSliderIntConfig& inConfig, PyObject* 
 		PyDict_SetItemString(outDict, keyword, mvPyObject(ToPyBool(flags & flag)));
 	};
 
-	// window flags
 	checkbitset("clamped", ImGuiSliderFlags_AlwaysClamp, inConfig.flags);
 	checkbitset("no_input", ImGuiSliderFlags_NoInput, inConfig.flags);
 }
@@ -285,7 +278,6 @@ DearPyGui::fill_configuration_dict(const mvSliderIntMultiConfig& inConfig, PyObj
 		PyDict_SetItemString(outDict, keyword, mvPyObject(ToPyBool(flags & flag)));
 	};
 
-	// window flags
 	checkbitset("clamped", ImGuiSliderFlags_AlwaysClamp, inConfig.flags);
 	checkbitset("no_input", ImGuiSliderFlags_NoInput, inConfig.flags);
 }
@@ -307,7 +299,6 @@ DearPyGui::fill_configuration_dict(const mvSliderFloatConfig& inConfig, PyObject
 		PyDict_SetItemString(outDict, keyword, mvPyObject(ToPyBool(flags & flag)));
 	};
 
-	// window flags
 	checkbitset("clamped", ImGuiSliderFlags_AlwaysClamp, inConfig.flags);
 	checkbitset("no_input", ImGuiSliderFlags_NoInput, inConfig.flags);
 }
@@ -329,7 +320,6 @@ DearPyGui::fill_configuration_dict(const mvSliderFloatMultiConfig& inConfig, PyO
 		PyDict_SetItemString(outDict, keyword, mvPyObject(ToPyBool(flags & flag)));
 	};
 
-	// window flags
 	checkbitset("clamped", ImGuiSliderFlags_AlwaysClamp, inConfig.flags);
 	checkbitset("no_input", ImGuiSliderFlags_NoInput, inConfig.flags);
 }
@@ -360,7 +350,6 @@ DearPyGui::fill_configuration_dict(const mvSliderDoubleConfig& inConfig, PyObjec
 		PyDict_SetItemString(outDict, keyword, mvPyObject(ToPyBool(flags & flag)));
 	};
 
-	// window flags
 	checkbitset("clamped", ImGuiSliderFlags_AlwaysClamp, inConfig.flags);
 	checkbitset("no_input", ImGuiSliderFlags_NoInput, inConfig.flags);
 }
@@ -382,7 +371,6 @@ DearPyGui::fill_configuration_dict(const mvSliderDoubleMultiConfig& inConfig, Py
 		PyDict_SetItemString(outDict, keyword, mvPyObject(ToPyBool(flags & flag)));
 	};
 
-	// window flags
 	checkbitset("clamped", ImGuiSliderFlags_AlwaysClamp, inConfig.flags);
 	checkbitset("no_input", ImGuiSliderFlags_NoInput, inConfig.flags);
 }
@@ -412,7 +400,6 @@ DearPyGui::fill_configuration_dict(const mvInputTextConfig& inConfig, PyObject* 
 		PyDict_SetItemString(outDict, keyword, mvPyObject(ToPyBool(flags & flag)));
 	};
 
-	// window flags
 	checkbitset("no_spaces", ImGuiInputTextFlags_CharsNoBlank, inConfig.flags);
 	checkbitset("uppercase", ImGuiInputTextFlags_CharsUppercase, inConfig.flags);
 	checkbitset("decimal", ImGuiInputTextFlags_CharsDecimal, inConfig.flags);
@@ -429,6 +416,7 @@ DearPyGui::fill_configuration_dict(const mvInputTextConfig& inConfig, PyObject* 
 	checkbitset("always_overwrite", ImGuiInputTextFlags_AlwaysOverwrite, inConfig.flags);  // Overwrite mode
 	checkbitset("no_undo_redo", ImGuiInputTextFlags_NoUndoRedo, inConfig.flags);  // Disable undo/redo. Note that input text owns the text data while active, if you want to provide your own undo/redo stack you need e.g. to call ClearActiveID().
 	checkbitset("escape_clears_all", ImGuiInputTextFlags_EscapeClearsAll, inConfig.flags);  // Escape key clears content if not empty, and deactivate otherwise (contrast to default behavior of Escape to revert)
+	checkbitset("elide_left", ImGuiInputTextFlags_ElideLeft, inConfig.flags);
 
 	// TODO: Implement all of these (they seem really useful)
 	// Search this:             ImGui::InputText("Completion", buf1, 64, ImGuiInputTextFlags_CallbackCompletion, Funcs::MyCallback);
@@ -486,7 +474,6 @@ DearPyGui::fill_configuration_dict(const mvInputFloatConfig& inConfig, PyObject*
 		PyDict_SetItemString(outDict, keyword, mvPyObject(ToPyBool(flags & flag)));
 	};
 
-	// window flags
 	checkbitset("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, inConfig.flags);
 	checkbitset("readonly", ImGuiInputTextFlags_ReadOnly, inConfig.flags);
 	checkbitset("accept_empty_input", ImGuiInputTextFlags_ParseEmptyRefVal, inConfig.flags);
@@ -513,7 +500,6 @@ DearPyGui::fill_configuration_dict(const mvInputDoubleConfig& inConfig, PyObject
 		PyDict_SetItemString(outDict, keyword, mvPyObject(ToPyBool(flags & flag)));
 	};
 
-	// window flags
 	checkbitset("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, inConfig.flags);
 	checkbitset("readonly", ImGuiInputTextFlags_ReadOnly, inConfig.flags);
 	checkbitset("accept_empty_input", ImGuiInputTextFlags_ParseEmptyRefVal, inConfig.flags);
@@ -539,7 +525,6 @@ DearPyGui::fill_configuration_dict(const mvInputFloatMultiConfig& inConfig, PyOb
 		PyDict_SetItemString(outDict, keyword, mvPyObject(ToPyBool(flags & flag)));
 	};
 
-	// window flags
 	checkbitset("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, inConfig.flags);
 	checkbitset("readonly", ImGuiInputTextFlags_ReadOnly, inConfig.flags);
 	checkbitset("accept_empty_input", ImGuiInputTextFlags_ParseEmptyRefVal, inConfig.flags);
@@ -565,7 +550,6 @@ DearPyGui::fill_configuration_dict(const mvInputDoubleMultiConfig& inConfig, PyO
 		PyDict_SetItemString(outDict, keyword, mvPyObject(ToPyBool(flags & flag)));
 	};
 
-	// window flags
 	checkbitset("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, inConfig.flags);
 	checkbitset("readonly", ImGuiInputTextFlags_ReadOnly, inConfig.flags);
 	checkbitset("accept_empty_input", ImGuiInputTextFlags_ParseEmptyRefVal, inConfig.flags);
@@ -616,14 +600,14 @@ DearPyGui::fill_configuration_dict(const mvSelectableConfig& inConfig, PyObject*
 
 
 	// helper to check and set bit
-	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags, bool flip)
+	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)
 	{
 		PyDict_SetItemString(outDict, keyword, mvPyObject(ToPyBool(flags & flag)));
 	};
 
-	// window flags
-	checkbitset("span_columns", ImGuiSelectableFlags_SpanAllColumns, inConfig.flags, false);
-	checkbitset("disable_popup_close", ImGuiSelectableFlags_NoAutoClosePopups, inConfig.flags, false);
+	checkbitset("span_columns", ImGuiSelectableFlags_SpanAllColumns, inConfig.flags);
+	checkbitset("disable_popup_close", ImGuiSelectableFlags_NoAutoClosePopups, inConfig.flags);
+	checkbitset("select_on_nav", ImGuiSelectableFlags_SelectOnNav, inConfig.flags);
 }
 
 void
@@ -639,11 +623,11 @@ DearPyGui::fill_configuration_dict(const mvTabButtonConfig& inConfig, PyObject* 
 		PyDict_SetItemString(outDict, keyword, mvPyObject(ToPyBool(flags & flag)));
 	};
 
-	// window flags
 	checkbitset("no_reorder", ImGuiTabBarFlags_Reorderable, inConfig.flags);
 	checkbitset("leading", ImGuiTabItemFlags_Leading, inConfig.flags);
 	checkbitset("trailing", ImGuiTabItemFlags_Trailing, inConfig.flags);
 	checkbitset("no_tooltip", ImGuiTabItemFlags_NoTooltip, inConfig.flags);
+	checkbitset("unsaved_document", ImGuiTabItemFlags_UnsavedDocument, inConfig.flags);
 }
 
 void
@@ -1156,6 +1140,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvInputTextConfig& outConfig, mvA
 	flagop("always_overwrite", ImGuiInputTextFlags_AlwaysOverwrite, outConfig.flags);
 	flagop("no_undo_redo", ImGuiInputTextFlags_NoUndoRedo, outConfig.flags);
 	flagop("escape_clears_all", ImGuiInputTextFlags_EscapeClearsAll, outConfig.flags);
+	flagop("elide_left", ImGuiInputTextFlags_ElideLeft, outConfig.flags);
 }
 
 void
@@ -1403,14 +1388,14 @@ DearPyGui::set_configuration(PyObject* inDict, mvSelectableConfig& outConfig, mv
 
 
 	// helper for bit flipping
-	auto flagop = [inDict](const char* keyword, int flag, int& flags, bool flip)
+	auto flagop = [inDict](const char* keyword, int flag, int& flags)
 	{
 		if (PyObject* item = PyDict_GetItemString(inDict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
 	};
 
-	// window flags
-	flagop("span_columns", ImGuiSelectableFlags_SpanAllColumns, outConfig.flags, false);
-	flagop("disable_popup_close", ImGuiSelectableFlags_NoAutoClosePopups, outConfig.flags, false);
+	flagop("span_columns", ImGuiSelectableFlags_SpanAllColumns, outConfig.flags);
+	flagop("disable_popup_close", ImGuiSelectableFlags_NoAutoClosePopups, outConfig.flags);
+	flagop("select_on_nav", ImGuiSelectableFlags_SelectOnNav, outConfig.flags);
 
 	if (info.enabledLastFrame)
 	{
@@ -1438,11 +1423,11 @@ DearPyGui::set_configuration(PyObject* inDict, mvTabButtonConfig& outConfig)
 		if (PyObject* item = PyDict_GetItemString(inDict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
 	};
 
-	// window flags
 	flagop("no_reorder", ImGuiTabItemFlags_NoReorder, outConfig.flags);
 	flagop("leading", ImGuiTabItemFlags_Leading, outConfig.flags);
 	flagop("trailing", ImGuiTabItemFlags_Trailing, outConfig.flags);
 	flagop("no_tooltip", ImGuiTabItemFlags_NoTooltip, outConfig.flags);
+	flagop("unsaved_document", ImGuiTabItemFlags_UnsavedDocument, outConfig.flags);
 
 	if (outConfig.flags & ImGuiTabItemFlags_Leading && outConfig.flags & ImGuiTabItemFlags_Trailing)
 		outConfig.flags &= ~ImGuiTabItemFlags_Leading;
