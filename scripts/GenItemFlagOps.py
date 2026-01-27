@@ -25,7 +25,7 @@ dpg_func_re = re.compile(
 )
 
 
-def get_existing_flags(src_file: Path) -> List[Tuple[str, Set[str]]]:
+def get_existing_flags(src_file: Path) -> List[Tuple[str, Set[str], str]]:
     text = src_file.read_text("utf-8")
     func_defs = dpg_func_re.findall(text)
 
@@ -36,9 +36,14 @@ def get_existing_flags(src_file: Path) -> List[Tuple[str, Set[str]]]:
         parsed = [declarationRe.match(l) for l in text.splitlines()]
         return set([m[1] for m in parsed if m is not None])
 
+    def get_indentation(text: str) -> str:
+        # Note: we can't use \s in the pattern because it also matches newlines
+        m = re.search(r"^([ \t]*)flagop", text, re.MULTILINE)
+        return "\t" if m is None else m[1]
+
     # The widget name is either in the group 1 or group 2, which are 0th and 1st elements
     # of the find_all result, respectively.
-    return [ (d[0] or d[1], extract_flags(d[2])) for d in func_defs ]
+    return [ (d[0] or d[1], extract_flags(d[2]), get_indentation(d[2])) for d in func_defs ]
 
 
 def gen_py_name(imgui_name: str) -> str:
@@ -71,18 +76,18 @@ def read_enum(src_file: Path, enum_name: str, existing_flags: Set[str]) -> List[
     ]
 
 
-def conv_set_config(flags: List[Tuple[str, str]]) -> List[str]:
-    template = Template('    flagop("$py_name", $imgui_name, outConfig.flags);')
+def conv_set_config(flags: List[Tuple[str, str]], indent: str) -> List[str]:
+    template = Template('flagop("$py_name", $imgui_name, outConfig.flags);')
     return [
-        template.substitute(py_name=py_name, imgui_name=imgui_name)
+        indent + template.substitute(py_name=py_name, imgui_name=imgui_name)
         for imgui_name, py_name, comment in flags
     ]
 
 
-def conv_get_config(flags: List[Tuple[str, str]]) -> List[str]:
-    template = Template('    checkbitset("$py_name", $imgui_name, inConfig.flags);')
+def conv_get_config(flags: List[Tuple[str, str]], indent: str) -> List[str]:
+    template = Template('checkbitset("$py_name", $imgui_name, inConfig.flags);')
     return [
-        template.substitute(py_name=py_name, imgui_name=imgui_name)
+        indent + template.substitute(py_name=py_name, imgui_name=imgui_name)
         for imgui_name, py_name, comment in flags
     ]
 
@@ -95,7 +100,7 @@ def conv_parser(flags: List[Tuple[str, str]]) -> List[str]:
     ]
 
 
-def process_enum(enum_name: str, existing_flags: Set[str], widget_name: str) -> List[str]:
+def process_enum(enum_name: str, existing_flags: Set[str], widget_name: str, indent: str) -> List[str]:
     enum_name = enum_name.rstrip("_")
     flags = read_enum(imgui_h, enum_name, existing_flags)
     if not flags:
@@ -117,13 +122,13 @@ def process_enum(enum_name: str, existing_flags: Set[str], widget_name: str) -> 
             "Copy this to handleSpecificKeywordArgs() / DearPyGui::set_configuration():",
             "",
         ] +
-        conv_set_config(flags) +
+        conv_set_config(flags, indent) +
         [
             "",
             "Copy this to getSpecificConfiguration() / DearPyGui::fill_configuration_dict():",
             "",
         ] +
-        conv_get_config(flags) +
+        conv_get_config(flags, indent) +
         ["", ""]
     )
 
@@ -135,8 +140,8 @@ parser.add_argument("--all", action="store_true", help="refresh all known enums 
 
 args = parser.parse_args()
 
-# This dict maps widget name to a list of ImGui flags
-existing = dict(
+# A list of (widget_name, imgui_flags, indentation) tuples
+widget_defs = (
     get_existing_flags(src_path / "mvBasicWidgets.cpp") +
     get_existing_flags(src_path / "mvColors.cpp") +
     get_existing_flags(src_path / "mvContainers.cpp") +
@@ -144,6 +149,9 @@ existing = dict(
     # get_existing_flags(src_path / "mvPlotting.cpp") +
     get_existing_flags(src_path / "mvTables.cpp")
 )
+
+# This dict maps widget name to a list of ImGui flags
+existing = {name: flags for name, flags, indentation in widget_defs}
 
 # Just squashing all prefixes in each sub-list into a set.
 # The resulting dict maps widget name to a set of ImGui enum prefixes, ideally just
@@ -162,7 +170,7 @@ if args.all or not args.enums:
         (widget, prefix)
         for widget, prefixes in existing_prefixes.items()
         for prefix in prefixes
-    ])
+    ], key=lambda item: (item[1], item[0]))
 
 else:
     # Here we're only given enum prefixes, let's find the corresponding widgets
@@ -171,7 +179,7 @@ else:
     # found anywhere in existing_prefixes (i.e. something new).  For these, we add
     # an empty widget name in their list so they are not lost.
     widgets_per_pref = {
-        prefix: ([w for w, p in existing_prefixes.items() if prefix in p] or [""])
+        prefix: (sorted([w for w, p in existing_prefixes.items() if prefix in p]) or [""])
         for prefix in prefixes
     }
     # Now reverse the mapping
@@ -181,6 +189,24 @@ else:
         for w in widgets
     ]
 
-lines = itertools.chain.from_iterable([process_enum(enum_name, existing[widget], widget) for widget, enum_name in enums])
+# Double check if we might be missing some widgets
+
+no_eyecatcher = [name for name, flags in existing.items() if not flags]
+if no_eyecatcher:
+    print(
+        "=== No flags detected ===\n\n"
+        "The following items seem to not have any flags (or, rather, flagop() calls)\n"
+        "and are not included into the report below:\n")
+    print("\n".join(no_eyecatcher) + "\n")
+
+# Go compare the flags
+widget_indents = {name: indentation for name, flags, indentation in widget_defs}
+
+lines = itertools.chain.from_iterable(
+    [
+        process_enum(enum_name, existing[widget], widget, widget_indents[widget])
+        for widget, enum_name in enums
+    ]
+)
 
 print("\n".join(lines))
