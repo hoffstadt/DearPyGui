@@ -6012,6 +6012,7 @@ def add_slider_double(**kwargs):
 		min_value (float, optional): Applies a limit only to sliding entry only.
 		max_value (float, optional): Applies a limit only to sliding entry only.
 		format (str, optional): Determines the format the float will be displayed as use python string formatting.
+		logarithmic (bool, optional): Make the widget logarithmic (linear otherwise).
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -6087,6 +6088,7 @@ def add_slider_float(**kwargs):
 		min_value (float, optional): Applies a limit only to sliding entry only.
 		max_value (float, optional): Applies a limit only to sliding entry only.
 		format (str, optional): Determines the format the float will be displayed as use python string formatting.
+		logarithmic (bool, optional): Make the widget logarithmic (linear otherwise).
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -6162,6 +6164,7 @@ def add_slider_int(**kwargs):
 		min_value (int, optional): Applies a limit only to sliding entry only.
 		max_value (int, optional): Applies a limit only to sliding entry only.
 		format (str, optional): Determines the format the int will be displayed as use python string formatting.
+		logarithmic (bool, optional): Make the widget logarithmic (linear otherwise).
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
