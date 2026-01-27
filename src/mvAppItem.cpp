@@ -1976,6 +1976,10 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "always_overwrite", mvArgType::KEYWORD_ARG, "False", "Overwrite mode" });
         args.push_back({ mvPyDataType::Bool, "no_undo_redo", mvArgType::KEYWORD_ARG, "False", "Disable undo/redo." });
         args.push_back({ mvPyDataType::Bool, "escape_clears_all", mvArgType::KEYWORD_ARG, "False", "Escape key clears content if not empty, and deactivate otherwise (contrast to default behavior of Escape to revert)" });
+        args.push_back({ mvPyDataType::Bool, "elide_left", mvArgType::KEYWORD_ARG, "False",
+                "When text doesn't fit an inactive input field, clip it on the left side "
+                "and ensure the right side stays visible. Useful for path/filenames. "
+                "Single-line inputs only." });
 
         setup.about = "Adds input for text.";
         break;
@@ -2023,6 +2027,11 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         );
 
         args.push_back({ mvPyDataType::Bool, "reorderable", mvArgType::KEYWORD_ARG, "False", "Allows for the user to change the order of the tabs." });
+        args.push_back({ mvPyDataType::Bool, "tab_list_popup_button", mvArgType::KEYWORD_ARG, "False", "Show a button to select active tab from a dropdown list." });
+        args.push_back({ mvPyDataType::Bool, "no_close_with_middle_click", mvArgType::KEYWORD_ARG, "False", "Disable closing tabs (that have closable=True) by clicking with middle mouse button." });
+        args.push_back({ mvPyDataType::Bool, "no_scrolling_buttons", mvArgType::KEYWORD_ARG, "False", "Disable left/right scrolling buttons when tab buttons don't fit the container width." });
+        args.push_back({ mvPyDataType::Bool, "no_tooltip", mvArgType::KEYWORD_ARG, "False", "Disable tooltips when hovering a tab with a long name." });
+        args.push_back({ mvPyDataType::Bool, "draw_selected_overline", mvArgType::KEYWORD_ARG, "False", "Draw selected overline markers over selected tab." });
 
         setup.about = "Adds a tab bar.";
         setup.category = { "Containers", "Widgets" };
@@ -2047,6 +2056,9 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "closable", mvArgType::KEYWORD_ARG, "False", "Creates a button on the tab that can hide the tab." });
         args.push_back({ mvPyDataType::Bool, "no_tooltip", mvArgType::KEYWORD_ARG, "False", "Disable tooltip for the given tab." });
         args.push_back({ mvPyDataType::Integer, "order_mode", mvArgType::KEYWORD_ARG, "0", "set using a constant: mvTabOrder_Reorderable: allows reordering, mvTabOrder_Fixed: fixed ordering, mvTabOrder_Leading: adds tab to front, mvTabOrder_Trailing: adds tab to back" });
+        args.push_back({ mvPyDataType::Bool, "unsaved_document", mvArgType::KEYWORD_ARG, "False", "Display a dot next to the title." });
+        args.push_back({ mvPyDataType::Bool, "no_close_with_middle_click", mvArgType::KEYWORD_ARG, "False", "Disable closing this tab (if closable==True) by clicking with middle mouse button." });
+        args.push_back({ mvPyDataType::Bool, "no_reorder", mvArgType::KEYWORD_ARG, "False", "Disable reordering this tab or having another tab cross over this tab." });
 
         setup.about = "Adds a tab to a tab bar.";
         setup.category = { "Containers", "Widgets" };
@@ -2900,6 +2912,8 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "no_saved_settings", mvArgType::KEYWORD_ARG, "False", "Never load/save settings in .ini file." });
         args.push_back({ mvPyDataType::Bool, "no_open_over_existing_popup", mvArgType::KEYWORD_ARG, "True", "Don't open if there's already a popup" });
         args.push_back({ mvPyDataType::Bool, "no_scroll_with_mouse", mvArgType::KEYWORD_ARG, "False", "Disable user vertically scrolling with mouse wheel." });
+        args.push_back({ mvPyDataType::Bool, "no_docking", mvArgType::KEYWORD_ARG, "False", "Disable docking of this window" });
+
         args.push_back({ mvPyDataType::Bool, "copy_contents_shortcut", mvArgType::KEYWORD_ARG, "False", "Experimental. If True, window contents can be copied to clipboard by pressing Ctrl+C. Might be useful for message boxes." });
 
         args.push_back({ mvPyDataType::Callable, "on_close", mvArgType::KEYWORD_ARG, "None", "Callback ran when window is closed." });
@@ -2933,6 +2947,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "default_value", mvArgType::KEYWORD_ARG, "False" });
         args.push_back({ mvPyDataType::Bool, "span_columns", mvArgType::KEYWORD_ARG, "False", "Forces the selectable to span the width of all columns if placed in a table." });
         args.push_back({ mvPyDataType::Bool, "disable_popup_close", mvArgType::KEYWORD_ARG, "False", "Disable closing a modal or popup window." });
+        args.push_back({ mvPyDataType::Bool, "select_on_nav", mvArgType::KEYWORD_ARG, "False", "Auto-select when moved into with keyboard navigation, unless Ctrl is held." });
 
         setup.about = "Adds a selectable. Similar to a button but can indicate its selected state.";
         break;
@@ -2962,6 +2977,11 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "selectable", mvArgType::KEYWORD_ARG, "False", "Makes the tree selectable." });
         args.push_back({ mvPyDataType::Bool, "span_text_width", mvArgType::KEYWORD_ARG, "False", "Makes hitbox and highlight only cover the label." });
         args.push_back({ mvPyDataType::Bool, "span_full_width", mvArgType::KEYWORD_ARG, "False", "Extend hit box to the left-most and right-most edges (cover the indent area)." });
+        args.push_back({ mvPyDataType::Bool, "catch_nav_left", mvArgType::KEYWORD_ARG, "False",
+                "Keyboard navigation: left arrow within this node's children, if unhandled, "
+                "moves focus to this node.  When setting it to True on a node, better set it "
+                "on all children nodes in the subtree as well, otherwise it might give unexpected "
+                "navigation jumps."});
         // TODO: Test these 2 arguments
         // args.push_back({ mvPyDataType::Bool, "span_available_width", mvArgType::KEYWORD_ARG, "False", "Extend hit box to the right-most edge, even if not framed." });
         // args.push_back({ mvPyDataType::Bool, "span_all_columns", mvArgType::KEYWORD_ARG, "False", "Frame will span all columns of its container table (text will still fit in current column)." });
@@ -3165,6 +3185,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "leading", mvArgType::KEYWORD_ARG, "False", "Enforce the tab position to the left of the tab bar (after the tab list popup button)." });
         args.push_back({ mvPyDataType::Bool, "trailing", mvArgType::KEYWORD_ARG, "False", "Enforce the tab position to the right of the tab bar (before the scrolling buttons)." });
         args.push_back({ mvPyDataType::Bool, "no_tooltip", mvArgType::KEYWORD_ARG, "False", "Disable tooltip for the given tab." });
+        args.push_back({ mvPyDataType::Bool, "unsaved_document", mvArgType::KEYWORD_ARG, "False", "Display a dot next to the title." });
 
         setup.about = "Adds a tab button to a tab bar.";
         break;

@@ -36,6 +36,9 @@ DearPyGui::fill_configuration_dict(const mvTabConfig& inConfig, PyObject* outDic
     };
 
     checkbitset("no_tooltip", ImGuiTabItemFlags_NoTooltip, inConfig._flags);
+    checkbitset("unsaved_document", ImGuiTabItemFlags_UnsavedDocument, inConfig._flags);
+    checkbitset("no_close_with_middle_click", ImGuiTabItemFlags_NoCloseWithMiddleMouseButton, inConfig._flags);
+    checkbitset("no_reorder", ImGuiTabItemFlags_NoReorder, inConfig._flags);
 
     if (inConfig._flags & ImGuiTabItemFlags_Leading)
         PyDict_SetItemString(outDict, "order_mode", mvPyObject(ToPyLong((long)TabOrdering::mvTabOrder_Leading)));
@@ -129,6 +132,7 @@ DearPyGui::fill_configuration_dict(const mvTreeNodeConfig& inConfig, PyObject* o
     // checkbitset("span_available_width", ImGuiTreeNodeFlags_SpanAvailWidth, inConfig.flags);
     checkbitset("span_full_width", ImGuiTreeNodeFlags_SpanFullWidth, inConfig.flags);
     // checkbitset("span_all_columns", ImGuiTreeNodeFlags_SpanAllColumns, inConfig.flags);
+    checkbitset("catch_nav_left", ImGuiTreeNodeFlags_NavLeftJumpsToParent, inConfig.flags);
 }
 
 void
@@ -143,6 +147,11 @@ DearPyGui::fill_configuration_dict(const mvTabBarConfig& inConfig, PyObject* out
     };
 
     checkbitset("reorderable", ImGuiTabBarFlags_Reorderable, inConfig.flags);
+    checkbitset("tab_list_popup_button", ImGuiTabBarFlags_TabListPopupButton, inConfig.flags);
+    checkbitset("no_close_with_middle_click", ImGuiTabBarFlags_NoCloseWithMiddleMouseButton, inConfig.flags);
+    checkbitset("no_scrolling_buttons", ImGuiTabBarFlags_NoTabListScrollingButtons, inConfig.flags);
+    checkbitset("no_tooltip", ImGuiTabBarFlags_NoTooltip, inConfig.flags);
+    checkbitset("draw_selected_overline", ImGuiTabBarFlags_DrawSelectedOverline, inConfig.flags);
 }
 
 void
@@ -151,7 +160,6 @@ DearPyGui::fill_configuration_dict(const mvCollapsingHeaderConfig& inConfig, PyO
     if (outDict == nullptr)
         return;
 
-    PyDict_SetItemString(outDict, "closable", mvPyObject(ToPyBool(*inConfig.value)));
     PyDict_SetItemString(outDict, "closable", mvPyObject(ToPyBool(inConfig.closable)));
 
     // helper to check and set bit
@@ -206,6 +214,7 @@ DearPyGui::fill_configuration_dict(const mvWindowAppItemConfig& inConfig, PyObje
     checkbitset("no_saved_settings", ImGuiWindowFlags_NoSavedSettings, inConfig.windowflags);
     checkbitset("no_scroll_with_mouse", ImGuiWindowFlags_NoScrollWithMouse, inConfig.windowflags);
     checkbitset("unsaved_document", ImGuiWindowFlags_UnsavedDocument, inConfig.windowflags);
+    checkbitset("no_docking", ImGuiWindowFlags_NoDocking, inConfig.windowflags);
 }
 
 //-----------------------------------------------------------------------------
@@ -245,14 +254,16 @@ DearPyGui::set_configuration(PyObject* inDict, mvTabConfig& outConfig)
             outConfig._flags = ImGuiTabItemFlags_None;
     }
 
-    if (PyObject* item = PyDict_GetItemString(inDict, "no_tooltip"))
+    // helper for bit flipping
+    auto flagop = [inDict](const char* keyword, int flag, int& flags)
     {
-        bool value = ToBool(item);
-        if (value)
-            outConfig._flags |= ImGuiTabItemFlags_NoTooltip;
-        else
-            outConfig._flags &= ~ImGuiTabItemFlags_NoTooltip;
-    }
+        if (PyObject* item = PyDict_GetItemString(inDict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+    };
+
+    flagop("no_tooltip", ImGuiTabItemFlags_NoTooltip, outConfig._flags);
+    flagop("unsaved_document", ImGuiTabItemFlags_UnsavedDocument, outConfig._flags);
+    flagop("no_close_with_middle_click", ImGuiTabItemFlags_NoCloseWithMiddleMouseButton, outConfig._flags);
+    flagop("no_reorder", ImGuiTabItemFlags_NoReorder, outConfig._flags);
 }
 
 void
@@ -343,6 +354,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvTreeNodeConfig& outConfig)
     // flagop("span_available_width", ImGuiTreeNodeFlags_SpanAvailWidth, outConfig.flags);
     flagop("span_full_width", ImGuiTreeNodeFlags_SpanFullWidth, outConfig.flags);
     // flagop("span_all_columns", ImGuiTreeNodeFlags_SpanAllColumns, outConfig.flags);
+    flagop("catch_nav_left", ImGuiTreeNodeFlags_NavLeftJumpsToParent, outConfig.flags);
 }
 
 void
@@ -355,6 +367,11 @@ DearPyGui::set_configuration(PyObject* inDict, mvTabBarConfig& outConfig)
         if (PyObject* item = PyDict_GetItemString(inDict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
     };
     flagop("reorderable", ImGuiTabBarFlags_Reorderable, outConfig.flags);
+    flagop("tab_list_popup_button", ImGuiTabBarFlags_TabListPopupButton, outConfig.flags);
+    flagop("no_close_with_middle_click", ImGuiTabBarFlags_NoCloseWithMiddleMouseButton, outConfig.flags);
+    flagop("no_scrolling_buttons", ImGuiTabBarFlags_NoTabListScrollingButtons, outConfig.flags);
+    flagop("no_tooltip", ImGuiTabBarFlags_NoTooltip, outConfig.flags);
+    flagop("draw_selected_overline", ImGuiTabBarFlags_DrawSelectedOverline, outConfig.flags);
 }
 
 void
@@ -453,6 +470,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvAppItem& itemc, mvWindowAppItem
     flagop("no_saved_settings", ImGuiWindowFlags_NoSavedSettings, outConfig.windowflags);
     flagop("no_scroll_with_mouse", ImGuiWindowFlags_NoScrollWithMouse, outConfig.windowflags);
     flagop("unsaved_document", ImGuiWindowFlags_UnsavedDocument, outConfig.windowflags);
+    flagop("no_docking", ImGuiWindowFlags_NoDocking, outConfig.windowflags);
 
 
     outConfig._oldxpos = itemc.state.pos.x;
