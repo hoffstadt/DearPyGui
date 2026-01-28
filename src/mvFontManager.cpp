@@ -1,17 +1,20 @@
+#include "mvPyUtils.h"
+
 #include "mvFontManager.h"
+
 #include "mvFontItems.h"
-#include <imgui.h>
-#include <imgui_internal.h>
-#include <assert.h>
-#include <array>
 #include "mvContext.h"
 #include "mvAppItem.h"
 #include "mvCore.h"
 #include "mvItemRegistry.h"
 #include "mvViewport.h"
-#include "mvPyUtils.h"
-#include <frameobject.h>
 #include "mvTextureItems.h"
+
+#include <imgui.h>
+#include <imgui_internal.h>
+#include <assert.h>
+#include <array>
+#include <frameobject.h>
 #include <CustomFont.cpp>
 #include <CustomFont.h>
 

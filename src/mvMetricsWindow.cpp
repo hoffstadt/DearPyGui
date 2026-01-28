@@ -1,6 +1,8 @@
 #include "mvMetricsWindow.h"
-#include "mvProfiler.h"
+
 #include "mvContext.h"
+#include "mvProfiler.h"
+
 #include "imgui_internal.h"
 
 static void

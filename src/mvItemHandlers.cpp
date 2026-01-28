@@ -1,5 +1,6 @@
-#include "mvItemHandlers.h"
 #include "mvPyUtils.h"
+
+#include "mvItemHandlers.h"
 
 void mvItemHandlerRegistry::checkEvents(void* data)
 {

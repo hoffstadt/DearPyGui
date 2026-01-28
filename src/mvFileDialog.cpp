@@ -1,7 +1,9 @@
+#include "mvPyUtils.h"
+
 #include "mvFileDialog.h"
+
 #include "mvFileExtension.h"
 #include "mvItemRegistry.h"
-#include "mvPyUtils.h"
 
 static void Panel(const char* vFilter, IGFDUserDatas vUserDatas, bool* vCantContinue)
 {

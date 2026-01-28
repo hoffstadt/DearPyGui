@@ -1,8 +1,10 @@
-#include "mvTables.h"
-#include "mvContext.h"
-#include "mvCore.h"
-#include "mvItemRegistry.h"
 #include "mvPyUtils.h"
+
+#include "mvTables.h"
+
+#include "mvCore.h"
+#include "mvContext.h"
+#include "mvItemRegistry.h"
 #include "mvFontItems.h"
 #include "mvThemes.h"
 #include "mvItemHandlers.h"

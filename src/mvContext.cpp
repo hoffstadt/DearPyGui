@@ -1,23 +1,26 @@
+#include "mvPyUtils.h"
+
 #include "mvContext.h"
+
 #include "dearpygui.h"
 #include "mvViewport.h"
 #include "mvCallbackRegistry.h"
-#include <thread>
-#include <future>
-#include <chrono>
 #include "mvProfiler.h"
-#include <implot.h>
 #include "mvFontManager.h"
 #include "mvCallbackRegistry.h"
-#include "mvPyUtils.h"
-#include <frameobject.h>
 #include "mvToolManager.h"
-#include <imnodes.h>
-#include <thread>
-#include <stb_image.h>
 #include "mvCustomTypes.h"
 #include "mvAppItemCommons.h"
 #include "mvItemRegistry.h"
+
+#include <thread>
+#include <future>
+#include <chrono>
+#include <thread>
+#include <implot.h>
+#include <frameobject.h>
+#include <imnodes.h>
+#include <stb_image.h>
 
 mvContext* GContext = nullptr;
 

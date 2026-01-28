@@ -1,6 +1,8 @@
-#include "mvFontItems.h"
-#include "mvTextureItems.h"
 #include "mvPyUtils.h"
+
+#include "mvFontItems.h"
+
+#include "mvTextureItems.h"
 
 void mvFontRegistry::customAction(void* data)
 {

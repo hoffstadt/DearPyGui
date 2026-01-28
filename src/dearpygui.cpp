@@ -1,17 +1,20 @@
+#include "mvPyUtils.h"
+
 #include "dearpygui.h"
+
 #include "mvAppItemCommons.h"
 #include "mvFontManager.h"
 #include "mvItemRegistry.h"
-#include <ImGuiFileDialog.h>
-#include <cstdlib>
 #include "mvToolManager.h"
 #include "mvCustomTypes.h"
-#include "mvPyUtils.h"
 #include "mvViewport.h"
-#include <stb_image.h>
 #include "mvProfiler.h"
 #include "dearpygui_commands.h"
 #include "dearpygui_parsers.h"
+
+#include <ImGuiFileDialog.h>
+#include <cstdlib>
+#include <stb_image.h>
 
 #define MV_ADD_COMMAND(x) methods.push_back({ #x, (PyCFunction)x, METH_VARARGS | METH_KEYWORDS, GetParsers()[#x].documentation.c_str() });
 

@@ -1,4 +1,5 @@
 #include "mvLoadingIndicatorCustom.h"
+
 #include <utility>
 #include <cmath>
 #include <imgui_internal.h>

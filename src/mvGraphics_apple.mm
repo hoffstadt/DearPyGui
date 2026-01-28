@@ -1,6 +1,9 @@
 #include "mvGraphics.h"
+
 #include "mvAppleSpecifics.h"
+
 #include "mvViewport.h"
+
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_metal.h"
 
