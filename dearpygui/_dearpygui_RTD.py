@@ -2736,6 +2736,7 @@ def tree_node(**kwargs):
 		span_text_width (bool, optional): Makes hitbox and highlight only cover the label.
 		span_full_width (bool, optional): Extend hit box to the left-most and right-most edges (cover the indent area).
 		catch_nav_left (bool, optional): Keyboard navigation: left arrow within this node's children, if unhandled, moves focus to this node.  When setting it to True on a node, better set it on all children nodes in the subtree as well, otherwise it might give unexpected navigation jumps.
+		lines (int, optional): Experimental.  Draw lines connecting tree_node hierarchy.  One of dpg.mvTreeLines constants.  To work correctly, must be configured the same way in every tree node.
 		id (Union[int, str], optional): (deprecated)
 		delay_search (bool, optional): (deprecated)This was used as an optimization hint but is not relevant anymore.
 	Yields:
@@ -6880,6 +6881,7 @@ def add_tree_node(**kwargs):
 		span_text_width (bool, optional): Makes hitbox and highlight only cover the label.
 		span_full_width (bool, optional): Extend hit box to the left-most and right-most edges (cover the indent area).
 		catch_nav_left (bool, optional): Keyboard navigation: left arrow within this node's children, if unhandled, moves focus to this node.  When setting it to True on a node, better set it on all children nodes in the subtree as well, otherwise it might give unexpected navigation jumps.
+		lines (int, optional): Experimental.  Draw lines connecting tree_node hierarchy.  One of dpg.mvTreeLines constants.  To work correctly, must be configured the same way in every tree node.
 		id (Union[int, str], optional): (deprecated)
 		delay_search (bool, optional): (deprecated)This was used as an optimization hint but is not relevant anymore.
 	Returns:
@@ -9211,6 +9213,9 @@ mvTable_SizingFixedFit=internal_dpg.mvTable_SizingFixedFit
 mvTable_SizingFixedSame=internal_dpg.mvTable_SizingFixedSame
 mvTable_SizingStretchProp=internal_dpg.mvTable_SizingStretchProp
 mvTable_SizingStretchSame=internal_dpg.mvTable_SizingStretchSame
+mvTreeLines_None=internal_dpg.mvTreeLines_None
+mvTreeLines_Full=internal_dpg.mvTreeLines_Full
+mvTreeLines_ToNodes=internal_dpg.mvTreeLines_ToNodes
 mvFormat_Float_rgba=internal_dpg.mvFormat_Float_rgba
 mvFormat_Float_rgb=internal_dpg.mvFormat_Float_rgb
 mvThemeCat_Core=internal_dpg.mvThemeCat_Core

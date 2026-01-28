@@ -2931,7 +2931,7 @@ def tooltip(parent : Union[int, str], *, label: str =None, user_data: Any =None,
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def tree_node(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_open: bool =False, open_on_double_click: bool =False, open_on_arrow: bool =False, leaf: bool =False, bullet: bool =False, selectable: bool =False, span_text_width: bool =False, span_full_width: bool =False, catch_nav_left: bool =False, **kwargs) -> Union[int, str]:
+def tree_node(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_open: bool =False, open_on_double_click: bool =False, open_on_arrow: bool =False, leaf: bool =False, bullet: bool =False, selectable: bool =False, span_text_width: bool =False, span_full_width: bool =False, catch_nav_left: bool =False, lines: int =internal_dpg.mvTreeLines_None, **kwargs) -> Union[int, str]:
 	"""	 Adds a tree node to add items to.
 
 	Args:
@@ -2959,6 +2959,7 @@ def tree_node(*, label: str =None, user_data: Any =None, use_internal_label: boo
 		span_text_width (bool, optional): Makes hitbox and highlight only cover the label.
 		span_full_width (bool, optional): Extend hit box to the left-most and right-most edges (cover the indent area).
 		catch_nav_left (bool, optional): Keyboard navigation: left arrow within this node's children, if unhandled, moves focus to this node.  When setting it to True on a node, better set it on all children nodes in the subtree as well, otherwise it might give unexpected navigation jumps.
+		lines (int, optional): Experimental.  Draw lines connecting tree_node hierarchy.  One of dpg.mvTreeLines constants.  To work correctly, must be configured the same way in every tree node.
 		id (Union[int, str], optional): (deprecated) 
 		delay_search (bool, optional): (deprecated) This was used as an optimization hint but is not relevant anymore.
 	Yields:
@@ -2972,7 +2973,7 @@ def tree_node(*, label: str =None, user_data: Any =None, use_internal_label: boo
 
 		if 'delay_search' in kwargs.keys():
 			warnings.warn('delay_search keyword deprecated. ', DeprecationWarning, 2)
-		widget = internal_dpg.add_tree_node(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, indent=indent, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_open=default_open, open_on_double_click=open_on_double_click, open_on_arrow=open_on_arrow, leaf=leaf, bullet=bullet, selectable=selectable, span_text_width=span_text_width, span_full_width=span_full_width, catch_nav_left=catch_nav_left, **kwargs)
+		widget = internal_dpg.add_tree_node(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, indent=indent, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_open=default_open, open_on_double_click=open_on_double_click, open_on_arrow=open_on_arrow, leaf=leaf, bullet=bullet, selectable=selectable, span_text_width=span_text_width, span_full_width=span_full_width, catch_nav_left=catch_nav_left, lines=lines, **kwargs)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
@@ -7827,7 +7828,7 @@ def add_tooltip(parent : Union[int, str], *, label: str =None, user_data: Any =N
 
 	return internal_dpg.add_tooltip(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, show=show, delay=delay, hide_on_activity=hide_on_activity, **kwargs)
 
-def add_tree_node(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_open: bool =False, open_on_double_click: bool =False, open_on_arrow: bool =False, leaf: bool =False, bullet: bool =False, selectable: bool =False, span_text_width: bool =False, span_full_width: bool =False, catch_nav_left: bool =False, **kwargs) -> Union[int, str]:
+def add_tree_node(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int, ...]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_open: bool =False, open_on_double_click: bool =False, open_on_arrow: bool =False, leaf: bool =False, bullet: bool =False, selectable: bool =False, span_text_width: bool =False, span_full_width: bool =False, catch_nav_left: bool =False, lines: int =internal_dpg.mvTreeLines_None, **kwargs) -> Union[int, str]:
 	"""	 Adds a tree node to add items to.
 
 	Args:
@@ -7855,6 +7856,7 @@ def add_tree_node(*, label: str =None, user_data: Any =None, use_internal_label:
 		span_text_width (bool, optional): Makes hitbox and highlight only cover the label.
 		span_full_width (bool, optional): Extend hit box to the left-most and right-most edges (cover the indent area).
 		catch_nav_left (bool, optional): Keyboard navigation: left arrow within this node's children, if unhandled, moves focus to this node.  When setting it to True on a node, better set it on all children nodes in the subtree as well, otherwise it might give unexpected navigation jumps.
+		lines (int, optional): Experimental.  Draw lines connecting tree_node hierarchy.  One of dpg.mvTreeLines constants.  To work correctly, must be configured the same way in every tree node.
 		id (Union[int, str], optional): (deprecated) 
 		delay_search (bool, optional): (deprecated) This was used as an optimization hint but is not relevant anymore.
 	Returns:
@@ -7868,7 +7870,7 @@ def add_tree_node(*, label: str =None, user_data: Any =None, use_internal_label:
 	if 'delay_search' in kwargs.keys():
 		warnings.warn('delay_search keyword deprecated. ', DeprecationWarning, 2)
 
-	return internal_dpg.add_tree_node(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, indent=indent, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_open=default_open, open_on_double_click=open_on_double_click, open_on_arrow=open_on_arrow, leaf=leaf, bullet=bullet, selectable=selectable, span_text_width=span_text_width, span_full_width=span_full_width, catch_nav_left=catch_nav_left, **kwargs)
+	return internal_dpg.add_tree_node(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, indent=indent, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_open=default_open, open_on_double_click=open_on_double_click, open_on_arrow=open_on_arrow, leaf=leaf, bullet=bullet, selectable=selectable, span_text_width=span_text_width, span_full_width=span_full_width, catch_nav_left=catch_nav_left, lines=lines, **kwargs)
 
 def add_value_registry(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, **kwargs) -> Union[int, str]:
 	"""	 Adds a value registry.
@@ -10304,6 +10306,9 @@ mvTable_SizingFixedFit=internal_dpg.mvTable_SizingFixedFit
 mvTable_SizingFixedSame=internal_dpg.mvTable_SizingFixedSame
 mvTable_SizingStretchProp=internal_dpg.mvTable_SizingStretchProp
 mvTable_SizingStretchSame=internal_dpg.mvTable_SizingStretchSame
+mvTreeLines_None=internal_dpg.mvTreeLines_None
+mvTreeLines_Full=internal_dpg.mvTreeLines_Full
+mvTreeLines_ToNodes=internal_dpg.mvTreeLines_ToNodes
 mvFormat_Float_rgba=internal_dpg.mvFormat_Float_rgba
 mvFormat_Float_rgb=internal_dpg.mvFormat_Float_rgb
 mvThemeCat_Core=internal_dpg.mvThemeCat_Core

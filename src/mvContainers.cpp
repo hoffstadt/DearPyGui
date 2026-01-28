@@ -139,6 +139,8 @@ DearPyGui::fill_configuration_dict(const mvTreeNodeConfig& inConfig, PyObject* o
     checkbitset("span_full_width", ImGuiTreeNodeFlags_SpanFullWidth, inConfig.flags);
     // checkbitset("span_all_columns", ImGuiTreeNodeFlags_SpanAllColumns, inConfig.flags);
     checkbitset("catch_nav_left", ImGuiTreeNodeFlags_NavLeftJumpsToParent, inConfig.flags);
+
+    PyDict_SetItemString(outDict, "lines", mvPyObject(ToPyInt(inConfig.flags & (ImGuiTreeNodeFlags_DrawLinesNone | ImGuiTreeNodeFlags_DrawLinesFull | ImGuiTreeNodeFlags_DrawLinesToNodes))));
 }
 
 void
@@ -361,6 +363,12 @@ DearPyGui::set_configuration(PyObject* inDict, mvTreeNodeConfig& outConfig)
     flagop("span_full_width", ImGuiTreeNodeFlags_SpanFullWidth, outConfig.flags);
     // flagop("span_all_columns", ImGuiTreeNodeFlags_SpanAllColumns, outConfig.flags);
     flagop("catch_nav_left", ImGuiTreeNodeFlags_NavLeftJumpsToParent, outConfig.flags);
+
+    if (PyObject* item = PyDict_GetItemString(inDict, "lines"))
+    {
+        outConfig.flags &= ~(ImGuiTreeNodeFlags_DrawLinesNone | ImGuiTreeNodeFlags_DrawLinesFull | ImGuiTreeNodeFlags_DrawLinesToNodes);
+        outConfig.flags |= ToInt(item);
+    }
 }
 
 void
