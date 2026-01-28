@@ -22,7 +22,7 @@ target_compile_definitions(coreemb
 target_sources(coreemb PRIVATE ${MARVEL_SOURCES})
 add_definitions(-DIMGUI_DEFINE_MATH_OPERATORS)
 
-target_precompile_headers(_dearpygui
+target_precompile_headers(coreemb
 	PRIVATE
 		mvPyUtils.h
 )
