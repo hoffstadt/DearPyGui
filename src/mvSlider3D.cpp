@@ -7,6 +7,7 @@
 #include "mvThemes.h"
 #include "mvContainers.h"
 #include "mvItemHandlers.h"
+#include <imgui_internal.h>
 
 static float Dist2(ImVec2 const v, ImVec2 const w)
 {

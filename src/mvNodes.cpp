@@ -11,6 +11,8 @@
 #include "mvFontItems.h"
 
 #include <imnodes.h>
+// For ImRect (used by mvEditorGetSize)
+#include <imgui_internal.h>
 
 static std::string FindRenderedTextEnd(const char* text, const char* text_end = nullptr)
 {

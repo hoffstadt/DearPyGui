@@ -10,6 +10,10 @@
 #include "mvThemes.h"
 #include "mvItemHandlers.h"
 
+#include <imgui_internal.h>
+// For ImHasFlag
+#include <implot_internal.h>
+
 mvTableCell::mvTableCell(mvUUID uuid)
 	: mvAppItem(uuid)
 {
