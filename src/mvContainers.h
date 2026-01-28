@@ -1,7 +1,6 @@
 #pragma once
 
 #include "mvItemRegistry.h"
-#include <array>
 
 // check_drop_event() implements the typical contents of Dear ImGui's drop target
 // (ImGui::BeginDragDropTarget()) tied to DearPyGui's drop callback.  You usually

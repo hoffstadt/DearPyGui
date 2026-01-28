@@ -1,8 +1,7 @@
 #pragma once
 
-#include <array>
-#include <imnodes.h>
 #include "mvItemRegistry.h"
+#include <imgui.h>
 
 void apply_local_theming(mvAppItem* item);
 void cleanup_local_theming(mvAppItem* item);
