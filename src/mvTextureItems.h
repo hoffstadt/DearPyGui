@@ -1,7 +1,8 @@
 #pragma once
 
 #include "mvItemRegistry.h"
-#include "dearpygui.h"
+#include "mvPyUtils.h"
+#include <imgui.h>
 
 class mvTextureRegistry : public mvAppItem
 {
