@@ -108,8 +108,7 @@ void mvStyleWindow::drawWidgets()
             ImGui::SliderFloat("mvStyleVar_TabBorderSize", &style.TabBorderSize, 0.0f, 1.0f, "%.0f");
             ImGui::SliderFloat("mvStyleVar_TabBarBorderSize", &style.TabBarBorderSize, 0.0f, 2.0f, "%.0f");
             ImGui::SliderFloat("mvStyleVar_TabBarOverlineSize", &style.TabBarOverlineSize, 0.0f, 3.0f, "%.0f");
-            // TODO: uncomment this line once we add the flag
-            // ImGui::SameLine(); HelpMarker("Overline is only drawn over the selected tab when ImGuiTabBarFlags_DrawSelectedOverline is set.");
+            ImGui::SameLine(); HelpMarker("Overline is only drawn over the selected tab when draw_selected_overline=True is set on tab_bar.");
             ImGui::DragFloat("mvStyleVar_TabMinWidthBase", &style.TabMinWidthBase, 0.5f, 1.0f, 500.0f, "%.0f");
             ImGui::DragFloat("mvStyleVar_TabMinWidthShrink", &style.TabMinWidthShrink, 0.5f, 1.0f, 500.0f, "%0.f");
             // ImGui::DragFloat("mvStyleVar_TabCloseButtonMinWidthSelected", &style.TabCloseButtonMinWidthSelected, 0.5f, -1.0f, 100.0f, (style.TabCloseButtonMinWidthSelected < 0.0f) ? "%.0f (Always)" : "%.0f");
@@ -121,21 +120,11 @@ void mvStyleWindow::drawWidgets()
             ImGui::SliderAngle("mvStyleVar_TableAngledHeadersAngle", &style.TableAngledHeadersAngle, -50.0f, +50.0f);
             ImGui::SliderFloat2("mvStyleVar_TableAngledHeadersTextAlign", (float*)&style.TableAngledHeadersTextAlign, 0.0f, 1.0f, "%.2f");
 
-            // TODO: add this section if we add support for tree lines
-            // ImGui::SeparatorText("Trees");
-            // bool combo_open = ImGui::BeginCombo("TreeLinesFlags", ImGui::GetTreeLinesFlagsName(style.TreeLinesFlags));
-            // ImGui::SameLine();
-            // HelpMarker("[Experimental] Tree lines may not work in all situations (e.g. using a clipper) and may incurs slight traversal overhead.\n\nImGuiTreeNodeFlags_DrawLinesFull is faster than ImGuiTreeNodeFlags_DrawLinesToNode.");
-            // if (combo_open)
-            // {
-            //     const ImGuiTreeNodeFlags options[] = { ImGuiTreeNodeFlags_DrawLinesNone, ImGuiTreeNodeFlags_DrawLinesFull, ImGuiTreeNodeFlags_DrawLinesToNodes };
-            //     for (ImGuiTreeNodeFlags option : options)
-            //         if (ImGui::Selectable(GetTreeLinesFlagsName(option), style.TreeLinesFlags == option))
-            //             style.TreeLinesFlags = option;
-            //     ImGui::EndCombo();
-            // }
-            // ImGui::SliderFloat("mvStyleVar_TreeLinesSize", &style.TreeLinesSize, 0.0f, 2.0f, "%.0f");
-            // ImGui::SliderFloat("mvStyleVar_TreeLinesRounding", &style.TreeLinesRounding, 0.0f, 12.0f, "%.0f");
+            ImGui::SeparatorText("Trees");
+            ImGui::SliderFloat("mvStyleVar_TreeLinesSize", &style.TreeLinesSize, 0.0f, 2.0f, "%.0f");
+            ImGui::SameLine();
+            HelpMarker("[Experimental]\nTree lines may not work in all situations (e.g. using a clipper) and may incurs slight traversal overhead.\n\nmvTreeLines_Full is faster than mvTreeLines_ToNodes.");
+            ImGui::SliderFloat("mvStyleVar_TreeLinesRounding", &style.TreeLinesRounding, 0.0f, 12.0f, "%.0f");
 
             ImGui::SeparatorText("Windows");
             ImGui::SliderFloat2("mvStyleVar_WindowTitleAlign", (float*)&style.WindowTitleAlign, 0.0f, 1.0f, "%.2f");
