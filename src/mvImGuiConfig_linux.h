@@ -9,3 +9,8 @@
 // Note: ImTextureID underlying type is backend-specific and is therefore different on different platforms!
 // We don't define ImTextureID here so that it uses the default ImUI64, which is good for
 // passing GLuint around (in Linux world, we need a GLuint for texture ID).
+
+// We need these operators somewhere, but starting with ImGui 1.89.4, we can't arbitrarily
+// enable them before imgui_internal.h - we need to do this before imgui.h itself - or here.
+// Taking precompiled headers into account, we'll be better off defining this globally.
+#define IMGUI_DEFINE_MATH_OPERATORS

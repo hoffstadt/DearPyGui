@@ -34,8 +34,6 @@ target_compile_definitions(_dearpygui
 		$<$<CONFIG:Release>:MV_RELEASE>
 )
 
-add_definitions(-DIMGUI_DEFINE_MATH_OPERATORS)
-
 target_precompile_headers(_dearpygui
 	PRIVATE mvPyUtils.h
 )
