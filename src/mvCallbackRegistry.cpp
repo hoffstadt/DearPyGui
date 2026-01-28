@@ -1,10 +1,13 @@
+#include "mvPyUtils.h"
+
 #include "mvCallbackRegistry.h"
+
 #include "mvProfiler.h"
 #include "mvContext.h"
-#include <chrono>
 #include "mvItemRegistry.h"
 #include "mvAppItemCommons.h"
-#include "mvPyUtils.h"
+
+#include <chrono>
 
 void mvRunTasks(bool early /* = false */)
 {

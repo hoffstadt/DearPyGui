@@ -1,10 +1,13 @@
+#include "mvPyUtils.h"
+
 #include "mvItemRegistry.h"
-#include "mvProfiler.h"
+
 #include "mvContext.h"
 #include "mvAppItemCommons.h"
-#include "mvPyUtils.h"
 #include "mvToolManager.h"
 #include "mvFontManager.h"
+
+#include "mvProfiler.h"
 
 mvItemRegistry::mvItemRegistry()
 {

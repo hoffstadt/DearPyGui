@@ -1,12 +1,15 @@
+#include "mvPyUtils.h"
+
 #include "mvContainers.h"
+
 #include "mvViewport.h"
 #include "mvFontItems.h"
 #include "mvThemes.h"
 #include "mvContainers.h"
-#include "mvPyUtils.h"
 #include "mvItemHandlers.h"
-#include <misc/cpp/imgui_stdlib.h>
 #include "mvTextureItems.h"
+
+#include <misc/cpp/imgui_stdlib.h>
 
 //-----------------------------------------------------------------------------
 // [SECTION] get_item_configuration(...) specifics

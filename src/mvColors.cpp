@@ -1,12 +1,15 @@
-#include "mvColors.h"
-#include "mvContext.h"
-#include <array>
-#include "mvItemRegistry.h"
 #include "mvPyUtils.h"
+
+#include "mvColors.h"
+
+#include "mvContext.h"
+#include "mvItemRegistry.h"
 #include "mvFontItems.h"
 #include "mvThemes.h"
 #include "mvContainers.h"
 #include "mvItemHandlers.h"
+
+#include <array>
 
 void
 DearPyGui::draw_color_button(ImDrawList* drawlist, mvAppItem& item, mvColorButtonConfig& config)

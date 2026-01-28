@@ -1,6 +1,10 @@
 #include "mvViewport.h"
-#include "mvFontManager.h"
+
 #include "mvLinuxSpecifics.h"
+
+#include "mvFontManager.h"
+#include "mvToolManager.h"
+
 #include "implot.h"
 #include "imgui.h"
 #include "imnodes.h"
@@ -9,7 +13,6 @@
 #include "imgui_impl_opengl3.h"
 #include <stdio.h>
 #include <stb_image.h>
-#include "mvToolManager.h"
 
 static void
 glfw_error_callback(int error, const char* description)

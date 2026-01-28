@@ -1,5 +1,10 @@
 #include "mvUtilities.h"
+
 #include "mvViewport.h"
+
+#include "mvWindowsSpecifics.h"
+
+#include "mvCustomTypes.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
@@ -16,8 +21,6 @@
 #include <sstream>
 #include <filesystem>
 #include <d3d11.h>
-#include "mvWindowsSpecifics.h"
-#include "mvCustomTypes.h"
 
 namespace fs = std::filesystem;
 

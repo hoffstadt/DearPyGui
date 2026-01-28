@@ -1,14 +1,17 @@
+#include "mvPyUtils.h"
+
 #include "mvPlotting.h"
-#include <utility>
+
 #include "mvCore.h"
 #include "mvContext.h"
 #include "mvItemRegistry.h"
-#include "mvPyUtils.h"
 #include "mvFontItems.h"
 #include "mvThemes.h"
 #include "mvContainers.h"
 #include "mvTextureItems.h"
 #include "mvItemHandlers.h"
+
+#include <utility>
 
 static void
 draw_polygon(const mvAreaSeriesConfig& config)

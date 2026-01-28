@@ -1,7 +1,10 @@
-#include "mvCustomTypes.h"
-#include <string>
-#include "mvTypes.h"
 #include "mvPyUtils.h"
+
+#include "mvCustomTypes.h"
+
+#include "mvTypes.h"
+
+#include <string>
 
 static void
 intialize_mvMat4(mvMat4* a,

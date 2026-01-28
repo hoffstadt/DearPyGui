@@ -1,14 +1,17 @@
-#include "mvDatePicker.h"
-#include "mvContext.h"
-#include <implot.h>
-#include <implot_internal.h>
-#include <misc/cpp/imgui_stdlib.h>
-#include "mvItemRegistry.h"
 #include "mvPyUtils.h"
+
+#include "mvDatePicker.h"
+
+#include "mvContext.h"
+#include "mvItemRegistry.h"
 #include "mvFontItems.h"
 #include "mvThemes.h"
 #include "mvContainers.h"
 #include "mvItemHandlers.h"
+
+#include <implot.h>
+#include <implot_internal.h>
+#include <misc/cpp/imgui_stdlib.h>
 
 void mvDatePicker::draw(ImDrawList* drawlist, float x, float y)
 {

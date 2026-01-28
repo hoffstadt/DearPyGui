@@ -1,12 +1,15 @@
+#include "mvPyUtils.h"
+
 #include "mvNodes.h"
-#include <imnodes.h>
+
 #include "mvContext.h"
 #include "mvItemRegistry.h"
-#include "mvPyUtils.h"
 #include "mvItemHandlers.h"
 #include "mvThemes.h"
 #include "mvContainers.h"
 #include "mvFontItems.h"
+
+#include <imnodes.h>
 
 static std::string FindRenderedTextEnd(const char* text, const char* text_end = nullptr)
 {

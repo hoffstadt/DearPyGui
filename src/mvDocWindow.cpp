@@ -1,7 +1,10 @@
-#include <map>
 #include "mvPyUtils.h"
+
 #include "mvDocWindow.h"
+
 #include "dearpygui.h"
+
+#include <map>
 
 mvDocWindow::mvDocWindow()
 {

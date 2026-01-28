@@ -1,10 +1,13 @@
-#include "mvDrawings.h"
-#include "mvItemRegistry.h"
 #include "mvPyUtils.h"
+
+#include "mvDrawings.h"
+
+#include "mvItemRegistry.h"
 #include "mvAppItemCommons.h"
-#include <math.h>
 #include "mvContext.h"
 #include "mvCustomTypes.h"
+
+#include <math.h>
 
 mvDrawArrow::mvDrawArrow(mvUUID uuid)
 	:

@@ -1,8 +1,10 @@
 #include "mvDebugWindow.h"
+
 #include "mvContext.h"
-#include <misc/cpp/imgui_stdlib.h>
 #include "mvItemRegistry.h"
 #include "dearpygui.h"
+
+#include <misc/cpp/imgui_stdlib.h>
 
 mvDebugWindow::mvDebugWindow()
 {

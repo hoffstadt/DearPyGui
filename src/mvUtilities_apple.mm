@@ -1,5 +1,10 @@
+#include "mvPyUtils.h"
+
 #include "mvUtilities.h"
+
 #include "mvViewport.h"
+
+#include "mvAppleSpecifics.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
@@ -12,8 +17,6 @@
 #include <Quartz/Quartz.h>
 #include <simd/simd.h>
 #include <vector>
-#include "mvAppleSpecifics.h"
-#include "mvPyUtils.h"
 
 // this is necessary to keep objective-c's reference counts
 // from reaching 0.

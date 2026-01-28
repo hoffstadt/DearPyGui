@@ -1,4 +1,12 @@
+#include "mvPyUtils.h"
+
 #include "mvUtilities.h"
+
+#include "mvLinuxSpecifics.h"
+
+#include "mvContext.h"
+#include "mvViewport.h"
+#include "mvCustomTypes.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
@@ -11,11 +19,6 @@
 #include <unordered_map>
 #include <GL/gl3w.h>
 #include <GLFW/glfw3.h>
-#include "mvContext.h"
-#include "mvLinuxSpecifics.h"
-#include "mvViewport.h"
-#include "mvPyUtils.h"
-#include "mvCustomTypes.h"
 
 static std::unordered_map<GLuint, GLuint> PBO_ids;
 

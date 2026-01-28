@@ -1,10 +1,12 @@
 #include "mvViewport.h"
-#include <implot.h>
-#include "imnodes.h"
-#include "mvToolManager.h"
-#include "mvFontManager.h"
+
 #include "mvAppleSpecifics.h"
 
+#include "mvFontManager.h"
+#include "mvToolManager.h"
+
+#include <implot.h>
+#include "imnodes.h"
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_metal.h"

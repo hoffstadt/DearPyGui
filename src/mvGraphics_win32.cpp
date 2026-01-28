@@ -1,4 +1,5 @@
 #include "mvGraphics.h"
+
 #include "mvWindowsSpecifics.h"
 
 static std::vector <IDXGIAdapter*>
