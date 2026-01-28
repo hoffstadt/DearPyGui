@@ -4,7 +4,6 @@
 #include "mvValues.h"
 
 #include "mvContext.h"
-#include "dearpygui.h"
 
 #include <utility>
 #include <string>
