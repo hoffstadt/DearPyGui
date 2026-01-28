@@ -10,3 +10,8 @@
 // Leaving it defined as void* until we figure out how to declare it properly (like, id<MTLTexture>?).
 // At least void* has been working fine for years.
 #define ImTextureID void*
+
+// We need these operators somewhere, but starting with ImGui 1.89.4, we can't arbitrarily
+// enable them before imgui_internal.h - we need to do this before imgui.h itself - or here.
+// Taking precompiled headers into account, we'll be better off defining this globally.
+#define IMGUI_DEFINE_MATH_OPERATORS
