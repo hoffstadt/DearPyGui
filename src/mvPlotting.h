@@ -2,6 +2,7 @@
 
 #include "mvItemRegistry.h"
 #include <array>
+#include <implot_internal.h>
 
 struct mvPlotConfig;
 struct mvPlotAxisConfig;

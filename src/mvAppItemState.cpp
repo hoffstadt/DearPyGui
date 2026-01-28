@@ -6,6 +6,8 @@
 #include "mvAppItem.h"
 #include "mvContext.h"
 #include <imgui.h>
+// For ImGuiWindow
+#include <imgui_internal.h>
 
 void 
 ResetAppItemState(mvAppItemState& state)

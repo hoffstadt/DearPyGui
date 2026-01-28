@@ -9,12 +9,10 @@
 
 #include <string>
 #include <vector>
-#include <map>
 #include <imgui.h>
 #include "mvAppItemState.h"
 #include "mvCallbackRegistry.h"
 #include "mvPyUtils.h"
-#include <implot_internal.h>
 #include "mvAppItemTypes.inc"
 
 // forward declarations

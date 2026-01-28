@@ -9,6 +9,7 @@
 
 #include <imnodes.h>
 #include <misc/cpp/imgui_stdlib.h>
+#include <imgui_internal.h>
 
 static void
 DebugItem(const char* label, const char* item) {

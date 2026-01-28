@@ -2,6 +2,7 @@
 #pragma hdrstop
 
 #include "mvGlobalHandlers.h"
+#include <imgui_internal.h>
 
 void mvHandlerRegistry::draw(ImDrawList* drawlist, float x, float y)
 {

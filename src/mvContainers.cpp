@@ -11,6 +11,8 @@
 #include "mvTextureItems.h"
 
 #include <misc/cpp/imgui_stdlib.h>
+// For ImGuiWindow
+#include <imgui_internal.h>
 
 //-----------------------------------------------------------------------------
 // [SECTION] get_item_configuration(...) specifics
