@@ -1,13 +1,11 @@
 #include "mvPyUtils.h"
+#pragma hdrstop
 
 #include "mvCallbackRegistry.h"
 
-#include "mvProfiler.h"
 #include "mvContext.h"
 #include "mvItemRegistry.h"
 #include "mvAppItemCommons.h"
-
-#include <chrono>
 
 void mvRunTasks(bool early /* = false */)
 {

@@ -36,6 +36,10 @@ target_compile_definitions(_dearpygui
 
 add_definitions(-DIMGUI_DEFINE_MATH_OPERATORS)
 
+target_precompile_headers(_dearpygui
+	PRIVATE mvPyUtils.h
+)
+
 if(WIN32)
 
 	set_target_properties(_dearpygui PROPERTIES SUFFIX ".pyd")

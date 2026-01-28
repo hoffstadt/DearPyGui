@@ -1,4 +1,5 @@
 #include "mvPyUtils.h"
+#pragma hdrstop
 
 #include "mvBasicWidgets.h"
 
@@ -5894,6 +5895,7 @@ DearPyGui::draw_tooltip(ImDrawList* drawlist, mvAppItem& item)
 				static_cast<mvFont*>(item.font.get())->pushFont();
 			apply_local_theming(&item);
 
+			// TODO: we should probably be using ImGuiTooltipFlags_OverridePrevious
 			if(ImGui::BeginTooltip()) 
 			{
 				item.state.visible = true;
