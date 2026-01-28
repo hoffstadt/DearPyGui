@@ -1,4 +1,5 @@
 #include "mvPyUtils.h"
+#pragma hdrstop
 
 #include "mvDrawings.h"
 
