@@ -222,6 +222,10 @@ GetModuleConstants()
 		ModuleConstants.push_back({ "mvTable_SizingStretchProp", ImGuiTableFlags_SizingStretchProp});
 		ModuleConstants.push_back({ "mvTable_SizingStretchSame", ImGuiTableFlags_SizingStretchSame});
 
+		ModuleConstants.push_back({ "mvTreeLines_None", ImGuiTreeNodeFlags_DrawLinesNone });
+		ModuleConstants.push_back({ "mvTreeLines_Full", ImGuiTreeNodeFlags_DrawLinesFull });
+		ModuleConstants.push_back({ "mvTreeLines_ToNodes", ImGuiTreeNodeFlags_DrawLinesToNodes });
+
 		ModuleConstants.push_back({ "mvFormat_Float_rgba", 0L });
 		ModuleConstants.push_back({ "mvFormat_Float_rgb", 1L });
 

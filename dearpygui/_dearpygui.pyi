@@ -607,7 +607,7 @@ def add_tooltip(parent : Union[int, str], *, label: str ='', user_data: Any ='',
 	"""Adds a tooltip window."""
 	...
 
-def add_tree_node(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_open: bool ='', open_on_double_click: bool ='', open_on_arrow: bool ='', leaf: bool ='', bullet: bool ='', selectable: bool ='', span_text_width: bool ='', span_full_width: bool ='', catch_nav_left: bool ='') -> Union[int, str]:
+def add_tree_node(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_open: bool ='', open_on_double_click: bool ='', open_on_arrow: bool ='', leaf: bool ='', bullet: bool ='', selectable: bool ='', span_text_width: bool ='', span_full_width: bool ='', catch_nav_left: bool ='', lines: int ='') -> Union[int, str]:
 	"""Adds a tree node to add items to."""
 	...
 
@@ -1548,6 +1548,9 @@ mvTable_SizingFixedFit=0
 mvTable_SizingFixedSame=0
 mvTable_SizingStretchProp=0
 mvTable_SizingStretchSame=0
+mvTreeLines_None=0
+mvTreeLines_Full=0
+mvTreeLines_ToNodes=0
 mvFormat_Float_rgba=0
 mvFormat_Float_rgb=0
 mvThemeCat_Core=0

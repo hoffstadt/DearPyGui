@@ -2988,6 +2988,9 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         // TODO: Test these 2 arguments
         // args.push_back({ mvPyDataType::Bool, "span_available_width", mvArgType::KEYWORD_ARG, "False", "Extend hit box to the right-most edge, even if not framed." });
         // args.push_back({ mvPyDataType::Bool, "span_all_columns", mvArgType::KEYWORD_ARG, "False", "Frame will span all columns of its container table (text will still fit in current column)." });
+        args.push_back({ mvPyDataType::Integer, "lines", mvArgType::KEYWORD_ARG, "internal_dpg.mvTreeLines_None",
+                "Experimental.  Draw lines connecting tree_node hierarchy.  One of dpg.mvTreeLines "
+                "constants.  To work correctly, must be configured the same way in every tree node." });
 
         setup.about = "Adds a tree node to add items to.";
         setup.category = { "Containers", "Widgets" };
