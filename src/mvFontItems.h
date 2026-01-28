@@ -1,6 +1,5 @@
 #pragma once
 
-#include <array>
 #include <imgui.h>
 #include "mvItemRegistry.h"
 
