@@ -47,10 +47,10 @@ OutputFrameBufferArray(PymvBuffer* out)
         out->arr.length = description.Width * description.Height * 4;
         unsigned char* data = new unsigned char[out->arr.length];
         f32* tdata = new f32[out->arr.length];
-        for (int row = 0; row < description.Height; row++)
+        for (uint32_t row = 0; row < description.Height; row++)
         {
             unsigned char* src = &(((unsigned char*)resource.pData)[row * resource.RowPitch]);
-            for (int j = 0; j < description.Width*4; j++)
+            for (uint32_t j = 0; j < description.Width*4; j++)
                 tdata[row * description.Width*4 + j] = src[j] / 255.0f;
         }
         out->arr.data = tdata;

@@ -871,6 +871,23 @@ ToInt(PyObject* value, const std::string& message)
     return 0;
 }
 
+long
+ToLong(PyObject* value, const std::string& message)
+{
+    if (value == nullptr)
+        return 0;
+
+
+    if (PyLong_Check(value))
+        return PyLong_AsLong(value);
+
+    else if (PyFloat_Check(value))
+        return (long)PyFloat_AsDouble(value);
+
+    mvThrowPythonError(mvErrorCode::mvWrongType, "Python value error. Must be int.");
+    return 0;
+}
+
 mvUUID
 ToUUID(PyObject* value, const std::string& message)
 {

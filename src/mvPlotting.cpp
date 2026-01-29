@@ -96,7 +96,7 @@ draw_polygon(const mvAreaSeriesConfig& config)
 					continue;
 
 				if (((y >= y1) && (y < y2)) || ((y == maxy) && (y > y1) && (y <= y2)))
-					polyints[ints++] = (y - y1) * (x2 - x1) / (y2 - y1) + x1;
+					polyints[ints++] = (int)((y - y1) * (x2 - x1) / (y2 - y1) + x1);
 
 			}
 
@@ -595,8 +595,8 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 
 		if (ImPlot::IsPlotHovered())
 		{
-			GContext->input.mousePlotPos.x = ImPlot::GetPlotMousePos().x;
-			GContext->input.mousePlotPos.y = ImPlot::GetPlotMousePos().y;
+			GContext->input.mousePlotPos.x = (float)ImPlot::GetPlotMousePos().x;
+			GContext->input.mousePlotPos.y = (float)ImPlot::GetPlotMousePos().y;
 		}
 
 		// todo: resolve clipping
@@ -782,7 +782,7 @@ DearPyGui::draw_drag_line(ImDrawList* drawlist, mvAppItem& item, mvDragLineConfi
 
 	if (config.vertical)
 	{
-		if (ImPlot::DragLineX(item.uuid, config.value.get(), config.color, config.thickness, config.flags, nullptr, &hovered, &held))
+		if (ImPlot::DragLineX((int)item.uuid, config.value.get(), config.color, config.thickness, config.flags, nullptr, &hovered, &held))
 		{
 			item.submitCallback();
 		}
@@ -798,7 +798,7 @@ DearPyGui::draw_drag_line(ImDrawList* drawlist, mvAppItem& item, mvDragLineConfi
 	}
 	else
 	{
-		if (ImPlot::DragLineY(item.uuid, config.value.get(), config.color, config.thickness, config.flags, nullptr, &hovered, &held))
+		if (ImPlot::DragLineY((int)item.uuid, config.value.get(), config.color, config.thickness, config.flags, nullptr, &hovered, &held))
 		{
 			item.submitCallback();
 		}
@@ -859,7 +859,7 @@ DearPyGui::draw_drag_rect(ImDrawList* drawlist, mvAppItem& item, mvDragRectConfi
 	ymax = (*config.value.get())[3];
 
 	// item.config.specifiedLabel.c_str(),
-	if (ImPlot::DragRect(item.uuid, &xmin, &ymin, &xmax, &ymax, config.color, config.flags))
+	if (ImPlot::DragRect((int)item.uuid, &xmin, &ymin, &xmax, &ymax, config.color, config.flags))
 	{
 		(*config.value.get())[0] = xmin;
 		(*config.value.get())[1] = ymin;
@@ -884,7 +884,7 @@ DearPyGui::draw_drag_point(ImDrawList* drawlist, mvAppItem& item, mvDragPointCon
 
 	bool hovered = false;
 	bool held = false;
-	if (ImPlot::DragPoint(item.uuid, &dummyx, &dummyy, config.color, config.radius, config.flags, nullptr, &hovered, &held))
+	if (ImPlot::DragPoint((int)item.uuid, &dummyx, &dummyy, config.color, config.radius, config.flags, nullptr, &hovered, &held))
 	{
 		(*config.value.get())[0] = dummyx;
 		(*config.value.get())[1] = dummyy;
@@ -2233,8 +2233,8 @@ DearPyGui::draw_custom_series(ImDrawList* drawlist, mvAppItem& item, mvCustomSer
 			item.submitCallbackEx([=, channelCount=config.channelCount, transformedValues=config._transformedValues] () {
 				const int extras = 4;
 				PyObject* helperData = PyDict_New();
-				PyDict_SetItemString(helperData, "MouseX_PlotSpace", ToPyFloat(mouse.x));
-				PyDict_SetItemString(helperData, "MouseY_PlotSpace", ToPyFloat(mouse.y));
+				PyDict_SetItemString(helperData, "MouseX_PlotSpace", ToPyDouble(mouse.x));
+				PyDict_SetItemString(helperData, "MouseY_PlotSpace", ToPyDouble(mouse.y));
 				PyDict_SetItemString(helperData, "MouseX_PixelSpace", ToPyFloat(mouse2.x));
 				PyDict_SetItemString(helperData, "MouseY_PixelSpace", ToPyFloat(mouse2.y));
 				PyObject* appData = PyTuple_New(channelCount + extras);
@@ -2342,14 +2342,13 @@ DearPyGui::set_positional_configuration(PyObject* inDict, mvBarSeriesConfig& out
 
 static bool ValidateBarGroupConfig(mvBarGroupSeriesConfig& outConfig) 
 {
-	if (outConfig.group_size == 0)
+	if (outConfig.group_size <= 0)
 	{
-		mvThrowPythonError(mvErrorCode::mvNone, "draw_bar_group_series", "`group_size` can't be 0", nullptr);
+		mvThrowPythonError(mvErrorCode::mvNone, "draw_bar_group_series", "`group_size` must be positive", nullptr);
 		return false;
 	}
 	const std::vector<double>* values = &(*outConfig.value.get())[0];
 	const size_t values_size = values->size();
-	const int item_count = values_size / outConfig.group_size;
 
 	if (values_size % outConfig.group_size != 0)
 	{
@@ -3179,7 +3178,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvCandleSeriesConfig& outConfig)
 	if (PyObject* item = PyDict_GetItemString(inDict, "closes")) { (*outConfig.value)[2] = ToDoubleVect(item); }
 	if (PyObject* item = PyDict_GetItemString(inDict, "lows")) { (*outConfig.value)[3] = ToDoubleVect(item); }
 	if (PyObject* item = PyDict_GetItemString(inDict, "highs")) { (*outConfig.value)[4] = ToDoubleVect(item); }
-	if (PyObject* item = PyDict_GetItemString(inDict, "time_unit")) { outConfig.timeunit = ToUUID(item); }
+	if (PyObject* item = PyDict_GetItemString(inDict, "time_unit")) { outConfig.timeunit = ToInt(item); }
 }
 
 void

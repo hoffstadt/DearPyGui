@@ -179,6 +179,7 @@ void        UpdatePyStringStringList(PyObject* pyvalue, const std::vector<std::v
 
 // conversion to c++
 int         ToInt   (PyObject* value, const std::string& message = "Type must be an integer.");
+long        ToLong  (PyObject* value, const std::string& message = "Type must be an integer.");
 float       ToFloat (PyObject* value, const std::string& message = "Type must be a float.");
 double      ToDouble(PyObject* value, const std::string& message = "Type must be a double.");
 bool        ToBool  (PyObject* value, const std::string& message = "Type must be a bool.");
