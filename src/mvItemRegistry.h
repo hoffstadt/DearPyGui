@@ -3,9 +3,7 @@
 #include <stack>
 #include <vector>
 #include <unordered_map>
-#include <queue>
 #include <string>
-#include <mutex>
 #include <map>
 #include "mvAppItem.h"
 #include "mvPyUtils.h"

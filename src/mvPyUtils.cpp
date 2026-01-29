@@ -2,7 +2,6 @@
 #pragma hdrstop
 
 #include "mvAppItem.h"
-#include "mvAppItemCommons.h"
 #include "mvContext.h"
 #include "mvItemRegistry.h"
 #include "dearpygui.h"
