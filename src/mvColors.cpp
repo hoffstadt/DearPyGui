@@ -907,7 +907,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvColorButtonConfig& outConfig)
 
 	if (PyObject* item = PyDict_GetItemString(inDict, "alpha_preview"))
 	{
-		long mode = ToUUID(item);
+		long mode = ToLong(item);
 
 		// reset target flags
 		outConfig.flags &= ~(ImGuiColorEditFlags_AlphaOpaque | ImGuiColorEditFlags_AlphaPreviewHalf);
@@ -940,7 +940,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvColorEditConfig& outConfig)
 
 	if (PyObject* item = PyDict_GetItemString(inDict, "alpha_preview"))
 	{
-		long mode = ToUUID(item);
+		long mode = ToLong(item);
 
 		// reset target flags
 		outConfig.flags &= ~(ImGuiColorEditFlags_AlphaOpaque | ImGuiColorEditFlags_AlphaPreviewHalf);
@@ -949,7 +949,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvColorEditConfig& outConfig)
 
 	if (PyObject* item = PyDict_GetItemString(inDict, "display_mode"))
 	{
-		long mode = ToUUID(item);
+		long mode = ToLong(item);
 
 		// reset target flags
 		outConfig.flags &= ~ImGuiColorEditFlags_DisplayRGB;
@@ -972,7 +972,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvColorEditConfig& outConfig)
 
 	if (PyObject* item = PyDict_GetItemString(inDict, "display_type"))
 	{
-		long mode = ToUUID(item);
+		long mode = ToLong(item);
 
 		// reset target flags
 		outConfig.flags &= ~ImGuiColorEditFlags_Uint8;
@@ -1035,7 +1035,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvColorPickerConfig& outConfig)
 
 	if (PyObject* item = PyDict_GetItemString(inDict, "picker_mode"))
 	{
-		long mode = ToUUID(item);
+		long mode = ToLong(item);
 
 		// reset target flags
 		outConfig.flags &= ~ImGuiColorEditFlags_PickerHueBar;
@@ -1054,7 +1054,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvColorPickerConfig& outConfig)
 
 	if (PyObject* item = PyDict_GetItemString(inDict, "alpha_preview"))
 	{
-		long mode = ToUUID(item);
+		long mode = ToLong(item);
 
 		// reset target flags
 		outConfig.flags &= ~(ImGuiColorEditFlags_AlphaOpaque | ImGuiColorEditFlags_AlphaPreviewHalf);
@@ -1063,7 +1063,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvColorPickerConfig& outConfig)
 
 	if (PyObject* item = PyDict_GetItemString(inDict, "display_type"))
 	{
-		long mode = ToUUID(item);
+		long mode = ToLong(item);
 
 		// reset target flags
 		outConfig.flags &= ~ImGuiColorEditFlags_Uint8;
@@ -1082,7 +1082,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvColorPickerConfig& outConfig)
 
 	if (PyObject* item = PyDict_GetItemString(inDict, "input_mode"))
 	{
-		long mode = ToUUID(item);
+		long mode = ToLong(item);
 
 		// reset target flags
 		outConfig.flags &= ~ImGuiColorEditFlags_InputRGB;

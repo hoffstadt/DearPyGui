@@ -66,7 +66,7 @@ DearPyGui::fill_configuration_dict(const mvComboConfig& inConfig, PyObject* outD
 	checkbitset("no_preview", ImGuiComboFlags_NoPreview, inConfig.flags);
 	checkbitset("fit_width", ImGuiComboFlags_WidthFitPreview, inConfig.flags);
 
-	mvUUID mode = (long)mvComboHeightMode::mvComboHeight_Largest;
+	long mode = (long)mvComboHeightMode::mvComboHeight_Largest;
 	if (inConfig.flags & ImGuiComboFlags_HeightSmall) mode = (long)mvComboHeightMode::mvComboHeight_Small;
 	else if (inConfig.flags & ImGuiComboFlags_HeightRegular) mode = (long)mvComboHeightMode::mvComboHeight_Regular;
 	else if (inConfig.flags & ImGuiComboFlags_HeightLarge) mode = (long)mvComboHeightMode::mvComboHeight_Large;
@@ -5710,19 +5710,19 @@ DearPyGui::draw_image_button(ImDrawList* drawlist, mvAppItem& item, mvImageButto
 				type == mvAppItemType::mvDynamicTexture ||
 				type == mvAppItemType::mvRawTexture)
 			{
+				ScopedID id(item.uuid);
+
 				ImTextureRef texture = static_cast<mvTextureItem*>(config.texture.get())->getTexRef();
 
 				if (config.framePadding >= 0)
 					ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2((float)config.framePadding, (float)config.framePadding));
 
-				ImGui::PushID(item.uuid);
 				if (ImGui::ImageButton(item.info.internalLabel.c_str(), texture, ImVec2((float)item.config.width, (float)item.config.height),
 					ImVec2(config.uv_min.x, config.uv_min.y), ImVec2(config.uv_max.x, config.uv_max.y),
 					config.backgroundColor, config.tintColor))
 				{
 					item.submitCallback();
 				}
-				ImGui::PopID();
 
 				if (config.framePadding >= 0)
 					ImGui::PopStyleVar();

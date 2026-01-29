@@ -194,8 +194,8 @@ DearPyGui::fill_configuration_dict(const mvWindowAppItemConfig& inConfig, PyObje
     PyDict_SetItemString(outDict, "popup", mvPyObject(ToPyBool(inConfig.popup)));
     PyDict_SetItemString(outDict, "no_close", mvPyObject(ToPyBool(inConfig.no_close)));
     PyDict_SetItemString(outDict, "collapsed", mvPyObject(ToPyBool(inConfig.collapsed)));
-    PyDict_SetItemString(outDict, "min_size", mvPyObject(ToPyPairII(inConfig.min_size.x, inConfig.min_size.y)));
-    PyDict_SetItemString(outDict, "max_size", mvPyObject(ToPyPairII(inConfig.max_size.x, inConfig.max_size.y)));
+    PyDict_SetItemString(outDict, "min_size", mvPyObject(ToPyPairII((int)inConfig.min_size.x, (int)inConfig.min_size.y)));
+    PyDict_SetItemString(outDict, "max_size", mvPyObject(ToPyPairII((int)inConfig.max_size.x, (int)inConfig.max_size.y)));
     PyDict_SetItemString(outDict, "copy_contents_shortcut", mvPyObject(ToPyBool(inConfig.copy_contents_shortcut)));
 
 	PyObject* on_close = inConfig.on_close;

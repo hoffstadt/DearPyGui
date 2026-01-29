@@ -470,13 +470,13 @@ mvToggleFullScreen(mvViewport& viewport)
 {
 	mvViewportData* viewportData = (mvViewportData*)viewport.platformSpecifics;
 
-	static size_t storedWidth = 0;
-	static size_t storedHeight = 0;
-	static int    storedXPos = 0;
-	static int    storedYPos = 0;
+	static i32 storedWidth = 0;
+	static i32 storedHeight = 0;
+	static i32 storedXPos = 0;
+	static i32 storedYPos = 0;
 
-	size_t width = GetSystemMetrics(SM_CXSCREEN);
-	size_t height = GetSystemMetrics(SM_CYSCREEN);
+	int width = GetSystemMetrics(SM_CXSCREEN);
+	int height = GetSystemMetrics(SM_CYSCREEN);
 
 	if (viewport.fullScreen)
 	{
