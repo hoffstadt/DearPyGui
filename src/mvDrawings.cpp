@@ -3,12 +3,15 @@
 
 #include "mvDrawings.h"
 
-#include "mvItemRegistry.h"
-#include "mvAppItemCommons.h"
 #include "mvContext.h"
+#include "mvItemRegistry.h"
+#include "mvFontItems.h"
+#include "mvItemHandlers.h"
+#include "mvTextureItems.h"
 #include "mvCustomTypes.h"
 
 #include <math.h>
+#include <implot_internal.h>
 
 mvDrawArrow::mvDrawArrow(mvUUID uuid)
 	:

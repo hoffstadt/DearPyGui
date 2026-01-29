@@ -4,9 +4,11 @@
 #include "mvItemRegistry.h"
 
 #include "mvContext.h"
-#include "mvAppItemCommons.h"
+#include "mvThemes.h"
 #include "mvToolManager.h"
 #include "mvFontManager.h"
+#include "mvContainers.h"
+#include "mvTables.h"
 
 #include "mvProfiler.h"
 

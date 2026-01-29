@@ -11,7 +11,6 @@
 #include "mvCallbackRegistry.h"
 #include "mvToolManager.h"
 #include "mvCustomTypes.h"
-#include "mvAppItemCommons.h"
 #include "mvItemRegistry.h"
 
 #include <thread>
