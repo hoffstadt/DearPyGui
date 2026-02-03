@@ -199,51 +199,50 @@ jobs:
         path: ${{ github.workspace }}/dist/*.whl
         overwrite: true
 
-    build-linux-aarch64-wheels:
+  build-linux-aarch64-wheels:
 
-      runs-on: ubuntu-22.04-arm
-      env:
-        CXX: g++-10
-      strategy:
-        matrix:
-          python-version: [ 3.8, 3.9, "3.10", "3.11", "3.12", "3.13", "3.14" ]
+    runs-on: ubuntu-22.04-arm
+    env:
+      CXX: g++-10
+    strategy:
+      matrix:
+        python-version: [ 3.8, 3.9, "3.10", "3.11", "3.12", "3.13", "3.14" ]
 
-      steps:
+    steps:
 
-      - name: Checkout
-        uses: actions/checkout@v4
+    - name: Checkout
+      uses: actions/checkout@v4
 
-      - name: Setup Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python-version }}
+    - name: Setup Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
 
-      - name: Retrieve submodules/Dependencies
-        run: |
-          git submodule update --init --recursive ./thirdparty/imgui
-          git submodule update --init --recursive ./thirdparty/implot
-          git submodule update --init --recursive ./thirdparty/glfw
-          sudo apt-get update
-          sudo apt-get install libglu1-mesa-dev libgl1-mesa-dev xorg-dev libxrandr-dev -y
+    - name: Retrieve submodules/Dependencies
+      run: |
+        git submodule update --init --recursive ./thirdparty/imgui
+        git submodule update --init --recursive ./thirdparty/implot
+        git submodule update --init --recursive ./thirdparty/glfw
+        sudo apt-get update
+        sudo apt-get install libglu1-mesa-dev libgl1-mesa-dev xorg-dev libxrandr-dev -y
 
-      - name: Mark Versions
-        run: |
-          cd $GITHUB_WORKSPACE
-          echo ${{ github.event.inputs.version }} > version_number.txt
+    - name: Mark Versions
+      run: |
+        cd $GITHUB_WORKSPACE
+        echo ${{ github.event.inputs.version }} > version_number.txt
 
-      - name: Build Wheel
-        run: |
-          cd $GITHUB_WORKSPACE
-          python -m pip install --upgrade pip twine wheel setuptools
-          python -m setup bdist_wheel --plat-name manylinux2014_aarch64 --dist-dir dist
+    - name: Build Wheel
+      run: |
+        cd $GITHUB_WORKSPACE
+        python -m pip install --upgrade pip twine wheel setuptools
+        python -m setup bdist_wheel --plat-name manylinux2014_aarch64 --dist-dir dist
 
-      - name: Upload Linux ${{ matrix.python-version }} Wheel
-        uses: actions/upload-artifact@v4
-        with:
-          name: linuxbuild${{ matrix.python-version }}
-          path: ${{ github.workspace }}/dist/*.whl
-          overwrite: true
-
+    - name: Upload Linux ${{ matrix.python-version }} Wheel
+      uses: actions/upload-artifact@v4
+      with:
+        name: linuxbuild${{ matrix.python-version }}
+        path: ${{ github.workspace }}/dist/*.whl
+        overwrite: true
 
   deploy-packages:
 
