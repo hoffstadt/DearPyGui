@@ -1499,6 +1499,9 @@ void mvDrawRect::handleSpecificKeywordArgs(PyObject* dict)
 		}
 	}
 
+	_pmin.w = 1.0f;
+	_pmax.w = 1.0f;
+
 	if (_multicolor)
 		_rounding = 0.0f;
 }
