@@ -75,6 +75,7 @@ public:
     void* _value = nullptr;
     void* _texture = nullptr;
     bool          _dirty = true;
+    bool          _updateNeeded = true;
     ComponentType _componentType = ComponentType::MV_FLOAT_COMPONENT;
     int           _components = 4;
     int           _permWidth = 0;
@@ -106,6 +107,7 @@ public:
     std::shared_ptr<std::vector<float>> _value = std::make_shared<std::vector<float>>(std::vector<float>{0.0f});
     void* _texture = nullptr;
     bool                      _dirty = true;
+    bool                      _updateNeeded = true;
     int                       _permWidth = 0;
     int                       _permHeight = 0;
 
