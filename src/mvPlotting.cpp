@@ -2636,15 +2636,27 @@ DearPyGui::set_required_configuration(PyObject* inDict, mvCustomSeriesConfig& ou
 	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(mvAppItemType::mvCustomSeries)], inDict))
 		return;
 
+	// required dataset for x (channel 1)
 	(*outConfig.value)[0] = ToDoubleVect(PyTuple_GetItem(inDict, 0));
+	// required dataset for y (channel 2)
 	(*outConfig.value)[1] = ToDoubleVect(PyTuple_GetItem(inDict, 1));
+	// number of channels (datasets)
 	outConfig.channelCount = ToInt(PyTuple_GetItem(inDict, 2));
 
-	for (int i = 0; i < outConfig.channelCount; i++)
+	// The plotter function DearPyGui::draw_custom_series() expects that there
+	// are vectors in _transformedValues present that are of the same element size
+	// than the x dataset (first vector in outConfig.value). This applies to all
+	// y datasets (y, y1, y2, ...) as well.
+	// The content of these vectors does not matter, because the plotter function
+	// unconditionally sets its calculated values into those vectors for later use,
+	// without looking at previous values, so we can leave the content uninitialized
+	// and only allocate vectors with the correct element size.
+	outConfig._transformedValues.resize(outConfig.channelCount);
+	// Resize each channel vector to the expected number of elements
+	const auto xChannelElementCount = (*outConfig.value)[0].size();
+	for (auto& channel : outConfig._transformedValues)
 	{
-		outConfig._transformedValues.push_back({});
-		outConfig._transformedValues.back().resize((*outConfig.value)[i].size());
-		memcpy(outConfig._transformedValues.back().data(), (*outConfig.value)[i].data(), sizeof(double) * (*outConfig.value)[i].size());
+		channel.resize(xChannelElementCount);
 	}
 }
 
