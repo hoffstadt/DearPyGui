@@ -551,8 +551,7 @@ def add_synced_tables(*, label: str ='', user_data: Any ='', use_internal_label:
 	"""Links all tables that are immediate children of this container so that they share their state (mostly column sizes).  Other children are rendered as is.  This is an experimental feature, use with caution."""
 	...
 
-def add_tab(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', drop_callback: Callable ='', show: bool ='', filter_key: str ='', delay_search: bool ='', tracked: bool ='', track_offset: float ='', closable: bool ='', no_tooltip: bool ='', order_mode: int ='') -> Union[int, str]:
-
+def add_tab(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', drop_callback: Callable ='', show: bool ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', closable: bool ='', no_tooltip: bool ='', order_mode: int ='') -> Union[int, str]:
 	"""Adds a tab to a tab bar."""
 	...
 
