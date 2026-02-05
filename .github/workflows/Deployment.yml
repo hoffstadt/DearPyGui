@@ -71,6 +71,7 @@ jobs:
         name: windowsbuild${{ matrix.python-version }}
         path: ${{ github.workspace }}/dist/*.whl
         overwrite: true
+
   build-mac-silicon-wheels:
 
     runs-on: macos-latest-xlarge
@@ -204,7 +205,7 @@ jobs:
 
   deploy-packages:
 
-    needs: [build-windows-wheels, build-mac10-wheels, build-linux-x64-wheels, build-linux-aarch64-wheels, build-mac-silicon-wheels]
+    needs: [build-windows-wheels, build-linux-x64-wheels, build-linux-aarch64-wheels, build-mac-silicon-wheels]
     runs-on: windows-2022
 
     steps:
