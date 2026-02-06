@@ -169,6 +169,8 @@
     X( mvInputDoubleMulti ) \
     X( mvDragDouble ) \
     X( mvDragDoubleMulti ) \
+    X( mvDragIntRange ) \
+    X( mvDragFloatRange ) \
     X( mvSliderDouble ) \
     X( mvSliderDoubleMulti ) \
     X( mvCustomSeries )
