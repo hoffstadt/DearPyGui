@@ -666,6 +666,11 @@ void mvLayoutWindow::renderTypeSpecificInfo()
             renderBindCount();
         }
         break;
+
+    default:
+        // Nothing to do here, this is just to calm down the compiler that will
+        // otherwise warn about unused enum values.
+        break;
     }
 }
 
