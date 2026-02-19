@@ -165,6 +165,10 @@ GetRootsList(mvItemRegistry& registry, mvAppItemType type)
         case mvAppItemType::mvTemplateRegistry: return registry.itemTemplatesRoots;
         case mvAppItemType::mvItemHandlerRegistry: return registry.itemHandlerRegistryRoots;
         case mvAppItemType::mvViewportDrawlist: return registry.viewportDrawlistRoots;
+        default:
+            // Nothing to do here, this is just to calm down the compiler that will
+            // otherwise warn about unused enum values.
+            break;
     }
     // We must never end up here
     IM_ASSERT(false && "A root container does not have a corresponding list in GetRootsList.");
