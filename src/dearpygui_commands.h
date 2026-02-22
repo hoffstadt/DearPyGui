@@ -4035,27 +4035,26 @@ get_item_type_parents(PyObject *self, PyObject *args, PyObject *kwargs)
 	return out_dict;
 }
 
-static PyObject *
+static PyObject*
 get_item_type_children(PyObject *self, PyObject *args, PyObject *kwargs)
 {
-#define X(el) {#el, mvAppItemType::el},
-#define ITEM_NAME_TYPE_PAIRS static std::vector<std::pair<std::string, mvAppItemType>> name_type_pairs = {MV_ITEM_TYPES};
+	#define X(el) {#el, mvAppItemType::el},
+	#define ITEM_NAME_TYPE_PAIRS static std::vector<std::pair<std::string, mvAppItemType>> name_type_pairs = { MV_ITEM_TYPES };
 	ITEM_NAME_TYPE_PAIRS
-#undef X
-#undef ITEM_NAME_TYPE_PAIRS
+	#undef X
+	#undef ITEM_NAME_TYPE_PAIRS
+
 
 	mvPySafeLockGuard lk(GContext->mutex);
 
 	PyObject *out_dict = PyDict_New();
 
-	for (const auto &name_type_pair : name_type_pairs)
-	{
+	for (const auto& name_type_pair : name_type_pairs) {
 		auto name_id_pairs = DearPyGui::GetAllowableChildren(name_type_pair.second);
 
 		PyObject *entry_dict = PyDict_New();
 
-		for (const auto &name_id_pair : name_id_pairs)
-		{
+		for (const auto& name_id_pair : name_id_pairs) {
 			PyDict_SetItemString(entry_dict, name_id_pair.first.c_str(), PyLong_FromLong((int)name_id_pair.second));
 		}
 
@@ -4064,6 +4063,66 @@ get_item_type_children(PyObject *self, PyObject *args, PyObject *kwargs)
 
 	return out_dict;
 }
+
+static PyObject*
+get_item_type_states(PyObject *self, PyObject *args, PyObject *kwargs)
+{
+	#define X(el) {#el, mvAppItemType::el},
+	#define ITEM_NAME_TYPE_PAIRS static std::vector<std::pair<std::string, mvAppItemType>> name_type_pairs = { MV_ITEM_TYPES };
+	ITEM_NAME_TYPE_PAIRS
+	#undef X
+	#undef ITEM_NAME_TYPE_PAIRS
+
+
+	mvPySafeLockGuard lk(GContext->mutex);
+
+	PyObject *out_dict = PyDict_New();
+
+	for (const auto& name_type_pair : name_type_pairs) {
+
+		const auto &state_flags = DearPyGui::GetApplicableState(name_type_pair.second);
+		std::vector<PyObject *> state_names = {ToPyString("ok"), ToPyString("pos")};
+
+		if (state_flags & MV_STATE_HOVER) state_names.push_back(ToPyString("hovered"));
+		if (state_flags & MV_STATE_ACTIVE) state_names.push_back(ToPyString("active"));
+		if (state_flags & MV_STATE_FOCUSED) state_names.push_back(ToPyString("focused"));
+		if (state_flags & MV_STATE_CLICKED) {
+			state_names.push_back(ToPyString("clicked"));
+			state_names.push_back(ToPyString("left_clicked"));
+			state_names.push_back(ToPyString("right_clicked"));
+			state_names.push_back(ToPyString("middle_clicked"));
+		}
+		if (state_flags & MV_STATE_VISIBLE) state_names.push_back(ToPyString("visible"));
+		if (state_flags & MV_STATE_EDITED) state_names.push_back(ToPyString("edited"));
+		if (state_flags & MV_STATE_ACTIVATED) state_names.push_back(ToPyString("activated"));
+		if (state_flags & MV_STATE_DEACTIVATED) state_names.push_back(ToPyString("deactivated"));
+		if (state_flags & MV_STATE_DEACTIVATEDAE) state_names.push_back(ToPyString("deactivated_after_edit"));
+		if (state_flags & MV_STATE_TOGGLED_OPEN) state_names.push_back(ToPyString("toggled_open"));
+		if (state_flags & MV_STATE_RECT_MIN) state_names.push_back(ToPyString("rect_min"));
+		if (state_flags & MV_STATE_RECT_MAX) state_names.push_back(ToPyString("rect_max"));
+		if (state_flags & MV_STATE_RECT_SIZE) {
+			state_names.push_back(ToPyString("rect_size"));
+			state_names.push_back(ToPyString("resized"));
+		}
+		if (state_flags & MV_STATE_CONT_AVAIL) state_names.push_back(ToPyString("content_region_avail"));
+		if (state_flags & MV_STATE_SCROLL) {
+			state_names.push_back(ToPyString("scrolled"));
+			state_names.push_back(ToPyString("is_scrolling"));
+			state_names.push_back(ToPyString("scroll_pos"));
+			state_names.push_back(ToPyString("scroll_max"));
+		}
+
+		PyObject *entries = PyTuple_New((Py_ssize_t)state_names.size());
+		for (int i = 0; i < state_names.size(); i++) {
+			PyTuple_SET_ITEM(entries, i, state_names[i]);
+		}
+
+		PyDict_SetItemString(out_dict, name_type_pair.first.c_str(), entries);
+	}
+
+	return out_dict;
+}
+
 
 static PyObject*
 configure_item(PyObject* self, PyObject* args, PyObject* kwargs)

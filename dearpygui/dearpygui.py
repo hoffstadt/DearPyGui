@@ -8930,6 +8930,16 @@ def get_item_type_parents(**kwargs) -> dict:
 
 	return internal_dpg.get_item_type_parents(**kwargs)
 
+def get_item_type_states(**kwargs) -> dict:
+	"""	 Return all item type names and collections of supported states as a mapping.
+
+	Args:
+	Returns:
+		dict
+	"""
+
+	return internal_dpg.get_item_type_states(**kwargs)
+
 def get_item_types(**kwargs) -> dict:
 	"""	 Returns an item types.
 
