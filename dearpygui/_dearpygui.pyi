@@ -1003,6 +1003,10 @@ def is_item_type_container(item_type : int) -> bool:
 	"""Return `True` if items of the provided item type can parent other items."""
 	...
 
+def is_item_type_root_container(item_type : int) -> bool:
+	"""Return `True` if items of the provided item type can parent other items."""
+	...
+
 def is_key_down(key : int) -> bool:
 	"""Checks if key is down."""
 	...

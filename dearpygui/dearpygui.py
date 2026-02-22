@@ -9205,6 +9205,17 @@ def is_item_type_container(item_type : int, **kwargs) -> bool:
 
 	return internal_dpg.is_item_type_container(item_type, **kwargs)
 
+def is_item_type_root_container(item_type : int, **kwargs) -> bool:
+	"""	 Return `True` if items of the provided item type can parent other items.
+
+	Args:
+		item_type (int): 
+	Returns:
+		bool
+	"""
+
+	return internal_dpg.is_item_type_root_container(item_type, **kwargs)
+
 def is_key_down(key : int, **kwargs) -> bool:
 	"""	 Checks if key is down.
 
