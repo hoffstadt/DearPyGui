@@ -4035,6 +4035,36 @@ get_item_type_parents(PyObject *self, PyObject *args, PyObject *kwargs)
 	return out_dict;
 }
 
+static PyObject *
+get_item_type_children(PyObject *self, PyObject *args, PyObject *kwargs)
+{
+#define X(el) {#el, mvAppItemType::el},
+#define ITEM_NAME_TYPE_PAIRS static std::vector<std::pair<std::string, mvAppItemType>> name_type_pairs = {MV_ITEM_TYPES};
+	ITEM_NAME_TYPE_PAIRS
+#undef X
+#undef ITEM_NAME_TYPE_PAIRS
+
+	mvPySafeLockGuard lk(GContext->mutex);
+
+	PyObject *out_dict = PyDict_New();
+
+	for (const auto &name_type_pair : name_type_pairs)
+	{
+		auto name_id_pairs = DearPyGui::GetAllowableChildren(name_type_pair.second);
+
+		PyObject *entry_dict = PyDict_New();
+
+		for (const auto &name_id_pair : name_id_pairs)
+		{
+			PyDict_SetItemString(entry_dict, name_id_pair.first.c_str(), PyLong_FromLong((int)name_id_pair.second));
+		}
+
+		PyDict_SetItemString(out_dict, name_type_pair.first.c_str(), entry_dict);
+	}
+
+	return out_dict;
+}
+
 static PyObject*
 configure_item(PyObject* self, PyObject* args, PyObject* kwargs)
 {

@@ -1364,6 +1364,16 @@ InsertParser_Block3(std::map<std::string, mvPythonParser>& parsers)
 	}
 
 	{
+		mvPythonParserSetup setup;
+		setup.about = "Return all item type names and collections of applicable child types as a mapping.";
+		setup.category = {"App Item Operations"};
+		setup.returnType = mvPyDataType::Dict;
+
+		mvPythonParser parser = FinalizeParser(setup, {});
+		parsers.insert({"get_item_type_children", parser});
+	}
+
+	{
 		std::vector<mvPythonDataElement> args;
 		args.reserve(3);
 		args.push_back({ mvPyDataType::UUID, "item" });

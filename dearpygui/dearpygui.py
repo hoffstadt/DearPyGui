@@ -8910,6 +8910,16 @@ def get_item_state(item : Union[int, str], **kwargs) -> dict:
 
 	return internal_dpg.get_item_state(item, **kwargs)
 
+def get_item_type_children(**kwargs) -> dict:
+	"""	 Return all item type names and collections of applicable child types as a mapping.
+
+	Args:
+	Returns:
+		dict
+	"""
+
+	return internal_dpg.get_item_type_children(**kwargs)
+
 def get_item_type_parents(**kwargs) -> dict:
 	"""	 Return all item type names and collections of applicable parenting types as a mapping.
 
