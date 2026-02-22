@@ -633,7 +633,7 @@ InsertParser_Block1(std::map<std::string, mvPythonParser>& parsers)
 		mvPythonParserSetup setup;
 		setup.about = "Change the default decimal_point. Use only single character strings.";
 		setup.category = { "Utilities" };
-	
+
 		mvPythonParser parser = FinalizeParser(setup, args);
 		parsers.insert({ "set_decimal_point", parser });
 	} */
@@ -1351,6 +1351,16 @@ InsertParser_Block3(std::map<std::string, mvPythonParser>& parsers)
 
 		mvPythonParser parser = FinalizeParser(setup, {});
 		parsers.insert({ "get_item_types", parser });
+	}
+
+	{
+		mvPythonParserSetup setup;
+		setup.about = "Return all item type names and collections of applicable parenting types as a mapping.";
+		setup.category = {"App Item Operations"};
+		setup.returnType = mvPyDataType::Dict;
+
+		mvPythonParser parser = FinalizeParser(setup, {});
+		parsers.insert({"get_item_type_parents", parser});
 	}
 
 	{

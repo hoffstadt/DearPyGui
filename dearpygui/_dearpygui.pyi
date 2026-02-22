@@ -895,6 +895,10 @@ def get_item_state(item : Union[int, str]) -> dict:
 	"""Returns an item's state."""
 	...
 
+def get_item_type_parents() -> dict:
+	"""Return all item type names and collections of applicable parenting types as a mapping."""
+	...
+
 def get_item_types() -> dict:
 	"""Returns an item types."""
 	...

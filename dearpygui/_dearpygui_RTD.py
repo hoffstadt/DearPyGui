@@ -7823,6 +7823,16 @@ def get_item_state(item):
 
 	return internal_dpg.get_item_state(item)
 
+def get_item_type_parents():
+	"""	 Return all item type names and collections of applicable parenting types as a mapping.
+
+	Args:
+	Returns:
+		dict
+	"""
+
+	return internal_dpg.get_item_type_parents()
+
 def get_item_types():
 	"""	 Returns an item types.
 
