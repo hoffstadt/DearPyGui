@@ -8910,6 +8910,46 @@ def get_item_state(item : Union[int, str], **kwargs) -> dict:
 
 	return internal_dpg.get_item_state(item, **kwargs)
 
+def get_item_type_children(**kwargs) -> dict:
+	"""	 Return all item type names and collections of applicable child types as a mapping.
+
+	Args:
+	Returns:
+		dict
+	"""
+
+	return internal_dpg.get_item_type_children(**kwargs)
+
+def get_item_type_commands(**kwargs) -> dict:
+	"""	 Return the names of item types and their associated functions as a mapping.
+
+	Args:
+	Returns:
+		dict
+	"""
+
+	return internal_dpg.get_item_type_commands(**kwargs)
+
+def get_item_type_parents(**kwargs) -> dict:
+	"""	 Return all item type names and collections of applicable parenting types as a mapping.
+
+	Args:
+	Returns:
+		dict
+	"""
+
+	return internal_dpg.get_item_type_parents(**kwargs)
+
+def get_item_type_states(**kwargs) -> dict:
+	"""	 Return all item type names and collections of supported states as a mapping.
+
+	Args:
+	Returns:
+		dict
+	"""
+
+	return internal_dpg.get_item_type_states(**kwargs)
+
 def get_item_types(**kwargs) -> dict:
 	"""	 Returns an item types.
 
@@ -9153,6 +9193,28 @@ def is_dearpygui_running(**kwargs) -> bool:
 	"""
 
 	return internal_dpg.is_dearpygui_running(**kwargs)
+
+def is_item_type_container(item_type : int, **kwargs) -> bool:
+	"""	 Return `True` if items of the provided item type can parent other items.
+
+	Args:
+		item_type (int): 
+	Returns:
+		bool
+	"""
+
+	return internal_dpg.is_item_type_container(item_type, **kwargs)
+
+def is_item_type_root_container(item_type : int, **kwargs) -> bool:
+	"""	 Return `True` if items of the provided item type can parent other items.
+
+	Args:
+		item_type (int): 
+	Returns:
+		bool
+	"""
+
+	return internal_dpg.is_item_type_root_container(item_type, **kwargs)
 
 def is_key_down(key : int, **kwargs) -> bool:
 	"""	 Checks if key is down.

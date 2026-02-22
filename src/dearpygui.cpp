@@ -15,7 +15,7 @@
 
 #define MV_ADD_COMMAND(x) methods.push_back({ #x, (PyCFunction)x, METH_VARARGS | METH_KEYWORDS, GetParsers()[#x].documentation.c_str() });
 
-const std::map<std::string, mvPythonParser>& 
+const std::map<std::string, mvPythonParser>&
 GetModuleParsers()
 {
 
@@ -176,7 +176,7 @@ GetModuleConstants()
 		ModuleConstants.push_back({ "mvYAxis", ImAxis_Y1});
 		ModuleConstants.push_back({ "mvYAxis2", ImAxis_Y2});
 		ModuleConstants.push_back({ "mvYAxis3", ImAxis_Y3});
-    
+
 		ModuleConstants.push_back({ "mvPlotScale_Linear", ImPlotScale_Linear});  // default linear scale
 		ModuleConstants.push_back({ "mvPlotScale_Time", ImPlotScale_Time});  // date/time scale
 		ModuleConstants.push_back({ "mvPlotScale_Log10", ImPlotScale_Log10});  // base 10 logartithmic scale
@@ -367,7 +367,7 @@ GetModuleConstants()
 		ModuleConstants.push_back({ "mvStyleVar_SeparatorTextBorderSize", ImGuiStyleVar_SeparatorTextBorderSize });	// float     SeparatorTextBorderSize
 		ModuleConstants.push_back({ "mvStyleVar_SeparatorTextAlign", ImGuiStyleVar_SeparatorTextAlign });    		// ImVec2    SeparatorTextAlign
 		ModuleConstants.push_back({ "mvStyleVar_SeparatorTextPadding", ImGuiStyleVar_SeparatorTextPadding });    	// ImVec2    SeparatorTextPadding
-		ModuleConstants.push_back({ "mvStyleVar_DockingSeparatorSize", ImGuiStyleVar_DockingSeparatorSize });    	// float     DockingSeparatorSize    
+		ModuleConstants.push_back({ "mvStyleVar_DockingSeparatorSize", ImGuiStyleVar_DockingSeparatorSize });    	// float     DockingSeparatorSize
 
 		// item styling variables
 		ModuleConstants.push_back({ "mvPlotStyleVar_LineWeight",         ImPlotStyleVar_LineWeight });         // float,  plot item line weight in pixels
@@ -698,6 +698,12 @@ PyInit__dearpygui(void)
 	MV_ADD_COMMAND(set_item_alias);
 	MV_ADD_COMMAND(get_item_alias);
 	MV_ADD_COMMAND(get_item_types);
+	MV_ADD_COMMAND(get_item_type_parents);
+	MV_ADD_COMMAND(get_item_type_children);
+	MV_ADD_COMMAND(get_item_type_states);
+	MV_ADD_COMMAND(get_item_type_commands);
+	MV_ADD_COMMAND(is_item_type_container);
+	MV_ADD_COMMAND(is_item_type_root_container);
 	MV_ADD_COMMAND(get_item_configuration);
 	MV_ADD_COMMAND(get_item_state);
 	MV_ADD_COMMAND(configure_item);

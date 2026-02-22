@@ -7823,6 +7823,46 @@ def get_item_state(item):
 
 	return internal_dpg.get_item_state(item)
 
+def get_item_type_children():
+	"""	 Return all item type names and collections of applicable child types as a mapping.
+
+	Args:
+	Returns:
+		dict
+	"""
+
+	return internal_dpg.get_item_type_children()
+
+def get_item_type_commands():
+	"""	 Return the names of item types and their associated functions as a mapping.
+
+	Args:
+	Returns:
+		dict
+	"""
+
+	return internal_dpg.get_item_type_commands()
+
+def get_item_type_parents():
+	"""	 Return all item type names and collections of applicable parenting types as a mapping.
+
+	Args:
+	Returns:
+		dict
+	"""
+
+	return internal_dpg.get_item_type_parents()
+
+def get_item_type_states():
+	"""	 Return all item type names and collections of supported states as a mapping.
+
+	Args:
+	Returns:
+		dict
+	"""
+
+	return internal_dpg.get_item_type_states()
+
 def get_item_types():
 	"""	 Returns an item types.
 
@@ -8066,6 +8106,28 @@ def is_dearpygui_running():
 	"""
 
 	return internal_dpg.is_dearpygui_running()
+
+def is_item_type_container(item_type):
+	"""	 Return `True` if items of the provided item type can parent other items.
+
+	Args:
+		item_type (int): 
+	Returns:
+		bool
+	"""
+
+	return internal_dpg.is_item_type_container(item_type)
+
+def is_item_type_root_container(item_type):
+	"""	 Return `True` if items of the provided item type can parent other items.
+
+	Args:
+		item_type (int): 
+	Returns:
+		bool
+	"""
+
+	return internal_dpg.is_item_type_root_container(item_type)
 
 def is_key_down(key):
 	"""	 Checks if key is down.

@@ -895,6 +895,22 @@ def get_item_state(item : Union[int, str]) -> dict:
 	"""Returns an item's state."""
 	...
 
+def get_item_type_children() -> dict:
+	"""Return all item type names and collections of applicable child types as a mapping."""
+	...
+
+def get_item_type_commands() -> dict:
+	"""Return the names of item types and their associated functions as a mapping."""
+	...
+
+def get_item_type_parents() -> dict:
+	"""Return all item type names and collections of applicable parenting types as a mapping."""
+	...
+
+def get_item_type_states() -> dict:
+	"""Return all item type names and collections of supported states as a mapping."""
+	...
+
 def get_item_types() -> dict:
 	"""Returns an item types."""
 	...
@@ -981,6 +997,14 @@ def highlight_table_row(table : Union[int, str], row : int, color : Union[List[i
 
 def is_dearpygui_running() -> bool:
 	"""Checks if Dear PyGui is running"""
+	...
+
+def is_item_type_container(item_type : int) -> bool:
+	"""Return `True` if items of the provided item type can parent other items."""
+	...
+
+def is_item_type_root_container(item_type : int) -> bool:
+	"""Return `True` if items of the provided item type can parent other items."""
 	...
 
 def is_key_down(key : int) -> bool:
