@@ -4138,6 +4138,32 @@ get_item_type_commands(PyObject *self, PyObject *args, PyObject *kwargs)
 }
 
 static PyObject*
+is_item_type_container(PyObject *self, PyObject *args, PyObject *kwargs)
+{
+	int type_uuid;
+
+	if (!Parse((GetParsers())["is_item_type_container"], args, kwargs, __FUNCTION__, &type_uuid))
+		return nullptr;
+
+	mvPySafeLockGuard lk(GContext->mutex);
+
+	if (type_uuid < 0 || type_uuid >= (int)mvAppItemType::ItemTypeCount) {
+		mvThrowPythonError(
+			mvErrorCode::mvNone, "is_item_type_container",
+			"item type not found: " + std::to_string(type_uuid), nullptr
+		);
+		return nullptr;
+	}
+
+	const auto item_type = static_cast<mvAppItemType>(type_uuid);
+
+	if (DearPyGui::GetEntityDesciptionFlags(item_type) & MV_ITEM_DESC_CONTAINER) {
+		return ToPyBool(true);
+	}
+	return ToPyBool(false);
+}
+
+static PyObject*
 configure_item(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 

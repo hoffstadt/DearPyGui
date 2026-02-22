@@ -1395,6 +1395,19 @@ InsertParser_Block3(std::map<std::string, mvPythonParser>& parsers)
 
 	{
 		std::vector<mvPythonDataElement> args;
+		args.push_back({mvPyDataType::Integer, "item_type"});
+
+		mvPythonParserSetup setup;
+		setup.about = "Return `True` if items of the provided item type can parent other items.";
+		setup.category = {"App Item Operations"};
+		setup.returnType = mvPyDataType::Bool;
+
+		mvPythonParser parser = FinalizeParser(setup, args);
+		parsers.insert({"is_item_type_container", parser});
+	}
+
+	{
+		std::vector<mvPythonDataElement> args;
 		args.reserve(3);
 		args.push_back({ mvPyDataType::UUID, "item" });
 		args.push_back({ mvPyDataType::UUID, "source" });

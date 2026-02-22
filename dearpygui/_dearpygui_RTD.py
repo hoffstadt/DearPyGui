@@ -8107,6 +8107,17 @@ def is_dearpygui_running():
 
 	return internal_dpg.is_dearpygui_running()
 
+def is_item_type_container(item_type):
+	"""	 Return `True` if items of the provided item type can parent other items.
+
+	Args:
+		item_type (int): 
+	Returns:
+		bool
+	"""
+
+	return internal_dpg.is_item_type_container(item_type)
+
 def is_key_down(key):
 	"""	 Checks if key is down.
 

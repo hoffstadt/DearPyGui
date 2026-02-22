@@ -702,6 +702,7 @@ PyInit__dearpygui(void)
 	MV_ADD_COMMAND(get_item_type_children);
 	MV_ADD_COMMAND(get_item_type_states);
 	MV_ADD_COMMAND(get_item_type_commands);
+	MV_ADD_COMMAND(is_item_type_container);
 	MV_ADD_COMMAND(get_item_configuration);
 	MV_ADD_COMMAND(get_item_state);
 	MV_ADD_COMMAND(configure_item);
