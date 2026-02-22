@@ -4123,6 +4123,19 @@ get_item_type_states(PyObject *self, PyObject *args, PyObject *kwargs)
 	return out_dict;
 }
 
+static PyObject *
+get_item_type_commands(PyObject *self, PyObject *args, PyObject *kwargs)
+{
+	mvPySafeLockGuard lk(GContext->mutex);
+
+	PyObject* out_dict = PyDict_New();
+
+	#define X(el) PyDict_SetItemString(out_dict, #el, ToPyString(GetEntityCommand(mvAppItemType::el)));
+	MV_ITEM_TYPES
+	#undef X
+
+	return out_dict;
+}
 
 static PyObject*
 configure_item(PyObject* self, PyObject* args, PyObject* kwargs)

@@ -7833,6 +7833,16 @@ def get_item_type_children():
 
 	return internal_dpg.get_item_type_children()
 
+def get_item_type_commands():
+	"""	 Return the names of item types and their associated functions as a mapping.
+
+	Args:
+	Returns:
+		dict
+	"""
+
+	return internal_dpg.get_item_type_commands()
+
 def get_item_type_parents():
 	"""	 Return all item type names and collections of applicable parenting types as a mapping.
 

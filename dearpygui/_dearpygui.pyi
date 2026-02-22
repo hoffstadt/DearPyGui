@@ -899,6 +899,10 @@ def get_item_type_children() -> dict:
 	"""Return all item type names and collections of applicable child types as a mapping."""
 	...
 
+def get_item_type_commands() -> dict:
+	"""Return the names of item types and their associated functions as a mapping."""
+	...
+
 def get_item_type_parents() -> dict:
 	"""Return all item type names and collections of applicable parenting types as a mapping."""
 	...

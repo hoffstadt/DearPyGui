@@ -1375,6 +1375,16 @@ InsertParser_Block3(std::map<std::string, mvPythonParser>& parsers)
 
 	{
 		mvPythonParserSetup setup;
+		setup.about = "Return the names of item types and their associated functions as a mapping.";
+		setup.category = {"App Item Operations"};
+		setup.returnType = mvPyDataType::Dict;
+
+		mvPythonParser parser = FinalizeParser(setup, {});
+		parsers.insert({"get_item_type_commands", parser});
+	}
+
+	{
+		mvPythonParserSetup setup;
 		setup.about = "Return all item type names and collections of applicable child types as a mapping.";
 		setup.category = {"App Item Operations"};
 		setup.returnType = mvPyDataType::Dict;
