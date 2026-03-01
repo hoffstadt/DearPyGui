@@ -35,9 +35,11 @@ target_compile_definitions(_dearpygui
 		$<$<CONFIG:Release>:MV_RELEASE>
 )
 
-target_precompile_headers(_dearpygui
-	PRIVATE mvPyUtils.h
-)
+if(WIN32)
+	target_precompile_headers(_dearpygui
+		PRIVATE mvPyUtils.h
+	)
+endif()
 
 if(WIN32)
 
