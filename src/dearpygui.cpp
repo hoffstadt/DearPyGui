@@ -254,11 +254,14 @@ GetModuleConstants()
 		ModuleConstants.push_back({ "mvThemeCol_ResizeGrip", ImGuiCol_ResizeGrip });
 		ModuleConstants.push_back({ "mvThemeCol_ResizeGripHovered", ImGuiCol_ResizeGripHovered });
 		ModuleConstants.push_back({ "mvThemeCol_ResizeGripActive", ImGuiCol_ResizeGripActive });
+		ModuleConstants.push_back({ "mvThemeCol_InputTextCursor", ImGuiCol_InputTextCursor });
 		ModuleConstants.push_back({ "mvThemeCol_Tab", ImGuiCol_Tab });
 		ModuleConstants.push_back({ "mvThemeCol_TabHovered", ImGuiCol_TabHovered });
-		ModuleConstants.push_back({ "mvThemeCol_TabActive", ImGuiCol_TabActive });
-		ModuleConstants.push_back({ "mvThemeCol_TabUnfocused", ImGuiCol_TabUnfocused });
-		ModuleConstants.push_back({ "mvThemeCol_TabUnfocusedActive", ImGuiCol_TabUnfocusedActive });
+		ModuleConstants.push_back({ "mvThemeCol_TabSelected", ImGuiCol_TabSelected });
+		ModuleConstants.push_back({ "mvThemeCol_TabSelectedOverline", ImGuiCol_TabSelectedOverline });
+		ModuleConstants.push_back({ "mvThemeCol_TabDimmed", ImGuiCol_TabDimmed });
+		ModuleConstants.push_back({ "mvThemeCol_TabDimmedSelected", ImGuiCol_TabDimmedSelected });
+		ModuleConstants.push_back({ "mvThemeCol_TabDimmedSelectedOverline", ImGuiCol_TabDimmedSelectedOverline });
 		ModuleConstants.push_back({ "mvThemeCol_DockingPreview", ImGuiCol_DockingPreview });
 		ModuleConstants.push_back({ "mvThemeCol_DockingEmptyBg", ImGuiCol_DockingEmptyBg });
 		ModuleConstants.push_back({ "mvThemeCol_PlotLines", ImGuiCol_PlotLines });
@@ -270,12 +273,23 @@ GetModuleConstants()
 		ModuleConstants.push_back({ "mvThemeCol_TableBorderLight", ImGuiCol_TableBorderLight });     // Table inner borders (prefer using Alpha=1.0 here)
 		ModuleConstants.push_back({ "mvThemeCol_TableRowBg", ImGuiCol_TableRowBg });                 // Table row background (even rows)
 		ModuleConstants.push_back({ "mvThemeCol_TableRowBgAlt", ImGuiCol_TableRowBgAlt });           // Table row background (odd rows)
+		// We don't have TextLink widget yet
+		// ModuleConstants.push_back({ "mvThemeCol_TextLink", ImGuiCol_TextLink });
 		ModuleConstants.push_back({ "mvThemeCol_TextSelectedBg", ImGuiCol_TextSelectedBg });
+		ModuleConstants.push_back({ "mvThemeCol_TreeLines", ImGuiCol_TreeLines });
 		ModuleConstants.push_back({ "mvThemeCol_DragDropTarget", ImGuiCol_DragDropTarget });
-		ModuleConstants.push_back({ "mvThemeCol_NavHighlight", ImGuiCol_NavHighlight });                   // Gamepad/keyboard: current highlighted item
+		ModuleConstants.push_back({ "mvThemeCol_DragDropTargetBg", ImGuiCol_DragDropTargetBg });
+		ModuleConstants.push_back({ "mvThemeCol_UnsavedMarker", ImGuiCol_UnsavedMarker });
+		ModuleConstants.push_back({ "mvThemeCol_NavCursor", ImGuiCol_NavCursor });                   // Gamepad/keyboard: current highlighted item
 		ModuleConstants.push_back({ "mvThemeCol_NavWindowingHighlight", ImGuiCol_NavWindowingHighlight }); // Highlight window when using CTRL+TAB
 		ModuleConstants.push_back({ "mvThemeCol_NavWindowingDimBg", ImGuiCol_NavWindowingDimBg });         // Darken/colorize entire screen behind the CTRL+TAB window list", when active
 		ModuleConstants.push_back({ "mvThemeCol_ModalWindowDimBg", ImGuiCol_ModalWindowDimBg });           // Darken/colorize entire screen behind a modal window", when one is active
+
+		// old names for colors that have been renamed in ImGui - keeping them for compatibility
+		ModuleConstants.push_back({ "mvThemeCol_TabActive", ImGuiCol_TabSelected });
+		ModuleConstants.push_back({ "mvThemeCol_TabUnfocused", ImGuiCol_TabDimmed });
+		ModuleConstants.push_back({ "mvThemeCol_TabUnfocusedActive", ImGuiCol_TabDimmedSelected });
+		ModuleConstants.push_back({ "mvThemeCol_NavHighlight", ImGuiCol_NavCursor });                   // Gamepad/keyboard: current highlighted item
 
 		// plotting
 
@@ -355,19 +369,26 @@ GetModuleConstants()
 		ModuleConstants.push_back({ "mvStyleVar_CellPadding", ImGuiStyleVar_CellPadding });                 // ImVec2    CellPadding
 		ModuleConstants.push_back({ "mvStyleVar_ScrollbarSize", ImGuiStyleVar_ScrollbarSize });             // float     ScrollbarSize
 		ModuleConstants.push_back({ "mvStyleVar_ScrollbarRounding", ImGuiStyleVar_ScrollbarRounding });     // float     ScrollbarRounding
+		ModuleConstants.push_back({ "mvStyleVar_ScrollbarPadding", ImGuiStyleVar_ScrollbarPadding });       // float     ScrollbarPadding
 		ModuleConstants.push_back({ "mvStyleVar_GrabMinSize", ImGuiStyleVar_GrabMinSize });                 // float     GrabMinSize
 		ModuleConstants.push_back({ "mvStyleVar_GrabRounding", ImGuiStyleVar_GrabRounding });               // float     GrabRounding
+		ModuleConstants.push_back({ "mvStyleVar_ImageBorderSize", ImGuiStyleVar_ImageBorderSize });         // float     ImageBorderSize
 		ModuleConstants.push_back({ "mvStyleVar_TabRounding", ImGuiStyleVar_TabRounding });                 // float     TabRounding
-		ModuleConstants.push_back({ "mvStyleVar_TabBorderSize", ImGuiStyleVar_TabBorderSize });    			// float     TabBorderSize
-		ModuleConstants.push_back({ "mvStyleVar_TabBarBorderSize", ImGuiStyleVar_TabBarBorderSize });    	// float     TabBarBorderSize
-		ModuleConstants.push_back({ "mvStyleVar_TableAngledHeadersAngle", ImGuiStyleVar_TableAngledHeadersAngle });    		// float     TableAngledHeadersAngle
-		ModuleConstants.push_back({ "mvStyleVar_TableAngledHeadersTextAlign", ImGuiStyleVar_TableAngledHeadersTextAlign }); // ImVec2     TableAngledHeadersTextAlign
+		ModuleConstants.push_back({ "mvStyleVar_TabBorderSize", ImGuiStyleVar_TabBorderSize });             // float     TabBorderSize
+		ModuleConstants.push_back({ "mvStyleVar_TabMinWidthBase", ImGuiStyleVar_TabMinWidthBase });         // float     TabMinWidthBase
+		ModuleConstants.push_back({ "mvStyleVar_TabMinWidthShrink", ImGuiStyleVar_TabMinWidthShrink });     // float     TabMinWidthShrink
+		ModuleConstants.push_back({ "mvStyleVar_TabBarBorderSize", ImGuiStyleVar_TabBarBorderSize });       // float     TabBarBorderSize
+		ModuleConstants.push_back({ "mvStyleVar_TabBarOverlineSize", ImGuiStyleVar_TabBarOverlineSize });   // float     TabBarOverlineSize
+		ModuleConstants.push_back({ "mvStyleVar_TableAngledHeadersAngle", ImGuiStyleVar_TableAngledHeadersAngle }); // float     TableAngledHeadersAngle
+		ModuleConstants.push_back({ "mvStyleVar_TableAngledHeadersTextAlign", ImGuiStyleVar_TableAngledHeadersTextAlign }); // ImVec2  TableAngledHeadersTextAlign
+		ModuleConstants.push_back({ "mvStyleVar_TreeLinesSize", ImGuiStyleVar_TreeLinesSize });             // float     TreeLinesSize
+		ModuleConstants.push_back({ "mvStyleVar_TreeLinesRounding", ImGuiStyleVar_TreeLinesRounding });     // float     TreeLinesRounding
 		ModuleConstants.push_back({ "mvStyleVar_ButtonTextAlign", ImGuiStyleVar_ButtonTextAlign });         // ImVec2    ButtonTextAlign
 		ModuleConstants.push_back({ "mvStyleVar_SelectableTextAlign", ImGuiStyleVar_SelectableTextAlign }); // ImVec2    SelectableTextAlign
-		ModuleConstants.push_back({ "mvStyleVar_SeparatorTextBorderSize", ImGuiStyleVar_SeparatorTextBorderSize });	// float     SeparatorTextBorderSize
-		ModuleConstants.push_back({ "mvStyleVar_SeparatorTextAlign", ImGuiStyleVar_SeparatorTextAlign });    		// ImVec2    SeparatorTextAlign
-		ModuleConstants.push_back({ "mvStyleVar_SeparatorTextPadding", ImGuiStyleVar_SeparatorTextPadding });    	// ImVec2    SeparatorTextPadding
-		ModuleConstants.push_back({ "mvStyleVar_DockingSeparatorSize", ImGuiStyleVar_DockingSeparatorSize });    	// float     DockingSeparatorSize    
+		ModuleConstants.push_back({ "mvStyleVar_SeparatorTextBorderSize", ImGuiStyleVar_SeparatorTextBorderSize }); // float     SeparatorTextBorderSize
+		ModuleConstants.push_back({ "mvStyleVar_SeparatorTextAlign", ImGuiStyleVar_SeparatorTextAlign });   // ImVec2    SeparatorTextAlign
+		ModuleConstants.push_back({ "mvStyleVar_SeparatorTextPadding", ImGuiStyleVar_SeparatorTextPadding }); // ImVec2    SeparatorTextPadding
+		ModuleConstants.push_back({ "mvStyleVar_DockingSeparatorSize", ImGuiStyleVar_DockingSeparatorSize }); // float     DockingSeparatorSize
 
 		// item styling variables
 		ModuleConstants.push_back({ "mvPlotStyleVar_LineWeight",         ImPlotStyleVar_LineWeight });         // float,  plot item line weight in pixels
