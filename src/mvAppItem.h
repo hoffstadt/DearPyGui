@@ -508,6 +508,7 @@ GetEntityCommand(mvAppItemType type)
 #define mvImGuiCol_TabActive MV_BASE_COL_panelActiveColor
 #define mvImGuiCol_TabUnfocused MV_BASE_COL_panelColor
 #define mvImGuiCol_TabUnfocusedActive MV_BASE_COL_panelActiveColor
+#define mvImGuiCol_TabUnfocusedActiveOverline mvColor(0, 119, 200, 0)
 #define mvImGuiCol_DockingPreview MV_BASE_COL_panelActiveColor
 #define mvImGuiCol_DockingEmptyBg mvColor(51, 51, 51, 255)
 #define mvImGuiCol_PlotLines MV_BASE_COL_panelActiveColor
@@ -515,6 +516,7 @@ GetEntityCommand(mvAppItemType type)
 #define mvImGuiCol_PlotHistogram MV_BASE_COL_panelActiveColor
 #define mvImGuiCol_PlotHistogramHovered MV_BASE_COL_panelHoverColor
 #define mvImGuiCol_DragDropTarget mvColor(255, 255, 0, 179)
+#define mvImGuiCol_DragDropTargetBg mvColor(0, 0, 0, 0)
 #define mvImGuiCol_NavHighlight MV_BASE_COL_bgColor
 #define mvImGuiCol_NavWindowingHighlight mvColor(255, 255, 255, 179)
 #define mvImGuiCol_NavWindowingDimBg mvColor(204, 204, 204, 51)
