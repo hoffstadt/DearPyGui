@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.13)
+cmake_minimum_required (VERSION 3.16)
 
 add_library(coreemb STATIC)
 
@@ -22,8 +22,7 @@ target_compile_definitions(coreemb
 target_sources(coreemb PRIVATE ${MARVEL_SOURCES})
 
 target_precompile_headers(coreemb
-	PRIVATE
-		mvPyUtils.h
+	PRIVATE mvPyUtils.h
 )
 
 ###############################################################################

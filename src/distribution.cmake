@@ -1,3 +1,4 @@
+cmake_minimum_required (VERSION 3.16)
 
 find_package (Python ${MV_PY_VERSION} EXACT COMPONENTS Development)
 if(NOT Python_Development_FOUND)
