@@ -75,9 +75,7 @@ void mvTextureRegistry::show_debugger()
 					type == mvAppItemType::mvDynamicTexture ||
 					type == mvAppItemType::mvRawTexture)
 				{
-					// TODO: use this line once ImPlot gets updated to newer version that supports ImTextureRef
-					// ImTextureRef textureRaw = static_cast<mvTextureItem*>(childslots[1][_selection].get())->getTexRef();
-					ImTextureID textureRaw = static_cast<mvTextureItem*>(childslots[1][_selection].get())->_texture;
+					ImTextureRef textureRaw = static_cast<mvTextureItem*>(childslots[1][_selection].get())->getTexRef();
 
 					ImGui::SameLine();
 					ImGui::Image(textureRaw, ImVec2((float)childslots[1][_selection]->config.width, (float)childslots[1][_selection]->config.height));
