@@ -1,6 +1,13 @@
-﻿cmake_minimum_required (VERSION 3.13)
+﻿cmake_minimum_required (VERSION 3.16)
 
-project ("DearPyGui")
+if(APPLE)
+    # When using precompiled headers on macOS, we need to enable Objective-C
+    # as a distinct language. This won't work on other platforms (will fail to
+    # find the Obj-C compiler), hence the "if APPLE".
+    project ("DearPyGui" LANGUAGES C CXX OBJC OBJCXX)
+else()
+    project ("DearPyGui")
+endif()
 
 if(WIN32)
     add_definitions(-DIMGUI_USER_CONFIG="mvImGuiConfig_win32.h")
