@@ -10,6 +10,7 @@ class mvFontManager : public mvToolWindow
 {
 
 public:
+	mvFontManager();
 
 	void   updateAtlas();
 	float& getGlobalFontScale() { return _globalFontScale; }
@@ -33,7 +34,6 @@ public:
 	const char* getTitle() const override { return "Font Manager"; }
 
 protected:
-    ImGuiWindowFlags m_windowflags = ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_HorizontalScrollbar;
 
 	void drawWidgets() override;
 	void drawFontNode(ImFont* font);
