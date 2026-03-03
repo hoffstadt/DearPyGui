@@ -39,6 +39,11 @@ if (ImGui::IsItemHovered())
 }
 }
 
+mvFontManager::mvFontManager()
+{
+	m_windowflags = ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_HorizontalScrollbar;
+}
+
 // [Internal] Display details for a single font, called by ShowStyleEditor().
 void
 mvFontManager::drawFontNode(ImFont* font)
