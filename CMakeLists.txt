@@ -27,6 +27,7 @@ endif()
 
 # various settings
 add_definitions(
+    -D_DISABLE_CONSTEXPR_MUTEX_CONSTRUCTOR
     -D_CRT_SECURE_NO_WARNINGS 
     -D_USE_MATH_DEFINES)
 
