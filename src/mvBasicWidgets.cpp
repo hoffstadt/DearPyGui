@@ -664,7 +664,7 @@ DearPyGui::fill_configuration_dict(const mvImageConfig& inConfig, PyObject* outD
 	PyDict_SetItemString(outDict, "uv_max", mvPyObject(ToPyPair(inConfig.uv_max.x, inConfig.uv_max.y)));
 	PyDict_SetItemString(outDict, "tint_color", mvPyObject(ToPyColor(inConfig.tintColor)));
 	PyDict_SetItemString(outDict, "border_color", mvPyObject(ToPyColor(inConfig.borderColor)));
-	PyDict_SetItemString(outDict, "texture_tag", mvPyObject(ToPyUUID(inConfig.textureUUID)));
+	PyDict_SetItemString(outDict, "texture_tag", mvPyObject(ToPyUUID(inConfig.texture.get())));
 }
 
 void
@@ -677,7 +677,7 @@ DearPyGui::fill_configuration_dict(const mvImageButtonConfig& inConfig, PyObject
 	PyDict_SetItemString(outDict, "uv_max", mvPyObject(ToPyPair(inConfig.uv_max.x, inConfig.uv_max.y)));
 	PyDict_SetItemString(outDict, "tint_color", mvPyObject(ToPyColor(inConfig.tintColor)));
 	PyDict_SetItemString(outDict, "background_color", mvPyObject(ToPyColor(inConfig.backgroundColor)));
-	PyDict_SetItemString(outDict, "texture_tag", mvPyObject(ToPyUUID(inConfig.textureUUID)));
+	PyDict_SetItemString(outDict, "texture_tag", mvPyObject(ToPyUUID(inConfig.texture.get())));
 	PyDict_SetItemString(outDict, "frame_padding", mvPyObject(ToPyInt(inConfig.framePadding)));
 }
 
@@ -1469,14 +1469,14 @@ DearPyGui::set_configuration(PyObject* inDict, mvImageConfig& outConfig)
 	if (PyObject* item = PyDict_GetItemString(inDict, "border_color")) outConfig.borderColor = ToColor(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "texture_tag"))
 	{
-		outConfig.textureUUID = GetIDFromPyObject(item);
-		if (outConfig.textureUUID == MV_ATLAS_UUID)
+		mvUUID textureUUID = GetIDFromPyObject(item);
+		if (textureUUID == MV_ATLAS_UUID)
 		{
-			outConfig.texture = std::make_shared<mvStaticTexture>(outConfig.textureUUID);
+			outConfig.texture = std::make_shared<mvStaticTexture>(textureUUID);
 		}
 		else
 		{
-			outConfig.texture = GetRefItem(*GContext->itemRegistry, outConfig.textureUUID);
+			outConfig.texture = GetRefItem(*GContext->itemRegistry, textureUUID);
 			if (!outConfig.texture)
 				mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(mvAppItemType::mvImage), "Texture not found.", nullptr);
 		}
@@ -1496,14 +1496,14 @@ DearPyGui::set_configuration(PyObject* inDict, mvImageButtonConfig& outConfig)
 	if (PyObject* item = PyDict_GetItemString(inDict, "frame_padding")) outConfig.framePadding = ToInt(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "texture_tag"))
 	{
-		outConfig.textureUUID = GetIDFromPyObject(item);
-		if (outConfig.textureUUID == MV_ATLAS_UUID)
+		mvUUID textureUUID = GetIDFromPyObject(item);
+		if (textureUUID == MV_ATLAS_UUID)
 		{
-			outConfig.texture = std::make_shared<mvStaticTexture>(outConfig.textureUUID);
+			outConfig.texture = std::make_shared<mvStaticTexture>(textureUUID);
 		}
 		else
 		{
-			outConfig.texture = GetRefItem(*GContext->itemRegistry, outConfig.textureUUID);
+			outConfig.texture = GetRefItem(*GContext->itemRegistry, textureUUID);
 			if (!outConfig.texture)
 				mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(mvAppItemType::mvImageButton), "Texture not found.", nullptr);
 		}
@@ -1549,14 +1549,14 @@ DearPyGui::set_required_configuration(PyObject* inDict, mvImageConfig& outConfig
 	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(mvAppItemType::mvImage)], inDict))
 		return;
 
-	outConfig.textureUUID = GetIDFromPyObject(PyTuple_GetItem(inDict, 0));
-	if (outConfig.textureUUID == MV_ATLAS_UUID)
+	mvUUID textureUUID = GetIDFromPyObject(PyTuple_GetItem(inDict, 0));
+	if (textureUUID == MV_ATLAS_UUID)
 	{
-		outConfig.texture = std::make_shared<mvStaticTexture>(outConfig.textureUUID);
+		outConfig.texture = std::make_shared<mvStaticTexture>(textureUUID);
 	}
 	else
 	{
-		outConfig.texture = GetRefItem(*GContext->itemRegistry, outConfig.textureUUID);
+		outConfig.texture = GetRefItem(*GContext->itemRegistry, textureUUID);
 		if (!outConfig.texture)
 			mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(mvAppItemType::mvImage), "Texture not found.", nullptr);
 	}
@@ -1568,14 +1568,14 @@ DearPyGui::set_required_configuration(PyObject* inDict, mvImageButtonConfig& out
 	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(mvAppItemType::mvImageButton)], inDict))
 		return;
 
-	outConfig.textureUUID = GetIDFromPyObject(PyTuple_GetItem(inDict, 0));
-	if (outConfig.textureUUID == MV_ATLAS_UUID)
+	mvUUID textureUUID = GetIDFromPyObject(PyTuple_GetItem(inDict, 0));
+	if (textureUUID == MV_ATLAS_UUID)
 	{
-		outConfig.texture = std::make_shared<mvStaticTexture>(outConfig.textureUUID);
+		outConfig.texture = std::make_shared<mvStaticTexture>(textureUUID);
 	}
 	else
 	{
-		outConfig.texture = GetRefItem(*GContext->itemRegistry, outConfig.textureUUID);
+		outConfig.texture = GetRefItem(*GContext->itemRegistry, textureUUID);
 		if (!outConfig.texture)
 			mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(mvAppItemType::mvImageButton), "Texture not found.", nullptr);
 	}

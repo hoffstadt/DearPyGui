@@ -325,7 +325,6 @@ struct mvLabelSeriesConfig : _mvBasicSeriesConfig
 struct mvImageSeriesConfig : _mvBasicSeriesConfig
 {
     // config
-    mvUUID      textureUUID = 0;
     ImPlotPoint bounds_min = { 0.0, 0.0 };
     ImPlotPoint bounds_max = { 0.0, 0.0 };
     mvVec2      uv_min = { 0.0f, 0.0f };

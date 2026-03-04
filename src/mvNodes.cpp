@@ -310,26 +310,27 @@ void mvNodeEditor::draw(ImDrawList* drawlist, float x, float y)
     static int start_attr, end_attr;
     if (ImNodes::IsLinkCreated(&start_attr, &end_attr))
     {
-        mvUUID node1, node2;
-        for (const auto& child : childslots[1])
-        {
-
-            // skip menu bars
-            if (child->type != mvAppItemType::mvNode)
-                continue;
-
-            for (const auto& grandchild : child->childslots[1])
-            {
-                if (static_cast<mvNodeAttribute*>(grandchild.get())->getId() == start_attr)
-                    node1 = grandchild->uuid;
-
-                if (static_cast<mvNodeAttribute*>(grandchild.get())->getId() == end_attr)
-                    node2 = grandchild->uuid;
-            }
-        }
-
         if (config.callback)
         {
+            mvAppItem* node1 = nullptr;
+            mvAppItem* node2 = nullptr;
+            for (const auto& child : childslots[1])
+            {
+
+                // skip menu bars
+                if (child->type != mvAppItemType::mvNode)
+                    continue;
+
+                for (const auto& grandchild : child->childslots[1])
+                {
+                    if (static_cast<mvNodeAttribute*>(grandchild.get())->getId() == start_attr)
+                        node1 = grandchild.get();
+
+                    if (static_cast<mvNodeAttribute*>(grandchild.get())->getId() == end_attr)
+                        node2 = grandchild.get();
+                }
+            }
+
             submitCallbackEx([=]() {
                 PyObject* link = PyTuple_New(2);
                 PyTuple_SetItem(link, 0, ToPyUUID(node1));
@@ -342,21 +343,19 @@ void mvNodeEditor::draw(ImDrawList* drawlist, float x, float y)
     static int destroyed_attr;
     if (ImNodes::IsLinkDestroyed(&destroyed_attr))
     {
-        mvUUID name = 0;
-        for (auto& item : childslots[0])
-        {
-            if (item->type == mvAppItemType::mvNodeLink)
-            {
-                if (static_cast<const mvNodeLink*>(item.get())->_id0 == destroyed_attr)
-                {
-                    name = item->uuid;
-                    break;
-                }
-            }
-        }
         if (_delinkCallback)
         {
-            submitCallbackEx(_delinkCallback, [=]() { return ToPyUUID(name); });
+            for (auto& item : childslots[0])
+            {
+                if (item->type == mvAppItemType::mvNodeLink)
+                {
+                    if (static_cast<const mvNodeLink*>(item.get())->_id0 == destroyed_attr)
+                    {
+                        submitCallbackEx(_delinkCallback, [=]() { return ToPyUUID(item.get()); });
+                        break;
+                    }
+                }
+            }
         }
     }
 
@@ -731,6 +730,6 @@ void mvNodeLink::getSpecificConfiguration(PyObject* dict)
     if (dict == nullptr)
         return;
 
-    PyDict_SetItemString(dict, "attr_1", mvPyObject(ToPyUUID(_id1uuid)));
-    PyDict_SetItemString(dict, "attr_2", mvPyObject(ToPyUUID(_id2uuid)));
+    PyDict_SetItemString(dict, "attr_1", mvPyObject(PyUUIDFromItem(_id1uuid)));
+    PyDict_SetItemString(dict, "attr_2", mvPyObject(PyUUIDFromItem(_id2uuid)));
 }

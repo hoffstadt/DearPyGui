@@ -137,9 +137,36 @@ bool isPyObject_Any           (PyObject* obj);
 // conversion to python
 PyObject*   GetPyNone ();
 PyObject*   GetPyNoneOrError ();
-PyObject*   ToPyUUID  (mvAppItem* item);
-PyObject*   ToPyUUID  (mvUUID value);
+
+// If alias is not empty, returns the alias, otherwise returns the UUID.
 PyObject*   ToPyUUID  (mvUUID uuid, const std::string& alias);
+
+// Returns item UUID or alias, or zero if `item` is null.  An valid item can never
+// a UUID of zero, so it is a good value to designate a "no item" case (also can
+// easily be checked with `if (item)` in Python).
+PyObject*   ToPyUUID  (mvAppItem* item);
+
+// Returns item UUID or alias, or None if `item` is null.
+//
+// This function is kept for compatibility reasons, to keep None as the default value
+// in some cases where it was historically the default.  In new code, prefer returning
+// zero UUID as the default - use one of ToPyUUID() overloads.  This makes typing
+// a bit simpler on Python side of things (`int | str` vs. `int | str | None`).
+PyObject*   ToPyUUIDOrNone(mvAppItem* item);
+
+// Unlike ToPyUUID(), this function peforms item lookup by the UUID passed in,
+// and converts the item found to UUID or alias.  If the item is not found, the
+// value passed in is returned.  That is, this function returns an UUID even
+// after the corresponding item has been deleted.  It *never* returns None.
+//
+// Even though the lookup (GetItem()) uses a hashtable and should be pretty fast,
+// prefer one of the ToPyUUID() overloads over this one if possible.  In new code,
+// it will even be better to do a ToPyUUID(GetItem(uuid)), because after item deletion,
+// this will be returning 0 rather than an invalid UUID.
+//
+// This function is kept mainly for compatibility reasons.
+PyObject*   PyUUIDFromItem(mvUUID value);
+
 PyObject*   ToPyLong  (long value);
 PyObject*   ToPyInt   (int value);
 PyObject*   ToPyFloat (float value);

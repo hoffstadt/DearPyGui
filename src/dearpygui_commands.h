@@ -2685,7 +2685,7 @@ get_frame_rate(PyObject* self, PyObject* args, PyObject* kwargs)
 static PyObject*
 generate_uuid(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	return ToPyUUID(GenerateUUID());
+	return ToPyUUID(GenerateUUID(), "");
 }
 
 static PyObject*
@@ -2936,10 +2936,7 @@ pop_container_stack(PyObject* self, PyObject* args, PyObject* kwargs)
 	mvAppItem* item = containers.top();
 	containers.pop();
 
-	if (item)
-		return ToPyUUID(item);
-	else
-		return GetPyNone();
+	return ToPyUUIDOrNone(item);
 
 }
 
@@ -2963,10 +2960,7 @@ top_container_stack(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!containers.empty())
 		item = containers.top();
 
-	if (item)
-		return ToPyUUID(item);
-	else
-		return GetPyNone();
+	return ToPyUUIDOrNone(item);
 }
 
 static PyObject*
@@ -2974,7 +2968,7 @@ last_item(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 	mvPySafeLockGuard lk(GContext->mutex);
 
-	return ToPyUUID(mvItemRegistry::threadContext.lastItemAdded);
+	return PyUUIDFromItem(mvItemRegistry::threadContext.lastItemAdded);
 }
 
 static PyObject*
@@ -2982,7 +2976,7 @@ last_container(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 	mvPySafeLockGuard lk(GContext->mutex);
 
-	return ToPyUUID(mvItemRegistry::threadContext.lastContainerAdded);
+	return PyUUIDFromItem(mvItemRegistry::threadContext.lastContainerAdded);
 }
 
 static PyObject*
@@ -2990,7 +2984,7 @@ last_root(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 	mvPySafeLockGuard lk(GContext->mutex);
 
-	return ToPyUUID(mvItemRegistry::threadContext.lastRootAdded);
+	return PyUUIDFromItem(mvItemRegistry::threadContext.lastRootAdded);
 }
 
 static PyObject*
@@ -3110,7 +3104,7 @@ get_active_window(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 	mvPySafeLockGuard lk(GContext->mutex);
 
-	return ToPyUUID(GContext->activeWindow);
+	return PyUUIDFromItem(GContext->activeWindow);
 }
 
 static PyObject*
@@ -3118,7 +3112,7 @@ get_focused_item(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 	mvPySafeLockGuard lk(GContext->mutex);
 
-	return ToPyUUID(GContext->focusedItem);
+	return PyUUIDFromItem(GContext->focusedItem);
 }
 
 static PyObject*
@@ -3497,7 +3491,7 @@ get_alias_id(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	mvUUID result = GetIdFromAlias((*GContext->itemRegistry), alias);
 
-	return ToPyUUID(result);
+	return ToPyUUID(result, "");
 }
 
 static PyObject*
@@ -3633,20 +3627,9 @@ get_item_info(PyObject* self, PyObject* args, PyObject* kwargs)
 	PyDict_SetItemString(pdict, "type", mvPyObject(ToPyString(DearPyGui::GetEntityTypeString(appitem->type))));
 	PyDict_SetItemString(pdict, "target", mvPyObject(ToPyInt(DearPyGui::GetEntityTargetSlot(appitem->type))));
 
-	if (appitem->info.parentPtr)
-		PyDict_SetItemString(pdict, "parent", mvPyObject(ToPyUUID(appitem->info.parentPtr->uuid)));
-	else
-		PyDict_SetItemString(pdict, "parent", mvPyObject(GetPyNone()));
-
-	if (appitem->theme)
-		PyDict_SetItemString(pdict, "theme", mvPyObject(ToPyUUID(appitem->theme->uuid)));
-	else
-		PyDict_SetItemString(pdict, "theme", mvPyObject(GetPyNone()));
-
-	if (appitem->font)
-		PyDict_SetItemString(pdict, "font", mvPyObject(ToPyUUID(appitem->font->uuid)));
-	else
-		PyDict_SetItemString(pdict, "font", mvPyObject(GetPyNone()));
+	PyDict_SetItemString(pdict, "parent", mvPyObject(ToPyUUIDOrNone(appitem->info.parentPtr)));
+	PyDict_SetItemString(pdict, "theme", mvPyObject(ToPyUUIDOrNone(appitem->theme.get())));
+	PyDict_SetItemString(pdict, "font", mvPyObject(ToPyUUIDOrNone(appitem->font.get())));
 
 	if (DearPyGui::GetEntityDesciptionFlags(appitem->type) & MV_ITEM_DESC_CONTAINER)
 		PyDict_SetItemString(pdict, "container", mvPyObject(ToPyBool(true)));
@@ -3697,7 +3680,7 @@ get_item_configuration(PyObject* self, PyObject* args, PyObject* kwargs)
 	mvPyObject py_payload_type = ToPyString(appitem->config.payloadType);
 	mvPyObject py_label = ToPyString(appitem->config.specifiedLabel);
 	mvPyObject py_use_internal_label = ToPyBool(appitem->config.useInternalLabel);
-	mvPyObject py_source = ToPyUUID(appitem->config.source);
+	mvPyObject py_source = PyUUIDFromItem(appitem->config.source);
 	mvPyObject py_show = ToPyBool(appitem->config.show);
 	mvPyObject py_enabled = ToPyBool(appitem->config.enabled);
 	mvPyObject py_tracked = ToPyBool(appitem->config.tracked);

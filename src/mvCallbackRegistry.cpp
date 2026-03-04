@@ -131,9 +131,7 @@ void mvRunCallback(PyObject* callback, PyObject* user_data, mvUUID sender, const
 
 			if (count > 0)
 			{
-				PyTuple_SetItem(pArgs, 0, sender_alias.empty()?
-						ToPyUUID(sender) :
-						ToPyString(sender_alias));
+				PyTuple_SetItem(pArgs, 0, ToPyUUID(sender, sender_alias));
 
 				if (count > 1)
 				{

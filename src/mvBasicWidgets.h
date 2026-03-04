@@ -530,7 +530,6 @@ struct mvImageConfig
 {
     // pointer to existing item or internal
     std::shared_ptr<mvAppItem> texture = nullptr;
-    mvUUID                     textureUUID = 0;
     mvVec2                     uv_min = { 0.0f, 0.0f };
     mvVec2                     uv_max = { 1.0f, 1.0f };
     mvColor                    tintColor = { 1.0f, 1.0f, 1.0f, 1.0f };
@@ -541,7 +540,6 @@ struct mvImageButtonConfig
 {
     // pointer to existing item or internal
     std::shared_ptr<mvAppItem> texture = nullptr;
-    mvUUID                     textureUUID = 0;
     mvVec2	                   uv_min = { 0.0f, 0.0f };
     mvVec2	                   uv_max = { 1.0f, 1.0f };
     mvColor                    tintColor = { 1.0f, 1.0f, 1.0f, 1.0f };
