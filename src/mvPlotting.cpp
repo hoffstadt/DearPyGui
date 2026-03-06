@@ -3360,16 +3360,16 @@ DearPyGui::fill_configuration_dict(const mvDragLineConfig& inConfig, PyObject* o
 	if (outDict == nullptr)
 		return;
 
-	PyDict_SetItemString(outDict, "color", ToPyColor(inConfig.color));
-	PyDict_SetItemString(outDict, "thickness", ToPyFloat(inConfig.thickness));
-	PyDict_SetItemString(outDict, "show_label", ToPyBool(inConfig.thickness));
-	PyDict_SetItemString(outDict, "vertical", ToPyBool(inConfig.vertical));
+	PyDict_SetItemString(outDict, "color", mvPyObject(ToPyColor(inConfig.color)));
+	PyDict_SetItemString(outDict, "thickness", mvPyObject(ToPyFloat(inConfig.thickness)));
+	PyDict_SetItemString(outDict, "show_label", mvPyObject(ToPyBool(inConfig.thickness)));
+	PyDict_SetItemString(outDict, "vertical", mvPyObject(ToPyBool(inConfig.vertical)));
 
 
 	// helper to check and set bit
 	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)
 	{
-		PyDict_SetItemString(outDict, keyword, ToPyBool(flags & flag));
+		PyDict_SetItemString(outDict, keyword, mvPyObject(ToPyBool(flags & flag)));
 	};
 
 	// drag line flags
@@ -3390,7 +3390,7 @@ DearPyGui::fill_configuration_dict(const mvDragRectConfig& inConfig, PyObject* o
 	// helper to check and set bit
 	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)
 	{
-		PyDict_SetItemString(outDict, keyword, ToPyBool(flags & flag));
+		PyDict_SetItemString(outDict, keyword, mvPyObject(ToPyBool(flags & flag)));
 	};
 
 	// drag rect flags
@@ -3415,7 +3415,7 @@ DearPyGui::fill_configuration_dict(const mvDragPointConfig& inConfig, PyObject* 
 	// helper to check and set bit
 	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)
 	{
-		PyDict_SetItemString(outDict, keyword, ToPyBool(flags & flag));
+		PyDict_SetItemString(outDict, keyword, mvPyObject(ToPyBool(flags & flag)));
 	};
 
 	// drag rect flags
@@ -3483,7 +3483,7 @@ DearPyGui::fill_configuration_dict(const mvBarSeriesConfig& inConfig, PyObject* 
 	if (outDict == nullptr)
 		return;
 
-	PyDict_SetItemString(outDict, "weight", ToPyFloat(inConfig.weight));
+	PyDict_SetItemString(outDict, "weight", mvPyObject(ToPyFloat(inConfig.weight)));
 
 	// helper to check and set bit
 	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)
@@ -3518,10 +3518,10 @@ DearPyGui::fill_configuration_dict(const mvBarGroupSeriesConfig& inConfig, PyObj
 	if (outDict == nullptr)
 		return;
 
-	PyDict_SetItemString(outDict, "label_ids", ToPyList(inConfig.label_ids));
-	PyDict_SetItemString(outDict, "group_width", ToPyFloat(inConfig.group_width));
-	PyDict_SetItemString(outDict, "group_size", ToPyInt(inConfig.group_size));
-	PyDict_SetItemString(outDict, "shift", ToPyInt(inConfig.shift));
+	PyDict_SetItemString(outDict, "label_ids", mvPyObject(ToPyList(inConfig.label_ids)));
+	PyDict_SetItemString(outDict, "group_width", mvPyObject(ToPyFloat(inConfig.group_width)));
+	PyDict_SetItemString(outDict, "group_size", mvPyObject(ToPyInt(inConfig.group_size)));
+	PyDict_SetItemString(outDict, "shift", mvPyObject(ToPyInt(inConfig.shift)));
 
 	// helper to check and set bit
 	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)

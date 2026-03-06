@@ -116,8 +116,8 @@ void mvFont::getSpecificConfiguration(PyObject* dict)
 	if (dict == nullptr)
 		return;
 
-	PyDict_SetItemString(dict, "file", ToPyString(_file));
-	PyDict_SetItemString(dict, "size", ToPyFloat(_size));
-	PyDict_SetItemString(dict, "pixel_snapH", ToPyBool(_pixelSnapH));
-	PyDict_SetItemString(dict, "pixel_snapV", ToPyBool(_pixelSnapV));
+	PyDict_SetItemString(dict, "file", mvPyObject(ToPyString(_file)));
+	PyDict_SetItemString(dict, "size", mvPyObject(ToPyFloat(_size)));
+	PyDict_SetItemString(dict, "pixel_snapH", mvPyObject(ToPyBool(_pixelSnapH)));
+	PyDict_SetItemString(dict, "pixel_snapV", mvPyObject(ToPyBool(_pixelSnapV)));
 }

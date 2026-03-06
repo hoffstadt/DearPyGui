@@ -4010,7 +4010,7 @@ get_item_types(PyObject* self, PyObject* args, PyObject* kwargs)
 	mvPySafeLockGuard lk(GContext->mutex);
 
 	PyObject* pdict = PyDict_New();
-	#define X(el) PyDict_SetItemString(pdict, #el, PyLong_FromLong((int)mvAppItemType::el));
+	#define X(el) PyDict_SetItemString(pdict, #el, mvPyObject(PyLong_FromLong((int)mvAppItemType::el)));
 	MV_ITEM_TYPES
 	#undef X
 
