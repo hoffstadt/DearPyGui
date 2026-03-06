@@ -2233,10 +2233,10 @@ DearPyGui::draw_custom_series(ImDrawList* drawlist, mvAppItem& item, mvCustomSer
 			item.submitCallbackEx([=, channelCount=config.channelCount, transformedValues=config._transformedValues] () {
 				const int extras = 4;
 				PyObject* helperData = PyDict_New();
-				PyDict_SetItemString(helperData, "MouseX_PlotSpace", ToPyDouble(mouse.x));
-				PyDict_SetItemString(helperData, "MouseY_PlotSpace", ToPyDouble(mouse.y));
-				PyDict_SetItemString(helperData, "MouseX_PixelSpace", ToPyFloat(mouse2.x));
-				PyDict_SetItemString(helperData, "MouseY_PixelSpace", ToPyFloat(mouse2.y));
+				PyDict_SetItemString(helperData, "MouseX_PlotSpace", mvPyObject(ToPyDouble(mouse.x)));
+				PyDict_SetItemString(helperData, "MouseY_PlotSpace", mvPyObject(ToPyDouble(mouse.y)));
+				PyDict_SetItemString(helperData, "MouseX_PixelSpace", mvPyObject(ToPyFloat(mouse2.x)));
+				PyDict_SetItemString(helperData, "MouseY_PixelSpace", mvPyObject(ToPyFloat(mouse2.y)));
 				PyObject* appData = PyTuple_New(channelCount + extras);
 				PyTuple_SetItem(appData, 0, helperData);
 				for (int i = 0; i < channelCount; i++)
