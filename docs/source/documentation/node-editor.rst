@@ -7,7 +7,7 @@ It allows you to view, modify, and create new node connections.
 
 You can see an example below
 
-.. image:: https://raw.githubusercontent.com/Nelarius/imnodes/master/img/imnodes.gif?token=ADH_jEpqbBrw0nH-BUmOip490dyO2CnRks5cVZllwA%3D%3D
+.. image:: https://raw.githubusercontent.com/Nelarius/imnodes/master/img/imnodes.gif
 
 **There are 4 main components**
 
