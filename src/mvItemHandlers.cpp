@@ -241,7 +241,7 @@ void mvClickedHandler::getSpecificConfiguration(PyObject* dict)
 	if (dict == nullptr)
 		return;
 
-	PyDict_SetItemString(dict, "button", ToPyInt(_button));
+	PyDict_SetItemString(dict, "button", mvPyObject(ToPyInt(_button)));
 }
 
 void mvDoubleClickedHandler::customAction(void* data)
@@ -287,7 +287,7 @@ void mvDoubleClickedHandler::getSpecificConfiguration(PyObject* dict)
 	if (dict == nullptr)
 		return;
 
-	PyDict_SetItemString(dict, "button", ToPyInt(_button));
+	PyDict_SetItemString(dict, "button", mvPyObject(ToPyInt(_button)));
 }
 
 void mvDeactivatedAfterEditHandler::customAction(void* data)
