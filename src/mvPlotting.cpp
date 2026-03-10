@@ -2138,18 +2138,8 @@ DearPyGui::draw_custom_series(ImDrawList* drawlist, mvAppItem& item, mvCustomSer
 	// draw
 	//-----------------------------------------------------------------------------
 	{
-		// TODO: (Maybe) Update this to reflect nex axes
-		static std::vector<double>* xptr;
-		static std::vector<double>* yptr;
-		static std::vector<double>* y1ptr;
-		static std::vector<double>* y2ptr;
-		static std::vector<double>* y3ptr;
-
-		xptr = &(*config.value.get())[0];
-		yptr = &(*config.value.get())[1];
-		y1ptr = &(*config.value.get())[2];
-		y2ptr = &(*config.value.get())[3];
-		y3ptr = &(*config.value.get())[4];
+		std::vector<double>* xptr = &(*config.value)[0];
+		std::vector<double>* yptr = &(*config.value)[1];
 
 		ImDrawList* draw_list = ImPlot::GetPlotDrawList();
 
@@ -2179,58 +2169,47 @@ DearPyGui::draw_custom_series(ImDrawList* drawlist, mvAppItem& item, mvCustomSer
 			}
 
 			// render data
-			if (config.channelCount == 2)
+			int channelCount = std::min(config.channelCount, (int)config.value->size());
+		    std::vector<std::vector<double>> transformedValues(channelCount);
+			if (channelCount >= 2)
 			{
-				for (int i = 0; i < xptr->size(); ++i)
+				// auto& value = *config.value;
+				auto size = std::min(xptr->size(), yptr->size());
+
+				for (int c = 0; c < channelCount; ++c)
+					transformedValues[c].reserve(size);
+
+				auto& transformed0 = transformedValues[0];
+				auto& transformed1 = transformedValues[1];
+				double* px = &(*xptr)[0];
+				double* py = &(*yptr)[0];
+				for (int i = 0; i < size; ++i, ++px, ++py)
 				{
-					ImVec2 y_pos = ImPlot::PlotToPixels((*xptr)[i], (*yptr)[i]);
-					config._transformedValues[0][i] = y_pos.x;
-					config._transformedValues[1][i] = y_pos.y;
+					ImVec2 point = ImPlot::PlotToPixels(*px, *py);
+					transformed0.push_back(point.x);
+					transformed1.push_back(point.y);
+				}
+				for (int c = 2; c < channelCount; ++c)
+				{
+					auto yExtra = &(*config.value)[c];
+					// Make sure we don't overrun source data if we're given sublists
+					// of different length (even though we don't support such data).
+					size = std::min(xptr->size(), yExtra->size());
+					auto& transformed = transformedValues[c];
+					double* px = &(*xptr)[0];
+					double* py = &(*yExtra)[0];
+					for (int i = 0; i < size; ++i, ++px, ++py)
+					{
+						ImVec2 point = ImPlot::PlotToPixels(*px, *py);
+						transformed.push_back(point.y);
+					}
 				}
 			}
-			else if (config.channelCount == 3)
-			{
-				for (int i = 0; i < xptr->size(); ++i)
-				{
-					ImVec2 y_pos = ImPlot::PlotToPixels((*xptr)[i], (*yptr)[i]);
-					ImVec2 y1_pos = ImPlot::PlotToPixels((*xptr)[i], (*y1ptr)[i]);
-					config._transformedValues[0][i] = y_pos.x;
-					config._transformedValues[1][i] = y_pos.y;
-					config._transformedValues[2][i] = y1_pos.y;
-				}
-			}
-			else if (config.channelCount == 4)
-			{
-				for (int i = 0; i < xptr->size(); ++i)
-				{
-					ImVec2 y_pos = ImPlot::PlotToPixels((*xptr)[i], (*yptr)[i]);
-					ImVec2 y1_pos = ImPlot::PlotToPixels((*xptr)[i], (*y1ptr)[i]);
-					ImVec2 y2_pos = ImPlot::PlotToPixels((*xptr)[i], (*y2ptr)[i]);
-					config._transformedValues[0][i] = y_pos.x;
-					config._transformedValues[1][i] = y_pos.y;
-					config._transformedValues[2][i] = y1_pos.y;
-					config._transformedValues[3][i] = y2_pos.y;
-				}
-			}
-			else if (config.channelCount == 5)
-			{
-				for (int i = 0; i < xptr->size(); ++i)
-				{
-					ImVec2 y_pos = ImPlot::PlotToPixels((*xptr)[i], (*yptr)[i]);
-					ImVec2 y1_pos = ImPlot::PlotToPixels((*xptr)[i], (*y1ptr)[i]);
-					ImVec2 y2_pos = ImPlot::PlotToPixels((*xptr)[i], (*y2ptr)[i]);
-					ImVec2 y3_pos = ImPlot::PlotToPixels((*xptr)[i], (*y3ptr)[i]);
-					config._transformedValues[0][i] = y_pos.x;
-					config._transformedValues[1][i] = y_pos.y;
-					config._transformedValues[2][i] = y1_pos.y;
-					config._transformedValues[3][i] = y2_pos.y;
-					config._transformedValues[4][i] = y3_pos.y;
-				}
-			}
+
 			ImPlotPoint mouse = ImPlot::GetPlotMousePos();
 			ImVec2 mouse2 = ImPlot::PlotToPixels(mouse.x, mouse.y);
 
-			item.submitCallbackEx([=, channelCount=config.channelCount, transformedValues=config._transformedValues] () {
+			item.submitCallbackEx([=, channelCount=config.channelCount, transformedValues=std::move(transformedValues)] () {
 				const int extras = 4;
 				PyObject* helperData = PyDict_New();
 				PyDict_SetItemString(helperData, "MouseX_PlotSpace", ToPyDouble(mouse.x));
@@ -2239,8 +2218,13 @@ DearPyGui::draw_custom_series(ImDrawList* drawlist, mvAppItem& item, mvCustomSer
 				PyDict_SetItemString(helperData, "MouseY_PixelSpace", ToPyFloat(mouse2.y));
 				PyObject* appData = PyTuple_New(channelCount + extras);
 				PyTuple_SetItem(appData, 0, helperData);
-				for (int i = 0; i < channelCount; i++)
+				for (int i = 0; i < transformedValues.size(); i++)
 					PyTuple_SetItem(appData, i + 1, ToPyList(transformedValues[i]));
+				// We keep these at the end for compatibility with earlier versions
+				// so that we don't break app_data unpacking in Python.
+				for (int i = transformedValues.size() + 1; i < channelCount + extras; i++)
+					PyTuple_SetItem(appData, i, GetPyNone());
+
 				return appData;
 			});
 
@@ -2576,13 +2560,6 @@ DearPyGui::set_required_configuration(PyObject* inDict, mvCustomSeriesConfig& ou
 	(*outConfig.value)[0] = ToDoubleVect(PyTuple_GetItem(inDict, 0));
 	(*outConfig.value)[1] = ToDoubleVect(PyTuple_GetItem(inDict, 1));
 	outConfig.channelCount = ToInt(PyTuple_GetItem(inDict, 2));
-
-	for (int i = 0; i < outConfig.channelCount; i++)
-	{
-		outConfig._transformedValues.push_back({});
-		outConfig._transformedValues.back().resize((*outConfig.value)[i].size());
-		memcpy(outConfig._transformedValues.back().data(), (*outConfig.value)[i].data(), sizeof(double) * (*outConfig.value)[i].size());
-	}
 }
 
 void
