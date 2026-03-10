@@ -846,7 +846,7 @@ DearPyGui::draw_tab(ImDrawList* drawlist, mvAppItem& item, mvTabConfig& config)
             // run call back if it exists
             if (parent->getSpecificValue() != item.uuid)
             {
-                parent->submitCallback(item.uuid);
+                parent->submitCallback(&item);
             }
 
             parent->setValue(item.uuid);

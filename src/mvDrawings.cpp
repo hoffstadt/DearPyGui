@@ -576,7 +576,7 @@ void mvDrawImage::handleSpecificRequiredArgs(PyObject* dict)
 	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
 		return;
 
-	_textureUUID = GetIDFromPyObject(PyTuple_GetItem(dict, 0));
+	mvUUID _textureUUID = GetIDFromPyObject(PyTuple_GetItem(dict, 0));
 	if (_textureUUID == MV_ATLAS_UUID)
 	{
 		_texture = std::make_shared<mvStaticTexture>(_textureUUID);
@@ -606,7 +606,7 @@ void mvDrawImage::handleSpecificKeywordArgs(PyObject* dict)
 	if (PyObject* item = PyDict_GetItemString(dict, "color")) _color = ToColor(item);
 	if (PyObject* item = PyDict_GetItemString(dict, "texture_tag"))
 	{
-		_textureUUID = GetIDFromPyObject(item);
+		mvUUID _textureUUID = GetIDFromPyObject(item);
 		if (_textureUUID == MV_ATLAS_UUID)
 		{
 			_texture = std::make_shared<mvStaticTexture>(_textureUUID);
@@ -633,7 +633,7 @@ void mvDrawImage::getSpecificConfiguration(PyObject* dict)
 	PyDict_SetItemString(dict, "uv_min", mvPyObject(ToPyPair(_uv_min.x, _uv_min.y)));
 	PyDict_SetItemString(dict, "uv_max", mvPyObject(ToPyPair(_uv_max.x, _uv_max.y)));
 	PyDict_SetItemString(dict, "color", mvPyObject(ToPyColor(_color)));
-	PyDict_SetItemString(dict, "texture_tag", mvPyObject(ToPyUUID(_textureUUID)));
+	PyDict_SetItemString(dict, "texture_tag", mvPyObject(ToPyUUID(_texture.get())));
 }
 
 void mvDrawImageQuad::draw(ImDrawList* drawlist, float x, float y)
@@ -696,7 +696,7 @@ void mvDrawImageQuad::handleSpecificRequiredArgs(PyObject* dict)
 	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(type)], dict))
 		return;
 
-	_textureUUID = GetIDFromPyObject(PyTuple_GetItem(dict, 0));
+	mvUUID _textureUUID = GetIDFromPyObject(PyTuple_GetItem(dict, 0));
 	if (_textureUUID == MV_ATLAS_UUID)
 	{
 		_texture = std::make_shared<mvStaticTexture>(_textureUUID);
@@ -735,7 +735,7 @@ void mvDrawImageQuad::handleSpecificKeywordArgs(PyObject* dict)
 	if (PyObject* item = PyDict_GetItemString(dict, "color")) _color = ToColor(item);
 	if (PyObject* item = PyDict_GetItemString(dict, "texture_tag"))
 	{
-		_textureUUID = GetIDFromPyObject(item);
+		mvUUID _textureUUID = GetIDFromPyObject(item);
 		if (_textureUUID == MV_ATLAS_UUID)
 		{
 			_texture = std::make_shared<mvStaticTexture>(_textureUUID);
@@ -768,7 +768,7 @@ void mvDrawImageQuad::getSpecificConfiguration(PyObject* dict)
 	PyDict_SetItemString(dict, "uv3", mvPyObject(ToPyPair(_uv3.x, _uv3.y)));
 	PyDict_SetItemString(dict, "uv4", mvPyObject(ToPyPair(_uv4.x, _uv4.y)));
 	PyDict_SetItemString(dict, "color", mvPyObject(ToPyColor(_color)));
-	PyDict_SetItemString(dict, "texture_tag", mvPyObject(ToPyUUID(_textureUUID)));
+	PyDict_SetItemString(dict, "texture_tag", mvPyObject(ToPyUUID(_texture.get())));
 }
 
 mvDrawLayer::~mvDrawLayer()

@@ -246,7 +246,7 @@ public:
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
     void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, uuid, configData); }
-    PyObject* getPyValue() override{ return ToPyUUID(*configData.value); }
+    PyObject* getPyValue() override{ return PyUUIDFromItem(*configData.value); }
     void setPyValue(PyObject* value) override{ *configData.value = ToUUID(value); }
     mvUUID getSpecificValue() { return configData.uiValue; }
     void setValue(mvUUID value) { configData.uiValue = value; }

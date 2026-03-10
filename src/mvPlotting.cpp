@@ -2515,20 +2515,20 @@ DearPyGui::set_required_configuration(PyObject* inDict, mvImageSeriesConfig& out
 	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(mvAppItemType::mvImageSeries)], inDict))
 		return;
 
-	outConfig.textureUUID = GetIDFromPyObject(PyTuple_GetItem(inDict, 0));
+	mvUUID textureUUID = GetIDFromPyObject(PyTuple_GetItem(inDict, 0));
 	auto resultmin = ToPoint(PyTuple_GetItem(inDict, 1));
 	auto resultmax = ToPoint(PyTuple_GetItem(inDict, 2));
 	outConfig.bounds_min.x = resultmin.x;
 	outConfig.bounds_min.y = resultmin.y;
 	outConfig.bounds_max.x = resultmax.x;
 	outConfig.bounds_max.y = resultmax.y;
-	if (outConfig.textureUUID == MV_ATLAS_UUID)
+	if (textureUUID == MV_ATLAS_UUID)
 	{
-		outConfig._texture = std::make_shared<mvStaticTexture>(outConfig.textureUUID);
+		outConfig._texture = std::make_shared<mvStaticTexture>(textureUUID);
 	}
 	else
 	{
-		outConfig._texture = GetRefItem(*GContext->itemRegistry, outConfig.textureUUID);
+		outConfig._texture = GetRefItem(*GContext->itemRegistry, textureUUID);
 		if (!outConfig._texture)
 			mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(mvAppItemType::mvImageSeries), "Texture not found.", nullptr);
 	}
@@ -3139,14 +3139,14 @@ DearPyGui::set_configuration(PyObject* inDict, mvImageSeriesConfig& outConfig)
 
 	if (PyObject* item = PyDict_GetItemString(inDict, "texture_tag"))
 	{
-		outConfig.textureUUID = GetIDFromPyObject(item);
-		if (outConfig.textureUUID == MV_ATLAS_UUID)
+		mvUUID textureUUID = GetIDFromPyObject(item);
+		if (textureUUID == MV_ATLAS_UUID)
 		{
-			outConfig._texture = std::make_shared<mvStaticTexture>(outConfig.textureUUID);
+			outConfig._texture = std::make_shared<mvStaticTexture>(textureUUID);
 		}
 		else
 		{
-			outConfig._texture = GetRefItem(*GContext->itemRegistry, outConfig.textureUUID);
+			outConfig._texture = GetRefItem(*GContext->itemRegistry, textureUUID);
 			if (!outConfig._texture)
 				mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(mvAppItemType::mvImageSeries), "Texture not found.", nullptr);
 		}
@@ -3744,7 +3744,7 @@ DearPyGui::fill_configuration_dict(const mvImageSeriesConfig& inConfig, PyObject
 {
 	if (outDict == nullptr)
 		return;
-	PyDict_SetItemString(outDict, "texture_tag", mvPyObject(ToPyUUID(inConfig.textureUUID)));
+	PyDict_SetItemString(outDict, "texture_tag", mvPyObject(ToPyUUID(inConfig._texture.get())));
 	PyDict_SetItemString(outDict, "uv_min", mvPyObject(ToPyPair(inConfig.uv_min.x, inConfig.uv_min.y)));
 	PyDict_SetItemString(outDict, "uv_max", mvPyObject(ToPyPair(inConfig.uv_max.x, inConfig.uv_max.y)));
 	PyDict_SetItemString(outDict, "tint_color", mvPyObject(ToPyColor(inConfig.tintColor)));

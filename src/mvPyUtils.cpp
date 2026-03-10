@@ -508,10 +508,7 @@ ToPyInt(int value)
 PyObject*
 ToPyUUID(mvAppItem* item)
 {
-    if (!item->config.alias.empty())
-        return Py_BuildValue("K", item->uuid);
-
-    return Py_BuildValue("K", item->uuid);
+    return item? ToPyUUID(item->uuid, item->config.alias) : PyLong_FromLong(0);
 }
 
 PyObject*
@@ -523,14 +520,17 @@ ToPyUUID(mvUUID uuid, const std::string& alias)
 }
 
 PyObject*
-ToPyUUID(mvUUID value)
+ToPyUUIDOrNone(mvAppItem* item)
+{
+    return item? ToPyUUID(item->uuid, item->config.alias) : GetPyNone();
+}
+
+PyObject*
+PyUUIDFromItem(mvUUID value)
 {
     mvAppItem* item = GetItem(*GContext->itemRegistry, value);
     if (item)
-    {
-        if (!item->config.alias.empty())
-            return Py_BuildValue("K", item->uuid);
-    }
+        return ToPyUUID(item);
     return Py_BuildValue("K", value);
 }
 

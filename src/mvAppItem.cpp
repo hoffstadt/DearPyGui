@@ -111,7 +111,7 @@ void mvAppItem::submitCallback(mvColor app_data)
 }
 
 template<>
-void mvAppItem::submitCallback(mvUUID app_data)
+void mvAppItem::submitCallback(mvAppItem* app_data)
 {
     submitCallbackEx([=]() { return ToPyUUID(app_data); });
 }
