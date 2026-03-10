@@ -1,8 +1,7 @@
 ---
-name: Pull Request
-about: Create a pull request to help us improve
-title: ''
-assignees: ''
+title: A short description for what is changed, i.e. file(s) or component.
+about: A short description what this fixes. You could say "fixes issue #blah".
+assignees: Tag @yourself (and maybe @joemama if you know she's expecting it).
 
 ---
 
