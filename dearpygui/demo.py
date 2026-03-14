@@ -476,7 +476,7 @@ def show_demo():
                     dpg.add_radio_button(("mvColorEdit_input_rgb", "mvColorEdit_input_hsv"), callback=_color_picker_configs, 
                                          user_data=_color_picker_id, horizontal=True)
 
-                dpg.add_color_picker((255, 0, 255, 200), label="Color Picker", alpha_preview=True, no_alpha=False, alpha_bar=True, 
+                dpg.add_color_picker((255, 0, 255, 200), label="Color Picker", alpha_preview=dpg.mvColorEdit_AlphaPreviewNone, no_alpha=False, alpha_bar=True, 
                         width=200, tag=_color_picker_id)
 
                 _add_config_options(_color_picker_id, 3, 

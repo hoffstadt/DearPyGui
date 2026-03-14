@@ -1,17 +1,21 @@
+#include "mvPyUtils.h"
+#pragma hdrstop
+
 #include "dearpygui.h"
+
 #include "mvAppItemCommons.h"
 #include "mvFontManager.h"
 #include "mvItemRegistry.h"
-#include <ImGuiFileDialog.h>
-#include <cstdlib>
 #include "mvToolManager.h"
 #include "mvCustomTypes.h"
-#include "mvPyUtils.h"
 #include "mvViewport.h"
-#include <stb_image.h>
 #include "mvProfiler.h"
 #include "dearpygui_commands.h"
 #include "dearpygui_parsers.h"
+
+#include <ImGuiFileDialog.h>
+#include <cstdlib>
+#include <stb_image.h>
 
 #define MV_ADD_COMMAND(x) methods.push_back({ #x, (PyCFunction)x, METH_VARARGS | METH_KEYWORDS, GetParsers()[#x].documentation.c_str() });
 
@@ -91,8 +95,8 @@ GetModuleConstants()
 		ModuleConstants.push_back({"mvPlatform_Apple", 1L });
 		ModuleConstants.push_back({"mvPlatform_Linux", 2L });
 
-		ModuleConstants.push_back({"mvColorEdit_AlphaPreviewNone", 0L });
-		ModuleConstants.push_back({"mvColorEdit_AlphaPreview", ImGuiColorEditFlags_AlphaPreview });
+		ModuleConstants.push_back({"mvColorEdit_AlphaPreviewNone", ImGuiColorEditFlags_AlphaOpaque });
+		ModuleConstants.push_back({"mvColorEdit_AlphaPreview", ImGuiColorEditFlags_None });
 		ModuleConstants.push_back({"mvColorEdit_AlphaPreviewHalf", ImGuiColorEditFlags_AlphaPreviewHalf });
 		ModuleConstants.push_back({"mvColorEdit_uint8", ImGuiColorEditFlags_Uint8});
 		ModuleConstants.push_back({"mvColorEdit_float", ImGuiColorEditFlags_Float});
@@ -145,6 +149,10 @@ GetModuleConstants()
 		ModuleConstants.push_back({ "mvCullMode_Back", 1L });
 		ModuleConstants.push_back({ "mvCullMode_Front", 2L });
 
+		// We no longer need these mvFontRangeHint constants, but since there's no way
+		// to declare them deprecated, we'll leave them here for a while.
+		// TODO: decide if we should move definitions entirely to _deprecated.py and
+		// remove them from the "internal" API of DLL/.so file.
 		ModuleConstants.push_back({ "mvFontRangeHint_Default", 0L });
 		ModuleConstants.push_back({ "mvFontRangeHint_Japanese", 1L });
 		ModuleConstants.push_back({ "mvFontRangeHint_Korean", 2L });
@@ -214,6 +222,10 @@ GetModuleConstants()
 		ModuleConstants.push_back({ "mvTable_SizingStretchProp", ImGuiTableFlags_SizingStretchProp});
 		ModuleConstants.push_back({ "mvTable_SizingStretchSame", ImGuiTableFlags_SizingStretchSame});
 
+		ModuleConstants.push_back({ "mvTreeLines_None", ImGuiTreeNodeFlags_DrawLinesNone });
+		ModuleConstants.push_back({ "mvTreeLines_Full", ImGuiTreeNodeFlags_DrawLinesFull });
+		ModuleConstants.push_back({ "mvTreeLines_ToNodes", ImGuiTreeNodeFlags_DrawLinesToNodes });
+
 		ModuleConstants.push_back({ "mvFormat_Float_rgba", 0L });
 		ModuleConstants.push_back({ "mvFormat_Float_rgb", 1L });
 
@@ -221,70 +233,88 @@ GetModuleConstants()
 		ModuleConstants.push_back({ "mvThemeCat_Plots", 1L});
 		ModuleConstants.push_back({ "mvThemeCat_Nodes", 2L});
 
+		// Note: color and style constants are generated - see /scripts/GenStyleConstants.py.
+		// Avoid editing them manually.  Update with caution, some entries have edits upon
+		// the script-generated version (commented-out lines or old constants kept for compatibility).
+
 		ModuleConstants.push_back({ "mvThemeCol_Text", ImGuiCol_Text });
 		ModuleConstants.push_back({ "mvThemeCol_TextDisabled", ImGuiCol_TextDisabled });
 		ModuleConstants.push_back({ "mvThemeCol_WindowBg", ImGuiCol_WindowBg });            // Background of normal windows
 		ModuleConstants.push_back({ "mvThemeCol_ChildBg", ImGuiCol_ChildBg });              // Background of child windows
-		ModuleConstants.push_back({ "mvThemeCol_Border", ImGuiCol_Border });                // Background of popups, menus, tooltips windows
 		ModuleConstants.push_back({ "mvThemeCol_PopupBg", ImGuiCol_PopupBg });              // Background of popups, menus, tooltips windows
+		ModuleConstants.push_back({ "mvThemeCol_Border", ImGuiCol_Border });
 		ModuleConstants.push_back({ "mvThemeCol_BorderShadow", ImGuiCol_BorderShadow });
-		ModuleConstants.push_back({ "mvThemeCol_FrameBg", ImGuiCol_FrameBg });             // Background of checkbox, radio button, plot, slider, text input
+		ModuleConstants.push_back({ "mvThemeCol_FrameBg", ImGuiCol_FrameBg });              // Background of checkbox, radio button, plot, slider, text input
 		ModuleConstants.push_back({ "mvThemeCol_FrameBgHovered", ImGuiCol_FrameBgHovered });
 		ModuleConstants.push_back({ "mvThemeCol_FrameBgActive", ImGuiCol_FrameBgActive });
-		ModuleConstants.push_back({ "mvThemeCol_TitleBg", ImGuiCol_TitleBg });
-		ModuleConstants.push_back({ "mvThemeCol_TitleBgActive", ImGuiCol_TitleBgActive });
-		ModuleConstants.push_back({ "mvThemeCol_TitleBgCollapsed", ImGuiCol_TitleBgCollapsed });
+		ModuleConstants.push_back({ "mvThemeCol_TitleBg", ImGuiCol_TitleBg });              // Title bar
+		ModuleConstants.push_back({ "mvThemeCol_TitleBgActive", ImGuiCol_TitleBgActive });  // Title bar when focused
+		ModuleConstants.push_back({ "mvThemeCol_TitleBgCollapsed", ImGuiCol_TitleBgCollapsed }); // Title bar when collapsed
 		ModuleConstants.push_back({ "mvThemeCol_MenuBarBg", ImGuiCol_MenuBarBg });
 		ModuleConstants.push_back({ "mvThemeCol_ScrollbarBg", ImGuiCol_ScrollbarBg });
 		ModuleConstants.push_back({ "mvThemeCol_ScrollbarGrab", ImGuiCol_ScrollbarGrab });
 		ModuleConstants.push_back({ "mvThemeCol_ScrollbarGrabHovered", ImGuiCol_ScrollbarGrabHovered });
 		ModuleConstants.push_back({ "mvThemeCol_ScrollbarGrabActive", ImGuiCol_ScrollbarGrabActive });
-		ModuleConstants.push_back({ "mvThemeCol_CheckMark", ImGuiCol_CheckMark });
+		ModuleConstants.push_back({ "mvThemeCol_CheckMark", ImGuiCol_CheckMark });          // Checkbox tick and RadioButton circle
 		ModuleConstants.push_back({ "mvThemeCol_SliderGrab", ImGuiCol_SliderGrab });
 		ModuleConstants.push_back({ "mvThemeCol_SliderGrabActive", ImGuiCol_SliderGrabActive });
 		ModuleConstants.push_back({ "mvThemeCol_Button", ImGuiCol_Button });
 		ModuleConstants.push_back({ "mvThemeCol_ButtonHovered", ImGuiCol_ButtonHovered });
 		ModuleConstants.push_back({ "mvThemeCol_ButtonActive", ImGuiCol_ButtonActive });
-		ModuleConstants.push_back({ "mvThemeCol_Header", ImGuiCol_Header });              // Header* colors are used for CollapsingHeader, TreeNode, Selectable, MenuItem
+		ModuleConstants.push_back({ "mvThemeCol_Header", ImGuiCol_Header });                // Header* colors are used for CollapsingHeader, TreeNode, Selectable, MenuItem
 		ModuleConstants.push_back({ "mvThemeCol_HeaderHovered", ImGuiCol_HeaderHovered });
 		ModuleConstants.push_back({ "mvThemeCol_HeaderActive", ImGuiCol_HeaderActive });
 		ModuleConstants.push_back({ "mvThemeCol_Separator", ImGuiCol_Separator });
 		ModuleConstants.push_back({ "mvThemeCol_SeparatorHovered", ImGuiCol_SeparatorHovered });
 		ModuleConstants.push_back({ "mvThemeCol_SeparatorActive", ImGuiCol_SeparatorActive });
-		ModuleConstants.push_back({ "mvThemeCol_ResizeGrip", ImGuiCol_ResizeGrip });
+		ModuleConstants.push_back({ "mvThemeCol_ResizeGrip", ImGuiCol_ResizeGrip });        // Resize grip in lower-right and lower-left corners of windows.
 		ModuleConstants.push_back({ "mvThemeCol_ResizeGripHovered", ImGuiCol_ResizeGripHovered });
 		ModuleConstants.push_back({ "mvThemeCol_ResizeGripActive", ImGuiCol_ResizeGripActive });
-		ModuleConstants.push_back({ "mvThemeCol_Tab", ImGuiCol_Tab });
-		ModuleConstants.push_back({ "mvThemeCol_TabHovered", ImGuiCol_TabHovered });
-		ModuleConstants.push_back({ "mvThemeCol_TabActive", ImGuiCol_TabActive });
-		ModuleConstants.push_back({ "mvThemeCol_TabUnfocused", ImGuiCol_TabUnfocused });
-		ModuleConstants.push_back({ "mvThemeCol_TabUnfocusedActive", ImGuiCol_TabUnfocusedActive });
-		ModuleConstants.push_back({ "mvThemeCol_DockingPreview", ImGuiCol_DockingPreview });
-		ModuleConstants.push_back({ "mvThemeCol_DockingEmptyBg", ImGuiCol_DockingEmptyBg });
+		ModuleConstants.push_back({ "mvThemeCol_InputTextCursor", ImGuiCol_InputTextCursor }); // InputText cursor/caret
+		ModuleConstants.push_back({ "mvThemeCol_TabHovered", ImGuiCol_TabHovered });        // Tab background, when hovered
+		ModuleConstants.push_back({ "mvThemeCol_Tab", ImGuiCol_Tab });                      // Tab background, when tab-bar is focused & tab is unselected
+		ModuleConstants.push_back({ "mvThemeCol_TabSelected", ImGuiCol_TabSelected });      // Tab background, when tab-bar is focused & tab is selected
+		ModuleConstants.push_back({ "mvThemeCol_TabSelectedOverline", ImGuiCol_TabSelectedOverline }); // Tab horizontal overline, when tab-bar is focused & tab is selected
+		ModuleConstants.push_back({ "mvThemeCol_TabDimmed", ImGuiCol_TabDimmed });          // Tab background, when tab-bar is unfocused & tab is unselected
+		ModuleConstants.push_back({ "mvThemeCol_TabDimmedSelected", ImGuiCol_TabDimmedSelected }); // Tab background, when tab-bar is unfocused & tab is selected
+		ModuleConstants.push_back({ "mvThemeCol_TabDimmedSelectedOverline", ImGuiCol_TabDimmedSelectedOverline }); //..horizontal overline, when tab-bar is unfocused & tab is selected
+		ModuleConstants.push_back({ "mvThemeCol_DockingPreview", ImGuiCol_DockingPreview }); // Preview overlay color when about to docking something
+		ModuleConstants.push_back({ "mvThemeCol_DockingEmptyBg", ImGuiCol_DockingEmptyBg }); // Background color for empty node (e.g. CentralNode with no window docked into it)
 		ModuleConstants.push_back({ "mvThemeCol_PlotLines", ImGuiCol_PlotLines });
 		ModuleConstants.push_back({ "mvThemeCol_PlotLinesHovered", ImGuiCol_PlotLinesHovered });
 		ModuleConstants.push_back({ "mvThemeCol_PlotHistogram", ImGuiCol_PlotHistogram });
 		ModuleConstants.push_back({ "mvThemeCol_PlotHistogramHovered", ImGuiCol_PlotHistogramHovered });
-		ModuleConstants.push_back({ "mvThemeCol_TableHeaderBg", ImGuiCol_TableHeaderBg });           // Table header background
-		ModuleConstants.push_back({ "mvThemeCol_TableBorderStrong", ImGuiCol_TableBorderStrong });   // Table outer and header borders (prefer using Alpha=1.0 here)
-		ModuleConstants.push_back({ "mvThemeCol_TableBorderLight", ImGuiCol_TableBorderLight });     // Table inner borders (prefer using Alpha=1.0 here)
-		ModuleConstants.push_back({ "mvThemeCol_TableRowBg", ImGuiCol_TableRowBg });                 // Table row background (even rows)
-		ModuleConstants.push_back({ "mvThemeCol_TableRowBgAlt", ImGuiCol_TableRowBgAlt });           // Table row background (odd rows)
-		ModuleConstants.push_back({ "mvThemeCol_TextSelectedBg", ImGuiCol_TextSelectedBg });
-		ModuleConstants.push_back({ "mvThemeCol_DragDropTarget", ImGuiCol_DragDropTarget });
-		ModuleConstants.push_back({ "mvThemeCol_NavHighlight", ImGuiCol_NavHighlight });                   // Gamepad/keyboard: current highlighted item
-		ModuleConstants.push_back({ "mvThemeCol_NavWindowingHighlight", ImGuiCol_NavWindowingHighlight }); // Highlight window when using CTRL+TAB
-		ModuleConstants.push_back({ "mvThemeCol_NavWindowingDimBg", ImGuiCol_NavWindowingDimBg });         // Darken/colorize entire screen behind the CTRL+TAB window list", when active
-		ModuleConstants.push_back({ "mvThemeCol_ModalWindowDimBg", ImGuiCol_ModalWindowDimBg });           // Darken/colorize entire screen behind a modal window", when one is active
+		ModuleConstants.push_back({ "mvThemeCol_TableHeaderBg", ImGuiCol_TableHeaderBg });  // Table header background
+		ModuleConstants.push_back({ "mvThemeCol_TableBorderStrong", ImGuiCol_TableBorderStrong }); // Table outer and header borders (prefer using Alpha=1.0 here)
+		ModuleConstants.push_back({ "mvThemeCol_TableBorderLight", ImGuiCol_TableBorderLight }); // Table inner borders (prefer using Alpha=1.0 here)
+		ModuleConstants.push_back({ "mvThemeCol_TableRowBg", ImGuiCol_TableRowBg });        // Table row background (even rows)
+		ModuleConstants.push_back({ "mvThemeCol_TableRowBgAlt", ImGuiCol_TableRowBgAlt });  // Table row background (odd rows)
+		// We don't have TextLink widget yet
+		// ModuleConstants.push_back({ "mvThemeCol_TextLink", ImGuiCol_TextLink });            // Hyperlink color
+		ModuleConstants.push_back({ "mvThemeCol_TextSelectedBg", ImGuiCol_TextSelectedBg }); // Selected text inside an InputText
+		ModuleConstants.push_back({ "mvThemeCol_TreeLines", ImGuiCol_TreeLines });          // Tree node hierarchy outlines when using ImGuiTreeNodeFlags_DrawLines
+		ModuleConstants.push_back({ "mvThemeCol_DragDropTarget", ImGuiCol_DragDropTarget }); // Rectangle border highlighting a drop target
+		ModuleConstants.push_back({ "mvThemeCol_DragDropTargetBg", ImGuiCol_DragDropTargetBg }); // Rectangle background highlighting a drop target
+		ModuleConstants.push_back({ "mvThemeCol_UnsavedMarker", ImGuiCol_UnsavedMarker });  // Unsaved Document marker (in window title and tabs)
+		ModuleConstants.push_back({ "mvThemeCol_NavCursor", ImGuiCol_NavCursor });          // Color of keyboard/gamepad navigation cursor/rectangle, when visible
+		ModuleConstants.push_back({ "mvThemeCol_NavWindowingHighlight", ImGuiCol_NavWindowingHighlight }); // Highlight window when using Ctrl+Tab
+		ModuleConstants.push_back({ "mvThemeCol_NavWindowingDimBg", ImGuiCol_NavWindowingDimBg }); // Darken/colorize entire screen behind the Ctrl+Tab window list, when active
+		ModuleConstants.push_back({ "mvThemeCol_ModalWindowDimBg", ImGuiCol_ModalWindowDimBg }); // Darken/colorize entire screen behind a modal window, when one is active
+
+		// old names for colors that have been renamed in ImGui - keeping them for compatibility
+		ModuleConstants.push_back({ "mvThemeCol_TabActive", ImGuiCol_TabSelected });
+		ModuleConstants.push_back({ "mvThemeCol_TabUnfocused", ImGuiCol_TabDimmed });
+		ModuleConstants.push_back({ "mvThemeCol_TabUnfocusedActive", ImGuiCol_TabDimmedSelected });
+		ModuleConstants.push_back({ "mvThemeCol_NavHighlight", ImGuiCol_NavCursor });                   // Gamepad/keyboard: current highlighted item
 
 		// plotting
 
 		// item styling colors
-		ModuleConstants.push_back({ "mvPlotCol_Line", ImPlotCol_Line });                   // plot line/outline color (defaults to next unused color in current colormap)
-		ModuleConstants.push_back({ "mvPlotCol_Fill", ImPlotCol_Fill });                   // plot fill color for bars (defaults to the current line color)
+		ModuleConstants.push_back({ "mvPlotCol_Line", ImPlotCol_Line });                 // plot line/outline color (defaults to next unused color in current colormap)
+		ModuleConstants.push_back({ "mvPlotCol_Fill", ImPlotCol_Fill });                 // plot fill color for bars (defaults to the current line color)
 		ModuleConstants.push_back({ "mvPlotCol_MarkerOutline", ImPlotCol_MarkerOutline }); // marker outline color (defaults to the current line color)
-		ModuleConstants.push_back({ "mvPlotCol_MarkerFill", ImPlotCol_MarkerFill });       // marker fill color (defaults to the current line color)
-		ModuleConstants.push_back({ "mvPlotCol_ErrorBar", ImPlotCol_ErrorBar });           // error bar color (defaults to ImGuiCol_Text)
+		ModuleConstants.push_back({ "mvPlotCol_MarkerFill", ImPlotCol_MarkerFill });     // marker fill color (defaults to the current line color)
+		ModuleConstants.push_back({ "mvPlotCol_ErrorBar", ImPlotCol_ErrorBar });         // error bar color (defaults to ImGuiCol_Text)
 
 		// plot styling colors
 		ModuleConstants.push_back({ "mvPlotCol_FrameBg", ImPlotCol_FrameBg });           // plot frame background color (defaults to ImGuiCol_FrameBg)
@@ -295,11 +325,12 @@ GetModuleConstants()
 		ModuleConstants.push_back({ "mvPlotCol_LegendText", ImPlotCol_LegendText });     // legend text color (defaults to ImPlotCol_InlayText)
 		ModuleConstants.push_back({ "mvPlotCol_TitleText", ImPlotCol_TitleText });       // plot title text color (defaults to ImGuiCol_Text)
 		ModuleConstants.push_back({ "mvPlotCol_InlayText", ImPlotCol_InlayText });       // color of text appearing inside of plots (defaults to ImGuiCol_Text)
+		ModuleConstants.push_back({ "mvPlotCol_AxisText", ImPlotCol_AxisText });         // axis label and tick labels color (defaults to ImGuiCol_Text)
+		ModuleConstants.push_back({ "mvPlotCol_AxisGrid", ImPlotCol_AxisGrid });         // axis grid color (defaults to 25% ImPlotCol_AxisText)
+		ModuleConstants.push_back({ "mvPlotCol_AxisTick", ImPlotCol_AxisTick });         // axis tick color (defaults to AxisGrid)
 		ModuleConstants.push_back({ "mvPlotCol_AxisBg", ImPlotCol_AxisBg });             // background color of axis hover region (defaults to transparent)
+		ModuleConstants.push_back({ "mvPlotCol_AxisBgHovered", ImPlotCol_AxisBgHovered }); // axis hover color (defaults to ImGuiCol_ButtonHovered)
 		ModuleConstants.push_back({ "mvPlotCol_AxisBgActive", ImPlotCol_AxisBgActive }); // axis active color (defaults to ImGuiCol_ButtonActive)
-		ModuleConstants.push_back({ "mvPlotCol_AxisBgHovered", ImPlotCol_AxisBgHovered});// axis hover color (defaults to ImGuiCol_ButtonHovered)
-		ModuleConstants.push_back({ "mvPlotCol_AxisGrid", ImPlotCol_AxisGrid });         // axis tick lables color (defaults to ImGuiCol_Text)
-		ModuleConstants.push_back({ "mvPlotCol_AxisText", ImPlotCol_AxisText });         // axis label color (defaults to ImGuiCol_Text)
 		ModuleConstants.push_back({ "mvPlotCol_Selection", ImPlotCol_Selection });       // box-selection color (defaults to yellow)
 		ModuleConstants.push_back({ "mvPlotCol_Crosshairs", ImPlotCol_Crosshairs });     // crosshairs color (defaults to ImPlotCol_PlotBorder)
 
@@ -355,30 +386,37 @@ GetModuleConstants()
 		ModuleConstants.push_back({ "mvStyleVar_CellPadding", ImGuiStyleVar_CellPadding });                 // ImVec2    CellPadding
 		ModuleConstants.push_back({ "mvStyleVar_ScrollbarSize", ImGuiStyleVar_ScrollbarSize });             // float     ScrollbarSize
 		ModuleConstants.push_back({ "mvStyleVar_ScrollbarRounding", ImGuiStyleVar_ScrollbarRounding });     // float     ScrollbarRounding
+		ModuleConstants.push_back({ "mvStyleVar_ScrollbarPadding", ImGuiStyleVar_ScrollbarPadding });       // float     ScrollbarPadding
 		ModuleConstants.push_back({ "mvStyleVar_GrabMinSize", ImGuiStyleVar_GrabMinSize });                 // float     GrabMinSize
 		ModuleConstants.push_back({ "mvStyleVar_GrabRounding", ImGuiStyleVar_GrabRounding });               // float     GrabRounding
+		ModuleConstants.push_back({ "mvStyleVar_ImageBorderSize", ImGuiStyleVar_ImageBorderSize });         // float     ImageBorderSize
 		ModuleConstants.push_back({ "mvStyleVar_TabRounding", ImGuiStyleVar_TabRounding });                 // float     TabRounding
-		ModuleConstants.push_back({ "mvStyleVar_TabBorderSize", ImGuiStyleVar_TabBorderSize });    			// float     TabBorderSize
-		ModuleConstants.push_back({ "mvStyleVar_TabBarBorderSize", ImGuiStyleVar_TabBarBorderSize });    	// float     TabBarBorderSize
-		ModuleConstants.push_back({ "mvStyleVar_TableAngledHeadersAngle", ImGuiStyleVar_TableAngledHeadersAngle });    		// float     TableAngledHeadersAngle
-		ModuleConstants.push_back({ "mvStyleVar_TableAngledHeadersTextAlign", ImGuiStyleVar_TableAngledHeadersTextAlign }); // ImVec2     TableAngledHeadersTextAlign
+		ModuleConstants.push_back({ "mvStyleVar_TabBorderSize", ImGuiStyleVar_TabBorderSize });             // float     TabBorderSize
+		ModuleConstants.push_back({ "mvStyleVar_TabMinWidthBase", ImGuiStyleVar_TabMinWidthBase });         // float     TabMinWidthBase
+		ModuleConstants.push_back({ "mvStyleVar_TabMinWidthShrink", ImGuiStyleVar_TabMinWidthShrink });     // float     TabMinWidthShrink
+		ModuleConstants.push_back({ "mvStyleVar_TabBarBorderSize", ImGuiStyleVar_TabBarBorderSize });       // float     TabBarBorderSize
+		ModuleConstants.push_back({ "mvStyleVar_TabBarOverlineSize", ImGuiStyleVar_TabBarOverlineSize });   // float     TabBarOverlineSize
+		ModuleConstants.push_back({ "mvStyleVar_TableAngledHeadersAngle", ImGuiStyleVar_TableAngledHeadersAngle }); // float     TableAngledHeadersAngle
+		ModuleConstants.push_back({ "mvStyleVar_TableAngledHeadersTextAlign", ImGuiStyleVar_TableAngledHeadersTextAlign }); // ImVec2  TableAngledHeadersTextAlign
+		ModuleConstants.push_back({ "mvStyleVar_TreeLinesSize", ImGuiStyleVar_TreeLinesSize });             // float     TreeLinesSize
+		ModuleConstants.push_back({ "mvStyleVar_TreeLinesRounding", ImGuiStyleVar_TreeLinesRounding });     // float     TreeLinesRounding
 		ModuleConstants.push_back({ "mvStyleVar_ButtonTextAlign", ImGuiStyleVar_ButtonTextAlign });         // ImVec2    ButtonTextAlign
 		ModuleConstants.push_back({ "mvStyleVar_SelectableTextAlign", ImGuiStyleVar_SelectableTextAlign }); // ImVec2    SelectableTextAlign
-		ModuleConstants.push_back({ "mvStyleVar_SeparatorTextBorderSize", ImGuiStyleVar_SeparatorTextBorderSize });	// float     SeparatorTextBorderSize
-		ModuleConstants.push_back({ "mvStyleVar_SeparatorTextAlign", ImGuiStyleVar_SeparatorTextAlign });    		// ImVec2    SeparatorTextAlign
-		ModuleConstants.push_back({ "mvStyleVar_SeparatorTextPadding", ImGuiStyleVar_SeparatorTextPadding });    	// ImVec2    SeparatorTextPadding
-		ModuleConstants.push_back({ "mvStyleVar_DockingSeparatorSize", ImGuiStyleVar_DockingSeparatorSize });    	// float     DockingSeparatorSize    
+		ModuleConstants.push_back({ "mvStyleVar_SeparatorTextBorderSize", ImGuiStyleVar_SeparatorTextBorderSize }); // float     SeparatorTextBorderSize
+		ModuleConstants.push_back({ "mvStyleVar_SeparatorTextAlign", ImGuiStyleVar_SeparatorTextAlign });   // ImVec2    SeparatorTextAlign
+		ModuleConstants.push_back({ "mvStyleVar_SeparatorTextPadding", ImGuiStyleVar_SeparatorTextPadding }); // ImVec2    SeparatorTextPadding
+		ModuleConstants.push_back({ "mvStyleVar_DockingSeparatorSize", ImGuiStyleVar_DockingSeparatorSize }); // float     DockingSeparatorSize
 
 		// item styling variables
-		ModuleConstants.push_back({ "mvPlotStyleVar_LineWeight",         ImPlotStyleVar_LineWeight });         // float,  plot item line weight in pixels
-		ModuleConstants.push_back({ "mvPlotStyleVar_Marker",             ImPlotStyleVar_Marker });             // int,    marker specification
-		ModuleConstants.push_back({ "mvPlotStyleVar_MarkerSize",         ImPlotStyleVar_MarkerSize });         // float,  marker size in pixels (roughly the marker's "radius")
-		ModuleConstants.push_back({ "mvPlotStyleVar_MarkerWeight",       ImPlotStyleVar_MarkerWeight });       // float,  plot outline weight of markers in pixels
-		ModuleConstants.push_back({ "mvPlotStyleVar_FillAlpha",          ImPlotStyleVar_FillAlpha });          // float,  alpha modifier applied to all plot item fills
-		ModuleConstants.push_back({ "mvPlotStyleVar_ErrorBarSize",       ImPlotStyleVar_ErrorBarSize });       // float,  error bar whisker width in pixels
-		ModuleConstants.push_back({ "mvPlotStyleVar_ErrorBarWeight",     ImPlotStyleVar_ErrorBarWeight });     // float,  error bar whisker weight in pixels
-		ModuleConstants.push_back({ "mvPlotStyleVar_DigitalBitHeight",   ImPlotStyleVar_DigitalBitHeight });   // float,  digital channels bit height (at 1) in pixels
-		ModuleConstants.push_back({ "mvPlotStyleVar_DigitalBitGap",      ImPlotStyleVar_DigitalBitGap });      // float,  digital channels bit padding gap in pixels
+		ModuleConstants.push_back({ "mvPlotStyleVar_LineWeight", ImPlotStyleVar_LineWeight });                 // float,  plot item line weight in pixels
+		ModuleConstants.push_back({ "mvPlotStyleVar_Marker", ImPlotStyleVar_Marker });                         // int,    marker specification
+		ModuleConstants.push_back({ "mvPlotStyleVar_MarkerSize", ImPlotStyleVar_MarkerSize });                 // float,  marker size in pixels (roughly the marker's "radius")
+		ModuleConstants.push_back({ "mvPlotStyleVar_MarkerWeight", ImPlotStyleVar_MarkerWeight });             // float,  plot outline weight of markers in pixels
+		ModuleConstants.push_back({ "mvPlotStyleVar_FillAlpha", ImPlotStyleVar_FillAlpha });                   // float,  alpha modifier applied to all plot item fills
+		ModuleConstants.push_back({ "mvPlotStyleVar_ErrorBarSize", ImPlotStyleVar_ErrorBarSize });             // float,  error bar whisker width in pixels
+		ModuleConstants.push_back({ "mvPlotStyleVar_ErrorBarWeight", ImPlotStyleVar_ErrorBarWeight });         // float,  error bar whisker weight in pixels
+		ModuleConstants.push_back({ "mvPlotStyleVar_DigitalBitHeight", ImPlotStyleVar_DigitalBitHeight });     // float,  digital channels bit height (at 1) in pixels
+		ModuleConstants.push_back({ "mvPlotStyleVar_DigitalBitGap", ImPlotStyleVar_DigitalBitGap });           // float,  digital channels bit padding gap in pixels
 
 		// plot styling variables
 		ModuleConstants.push_back({ "mvPlotStyleVar_PlotBorderSize", ImPlotStyleVar_PlotBorderSize });         // float,  thickness of border around plot area

@@ -1,12 +1,18 @@
+#include "mvPyUtils.h"
+#pragma hdrstop
+
 #include "mvNodes.h"
-#include <imnodes.h>
+
 #include "mvContext.h"
 #include "mvItemRegistry.h"
-#include "mvPyUtils.h"
 #include "mvItemHandlers.h"
 #include "mvThemes.h"
 #include "mvContainers.h"
 #include "mvFontItems.h"
+
+#include <imnodes.h>
+// For ImRect (used by mvEditorGetSize)
+#include <imgui_internal.h>
 
 static std::string FindRenderedTextEnd(const char* text, const char* text_end = nullptr)
 {
@@ -391,10 +397,7 @@ void mvNode::draw(ImDrawList* drawlist, float x, float y)
 
     // push font if a font object is attached
     if (font)
-    {
-        ImFont* fontptr = static_cast<mvFont*>(font.get())->getFontPtr();
-        ImGui::PushFont(fontptr);
-    }
+        static_cast<mvFont*>(font.get())->pushFont();
 
     // themes
     apply_local_theming(this);
@@ -418,6 +421,16 @@ void mvNode::draw(ImDrawList* drawlist, float x, float y)
         ImNodes::BeginNodeTitleBar();
         ImGui::TextUnformatted(config.specifiedLabel.c_str());
         ImNodes::EndNodeTitleBar();
+
+        // Just in case there are no children items within the node: EndNodeTitleBar()
+        // above calls SetCursorPos, and it's invalid to call it like that without adding
+        // yet another item after it (see issue #5548 in Dear ImGui, and also RestoreImGuiCursor
+        // in mvAppItem.cpp).  Once this issue is fixed directly in ImNodes, we can
+        // remove the following three lines.
+        // TODO: recheck on the next update of ImNodes.
+        ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));
+        ImGui::Dummy(ImVec2(0, 0));
+        ImGui::PopStyleVar();
 
         state.lastFrameUpdate = GContext->frame;
         state.leftclicked = ImGui::IsItemClicked();
@@ -523,10 +536,7 @@ void mvNodeAttribute::draw(ImDrawList* drawlist, float x, float y)
 
     // push font if a font object is attached
     if (font)
-    {
-        ImFont* fontptr = static_cast<mvFont*>(font.get())->getFontPtr();
-        ImGui::PushFont(fontptr);
-    }
+        static_cast<mvFont*>(font.get())->pushFont();
 
     // themes
     apply_local_theming(this);

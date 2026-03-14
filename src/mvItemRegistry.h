@@ -3,9 +3,7 @@
 #include <stack>
 #include <vector>
 #include <unordered_map>
-#include <queue>
 #include <string>
-#include <mutex>
 #include <map>
 #include "mvAppItem.h"
 #include "mvPyUtils.h"
@@ -51,6 +49,25 @@ void             ResetTheme              (mvItemRegistry& registry);
 b8               ReorderChildren         (mvItemRegistry& registry, mvUUID parent, i32 slot, const std::vector<mvUUID>& new_order);
 
 //-----------------------------------------------------------------------------
+// mvThreadContext
+//     - Holds thread-local data used together with mvItemRegistry
+//-----------------------------------------------------------------------------
+
+struct mvThreadContext
+{
+    // "last item" state
+    mvUUID     lastItemAdded = 0;
+    mvUUID     lastContainerAdded = 0;
+    mvUUID     lastRootAdded = 0;
+
+    std::stack<mvAppItem*>                  containers;      // parent stack, top of stack becomes widget's parent
+
+    std::shared_ptr<mvAppItem>              capturedItem = nullptr;
+    mvPyObject                              captureCallback = nullptr;
+    mvPyObject                              captureCallbackUserData = nullptr;
+};
+
+//-----------------------------------------------------------------------------
 // mvItemRegistry
 //     - Responsibilities:
 //         * holds widget hierarchy roots (windows)
@@ -63,21 +80,16 @@ b8               ReorderChildren         (mvItemRegistry& registry, mvUUID paren
 struct mvItemRegistry
 {
 
-    // "last item" state
-    mvUUID     lastItemAdded = 0;
-    mvUUID     lastContainerAdded = 0;
-    mvUUID     lastRootAdded = 0;
-
     // misc
-    std::stack<mvAppItem*>                  containers;      // parent stack, top of stack becomes widget's parent
     std::unordered_map<std::string, mvUUID> aliases;
     std::unordered_map<mvUUID, mvAppItem*>  allItems;        // used for quick access to items by UUID
+
+    static thread_local mvThreadContext     threadContext;
+
+    // debug items
     b8                                      showImGuiDebug = false;
     b8                                      showImPlotDebug = false;
-    std::vector<std::shared_ptr<mvAppItem>>           debugWindows;
-    std::shared_ptr<mvAppItem>                        capturedItem = nullptr;
-    mvPyObject                              captureCallback = nullptr;
-    mvPyObject                              captureCallbackUserData = nullptr;
+    std::vector<std::shared_ptr<mvAppItem>> debugWindows;
 
     // roots
     std::vector<std::shared_ptr<mvAppItem>> colormapRoots;

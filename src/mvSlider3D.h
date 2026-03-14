@@ -4,7 +4,6 @@
 #include <array>
 #include "mvItemRegistry.h"
 #include "mvContext.h"
-#include "dearpygui.h"
 
 class mvSlider3D : public mvAppItem
 {

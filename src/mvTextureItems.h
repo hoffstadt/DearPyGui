@@ -1,7 +1,8 @@
 #pragma once
 
 #include "mvItemRegistry.h"
-#include "dearpygui.h"
+#include "mvPyUtils.h"
+#include <imgui.h>
 
 class mvTextureRegistry : public mvAppItem
 {
@@ -18,13 +19,31 @@ private:
     int _selection = -1;
 };
 
-class mvStaticTexture : public mvAppItem
+class mvTextureItem : public mvAppItem
 {
 
 public:
 
-    explicit mvStaticTexture(mvUUID uuid) : mvAppItem(uuid) {}
-    ~mvStaticTexture();
+    explicit mvTextureItem(mvUUID uuid) : mvAppItem(uuid) {}
+    ~mvTextureItem();
+
+    // Must be used as a getter instead of directly accessing `_texture`.
+    // For built-in textures like font atlas this may return a texture other than
+    // `_texture`, and the texture reference may change between frames.
+    ImTextureRef getTexRef() const;
+
+public:
+
+    ImTextureID               _texture = ImTextureID_Invalid;
+};
+
+
+class mvStaticTexture : public mvTextureItem
+{
+
+public:
+
+    explicit mvStaticTexture(mvUUID uuid) : mvTextureItem(uuid) {}
 
     void draw(ImDrawList* drawlist, float x, float y) override;
     void handleSpecificRequiredArgs(PyObject* dict) override;
@@ -40,14 +59,13 @@ public:
 public:
 
     std::shared_ptr<std::vector<float>> _value = std::make_shared<std::vector<float>>(std::vector<float>{0.0f});
-    void* _texture = nullptr;
     bool                      _dirty = true;
     int                       _permWidth = 0;
     int                       _permHeight = 0;
 
 };
 
-class mvRawTexture : public mvAppItem
+class mvRawTexture : public mvTextureItem
 {
 
     enum class ComponentType {
@@ -57,8 +75,7 @@ class mvRawTexture : public mvAppItem
 
 public:
 
-    explicit mvRawTexture(mvUUID uuid) : mvAppItem(uuid) {}
-    ~mvRawTexture();
+    explicit mvRawTexture(mvUUID uuid) : mvTextureItem(uuid) {}
 
     void draw(ImDrawList* drawlist, float x, float y) override;
     void handleSpecificRequiredArgs(PyObject* dict) override;
@@ -73,7 +90,6 @@ public:
 
     mvPyObject _buffer = nullptr;
     void* _value = nullptr;
-    void* _texture = nullptr;
     bool          _dirty = true;
     ComponentType _componentType = ComponentType::MV_FLOAT_COMPONENT;
     int           _components = 4;
@@ -82,13 +98,12 @@ public:
 
 };
 
-class mvDynamicTexture : public mvAppItem
+class mvDynamicTexture : public mvTextureItem
 {
 
 public:
 
-    explicit mvDynamicTexture(mvUUID uuid) : mvAppItem(uuid) {}
-    ~mvDynamicTexture();
+    explicit mvDynamicTexture(mvUUID uuid) : mvTextureItem(uuid) {}
 
     void draw(ImDrawList* drawlist, float x, float y) override;
     void handleSpecificRequiredArgs(PyObject* dict) override;
@@ -104,7 +119,6 @@ public:
 public:
 
     std::shared_ptr<std::vector<float>> _value = std::make_shared<std::vector<float>>(std::vector<float>{0.0f});
-    void* _texture = nullptr;
     bool                      _dirty = true;
     int                       _permWidth = 0;
     int                       _permHeight = 0;

@@ -1,11 +1,18 @@
-#include "mvTables.h"
-#include "mvContext.h"
-#include "mvCore.h"
-#include "mvItemRegistry.h"
 #include "mvPyUtils.h"
+#pragma hdrstop
+
+#include "mvTables.h"
+
+#include "mvCore.h"
+#include "mvContext.h"
+#include "mvItemRegistry.h"
 #include "mvFontItems.h"
 #include "mvThemes.h"
 #include "mvItemHandlers.h"
+
+#include <imgui_internal.h>
+// For ImHasFlag
+#include <implot_internal.h>
 
 mvTableCell::mvTableCell(mvUUID uuid)
 	: mvAppItem(uuid)
@@ -159,10 +166,7 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 
 	// push font if a font object is attached
 	if (font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(font.get())->pushFont();
 
 	// themes
 	apply_local_theming(this);
@@ -181,10 +185,7 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 			apply_local_theming(row);
 
 			if (row->font)
-			{
-				ImFont* fontptr = static_cast<mvFont*>(row->font.get())->getFontPtr();
-				ImGui::PushFont(fontptr);
-			}
+				static_cast<mvFont*>(row->font.get())->pushFont();
 
 			row->state.lastFrameUpdate = GContext->frame;
 			row->state.visible = true;
@@ -688,10 +689,7 @@ void mvSyncedTables::draw(ImDrawList* drawlist, float x, float y)
 
     // push font if a font object is attached
     if (font)
-    {
-        ImFont* fontptr = static_cast<mvFont*>(font.get())->getFontPtr();
-        ImGui::PushFont(fontptr);
-    }
+        static_cast<mvFont*>(font.get())->pushFont();
 
     // themes
     apply_local_theming(this);

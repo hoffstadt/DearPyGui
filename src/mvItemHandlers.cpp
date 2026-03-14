@@ -1,5 +1,7 @@
-#include "mvItemHandlers.h"
 #include "mvPyUtils.h"
+#pragma hdrstop
+
+#include "mvItemHandlers.h"
 
 void mvItemHandlerRegistry::checkEvents(void* data)
 {

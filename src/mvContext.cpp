@@ -1,23 +1,25 @@
+#include "mvPyUtils.h"
+#pragma hdrstop
+
 #include "mvContext.h"
+
 #include "dearpygui.h"
 #include "mvViewport.h"
 #include "mvCallbackRegistry.h"
-#include <thread>
-#include <future>
-#include <chrono>
 #include "mvProfiler.h"
-#include <implot.h>
 #include "mvFontManager.h"
 #include "mvCallbackRegistry.h"
-#include "mvPyUtils.h"
-#include <frameobject.h>
 #include "mvToolManager.h"
-#include <imnodes.h>
-#include <thread>
-#include <stb_image.h>
 #include "mvCustomTypes.h"
-#include "mvAppItemCommons.h"
 #include "mvItemRegistry.h"
+
+#include <thread>
+#include <future>
+#include <thread>
+#include <implot.h>
+#include <frameobject.h>
+#include <imnodes.h>
+#include <stb_image.h>
 
 mvContext* GContext = nullptr;
 
@@ -115,11 +117,14 @@ SetDefaultTheme()
     colors[ImGuiCol_ResizeGrip] = mvImGuiCol_ResizeGrip;
     colors[ImGuiCol_ResizeGripHovered] = mvImGuiCol_ResizeGripHovered;
     colors[ImGuiCol_ResizeGripActive] = mvImGuiCol_ResizeGripHovered;
+    colors[ImGuiCol_InputTextCursor] = MV_BASE_COL_textColor;
     colors[ImGuiCol_Tab] = mvImGuiCol_Tab;
     colors[ImGuiCol_TabHovered] = mvImGuiCol_TabHovered;
-    colors[ImGuiCol_TabActive] = mvImGuiCol_TabActive;
-    colors[ImGuiCol_TabUnfocused] = mvImGuiCol_TabUnfocused;
-    colors[ImGuiCol_TabUnfocusedActive] = mvImGuiCol_TabUnfocusedActive;
+    colors[ImGuiCol_TabSelected] = mvImGuiCol_TabActive;
+    colors[ImGuiCol_TabSelectedOverline] = mvImGuiCol_HeaderActive;
+    colors[ImGuiCol_TabDimmed] = mvImGuiCol_TabUnfocused;
+    colors[ImGuiCol_TabDimmedSelected] = mvImGuiCol_TabUnfocusedActive;
+    colors[ImGuiCol_TabDimmedSelectedOverline] = mvImGuiCol_TabUnfocusedActiveOverline;
     colors[ImGuiCol_DockingPreview] = mvImGuiCol_DockingPreview;
     colors[ImGuiCol_DockingEmptyBg] = mvImGuiCol_DockingEmptyBg;
     colors[ImGuiCol_PlotLines] = mvImGuiCol_PlotLines;
@@ -131,9 +136,13 @@ SetDefaultTheme()
     colors[ImGuiCol_TableBorderLight] = mvImGuiCol_TableBorderLight;   // Prefer using Alpha=1.0 here
     colors[ImGuiCol_TableRowBg] = mvImGuiCol_TableRowBg;
     colors[ImGuiCol_TableRowBgAlt] = mvImGuiCol_TableRowBgAlt;
+    colors[ImGuiCol_TextLink] = mvImGuiCol_HeaderActive;
     colors[ImGuiCol_TextSelectedBg] = mvImGuiCol_TextSelectedBg;
+    colors[ImGuiCol_TreeLines] = mvImGuiCol_Border;
     colors[ImGuiCol_DragDropTarget] = mvImGuiCol_DragDropTarget;
-    colors[ImGuiCol_NavHighlight] = mvImGuiCol_NavHighlight;
+    colors[ImGuiCol_DragDropTargetBg] = mvImGuiCol_DragDropTargetBg;
+    colors[ImGuiCol_UnsavedMarker] = mvImGuiCol_Text;
+    colors[ImGuiCol_NavCursor] = mvImGuiCol_NavHighlight;
     colors[ImGuiCol_NavWindowingHighlight] = mvImGuiCol_NavWindowingHighlight;
     colors[ImGuiCol_NavWindowingDimBg] = mvImGuiCol_NavWindowingDimBg;
     colors[ImGuiCol_ModalWindowDimBg] = mvImGuiCol_ModalWindowDimBg;
@@ -170,7 +179,10 @@ Render()
     GContext->frame = ImGui::GetFrameCount();
     GContext->framerate = (i32)ImGui::GetIO().Framerate;
 
-    ImGui::GetIO().FontGlobalScale = mvToolManager::GetFontManager().getGlobalFontScale();
+    mvRunTasks(true);   // this call runs early tasks only
+
+    ImGuiStyle& style = ImGui::GetStyle();
+    style.FontScaleMain = mvToolManager::GetFontManager().getGlobalFontScale();
 
     if (GContext->IO.dockingViewport)
         ImGui::DockSpaceOverViewport();

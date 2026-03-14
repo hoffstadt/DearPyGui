@@ -1,18 +1,19 @@
-#include "mvCallbackRegistry.h"
-#include "mvProfiler.h"
-#include "mvContext.h"
-#include <chrono>
-#include "mvItemRegistry.h"
-#include "mvAppItemCommons.h"
 #include "mvPyUtils.h"
+#pragma hdrstop
 
-void mvRunTasks()
+#include "mvCallbackRegistry.h"
+
+#include "mvContext.h"
+#include "mvItemRegistry.h"
+
+void mvRunTasks(bool early /* = false */)
 {
 
-	while (!GContext->callbackRegistry->tasks.empty())
+	auto& tasks = early? GContext->callbackRegistry->earlyTasks : GContext->callbackRegistry->tasks;
+	while (!tasks.empty())
 	{
 		mvFunctionWrapper t;
-		GContext->callbackRegistry->tasks.wait_and_pop(t);
+		tasks.wait_and_pop(t);
 		t();
 	}
 }

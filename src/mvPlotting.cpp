@@ -1,14 +1,18 @@
+#include "mvPyUtils.h"
+#pragma hdrstop
+
 #include "mvPlotting.h"
-#include <utility>
+
 #include "mvCore.h"
 #include "mvContext.h"
 #include "mvItemRegistry.h"
-#include "mvPyUtils.h"
 #include "mvFontItems.h"
 #include "mvThemes.h"
 #include "mvContainers.h"
 #include "mvTextureItems.h"
 #include "mvItemHandlers.h"
+
+#include <utility>
 
 static void
 draw_polygon(const mvAreaSeriesConfig& config)
@@ -92,7 +96,7 @@ draw_polygon(const mvAreaSeriesConfig& config)
 					continue;
 
 				if (((y >= y1) && (y < y2)) || ((y == maxy) && (y > y1) && (y <= y2)))
-					polyints[ints++] = (y - y1) * (x2 - x1) / (y2 - y1) + x1;
+					polyints[ints++] = (int)((y - y1) * (x2 - x1) / (y2 - y1) + x1);
 
 			}
 
@@ -372,10 +376,7 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -594,8 +595,8 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 
 		if (ImPlot::IsPlotHovered())
 		{
-			GContext->input.mousePlotPos.x = ImPlot::GetPlotMousePos().x;
-			GContext->input.mousePlotPos.y = ImPlot::GetPlotMousePos().y;
+			GContext->input.mousePlotPos.x = (float)ImPlot::GetPlotMousePos().x;
+			GContext->input.mousePlotPos.y = (float)ImPlot::GetPlotMousePos().y;
 		}
 
 		// todo: resolve clipping
@@ -644,7 +645,7 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 
 	// set cursor position to cached position
 	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
+		DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
 	ImPlot::GetInputMap() = config._originalMap;
 
@@ -781,7 +782,7 @@ DearPyGui::draw_drag_line(ImDrawList* drawlist, mvAppItem& item, mvDragLineConfi
 
 	if (config.vertical)
 	{
-		if (ImPlot::DragLineX(item.uuid, config.value.get(), config.color, config.thickness, config.flags, nullptr, &hovered, &held))
+		if (ImPlot::DragLineX((int)item.uuid, config.value.get(), config.color, config.thickness, config.flags, nullptr, &hovered, &held))
 		{
 			item.submitCallback();
 		}
@@ -797,7 +798,7 @@ DearPyGui::draw_drag_line(ImDrawList* drawlist, mvAppItem& item, mvDragLineConfi
 	}
 	else
 	{
-		if (ImPlot::DragLineY(item.uuid, config.value.get(), config.color, config.thickness, config.flags, nullptr, &hovered, &held))
+		if (ImPlot::DragLineY((int)item.uuid, config.value.get(), config.color, config.thickness, config.flags, nullptr, &hovered, &held))
 		{
 			item.submitCallback();
 		}
@@ -858,7 +859,7 @@ DearPyGui::draw_drag_rect(ImDrawList* drawlist, mvAppItem& item, mvDragRectConfi
 	ymax = (*config.value.get())[3];
 
 	// item.config.specifiedLabel.c_str(),
-	if (ImPlot::DragRect(item.uuid, &xmin, &ymin, &xmax, &ymax, config.color, config.flags))
+	if (ImPlot::DragRect((int)item.uuid, &xmin, &ymin, &xmax, &ymax, config.color, config.flags))
 	{
 		(*config.value.get())[0] = xmin;
 		(*config.value.get())[1] = ymin;
@@ -883,7 +884,7 @@ DearPyGui::draw_drag_point(ImDrawList* drawlist, mvAppItem& item, mvDragPointCon
 
 	bool hovered = false;
 	bool held = false;
-	if (ImPlot::DragPoint(item.uuid, &dummyx, &dummyy, config.color, config.radius, config.flags, nullptr, &hovered, &held))
+	if (ImPlot::DragPoint((int)item.uuid, &dummyx, &dummyy, config.color, config.radius, config.flags, nullptr, &hovered, &held))
 	{
 		(*config.value.get())[0] = dummyx;
 		(*config.value.get())[1] = dummyy;
@@ -914,10 +915,7 @@ DearPyGui::draw_bar_series(ImDrawList* drawlist, mvAppItem& item, const mvBarSer
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -983,10 +981,7 @@ DearPyGui::draw_bar_group_series(ImDrawList* drawlist, mvAppItem& item, const mv
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -1056,10 +1051,7 @@ DearPyGui::draw_line_series(ImDrawList* drawlist, mvAppItem& item, const mvLineS
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -1124,10 +1116,7 @@ DearPyGui::draw_scatter_series(ImDrawList* drawlist, mvAppItem& item, const mvSc
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -1192,10 +1181,7 @@ DearPyGui::draw_stair_series(ImDrawList* drawlist, mvAppItem& item, const mvStai
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -1260,10 +1246,7 @@ DearPyGui::draw_stem_series(ImDrawList* drawlist, mvAppItem& item, const mvStemS
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -1328,10 +1311,7 @@ DearPyGui::draw_shade_series(ImDrawList* drawlist, mvAppItem& item, const mvShad
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -1399,10 +1379,7 @@ DearPyGui::draw_inf_lines_series(ImDrawList* drawlist, mvAppItem& item, const mv
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -1465,10 +1442,7 @@ DearPyGui::draw_2dhistogram_series(ImDrawList* drawlist, mvAppItem& item, const 
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -1534,10 +1508,7 @@ DearPyGui::draw_error_series(ImDrawList* drawlist, mvAppItem& item, const mvErro
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -1606,10 +1577,7 @@ DearPyGui::draw_heat_series(ImDrawList* drawlist, mvAppItem& item, const mvHeatS
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -1674,10 +1642,7 @@ DearPyGui::draw_histogram_series(ImDrawList* drawlist, mvAppItem& item, const mv
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -1748,10 +1713,7 @@ DearPyGui::draw_digital_series(ImDrawList* drawlist, mvAppItem& item, const mvDi
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -1818,10 +1780,7 @@ DearPyGui::draw_pie_series(ImDrawList* drawlist, mvAppItem& item, const mvPieSer
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -1895,10 +1854,7 @@ DearPyGui::draw_label_series(ImDrawList* drawlist, mvAppItem& item, const mvLabe
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -1957,10 +1913,7 @@ DearPyGui::draw_image_series(ImDrawList* drawlist, mvAppItem& item, mvImageSerie
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -1970,40 +1923,35 @@ DearPyGui::draw_image_series(ImDrawList* drawlist, mvAppItem& item, mvImageSerie
 	//-----------------------------------------------------------------------------
 	{
 
-		if (config._texture)
+		if (config._texture && config._texture->state.ok)
 		{
-			if (config._internalTexture)
-				config._texture->draw(drawlist, 0.0f, 0.0f);
-
-			if (!config._texture->state.ok)
-				return;
-
-			void* texture = nullptr;
-
-			if (config._texture->type == mvAppItemType::mvStaticTexture)
-				texture = static_cast<mvStaticTexture*>(config._texture.get())->_texture;
-			else if (config._texture->type == mvAppItemType::mvRawTexture)
-				texture = static_cast<mvRawTexture*>(config._texture.get())->_texture;
-			else
-				texture = static_cast<mvDynamicTexture*>(config._texture.get())->_texture;
-
-			ImPlot::PlotImage(item.info.internalLabel.c_str(), texture, config.bounds_min, config.bounds_max, config.uv_min, config.uv_max, config.tintColor, config.flags);
-
-			// Begin a popup for a legend entry.
-			if (ImPlot::BeginLegendPopup(item.info.internalLabel.c_str(), 1))
+			auto type = config._texture->type;
+			if (type == mvAppItemType::mvStaticTexture ||
+				type == mvAppItemType::mvDynamicTexture ||
+				type == mvAppItemType::mvRawTexture)
 			{
-				for (auto& childset : item.childslots)
+				// TODO: use this line once ImPlot gets updated to newer version that supports ImTextureRef
+				// ImTextureRef texture = static_cast<mvTextureItem*>(config._texture.get())->getTexRef();
+				ImTextureID texture = static_cast<mvTextureItem*>(config._texture.get())->_texture;
+
+				ImPlot::PlotImage(item.info.internalLabel.c_str(), texture, config.bounds_min, config.bounds_max, config.uv_min, config.uv_max, config.tintColor, config.flags);
+
+				// Begin a popup for a legend entry.
+				if (ImPlot::BeginLegendPopup(item.info.internalLabel.c_str(), 1))
 				{
-					for (auto& item : childset)
+					for (auto& childset : item.childslots)
 					{
-						// skip item if it's not shown
-						if (!item->config.show)
-							continue;
-						item->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
-						UpdateAppItemState(item->state);
+						for (auto& item : childset)
+						{
+							// skip item if it's not shown
+							if (!item->config.show)
+								continue;
+							item->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
+							UpdateAppItemState(item->state);
+						}
 					}
+					ImPlot::EndLegendPopup();
 				}
-				ImPlot::EndLegendPopup();
 			}
 		}
 	}
@@ -2037,10 +1985,7 @@ DearPyGui::draw_area_series(ImDrawList* drawlist, mvAppItem& item, const mvAreaS
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -2110,10 +2055,7 @@ DearPyGui::draw_candle_series(ImDrawList* drawlist, mvAppItem& item, const mvCan
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -2187,10 +2129,7 @@ DearPyGui::draw_custom_series(ImDrawList* drawlist, mvAppItem& item, mvCustomSer
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -2294,8 +2233,8 @@ DearPyGui::draw_custom_series(ImDrawList* drawlist, mvAppItem& item, mvCustomSer
 			item.submitCallbackEx([=, channelCount=config.channelCount, transformedValues=config._transformedValues] () {
 				const int extras = 4;
 				PyObject* helperData = PyDict_New();
-				PyDict_SetItemString(helperData, "MouseX_PlotSpace", ToPyFloat(mouse.x));
-				PyDict_SetItemString(helperData, "MouseY_PlotSpace", ToPyFloat(mouse.y));
+				PyDict_SetItemString(helperData, "MouseX_PlotSpace", ToPyDouble(mouse.x));
+				PyDict_SetItemString(helperData, "MouseY_PlotSpace", ToPyDouble(mouse.y));
 				PyDict_SetItemString(helperData, "MouseX_PixelSpace", ToPyFloat(mouse2.x));
 				PyDict_SetItemString(helperData, "MouseY_PixelSpace", ToPyFloat(mouse2.y));
 				PyObject* appData = PyTuple_New(channelCount + extras);
@@ -2403,14 +2342,13 @@ DearPyGui::set_positional_configuration(PyObject* inDict, mvBarSeriesConfig& out
 
 static bool ValidateBarGroupConfig(mvBarGroupSeriesConfig& outConfig) 
 {
-	if (outConfig.group_size == 0)
+	if (outConfig.group_size <= 0)
 	{
-		mvThrowPythonError(mvErrorCode::mvNone, "draw_bar_group_series", "`group_size` can't be 0", nullptr);
+		mvThrowPythonError(mvErrorCode::mvNone, "draw_bar_group_series", "`group_size` must be positive", nullptr);
 		return false;
 	}
 	const std::vector<double>* values = &(*outConfig.value.get())[0];
 	const size_t values_size = values->size();
-	const int item_count = values_size / outConfig.group_size;
 
 	if (values_size % outConfig.group_size != 0)
 	{
@@ -2584,17 +2522,16 @@ DearPyGui::set_required_configuration(PyObject* inDict, mvImageSeriesConfig& out
 	outConfig.bounds_min.y = resultmin.y;
 	outConfig.bounds_max.x = resultmax.x;
 	outConfig.bounds_max.y = resultmax.y;
-	outConfig._texture = GetRefItem(*GContext->itemRegistry, outConfig.textureUUID);
-	if (outConfig._texture)
-	{
-	}
-	else if (outConfig.textureUUID == MV_ATLAS_UUID)
+	if (outConfig.textureUUID == MV_ATLAS_UUID)
 	{
 		outConfig._texture = std::make_shared<mvStaticTexture>(outConfig.textureUUID);
-		outConfig._internalTexture = true;
 	}
 	else
-		mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(mvAppItemType::mvImageSeries), "Texture not found.", nullptr);
+	{
+		outConfig._texture = GetRefItem(*GContext->itemRegistry, outConfig.textureUUID);
+		if (!outConfig._texture)
+			mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(mvAppItemType::mvImageSeries), "Texture not found.", nullptr);
+	}
 }
 
 void
@@ -3203,19 +3140,15 @@ DearPyGui::set_configuration(PyObject* inDict, mvImageSeriesConfig& outConfig)
 	if (PyObject* item = PyDict_GetItemString(inDict, "texture_tag"))
 	{
 		outConfig.textureUUID = GetIDFromPyObject(item);
-		outConfig._texture = GetRefItem(*GContext->itemRegistry, outConfig.textureUUID);
 		if (outConfig.textureUUID == MV_ATLAS_UUID)
 		{
 			outConfig._texture = std::make_shared<mvStaticTexture>(outConfig.textureUUID);
-			outConfig._internalTexture = true;
-		}
-		else if (outConfig._texture)
-		{
-			outConfig._internalTexture = false;
 		}
 		else
 		{
-			mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(mvAppItemType::mvImageSeries), "Texture not found.", nullptr);
+			outConfig._texture = GetRefItem(*GContext->itemRegistry, outConfig.textureUUID);
+			if (!outConfig._texture)
+				mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(mvAppItemType::mvImageSeries), "Texture not found.", nullptr);
 		}
 	}
 }
@@ -3245,7 +3178,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvCandleSeriesConfig& outConfig)
 	if (PyObject* item = PyDict_GetItemString(inDict, "closes")) { (*outConfig.value)[2] = ToDoubleVect(item); }
 	if (PyObject* item = PyDict_GetItemString(inDict, "lows")) { (*outConfig.value)[3] = ToDoubleVect(item); }
 	if (PyObject* item = PyDict_GetItemString(inDict, "highs")) { (*outConfig.value)[4] = ToDoubleVect(item); }
-	if (PyObject* item = PyDict_GetItemString(inDict, "time_unit")) { outConfig.timeunit = ToUUID(item); }
+	if (PyObject* item = PyDict_GetItemString(inDict, "time_unit")) { outConfig.timeunit = ToInt(item); }
 }
 
 void

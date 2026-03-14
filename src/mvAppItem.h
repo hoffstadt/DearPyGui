@@ -9,12 +9,10 @@
 
 #include <string>
 #include <vector>
-#include <map>
 #include <imgui.h>
 #include "mvAppItemState.h"
 #include "mvCallbackRegistry.h"
 #include "mvPyUtils.h"
-#include <implot_internal.h>
 #include "mvAppItemTypes.inc"
 
 // forward declarations
@@ -71,7 +69,7 @@ struct ScopedID
 
 namespace DearPyGui
 {
-    std::shared_ptr<mvAppItem>                                CreateEntity                    (mvAppItemType type, mvUUID id);
+    std::shared_ptr<mvAppItem>                      CreateEntity                    (mvAppItemType type, mvUUID id);
     int                                             GetEntityDesciptionFlags        (mvAppItemType type);
     int                                             GetEntityTargetSlot             (mvAppItemType type);
     StorageValueTypes                               GetEntityValueType              (mvAppItemType type);
@@ -79,11 +77,14 @@ namespace DearPyGui
     int                                             GetApplicableState              (mvAppItemType type);
     const std::vector<std::pair<std::string, i32>>& GetAllowableParents             (mvAppItemType type);
     const std::vector<std::pair<std::string, i32>>& GetAllowableChildren            (mvAppItemType type);
-    std::shared_ptr<mvThemeComponent>&                        GetClassThemeComponent          (mvAppItemType type);
-    std::shared_ptr<mvThemeComponent>&                        GetDisabledClassThemeComponent  (mvAppItemType type);
+    std::shared_ptr<mvThemeComponent>&              GetClassThemeComponent          (mvAppItemType type);
+    std::shared_ptr<mvThemeComponent>&              GetDisabledClassThemeComponent  (mvAppItemType type);
     mvPythonParser                                  GetEntityParser                 (mvAppItemType type);
     void                                            OnChildAdded                    (mvAppItem* item, std::shared_ptr<mvAppItem> child);
     void                                            OnChildRemoved                  (mvAppItem* item, std::shared_ptr<mvAppItem> child);
+    // This is purely a helper function that restores cursor position so that subsequent
+    // items follow the normal item flow.  Use it in place of ImGui::SetCursorPos().
+    void                                            RestoreImGuiCursor              (const ImVec2& prev_pos);
 }
 
 struct mvAppItemInfo
@@ -175,7 +176,7 @@ public:
     std::shared_ptr<mvAppItemDrawInfo>     drawInfo = nullptr;
 
     // slots
-    //   * 0 : mvFileExtension, mvFontRangeHint, mvNodeLink, mvAnnotation, mvAxisTag
+    //   * 0 : mvFileExtension, mvNodeLink, mvAnnotation, mvAxisTag
     //         mvDragLine, mvDragPoint, mvDragRect, mvLegend, mvTableColumn
     //   * 1 : Most widgets
     //   * 2 : Draw Commands
@@ -429,9 +430,6 @@ GetEntityCommand(mvAppItemType type)
     case mvAppItemType::mvThemeColor:                  return "add_theme_color";
     case mvAppItemType::mvThemeStyle:                  return "add_theme_style";
     case mvAppItemType::mvThemeComponent:              return "add_theme_component";
-    case mvAppItemType::mvFontRangeHint:               return "add_font_range_hint";
-    case mvAppItemType::mvFontRange:                   return "add_font_range";
-    case mvAppItemType::mvFontChars:                   return "add_font_chars";
     case mvAppItemType::mvCharRemap:                   return "add_char_remap";
     case mvAppItemType::mvValueRegistry:               return "add_value_registry";
     case mvAppItemType::mvIntValue:                    return "add_int_value";
@@ -508,6 +506,7 @@ GetEntityCommand(mvAppItemType type)
 #define mvImGuiCol_TabActive MV_BASE_COL_panelActiveColor
 #define mvImGuiCol_TabUnfocused MV_BASE_COL_panelColor
 #define mvImGuiCol_TabUnfocusedActive MV_BASE_COL_panelActiveColor
+#define mvImGuiCol_TabUnfocusedActiveOverline mvColor(0, 119, 200, 0)
 #define mvImGuiCol_DockingPreview MV_BASE_COL_panelActiveColor
 #define mvImGuiCol_DockingEmptyBg mvColor(51, 51, 51, 255)
 #define mvImGuiCol_PlotLines MV_BASE_COL_panelActiveColor
@@ -515,6 +514,7 @@ GetEntityCommand(mvAppItemType type)
 #define mvImGuiCol_PlotHistogram MV_BASE_COL_panelActiveColor
 #define mvImGuiCol_PlotHistogramHovered MV_BASE_COL_panelHoverColor
 #define mvImGuiCol_DragDropTarget mvColor(255, 255, 0, 179)
+#define mvImGuiCol_DragDropTargetBg mvColor(0, 0, 0, 0)
 #define mvImGuiCol_NavHighlight MV_BASE_COL_bgColor
 #define mvImGuiCol_NavWindowingHighlight mvColor(255, 255, 255, 179)
 #define mvImGuiCol_NavWindowingDimBg mvColor(204, 204, 204, 51)

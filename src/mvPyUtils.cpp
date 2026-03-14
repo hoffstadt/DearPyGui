@@ -1,12 +1,13 @@
 #include "mvPyUtils.h"
-#include <utility>
+#pragma hdrstop
 
-#include <string>
 #include "mvAppItem.h"
-#include "mvAppItemCommons.h"
 #include "mvContext.h"
 #include "mvItemRegistry.h"
 #include "dearpygui.h"
+
+#include <utility>
+#include <string>
 #include <ctime>
 #include <frameobject.h>
 
@@ -379,6 +380,23 @@ isPyObject_Dict(PyObject* obj)
 }
 
 
+template<typename T>
+Py_ssize_t VecReserveForTuple(PyObject* value, std::vector<T>& vec)
+{
+    Py_ssize_t size = PyTuple_Size(value);
+    vec.reserve(size);
+    return size;
+}
+
+template<typename T>
+Py_ssize_t VecReserveForList(PyObject* value, std::vector<T>& vec)
+{
+    Py_ssize_t size = PyList_Size(value);
+    vec.reserve(size);
+    return size;
+}
+
+
 void
 UpdatePyIntList(PyObject* pyvalue, const std::vector<int>& value)
 {
@@ -393,10 +411,9 @@ UpdatePyIntList(PyObject* pyvalue, const std::vector<int>& value)
     }
 
 
-    for (Py_ssize_t i = 0; i < PyList_Size(pyvalue); ++i)
+    auto size = std::min(PyList_Size(pyvalue), (Py_ssize_t)value.size());
+    for (Py_ssize_t i = 0; i < size; ++i)
     {
-        if (static_cast<size_t>(i) == value.size())
-            break;
         PyList_SetItem(pyvalue, i, PyLong_FromLong(value[i]));
     }
 }
@@ -415,10 +432,9 @@ UpdatePyFloatList(PyObject* pyvalue, const std::vector<float>& value)
     }
 
 
-    for (Py_ssize_t i = 0; i < PyList_Size(pyvalue); ++i)
+    auto size = std::min(PyList_Size(pyvalue), (Py_ssize_t)value.size());
+    for (Py_ssize_t i = 0; i < size; ++i)
     {
-        if (static_cast<size_t>(i) == value.size())
-            break;
         PyList_SetItem(pyvalue, i, PyFloat_FromDouble(value[i]));
     }
 }
@@ -437,15 +453,13 @@ UpdatePyStringStringList(PyObject* pyvalue, const std::vector<std::vector<std::s
     }
 
 
-    for (Py_ssize_t i = 0; i < PyList_Size(pyvalue); ++i)
+    auto size = std::min(PyList_Size(pyvalue), (Py_ssize_t)value.size());
+    for (Py_ssize_t i = 0; i < size; ++i)
     {
-        if (static_cast<size_t>(i) == value.size())
-            break;
         PyObject* row = PyList_GetItem(pyvalue, i);
-        for (Py_ssize_t j = 0; j < PyList_Size(row); ++j)
+        auto rowsize = std::min(PyList_Size(row), (Py_ssize_t)value[i].size());
+        for (Py_ssize_t j = 0; j < rowsize; ++j)
         {
-            if (static_cast<size_t>(j) == value[i].size())
-                break;
             PyList_SetItem(row, i, PyUnicode_FromString(value[i][j].c_str()));
         }
     }
@@ -869,6 +883,23 @@ ToInt(PyObject* value, const std::string& message)
     return 0;
 }
 
+long
+ToLong(PyObject* value, const std::string& message)
+{
+    if (value == nullptr)
+        return 0;
+
+
+    if (PyLong_Check(value))
+        return PyLong_AsLong(value);
+
+    else if (PyFloat_Check(value))
+        return (long)PyFloat_AsDouble(value);
+
+    mvThrowPythonError(mvErrorCode::mvWrongType, "Python value error. Must be int.");
+    return 0;
+}
+
 mvUUID
 ToUUID(PyObject* value, const std::string& message)
 {
@@ -1073,8 +1104,8 @@ ToUCharVect(PyObject* value, const std::string& message)
 
     if (PyTuple_Check(value))
     {
-        items.resize(PyTuple_Size(value));
-        for (Py_ssize_t i = 0; i < PyTuple_Size(value); ++i)
+        auto size = VecReserveForTuple(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
         {
             items[i] = (unsigned char)PyLong_AsLong(PyTuple_GetItem(value, i));
         }
@@ -1082,8 +1113,8 @@ ToUCharVect(PyObject* value, const std::string& message)
 
     else if (PyList_Check(value))
     {
-        items.resize(PyList_Size(value));
-        for (Py_ssize_t i = 0; i < PyList_Size(value); ++i)
+        auto size = VecReserveForList(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
         {
             items[i] = (unsigned char)PyLong_AsLong(PyList_GetItem(value, i));
         }
@@ -1126,8 +1157,8 @@ ToIntVect(PyObject* value, const std::string& message)
 
     if (PyTuple_Check(value))
     {
-        items.resize(PyTuple_Size(value));
-        for (Py_ssize_t i = 0; i < PyTuple_Size(value); ++i)
+        auto size = VecReserveForTuple(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
         {
             items[i] = PyLong_AsLong(PyTuple_GetItem(value, i));
         }
@@ -1135,8 +1166,8 @@ ToIntVect(PyObject* value, const std::string& message)
 
     else if (PyList_Check(value))
     {
-        items.resize(PyList_Size(value));
-        for (Py_ssize_t i = 0; i < PyList_Size(value); ++i)
+        auto size = VecReserveForList(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
         {
             items[i] = PyLong_AsLong(PyList_GetItem(value, i));
         }
@@ -1180,8 +1211,8 @@ ToUUIDVect(PyObject* value, const std::string& message)
 
     if (PyTuple_Check(value))
     {
-        items.resize(PyTuple_Size(value));
-        for (Py_ssize_t i = 0; i < PyTuple_Size(value); ++i)
+        auto size = VecReserveForTuple(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
         {
             PyObject* item = PyTuple_GetItem(value, i);
             if (isPyObject_Int(item))
@@ -1193,8 +1224,8 @@ ToUUIDVect(PyObject* value, const std::string& message)
 
     else if (PyList_Check(value))
     {
-        items.resize(PyList_Size(value));
-        for (Py_ssize_t i = 0; i < PyList_Size(value); ++i)
+        auto size = VecReserveForList(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
         {
             PyObject* item = PyList_GetItem(value, i);
             if (isPyObject_Int(item))
@@ -1211,34 +1242,6 @@ ToUUIDVect(PyObject* value, const std::string& message)
     return items;
 }
 
-template<typename T>
-Py_ssize_t GetSizeAndReserveMemoryVectVect(PyObject* value, std::vector<std::vector<T>>& vec, const std::string mode)
-{
-    assert((mode == "tuple" || mode == "list") && "mode parameter must be 'tuple' or 'list'");
-    Py_ssize_t size = 0;
-    if (mode == "tuple")
-        size = PyTuple_Size(value);
-    else if (mode == "list")
-        size = PyList_Size(value);
-
-    vec.reserve(size);
-    return size;
-}
-
-template<typename T>
-Py_ssize_t GetSizeAndReserveMemoryVect(PyObject* value, std::vector<T>& vec, const std::string mode)
-{
-    assert((mode == "tuple" || mode == "list") && "mode parameter must be 'tuple' or 'list'");
-    Py_ssize_t size = 0;
-    if (mode == "tuple")
-        size = PyTuple_Size(value);
-    else if (mode == "list")
-        size = PyList_Size(value);
-
-    vec.reserve(size);
-    return size;
-}
-
 std::vector<float>
 ToFloatVect(PyObject* value, const std::string& message)
 {
@@ -1250,7 +1253,8 @@ ToFloatVect(PyObject* value, const std::string& message)
 
     if (PyTuple_Check(value))
     {
-        for (Py_ssize_t i = 0; i < GetSizeAndReserveMemoryVect(value, items, "tuple"); ++i)
+        auto size = VecReserveForTuple(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
         {
             items.emplace_back((float)PyFloat_AsDouble(PyTuple_GetItem(value, i)));
         }
@@ -1258,7 +1262,8 @@ ToFloatVect(PyObject* value, const std::string& message)
 
     else if (PyList_Check(value))
     {
-        for (Py_ssize_t i = 0; i < GetSizeAndReserveMemoryVect(value, items, "list"); ++i)
+        auto size = VecReserveForList(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
         {
             items.emplace_back((float)PyFloat_AsDouble(PyList_GetItem(value, i)));
         }
@@ -1301,7 +1306,8 @@ ToDoubleVect(PyObject* value, const std::string& message)
 
     if (PyTuple_Check(value))
     {
-        for (Py_ssize_t i = 0; i < GetSizeAndReserveMemoryVect(value, items, "tuple"); ++i)
+        auto size = VecReserveForTuple(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
         {
             items.emplace_back(PyFloat_AsDouble(PyTuple_GetItem(value, i)));
         }
@@ -1309,7 +1315,8 @@ ToDoubleVect(PyObject* value, const std::string& message)
 
     else if (PyList_Check(value))
     {
-        for (Py_ssize_t i = 0; i < GetSizeAndReserveMemoryVect(value, items, "list"); ++i)
+        auto size = VecReserveForList(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
         {
             items.emplace_back(PyFloat_AsDouble(PyList_GetItem(value, i)));
         }
@@ -1351,7 +1358,8 @@ ToStringVect(PyObject* value, const std::string& message)
 
     if (PyTuple_Check(value))
     {
-        for (Py_ssize_t i = 0; i < GetSizeAndReserveMemoryVect(value, items, "tuple"); ++i)
+        auto size = VecReserveForTuple(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
         {
             PyObject* item = PyTuple_GetItem(value, i);
             if (PyUnicode_Check(item))
@@ -1367,7 +1375,8 @@ ToStringVect(PyObject* value, const std::string& message)
 
     else if (PyList_Check(value))
     {
-        for (Py_ssize_t i = 0; i < GetSizeAndReserveMemoryVect(value, items, "list"); ++i)
+        auto size = VecReserveForList(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
         {
             PyObject* item = PyList_GetItem(value, i);
             if (PyUnicode_Check(item))
@@ -1398,10 +1407,9 @@ ToColor(PyObject* value, const std::string& message)
 
     if (PyTuple_Check(value))
     {
-        for (Py_ssize_t i = 0; i < PyTuple_Size(value); ++i)
+        auto size = std::min(PyTuple_Size(value), (Py_ssize_t)std::size(color));
+        for (Py_ssize_t i = 0; i < size; ++i)
         {
-            if (i >= 4)
-                break;
             PyObject* item = PyTuple_GetItem(value, i);
             if(PyNumber_Check(item))
                 color[i] = (float)PyFloat_AsDouble(item)/255.0f;
@@ -1410,10 +1418,9 @@ ToColor(PyObject* value, const std::string& message)
     }
     else if (PyList_Check(value))
     {
-        for (Py_ssize_t i = 0; i < PyList_Size(value); ++i)
+        auto size = std::min(PyList_Size(value), (Py_ssize_t)std::size(color));
+        for (Py_ssize_t i = 0; i < size; ++i)
         {
-            if (i >= 4)
-                break;
             PyObject* item = PyList_GetItem(value, i);
             if (PyNumber_Check(item))
                 color[i] = (float)PyFloat_AsDouble(item)/255.0f;
@@ -1485,7 +1492,8 @@ ToVectPairString(PyObject* value, const std::string& message)
 
     if (PyTuple_Check(value))
     {
-        for (Py_ssize_t i = 0; i < PyTuple_Size(value); ++i)
+        auto size = VecReserveForTuple(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
         {
             PyObject* item = PyTuple_GetItem(value, i);
             if (PyTuple_Size(item) == 2)
@@ -1496,7 +1504,8 @@ ToVectPairString(PyObject* value, const std::string& message)
     }
     else if (PyList_Check(value))
     {
-        for (Py_ssize_t i = 0; i < PyList_Size(value); ++i)
+        auto size = VecReserveForList(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
         {
             PyObject* item = PyList_GetItem(value, i);
             if (PyList_Size(item) == 2)
@@ -1521,12 +1530,14 @@ ToVectVec2(PyObject* value, const std::string& message)
 
     if (PyTuple_Check(value))
     {
-        for (Py_ssize_t i = 0; i < PyTuple_Size(value); ++i)
+        auto size = VecReserveForTuple(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
             items.push_back(ToVec2(PyTuple_GetItem(value, i)));
     }
     else if (PyList_Check(value))
     {
-        for (Py_ssize_t i = 0; i < PyList_Size(value); ++i)
+        auto size = VecReserveForList(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
             items.push_back(ToVec2(PyList_GetItem(value, i)));
     }
 
@@ -1573,12 +1584,14 @@ ToVectVec4(PyObject* value, const std::string& message)
 
     if (PyTuple_Check(value))
     {
-        for (Py_ssize_t i = 0; i < PyTuple_Size(value); ++i)
+        auto size = VecReserveForTuple(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
             items.push_back(ToVec4(PyTuple_GetItem(value, i)));
     }
     else if (PyList_Check(value))
     {
-        for (Py_ssize_t i = 0; i < PyList_Size(value); ++i)
+        auto size = VecReserveForList(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
             items.push_back(ToVec4(PyList_GetItem(value, i)));
     }
 
@@ -1598,7 +1611,8 @@ ToVectInt2(PyObject* value, const std::string& message)
 
     if (PyTuple_Check(value))
     {
-        for (Py_ssize_t i = 0; i < PyTuple_Size(value); ++i)
+        auto size = VecReserveForTuple(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
         {
             PyObject* point = PyTuple_GetItem(value, i);
             if(PyTuple_Check(point))
@@ -1624,7 +1638,8 @@ ToVectInt2(PyObject* value, const std::string& message)
 
     else if (PyList_Check(value))
     {
-        for (Py_ssize_t i = 0; i < PyList_Size(value); ++i)
+        auto size = VecReserveForList(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
         {
             PyObject* point = PyList_GetItem(value, i);
             if(PyTuple_Check(point))
@@ -1665,13 +1680,15 @@ ToVectVectString(PyObject* value, const std::string& message)
 
     if (PyTuple_Check(value))
     {
-        for (Py_ssize_t i = 0; i < GetSizeAndReserveMemoryVectVect(value, items, "tuple"); ++i)
+        auto size = VecReserveForTuple(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
             items.emplace_back(ToStringVect(PyTuple_GetItem(value, i), message));
     }
 
     else if (PyList_Check(value))
     {
-        for (Py_ssize_t i = 0; i < GetSizeAndReserveMemoryVectVect(value, items, "list"); ++i)
+        auto size = VecReserveForList(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
             items.emplace_back(ToStringVect(PyList_GetItem(value, i), message));
     }
 
@@ -1688,7 +1705,8 @@ ToVectPairStringFloat(PyObject* value, const std::string& message)
 
     if (PyTuple_Check(value))
     {
-        for (Py_ssize_t i = 0; i < PyTuple_Size(value); ++i)
+        auto size = VecReserveForTuple(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
         {
             PyObject* item = PyTuple_GetItem(value, i);
             if (PyTuple_Size(item) == 2 && PyNumber_Check(PyTuple_GetItem(item, 1)))
@@ -1699,7 +1717,8 @@ ToVectPairStringFloat(PyObject* value, const std::string& message)
     }
     else if (PyList_Check(value))
     {
-        for (Py_ssize_t i = 0; i < PyList_Size(value); ++i)
+        auto size = VecReserveForList(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
         {
             PyObject* item = PyList_GetItem(value, i);
             if (PyList_Size(item) == 2 && PyNumber_Check(PyList_GetItem(item, 1)))
@@ -1724,13 +1743,15 @@ ToVectVectFloat(PyObject* value, const std::string& message)
 
     if (PyTuple_Check(value))
     {
-        for (Py_ssize_t i = 0; i < GetSizeAndReserveMemoryVectVect(value, items, "tuple"); ++i)
+        auto size = VecReserveForTuple(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
             items.emplace_back(ToFloatVect(PyTuple_GetItem(value, i), message));
     }
 
     else if (PyList_Check(value))
     {
-        for (Py_ssize_t i = 0; i < GetSizeAndReserveMemoryVectVect(value, items, "list"); ++i)
+        auto size = VecReserveForList(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
             items.emplace_back(ToFloatVect(PyList_GetItem(value, i), message));
     }
 
@@ -1747,13 +1768,15 @@ ToVectVectInt(PyObject* value, const std::string& message)
 
     if (PyTuple_Check(value))
     {
-        for (Py_ssize_t i = 0; i < GetSizeAndReserveMemoryVectVect(value, items, "tuple"); ++i)
+        auto size = VecReserveForTuple(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
             items.emplace_back(ToIntVect(PyTuple_GetItem(value, i), message));
     }
 
     else if (PyList_Check(value))
     {
-        for (Py_ssize_t i = 0; i < GetSizeAndReserveMemoryVectVect(value, items, "list"); ++i)
+        auto size = VecReserveForList(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
             items.emplace_back(ToIntVect(PyList_GetItem(value, i), message));
     }
 
@@ -1770,13 +1793,15 @@ ToVectVectDouble(PyObject* value, const std::string& message)
 
     if (PyTuple_Check(value))
     {
-        for (Py_ssize_t i = 0; i < GetSizeAndReserveMemoryVectVect(value, items, "tuple"); ++i)
+        auto size = VecReserveForTuple(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
             items.emplace_back(ToDoubleVect(PyTuple_GetItem(value, i), message));
     }
 
     else if (PyList_Check(value))
     {
-        for (Py_ssize_t i = 0; i < GetSizeAndReserveMemoryVectVect(value, items, "list"); ++i)
+        auto size = VecReserveForList(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
             items.emplace_back(ToDoubleVect(PyList_GetItem(value, i), message));
     }
 
@@ -2110,7 +2135,8 @@ VerifyKeywordArguments(const mvPythonParser& parser, PyObject* args)
     PyObject* keys = PyDict_Keys(args);
 
     bool exists = false;
-    for (int i = 0; i < PyList_Size(keys); i++)
+    auto keycnt = PyList_Size(keys);
+    for (int i = 0; i < keycnt; i++)
     {
         PyObject* item = PyList_GetItem(keys, i);
         auto sitem = ToString(item);

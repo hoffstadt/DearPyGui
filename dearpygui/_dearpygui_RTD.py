@@ -1547,6 +1547,58 @@ def set_start_callback(callback):
     """ deprecated function """
     return internal_dpg.set_frame_callback(3, callback)
 
+@deprecated("This call is a no-op because character ranges are now automatic")
+def add_font_chars(chars : Union[List[int], Tuple[int, ...]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, **kwargs) -> Union[int, str]:
+	"""	(deprecated function) Adds specific font characters to a font.
+
+	Args:
+		chars (Union[List[int], Tuple[int, ...]]): 
+		label (str, optional): Overrides 'name' as label.
+		user_data (Any, optional): User data for callbacks
+		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
+		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		id (Union[int, str], optional): (deprecated) 
+	Returns:
+		Union[int, str]
+	"""
+	pass
+
+@deprecated("This call is a no-op because character ranges are now automatic")
+def add_font_range(first_char : int, last_char : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, **kwargs) -> Union[int, str]:
+	"""	(deprecated function)  Adds a range of font characters to a font.
+
+	Args:
+		first_char (int): 
+		last_char (int): 
+		label (str, optional): Overrides 'name' as label.
+		user_data (Any, optional): User data for callbacks
+		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
+		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		id (Union[int, str], optional): (deprecated) 
+	Returns:
+		Union[int, str]
+	"""
+	pass
+
+@deprecated("This call is a no-op because character ranges are now automatic")
+def add_font_range_hint(hint : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, **kwargs) -> Union[int, str]:
+	"""	(deprecated function)  Adds a range of font characters (mvFontRangeHint_ constants).
+
+	Args:
+		hint (int): 
+		label (str, optional): Overrides 'name' as label.
+		user_data (Any, optional): User data for callbacks
+		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
+		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		id (Union[int, str], optional): (deprecated) 
+	Returns:
+		Union[int, str]
+	"""
+	pass
+
 ##########################################################
 # Container Context Managers
 ##########################################################
@@ -1892,7 +1944,8 @@ def font(file, size, **kwargs):
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		pixel_snapH (bool, optional): Align every glyph to pixel boundary. Useful e.g. if you are merging a non-pixel aligned font with the default font, or rendering text piece-by-piece (e.g. for coloring).
+		pixel_snapH (bool, optional): Align every glyph to pixel boundary in horizontal direction. Useful if you are rendering text piece-by-piece (e.g. for coloring).
+		pixel_snapV (bool, optional): Align scaled GlyphOffset.y to pixel boundaries in ImGui.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		id (Union[int, str], optional): (deprecated)
 		default_font (bool, optional): (deprecated)
@@ -2383,6 +2436,9 @@ def tab(**kwargs):
 		closable (bool, optional): Creates a button on the tab that can hide the tab.
 		no_tooltip (bool, optional): Disable tooltip for the given tab.
 		order_mode (int, optional): set using a constant: mvTabOrder_Reorderable: allows reordering, mvTabOrder_Fixed: fixed ordering, mvTabOrder_Leading: adds tab to front, mvTabOrder_Trailing: adds tab to back
+		unsaved_document (bool, optional): Display a dot next to the title.
+		no_close_with_middle_click (bool, optional): Disable closing this tab (if closable==True) by clicking with middle mouse button.
+		no_reorder (bool, optional): Disable reordering this tab or having another tab cross over this tab.
 		id (Union[int, str], optional): (deprecated)
 		delay_search (bool, optional): (deprecated)This was used as an optimization hint but is not relevant anymore.
 	Yields:
@@ -2414,6 +2470,11 @@ def tab_bar(**kwargs):
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		reorderable (bool, optional): Allows for the user to change the order of the tabs.
+		tab_list_popup_button (bool, optional): Show a button to select active tab from a dropdown list.
+		no_close_with_middle_click (bool, optional): Disable closing tabs (that have closable=True) by clicking with middle mouse button.
+		no_scrolling_buttons (bool, optional): Disable left/right scrolling buttons when tab buttons don't fit the container width.
+		no_tooltip (bool, optional): Disable tooltips when hovering a tab with a long name.
+		draw_selected_overline (bool, optional): Draw selected overline markers over selected tab.
 		id (Union[int, str], optional): (deprecated)
 		delay_search (bool, optional): (deprecated)This was used as an optimization hint but is not relevant anymore.
 	Yields:
@@ -2674,6 +2735,8 @@ def tree_node(**kwargs):
 		selectable (bool, optional): Makes the tree selectable.
 		span_text_width (bool, optional): Makes hitbox and highlight only cover the label.
 		span_full_width (bool, optional): Extend hit box to the left-most and right-most edges (cover the indent area).
+		catch_nav_left (bool, optional): Keyboard navigation: left arrow within this node's children, if unhandled, moves focus to this node.  When setting it to True on a node, better set it on all children nodes in the subtree as well, otherwise it might give unexpected navigation jumps.
+		lines (int, optional): Experimental.  Draw lines connecting tree_node hierarchy.  One of dpg.mvTreeLines constants.  To work correctly, must be configured the same way in every tree node.
 		id (Union[int, str], optional): (deprecated)
 		delay_search (bool, optional): (deprecated)This was used as an optimization hint but is not relevant anymore.
 	Yields:
@@ -2789,6 +2852,8 @@ def window(**kwargs):
 		no_saved_settings (bool, optional): Never load/save settings in .ini file.
 		no_open_over_existing_popup (bool, optional): Don't open if there's already a popup
 		no_scroll_with_mouse (bool, optional): Disable user vertically scrolling with mouse wheel.
+		no_docking (bool, optional): Disable docking of this window
+		copy_contents_shortcut (bool, optional): Experimental. If True, window contents can be copied to clipboard by pressing Ctrl+C. Might be useful for message boxes.
 		on_close (Callable, optional): Callback ran when window is closed.
 		id (Union[int, str], optional): (deprecated)
 		delay_search (bool, optional): (deprecated)This was used as an optimization hint but is not relevant anymore.
@@ -3233,6 +3298,8 @@ def add_color_button(default_value=(0, 0, 0, 255), **kwargs):
 		no_alpha (bool, optional): Removes the displayed slider that can change alpha channel.
 		no_border (bool, optional): Disable border around the image.
 		no_drag_drop (bool, optional): Disable ability to drag and drop small preview (color square) to apply colors to other items.
+		alpha_preview (int, optional): mvColorEdit_AlphaPreviewNone, mvColorEdit_AlphaPreview, or mvColorEdit_AlphaPreviewHalf
+		no_tooltip (bool, optional): Disable tooltip when hovering the button.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -4201,7 +4268,8 @@ def add_font(file, size, **kwargs):
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		pixel_snapH (bool, optional): Align every glyph to pixel boundary. Useful e.g. if you are merging a non-pixel aligned font with the default font, or rendering text piece-by-piece (e.g. for coloring).
+		pixel_snapH (bool, optional): Align every glyph to pixel boundary in horizontal direction. Useful if you are rendering text piece-by-piece (e.g. for coloring).
+		pixel_snapV (bool, optional): Align scaled GlyphOffset.y to pixel boundaries in ImGui.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		id (Union[int, str], optional): (deprecated)
 		default_font (bool, optional): (deprecated)
@@ -4210,58 +4278,6 @@ def add_font(file, size, **kwargs):
 	"""
 
 	return internal_dpg.add_font(file, size, **kwargs)
-
-def add_font_chars(chars, **kwargs):
-	"""	 Adds specific font characters to a font.
-
-	Args:
-		chars (Union[List[int], Tuple[int, ...]]): 
-		label (str, optional): Overrides 'name' as label.
-		user_data (Any, optional): User data for callbacks
-		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
-		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		id (Union[int, str], optional): (deprecated)
-	Returns:
-		Union[int, str]
-	"""
-
-	return internal_dpg.add_font_chars(chars, **kwargs)
-
-def add_font_range(first_char, last_char, **kwargs):
-	"""	 Adds a range of font characters to a font.
-
-	Args:
-		first_char (int): 
-		last_char (int): 
-		label (str, optional): Overrides 'name' as label.
-		user_data (Any, optional): User data for callbacks
-		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
-		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		id (Union[int, str], optional): (deprecated)
-	Returns:
-		Union[int, str]
-	"""
-
-	return internal_dpg.add_font_range(first_char, last_char, **kwargs)
-
-def add_font_range_hint(hint, **kwargs):
-	"""	 Adds a range of font characters (mvFontRangeHint_ constants).
-
-	Args:
-		hint (int): 
-		label (str, optional): Overrides 'name' as label.
-		user_data (Any, optional): User data for callbacks
-		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
-		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		id (Union[int, str], optional): (deprecated)
-	Returns:
-		Union[int, str]
-	"""
-
-	return internal_dpg.add_font_range_hint(hint, **kwargs)
 
 def add_font_registry(**kwargs):
 	"""	 Adds a font registry.
@@ -4412,7 +4428,7 @@ def add_image(texture_tag, **kwargs):
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		tint_color (Union[List[float], Tuple[float, ...]], optional): Applies a color tint to the entire texture.
-		border_color (Union[List[float], Tuple[float, ...]], optional): Displays a border of the specified color around the texture. If the theme style has turned off the border it will not be shown.
+		border_color (Union[List[float], Tuple[float, ...]], optional): Displays a border of the specified color around the texture.
 		uv_min (Union[List[float], Tuple[float, ...]], optional): Normalized texture coordinates min point.
 		uv_max (Union[List[float], Tuple[float, ...]], optional): Normalized texture coordinates max point.
 		id (Union[int, str], optional): (deprecated)
@@ -4538,6 +4554,8 @@ def add_input_double(**kwargs):
 		max_clamped (bool, optional): Activates and deactivates the enforcment of max_value.
 		on_enter (bool, optional): Only runs callback on enter key press.
 		readonly (bool, optional): Activates read only mode where no text can be input but text can still be highlighted.
+		accept_empty_input (bool, optional): Treat empty input as a zero value.
+		display_empty_value (bool, optional): If True, display an empty input if the value is zero. Generally used together with accept_empty_input.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -4577,6 +4595,8 @@ def add_input_doublex(**kwargs):
 		max_clamped (bool, optional): Activates and deactivates the enforcment of max_value.
 		on_enter (bool, optional): Only runs callback on enter key press.
 		readonly (bool, optional): Activates read only mode where no text can be input but text can still be highlighted.
+		accept_empty_input (bool, optional): Treat empty input as a zero value.
+		display_empty_value (bool, optional): If True, display an empty input if the value is zero. Generally used together with accept_empty_input.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -4617,6 +4637,8 @@ def add_input_float(**kwargs):
 		max_clamped (bool, optional): Activates and deactivates the enforcment of max_value.
 		on_enter (bool, optional): Only runs callback on enter key press.
 		readonly (bool, optional): Activates read only mode where no text can be input but text can still be highlighted.
+		accept_empty_input (bool, optional): Treat empty input as a zero value.
+		display_empty_value (bool, optional): If True, display an empty input if the value is zero. Generally used together with accept_empty_input.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -4656,6 +4678,8 @@ def add_input_floatx(**kwargs):
 		max_clamped (bool, optional): Activates and deactivates the enforcment of max_value.
 		on_enter (bool, optional): Only runs callback on enter key press.
 		readonly (bool, optional): Activates read only mode where no text can be input but text can still be highlighted.
+		accept_empty_input (bool, optional): Treat empty input as a zero value.
+		display_empty_value (bool, optional): If True, display an empty input if the value is zero. Generally used together with accept_empty_input.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -4695,6 +4719,8 @@ def add_input_int(**kwargs):
 		max_clamped (bool, optional): Activates and deactivates the enforcment of max_value.
 		on_enter (bool, optional): Only runs callback on enter key press.
 		readonly (bool, optional): Activates read only mode where no text can be input but text can still be highlighted.
+		accept_empty_input (bool, optional): Treat empty input as a zero value.
+		display_empty_value (bool, optional): If True, display an empty input if the value is zero. Generally used together with accept_empty_input.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -4733,6 +4759,8 @@ def add_input_intx(**kwargs):
 		max_clamped (bool, optional): Activates and deactivates the enforcment of max_value.
 		on_enter (bool, optional): Only runs callback on enter.
 		readonly (bool, optional): Activates read only mode where no text can be input but text can still be highlighted.
+		accept_empty_input (bool, optional): Treat empty input as a zero value.
+		display_empty_value (bool, optional): If True, display an empty input if the value is zero. Generally used together with accept_empty_input.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -4782,6 +4810,7 @@ def add_input_text(**kwargs):
 		always_overwrite (bool, optional): Overwrite mode
 		no_undo_redo (bool, optional): Disable undo/redo.
 		escape_clears_all (bool, optional): Escape key clears content if not empty, and deactivate otherwise (contrast to default behavior of Escape to revert)
+		elide_left (bool, optional): When text doesn't fit an inactive input field, clip it on the left side and ensure the right side stays visible. Useful for path/filenames. Single-line inputs only.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -5880,6 +5909,7 @@ def add_selectable(**kwargs):
 		default_value (bool, optional): 
 		span_columns (bool, optional): Forces the selectable to span the width of all columns if placed in a table.
 		disable_popup_close (bool, optional): Disable closing a modal or popup window.
+		select_on_nav (bool, optional): Auto-select when moved into with keyboard navigation, unless Ctrl is held.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -6406,6 +6436,9 @@ def add_tab(**kwargs):
 		closable (bool, optional): Creates a button on the tab that can hide the tab.
 		no_tooltip (bool, optional): Disable tooltip for the given tab.
 		order_mode (int, optional): set using a constant: mvTabOrder_Reorderable: allows reordering, mvTabOrder_Fixed: fixed ordering, mvTabOrder_Leading: adds tab to front, mvTabOrder_Trailing: adds tab to back
+		unsaved_document (bool, optional): Display a dot next to the title.
+		no_close_with_middle_click (bool, optional): Disable closing this tab (if closable==True) by clicking with middle mouse button.
+		no_reorder (bool, optional): Disable reordering this tab or having another tab cross over this tab.
 		id (Union[int, str], optional): (deprecated)
 		delay_search (bool, optional): (deprecated)This was used as an optimization hint but is not relevant anymore.
 	Returns:
@@ -6432,6 +6465,11 @@ def add_tab_bar(**kwargs):
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		reorderable (bool, optional): Allows for the user to change the order of the tabs.
+		tab_list_popup_button (bool, optional): Show a button to select active tab from a dropdown list.
+		no_close_with_middle_click (bool, optional): Disable closing tabs (that have closable=True) by clicking with middle mouse button.
+		no_scrolling_buttons (bool, optional): Disable left/right scrolling buttons when tab buttons don't fit the container width.
+		no_tooltip (bool, optional): Disable tooltips when hovering a tab with a long name.
+		draw_selected_overline (bool, optional): Draw selected overline markers over selected tab.
 		id (Union[int, str], optional): (deprecated)
 		delay_search (bool, optional): (deprecated)This was used as an optimization hint but is not relevant anymore.
 	Returns:
@@ -6463,6 +6501,7 @@ def add_tab_button(**kwargs):
 		leading (bool, optional): Enforce the tab position to the left of the tab bar (after the tab list popup button).
 		trailing (bool, optional): Enforce the tab position to the right of the tab bar (before the scrolling buttons).
 		no_tooltip (bool, optional): Disable tooltip for the given tab.
+		unsaved_document (bool, optional): Display a dot next to the title.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -6841,6 +6880,8 @@ def add_tree_node(**kwargs):
 		selectable (bool, optional): Makes the tree selectable.
 		span_text_width (bool, optional): Makes hitbox and highlight only cover the label.
 		span_full_width (bool, optional): Extend hit box to the left-most and right-most edges (cover the indent area).
+		catch_nav_left (bool, optional): Keyboard navigation: left arrow within this node's children, if unhandled, moves focus to this node.  When setting it to True on a node, better set it on all children nodes in the subtree as well, otherwise it might give unexpected navigation jumps.
+		lines (int, optional): Experimental.  Draw lines connecting tree_node hierarchy.  One of dpg.mvTreeLines constants.  To work correctly, must be configured the same way in every tree node.
 		id (Union[int, str], optional): (deprecated)
 		delay_search (bool, optional): (deprecated)This was used as an optimization hint but is not relevant anymore.
 	Returns:
@@ -6936,6 +6977,8 @@ def add_window(**kwargs):
 		no_saved_settings (bool, optional): Never load/save settings in .ini file.
 		no_open_over_existing_popup (bool, optional): Don't open if there's already a popup
 		no_scroll_with_mouse (bool, optional): Disable user vertically scrolling with mouse wheel.
+		no_docking (bool, optional): Disable docking of this window
+		copy_contents_shortcut (bool, optional): Experimental. If True, window contents can be copied to clipboard by pressing Ctrl+C. Might be useful for message boxes.
 		on_close (Callable, optional): Callback ran when window is closed.
 		id (Union[int, str], optional): (deprecated)
 		delay_search (bool, optional): (deprecated)This was used as an optimization hint but is not relevant anymore.
@@ -9170,6 +9213,9 @@ mvTable_SizingFixedFit=internal_dpg.mvTable_SizingFixedFit
 mvTable_SizingFixedSame=internal_dpg.mvTable_SizingFixedSame
 mvTable_SizingStretchProp=internal_dpg.mvTable_SizingStretchProp
 mvTable_SizingStretchSame=internal_dpg.mvTable_SizingStretchSame
+mvTreeLines_None=internal_dpg.mvTreeLines_None
+mvTreeLines_Full=internal_dpg.mvTreeLines_Full
+mvTreeLines_ToNodes=internal_dpg.mvTreeLines_ToNodes
 mvFormat_Float_rgba=internal_dpg.mvFormat_Float_rgba
 mvFormat_Float_rgb=internal_dpg.mvFormat_Float_rgb
 mvThemeCat_Core=internal_dpg.mvThemeCat_Core
@@ -9179,8 +9225,8 @@ mvThemeCol_Text=internal_dpg.mvThemeCol_Text
 mvThemeCol_TextDisabled=internal_dpg.mvThemeCol_TextDisabled
 mvThemeCol_WindowBg=internal_dpg.mvThemeCol_WindowBg
 mvThemeCol_ChildBg=internal_dpg.mvThemeCol_ChildBg
-mvThemeCol_Border=internal_dpg.mvThemeCol_Border
 mvThemeCol_PopupBg=internal_dpg.mvThemeCol_PopupBg
+mvThemeCol_Border=internal_dpg.mvThemeCol_Border
 mvThemeCol_BorderShadow=internal_dpg.mvThemeCol_BorderShadow
 mvThemeCol_FrameBg=internal_dpg.mvThemeCol_FrameBg
 mvThemeCol_FrameBgHovered=internal_dpg.mvThemeCol_FrameBgHovered
@@ -9208,11 +9254,14 @@ mvThemeCol_SeparatorActive=internal_dpg.mvThemeCol_SeparatorActive
 mvThemeCol_ResizeGrip=internal_dpg.mvThemeCol_ResizeGrip
 mvThemeCol_ResizeGripHovered=internal_dpg.mvThemeCol_ResizeGripHovered
 mvThemeCol_ResizeGripActive=internal_dpg.mvThemeCol_ResizeGripActive
-mvThemeCol_Tab=internal_dpg.mvThemeCol_Tab
+mvThemeCol_InputTextCursor=internal_dpg.mvThemeCol_InputTextCursor
 mvThemeCol_TabHovered=internal_dpg.mvThemeCol_TabHovered
-mvThemeCol_TabActive=internal_dpg.mvThemeCol_TabActive
-mvThemeCol_TabUnfocused=internal_dpg.mvThemeCol_TabUnfocused
-mvThemeCol_TabUnfocusedActive=internal_dpg.mvThemeCol_TabUnfocusedActive
+mvThemeCol_Tab=internal_dpg.mvThemeCol_Tab
+mvThemeCol_TabSelected=internal_dpg.mvThemeCol_TabSelected
+mvThemeCol_TabSelectedOverline=internal_dpg.mvThemeCol_TabSelectedOverline
+mvThemeCol_TabDimmed=internal_dpg.mvThemeCol_TabDimmed
+mvThemeCol_TabDimmedSelected=internal_dpg.mvThemeCol_TabDimmedSelected
+mvThemeCol_TabDimmedSelectedOverline=internal_dpg.mvThemeCol_TabDimmedSelectedOverline
 mvThemeCol_DockingPreview=internal_dpg.mvThemeCol_DockingPreview
 mvThemeCol_DockingEmptyBg=internal_dpg.mvThemeCol_DockingEmptyBg
 mvThemeCol_PlotLines=internal_dpg.mvThemeCol_PlotLines
@@ -9225,11 +9274,18 @@ mvThemeCol_TableBorderLight=internal_dpg.mvThemeCol_TableBorderLight
 mvThemeCol_TableRowBg=internal_dpg.mvThemeCol_TableRowBg
 mvThemeCol_TableRowBgAlt=internal_dpg.mvThemeCol_TableRowBgAlt
 mvThemeCol_TextSelectedBg=internal_dpg.mvThemeCol_TextSelectedBg
+mvThemeCol_TreeLines=internal_dpg.mvThemeCol_TreeLines
 mvThemeCol_DragDropTarget=internal_dpg.mvThemeCol_DragDropTarget
-mvThemeCol_NavHighlight=internal_dpg.mvThemeCol_NavHighlight
+mvThemeCol_DragDropTargetBg=internal_dpg.mvThemeCol_DragDropTargetBg
+mvThemeCol_UnsavedMarker=internal_dpg.mvThemeCol_UnsavedMarker
+mvThemeCol_NavCursor=internal_dpg.mvThemeCol_NavCursor
 mvThemeCol_NavWindowingHighlight=internal_dpg.mvThemeCol_NavWindowingHighlight
 mvThemeCol_NavWindowingDimBg=internal_dpg.mvThemeCol_NavWindowingDimBg
 mvThemeCol_ModalWindowDimBg=internal_dpg.mvThemeCol_ModalWindowDimBg
+mvThemeCol_TabActive=internal_dpg.mvThemeCol_TabActive
+mvThemeCol_TabUnfocused=internal_dpg.mvThemeCol_TabUnfocused
+mvThemeCol_TabUnfocusedActive=internal_dpg.mvThemeCol_TabUnfocusedActive
+mvThemeCol_NavHighlight=internal_dpg.mvThemeCol_NavHighlight
 mvPlotCol_Line=internal_dpg.mvPlotCol_Line
 mvPlotCol_Fill=internal_dpg.mvPlotCol_Fill
 mvPlotCol_MarkerOutline=internal_dpg.mvPlotCol_MarkerOutline
@@ -9243,11 +9299,12 @@ mvPlotCol_LegendBorder=internal_dpg.mvPlotCol_LegendBorder
 mvPlotCol_LegendText=internal_dpg.mvPlotCol_LegendText
 mvPlotCol_TitleText=internal_dpg.mvPlotCol_TitleText
 mvPlotCol_InlayText=internal_dpg.mvPlotCol_InlayText
-mvPlotCol_AxisBg=internal_dpg.mvPlotCol_AxisBg
-mvPlotCol_AxisBgActive=internal_dpg.mvPlotCol_AxisBgActive
-mvPlotCol_AxisBgHovered=internal_dpg.mvPlotCol_AxisBgHovered
-mvPlotCol_AxisGrid=internal_dpg.mvPlotCol_AxisGrid
 mvPlotCol_AxisText=internal_dpg.mvPlotCol_AxisText
+mvPlotCol_AxisGrid=internal_dpg.mvPlotCol_AxisGrid
+mvPlotCol_AxisTick=internal_dpg.mvPlotCol_AxisTick
+mvPlotCol_AxisBg=internal_dpg.mvPlotCol_AxisBg
+mvPlotCol_AxisBgHovered=internal_dpg.mvPlotCol_AxisBgHovered
+mvPlotCol_AxisBgActive=internal_dpg.mvPlotCol_AxisBgActive
 mvPlotCol_Selection=internal_dpg.mvPlotCol_Selection
 mvPlotCol_Crosshairs=internal_dpg.mvPlotCol_Crosshairs
 mvNodeCol_NodeBackground=internal_dpg.mvNodeCol_NodeBackground
@@ -9299,13 +9356,20 @@ mvStyleVar_IndentSpacing=internal_dpg.mvStyleVar_IndentSpacing
 mvStyleVar_CellPadding=internal_dpg.mvStyleVar_CellPadding
 mvStyleVar_ScrollbarSize=internal_dpg.mvStyleVar_ScrollbarSize
 mvStyleVar_ScrollbarRounding=internal_dpg.mvStyleVar_ScrollbarRounding
+mvStyleVar_ScrollbarPadding=internal_dpg.mvStyleVar_ScrollbarPadding
 mvStyleVar_GrabMinSize=internal_dpg.mvStyleVar_GrabMinSize
 mvStyleVar_GrabRounding=internal_dpg.mvStyleVar_GrabRounding
+mvStyleVar_ImageBorderSize=internal_dpg.mvStyleVar_ImageBorderSize
 mvStyleVar_TabRounding=internal_dpg.mvStyleVar_TabRounding
 mvStyleVar_TabBorderSize=internal_dpg.mvStyleVar_TabBorderSize
+mvStyleVar_TabMinWidthBase=internal_dpg.mvStyleVar_TabMinWidthBase
+mvStyleVar_TabMinWidthShrink=internal_dpg.mvStyleVar_TabMinWidthShrink
 mvStyleVar_TabBarBorderSize=internal_dpg.mvStyleVar_TabBarBorderSize
+mvStyleVar_TabBarOverlineSize=internal_dpg.mvStyleVar_TabBarOverlineSize
 mvStyleVar_TableAngledHeadersAngle=internal_dpg.mvStyleVar_TableAngledHeadersAngle
 mvStyleVar_TableAngledHeadersTextAlign=internal_dpg.mvStyleVar_TableAngledHeadersTextAlign
+mvStyleVar_TreeLinesSize=internal_dpg.mvStyleVar_TreeLinesSize
+mvStyleVar_TreeLinesRounding=internal_dpg.mvStyleVar_TreeLinesRounding
 mvStyleVar_ButtonTextAlign=internal_dpg.mvStyleVar_ButtonTextAlign
 mvStyleVar_SelectableTextAlign=internal_dpg.mvStyleVar_SelectableTextAlign
 mvStyleVar_SeparatorTextBorderSize=internal_dpg.mvStyleVar_SeparatorTextBorderSize
@@ -9493,9 +9557,6 @@ mvTheme=internal_dpg.mvTheme
 mvThemeColor=internal_dpg.mvThemeColor
 mvThemeStyle=internal_dpg.mvThemeStyle
 mvThemeComponent=internal_dpg.mvThemeComponent
-mvFontRangeHint=internal_dpg.mvFontRangeHint
-mvFontRange=internal_dpg.mvFontRange
-mvFontChars=internal_dpg.mvFontChars
 mvCharRemap=internal_dpg.mvCharRemap
 mvValueRegistry=internal_dpg.mvValueRegistry
 mvIntValue=internal_dpg.mvIntValue

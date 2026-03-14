@@ -1,14 +1,18 @@
-#include "mvDatePicker.h"
-#include "mvContext.h"
-#include <implot.h>
-#include <implot_internal.h>
-#include <misc/cpp/imgui_stdlib.h>
-#include "mvItemRegistry.h"
 #include "mvPyUtils.h"
+#pragma hdrstop
+
+#include "mvDatePicker.h"
+
+#include "mvContext.h"
+#include "mvItemRegistry.h"
 #include "mvFontItems.h"
 #include "mvThemes.h"
 #include "mvContainers.h"
 #include "mvItemHandlers.h"
+
+#include <implot.h>
+#include <implot_internal.h>
+#include <misc/cpp/imgui_stdlib.h>
 
 void mvDatePicker::draw(ImDrawList* drawlist, float x, float y)
 {
@@ -48,10 +52,7 @@ void mvDatePicker::draw(ImDrawList* drawlist, float x, float y)
 
 	// push font if a font object is attached
 	if (font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(font.get())->pushFont();
 
 	// themes
 	apply_local_theming(this);
@@ -83,7 +84,7 @@ void mvDatePicker::draw(ImDrawList* drawlist, float x, float y)
 
 	// set cursor position to cached position
 	if (info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
+		DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
 	if (config.indent > 0.0f)
 		ImGui::Unindent(config.indent);

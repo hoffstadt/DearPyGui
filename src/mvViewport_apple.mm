@@ -1,10 +1,12 @@
 #include "mvViewport.h"
-#include <implot.h>
-#include "imnodes.h"
-#include "mvToolManager.h"
-#include "mvFontManager.h"
+
 #include "mvAppleSpecifics.h"
 
+#include "mvFontManager.h"
+#include "mvToolManager.h"
+
+#include <implot.h>
+#include "imnodes.h"
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_metal.h"
@@ -215,13 +217,7 @@ mvRenderFrame()
         {
 		    // Font manager is thread-unsafe, so we'd better sync it
             std::lock_guard lk(GContext->mutex);
-            if (mvToolManager::GetFontManager().isInvalid())
-            {
-                mvToolManager::GetFontManager().rebuildAtlas();
-                ImGui_ImplMetal_DestroyFontsTexture();
-                mvToolManager::GetFontManager().updateAtlas();
-                ImGui_ImplMetal_CreateFontsTexture(graphicsData->device);
-            }
+            mvToolManager::GetFontManager().updateAtlas();
         }
 
         NSWindow *nswin = glfwGetCocoaWindow(viewportData->handle);

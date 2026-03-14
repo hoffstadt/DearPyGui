@@ -1,4 +1,5 @@
 #include "mvLoadingIndicatorCustom.h"
+
 #include <utility>
 #include <cmath>
 #include <imgui_internal.h>
@@ -96,7 +97,7 @@ void LoadingIndicatorCircle2(const char* label, float indicatorRadiusFactor, flo
 
     int num_segments = 30;
 
-    int start = abs((int)(ImSin(g.Time * 1.8f) * (num_segments - 5)));
+    int start = abs((int)(ImSin((float)g.Time * 1.8f) * (num_segments - 5)));
 
     const float a_min = IM_PI * 2.0f * ((float)start) / (float)num_segments;
     const float a_max = IM_PI * 2.0f * ((float)num_segments - 3) / (float)num_segments;
@@ -105,8 +106,8 @@ void LoadingIndicatorCircle2(const char* label, float indicatorRadiusFactor, flo
 
     for (int i = 0; i < num_segments; i++) {
         const float a = a_min + ((float)i / (float)num_segments) * (a_max - a_min);
-        window->DrawList->PathLineTo(ImVec2(centre.x + ImCos(a + g.Time * 8) * indicatorRadiusPixels,
-            centre.y + ImSin(a + g.Time * 8) * indicatorRadiusPixels));
+        window->DrawList->PathLineTo(ImVec2(centre.x + ImCos(a + (float)g.Time * 8) * indicatorRadiusPixels,
+            centre.y + ImSin(a + (float)g.Time * 8) * indicatorRadiusPixels));
     }
 
     window->DrawList->PathStroke(color, false, indicatorThicknessPixels);
@@ -142,7 +143,7 @@ void LoadingIndicatorRing(const char* label, float size, float thickness, float 
 
     int num_segments = 30;
 
-    float t = g.Time * speed;
+    float t = (float)g.Time * speed;
 
     // With this formula it looks very close to the original LoadingIndicatorCircle2
     // but does not have visual artifacts (jitter of the ring tail when it slows down).

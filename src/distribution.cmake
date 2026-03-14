@@ -1,3 +1,4 @@
+cmake_minimum_required (VERSION 3.16)
 
 find_package (Python ${MV_PY_VERSION} EXACT COMPONENTS Development)
 if(NOT Python_Development_FOUND)
@@ -34,7 +35,11 @@ target_compile_definitions(_dearpygui
 		$<$<CONFIG:Release>:MV_RELEASE>
 )
 
-add_definitions(-DIMGUI_DEFINE_MATH_OPERATORS)
+if(WIN32)
+	target_precompile_headers(_dearpygui
+		PRIVATE mvPyUtils.h
+	)
+endif()
 
 if(WIN32)
 

@@ -6,19 +6,29 @@
 #include "mvContext.h"
 #include "mvToolWindow.h"
 
-struct ImFont;
-
 class mvFontManager : public mvToolWindow
 {
 
 public:
+	mvFontManager();
 
-	void   rebuildAtlas();
 	void   updateAtlas();
-	bool   isInvalid() const;
 	float& getGlobalFontScale() { return _globalFontScale; }
 	void   setGlobalFontScale(float scale);
-	void   resetDefault() { _resetDefault = true; }
+	bool   isDefaultFont(const std::shared_ptr<mvAppItem>& item)
+	{
+		return (_defaultFont.lock() == item);
+	}
+	void setDefaultFont(const std::shared_ptr<mvAppItem>& font)
+	{
+		_defaultFont = font;
+		_updateDefault = true;
+	}
+	void clearDefaultFont()
+	{
+		_defaultFont.reset();
+		_updateDefault = true;
+	}
 
 	mvUUID getUUID() const override { return MV_TOOL_FONT_UUID; }
 	const char* getTitle() const override { return "Font Manager"; }
@@ -26,14 +36,18 @@ public:
 protected:
 
 	void drawWidgets() override;
+	void drawFontNode(ImFont* font);
+	void drawFontSelector(const char* label);
 
 public:
 
-	// default
-	ImFont*           _font = nullptr;
-	bool              _dirty = false;
-	float             _globalFontScale = 1.0f;
-	bool              _resetDefault = false;
-	bool              _newDefault = false;
+	// Must be a mvFont (or empty)
+	std::weak_ptr<mvAppItem> _defaultFont;
+	// The only reason we need this _updateDefault flag is for "Set as default"
+	// buttons work in Font Manager window and in ImGui Style Editor.  If not for those
+	// buttons, we could set the default font every frame all the time.
+	// Updates are blocked whenever the user clicks one of those "Set as default" buttons.
+	bool                     _updateDefault = true;
+	float                    _globalFontScale = 1.0f;
 
 };

@@ -1,9 +1,13 @@
-#include "mvSlider3D.h"
 #include "mvPyUtils.h"
+#pragma hdrstop
+
+#include "mvSlider3D.h"
+
 #include "mvFontItems.h"
 #include "mvThemes.h"
 #include "mvContainers.h"
 #include "mvItemHandlers.h"
+#include <imgui_internal.h>
 
 static float Dist2(ImVec2 const v, ImVec2 const w)
 {
@@ -188,7 +192,8 @@ static bool SliderScalar3D(char const* pLabel, float* pValueX, float* pValueY, f
 
 	ImVec2 const vCursorPos((oXYDrag.Max.x - oXYDrag.Min.x) * fScaleX + oXYDrag.Min.x, (oXYDrag.Max.y - oXYDrag.Min.y) * fScaleY + oXYDrag.Min.y);
 
-	ImGui::SetWindowFontScale(0.75f);
+	ImGuiStyle& style = ImGui::GetStyle();
+	ImGui::PushFont(nullptr, style.FontSizeBase * 0.75f);
 
 	ImVec2 const vXSize = ImGui::CalcTextSize(pBufferX);
 	ImVec2 const vYSize = ImGui::CalcTextSize(pBufferY);
@@ -252,7 +257,7 @@ static bool SliderScalar3D(char const* pLabel, float* pValueX, float* pValueY, f
 		vZTextPos,
 		uTextCol,
 		pBufferZ);
-	ImGui::SetWindowFontScale(1.0f);
+	ImGui::PopFont();
 
 	// Handles
 	pDrawList->AddNgonFilled(vHandlePosX, fHandleRadius, uBlue, 4);
@@ -381,10 +386,7 @@ void mvSlider3D::draw(ImDrawList* drawlist, float x, float y)
 
 	// push font if a font object is attached
 	if (font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(font.get())->pushFont();
 
 	// themes
 	apply_local_theming(this);
@@ -412,7 +414,7 @@ void mvSlider3D::draw(ImDrawList* drawlist, float x, float y)
 
 	// set cursor position to cached position
 	if (info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
+		DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
 	if (config.indent > 0.0f)
 		ImGui::Unindent(config.indent);

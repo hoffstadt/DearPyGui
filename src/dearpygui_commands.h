@@ -704,34 +704,30 @@ bind_font(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	mvPySafeLockGuard lk(GContext->mutex);
 
-	mvUUID item = GetIDFromPyObject(itemraw);
+	mvUUID itemId = GetIDFromPyObject(itemraw);
 
-	if (item == 0)
+	if (itemId == 0)
 	{
-		for (auto& reg : GContext->itemRegistry->fontRegistryRoots)
-			static_cast<mvFontRegistry*>(reg.get())->resetFont();
+		mvToolManager::GetFontManager().clearDefaultFont();
 		return GetPyNone();
 	}
 
-	auto aplot = GetItem((*GContext->itemRegistry), item);
-	if (aplot == nullptr)
+	auto item = GetRefItem((*GContext->itemRegistry), itemId);
+	if (item == nullptr)
 	{
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, "bind_font",
-			"Item not found: " + std::to_string(item), nullptr);
+			"Item not found: " + std::to_string(itemId), nullptr);
 		return nullptr;
 	}
 
-	if (aplot->type != mvAppItemType::mvFont)
+	if (item->type != mvAppItemType::mvFont)
 	{
 		mvThrowPythonError(mvErrorCode::mvIncompatibleType, "bind_font",
-			"Incompatible type. Expected types include: mvFont", aplot);
+			"Incompatible type. Expected types include: mvFont", item.get());
 		return nullptr;
 	}
 
-	mvFont* graph = static_cast<mvFont*>(aplot);
-
-	graph->_default = true;
-	mvToolManager::GetFontManager()._newDefault = true;
+	mvToolManager::GetFontManager().setDefaultFont(item);
 
 	return GetPyNone();
 }
@@ -2523,8 +2519,9 @@ setup_dearpygui(PyObject* self, PyObject* args, PyObject* kwargs)
 		return nullptr;
 	}
 
-	while (!GContext->itemRegistry->containers.empty())
-		GContext->itemRegistry->containers.pop();
+	// Clear the containers stack. Unfortunately std::stack doesn't have a clear() call,
+	// but assigning a new empty stack does just the same.
+	mvItemRegistry::threadContext.containers = {};
 	GContext->started = true;
 	GContext->running = true;
 	GContext->future = std::async(std::launch::async, []() {return mvRunCallbacks(); });
@@ -2571,9 +2568,16 @@ create_context(PyObject* self, PyObject* args, PyObject* kwargs)
 		ImGui::CreateContext();
 		ImPlot::CreateContext();
 		ImNodes::CreateContext();
-	}
 
-	mvToolManager::GetFontManager()._dirty = true;
+		// Configure some defaults that are common across platforms
+		ImGuiIO &io = ImGui::GetIO();
+		io.ConfigErrorRecoveryEnableAssert = true;
+		// We disable the log by default so that if something goes awry and ImGui
+		// starts spitting an error every frame, the DebugLogBuf doesn't grow unlimited
+		// in production code.  Logging can always be enabled via show_imgui_demo -> Configuration.
+		io.ConfigErrorRecoveryEnableDebugLog = false;
+		io.ConfigErrorRecoveryEnableTooltip = false;
+	}
 
 	Py_END_ALLOW_THREADS;
 	return GetPyNone();
@@ -2733,6 +2737,8 @@ configure_app(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (PyObject* item = PyDict_GetItemString(kwargs, "anti_aliased_lines_use_tex")) style.AntiAliasedLinesUseTex = ToBool(item);
 	if (PyObject* item = PyDict_GetItemString(kwargs, "anti_aliased_fill")) style.AntiAliasedFill = ToBool(item);
 
+	if (PyObject* item = PyDict_GetItemString(kwargs, "win32_alt_enter_fullscreen")) GContext->IO.altEnterFullscreen = ToBool(item);
+
 	return GetPyNone();
 }
 
@@ -2767,6 +2773,8 @@ get_app_configuration(PyObject* self, PyObject* args, PyObject* kwargs)
 	PyDict_SetItemString(pdict, "anti_aliased_lines", mvPyObject(ToPyBool(style.AntiAliasedLines)));
 	PyDict_SetItemString(pdict, "anti_aliased_lines_use_tex", mvPyObject(ToPyBool(style.AntiAliasedLinesUseTex)));
 	PyDict_SetItemString(pdict, "anti_aliased_fill", mvPyObject(ToPyBool(style.AntiAliasedFill)));
+
+	PyDict_SetItemString(pdict, "win32_alt_enter_fullscreen", mvPyObject(ToPyBool(GContext->IO.altEnterFullscreen)));
 
 	return pdict;
 }
@@ -2917,18 +2925,19 @@ pop_container_stack(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	mvPySafeLockGuard lk(GContext->mutex);
 
-	if (GContext->itemRegistry->containers.empty())
+	auto& containers = mvItemRegistry::threadContext.containers;
+	if (containers.empty())
 	{
 		mvThrowPythonError(mvErrorCode::mvContainerStackEmpty, "No container to pop.");
 		assert(false);
 		return nullptr;
 	}
 
-	mvAppItem* item = GContext->itemRegistry->containers.top();
-	GContext->itemRegistry->containers.pop();
+	mvAppItem* item = containers.top();
+	containers.pop();
 
 	if (item)
-		return ToPyUUID(item->uuid);
+		return ToPyUUID(item);
 	else
 		return GetPyNone();
 
@@ -2938,8 +2947,9 @@ static PyObject*
 empty_container_stack(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 	mvPySafeLockGuard lk(GContext->mutex);
-	while (!GContext->itemRegistry->containers.empty())
-		GContext->itemRegistry->containers.pop();
+	// Clear the containers stack. Unfortunately std::stack doesn't have a clear() call,
+	// but assigning a new empty stack does just the same.
+	mvItemRegistry::threadContext.containers = {};
 	return GetPyNone();
 }
 
@@ -2949,11 +2959,12 @@ top_container_stack(PyObject* self, PyObject* args, PyObject* kwargs)
 	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvAppItem* item = nullptr;
-	if (!GContext->itemRegistry->containers.empty())
-		item = GContext->itemRegistry->containers.top();
+	auto& containers = mvItemRegistry::threadContext.containers;
+	if (!containers.empty())
+		item = containers.top();
 
 	if (item)
-		return ToPyUUID(item->uuid);
+		return ToPyUUID(item);
 	else
 		return GetPyNone();
 }
@@ -2963,7 +2974,7 @@ last_item(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 	mvPySafeLockGuard lk(GContext->mutex);
 
-	return ToPyUUID(GContext->itemRegistry->lastItemAdded);
+	return ToPyUUID(mvItemRegistry::threadContext.lastItemAdded);
 }
 
 static PyObject*
@@ -2971,7 +2982,7 @@ last_container(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 	mvPySafeLockGuard lk(GContext->mutex);
 
-	return ToPyUUID(GContext->itemRegistry->lastContainerAdded);
+	return ToPyUUID(mvItemRegistry::threadContext.lastContainerAdded);
 }
 
 static PyObject*
@@ -2979,7 +2990,7 @@ last_root(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 	mvPySafeLockGuard lk(GContext->mutex);
 
-	return ToPyUUID(GContext->itemRegistry->lastRootAdded);
+	return ToPyUUID(mvItemRegistry::threadContext.lastRootAdded);
 }
 
 static PyObject*
@@ -2999,7 +3010,7 @@ push_container_stack(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		if (DearPyGui::GetEntityDesciptionFlags(parent->type) & MV_ITEM_DESC_CONTAINER)
 		{
-			GContext->itemRegistry->containers.push(parent);
+			mvItemRegistry::threadContext.containers.push(parent);
 			return ToPyBool(true);
 		}
 	}
@@ -4157,8 +4168,8 @@ capture_next_item(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	mvPySafeLockGuard lk(GContext->mutex);
 
-	GContext->itemRegistry->captureCallback = mvPyObject(callable == Py_None? nullptr : callable, true);
-	GContext->itemRegistry->captureCallbackUserData = mvPyObject(user_data, true);
+	mvItemRegistry::threadContext.captureCallback = mvPyObject(callable == Py_None? nullptr : callable, true);
+	mvItemRegistry::threadContext.captureCallbackUserData = mvPyObject(user_data, true);
 
 	return GetPyNone();
 }

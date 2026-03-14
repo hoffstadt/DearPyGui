@@ -1,7 +1,6 @@
 #pragma once
 
 #include "mvItemRegistry.h"
-#include <array>
 
 // check_drop_event() implements the typical contents of Dear ImGui's drop target
 // (ImGui::BeginDragDropTarget()) tied to DearPyGui's drop callback.  You usually
@@ -97,10 +96,10 @@ enum class TabOrdering {
 
 struct mvChildWindowConfig
 {
-    ImGuiChildFlags  childFlags = ImGuiChildFlags_Border;
+    ImGuiChildFlags  childFlags = ImGuiChildFlags_Borders|ImGuiChildFlags_NavFlattened;
     bool             autosize_x = false;
     bool             autosize_y = false;
-    ImGuiWindowFlags windowflags = ImGuiWindowFlags_NoSavedSettings|ImGuiWindowFlags_NavFlattened;
+    ImGuiWindowFlags windowflags = ImGuiWindowFlags_NoSavedSettings;
 };
 
 struct mvTreeNodeConfig
@@ -146,24 +145,13 @@ struct mvWindowAppItemConfig
 {
     ImGuiWindowFlags windowflags = ImGuiWindowFlags_None;
     bool             mainWindow = false;
-    bool             closing = true;
     bool             resized = false;
     bool             modal = false;
     bool             popup = false;
-    bool             autosize = false;
-    bool             no_resize = false;
-    bool             no_title_bar = false;
-    bool             no_move = false;
-    bool             no_scrollbar = false;
-    bool             no_collapse = false;
-    bool             horizontal_scrollbar = false;
-    bool             no_focus_on_appearing = false;
-    bool             no_bring_to_front_on_focus = false;
-    bool             menubar = false;
     bool             no_close = false;
-    bool             no_background = false;
     bool             collapsed = false;
     bool             no_open_over_existing_popup = true;
+    bool             copy_contents_shortcut = false;
     mvPyObject       on_close = nullptr;
     mvVec2           min_size = { 100.0f, 100.0f };
     mvVec2           max_size = { 30000.0f, 30000.0f };

@@ -1,8 +1,13 @@
+#include "mvPyUtils.h"
+#pragma hdrstop
+
 #include "mvAppItemState.h"
-#include <imgui.h>
+
 #include "mvAppItem.h"
 #include "mvContext.h"
-#include "mvPyUtils.h"
+#include <imgui.h>
+// For ImGuiWindow
+#include <imgui_internal.h>
 
 void 
 ResetAppItemState(mvAppItemState& state)

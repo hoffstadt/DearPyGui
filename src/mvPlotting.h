@@ -2,6 +2,7 @@
 
 #include "mvItemRegistry.h"
 #include <array>
+#include <implot_internal.h>
 
 struct mvPlotConfig;
 struct mvPlotAxisConfig;
@@ -334,7 +335,6 @@ struct mvImageSeriesConfig : _mvBasicSeriesConfig
 
     // pointer to existing item or internal
     std::shared_ptr<mvAppItem> _texture = nullptr;
-    bool _internalTexture = false; // create a local texture if necessary
 };
 
 struct mvAreaSeriesConfig : _mvBasicSeriesConfig

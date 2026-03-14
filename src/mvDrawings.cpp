@@ -1,10 +1,17 @@
-#include "mvDrawings.h"
-#include "mvItemRegistry.h"
 #include "mvPyUtils.h"
-#include "mvAppItemCommons.h"
-#include <math.h>
+#pragma hdrstop
+
+#include "mvDrawings.h"
+
 #include "mvContext.h"
+#include "mvItemRegistry.h"
+#include "mvFontItems.h"
+#include "mvItemHandlers.h"
+#include "mvTextureItems.h"
 #include "mvCustomTypes.h"
+
+#include <math.h>
+#include <implot_internal.h>
 
 mvDrawArrow::mvDrawArrow(mvUUID uuid)
 	:
@@ -91,7 +98,7 @@ void mvDrawArrow::draw(ImDrawList* drawlist, float x, float y)
 
 	if (ImPlot::GetCurrentContext()->CurrentPlot)
 	{
-		auto Mx = ImPlot::GetPlotSize().x / ImPlot::GetPlotLimits().Size().x;
+		float Mx = (float)(ImPlot::GetPlotSize().x / ImPlot::GetPlotLimits().Size().x);
 		drawlist->AddTriangleFilled(ImPlot::PlotToPixels(tpp1), ImPlot::PlotToPixels(tpp2), ImPlot::PlotToPixels(tpp3), _color);
 		drawlist->AddLine(ImPlot::PlotToPixels(tp1), ImPlot::PlotToPixels(tp2), _color, Mx * _thickness);
 		drawlist->AddTriangle(ImPlot::PlotToPixels(tpp1), ImPlot::PlotToPixels(tpp2), ImPlot::PlotToPixels(tpp3), _color, Mx * _thickness);
@@ -184,7 +191,7 @@ void mvDrawBezierCubic::draw(ImDrawList* drawlist, float x, float y)
 
 	if (ImPlot::GetCurrentContext()->CurrentPlot) 
 	{
-		auto Mx = ImPlot::GetPlotSize().x / ImPlot::GetPlotLimits().Size().x;
+		float Mx = (float)(ImPlot::GetPlotSize().x / ImPlot::GetPlotLimits().Size().x);
 		drawlist->AddBezierCubic(ImPlot::PlotToPixels(tp1), ImPlot::PlotToPixels(tp2), ImPlot::PlotToPixels(tp3),
 			ImPlot::PlotToPixels(tp4), _color, Mx * _thickness, _segments);
 	}
@@ -273,7 +280,7 @@ void mvDrawBezierQuadratic::draw(ImDrawList* drawlist, float x, float y)
 
 	if (ImPlot::GetCurrentContext()->CurrentPlot) 
 	{
-		auto Mx = ImPlot::GetPlotSize().x / ImPlot::GetPlotLimits().Size().x;
+		float Mx = (float)(ImPlot::GetPlotSize().x / ImPlot::GetPlotLimits().Size().x);
 		drawlist->AddBezierQuadratic(ImPlot::PlotToPixels(tp1),
 			ImPlot::PlotToPixels(tp2), ImPlot::PlotToPixels(tp3), _color, Mx * _thickness, _segments);
 	}
@@ -345,10 +352,10 @@ void mvDrawCircle::draw(ImDrawList* drawlist, float x, float y)
 
 	if (ImPlot::GetCurrentContext()->CurrentPlot)
 	{
-		auto Mx = ImPlot::GetPlotSize().x / ImPlot::GetPlotLimits().Size().x;
+		float Mx = (float)(ImPlot::GetPlotSize().x / ImPlot::GetPlotLimits().Size().x);
 		if (_fill.r >= 0.0f)
-			drawlist->AddCircleFilled(ImPlot::PlotToPixels(tcenter), Mx * _radius, _fill, _segments);
-		drawlist->AddCircle(ImPlot::PlotToPixels(tcenter), Mx * _radius, _color, Mx * _segments, _thickness);
+			drawlist->AddCircleFilled(ImPlot::PlotToPixels(tcenter), Mx * _radius, _fill, (int)(Mx * _segments));
+		drawlist->AddCircle(ImPlot::PlotToPixels(tcenter), Mx * _radius, _color, (int)(Mx * _segments), _thickness);
 	}
 	else
 	{
@@ -471,7 +478,7 @@ void mvDrawEllipse::draw(ImDrawList* drawlist, float x, float y)
 		drawlist->AddConvexPolyFilled(finalpoints.data(), (int)finalpoints.size(), _fill);
 	if (ImPlot::GetCurrentContext()->CurrentPlot) 
 	{
-		auto Mx = ImPlot::GetPlotSize().x / ImPlot::GetPlotLimits().Size().x;
+		float Mx = (float)(ImPlot::GetPlotSize().x / ImPlot::GetPlotLimits().Size().x);
 		drawlist->AddPolyline(finalpoints.data(), (int)finalpoints.size(), _color, false, Mx * _thickness);
 	}
 	else
@@ -523,22 +530,15 @@ void mvDrawEllipse::getSpecificConfiguration(PyObject* dict)
 
 void mvDrawImage::draw(ImDrawList* drawlist, float x, float y)
 {
-	if (_texture)
+	if (_texture && _texture->state.ok)
 	{
-		if (_internalTexture)
-			_texture->draw(drawlist, x, y);
-
-		if (!_texture->state.ok)
+		auto type = _texture->type;
+		if (type != mvAppItemType::mvStaticTexture &&
+			type != mvAppItemType::mvDynamicTexture &&
+			type != mvAppItemType::mvRawTexture)
 			return;
 
-		void* texture = nullptr;
-
-		if (_texture->type == mvAppItemType::mvStaticTexture)
-			texture = static_cast<mvStaticTexture*>(_texture.get())->_texture;
-		else if (_texture->type == mvAppItemType::mvRawTexture)
-			texture = static_cast<mvRawTexture*>(_texture.get())->_texture;
-		else
-			texture = static_cast<mvDynamicTexture*>(_texture.get())->_texture;
+		ImTextureRef texture = static_cast<mvTextureItem*>(_texture.get())->getTexRef();
 
 		mvVec4  tpmin = drawInfo->transform * _pmin;
 		mvVec4  tpmax = drawInfo->transform * _pmax;
@@ -577,21 +577,16 @@ void mvDrawImage::handleSpecificRequiredArgs(PyObject* dict)
 		return;
 
 	_textureUUID = GetIDFromPyObject(PyTuple_GetItem(dict, 0));
-	_texture = GetRefItem(*GContext->itemRegistry, _textureUUID);
-	if (_texture)
-	{
-		_pmin = ToVec4(PyTuple_GetItem(dict, 1));
-		_pmin.w = 1.0f;
-		_pmax = ToVec4(PyTuple_GetItem(dict, 2));
-		_pmax.w = 1.0f;
-	}
-	else if (_textureUUID == MV_ATLAS_UUID)
+	if (_textureUUID == MV_ATLAS_UUID)
 	{
 		_texture = std::make_shared<mvStaticTexture>(_textureUUID);
-		_internalTexture = true;
 	}
 	else
-		mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(type), "Texture not found.", this);
+	{
+		_texture = GetRefItem(*GContext->itemRegistry, _textureUUID);
+		if (!_texture)
+			mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(type), "Texture not found.", this);
+	}
 
 	_pmin = ToVec4(PyTuple_GetItem(dict, 1));
 	_pmin.w = 1.0f;
@@ -612,19 +607,15 @@ void mvDrawImage::handleSpecificKeywordArgs(PyObject* dict)
 	if (PyObject* item = PyDict_GetItemString(dict, "texture_tag"))
 	{
 		_textureUUID = GetIDFromPyObject(item);
-		_texture = GetRefItem(*GContext->itemRegistry, _textureUUID);
 		if (_textureUUID == MV_ATLAS_UUID)
 		{
 			_texture = std::make_shared<mvStaticTexture>(_textureUUID);
-			_internalTexture = true;
-		}
-		else if (_texture)
-		{
-			_internalTexture = false;
 		}
 		else
 		{
-			mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(type), "Texture not found.", this);
+			_texture = GetRefItem(*GContext->itemRegistry, _textureUUID);
+			if (!_texture)
+				mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(type), "Texture not found.", this);
 		}
 	}
 
@@ -647,22 +638,15 @@ void mvDrawImage::getSpecificConfiguration(PyObject* dict)
 
 void mvDrawImageQuad::draw(ImDrawList* drawlist, float x, float y)
 {
-	if (_texture)
+	if (_texture && _texture->state.ok)
 	{
-		if (_internalTexture)
-			_texture->draw(drawlist, x, y);
-
-		if (!_texture->state.ok)
+		auto type = _texture->type;
+		if (type != mvAppItemType::mvStaticTexture &&
+			type != mvAppItemType::mvDynamicTexture &&
+			type != mvAppItemType::mvRawTexture)
 			return;
 
-		void* texture = nullptr;
-
-		if (_texture->type == mvAppItemType::mvStaticTexture)
-			texture = static_cast<mvStaticTexture*>(_texture.get())->_texture;
-		else if (_texture->type == mvAppItemType::mvRawTexture)
-			texture = static_cast<mvRawTexture*>(_texture.get())->_texture;
-		else
-			texture = static_cast<mvDynamicTexture*>(_texture.get())->_texture;
+		ImTextureRef texture = static_cast<mvTextureItem*>(_texture.get())->getTexRef();
 
 		mvVec4  tp1 = drawInfo->transform * _p1;
 		mvVec4  tp2 = drawInfo->transform * _p2;
@@ -713,25 +697,16 @@ void mvDrawImageQuad::handleSpecificRequiredArgs(PyObject* dict)
 		return;
 
 	_textureUUID = GetIDFromPyObject(PyTuple_GetItem(dict, 0));
-	_texture = GetRefItem(*GContext->itemRegistry, _textureUUID);
-	if (_texture)
-	{
-		_p1 = ToVec4(PyTuple_GetItem(dict, 1));
-		_p1.w = 1.0f;
-		_p2 = ToVec4(PyTuple_GetItem(dict, 2));
-		_p2.w = 1.0f;
-		_p3 = ToVec4(PyTuple_GetItem(dict, 3));
-		_p3.w = 1.0f;
-		_p4 = ToVec4(PyTuple_GetItem(dict, 4));
-		_p4.w = 1.0f;
-	}
-	else if (_textureUUID == MV_ATLAS_UUID)
+	if (_textureUUID == MV_ATLAS_UUID)
 	{
 		_texture = std::make_shared<mvStaticTexture>(_textureUUID);
-		_internalTexture = true;
 	}
 	else
-		mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(type), "Texture not found.", this);
+	{
+		_texture = GetRefItem(*GContext->itemRegistry, _textureUUID);
+		if (!_texture)
+			mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(type), "Texture not found.", this);
+	}
 
 	_p1 = ToVec4(PyTuple_GetItem(dict, 1));
 	_p1.w = 1.0f;
@@ -761,19 +736,15 @@ void mvDrawImageQuad::handleSpecificKeywordArgs(PyObject* dict)
 	if (PyObject* item = PyDict_GetItemString(dict, "texture_tag"))
 	{
 		_textureUUID = GetIDFromPyObject(item);
-		_texture = GetRefItem(*GContext->itemRegistry, _textureUUID);
 		if (_textureUUID == MV_ATLAS_UUID)
 		{
 			_texture = std::make_shared<mvStaticTexture>(_textureUUID);
-			_internalTexture = true;
-		}
-		else if (_texture)
-		{
-			_internalTexture = false;
 		}
 		else
 		{
-			mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(type), "Texture not found.", this);
+			_texture = GetRefItem(*GContext->itemRegistry, _textureUUID);
+			if (!_texture)
+				mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(type), "Texture not found.", this);
 		}
 	}
 
@@ -875,7 +846,7 @@ void mvDrawLine::draw(ImDrawList* drawlist, float x, float y)
 	}
 
 	if (ImPlot::GetCurrentContext()->CurrentPlot) {
-		auto Mx = ImPlot::GetPlotSize().x / ImPlot::GetPlotLimits().Size().x;
+		float Mx = (float)(ImPlot::GetPlotSize().x / ImPlot::GetPlotLimits().Size().x);
 		drawlist->AddLine(ImPlot::PlotToPixels(tp1), ImPlot::PlotToPixels(tp2), _color, Mx * _thickness);
 	}
 	else
@@ -950,7 +921,7 @@ void mvDrawlist::draw(ImDrawList* drawlist, float x, float y)
 
 	ImGui::PopClipRect();
 
-	if (ImGui::InvisibleButton(info.internalLabel.c_str(), ImVec2((float)config.width, (float)config.height), ImGuiButtonFlags_MouseButtonLeft | ImGuiButtonFlags_MouseButtonRight | ImGuiButtonFlags_MouseButtonMiddle))
+	if (ImGui::InvisibleButton(info.internalLabel.c_str(), ImVec2((float)config.width, (float)config.height), ImGuiButtonFlags_MouseButtonLeft | ImGuiButtonFlags_MouseButtonRight | ImGuiButtonFlags_MouseButtonMiddle | ImGuiButtonFlags_EnableNav))
 	{
 		submitCallback();
 	}
@@ -1146,7 +1117,7 @@ void mvDrawPolygon::draw(ImDrawList* drawlist, float x, float y)
 			{
 				if (ImPlot::GetCurrentContext()->CurrentPlot) 
 				{
-					auto Mx = ImPlot::GetPlotSize().x / ImPlot::GetPlotLimits().Size().x;
+					float Mx = (float)(ImPlot::GetPlotSize().x / ImPlot::GetPlotLimits().Size().x);
 					drawlist->AddLine(ImPlot::PlotToPixels({ (float)polyints[i], (float)y }),
 						ImPlot::PlotToPixels({ (float)polyints[i + 1], (float)y }), _fill, Mx * _thickness);
 				}
@@ -1239,7 +1210,7 @@ void mvDrawPolyline::draw(ImDrawList* drawlist, float x, float y)
 			finalpoints.push_back(impoint);
 		}
 
-		auto Mx = ImPlot::GetPlotSize().x / ImPlot::GetPlotLimits().Size().x;
+		float Mx = (float)(ImPlot::GetPlotSize().x / ImPlot::GetPlotLimits().Size().x);
 		drawlist->AddPolyline(finalpoints.data(), (int)finalpoints.size(), _color,
 			_closed, Mx * _thickness);
 	}
@@ -1327,7 +1298,7 @@ void mvDrawQuad::draw(ImDrawList* drawlist, float x, float y)
 
 	if (ImPlot::GetCurrentContext()->CurrentPlot)
 	{
-		auto Mx = ImPlot::GetPlotSize().x / ImPlot::GetPlotLimits().Size().x;
+		float Mx = (float)(ImPlot::GetPlotSize().x / ImPlot::GetPlotLimits().Size().x);
 		if (_fill.r >= 0.0f)
 			drawlist->AddQuadFilled(ImPlot::PlotToPixels(tp1), ImPlot::PlotToPixels(tp2), ImPlot::PlotToPixels(tp3),
 				ImPlot::PlotToPixels(tp4), _fill);
@@ -1418,7 +1389,7 @@ void mvDrawRect::draw(ImDrawList* drawlist, float x, float y)
 
 	if (ImPlot::GetCurrentContext()->CurrentPlot)
 	{
-		auto Mx = ImPlot::GetPlotSize().x / ImPlot::GetPlotLimits().Size().x;
+		float Mx = (float)(ImPlot::GetPlotSize().x / ImPlot::GetPlotLimits().Size().x);
 		if (_multicolor)
 			drawlist->AddRectFilledMultiColor(ImPlot::PlotToPixels(tpmin), ImPlot::PlotToPixels(tpmax), _color_bottom_right, _color_bottom_left, _color_upper_left, _color_upper_right);
 		else if (_fill.r >= 0.0f)
@@ -1538,7 +1509,7 @@ void mvDrawText::draw(ImDrawList* drawlist, float x, float y)
 
 	if (ImPlot::GetCurrentContext()->CurrentPlot) 
 	{
-		auto Mx = ImPlot::GetPlotSize().x / ImPlot::GetPlotLimits().Size().x;
+		float Mx = (float)(ImPlot::GetPlotSize().x / ImPlot::GetPlotLimits().Size().x);
 		drawlist->AddText(fontptr, Mx * (float)_size, ImPlot::PlotToPixels(tpos), _color, _text.c_str());
 	}
 	else
@@ -1629,7 +1600,7 @@ void mvDrawTriangle::draw(ImDrawList* drawlist, float x, float y)
 
 	if (ImPlot::GetCurrentContext()->CurrentPlot)
 	{
-		auto Mx = ImPlot::GetPlotSize().x / ImPlot::GetPlotLimits().Size().x;
+		float Mx = (float)(ImPlot::GetPlotSize().x / ImPlot::GetPlotLimits().Size().x);
 		if (_fill.r >= 0.0f)
 		{
 			drawlist->AddTriangleFilled(ImPlot::PlotToPixels(tp1), ImPlot::PlotToPixels(tp2), ImPlot::PlotToPixels(tp3),

@@ -1,5 +1,7 @@
 #include "mvStyleWindow.h"
+
 #include "mvContext.h"
+
 #include "imnodes.h"
 
 // Play it nice with Windows users (Update: May 2018, Notepad now supports Unix-style carriage returns!)
@@ -75,54 +77,104 @@ void mvStyleWindow::drawWidgets()
     {
         if (ImGui::BeginTabItem("Styles"))
         {
-            ImGui::Text("Main");
+            ImGui::SeparatorText("Main");
             ImGui::SliderFloat2("mvStyleVar_WindowPadding", (float*)&style.WindowPadding, 0.0f, 20.0f, "%.0f");
             ImGui::SliderFloat2("mvStyleVar_FramePadding", (float*)&style.FramePadding, 0.0f, 20.0f, "%.0f");
-            ImGui::SliderFloat2("mvStyleVar_CellPadding", (float*)&style.CellPadding, 0.0f, 20.0f, "%.0f");
             ImGui::SliderFloat2("mvStyleVar_ItemSpacing", (float*)&style.ItemSpacing, 0.0f, 20.0f, "%.0f");
             ImGui::SliderFloat2("mvStyleVar_ItemInnerSpacing", (float*)&style.ItemInnerSpacing, 0.0f, 20.0f, "%.0f");
             ImGui::SliderFloat2("mvStyleVar_TouchExtraPadding", (float*)&style.TouchExtraPadding, 0.0f, 10.0f, "%.0f");
             ImGui::SliderFloat("mvStyleVar_IndentSpacing", &style.IndentSpacing, 0.0f, 30.0f, "%.0f");
-            ImGui::SliderFloat("mvStyleVar_ScrollbarSize", &style.ScrollbarSize, 1.0f, 20.0f, "%.0f");
             ImGui::SliderFloat("mvStyleVar_GrabMinSize", &style.GrabMinSize, 1.0f, 20.0f, "%.0f");
-            ImGui::Text("Borders");
+
+            ImGui::SeparatorText("Borders");
             ImGui::SliderFloat("mvStyleVar_WindowBorderSize", &style.WindowBorderSize, 0.0f, 1.0f, "%.0f");
             ImGui::SliderFloat("mvStyleVar_ChildBorderSize", &style.ChildBorderSize, 0.0f, 1.0f, "%.0f");
             ImGui::SliderFloat("mvStyleVar_PopupBorderSize", &style.PopupBorderSize, 0.0f, 1.0f, "%.0f");
             ImGui::SliderFloat("mvStyleVar_FrameBorderSize", &style.FrameBorderSize, 0.0f, 1.0f, "%.0f");
-            ImGui::SliderFloat("mvStyleVar_TabBorderSize", &style.TabBorderSize, 0.0f, 1.0f, "%.0f");
-            ImGui::SliderFloat("mvStyleVar_TabBarBorderSize", &style.TabBarBorderSize, 0.0f, 1.0f, "%.0f");
-            ImGui::Text("Rounding");
+
+            ImGui::SeparatorText("Rounding");
             ImGui::SliderFloat("mvStyleVar_WindowRounding", &style.WindowRounding, 0.0f, 12.0f, "%.0f");
             ImGui::SliderFloat("mvStyleVar_ChildRounding", &style.ChildRounding, 0.0f, 12.0f, "%.0f");
             ImGui::SliderFloat("mvStyleVar_FrameRounding", &style.FrameRounding, 0.0f, 12.0f, "%.0f");
             ImGui::SliderFloat("mvStyleVar_PopupRounding", &style.PopupRounding, 0.0f, 12.0f, "%.0f");
-            ImGui::SliderFloat("mvStyleVar_ScrollbarRounding", &style.ScrollbarRounding, 0.0f, 12.0f, "%.0f");
             ImGui::SliderFloat("mvStyleVar_GrabRounding", &style.GrabRounding, 0.0f, 12.0f, "%.0f");
-            ImGui::SliderFloat("mvStyleVar_LogSliderDeadzone", &style.LogSliderDeadzone, 0.0f, 12.0f, "%.0f");
+
+            ImGui::SeparatorText("Scrollbar");
+            ImGui::SliderFloat("mvStyleVar_ScrollbarSize", &style.ScrollbarSize, 1.0f, 20.0f, "%.0f");
+            ImGui::SliderFloat("mvStyleVar_ScrollbarRounding", &style.ScrollbarRounding, 0.0f, 12.0f, "%.0f");
+            ImGui::SliderFloat("mvStyleVar_ScrollbarPadding", &style.ScrollbarPadding, 0.0f, 10.0f, "%.0f");
+
+            ImGui::SeparatorText("Tabs");
+            ImGui::SliderFloat("mvStyleVar_TabBorderSize", &style.TabBorderSize, 0.0f, 1.0f, "%.0f");
+            ImGui::SliderFloat("mvStyleVar_TabBarBorderSize", &style.TabBarBorderSize, 0.0f, 2.0f, "%.0f");
+            ImGui::SliderFloat("mvStyleVar_TabBarOverlineSize", &style.TabBarOverlineSize, 0.0f, 3.0f, "%.0f");
+            ImGui::SameLine(); HelpMarker("Overline is only drawn over the selected tab when draw_selected_overline=True is set on tab_bar.");
+            ImGui::DragFloat("mvStyleVar_TabMinWidthBase", &style.TabMinWidthBase, 0.5f, 1.0f, 500.0f, "%.0f");
+            ImGui::DragFloat("mvStyleVar_TabMinWidthShrink", &style.TabMinWidthShrink, 0.5f, 1.0f, 500.0f, "%0.f");
+            // ImGui::DragFloat("mvStyleVar_TabCloseButtonMinWidthSelected", &style.TabCloseButtonMinWidthSelected, 0.5f, -1.0f, 100.0f, (style.TabCloseButtonMinWidthSelected < 0.0f) ? "%.0f (Always)" : "%.0f");
+            // ImGui::DragFloat("mvStyleVar_TabCloseButtonMinWidthUnselected", &style.TabCloseButtonMinWidthUnselected, 0.5f, -1.0f, 100.0f, (style.TabCloseButtonMinWidthUnselected < 0.0f) ? "%.0f (Always)" : "%.0f");
             ImGui::SliderFloat("mvStyleVar_TabRounding", &style.TabRounding, 0.0f, 12.0f, "%.0f");
-            ImGui::Text("AntiAliasing");
+
+            ImGui::SeparatorText("Tables");
+            ImGui::SliderFloat2("mvStyleVar_CellPadding", (float*)&style.CellPadding, 0.0f, 20.0f, "%.0f");
+            ImGui::SliderAngle("mvStyleVar_TableAngledHeadersAngle", &style.TableAngledHeadersAngle, -50.0f, +50.0f);
+            ImGui::SliderFloat2("mvStyleVar_TableAngledHeadersTextAlign", (float*)&style.TableAngledHeadersTextAlign, 0.0f, 1.0f, "%.2f");
+
+            ImGui::SeparatorText("Trees");
+            ImGui::SliderFloat("mvStyleVar_TreeLinesSize", &style.TreeLinesSize, 0.0f, 2.0f, "%.0f");
+            ImGui::SameLine();
+            HelpMarker("[Experimental]\nTree lines may not work in all situations (e.g. using a clipper) and may incurs slight traversal overhead.\n\nmvTreeLines_Full is faster than mvTreeLines_ToNodes.");
+            ImGui::SliderFloat("mvStyleVar_TreeLinesRounding", &style.TreeLinesRounding, 0.0f, 12.0f, "%.0f");
+
+            ImGui::SeparatorText("Windows");
+            ImGui::SliderFloat2("mvStyleVar_WindowTitleAlign", (float*)&style.WindowTitleAlign, 0.0f, 1.0f, "%.2f");
+            // ImGui::SliderFloat("mvStyleVar_WindowBorderHoverPadding", &style.WindowBorderHoverPadding, 1.0f, 20.0f, "%.0f");
+            // int window_menu_button_position = style.WindowMenuButtonPosition + 1;
+            // if (ImGui::Combo("mvStyleVar_WindowMenuButtonPosition", (int*)&window_menu_button_position, "None\0Left\0Right\0"))
+            //     style.WindowMenuButtonPosition = (ImGuiDir)(window_menu_button_position - 1);
+
+            ImGui::SeparatorText("Widgets");
+            // ImGui::Combo("mvStyleVar_ColorButtonPosition", (int*)&style.ColorButtonPosition, "Left\0Right\0");
+            ImGui::SliderFloat2("mvStyleVar_ButtonTextAlign", (float*)&style.ButtonTextAlign, 0.0f, 1.0f, "%.2f");
+            ImGui::SameLine(); HelpMarker("Alignment applies when a button is larger than its text content.");
+            ImGui::SliderFloat2("mvStyleVar_SelectableTextAlign", (float*)&style.SelectableTextAlign, 0.0f, 1.0f, "%.2f");
+            ImGui::SameLine(); HelpMarker("Alignment applies when a selectable is larger than its text content.");
+            ImGui::SliderFloat("mvStyleVar_SeparatorTextBorderSize", &style.SeparatorTextBorderSize, 0.0f, 10.0f, "%.0f");
+            ImGui::SliderFloat2("mvStyleVar_SeparatorTextAlign", (float*)&style.SeparatorTextAlign, 0.0f, 1.0f, "%.2f");
+            ImGui::SliderFloat2("mvStyleVar_SeparatorTextPadding", (float*)&style.SeparatorTextPadding, 0.0f, 40.0f, "%.0f");
+            ImGui::SliderFloat("mvStyleVar_LogSliderDeadzone", &style.LogSliderDeadzone, 0.0f, 12.0f, "%.0f");
+            ImGui::SliderFloat("mvStyleVar_ImageBorderSize", &style.ImageBorderSize, 0.0f, 1.0f, "%.0f");
+
+            // ImGui::SeparatorText("Docking");
+            // ImGui::Checkbox("mvStyleVar_DockingNodeHasCloseButton", &style.DockingNodeHasCloseButton);
+            // TODO: it doesn't work anyway if configured within a mvTheme.  Uncomment once we make global
+            // settings work (see #2312)
+            // ImGui::SliderFloat("mvStyleVar_DockingSeparatorSize", &style.DockingSeparatorSize, 0.0f, 12.0f, "%.0f");
+
+            // ImGui::SeparatorText("Tooltips");
+            // for (int n = 0; n < 2; n++)
+            //     if (ImGui::TreeNodeEx(n == 0 ? "HoverFlagsForTooltipMouse" : "HoverFlagsForTooltipNav"))
+            //     {
+            //         ImGuiHoveredFlags* p = (n == 0) ? &style.HoverFlagsForTooltipMouse : &style.HoverFlagsForTooltipNav;
+            //         ImGui::CheckboxFlags("ImGuiHoveredFlags_DelayNone", p, ImGuiHoveredFlags_DelayNone);
+            //         ImGui::CheckboxFlags("ImGuiHoveredFlags_DelayShort", p, ImGuiHoveredFlags_DelayShort);
+            //         ImGui::CheckboxFlags("ImGuiHoveredFlags_DelayNormal", p, ImGuiHoveredFlags_DelayNormal);
+            //         ImGui::CheckboxFlags("ImGuiHoveredFlags_Stationary", p, ImGuiHoveredFlags_Stationary);
+            //         ImGui::CheckboxFlags("ImGuiHoveredFlags_NoSharedDelay", p, ImGuiHoveredFlags_NoSharedDelay);
+            //         ImGui::TreePop();
+            //     }
+
+            // ImGui::SeparatorText("Misc");
+            // ImGui::SliderFloat2("mvStyleVar_DisplayWindowPadding", (float*)&style.DisplayWindowPadding, 0.0f, 30.0f, "%.0f"); ImGui::SameLine(); HelpMarker("Apply to regular windows: amount which we enforce to keep visible when moving near edges of your screen.");
+            // ImGui::SliderFloat2("mvStyleVar_DisplaySafeAreaPadding", (float*)&style.DisplaySafeAreaPadding, 0.0f, 30.0f, "%.0f"); ImGui::SameLine(); HelpMarker("Apply to every windows, menus, popups, tooltips: amount where we avoid displaying contents. Adjust if you cannot see the edges of your screen (e.g. on a TV where scaling has not been configured).");
+
+            ImGui::SeparatorText("AntiAliasing");
             ImGui::Checkbox("AntiAliasedLines", &style.AntiAliasedLines);
+            ImGui::SameLine(); HelpMarker("These can be set via configure_app.");
             ImGui::Checkbox("AntiAliasedLinesUseTex", &style.AntiAliasedLinesUseTex);
             ImGui::Checkbox("AntiAliasedFill", &style.AntiAliasedFill);
-            ImGui::Text("Docking");
-            ImGui::SliderFloat("DockingSplitterSize", &style.DockingSeparatorSize, 0.0f, 12.0f, "%.0f");
-            ImGui::Text("Alignment");
-            ImGui::SliderFloat2("mvStyleVar_WindowTitleAlign", (float*)&style.WindowTitleAlign, 0.0f, 1.0f, "%.2f");
-            ImGui::SliderFloat2("mvStyleVar_TableAngledHeadersTextAlign", (float*)&style.TableAngledHeadersTextAlign, 0.0f, 1.0f, "%.2f");
-            //int window_menu_button_position = style.WindowMenuButtonPosition + 1;
-            //if (ImGui::Combo("WindowMenuButtonPosition", (int*)&window_menu_button_position, "None\0Left\0Right\0"))
-            //    style.WindowMenuButtonPosition = window_menu_button_position - 1;
-            //ImGui::Combo("mvStyleVar_ColorButtonPosition", (int*)&style.ColorButtonPosition, "Left\0Right\0");
-            ImGui::SliderFloat2("mvStyleVar_ButtonTextAlign", (float*)&style.ButtonTextAlign, 0.0f, 1.0f, "%.2f");
-            ImGui::SameLine(); HelpMarker("mvStyleVar_Alignment applies when a button is larger than its text content.");
-            ImGui::SliderFloat2("mvStyleVar_SelectableTextAlign", (float*)&style.SelectableTextAlign, 0.0f, 1.0f, "%.2f");
-            ImGui::SameLine(); HelpMarker("mvStyleVar_Alignment applies when a selectable is larger than its text content.");
-            ImGui::Text("Safe Area Padding");
-            ImGui::SameLine(); HelpMarker("Adjust if you cannot see the edges of your screen (e.g. on a TV where scaling has not been configured).");
-            ImGui::SliderFloat2("mvStyleVar_DisplaySafeAreaPadding", (float*)&style.DisplaySafeAreaPadding, 0.0f, 30.0f, "%.0f");
                 
-            ImGui::Text("Item Styling");
+            ImGui::SeparatorText("Item Styling");
             ImGui::SliderFloat("LineWeight", &plotstyle.LineWeight, 0.0f, 5.0f, "%.1f");
             ImGui::SliderFloat("MarkerSize", &plotstyle.MarkerSize, 2.0f, 10.0f, "%.1f");
             ImGui::SliderFloat("MarkerWeight", &plotstyle.MarkerWeight, 0.0f, 5.0f, "%.1f");
@@ -134,7 +186,7 @@ void mvStyleWindow::drawWidgets()
             float indent = ImGui::CalcItemWidth() - ImGui::GetFrameHeight();
             ImGui::Indent(ImGui::CalcItemWidth() - ImGui::GetFrameHeight());
             ImGui::Unindent(indent);
-            ImGui::Text("Plot Styling");
+            ImGui::SeparatorText("Plot Styling");
             ImGui::SliderFloat("PlotBorderSize", &plotstyle.PlotBorderSize, 0.0f, 2.0f, "%.0f");
             ImGui::SliderFloat("MinorAlpha", &plotstyle.MinorAlpha, 0.0f, 1.0f, "%.2f");
             ImGui::SliderFloat2("MajorTickLen", (float*)&plotstyle.MajorTickLen, 0.0f, 20.0f, "%.0f");
@@ -145,7 +197,7 @@ void mvStyleWindow::drawWidgets()
             ImGui::SliderFloat2("MinorGridSize", (float*)&plotstyle.MinorGridSize, 0.0f, 2.0f, "%.1f");
             ImGui::SliderFloat2("PlotDefaultSize", (float*)&plotstyle.PlotDefaultSize, 0.0f, 1000, "%.0f");
             ImGui::SliderFloat2("PlotMinSize", (float*)&plotstyle.PlotMinSize, 0.0f, 300, "%.0f");
-            ImGui::Text("Plot Padding");
+            ImGui::SeparatorText("Plot Padding");
             ImGui::SliderFloat2("PlotPadding", (float*)&plotstyle.PlotPadding, 0.0f, 20.0f, "%.0f");
             ImGui::SliderFloat2("LabelPadding", (float*)&plotstyle.LabelPadding, 0.0f, 20.0f, "%.0f");
             ImGui::SliderFloat2("LegendPadding", (float*)&plotstyle.LegendPadding, 0.0f, 20.0f, "%.0f");
@@ -154,7 +206,7 @@ void mvStyleWindow::drawWidgets()
             ImGui::SliderFloat2("MousePosPadding", (float*)&plotstyle.MousePosPadding, 0.0f, 20.0f, "%.0f");
             ImGui::SliderFloat2("AnnotationPadding", (float*)&plotstyle.AnnotationPadding, 0.0f, 5.0f, "%.0f");
             ImGui::SliderFloat2("FitPadding", (float*)&plotstyle.FitPadding, 0, 0.2f, "%.2f");
-            ImGui::Text("Nodes");
+            ImGui::SeparatorText("Nodes");
             ImGui::SliderFloat("mvNodeStyleVar_GridSpacing", &ImNodes::GetStyle().GridSpacing, 0.0f, 32.0f, "%.0f");
             ImGui::SliderFloat("mvNodeStyleVar_NodeCornerRounding", &ImNodes::GetStyle().NodeCornerRounding, 0.0f, 10.0f, "%.0f");
             ImGui::SliderFloat("mvNodeStyleVar_NodePaddingHorizontal", &ImNodes::GetStyle().NodePadding.x, 0.0f, 10.0f, "%.0f");
@@ -171,8 +223,6 @@ void mvStyleWindow::drawWidgets()
             ImGui::SliderFloat("mvNodeStyleVar_PinOffset", &ImNodes::GetStyle().PinOffset, 0.0f, 10.0f, "%.0f");
             ImGui::SliderFloat2("mvNodesStyleVar_MiniMapPadding", (float*)&ImNodes::GetStyle().MiniMapPadding.x, 0.0f, 10.0f, "%.0f");
             ImGui::SliderFloat2("mvNodesStyleVar_MiniMapOffset", (float*)&ImNodes::GetStyle().MiniMapOffset.y, 0.0f, 10.0f, "%.0f");
-            ImGui::Text("Tables");
-            ImGui::SliderFloat("mvStyleVar_TableAngledHeadersAngle", &style.TableAngledHeadersAngle, -1.0f, +1.0f, "%.2f");
 
             ImGui::EndTabItem();
         }
@@ -183,16 +233,16 @@ void mvStyleWindow::drawWidgets()
             static ImGuiTextFilter filter;
             filter.Draw("Filter colors", ImGui::GetFontSize() * 16);
 
-            static ImGuiColorEditFlags alpha_flags = 0;
-            if (ImGui::RadioButton("Opaque", alpha_flags == ImGuiColorEditFlags_None)) { alpha_flags = ImGuiColorEditFlags_None; } ImGui::SameLine();
-            if (ImGui::RadioButton("Alpha", alpha_flags == ImGuiColorEditFlags_AlphaPreview)) { alpha_flags = ImGuiColorEditFlags_AlphaPreview; } ImGui::SameLine();
+            static ImGuiColorEditFlags alpha_flags = ImGuiColorEditFlags_AlphaOpaque;
+            if (ImGui::RadioButton("Opaque", alpha_flags == ImGuiColorEditFlags_AlphaOpaque)) { alpha_flags = ImGuiColorEditFlags_AlphaOpaque; } ImGui::SameLine();
+            if (ImGui::RadioButton("Alpha", alpha_flags == ImGuiColorEditFlags_None)) { alpha_flags = ImGuiColorEditFlags_None; } ImGui::SameLine();
             if (ImGui::RadioButton("Both", alpha_flags == ImGuiColorEditFlags_AlphaPreviewHalf)) { alpha_flags = ImGuiColorEditFlags_AlphaPreviewHalf; } ImGui::SameLine();
             HelpMarker(
                 "In the color list:\n"
                 "Left-click on color square to open color picker,\n"
                 "Right-click to open edit options menu.");
 
-            ImGui::BeginChild("##colors", ImVec2(0, 0), ImGuiChildFlags_Border, ImGuiWindowFlags_AlwaysVerticalScrollbar | ImGuiWindowFlags_AlwaysHorizontalScrollbar | ImGuiWindowFlags_NavFlattened);
+            ImGui::BeginChild("##colors", ImVec2(0, 0), ImGuiChildFlags_Borders | ImGuiChildFlags_NavFlattened, ImGuiWindowFlags_AlwaysVerticalScrollbar | ImGuiWindowFlags_AlwaysHorizontalScrollbar);
             ImGui::PushItemWidth(-300);
             for (int i = 0; i < ImGuiCol_COUNT; i++)
             {

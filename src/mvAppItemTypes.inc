@@ -140,9 +140,6 @@
     X( mvThemeColor ) \
     X( mvThemeStyle ) \
     X( mvThemeComponent ) \
-    X( mvFontRangeHint ) \
-    X( mvFontRange ) \
-    X( mvFontChars ) \
     X( mvCharRemap ) \
     X( mvValueRegistry ) \
     X( mvIntValue ) \

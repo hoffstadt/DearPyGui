@@ -1,9 +1,12 @@
+#include "mvPyUtils.h"
+#pragma hdrstop
+
 #include "mvAppItem.h"
+
+#include "mvCore.h"
 #include "mvContext.h"
 #include "mvItemRegistry.h"
-#include "mvCore.h"
 #include "mvAppItemCommons.h"
-#include "mvPyUtils.h"
 
 static void
 UpdateLocations(std::vector<std::shared_ptr<mvAppItem>>* children, i32 slots)
@@ -1088,7 +1091,6 @@ DearPyGui::GetEntityTargetSlot(mvAppItemType type)
     switch (type)
     {
     case mvAppItemType::mvFileExtension:
-    case mvAppItemType::mvFontRangeHint:
     case mvAppItemType::mvNodeLink:
     case mvAppItemType::mvAnnotation:
     case mvAppItemType::mvDragLine:
@@ -1493,9 +1495,6 @@ DearPyGui::GetAllowableParents(mvAppItemType type)
         MV_ADD_PARENT(mvAppItemType::mvHandlerRegistry)
         MV_END_PARENTS
 
-    case mvAppItemType::mvFontChars:
-    case mvAppItemType::mvFontRange:
-    case mvAppItemType::mvFontRangeHint:
     case mvAppItemType::mvCharRemap:
         MV_START_PARENTS
         MV_ADD_PARENT(mvAppItemType::mvFont),
@@ -1733,10 +1732,7 @@ DearPyGui::GetAllowableChildren(mvAppItemType type)
 
     case mvAppItemType::mvFont:
         MV_START_CHILDREN
-        MV_ADD_CHILD(mvAppItemType::mvFontChars),
-        MV_ADD_CHILD(mvAppItemType::mvFontRange),
         MV_ADD_CHILD(mvAppItemType::mvCharRemap),
-        MV_ADD_CHILD(mvAppItemType::mvFontRangeHint),
         MV_ADD_CHILD(mvAppItemType::mvTemplateRegistry),
         MV_END_CHILDREN
 
@@ -1983,6 +1979,10 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "always_overwrite", mvArgType::KEYWORD_ARG, "False", "Overwrite mode" });
         args.push_back({ mvPyDataType::Bool, "no_undo_redo", mvArgType::KEYWORD_ARG, "False", "Disable undo/redo." });
         args.push_back({ mvPyDataType::Bool, "escape_clears_all", mvArgType::KEYWORD_ARG, "False", "Escape key clears content if not empty, and deactivate otherwise (contrast to default behavior of Escape to revert)" });
+        args.push_back({ mvPyDataType::Bool, "elide_left", mvArgType::KEYWORD_ARG, "False",
+                "When text doesn't fit an inactive input field, clip it on the left side "
+                "and ensure the right side stays visible. Useful for path/filenames. "
+                "Single-line inputs only." });
 
         setup.about = "Adds input for text.";
         break;
@@ -2030,6 +2030,11 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         );
 
         args.push_back({ mvPyDataType::Bool, "reorderable", mvArgType::KEYWORD_ARG, "False", "Allows for the user to change the order of the tabs." });
+        args.push_back({ mvPyDataType::Bool, "tab_list_popup_button", mvArgType::KEYWORD_ARG, "False", "Show a button to select active tab from a dropdown list." });
+        args.push_back({ mvPyDataType::Bool, "no_close_with_middle_click", mvArgType::KEYWORD_ARG, "False", "Disable closing tabs (that have closable=True) by clicking with middle mouse button." });
+        args.push_back({ mvPyDataType::Bool, "no_scrolling_buttons", mvArgType::KEYWORD_ARG, "False", "Disable left/right scrolling buttons when tab buttons don't fit the container width." });
+        args.push_back({ mvPyDataType::Bool, "no_tooltip", mvArgType::KEYWORD_ARG, "False", "Disable tooltips when hovering a tab with a long name." });
+        args.push_back({ mvPyDataType::Bool, "draw_selected_overline", mvArgType::KEYWORD_ARG, "False", "Draw selected overline markers over selected tab." });
 
         setup.about = "Adds a tab bar.";
         setup.category = { "Containers", "Widgets" };
@@ -2054,6 +2059,9 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "closable", mvArgType::KEYWORD_ARG, "False", "Creates a button on the tab that can hide the tab." });
         args.push_back({ mvPyDataType::Bool, "no_tooltip", mvArgType::KEYWORD_ARG, "False", "Disable tooltip for the given tab." });
         args.push_back({ mvPyDataType::Integer, "order_mode", mvArgType::KEYWORD_ARG, "0", "set using a constant: mvTabOrder_Reorderable: allows reordering, mvTabOrder_Fixed: fixed ordering, mvTabOrder_Leading: adds tab to front, mvTabOrder_Trailing: adds tab to back" });
+        args.push_back({ mvPyDataType::Bool, "unsaved_document", mvArgType::KEYWORD_ARG, "False", "Display a dot next to the title." });
+        args.push_back({ mvPyDataType::Bool, "no_close_with_middle_click", mvArgType::KEYWORD_ARG, "False", "Disable closing this tab (if closable==True) by clicking with middle mouse button." });
+        args.push_back({ mvPyDataType::Bool, "no_reorder", mvArgType::KEYWORD_ARG, "False", "Disable reordering this tab or having another tab cross over this tab." });
 
         setup.about = "Adds a tab to a tab bar.";
         setup.category = { "Containers", "Widgets" };
@@ -2081,7 +2089,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
 
         args.push_back({ mvPyDataType::UUID, "texture_tag", mvArgType::REQUIRED_ARG, "", "The texture_tag should come from a texture that was added to a texture registry." });
         args.push_back({ mvPyDataType::FloatList, "tint_color", mvArgType::KEYWORD_ARG, "(255, 255, 255, 255)", "Applies a color tint to the entire texture." });
-        args.push_back({ mvPyDataType::FloatList, "border_color", mvArgType::KEYWORD_ARG, "(0, 0, 0, 0)", "Displays a border of the specified color around the texture. If the theme style has turned off the border it will not be shown." });
+        args.push_back({ mvPyDataType::FloatList, "border_color", mvArgType::KEYWORD_ARG, "(0, 0, 0, 0)", "Displays a border of the specified color around the texture." });
         args.push_back({ mvPyDataType::FloatList, "uv_min", mvArgType::KEYWORD_ARG, "(0.0, 0.0)", "Normalized texture coordinates min point." });
         args.push_back({ mvPyDataType::FloatList, "uv_max", mvArgType::KEYWORD_ARG, "(1.0, 1.0)", "Normalized texture coordinates max point." });
 
@@ -2472,6 +2480,8 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "max_clamped", mvArgType::KEYWORD_ARG, "False", "Activates and deactivates the enforcment of max_value." });
         args.push_back({ mvPyDataType::Bool, "on_enter", mvArgType::KEYWORD_ARG, "False", "Only runs callback on enter key press." });
         args.push_back({ mvPyDataType::Bool, "readonly", mvArgType::KEYWORD_ARG, "False", "Activates read only mode where no text can be input but text can still be highlighted." });
+        args.push_back({ mvPyDataType::Bool, "accept_empty_input", mvArgType::KEYWORD_ARG, "False", "Treat empty input as a zero value." });
+        args.push_back({ mvPyDataType::Bool, "display_empty_value", mvArgType::KEYWORD_ARG, "False", "If True, display an empty input if the value is zero. Generally used together with accept_empty_input." });
 
         setup.about = "Adds input for an float. +/- buttons can be activated by setting the value of step.";
         break;
@@ -2506,6 +2516,8 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "max_clamped", mvArgType::KEYWORD_ARG, "False", "Activates and deactivates the enforcment of max_value." });
         args.push_back({ mvPyDataType::Bool, "on_enter", mvArgType::KEYWORD_ARG, "False", "Only runs callback on enter key press." });
         args.push_back({ mvPyDataType::Bool, "readonly", mvArgType::KEYWORD_ARG, "False", "Activates read only mode where no text can be input but text can still be highlighted." });
+        args.push_back({ mvPyDataType::Bool, "accept_empty_input", mvArgType::KEYWORD_ARG, "False", "Treat empty input as a zero value." });
+        args.push_back({ mvPyDataType::Bool, "display_empty_value", mvArgType::KEYWORD_ARG, "False", "If True, display an empty input if the value is zero. Generally used together with accept_empty_input." });
 
         setup.about = "Adds input for an double. Useful when input float is not accurate enough. +/- buttons can be activated by setting the value of step.";
         break;
@@ -2539,6 +2551,8 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "max_clamped", mvArgType::KEYWORD_ARG, "False", "Activates and deactivates the enforcment of max_value." });
         args.push_back({ mvPyDataType::Bool, "on_enter", mvArgType::KEYWORD_ARG, "False", "Only runs callback on enter key press." });
         args.push_back({ mvPyDataType::Bool, "readonly", mvArgType::KEYWORD_ARG, "False", "Activates read only mode where no text can be input but text can still be highlighted." });
+        args.push_back({ mvPyDataType::Bool, "accept_empty_input", mvArgType::KEYWORD_ARG, "False", "Treat empty input as a zero value." });
+        args.push_back({ mvPyDataType::Bool, "display_empty_value", mvArgType::KEYWORD_ARG, "False", "If True, display an empty input if the value is zero. Generally used together with accept_empty_input." });
 
         setup.about = "Adds input for an int. +/- buttons can be activated by setting the value of step.";
         break;
@@ -2574,7 +2588,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "no_label", mvArgType::KEYWORD_ARG, "False", "Disable display of inline text label." });
         args.push_back({ mvPyDataType::Bool, "no_drag_drop", mvArgType::KEYWORD_ARG, "False", "Disable ability to drag and drop small preview (color square) to apply colors to other items." });
         args.push_back({ mvPyDataType::Bool, "alpha_bar", mvArgType::KEYWORD_ARG, "False", "Show vertical alpha bar/gradient in picker." });
-        args.push_back({ mvPyDataType::Long, "alpha_preview", mvArgType::KEYWORD_ARG, "0", "mvColorEdit_AlphaPreviewNone, mvColorEdit_AlphaPreview, or mvColorEdit_AlphaPreviewHalf" });
+        args.push_back({ mvPyDataType::Long, "alpha_preview", mvArgType::KEYWORD_ARG, "internal_dpg.mvColorEdit_AlphaPreviewNone", "mvColorEdit_AlphaPreviewNone, mvColorEdit_AlphaPreview, or mvColorEdit_AlphaPreviewHalf" });
         args.push_back({ mvPyDataType::Long, "display_mode", mvArgType::KEYWORD_ARG, "internal_dpg.mvColorEdit_rgb", "mvColorEdit_rgb, mvColorEdit_hsv, or mvColorEdit_hex" });
         args.push_back({ mvPyDataType::Long, "display_type", mvArgType::KEYWORD_ARG, "internal_dpg.mvColorEdit_uint8", "mvColorEdit_uint8 or mvColorEdit_float" });
         args.push_back({ mvPyDataType::Long, "input_mode", mvArgType::KEYWORD_ARG, "internal_dpg.mvColorEdit_input_rgb", "mvColorEdit_input_* values" });
@@ -2633,7 +2647,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "display_hsv", mvArgType::KEYWORD_ARG, "False", "Override _display_ type among RGB/HSV/Hex." });
         args.push_back({ mvPyDataType::Bool, "display_hex", mvArgType::KEYWORD_ARG, "False", "Override _display_ type among RGB/HSV/Hex." });
         args.push_back({ mvPyDataType::Long, "picker_mode", mvArgType::KEYWORD_ARG, "internal_dpg.mvColorPicker_bar", "mvColorPicker_bar or mvColorPicker_wheel" });
-        args.push_back({ mvPyDataType::Long, "alpha_preview", mvArgType::KEYWORD_ARG, "0", "mvColorEdit_AlphaPreviewNone, mvColorEdit_AlphaPreview, or mvColorEdit_AlphaPreviewHalf" });
+        args.push_back({ mvPyDataType::Long, "alpha_preview", mvArgType::KEYWORD_ARG, "internal_dpg.mvColorEdit_AlphaPreviewNone", "mvColorEdit_AlphaPreviewNone, mvColorEdit_AlphaPreview, or mvColorEdit_AlphaPreviewHalf" });
         args.push_back({ mvPyDataType::Long, "display_type", mvArgType::KEYWORD_ARG, "internal_dpg.mvColorEdit_uint8", "mvColorEdit_uint8 or mvColorEdit_float" });
         args.push_back({ mvPyDataType::Long, "input_mode", mvArgType::KEYWORD_ARG, "internal_dpg.mvColorEdit_input_rgb", "mvColorEdit_input_* values."});
 
@@ -2901,6 +2915,9 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "no_saved_settings", mvArgType::KEYWORD_ARG, "False", "Never load/save settings in .ini file." });
         args.push_back({ mvPyDataType::Bool, "no_open_over_existing_popup", mvArgType::KEYWORD_ARG, "True", "Don't open if there's already a popup" });
         args.push_back({ mvPyDataType::Bool, "no_scroll_with_mouse", mvArgType::KEYWORD_ARG, "False", "Disable user vertically scrolling with mouse wheel." });
+        args.push_back({ mvPyDataType::Bool, "no_docking", mvArgType::KEYWORD_ARG, "False", "Disable docking of this window" });
+
+        args.push_back({ mvPyDataType::Bool, "copy_contents_shortcut", mvArgType::KEYWORD_ARG, "False", "Experimental. If True, window contents can be copied to clipboard by pressing Ctrl+C. Might be useful for message boxes." });
 
         args.push_back({ mvPyDataType::Callable, "on_close", mvArgType::KEYWORD_ARG, "None", "Callback ran when window is closed." });
 
@@ -2933,6 +2950,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "default_value", mvArgType::KEYWORD_ARG, "False" });
         args.push_back({ mvPyDataType::Bool, "span_columns", mvArgType::KEYWORD_ARG, "False", "Forces the selectable to span the width of all columns if placed in a table." });
         args.push_back({ mvPyDataType::Bool, "disable_popup_close", mvArgType::KEYWORD_ARG, "False", "Disable closing a modal or popup window." });
+        args.push_back({ mvPyDataType::Bool, "select_on_nav", mvArgType::KEYWORD_ARG, "False", "Auto-select when moved into with keyboard navigation, unless Ctrl is held." });
 
         setup.about = "Adds a selectable. Similar to a button but can indicate its selected state.";
         break;
@@ -2962,9 +2980,17 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "selectable", mvArgType::KEYWORD_ARG, "False", "Makes the tree selectable." });
         args.push_back({ mvPyDataType::Bool, "span_text_width", mvArgType::KEYWORD_ARG, "False", "Makes hitbox and highlight only cover the label." });
         args.push_back({ mvPyDataType::Bool, "span_full_width", mvArgType::KEYWORD_ARG, "False", "Extend hit box to the left-most and right-most edges (cover the indent area)." });
+        args.push_back({ mvPyDataType::Bool, "catch_nav_left", mvArgType::KEYWORD_ARG, "False",
+                "Keyboard navigation: left arrow within this node's children, if unhandled, "
+                "moves focus to this node.  When setting it to True on a node, better set it "
+                "on all children nodes in the subtree as well, otherwise it might give unexpected "
+                "navigation jumps."});
         // TODO: Test these 2 arguments
         // args.push_back({ mvPyDataType::Bool, "span_available_width", mvArgType::KEYWORD_ARG, "False", "Extend hit box to the right-most edge, even if not framed." });
         // args.push_back({ mvPyDataType::Bool, "span_all_columns", mvArgType::KEYWORD_ARG, "False", "Frame will span all columns of its container table (text will still fit in current column)." });
+        args.push_back({ mvPyDataType::Integer, "lines", mvArgType::KEYWORD_ARG, "internal_dpg.mvTreeLines_None",
+                "Experimental.  Draw lines connecting tree_node hierarchy.  One of dpg.mvTreeLines "
+                "constants.  To work correctly, must be configured the same way in every tree node." });
 
         setup.about = "Adds a tree node to add items to.";
         setup.category = { "Containers", "Widgets" };
@@ -3114,6 +3140,8 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "no_alpha", mvArgType::KEYWORD_ARG, "False", "Removes the displayed slider that can change alpha channel." });
         args.push_back({ mvPyDataType::Bool, "no_border", mvArgType::KEYWORD_ARG, "False", "Disable border around the image." });
         args.push_back({ mvPyDataType::Bool, "no_drag_drop", mvArgType::KEYWORD_ARG, "False", "Disable ability to drag and drop small preview (color square) to apply colors to other items." });
+        args.push_back({ mvPyDataType::Long, "alpha_preview", mvArgType::KEYWORD_ARG, "internal_dpg.mvColorEdit_AlphaPreviewNone", "mvColorEdit_AlphaPreviewNone, mvColorEdit_AlphaPreview, or mvColorEdit_AlphaPreviewHalf" });
+        args.push_back({ mvPyDataType::Bool, "no_tooltip", mvArgType::KEYWORD_ARG, "False", "Disable tooltip when hovering the button." });
 
         setup.about = "Adds a color button.";
         setup.category = { "Widgets", "Colors" };
@@ -3163,6 +3191,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "leading", mvArgType::KEYWORD_ARG, "False", "Enforce the tab position to the left of the tab bar (after the tab list popup button)." });
         args.push_back({ mvPyDataType::Bool, "trailing", mvArgType::KEYWORD_ARG, "False", "Enforce the tab position to the right of the tab bar (before the scrolling buttons)." });
         args.push_back({ mvPyDataType::Bool, "no_tooltip", mvArgType::KEYWORD_ARG, "False", "Disable tooltip for the given tab." });
+        args.push_back({ mvPyDataType::Bool, "unsaved_document", mvArgType::KEYWORD_ARG, "False", "Display a dot next to the title." });
 
         setup.about = "Adds a tab button to a tab bar.";
         break;
@@ -3872,6 +3901,8 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "max_clamped", mvArgType::KEYWORD_ARG, "False", "Activates and deactivates the enforcment of max_value." });
         args.push_back({ mvPyDataType::Bool, "on_enter", mvArgType::KEYWORD_ARG, "False", "Only runs callback on enter." });
         args.push_back({ mvPyDataType::Bool, "readonly", mvArgType::KEYWORD_ARG, "False", "Activates read only mode where no text can be input but text can still be highlighted." });
+        args.push_back({ mvPyDataType::Bool, "accept_empty_input", mvArgType::KEYWORD_ARG, "False", "Treat empty input as a zero value." });
+        args.push_back({ mvPyDataType::Bool, "display_empty_value", mvArgType::KEYWORD_ARG, "False", "If True, display an empty input if the value is zero. Generally used together with accept_empty_input." });
 
         setup.about = "Adds multi int input for up to 4 integer values.";
         break;
@@ -3905,6 +3936,8 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "max_clamped", mvArgType::KEYWORD_ARG, "False", "Activates and deactivates the enforcment of max_value." });
         args.push_back({ mvPyDataType::Bool, "on_enter", mvArgType::KEYWORD_ARG, "False", "Only runs callback on enter key press." });
         args.push_back({ mvPyDataType::Bool, "readonly", mvArgType::KEYWORD_ARG, "False", "Activates read only mode where no text can be input but text can still be highlighted." });
+        args.push_back({ mvPyDataType::Bool, "accept_empty_input", mvArgType::KEYWORD_ARG, "False", "Treat empty input as a zero value." });
+        args.push_back({ mvPyDataType::Bool, "display_empty_value", mvArgType::KEYWORD_ARG, "False", "If True, display an empty input if the value is zero. Generally used together with accept_empty_input." });
 
         setup.about = "Adds multi float input for up to 4 float values.";
         break;
@@ -3938,6 +3971,8 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "max_clamped", mvArgType::KEYWORD_ARG, "False", "Activates and deactivates the enforcment of max_value." });
         args.push_back({ mvPyDataType::Bool, "on_enter", mvArgType::KEYWORD_ARG, "False", "Only runs callback on enter key press." });
         args.push_back({ mvPyDataType::Bool, "readonly", mvArgType::KEYWORD_ARG, "False", "Activates read only mode where no text can be input but text can still be highlighted." });
+        args.push_back({ mvPyDataType::Bool, "accept_empty_input", mvArgType::KEYWORD_ARG, "False", "Treat empty input as a zero value." });
+        args.push_back({ mvPyDataType::Bool, "display_empty_value", mvArgType::KEYWORD_ARG, "False", "If True, display an empty input if the value is zero. Generally used together with accept_empty_input." });
 
         setup.about = "Adds multi double input for up to 4 double values. Useful when input float mulit is not accurate enough.";
         break;
@@ -5116,7 +5151,8 @@ DearPyGui::GetEntityParser(mvAppItemType type)
 
         args.push_back({ mvPyDataType::String, "file" });
         args.push_back({ mvPyDataType::Integer, "size" });
-        args.push_back({ mvPyDataType::Bool, "pixel_snapH", mvArgType::KEYWORD_ARG, "False", "Align every glyph to pixel boundary. Useful e.g. if you are merging a non-pixel aligned font with the default font, or rendering text piece-by-piece (e.g. for coloring)." });
+        args.push_back({ mvPyDataType::Bool, "pixel_snapH", mvArgType::KEYWORD_ARG, "False", "Align every glyph to pixel boundary in horizontal direction. Useful if you are rendering text piece-by-piece (e.g. for coloring)." });
+        args.push_back({ mvPyDataType::Bool, "pixel_snapV", mvArgType::KEYWORD_ARG, "False", "Align scaled GlyphOffset.y to pixel boundaries in ImGui." });
         args.push_back({ mvPyDataType::UUID, "parent", mvArgType::KEYWORD_ARG, "internal_dpg.mvReservedUUID_0", "Parent to add this item to. (runtime adding)" });
         args.push_back({ mvPyDataType::Bool, "default_font", mvArgType::DEPRECATED_REMOVE_KEYWORD_ARG });
 
@@ -5195,46 +5231,6 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.about = "Adds a theme component.";
         setup.category = { "Themes", "Containers" };
         setup.createContextManager = true;
-        break;
-    }
-    case mvAppItemType::mvFontRangeHint:               
-    {
-        AddCommonArgs(args, (CommonParserArgs)(
-            MV_PARSER_ARG_ID |
-            MV_PARSER_ARG_PARENT)
-        );
-
-        args.push_back({ mvPyDataType::Integer, "hint" });
-
-        setup.about = "Adds a range of font characters (mvFontRangeHint_ constants).";
-        setup.category = { "Fonts", "Widgets" };
-        break;
-    }
-    case mvAppItemType::mvFontRange:                   
-    {
-        AddCommonArgs(args, (CommonParserArgs)(
-            MV_PARSER_ARG_ID |
-            MV_PARSER_ARG_PARENT)
-        );
-
-        args.push_back({ mvPyDataType::Integer, "first_char" });
-        args.push_back({ mvPyDataType::Integer, "last_char" });
-
-        setup.about = "Adds a range of font characters to a font.";
-        setup.category = { "Fonts", "Widgets" };
-        break;
-    }
-    case mvAppItemType::mvFontChars:                   
-    {
-        AddCommonArgs(args, (CommonParserArgs)(
-            MV_PARSER_ARG_ID |
-            MV_PARSER_ARG_PARENT)
-        );
-
-        args.push_back({ mvPyDataType::IntList, "chars" });
-
-        setup.about = "Adds specific font characters to a font.";
-        setup.category = { "Fonts", "Widgets" };
         break;
     }
     case mvAppItemType::mvCharRemap:                   
@@ -5693,4 +5689,16 @@ DearPyGui::OnChildRemoved(mvAppItem* item, std::shared_ptr<mvAppItem> child)
         default:
             return;
     }
+}
+
+void
+DearPyGui::RestoreImGuiCursor(const ImVec2& prev_pos)
+{
+    ImGui::SetCursorPos(prev_pos);
+    // Since ImGui 1.92.0, it is necessary to add an item, say a Dummy, if we do
+    // a SetCursorPos at the end of a group or a window (see issue #5548 in Dear ImGui).
+    // To prevent the Dummy from actually moving the cursor, we also zero out item spacing.
+    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));
+    ImGui::Dummy(ImVec2(0, 0));
+    ImGui::PopStyleVar();
 }

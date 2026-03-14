@@ -1,12 +1,16 @@
-#include "mvColors.h"
-#include "mvContext.h"
-#include <array>
-#include "mvItemRegistry.h"
 #include "mvPyUtils.h"
+#pragma hdrstop
+
+#include "mvColors.h"
+
+#include "mvContext.h"
+#include "mvItemRegistry.h"
 #include "mvFontItems.h"
 #include "mvThemes.h"
 #include "mvContainers.h"
 #include "mvItemHandlers.h"
+
+#include <array>
 
 void
 DearPyGui::draw_color_button(ImDrawList* drawlist, mvAppItem& item, mvColorButtonConfig& config)
@@ -47,10 +51,7 @@ DearPyGui::draw_color_button(ImDrawList* drawlist, mvAppItem& item, mvColorButto
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -81,7 +82,7 @@ DearPyGui::draw_color_button(ImDrawList* drawlist, mvAppItem& item, mvColorButto
 
 	// set cursor position to cached position
 	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
+		DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
 	if (item.config.indent > 0.0f)
 		ImGui::Unindent(item.config.indent);
@@ -139,10 +140,7 @@ DearPyGui::draw_color_edit(ImDrawList* drawlist, mvAppItem& item, mvColorEditCon
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -173,7 +171,7 @@ DearPyGui::draw_color_edit(ImDrawList* drawlist, mvAppItem& item, mvColorEditCon
 
 	// set cursor position to cached position
 	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
+		DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
 	if (item.config.indent > 0.0f)
 		ImGui::Unindent(item.config.indent);
@@ -239,10 +237,7 @@ DearPyGui::draw_color_map_button(ImDrawList* drawlist, mvAppItem& item, mvColorM
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -269,7 +264,7 @@ DearPyGui::draw_color_map_button(ImDrawList* drawlist, mvAppItem& item, mvColorM
 
 	// set cursor position to cached position
 	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
+		DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
 	if (item.config.indent > 0.0f)
 		ImGui::Unindent(item.config.indent);
@@ -327,10 +322,7 @@ DearPyGui::draw_color_map_scale(ImDrawList* drawlist, mvAppItem& item, mvColorMa
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -355,7 +347,7 @@ DearPyGui::draw_color_map_scale(ImDrawList* drawlist, mvAppItem& item, mvColorMa
 
 	// set cursor position to cached position
 	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
+		DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
 	if (item.config.indent > 0.0f)
 		ImGui::Unindent(item.config.indent);
@@ -413,10 +405,7 @@ DearPyGui::draw_color_picker(ImDrawList* drawlist, mvAppItem& item, mvColorPicke
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -447,7 +436,7 @@ DearPyGui::draw_color_picker(ImDrawList* drawlist, mvAppItem& item, mvColorPicke
 
 	// set cursor position to cached position
 	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
+		DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
 	if (item.config.indent > 0.0f)
 		ImGui::Unindent(item.config.indent);
@@ -505,10 +494,7 @@ DearPyGui::draw_color_map_slider(ImDrawList* drawlist, mvAppItem& item, mvColorM
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -536,7 +522,7 @@ DearPyGui::draw_color_map_slider(ImDrawList* drawlist, mvAppItem& item, mvColorM
 
 	// set cursor position to cached position
 	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
+		DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
 	if (item.config.indent > 0.0f)
 		ImGui::Unindent(item.config.indent);
@@ -917,6 +903,16 @@ DearPyGui::set_configuration(PyObject* inDict, mvColorButtonConfig& outConfig)
 	flagop("no_alpha", ImGuiColorEditFlags_NoAlpha, outConfig.flags);
 	flagop("no_border", ImGuiColorEditFlags_NoBorder, outConfig.flags);
 	flagop("no_drag_drop", ImGuiColorEditFlags_NoDragDrop, outConfig.flags);
+	flagop("no_tooltip", ImGuiColorEditFlags_NoTooltip, outConfig.flags);
+
+	if (PyObject* item = PyDict_GetItemString(inDict, "alpha_preview"))
+	{
+		long mode = ToLong(item);
+
+		// reset target flags
+		outConfig.flags &= ~(ImGuiColorEditFlags_AlphaOpaque | ImGuiColorEditFlags_AlphaPreviewHalf);
+		outConfig.flags |= mode;
+	}
 }
 
 void
@@ -944,28 +940,16 @@ DearPyGui::set_configuration(PyObject* inDict, mvColorEditConfig& outConfig)
 
 	if (PyObject* item = PyDict_GetItemString(inDict, "alpha_preview"))
 	{
-		long mode = ToUUID(item);
+		long mode = ToLong(item);
 
 		// reset target flags
-		outConfig.flags &= ~ImGuiColorEditFlags_AlphaPreview;
-		outConfig.flags &= ~ImGuiColorEditFlags_AlphaPreviewHalf;
-
-		switch (mode)
-		{
-		case ImGuiColorEditFlags_AlphaPreview:
-			outConfig.flags |= ImGuiColorEditFlags_AlphaPreview;
-			break;
-		case ImGuiColorEditFlags_AlphaPreviewHalf:
-			outConfig.flags |= ImGuiColorEditFlags_AlphaPreviewHalf;
-			break;
-		default:
-			break;
-		}
+		outConfig.flags &= ~(ImGuiColorEditFlags_AlphaOpaque | ImGuiColorEditFlags_AlphaPreviewHalf);
+		outConfig.flags |= mode;
 	}
 
 	if (PyObject* item = PyDict_GetItemString(inDict, "display_mode"))
 	{
-		long mode = ToUUID(item);
+		long mode = ToLong(item);
 
 		// reset target flags
 		outConfig.flags &= ~ImGuiColorEditFlags_DisplayRGB;
@@ -988,7 +972,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvColorEditConfig& outConfig)
 
 	if (PyObject* item = PyDict_GetItemString(inDict, "display_type"))
 	{
-		long mode = ToUUID(item);
+		long mode = ToLong(item);
 
 		// reset target flags
 		outConfig.flags &= ~ImGuiColorEditFlags_Uint8;
@@ -1051,7 +1035,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvColorPickerConfig& outConfig)
 
 	if (PyObject* item = PyDict_GetItemString(inDict, "picker_mode"))
 	{
-		long mode = ToUUID(item);
+		long mode = ToLong(item);
 
 		// reset target flags
 		outConfig.flags &= ~ImGuiColorEditFlags_PickerHueBar;
@@ -1070,28 +1054,16 @@ DearPyGui::set_configuration(PyObject* inDict, mvColorPickerConfig& outConfig)
 
 	if (PyObject* item = PyDict_GetItemString(inDict, "alpha_preview"))
 	{
-		long mode = ToUUID(item);
+		long mode = ToLong(item);
 
 		// reset target flags
-		outConfig.flags &= ~ImGuiColorEditFlags_AlphaPreview;
-		outConfig.flags &= ~ImGuiColorEditFlags_AlphaPreviewHalf;
-
-		switch (mode)
-		{
-		case ImGuiColorEditFlags_AlphaPreview:
-			outConfig.flags |= ImGuiColorEditFlags_AlphaPreview;
-			break;
-		case ImGuiColorEditFlags_AlphaPreviewHalf:
-			outConfig.flags |= ImGuiColorEditFlags_AlphaPreviewHalf;
-			break;
-		default:
-			break;
-		}
+		outConfig.flags &= ~(ImGuiColorEditFlags_AlphaOpaque | ImGuiColorEditFlags_AlphaPreviewHalf);
+		outConfig.flags |= mode;
 	}
 
 	if (PyObject* item = PyDict_GetItemString(inDict, "display_type"))
 	{
-		long mode = ToUUID(item);
+		long mode = ToLong(item);
 
 		// reset target flags
 		outConfig.flags &= ~ImGuiColorEditFlags_Uint8;
@@ -1110,7 +1082,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvColorPickerConfig& outConfig)
 
 	if (PyObject* item = PyDict_GetItemString(inDict, "input_mode"))
 	{
-		long mode = ToUUID(item);
+		long mode = ToLong(item);
 
 		// reset target flags
 		outConfig.flags &= ~ImGuiColorEditFlags_InputRGB;
@@ -1184,6 +1156,11 @@ DearPyGui::fill_configuration_dict(const mvColorButtonConfig& inConfig, PyObject
 	checkbitset("no_alpha", ImGuiColorEditFlags_NoAlpha, inConfig.flags);
 	checkbitset("no_border", ImGuiColorEditFlags_NoBorder, inConfig.flags);
 	checkbitset("no_drag_drop", ImGuiColorEditFlags_NoDragDrop, inConfig.flags);
+	checkbitset("no_tooltip", ImGuiColorEditFlags_NoTooltip, inConfig.flags);
+
+	// alpha_preview
+	auto alphaMode = inConfig.flags & (ImGuiColorEditFlags_AlphaOpaque | ImGuiColorEditFlags_AlphaPreviewHalf);
+	PyDict_SetItemString(outDict, "alpha_preview", mvPyObject(ToPyLong(alphaMode)));
 }
 
 void
@@ -1215,12 +1192,8 @@ DearPyGui::fill_configuration_dict(const mvColorEditConfig& inConfig, PyObject* 
 		PyDict_SetItemString(outDict, "input_mode", mvPyObject(ToPyLong(ImGuiColorEditFlags_InputHSV)));
 
 	// alpha_preview
-	if (inConfig.flags & ImGuiColorEditFlags_AlphaPreview)
-		PyDict_SetItemString(outDict, "alpha_preview", mvPyObject(ToPyLong(ImGuiColorEditFlags_AlphaPreview)));
-	else if (inConfig.flags & ImGuiColorEditFlags_AlphaPreviewHalf)
-		PyDict_SetItemString(outDict, "alpha_preview", mvPyObject(ToPyLong(ImGuiColorEditFlags_AlphaPreviewHalf)));
-	else
-		PyDict_SetItemString(outDict, "alpha_preview", mvPyObject(ToPyLong(0l)));
+	auto alphaMode = inConfig.flags & (ImGuiColorEditFlags_AlphaOpaque | ImGuiColorEditFlags_AlphaPreviewHalf);
+	PyDict_SetItemString(outDict, "alpha_preview", mvPyObject(ToPyLong(alphaMode)));
 
 	// display_mode
 	if (inConfig.flags & ImGuiColorEditFlags_DisplayHSV)
@@ -1268,12 +1241,8 @@ DearPyGui::fill_configuration_dict(const mvColorPickerConfig& inConfig, PyObject
 		PyDict_SetItemString(outDict, "input_mode", mvPyObject(ToPyLong(ImGuiColorEditFlags_InputHSV)));
 
 	// alpha_preview
-	if (inConfig.flags & ImGuiColorEditFlags_AlphaPreview)
-		PyDict_SetItemString(outDict, "alpha_preview", mvPyObject(ToPyLong(ImGuiColorEditFlags_AlphaPreview)));
-	else if (inConfig.flags & ImGuiColorEditFlags_AlphaPreviewHalf)
-		PyDict_SetItemString(outDict, "alpha_preview", mvPyObject(ToPyLong(ImGuiColorEditFlags_AlphaPreviewHalf)));
-	else
-		PyDict_SetItemString(outDict, "alpha_preview", mvPyObject(ToPyLong(0)));
+	auto alphaMode = inConfig.flags & (ImGuiColorEditFlags_AlphaOpaque | ImGuiColorEditFlags_AlphaPreviewHalf);
+	PyDict_SetItemString(outDict, "alpha_preview", mvPyObject(ToPyLong(alphaMode)));
 
 	// display_type
 	if (inConfig.flags & ImGuiColorEditFlags_Uint8)

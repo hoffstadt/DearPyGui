@@ -2,10 +2,7 @@
 
 #include <vector>
 #include <map>
-#include <stack>
 #include <string>
-#include <queue>
-#include <thread>
 #include <future>
 #include <atomic>
 #include <memory>
@@ -97,6 +94,8 @@ struct mvIO
     // callback registry
     bool manualCallbacks = false;
 
+    bool altEnterFullscreen = false;
+
     ImWchar decimalPoint = '.';
 };
 
@@ -116,7 +115,7 @@ struct mvContext
     double              time      = 0.0;    // total time since starting
     int                 frame     = 0;      // frame count
     int                 framerate = 0;      // frame rate
-    mvUUID              id = MV_START_UUID; // current ID
+    std::atomic<mvUUID> id = MV_START_UUID; // current ID
     mvViewport*         viewport = nullptr;
     mvGraphics          graphics;
     bool                resetTheme = false;

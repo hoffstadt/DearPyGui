@@ -1,7 +1,11 @@
-#include "mvCustomTypes.h"
-#include <string>
-#include "mvTypes.h"
 #include "mvPyUtils.h"
+#pragma hdrstop
+
+#include "mvCustomTypes.h"
+
+#include "mvTypes.h"
+
+#include <string>
 
 static void
 intialize_mvMat4(mvMat4* a,
@@ -127,8 +131,8 @@ PymvMat4_getItem(PyObject* obj, Py_ssize_t index)
 	if(index > 15)
 		return Py_BuildValue("f", self->m.cols[3][3]);
 
-    i32 column = index/4;
-    i32 row = index % 4;
+    i32 column = (i32)index/4;
+    i32 row = (i32)index % 4;
 	return Py_BuildValue("f", self->m.cols[column][row]);
 }
 
@@ -139,8 +143,8 @@ PymvMat4_setItem(PyObject* obj, Py_ssize_t index, PyObject* value)
 	if (index > 15)
 		return 0;
 
-    i32 column = index/4;
-    i32 row = index % 4;
+    i32 column = (i32)index/4;
+    i32 row = (i32)index % 4;
 	self->m.cols[column][row] = (float)PyFloat_AsDouble(value);
 	return 0;
 }

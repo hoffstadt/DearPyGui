@@ -1,6 +1,10 @@
-#include "mvThemes.h"
 #include "mvPyUtils.h"
+#pragma hdrstop
+
+#include "mvThemes.h"
+
 #include <implot.h>
+#include <imnodes.h>
 #include <imgui_internal.h>
 
 void
@@ -358,7 +362,7 @@ struct mvGuiStyleVarInfo
 static const mvGuiStyleVarInfo GStyleVarInfo[] =
 {
 	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, Alpha) },               // ImGuiStyleVar_Alpha
-    { ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, DisabledAlpha) },       // ImGuiStyleVar_DisabledAlpha
+	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, DisabledAlpha) },       // ImGuiStyleVar_DisabledAlpha
 	{ ImGuiDataType_Float, 2, (ImU32)offsetof(ImGuiStyle, WindowPadding) },       // ImGuiStyleVar_WindowPadding
 	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, WindowRounding) },      // ImGuiStyleVar_WindowRounding
 	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, WindowBorderSize) },    // ImGuiStyleVar_WindowBorderSize
@@ -377,14 +381,20 @@ static const mvGuiStyleVarInfo GStyleVarInfo[] =
 	{ ImGuiDataType_Float, 2, (ImU32)offsetof(ImGuiStyle, CellPadding) },         // ImGuiStyleVar_CellPadding
 	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, ScrollbarSize) },       // ImGuiStyleVar_ScrollbarSize
 	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, ScrollbarRounding) },   // ImGuiStyleVar_ScrollbarRounding
+	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, ScrollbarPadding) },    // ImGuiStyleVar_ScrollbarPadding
 	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, GrabMinSize) },         // ImGuiStyleVar_GrabMinSize
 	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, GrabRounding) },        // ImGuiStyleVar_GrabRounding
+	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, ImageBorderSize) },     // ImGuiStyleVar_ImageBorderSize
 	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, TabRounding) },         // ImGuiStyleVar_TabRounding
-	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, TabBorderSize) },        // ImGuiStyleVar_TabBorderSize
-	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, TabBarBorderSize) },        // ImGuiStyleVar_TabBarBorderSize
-	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, TabBarOverlineSize) },        // ImGuiStyleVar_TabBarOverlineSize
-    { ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, TableAngledHeadersAngle)},    // ImGuiStyleVar_TableAngledHeadersAngle
-    { ImGuiDataType_Float, 2, (ImU32)offsetof(ImGuiStyle, TableAngledHeadersTextAlign)},// ImGuiStyleVar_TableAngledHeadersTextAlign
+	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, TabBorderSize) },       // ImGuiStyleVar_TabBorderSize
+	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, TabMinWidthBase) },     // ImGuiStyleVar_TabMinWidthBase
+	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, TabMinWidthShrink) },   // ImGuiStyleVar_TabMinWidthShrink
+	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, TabBarBorderSize) },    // ImGuiStyleVar_TabBarBorderSize
+	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, TabBarOverlineSize) },  // ImGuiStyleVar_TabBarOverlineSize
+	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, TableAngledHeadersAngle)},    // ImGuiStyleVar_TableAngledHeadersAngle
+	{ ImGuiDataType_Float, 2, (ImU32)offsetof(ImGuiStyle, TableAngledHeadersTextAlign)},// ImGuiStyleVar_TableAngledHeadersTextAlign
+	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, TreeLinesSize)},        // ImGuiStyleVar_TreeLinesSize
+	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, TreeLinesRounding)},    // ImGuiStyleVar_TreeLinesRounding
 	{ ImGuiDataType_Float, 2, (ImU32)offsetof(ImGuiStyle, ButtonTextAlign) },         // ImGuiStyleVar_ButtonTextAlign
 	{ ImGuiDataType_Float, 2, (ImU32)offsetof(ImGuiStyle, SelectableTextAlign) },     // ImGuiStyleVar_SelectableTextAlign
 	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, SeparatorTextBorderSize) }, // ImGuiStyleVar_SeparatorTextBorderSize

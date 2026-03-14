@@ -66,7 +66,7 @@ def add_collapsing_header(*, label: str ='', user_data: Any ='', use_internal_la
 	"""Adds a collapsing header to add items to. Must be closed with the end command."""
 	...
 
-def add_color_button(default_value : Union[List[int], Tuple[int, ...]] ='', *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', no_alpha: bool ='', no_border: bool ='', no_drag_drop: bool ='') -> Union[int, str]:
+def add_color_button(default_value : Union[List[int], Tuple[int, ...]] ='', *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', no_alpha: bool ='', no_border: bool ='', no_drag_drop: bool ='', alpha_preview: int ='', no_tooltip: bool ='') -> Union[int, str]:
 	"""Adds a color button."""
 	...
 
@@ -210,20 +210,8 @@ def add_float_vect_value(*, label: str ='', user_data: Any ='', use_internal_lab
 	"""Adds a float vect value."""
 	...
 
-def add_font(file : str, size : int, *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', pixel_snapH: bool ='', parent: Union[int, str] ='') -> Union[int, str]:
+def add_font(file : str, size : int, *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', pixel_snapH: bool ='', pixel_snapV: bool ='', parent: Union[int, str] ='') -> Union[int, str]:
 	"""Adds font to a font registry."""
-	...
-
-def add_font_chars(chars : Union[List[int], Tuple[int, ...]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='') -> Union[int, str]:
-	"""Adds specific font characters to a font."""
-	...
-
-def add_font_range(first_char : int, last_char : int, *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='') -> Union[int, str]:
-	"""Adds a range of font characters to a font."""
-	...
-
-def add_font_range_hint(hint : int, *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='') -> Union[int, str]:
-	"""Adds a range of font characters (mvFontRangeHint_ constants)."""
 	...
 
 def add_font_registry(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', show: bool ='') -> Union[int, str]:
@@ -263,31 +251,31 @@ def add_inf_line_series(x : Union[List[float], Tuple[float, ...]], *, label: str
 	"""Adds an infinite line series to a plot."""
 	...
 
-def add_input_double(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: float ='', format: str ='', min_value: float ='', max_value: float ='', step: float ='', step_fast: float ='', min_clamped: bool ='', max_clamped: bool ='', on_enter: bool ='', readonly: bool ='') -> Union[int, str]:
+def add_input_double(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: float ='', format: str ='', min_value: float ='', max_value: float ='', step: float ='', step_fast: float ='', min_clamped: bool ='', max_clamped: bool ='', on_enter: bool ='', readonly: bool ='', accept_empty_input: bool ='', display_empty_value: bool ='') -> Union[int, str]:
 	"""Adds input for an double. Useful when input float is not accurate enough. +/- buttons can be activated by setting the value of step."""
 	...
 
-def add_input_doublex(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: Any ='', format: str ='', min_value: float ='', max_value: float ='', size: int ='', min_clamped: bool ='', max_clamped: bool ='', on_enter: bool ='', readonly: bool ='') -> Union[int, str]:
+def add_input_doublex(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: Any ='', format: str ='', min_value: float ='', max_value: float ='', size: int ='', min_clamped: bool ='', max_clamped: bool ='', on_enter: bool ='', readonly: bool ='', accept_empty_input: bool ='', display_empty_value: bool ='') -> Union[int, str]:
 	"""Adds multi double input for up to 4 double values. Useful when input float mulit is not accurate enough."""
 	...
 
-def add_input_float(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: float ='', format: str ='', min_value: float ='', max_value: float ='', step: float ='', step_fast: float ='', min_clamped: bool ='', max_clamped: bool ='', on_enter: bool ='', readonly: bool ='') -> Union[int, str]:
+def add_input_float(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: float ='', format: str ='', min_value: float ='', max_value: float ='', step: float ='', step_fast: float ='', min_clamped: bool ='', max_clamped: bool ='', on_enter: bool ='', readonly: bool ='', accept_empty_input: bool ='', display_empty_value: bool ='') -> Union[int, str]:
 	"""Adds input for an float. +/- buttons can be activated by setting the value of step."""
 	...
 
-def add_input_floatx(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: Union[List[float], Tuple[float, ...]] ='', format: str ='', min_value: float ='', max_value: float ='', size: int ='', min_clamped: bool ='', max_clamped: bool ='', on_enter: bool ='', readonly: bool ='') -> Union[int, str]:
+def add_input_floatx(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: Union[List[float], Tuple[float, ...]] ='', format: str ='', min_value: float ='', max_value: float ='', size: int ='', min_clamped: bool ='', max_clamped: bool ='', on_enter: bool ='', readonly: bool ='', accept_empty_input: bool ='', display_empty_value: bool ='') -> Union[int, str]:
 	"""Adds multi float input for up to 4 float values."""
 	...
 
-def add_input_int(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: int ='', min_value: int ='', max_value: int ='', step: int ='', step_fast: int ='', min_clamped: bool ='', max_clamped: bool ='', on_enter: bool ='', readonly: bool ='') -> Union[int, str]:
+def add_input_int(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: int ='', min_value: int ='', max_value: int ='', step: int ='', step_fast: int ='', min_clamped: bool ='', max_clamped: bool ='', on_enter: bool ='', readonly: bool ='', accept_empty_input: bool ='', display_empty_value: bool ='') -> Union[int, str]:
 	"""Adds input for an int. +/- buttons can be activated by setting the value of step."""
 	...
 
-def add_input_intx(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: Union[List[int], Tuple[int, ...]] ='', min_value: int ='', max_value: int ='', size: int ='', min_clamped: bool ='', max_clamped: bool ='', on_enter: bool ='', readonly: bool ='') -> Union[int, str]:
+def add_input_intx(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: Union[List[int], Tuple[int, ...]] ='', min_value: int ='', max_value: int ='', size: int ='', min_clamped: bool ='', max_clamped: bool ='', on_enter: bool ='', readonly: bool ='', accept_empty_input: bool ='', display_empty_value: bool ='') -> Union[int, str]:
 	"""Adds multi int input for up to 4 integer values."""
 	...
 
-def add_input_text(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: str ='', hint: str ='', multiline: bool ='', no_spaces: bool ='', uppercase: bool ='', tab_input: bool ='', decimal: bool ='', hexadecimal: bool ='', readonly: bool ='', password: bool ='', scientific: bool ='', on_enter: bool ='', auto_select_all: bool ='', ctrl_enter_for_new_line: bool ='', no_horizontal_scroll: bool ='', always_overwrite: bool ='', no_undo_redo: bool ='', escape_clears_all: bool ='') -> Union[int, str]:
+def add_input_text(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: str ='', hint: str ='', multiline: bool ='', no_spaces: bool ='', uppercase: bool ='', tab_input: bool ='', decimal: bool ='', hexadecimal: bool ='', readonly: bool ='', password: bool ='', scientific: bool ='', on_enter: bool ='', auto_select_all: bool ='', ctrl_enter_for_new_line: bool ='', no_horizontal_scroll: bool ='', always_overwrite: bool ='', no_undo_redo: bool ='', escape_clears_all: bool ='', elide_left: bool ='') -> Union[int, str]:
 	"""Adds input for text."""
 	...
 
@@ -475,7 +463,7 @@ def add_scatter_series(x : Union[List[float], Tuple[float, ...]], y : Union[List
 	"""Adds a scatter series to a plot."""
 	...
 
-def add_selectable(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: bool ='', span_columns: bool ='', disable_popup_close: bool ='') -> Union[int, str]:
+def add_selectable(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: bool ='', span_columns: bool ='', disable_popup_close: bool ='', select_on_nav: bool ='') -> Union[int, str]:
 	"""Adds a selectable. Similar to a button but can indicate its selected state."""
 	...
 
@@ -551,15 +539,15 @@ def add_synced_tables(*, label: str ='', user_data: Any ='', use_internal_label:
 	"""Links all tables that are immediate children of this container so that they share their state (mostly column sizes).  Other children are rendered as is.  This is an experimental feature, use with caution."""
 	...
 
-def add_tab(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', drop_callback: Callable ='', show: bool ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', closable: bool ='', no_tooltip: bool ='', order_mode: int ='') -> Union[int, str]:
+def add_tab(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', drop_callback: Callable ='', show: bool ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', closable: bool ='', no_tooltip: bool ='', order_mode: int ='', unsaved_document: bool ='', no_close_with_middle_click: bool ='', no_reorder: bool ='') -> Union[int, str]:
 	"""Adds a tab to a tab bar."""
 	...
 
-def add_tab_bar(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', reorderable: bool ='') -> Union[int, str]:
+def add_tab_bar(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', reorderable: bool ='', tab_list_popup_button: bool ='', no_close_with_middle_click: bool ='', no_scrolling_buttons: bool ='', no_tooltip: bool ='', draw_selected_overline: bool ='') -> Union[int, str]:
 	"""Adds a tab bar."""
 	...
 
-def add_tab_button(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', no_reorder: bool ='', leading: bool ='', trailing: bool ='', no_tooltip: bool ='') -> Union[int, str]:
+def add_tab_button(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', no_reorder: bool ='', leading: bool ='', trailing: bool ='', no_tooltip: bool ='', unsaved_document: bool ='') -> Union[int, str]:
 	"""Adds a tab button to a tab bar."""
 	...
 
@@ -619,7 +607,7 @@ def add_tooltip(parent : Union[int, str], *, label: str ='', user_data: Any ='',
 	"""Adds a tooltip window."""
 	...
 
-def add_tree_node(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_open: bool ='', open_on_double_click: bool ='', open_on_arrow: bool ='', leaf: bool ='', bullet: bool ='', selectable: bool ='', span_text_width: bool ='', span_full_width: bool ='') -> Union[int, str]:
+def add_tree_node(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_open: bool ='', open_on_double_click: bool ='', open_on_arrow: bool ='', leaf: bool ='', bullet: bool ='', selectable: bool ='', span_text_width: bool ='', span_full_width: bool ='', catch_nav_left: bool ='', lines: int ='') -> Union[int, str]:
 	"""Adds a tree node to add items to."""
 	...
 
@@ -635,7 +623,7 @@ def add_viewport_menu_bar(*, label: str ='', user_data: Any ='', use_internal_la
 	"""Adds a menubar to the viewport."""
 	...
 
-def add_window(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', min_size: Union[List[int], Tuple[int, ...]] ='', max_size: Union[List[int], Tuple[int, ...]] ='', menubar: bool ='', collapsed: bool ='', autosize: bool ='', no_resize: bool ='', unsaved_document: bool ='', no_title_bar: bool ='', no_move: bool ='', no_scrollbar: bool ='', no_collapse: bool ='', horizontal_scrollbar: bool ='', no_focus_on_appearing: bool ='', no_bring_to_front_on_focus: bool ='', no_close: bool ='', no_background: bool ='', modal: bool ='', popup: bool ='', no_saved_settings: bool ='', no_open_over_existing_popup: bool ='', no_scroll_with_mouse: bool ='', on_close: Callable ='') -> Union[int, str]:
+def add_window(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', show: bool ='', pos: Union[List[int], Tuple[int, ...]] ='', min_size: Union[List[int], Tuple[int, ...]] ='', max_size: Union[List[int], Tuple[int, ...]] ='', menubar: bool ='', collapsed: bool ='', autosize: bool ='', no_resize: bool ='', unsaved_document: bool ='', no_title_bar: bool ='', no_move: bool ='', no_scrollbar: bool ='', no_collapse: bool ='', horizontal_scrollbar: bool ='', no_focus_on_appearing: bool ='', no_bring_to_front_on_focus: bool ='', no_close: bool ='', no_background: bool ='', modal: bool ='', popup: bool ='', no_saved_settings: bool ='', no_open_over_existing_popup: bool ='', no_scroll_with_mouse: bool ='', no_docking: bool ='', copy_contents_shortcut: bool ='', on_close: Callable ='') -> Union[int, str]:
 	"""Creates a new window for following items to be added to."""
 	...
 
@@ -679,7 +667,7 @@ def clear_selected_nodes(node_editor : Union[int, str]) -> None:
 	"""Clears a node editor's selected nodes."""
 	...
 
-def configure_app(*, load_init_file: str ='', docking: bool ='', docking_space: bool ='', docking_shift_only: bool ='', init_file: str ='', auto_save_init_file: bool ='', device: int ='', auto_device: bool ='', allow_alias_overwrites: bool ='', manual_alias_management: bool ='', skip_required_args: bool ='', skip_positional_args: bool ='', skip_keyword_args: bool ='', wait_for_input: bool ='', manual_callback_management: bool ='', keyboard_navigation: bool ='', anti_aliased_lines: bool ='', anti_aliased_lines_use_tex: bool ='', anti_aliased_fill: bool ='', **kwargs) -> None:
+def configure_app(*, load_init_file: str ='', docking: bool ='', docking_space: bool ='', docking_shift_only: bool ='', init_file: str ='', auto_save_init_file: bool ='', device: int ='', auto_device: bool ='', allow_alias_overwrites: bool ='', manual_alias_management: bool ='', skip_required_args: bool ='', skip_positional_args: bool ='', skip_keyword_args: bool ='', wait_for_input: bool ='', manual_callback_management: bool ='', keyboard_navigation: bool ='', anti_aliased_lines: bool ='', anti_aliased_lines_use_tex: bool ='', anti_aliased_fill: bool ='', win32_alt_enter_fullscreen: bool ='', **kwargs) -> None:
 	"""Configures app."""
 	...
 
@@ -1560,6 +1548,9 @@ mvTable_SizingFixedFit=0
 mvTable_SizingFixedSame=0
 mvTable_SizingStretchProp=0
 mvTable_SizingStretchSame=0
+mvTreeLines_None=0
+mvTreeLines_Full=0
+mvTreeLines_ToNodes=0
 mvFormat_Float_rgba=0
 mvFormat_Float_rgb=0
 mvThemeCat_Core=0
@@ -1569,8 +1560,8 @@ mvThemeCol_Text=0
 mvThemeCol_TextDisabled=0
 mvThemeCol_WindowBg=0
 mvThemeCol_ChildBg=0
-mvThemeCol_Border=0
 mvThemeCol_PopupBg=0
+mvThemeCol_Border=0
 mvThemeCol_BorderShadow=0
 mvThemeCol_FrameBg=0
 mvThemeCol_FrameBgHovered=0
@@ -1598,11 +1589,14 @@ mvThemeCol_SeparatorActive=0
 mvThemeCol_ResizeGrip=0
 mvThemeCol_ResizeGripHovered=0
 mvThemeCol_ResizeGripActive=0
-mvThemeCol_Tab=0
+mvThemeCol_InputTextCursor=0
 mvThemeCol_TabHovered=0
-mvThemeCol_TabActive=0
-mvThemeCol_TabUnfocused=0
-mvThemeCol_TabUnfocusedActive=0
+mvThemeCol_Tab=0
+mvThemeCol_TabSelected=0
+mvThemeCol_TabSelectedOverline=0
+mvThemeCol_TabDimmed=0
+mvThemeCol_TabDimmedSelected=0
+mvThemeCol_TabDimmedSelectedOverline=0
 mvThemeCol_DockingPreview=0
 mvThemeCol_DockingEmptyBg=0
 mvThemeCol_PlotLines=0
@@ -1615,11 +1609,18 @@ mvThemeCol_TableBorderLight=0
 mvThemeCol_TableRowBg=0
 mvThemeCol_TableRowBgAlt=0
 mvThemeCol_TextSelectedBg=0
+mvThemeCol_TreeLines=0
 mvThemeCol_DragDropTarget=0
-mvThemeCol_NavHighlight=0
+mvThemeCol_DragDropTargetBg=0
+mvThemeCol_UnsavedMarker=0
+mvThemeCol_NavCursor=0
 mvThemeCol_NavWindowingHighlight=0
 mvThemeCol_NavWindowingDimBg=0
 mvThemeCol_ModalWindowDimBg=0
+mvThemeCol_TabActive=0
+mvThemeCol_TabUnfocused=0
+mvThemeCol_TabUnfocusedActive=0
+mvThemeCol_NavHighlight=0
 mvPlotCol_Line=0
 mvPlotCol_Fill=0
 mvPlotCol_MarkerOutline=0
@@ -1633,11 +1634,12 @@ mvPlotCol_LegendBorder=0
 mvPlotCol_LegendText=0
 mvPlotCol_TitleText=0
 mvPlotCol_InlayText=0
-mvPlotCol_AxisBg=0
-mvPlotCol_AxisBgActive=0
-mvPlotCol_AxisBgHovered=0
-mvPlotCol_AxisGrid=0
 mvPlotCol_AxisText=0
+mvPlotCol_AxisGrid=0
+mvPlotCol_AxisTick=0
+mvPlotCol_AxisBg=0
+mvPlotCol_AxisBgHovered=0
+mvPlotCol_AxisBgActive=0
 mvPlotCol_Selection=0
 mvPlotCol_Crosshairs=0
 mvNodeCol_NodeBackground=0
@@ -1689,13 +1691,20 @@ mvStyleVar_IndentSpacing=0
 mvStyleVar_CellPadding=0
 mvStyleVar_ScrollbarSize=0
 mvStyleVar_ScrollbarRounding=0
+mvStyleVar_ScrollbarPadding=0
 mvStyleVar_GrabMinSize=0
 mvStyleVar_GrabRounding=0
+mvStyleVar_ImageBorderSize=0
 mvStyleVar_TabRounding=0
 mvStyleVar_TabBorderSize=0
+mvStyleVar_TabMinWidthBase=0
+mvStyleVar_TabMinWidthShrink=0
 mvStyleVar_TabBarBorderSize=0
+mvStyleVar_TabBarOverlineSize=0
 mvStyleVar_TableAngledHeadersAngle=0
 mvStyleVar_TableAngledHeadersTextAlign=0
+mvStyleVar_TreeLinesSize=0
+mvStyleVar_TreeLinesRounding=0
 mvStyleVar_ButtonTextAlign=0
 mvStyleVar_SelectableTextAlign=0
 mvStyleVar_SeparatorTextBorderSize=0
@@ -1883,9 +1892,6 @@ mvTheme=0
 mvThemeColor=0
 mvThemeStyle=0
 mvThemeComponent=0
-mvFontRangeHint=0
-mvFontRange=0
-mvFontChars=0
 mvCharRemap=0
 mvValueRegistry=0
 mvIntValue=0

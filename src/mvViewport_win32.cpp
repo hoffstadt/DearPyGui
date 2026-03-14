@@ -85,13 +85,7 @@ StartNewFrame()
 {
 	// Font manager is thread-unsafe, so we'd better sync it
 	std::lock_guard lk(GContext->mutex);
-
-	if (mvToolManager::GetFontManager().isInvalid())
-	{
-		mvToolManager::GetFontManager().rebuildAtlas();
-		ImGui_ImplDX11_InvalidateDeviceObjects();
-		mvToolManager::GetFontManager().updateAtlas();
-	}
+	mvToolManager::GetFontManager().updateAtlas();
 
 	// Start the Dear ImGui frame
 	ImGui_ImplDX11_NewFrame();
@@ -476,13 +470,13 @@ mvToggleFullScreen(mvViewport& viewport)
 {
 	mvViewportData* viewportData = (mvViewportData*)viewport.platformSpecifics;
 
-	static size_t storedWidth = 0;
-	static size_t storedHeight = 0;
-	static int    storedXPos = 0;
-	static int    storedYPos = 0;
+	static i32 storedWidth = 0;
+	static i32 storedHeight = 0;
+	static i32 storedXPos = 0;
+	static i32 storedYPos = 0;
 
-	size_t width = GetSystemMetrics(SM_CXSCREEN);
-	size_t height = GetSystemMetrics(SM_CYSCREEN);
+	int width = GetSystemMetrics(SM_CXSCREEN);
+	int height = GetSystemMetrics(SM_CYSCREEN);
 
 	if (viewport.fullScreen)
 	{
