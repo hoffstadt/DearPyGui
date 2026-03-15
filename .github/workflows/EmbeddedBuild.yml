@@ -96,7 +96,8 @@ jobs:
         cmake --build cmake-build-debug --config Debug
 
   build-x64-Linux:
-
+    # Delete name in the future
+    name: build-Ubuntu
     runs-on: ubuntu-22.04
     env:
       CXX: g++-10
