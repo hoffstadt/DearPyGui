@@ -63,7 +63,7 @@ jobs:
 #        DearSandbox.exe
 
   build-MacOS:
-    
+
     runs-on: MacOS-latest
     if: ${{! contains(github.event.head_commit.message, '[individual]') || contains(github.event.head_commit.message, '[apple]')}}
 
@@ -74,7 +74,7 @@ jobs:
 
     - name: Retrieve submodules
       run: git submodule update --init --recursive
-    
+
     - name: Build Python
       run: |
         cd $GITHUB_WORKSPACE
@@ -97,6 +97,8 @@ jobs:
 
   build-x64-Linux:
 
+    # Delete in the future
+    name: build-Ubuntu
     runs-on: ubuntu-22.04
     env:
       CXX: g++-10
@@ -113,9 +115,9 @@ jobs:
     - name: Install Dependencies
       run: |
         cd $GITHUB_WORKSPACE
-        sudo apt-get update 
+        sudo apt-get update
         sudo apt-get install libgl1-mesa-dev xorg-dev
-    
+
     - name: Build Python
       run: |
         cd $GITHUB_WORKSPACE
@@ -153,9 +155,9 @@ jobs:
     - name: Install Dependencies
       run: |
         cd $GITHUB_WORKSPACE
-        sudo apt-get update 
+        sudo apt-get update
         sudo apt-get install libgl1-mesa-dev xorg-dev
-    
+
     - name: Build Python
       run: |
         cd $GITHUB_WORKSPACE
