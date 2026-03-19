@@ -776,7 +776,7 @@ AddItemWithRuntimeChecks(mvItemRegistry& registry, std::shared_ptr<mvAppItem> it
         mvAppItem* beforeItem = GetItem(registry, before);
         if (beforeItem == nullptr)
         {
-            mvThrowPythonError(mvErrorCode::mvItemNotFound, "add_*", "Item not found: " + std::to_string(parent), nullptr);
+            mvThrowPythonError(mvErrorCode::mvItemNotFound, "add_*", "Item not found: " + std::to_string(before), nullptr);
             IM_ASSERT(false && "The 'before' item could not be found.");
             return false;
         }

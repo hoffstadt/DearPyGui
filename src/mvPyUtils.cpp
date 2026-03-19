@@ -1107,7 +1107,7 @@ ToUCharVect(PyObject* value, const std::string& message)
         auto size = VecReserveForTuple(value, items);
         for (Py_ssize_t i = 0; i < size; ++i)
         {
-            items[i] = (unsigned char)PyLong_AsLong(PyTuple_GetItem(value, i));
+            items.emplace_back((unsigned char)PyLong_AsLong(PyTuple_GetItem(value, i)));
         }
     }
 
@@ -1116,7 +1116,7 @@ ToUCharVect(PyObject* value, const std::string& message)
         auto size = VecReserveForList(value, items);
         for (Py_ssize_t i = 0; i < size; ++i)
         {
-            items[i] = (unsigned char)PyLong_AsLong(PyList_GetItem(value, i));
+            items.emplace_back((unsigned char)PyLong_AsLong(PyList_GetItem(value, i)));
         }
     }
 
@@ -1160,7 +1160,7 @@ ToIntVect(PyObject* value, const std::string& message)
         auto size = VecReserveForTuple(value, items);
         for (Py_ssize_t i = 0; i < size; ++i)
         {
-            items[i] = PyLong_AsLong(PyTuple_GetItem(value, i));
+            items.emplace_back(PyLong_AsLong(PyTuple_GetItem(value, i)));
         }
     }
 
@@ -1169,7 +1169,7 @@ ToIntVect(PyObject* value, const std::string& message)
         auto size = VecReserveForList(value, items);
         for (Py_ssize_t i = 0; i < size; ++i)
         {
-            items[i] = PyLong_AsLong(PyList_GetItem(value, i));
+            items.emplace_back(PyLong_AsLong(PyList_GetItem(value, i)));
         }
     }
 
@@ -1214,11 +1214,7 @@ ToUUIDVect(PyObject* value, const std::string& message)
         auto size = VecReserveForTuple(value, items);
         for (Py_ssize_t i = 0; i < size; ++i)
         {
-            PyObject* item = PyTuple_GetItem(value, i);
-            if (isPyObject_Int(item))
-                items[i] = PyLong_AsUnsignedLongLong(item);
-            else if (isPyObject_String(item))
-                items[i] = GetIdFromAlias(*GContext->itemRegistry, ToString(item));
+            items.emplace_back(ToUUID(PyTuple_GetItem(value, i)));
         }
     }
 
@@ -1227,11 +1223,7 @@ ToUUIDVect(PyObject* value, const std::string& message)
         auto size = VecReserveForList(value, items);
         for (Py_ssize_t i = 0; i < size; ++i)
         {
-            PyObject* item = PyList_GetItem(value, i);
-            if (isPyObject_Int(item))
-                items[i] = PyLong_AsUnsignedLongLong(item);
-            else if (isPyObject_String(item))
-                items[i] = GetIdFromAlias(*GContext->itemRegistry, ToString(item));
+            items.emplace_back(ToUUID(PyList_GetItem(value, i)));
         }
     }
 
