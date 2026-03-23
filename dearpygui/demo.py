@@ -301,7 +301,7 @@ def show_demo():
                 dpg.add_button(label="Hold me button", callback=_log, repeat=True)
 
                 dpg.add_checkbox(label="checkbox", callback=_log)
-                dpg.add_mixed_state_checkbox(label="mixed state checkbox", callback=_log)
+                dpg.add_mixed_state_checkbox(label="mixed state checkbox", callback=_log, default_value=-1)
                 dpg.add_radio_button(("radio a", "radio b", "radio c"), callback=_log, horizontal=True)
                 dpg.add_selectable(label="selectable", callback=_log)
 
