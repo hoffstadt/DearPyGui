@@ -22,21 +22,23 @@ with dpg.window(label="Mixed State Checkbox Test", width=400, height=300):
     cb1 = dpg.add_mixed_state_checkbox(
         label="Mixed (start at -1)",
         default_value=-1,
-        callback=on_change
+        callback=on_change,
     )
 
     # Start unchecked
     cb2 = dpg.add_mixed_state_checkbox(
         label="Unchecked (start at 0)",
         default_value=0,
-        callback=on_change
+        callback=on_change,
+        mixed_click_value=1
     )
 
     # Start checked
     cb3 = dpg.add_mixed_state_checkbox(
         label="Checked (start at 1)",
         default_value=1,
-        callback=on_change
+        callback=on_change,
+        mixed_click_value=0
     )
 
     dpg.add_separator()

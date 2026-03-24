@@ -76,6 +76,7 @@ namespace DearPyGui
     void fill_configuration_dict(const mvImageButtonConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvKnobFloatConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvTooltipConfig& inConfig, PyObject* outDict);
+    void fill_configuration_dict(const mvMixedStateCheckboxConfig& inConfig, PyObject* outDict);
 
     // specific part of `configure_item(...)`
     void set_configuration(PyObject* inDict, mvSimplePlotConfig& outConfig);
@@ -111,6 +112,7 @@ namespace DearPyGui
     void set_configuration(PyObject* inDict, mvImageButtonConfig& outConfig);
     void set_configuration(PyObject* inDict, mvTooltipConfig& outConfig);
     void set_configuration(PyObject* inDict, mvKnobFloatConfig& outConfig);
+    void set_configuration(PyObject* inDict, mvMixedStateCheckboxConfig& outConfig);
 
     // positional args TODO: combine with above
     void set_required_configuration(PyObject* inDict, mvImageConfig& outConfig);
@@ -246,6 +248,7 @@ struct mvMixedStateCheckboxConfig
 {
     std::shared_ptr<int> value = std::make_shared<int>(0);  // -1=mixed, 0=false, 1=true
     int         disabled_value = 0;
+    int         mixed_click_value = 1;  // value to transition to when clicked in mixed state (0 or 1)
 };
 
 struct mvDragFloatConfig
@@ -639,6 +642,8 @@ public:
     mvMixedStateCheckboxConfig configData{};
     explicit mvMixedStateCheckbox(mvUUID uuid) : mvAppItem(uuid) {}
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_mixed_state_checkbox(drawlist, *this, configData); }
+    void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
+    void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
     void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
     void setPyValue(PyObject* value) override { *configData.value = ToInt(value); }
     void* getValue() override { return &configData.value; }

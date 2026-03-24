@@ -1941,6 +1941,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         );
 
         args.push_back({ mvPyDataType::Integer, "default_value", mvArgType::KEYWORD_ARG, "0", "Sets the default value: -1 for mixed/indeterminate, 0 for unchecked, 1 for checked" });
+        args.push_back({ mvPyDataType::Integer, "mixed_click_value", mvArgType::KEYWORD_ARG, "1", "Sets the value when clicking the checkbox in mixed state: 0 for unchecked, 1 for checked" });
 
         setup.about = "Adds a mixed state (tristate) checkbox. Value is -1 (mixed), 0 (unchecked), or 1 (checked).";
         break;

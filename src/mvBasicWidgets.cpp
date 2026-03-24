@@ -702,6 +702,15 @@ DearPyGui::fill_configuration_dict(const mvTooltipConfig& inConfig, PyObject* ou
 	PyDict_SetItemString(outDict, "hide_on_activity", mvPyObject(ToPyBool(inConfig.hide_on_move)));
 }
 
+void
+DearPyGui::fill_configuration_dict(const mvMixedStateCheckboxConfig& inConfig, PyObject* outDict)
+{
+	if (outDict == nullptr)
+		return;
+
+	PyDict_SetItemString(outDict, "mixed_click_value", mvPyObject(ToPyInt(inConfig.mixed_click_value)));
+}
+
 //-----------------------------------------------------------------------------
 // [SECTION] configure_item(...) specifics
 //-----------------------------------------------------------------------------
@@ -1537,6 +1546,15 @@ DearPyGui::set_configuration(PyObject* inDict, mvKnobFloatConfig& outConfig)
 
 	if (PyObject* item = PyDict_GetItemString(inDict, "min_value")) outConfig.minv = ToFloat(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "max_value")) outConfig.maxv = ToFloat(item);
+}
+
+void
+DearPyGui::set_configuration(PyObject* inDict, mvMixedStateCheckboxConfig& outConfig)
+{
+	if (inDict == nullptr)
+		return;
+
+	if (PyObject* item = PyDict_GetItemString(inDict, "mixed_click_value")) outConfig.mixed_click_value = ToInt(item);
 }
 
 //-----------------------------------------------------------------------------
@@ -2797,7 +2815,7 @@ DearPyGui::draw_mixed_state_checkbox(ImDrawList* drawlist, mvAppItem& item, mvMi
 			bool temp = false;
 			ret = ImGui::Checkbox(item.info.internalLabel.c_str(), &temp);
 			if (ret)
-				*v = 1;  // clicking mixed state sets to checked
+				*v = config.mixed_click_value;
 			ImGui::PopItemFlag();
 		}
 		else
