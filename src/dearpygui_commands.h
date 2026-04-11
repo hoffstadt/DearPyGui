@@ -2739,6 +2739,9 @@ configure_app(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	if (PyObject* item = PyDict_GetItemString(kwargs, "win32_alt_enter_fullscreen")) GContext->IO.altEnterFullscreen = ToBool(item);
 
+	ImGuiIO& io = ImGui::GetIO();
+	if (PyObject* item = PyDict_GetItemString(kwargs, "input_trickle_event_queue")) io.ConfigInputTrickleEventQueue = ToBool(item);
+
 	return GetPyNone();
 }
 
@@ -2775,6 +2778,9 @@ get_app_configuration(PyObject* self, PyObject* args, PyObject* kwargs)
 	PyDict_SetItemString(pdict, "anti_aliased_fill", mvPyObject(ToPyBool(style.AntiAliasedFill)));
 
 	PyDict_SetItemString(pdict, "win32_alt_enter_fullscreen", mvPyObject(ToPyBool(GContext->IO.altEnterFullscreen)));
+
+	ImGuiIO& io = ImGui::GetIO();
+	PyDict_SetItemString(pdict, "input_trickle_event_queue", mvPyObject(ToPyBool(io.ConfigInputTrickleEventQueue)));
 
 	return pdict;
 }
