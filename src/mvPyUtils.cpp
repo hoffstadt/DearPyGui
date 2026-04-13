@@ -1927,6 +1927,7 @@ PythonDataTypeString(mvPyDataType type)
     switch (type)
     {
         case mvPyDataType::String:         return " : str";
+        case mvPyDataType::OptionalString: return " : Optional[str]";
         case mvPyDataType::UUID:           return " : Union[int, str]";
         case mvPyDataType::Integer:        return " : int";
         case mvPyDataType::Long:           return " : int";
@@ -1938,7 +1939,7 @@ PythonDataTypeString(mvPyDataType type)
         case mvPyDataType::DoubleList:     return " : Union[List[float], Tuple[float, ...]]";
         case mvPyDataType::IntList:        return " : Union[List[int], Tuple[int, ...]]";
         case mvPyDataType::UUIDList:       return " : Union[List[int], Tuple[int, ...]]";
-        case mvPyDataType::Callable:       return " : Callable";
+        case mvPyDataType::Callable:       return " : Optional[Callable]";
         case mvPyDataType::Dict:           return " : dict";
         case mvPyDataType::ListAny:        return " : List[Any]";
         case mvPyDataType::ListListInt:    return " : List[Union[List[int], Tuple[int, ...]]]";
@@ -1955,23 +1956,24 @@ PythonDataTypeActual(mvPyDataType type)
 {
     switch (type)
     {
-        case mvPyDataType::String:        return "str";
-        case mvPyDataType::UUID:          return "Union[int, str]";
-        case mvPyDataType::Integer:       return "int";
-        case mvPyDataType::Long:          return "int";
-        case mvPyDataType::Float:         return "float";
-        case mvPyDataType::Double:        return "float";
-        case mvPyDataType::Bool:          return "bool";
-        case mvPyDataType::StringList:    return "Union[List[str], Tuple[str, ...]]";
-        case mvPyDataType::FloatList:     return "Union[List[float], Tuple[float, ...]]";
-        case mvPyDataType::IntList:       return "Union[List[int], Tuple[int, ...]]";
-        case mvPyDataType::UUIDList:      return "Union[List[int], Tuple[int, ...]]";
-        case mvPyDataType::Callable:      return "Callable";
-        case mvPyDataType::Dict:          return "dict";
-        case mvPyDataType::ListFloatList: return "List[List[float]]";
-        case mvPyDataType::ListStrList:   return "List[List[str]]";
-        case mvPyDataType::None:          return "None";
-        case mvPyDataType::Object:        return "Any";
+        case mvPyDataType::String:         return "str";
+        case mvPyDataType::OptionalString: return "Optional[str]";
+        case mvPyDataType::UUID:           return "Union[int, str]";
+        case mvPyDataType::Integer:        return "int";
+        case mvPyDataType::Long:           return "int";
+        case mvPyDataType::Float:          return "float";
+        case mvPyDataType::Double:         return "float";
+        case mvPyDataType::Bool:           return "bool";
+        case mvPyDataType::StringList:     return "Union[List[str], Tuple[str, ...]]";
+        case mvPyDataType::FloatList:      return "Union[List[float], Tuple[float, ...]]";
+        case mvPyDataType::IntList:        return "Union[List[int], Tuple[int, ...]]";
+        case mvPyDataType::UUIDList:       return "Union[List[int], Tuple[int, ...]]";
+        case mvPyDataType::Callable:       return "Optional[Callable]";
+        case mvPyDataType::Dict:           return "dict";
+        case mvPyDataType::ListFloatList:  return "List[List[float]]";
+        case mvPyDataType::ListStrList:    return "List[List[str]]";
+        case mvPyDataType::None:           return "None";
+        case mvPyDataType::Object:         return "Any";
         default:                              return "Any";
     }
 }
@@ -2255,7 +2257,7 @@ GenerateStubFile(const std::string& directory)
     std::ofstream stub;
     stub.open(directory + "/_dearpygui.pyi");
 
-    stub << "from typing import List, Any, Callable, Union, Tuple\n";
+    stub << "from typing import List, Any, Callable, Union, Tuple, Optional\n";
     stub << "from dearpygui._dearpygui import *\n\n";
     stub << "##########################################################\n";
     stub << "# This file is generated automatically by mvPythonParser #\n";
@@ -3355,7 +3357,7 @@ AddCommonArgs(std::vector<mvPythonDataElement>& args, CommonParserArgs argsFlags
 {
 
     args.push_back({ mvPyDataType::UUID, "id", mvArgType::DEPRECATED_RENAME_KEYWORD_ARG, "0", "", "tag" });
-    args.push_back({ mvPyDataType::String, "label", mvArgType::KEYWORD_ARG, "None", "Overrides 'name' as label." });
+    args.push_back({ mvPyDataType::OptionalString, "label", mvArgType::KEYWORD_ARG, "None", "Overrides 'name' as label." });
     args.push_back({ mvPyDataType::Object, "user_data", mvArgType::KEYWORD_ARG, "None", "User data for callbacks" });
     args.push_back({ mvPyDataType::Bool, "use_internal_label", mvArgType::KEYWORD_ARG, "True", "Use generated internal label instead of user specified (appends ### uuid)." });
 

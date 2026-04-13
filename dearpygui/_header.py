@@ -1,4 +1,4 @@
-from typing import List, Any, Callable, Union, Tuple, Iterator
+from typing import List, Any, Callable, Union, Tuple, Iterator, Optional
 from contextlib import contextmanager
 import warnings
 import functools

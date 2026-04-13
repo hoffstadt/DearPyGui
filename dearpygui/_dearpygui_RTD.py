@@ -14,7 +14,7 @@
 #     * Discussions: https://github.com/hoffstadt/DearPyGui/discussions
 ##########################################################
 
-from typing import List, Any, Callable, Union, Tuple, Iterator
+from typing import List, Any, Callable, Union, Tuple, Iterator, Optional
 from contextlib import contextmanager
 import warnings
 import functools
@@ -1312,7 +1312,7 @@ def staging_container(**kwargs):
 
 @deprecated("Use: add_spacer(...)")
 def add_spacing(**kwargs):
-	"""	(deprecated function) Adds vertical spacing. 
+	"""	(deprecated function) Adds vertical spacing.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -1380,10 +1380,10 @@ def add_same_line(**kwargs):
 
 @deprecated("Use: `get_plot_query_rects()`")
 def is_plot_queried(plot: Union[int, str], **kwargs):
-	"""	(deprecated function) Returns true if the plot is currently being queried. 
+	"""	(deprecated function) Returns true if the plot is currently being queried.
 
 	Args:
-		plot (Union[int, str]): 
+		plot (Union[int, str]):
 	Returns:
 		bool
 	"""
@@ -1395,7 +1395,7 @@ def get_plot_query_area(plot: Union[int, str], **kwargs):
 	"""	(deprecated function) Returns the last/current query area of the plot. If no area is available [0, 0, 0, 0] will be returned.
 
 	Args:
-		plot (Union[int, str]): 
+		plot (Union[int, str]):
 	Returns:
 		Union[List[float], Tuple[float, ...]]
 	"""
@@ -1410,7 +1410,7 @@ def add_hline_series(x, **kwargs):
 	"""	(deprecated function) Adds an infinite horizontal line series to a plot.
 
 	Args:
-		x (Any): 
+		x (Any):
 		label (str, optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
@@ -1425,14 +1425,14 @@ def add_hline_series(x, **kwargs):
 	"""
 
 	return internal_dpg.add_inf_line_series(x, **kwargs, horizontal=True)
-            
+
 
 @deprecated("Use: `add_inf_line_series()`")
 def add_vline_series(x, **kwargs):
 	"""	(deprecated function) Adds an infinite vertical line series to a plot.
 
 	Args:
-		x (Any): 
+		x (Any):
 		label (str, optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
@@ -1547,52 +1547,52 @@ def set_start_callback(callback):
     return internal_dpg.set_frame_callback(3, callback)
 
 @deprecated("This call is a no-op because character ranges are now automatic")
-def add_font_chars(chars : Union[List[int], Tuple[int, ...]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, **kwargs) -> Union[int, str]:
+def add_font_chars(chars : Union[List[int], Tuple[int, ...]], *, label: Optional[str] =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, **kwargs) -> Union[int, str]:
 	"""	(deprecated function) Adds specific font characters to a font.
 
 	Args:
-		chars (Union[List[int], Tuple[int, ...]]): 
+		chars (Union[List[int], Tuple[int, ...]]):
 		label (str, optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 	pass
 
 @deprecated("This call is a no-op because character ranges are now automatic")
-def add_font_range(first_char : int, last_char : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, **kwargs) -> Union[int, str]:
+def add_font_range(first_char : int, last_char : int, *, label: Optional[str] =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, **kwargs) -> Union[int, str]:
 	"""	(deprecated function)  Adds a range of font characters to a font.
 
 	Args:
-		first_char (int): 
-		last_char (int): 
+		first_char (int):
+		last_char (int):
 		label (str, optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 	pass
 
 @deprecated("This call is a no-op because character ranges are now automatic")
-def add_font_range_hint(hint : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, **kwargs) -> Union[int, str]:
+def add_font_range_hint(hint : int, *, label: Optional[str] =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, **kwargs) -> Union[int, str]:
 	"""	(deprecated function)  Adds a range of font characters (mvFontRangeHint_ constants).
 
 	Args:
-		hint (int): 
+		hint (int):
 		label (str, optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -1608,7 +1608,7 @@ def child_window(**kwargs):
 	"""	 Adds an embedded child window. Will show scrollbars when items do not fit. About using auto_resize/resizable flags: size measurement for a given axis is only performed when the child window is within visible boundaries, or is just appearing and it won't update its auto-size while clipped. While not perfect, it is a better default behavior as the always-on performance gain is more valuable than the occasional 'resizing after becoming visible again' glitch. You may also use always_auto_resize to force an update even when child window is not in view. However doing so will degrade performance. Remember that combining both auto_resize_x and auto_resize_y defeats purpose of a scrolling region and is NOT recommended.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -1618,7 +1618,7 @@ def child_window(**kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
@@ -1656,7 +1656,7 @@ def clipper(**kwargs):
 	"""	 Helper to manually clip large list of items. Increases performance by not searching or drawing widgets outside of the clipped region.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -1682,7 +1682,7 @@ def collapsing_header(**kwargs):
 	"""	 Adds a collapsing header to add items to. Must be closed with the end command.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -1690,8 +1690,8 @@ def collapsing_header(**kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		drag_callback (Optional[Callable], optional): Registers a drag callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
@@ -1720,7 +1720,7 @@ def colormap_registry(**kwargs):
 	"""	 Adds a colormap registry.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -1744,14 +1744,14 @@ def custom_series(x, y, channel_count, **kwargs):
 		x (Any): 
 		y (Any): 
 		channel_count (int): 
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
-		callback (Callable, optional): Registers a callback.
+		callback (Optional[Callable], optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		y1 (Any, optional): 
 		y2 (Any, optional): 
@@ -1774,7 +1774,7 @@ def drag_payload(**kwargs):
 	"""	 User data payload for drag and drop operations.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -1799,7 +1799,7 @@ def draw_layer(**kwargs):
 	"""	 New in 1.1. Creates a layer useful for grouping drawlist items.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -1825,7 +1825,7 @@ def draw_node(**kwargs):
 	"""	 New in 1.1. Creates a drawing node to associate a transformation matrix. Child node matricies will concatenate.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -1850,13 +1850,13 @@ def drawlist(width, height, **kwargs):
 	Args:
 		width (int): 
 		height (int): 
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
-		callback (Callable, optional): Registers a callback.
+		callback (Optional[Callable], optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
@@ -1879,13 +1879,13 @@ def file_dialog(**kwargs):
 	"""	 Displays a file or directory selector depending on keywords. Displays a file dialog by default. Callback will be ran when the file or directory picker is closed. The app_data arguemnt will be populated with information related to the file and directory as a dictionary.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		width (int, optional): Width of the item.
 		height (int, optional): Height of the item.
-		callback (Callable, optional): Registers a callback.
+		callback (Optional[Callable], optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		default_path (str, optional): Path that the file dialog will default to when opened.
 		default_filename (str, optional): Default name that will show in the file name input.
@@ -1894,7 +1894,7 @@ def file_dialog(**kwargs):
 		directory_selector (bool, optional): Shows only directory/paths as options. Allows selection of directory/paths only.
 		min_size (Union[List[int], Tuple[int, ...]], optional): Minimum window size.
 		max_size (Union[List[int], Tuple[int, ...]], optional): Maximum window size.
-		cancel_callback (Callable, optional): Callback called when cancel button is clicked.
+		cancel_callback (Optional[Callable], optional): Callback called when cancel button is clicked.
 		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
@@ -1911,7 +1911,7 @@ def filter_set(**kwargs):
 	"""	 Helper to parse and apply text filters (e.g. aaaaa[, bbbbb][, ccccc])
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -1939,7 +1939,7 @@ def font(file, size, **kwargs):
 	Args:
 		file (str): 
 		size (int): 
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -1963,7 +1963,7 @@ def font_registry(**kwargs):
 	"""	 Adds a font registry.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -1985,7 +1985,7 @@ def group(**kwargs):
 Enable property acts in a special way enabling/disabling everything inside the group. (Use mvStyleVar_DisabledAlpha to edit colors within the disabled group.)
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -1995,8 +1995,8 @@ Enable property acts in a special way enabling/disabling everything inside the g
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		drag_callback (Optional[Callable], optional): Registers a drag callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
@@ -2023,7 +2023,7 @@ def handler_registry(**kwargs):
 	"""	 Adds a handler registry.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -2044,7 +2044,7 @@ def item_handler_registry(**kwargs):
 	"""	 Adds an item handler registry.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -2065,7 +2065,7 @@ def menu(**kwargs):
 	"""	 Adds a menu to an existing menu bar.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -2073,7 +2073,7 @@ def menu(**kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
 		filter_key (str, optional): Used by filter widget.
@@ -2096,7 +2096,7 @@ def menu_bar(**kwargs):
 	"""	 Adds a menu bar to a window.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -2120,15 +2120,15 @@ def node(**kwargs):
 	"""	 Adds a node to a node editor.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		drag_callback (Optional[Callable], optional): Registers a drag callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
@@ -2152,7 +2152,7 @@ def node_attribute(**kwargs):
 	"""	 Adds a node attribute to a node.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -2182,7 +2182,7 @@ def node_editor(**kwargs):
 	"""	 Adds a node editor.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -2190,12 +2190,12 @@ def node_editor(**kwargs):
 		height (int, optional): Height of the item.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
-		callback (Callable, optional): Registers a callback.
+		callback (Optional[Callable], optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
-		delink_callback (Callable, optional): Callback ran when a link is detached.
+		delink_callback (Optional[Callable], optional): Callback ran when a link is detached.
 		menubar (bool, optional): Shows or hides the menubar.
 		minimap (bool, optional): Shows or hides the Minimap. New in 1.6.
 		minimap_location (int, optional): mvNodeMiniMap_Location_* constants. New in 1.6.
@@ -2216,7 +2216,7 @@ def plot(**kwargs):
 	"""	 Adds a plot which is used to hold series, and can be drawn to with draw commands. For all _mod parameters use mvKey_ModX enums, or mvKey_ModDisabled to disable the modifier.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -2226,9 +2226,9 @@ def plot(**kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		callback (Callable, optional): Registers a callback.
-		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		callback (Optional[Callable], optional): Registers a callback.
+		drag_callback (Optional[Callable], optional): Registers a drag callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
@@ -2285,13 +2285,13 @@ def plot_axis(axis, **kwargs):
 
 	Args:
 		axis (int): 
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		no_label (bool, optional): the axis label will not be displayed
 		no_gridlines (bool, optional): no grid lines will be displayed
@@ -2329,7 +2329,7 @@ def stage(**kwargs):
 	"""	 Adds a stage.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -2351,7 +2351,7 @@ def subplots(rows, columns, **kwargs):
 	Args:
 		rows (int): 
 		columns (int): 
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -2360,7 +2360,7 @@ def subplots(rows, columns, **kwargs):
 		indent (int, optional): Offsets the widget to the right the specified number multiplied by the indent style.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
-		callback (Callable, optional): Registers a callback.
+		callback (Optional[Callable], optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
@@ -2395,7 +2395,7 @@ def synced_tables(**kwargs):
 	"""	 Links all tables that are immediate children of this container so that they share their state (mostly column sizes).  Other children are rendered as is.  This is an experimental feature, use with caution.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -2419,7 +2419,7 @@ def tab(**kwargs):
 	"""	 Adds a tab to a tab bar.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -2427,7 +2427,7 @@ def tab(**kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
@@ -2455,14 +2455,14 @@ def tab_bar(**kwargs):
 	"""	 Adds a tab bar.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		indent (int, optional): Offsets the widget to the right the specified number multiplied by the indent style.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
-		callback (Callable, optional): Registers a callback.
+		callback (Optional[Callable], optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
@@ -2491,7 +2491,7 @@ def table(**kwargs):
 	"""	 Adds a table.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -2501,7 +2501,7 @@ def table(**kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
-		callback (Callable, optional): Registers a callback.
+		callback (Optional[Callable], optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
@@ -2551,7 +2551,7 @@ def table_cell(**kwargs):
 	"""	 Adds a table.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -2576,7 +2576,7 @@ def table_row(**kwargs):
 	"""	 Adds a table row.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -2601,7 +2601,7 @@ def template_registry(**kwargs):
 	"""	 Adds a template registry.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -2621,7 +2621,7 @@ def texture_registry(**kwargs):
 	"""	 Adds a dynamic texture.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -2642,7 +2642,7 @@ def theme(**kwargs):
 	"""	 Adds a theme.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -2664,7 +2664,7 @@ def theme_component(item_type=0, **kwargs):
 
 	Args:
 		item_type (int, optional): 
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -2688,7 +2688,7 @@ def tooltip(parent, **kwargs):
 
 	Args:
 		parent (Union[int, str]): 
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -2711,7 +2711,7 @@ def tree_node(**kwargs):
 	"""	 Adds a tree node to add items to.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -2719,8 +2719,8 @@ def tree_node(**kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		drag_callback (Optional[Callable], optional): Registers a drag callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
@@ -2753,7 +2753,7 @@ def value_registry(**kwargs):
 	"""	 Adds a value registry.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -2773,7 +2773,7 @@ def viewport_drawlist(**kwargs):
 	"""	 A container that is used to present draw items or layers directly to the viewport. By default this will draw to the back of the viewport. Layers and draw items should be added to this widget as children.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -2797,7 +2797,7 @@ def viewport_menu_bar(**kwargs):
 	"""	 Adds a menubar to the viewport.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -2821,7 +2821,7 @@ def window(**kwargs):
 	"""	 Creates a new window for following items to be added to.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -2853,7 +2853,7 @@ def window(**kwargs):
 		no_scroll_with_mouse (bool, optional): Disable user vertically scrolling with mouse wheel.
 		no_docking (bool, optional): Disable docking of this window
 		copy_contents_shortcut (bool, optional): Experimental. If True, window contents can be copied to clipboard by pressing Ctrl+C. Might be useful for message boxes.
-		on_close (Callable, optional): Callback ran when window is closed.
+		on_close (Optional[Callable], optional): Callback ran when window is closed.
 		id (Union[int, str], optional): (deprecated)
 		delay_search (bool, optional): (deprecated)This was used as an optimization hint but is not relevant anymore.
 	Yields:
@@ -2876,7 +2876,7 @@ def add_2d_histogram_series(x, y, **kwargs):
 	Args:
 		x (Any): 
 		y (Any): 
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -2904,7 +2904,7 @@ def add_3d_slider(**kwargs):
 	"""	 Adds a 3D box slider.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -2915,9 +2915,9 @@ def add_3d_slider(**kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		callback (Callable, optional): Registers a callback.
-		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		callback (Optional[Callable], optional): Registers a callback.
+		drag_callback (Optional[Callable], optional): Registers a drag callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
@@ -2956,7 +2956,7 @@ def add_area_series(x, y, **kwargs):
 	Args:
 		x (Any): 
 		y (Any): 
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -2977,7 +2977,7 @@ def add_axis_tag(**kwargs):
 	"""	 Adds custom labels to axes.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -3002,7 +3002,7 @@ def add_bar_group_series(values, label_ids, group_size, **kwargs):
 		values (Any): 
 		label_ids (Union[List[str], Tuple[str, ...]]): Label of each bar in a group
 		group_size (int): Number of bars in a group
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -3027,7 +3027,7 @@ def add_bar_series(x, y, **kwargs):
 	Args:
 		x (Any): 
 		y (Any): 
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -3048,7 +3048,7 @@ def add_bool_value(**kwargs):
 	"""	 Adds a bool value.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -3066,7 +3066,7 @@ def add_button(**kwargs):
 	"""	 Adds a button.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -3076,9 +3076,9 @@ def add_button(**kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		callback (Callable, optional): Registers a callback.
-		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		callback (Optional[Callable], optional): Registers a callback.
+		drag_callback (Optional[Callable], optional): Registers a drag callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
@@ -3105,7 +3105,7 @@ def add_candle_series(dates, opens, closes, lows, highs, **kwargs):
 		closes (Any): 
 		lows (Any): 
 		highs (Any): 
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -3131,7 +3131,7 @@ def add_char_remap(source, target, **kwargs):
 	Args:
 		source (int): 
 		target (int): 
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -3147,7 +3147,7 @@ def add_checkbox(**kwargs):
 	"""	 Adds a checkbox.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -3156,9 +3156,9 @@ def add_checkbox(**kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		callback (Callable, optional): Registers a callback.
-		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		callback (Optional[Callable], optional): Registers a callback.
+		drag_callback (Optional[Callable], optional): Registers a drag callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
@@ -3177,7 +3177,7 @@ def add_child_window(**kwargs):
 	"""	 Adds an embedded child window. Will show scrollbars when items do not fit. About using auto_resize/resizable flags: size measurement for a given axis is only performed when the child window is within visible boundaries, or is just appearing and it won't update its auto-size while clipped. While not perfect, it is a better default behavior as the always-on performance gain is more valuable than the occasional 'resizing after becoming visible again' glitch. You may also use always_auto_resize to force an update even when child window is not in view. However doing so will degrade performance. Remember that combining both auto_resize_x and auto_resize_y defeats purpose of a scrolling region and is NOT recommended.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -3187,7 +3187,7 @@ def add_child_window(**kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
@@ -3220,7 +3220,7 @@ def add_clipper(**kwargs):
 	"""	 Helper to manually clip large list of items. Increases performance by not searching or drawing widgets outside of the clipped region.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -3241,7 +3241,7 @@ def add_collapsing_header(**kwargs):
 	"""	 Adds a collapsing header to add items to. Must be closed with the end command.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -3249,8 +3249,8 @@ def add_collapsing_header(**kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		drag_callback (Optional[Callable], optional): Registers a drag callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
@@ -3275,7 +3275,7 @@ def add_color_button(default_value=(0, 0, 0, 255), **kwargs):
 
 	Args:
 		default_value (Union[List[int], Tuple[int, ...]], optional): 
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -3285,9 +3285,9 @@ def add_color_button(default_value=(0, 0, 0, 255), **kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		callback (Callable, optional): Registers a callback.
-		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		callback (Optional[Callable], optional): Registers a callback.
+		drag_callback (Optional[Callable], optional): Registers a drag callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
@@ -3311,7 +3311,7 @@ def add_color_edit(default_value=(0, 0, 0, 255), **kwargs):
 
 	Args:
 		default_value (Union[List[int], Tuple[int, ...]], optional): 
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -3322,9 +3322,9 @@ def add_color_edit(default_value=(0, 0, 0, 255), **kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		callback (Callable, optional): Registers a callback.
-		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		callback (Optional[Callable], optional): Registers a callback.
+		drag_callback (Optional[Callable], optional): Registers a drag callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
@@ -3356,7 +3356,7 @@ def add_color_picker(default_value=(0, 0, 0, 255), **kwargs):
 
 	Args:
 		default_value (Union[List[int], Tuple[int, ...]], optional): 
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -3367,9 +3367,9 @@ def add_color_picker(default_value=(0, 0, 0, 255), **kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		callback (Callable, optional): Registers a callback.
-		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		callback (Optional[Callable], optional): Registers a callback.
+		drag_callback (Optional[Callable], optional): Registers a drag callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
@@ -3401,7 +3401,7 @@ def add_color_value(**kwargs):
 	"""	 Adds a color value.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -3421,7 +3421,7 @@ def add_colormap(colors, qualitative, **kwargs):
 	Args:
 		colors (Any): colors that will be mapped to the normalized value 0.0->1.0
 		qualitative (bool): Qualitative will create hard transitions for color boundries across the value range when enabled.
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -3439,7 +3439,7 @@ def add_colormap_button(default_value=(0, 0, 0, 255), **kwargs):
 
 	Args:
 		default_value (Union[List[int], Tuple[int, ...]], optional): 
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -3449,9 +3449,9 @@ def add_colormap_button(default_value=(0, 0, 0, 255), **kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		callback (Callable, optional): Registers a callback.
-		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		callback (Optional[Callable], optional): Registers a callback.
+		drag_callback (Optional[Callable], optional): Registers a drag callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
@@ -3469,7 +3469,7 @@ def add_colormap_registry(**kwargs):
 	"""	 Adds a colormap registry.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -3485,7 +3485,7 @@ def add_colormap_scale(**kwargs):
 	"""	 Adds a legend that pairs values with colors. This is typically used with a heat series. 
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -3496,7 +3496,7 @@ def add_colormap_scale(**kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		colormap (Union[int, str], optional): mvPlotColormap_* constants or mvColorMap uuid from a color map registry
@@ -3506,7 +3506,7 @@ def add_colormap_scale(**kwargs):
 		reverse_dir (bool, optional): invert the colormap bar and axis scale (this only affects rendering; if you only want to reverse the scale mapping, make scale_min > scale_max)
 		mirror (bool, optional): render the colormap label and tick labels on the opposite side
 		id (Union[int, str], optional): (deprecated)
-		drag_callback (Callable, optional): (deprecated)
+		drag_callback (Optional[Callable], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -3517,7 +3517,7 @@ def add_colormap_slider(**kwargs):
 	"""	 Adds a color slider that a color map can be bound to.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -3527,8 +3527,8 @@ def add_colormap_slider(**kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		callback (Callable, optional): Registers a callback.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		callback (Optional[Callable], optional): Registers a callback.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
@@ -3536,7 +3536,7 @@ def add_colormap_slider(**kwargs):
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		default_value (float, optional): 
 		id (Union[int, str], optional): (deprecated)
-		drag_callback (Callable, optional): (deprecated)
+		drag_callback (Optional[Callable], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -3548,7 +3548,7 @@ def add_combo(items=(), **kwargs):
 
 	Args:
 		items (Union[List[str], Tuple[str, ...]], optional): A tuple of items to be shown in the drop down window. Can consist of any combination of types but will convert all items to strings to be shown.
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -3558,9 +3558,9 @@ def add_combo(items=(), **kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		callback (Callable, optional): Registers a callback.
-		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		callback (Optional[Callable], optional): Registers a callback.
+		drag_callback (Optional[Callable], optional): Registers a drag callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
@@ -3587,14 +3587,14 @@ def add_custom_series(x, y, channel_count, **kwargs):
 		x (Any): 
 		y (Any): 
 		channel_count (int): 
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
-		callback (Callable, optional): Registers a callback.
+		callback (Optional[Callable], optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		y1 (Any, optional): 
 		y2 (Any, optional): 
@@ -3612,7 +3612,7 @@ def add_date_picker(**kwargs):
 	"""	 Adds a date picker.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -3620,9 +3620,9 @@ def add_date_picker(**kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		callback (Callable, optional): Registers a callback.
-		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		callback (Optional[Callable], optional): Registers a callback.
+		drag_callback (Optional[Callable], optional): Registers a drag callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
@@ -3643,7 +3643,7 @@ def add_digital_series(x, y, **kwargs):
 	Args:
 		x (Any): 
 		y (Any): 
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -3662,7 +3662,7 @@ def add_double4_value(**kwargs):
 	"""	 Adds a double value.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -3680,7 +3680,7 @@ def add_double_value(**kwargs):
 	"""	 Adds a double value.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -3698,7 +3698,7 @@ def add_drag_double(**kwargs):
 	"""	 Adds drag for a single double value. Useful when drag float is not accurate enough. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the drag. Use clamped keyword to also apply limits to the direct entry modes.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -3708,9 +3708,9 @@ def add_drag_double(**kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		callback (Callable, optional): Registers a callback.
-		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		callback (Optional[Callable], optional): Registers a callback.
+		drag_callback (Optional[Callable], optional): Registers a drag callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
@@ -3735,7 +3735,7 @@ def add_drag_doublex(**kwargs):
 	"""	 Adds drag input for a set of double values up to 4. Useful when drag float is not accurate enough. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the drag. Use clamped keyword to also apply limits to the direct entry modes.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -3745,9 +3745,9 @@ def add_drag_doublex(**kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		callback (Callable, optional): Registers a callback.
-		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		callback (Optional[Callable], optional): Registers a callback.
+		drag_callback (Optional[Callable], optional): Registers a drag callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
@@ -3773,7 +3773,7 @@ def add_drag_float(**kwargs):
 	"""	 Adds drag for a single float value. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the drag. Use clamped keyword to also apply limits to the direct entry modes.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -3783,9 +3783,9 @@ def add_drag_float(**kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		callback (Callable, optional): Registers a callback.
-		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		callback (Optional[Callable], optional): Registers a callback.
+		drag_callback (Optional[Callable], optional): Registers a drag callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
@@ -3810,7 +3810,7 @@ def add_drag_floatx(**kwargs):
 	"""	 Adds drag input for a set of float values up to 4. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the drag. Use clamped keyword to also apply limits to the direct entry modes.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -3820,9 +3820,9 @@ def add_drag_floatx(**kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		callback (Callable, optional): Registers a callback.
-		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		callback (Optional[Callable], optional): Registers a callback.
+		drag_callback (Optional[Callable], optional): Registers a drag callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
@@ -3848,7 +3848,7 @@ def add_drag_int(**kwargs):
 	"""	 Adds drag for a single int value. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the drag. Use clamped keyword to also apply limits to the direct entry modes.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -3858,9 +3858,9 @@ def add_drag_int(**kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		callback (Callable, optional): Registers a callback.
-		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		callback (Optional[Callable], optional): Registers a callback.
+		drag_callback (Optional[Callable], optional): Registers a drag callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
@@ -3885,7 +3885,7 @@ def add_drag_intx(**kwargs):
 	"""	 Adds drag input for a set of int values up to 4. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the drag. Use clamped keyword to also apply limits to the direct entry modes.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -3895,9 +3895,9 @@ def add_drag_intx(**kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		callback (Callable, optional): Registers a callback.
-		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		callback (Optional[Callable], optional): Registers a callback.
+		drag_callback (Optional[Callable], optional): Registers a drag callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
@@ -3923,14 +3923,14 @@ def add_drag_line(**kwargs):
 	"""	 Adds a drag line to a plot.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
-		callback (Callable, optional): Registers a callback.
+		callback (Optional[Callable], optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		default_value (float, optional): 
 		color (Union[List[int], Tuple[int, ...]], optional): 
@@ -3952,7 +3952,7 @@ def add_drag_payload(**kwargs):
 	"""	 User data payload for drag and drop operations.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -3972,14 +3972,14 @@ def add_drag_point(**kwargs):
 	"""	 Adds a drag point to a plot.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
-		callback (Callable, optional): Registers a callback.
+		callback (Optional[Callable], optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		default_value (Any, optional): 
 		color (Union[List[int], Tuple[int, ...]], optional): 
@@ -4002,14 +4002,14 @@ def add_drag_rect(**kwargs):
 	"""	 Adds a drag rectangle to a plot.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
-		callback (Callable, optional): Registers a callback.
+		callback (Optional[Callable], optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		default_value (Any, optional): The coordinates are specified in a sequence of: (xmin, ymin, xmax, ymax)
 		color (Union[List[int], Tuple[int, ...]], optional): 
@@ -4028,7 +4028,7 @@ def add_draw_layer(**kwargs):
 	"""	 New in 1.1. Creates a layer useful for grouping drawlist items.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -4049,7 +4049,7 @@ def add_draw_node(**kwargs):
 	"""	 New in 1.1. Creates a drawing node to associate a transformation matrix. Child node matricies will concatenate.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -4069,13 +4069,13 @@ def add_drawlist(width, height, **kwargs):
 	Args:
 		width (int): 
 		height (int): 
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
-		callback (Callable, optional): Registers a callback.
+		callback (Optional[Callable], optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
@@ -4096,7 +4096,7 @@ def add_dynamic_texture(width, height, default_value, **kwargs):
 		width (int): 
 		height (int): 
 		default_value (Union[List[float], Tuple[float, ...]]): 
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -4116,7 +4116,7 @@ def add_error_series(x, y, negative, positive, **kwargs):
 		y (Any): 
 		negative (Any): 
 		positive (Any): 
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -4137,13 +4137,13 @@ def add_file_dialog(**kwargs):
 	"""	 Displays a file or directory selector depending on keywords. Displays a file dialog by default. Callback will be ran when the file or directory picker is closed. The app_data arguemnt will be populated with information related to the file and directory as a dictionary.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		width (int, optional): Width of the item.
 		height (int, optional): Height of the item.
-		callback (Callable, optional): Registers a callback.
+		callback (Optional[Callable], optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		default_path (str, optional): Path that the file dialog will default to when opened.
 		default_filename (str, optional): Default name that will show in the file name input.
@@ -4152,7 +4152,7 @@ def add_file_dialog(**kwargs):
 		directory_selector (bool, optional): Shows only directory/paths as options. Allows selection of directory/paths only.
 		min_size (Union[List[int], Tuple[int, ...]], optional): Minimum window size.
 		max_size (Union[List[int], Tuple[int, ...]], optional): Maximum window size.
-		cancel_callback (Callable, optional): Callback called when cancel button is clicked.
+		cancel_callback (Optional[Callable], optional): Callback called when cancel button is clicked.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -4165,7 +4165,7 @@ def add_file_extension(extension, **kwargs):
 
 	Args:
 		extension (str): Extension that will show as an when the parent is a file dialog.
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -4186,7 +4186,7 @@ def add_filter_set(**kwargs):
 	"""	 Helper to parse and apply text filters (e.g. aaaaa[, bbbbb][, ccccc])
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -4207,7 +4207,7 @@ def add_float4_value(**kwargs):
 	"""	 Adds a float4 value.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -4225,7 +4225,7 @@ def add_float_value(**kwargs):
 	"""	 Adds a float value.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -4243,7 +4243,7 @@ def add_float_vect_value(**kwargs):
 	"""	 Adds a float vect value.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -4263,7 +4263,7 @@ def add_font(file, size, **kwargs):
 	Args:
 		file (str): 
 		size (int): 
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -4282,7 +4282,7 @@ def add_font_registry(**kwargs):
 	"""	 Adds a font registry.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -4299,7 +4299,7 @@ def add_group(**kwargs):
 Enable property acts in a special way enabling/disabling everything inside the group. (Use mvStyleVar_DisabledAlpha to edit colors within the disabled group.)
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -4309,8 +4309,8 @@ Enable property acts in a special way enabling/disabling everything inside the g
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		drag_callback (Optional[Callable], optional): Registers a drag callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
@@ -4332,7 +4332,7 @@ def add_handler_registry(**kwargs):
 	"""	 Adds a handler registry.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -4351,7 +4351,7 @@ def add_heat_series(x, rows, cols, **kwargs):
 		x (Any): 
 		rows (int): 
 		cols (int): 
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -4378,7 +4378,7 @@ def add_histogram_series(x, **kwargs):
 
 	Args:
 		x (Any): 
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -4408,7 +4408,7 @@ def add_image(texture_tag, **kwargs):
 
 	Args:
 		texture_tag (Union[int, str]): The texture_tag should come from a texture that was added to a texture registry.
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -4419,8 +4419,8 @@ def add_image(texture_tag, **kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		drag_callback (Optional[Callable], optional): Registers a drag callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
@@ -4442,7 +4442,7 @@ def add_image_button(texture_tag, **kwargs):
 
 	Args:
 		texture_tag (Union[int, str]): The texture_tag should come from a texture that was added to a texture registry.
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -4453,9 +4453,9 @@ def add_image_button(texture_tag, **kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		callback (Callable, optional): Registers a callback.
-		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		callback (Optional[Callable], optional): Registers a callback.
+		drag_callback (Optional[Callable], optional): Registers a drag callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
@@ -4481,7 +4481,7 @@ def add_image_series(texture_tag, bounds_min, bounds_max, **kwargs):
 		texture_tag (Union[int, str]): 
 		bounds_min (Any): 
 		bounds_max (Any): 
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -4504,7 +4504,7 @@ def add_inf_line_series(x, **kwargs):
 
 	Args:
 		x (Any): 
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -4524,7 +4524,7 @@ def add_input_double(**kwargs):
 	"""	 Adds input for an double. Useful when input float is not accurate enough. +/- buttons can be activated by setting the value of step.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -4534,9 +4534,9 @@ def add_input_double(**kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		callback (Callable, optional): Registers a callback.
-		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		callback (Optional[Callable], optional): Registers a callback.
+		drag_callback (Optional[Callable], optional): Registers a drag callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
@@ -4566,7 +4566,7 @@ def add_input_doublex(**kwargs):
 	"""	 Adds multi double input for up to 4 double values. Useful when input float mulit is not accurate enough.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -4576,9 +4576,9 @@ def add_input_doublex(**kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		callback (Callable, optional): Registers a callback.
-		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		callback (Optional[Callable], optional): Registers a callback.
+		drag_callback (Optional[Callable], optional): Registers a drag callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
@@ -4607,7 +4607,7 @@ def add_input_float(**kwargs):
 	"""	 Adds input for an float. +/- buttons can be activated by setting the value of step.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -4617,9 +4617,9 @@ def add_input_float(**kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		callback (Callable, optional): Registers a callback.
-		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		callback (Optional[Callable], optional): Registers a callback.
+		drag_callback (Optional[Callable], optional): Registers a drag callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
@@ -4649,7 +4649,7 @@ def add_input_floatx(**kwargs):
 	"""	 Adds multi float input for up to 4 float values.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -4659,9 +4659,9 @@ def add_input_floatx(**kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		callback (Callable, optional): Registers a callback.
-		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		callback (Optional[Callable], optional): Registers a callback.
+		drag_callback (Optional[Callable], optional): Registers a drag callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
@@ -4690,7 +4690,7 @@ def add_input_int(**kwargs):
 	"""	 Adds input for an int. +/- buttons can be activated by setting the value of step.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -4700,9 +4700,9 @@ def add_input_int(**kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		callback (Callable, optional): Registers a callback.
-		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		callback (Optional[Callable], optional): Registers a callback.
+		drag_callback (Optional[Callable], optional): Registers a drag callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
@@ -4731,7 +4731,7 @@ def add_input_intx(**kwargs):
 	"""	 Adds multi int input for up to 4 integer values.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -4741,9 +4741,9 @@ def add_input_intx(**kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		callback (Callable, optional): Registers a callback.
-		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		callback (Optional[Callable], optional): Registers a callback.
+		drag_callback (Optional[Callable], optional): Registers a drag callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
@@ -4771,7 +4771,7 @@ def add_input_text(**kwargs):
 	"""	 Adds input for text.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -4782,9 +4782,9 @@ def add_input_text(**kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		callback (Callable, optional): Registers a callback.
-		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		callback (Optional[Callable], optional): Registers a callback.
+		drag_callback (Optional[Callable], optional): Registers a drag callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
@@ -4821,7 +4821,7 @@ def add_int4_value(**kwargs):
 	"""	 Adds a int4 value.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -4839,7 +4839,7 @@ def add_int_value(**kwargs):
 	"""	 Adds a int value.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -4857,12 +4857,12 @@ def add_item_activated_handler(**kwargs):
 	"""	 Adds a activated handler.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		callback (Callable, optional): Registers a callback.
+		callback (Optional[Callable], optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
@@ -4875,12 +4875,12 @@ def add_item_active_handler(**kwargs):
 	"""	 Adds a active handler.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		callback (Callable, optional): Registers a callback.
+		callback (Optional[Callable], optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
@@ -4894,12 +4894,12 @@ def add_item_clicked_handler(button=-1, **kwargs):
 
 	Args:
 		button (int, optional): Submits callback for all mouse buttons
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		callback (Callable, optional): Registers a callback.
+		callback (Optional[Callable], optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
@@ -4912,12 +4912,12 @@ def add_item_deactivated_after_edit_handler(**kwargs):
 	"""	 Adds a deactivated after edit handler.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		callback (Callable, optional): Registers a callback.
+		callback (Optional[Callable], optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
@@ -4930,12 +4930,12 @@ def add_item_deactivated_handler(**kwargs):
 	"""	 Adds a deactivated handler.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		callback (Callable, optional): Registers a callback.
+		callback (Optional[Callable], optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
@@ -4949,12 +4949,12 @@ def add_item_double_clicked_handler(button=-1, **kwargs):
 
 	Args:
 		button (int, optional): Submits callback for all mouse buttons
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		callback (Callable, optional): Registers a callback.
+		callback (Optional[Callable], optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
@@ -4967,12 +4967,12 @@ def add_item_edited_handler(**kwargs):
 	"""	 Adds an edited handler.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		callback (Callable, optional): Registers a callback.
+		callback (Optional[Callable], optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
@@ -4985,12 +4985,12 @@ def add_item_focus_handler(**kwargs):
 	"""	 Adds a focus handler.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		callback (Callable, optional): Registers a callback.
+		callback (Optional[Callable], optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		event_type (int, optional): What kind of events to track: just got focus (mvEventType_Enter), currently having focus (mvEventType_On), lost focus (mvEventType_Leave). Can be a combination of these flags. Defaults to mvEventType_On.
 		id (Union[int, str], optional): (deprecated)
@@ -5004,7 +5004,7 @@ def add_item_handler_registry(**kwargs):
 	"""	 Adds an item handler registry.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -5020,12 +5020,12 @@ def add_item_hover_handler(**kwargs):
 	"""	 Adds a hover handler.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		callback (Callable, optional): Registers a callback.
+		callback (Optional[Callable], optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		event_type (int, optional): What kind of events to track: mouse-in (mvEventType_Enter), mouse-over (mvEventType_On), mouse-out (mvEventType_Leave). Can be a combination of these flags. Defaults to mouse-over.
 		id (Union[int, str], optional): (deprecated)
@@ -5039,12 +5039,12 @@ def add_item_resize_handler(**kwargs):
 	"""	 Adds a resize handler.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		callback (Callable, optional): Registers a callback.
+		callback (Optional[Callable], optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
@@ -5057,12 +5057,12 @@ def add_item_scroll_handler(**kwargs):
 	"""	 Adds a scroll handler.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		callback (Callable, optional): Registers a callback.
+		callback (Optional[Callable], optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
@@ -5075,12 +5075,12 @@ def add_item_toggled_open_handler(**kwargs):
 	"""	 Adds a togged open handler.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		callback (Callable, optional): Registers a callback.
+		callback (Optional[Callable], optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		two_way (bool, optional): Trigger on both 'opened' and 'closed' events, i.e. when the 'opened' state is toggled between the two values. If False, some containers will trigger it only on the 'opened' event.
 		id (Union[int, str], optional): (deprecated)
@@ -5094,12 +5094,12 @@ def add_item_visible_handler(**kwargs):
 	"""	 Adds a visible handler.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		callback (Callable, optional): Registers a callback.
+		callback (Optional[Callable], optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		id (Union[int, str], optional): (deprecated)
 	Returns:
@@ -5113,11 +5113,11 @@ def add_key_down_handler(key=internal_dpg.mvKey_None, **kwargs):
 
 	Args:
 		key (int, optional): Submits callback for all keys
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		callback (Callable, optional): Registers a callback.
+		callback (Optional[Callable], optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		id (Union[int, str], optional): (deprecated)
@@ -5132,11 +5132,11 @@ def add_key_press_handler(key=internal_dpg.mvKey_None, **kwargs):
 
 	Args:
 		key (int, optional): Submits callback for all keys
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		callback (Callable, optional): Registers a callback.
+		callback (Optional[Callable], optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		id (Union[int, str], optional): (deprecated)
@@ -5151,11 +5151,11 @@ def add_key_release_handler(key=internal_dpg.mvKey_None, **kwargs):
 
 	Args:
 		key (int, optional): Submits callback for all keys
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		callback (Callable, optional): Registers a callback.
+		callback (Optional[Callable], optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		id (Union[int, str], optional): (deprecated)
@@ -5169,7 +5169,7 @@ def add_knob_float(**kwargs):
 	"""	 Adds a knob that rotates based on change in x mouse position.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -5180,9 +5180,9 @@ def add_knob_float(**kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		callback (Callable, optional): Registers a callback.
-		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		callback (Optional[Callable], optional): Registers a callback.
+		drag_callback (Optional[Callable], optional): Registers a drag callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
@@ -5205,7 +5205,7 @@ def add_line_series(x, y, **kwargs):
 	Args:
 		x (Any): 
 		y (Any): 
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -5230,7 +5230,7 @@ def add_listbox(items=(), **kwargs):
 
 	Args:
 		items (Union[List[str], Tuple[str, ...]], optional): A tuple of items to be shown in the listbox. Can consist of any combination of types. All items will be displayed as strings.
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -5240,9 +5240,9 @@ def add_listbox(items=(), **kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		callback (Callable, optional): Registers a callback.
-		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		callback (Optional[Callable], optional): Registers a callback.
+		drag_callback (Optional[Callable], optional): Registers a drag callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
@@ -5262,7 +5262,7 @@ def add_loading_indicator(**kwargs):
 	"""	 Adds a rotating animated loading symbol.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -5272,7 +5272,7 @@ def add_loading_indicator(**kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		style (int, optional): mvLoadInd_DottedCircle is rotating dots style, mvLoadInd_Ring is rotating bar style.
@@ -5293,7 +5293,7 @@ def add_menu(**kwargs):
 	"""	 Adds a menu to an existing menu bar.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -5301,7 +5301,7 @@ def add_menu(**kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
 		filter_key (str, optional): Used by filter widget.
@@ -5319,7 +5319,7 @@ def add_menu_bar(**kwargs):
 	"""	 Adds a menu bar to a window.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -5338,7 +5338,7 @@ def add_menu_item(**kwargs):
 	"""	 Adds a menu item to an existing menu. Menu items act similar to selectables and has a bool value. When placed in a menu the checkmark will reflect its value.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -5346,8 +5346,8 @@ def add_menu_item(**kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		callback (Callable, optional): Registers a callback.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		callback (Optional[Callable], optional): Registers a callback.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
 		filter_key (str, optional): Used by filter widget.
@@ -5357,7 +5357,7 @@ def add_menu_item(**kwargs):
 		shortcut (str, optional): Displays text on the menu item. Typically used to show a shortcut key command.
 		check (bool, optional): Displays a checkmark on the menu item when it is selected and placed in a menu.
 		id (Union[int, str], optional): (deprecated)
-		drag_callback (Callable, optional): (deprecated)
+		drag_callback (Optional[Callable], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -5369,11 +5369,11 @@ def add_mouse_click_handler(button=-1, **kwargs):
 
 	Args:
 		button (int, optional): Submits callback for all mouse buttons
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		callback (Callable, optional): Registers a callback.
+		callback (Optional[Callable], optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		id (Union[int, str], optional): (deprecated)
@@ -5388,11 +5388,11 @@ def add_mouse_double_click_handler(button=-1, **kwargs):
 
 	Args:
 		button (int, optional): Submits callback for all mouse buttons
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		callback (Callable, optional): Registers a callback.
+		callback (Optional[Callable], optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		id (Union[int, str], optional): (deprecated)
@@ -5407,11 +5407,11 @@ def add_mouse_down_handler(button=-1, **kwargs):
 
 	Args:
 		button (int, optional): Submits callback for all mouse buttons
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		callback (Callable, optional): Registers a callback.
+		callback (Optional[Callable], optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		id (Union[int, str], optional): (deprecated)
@@ -5427,11 +5427,11 @@ def add_mouse_drag_handler(button=-1, threshold=10.0, **kwargs):
 	Args:
 		button (int, optional): Submits callback for all mouse buttons
 		threshold (float, optional): The threshold the mouse must be dragged before the callback is ran
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		callback (Callable, optional): Registers a callback.
+		callback (Optional[Callable], optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		id (Union[int, str], optional): (deprecated)
@@ -5445,11 +5445,11 @@ def add_mouse_move_handler(**kwargs):
 	"""	 Adds a mouse move handler.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		callback (Callable, optional): Registers a callback.
+		callback (Optional[Callable], optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		id (Union[int, str], optional): (deprecated)
@@ -5464,11 +5464,11 @@ def add_mouse_release_handler(button=-1, **kwargs):
 
 	Args:
 		button (int, optional): Submits callback for all mouse buttons
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		callback (Callable, optional): Registers a callback.
+		callback (Optional[Callable], optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		id (Union[int, str], optional): (deprecated)
@@ -5482,11 +5482,11 @@ def add_mouse_wheel_handler(**kwargs):
 	"""	 Adds a mouse wheel handler.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		callback (Callable, optional): Registers a callback.
+		callback (Optional[Callable], optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		id (Union[int, str], optional): (deprecated)
@@ -5500,15 +5500,15 @@ def add_node(**kwargs):
 	"""	 Adds a node to a node editor.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		drag_callback (Optional[Callable], optional): Registers a drag callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
@@ -5527,7 +5527,7 @@ def add_node_attribute(**kwargs):
 	"""	 Adds a node attribute to a node.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -5552,7 +5552,7 @@ def add_node_editor(**kwargs):
 	"""	 Adds a node editor.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -5560,12 +5560,12 @@ def add_node_editor(**kwargs):
 		height (int, optional): Height of the item.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
-		callback (Callable, optional): Registers a callback.
+		callback (Optional[Callable], optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
-		delink_callback (Callable, optional): Callback ran when a link is detached.
+		delink_callback (Optional[Callable], optional): Callback ran when a link is detached.
 		menubar (bool, optional): Shows or hides the menubar.
 		minimap (bool, optional): Shows or hides the Minimap. New in 1.6.
 		minimap_location (int, optional): mvNodeMiniMap_Location_* constants. New in 1.6.
@@ -5583,7 +5583,7 @@ def add_node_link(attr_1, attr_2, **kwargs):
 	Args:
 		attr_1 (Union[int, str]): 
 		attr_2 (Union[int, str]): 
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -5605,7 +5605,7 @@ def add_pie_series(x, y, radius, values, labels, **kwargs):
 		radius (float): 
 		values (Any): 
 		labels (Union[List[str], Tuple[str, ...]]): 
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -5628,7 +5628,7 @@ def add_plot(**kwargs):
 	"""	 Adds a plot which is used to hold series, and can be drawn to with draw commands. For all _mod parameters use mvKey_ModX enums, or mvKey_ModDisabled to disable the modifier.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -5638,9 +5638,9 @@ def add_plot(**kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		callback (Callable, optional): Registers a callback.
-		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		callback (Optional[Callable], optional): Registers a callback.
+		drag_callback (Optional[Callable], optional): Registers a drag callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
@@ -5691,7 +5691,7 @@ def add_plot_annotation(**kwargs):
 	"""	 Adds an annotation to a plot.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -5715,13 +5715,13 @@ def add_plot_axis(axis, **kwargs):
 
 	Args:
 		axis (int): 
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		no_label (bool, optional): the axis label will not be displayed
 		no_gridlines (bool, optional): no grid lines will be displayed
@@ -5754,13 +5754,13 @@ def add_plot_legend(**kwargs):
 	"""	 Adds a plot legend to a plot.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		location (int, optional): location, mvPlot_Location_*
 		horizontal (bool, optional): legend entries will be displayed horizontally
@@ -5781,7 +5781,7 @@ def add_progress_bar(**kwargs):
 	"""	 Adds a progress bar.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -5792,8 +5792,8 @@ def add_progress_bar(**kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		drag_callback (Optional[Callable], optional): Registers a drag callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
@@ -5813,7 +5813,7 @@ def add_radio_button(items=(), **kwargs):
 
 	Args:
 		items (Union[List[str], Tuple[str, ...]], optional): A tuple of items to be shown as radio options. Can consist of any combination of types. All types will be shown as strings.
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -5822,9 +5822,9 @@ def add_radio_button(items=(), **kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		callback (Callable, optional): Registers a callback.
-		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		callback (Optional[Callable], optional): Registers a callback.
+		drag_callback (Optional[Callable], optional): Registers a drag callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
@@ -5847,7 +5847,7 @@ def add_raw_texture(width, height, default_value, **kwargs):
 		width (int): 
 		height (int): 
 		default_value (Union[List[float], Tuple[float, ...]]): 
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -5866,7 +5866,7 @@ def add_scatter_series(x, y, **kwargs):
 	Args:
 		x (Any): 
 		y (Any): 
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -5886,7 +5886,7 @@ def add_selectable(**kwargs):
 	"""	 Adds a selectable. Similar to a button but can indicate its selected state.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -5897,9 +5897,9 @@ def add_selectable(**kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		callback (Callable, optional): Registers a callback.
-		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		callback (Optional[Callable], optional): Registers a callback.
+		drag_callback (Optional[Callable], optional): Registers a drag callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
@@ -5921,7 +5921,7 @@ def add_separator(**kwargs):
 	"""	 Adds a horizontal line separator. Use 'label' parameter to add text and mvStyleVar_SeparatorText* elements to style it.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -5941,7 +5941,7 @@ def add_series_value(**kwargs):
 	"""	 Adds a plot series value.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -5961,7 +5961,7 @@ def add_shade_series(x, y1, **kwargs):
 	Args:
 		x (Any): 
 		y1 (Any): 
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -5981,7 +5981,7 @@ def add_simple_plot(**kwargs):
 	"""	 Adds a simple plot for visualization of a 1 dimensional set of values.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -5992,8 +5992,8 @@ def add_simple_plot(**kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		drag_callback (Optional[Callable], optional): Registers a drag callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
@@ -6015,7 +6015,7 @@ def add_slider_double(**kwargs):
 	"""	 Adds slider for a single double value. Useful when slider float is not accurate enough. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the slider. Use clamped keyword to also apply limits to the direct entry modes.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -6026,9 +6026,9 @@ def add_slider_double(**kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		callback (Callable, optional): Registers a callback.
-		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		callback (Optional[Callable], optional): Registers a callback.
+		drag_callback (Optional[Callable], optional): Registers a drag callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
@@ -6053,7 +6053,7 @@ def add_slider_doublex(**kwargs):
 	"""	 Adds multi slider for up to 4 double values. Usueful for when multi slide float is not accurate enough. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the slider. Use clamped keyword to also apply limits to the direct entry modes.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -6063,9 +6063,9 @@ def add_slider_doublex(**kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		callback (Callable, optional): Registers a callback.
-		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		callback (Optional[Callable], optional): Registers a callback.
+		drag_callback (Optional[Callable], optional): Registers a drag callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
@@ -6090,7 +6090,7 @@ def add_slider_float(**kwargs):
 	"""	 Adds slider for a single float value. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the slider. Use clamped keyword to also apply limits to the direct entry modes.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -6101,9 +6101,9 @@ def add_slider_float(**kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		callback (Callable, optional): Registers a callback.
-		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		callback (Optional[Callable], optional): Registers a callback.
+		drag_callback (Optional[Callable], optional): Registers a drag callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
@@ -6128,7 +6128,7 @@ def add_slider_floatx(**kwargs):
 	"""	 Adds multi slider for up to 4 float values. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the slider. Use clamped keyword to also apply limits to the direct entry modes.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -6138,9 +6138,9 @@ def add_slider_floatx(**kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		callback (Callable, optional): Registers a callback.
-		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		callback (Optional[Callable], optional): Registers a callback.
+		drag_callback (Optional[Callable], optional): Registers a drag callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
@@ -6165,7 +6165,7 @@ def add_slider_int(**kwargs):
 	"""	 Adds slider for a single int value. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the slider. Use clamped keyword to also apply limits to the direct entry modes.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -6176,9 +6176,9 @@ def add_slider_int(**kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		callback (Callable, optional): Registers a callback.
-		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		callback (Optional[Callable], optional): Registers a callback.
+		drag_callback (Optional[Callable], optional): Registers a drag callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
@@ -6203,7 +6203,7 @@ def add_slider_intx(**kwargs):
 	"""	 Adds multi slider for up to 4 int values. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the slider. Use clamped keyword to also apply limits to the direct entry modes.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -6213,9 +6213,9 @@ def add_slider_intx(**kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		callback (Callable, optional): Registers a callback.
-		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		callback (Optional[Callable], optional): Registers a callback.
+		drag_callback (Optional[Callable], optional): Registers a drag callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
@@ -6240,7 +6240,7 @@ def add_spacer(**kwargs):
 	"""	 Adds a spacer item that can be used to help with layouts or can be used as a placeholder item.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -6262,7 +6262,7 @@ def add_stage(**kwargs):
 	"""	 Adds a stage.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -6279,7 +6279,7 @@ def add_stair_series(x, y, **kwargs):
 	Args:
 		x (Any): 
 		y (Any): 
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -6303,7 +6303,7 @@ def add_static_texture(width, height, default_value, **kwargs):
 		width (int): 
 		height (int): 
 		default_value (Union[List[float], Tuple[float, ...]]): 
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -6321,7 +6321,7 @@ def add_stem_series(x, y, **kwargs):
 	Args:
 		x (Any): 
 		y (Any): 
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -6342,7 +6342,7 @@ def add_string_value(**kwargs):
 	"""	 Adds a string value.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -6362,7 +6362,7 @@ def add_subplots(rows, columns, **kwargs):
 	Args:
 		rows (int): 
 		columns (int): 
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -6371,7 +6371,7 @@ def add_subplots(rows, columns, **kwargs):
 		indent (int, optional): Offsets the widget to the right the specified number multiplied by the indent style.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
-		callback (Callable, optional): Registers a callback.
+		callback (Optional[Callable], optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
@@ -6401,7 +6401,7 @@ def add_synced_tables(**kwargs):
 	"""	 Links all tables that are immediate children of this container so that they share their state (mostly column sizes).  Other children are rendered as is.  This is an experimental feature, use with caution.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -6420,7 +6420,7 @@ def add_tab(**kwargs):
 	"""	 Adds a tab to a tab bar.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -6428,7 +6428,7 @@ def add_tab(**kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
@@ -6451,14 +6451,14 @@ def add_tab_bar(**kwargs):
 	"""	 Adds a tab bar.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		indent (int, optional): Offsets the widget to the right the specified number multiplied by the indent style.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
-		callback (Callable, optional): Registers a callback.
+		callback (Optional[Callable], optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
@@ -6482,7 +6482,7 @@ def add_tab_button(**kwargs):
 	"""	 Adds a tab button to a tab bar.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -6490,9 +6490,9 @@ def add_tab_button(**kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		callback (Callable, optional): Registers a callback.
-		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		callback (Optional[Callable], optional): Registers a callback.
+		drag_callback (Optional[Callable], optional): Registers a drag callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		filter_key (str, optional): Used by filter widget.
 		tracked (bool, optional): Scroll tracking
@@ -6513,7 +6513,7 @@ def add_table(**kwargs):
 	"""	 Adds a table.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -6523,7 +6523,7 @@ def add_table(**kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
-		callback (Callable, optional): Registers a callback.
+		callback (Optional[Callable], optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
@@ -6568,7 +6568,7 @@ def add_table_cell(**kwargs):
 	"""	 Adds a table.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -6588,7 +6588,7 @@ def add_table_column(**kwargs):
 	"""	 Adds a table column.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -6627,7 +6627,7 @@ def add_table_row(**kwargs):
 	"""	 Adds a table row.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -6647,7 +6647,7 @@ def add_template_registry(**kwargs):
 	"""	 Adds a template registry.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -6663,7 +6663,7 @@ def add_text(default_value='', **kwargs):
 
 	Args:
 		default_value (str, optional): 
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -6672,8 +6672,8 @@ def add_text(default_value='', **kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		drag_callback (Optional[Callable], optional): Registers a drag callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
@@ -6696,7 +6696,7 @@ def add_text_point(x, y, **kwargs):
 	Args:
 		x (float): 
 		y (float): 
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -6719,7 +6719,7 @@ def add_texture_registry(**kwargs):
 	"""	 Adds a dynamic texture.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -6735,7 +6735,7 @@ def add_theme(**kwargs):
 	"""	 Adds a theme.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -6753,7 +6753,7 @@ def add_theme_color(target=0, value=(0, 0, 0, 255), **kwargs):
 	Args:
 		target (int, optional): 
 		value (Union[List[int], Tuple[int, ...]], optional): 
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -6771,7 +6771,7 @@ def add_theme_component(item_type=0, **kwargs):
 
 	Args:
 		item_type (int, optional): 
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -6792,7 +6792,7 @@ def add_theme_style(target=0, x=1.0, y=-1.0, **kwargs):
 		target (int, optional): 
 		x (float, optional): 
 		y (float, optional): 
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -6809,7 +6809,7 @@ def add_time_picker(**kwargs):
 	"""	 Adds a time picker.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -6817,9 +6817,9 @@ def add_time_picker(**kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		callback (Callable, optional): Registers a callback.
-		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		callback (Optional[Callable], optional): Registers a callback.
+		drag_callback (Optional[Callable], optional): Registers a drag callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
@@ -6839,7 +6839,7 @@ def add_tooltip(parent, **kwargs):
 
 	Args:
 		parent (Union[int, str]): 
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -6857,7 +6857,7 @@ def add_tree_node(**kwargs):
 	"""	 Adds a tree node to add items to.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -6865,8 +6865,8 @@ def add_tree_node(**kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
-		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
+		drag_callback (Optional[Callable], optional): Registers a drag callback for drag and drop.
+		drop_callback (Optional[Callable], optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int, ...]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
@@ -6894,7 +6894,7 @@ def add_value_registry(**kwargs):
 	"""	 Adds a value registry.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -6909,7 +6909,7 @@ def add_viewport_drawlist(**kwargs):
 	"""	 A container that is used to present draw items or layers directly to the viewport. By default this will draw to the back of the viewport. Layers and draw items should be added to this widget as children.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -6928,7 +6928,7 @@ def add_viewport_menu_bar(**kwargs):
 	"""	 Adds a menubar to the viewport.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -6947,7 +6947,7 @@ def add_window(**kwargs):
 	"""	 Creates a new window for following items to be added to.
 
 	Args:
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -6979,7 +6979,7 @@ def add_window(**kwargs):
 		no_scroll_with_mouse (bool, optional): Disable user vertically scrolling with mouse wheel.
 		no_docking (bool, optional): Disable docking of this window
 		copy_contents_shortcut (bool, optional): Experimental. If True, window contents can be copied to clipboard by pressing Ctrl+C. Might be useful for message boxes.
-		on_close (Callable, optional): Callback ran when window is closed.
+		on_close (Optional[Callable], optional): Callback ran when window is closed.
 		id (Union[int, str], optional): (deprecated)
 		delay_search (bool, optional): (deprecated)This was used as an optimization hint but is not relevant anymore.
 	Returns:
@@ -7074,7 +7074,7 @@ def capture_next_item(callback, **kwargs):
 	"""	 Captures the next item.
 
 	Args:
-		callback (Callable): 
+		callback (Optional[Callable]): 
 		user_data (Any, optional): New in 1.3. Optional user data to send to the callback
 	Returns:
 		None
@@ -7282,7 +7282,7 @@ def draw_arrow(p1, p2, **kwargs):
 	Args:
 		p1 (Union[List[float], Tuple[float, ...]]): Arrow tip.
 		p2 (Union[List[float], Tuple[float, ...]]): Arrow tail.
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -7307,7 +7307,7 @@ def draw_bezier_cubic(p1, p2, p3, p4, **kwargs):
 		p2 (Union[List[float], Tuple[float, ...]]): Second point in curve.
 		p3 (Union[List[float], Tuple[float, ...]]): Third point in curve.
 		p4 (Union[List[float], Tuple[float, ...]]): Fourth point in curve.
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -7331,7 +7331,7 @@ def draw_bezier_quadratic(p1, p2, p3, **kwargs):
 		p1 (Union[List[float], Tuple[float, ...]]): First point in curve.
 		p2 (Union[List[float], Tuple[float, ...]]): Second point in curve.
 		p3 (Union[List[float], Tuple[float, ...]]): Third point in curve.
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -7354,7 +7354,7 @@ def draw_circle(center, radius, **kwargs):
 	Args:
 		center (Union[List[float], Tuple[float, ...]]): 
 		radius (float): 
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -7378,7 +7378,7 @@ def draw_ellipse(pmin, pmax, **kwargs):
 	Args:
 		pmin (Union[List[float], Tuple[float, ...]]): Min point of bounding rectangle.
 		pmax (Union[List[float], Tuple[float, ...]]): Max point of bounding rectangle.
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -7403,7 +7403,7 @@ def draw_image(texture_tag, pmin, pmax, **kwargs):
 		texture_tag (Union[int, str]): 
 		pmin (Union[List[float], Tuple[float, ...]]): Point of to start drawing texture.
 		pmax (Union[List[float], Tuple[float, ...]]): Point to complete drawing texture.
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -7429,7 +7429,7 @@ def draw_image_quad(texture_tag, p1, p2, p3, p4, **kwargs):
 		p2 (Union[List[float], Tuple[float, ...]]): 
 		p3 (Union[List[float], Tuple[float, ...]]): 
 		p4 (Union[List[float], Tuple[float, ...]]): 
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -7454,7 +7454,7 @@ def draw_line(p1, p2, **kwargs):
 	Args:
 		p1 (Union[List[float], Tuple[float, ...]]): Start of line.
 		p2 (Union[List[float], Tuple[float, ...]]): End of line.
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -7475,7 +7475,7 @@ def draw_polygon(points, **kwargs):
 
 	Args:
 		points (List[List[float]]): 
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -7497,7 +7497,7 @@ def draw_polyline(points, **kwargs):
 
 	Args:
 		points (List[List[float]]): 
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -7522,7 +7522,7 @@ def draw_quad(p1, p2, p3, p4, **kwargs):
 		p2 (Union[List[float], Tuple[float, ...]]): 
 		p3 (Union[List[float], Tuple[float, ...]]): 
 		p4 (Union[List[float], Tuple[float, ...]]): 
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -7545,7 +7545,7 @@ def draw_rectangle(pmin, pmax, **kwargs):
 	Args:
 		pmin (Union[List[float], Tuple[float, ...]]): Min point of bounding rectangle.
 		pmax (Union[List[float], Tuple[float, ...]]): Max point of bounding rectangle.
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -7575,7 +7575,7 @@ def draw_text(pos, text, **kwargs):
 	Args:
 		pos (Union[List[float], Tuple[float, ...]]): Top left point of bounding text rectangle.
 		text (str): Text to draw.
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -7598,7 +7598,7 @@ def draw_triangle(p1, p2, p3, **kwargs):
 		p1 (Union[List[float], Tuple[float, ...]]): 
 		p2 (Union[List[float], Tuple[float, ...]]): 
 		p3 (Union[List[float], Tuple[float, ...]]): 
-		label (str, optional): Overrides 'name' as label.
+		label (Optional[str], optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -8359,7 +8359,7 @@ def output_frame_buffer(file='', **kwargs):
 
 	Args:
 		file (str, optional): 
-		callback (Callable, optional): Callback will return framebuffer as an array through the second arg.
+		callback (Optional[Callable], optional): Callback will return framebuffer as an array through the second arg.
 	Returns:
 		Any
 	"""
@@ -8598,7 +8598,7 @@ def set_exit_callback(callback, **kwargs):
 	"""	 Sets a callback to run on last frame.
 
 	Args:
-		callback (Callable): 
+		callback (Optional[Callable]): 
 		user_data (Any, optional): New in 1.3. Optional user data to send to the callback
 	Returns:
 		str
@@ -8611,7 +8611,7 @@ def set_frame_callback(frame, callback, **kwargs):
 
 	Args:
 		frame (int): 
-		callback (Callable): 
+		callback (Optional[Callable]): 
 		user_data (Any, optional): New in 1.3. Optional user data to send to the callback
 	Returns:
 		str
@@ -8696,7 +8696,7 @@ def set_viewport_resize_callback(callback, **kwargs):
 	"""	 Sets a callback to run on viewport resize.
 
 	Args:
-		callback (Callable): 
+		callback (Optional[Callable]): 
 		user_data (Any, optional): New in 1.3. Optional user data to send to the callback
 	Returns:
 		str
