@@ -2261,7 +2261,7 @@ def plot(**kwargs):
 		vertical_mod (int, optional): expands active box selection/query vertically to plot edge when held
 		override_mod (int, optional): when held, all input is ignored; used to enable axis/plots as DND sources
 		zoom_mod (int, optional): optional modifier that must be held for scroll wheel zooming
-		zoom_rate (int, optional): zoom rate for scroll (e.g. 0.1f = 10% plot range every scroll click); make negative to invert
+		zoom_rate (float, optional): zoom rate for scroll (e.g. 0.1f = 10% plot range every scroll click); make negative to invert
 		id (Union[int, str], optional): (deprecated)
 		delay_search (bool, optional): (deprecated)This was used as an optimization hint but is not relevant anymore.
 		no_highlight (bool, optional): (deprecated)Removed because not supported from the backend anymore. To control the highlighting of series use the same argument in `add_plot_legend`
@@ -5673,7 +5673,7 @@ def add_plot(**kwargs):
 		vertical_mod (int, optional): expands active box selection/query vertically to plot edge when held
 		override_mod (int, optional): when held, all input is ignored; used to enable axis/plots as DND sources
 		zoom_mod (int, optional): optional modifier that must be held for scroll wheel zooming
-		zoom_rate (int, optional): zoom rate for scroll (e.g. 0.1f = 10% plot range every scroll click); make negative to invert
+		zoom_rate (float, optional): zoom rate for scroll (e.g. 0.1f = 10% plot range every scroll click); make negative to invert
 		id (Union[int, str], optional): (deprecated)
 		delay_search (bool, optional): (deprecated)This was used as an optimization hint but is not relevant anymore.
 		no_highlight (bool, optional): (deprecated)Removed because not supported from the backend anymore. To control the highlighting of series use the same argument in `add_plot_legend`
