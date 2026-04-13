@@ -1,4 +1,4 @@
-from typing import List, Any, Callable, Union, Tuple
+from typing import List, Any, Callable, Union, Tuple, Iterator
 from contextlib import contextmanager
 import warnings
 import functools
@@ -82,7 +82,7 @@ def start_dearpygui():
         raise RuntimeError("Viewport was not created and shown.")
 
     while(internal_dpg.is_dearpygui_running()):
-        internal_dpg.render_dearpygui_frame()   
+        internal_dpg.render_dearpygui_frame()
 
 
 @contextmanager
@@ -95,12 +95,12 @@ def mutex():
 
 
 @contextmanager
-def popup(parent: Union[int, str], mousebutton: int = internal_dpg.mvMouseButton_Right, modal: bool=False, tag:Union[int, str]=0, min_size:Union[List[int], Tuple[int, ...]]=[100,100], max_size: Union[List[int], Tuple[int, ...]] =[30000, 30000], no_move: bool=False, no_background: bool=False) -> int:
+def popup(parent: Union[int, str], mousebutton: int = internal_dpg.mvMouseButton_Right, modal: bool=False, tag:Union[int, str]=0, min_size:Union[List[int], Tuple[int, ...]]=[100,100], max_size: Union[List[int], Tuple[int, ...]] =[30000, 30000], no_move: bool=False, no_background: bool=False) -> Iterator[Union[int, str]]:
     """A window that will be displayed when a parent item is hovered and the corresponding mouse button has been clicked. By default a popup will shrink fit the items it contains.
     This is useful for context windows, and simple modal window popups.
     When popups are used a modal they have more avaliable settings (i.e. title, resize, width, height) These
-    can be set by using configure item. 
-    This is a light wrapper over window. For more control over a modal|popup window use a normal window with the modal|popup keyword 
+    can be set by using configure item.
+    This is a light wrapper over window. For more control over a modal|popup window use a normal window with the modal|popup keyword
     and set the item handler and mouse events manually.
 
     Args:

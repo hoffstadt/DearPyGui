@@ -2515,7 +2515,7 @@ GenerateContextsFile(std::ofstream& stream)
             stream << "**kwargs) -> ";
         else
             stream << ", **kwargs) -> ";
-        stream << PythonDataTypeActual(parser.second.returnType) << ":";
+        stream << "Iterator[" << PythonDataTypeActual(parser.second.returnType) << "]" << ":";
 
         stream << "\n\t\"\"\"\t " << parser.second.about.c_str();
 
