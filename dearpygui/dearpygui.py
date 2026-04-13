@@ -5583,7 +5583,7 @@ def add_item_edited_handler(*, label: Optional[str] =None, user_data: Any =None,
 
 	return internal_dpg.add_item_edited_handler(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, callback=callback, show=show, **kwargs)
 
-def add_item_focus_handler(*, label: Optional[str] =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, callback: Optional[Callable] =None, show: bool =True, event_type: int =None, **kwargs) -> Union[int, str]:
+def add_item_focus_handler(*, label: Optional[str] =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, callback: Optional[Callable] =None, show: bool =True, event_type: int =internal_dpg.mvEventType_On, **kwargs) -> Union[int, str]:
 	"""	 Adds a focus handler.
 
 	Args:
@@ -5626,7 +5626,7 @@ def add_item_handler_registry(*, label: Optional[str] =None, user_data: Any =Non
 
 	return internal_dpg.add_item_handler_registry(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, show=show, **kwargs)
 
-def add_item_hover_handler(*, label: Optional[str] =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, callback: Optional[Callable] =None, show: bool =True, event_type: int =None, **kwargs) -> Union[int, str]:
+def add_item_hover_handler(*, label: Optional[str] =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, callback: Optional[Callable] =None, show: bool =True, event_type: int =internal_dpg.mvEventType_On, **kwargs) -> Union[int, str]:
 	"""	 Adds a hover handler.
 
 	Args:
