@@ -182,3 +182,9 @@ LeaveNearestFilterScope(ImDrawList* drawlist)
     if (drawlist == nullptr) return;
     drawlist->AddCallback(ImDrawCallback_ResetRenderState, nullptr);
 }
+
+void
+ApplyTextureFilter(ImTextureID, int)
+{
+    // No-op: the sampler is swapped per-draw via the callback above.
+}

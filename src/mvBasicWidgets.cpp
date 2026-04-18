@@ -5605,7 +5605,7 @@ DearPyGui::draw_image(ImDrawList* drawlist, mvAppItem& item, mvImageConfig& conf
 				ImGuiContext& g = *GImGui;
 				ImGui::PushStyleVar(ImGuiStyleVar_ImageBorderSize, (config.borderColor.a > 0.0f) ? ImMax(1.0f, g.Style.ImageBorderSize) : 0.0f);
 				ImGui::PushStyleColor(ImGuiCol_Border, config.borderColor.toVec4());
-				const bool wantNearest = (static_cast<mvTextureItem*>(config.texture.get())->_filter == 1);
+				const bool wantNearest = (static_cast<mvTextureItem*>(config.texture.get())->_filter == mvTextureFilter_Nearest);
 				ImDrawList* windowDrawList = wantNearest ? ImGui::GetWindowDrawList() : nullptr;
 				if (wantNearest) EnterNearestFilterScope(windowDrawList);
 				ImGui::ImageWithBg(
@@ -5722,7 +5722,7 @@ DearPyGui::draw_image_button(ImDrawList* drawlist, mvAppItem& item, mvImageButto
 				if (config.framePadding >= 0)
 					ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2((float)config.framePadding, (float)config.framePadding));
 
-				const bool wantNearest = (static_cast<mvTextureItem*>(config.texture.get())->_filter == 1);
+				const bool wantNearest = (static_cast<mvTextureItem*>(config.texture.get())->_filter == mvTextureFilter_Nearest);
 				ImDrawList* windowDrawList = wantNearest ? ImGui::GetWindowDrawList() : nullptr;
 				if (wantNearest) EnterNearestFilterScope(windowDrawList);
 				if (ImGui::ImageButton(item.info.internalLabel.c_str(), texture, ImVec2((float)item.config.width, (float)item.config.height),

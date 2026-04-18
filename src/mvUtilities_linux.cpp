@@ -94,7 +94,7 @@ OutputFrameBuffer(const char* filepath)
 
 static GLint FilterToGL(int filter)
 {
-    return (filter == 1) ? GL_NEAREST : GL_LINEAR;
+    return (filter == mvTextureFilter_Nearest) ? GL_NEAREST : GL_LINEAR;
 }
 
  ImTextureID
@@ -217,6 +217,16 @@ UnloadTexture(const std::string& filename)
 
 void EnterNearestFilterScope(ImDrawList*) {}
 void LeaveNearestFilterScope(ImDrawList*) {}
+
+void ApplyTextureFilter(ImTextureID texture, int filter)
+{
+    GLuint tex = (GLuint)(uintptr_t)texture;
+    if (tex == 0) return;
+    glBindTexture(GL_TEXTURE_2D, tex);
+    GLint f = FilterToGL(filter);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, f);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, f);
+}
 
  void
 FreeTexture(ImTextureID texture)

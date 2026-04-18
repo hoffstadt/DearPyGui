@@ -562,7 +562,7 @@ void mvDrawImage::draw(ImDrawList* drawlist, float x, float y)
 			if (mvClipPoint(drawInfo->clipViewport, tpmax)) return;
 		}
 
-		const bool wantNearest = (static_cast<mvTextureItem*>(_texture.get())->_filter == 1);
+		const bool wantNearest = (static_cast<mvTextureItem*>(_texture.get())->_filter == mvTextureFilter_Nearest);
 		if (wantNearest) EnterNearestFilterScope(drawlist);
 		if (ImPlot::GetCurrentContext()->CurrentPlot)
 			drawlist->AddImage(texture, ImPlot::PlotToPixels(tpmin), ImPlot::PlotToPixels(tpmax), _uv_min, _uv_max, _color);
@@ -683,7 +683,7 @@ void mvDrawImageQuad::draw(ImDrawList* drawlist, float x, float y)
 			if (mvClipPoint(drawInfo->clipViewport, tp4)) return;
 		}
 
-		const bool wantNearest = (static_cast<mvTextureItem*>(_texture.get())->_filter == 1);
+		const bool wantNearest = (static_cast<mvTextureItem*>(_texture.get())->_filter == mvTextureFilter_Nearest);
 		if (wantNearest) EnterNearestFilterScope(drawlist);
 		if (ImPlot::GetCurrentContext()->CurrentPlot)
 			drawlist->AddImageQuad(texture, ImPlot::PlotToPixels(tp1),

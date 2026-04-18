@@ -35,7 +35,8 @@ public:
 public:
 
     ImTextureID               _texture = ImTextureID_Invalid;
-    int                       _filter = 0;  // mvTextureFilter_*
+    int                       _filter = 0;      // mvTextureFilter_*
+    bool                      _filterDirty = false;
 };
 
 
@@ -49,6 +50,7 @@ public:
     void draw(ImDrawList* drawlist, float x, float y) override;
     void handleSpecificRequiredArgs(PyObject* dict) override;
     void handleSpecificKeywordArgs(PyObject* dict) override;
+    void getSpecificConfiguration(PyObject* dict) override;
 
     // values
     void setDataSource(mvUUID dataSource) override;

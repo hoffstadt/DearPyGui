@@ -163,7 +163,14 @@ void mvDynamicTexture::draw(ImDrawList* drawlist, float x, float y)
 			state.ok = false;
 
 		_dirty = false;
+		_filterDirty = false;
 		return;
+	}
+
+	if (_filterDirty && _texture != ImTextureID_Invalid)
+	{
+		ApplyTextureFilter(_texture, _filter);
+		_filterDirty = false;
 	}
 
 	UpdateTexture(_texture, _permWidth, _permHeight, *_value);
@@ -188,13 +195,22 @@ void mvDynamicTexture::handleSpecificKeywordArgs(PyObject* dict)
 		return;
 
 	if (PyObject* item = PyDict_GetItemString(dict, "filter"))
-		_filter = ToInt(item);
+	{
+		const int v = ToInt(item);
+		if (v != _filter)
+		{
+			_filter = v;
+			_filterDirty = true;
+		}
+	}
 }
 
 void mvDynamicTexture::getSpecificConfiguration(PyObject* dict)
 {
 	if (dict == nullptr)
 		return;
+
+	PyDict_SetItemString(dict, "filter", mvPyObject(ToPyInt(_filter)));
 }
 
 PyObject* mvRawTexture::getPyValue()
@@ -241,7 +257,14 @@ void mvRawTexture::draw(ImDrawList* drawlist, float x, float y)
 			state.ok = false;
 
 		_dirty = false;
+		_filterDirty = false;
 		return;
+	}
+
+	if (_filterDirty && _texture != ImTextureID_Invalid)
+	{
+		ApplyTextureFilter(_texture, _filter);
+		_filterDirty = false;
 	}
 
 	if (_componentType == ComponentType::MV_FLOAT_COMPONENT)
@@ -285,13 +308,22 @@ void mvRawTexture::handleSpecificKeywordArgs(PyObject* dict)
 	}
 
 	if (PyObject* item = PyDict_GetItemString(dict, "filter"))
-		_filter = ToInt(item);
+	{
+		const int v = ToInt(item);
+		if (v != _filter)
+		{
+			_filter = v;
+			_filterDirty = true;
+		}
+	}
 }
 
 void mvRawTexture::getSpecificConfiguration(PyObject* dict)
 {
 	if (dict == nullptr)
 		return;
+
+	PyDict_SetItemString(dict, "filter", mvPyObject(ToPyInt(_filter)));
 }
 
 void mvStaticTexture::draw(ImDrawList* drawlist, float x, float y)
@@ -306,6 +338,12 @@ void mvStaticTexture::draw(ImDrawList* drawlist, float x, float y)
 		config.width = ImGui::GetIO().Fonts->TexData->Width;
 		config.height = ImGui::GetIO().Fonts->TexData->Height;
 		return;
+	}
+
+	if (_filterDirty && _texture != ImTextureID_Invalid)
+	{
+		ApplyTextureFilter(_texture, _filter);
+		_filterDirty = false;
 	}
 
 	if (!_dirty)
@@ -325,6 +363,7 @@ void mvStaticTexture::draw(ImDrawList* drawlist, float x, float y)
 
 
 	_dirty = false;
+	_filterDirty = false;
 }
 
 void mvStaticTexture::handleSpecificRequiredArgs(PyObject* dict)
@@ -345,7 +384,22 @@ void mvStaticTexture::handleSpecificKeywordArgs(PyObject* dict)
 		return;
 
 	if (PyObject* item = PyDict_GetItemString(dict, "filter"))
-		_filter = ToInt(item);
+	{
+		const int v = ToInt(item);
+		if (v != _filter)
+		{
+			_filter = v;
+			_filterDirty = true;
+		}
+	}
+}
+
+void mvStaticTexture::getSpecificConfiguration(PyObject* dict)
+{
+	if (dict == nullptr)
+		return;
+
+	PyDict_SetItemString(dict, "filter", mvPyObject(ToPyInt(_filter)));
 }
 
 PyObject* mvStaticTexture::getPyValue()
