@@ -32,4 +32,5 @@ struct mvGraphics_D3D11
 	IDXGISwapChain*         swapChain     = nullptr;
 	ID3D11RenderTargetView* target        = nullptr;
 	ID3D11Texture2D*        backBuffer    = nullptr;
+	ID3D11SamplerState*     pTexSamplerNearest = nullptr;
 };

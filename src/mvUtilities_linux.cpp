@@ -92,8 +92,13 @@ OutputFrameBuffer(const char* filepath)
     free(data);
 }
 
+static GLint FilterToGL(int filter)
+{
+    return (filter == 1) ? GL_NEAREST : GL_LINEAR;
+}
+
  ImTextureID
-LoadTextureFromArray(unsigned width, unsigned height, float* data)
+LoadTextureFromArray(unsigned width, unsigned height, float* data, int filter)
 {
 
     // Create a OpenGL texture identifier
@@ -102,8 +107,9 @@ LoadTextureFromArray(unsigned width, unsigned height, float* data)
     glBindTexture(GL_TEXTURE_2D, image_texture);
 
     // Setup filtering parameters for display
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    GLint glFilter = FilterToGL(filter);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, glFilter);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, glFilter);
 
     // Upload pixels into texture
     glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
@@ -113,7 +119,7 @@ LoadTextureFromArray(unsigned width, unsigned height, float* data)
 }
 
  ImTextureID
-LoadTextureFromArrayDynamic(unsigned width, unsigned height, float* data)
+LoadTextureFromArrayDynamic(unsigned width, unsigned height, float* data, int filter)
 {
 
     // Create a OpenGL texture identifier
@@ -122,8 +128,9 @@ LoadTextureFromArrayDynamic(unsigned width, unsigned height, float* data)
     glBindTexture(GL_TEXTURE_2D, image_texture);
 
     // Setup filtering parameters for display
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    GLint glFilter = FilterToGL(filter);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, glFilter);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, glFilter);
 
     // Upload pixels into texture
     glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
@@ -140,7 +147,7 @@ LoadTextureFromArrayDynamic(unsigned width, unsigned height, float* data)
 }
 
  ImTextureID
-LoadTextureFromArrayRaw(unsigned width, unsigned height, float* data, int components)
+LoadTextureFromArrayRaw(unsigned width, unsigned height, float* data, int components, int filter)
 {
 
     // Create a OpenGL texture identifier
@@ -149,8 +156,9 @@ LoadTextureFromArrayRaw(unsigned width, unsigned height, float* data, int compon
     glBindTexture(GL_TEXTURE_2D, image_texture);
 
     // Setup filtering parameters for display
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    GLint glFilter = FilterToGL(filter);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, glFilter);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, glFilter);
 
     // Upload pixels into texture
     glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
@@ -206,6 +214,9 @@ UnloadTexture(const std::string& filename)
     // TODO : decide if cleanup is necessary
     return true;
 }
+
+void EnterNearestFilterScope(ImDrawList*) {}
+void LeaveNearestFilterScope(ImDrawList*) {}
 
  void
 FreeTexture(ImTextureID texture)

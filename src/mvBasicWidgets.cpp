@@ -8,6 +8,7 @@
 #include "mvContainers.h"
 #include "mvItemHandlers.h"
 #include "mvTextureItems.h"
+#include "mvUtilities.h"
 
 #include <misc/cpp/imgui_stdlib.h>
 #include <imgui_internal.h>
@@ -5604,6 +5605,9 @@ DearPyGui::draw_image(ImDrawList* drawlist, mvAppItem& item, mvImageConfig& conf
 				ImGuiContext& g = *GImGui;
 				ImGui::PushStyleVar(ImGuiStyleVar_ImageBorderSize, (config.borderColor.a > 0.0f) ? ImMax(1.0f, g.Style.ImageBorderSize) : 0.0f);
 				ImGui::PushStyleColor(ImGuiCol_Border, config.borderColor.toVec4());
+				const bool wantNearest = (static_cast<mvTextureItem*>(config.texture.get())->_filter == 1);
+				ImDrawList* windowDrawList = wantNearest ? ImGui::GetWindowDrawList() : nullptr;
+				if (wantNearest) EnterNearestFilterScope(windowDrawList);
 				ImGui::ImageWithBg(
 					texture,
 					ImVec2((float)item.config.width, (float)item.config.height),
@@ -5611,6 +5615,7 @@ DearPyGui::draw_image(ImDrawList* drawlist, mvAppItem& item, mvImageConfig& conf
 					ImVec2(config.uv_max.x, config.uv_max.y),
 					ImVec4(0, 0, 0, 0),
 					config.tintColor.toVec4());
+				if (wantNearest) LeaveNearestFilterScope(windowDrawList);
 				ImGui::PopStyleColor();
 				ImGui::PopStyleVar();
 			}
@@ -5717,12 +5722,16 @@ DearPyGui::draw_image_button(ImDrawList* drawlist, mvAppItem& item, mvImageButto
 				if (config.framePadding >= 0)
 					ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2((float)config.framePadding, (float)config.framePadding));
 
+				const bool wantNearest = (static_cast<mvTextureItem*>(config.texture.get())->_filter == 1);
+				ImDrawList* windowDrawList = wantNearest ? ImGui::GetWindowDrawList() : nullptr;
+				if (wantNearest) EnterNearestFilterScope(windowDrawList);
 				if (ImGui::ImageButton(item.info.internalLabel.c_str(), texture, ImVec2((float)item.config.width, (float)item.config.height),
 					ImVec2(config.uv_min.x, config.uv_min.y), ImVec2(config.uv_max.x, config.uv_max.y),
 					config.backgroundColor, config.tintColor))
 				{
 					item.submitCallback();
 				}
+				if (wantNearest) LeaveNearestFilterScope(windowDrawList);
 
 				if (config.framePadding >= 0)
 					ImGui::PopStyleVar();

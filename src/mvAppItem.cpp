@@ -4636,7 +4636,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.createContextManager = true;
         break;
     }
-    case mvAppItemType::mvStaticTexture:               
+    case mvAppItemType::mvStaticTexture:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID)
@@ -4646,12 +4646,13 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Integer, "height" });
         args.push_back({ mvPyDataType::FloatList, "default_value" });
         args.push_back({ mvPyDataType::UUID, "parent", mvArgType::KEYWORD_ARG, "internal_dpg.mvReservedUUID_2", "Parent to add this item to. (runtime adding)" });
+        args.push_back({ mvPyDataType::Integer, "filter", mvArgType::KEYWORD_ARG, "0", "Texture sampling mode (mvTextureFilter_Linear or mvTextureFilter_Nearest)." });
 
         setup.about = "Adds a static texture.";
         setup.category = { "Textures", "Widgets" };
         break;
     }
-    case mvAppItemType::mvDynamicTexture:              
+    case mvAppItemType::mvDynamicTexture:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID)
@@ -4661,6 +4662,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Integer, "height" });
         args.push_back({ mvPyDataType::FloatList, "default_value" });
         args.push_back({ mvPyDataType::UUID, "parent", mvArgType::KEYWORD_ARG, "internal_dpg.mvReservedUUID_2", "Parent to add this item to. (runtime adding)" });
+        args.push_back({ mvPyDataType::Integer, "filter", mvArgType::KEYWORD_ARG, "0", "Texture sampling mode (mvTextureFilter_Linear or mvTextureFilter_Nearest)." });
 
         setup.about = "Adds a dynamic texture.";
         setup.category = { "Textures", "Widgets" };
@@ -5414,7 +5416,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Widgets", "Values" };
         break;
     }
-    case mvAppItemType::mvRawTexture:                  
+    case mvAppItemType::mvRawTexture:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID)
@@ -5425,6 +5427,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::FloatList, "default_value" });
         args.push_back({ mvPyDataType::Integer, "format", mvArgType::KEYWORD_ARG, "internal_dpg.mvFormat_Float_rgba", "Data format." });
         args.push_back({ mvPyDataType::UUID, "parent", mvArgType::KEYWORD_ARG, "internal_dpg.mvReservedUUID_2", "Parent to add this item to. (runtime adding)" });
+        args.push_back({ mvPyDataType::Integer, "filter", mvArgType::KEYWORD_ARG, "0", "Texture sampling mode (mvTextureFilter_Linear or mvTextureFilter_Nearest)." });
 
         setup.about = "Adds a raw texture.";
         setup.category = { "Textures", "Widgets" };

@@ -157,7 +157,7 @@ void mvDynamicTexture::draw(ImDrawList* drawlist, float x, float y)
 	if (_dirty)
 	{
 
-		_texture = LoadTextureFromArrayDynamic(_permWidth, _permHeight, _value->data());
+		_texture = LoadTextureFromArrayDynamic(_permWidth, _permHeight, _value->data(), _filter);
 
 		if (_texture == ImTextureID_Invalid)
 			state.ok = false;
@@ -187,6 +187,8 @@ void mvDynamicTexture::handleSpecificKeywordArgs(PyObject* dict)
 	if (dict == nullptr)
 		return;
 
+	if (PyObject* item = PyDict_GetItemString(dict, "filter"))
+		_filter = ToInt(item);
 }
 
 void mvDynamicTexture::getSpecificConfiguration(PyObject* dict)
@@ -233,7 +235,7 @@ void mvRawTexture::draw(ImDrawList* drawlist, float x, float y)
 			return;
 
 		if (_componentType == ComponentType::MV_FLOAT_COMPONENT)
-			_texture = LoadTextureFromArrayRaw(_permWidth, _permHeight, (float*)_value, _components);
+			_texture = LoadTextureFromArrayRaw(_permWidth, _permHeight, (float*)_value, _components, _filter);
 
 		if (_texture == ImTextureID_Invalid)
 			state.ok = false;
@@ -281,6 +283,9 @@ void mvRawTexture::handleSpecificKeywordArgs(PyObject* dict)
 			_componentType = mvRawTexture::ComponentType::MV_FLOAT_COMPONENT;
 		}
 	}
+
+	if (PyObject* item = PyDict_GetItemString(dict, "filter"))
+		_filter = ToInt(item);
 }
 
 void mvRawTexture::getSpecificConfiguration(PyObject* dict)
@@ -309,7 +314,7 @@ void mvStaticTexture::draw(ImDrawList* drawlist, float x, float y)
 	if (!state.ok)
 		return;
 
-	_texture = LoadTextureFromArray(_permWidth, _permHeight, _value->data());
+	_texture = LoadTextureFromArray(_permWidth, _permHeight, _value->data(), _filter);
 
 	if (_texture == ImTextureID_Invalid)
 	{
@@ -332,6 +337,15 @@ void mvStaticTexture::handleSpecificRequiredArgs(PyObject* dict)
 	_permHeight = ToInt(PyTuple_GetItem(dict, 1));
 	config.height = _permHeight;
 	*_value = ToFloatVect(PyTuple_GetItem(dict, 2));
+}
+
+void mvStaticTexture::handleSpecificKeywordArgs(PyObject* dict)
+{
+	if (dict == nullptr)
+		return;
+
+	if (PyObject* item = PyDict_GetItemString(dict, "filter"))
+		_filter = ToInt(item);
 }
 
 PyObject* mvStaticTexture::getPyValue()

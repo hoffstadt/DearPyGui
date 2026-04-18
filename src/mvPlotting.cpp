@@ -10,6 +10,7 @@
 #include "mvThemes.h"
 #include "mvContainers.h"
 #include "mvTextureItems.h"
+#include "mvUtilities.h"
 #include "mvItemHandlers.h"
 
 #include <utility>
@@ -1934,7 +1935,11 @@ DearPyGui::draw_image_series(ImDrawList* drawlist, mvAppItem& item, mvImageSerie
 				// ImTextureRef texture = static_cast<mvTextureItem*>(config._texture.get())->getTexRef();
 				ImTextureID texture = static_cast<mvTextureItem*>(config._texture.get())->_texture;
 
+				const bool wantNearest = (static_cast<mvTextureItem*>(config._texture.get())->_filter == 1);
+				ImDrawList* plotDrawList = wantNearest ? ImPlot::GetPlotDrawList() : nullptr;
+				if (wantNearest) EnterNearestFilterScope(plotDrawList);
 				ImPlot::PlotImage(item.info.internalLabel.c_str(), texture, config.bounds_min, config.bounds_max, config.uv_min, config.uv_max, config.tintColor, config.flags);
+				if (wantNearest) LeaveNearestFilterScope(plotDrawList);
 
 				// Begin a popup for a legend entry.
 				if (ImPlot::BeginLegendPopup(item.info.internalLabel.c_str(), 1))

@@ -229,6 +229,9 @@ GetModuleConstants()
 		ModuleConstants.push_back({ "mvFormat_Float_rgba", 0L });
 		ModuleConstants.push_back({ "mvFormat_Float_rgb", 1L });
 
+		ModuleConstants.push_back({ "mvTextureFilter_Linear", 0L });
+		ModuleConstants.push_back({ "mvTextureFilter_Nearest", 1L });
+
 		ModuleConstants.push_back({ "mvThemeCat_Core", 0L });
 		ModuleConstants.push_back({ "mvThemeCat_Plots", 1L});
 		ModuleConstants.push_back({ "mvThemeCat_Nodes", 2L});
