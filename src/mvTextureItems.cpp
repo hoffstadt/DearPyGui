@@ -129,6 +129,7 @@ PyObject* mvDynamicTexture::getPyValue()
 void mvDynamicTexture::setPyValue(PyObject* value)
 {
 	*_value = ToFloatVect(value);
+	_updateNeeded = true;
 }
 
 void mvDynamicTexture::setDataSource(mvUUID dataSource)
@@ -150,6 +151,7 @@ void mvDynamicTexture::setDataSource(mvUUID dataSource)
 		return;
 	}
 	_value = *static_cast<std::shared_ptr<std::vector<float>>*>(item->getValue());
+	_updateNeeded = true;
 }
 
 void mvDynamicTexture::draw(ImDrawList* drawlist, float x, float y)
@@ -166,8 +168,11 @@ void mvDynamicTexture::draw(ImDrawList* drawlist, float x, float y)
 		return;
 	}
 
-	UpdateTexture(_texture, _permWidth, _permHeight, *_value);
+	if (!_updateNeeded)
+		return;
 
+	UpdateTexture(_texture, _permWidth, _permHeight, *_value);
+	_updateNeeded = false;
 }
 
 void mvDynamicTexture::handleSpecificRequiredArgs(PyObject* dict)
@@ -180,6 +185,7 @@ void mvDynamicTexture::handleSpecificRequiredArgs(PyObject* dict)
 	_permHeight = ToInt(PyTuple_GetItem(dict, 1));
 	config.height = _permHeight;
 	*_value = ToFloatVect(PyTuple_GetItem(dict, 2));
+	_updateNeeded = true;
 }
 
 void mvDynamicTexture::handleSpecificKeywordArgs(PyObject* dict)
@@ -218,6 +224,7 @@ void mvRawTexture::setPyValue(PyObject* value)
 			{
 				mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(type), "Texture data not valid", this);
 			}
+			_updateNeeded = true;
 		}
 		PyBuffer_Release(&buffer_info);
 		_buffer = mvPyObject(value, true);
@@ -242,9 +249,12 @@ void mvRawTexture::draw(ImDrawList* drawlist, float x, float y)
 		return;
 	}
 
+	if (!_updateNeeded)
+		return;
+
 	if (_componentType == ComponentType::MV_FLOAT_COMPONENT)
 		UpdateRawTexture(_texture, _permWidth, _permHeight, (float*)_value, _components);
-
+	_updateNeeded = false;
 }
 
 void mvRawTexture::handleSpecificRequiredArgs(PyObject* dict)
