@@ -112,8 +112,8 @@ Or you can use [this code](https://dearpygui.readthedocs.io/en/latest/tutorials/
   
 ## Resources
 
-- [API documentation](https://dearpygui.readthedocs.io/en/latest/index.html) :books: 
-- [Development Roadmap](https://github.com/hoffstadt/DearPyGui/projects/4)
+- [Documentation / Tutorials](https://dearpygui.readthedocs.io/en/latest/index.html) :books: 
+- [Project status](https://github.com/hoffstadt/DearPyGui/wiki/What's-going-on%3F)
 - [FAQ](https://github.com/hoffstadt/DearPyGui/discussions/categories/frequently-asked-questions-faq)
 - [Feature Tracker](https://github.com/hoffstadt/DearPyGui/issues?q=is%3Aissue+is%3Aopen+label%3A%22type%3A+feature%22)
 - [Bug Tracker](https://github.com/hoffstadt/DearPyGui/issues?q=is%3Aissue+is%3Aopen+label%3A%22type%3A+bug%22)
