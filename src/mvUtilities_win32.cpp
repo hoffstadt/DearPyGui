@@ -5,6 +5,9 @@
 #include "mvWindowsSpecifics.h"
 
 #include "mvCustomTypes.h"
+#include "mvContext.h"
+
+#include <imgui.h>
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
@@ -145,8 +148,9 @@ LoadTextureFromFile(const char* filename, int& width, int& height)
 }
 
  ImTextureID
-LoadTextureFromArray(unsigned width, unsigned height, float* data)
+LoadTextureFromArray(unsigned width, unsigned height, float* data, int filter)
 {
+    (void)filter;
     mvGraphics_D3D11* graphicsData = (mvGraphics_D3D11*)GContext->graphics.backendSpecifics;
     ID3D11ShaderResourceView* out_srv = nullptr;
 
@@ -223,8 +227,9 @@ LoadTextureFromArray(unsigned width, unsigned height, int* data)
 }
 
  ImTextureID
-LoadTextureFromArrayDynamic(unsigned width, unsigned height, float* data)
+LoadTextureFromArrayDynamic(unsigned width, unsigned height, float* data, int filter)
 {
+    (void)filter;
     mvGraphics_D3D11* graphicsData = (mvGraphics_D3D11*)GContext->graphics.backendSpecifics;
     ID3D11ShaderResourceView* out_srv = nullptr;
 
@@ -388,8 +393,9 @@ UpdateRawTexture(ImTextureID texture, unsigned width, unsigned height, float* da
 }
 
  ImTextureID
-LoadTextureFromArrayRaw(unsigned width, unsigned height, float* data, int components)
+LoadTextureFromArrayRaw(unsigned width, unsigned height, float* data, int components, int filter)
 {
+    (void)filter;
     mvGraphics_D3D11* graphicsData = (mvGraphics_D3D11*)GContext->graphics.backendSpecifics;
     ID3D11ShaderResourceView* out_srv = nullptr;
 
@@ -453,4 +459,34 @@ UnloadTexture(const std::string& filename)
 {
     // TODO : decide if cleanup is necessary
     return true;
+}
+
+static void
+DpgD3D11BindNearestSampler(const ImDrawList* /*parent_list*/, const ImDrawCmd* /*cmd*/)
+{
+    auto* graphicsData = (mvGraphics_D3D11*)GContext->graphics.backendSpecifics;
+    if (graphicsData == nullptr || graphicsData->deviceContext == nullptr ||
+        graphicsData->pTexSamplerNearest == nullptr)
+        return;
+    graphicsData->deviceContext->PSSetSamplers(0, 1, &graphicsData->pTexSamplerNearest);
+}
+
+void
+EnterNearestFilterScope(ImDrawList* drawlist)
+{
+    if (drawlist == nullptr) return;
+    drawlist->AddCallback(DpgD3D11BindNearestSampler, nullptr);
+}
+
+void
+LeaveNearestFilterScope(ImDrawList* drawlist)
+{
+    if (drawlist == nullptr) return;
+    drawlist->AddCallback(ImDrawCallback_ResetRenderState, nullptr);
+}
+
+void
+ApplyTextureFilter(ImTextureID, int)
+{
+    // No-op: the sampler is swapped per-draw via the callback above.
 }

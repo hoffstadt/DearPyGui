@@ -241,6 +241,7 @@ mvRenderFrame()
         graphicsData->renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
         graphicsData->renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionStore;
         id <MTLRenderCommandEncoder> renderEncoder = [commandBuffer renderCommandEncoderWithDescriptor:graphicsData->renderPassDescriptor];
+        graphicsData->currentEncoder = renderEncoder;
         [renderEncoder pushDebugGroup:@"ImGui demo"];
 
 
@@ -269,6 +270,7 @@ mvRenderFrame()
 
         [renderEncoder popDebugGroup];
         [renderEncoder endEncoding];
+        graphicsData->currentEncoder = nil;
 
         [commandBuffer presentDrawable:drawable];
         [commandBuffer commit];

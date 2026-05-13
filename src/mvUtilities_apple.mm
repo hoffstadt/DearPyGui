@@ -4,6 +4,7 @@
 #include "mvUtilities.h"
 
 #include "mvViewport.h"
+#include "mvContext.h"
 
 #include "mvAppleSpecifics.h"
 
@@ -13,6 +14,7 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb_image_write.h"
 
+#include <imgui.h>
 #include <Metal/Metal.h>
 #include <MetalKit/MetalKit.h>
 #include <Quartz/Quartz.h>
@@ -36,8 +38,9 @@ OutputFrameBuffer(const char* filepath)
 }
 
  ImTextureID
-LoadTextureFromArray(unsigned width, unsigned height, float* data)
+LoadTextureFromArray(unsigned width, unsigned height, float* data, int filter)
 {
+    (void)filter;
     mvGraphics& graphics = GContext->graphics;
     auto graphicsData = (mvGraphics_Metal*)graphics.backendSpecifics;
 
@@ -55,8 +58,9 @@ LoadTextureFromArray(unsigned width, unsigned height, float* data)
 }
 
  ImTextureID
-LoadTextureFromArrayDynamic(unsigned width, unsigned height, float* data)
+LoadTextureFromArrayDynamic(unsigned width, unsigned height, float* data, int filter)
 {
+    (void)filter;
     mvGraphics& graphics = GContext->graphics;
     auto graphicsData = (mvGraphics_Metal*)graphics.backendSpecifics;
 
@@ -74,8 +78,9 @@ LoadTextureFromArrayDynamic(unsigned width, unsigned height, float* data)
 }
 
  ImTextureID
-LoadTextureFromArrayRaw(unsigned width, unsigned height, float* data, int components)
+LoadTextureFromArrayRaw(unsigned width, unsigned height, float* data, int components, int filter)
 {
+    (void)filter;
     mvGraphics& graphics = GContext->graphics;
     auto graphicsData = (mvGraphics_Metal*)graphics.backendSpecifics;
 
@@ -151,4 +156,35 @@ UpdateRawTexture(ImTextureID texture, unsigned width, unsigned height, float* da
 {
     id <MTLTexture> out_srv = (__bridge id <MTLTexture>)texture;
     [out_srv replaceRegion:MTLRegionMake2D(0, 0, width, height) mipmapLevel:0 withBytes:data bytesPerRow:width * components * 4];
+}
+
+static void
+DpgMetalBindNearestPipeline(const ImDrawList* /*parent_list*/, const ImDrawCmd* /*cmd*/)
+{
+    auto* graphicsData = (mvGraphics_Metal*)GContext->graphics.backendSpecifics;
+    if (graphicsData == nullptr || graphicsData->currentEncoder == nil ||
+        graphicsData->nearestPipelineState == nil || graphicsData->nearestSampler == nil)
+        return;
+    [graphicsData->currentEncoder setRenderPipelineState:graphicsData->nearestPipelineState];
+    [graphicsData->currentEncoder setFragmentSamplerState:graphicsData->nearestSampler atIndex:0];
+}
+
+void
+EnterNearestFilterScope(ImDrawList* drawlist)
+{
+    if (drawlist == nullptr) return;
+    drawlist->AddCallback(DpgMetalBindNearestPipeline, nullptr);
+}
+
+void
+LeaveNearestFilterScope(ImDrawList* drawlist)
+{
+    if (drawlist == nullptr) return;
+    drawlist->AddCallback(ImDrawCallback_ResetRenderState, nullptr);
+}
+
+void
+ApplyTextureFilter(ImTextureID, int)
+{
+    // No-op: the sampler is swapped per-draw via the callback above.
 }
