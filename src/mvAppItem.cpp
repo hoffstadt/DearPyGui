@@ -297,6 +297,7 @@ CanItemTypeBeHovered(mvAppItemType type)
     switch (type)
     {
     case mvAppItemType::mvCheckbox:
+    case mvAppItemType::mvMixedStateCheckbox:
     case mvAppItemType::mvCombo:
     case mvAppItemType::mvDragInt:
     case mvAppItemType::mvDragIntMulti:
@@ -359,6 +360,7 @@ CanItemTypeBeActive(mvAppItemType type)
     switch (type)
     {
     case mvAppItemType::mvCheckbox:
+    case mvAppItemType::mvMixedStateCheckbox:
     case mvAppItemType::mvCombo:
     case mvAppItemType::mvDragInt:
     case mvAppItemType::mvDragIntMulti:
@@ -410,6 +412,7 @@ CanItemTypeBeFocused(mvAppItemType type)
     switch (type)
     {
     case mvAppItemType::mvCheckbox:
+    case mvAppItemType::mvMixedStateCheckbox:
     case mvAppItemType::mvCombo:
     case mvAppItemType::mvDragInt:
     case mvAppItemType::mvDragIntMulti:
@@ -462,6 +465,7 @@ CanItemTypeBeClicked(mvAppItemType type)
     switch (type)
     {
     case mvAppItemType::mvCheckbox:
+    case mvAppItemType::mvMixedStateCheckbox:
     case mvAppItemType::mvCombo:
     case mvAppItemType::mvDragInt:
     case mvAppItemType::mvDragFloat:
@@ -516,6 +520,7 @@ CanItemTypeBeVisible(mvAppItemType type)
     switch (type)
     {
     case mvAppItemType::mvCheckbox:
+    case mvAppItemType::mvMixedStateCheckbox:
     case mvAppItemType::mvCombo:
     case mvAppItemType::mvDragInt:
     case mvAppItemType::mvDragIntMulti:
@@ -619,6 +624,7 @@ CanItemTypeBeActivated(mvAppItemType type)
     switch (type)
     {
     case mvAppItemType::mvCheckbox:
+    case mvAppItemType::mvMixedStateCheckbox:
     case mvAppItemType::mvCombo:
     case mvAppItemType::mvDragInt:
     case mvAppItemType::mvDragIntMulti:
@@ -669,6 +675,7 @@ CanItemTypeBeDeactivated(mvAppItemType type)
     switch (type)
     {
     case mvAppItemType::mvCheckbox:
+    case mvAppItemType::mvMixedStateCheckbox:
     case mvAppItemType::mvCombo:
     case mvAppItemType::mvDragInt:
     case mvAppItemType::mvDragIntMulti:
@@ -746,7 +753,8 @@ CanItemTypeBeDeactivatedAE(mvAppItemType type)
     case mvAppItemType::mvColorMapSlider:
     case mvAppItemType::mvColorPicker:
     case mvAppItemType::mvGroup:
-    case mvAppItemType::mvCheckbox: return true;
+    case mvAppItemType::mvCheckbox:
+    case mvAppItemType::mvMixedStateCheckbox: return true;
     default: return false;
     }
 
@@ -772,6 +780,7 @@ CanItemTypeHaveRectMin(mvAppItemType type)
     switch (type)
     {
     case mvAppItemType::mvCheckbox:
+    case mvAppItemType::mvMixedStateCheckbox:
     case mvAppItemType::mvCombo:
     case mvAppItemType::mvDragInt:
     case mvAppItemType::mvDragIntMulti:
@@ -835,6 +844,7 @@ CanItemTypeHaveRectSize(mvAppItemType type)
     switch (type)
     {
     case mvAppItemType::mvCheckbox:
+    case mvAppItemType::mvMixedStateCheckbox:
     case mvAppItemType::mvCombo:
     case mvAppItemType::mvDragInt:
     case mvAppItemType::mvDragIntMulti:
@@ -897,6 +907,7 @@ CanItemTypeHaveContAvail(mvAppItemType type)
     switch (type)
     {
     case mvAppItemType::mvCheckbox:
+    case mvAppItemType::mvMixedStateCheckbox:
     case mvAppItemType::mvCombo:
     case mvAppItemType::mvDragInt:
     case mvAppItemType::mvDragIntMulti:
@@ -1142,7 +1153,8 @@ DearPyGui::GetEntityValueType(mvAppItemType type)
     case mvAppItemType::mvIntValue:
     case mvAppItemType::mvSliderInt:
     case mvAppItemType::mvInputInt:
-    case mvAppItemType::mvDragInt: return StorageValueTypes::Int;
+    case mvAppItemType::mvDragInt:
+    case mvAppItemType::mvMixedStateCheckbox: return StorageValueTypes::Int;
 
     case mvAppItemType::mvFloatValue:
     case mvAppItemType::mvProgressBar:
@@ -1511,6 +1523,7 @@ DearPyGui::GetAllowableParents(mvAppItemType type)
         MV_START_PARENTS
         MV_ADD_PARENT(mvAppItemType::mvButton),
         MV_ADD_PARENT(mvAppItemType::mvCheckbox),
+        MV_ADD_PARENT(mvAppItemType::mvMixedStateCheckbox),
         MV_ADD_PARENT(mvAppItemType::mvCombo),
         MV_ADD_PARENT(mvAppItemType::mvDragIntMulti),
         MV_ADD_PARENT(mvAppItemType::mvDragFloatMulti),
@@ -1906,6 +1919,32 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Bool, "default_value", mvArgType::KEYWORD_ARG, "False", "Sets the default value of the checkmark" });
 
         setup.about = "Adds a checkbox.";
+        break;
+    }
+
+    case mvAppItemType::mvMixedStateCheckbox:
+    {
+        AddCommonArgs(args, (CommonParserArgs)(
+            MV_PARSER_ARG_ID |
+            MV_PARSER_ARG_INDENT |
+            MV_PARSER_ARG_PARENT |
+            MV_PARSER_ARG_BEFORE |
+            MV_PARSER_ARG_SOURCE |
+            MV_PARSER_ARG_CALLBACK |
+            MV_PARSER_ARG_SHOW |
+            MV_PARSER_ARG_ENABLED |
+            MV_PARSER_ARG_FILTER |
+            MV_PARSER_ARG_DROP_CALLBACK |
+            MV_PARSER_ARG_DRAG_CALLBACK |
+            MV_PARSER_ARG_PAYLOAD_TYPE |
+            MV_PARSER_ARG_TRACKED |
+            MV_PARSER_ARG_POS)
+        );
+
+        args.push_back({ mvPyDataType::Integer, "default_value", mvArgType::KEYWORD_ARG, "0", "Sets the default value: -1 for mixed/indeterminate, 0 for unchecked, 1 for checked" });
+        args.push_back({ mvPyDataType::Integer, "mixed_click_value", mvArgType::KEYWORD_ARG, "1", "Sets the value when clicking the checkbox in mixed state: 0 for unchecked, 1 for checked" });
+
+        setup.about = "Adds a mixed state (tristate) checkbox. Value is -1 (mixed), 0 (unchecked), or 1 (checked).";
         break;
     }
 

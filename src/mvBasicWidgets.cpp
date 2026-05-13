@@ -702,6 +702,15 @@ DearPyGui::fill_configuration_dict(const mvTooltipConfig& inConfig, PyObject* ou
 	PyDict_SetItemString(outDict, "hide_on_activity", mvPyObject(ToPyBool(inConfig.hide_on_move)));
 }
 
+void
+DearPyGui::fill_configuration_dict(const mvMixedStateCheckboxConfig& inConfig, PyObject* outDict)
+{
+	if (outDict == nullptr)
+		return;
+
+	PyDict_SetItemString(outDict, "mixed_click_value", mvPyObject(ToPyInt(inConfig.mixed_click_value)));
+}
+
 //-----------------------------------------------------------------------------
 // [SECTION] configure_item(...) specifics
 //-----------------------------------------------------------------------------
@@ -1539,6 +1548,15 @@ DearPyGui::set_configuration(PyObject* inDict, mvKnobFloatConfig& outConfig)
 	if (PyObject* item = PyDict_GetItemString(inDict, "max_value")) outConfig.maxv = ToFloat(item);
 }
 
+void
+DearPyGui::set_configuration(PyObject* inDict, mvMixedStateCheckboxConfig& outConfig)
+{
+	if (inDict == nullptr)
+		return;
+
+	if (PyObject* item = PyDict_GetItemString(inDict, "mixed_click_value")) outConfig.mixed_click_value = ToInt(item);
+}
+
 //-----------------------------------------------------------------------------
 // [SECTION] required args specifics
 //-----------------------------------------------------------------------------
@@ -1737,6 +1755,28 @@ DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mvCheckboxConfig&
 		return;
 	}
 	outConfig.value = *static_cast<std::shared_ptr<bool>*>(srcItem->getValue());
+}
+
+void
+DearPyGui::set_data_source(mvAppItem& item, mvUUID dataSource, mvMixedStateCheckboxConfig& outConfig)
+{
+	if (dataSource == item.config.source) return;
+	item.config.source = dataSource;
+
+	mvAppItem* srcItem = GetItem((*GContext->itemRegistry), dataSource);
+	if (!srcItem)
+	{
+		mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
+			"Source item not found: " + std::to_string(dataSource), &item);
+		return;
+	}
+	if (DearPyGui::GetEntityValueType(srcItem->type) != DearPyGui::GetEntityValueType(item.type))
+	{
+		mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
+			"Values types do not match: " + std::to_string(dataSource), &item);
+		return;
+	}
+	outConfig.value = *static_cast<std::shared_ptr<int>*>(srcItem->getValue());
 }
 
 void
@@ -2683,6 +2723,111 @@ DearPyGui::draw_checkbox(ImDrawList* drawlist, mvAppItem& item, mvCheckboxConfig
 		{
 			item.submitCallback(*config.value);
 		}
+	}
+
+	//-----------------------------------------------------------------------------
+	// update state
+	//-----------------------------------------------------------------------------
+	UpdateAppItemState(item.state);
+
+	//-----------------------------------------------------------------------------
+	// post draw
+	//-----------------------------------------------------------------------------
+
+	// set cursor position to cached position
+	if (item.info.dirtyPos)
+		DearPyGui::RestoreImGuiCursor(previousCursorPos);
+
+	if (item.config.indent > 0.0f)
+		ImGui::Unindent(item.config.indent);
+
+	// pop font off stack
+	if (item.font)
+		ImGui::PopFont();
+
+	cleanup_local_theming(&item);
+
+	if (item.handlerRegistry)
+		item.handlerRegistry->checkEvents(&item.state);
+
+	// handle drag & drop if used
+	apply_drag_drop(&item);
+}
+
+void
+DearPyGui::draw_mixed_state_checkbox(ImDrawList* drawlist, mvAppItem& item, mvMixedStateCheckboxConfig& config)
+{
+	//-----------------------------------------------------------------------------
+	// pre draw
+	//-----------------------------------------------------------------------------
+
+	// show/hide
+	if (!item.config.show)
+		return;
+
+	// focusing
+	if (item.info.focusNextFrame)
+	{
+		ImGui::SetKeyboardFocusHere();
+		item.info.focusNextFrame = false;
+	}
+
+	// cache old cursor position
+	ImVec2 previousCursorPos = ImGui::GetCursorPos();
+
+	// set cursor position if user set
+	if (item.info.dirtyPos)
+		ImGui::SetCursorPos(item.state.pos);
+
+	// update widget's position state
+	item.state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
+
+	// set item width
+	if (item.config.width != 0)
+		ImGui::SetNextItemWidth((float)item.config.width);
+
+	// set indent
+	if (item.config.indent > 0.0f)
+		ImGui::Indent(item.config.indent);
+
+	// push font if a font object is attached
+	if (item.font)
+		static_cast<mvFont*>(item.font.get())->pushFont();
+
+	apply_local_theming(&item);
+
+	//-----------------------------------------------------------------------------
+	// draw
+	//-----------------------------------------------------------------------------
+	{
+		// push imgui id to prevent name collisions
+		ScopedID id(item.uuid);
+
+		int* v = item.config.enabled ? config.value.get() : &config.disabled_value;
+		if (!item.config.enabled) config.disabled_value = *config.value;
+
+		bool ret = false;
+
+		if (*v == -1)
+		{
+			// Mixed state: push the flag, use temp bool
+			ImGui::PushItemFlag(ImGuiItemFlags_MixedValue, true);
+			bool temp = false;
+			ret = ImGui::Checkbox(item.info.internalLabel.c_str(), &temp);
+			if (ret)
+				*v = config.mixed_click_value;
+			ImGui::PopItemFlag();
+		}
+		else
+		{
+			bool b = (*v != 0);
+			ret = ImGui::Checkbox(item.info.internalLabel.c_str(), &b);
+			if (ret)
+				*v = (int)b;
+		}
+
+		if (ret)
+			item.submitCallback(*config.value);
 	}
 
 	//-----------------------------------------------------------------------------

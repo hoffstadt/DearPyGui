@@ -27,6 +27,7 @@
     X( mvCollapsingHeader ) \
     X( mvSeparator ) \
     X( mvCheckbox ) \
+    X( mvMixedStateCheckbox ) \
     X( mvListbox ) \
     X( mvText ) \
     X( mvCombo ) \
