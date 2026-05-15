@@ -355,6 +355,8 @@ GetEntityCommand(mvAppItemType type)
     case mvAppItemType::mvDragFloatMulti:              return "add_drag_floatx";
     case mvAppItemType::mvDragDoubleMulti:             return "add_drag_doublex";
     case mvAppItemType::mvDragIntMulti:                return "add_drag_intx";
+    case mvAppItemType::mvDragIntRange:                return "add_drag_int_range";
+    case mvAppItemType::mvDragFloatRange:              return "add_drag_float_range";
     case mvAppItemType::mvSliderFloatMulti:            return "add_slider_floatx";
     case mvAppItemType::mvSliderDoubleMulti:           return "add_slider_doublex";
     case mvAppItemType::mvSliderIntMulti:              return "add_slider_intx";
