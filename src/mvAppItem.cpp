@@ -134,7 +134,7 @@ void mvAppItem::submitCallback(ImGuiKey app_data)
     submitCallbackEx([=]() { return ToPyInt(app_data); });
 }
 
-void 
+void
 mvAppItem::handleKeywordArgs(PyObject* dict, const std::string& parser)
 {
     if (dict == nullptr)
@@ -185,7 +185,7 @@ mvAppItem::handleKeywordArgs(PyObject* dict, const std::string& parser)
         }
     }
     if (PyObject* item = PyDict_GetItemString(dict, "indent")) config.indent = (f32)ToInt(item);
-    if (PyObject* item = PyDict_GetItemString(dict, "show")) 
+    if (PyObject* item = PyDict_GetItemString(dict, "show"))
     {
         config.show = ToBool(item);
         if (config.show)
@@ -254,13 +254,13 @@ mvAppItem::handleKeywordArgs(PyObject* dict, const std::string& parser)
     handleSpecificKeywordArgs(dict);
 }
 
-void 
+void
 mvAppItem::setDataSource(mvUUID value)
 {
-    config.source = value; 
+    config.source = value;
 }
 
-void 
+void
 mvAppItem::handleImmediateScroll()
 {
     if (!((config.scrollXFlags | config.scrollYFlags) & mvSetScrollFlags_Now))
@@ -271,7 +271,7 @@ mvAppItem::handleImmediateScroll()
     ImGui::SetNextWindowScroll(scroll);
 }
 
-void 
+void
 mvAppItem::handleDelayedScroll()
 {
     if (config.scrollXFlags & mvSetScrollFlags_Delayed)
@@ -984,7 +984,7 @@ DearPyGui::GetApplicableState(mvAppItemType type)
     return applicableState;
 }
 
-int 
+int
 DearPyGui::GetEntityDesciptionFlags(mvAppItemType type)
 {
     switch (type)
@@ -1151,7 +1151,7 @@ DearPyGui::GetEntityValueType(mvAppItemType type)
     case mvAppItemType::mvSliderFloat:
     case mvAppItemType::mvInputFloat:
     case mvAppItemType::mvDragFloat: return StorageValueTypes::Float;
-        
+
     case mvAppItemType::mvFloat4Value:
     case mvAppItemType::mvThemeStyle:
 
@@ -1184,7 +1184,7 @@ DearPyGui::GetEntityValueType(mvAppItemType type)
     case mvAppItemType::mvSelectable:
     case mvAppItemType::mvMenuItem:
     case mvAppItemType::mvCheckbox: return StorageValueTypes::Bool;
-        
+
     case mvAppItemType::mvSeriesValue:
     case mvAppItemType::mv2dHistogramSeries:
     case mvAppItemType::mvAreaSeries:
@@ -1212,7 +1212,7 @@ DearPyGui::GetEntityValueType(mvAppItemType type)
     case mvAppItemType::mvInputDouble:
     case mvAppItemType::mvSliderDouble:
     case mvAppItemType::mvDragLine: return StorageValueTypes::Double;
-        
+
     case mvAppItemType::mvDouble4Value:
     case mvAppItemType::mvDragDoubleMulti:
     case mvAppItemType::mvInputDoubleMulti:
@@ -1229,7 +1229,7 @@ DearPyGui::GetEntityValueType(mvAppItemType type)
     }
 }
 
-const char* 
+const char*
 DearPyGui::GetEntityTypeString(mvAppItemType type)
 {
     #define X(el) "mvAppItemType::" #el,
@@ -1254,7 +1254,7 @@ DearPyGui::CreateEntity(mvAppItemType type, mvUUID id)
     #undef X
 }
 
-const std::vector<std::pair<std::string, i32>>& 
+const std::vector<std::pair<std::string, i32>>&
 DearPyGui::GetAllowableParents(mvAppItemType type)
 {
 
@@ -1988,7 +1988,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.about = "Adds input for text.";
         break;
     }
-    case mvAppItemType::mvRadioButton: 
+    case mvAppItemType::mvRadioButton:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -2015,7 +2015,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         break;
     }
 
-    case mvAppItemType::mvTabBar: 
+    case mvAppItemType::mvTabBar:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -2701,7 +2701,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.createContextManager = true;
         break;
     }
-    case mvAppItemType::mvSeparator:                   
+    case mvAppItemType::mvSeparator:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -2715,7 +2715,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.about = "Adds a horizontal line separator. Use 'label' parameter to add text and mvStyleVar_SeparatorText* elements to style it.";
         break;
     }
-    case mvAppItemType::mvListbox:                     
+    case mvAppItemType::mvListbox:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -2743,7 +2743,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.about = "Adds a listbox. If height is not large enough to show all items a scroll bar will appear.";
         break;
     }
-    case mvAppItemType::mvText:                        
+    case mvAppItemType::mvText:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -2769,7 +2769,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.about = "Adds text. Text can have an optional label that will display to the right of the text.";
         break;
     }
-    case mvAppItemType::mvPlot:                        
+    case mvAppItemType::mvPlot:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -2823,7 +2823,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         args.push_back({ mvPyDataType::Integer, "vertical_mod", mvArgType::KEYWORD_ARG, "internal_dpg.mvKey_ModShift", "expands active box selection/query vertically to plot edge when held" });
         args.push_back({ mvPyDataType::Integer, "override_mod", mvArgType::KEYWORD_ARG, "internal_dpg.mvKey_ModCtrl", "when held, all input is ignored; used to enable axis/plots as DND sources" });
         args.push_back({ mvPyDataType::Integer, "zoom_mod", mvArgType::KEYWORD_ARG, "internal_dpg.mvKey_None", "optional modifier that must be held for scroll wheel zooming" });
-        args.push_back({ mvPyDataType::Integer, "zoom_rate", mvArgType::KEYWORD_ARG, "0.1", "zoom rate for scroll (e.g. 0.1f = 10% plot range every scroll click); make negative to invert" });
+        args.push_back({ mvPyDataType::Float, "zoom_rate", mvArgType::KEYWORD_ARG, "0.1", "zoom rate for scroll (e.g. 0.1f = 10% plot range every scroll click); make negative to invert" });
         args.push_back({ mvPyDataType::Integer, "query_button", mvArgType::DEPRECATED_REMOVE_KEYWORD_ARG, "0", "This refers to the old way of querying of ImPlot, now replaced with `DragRect()`" });
         args.push_back({ mvPyDataType::Integer, "query_mod", mvArgType::DEPRECATED_REMOVE_KEYWORD_ARG, "internal_dpg.mvKey_None", "This refers to the old way of querying of ImPlot, now replaced with `DragRect()`" });
 
@@ -2883,7 +2883,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.createContextManager = true;
         break;
     }
-    case mvAppItemType::mvWindowAppItem:               
+    case mvAppItemType::mvWindowAppItem:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -2927,7 +2927,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.createContextManager = true;
         break;
     }
-    case mvAppItemType::mvSelectable:                  
+    case mvAppItemType::mvSelectable:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -2956,7 +2956,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.about = "Adds a selectable. Similar to a button but can indicate its selected state.";
         break;
     }
-    case mvAppItemType::mvTreeNode:                    
+    case mvAppItemType::mvTreeNode:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -2998,7 +2998,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.createContextManager = true;
         break;
     }
-    case mvAppItemType::mvProgressBar:                 
+    case mvAppItemType::mvProgressBar:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -3023,7 +3023,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.about = "Adds a progress bar.";
         break;
     }
-    case mvAppItemType::mvSpacer:                      
+    case mvAppItemType::mvSpacer:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -3039,7 +3039,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.about = "Adds a spacer item that can be used to help with layouts or can be used as a placeholder item.";
         break;
     }
-    case mvAppItemType::mvImageButton:                 
+    case mvAppItemType::mvImageButton:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -3071,7 +3071,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Widgets", "Textures" };
         break;
     }
-    case mvAppItemType::mvTimePicker:                  
+    case mvAppItemType::mvTimePicker:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -3094,7 +3094,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.about = "Adds a time picker.";
         break;
     }
-    case mvAppItemType::mvDatePicker:                  
+    case mvAppItemType::mvDatePicker:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -3117,7 +3117,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.about = "Adds a date picker.";
         break;
     }
-    case mvAppItemType::mvColorButton:                 
+    case mvAppItemType::mvColorButton:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -3148,7 +3148,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Widgets", "Colors" };
         break;
     }
-    case mvAppItemType::mvFileDialog:                  
+    case mvAppItemType::mvFileDialog:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -3172,7 +3172,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.createContextManager = true;
         break;
     }
-    case mvAppItemType::mvTabButton:                   
+    case mvAppItemType::mvTabButton:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -3197,7 +3197,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.about = "Adds a tab button to a tab bar.";
         break;
     }
-    case mvAppItemType::mvDrawNode:                    
+    case mvAppItemType::mvDrawNode:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -3211,7 +3211,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.createContextManager = true;
         break;
     }
-    case mvAppItemType::mvNodeEditor:                  
+    case mvAppItemType::mvNodeEditor:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -3236,7 +3236,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.createContextManager = true;
         break;
     }
-    case mvAppItemType::mvNode:                        
+    case mvAppItemType::mvNode:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -3259,7 +3259,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.createContextManager = true;
         break;
     }
-    case mvAppItemType::mvNodeAttribute:               
+    case mvAppItemType::mvNodeAttribute:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -3280,7 +3280,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.createContextManager = true;
         break;
     }
-    case mvAppItemType::mvTable:                       
+    case mvAppItemType::mvTable:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -3332,7 +3332,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.createContextManager = true;
         break;
     }
-    case mvAppItemType::mvTableColumn:                 
+    case mvAppItemType::mvTableColumn:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -3367,7 +3367,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Tables", "Widgets" };
         break;
     }
-    case mvAppItemType::mvTableRow:                    
+    case mvAppItemType::mvTableRow:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -3382,7 +3382,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.createContextManager = true;
         break;
     }
-    case mvAppItemType::mvSyncedTables:                    
+    case mvAppItemType::mvSyncedTables:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -3392,7 +3392,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
             MV_PARSER_ARG_SHOW)
         );
 
-        setup.about = 
+        setup.about =
                 "Links all tables that are immediate children of this container so that they share "
                 "their state (mostly column sizes).  Other children are rendered as is.  This is "
                 "an experimental feature, use with caution.";
@@ -3400,7 +3400,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.createContextManager = true;
         break;
     }
-    case mvAppItemType::mvDrawLine:                    
+    case mvAppItemType::mvDrawLine:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -3418,7 +3418,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Drawlist", "Widgets" };
         break;
     }
-    case mvAppItemType::mvDrawArrow:                   
+    case mvAppItemType::mvDrawArrow:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -3437,7 +3437,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Drawlist", "Widgets" };
         break;
     }
-    case mvAppItemType::mvDrawTriangle:                
+    case mvAppItemType::mvDrawTriangle:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -3457,7 +3457,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Drawlist", "Widgets" };
         break;
     }
-    case mvAppItemType::mvDrawImageQuad:               
+    case mvAppItemType::mvDrawImageQuad:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -3481,7 +3481,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Drawlist", "Widgets" };
         break;
     }
-    case mvAppItemType::mvDrawCircle:                  
+    case mvAppItemType::mvDrawCircle:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -3501,7 +3501,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Drawlist", "Widgets" };
         break;
     }
-    case mvAppItemType::mvDrawEllipse:                 
+    case mvAppItemType::mvDrawEllipse:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -3521,7 +3521,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Drawlist", "Widgets" };
         break;
     }
-    case mvAppItemType::mvDrawBezierCubic:             
+    case mvAppItemType::mvDrawBezierCubic:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -3542,7 +3542,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Drawlist", "Widgets" };
         break;
     }
-    case mvAppItemType::mvDrawBezierQuadratic:         
+    case mvAppItemType::mvDrawBezierQuadratic:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -3562,7 +3562,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Drawlist", "Widgets" };
         break;
     }
-    case mvAppItemType::mvDrawQuad:                    
+    case mvAppItemType::mvDrawQuad:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -3583,7 +3583,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Drawlist", "Widgets" };
         break;
     }
-    case mvAppItemType::mvDrawRect:                    
+    case mvAppItemType::mvDrawRect:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -3609,7 +3609,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Drawlist", "Widgets" };
         break;
     }
-    case mvAppItemType::mvDrawText:                    
+    case mvAppItemType::mvDrawText:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -3627,7 +3627,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Drawlist", "Widgets" };
         break;
     }
-    case mvAppItemType::mvDrawPolygon:                 
+    case mvAppItemType::mvDrawPolygon:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -3645,7 +3645,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Drawlist", "Widgets" };
         break;
     }
-    case mvAppItemType::mvDrawPolyline:                
+    case mvAppItemType::mvDrawPolyline:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -3663,7 +3663,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Drawlist", "Widgets" };
         break;
     }
-    case mvAppItemType::mvDrawImage:                   
+    case mvAppItemType::mvDrawImage:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -3683,7 +3683,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Drawlist", "Widgets", "Textures" };
         break;
     }
-    case mvAppItemType::mvDragFloatMulti:              
+    case mvAppItemType::mvDragFloatMulti:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -3749,7 +3749,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Widgets" };
         break;
     }
-    case mvAppItemType::mvDragIntMulti:                
+    case mvAppItemType::mvDragIntMulti:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -3781,7 +3781,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.about = "Adds drag input for a set of int values up to 4. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the drag. Use clamped keyword to also apply limits to the direct entry modes.";
         break;
     }
-    case mvAppItemType::mvSliderFloatMulti:            
+    case mvAppItemType::mvSliderFloatMulti:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -3843,7 +3843,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.about = "Adds multi slider for up to 4 double values. Usueful for when multi slide float is not accurate enough. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the slider. Use clamped keyword to also apply limits to the direct entry modes.";
         break;
     }
-    case mvAppItemType::mvSliderIntMulti:              
+    case mvAppItemType::mvSliderIntMulti:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -3874,7 +3874,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.about = "Adds multi slider for up to 4 int values. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the slider. Use clamped keyword to also apply limits to the direct entry modes.";
         break;
     }
-    case mvAppItemType::mvInputIntMulti:               
+    case mvAppItemType::mvInputIntMulti:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -3908,7 +3908,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.about = "Adds multi int input for up to 4 integer values.";
         break;
     }
-    case mvAppItemType::mvInputFloatMulti:             
+    case mvAppItemType::mvInputFloatMulti:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -3978,7 +3978,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.about = "Adds multi double input for up to 4 double values. Useful when input float mulit is not accurate enough.";
         break;
     }
-    case mvAppItemType::mvDragPoint:                   
+    case mvAppItemType::mvDragPoint:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -4005,7 +4005,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         break;
     }
 
-    case mvAppItemType::mvDragRect:                   
+    case mvAppItemType::mvDragRect:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -4028,7 +4028,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         break;
     }
 
-    case mvAppItemType::mvDragLine:                    
+    case mvAppItemType::mvDragLine:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -4053,7 +4053,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Plotting", "Widgets" };
         break;
     }
-    case mvAppItemType::mvAnnotation:                  
+    case mvAppItemType::mvAnnotation:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -4072,7 +4072,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Plotting", "Widgets" };
         break;
     }
-    case mvAppItemType::mvAxisTag:                  
+    case mvAppItemType::mvAxisTag:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -4090,7 +4090,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Plotting", "Widgets" };
         break;
     }
-    case mvAppItemType::mvLineSeries:                  
+    case mvAppItemType::mvLineSeries:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -4112,7 +4112,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Plotting", "Containers", "Widgets" };
         break;
     }
-    case mvAppItemType::mvScatterSeries:               
+    case mvAppItemType::mvScatterSeries:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -4130,7 +4130,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Plotting", "Containers", "Widgets" };
         break;
     }
-    case mvAppItemType::mvStemSeries:                  
+    case mvAppItemType::mvStemSeries:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -4149,7 +4149,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Plotting", "Containers", "Widgets" };
         break;
     }
-    case mvAppItemType::mvStairSeries:                 
+    case mvAppItemType::mvStairSeries:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -4168,7 +4168,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Plotting", "Containers", "Widgets" };
         break;
     }
-    case mvAppItemType::mvBarSeries:                   
+    case mvAppItemType::mvBarSeries:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -4187,7 +4187,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Plotting", "Containers", "Widgets" };
         break;
     }
-    case mvAppItemType::mvBarGroupSeries:                   
+    case mvAppItemType::mvBarGroupSeries:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -4209,7 +4209,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Plotting", "Containers", "Widgets" };
         break;
     }
-    case mvAppItemType::mvErrorSeries:                 
+    case mvAppItemType::mvErrorSeries:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -4230,7 +4230,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Plotting", "Containers", "Widgets" };
         break;
     }
-    case mvAppItemType::mvInfLineSeries:                 
+    case mvAppItemType::mvInfLineSeries:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -4247,7 +4247,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Plotting", "Containers", "Widgets" };
         break;
     }
-    case mvAppItemType::mvHeatSeries:                  
+    case mvAppItemType::mvHeatSeries:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -4272,7 +4272,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Plotting", "Containers", "Widgets" };
         break;
     }
-    case mvAppItemType::mvImageSeries:                 
+    case mvAppItemType::mvImageSeries:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -4293,7 +4293,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Plotting", "Containers", "Widgets", "Textures" };
         break;
     }
-    case mvAppItemType::mvPieSeries:                   
+    case mvAppItemType::mvPieSeries:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -4317,7 +4317,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Plotting", "Containers", "Widgets" };
         break;
     }
-    case mvAppItemType::mvShadeSeries:                 
+    case mvAppItemType::mvShadeSeries:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -4335,7 +4335,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Plotting", "Containers", "Widgets" };
         break;
     }
-    case mvAppItemType::mvLabelSeries:                 
+    case mvAppItemType::mvLabelSeries:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -4356,7 +4356,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Plotting", "Containers", "Widgets" };
         break;
     }
-    case mvAppItemType::mvDigitalSeries:             
+    case mvAppItemType::mvDigitalSeries:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -4373,7 +4373,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Plotting", "Containers", "Widgets" };
         break;
     }
-    case mvAppItemType::mvHistogramSeries:             
+    case mvAppItemType::mvHistogramSeries:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -4399,7 +4399,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Plotting", "Containers", "Widgets" };
         break;
     }
-    case mvAppItemType::mv2dHistogramSeries:           
+    case mvAppItemType::mv2dHistogramSeries:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -4425,7 +4425,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Plotting", "Containers", "Widgets" };
         break;
     }
-    case mvAppItemType::mvCandleSeries:                
+    case mvAppItemType::mvCandleSeries:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -4494,7 +4494,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Plotting", "Containers", "Widgets" };
         break;
     }
-    case mvAppItemType::mvColorMapScale:               
+    case mvAppItemType::mvColorMapScale:
     {
 
         AddCommonArgs(args, (CommonParserArgs)(
@@ -4523,7 +4523,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Widgets", "Colors" };
         break;
     }
-    case mvAppItemType::mvSlider3D:                    
+    case mvAppItemType::mvSlider3D:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -4555,7 +4555,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.about = "Adds a 3D box slider.";
         break;
     }
-    case mvAppItemType::mvKnobFloat:                   
+    case mvAppItemType::mvKnobFloat:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -4583,7 +4583,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.about = "Adds a knob that rotates based on change in x mouse position.";
         break;
     }
-    case mvAppItemType::mvLoadingIndicator:            
+    case mvAppItemType::mvLoadingIndicator:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -4609,7 +4609,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.about = "Adds a rotating animated loading symbol.";
         break;
     }
-    case mvAppItemType::mvNodeLink:                    
+    case mvAppItemType::mvNodeLink:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -4624,7 +4624,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Node Editor", "Widgets" };
         break;
     }
-    case mvAppItemType::mvTextureRegistry:             
+    case mvAppItemType::mvTextureRegistry:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID)
@@ -4637,7 +4637,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.createContextManager = true;
         break;
     }
-    case mvAppItemType::mvStaticTexture:               
+    case mvAppItemType::mvStaticTexture:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID)
@@ -4652,7 +4652,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Textures", "Widgets" };
         break;
     }
-    case mvAppItemType::mvDynamicTexture:              
+    case mvAppItemType::mvDynamicTexture:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID)
@@ -4667,7 +4667,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Textures", "Widgets" };
         break;
     }
-    case mvAppItemType::mvStage:                       
+    case mvAppItemType::mvStage:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID)
@@ -4678,7 +4678,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.createContextManager = true;
         break;
     }
-    case mvAppItemType::mvDrawLayer:                   
+    case mvAppItemType::mvDrawLayer:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -4696,7 +4696,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.createContextManager = true;
         break;
     }
-    case mvAppItemType::mvViewportDrawlist:            
+    case mvAppItemType::mvViewportDrawlist:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -4712,7 +4712,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.createContextManager = true;
         break;
     }
-    case mvAppItemType::mvFileExtension:               
+    case mvAppItemType::mvFileExtension:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -4730,7 +4730,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "File Dialog" };
         break;
     }
-    case mvAppItemType::mvPlotLegend:                  
+    case mvAppItemType::mvPlotLegend:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -4753,7 +4753,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Plotting", "Widgets" };
         break;
     }
-    case mvAppItemType::mvPlotAxis:                    
+    case mvAppItemType::mvPlotAxis:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -4791,7 +4791,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.createContextManager = true;
         break;
     }
-    case mvAppItemType::mvHandlerRegistry:             
+    case mvAppItemType::mvHandlerRegistry:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -4803,7 +4803,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.createContextManager = true;
         break;
     }
-    case mvAppItemType::mvKeyDownHandler:              
+    case mvAppItemType::mvKeyDownHandler:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -4818,7 +4818,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Events", "Widgets" };
         break;
     }
-    case mvAppItemType::mvKeyPressHandler:             
+    case mvAppItemType::mvKeyPressHandler:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -4833,7 +4833,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Events", "Widgets" };
         break;
     }
-    case mvAppItemType::mvKeyReleaseHandler:           
+    case mvAppItemType::mvKeyReleaseHandler:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -4848,7 +4848,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Events", "Widgets" };
         break;
     }
-    case mvAppItemType::mvMouseMoveHandler:            
+    case mvAppItemType::mvMouseMoveHandler:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -4861,7 +4861,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Events", "Widgets" };
         break;
     }
-    case mvAppItemType::mvMouseWheelHandler:           
+    case mvAppItemType::mvMouseWheelHandler:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -4874,7 +4874,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Events", "Widgets" };
         break;
     }
-    case mvAppItemType::mvMouseClickHandler:           
+    case mvAppItemType::mvMouseClickHandler:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -4889,7 +4889,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Events", "Widgets" };
         break;
     }
-    case mvAppItemType::mvMouseDoubleClickHandler:     
+    case mvAppItemType::mvMouseDoubleClickHandler:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -4904,7 +4904,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Events", "Widgets" };
         break;
     }
-    case mvAppItemType::mvMouseDownHandler:            
+    case mvAppItemType::mvMouseDownHandler:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -4919,7 +4919,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Events", "Widgets" };
         break;
     }
-    case mvAppItemType::mvMouseReleaseHandler:         
+    case mvAppItemType::mvMouseReleaseHandler:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -4934,7 +4934,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Events", "Widgets" };
         break;
     }
-    case mvAppItemType::mvMouseDragHandler:            
+    case mvAppItemType::mvMouseDragHandler:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -4950,7 +4950,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Events", "Widgets" };
         break;
     }
-    case mvAppItemType::mvHoverHandler:                
+    case mvAppItemType::mvHoverHandler:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -4959,13 +4959,13 @@ DearPyGui::GetEntityParser(mvAppItemType type)
             MV_PARSER_ARG_CALLBACK)
         );
 
-        args.push_back({ mvPyDataType::Integer, "event_type", mvArgType::KEYWORD_ARG, "None", "What kind of events to track: mouse-in (mvEventType_Enter), mouse-over (mvEventType_On), mouse-out (mvEventType_Leave). Can be a combination of these flags. Defaults to mouse-over." });
+        args.push_back({ mvPyDataType::Integer, "event_type", mvArgType::KEYWORD_ARG, "internal_dpg.mvEventType_On", "What kind of events to track: mouse-in (mvEventType_Enter), mouse-over (mvEventType_On), mouse-out (mvEventType_Leave). Can be a combination of these flags. Defaults to mouse-over." });
 
         setup.about = "Adds a hover handler.";
         setup.category = { "Widgets", "Events" };
         break;
     }
-    case mvAppItemType::mvActiveHandler:               
+    case mvAppItemType::mvActiveHandler:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -4978,7 +4978,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Widgets", "Events" };
         break;
     }
-    case mvAppItemType::mvFocusHandler:                
+    case mvAppItemType::mvFocusHandler:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -4987,13 +4987,13 @@ DearPyGui::GetEntityParser(mvAppItemType type)
             MV_PARSER_ARG_CALLBACK)
         );
 
-        args.push_back({ mvPyDataType::Integer, "event_type", mvArgType::KEYWORD_ARG, "None", "What kind of events to track: just got focus (mvEventType_Enter), currently having focus (mvEventType_On), lost focus (mvEventType_Leave). Can be a combination of these flags. Defaults to mvEventType_On." });
+        args.push_back({ mvPyDataType::Integer, "event_type", mvArgType::KEYWORD_ARG, "internal_dpg.mvEventType_On", "What kind of events to track: just got focus (mvEventType_Enter), currently having focus (mvEventType_On), lost focus (mvEventType_Leave). Can be a combination of these flags. Defaults to mvEventType_On." });
 
         setup.about = "Adds a focus handler.";
         setup.category = { "Widgets", "Events" };
         break;
     }
-    case mvAppItemType::mvVisibleHandler:              
+    case mvAppItemType::mvVisibleHandler:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -5006,7 +5006,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Widgets", "Events" };
         break;
     }
-    case mvAppItemType::mvEditedHandler:               
+    case mvAppItemType::mvEditedHandler:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -5019,7 +5019,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Widgets", "Events" };
         break;
     }
-    case mvAppItemType::mvActivatedHandler:            
+    case mvAppItemType::mvActivatedHandler:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -5032,7 +5032,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Widgets", "Events" };
         break;
     }
-    case mvAppItemType::mvDeactivatedHandler:          
+    case mvAppItemType::mvDeactivatedHandler:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -5045,7 +5045,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Widgets", "Events" };
         break;
     }
-    case mvAppItemType::mvDeactivatedAfterEditHandler: 
+    case mvAppItemType::mvDeactivatedAfterEditHandler:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -5058,7 +5058,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Widgets", "Events" };
         break;
     }
-    case mvAppItemType::mvToggledOpenHandler:          
+    case mvAppItemType::mvToggledOpenHandler:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -5073,7 +5073,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Widgets", "Events" };
         break;
     }
-    case mvAppItemType::mvClickedHandler:              
+    case mvAppItemType::mvClickedHandler:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -5088,7 +5088,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Widgets", "Events" };
         break;
     }
-    case mvAppItemType::mvDoubleClickedHandler:              
+    case mvAppItemType::mvDoubleClickedHandler:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -5103,7 +5103,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Widgets", "Events" };
         break;
     }
-    case mvAppItemType::mvDragPayload:                 
+    case mvAppItemType::mvDragPayload:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -5120,7 +5120,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.createContextManager = true;
         break;
     }
-    case mvAppItemType::mvResizeHandler:               
+    case mvAppItemType::mvResizeHandler:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -5133,7 +5133,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Widgets", "Events" };
         break;
     }
-    case mvAppItemType::mvScrollHandler:               
+    case mvAppItemType::mvScrollHandler:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -5146,7 +5146,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Widgets", "Events" };
         break;
     }
-    case mvAppItemType::mvFont:                        
+    case mvAppItemType::mvFont:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID)
@@ -5164,7 +5164,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.createContextManager = true;
         break;
     }
-    case mvAppItemType::mvFontRegistry:                
+    case mvAppItemType::mvFontRegistry:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -5176,7 +5176,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.createContextManager = true;
         break;
     }
-    case mvAppItemType::mvTheme:                       
+    case mvAppItemType::mvTheme:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID)
@@ -5189,7 +5189,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.createContextManager = true;
         break;
     }
-    case mvAppItemType::mvThemeColor:                  
+    case mvAppItemType::mvThemeColor:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -5204,7 +5204,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Themes" };
         break;
     }
-    case mvAppItemType::mvThemeStyle:                  
+    case mvAppItemType::mvThemeStyle:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -5220,7 +5220,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Themes" };
         break;
     }
-    case mvAppItemType::mvThemeComponent:              
+    case mvAppItemType::mvThemeComponent:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -5236,7 +5236,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.createContextManager = true;
         break;
     }
-    case mvAppItemType::mvCharRemap:                   
+    case mvAppItemType::mvCharRemap:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -5250,7 +5250,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.about = "Remaps a character.";
         break;
     }
-    case mvAppItemType::mvValueRegistry:               
+    case mvAppItemType::mvValueRegistry:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID)
@@ -5261,7 +5261,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.createContextManager = true;
         break;
     }
-    case mvAppItemType::mvIntValue:                    
+    case mvAppItemType::mvIntValue:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -5275,7 +5275,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Widgets", "Values" };
         break;
     }
-    case mvAppItemType::mvFloatValue:                  
+    case mvAppItemType::mvFloatValue:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -5289,7 +5289,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Widgets", "Values" };
         break;
     }
-    case mvAppItemType::mvFloat4Value:                 
+    case mvAppItemType::mvFloat4Value:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -5303,7 +5303,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Widgets", "Values" };
         break;
     }
-    case mvAppItemType::mvInt4Value:                   
+    case mvAppItemType::mvInt4Value:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -5317,7 +5317,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Widgets", "Values" };
         break;
     }
-    case mvAppItemType::mvBoolValue:                   
+    case mvAppItemType::mvBoolValue:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -5331,7 +5331,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Widgets", "Values" };
         break;
     }
-    case mvAppItemType::mvStringValue:                 
+    case mvAppItemType::mvStringValue:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -5345,7 +5345,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Widgets", "Values" };
         break;
     }
-    case mvAppItemType::mvDoubleValue:                 
+    case mvAppItemType::mvDoubleValue:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -5359,7 +5359,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Widgets", "Values" };
         break;
     }
-    case mvAppItemType::mvDouble4Value:                
+    case mvAppItemType::mvDouble4Value:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -5373,7 +5373,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Widgets", "Values" };
         break;
     }
-    case mvAppItemType::mvColorValue:                  
+    case mvAppItemType::mvColorValue:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -5387,7 +5387,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Widgets", "Values" };
         break;
     }
-    case mvAppItemType::mvFloatVectValue:              
+    case mvAppItemType::mvFloatVectValue:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -5401,7 +5401,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Widgets", "Values" };
         break;
     }
-    case mvAppItemType::mvSeriesValue:                 
+    case mvAppItemType::mvSeriesValue:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -5415,7 +5415,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Widgets", "Values" };
         break;
     }
-    case mvAppItemType::mvRawTexture:                  
+    case mvAppItemType::mvRawTexture:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID)
@@ -5431,7 +5431,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Textures", "Widgets" };
         break;
     }
-    case mvAppItemType::mvSubPlots:                    
+    case mvAppItemType::mvSubPlots:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -5470,7 +5470,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.createContextManager = true;
         break;
     }
-    case mvAppItemType::mvColorMap:                    
+    case mvAppItemType::mvColorMap:
     {
 
         AddCommonArgs(args, (CommonParserArgs)(
@@ -5486,7 +5486,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Widgets", "Colors" };
         break;
     }
-    case mvAppItemType::mvColorMapRegistry:            
+    case mvAppItemType::mvColorMapRegistry:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID)
@@ -5499,7 +5499,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.createContextManager = true;
         break;
     }
-    case mvAppItemType::mvColorMapButton:              
+    case mvAppItemType::mvColorMapButton:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -5525,7 +5525,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Widgets", "Colors" };
         break;
     }
-    case mvAppItemType::mvColorMapSlider:              
+    case mvAppItemType::mvColorMapSlider:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -5550,7 +5550,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.category = { "Widgets", "Colors" };
         break;
     }
-    case mvAppItemType::mvTemplateRegistry:            
+    case mvAppItemType::mvTemplateRegistry:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID)
@@ -5561,7 +5561,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.createContextManager = true;
         break;
     }
-    case mvAppItemType::mvTableCell:                   
+    case mvAppItemType::mvTableCell:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -5577,7 +5577,7 @@ DearPyGui::GetEntityParser(mvAppItemType type)
         setup.createContextManager = true;
         break;
     }
-    case mvAppItemType::mvItemHandlerRegistry:         
+    case mvAppItemType::mvItemHandlerRegistry:
     {
         AddCommonArgs(args, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
@@ -5645,7 +5645,7 @@ DearPyGui::OnChildAdded(mvAppItem* item, std::shared_ptr<mvAppItem> child)
         default: return;
     }
 }
-    
+
 void
 DearPyGui::OnChildRemoved(mvAppItem* item, std::shared_ptr<mvAppItem> child)
 {

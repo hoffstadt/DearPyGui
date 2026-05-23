@@ -190,7 +190,7 @@ def staging_container(**kwargs):
 
 @deprecated("Use: add_spacer(...)")
 def add_spacing(**kwargs):
-	"""	(deprecated function) Adds vertical spacing. 
+	"""	(deprecated function) Adds vertical spacing.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -258,10 +258,10 @@ def add_same_line(**kwargs):
 
 @deprecated("Use: `get_plot_query_rects()`")
 def is_plot_queried(plot: Union[int, str], **kwargs):
-	"""	(deprecated function) Returns true if the plot is currently being queried. 
+	"""	(deprecated function) Returns true if the plot is currently being queried.
 
 	Args:
-		plot (Union[int, str]): 
+		plot (Union[int, str]):
 	Returns:
 		bool
 	"""
@@ -273,7 +273,7 @@ def get_plot_query_area(plot: Union[int, str], **kwargs):
 	"""	(deprecated function) Returns the last/current query area of the plot. If no area is available [0, 0, 0, 0] will be returned.
 
 	Args:
-		plot (Union[int, str]): 
+		plot (Union[int, str]):
 	Returns:
 		Union[List[float], Tuple[float, ...]]
 	"""
@@ -288,7 +288,7 @@ def add_hline_series(x, **kwargs):
 	"""	(deprecated function) Adds an infinite horizontal line series to a plot.
 
 	Args:
-		x (Any): 
+		x (Any):
 		label (str, optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
@@ -303,14 +303,14 @@ def add_hline_series(x, **kwargs):
 	"""
 
 	return internal_dpg.add_inf_line_series(x, **kwargs, horizontal=True)
-            
+
 
 @deprecated("Use: `add_inf_line_series()`")
 def add_vline_series(x, **kwargs):
 	"""	(deprecated function) Adds an infinite vertical line series to a plot.
 
 	Args:
-		x (Any): 
+		x (Any):
 		label (str, optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
@@ -425,52 +425,52 @@ def set_start_callback(callback):
     return internal_dpg.set_frame_callback(3, callback)
 
 @deprecated("This call is a no-op because character ranges are now automatic")
-def add_font_chars(chars : Union[List[int], Tuple[int, ...]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, **kwargs) -> Union[int, str]:
+def add_font_chars(chars : Union[List[int], Tuple[int, ...]], *, label: Optional[str] =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, **kwargs) -> Union[int, str]:
 	"""	(deprecated function) Adds specific font characters to a font.
 
 	Args:
-		chars (Union[List[int], Tuple[int, ...]]): 
+		chars (Union[List[int], Tuple[int, ...]]):
 		label (str, optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 	pass
 
 @deprecated("This call is a no-op because character ranges are now automatic")
-def add_font_range(first_char : int, last_char : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, **kwargs) -> Union[int, str]:
+def add_font_range(first_char : int, last_char : int, *, label: Optional[str] =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, **kwargs) -> Union[int, str]:
 	"""	(deprecated function)  Adds a range of font characters to a font.
 
 	Args:
-		first_char (int): 
-		last_char (int): 
+		first_char (int):
+		last_char (int):
 		label (str, optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
 	pass
 
 @deprecated("This call is a no-op because character ranges are now automatic")
-def add_font_range_hint(hint : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, **kwargs) -> Union[int, str]:
+def add_font_range_hint(hint : int, *, label: Optional[str] =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, **kwargs) -> Union[int, str]:
 	"""	(deprecated function)  Adds a range of font characters (mvFontRangeHint_ constants).
 
 	Args:
-		hint (int): 
+		hint (int):
 		label (str, optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		id (Union[int, str], optional): (deprecated) 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
