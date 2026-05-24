@@ -13,7 +13,7 @@ X-axis:
 Series:
     These are the containers for the data you wish to display.
     Data series need to be added as a child of a Y-axis to be displayed on the plot.
-    There are many different types of data series avaliable.
+    There are many different types of data series available.
     Series also can contain UI Items that will be displayed when right-clicking the series label in the legend as a context menu.
 
 Legend (optional):
