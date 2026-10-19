@@ -16,7 +16,11 @@ struct mvViewportData
 
 struct mvGraphics_Metal
 {
-    MTLRenderPassDescriptor* renderPassDescriptor;
-    id <MTLCommandQueue>     commandQueue;
-    id <MTLDevice>           device;
+    MTLRenderPassDescriptor*      renderPassDescriptor;
+    id <MTLCommandQueue>          commandQueue;
+    id <MTLDevice>                device;
+
+    id <MTLRenderPipelineState>   nearestPipelineState;
+    id <MTLSamplerState>          nearestSampler;
+    id <MTLRenderCommandEncoder> __unsafe_unretained currentEncoder;
 };

@@ -8,6 +8,7 @@
 #include "mvFontItems.h"
 #include "mvItemHandlers.h"
 #include "mvTextureItems.h"
+#include "mvUtilities.h"
 #include "mvCustomTypes.h"
 
 #include <math.h>
@@ -561,6 +562,8 @@ void mvDrawImage::draw(ImDrawList* drawlist, float x, float y)
 			if (mvClipPoint(drawInfo->clipViewport, tpmax)) return;
 		}
 
+		const bool wantNearest = (static_cast<mvTextureItem*>(_texture.get())->_filter == mvTextureFilter_Nearest);
+		if (wantNearest) EnterNearestFilterScope(drawlist);
 		if (ImPlot::GetCurrentContext()->CurrentPlot)
 			drawlist->AddImage(texture, ImPlot::PlotToPixels(tpmin), ImPlot::PlotToPixels(tpmax), _uv_min, _uv_max, _color);
 		else
@@ -568,6 +571,7 @@ void mvDrawImage::draw(ImDrawList* drawlist, float x, float y)
 			mvVec2 start = { x, y };
 			drawlist->AddImage(texture, tpmin + start, tpmax + start, _uv_min, _uv_max, _color);
 		}
+		if (wantNearest) LeaveNearestFilterScope(drawlist);
 	}
 }
 
@@ -679,6 +683,8 @@ void mvDrawImageQuad::draw(ImDrawList* drawlist, float x, float y)
 			if (mvClipPoint(drawInfo->clipViewport, tp4)) return;
 		}
 
+		const bool wantNearest = (static_cast<mvTextureItem*>(_texture.get())->_filter == mvTextureFilter_Nearest);
+		if (wantNearest) EnterNearestFilterScope(drawlist);
 		if (ImPlot::GetCurrentContext()->CurrentPlot)
 			drawlist->AddImageQuad(texture, ImPlot::PlotToPixels(tp1),
 				ImPlot::PlotToPixels(tp2), ImPlot::PlotToPixels(tp3), ImPlot::PlotToPixels(tp4),
@@ -688,6 +694,7 @@ void mvDrawImageQuad::draw(ImDrawList* drawlist, float x, float y)
 			mvVec2 start = { x, y };
 			drawlist->AddImageQuad(texture, tp1 + start, tp2 + start, tp3 + start, tp4 + start, _uv1, _uv2, _uv3, _uv4, _color);
 		}
+		if (wantNearest) LeaveNearestFilterScope(drawlist);
 	}
 }
 

@@ -4536,7 +4536,7 @@ def add_drawlist(width : int, height : int, *, label: str =None, user_data: Any 
 
 	return internal_dpg.add_drawlist(width, height, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, callback=callback, show=show, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, **kwargs)
 
-def add_dynamic_texture(width : int, height : int, default_value : Union[List[float], Tuple[float, ...]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =internal_dpg.mvReservedUUID_2, **kwargs) -> Union[int, str]:
+def add_dynamic_texture(width : int, height : int, default_value : Union[List[float], Tuple[float, ...]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =internal_dpg.mvReservedUUID_2, filter: int =0, **kwargs) -> Union[int, str]:
 	"""	 Adds a dynamic texture.
 
 	Args:
@@ -4548,6 +4548,7 @@ def add_dynamic_texture(width : int, height : int, default_value : Union[List[fl
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		filter (int, optional): Texture sampling mode (mvTextureFilter_Linear or mvTextureFilter_Nearest).
 		id (Union[int, str], optional): (deprecated) 
 	Returns:
 		Union[int, str]
@@ -4557,7 +4558,7 @@ def add_dynamic_texture(width : int, height : int, default_value : Union[List[fl
 		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
 		tag=kwargs['id']
 
-	return internal_dpg.add_dynamic_texture(width, height, default_value, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, **kwargs)
+	return internal_dpg.add_dynamic_texture(width, height, default_value, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, filter=filter, **kwargs)
 
 def add_error_series(x : Union[List[float], Tuple[float, ...]], y : Union[List[float], Tuple[float, ...]], negative : Union[List[float], Tuple[float, ...]], positive : Union[List[float], Tuple[float, ...]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, show: bool =True, contribute_to_bounds: bool =True, horizontal: bool =False, **kwargs) -> Union[int, str]:
 	"""	 Adds an error series to a plot.
@@ -6639,7 +6640,7 @@ def add_radio_button(items : Union[List[str], Tuple[str, ...]] =(), *, label: st
 
 	return internal_dpg.add_radio_button(items, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, horizontal=horizontal, **kwargs)
 
-def add_raw_texture(width : int, height : int, default_value : Union[List[float], Tuple[float, ...]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, format: int =internal_dpg.mvFormat_Float_rgba, parent: Union[int, str] =internal_dpg.mvReservedUUID_2, **kwargs) -> Union[int, str]:
+def add_raw_texture(width : int, height : int, default_value : Union[List[float], Tuple[float, ...]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, format: int =internal_dpg.mvFormat_Float_rgba, parent: Union[int, str] =internal_dpg.mvReservedUUID_2, filter: int =0, **kwargs) -> Union[int, str]:
 	"""	 Adds a raw texture.
 
 	Args:
@@ -6652,6 +6653,7 @@ def add_raw_texture(width : int, height : int, default_value : Union[List[float]
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		format (int, optional): Data format.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		filter (int, optional): Texture sampling mode (mvTextureFilter_Linear or mvTextureFilter_Nearest).
 		id (Union[int, str], optional): (deprecated) 
 	Returns:
 		Union[int, str]
@@ -6661,7 +6663,7 @@ def add_raw_texture(width : int, height : int, default_value : Union[List[float]
 		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
 		tag=kwargs['id']
 
-	return internal_dpg.add_raw_texture(width, height, default_value, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, format=format, parent=parent, **kwargs)
+	return internal_dpg.add_raw_texture(width, height, default_value, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, format=format, parent=parent, filter=filter, **kwargs)
 
 def add_scatter_series(x : Union[List[float], Tuple[float, ...]], y : Union[List[float], Tuple[float, ...]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, show: bool =True, no_clip: bool =False, **kwargs) -> Union[int, str]:
 	"""	 Adds a scatter series to a plot.
@@ -7159,7 +7161,7 @@ def add_stair_series(x : Union[List[float], Tuple[float, ...]], y : Union[List[f
 
 	return internal_dpg.add_stair_series(x, y, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, source=source, show=show, pre_step=pre_step, shaded=shaded, **kwargs)
 
-def add_static_texture(width : int, height : int, default_value : Union[List[float], Tuple[float, ...]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =internal_dpg.mvReservedUUID_2, **kwargs) -> Union[int, str]:
+def add_static_texture(width : int, height : int, default_value : Union[List[float], Tuple[float, ...]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =internal_dpg.mvReservedUUID_2, filter: int =0, **kwargs) -> Union[int, str]:
 	"""	 Adds a static texture.
 
 	Args:
@@ -7171,6 +7173,7 @@ def add_static_texture(width : int, height : int, default_value : Union[List[flo
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		filter (int, optional): Texture sampling mode (mvTextureFilter_Linear or mvTextureFilter_Nearest).
 		id (Union[int, str], optional): (deprecated) 
 	Returns:
 		Union[int, str]
@@ -7180,7 +7183,7 @@ def add_static_texture(width : int, height : int, default_value : Union[List[flo
 		warnings.warn('id keyword renamed to tag', DeprecationWarning, 2)
 		tag=kwargs['id']
 
-	return internal_dpg.add_static_texture(width, height, default_value, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, **kwargs)
+	return internal_dpg.add_static_texture(width, height, default_value, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, filter=filter, **kwargs)
 
 def add_stem_series(x : Union[List[float], Tuple[float, ...]], y : Union[List[float], Tuple[float, ...]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, show: bool =True, horizontal: bool =False, **kwargs) -> Union[int, str]:
 	"""	 Adds a stem series to a plot.
@@ -10311,6 +10314,8 @@ mvTreeLines_Full=internal_dpg.mvTreeLines_Full
 mvTreeLines_ToNodes=internal_dpg.mvTreeLines_ToNodes
 mvFormat_Float_rgba=internal_dpg.mvFormat_Float_rgba
 mvFormat_Float_rgb=internal_dpg.mvFormat_Float_rgb
+mvTextureFilter_Linear=internal_dpg.mvTextureFilter_Linear
+mvTextureFilter_Nearest=internal_dpg.mvTextureFilter_Nearest
 mvThemeCat_Core=internal_dpg.mvThemeCat_Core
 mvThemeCat_Plots=internal_dpg.mvThemeCat_Plots
 mvThemeCat_Nodes=internal_dpg.mvThemeCat_Nodes
