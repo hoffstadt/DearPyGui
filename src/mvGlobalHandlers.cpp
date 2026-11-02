@@ -1,6 +1,8 @@
-#include "mvGlobalHandlers.h"
 #include "mvPyUtils.h"
-#include "mvUtilities.h"
+#pragma hdrstop
+
+#include "mvGlobalHandlers.h"
+#include <imgui_internal.h>
 
 void mvHandlerRegistry::draw(ImDrawList* drawlist, float x, float y)
 {
@@ -19,26 +21,14 @@ void mvKeyDownHandler::draw(ImDrawList* drawlist, float x, float y)
 			auto key = ImGui::GetKeyData(static_cast<ImGuiKey>(i));
 			if (key->Down)
 			{
-				mvSubmitCallback([=]()
-					{
-						if (config.alias.empty())
-							mvRunCallback(getCallback(false), uuid, ToPyMPair(i, key->DownDuration), config.user_data);
-						else
-							mvRunCallback(getCallback(false), config.alias, ToPyMPair(i, key->DownDuration), config.user_data);
-					});
+				submitCallbackEx([=]() { return ToPyMPair(i, key->DownDuration); });
 			}
 		}
 	}
 
 	else if (ImGui::IsKeyDown(_key))
 	{
-		mvSubmitCallback([=]()
-			{
-				if (config.alias.empty())
-					mvRunCallback(getCallback(false), uuid, ToPyMPair(_key, ImGui::GetKeyData(_key)->DownDuration), config.user_data);
-				else
-					mvRunCallback(getCallback(false), config.alias, ToPyMPair(_key, ImGui::GetKeyData(_key)->DownDuration), config.user_data);
-			});
+		submitCallbackEx([=]() { return ToPyMPair(_key, ImGui::GetKeyData(_key)->DownDuration); });
 	}
 }
 
@@ -74,26 +64,14 @@ void mvKeyPressHandler::draw(ImDrawList* drawlist, float x, float y)
 		{
 			if (ImGui::IsKeyPressed(static_cast<ImGuiKey>(i)))
 			{
-				mvSubmitCallback([=]()
-					{
-						if (config.alias.empty())
-							mvRunCallback(getCallback(false), uuid, ToPyInt(i), config.user_data);
-						else
-							mvRunCallback(getCallback(false), config.alias, ToPyInt(i), config.user_data);
-					});
+				submitCallback(i);
 			}
 		}
 	}
 
 	else if (ImGui::IsKeyPressed(_key))
 	{
-		mvSubmitCallback([=]()
-			{
-				if (config.alias.empty())
-					mvRunCallback(getCallback(false), uuid, ToPyInt(_key), config.user_data);
-				else
-					mvRunCallback(getCallback(false), config.alias, ToPyInt(_key), config.user_data);
-			});
+		submitCallback(_key);
 	}
 }
 
@@ -141,26 +119,14 @@ void mvKeyReleaseHandler::draw(ImDrawList* drawlist, float x, float y)
 		{
 			if (ImGui::IsKeyReleased(static_cast<ImGuiKey>(i)))
 			{
-				mvSubmitCallback([=]()
-					{
-						if (config.alias.empty())
-							mvRunCallback(getCallback(false), uuid, ToPyInt(i), config.user_data);
-						else
-							mvRunCallback(getCallback(false), config.alias, ToPyInt(i), config.user_data);
-					});
+				submitCallback(i);
 			}
 		}
 	}
 
 	else if (ImGui::IsKeyReleased(_key))
 	{
-		mvSubmitCallback([=]()
-			{
-				if (config.alias.empty())
-					mvRunCallback(getCallback(false), uuid, ToPyInt(_key), config.user_data);
-				else
-					mvRunCallback(getCallback(false), config.alias, ToPyInt(_key), config.user_data);
-			});
+		submitCallback(_key);
 	}
 }
 
@@ -208,26 +174,14 @@ void mvMouseClickHandler::draw(ImDrawList* drawlist, float x, float y)
 		{
 			if (ImGui::IsMouseClicked(i))
 			{
-				mvSubmitCallback([=]()
-					{
-						if (config.alias.empty())
-							mvRunCallback(getCallback(false), uuid, ToPyInt(i), config.user_data);
-						else
-							mvRunCallback(getCallback(false), config.alias, ToPyInt(i), config.user_data);
-					});
+				submitCallback(i);
 			}
 		}
 	}
 
 	else if (ImGui::IsMouseClicked(_button))
 	{
-		mvSubmitCallback([=]()
-			{
-				if (config.alias.empty())
-					mvRunCallback(getCallback(false), uuid, ToPyInt(_button), config.user_data);
-				else
-					mvRunCallback(getCallback(false), config.alias, ToPyInt(_button), config.user_data);
-			});
+		submitCallback(_button);
 	}
 }
 
@@ -275,26 +229,14 @@ void mvMouseDoubleClickHandler::draw(ImDrawList* drawlist, float x, float y)
 		{
 			if (ImGui::IsMouseDoubleClicked(i))
 			{
-				mvSubmitCallback([=]()
-					{
-						if (config.alias.empty())
-							mvRunCallback(getCallback(false), uuid, ToPyInt(i), config.user_data);
-						else
-							mvRunCallback(getCallback(false), config.alias, ToPyInt(i), config.user_data);
-					});
+				submitCallback(i);
 			}
 		}
 	}
 
 	else if (ImGui::IsMouseDoubleClicked(_button))
 	{
-		mvSubmitCallback([=]()
-			{
-				if (config.alias.empty())
-					mvRunCallback(getCallback(false), uuid, ToPyInt(_button), config.user_data);
-				else
-					mvRunCallback(getCallback(false), config.alias, ToPyInt(_button), config.user_data);
-			});
+		submitCallback(_button);
 	}
 }
 
@@ -342,26 +284,14 @@ void mvMouseDownHandler::draw(ImDrawList* drawlist, float x, float y)
 		{
 			if (ImGui::GetIO().MouseDown[i])
 			{
-				mvSubmitCallback([=]()
-					{
-						if (config.alias.empty())
-							mvRunCallback(getCallback(false), uuid, ToPyMPair(i, ImGui::GetIO().MouseDownDuration[i]), config.user_data);
-						else
-							mvRunCallback(getCallback(false), config.alias, ToPyMPair(i, ImGui::GetIO().MouseDownDuration[i]), config.user_data);
-					});
+				submitCallbackEx([=]() { return ToPyMPair(i, ImGui::GetIO().MouseDownDuration[i]); });
 			}
 		}
 	}
 
 	else if (ImGui::GetIO().MouseDown[_button])
 	{
-		mvSubmitCallback([=]()
-			{
-				if (config.alias.empty())
-					mvRunCallback(getCallback(false), uuid, ToPyMPair(_button, ImGui::GetIO().MouseDownDuration[_button]), config.user_data);
-				else
-					mvRunCallback(getCallback(false), config.alias, ToPyMPair(_button, ImGui::GetIO().MouseDownDuration[_button]), config.user_data);
-			});
+		submitCallbackEx([=]() { return ToPyMPair(_button, ImGui::GetIO().MouseDownDuration[_button]); });
 	}
 }
 
@@ -412,15 +342,7 @@ void mvMouseDragHandler::draw(ImDrawList* drawlist, float x, float y)
 
 			if (ImGui::IsMouseDragging(i, _threshold))
 			{
-				mvSubmitCallback([=]()
-					{
-						if (config.alias.empty())
-							mvRunCallback(getCallback(false), uuid,
-								ToPyMTrip(i, ImGui::GetMouseDragDelta(i).x, ImGui::GetMouseDragDelta(i).y), config.user_data);
-						else
-							mvRunCallback(getCallback(false), config.alias,
-								ToPyMTrip(i, ImGui::GetMouseDragDelta(i).x, ImGui::GetMouseDragDelta(i).y), config.user_data);
-					});
+				submitCallbackEx([=]() { return ToPyMTrip(i, ImGui::GetMouseDragDelta(i).x, ImGui::GetMouseDragDelta(i).y); });
 			}
 		}
 	}
@@ -429,15 +351,8 @@ void mvMouseDragHandler::draw(ImDrawList* drawlist, float x, float y)
 	{
 		if (ImGui::IsMouseReleased(_button))
 			ImGui::ResetMouseDragDelta(_button);
-		mvSubmitCallback([=]()
-			{
-				if (config.alias.empty())
-					mvRunCallback(getCallback(false), uuid,
-						ToPyMTrip(_button, ImGui::GetMouseDragDelta(_button).x, ImGui::GetMouseDragDelta(_button).y), config.user_data);
-				else
-					mvRunCallback(getCallback(false), config.alias,
-						ToPyMTrip(_button, ImGui::GetMouseDragDelta(_button).x, ImGui::GetMouseDragDelta(_button).y), config.user_data);
-			});
+
+		submitCallbackEx([=]() { return ToPyMTrip(_button, ImGui::GetMouseDragDelta(_button).x, ImGui::GetMouseDragDelta(_button).y); });
 	}
 }
 
@@ -495,13 +410,7 @@ void mvMouseMoveHandler::draw(ImDrawList* drawlist, float x, float y)
 		{
 			_oldPos = mousepos;
 
-			mvSubmitCallback([=]()
-				{
-					if (config.alias.empty())
-						mvRunCallback(getCallback(false), uuid, ToPyPair(mousepos.x, mousepos.y), config.user_data);
-					else
-						mvRunCallback(getCallback(false), config.alias, ToPyPair(mousepos.x, mousepos.y), config.user_data);
-				});
+			submitCallback(mousepos);
 		}
 	}
 }
@@ -514,26 +423,14 @@ void mvMouseReleaseHandler::draw(ImDrawList* drawlist, float x, float y)
 		{
 			if (ImGui::IsMouseReleased(i))
 			{
-				mvSubmitCallback([=]()
-					{
-						if (config.alias.empty())
-							mvRunCallback(getCallback(false), uuid, ToPyInt(i), config.user_data);
-						else
-							mvRunCallback(getCallback(false), config.alias, ToPyInt(i), config.user_data);
-					});
+				submitCallback(i);
 			}
 		}
 	}
 
 	else if (ImGui::IsMouseReleased(_button))
 	{
-		mvSubmitCallback([=]()
-			{
-				if (config.alias.empty())
-					mvRunCallback(getCallback(false), uuid, ToPyInt(_button), config.user_data);
-				else
-					mvRunCallback(getCallback(false), config.alias, ToPyInt(_button), config.user_data);
-			});
+		submitCallback(_button);
 	}
 }
 
@@ -578,14 +475,6 @@ void mvMouseWheelHandler::draw(ImDrawList* drawlist, float x, float y)
 	int wheel = (int)ImGui::GetIO().MouseWheel;
 	if (wheel)
 	{
-
-		mvSubmitCallback([=]()
-			{
-				if (config.alias.empty())
-					mvRunCallback(getCallback(false), uuid, ToPyInt(wheel), config.user_data);
-				else
-					mvRunCallback(getCallback(false), config.alias, ToPyInt(wheel), config.user_data);
-			});
-
+		submitCallback(wheel);
 	}
 }

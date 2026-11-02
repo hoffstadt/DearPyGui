@@ -9,12 +9,10 @@
 
 #include <string>
 #include <vector>
-#include <map>
 #include <imgui.h>
 #include "mvAppItemState.h"
 #include "mvCallbackRegistry.h"
 #include "mvPyUtils.h"
-#include <implot_internal.h>
 #include "mvAppItemTypes.inc"
 
 // forward declarations
@@ -58,7 +56,7 @@ enum ItemDescriptionFlags
 enum class mvLibType
 {
     MV_IMGUI = 0,
-    OT = 1,
+    MV_IMPLOT = 1,
     MV_IMNODES = 2
 };
 
@@ -71,7 +69,7 @@ struct ScopedID
 
 namespace DearPyGui
 {
-    std::shared_ptr<mvAppItem>                                CreateEntity                    (mvAppItemType type, mvUUID id);
+    std::shared_ptr<mvAppItem>                      CreateEntity                    (mvAppItemType type, mvUUID id);
     int                                             GetEntityDesciptionFlags        (mvAppItemType type);
     int                                             GetEntityTargetSlot             (mvAppItemType type);
     StorageValueTypes                               GetEntityValueType              (mvAppItemType type);
@@ -79,11 +77,14 @@ namespace DearPyGui
     int                                             GetApplicableState              (mvAppItemType type);
     const std::vector<std::pair<std::string, i32>>& GetAllowableParents             (mvAppItemType type);
     const std::vector<std::pair<std::string, i32>>& GetAllowableChildren            (mvAppItemType type);
-    std::shared_ptr<mvThemeComponent>&                        GetClassThemeComponent          (mvAppItemType type);
-    std::shared_ptr<mvThemeComponent>&                        GetDisabledClassThemeComponent  (mvAppItemType type);
+    std::shared_ptr<mvThemeComponent>&              GetClassThemeComponent          (mvAppItemType type);
+    std::shared_ptr<mvThemeComponent>&              GetDisabledClassThemeComponent  (mvAppItemType type);
     mvPythonParser                                  GetEntityParser                 (mvAppItemType type);
     void                                            OnChildAdded                    (mvAppItem* item, std::shared_ptr<mvAppItem> child);
     void                                            OnChildRemoved                  (mvAppItem* item, std::shared_ptr<mvAppItem> child);
+    // This is purely a helper function that restores cursor position so that subsequent
+    // items follow the normal item flow.  Use it in place of ImGui::SetCursorPos().
+    void                                            RestoreImGuiCursor              (const ImVec2& prev_pos);
 }
 
 struct mvAppItemInfo
@@ -109,6 +110,14 @@ struct mvAppItemInfo
     bool dirtyPos   = false;
 };
 
+enum mvSetScrollFlags
+{
+    mvSetScrollFlags_None       = 0,
+    mvSetScrollFlags_Now        = 1 << 0,
+    mvSetScrollFlags_Delayed    = 1 << 1,
+    mvSetScrollFlags_Both       = mvSetScrollFlags_Now | mvSetScrollFlags_Delayed
+};
+
 struct mvAppItemConfig
 {
     mvUUID      source = 0;
@@ -123,14 +132,19 @@ struct mvAppItemConfig
     float       trackOffset = 0.5f; // 0.0f:top, 0.5f:center, 1.0f:bottom
     bool        show             = true;
     bool        enabled          = true;
-    bool        searchLast       = false;
-    bool        searchDelayed    = false;
     bool        useInternalLabel = true; // when false, will use specificed label
     bool        tracked          = false;
-    PyObject*   callback         = nullptr;
-    PyObject*   user_data        = nullptr;
-    PyObject*   dragCallback     = nullptr;
-    PyObject*   dropCallback     = nullptr;
+    mvPyObject  callback         = nullptr;
+    mvPyObject  dragCallback     = nullptr;
+    mvPyObject  dropCallback     = nullptr;
+    // We store user_data as a pointer because that's how we'll need it when submitting
+    // the callback.  This is to pass user_data into mvAddCallback that comes from a
+    // different source than the callback owner (required for the drag callback).
+    std::shared_ptr<mvPyObject> user_data = std::make_shared<mvPyObject>(nullptr);
+    float       scrollX          = 0.0f;
+    float       scrollY          = 0.0f;
+    mvSetScrollFlags scrollXFlags = mvSetScrollFlags_None;
+    mvSetScrollFlags scrollYFlags = mvSetScrollFlags_None;
 };
 
 struct mvAppItemDrawInfo
@@ -146,7 +160,7 @@ struct mvAppItemDrawInfo
 //-----------------------------------------------------------------------------
 // mvAppItem
 //-----------------------------------------------------------------------------
-class mvAppItem
+class mvAppItem : public std::enable_shared_from_this<mvAppItem>
 {
 
 public:
@@ -162,7 +176,7 @@ public:
     std::shared_ptr<mvAppItemDrawInfo>     drawInfo = nullptr;
 
     // slots
-    //   * 0 : mvFileExtension, mvFontRangeHint, mvNodeLink, mvAnnotation, mvAxisTag
+    //   * 0 : mvFileExtension, mvNodeLink, mvAnnotation, mvAxisTag
     //         mvDragLine, mvDragPoint, mvDragRect, mvLegend, mvTableColumn
     //   * 1 : Most widgets
     //   * 2 : Draw Commands
@@ -207,13 +221,46 @@ public:
     //-----------------------------------------------------------------------------
     // callbacks
     //-----------------------------------------------------------------------------
-    [[nodiscard]] PyObject* getCallback(b8 ignore_enabled = true);  // returns the callback. If ignore_enable false and item is disabled then no callback will be returned.
+    // Submits the specified callback, if any, with user_data from the item config
+    // and app_data created by app_data_func (typically a lambda).
+    // Note: `callback` must be a member of `this` (or of a nested object, like `config`).
+    // It does *not* check if the item is enabled or disabled, because some "custom"
+    // callbacks historically run even on disabled items.
+    template<typename AppDataFunc>
+    void submitCallbackEx(PyObject* callback, AppDataFunc app_data_func)
+    {
+        // The current `mvAppItem` becomes the owner of this callback, and as soon
+        // as it gets deleted, the callback entry will be thrown away.
+        mvAddCallback(weak_from_this(), callback, config.user_data, uuid, config.alias, app_data_func);
+    }
+
+    // Submits the mvAppItem's "default" callback, if any, with user_data from
+    // the item config and app_data created by app_data_func (typically a lambda).
+    // The callback is only submitted if the item is enabled; on a disabled item,
+    // the call is effectively ignored.
+    template<typename AppDataFunc>
+    void submitCallbackEx(AppDataFunc app_data_func)
+    {
+        if (!config.enabled)
+            return;
+        submitCallbackEx(config.callback, app_data_func);
+    }
+
+    template<typename AppDataType>
+    void submitCallback(AppDataType app_data);                      // submits the callback, if any, passing it app_data, and also user_data from the item config
+
+    void submitCallback();                                          // submits the callback with app_data=None
        
     //-----------------------------------------------------------------------------
     // config setters
     //-----------------------------------------------------------------------------
     virtual void setDataSource(mvUUID value);
-       
+
+    //-----------------------------------------------------------------------------
+    // scrolling support
+    //-----------------------------------------------------------------------------
+    void handleImmediateScroll();
+    void handleDelayedScroll();
 };
 
 inline bool mvClipPoint(float clipViewport[6], mvVec4& point)
@@ -290,6 +337,7 @@ GetEntityCommand(mvAppItemType type)
     case mvAppItemType::mvTable:                       return "add_table";
     case mvAppItemType::mvTableColumn:                 return "add_table_column";
     case mvAppItemType::mvTableRow:                    return "add_table_row";
+    case mvAppItemType::mvSyncedTables:                return "add_synced_tables";
     case mvAppItemType::mvDrawLine:                    return "draw_line";
     case mvAppItemType::mvDrawArrow:                   return "draw_arrow";
     case mvAppItemType::mvDrawTriangle:                return "draw_triangle";
@@ -375,15 +423,13 @@ GetEntityCommand(mvAppItemType type)
     case mvAppItemType::mvDoubleClickedHandler:        return "add_item_double_clicked_handler";
     case mvAppItemType::mvDragPayload:                 return "add_drag_payload";
     case mvAppItemType::mvResizeHandler:               return "add_item_resize_handler";
+    case mvAppItemType::mvScrollHandler:               return "add_item_scroll_handler";
     case mvAppItemType::mvFont:                        return "add_font";
     case mvAppItemType::mvFontRegistry:                return "add_font_registry";
     case mvAppItemType::mvTheme:                       return "add_theme";
     case mvAppItemType::mvThemeColor:                  return "add_theme_color";
     case mvAppItemType::mvThemeStyle:                  return "add_theme_style";
     case mvAppItemType::mvThemeComponent:              return "add_theme_component";
-    case mvAppItemType::mvFontRangeHint:               return "add_font_range_hint";
-    case mvAppItemType::mvFontRange:                   return "add_font_range";
-    case mvAppItemType::mvFontChars:                   return "add_font_chars";
     case mvAppItemType::mvCharRemap:                   return "add_char_remap";
     case mvAppItemType::mvValueRegistry:               return "add_value_registry";
     case mvAppItemType::mvIntValue:                    return "add_int_value";
@@ -460,6 +506,7 @@ GetEntityCommand(mvAppItemType type)
 #define mvImGuiCol_TabActive MV_BASE_COL_panelActiveColor
 #define mvImGuiCol_TabUnfocused MV_BASE_COL_panelColor
 #define mvImGuiCol_TabUnfocusedActive MV_BASE_COL_panelActiveColor
+#define mvImGuiCol_TabUnfocusedActiveOverline mvColor(0, 119, 200, 0)
 #define mvImGuiCol_DockingPreview MV_BASE_COL_panelActiveColor
 #define mvImGuiCol_DockingEmptyBg mvColor(51, 51, 51, 255)
 #define mvImGuiCol_PlotLines MV_BASE_COL_panelActiveColor
@@ -467,6 +514,7 @@ GetEntityCommand(mvAppItemType type)
 #define mvImGuiCol_PlotHistogram MV_BASE_COL_panelActiveColor
 #define mvImGuiCol_PlotHistogramHovered MV_BASE_COL_panelHoverColor
 #define mvImGuiCol_DragDropTarget mvColor(255, 255, 0, 179)
+#define mvImGuiCol_DragDropTargetBg mvColor(0, 0, 0, 0)
 #define mvImGuiCol_NavHighlight MV_BASE_COL_bgColor
 #define mvImGuiCol_NavWindowingHighlight mvColor(255, 255, 255, 179)
 #define mvImGuiCol_NavWindowingDimBg mvColor(204, 204, 204, 51)

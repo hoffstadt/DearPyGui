@@ -1,15 +1,22 @@
-﻿cmake_minimum_required (VERSION 3.13)
+﻿cmake_minimum_required (VERSION 3.16)
 
-project ("DearPyGui")
+if(APPLE)
+    # When using precompiled headers on macOS, we need to enable Objective-C
+    # as a distinct language. This won't work on other platforms (will fail to
+    # find the Obj-C compiler), hence the "if APPLE".
+    project ("DearPyGui" LANGUAGES C CXX OBJC OBJCXX)
+else()
+    project ("DearPyGui")
+endif()
 
 if(WIN32)
-    add_definitions(-DIMGUI_USER_CONFIG="mvImGuiConfig.h")
+    add_definitions(-DIMGUI_USER_CONFIG="mvImGuiConfig_win32.h")
     add_definitions(-DMV_PLATFORM="windows")
 elseif(APPLE)
-    add_definitions(-DIMGUI_USER_CONFIG="mvImGuiLinuxConfig.h")
+    add_definitions(-DIMGUI_USER_CONFIG="mvImGuiConfig_apple.h")
     add_definitions(-DMV_PLATFORM="apple")
 else() # Linux
-	add_definitions(-DIMGUI_USER_CONFIG="mvImGuiLinuxConfig.h")
+	add_definitions(-DIMGUI_USER_CONFIG="mvImGuiConfig_linux.h")
     add_definitions(-DMV_PLATFORM="linux")
 endif()
 
@@ -20,6 +27,7 @@ endif()
 
 # various settings
 add_definitions(
+    -D_DISABLE_CONSTEXPR_MUTEX_CONSTRUCTOR
     -D_CRT_SECURE_NO_WARNINGS 
     -D_USE_MATH_DEFINES)
 
@@ -46,6 +54,17 @@ endif()
 set(MV_TESTS_ONLY ${MV_TESTS_ONLY})
 if(MV_TESTS_ONLY)
     add_definitions(-DMV_TESTS_ONLY)
+endif()
+
+# Specifying MV_NO_USER_THREADS turns off some thread safety features (might give
+# you some perf gain, yeah, those 0.01%) and must only be used when no user threads
+# (threading.Thread) **ever** call DPG API. With MV_NO_USER_THREADS, it's only
+# allowed to call DPG from the main thread and from handlers/callbacks.
+# Also can be used to get back the behavior of old DPG versions that were thread
+# unsafe (for testing/debugging).
+set(MV_NO_USER_THREADS ${MV_NO_USER_THREADS})
+if(MV_NO_USER_THREADS)
+    add_definitions(-DMV_NO_USER_THREADS)
 endif()
 
 add_subdirectory("thirdparty")

@@ -2,7 +2,7 @@
 
 #include "mvAppItem.h"
 #include "mvItemRegistry.h"
-#include "dearpygui.h"
+#include <imgui.h>
 
 class mvHandlerRegistry : public mvAppItem
 {

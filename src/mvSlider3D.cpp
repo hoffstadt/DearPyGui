@@ -1,9 +1,13 @@
-#include "mvSlider3D.h"
 #include "mvPyUtils.h"
+#pragma hdrstop
+
+#include "mvSlider3D.h"
+
 #include "mvFontItems.h"
 #include "mvThemes.h"
 #include "mvContainers.h"
 #include "mvItemHandlers.h"
+#include <imgui_internal.h>
 
 static float Dist2(ImVec2 const v, ImVec2 const w)
 {
@@ -116,8 +120,10 @@ static bool SliderScalar3D(char const* pLabel, float* pValueX, float* pValueY, f
 	bool bModified = false;
 	bool hovered;
 	bool held;
-	bool pressed = ImGui::ButtonBehavior(oZDragRect, ImGui::GetID("##HandleZ"), &hovered, &held);
-	if (hovered && held)
+	ImGuiID iHandleID = ImGui::GetID("##HandleZ");
+	ImGui::KeepAliveID(iHandleID);
+	bool pressed = ImGui::ButtonBehavior(oZDragRect, iHandleID, &hovered, &held);
+	if (held)
 	{
 		if (DistToSegmentSqr(vMousePos, vDragStart, vDragEnd) < 100.0f) // 100 is arbitrary threshold
 		{
@@ -137,8 +143,10 @@ static bool SliderScalar3D(char const* pLabel, float* pValueX, float* pValueY, f
 	ImRect const oXYDrag((vRectEnd - vRectStart) * fScaleZ + vRectStart,
 		(vRectEnd - vRectStart) * fScaleZ + vRectStart + ImVec2(2.0f * fX3, 2.0f * fY3));
 	//if (ImGui::IsMouseHoveringRect(oXYDrag.Min - vSecurity, oXYDrag.Max + vSecurity) && ImGui::IsMouseDown(ImGuiMouseButton_Left))
-	pressed = ImGui::ButtonBehavior(oXYDrag, ImGui::GetID("##Zone"), &hovered, &held);
-	if (hovered && held)
+	iHandleID = ImGui::GetID("##Zone");
+	ImGui::KeepAliveID(iHandleID);
+	pressed = ImGui::ButtonBehavior(oXYDrag, iHandleID, &hovered, &held);
+	if (held)
 	{
 		ImVec2 const vLocalPos = ImGui::GetMousePos() - oXYDrag.Min;
 
@@ -188,7 +196,8 @@ static bool SliderScalar3D(char const* pLabel, float* pValueX, float* pValueY, f
 
 	ImVec2 const vCursorPos((oXYDrag.Max.x - oXYDrag.Min.x) * fScaleX + oXYDrag.Min.x, (oXYDrag.Max.y - oXYDrag.Min.y) * fScaleY + oXYDrag.Min.y);
 
-	ImGui::SetWindowFontScale(0.75f);
+	ImGuiStyle& style = ImGui::GetStyle();
+	ImGui::PushFont(nullptr, style.FontSizeBase * 0.75f);
 
 	ImVec2 const vXSize = ImGui::CalcTextSize(pBufferX);
 	ImVec2 const vYSize = ImGui::CalcTextSize(pBufferY);
@@ -215,8 +224,10 @@ static bool SliderScalar3D(char const* pLabel, float* pValueX, float* pValueY, f
 
 	//if (ImGui::IsMouseHoveringRect(vHandlePosX - ImVec2(fHandleRadius, fHandleRadius) - vSecurity, vHandlePosX + ImVec2(fHandleRadius, fHandleRadius) + vSecurity) &&
 	//	ImGui::IsMouseDown(ImGuiMouseButton_Left))
-	pressed = ImGui::ButtonBehavior(handle_x_bb, ImGui::GetID("##HandleX"), &hovered, &held);
-	if (hovered && held)
+	iHandleID = ImGui::GetID("##HandleX");
+	ImGui::KeepAliveID(iHandleID);
+	pressed = ImGui::ButtonBehavior(handle_x_bb, iHandleID, &hovered, &held);
+	if (held)
 	{
 		float const fCursorPosX = ImGui::GetMousePos().x - vStart.x;
 
@@ -226,8 +237,10 @@ static bool SliderScalar3D(char const* pLabel, float* pValueX, float* pValueY, f
 	}
 	//else if (ImGui::IsMouseHoveringRect(vHandlePosY - ImVec2(fHandleRadius, fHandleRadius) - vSecurity, vHandlePosY + ImVec2(fHandleRadius, fHandleRadius) + vSecurity) &&
 	//	ImGui::IsMouseDown(ImGuiMouseButton_Left))
-	pressed = ImGui::ButtonBehavior(handle_y_bb, ImGui::GetID("##HandleY"), &hovered, &held);
-	if (hovered && held)
+	iHandleID = ImGui::GetID("##HandleY");
+	ImGui::KeepAliveID(iHandleID);
+	pressed = ImGui::ButtonBehavior(handle_y_bb, iHandleID, &hovered, &held);
+	if (held)
 	{
 		float const fCursorPosY = ImGui::GetMousePos().y - vStart.y;
 
@@ -252,7 +265,7 @@ static bool SliderScalar3D(char const* pLabel, float* pValueX, float* pValueY, f
 		vZTextPos,
 		uTextCol,
 		pBufferZ);
-	ImGui::SetWindowFontScale(1.0f);
+	ImGui::PopFont();
 
 	// Handles
 	pDrawList->AddNgonFilled(vHandlePosX, fHandleRadius, uBlue, 4);
@@ -381,10 +394,7 @@ void mvSlider3D::draw(ImDrawList* drawlist, float x, float y)
 
 	// push font if a font object is attached
 	if (font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(font.get())->pushFont();
 
 	// themes
 	apply_local_theming(this);
@@ -397,14 +407,7 @@ void mvSlider3D::draw(ImDrawList* drawlist, float x, float y)
 
 		if(SliderScalar3D(config.specifiedLabel.c_str(), &(*_value)[0], &(*_value)[1], &(*_value)[2], _minX, _maxX, _minY, _maxY, _minZ, _maxZ, _scale))
 		{
-			auto value = *_value;
-			mvSubmitCallback([=]() {
-
-				if(config.alias.empty())
-					mvAddCallback(getCallback(false), uuid, ToPyFloatList(value.data(), (int)value.size()), config.user_data);
-				else
-					mvAddCallback(getCallback(false), config.alias, ToPyFloatList(value.data(), (int)value.size()), config.user_data);
-				});
+			submitCallback(*_value);
 		}
 	}
 
@@ -419,7 +422,7 @@ void mvSlider3D::draw(ImDrawList* drawlist, float x, float y)
 
 	// set cursor position to cached position
 	if (info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
+		DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
 	if (config.indent > 0.0f)
 		ImGui::Unindent(config.indent);

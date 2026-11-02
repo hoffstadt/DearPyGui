@@ -1,10 +1,18 @@
-#include "mvTables.h"
-#include "mvContext.h"
-#include "mvCore.h"
-#include "mvItemRegistry.h"
 #include "mvPyUtils.h"
+#pragma hdrstop
+
+#include "mvTables.h"
+
+#include "mvCore.h"
+#include "mvContext.h"
+#include "mvItemRegistry.h"
 #include "mvFontItems.h"
 #include "mvThemes.h"
+#include "mvItemHandlers.h"
+
+#include <imgui_internal.h>
+// For ImHasFlag
+#include <implot_internal.h>
 
 mvTableCell::mvTableCell(mvUUID uuid)
 	: mvAppItem(uuid)
@@ -136,38 +144,34 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 	if (!config.show)
 		return;
 
+	// Validating column visibility: if there are no any visible/enabled columns,
+	// an attempt to render the table will corrupt data structures within ImGui,
+	// and will most probably lead to a crash on app shutdown.  On the other hand,
+	// if there are no visible columns, we don't have anything to draw, really.
+	bool all_hidden = true;
+	for (auto& item : childslots[0])
+	{
+		if (item->config.enabled && item->config.show)
+		{
+			all_hidden = false;
+			break;
+		}
+	}
+	if (all_hidden)
+		return;
+
+	// set indent
+	if (config.indent > 0.0f)
+		ImGui::Indent(config.indent);
+
 	// push font if a font object is attached
 	if (font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(font.get())->pushFont();
 
 	// themes
 	apply_local_theming(this);
 
 	{
-		ScopedID id(uuid);
-
-		if (_columns == 0)
-			return;
-
-		// Validating column visibility: if there are no any visible/enabled columns,
-		// an attempt to render the table will corrupt data structures within ImGui,
-		// and will most probably lead to a crash on app shutdown.  On the other hand,
-		// if there are no visible columns, we don't have anything to draw, really.
-		bool all_hidden = true;
-		for (auto& item : childslots[0])
-		{
-			if (item->config.enabled && item->config.show)
-			{
-				all_hidden = false;
-				break;
-			}
-		}
-		if (all_hidden)
-			return;
-
 		auto row_renderer = [&](mvAppItem* row, mvAppItem* prev_visible_row=nullptr)
 		{
 			//TableNextRow() ends the previous row, if any, and determines background color for it.
@@ -179,6 +183,9 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 			if (prev_visible_row)
 				cleanup_local_theming(prev_visible_row);
 			apply_local_theming(row);
+
+			if (row->font)
+				static_cast<mvFont*>(row->font.get())->pushFont();
 
 			row->state.lastFrameUpdate = GContext->frame;
 			row->state.visible = true;
@@ -226,9 +233,21 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 				cleanup_local_theming(cell.get());
 				cleanup_local_theming(columnItem.get());
 			}
+
+			if (row->font)
+				ImGui::PopFont();
 		};
 
-		if (ImGui::BeginTable(info.internalLabel.c_str(), _columns, _flags,
+		handleImmediateScroll();
+
+		const char* table_id = info.internalLabel.c_str();
+		// If this table is a part of a synced group, use that group's internalLabel
+		// instead.  In most cases, it will contain UUID so that all groups are distinct
+		// but tables within the group are synced.
+		if (info.parentPtr && info.parentPtr->type == mvAppItemType::mvSyncedTables)
+			table_id = info.parentPtr->info.internalLabel.c_str();
+
+		if (ImGui::BeginTable(table_id, _columns, _flags,
 			ImVec2((float)config.width, (float)config.height), (float)_inner_width))
 		{
 			state.lastFrameUpdate = GContext->frame;
@@ -282,7 +301,7 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 				if (sorts_specs->SpecsDirty)
 				{
 					if (sorts_specs->SpecsCount == 0)
-						mvAddCallback(getCallback(false), uuid, GetPyNone(), config.user_data);
+						submitCallback();
 					else
 					{
 
@@ -298,22 +317,17 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 							specs.push_back({ idMap[sort_spec->ColumnUserID], sort_spec->SortDirection == ImGuiSortDirection_Ascending ? 1 : -1 });
 						}
 
-						mvSubmitCallback([=]() {
+						submitCallbackEx([specs=std::move(specs)] () {
 							PyObject* pySpec = PyList_New(specs.size());
 							for (size_t i = 0; i < specs.size(); i++)
 							{
 								PyObject* pySingleSpec = PyList_New(2);
-								PyList_SetItem(pySingleSpec, 0, ToPyLong(specs[i].column));
+								PyList_SetItem(pySingleSpec, 0, Py_BuildValue("K", specs[i].column));
 								PyList_SetItem(pySingleSpec, 1, ToPyInt(specs[i].direction));
 								PyList_SetItem(pySpec, i, pySingleSpec);
 							}
-
-							if (config.alias.empty())
-								mvRunCallback(getCallback(false), uuid, pySpec, config.user_data);
-							else
-								mvRunCallback(getCallback(false), config.alias, pySpec, config.user_data);
-							Py_XDECREF(pySpec);
-							});
+							return pySpec;
+						});
 					}
 					sorts_specs->SpecsDirty = false;
 				}
@@ -361,43 +375,48 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 			}
 
 			// columns
+			ImGuiContext& g = *GImGui;
+			auto table = g.CurrentTable;
 			int columnnum = 0;
+			int last_row = ImGui::TableGetRowIndex();
 			for (auto& item : childslots[0])
 			{
 				ImGuiTableColumnFlags flags = ImGui::TableGetColumnFlags(columnnum);
 				item->state.lastFrameUpdate = GContext->frame;
 				item->state.visible = flags & ImGuiTableColumnFlags_IsVisible;
+				item->state.prevHovered = item->state.hovered;
 				item->state.hovered = flags & ImGuiTableColumnFlags_IsHovered;
-                if (item->config.enabled)
+				// Note: when the table is empty, TableGetColumnFlags will incorrectly return
+				// zero status flags for all columns.  While this is fine for `visible` and `hovered`,
+				// we definitely don't want to push that zero into `show`.
+                if (item->config.enabled && last_row >= 0)
 				{
 					// Sync the flag with the actual column state controlled by the
 					// user via context menu.
 					item->config.show = flags & ImGuiTableColumnFlags_IsEnabled;
 				}
+
+				// Note: we're not using rect height because we're actually not
+				// inside any live cell; row Y coordinates are invalid here.
+				// Even if we were inside a cell, we'd need Y coordinates of the
+				// entire table here, which are less trivial to obtain.  So we
+				// just nullify the height.
+				const ImGuiTableColumn* column = &table->Columns[columnnum];
+				item->state.rectSize = { column->WorkMaxX - column->WorkMinX, 0.0f };
+				item->state.mvRectSizeResized = (item->state.mvPrevRectSize.x != item->state.rectSize.x ||
+												 item->state.mvPrevRectSize.y != item->state.rectSize.y);
+				item->state.mvPrevRectSize = item->state.rectSize;
+				if (item->handlerRegistry)
+					item->handlerRegistry->checkEvents(&item->state);
+
 				columnnum++;
 			}
 
-			if (_scrollXSet)
-			{
-				if (_scrollX < 0.0f)
-					ImGui::SetScrollHereX(1.0f);
-				else
-					ImGui::SetScrollX(_scrollX);
-				_scrollXSet = false;
-			}
-			if (_scrollYSet)
-			{
-				if (_scrollY < 0.0f)
-					ImGui::SetScrollHereY(1.0f);
-				else
-					ImGui::SetScrollY(_scrollY);
-				_scrollYSet = false;
-			}
+			// TODO: maybe it should actually go after EndTable
+			handleDelayedScroll();
+			config.scrollXFlags = config.scrollYFlags = mvSetScrollFlags_None;
 
-			_scrollX = ImGui::GetScrollX();
-			_scrollMaxX = ImGui::GetScrollMaxX();
-			_scrollY = ImGui::GetScrollY();
-			_scrollMaxY = ImGui::GetScrollMaxY();
+		    UpdateAppItemScrollInfo(state);
 
 			ImGui::EndTable();
 
@@ -414,9 +433,14 @@ void mvTable::draw(ImDrawList* drawlist, float x, float y)
 	if (font)
 		ImGui::PopFont();
 
+	if (config.indent > 0.0f)
+		ImGui::Unindent(config.indent);
+
 	// handle popping themes
 	cleanup_local_theming(this);
 
+	if (handlerRegistry)
+		handlerRegistry->checkEvents(&state);
 }
 
 void mvTable::onChildAdd(std::shared_ptr<mvAppItem> item)
@@ -651,4 +675,49 @@ void mvTable::setPyValue(PyObject* value)
 	}
 	_imguiFilter.InputBuf[i] = 0;
 	_imguiFilter.Build();
+}
+
+void mvSyncedTables::draw(ImDrawList* drawlist, float x, float y)
+{
+    //-----------------------------------------------------------------------------
+    // pre draw
+    //-----------------------------------------------------------------------------
+
+    // show/hide
+    if (!config.show)
+        return;
+
+    // push font if a font object is attached
+    if (font)
+        static_cast<mvFont*>(font.get())->pushFont();
+
+    // themes
+    apply_local_theming(this);
+
+    //-----------------------------------------------------------------------------
+    // draw
+    //-----------------------------------------------------------------------------
+    {
+		ScopedID id(uuid);
+
+        for (auto& child : childslots[1])
+        {
+            child->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
+        }
+        UpdateAppItemState(state);
+    }
+
+    //-----------------------------------------------------------------------------
+    // post draw
+    //-----------------------------------------------------------------------------
+
+    // handle popping themes
+    cleanup_local_theming(this);
+
+    // pop font off stack
+    if (font)
+        ImGui::PopFont();
+
+    if (handlerRegistry)
+        handlerRegistry->checkEvents(&state);
 }

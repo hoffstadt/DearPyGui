@@ -2,10 +2,7 @@
 
 #include <vector>
 #include <map>
-#include <stack>
 #include <string>
-#include <queue>
-#include <thread>
 #include <future>
 #include <atomic>
 #include <memory>
@@ -34,6 +31,8 @@ mvUUID                                 GenerateUUID();
 void                                   SetDefaultTheme();
 void                                   Render();
 std::map<std::string, mvPythonParser>& GetParsers();
+// Signals the rendering loop via GContext->running to quit.
+void                                   StopRendering();
 
 struct mvInput
 {
@@ -95,20 +94,28 @@ struct mvIO
     // callback registry
     bool manualCallbacks = false;
 
+    bool altEnterFullscreen = false;
+
     ImWchar decimalPoint = '.';
 };
 
 struct mvContext
 {
-    std::atomic_bool    waitOneFrame       = false;
+    std::mutex          frameEndedMutex;
+    std::condition_variable frameEndedEvent;
+    bool                frameEnded         = false;
+    // Indicates whether DPG has started at least once in this context, i.e. whether
+    // associated Dear ImGui contexts exist and can be read from.
     std::atomic_bool    started            = false;
+    // If true, more frames are going to be rendered. Goes back to false on shutdown.
+    std::atomic_bool    running            = false;
     std::recursive_mutex mutex;
     std::future<bool>   future;
     float               deltaTime = 0.0f;   // time since last frame
     double              time      = 0.0;    // total time since starting
     int                 frame     = 0;      // frame count
     int                 framerate = 0;      // frame rate
-    mvUUID              id = MV_START_UUID; // current ID
+    std::atomic<mvUUID> id = MV_START_UUID; // current ID
     mvViewport*         viewport = nullptr;
     mvGraphics          graphics;
     bool                resetTheme = false;

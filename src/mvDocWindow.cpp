@@ -1,7 +1,11 @@
-#include <map>
 #include "mvPyUtils.h"
+#pragma hdrstop
+
 #include "mvDocWindow.h"
+
 #include "dearpygui.h"
+
+#include <map>
 
 mvDocWindow::mvDocWindow()
 {
@@ -91,7 +95,7 @@ void mvDocWindow::drawWidgets()
 
             ImGui::SameLine();
             ImGui::PushStyleColor(ImGuiCol_ChildBg, IM_COL32(0, 0, 255, 100));
-            ImGui::BeginChild("DocChild", ImVec2(0, 0), ImGuiChildFlags_Border);
+            ImGui::BeginChild("DocChild", ImVec2(0, 0), ImGuiChildFlags_Borders);
             ImGui::PushTextWrapPos(ImGui::GetCursorPos().x + 400);
             ImGui::Text("%s", m_doc);
             ImGui::PopTextWrapPos();
@@ -111,7 +115,7 @@ void mvDocWindow::drawWidgets()
 
             ImGui::PushItemWidth(300);
             ImGui::PushStyleColor(ImGuiCol_ChildBg, IM_COL32(255, 0, 0, 100));
-            ImGui::BeginChild("CommandsChild##debug", ImVec2(500.0f, 0), ImGuiChildFlags_Border);
+            ImGui::BeginChild("CommandsChild##debug", ImVec2(500.0f, 0), ImGuiChildFlags_Borders);
 
             for (size_t i = 0; i < m_commands.size(); i++)
             {
@@ -127,7 +131,7 @@ void mvDocWindow::drawWidgets()
             ImGui::EndChild();
             ImGui::SameLine();
             ImGui::PushStyleColor(ImGuiCol_ChildBg, IM_COL32(0, 0, 255, 100));
-            ImGui::BeginChild("CommandsDoc##debug", ImVec2(0, 0), ImGuiChildFlags_Border);
+            ImGui::BeginChild("CommandsDoc##debug", ImVec2(0, 0), ImGuiChildFlags_Borders);
             ImGui::PushTextWrapPos(500);
             ImGui::Text("%s", commanddoc);
             ImGui::PopStyleColor();

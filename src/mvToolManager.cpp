@@ -1,5 +1,10 @@
-#include "mvToolManager.h"
 #include "mvPyUtils.h"
+#pragma hdrstop
+
+#include "mvToolManager.h"
+
+#include "mvItemRegistry.h"
+
 #include "mvAboutWindow.h"
 #include "mvDocWindow.h"
 #include "mvMetricsWindow.h"
@@ -9,7 +14,6 @@
 #include "mvFontManager.h"
 #include "mvLayoutWindow.h"
 #include "mvProfiler.h"
-#include "mvItemRegistry.h"
 
 std::vector<std::shared_ptr<mvToolWindow>> mvToolManager::s_tools = {
 	std::make_shared<mvFontManager>(),
@@ -57,7 +61,7 @@ void mvToolManager::ShowTool(mvUUID name)
 	{
 		if (tool->getUUID() == name)
 		{
-			tool->m_show = true;
+			tool->m_focusNextFrame = tool->m_show = true;
 			return;
 		}
 	}

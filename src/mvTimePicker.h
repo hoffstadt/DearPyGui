@@ -1,6 +1,8 @@
 #pragma once
 
 #include "mvItemRegistry.h"
+// For ImPlotTime
+#include <implot_internal.h>
 
 class mvTimePicker : public mvAppItem
 {

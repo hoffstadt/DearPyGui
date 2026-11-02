@@ -1,9 +1,13 @@
 #include "mvGraphics.h"
+
 #include "mvLinuxSpecifics.h"
+
 #include "mvViewport.h"
+#include "mvProfiler.h"
+
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
-#include "mvProfiler.h"
+
 mvGraphics
 setup_graphics(mvViewport& viewport)
 {

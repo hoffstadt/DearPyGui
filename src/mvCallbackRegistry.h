@@ -193,62 +193,138 @@ private:
 
 };
 
-static PyObject* SanitizeCallback(PyObject* callback)
-{
-	if (callback == Py_None)
-		return nullptr;
-
-	return callback;
-}
-
 struct mvCallbackJob
 {
-	mvUUID      sender    = 0;
-	PyObject*   callback  = nullptr;
-	PyObject*   app_data  = nullptr;
-	PyObject*   user_data = nullptr;
-	std::string sender_str;
+    std::weak_ptr<void> owner;
+    // Only valid if `owner` is alive; one must lock() the owner before accessing
+    // the callback.
+    PyObject* callback = nullptr;
+    std::shared_ptr<mvPyObject> user_data;
+    mvUUID sender = 0;
+    std::string alias;
+    std::function<PyObject*()> app_data_func;
+    // Either `callback` (and `owner`) or `ownerless_callback` must be set,
+    // but not both - otherwise one of them will be ignored.
+    std::shared_ptr<mvPyObject> ownerless_callback = nullptr;
 };
 
 struct mvCallbackRegistry
 {
-	const i32 maxNumberOfCalls = 50;
+    // TODO: ideally, it should be configurable (e.g. via configure_app)
+	const i32 maxNumberOfCalls = 500;
 
 	std::vector<mvCallbackJob> jobs;
 	mvQueue<mvFunctionWrapper> tasks;
+    // These are like `tasks` but they run very early at the start of the frame,
+    // whereas `tasks` can be run mid-frame either before or after Render().
+    mvQueue<mvFunctionWrapper> earlyTasks;
 	mvQueue<mvFunctionWrapper> calls;
 	std::atomic<b8>            running = false;
 	std::atomic<i32>           callCount = 0;
 
 	// callbacks
-	PyObject* resizeCallback          = nullptr;
-	PyObject* onCloseCallback         = nullptr;
-	PyObject* resizeCallbackUserData  = nullptr;
-	PyObject* onCloseCallbackUserData = nullptr;
+	std::shared_ptr<mvPyObject> resizeCallback          = std::make_shared<mvPyObject>(nullptr);
+    std::shared_ptr<mvPyObject> resizeCallbackUserData  = std::make_shared<mvPyObject>(nullptr);
+    std::shared_ptr<mvPyObject> onCloseCallback         = std::make_shared<mvPyObject>(nullptr);
+    std::shared_ptr<mvPyObject> onCloseCallbackUserData = std::make_shared<mvPyObject>(nullptr);
 
 	i32 highestFrame = 0;
-	std::unordered_map<i32, PyObject*> frameCallbacks;
-	std::unordered_map<i32, PyObject*> frameCallbacksUserData;
+	std::unordered_map<i32, mvPyObject> frameCallbacks;
+	std::unordered_map<i32, mvPyObject> frameCallbacksUserData;
 };
 
 void mvFrameCallback(i32 frame);
-void mvRunTasks();
-void mvRunCallback(PyObject* callback, mvUUID sender, PyObject* app_data, PyObject* user_data, bool decrementAppData = true);
-void mvRunCallback(PyObject* callback, const std::string& sender, PyObject* app_data, PyObject* user_data);
-void mvAddCallback(PyObject* callback, mvUUID sender, PyObject* app_data, PyObject* user_data, bool decrementAppData = true);
-void mvAddCallback(PyObject* callback, const std::string& sender, PyObject* app_data, PyObject* user_data);
+// Runs either `tasks` or `earlyTasks` from mvCallbackRegistry, depending on the `early` flag.
+void mvRunTasks(bool early = false);
+// All PyObject references here are borrowed references - caller must release them after this call
+void mvRunCallback(PyObject* callback, PyObject* user_data, mvUUID sender = 0, const std::string& sender_alias = "", PyObject* app_data = nullptr);
+// This version checks if owner is still alive (by obtaining shared_ptr), and if it is,
+// INCREFs the callback and releases the owner.  The owner is released under mvContext::mutex.
+// All PyObject references except `callback` are borrowed references - the caller must release
+// them after this call.
+void mvRunOwnedCallback(const std::weak_ptr<void>& owner, PyObject* callback, PyObject* user_data, mvUUID sender = 0, const std::string& sender_alias = "", PyObject* app_data = nullptr);
+
+// Note: We pass the `callback` and its `user_data` as two separate arguments (rather
+// than a single object) because, even though they only make sense together, `mvAppItem` may
+// combine the same `user_data` with different callbacks.  We don't want to spread `user_data`
+// instances all across `mvAppItem`.
+// The `callback` must be valid all the time while `owner` is alive.  This works for
+// the fields of `owner`; if `callback` is not a field of `owner`, the caller must make
+// sure that `callback`'s lifetime is at least as long as `owner`'s.
+// When the callback is about to be executed on the handlers thread, the callback queue
+// acquires a shared_ptr to `owner` and holds it while the callback is being executed.
+// If the `owner` is already lost by the moment the callback is fetched from the
+// queue, the callback will be silently ignored.  This effectively cleans the queue
+// from irrelevant callbacks - lingering there after `mvAppItem` deletion and such.
+template<typename AppDataFunc>
+void mvAddCallback(const std::weak_ptr<void>& owner,
+                   PyObject* callback,
+                   const std::shared_ptr<mvPyObject>& user_data,
+                   mvUUID sender,
+                   const std::string& alias,
+                   AppDataFunc&& app_data_func)
+{
+	if (GContext->IO.manualCallbacks)
+	{
+		GContext->callbackRegistry->jobs.push_back({owner, callback, user_data, sender, alias, std::forward<AppDataFunc>(app_data_func)});
+		return;
+	}
+	mvSubmitCallback([=, app_data_func = std::forward<AppDataFunc>(app_data_func)] () {
+        mvRunOwnedCallback(owner, callback, *user_data, sender, alias, mvPyObject(app_data_func()));
+    });
+}
+
+// This overload exists purely to provide default argument values - we can't do this
+// directly on the template version above because the compiler won't be able to deduce
+// `app_data_func` type if `app_data_func` is omitted (that is, we can't really use
+// the default on `app_data_func`).
+void mvAddCallback(const std::weak_ptr<void>& owner,
+                   PyObject* callback,
+                   const std::shared_ptr<mvPyObject>& user_data,
+                   mvUUID sender = 0,
+                   const std::string& alias = "");
+
+template<typename AppDataFunc>
+void mvAddOwnerlessCallback(const std::shared_ptr<mvPyObject>& callback,
+                            const std::shared_ptr<mvPyObject>& user_data,
+                            mvUUID sender,
+                            const std::string& alias,
+                            AppDataFunc&& app_data_func)
+{
+	if (GContext->IO.manualCallbacks)
+	{
+		GContext->callbackRegistry->jobs.push_back({{}, nullptr, user_data, sender, alias, std::forward<AppDataFunc>(app_data_func), callback});
+		return;
+	}
+	mvSubmitCallback([=, app_data_func = std::forward<AppDataFunc>(app_data_func)]() {
+		mvRunCallback(*callback, *user_data, sender, alias, mvPyObject(app_data_func()));
+    });
+}
+
+// This overload exists purely to provide default argument values - we can't do this
+// directly on the template version above because the compiler won't be able to deduce
+// `app_data_func` type if `app_data_func` is omitted (that is, we can't really use
+// the default on `app_data_func`).
+void mvAddOwnerlessCallback(const std::shared_ptr<mvPyObject>& callback,
+                            const std::shared_ptr<mvPyObject>& user_data,
+                            mvUUID sender = 0,
+                            const std::string& alias = "");
+
 bool mvRunCallbacks();
 
 template<typename F, typename ...Args>
-std::future<typename std::invoke_result<F, Args...>::type> mvSubmitTask(F f)
+std::future<typename std::invoke_result<F, Args...>::type> mvSubmitTask(F f, bool runEarlyInFrame = false)
 {
 
 	typedef typename std::invoke_result<F, Args...>::type result_type;
 	std::packaged_task<result_type()> task(std::move(f));
 	std::future<result_type> res(task.get_future());
 
-	if (GContext->started)
-		GContext->callbackRegistry->tasks.push(std::move(task));
+	if (GContext->running)
+    {
+        auto& tasks = runEarlyInFrame? GContext->callbackRegistry->earlyTasks : GContext->callbackRegistry->tasks;
+        tasks.push(std::move(task));
+    }
 	else
 		task();
 
@@ -256,11 +332,12 @@ std::future<typename std::invoke_result<F, Args...>::type> mvSubmitTask(F f)
 }
 
 template<typename F, typename ...Args>
-std::future<typename std::invoke_result<F, Args...>::type> mvSubmitCallback(F f)
+std::future<typename std::invoke_result<F, Args...>::type> mvSubmitCallback(F f, bool ignore_limit = false)
 {
 
-	if (GContext->callbackRegistry->callCount > GContext->callbackRegistry->maxNumberOfCalls)
+	if (GContext->callbackRegistry->callCount > GContext->callbackRegistry->maxNumberOfCalls && !ignore_limit)
 	{
+        assert(false);
 		return {};
 	}
 

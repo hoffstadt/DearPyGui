@@ -2,6 +2,7 @@
 
 #include "mvItemRegistry.h"
 #include <array>
+#include <implot_internal.h>
 
 struct mvPlotConfig;
 struct mvPlotAxisConfig;
@@ -324,7 +325,6 @@ struct mvLabelSeriesConfig : _mvBasicSeriesConfig
 struct mvImageSeriesConfig : _mvBasicSeriesConfig
 {
     // config
-    mvUUID      textureUUID = 0;
     ImPlotPoint bounds_min = { 0.0, 0.0 };
     ImPlotPoint bounds_max = { 0.0, 0.0 };
     mvVec2      uv_min = { 0.0f, 0.0f };
@@ -334,7 +334,6 @@ struct mvImageSeriesConfig : _mvBasicSeriesConfig
 
     // pointer to existing item or internal
     std::shared_ptr<mvAppItem> _texture = nullptr;
-    bool _internalTexture = false; // create a local texture if necessary
 };
 
 struct mvAreaSeriesConfig : _mvBasicSeriesConfig
@@ -356,7 +355,6 @@ struct mvCustomSeriesConfig : _mvBasicSeriesConfig
     int channelCount = 2; // must be between 2 and 5 inclusive
     bool tooltip = true;
     ImPlotItemFlags flags = ImPlotItemFlags_None;
-    std::vector<std::vector<double>> _transformedValues;
 };
 
 struct mvAnnotationConfig
@@ -401,7 +399,6 @@ struct mvPlotAxisConfig
     std::vector<std::string> labels;
     std::vector<double>      labelLocations;
     std::vector<const char*> clabels; // to prevent conversion from string to char* every frame
-    bool                     _dirty = false;
 };
 
 struct mvPlotConfig

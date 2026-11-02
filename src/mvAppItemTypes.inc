@@ -51,6 +51,7 @@
     X( mvTable ) \
     X( mvTableColumn ) \
     X( mvTableRow ) \
+    X( mvSyncedTables ) \
     X( mvDrawLine ) \
     X( mvDrawArrow ) \
     X( mvDrawTriangle ) \
@@ -130,6 +131,7 @@
     X( mvToggledOpenHandler ) \
     X( mvClickedHandler ) \
     X( mvDoubleClickedHandler ) \
+    X( mvScrollHandler ) \
     X( mvDragPayload ) \
     X( mvResizeHandler ) \
     X( mvFont ) \
@@ -138,9 +140,6 @@
     X( mvThemeColor ) \
     X( mvThemeStyle ) \
     X( mvThemeComponent ) \
-    X( mvFontRangeHint ) \
-    X( mvFontRange ) \
-    X( mvFontChars ) \
     X( mvCharRemap ) \
     X( mvValueRegistry ) \
     X( mvIntValue ) \

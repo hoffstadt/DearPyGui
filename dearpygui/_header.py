@@ -80,7 +80,6 @@ def start_dearpygui():
 
     if not internal_dpg.is_viewport_ok():
         raise RuntimeError("Viewport was not created and shown.")
-        return
 
     while(internal_dpg.is_dearpygui_running()):
         internal_dpg.render_dearpygui_frame()   
@@ -548,15 +547,6 @@ def is_item_tracked(item: Union[int, str]) -> Union[bool, None]:
         tracked as a bool or None
     """
     return internal_dpg.get_item_configuration(item)["tracked"]
-
-
-def is_item_search_delayed(item: Union[int, str]) -> Union[bool, None]:
-    """Checks if item is search delayed.
-
-    Returns:
-        tracked as a bool or None
-    """
-    return internal_dpg.get_item_configuration(item)["delay_search"]
 
 
 def get_item_indent(item: Union[int, str]) -> Union[int, None]:

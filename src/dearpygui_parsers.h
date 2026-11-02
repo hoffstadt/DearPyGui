@@ -1,4 +1,3 @@
-#include "mvAppItemCommons.h"
 #include "mvFontManager.h"
 #include "mvItemRegistry.h"
 #include <ImGuiFileDialog.h>
@@ -539,6 +538,7 @@ InsertParser_Block1(std::map<std::string, mvPythonParser>& parsers)
 		args.push_back({ mvPyDataType::Bool, "anti_aliased_lines", mvArgType::KEYWORD_ARG, "False", "Enable anti-aliased lines/borders. Disable if you are really tight on CPU/GPU. Latched at the beginning of the frame." });
 		args.push_back({ mvPyDataType::Bool, "anti_aliased_lines_use_tex", mvArgType::KEYWORD_ARG, "False", "Enable anti-aliased lines/borders using textures where possible. Require backend to render with bilinear filtering (NOT point/nearest filtering). Latched at the beginning of the frame." });
 		args.push_back({ mvPyDataType::Bool, "anti_aliased_fill", mvArgType::KEYWORD_ARG, "False", "Enable anti-aliased edges around filled shapes (rounded rectangles, circles, etc.). Disable if you are really tight on CPU/GPU. Latched at the beginning of the frame." });
+		args.push_back({ mvPyDataType::Bool, "win32_alt_enter_fullscreen", mvArgType::KEYWORD_ARG, "False", "Windows only: configures Alt+Enter as a fullscreen hotkey." });
 
 		mvPythonParserSetup setup;
 		setup.about = "Configures app.";
@@ -564,7 +564,7 @@ InsertParser_Block1(std::map<std::string, mvPythonParser>& parsers)
 
 	{
 		std::vector<mvPythonDataElement> args;
-		args.push_back({ mvPyDataType::Integer, "delay", mvArgType::KEYWORD_ARG, "32", "Minimal delay in in milliseconds" });
+		args.push_back({ mvPyDataType::Integer, "delay", mvArgType::DEPRECATED_REMOVE_KEYWORD_ARG, "32", "Do not use it anymore, it has no effect." });
 
 		mvPythonParserSetup setup;
 		setup.about = "Waits one frame.";
@@ -1289,7 +1289,7 @@ InsertParser_Block2(std::map<std::string, mvPythonParser>& parsers)
 	{
 		std::vector<mvPythonDataElement> args;
 		args.push_back({ mvPyDataType::UUID, "window" });
-		args.push_back({ mvPyDataType::Bool, "value" });
+		args.push_back({ mvPyDataType::Bool, "value", mvArgType::POSITIONAL_ARG, "True", "True to select this window as primary, False to make it a regular window (without any primary window). Only one window at a time can be primary." });
 
 		mvPythonParserSetup setup;
 		setup.about = "Sets the primary window.";
@@ -1784,9 +1784,15 @@ InsertParser_Block4(std::map<std::string, mvPythonParser>& parsers)
 	{
 		std::vector<mvPythonDataElement> args;
 		args.push_back({ mvPyDataType::UUID, "item" });
-		args.push_back({ mvPyDataType::Float, "value" });
+		args.push_back({ mvPyDataType::Float, "value", mvArgType::REQUIRED_ARG, "", "Scroll position"});
+		args.push_back({ mvPyDataType::Integer, "when", mvArgType::KEYWORD_ARG, "internal_dpg.mvSetScrollFlags_Delayed",
+			"Specifies whether the scroll position will be set in the nearest frame (mvSetScrollFlags_Now) or with "
+			"a 1-frame delay (mvSetScrollFlags_Delayed).  The former prevents flickering, the latter works better "
+			"if contents change in the same frame as when set_x_scroll called.  mvSetScrollFlags_Both can also be used "
+			"to set the position twice." });
 
 		mvPythonParserSetup setup;
+		setup.about = "Sets horizontal scroll position.";
 
 		mvPythonParser parser = FinalizeParser(setup, args);
 		parsers.insert({ "set_x_scroll", parser });
@@ -1795,8 +1801,16 @@ InsertParser_Block4(std::map<std::string, mvPythonParser>& parsers)
 	{
 		std::vector<mvPythonDataElement> args;
 		args.push_back({ mvPyDataType::UUID, "item" });
-		args.push_back({ mvPyDataType::Float, "value" });
+		args.push_back({ mvPyDataType::Float, "value", mvArgType::REQUIRED_ARG, "", "Scroll position"});
+		args.push_back({ mvPyDataType::Integer, "when", mvArgType::KEYWORD_ARG, "internal_dpg.mvSetScrollFlags_Delayed",
+			"Specifies whether the scroll position will be set in the nearest frame (mvSetScrollFlags_Now) or with "
+			"a 1-frame delay (mvSetScrollFlags_Delayed).  The former prevents flickering, the latter works better "
+			"if contents change in the same frame as when set_x_scroll called.  mvSetScrollFlags_Both can also be used "
+			"to set the position twice." });
+
 		mvPythonParserSetup setup;
+		setup.about = "Sets vertical scroll position.";
+
 		mvPythonParser parser = FinalizeParser(setup, args);
 		parsers.insert({ "set_y_scroll", parser });
 	}

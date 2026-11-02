@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Quick question? Discord!
+    url: https://discord.gg/tyE7Gu4
+    about: Dear PyGui community is more active on Discord than here. If you're asking a question rather than reporting a bug, head over to Discord for a quick answer.
+  - name: Dear PyGui is in maintenance mode!
+    url: https://github.com/hoffstadt/DearPyGui/wiki/What's-going-on%3F
+    about: Read this wiki article if you're unaware of the maintenance-only status of this project.

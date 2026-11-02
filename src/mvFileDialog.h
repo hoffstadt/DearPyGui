@@ -46,5 +46,5 @@ public:
     bool            _directory = false;
     mvVec2          _min_size = { 100.0f, 100.0f };
     mvVec2          _max_size = { 30000.0f, 30000.0f };
-	PyObject*	    _cancelCallback = nullptr;
+    mvPyObject      _cancelCallback = nullptr;
 };

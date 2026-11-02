@@ -9,7 +9,7 @@ import sys
 import shutil
 import subprocess
 
-wip_version = "2.0.0b1"
+wip_version = "2.3"
 
 def version_number():
     """This function reads the version number which is populated by github actions"""
@@ -65,10 +65,10 @@ class DPGBuildCommand(distutils.cmd.Command):
         return
 
     if get_platform() == "Windows":
-        command = [r'set PATH="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin";"C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin";"C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin";%PATH% && ']
+        command = [r'set PATH="C:\Program Files (x86)\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin";"C:\Program Files (x86)\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin";"C:\Program Files (x86)\Microsoft Visual Studio\2022\Professional\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin";%PATH% && ']
         command.append("mkdir cmake-build-local && ")
         command.append("cd cmake-build-local && ")
-        command.append('cmake .. -G "Visual Studio 16 2019" -A "x64" -DMVDIST_ONLY=True -DMVDPG_VERSION=')
+        command.append('cmake .. -G "Visual Studio 17 2022" -A "x64" -DMVDIST_ONLY=True -DMVDPG_VERSION=')
         command.append(version_number() + " -DMV_PY_VERSION=")
         command.append(str(sys.version_info[0]) + "." + str(sys.version_info[1]) + " && ")
         command.append("cd .. && cmake --build cmake-build-local --config Release")
@@ -133,6 +133,7 @@ def setup_package():
 
     shutil.copy(src_path + "/dearpygui/demo.py", src_path + "/output/dearpygui")
     shutil.copy(src_path + "/dearpygui/experimental.py", src_path + "/output/dearpygui")
+    shutil.copy(src_path + "/dearpygui/type_info.py", src_path + "/output/dearpygui")
 
     with open(src_path + "/output/dearpygui/__init__.py", 'w') as file:
         file.write("__version__='" + version_number() + "'\n")
@@ -169,7 +170,7 @@ def setup_package():
         long_description_content_type='text/markdown',         # Optional
         url='https://github.com/hoffstadt/DearPyGui',          # Optional
         license = 'MIT',
-        python_requires='>=3.7',
+        python_requires='>=3.8',
         classifiers=[
                 'Development Status :: 5 - Production/Stable',
                 'Intended Audience :: Education',
@@ -180,12 +181,13 @@ def setup_package():
                 'Operating System :: Microsoft :: Windows :: Windows 10',
                 'Operating System :: POSIX',
                 'Operating System :: Unix',
-                'Programming Language :: Python :: 3.7',
                 'Programming Language :: Python :: 3.8',
                 'Programming Language :: Python :: 3.9',
                 'Programming Language :: Python :: 3.10',
                 'Programming Language :: Python :: 3.11',
                 'Programming Language :: Python :: 3.12',
+                'Programming Language :: Python :: 3.13',
+                'Programming Language :: Python :: 3.14',
                 'Programming Language :: Python :: Implementation :: CPython',
                 'Programming Language :: Python :: 3 :: Only',
                 'Topic :: Software Development :: User Interfaces',
@@ -204,9 +206,9 @@ def setup_package():
     if os.environ.get('READTHEDOCS') == 'True':
         metadata['package_data']['dearpygui'] = ["__init__.py", "_dearpygui.py", "dearpygui.py", "demo.py", "experimental.py"]
     elif get_platform() == "Windows":
-        metadata['package_data']['dearpygui'] = ["__init__.py", "_dearpygui.so", "_dearpygui.pyd", "_dearpygui.pyi", "dearpygui.py", "demo.py", "experimental.py", "vcruntime140_1.dll"]
+        metadata['package_data']['dearpygui'] = ["__init__.py", "_dearpygui.so", "_dearpygui.pyd", "_dearpygui.pyi", "dearpygui.py", "demo.py", "experimental.py", "type_info.py", "vcruntime140_1.dll"]
     else:
-        metadata['package_data']['dearpygui'] = ["__init__.py", "_dearpygui.so", "_dearpygui.pyd", "_dearpygui.pyi", "dearpygui.py", "demo.py", "experimental.py"]
+        metadata['package_data']['dearpygui'] = ["__init__.py", "_dearpygui.so", "_dearpygui.pyd", "_dearpygui.pyi", "dearpygui.py", "demo.py", "experimental.py", "type_info.py"]
 
     if "--force" in sys.argv:
         sys.argv.remove('--force')

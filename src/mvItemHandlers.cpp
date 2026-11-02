@@ -1,5 +1,7 @@
-#include "mvItemHandlers.h"
 #include "mvPyUtils.h"
+#pragma hdrstop
+
+#include "mvItemHandlers.h"
 
 void mvItemHandlerRegistry::checkEvents(void* data)
 {
@@ -119,9 +121,58 @@ void mvItemHandlerRegistry::onBind(mvAppItem* item)
 			break;
 		}
 
+		case mvAppItemType::mvScrollHandler:
+		{
+			if (!(applicableState & ~MV_STATE_SCROLL))
+				mvThrowPythonError(mvErrorCode::mvNone, "bind_item_handler_registry",
+					"Item Handler Registry includes inapplicable handler: mvScrollHandler", item);
+			break;
+		}
+
             default: break;
 		}
 	}
+}
+
+void mvItemHandler::submitHandler(mvAppItem* parent)
+{
+	submitCallbackEx([uuid=parent->uuid, alias=parent->config.alias] () {
+		return ToPyUUID(uuid, alias);
+	});
+}
+
+void mvBoolStateHandler::checkEvent(bool curState, bool prevState, mvAppItem* parent)
+{
+	mvEventType eventType = curState?
+			(prevState? mvEventType_On : mvEventType_EnterAndOn) :
+			(prevState? mvEventType_LeaveAndOff : mvEventType_Off);
+
+	if (trackedEventType & eventType)
+	{
+		// We do not pass eventType to callback yet in order to keep it compatible
+		// with the old version.
+		submitHandler(parent);
+	}
+}
+
+void mvBoolStateHandler::handleSpecificKeywordArgs(PyObject* dict)
+{
+	if (dict == nullptr)
+		return;
+
+	if (PyObject* item = PyDict_GetItemString(dict, "event_type"))
+	{
+		if (item != Py_None)
+			trackedEventType = static_cast<mvEventType>(ToInt(item));
+	}
+}
+
+void mvBoolStateHandler::getSpecificConfiguration(PyObject* dict)
+{
+	if (dict == nullptr)
+		return;
+
+	PyDict_SetItemString(dict, "event_type", mvPyObject(ToPyInt(trackedEventType)));
 }
 
 void mvActivatedHandler::customAction(void* data)
@@ -130,13 +181,7 @@ void mvActivatedHandler::customAction(void* data)
 	mvAppItemState* state = static_cast<mvAppItemState*>(data);
 	if (state->activated)
 	{
-		mvSubmitCallback([=]()
-			{
-				if (config.alias.empty())
-					mvRunCallback(getCallback(false), uuid, ToPyUUID(state->parent), config.user_data);
-				else
-					mvRunCallback(getCallback(false), config.alias, ToPyUUID(state->parent), config.user_data);
-			});
+		submitHandler(state->parent);
 	}
 }
 
@@ -146,13 +191,7 @@ void mvActiveHandler::customAction(void* data)
 	mvAppItemState* state = static_cast<mvAppItemState*>(data);
 	if (state->active)
 	{
-		mvSubmitCallback([=]()
-			{
-				if (config.alias.empty())
-					mvRunCallback(getCallback(false), uuid, ToPyUUID(state->parent), config.user_data);
-				else
-					mvRunCallback(getCallback(false), config.alias, ToPyUUID(state->parent), config.user_data);
-			});
+		submitHandler(state->parent);
 	}
 }
 
@@ -160,51 +199,25 @@ void mvClickedHandler::customAction(void* data)
 {
 
 	mvAppItemState* state = static_cast<mvAppItemState*>(data);
-	if (_button == -1 || _button == 0)
-		if (state->leftclicked)
-		{
-			mvSubmitCallback([=]()
-				{
-					mvPyObject pArgs(PyTuple_New(2));
-					PyTuple_SetItem(pArgs, 0, ToPyInt(0));
-					PyTuple_SetItem(pArgs, 1, ToPyUUID(state->parent)); // steals data, so don't deref
-					if (config.alias.empty())
-						mvRunCallback(getCallback(false), uuid, pArgs, config.user_data);
-					else
-						mvRunCallback(getCallback(false), config.alias, pArgs, config.user_data);
-				});
-		}
 
-	if (_button == -1 || _button == 1)
-		if (state->rightclicked)
-		{
-			mvSubmitCallback([=]()
-				{
-					mvPyObject pArgs(PyTuple_New(2));
-					PyTuple_SetItem(pArgs, 0, ToPyInt(1));
-					PyTuple_SetItem(pArgs, 1, ToPyUUID(state->parent)); // steals data, so don't deref
-					if (config.alias.empty())
-						mvRunCallback(getCallback(false), uuid, pArgs, config.user_data);
-					else
-						mvRunCallback(getCallback(false), config.alias, pArgs, config.user_data);
-				});
-		}
+	b8 clicked[] = {state->leftclicked, state->rightclicked, state->middleclicked};
 
-	if (_button == -1 || _button == 2)
-		if (state->middleclicked)
-		{
-			mvSubmitCallback([=]()
-				{
-					mvPyObject pArgs(PyTuple_New(2));
-					PyTuple_SetItem(pArgs, 0, ToPyInt(2));
-					PyTuple_SetItem(pArgs, 1, ToPyUUID(state->parent)); // steals data, so don't deref
-					if (config.alias.empty())
-						mvRunCallback(getCallback(false), uuid, pArgs, config.user_data);
-					else
-						mvRunCallback(getCallback(false), config.alias, pArgs, config.user_data);
-				});
-		}
+	int i = (_button < 0)? 0 : _button ;
+	int end = (_button < 0)? (int)std::size(clicked) : (i + 1);
 
+	for (; i < end; i++)
+	{
+		if (clicked[i])
+		{
+			mvAppItem* parent = state->parent;
+			submitCallbackEx([i, uuid=parent->uuid, alias=parent->config.alias] () {
+				PyObject* app_data = PyTuple_New(2);
+				PyTuple_SetItem(app_data, 0, ToPyInt(i));
+				PyTuple_SetItem(app_data, 1, ToPyUUID(uuid, alias));
+				return app_data;
+			});
+		}
+	}
 }
 
 void mvClickedHandler::handleSpecificRequiredArgs(PyObject* dict)
@@ -228,7 +241,7 @@ void mvClickedHandler::getSpecificConfiguration(PyObject* dict)
 	if (dict == nullptr)
 		return;
 
-	PyDict_SetItemString(dict, "button", ToPyInt(_button));
+	PyDict_SetItemString(dict, "button", mvPyObject(ToPyInt(_button)));
 }
 
 void mvDoubleClickedHandler::customAction(void* data)
@@ -242,16 +255,13 @@ void mvDoubleClickedHandler::customAction(void* data)
 	{
 		if (state->doubleclicked[i])
 		{
-			mvSubmitCallback([=]()
-				{
-					mvPyObject pArgs(PyTuple_New(2));
-					PyTuple_SetItem(pArgs, 0, ToPyInt(i));
-					PyTuple_SetItem(pArgs, 1, ToPyUUID(state->parent)); // steals data, so don't deref
-					if (config.alias.empty())
-						mvRunCallback(getCallback(false), uuid, pArgs, config.user_data);
-					else
-						mvRunCallback(getCallback(false), config.alias, pArgs, config.user_data);
-				});
+			mvAppItem* parent = state->parent;
+			submitCallbackEx([i, uuid=parent->uuid, alias=parent->config.alias] () {
+				PyObject* app_data = PyTuple_New(2);
+				PyTuple_SetItem(app_data, 0, ToPyInt(i));
+				PyTuple_SetItem(app_data, 1, ToPyUUID(uuid, alias));
+				return app_data;
+			});
 		}
 	}
 }
@@ -277,7 +287,7 @@ void mvDoubleClickedHandler::getSpecificConfiguration(PyObject* dict)
 	if (dict == nullptr)
 		return;
 
-	PyDict_SetItemString(dict, "button", ToPyInt(_button));
+	PyDict_SetItemString(dict, "button", mvPyObject(ToPyInt(_button)));
 }
 
 void mvDeactivatedAfterEditHandler::customAction(void* data)
@@ -286,13 +296,7 @@ void mvDeactivatedAfterEditHandler::customAction(void* data)
 	mvAppItemState* state = static_cast<mvAppItemState*>(data);
 	if (state->deactivatedAfterEdit)
 	{
-		mvSubmitCallback([=]()
-			{
-				if (config.alias.empty())
-					mvRunCallback(getCallback(false), uuid, ToPyUUID(state->parent), config.user_data);
-				else
-					mvRunCallback(getCallback(false), config.alias, ToPyUUID(state->parent), config.user_data);
-			});
+		submitHandler(state->parent);
 	}
 }
 
@@ -301,13 +305,7 @@ void mvDeactivatedHandler::customAction(void* data)
 	mvAppItemState* state = static_cast<mvAppItemState*>(data);
 	if (state->deactivated)
 	{
-		mvSubmitCallback([=]()
-			{
-				if (config.alias.empty())
-					mvRunCallback(getCallback(false), uuid, ToPyUUID(state->parent), config.user_data);
-				else
-					mvRunCallback(getCallback(false), config.alias, ToPyUUID(state->parent), config.user_data);
-			});
+		submitHandler(state->parent);
 	}
 }
 
@@ -317,45 +315,20 @@ void mvEditedHandler::customAction(void* data)
 	mvAppItemState* state = static_cast<mvAppItemState*>(data);
 	if (state->edited)
 	{
-		mvSubmitCallback([=]()
-			{
-				if (config.alias.empty())
-					mvRunCallback(getCallback(false), uuid, ToPyUUID(state->parent), config.user_data);
-				else
-					mvRunCallback(getCallback(false), config.alias, ToPyUUID(state->parent), config.user_data);
-			});
+		submitHandler(state->parent);
 	}
 }
 
 void mvFocusHandler::customAction(void* data)
 {
-
 	mvAppItemState* state = static_cast<mvAppItemState*>(data);
-	if (state->focused)
-	{
-		mvSubmitCallback([=]()
-			{
-				if (config.alias.empty())
-					mvRunCallback(getCallback(false), uuid, ToPyUUID(state->parent), config.user_data);
-				else
-					mvRunCallback(getCallback(false), config.alias, ToPyUUID(state->parent), config.user_data);
-			});
-	}
+	checkEvent(state->focused, state->prevFocused, state->parent);
 }
 
 void mvHoverHandler::customAction(void* data)
 {
 	mvAppItemState* state = static_cast<mvAppItemState*>(data);
-	if (state->hovered)
-	{
-		mvSubmitCallback([=]()
-			{
-				if (config.alias.empty())
-					mvRunCallback(getCallback(false), uuid, ToPyUUID(state->parent), config.user_data);
-				else
-					mvRunCallback(getCallback(false), config.alias, ToPyUUID(state->parent), config.user_data);
-			});
-	}
+	checkEvent(state->hovered, state->prevHovered, state->parent);
 }
 
 void mvResizeHandler::customAction(void* data)
@@ -363,42 +336,82 @@ void mvResizeHandler::customAction(void* data)
 	mvAppItemState* state = static_cast<mvAppItemState*>(data);
 	if (state->mvRectSizeResized)
 	{
-		mvSubmitCallback([=]()
-			{
-				if (config.alias.empty())
-					mvRunCallback(getCallback(false), uuid, ToPyUUID(state->parent), config.user_data);
-				else
-					mvRunCallback(getCallback(false), config.alias, ToPyUUID(state->parent), config.user_data);
-			});
+		submitHandler(state->parent);
 	}
 }
 
 void mvToggledOpenHandler::customAction(void* data)
 {
-
-	if (static_cast<mvAppItemState*>(data)->toggledOpen)
+	mvAppItemState* state = static_cast<mvAppItemState*>(data);
+	if (state->toggledOpen || twoWay && state->toggledOpenPure)
 	{
-		mvSubmitCallback([=]()
-			{
-				if (config.alias.empty())
-					mvRunCallback(getCallback(false), uuid, GetPyNone(), config.user_data);
-				else
-					mvRunCallback(getCallback(false), config.alias, GetPyNone(), config.user_data);
-			});
+		submitHandler(state->parent);
 	}
+}
+
+void mvToggledOpenHandler::handleSpecificKeywordArgs(PyObject* dict)
+{
+	if (dict == nullptr)
+		return;
+
+	if (PyObject* item = PyDict_GetItemString(dict, "two_way")) twoWay = ToBool(item);
+}
+
+void mvToggledOpenHandler::getSpecificConfiguration(PyObject* dict)
+{
+	if (dict == nullptr)
+		return;
+
+	PyDict_SetItemString(dict, "two_way", mvPyObject(ToPyBool(twoWay)));
 }
 
 void mvVisibleHandler::customAction(void* data)
 {
-
+	mvAppItemState* state = static_cast<mvAppItemState*>(data);
 	if (static_cast<mvAppItemState*>(data)->visible)
 	{
-		mvSubmitCallback([=]()
-			{
-				if (config.alias.empty())
-					mvRunCallback(getCallback(false), uuid, GetPyNone(), config.user_data);
-				else
-					mvRunCallback(getCallback(false), config.alias, GetPyNone(), config.user_data);
-			});
+		submitHandler(state->parent);
+	}
+}
+
+PyObject* mvScrollHandler::makeAppData(mvUUID uuid, const std::string& alias, mvScrollDirection dir, bool isScrolling, float pos, float max)
+{
+	PyObject* app_data = PyTuple_New(5);
+	PyTuple_SetItem(app_data, 0, ToPyUUID(uuid, alias));
+	PyTuple_SetItem(app_data, 1, ToPyInt(dir));
+	PyTuple_SetItem(app_data, 2, ToPyFloat(pos));
+	PyTuple_SetItem(app_data, 3, ToPyFloat(max));
+	PyTuple_SetItem(app_data, 4, ToPyBool(isScrolling));
+	return app_data;
+}
+
+void mvScrollHandler::customAction(void* data)
+{
+	mvAppItemState* state = static_cast<mvAppItemState*>(data);
+	mvAppItem* parent = state->parent;
+	if (state->scrolledX)
+	{
+		submitCallbackEx([=,
+						  uuid=parent->uuid,
+						  alias=parent->config.alias,
+						  isScrolling=state->isScrollingX,
+						  pos=state->scrollPos.x,
+						  max=state->scrollMax.x] ()
+		{
+			return makeAppData(uuid, alias, mvScrollDirection_XAxis, isScrolling, pos, max);
+		});
+	}
+
+	if (state->scrolledY)
+	{
+		submitCallbackEx([=,
+						  uuid=parent->uuid,
+						  alias=parent->config.alias,
+						  isScrolling=state->isScrollingY,
+						  pos=state->scrollPos.y,
+						  max=state->scrollMax.y] ()
+		{
+			return makeAppData(uuid, alias, mvScrollDirection_YAxis, isScrolling, pos, max);
+		});
 	}
 }

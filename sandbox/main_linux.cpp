@@ -59,6 +59,11 @@ int main(int argc, char* argv[])
 		return 1;
 	}
 
+	// This one requires Python interpreter because internally it uses temporary PyObjects
+	// (hackyish but that's the best we can do for now).  That's why we call it here rather
+	// than together with all other GenerateXYZ functions.
+	GenerateTypeInfoModule("../../dearpygui");
+
 	PyObject* mmarvel = PyImport_ImportModule("_dearpygui");
 
 	// tests

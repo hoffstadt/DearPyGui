@@ -1,12 +1,18 @@
+#include "mvPyUtils.h"
+#pragma hdrstop
+
 #include "mvNodes.h"
-#include <imnodes.h>
+
 #include "mvContext.h"
 #include "mvItemRegistry.h"
-#include "mvPyUtils.h"
 #include "mvItemHandlers.h"
 #include "mvThemes.h"
 #include "mvContainers.h"
 #include "mvFontItems.h"
+
+#include <imnodes.h>
+// For ImRect (used by mvEditorGetSize)
+#include <imgui_internal.h>
 
 static std::string FindRenderedTextEnd(const char* text, const char* text_end = nullptr)
 {
@@ -52,13 +58,7 @@ void mvNodeEditor::handleSpecificKeywordArgs(PyObject* dict)
 
     if (PyObject* item = PyDict_GetItemString(dict, "delink_callback"))
     {
-
-        if (_delinkCallback)
-            Py_XDECREF(_delinkCallback);
-        item = SanitizeCallback(item);
-        if (item)
-            Py_XINCREF(item);
-        _delinkCallback = item;
+        _delinkCallback = mvPyObject(item == Py_None? nullptr : item, true);
     }
 
     // helper for bit flipping
@@ -79,13 +79,7 @@ void mvNodeEditor::getSpecificConfiguration(PyObject* dict)
     if (dict == nullptr)
         return;
 
-    if (_delinkCallback)
-    {
-        Py_XINCREF(_delinkCallback);
-        PyDict_SetItemString(dict, "delink_callback", _delinkCallback);
-    }
-    else
-        PyDict_SetItemString(dict, "delink_callback", GetPyNone());
+    PyDict_SetItemString(dict, "delink_callback", _delinkCallback? (PyObject*)_delinkCallback : Py_None);
 
     // helper to check and set bit
     auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
@@ -119,7 +113,6 @@ void mvNodeEditor::onChildRemoved(std::shared_ptr<mvAppItem> item)
                     if (i1 == attr_id || i2 == attr_id)
                     {
                         DeleteItem(*GContext->itemRegistry, child->uuid);
-                        CleanUpItem(*GContext->itemRegistry, child->uuid);
                     }
                 }
             }
@@ -134,6 +127,8 @@ std::vector<mvUUID> mvNodeEditor::getSelectedNodes() const
     {
         for (const auto& child : childslots[1])
         {
+            if (child->type != mvAppItemType::mvNode)
+                continue;
             int i1 = item;
             int i2 = static_cast<mvNode*>(child.get())->getId();
             //if (static_cast<mvNode*>(child.get())->getId() == item)
@@ -225,6 +220,7 @@ void mvNodeEditor::draw(ImDrawList* drawlist, float x, float y)
     }
 
     state.lastFrameUpdate = GContext->frame;
+    state.prevHovered = state.hovered;
     state.hovered = ImNodes::IsEditorHovered();
     state.visible = ret;
     state.rectSize = { ImNodes::mvEditorGetSize().Max.x - ImNodes::mvEditorGetSize().Min.x, ImNodes::mvEditorGetSize().Max.y - ImNodes::mvEditorGetSize().Min.y };
@@ -252,6 +248,7 @@ void mvNodeEditor::draw(ImDrawList* drawlist, float x, float y)
     for (auto& child : childslots[0])
     {
         child->state.lastFrameUpdate = GContext->frame;
+        child->state.prevHovered = child->state.hovered;
         child->state.hovered = false;
 
         if (anyLinkHovered && linkHovered == static_cast<mvNodeLink*>(child.get())->getId())
@@ -261,7 +258,12 @@ void mvNodeEditor::draw(ImDrawList* drawlist, float x, float y)
 
     for (auto& child : childslots[1])
     {
+        // skip non-node children (e.g. menu bars)
+        if (child->type != mvAppItemType::mvNode)
+            continue;
+
         child->state.lastFrameUpdate = GContext->frame;
+        child->state.prevHovered = child->state.hovered;
         child->state.hovered = false;
 
         if (child->config.show)
@@ -279,6 +281,7 @@ void mvNodeEditor::draw(ImDrawList* drawlist, float x, float y)
         for (auto& grandchild : child->childslots[1])
         {
             grandchild->state.lastFrameUpdate = GContext->frame;
+            grandchild->state.prevHovered = grandchild->state.hovered;
             grandchild->state.hovered = false;
 
             if (anyPinHovered && pinHovered == static_cast<mvNodeAttribute*>(grandchild.get())->getId())
@@ -313,70 +316,52 @@ void mvNodeEditor::draw(ImDrawList* drawlist, float x, float y)
     static int start_attr, end_attr;
     if (ImNodes::IsLinkCreated(&start_attr, &end_attr))
     {
-        mvUUID node1, node2;
-        for (const auto& child : childslots[1])
-        {
-
-            // skip menu bars
-            if (child->type != mvAppItemType::mvNode)
-                continue;
-
-            for (const auto& grandchild : child->childslots[1])
-            {
-                if (static_cast<mvNodeAttribute*>(grandchild.get())->getId() == start_attr)
-                    node1 = grandchild->uuid;
-
-                if (static_cast<mvNodeAttribute*>(grandchild.get())->getId() == end_attr)
-                    node2 = grandchild->uuid;
-            }
-        }
-
         if (config.callback)
         {
-            if (config.alias.empty())
-                mvSubmitCallback([=]() {
+            mvAppItem* node1 = nullptr;
+            mvAppItem* node2 = nullptr;
+            for (const auto& child : childslots[1])
+            {
+
+                // skip menu bars
+                if (child->type != mvAppItemType::mvNode)
+                    continue;
+
+                for (const auto& grandchild : child->childslots[1])
+                {
+                    if (static_cast<mvNodeAttribute*>(grandchild.get())->getId() == start_attr)
+                        node1 = grandchild.get();
+
+                    if (static_cast<mvNodeAttribute*>(grandchild.get())->getId() == end_attr)
+                        node2 = grandchild.get();
+                }
+            }
+
+            submitCallbackEx([=]() {
                 PyObject* link = PyTuple_New(2);
                 PyTuple_SetItem(link, 0, ToPyUUID(node1));
                 PyTuple_SetItem(link, 1, ToPyUUID(node2));
-                mvAddCallback(config.callback, uuid, link, config.user_data);
-                    });
-            else
-                mvSubmitCallback([=]() {
-                PyObject* link = PyTuple_New(2);
-                PyTuple_SetItem(link, 0, ToPyUUID(node1));
-                PyTuple_SetItem(link, 1, ToPyUUID(node2));
-                mvAddCallback(config.callback, config.alias, link, config.user_data);
-                    });
+                return link;
+            });
         }
     }
 
     static int destroyed_attr;
     if (ImNodes::IsLinkDestroyed(&destroyed_attr))
     {
-        mvUUID name = 0;
-        for (auto& item : childslots[0])
-        {
-            if (item->type == mvAppItemType::mvNodeLink)
-            {
-                if (static_cast<const mvNodeLink*>(item.get())->_id0 == destroyed_attr)
-                {
-                    name = item->uuid;
-                    break;
-                }
-            }
-        }
         if (_delinkCallback)
         {
-            if (config.alias.empty())
-                mvSubmitCallback([=]() {
-                PyObject* link = ToPyUUID(name);
-                mvAddCallback(_delinkCallback, uuid, link, config.user_data);
-                    });
-            else
-                mvSubmitCallback([=]() {
-                PyObject* link = ToPyUUID(name);
-                mvAddCallback(_delinkCallback, config.alias, link, config.user_data);
-                    });
+            for (auto& item : childslots[0])
+            {
+                if (item->type == mvAppItemType::mvNodeLink)
+                {
+                    if (static_cast<const mvNodeLink*>(item.get())->_id0 == destroyed_attr)
+                    {
+                        submitCallbackEx(_delinkCallback, [=]() { return ToPyUUID(item.get()); });
+                        break;
+                    }
+                }
+            }
         }
     }
 
@@ -417,10 +402,7 @@ void mvNode::draw(ImDrawList* drawlist, float x, float y)
 
     // push font if a font object is attached
     if (font)
-    {
-        ImFont* fontptr = static_cast<mvFont*>(font.get())->getFontPtr();
-        ImGui::PushFont(fontptr);
-    }
+        static_cast<mvFont*>(font.get())->pushFont();
 
     // themes
     apply_local_theming(this);
@@ -444,6 +426,16 @@ void mvNode::draw(ImDrawList* drawlist, float x, float y)
         ImNodes::BeginNodeTitleBar();
         ImGui::TextUnformatted(config.specifiedLabel.c_str());
         ImNodes::EndNodeTitleBar();
+
+        // Just in case there are no children items within the node: EndNodeTitleBar()
+        // above calls SetCursorPos, and it's invalid to call it like that without adding
+        // yet another item after it (see issue #5548 in Dear ImGui, and also RestoreImGuiCursor
+        // in mvAppItem.cpp).  Once this issue is fixed directly in ImNodes, we can
+        // remove the following three lines.
+        // TODO: recheck on the next update of ImNodes.
+        ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));
+        ImGui::Dummy(ImVec2(0, 0));
+        ImGui::PopStyleVar();
 
         state.lastFrameUpdate = GContext->frame;
         state.leftclicked = ImGui::IsItemClicked();
@@ -549,10 +541,7 @@ void mvNodeAttribute::draw(ImDrawList* drawlist, float x, float y)
 
     // push font if a font object is attached
     if (font)
-    {
-        ImFont* fontptr = static_cast<mvFont*>(font.get())->getFontPtr();
-        ImGui::PushFont(fontptr);
-    }
+        static_cast<mvFont*>(font.get())->pushFont();
 
     // themes
     apply_local_theming(this);
@@ -747,6 +736,6 @@ void mvNodeLink::getSpecificConfiguration(PyObject* dict)
     if (dict == nullptr)
         return;
 
-    PyDict_SetItemString(dict, "attr_1", mvPyObject(ToPyUUID(_id1uuid)));
-    PyDict_SetItemString(dict, "attr_2", mvPyObject(ToPyUUID(_id2uuid)));
+    PyDict_SetItemString(dict, "attr_1", mvPyObject(PyUUIDFromItem(_id1uuid)));
+    PyDict_SetItemString(dict, "attr_2", mvPyObject(PyUUIDFromItem(_id2uuid)));
 }

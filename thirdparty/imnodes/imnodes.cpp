@@ -6,11 +6,7 @@
 // [SECTION] render helpers
 // [SECTION] API implementation
 
-#include "imnodes.h"
 #include "imnodes_internal.h"
-
-#define IMGUI_DEFINE_MATH_OPERATORS
-#include <imgui_internal.h>
 
 // Check minimum ImGui version
 #define MINIMUM_COMPATIBLE_IMGUI_VERSION 17400
@@ -354,7 +350,11 @@ void ImDrawListGrowChannels(ImDrawList* draw_list, const int num_channels)
         {
             ImDrawCmd draw_cmd;
             draw_cmd.ClipRect = draw_list->_ClipRectStack.back();
+#if IMGUI_VERSION_NUM < 19200
             draw_cmd.TextureId = draw_list->_TextureIdStack.back();
+#else
+            draw_cmd.TexRef = draw_list->_TextureStack.back();
+#endif
             channel._CmdBuffer.push_back(draw_cmd);
         }
     }
@@ -1735,7 +1735,7 @@ static inline void CalcMiniMapLayout()
         const ImVec2 grid_content_size = editor.GridContentBounds.IsInverted()
                                              ? max_size
                                              : ImFloor(editor.GridContentBounds.GetSize());
-        const float grid_content_aspect_ratio = grid_content_size.x / grid_content_size.y;
+        const float  grid_content_aspect_ratio = grid_content_size.x / grid_content_size.y;
         mini_map_size = ImFloor(
             grid_content_aspect_ratio > max_size_aspect_ratio
                 ? ImVec2(max_size.x, max_size.x / grid_content_aspect_ratio)

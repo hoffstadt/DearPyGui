@@ -206,7 +206,6 @@ public:
 private:
 
 
-    mvUUID      _textureUUID = 0;
     mvVec4      _pmax = { 0.0f, 0.0f, 0.0f, 1.0f };
     mvVec4      _pmin = { 0.0f, 0.0f, 0.0f, 1.0f };
     mvVec2      _uv_min = { 0.0f, 0.0f };
@@ -215,7 +214,6 @@ private:
 
     // pointer to existing item or internal
     std::shared_ptr<mvAppItem> _texture = nullptr;
-    bool _internalTexture = false; // create a local texture if necessary
 
 };
 
@@ -235,7 +233,6 @@ public:
 private:
 
 
-    mvUUID      _textureUUID = 0;
     mvVec4      _p1 = { 0.0f, 0.0f, 0.0f, 1.0f };
     mvVec4      _p2 = { 0.0f, 0.0f, 0.0f, 1.0f };
     mvVec4      _p3 = { 0.0f, 0.0f, 0.0f, 1.0f };
@@ -248,7 +245,6 @@ private:
 
     // pointer to existing item or internal
     std::shared_ptr<mvAppItem> _texture = nullptr;
-    bool _internalTexture = false; // create a local texture if necessary
 
 };
 

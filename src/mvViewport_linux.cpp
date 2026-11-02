@@ -1,6 +1,10 @@
 #include "mvViewport.h"
-#include "mvFontManager.h"
+
 #include "mvLinuxSpecifics.h"
+
+#include "mvFontManager.h"
+#include "mvToolManager.h"
+
 #include "implot.h"
 #include "imgui.h"
 #include "imnodes.h"
@@ -9,7 +13,6 @@
 #include "imgui_impl_opengl3.h"
 #include <stdio.h>
 #include <stb_image.h>
-#include "mvToolManager.h"
 
 static void
 glfw_error_callback(int error, const char* description)
@@ -21,12 +24,10 @@ static void
 window_close_callback(GLFWwindow* window)
 {
     if (GContext->viewport->disableClose) {
-        mvSubmitCallback([=]() {
-            mvRunCallback(GContext->callbackRegistry->onCloseCallback, 0, nullptr, GContext->callbackRegistry->onCloseCallbackUserData);
-            });
+        mvAddOwnerlessCallback(GContext->callbackRegistry->onCloseCallback, GContext->callbackRegistry->onCloseCallbackUserData);
     }
     else {
-        GContext->started = false;
+        StopRendering();
     }
 }
 
@@ -43,6 +44,8 @@ window_size_callback(GLFWwindow* window, int width, int height)
 static void
 mvPrerender()
 {
+    std::lock_guard lk(GContext->mutex);
+
     mvViewport* viewport = GContext->viewport;
     auto viewportData = (mvViewportData*)viewport->platformSpecifics;
 
@@ -92,12 +95,7 @@ mvPrerender()
     else
         glfwPollEvents();
 
-    if (mvToolManager::GetFontManager().isInvalid())
-    {
-        mvToolManager::GetFontManager().rebuildAtlas();
-        ImGui_ImplOpenGL3_DestroyDeviceObjects();
-        mvToolManager::GetFontManager().updateAtlas();
-    }
+    mvToolManager::GetFontManager().updateAtlas();
 
     // Start the Dear ImGui frame
     ImGui_ImplOpenGL3_NewFrame();
@@ -107,11 +105,9 @@ mvPrerender()
 }
 
  mvViewport*
-mvCreateViewport(unsigned width, unsigned height)
+mvCreateViewport()
 {
     mvViewport* viewport = new mvViewport();
-    viewport->width = width;
-    viewport->height = height;
     viewport->platformSpecifics = new mvViewportData();
     return viewport;
 }
@@ -127,7 +123,7 @@ mvCleanupViewport(mvViewport& viewport)
 
     glfwDestroyWindow(viewportData->handle);
     glfwTerminate();
-    GContext->started = false;
+    StopRendering();
 
     delete viewportData;
     viewportData = nullptr;

@@ -1,12 +1,13 @@
 #include "mvPyUtils.h"
-#include <utility>
+#pragma hdrstop
 
-#include <string>
 #include "mvAppItem.h"
-#include "mvAppItemCommons.h"
 #include "mvContext.h"
 #include "mvItemRegistry.h"
 #include "dearpygui.h"
+
+#include <utility>
+#include <string>
 #include <ctime>
 #include <frameobject.h>
 
@@ -21,36 +22,29 @@ mvGlobalIntepreterLock::~mvGlobalIntepreterLock()
 }
 
 
-mvPyObject::mvPyObject(PyObject* rawObject, bool borrowed) 
+mvPyObject::mvPyObject(PyObject* rawObject, bool borrowed)
 	:
-	m_rawObject(rawObject),
-	m_borrowed(borrowed),
-	m_ok(rawObject != nullptr)
+	m_rawObject(rawObject)
 {
-
+    if (borrowed)
+        Py_XINCREF(rawObject);
 }
 
 mvPyObject::mvPyObject(mvPyObject&& other)
 	:
-	m_rawObject(nullptr),
-	m_borrowed(false),
-	m_ok(false)
+	m_rawObject(nullptr)
 {
 	std::swap(m_rawObject, other.m_rawObject);
-	std::swap(m_borrowed, other.m_borrowed);
-	std::swap(m_ok, other.m_ok);
 }
 
 mvPyObject& mvPyObject::operator=(mvPyObject&& other)
 {
 	if (this != &other)
 	{
-		if (m_rawObject != nullptr && !m_borrowed)
-			Py_XDECREF(m_rawObject);
+        Py_XDECREF(m_rawObject);
+        m_rawObject = nullptr;
 
 		std::swap(other.m_rawObject, m_rawObject);
-		std::swap(other.m_borrowed, m_borrowed);
-		std::swap(other.m_ok, m_ok);
 	}
 
 	return *this;
@@ -58,24 +52,7 @@ mvPyObject& mvPyObject::operator=(mvPyObject&& other)
 
 mvPyObject::~mvPyObject()
 {
-	if(!m_borrowed && !m_del)
-		Py_XDECREF(m_rawObject);
-}
-
-mvPyObject::operator PyObject*()
-{
-	return m_rawObject;
-}
-
-void mvPyObject::addRef()
-{
-	Py_XINCREF(m_rawObject);
-}
-
-void mvPyObject::delRef()
-{
-	Py_XDECREF(m_rawObject);
-	m_del = true;
+    Py_XDECREF(m_rawObject);
 }
 
 void
@@ -403,6 +380,23 @@ isPyObject_Dict(PyObject* obj)
 }
 
 
+template<typename T>
+Py_ssize_t VecReserveForTuple(PyObject* value, std::vector<T>& vec)
+{
+    Py_ssize_t size = PyTuple_Size(value);
+    vec.reserve(size);
+    return size;
+}
+
+template<typename T>
+Py_ssize_t VecReserveForList(PyObject* value, std::vector<T>& vec)
+{
+    Py_ssize_t size = PyList_Size(value);
+    vec.reserve(size);
+    return size;
+}
+
+
 void
 UpdatePyIntList(PyObject* pyvalue, const std::vector<int>& value)
 {
@@ -417,10 +411,9 @@ UpdatePyIntList(PyObject* pyvalue, const std::vector<int>& value)
     }
 
 
-    for (Py_ssize_t i = 0; i < PyList_Size(pyvalue); ++i)
+    auto size = std::min(PyList_Size(pyvalue), (Py_ssize_t)value.size());
+    for (Py_ssize_t i = 0; i < size; ++i)
     {
-        if (static_cast<size_t>(i) == value.size())
-            break;
         PyList_SetItem(pyvalue, i, PyLong_FromLong(value[i]));
     }
 }
@@ -439,10 +432,9 @@ UpdatePyFloatList(PyObject* pyvalue, const std::vector<float>& value)
     }
 
 
-    for (Py_ssize_t i = 0; i < PyList_Size(pyvalue); ++i)
+    auto size = std::min(PyList_Size(pyvalue), (Py_ssize_t)value.size());
+    for (Py_ssize_t i = 0; i < size; ++i)
     {
-        if (static_cast<size_t>(i) == value.size())
-            break;
         PyList_SetItem(pyvalue, i, PyFloat_FromDouble(value[i]));
     }
 }
@@ -461,15 +453,13 @@ UpdatePyStringStringList(PyObject* pyvalue, const std::vector<std::vector<std::s
     }
 
 
-    for (Py_ssize_t i = 0; i < PyList_Size(pyvalue); ++i)
+    auto size = std::min(PyList_Size(pyvalue), (Py_ssize_t)value.size());
+    for (Py_ssize_t i = 0; i < size; ++i)
     {
-        if (static_cast<size_t>(i) == value.size())
-            break;
         PyObject* row = PyList_GetItem(pyvalue, i);
-        for (Py_ssize_t j = 0; j < PyList_Size(row); ++j)
+        auto rowsize = std::min(PyList_Size(row), (Py_ssize_t)value[i].size());
+        for (Py_ssize_t j = 0; j < rowsize; ++j)
         {
-            if (static_cast<size_t>(j) == value[i].size())
-                break;
             PyList_SetItem(row, i, PyUnicode_FromString(value[i][j].c_str()));
         }
     }
@@ -479,6 +469,12 @@ PyObject*
 GetPyNone()
 {
     Py_RETURN_NONE;
+}
+
+PyObject*
+GetPyNoneOrError()
+{
+    return (PyErr_Occurred() != nullptr)? nullptr : GetPyNone();
 }
 
 PyObject*
@@ -512,21 +508,29 @@ ToPyInt(int value)
 PyObject*
 ToPyUUID(mvAppItem* item)
 {
-    if (!item->config.alias.empty())
-        return Py_BuildValue("K", item->uuid);
-
-    return Py_BuildValue("K", item->uuid);
+    return item? ToPyUUID(item->uuid, item->config.alias) : PyLong_FromLong(0);
 }
 
 PyObject*
-ToPyUUID(mvUUID value)
+ToPyUUID(mvUUID uuid, const std::string& alias)
+{
+	if (alias.empty())
+		return Py_BuildValue("K", uuid);
+	return ToPyString(alias);
+}
+
+PyObject*
+ToPyUUIDOrNone(mvAppItem* item)
+{
+    return item? ToPyUUID(item->uuid, item->config.alias) : GetPyNone();
+}
+
+PyObject*
+PyUUIDFromItem(mvUUID value)
 {
     mvAppItem* item = GetItem(*GContext->itemRegistry, value);
     if (item)
-    {
-        if (!item->config.alias.empty())
-            return Py_BuildValue("K", item->uuid);
-    }
+        return ToPyUUID(item);
     return Py_BuildValue("K", value);
 }
 
@@ -587,6 +591,17 @@ ToPyPair(const std::string& x, const std::string& y)
 }
 
 PyObject*
+ToPyTPair(bool x, bool y)
+{
+    PyObject* result = PyTuple_New(2);
+
+    PyTuple_SetItem(result, 0, ToPyBool(x));
+    PyTuple_SetItem(result, 1, ToPyBool(y));
+
+    return result;
+}
+
+PyObject*
 ToPyList(const std::vector<int>& value)
 {
 
@@ -624,7 +639,7 @@ ToPyList(const std::vector<mvVec2>& value)
         PyObject* item = PyList_New(2);
         PyList_SetItem(item, 0, PyFloat_FromDouble (value[i].x));
         PyList_SetItem(item, 1, PyFloat_FromDouble (value[i].y));
-        PyList_SetItem(item, i, item);
+        PyList_SetItem(result, i, item);
     }
 
     return result;
@@ -644,7 +659,7 @@ ToPyList(const std::vector<mvVec4>& value)
         PyList_SetItem(item, 1, PyFloat_FromDouble(value[i].y));
         PyList_SetItem(item, 2, PyFloat_FromDouble(value[i].z));
         PyList_SetItem(item, 3, PyFloat_FromDouble(value[i].w));
-        PyList_SetItem(item, i, item);
+        PyList_SetItem(result, i, item);
     }
 
     return result;
@@ -868,6 +883,23 @@ ToInt(PyObject* value, const std::string& message)
     return 0;
 }
 
+long
+ToLong(PyObject* value, const std::string& message)
+{
+    if (value == nullptr)
+        return 0;
+
+
+    if (PyLong_Check(value))
+        return PyLong_AsLong(value);
+
+    else if (PyFloat_Check(value))
+        return (long)PyFloat_AsDouble(value);
+
+    mvThrowPythonError(mvErrorCode::mvWrongType, "Python value error. Must be int.");
+    return 0;
+}
+
 mvUUID
 ToUUID(PyObject* value, const std::string& message)
 {
@@ -1072,19 +1104,19 @@ ToUCharVect(PyObject* value, const std::string& message)
 
     if (PyTuple_Check(value))
     {
-        items.resize(PyTuple_Size(value));
-        for (Py_ssize_t i = 0; i < PyTuple_Size(value); ++i)
+        auto size = VecReserveForTuple(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
         {
-            items[i] = (unsigned char)PyLong_AsLong(PyTuple_GetItem(value, i));
+            items.emplace_back((unsigned char)PyLong_AsLong(PyTuple_GetItem(value, i)));
         }
     }
 
     else if (PyList_Check(value))
     {
-        items.resize(PyList_Size(value));
-        for (Py_ssize_t i = 0; i < PyList_Size(value); ++i)
+        auto size = VecReserveForList(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
         {
-            items[i] = (unsigned char)PyLong_AsLong(PyList_GetItem(value, i));
+            items.emplace_back((unsigned char)PyLong_AsLong(PyList_GetItem(value, i)));
         }
     }
 
@@ -1103,9 +1135,8 @@ ToUCharVect(PyObject* value, const std::string& message)
             {
                 items.emplace_back((unsigned char)BufferViewer(buffer_info, i));
             }
+            PyBuffer_Release(&buffer_info);
         }
-
-        PyBuffer_Release(&buffer_info);
     }
 
     else
@@ -1125,19 +1156,19 @@ ToIntVect(PyObject* value, const std::string& message)
 
     if (PyTuple_Check(value))
     {
-        items.resize(PyTuple_Size(value));
-        for (Py_ssize_t i = 0; i < PyTuple_Size(value); ++i)
+        auto size = VecReserveForTuple(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
         {
-            items[i] = PyLong_AsLong(PyTuple_GetItem(value, i));
+            items.emplace_back(PyLong_AsLong(PyTuple_GetItem(value, i)));
         }
     }
 
     else if (PyList_Check(value))
     {
-        items.resize(PyList_Size(value));
-        for (Py_ssize_t i = 0; i < PyList_Size(value); ++i)
+        auto size = VecReserveForList(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
         {
-            items[i] = PyLong_AsLong(PyList_GetItem(value, i));
+            items.emplace_back(PyLong_AsLong(PyList_GetItem(value, i)));
         }
     }
 
@@ -1156,9 +1187,8 @@ ToIntVect(PyObject* value, const std::string& message)
             {
                 items.emplace_back(BufferViewer(buffer_info, i));
             }
+            PyBuffer_Release(&buffer_info);
         }
-
-        PyBuffer_Release(&buffer_info);
     }
 
     else
@@ -1179,27 +1209,19 @@ ToUUIDVect(PyObject* value, const std::string& message)
 
     if (PyTuple_Check(value))
     {
-        items.resize(PyTuple_Size(value));
-        for (Py_ssize_t i = 0; i < PyTuple_Size(value); ++i)
+        auto size = VecReserveForTuple(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
         {
-            PyObject* item = PyTuple_GetItem(value, i);
-            if (isPyObject_Int(item))
-                items[i] = PyLong_AsUnsignedLongLong(item);
-            else if (isPyObject_String(item))
-                items[i] = GetIdFromAlias(*GContext->itemRegistry, ToString(item));
+            items.emplace_back(ToUUID(PyTuple_GetItem(value, i)));
         }
     }
 
     else if (PyList_Check(value))
     {
-        items.resize(PyList_Size(value));
-        for (Py_ssize_t i = 0; i < PyList_Size(value); ++i)
+        auto size = VecReserveForList(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
         {
-            PyObject* item = PyList_GetItem(value, i);
-            if (isPyObject_Int(item))
-                items[i] = PyLong_AsUnsignedLongLong(item);
-            else if (isPyObject_String(item))
-                items[i] = GetIdFromAlias(*GContext->itemRegistry, ToString(item));
+            items.emplace_back(ToUUID(PyList_GetItem(value, i)));
         }
     }
 
@@ -1208,34 +1230,6 @@ ToUUIDVect(PyObject* value, const std::string& message)
 
 
     return items;
-}
-
-template<typename T>
-Py_ssize_t GetSizeAndReserveMemoryVectVect(PyObject* value, std::vector<std::vector<T>>& vec, const std::string mode)
-{
-    assert((mode == "tuple" || mode == "list") && "mode parameter must be 'tuple' or 'list'");
-    Py_ssize_t size = 0;
-    if (mode == "tuple")
-        size = PyTuple_Size(value);
-    else if (mode == "list")
-        size = PyList_Size(value);
-
-    vec.reserve(size);
-    return size;
-}
-
-template<typename T>
-Py_ssize_t GetSizeAndReserveMemoryVect(PyObject* value, std::vector<T>& vec, const std::string mode)
-{
-    assert((mode == "tuple" || mode == "list") && "mode parameter must be 'tuple' or 'list'");
-    Py_ssize_t size = 0;
-    if (mode == "tuple")
-        size = PyTuple_Size(value);
-    else if (mode == "list")
-        size = PyList_Size(value);
-
-    vec.reserve(size);
-    return size;
 }
 
 std::vector<float>
@@ -1249,7 +1243,8 @@ ToFloatVect(PyObject* value, const std::string& message)
 
     if (PyTuple_Check(value))
     {
-        for (Py_ssize_t i = 0; i < GetSizeAndReserveMemoryVect(value, items, "tuple"); ++i)
+        auto size = VecReserveForTuple(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
         {
             items.emplace_back((float)PyFloat_AsDouble(PyTuple_GetItem(value, i)));
         }
@@ -1257,7 +1252,8 @@ ToFloatVect(PyObject* value, const std::string& message)
 
     else if (PyList_Check(value))
     {
-        for (Py_ssize_t i = 0; i < GetSizeAndReserveMemoryVect(value, items, "list"); ++i)
+        auto size = VecReserveForList(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
         {
             items.emplace_back((float)PyFloat_AsDouble(PyList_GetItem(value, i)));
         }
@@ -1278,8 +1274,8 @@ ToFloatVect(PyObject* value, const std::string& message)
             {
                 items.emplace_back(BufferViewer(buffer_info, i));
             }
+            PyBuffer_Release(&buffer_info);
         }
-        PyBuffer_Release(&buffer_info);
     }
 
     else
@@ -1300,7 +1296,8 @@ ToDoubleVect(PyObject* value, const std::string& message)
 
     if (PyTuple_Check(value))
     {
-        for (Py_ssize_t i = 0; i < GetSizeAndReserveMemoryVect(value, items, "tuple"); ++i)
+        auto size = VecReserveForTuple(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
         {
             items.emplace_back(PyFloat_AsDouble(PyTuple_GetItem(value, i)));
         }
@@ -1308,7 +1305,8 @@ ToDoubleVect(PyObject* value, const std::string& message)
 
     else if (PyList_Check(value))
     {
-        for (Py_ssize_t i = 0; i < GetSizeAndReserveMemoryVect(value, items, "list"); ++i)
+        auto size = VecReserveForList(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
         {
             items.emplace_back(PyFloat_AsDouble(PyList_GetItem(value, i)));
         }
@@ -1328,8 +1326,8 @@ ToDoubleVect(PyObject* value, const std::string& message)
             {
                 items.emplace_back(BufferViewer(buffer_info, i));
             }
+            PyBuffer_Release(&buffer_info);
         }
-        PyBuffer_Release(&buffer_info);
     }
 
     else
@@ -1350,7 +1348,8 @@ ToStringVect(PyObject* value, const std::string& message)
 
     if (PyTuple_Check(value))
     {
-        for (Py_ssize_t i = 0; i < GetSizeAndReserveMemoryVect(value, items, "tuple"); ++i)
+        auto size = VecReserveForTuple(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
         {
             PyObject* item = PyTuple_GetItem(value, i);
             if (PyUnicode_Check(item))
@@ -1366,7 +1365,8 @@ ToStringVect(PyObject* value, const std::string& message)
 
     else if (PyList_Check(value))
     {
-        for (Py_ssize_t i = 0; i < GetSizeAndReserveMemoryVect(value, items, "list"); ++i)
+        auto size = VecReserveForList(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
         {
             PyObject* item = PyList_GetItem(value, i);
             if (PyUnicode_Check(item))
@@ -1397,10 +1397,9 @@ ToColor(PyObject* value, const std::string& message)
 
     if (PyTuple_Check(value))
     {
-        for (Py_ssize_t i = 0; i < PyTuple_Size(value); ++i)
+        auto size = std::min(PyTuple_Size(value), (Py_ssize_t)std::size(color));
+        for (Py_ssize_t i = 0; i < size; ++i)
         {
-            if (i >= 4)
-                break;
             PyObject* item = PyTuple_GetItem(value, i);
             if(PyNumber_Check(item))
                 color[i] = (float)PyFloat_AsDouble(item)/255.0f;
@@ -1409,10 +1408,9 @@ ToColor(PyObject* value, const std::string& message)
     }
     else if (PyList_Check(value))
     {
-        for (Py_ssize_t i = 0; i < PyList_Size(value); ++i)
+        auto size = std::min(PyList_Size(value), (Py_ssize_t)std::size(color));
+        for (Py_ssize_t i = 0; i < size; ++i)
         {
-            if (i >= 4)
-                break;
             PyObject* item = PyList_GetItem(value, i);
             if (PyNumber_Check(item))
                 color[i] = (float)PyFloat_AsDouble(item)/255.0f;
@@ -1484,7 +1482,8 @@ ToVectPairString(PyObject* value, const std::string& message)
 
     if (PyTuple_Check(value))
     {
-        for (Py_ssize_t i = 0; i < PyTuple_Size(value); ++i)
+        auto size = VecReserveForTuple(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
         {
             PyObject* item = PyTuple_GetItem(value, i);
             if (PyTuple_Size(item) == 2)
@@ -1495,7 +1494,8 @@ ToVectPairString(PyObject* value, const std::string& message)
     }
     else if (PyList_Check(value))
     {
-        for (Py_ssize_t i = 0; i < PyList_Size(value); ++i)
+        auto size = VecReserveForList(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
         {
             PyObject* item = PyList_GetItem(value, i);
             if (PyList_Size(item) == 2)
@@ -1520,12 +1520,14 @@ ToVectVec2(PyObject* value, const std::string& message)
 
     if (PyTuple_Check(value))
     {
-        for (Py_ssize_t i = 0; i < PyTuple_Size(value); ++i)
+        auto size = VecReserveForTuple(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
             items.push_back(ToVec2(PyTuple_GetItem(value, i)));
     }
     else if (PyList_Check(value))
     {
-        for (Py_ssize_t i = 0; i < PyList_Size(value); ++i)
+        auto size = VecReserveForList(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
             items.push_back(ToVec2(PyList_GetItem(value, i)));
     }
 
@@ -1572,12 +1574,14 @@ ToVectVec4(PyObject* value, const std::string& message)
 
     if (PyTuple_Check(value))
     {
-        for (Py_ssize_t i = 0; i < PyTuple_Size(value); ++i)
+        auto size = VecReserveForTuple(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
             items.push_back(ToVec4(PyTuple_GetItem(value, i)));
     }
     else if (PyList_Check(value))
     {
-        for (Py_ssize_t i = 0; i < PyList_Size(value); ++i)
+        auto size = VecReserveForList(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
             items.push_back(ToVec4(PyList_GetItem(value, i)));
     }
 
@@ -1597,7 +1601,8 @@ ToVectInt2(PyObject* value, const std::string& message)
 
     if (PyTuple_Check(value))
     {
-        for (Py_ssize_t i = 0; i < PyTuple_Size(value); ++i)
+        auto size = VecReserveForTuple(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
         {
             PyObject* point = PyTuple_GetItem(value, i);
             if(PyTuple_Check(point))
@@ -1623,7 +1628,8 @@ ToVectInt2(PyObject* value, const std::string& message)
 
     else if (PyList_Check(value))
     {
-        for (Py_ssize_t i = 0; i < PyList_Size(value); ++i)
+        auto size = VecReserveForList(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
         {
             PyObject* point = PyList_GetItem(value, i);
             if(PyTuple_Check(point))
@@ -1664,13 +1670,15 @@ ToVectVectString(PyObject* value, const std::string& message)
 
     if (PyTuple_Check(value))
     {
-        for (Py_ssize_t i = 0; i < GetSizeAndReserveMemoryVectVect(value, items, "tuple"); ++i)
+        auto size = VecReserveForTuple(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
             items.emplace_back(ToStringVect(PyTuple_GetItem(value, i), message));
     }
 
     else if (PyList_Check(value))
     {
-        for (Py_ssize_t i = 0; i < GetSizeAndReserveMemoryVectVect(value, items, "list"); ++i)
+        auto size = VecReserveForList(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
             items.emplace_back(ToStringVect(PyList_GetItem(value, i), message));
     }
 
@@ -1687,7 +1695,8 @@ ToVectPairStringFloat(PyObject* value, const std::string& message)
 
     if (PyTuple_Check(value))
     {
-        for (Py_ssize_t i = 0; i < PyTuple_Size(value); ++i)
+        auto size = VecReserveForTuple(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
         {
             PyObject* item = PyTuple_GetItem(value, i);
             if (PyTuple_Size(item) == 2 && PyNumber_Check(PyTuple_GetItem(item, 1)))
@@ -1698,7 +1707,8 @@ ToVectPairStringFloat(PyObject* value, const std::string& message)
     }
     else if (PyList_Check(value))
     {
-        for (Py_ssize_t i = 0; i < PyList_Size(value); ++i)
+        auto size = VecReserveForList(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
         {
             PyObject* item = PyList_GetItem(value, i);
             if (PyList_Size(item) == 2 && PyNumber_Check(PyList_GetItem(item, 1)))
@@ -1723,13 +1733,15 @@ ToVectVectFloat(PyObject* value, const std::string& message)
 
     if (PyTuple_Check(value))
     {
-        for (Py_ssize_t i = 0; i < GetSizeAndReserveMemoryVectVect(value, items, "tuple"); ++i)
+        auto size = VecReserveForTuple(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
             items.emplace_back(ToFloatVect(PyTuple_GetItem(value, i), message));
     }
 
     else if (PyList_Check(value))
     {
-        for (Py_ssize_t i = 0; i < GetSizeAndReserveMemoryVectVect(value, items, "list"); ++i)
+        auto size = VecReserveForList(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
             items.emplace_back(ToFloatVect(PyList_GetItem(value, i), message));
     }
 
@@ -1746,13 +1758,15 @@ ToVectVectInt(PyObject* value, const std::string& message)
 
     if (PyTuple_Check(value))
     {
-        for (Py_ssize_t i = 0; i < GetSizeAndReserveMemoryVectVect(value, items, "tuple"); ++i)
+        auto size = VecReserveForTuple(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
             items.emplace_back(ToIntVect(PyTuple_GetItem(value, i), message));
     }
 
     else if (PyList_Check(value))
     {
-        for (Py_ssize_t i = 0; i < GetSizeAndReserveMemoryVectVect(value, items, "list"); ++i)
+        auto size = VecReserveForList(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
             items.emplace_back(ToIntVect(PyList_GetItem(value, i), message));
     }
 
@@ -1769,13 +1783,15 @@ ToVectVectDouble(PyObject* value, const std::string& message)
 
     if (PyTuple_Check(value))
     {
-        for (Py_ssize_t i = 0; i < GetSizeAndReserveMemoryVectVect(value, items, "tuple"); ++i)
+        auto size = VecReserveForTuple(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
             items.emplace_back(ToDoubleVect(PyTuple_GetItem(value, i), message));
     }
 
     else if (PyList_Check(value))
     {
-        for (Py_ssize_t i = 0; i < GetSizeAndReserveMemoryVectVect(value, items, "list"); ++i)
+        auto size = VecReserveForList(value, items);
+        for (Py_ssize_t i = 0; i < size; ++i)
             items.emplace_back(ToDoubleVect(PyList_GetItem(value, i), message));
     }
 
@@ -2109,7 +2125,8 @@ VerifyKeywordArguments(const mvPythonParser& parser, PyObject* args)
     PyObject* keys = PyDict_Keys(args);
 
     bool exists = false;
-    for (int i = 0; i < PyList_Size(keys); i++)
+    auto keycnt = PyList_Size(keys);
+    for (int i = 0; i < keycnt; i++)
     {
         PyObject* item = PyList_GetItem(keys, i);
         auto sitem = ToString(item);
@@ -2943,6 +2960,395 @@ GenerateDearPyGuiFileRTD(const std::string& directory)
 }
 
 void
+GenerateTypeInfoModule(const std::string& directory)
+{
+    std::ofstream stub;
+    stub.open(directory + "/type_info.py");
+
+    stub << "\n##########################################################\n";
+    stub << "# Dear PyGui User Interface\n";
+    stub << "#   ~ Version: " << MV_SANDBOX_VERSION << "\n";
+    stub << "#\n";
+    stub << "#   Notes:\n";
+    stub << "#     * This file is automatically generated.\n#\n";
+    stub << "#   Resources:\n";
+    stub << "#     * FAQ:         https://github.com/hoffstadt/DearPyGui/discussions/categories/frequently-asked-questions-faq \n";
+    stub << "#     * Homepage:    https://github.com/hoffstadt/DearPyGui \n";
+    stub << "#     * Wiki:        https://github.com/hoffstadt/DearPyGui/wiki \n";
+    stub << "#     * Issues:      https://github.com/hoffstadt/DearPyGui/issues\n";
+    stub << "#     * Discussions: https://github.com/hoffstadt/DearPyGui/discussions\n";
+    stub << "##########################################################\n\n";
+
+    #define X(el) {#el, mvAppItemType::el},
+    std::vector<std::pair<std::string, mvAppItemType>> name_type_pairs = { MV_ITEM_TYPES };
+    #undef X
+
+
+    //-----------------------------------------------------------------------------
+    // get_all_types
+    //-----------------------------------------------------------------------------
+
+    stub << "def get_all_types(**kwargs) -> list:\n"
+            "    \"\"\" Return names of all item types as a list.\"\"\"\n\n"
+            "    return [\n";
+
+    for (const auto& entry : name_type_pairs)
+    {
+        stub << "        \"mvAppItemType::" << entry.first << "\",\n";
+    }
+    stub << "    ]\n\n";
+
+
+    //-----------------------------------------------------------------------------
+    // get_allowed_parents, get_allowed_children
+    //-----------------------------------------------------------------------------
+
+    stub << "def get_allowed_parents(distinct_allow_all: bool = False, **kwargs) -> dict:\n"
+            "    \"\"\" Return all item type names and collections of applicable parenting types as a mapping.\n\n"
+            "    This function returns a set of rules defined within Dear PyGui.  At runtime, these rules "
+            "get combined with those from `get_allowed_children()`, and what is allowed here might be disabled there.  "
+            "To get the actual possible combinations of chilren and parent types, see `get_possible_parents()` and `get_possible_children()`.\n\n"
+            "    Args:\n"
+            "        distinct_allow_all (bool):     If set to True, entries for the items accepted by any parent will be set to None.  "
+            "This allows to detect and handle such cases specially if needed.  "
+            "If False, all item types will be listed explicitly in such entries, which allows more straightforward processing of the dict.\n"
+            "    Returns:\n"
+            "        dict\n"
+            "    \"\"\"\n\n"
+            "    all_types = None if distinct_allow_all else tuple(get_all_types())\n\n"
+            "    return {\n";
+
+    for (const auto& entry : name_type_pairs)
+    {
+        stub << "        \"mvAppItemType::" << entry.first << "\": ";
+
+        auto name_id_pairs = DearPyGui::GetAllowableParents(entry.second);
+        if (!name_id_pairs.empty() && name_id_pairs[0].second == (i32)mvAppItemType::All)
+        {
+            stub << "all_types,\n";
+        }
+        else
+        {
+            stub << "(";
+            for (const auto& name_id_pair : name_id_pairs)
+            {
+                stub << "\"" << name_id_pair.first << "\", ";
+            }
+            stub << "),\n";
+        }
+    }
+    stub << "    }\n\n";
+
+
+    stub << "def get_allowed_children(distinct_allow_all: bool = False, **kwargs) -> dict:\n"
+            "    \"\"\" Return all item type names and collections of applicable child types as a mapping.\n\n"
+            "    This function returns a set of rules defined within Dear PyGui.  At runtime, these rules "
+            "get combined with those from `get_allowed_parents()`, and what is allowed here might be disabled there.  "
+            "To get the actual possible combinations of chilren and parent types, see `get_possible_parents()` and `get_possible_children()`.\n\n"
+            "    Args:\n"
+            "        distinct_allow_all (bool):     If set to True, entries for the items accepting all children types will be set to None.  "
+            "This allows to detect and handle such cases specially if needed.  "
+            "If False, all item types will be listed explicitly in such entries, which allows more straightforward processing of the dict.\n"
+            "    Returns:\n"
+            "        dict\n"
+            "    \"\"\"\n\n"
+            "    all_types = None if distinct_allow_all else tuple(get_all_types())\n\n"
+            "    return {\n";
+
+    for (const auto& entry : name_type_pairs)
+    {
+        stub << "        \"mvAppItemType::" << entry.first << "\": ";
+
+        auto name_id_pairs = DearPyGui::GetAllowableChildren(entry.second);
+        if (!name_id_pairs.empty() && name_id_pairs[0].second == (i32)mvAppItemType::All)
+        {
+            stub << "all_types,\n";
+        }
+        else
+        {
+            stub << "(";
+            for (const auto& name_id_pair : name_id_pairs)
+            {
+                stub << "\"" << name_id_pair.first << "\", ";
+            }
+            stub << "),\n";
+        }
+    }
+    stub << "    }\n\n";
+
+
+    //-----------------------------------------------------------------------------
+    // get_possible_parents, get_possible_children
+    //-----------------------------------------------------------------------------
+
+    // This array will contain all possible parent-child relationships.  Initialized to all-false.
+    // Note: the code below expects `mvAppItemType::All` to have a value of zero!  All those
+    // loop counters starting at 1 are caused by this.  If the value of `mvAppItemType::All` ever
+    // changes to something different, the code needs to be adjusted to explicitly check for
+    // equality to `mvAppItemType::All` in various places.
+    const size_t types_count = (size_t)mvAppItemType::ItemTypeCount;
+    bool relations[types_count][types_count] = {};
+
+    // Fill in by parents
+    for (const auto& entry : name_type_pairs)
+    {
+        auto name_id_pairs = DearPyGui::GetAllowableParents(entry.second);
+        size_t child = (size_t)entry.second;
+        if (!name_id_pairs.empty() && name_id_pairs[0].second == (i32)mvAppItemType::All)
+        {
+            for (size_t i = 1; i < types_count; i++)
+                relations[i][child] = true;
+        }
+        else
+        {
+            for (const auto& name_id_pair : name_id_pairs)
+                relations[(size_t)name_id_pair.second][child] = true;
+        }
+    }
+
+    // Now mask them by allowed children
+    for (const auto& entry : name_type_pairs)
+    {
+        size_t parent = (size_t)entry.second;
+        // Make sure it can have any children at all
+        if (DearPyGui::GetEntityDesciptionFlags(entry.second) & MV_ITEM_DESC_CONTAINER)
+        {
+            auto name_id_pairs = DearPyGui::GetAllowableChildren(entry.second);
+            bool allow_all = !name_id_pairs.empty() && name_id_pairs[0].second == (i32)mvAppItemType::All;
+            // If all children are allowed, we don't need to make any changes to the already filled line.
+            if (!allow_all)
+            {
+                bool children[types_count] = {};
+                for (const auto& name_id_pair : name_id_pairs)
+                    children[(size_t)name_id_pair.second] = true;
+
+                for (size_t i = 1; i < types_count; i++)
+                    relations[parent][i] = relations[parent][i] && children[i];
+            }
+        }
+        else
+        {
+            // Not a container? Kill all children.
+            for (size_t i = 1; i < types_count; i++)
+                relations[parent][i] = false;
+        }
+    }
+
+    // Write out the resulting set of relationships
+
+    stub << "def get_possible_parents(**kwargs) -> dict:\n"
+            "    \"\"\" Return a dict that for every item type lists all types that can be used as a parent.\n\n"
+            "    Unlike `get_allowed_parents()`, this function returns the actual set of all possible "
+            "parent-child relationthips that results from applying *both* `get_allowed_parents()` "
+            "and `get_allowed_children()`, represented as a child-to-parents map.  "
+            "It also takes `is_container()` into account.\n"
+            "    \"\"\"\n\n";
+
+    // Since many entries in the resulting dict basically share the same sets of values,
+    // we want to optimize that a bit.  The resulting code may look more entangled but
+    // should be more efficient both in terms of memory use and load time (we'll better
+    // spend time now than on application startup!).
+    std::vector<std::array<bool, types_count>> subsets;
+    size_t indices[types_count];
+    for (const auto& entry : name_type_pairs)
+    {
+        size_t child = (size_t)entry.second;
+        // Searching for an existing subset.  Yes, it's an O(n^2), but this runs at
+        // build time so we can afford it for the sake of simplicity.
+        size_t subset_idx = 0;
+        for (; subset_idx < subsets.size(); ++subset_idx)
+        {
+            auto& subset = subsets[subset_idx];
+            size_t i = 1;
+            for (; i < types_count; i++)
+            {
+                if (relations[i][child] != subset[i])
+                    break;
+            }
+            // See if a matching line is found
+            if (i >= types_count)
+                break;
+        }
+        // Line found?
+        if (subset_idx >= subsets.size())
+        {
+            // Add a new entry
+            subsets.emplace_back();
+            auto& subset = subsets[subset_idx];
+
+            stub << "    set" << subset_idx << " = (";
+            for (size_t i = 1; i < types_count; i++)
+            {
+                subset[i] = relations[i][child];
+                if (subset[i])
+                    stub << "\"" << DearPyGui::GetEntityTypeString((mvAppItemType)i) << "\", ";
+            }
+            stub << ")\n";
+        }
+        indices[child] = subset_idx;
+    }
+
+    stub << "\n    return {\n";
+
+    for (const auto& entry : name_type_pairs)
+    {
+        stub << "        \"mvAppItemType::" << entry.first << "\": set" << indices[(size_t)entry.second] << ",\n";
+    }
+    stub << "    }\n\n";
+
+
+    stub << "def get_possible_children(**kwargs) -> dict:\n"
+            "    \"\"\" Return a dict that for every item type lists all types that can be used for a child item.\n\n"
+            "    Unlike `get_allowed_children()`, this function returns the actual set of all possible "
+            "parent-child relationthips that results from applying *both* `get_allowed_parents()` "
+            "and `get_allowed_children()`, represented as a parent-to-children map.  "
+            "It also takes `is_container()` into account.\n"
+            "    \"\"\"\n\n";
+
+    // We're doing the same optimization here as for get_possible_parents.
+    subsets.clear();
+    for (const auto& entry : name_type_pairs)
+    {
+        size_t parent = (size_t)entry.second;
+        // Searching for an existing subset.  Yes, it's an O(n^2), but this runs at
+        // build time so we can afford it for the sake of simplicity.
+        size_t subset_idx = 0;
+        for (; subset_idx < subsets.size(); ++subset_idx)
+        {
+            auto& subset = subsets[subset_idx];
+            // See if a matching line is found
+            if (std::equal(std::begin(subset), std::end(subset), std::begin(relations[parent])))
+                break;
+        }
+        // Line found?
+        if (subset_idx >= subsets.size())
+        {
+            // Add a new entry
+            subsets.emplace_back();
+            auto& subset = subsets[subset_idx];
+            std::copy(std::begin(relations[parent]), std::end(relations[parent]), std::begin(subset));
+
+            stub << "    set" << subset_idx << " = (";
+            for (size_t i = 1; i < types_count; i++)
+            {
+                if (subset[i])
+                    stub << "\"" << DearPyGui::GetEntityTypeString((mvAppItemType)i) << "\", ";
+            }
+            stub << ")\n";
+        }
+        indices[parent] = subset_idx;
+    }
+
+    stub << "\n    return {\n";
+
+    for (const auto& entry : name_type_pairs)
+    {
+        stub << "        \"mvAppItemType::" << entry.first << "\": set" << indices[(size_t)entry.second] << ",\n";
+    }
+    stub << "    }\n\n";
+
+
+    //-----------------------------------------------------------------------------
+    // get_item_type_commands
+    //-----------------------------------------------------------------------------
+
+    stub << "def get_item_type_commands(**kwargs) -> dict:\n"
+            "    \"\"\" Return the names of item types and their associated functions as a mapping.\"\"\"\n\n"
+            "    return {\n";
+
+    for (const auto& entry : name_type_pairs)
+    {
+        stub << "        \"mvAppItemType::" << entry.first << "\": \"" << GetEntityCommand(entry.second) << "\",\n";
+    }
+    stub << "    }\n\n";
+
+
+    //-----------------------------------------------------------------------------
+    // is_container, is_root
+    //-----------------------------------------------------------------------------
+
+    stub << "CONTAINERS = frozenset((\n";
+    for (const auto& entry : name_type_pairs)
+    {
+        if (DearPyGui::GetEntityDesciptionFlags(entry.second) & MV_ITEM_DESC_CONTAINER)
+            stub << "    \"mvAppItemType::" << entry.first << "\",\n";
+    }
+    stub << "))\n\n";
+
+    stub << "def is_container(item_type: str, **kwargs) -> bool:\n"
+            "    \"\"\" Return `True` if items of the provided item type can parent other items.\n\n"
+            "    Args:\n"
+            "        item_type (str):   Item type.\n"
+            "    Returns:\n"
+            "        bool\n"
+            "    \"\"\"\n\n"
+            "    return item_type in CONTAINERS\n\n";
+
+
+    stub << "ROOTS = frozenset((\n";
+    for (const auto& entry : name_type_pairs)
+    {
+        if (DearPyGui::GetEntityDesciptionFlags(entry.second) & MV_ITEM_DESC_ROOT)
+            stub << "    \"mvAppItemType::" << entry.first << "\",\n";
+    }
+    stub << "))\n\n";
+
+    stub << "def is_root(item_type: str, **kwargs) -> bool:\n"
+            "    \"\"\" Return `True` if items of the provided item type are root containers.\n\n"
+            "    Args:\n"
+            "        item_type (str):   Item type.\n"
+            "    Returns:\n"
+            "        bool\n"
+            "    \"\"\"\n\n"
+            "    return item_type in ROOTS\n\n";
+
+
+    //-----------------------------------------------------------------------------
+    // get_applicable_states
+    //-----------------------------------------------------------------------------
+
+    stub << "def get_applicable_states(**kwargs) -> dict:\n"
+            "    \"\"\" Return all item type names and collections of applicable child types as a mapping.\"\"\"\n\n"
+            "    return {\n";
+
+    // A fake context - need it for FillAppItemState call below.
+    GContext = new mvContext();
+
+    for (const auto& entry : name_type_pairs)
+    {
+        const auto flags = DearPyGui::GetApplicableState(entry.second);
+
+        mvAppItemState state;
+        mvPyObject py_state = PyDict_New();
+        // This is a bit of a hack but it guarantees that state fields do not get
+        // out of sync between type_info.py and dearpygui.py when we change the API.
+        // TODO: in future, think of a way to decouple this from GContext, at least.
+        // Ideally, we'd want some code (a template?) that can either fill a PyObject
+        // or fill a std::vector<std::pair>.  Maybe even use two-stage creation for PyObject:
+        // first fill a std::vector, then convert it to a PyDict.
+        FillAppItemState(py_state, state, flags);
+
+        stub << "        \"mvAppItemType::" << entry.first << "\": (";
+
+        mvPyObject keys = PyDict_Keys(py_state);
+        auto len = PyList_Size(keys);
+        for (auto i = 0; i < len; i++)
+        {
+            stub << "\"" << ToString(PyList_GetItem(keys, i)) << "\", ";
+        }
+
+        stub << "),\n";
+    }
+    stub << "    }\n\n";
+
+    stub.close();
+
+    delete GContext;
+    GContext = nullptr;
+}
+
+
+void
 AddCommonArgs(std::vector<mvPythonDataElement>& args, CommonParserArgs argsFlags)
 {
 
@@ -2966,7 +3372,7 @@ AddCommonArgs(std::vector<mvPythonDataElement>& args, CommonParserArgs argsFlags
     if (argsFlags & MV_PARSER_ARG_ENABLED)      args.push_back({ mvPyDataType::Bool, "enabled", mvArgType::KEYWORD_ARG, "True", "Turns off functionality of widget and applies the disabled theme." });
     if (argsFlags & MV_PARSER_ARG_POS)		    args.push_back({ mvPyDataType::IntList, "pos", mvArgType::KEYWORD_ARG, "[]", "Places the item relative to window coordinates, [0,0] is top left." });
     if (argsFlags & MV_PARSER_ARG_FILTER)		args.push_back({ mvPyDataType::String, "filter_key", mvArgType::KEYWORD_ARG, "''", "Used by filter widget." });
-    if (argsFlags & MV_PARSER_ARG_SEARCH_DELAY) args.push_back({ mvPyDataType::Bool, "delay_search", mvArgType::KEYWORD_ARG, "False", "Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often." });
+    if (argsFlags & MV_PARSER_ARG_SEARCH_DELAY) args.push_back({ mvPyDataType::Bool, "delay_search", mvArgType::DEPRECATED_KEYWORD_ARG, "False", "This was used as an optimization hint but is not relevant anymore." });
 
     if (argsFlags & MV_PARSER_ARG_TRACKED)
     {

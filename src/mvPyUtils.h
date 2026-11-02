@@ -25,12 +25,60 @@ struct mvGlobalIntepreterLock
 
 };
 
+// Note: the caller MUST hold GIL during instantiation of this class.
+// This class is similar to std::lock_guard, except that it releases GIL
+// before attempting to lock the mutex, and acquires GIL again once it
+// succeeds with mutex lock.  For the code using it, it works exactly like
+// std::lock_guard, but prevents potential deadlocks between threads using Python.
+template <class MutexType>
+class mvPySafeLockGuard
+{
+public:
+    explicit mvPySafeLockGuard(MutexType &mutex)
+        : _mutex(mutex)
+    {
+#ifdef MV_NO_USER_THREADS
+
+        // Technically, for MV_NO_USER_THREADS we could simply declare mvPySafeLockGuard
+        // to be an alias of std::lock_guard.  However, on pre-C++20 compilers this
+        // would require explicit specification of template arguments because argument
+        // deduction on alias templates was disallowed back then.  This would make
+        // the code bulky, so let's just reimplement std::lock here so that MutexType
+        // can be deduced.
+        mutex.lock();
+
+#else // !MV_NO_USER_THREADS
+
+        Py_BEGIN_ALLOW_THREADS;
+        mutex.lock();
+        Py_END_ALLOW_THREADS;
+
+#endif // !MV_NO_USER_THREADS
+    }
+
+    ~mvPySafeLockGuard() noexcept
+    {
+        _mutex.unlock();
+    }
+
+    mvPySafeLockGuard(const mvPySafeLockGuard&) = delete;
+    mvPySafeLockGuard &operator=(const mvPySafeLockGuard&) = delete;
+
+private:
+    MutexType& _mutex;
+};
+
 class mvPyObject
 {
 
 public:
 
-	mvPyObject(PyObject* rawObject, bool borrowed=false);
+    // With `borrowed=false`, the reference is meant for `mvPyObject` to take
+    // ownership of it. `mvPyObject` "steals" the reference from its previous owner;
+    // the reference count is not incremented.
+    // With `borrowed=true`, `mvPyObject` makes its own owned reference by incrementing
+    // the reference count; the original owner keeps ownership too.
+	mvPyObject(PyObject* rawObject, bool borrowed = false);
 	mvPyObject(mvPyObject&& other);
 	mvPyObject& operator=(mvPyObject&& other);
 
@@ -39,18 +87,16 @@ public:
 
 	~mvPyObject();
 
-	void addRef();
-	void delRef();
-	bool isOk() const { return m_ok; }
+	bool isOk() const { return (m_rawObject != nullptr); }
 
-	operator PyObject* ();
+	operator PyObject* () const
+    {
+        return m_rawObject;
+    }
 
 private:
 
 	PyObject* m_rawObject;
-	bool      m_borrowed;
-	bool      m_ok;
-	bool      m_del = false;
 
 };
 
@@ -90,8 +136,37 @@ bool isPyObject_Any           (PyObject* obj);
 
 // conversion to python
 PyObject*   GetPyNone ();
+PyObject*   GetPyNoneOrError ();
+
+// If alias is not empty, returns the alias, otherwise returns the UUID.
+PyObject*   ToPyUUID  (mvUUID uuid, const std::string& alias);
+
+// Returns item UUID or alias, or zero if `item` is null.  An valid item can never
+// have a UUID of zero, so it is a good value to designate a "no item" case (also can
+// easily be checked with `if (item)` in Python).
 PyObject*   ToPyUUID  (mvAppItem* item);
-PyObject*   ToPyUUID  (mvUUID value);
+
+// Returns item UUID or alias, or None if `item` is null.
+//
+// This function is kept for compatibility reasons, to keep None as the default value
+// in some cases where it was historically the default.  In new code, prefer returning
+// zero UUID as the default - use one of ToPyUUID() overloads.  This makes typing
+// a bit simpler on Python side of things (`int | str` vs. `int | str | None`).
+PyObject*   ToPyUUIDOrNone(mvAppItem* item);
+
+// Unlike ToPyUUID(), this function peforms item lookup by the UUID passed in,
+// and converts the item found to UUID or alias.  If the item is not found, the
+// value passed in is returned.  That is, this function returns an UUID even
+// after the corresponding item has been deleted.  It *never* returns None.
+//
+// Even though the lookup (GetItem()) uses a hashtable and should be pretty fast,
+// prefer one of the ToPyUUID() overloads over this one if possible.  In new code,
+// it will even be better to do a ToPyUUID(GetItem(uuid)), because after item deletion,
+// this will be returning 0 rather than an invalid UUID.
+//
+// This function is kept mainly for compatibility reasons.
+PyObject*   PyUUIDFromItem(mvUUID value);
+
 PyObject*   ToPyLong  (long value);
 PyObject*   ToPyInt   (int value);
 PyObject*   ToPyFloat (float value);
@@ -104,6 +179,7 @@ PyObject*   ToPyPair  (float x, float y);
 PyObject*   ToPyPair  (double x, double y);
 PyObject*   ToPyPairII(int x, int y);
 PyObject*   ToPyPair  (const std::string& x, const std::string& y);
+PyObject*   ToPyTPair (bool x, bool y);         // tuple-based pair (unlike other pairs that are list-based)
 PyObject*   ToPyList  (const std::vector<mvVec2>& value);
 PyObject*   ToPyList  (const std::vector<mvVec4>& value);
 PyObject*   ToPyList  (const std::vector<int>& value);
@@ -130,6 +206,7 @@ void        UpdatePyStringStringList(PyObject* pyvalue, const std::vector<std::v
 
 // conversion to c++
 int         ToInt   (PyObject* value, const std::string& message = "Type must be an integer.");
+long        ToLong  (PyObject* value, const std::string& message = "Type must be an integer.");
 float       ToFloat (PyObject* value, const std::string& message = "Type must be a float.");
 double      ToDouble(PyObject* value, const std::string& message = "Type must be a double.");
 bool        ToBool  (PyObject* value, const std::string& message = "Type must be a bool.");
@@ -251,3 +328,4 @@ bool VerifyArgumentCount      (const mvPythonParser& parser, PyObject* args);
 void GenerateStubFile        (const std::string& directory);
 void GenerateDearPyGuiFile   (const std::string& directory);
 void GenerateDearPyGuiFileRTD(const std::string& directory);
+void GenerateTypeInfoModule  (const std::string& directory);

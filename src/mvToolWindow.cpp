@@ -1,4 +1,5 @@
 #include "mvToolWindow.h"
+
 #include "mvItemRegistry.h"
 
 void mvToolWindow::draw()
@@ -16,6 +17,12 @@ void mvToolWindow::draw()
     {
         ImGui::SetNextWindowPos(ImVec2((float)m_xpos, (float)m_ypos));
         m_dirtyPos = false;
+    }
+
+    if (m_focusNextFrame)
+    {
+        ImGui::SetNextWindowFocus();
+        m_focusNextFrame = false;
     }
 
     if (!ImGui::Begin(getTitle(), &m_show, m_windowflags))
@@ -38,7 +45,7 @@ void mvToolWindow::draw()
         GContext->input.mousePos.x = (int)x;
         GContext->input.mousePos.y = (int)y;
 
-        std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+        std::lock_guard lk(GContext->mutex);
 
         GContext->activeWindow = getUUID();
 

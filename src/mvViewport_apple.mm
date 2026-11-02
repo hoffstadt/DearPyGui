@@ -1,21 +1,21 @@
 #include "mvViewport.h"
-#include <implot.h>
-#include "imnodes.h"
-#include "mvToolManager.h"
-#include "mvFontManager.h"
+
 #include "mvAppleSpecifics.h"
 
+#include "mvFontManager.h"
+#include "mvToolManager.h"
+
+#include <implot.h>
+#include "imnodes.h"
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_metal.h"
 #include <stdio.h>
 
  mvViewport*
-mvCreateViewport(unsigned width, unsigned height)
+mvCreateViewport()
 {
     auto viewport = new mvViewport();
-    viewport->width = width;
-    viewport->height = height;
     viewport->platformSpecifics = new mvViewportData();
     return viewport;
 }
@@ -24,12 +24,10 @@ static void
 window_close_callback(GLFWwindow* window)
 {
     if (GContext->viewport->disableClose) {
-        mvSubmitCallback([=]() {
-            mvRunCallback(GContext->callbackRegistry->onCloseCallback, 0, nullptr, GContext->callbackRegistry->onCloseCallbackUserData);
-            });
+        mvAddOwnerlessCallback(GContext->callbackRegistry->onCloseCallback, GContext->callbackRegistry->onCloseCallbackUserData);
     }
     else {
-        GContext->started = false;
+        StopRendering();
     }
 }
 
@@ -216,12 +214,10 @@ mvRenderFrame()
         else
             glfwPollEvents();
 
-        if (mvToolManager::GetFontManager().isInvalid())
         {
-            mvToolManager::GetFontManager().rebuildAtlas();
-            ImGui_ImplMetal_DestroyFontsTexture();
+		    // Font manager is thread-unsafe, so we'd better sync it
+            std::lock_guard lk(GContext->mutex);
             mvToolManager::GetFontManager().updateAtlas();
-            ImGui_ImplMetal_CreateFontsTexture(graphicsData->device);
         }
 
         NSWindow *nswin = glfwGetCocoaWindow(viewportData->handle);
@@ -236,9 +232,6 @@ mvRenderFrame()
         viewportData->layer.drawableSize = CGSizeMake(width, height);
         id <CAMetalDrawable> drawable = [viewportData->layer nextDrawable];
 
-        viewport->width = (unsigned)width;
-        viewport->height = (unsigned)height;
-
         id <MTLCommandBuffer> commandBuffer = [graphicsData->commandQueue commandBuffer];
         graphicsData->renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(viewport->clearColor.r,
                                                                                     viewport->clearColor.g,
@@ -251,15 +244,24 @@ mvRenderFrame()
         [renderEncoder pushDebugGroup:@"ImGui demo"];
 
 
+        {
+		    // Locking the mutex while we're touching thread-sensitive data
+            std::lock_guard lk(GContext->mutex);
 
-        // Start the Dear ImGui frame
-        ImGui_ImplMetal_NewFrame(graphicsData->renderPassDescriptor);
-        ImGui_ImplGlfw_NewFrame();
-        ImGui::NewFrame();
+            // Start the Dear ImGui frame
+            ImGui_ImplMetal_NewFrame(graphicsData->renderPassDescriptor);
+            ImGui_ImplGlfw_NewFrame();
 
-        Render();
+            // Note: ImGui::NewFrame can conflict with get_text_size() on fonts:
+            // in particular, it can do SetCurrentFont() somewhere in the middle of
+            // get_text_size(), and thus ruin its measurements.
+            // That's why we cover NewFrame() with the mutex, too.
+            ImGui::NewFrame();
 
-        glfwGetWindowPos(viewportData->handle, &viewport->xpos, &viewport->ypos);
+            Render();
+
+            glfwGetWindowPos(viewportData->handle, &viewport->xpos, &viewport->ypos);
+        }
 
         // Rendering
         ImGui::Render();

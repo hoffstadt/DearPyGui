@@ -13,10 +13,11 @@ folder you can find an example of a otf font.
 Readme First
 ------------
 
-All loaded fonts glyphs are rendered into a single texture atlas ahead of time.
-Adding/Removing/Modifying fonts will cause the font atlas to be rebuilt.
+All loaded fonts glyphs are rendered into a single texture atlas. Rendering occurs
+on-the-fly as characters are encountered in UI strings (item labels, input contents, etc. -
+anything that gets displayed in the viewport).
 
-You can use the style editor
+You can use the Fonts Manager tool
 :py:func:`show_font_manager <dearpygui.dearpygui.show_font_manager>`
 to browse your fonts and understand what's going on if you have an issue.
 
@@ -24,8 +25,14 @@ Font Loading Instructions
 -------------------------
 
 To add your own fonts, you must first create a font registry to
-add fonts to. Next, add fonts to the registry. By default only basic latin
-and latin supplement glyphs are added (0x0020 - 0x00FF).
+add fonts to. Next, add fonts to the registry.
+
+For a font to take effect, it must be either bound globally with :py:func:`bind_font <dearpygui.dearpygui.bind_font>`
+or bound to a particular item with :py:func:`bind_item_font <dearpygui.dearpygui.bind_item_font>`.
+In the latter case, the font is "inherited" by all child item if it is bound to
+a container. To remove font binding and revert to the default font (or inherit from
+the parent item), call `bind_font`/`bind_item_font` again, passing 0 in the `font`
+argument.
 
 .. code-block:: python
 
@@ -39,13 +46,14 @@ and latin supplement glyphs are added (0x0020 - 0x00FF).
         default_font = dpg.add_font("NotoSerifCJKjp-Medium.otf", 20)
         second_font = dpg.add_font("NotoSerifCJKjp-Medium.otf", 10)
 
+    dpg.bind_font(default_font)
+
     with dpg.window(label="Font Example", height=200, width=200):
         dpg.add_button(label="Default font")
         b2 = dpg.add_button(label="Secondary font")
         dpg.add_button(label="default")
 
         # set font of specific widget
-        dpg.bind_font(default_font)
         dpg.bind_item_font(b2, second_font)
 
     dpg.show_font_manager()
@@ -59,8 +67,19 @@ and latin supplement glyphs are added (0x0020 - 0x00FF).
 Loading Specific Unicode Characters
 -----------------------------------
 
-There are several ways to add specific characters from a font file.
-You can use range hints, ranges, and specific characters. You can also remap characters.
+.. note:: 
+    This section previously described how to load specific characters from font file
+    so that they are displayed in the UI correctly. Since DPG version 2.3, character
+    glyphs are rendered automatically and there is no need to specify them in advance.
+    This section is no longer relevant, and the functions `add_font_chars`, `add_font_range`,
+    and `add_font_range_hint` are obsolete and do nothing if you call them.
+
+Remapping Characters
+-----------------------------------
+
+For convenience, you can remap a character to a different character code and use
+this replacement in your text strings. In particular, it might be useful with icon
+fonts. Here is an example of how to do such remapping.
 
 .. code-block:: python
 
@@ -70,26 +89,6 @@ You can use range hints, ranges, and specific characters. You can also remap cha
 
     with dpg.font_registry():
         with dpg.font("NotoSerifCJKjp-Medium.otf", 20) as font1:
-
-            # add the default font range
-            dpg.add_font_range_hint(dpg.mvFontRangeHint_Default)
-
-            # helper to add range of characters
-            #    Options:
-            #        mvFontRangeHint_Japanese
-            #        mvFontRangeHint_Korean
-            #        mvFontRangeHint_Chinese_Full
-            #        mvFontRangeHint_Chinese_Simplified_Common
-            #        mvFontRangeHint_Cyrillic
-            #        mvFontRangeHint_Thai
-            #        mvFontRangeHint_Vietnamese
-            dpg.add_font_range_hint(dpg.mvFontRangeHint_Japanese)
-
-            # add specific range of glyphs
-            dpg.add_font_range(0x3100, 0x3ff0)
-
-            # add specific glyphs
-            dpg.add_font_chars([0x3105, 0x3107, 0x3108])
 
             # remap や to %
             dpg.add_char_remap(0x3084, 0x0025)

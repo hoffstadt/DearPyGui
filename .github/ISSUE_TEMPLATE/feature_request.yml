@@ -1,0 +1,45 @@
+name: Feature Request
+description: Suggest a new feature or improvement.
+labels: ["state: pending", "type: improvement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Before opening a feature request, please:**
+        - Search [existing issues](https://github.com/hoffstadt/DearPyGui/issues?q=is%3Aissue) and [discussions](https://github.com/hoffstadt/DearPyGui/discussions) (including closed ones) for similar requests.
+        - Be mindful of [The XY Problem](https://en.wikipedia.org/wiki/XY_problem): describe **what you are trying to accomplish**, not only the specific solution you have in mind. There may be a better or already-available approach.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: "A clear and concise description of what the problem is."
+      placeholder: "e.g. I'm trying to build X. There is currently no way to do Y, which means I have to work around it by..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+      description: "A clear and concise description of what you want to happen."
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: "Describe any alternative approaches, workarounds, or existing solutions you have already tried or considered."
+      value: "N/A"
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional context
+      description: "Any other context, screenshots, links to related issues, or references that might help."
+      value: "N/A"
+    validations:
+      required: false

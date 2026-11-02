@@ -1,5 +1,10 @@
 #include "mvUtilities.h"
+
 #include "mvViewport.h"
+
+#include "mvWindowsSpecifics.h"
+
+#include "mvCustomTypes.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
@@ -16,8 +21,6 @@
 #include <sstream>
 #include <filesystem>
 #include <d3d11.h>
-#include "mvWindowsSpecifics.h"
-#include "mvCustomTypes.h"
 
 namespace fs = std::filesystem;
 
@@ -44,10 +47,10 @@ OutputFrameBufferArray(PymvBuffer* out)
         out->arr.length = description.Width * description.Height * 4;
         unsigned char* data = new unsigned char[out->arr.length];
         f32* tdata = new f32[out->arr.length];
-        for (int row = 0; row < description.Height; row++)
+        for (uint32_t row = 0; row < description.Height; row++)
         {
             unsigned char* src = &(((unsigned char*)resource.pData)[row * resource.RowPitch]);
-            for (int j = 0; j < description.Width*4; j++)
+            for (uint32_t j = 0; j < description.Width*4; j++)
                 tdata[row * description.Width*4 + j] = src[j] / 255.0f;
         }
         out->arr.data = tdata;
@@ -88,7 +91,7 @@ OutputFrameBuffer(const char* filepath)
 
 }
 
- void*
+ ImTextureID
 LoadTextureFromFile(const char* filename, int& width, int& height)
 {
 
@@ -102,7 +105,7 @@ LoadTextureFromFile(const char* filename, int& width, int& height)
     int image_height = 0;
     unsigned char* image_data = stbi_load(filename, &image_width, &image_height, NULL, 4);
     if (image_data == NULL)
-        return nullptr;
+        return ImTextureID_Invalid;
 
     // Create texture
     D3D11_TEXTURE2D_DESC desc;
@@ -141,7 +144,7 @@ LoadTextureFromFile(const char* filename, int& width, int& height)
     return out_srv;
 }
 
- void*
+ ImTextureID
 LoadTextureFromArray(unsigned width, unsigned height, float* data)
 {
     mvGraphics_D3D11* graphicsData = (mvGraphics_D3D11*)GContext->graphics.backendSpecifics;
@@ -180,7 +183,7 @@ LoadTextureFromArray(unsigned width, unsigned height, float* data)
     return out_srv;
 }
 
- void*
+ ImTextureID
 LoadTextureFromArray(unsigned width, unsigned height, int* data)
 {
     mvGraphics_D3D11* graphicsData = (mvGraphics_D3D11*)GContext->graphics.backendSpecifics;
@@ -219,7 +222,7 @@ LoadTextureFromArray(unsigned width, unsigned height, int* data)
     return out_srv;
 }
 
- void*
+ ImTextureID
 LoadTextureFromArrayDynamic(unsigned width, unsigned height, float* data)
 {
     mvGraphics_D3D11* graphicsData = (mvGraphics_D3D11*)GContext->graphics.backendSpecifics;
@@ -258,7 +261,7 @@ LoadTextureFromArrayDynamic(unsigned width, unsigned height, float* data)
     return out_srv;
 }
 
- void*
+ ImTextureID
 LoadTextureFromArrayDynamic(unsigned width, unsigned height, int* data)
 {
     mvGraphics_D3D11* graphicsData = (mvGraphics_D3D11*)GContext->graphics.backendSpecifics;
@@ -298,7 +301,7 @@ LoadTextureFromArrayDynamic(unsigned width, unsigned height, int* data)
 }
 
  void
-UpdateTexture(void* texture, unsigned width, unsigned height, std::vector<float>& data)
+UpdateTexture(ImTextureID texture, unsigned width, unsigned height, std::vector<float>& data)
 {
     mvGraphics_D3D11* graphicsData = (mvGraphics_D3D11*)GContext->graphics.backendSpecifics;
     ID3D11ShaderResourceView* view = (ID3D11ShaderResourceView*)texture;
@@ -327,7 +330,7 @@ UpdateTexture(void* texture, unsigned width, unsigned height, std::vector<float>
 }
 
  void
-UpdateTexture(void* texture, unsigned width, unsigned height, std::vector<int>& data)
+UpdateTexture(ImTextureID texture, unsigned width, unsigned height, std::vector<int>& data)
 {
     mvGraphics_D3D11* graphicsData = (mvGraphics_D3D11*)GContext->graphics.backendSpecifics;
     ID3D11ShaderResourceView* view = (ID3D11ShaderResourceView*)texture;
@@ -356,7 +359,7 @@ UpdateTexture(void* texture, unsigned width, unsigned height, std::vector<int>& 
 }
 
  void
-UpdateRawTexture(void* texture, unsigned width, unsigned height, float* data, int components)
+UpdateRawTexture(ImTextureID texture, unsigned width, unsigned height, float* data, int components)
 {
     mvGraphics_D3D11* graphicsData = (mvGraphics_D3D11*)GContext->graphics.backendSpecifics;
     ID3D11ShaderResourceView* view = (ID3D11ShaderResourceView*)texture;
@@ -384,7 +387,7 @@ UpdateRawTexture(void* texture, unsigned width, unsigned height, float* data, in
     resource->Release();
 }
 
- void*
+ ImTextureID
 LoadTextureFromArrayRaw(unsigned width, unsigned height, float* data, int components)
 {
     mvGraphics_D3D11* graphicsData = (mvGraphics_D3D11*)GContext->graphics.backendSpecifics;
@@ -438,13 +441,11 @@ LoadTextureFromArrayRaw(unsigned width, unsigned height, float* data, int compon
 }
 
  void
-FreeTexture(void* texture)
+FreeTexture(ImTextureID texture)
 {
     ID3D11ShaderResourceView* out_srv = static_cast<ID3D11ShaderResourceView*>(texture);
     if (out_srv)
         auto count = out_srv->Release();
-
-    texture = nullptr;
 }
 
  bool

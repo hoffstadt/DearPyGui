@@ -103,8 +103,8 @@ def get_item_tree(item: ItemT, descendants_only: bool = False) -> List[Union[Ite
     Table items (only `mvAppItemType::Table`) are represented as a 3-item list
     `[table_item, [rows], [columns]]`.
 
-    `mvFileExtension`, `mvFontRangeHint`, `mvNodeLink`, `mvAnnotation`, `mvDragLine`,
-    `mvDragPoint`, `mvDragPayload`, and `mvLegend` items are excluded from the tree.
+    `mvFileExtension`, `mvNodeLink`, `mvAnnotation`, `mvDragLine`, `mvDragPoint`,
+    `mvDragPayload`, and `mvLegend` items are excluded from the tree.
 
     Args:
         * item (int | str): The tag of an item.

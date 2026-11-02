@@ -1,9 +1,12 @@
-#include "mvValues.h"
-#include <utility>
-#include "mvContext.h"
-#include "dearpygui.h"
-#include <string>
 #include "mvPyUtils.h"
+#pragma hdrstop
+
+#include "mvValues.h"
+
+#include "mvContext.h"
+
+#include <utility>
+#include <string>
 
 PyObject* mvBoolValue::getPyValue()
 {

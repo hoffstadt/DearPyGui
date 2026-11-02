@@ -39,8 +39,6 @@ struct mvViewport
 	// position/size
 	b8  sizeDirty    = false;
 	b8  posDirty     = false;
-	u32 width        = 0;
-	u32 height       = 0;
 	u32 minwidth     = 250;
 	u32 minheight    = 250;
 	u32 maxwidth     = 10000;
@@ -56,7 +54,7 @@ struct mvViewport
 
 };
 
-mvViewport* mvCreateViewport  (u32 width, u32 height);
+mvViewport* mvCreateViewport  ();
 void        mvCleanupViewport (mvViewport& viewport);
 void        mvShowViewport    (mvViewport& viewport, b8 minimized, b8 maximized);
 void        mvMaximizeViewport(mvViewport& viewport);
@@ -67,13 +65,24 @@ void        mvToggleFullScreen(mvViewport& viewport);
 
 static void mvOnResize()
 {
-	mvSubmitCallback([=]() {
-		PyObject* dimensions = PyTuple_New(4);
-		PyTuple_SetItem(dimensions, 0, PyLong_FromLong(GContext->viewport->actualWidth));
-		PyTuple_SetItem(dimensions, 1, PyLong_FromLong(GContext->viewport->actualHeight));
-		PyTuple_SetItem(dimensions, 2, PyLong_FromLong(GContext->viewport->clientWidth));
-		PyTuple_SetItem(dimensions, 3, PyLong_FromLong(GContext->viewport->clientHeight));
-		mvAddCallback(
-			GContext->callbackRegistry->resizeCallback, MV_APP_UUID, dimensions, GContext->callbackRegistry->resizeCallbackUserData);
-		});
+	auto v = GContext->viewport;
+	mvAddOwnerlessCallback(
+		GContext->callbackRegistry->resizeCallback,
+		GContext->callbackRegistry->resizeCallbackUserData,
+		MV_APP_UUID, "",
+		[
+			actualWidth  = v->actualWidth,
+			actualHeight = v->actualHeight,
+			clientWidth  = v->clientWidth,
+			clientHeight = v->clientHeight
+		]
+		() {
+			PyObject* dimensions = PyTuple_New(4);
+			PyTuple_SetItem(dimensions, 0, PyLong_FromLong(actualWidth));
+			PyTuple_SetItem(dimensions, 1, PyLong_FromLong(actualHeight));
+			PyTuple_SetItem(dimensions, 2, PyLong_FromLong(clientWidth));
+			PyTuple_SetItem(dimensions, 3, PyLong_FromLong(clientHeight));
+			return dimensions;
+		}
+	);
 }

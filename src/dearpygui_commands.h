@@ -24,9 +24,9 @@ bind_colormap(PyObject* self, PyObject* args, PyObject* kwargs)
 	PyObject* sourceraw;
 
 	if (!Parse((GetParsers())["bind_colormap"], args, kwargs, __FUNCTION__, &itemraw, &sourceraw))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 	mvUUID source = GetIDFromPyObject(sourceraw);
@@ -36,7 +36,7 @@ bind_colormap(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, "bind_colormap",
 			"Item not found: " + std::to_string(item), nullptr);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	if (source > 15)
@@ -46,7 +46,7 @@ bind_colormap(PyObject* self, PyObject* args, PyObject* kwargs)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "bind_colormap",
 				"Source Item not found: " + std::to_string(source), nullptr);
-			return GetPyNone();
+			return nullptr;
 		}
 
 		if (asource->type == mvAppItemType::mvColorMap)
@@ -86,7 +86,7 @@ bind_colormap(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvIncompatibleType, "bind_colormap",
 			"Incompatible type. Expected types include: mvPlot, mvColorMapScale, mvColorMapButton", aitem);
-		return GetPyNone();
+		return nullptr;
 	}
 
 
@@ -100,9 +100,9 @@ sample_colormap(PyObject* self, PyObject* args, PyObject* kwargs)
 	float t;
 
 	if (!Parse((GetParsers())["sample_colormap"], args, kwargs, __FUNCTION__, &itemraw, &t))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 
@@ -113,7 +113,7 @@ sample_colormap(PyObject* self, PyObject* args, PyObject* kwargs)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "sample_colormap",
 				"Source Item not found: " + std::to_string(item), nullptr);
-			return GetPyNone();
+			return nullptr;
 		}
 
 		if (asource->type == mvAppItemType::mvColorMap)
@@ -127,7 +127,7 @@ sample_colormap(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!GContext->started)
 	{
 		mvThrowPythonError(mvErrorCode::mvNone, "sample_colormap", "This command can only be ran once the app is started.", nullptr);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	ImVec4 result = ImPlot::SampleColormap(t, (ImPlotColormap)item);
@@ -142,9 +142,9 @@ get_colormap_color(PyObject* self, PyObject* args, PyObject* kwargs)
 	int index;
 
 	if (!Parse((GetParsers())["get_colormap_color"], args, kwargs, __FUNCTION__, &itemraw, &index))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 
@@ -155,7 +155,7 @@ get_colormap_color(PyObject* self, PyObject* args, PyObject* kwargs)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "get_colormap_color",
 				"Source Item not found: " + std::to_string(item), nullptr);
-			return GetPyNone();
+			return nullptr;
 		}
 
 		if (asource->type == mvAppItemType::mvColorMap)
@@ -177,9 +177,9 @@ get_file_dialog_info(PyObject* self, PyObject* args, PyObject* kwargs)
 	PyObject* file_dialog_raw;
 
 	if (!Parse((GetParsers())["get_file_dialog_info"], args, kwargs, __FUNCTION__, &file_dialog_raw))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID file_dialog = GetIDFromPyObject(file_dialog_raw);
 
@@ -187,13 +187,13 @@ get_file_dialog_info(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (aplot == nullptr)
 	{
 		mvThrowPythonError(mvErrorCode::mvNone, std::to_string(file_dialog) + " plot does not exist.");
-		return GetPyNone();
+		return nullptr;
 	}
 
 	if (aplot->type != mvAppItemType::mvFileDialog)
 	{
 		mvThrowPythonError(mvErrorCode::mvNone, std::to_string(file_dialog) + " is not a plot.");
-		return GetPyNone();
+		return nullptr;
 	}
 
 	mvFileDialog* graph = static_cast<mvFileDialog*>(aplot);
@@ -207,12 +207,13 @@ set_x_scroll(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	PyObject* itemraw;
 	float value;
+	int when = (int)mvSetScrollFlags_Delayed;
 
 	if (!Parse((GetParsers())["set_x_scroll"], args, kwargs, __FUNCTION__,
-		&itemraw, &value))
-		return GetPyNone();
+		&itemraw, &value, &when))
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 
@@ -221,33 +222,19 @@ set_x_scroll(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_x_scroll",
 			"Item not found: " + std::to_string(item), nullptr);
-		return GetPyNone();
+		return nullptr;
 	}
 
-	if (window->type == mvAppItemType::mvWindowAppItem)
+	if (DearPyGui::GetApplicableState(window->type) & MV_STATE_SCROLL)
 	{
-
-		auto pWindow = static_cast<mvWindowAppItem*>(window);
-
-		pWindow->configData.scrollX = value;
-		pWindow->configData._scrollXSet = true;
-	}
-	else if (window->type == mvAppItemType::mvChildWindow)
-	{
-		auto pChild = static_cast<mvChildWindow*>(window);
-		pChild->configData.scrollX = value;
-		pChild->configData._scrollXSet = true;
-	}
-	else if (window->type == mvAppItemType::mvTable)
-	{
-		auto pChild = static_cast<mvTable*>(window);
-		pChild->_scrollX = value;
-		pChild->_scrollXSet = true;
+		window->config.scrollX = value;
+		window->config.scrollXFlags = (mvSetScrollFlags)when;
 	}
 	else
 	{
 		mvThrowPythonError(mvErrorCode::mvIncompatibleType, "set_x_scroll",
-			"Incompatible type. Expected types include: mvWindowAppItem, mvChildWindow, mvTable", window);
+			"Incompatible type. Expected types include: mvWindowAppItem, mvChildWindow, mvTable, mvListbox", window);
+		return nullptr;
 	}
 
 	return GetPyNone();
@@ -259,12 +246,13 @@ set_y_scroll(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	PyObject* itemraw;
 	float value;
+	int when = (int)mvSetScrollFlags_Delayed;
 
 	if (!Parse((GetParsers())["set_y_scroll"], args, kwargs, __FUNCTION__,
-		&itemraw, &value))
-		return GetPyNone();
+		&itemraw, &value, &when))
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 
@@ -273,33 +261,19 @@ set_y_scroll(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_y_scroll",
 			"Item not found: " + std::to_string(item), nullptr);
-		return GetPyNone();
+		return nullptr;
 	}
 
-	if (window->type == mvAppItemType::mvWindowAppItem)
+	if (DearPyGui::GetApplicableState(window->type) & MV_STATE_SCROLL)
 	{
-
-		auto pWindow = static_cast<mvWindowAppItem*>(window);
-
-		pWindow->configData.scrollY = value;
-		pWindow->configData._scrollYSet = true;
-	}
-	else if (window->type == mvAppItemType::mvChildWindow)
-	{
-		auto pChild = static_cast<mvChildWindow*>(window);
-		pChild->configData.scrollY = value;
-		pChild->configData._scrollYSet = true;
-	}
-	else if (window->type == mvAppItemType::mvTable)
-	{
-		auto pChild = static_cast<mvTable*>(window);
-		pChild->_scrollY = value;
-		pChild->_scrollYSet = true;
+		window->config.scrollY = value;
+		window->config.scrollYFlags = (mvSetScrollFlags)when;
 	}
 	else
 	{
 		mvThrowPythonError(mvErrorCode::mvIncompatibleType, "set_y_scroll",
-			"Incompatible type. Expected types include: mvWindowAppItem, mvChildWindow, mvTable", window);
+			"Incompatible type. Expected types include: mvWindowAppItem, mvChildWindow, mvTable, mvListbox", window);
+		return nullptr;
 	}
 
 	return GetPyNone();
@@ -313,9 +287,9 @@ get_x_scroll(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	if (!Parse((GetParsers())["get_x_scroll"], args, kwargs, __FUNCTION__,
 		&itemraw))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 
@@ -324,32 +298,18 @@ get_x_scroll(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, "get_x_scroll",
 			"Item not found: " + std::to_string(item), nullptr);
-		return GetPyNone();
+		return nullptr;
 	}
 
-	if (window->type == mvAppItemType::mvWindowAppItem)
+	if (DearPyGui::GetApplicableState(window->type) & MV_STATE_SCROLL)
 	{
-
-		auto pWindow = static_cast<mvWindowAppItem*>(window);
-
-		return ToPyFloat(pWindow->configData.scrollX);
-	}
-	else if (window->type == mvAppItemType::mvChildWindow)
-	{
-		auto pChild = static_cast<mvChildWindow*>(window);
-
-		return ToPyFloat(pChild->configData.scrollX);
-	}
-	else if (window->type == mvAppItemType::mvTable)
-	{
-		auto pTable = static_cast<mvTable*>(window);
-
-		return ToPyFloat(pTable->_scrollX);
+		return ToPyFloat(window->state.scrollPos.x);
 	}
 	else
 	{
 		mvThrowPythonError(mvErrorCode::mvIncompatibleType, "get_x_scroll",
-			"Incompatible type. Expected types include: mvWindowAppItem, mvChildWindow, mvTable", window);
+			"Incompatible type. Expected types include: mvWindowAppItem, mvChildWindow, mvTable, mvListbox", window);
+		return nullptr;
 	}
 
 	return GetPyNone();
@@ -363,9 +323,9 @@ get_y_scroll(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	if (!Parse((GetParsers())["get_y_scroll"], args, kwargs, __FUNCTION__,
 		&itemraw))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 
@@ -374,32 +334,18 @@ get_y_scroll(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, "get_y_scroll",
 			"Item not found: " + std::to_string(item), nullptr);
-		return GetPyNone();
+		return nullptr;
 	}
 
-	if (window->type == mvAppItemType::mvWindowAppItem)
+	if (DearPyGui::GetApplicableState(window->type) & MV_STATE_SCROLL)
 	{
-
-		auto pWindow = static_cast<mvWindowAppItem*>(window);
-
-		return ToPyFloat(pWindow->configData.scrollY);
-	}
-	else if (window->type == mvAppItemType::mvChildWindow)
-	{
-		auto pChild = static_cast<mvChildWindow*>(window);
-
-		return ToPyFloat(pChild->configData.scrollY);
-	}
-	else if (window->type == mvAppItemType::mvTable)
-	{
-		auto pTable = static_cast<mvTable*>(window);
-
-		return ToPyFloat(pTable->_scrollY);
+		return ToPyFloat(window->state.scrollPos.y);
 	}
 	else
 	{
 		mvThrowPythonError(mvErrorCode::mvIncompatibleType, "get_y_scroll",
-			"Incompatible type. Expected types include: mvWindowAppItem, mvChildWindow, mvTable", window);
+			"Incompatible type. Expected types include: mvWindowAppItem, mvChildWindow, mvTable, mvListbox", window);
+		return nullptr;
 	}
 
 	return GetPyNone();
@@ -413,9 +359,9 @@ get_x_scroll_max(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	if (!Parse((GetParsers())["get_x_scroll_max"], args, kwargs, __FUNCTION__,
 		&itemraw))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 
@@ -424,32 +370,18 @@ get_x_scroll_max(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, "get_x_scroll_max",
 			"Item not found: " + std::to_string(item), nullptr);
-		return GetPyNone();
+		return nullptr;
 	}
 
-	if (window->type == mvAppItemType::mvWindowAppItem)
+	if (DearPyGui::GetApplicableState(window->type) & MV_STATE_SCROLL)
 	{
-
-		auto pWindow = static_cast<mvWindowAppItem*>(window);
-
-		return ToPyFloat(pWindow->configData.scrollMaxX);
-	}
-	else if (window->type == mvAppItemType::mvChildWindow)
-	{
-		auto pChild = static_cast<mvChildWindow*>(window);
-
-		return ToPyFloat(pChild->configData.scrollMaxX);
-	}
-	else if (window->type == mvAppItemType::mvTable)
-	{
-		auto pTable = static_cast<mvTable*>(window);
-
-		return ToPyFloat(pTable->_scrollMaxX);
+		return ToPyFloat(window->state.scrollMax.x);
 	}
 	else
 	{
 		mvThrowPythonError(mvErrorCode::mvIncompatibleType, "get_x_scroll_max",
-			"Incompatible type. Expected types include: mvWindowAppItem, mvChildWindow, mvTable", window);
+			"Incompatible type. Expected types include: mvWindowAppItem, mvChildWindow, mvTable, mvListbox", window);
+		return nullptr;
 	}
 
 	return GetPyNone();
@@ -463,9 +395,9 @@ get_y_scroll_max(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	if (!Parse((GetParsers())["get_y_scroll_max"], args, kwargs, __FUNCTION__,
 		&itemraw))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 
@@ -474,32 +406,18 @@ get_y_scroll_max(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, "get_y_scroll_max",
 			"Item not found: " + std::to_string(item), nullptr);
-		return GetPyNone();
+		return nullptr;
 	}
 
-	if (window->type == mvAppItemType::mvWindowAppItem)
+	if (DearPyGui::GetApplicableState(window->type) & MV_STATE_SCROLL)
 	{
-
-		auto pWindow = static_cast<mvWindowAppItem*>(window);
-
-		return ToPyFloat(pWindow->configData.scrollMaxY);
-	}
-	else if (window->type == mvAppItemType::mvChildWindow)
-	{
-		auto pChild = static_cast<mvChildWindow*>(window);
-
-		return ToPyFloat(pChild->configData.scrollMaxY);
-	}
-	else if (window->type == mvAppItemType::mvTable)
-	{
-		auto pTable = static_cast<mvTable*>(window);
-
-		return ToPyFloat(pTable->_scrollMaxY);
+		return ToPyFloat(window->state.scrollMax.y);
 	}
 	else
 	{
-		mvThrowPythonError(mvErrorCode::mvIncompatibleType, "set_y_scroll_max",
-			"Incompatible type. Expected types include: mvWindowAppItem, mvChildWindow, mvTable", window);
+		mvThrowPythonError(mvErrorCode::mvIncompatibleType, "get_y_scroll_max",
+			"Incompatible type. Expected types include: mvWindowAppItem, mvChildWindow, mvTable, mvListbox", window);
+		return nullptr;
 	}
 
 	return GetPyNone();
@@ -518,9 +436,9 @@ set_clip_space(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	if (!Parse((GetParsers())["set_clip_space"], args, kwargs, __FUNCTION__, &itemraw,
 		&topleftx, &toplefty, &width, &height, &mindepth, &maxdepth))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 
@@ -529,7 +447,7 @@ set_clip_space(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, "apply_transform",
 			"Item not found: " + std::to_string(item), nullptr);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	if (aitem->type == mvAppItemType::mvDrawLayer)
@@ -554,7 +472,7 @@ set_clip_space(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvIncompatibleType, "applydrawInfo->transform",
 			"Incompatible type. Expected types include: mvDrawLayer", aitem);
-		return GetPyNone();
+		return nullptr;
 	}
 
 
@@ -568,9 +486,9 @@ apply_transform(PyObject* self, PyObject* args, PyObject* kwargs)
 	PyObject* transform;
 
 	if (!Parse((GetParsers())["apply_transform"], args, kwargs, __FUNCTION__, &itemraw, &transform))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 
@@ -581,7 +499,7 @@ apply_transform(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, "apply_transform",
 			"Item not found: " + std::to_string(item), nullptr);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	if (aitem->type == mvAppItemType::mvDrawNode)
@@ -594,7 +512,7 @@ apply_transform(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvIncompatibleType, "apply_transform",
 			"Incompatible type. Expected types include: mvDrawNode", aitem);
-		return GetPyNone();
+		return nullptr;
 	}
 
 
@@ -609,9 +527,9 @@ create_rotation_matrix(PyObject* self, PyObject* args, PyObject* kwargs)
 	PyObject* axis;
 
 	if (!Parse((GetParsers())["create_rotation_matrix"], args, kwargs, __FUNCTION__, &angle, &axis))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvVec4 aaxis = ToVec4(axis);
 
@@ -635,9 +553,9 @@ create_perspective_matrix(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	if (!Parse((GetParsers())["create_perspective_matrix"], args, kwargs, __FUNCTION__,
 		&fov, &aspect, &zNear, &zFar))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	PyObject* newbuffer = nullptr;
 	PymvMat4* newbufferview = nullptr;
@@ -661,9 +579,9 @@ create_orthographic_matrix(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	if (!Parse((GetParsers())["create_orthographic_matrix"], args, kwargs, __FUNCTION__,
 		&left, &right, &bottom, &top, &zNear, &zFar))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	PyObject* newbuffer = nullptr;
 	PymvMat4* newbufferview = nullptr;
@@ -682,9 +600,9 @@ create_translation_matrix(PyObject* self, PyObject* args, PyObject* kwargs)
 	PyObject* axis;
 
 	if (!Parse((GetParsers())["create_translation_matrix"], args, kwargs, __FUNCTION__, &axis))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvVec4 aaxis = ToVec4(axis);
 
@@ -705,9 +623,9 @@ create_scale_matrix(PyObject* self, PyObject* args, PyObject* kwargs)
 	PyObject* axis;
 
 	if (!Parse((GetParsers())["create_scale_matrix"], args, kwargs, __FUNCTION__, &axis))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvVec4 aaxis = ToVec4(axis);
 
@@ -731,9 +649,9 @@ create_lookat_matrix(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	if (!Parse((GetParsers())["create_lookat_matrix"], args, kwargs, __FUNCTION__,
 		&eye, &center, &up))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvVec4 aeye = ToVec4(eye);
 	mvVec4 acenter = ToVec4(center);
@@ -759,9 +677,9 @@ create_fps_matrix(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	if (!Parse((GetParsers())["create_fps_matrix"], args, kwargs, __FUNCTION__,
 		&eye, &pitch, &yaw))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvVec4 aeye = ToVec4(eye);
 	PyObject* newbuffer = nullptr;
@@ -782,38 +700,34 @@ bind_font(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	if (!Parse((GetParsers())["bind_font"], args, kwargs, __FUNCTION__,
 		&itemraw))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
-	mvUUID item = GetIDFromPyObject(itemraw);
+	mvUUID itemId = GetIDFromPyObject(itemraw);
 
-	if (item == 0)
+	if (itemId == 0)
 	{
-		for (auto& reg : GContext->itemRegistry->fontRegistryRoots)
-			static_cast<mvFontRegistry*>(reg.get())->resetFont();
+		mvToolManager::GetFontManager().clearDefaultFont();
 		return GetPyNone();
 	}
 
-	auto aplot = GetItem((*GContext->itemRegistry), item);
-	if (aplot == nullptr)
+	auto item = GetRefItem((*GContext->itemRegistry), itemId);
+	if (item == nullptr)
 	{
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, "bind_font",
-			"Item not found: " + std::to_string(item), nullptr);
-		return GetPyNone();
+			"Item not found: " + std::to_string(itemId), nullptr);
+		return nullptr;
 	}
 
-	if (aplot->type != mvAppItemType::mvFont)
+	if (item->type != mvAppItemType::mvFont)
 	{
 		mvThrowPythonError(mvErrorCode::mvIncompatibleType, "bind_font",
-			"Incompatible type. Expected types include: mvFont", aplot);
-		return GetPyNone();
+			"Incompatible type. Expected types include: mvFont", item.get());
+		return nullptr;
 	}
 
-	mvFont* graph = static_cast<mvFont*>(aplot);
-
-	graph->_default = true;
-	mvToolManager::GetFontManager()._newDefault = true;
+	mvToolManager::GetFontManager().setDefaultFont(item);
 
 	return GetPyNone();
 }
@@ -828,9 +742,9 @@ get_text_size(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	if (!Parse((GetParsers())["get_text_size"], args, kwargs, __FUNCTION__,
 		&text, &wrap_width, &fontRaw))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID font = GetIDFromPyObject(fontRaw);
 
@@ -848,14 +762,14 @@ get_text_size(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, "get_text_size",
 			"Item not found: " + std::to_string(font), nullptr);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	if (afont->type != mvAppItemType::mvFont)
 	{
 		mvThrowPythonError(mvErrorCode::mvIncompatibleType, "get_text_size",
 			"Incompatible type. Expected types include: mvFont", afont);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	mvFont* graph = static_cast<mvFont*>(afont);
@@ -885,7 +799,7 @@ get_selected_nodes(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["get_selected_nodes"], args, kwargs, __FUNCTION__, &node_editor_raw))
 		return ToPyBool(false);
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID node_editor = GetIDFromPyObject(node_editor_raw);
 
@@ -894,14 +808,14 @@ get_selected_nodes(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, "get_selected_nodes",
 			"Item not found: " + std::to_string(node_editor), nullptr);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	if (anode_editor->type != mvAppItemType::mvNodeEditor)
 	{
 		mvThrowPythonError(mvErrorCode::mvIncompatibleType, "get_selected_nodes",
 			"Incompatible type. Expected types include: mvNodeEditor", anode_editor);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	mvNodeEditor* editor = static_cast<mvNodeEditor*>(anode_editor);
@@ -920,7 +834,7 @@ get_selected_links(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["get_selected_links"], args, kwargs, __FUNCTION__, &node_editor_raw))
 		return ToPyBool(false);
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID node_editor = GetIDFromPyObject(node_editor_raw);
 
@@ -929,14 +843,14 @@ get_selected_links(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, "get_selected_links",
 			"Item not found: " + std::to_string(node_editor), nullptr);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	if (anode_editor->type != mvAppItemType::mvNodeEditor)
 	{
 		mvThrowPythonError(mvErrorCode::mvIncompatibleType, "get_selected_links",
 			"Incompatible type. Expected types include: mvNodeEditor", anode_editor);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	mvNodeEditor* editor = static_cast<mvNodeEditor*>(anode_editor);
@@ -954,7 +868,7 @@ clear_selected_links(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["clear_selected_links"], args, kwargs, __FUNCTION__, &node_editor_raw))
 		return ToPyBool(false);
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID node_editor = GetIDFromPyObject(node_editor_raw);
 
@@ -963,14 +877,14 @@ clear_selected_links(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, "clear_selected_links",
 			"Item not found: " + std::to_string(node_editor), nullptr);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	if (anode_editor->type != mvAppItemType::mvNodeEditor)
 	{
 		mvThrowPythonError(mvErrorCode::mvIncompatibleType, "clear_selected_links",
 			"Incompatible type. Expected types include: mvNodeEditor", anode_editor);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	mvNodeEditor* editor = static_cast<mvNodeEditor*>(anode_editor);
@@ -988,7 +902,7 @@ clear_selected_nodes(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["clear_selected_nodes"], args, kwargs, __FUNCTION__, &node_editor_raw))
 		return ToPyBool(false);
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID node_editor = GetIDFromPyObject(node_editor_raw);
 
@@ -997,14 +911,14 @@ clear_selected_nodes(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, "clear_selected_nodes",
 			"Item not found: " + std::to_string(node_editor), nullptr);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	if (anode_editor->type != mvAppItemType::mvNodeEditor)
 	{
 		mvThrowPythonError(mvErrorCode::mvIncompatibleType, "clear_selected_nodes",
 			"Incompatible type. Expected types include: mvNodeEditor", anode_editor);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	mvNodeEditor* editor = static_cast<mvNodeEditor*>(anode_editor);
@@ -1021,9 +935,9 @@ get_plot_query_rects(PyObject* self, PyObject* args, PyObject* kwargs)
 	auto tag = "get_plot_query_rects";
 
 	if (!Parse((GetParsers())[tag], args, kwargs, __FUNCTION__, &plotraw))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID plot = GetIDFromPyObject(plotraw);
 
@@ -1031,13 +945,13 @@ get_plot_query_rects(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (aplot == nullptr)
 	{
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, tag, "Item not found: " + std::to_string(plot), nullptr);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	if (aplot->type != mvAppItemType::mvPlot)
 	{
 		mvThrowPythonError(mvErrorCode::mvIncompatibleType, tag, "Incompatible type. Expected types include: mvPlot", aplot);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	mvPlot* graph = static_cast<mvPlot*>(aplot);
@@ -1059,11 +973,11 @@ set_axis_ticks(PyObject* self, PyObject* args, PyObject* kwargs)
 	PyObject* label_pairs;
 
 	if (!Parse((GetParsers())["set_axis_ticks"], args, kwargs, __FUNCTION__, &plotraw, &label_pairs))
-		return GetPyNone();
+		return nullptr;
 
 	auto mlabel_pairs = ToVectPairStringFloat(label_pairs);
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID plot = GetIDFromPyObject(plotraw);
 
@@ -1072,14 +986,14 @@ set_axis_ticks(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_axis_ticks",
 			"Item not found: " + std::to_string(plot), nullptr);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	if (aplot->type != mvAppItemType::mvPlotAxis)
 	{
 		mvThrowPythonError(mvErrorCode::mvIncompatibleType, "set_axis_ticks",
 			"Incompatible type. Expected types include: mvPlotAxis", aplot);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	mvPlotAxis* graph = static_cast<mvPlotAxis*>(aplot);
@@ -1114,9 +1028,9 @@ set_axis_limits_constraints(PyObject* self, PyObject* args, PyObject* kwargs)
 	auto tag = "set_axis_limits_constraints";
 
 	if (!Parse((GetParsers())[tag], args, kwargs, __FUNCTION__, &axisraw, &vmin, &vmax))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID axis = GetIDFromPyObject(axisraw);
 
@@ -1125,14 +1039,14 @@ set_axis_limits_constraints(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, tag,
 			"Item not found: " + std::to_string(axis), nullptr);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	if (aplot->type != mvAppItemType::mvPlotAxis)
 	{
 		mvThrowPythonError(mvErrorCode::mvIncompatibleType, tag,
 			"Incompatible type. Expected types include: mvPlotAxis", aplot);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	mvPlotAxis* graph = static_cast<mvPlotAxis*>(aplot);
@@ -1148,9 +1062,9 @@ reset_axis_limits_constraints(PyObject* self, PyObject* args, PyObject* kwargs)
 	auto tag = "reset_axis_limits_constraints";
 
 	if (!Parse((GetParsers())[tag], args, kwargs, __FUNCTION__, &axisraw))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID axis = GetIDFromPyObject(axisraw);
 
@@ -1159,14 +1073,14 @@ reset_axis_limits_constraints(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, tag,
 			"Item not found: " + std::to_string(axis), nullptr);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	if (aplot->type != mvAppItemType::mvPlotAxis)
 	{
 		mvThrowPythonError(mvErrorCode::mvIncompatibleType, tag,
 			"Incompatible type. Expected types include: mvPlotAxis", aplot);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	mvPlotAxis* graph = static_cast<mvPlotAxis*>(aplot);
@@ -1183,9 +1097,9 @@ set_axis_zoom_constraints(PyObject* self, PyObject* args, PyObject* kwargs)
 	auto tag = "set_axis_zoom_constraints";
 
 	if (!Parse((GetParsers())[tag], args, kwargs, __FUNCTION__, &axisraw, &vmin, &vmax))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID axis = GetIDFromPyObject(axisraw);
 
@@ -1194,14 +1108,14 @@ set_axis_zoom_constraints(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, tag,
 			"Item not found: " + std::to_string(axis), nullptr);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	if (aplot->type != mvAppItemType::mvPlotAxis)
 	{
 		mvThrowPythonError(mvErrorCode::mvIncompatibleType, tag,
 			"Incompatible type. Expected types include: mvPlotAxis", aplot);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	mvPlotAxis* graph = static_cast<mvPlotAxis*>(aplot);
@@ -1218,9 +1132,9 @@ reset_axis_zoom_constraints(PyObject* self, PyObject* args, PyObject* kwargs)
 	auto tag = "reset_axis_zoom_constraints";
 
 	if (!Parse((GetParsers())[tag], args, kwargs, __FUNCTION__, &axisraw))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID axis = GetIDFromPyObject(axisraw);
 
@@ -1229,14 +1143,14 @@ reset_axis_zoom_constraints(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, tag,
 			"Item not found: " + std::to_string(axis), nullptr);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	if (aplot->type != mvAppItemType::mvPlotAxis)
 	{
 		mvThrowPythonError(mvErrorCode::mvIncompatibleType, tag,
 			"Incompatible type. Expected types include: mvPlotAxis", aplot);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	mvPlotAxis* graph = static_cast<mvPlotAxis*>(aplot);
@@ -1253,9 +1167,9 @@ set_axis_limits(PyObject* self, PyObject* args, PyObject* kwargs)
 	float ymax;
 
 	if (!Parse((GetParsers())["set_axis_limits"], args, kwargs, __FUNCTION__, &axisraw, &ymin, &ymax))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID axis = GetIDFromPyObject(axisraw);
 
@@ -1264,14 +1178,14 @@ set_axis_limits(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_axis_limits",
 			"Item not found: " + std::to_string(axis), nullptr);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	if (aplot->type != mvAppItemType::mvPlotAxis)
 	{
 		mvThrowPythonError(mvErrorCode::mvIncompatibleType, "set_axis_limits",
 			"Incompatible type. Expected types include: mvPlotAxis", aplot);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	mvPlotAxis* graph = static_cast<mvPlotAxis*>(aplot);
@@ -1286,9 +1200,9 @@ set_axis_limits_auto(PyObject* self, PyObject* args, PyObject* kwargs)
 	PyObject* axisraw;
 
 	if (!Parse((GetParsers())["set_axis_limits_auto"], args, kwargs, __FUNCTION__, &axisraw))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID axis = GetIDFromPyObject(axisraw);
 
@@ -1297,14 +1211,14 @@ set_axis_limits_auto(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_axis_limits",
 			"Item not found: " + std::to_string(axis), nullptr);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	if (aplot->type != mvAppItemType::mvPlotAxis)
 	{
 		mvThrowPythonError(mvErrorCode::mvIncompatibleType, "set_axis_limits",
 			"Incompatible type. Expected types include: mvPlotAxis", aplot);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	mvPlotAxis* graph = static_cast<mvPlotAxis*>(aplot);
@@ -1320,9 +1234,9 @@ fit_axis_data(PyObject* self, PyObject* args, PyObject* kwargs)
 	PyObject* axisraw;
 
 	if (!Parse((GetParsers())["fit_axis_data"], args, kwargs, __FUNCTION__, &axisraw))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID axis = GetIDFromPyObject(axisraw);
 
@@ -1331,14 +1245,14 @@ fit_axis_data(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, "fit_axis_data",
 			"Item not found: " + std::to_string(axis), nullptr);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	if (aplot->type != mvAppItemType::mvPlotAxis)
 	{
 		mvThrowPythonError(mvErrorCode::mvIncompatibleType, "fit_axis_data",
 			"Incompatible type. Expected types include: mvPlotAxis", aplot);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	mvPlotAxis* graph = static_cast<mvPlotAxis*>(aplot);
@@ -1356,9 +1270,9 @@ get_axis_limits(PyObject* self, PyObject* args, PyObject* kwargs)
 	PyObject* plotraw;
 
 	if (!Parse((GetParsers())["get_axis_limits"], args, kwargs, __FUNCTION__, &plotraw))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID plot = GetIDFromPyObject(plotraw);
 
@@ -1367,14 +1281,14 @@ get_axis_limits(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, "get_axis_limits",
 			"Item not found: " + std::to_string(plot), nullptr);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	if (aplot->type != mvAppItemType::mvPlotAxis)
 	{
 		mvThrowPythonError(mvErrorCode::mvIncompatibleType, "get_axis_limits",
 			"Incompatible type. Expected types include: mvPlotAxis", aplot);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	mvPlotAxis* graph = static_cast<mvPlotAxis*>(aplot);
@@ -1389,9 +1303,9 @@ reset_axis_ticks(PyObject* self, PyObject* args, PyObject* kwargs)
 	PyObject* plotraw;
 
 	if (!Parse((GetParsers())["reset_axis_ticks"], args, kwargs, __FUNCTION__, &plotraw))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID plot = GetIDFromPyObject(plotraw);
 
@@ -1400,14 +1314,14 @@ reset_axis_ticks(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, "reset_axis_ticks",
 			"Item not found: " + std::to_string(plot), nullptr);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	if (aplot->type != mvAppItemType::mvPlotAxis)
 	{
 		mvThrowPythonError(mvErrorCode::mvIncompatibleType, "reset_axis_ticks",
 			"Incompatible type. Expected types include: mvPlotAxis", aplot);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	mvPlotAxis* graph = static_cast<mvPlotAxis*>(aplot);
@@ -1427,9 +1341,9 @@ highlight_table_column(PyObject* self, PyObject* args, PyObject* kwargs)
 	PyObject* color;
 
 	if (!Parse((GetParsers())["highlight_table_column"], args, kwargs, __FUNCTION__, &tableraw, &column, &color))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID table = GetIDFromPyObject(tableraw);
 
@@ -1438,14 +1352,14 @@ highlight_table_column(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, "highlight_table_column",
 			"Item not found: " + std::to_string(table), nullptr);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	if (atable->type != mvAppItemType::mvTable)
 	{
 		mvThrowPythonError(mvErrorCode::mvIncompatibleType, "highlight_table_column",
 			"Incompatible type. Expected types include: mvTable", atable);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	mvTable* tablecast = static_cast<mvTable*>(atable);
@@ -1454,7 +1368,7 @@ highlight_table_column(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvNone, "highlight_table_column",
 			"Column out of range", tablecast);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	mvColor finalColor = ToColor(color);
@@ -1471,9 +1385,9 @@ unhighlight_table_column(PyObject* self, PyObject* args, PyObject* kwargs)
 	int column = 0;
 
 	if (!Parse((GetParsers())["unhighlight_table_column"], args, kwargs, __FUNCTION__, &tableraw, &column))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID table = GetIDFromPyObject(tableraw);
 
@@ -1482,14 +1396,14 @@ unhighlight_table_column(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, "unhighlight_table_column",
 			"Item not found: " + std::to_string(table), nullptr);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	if (atable->type != mvAppItemType::mvTable)
 	{
 		mvThrowPythonError(mvErrorCode::mvIncompatibleType, "unhighlight_table_column",
 			"Incompatible type. Expected types include: mvTable", atable);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	mvTable* tablecast = static_cast<mvTable*>(atable);
@@ -1498,7 +1412,7 @@ unhighlight_table_column(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvNone, "unhighlight_table_column",
 			"Column out of range", tablecast);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	tablecast->_columnColorsSet[column] = false;
@@ -1514,9 +1428,9 @@ set_table_row_color(PyObject* self, PyObject* args, PyObject* kwargs)
 	PyObject* color;
 
 	if (!Parse((GetParsers())["set_table_row_color"], args, kwargs, __FUNCTION__, &tableraw, &row, &color))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID table = GetIDFromPyObject(tableraw);
 
@@ -1525,14 +1439,14 @@ set_table_row_color(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_table_row_color",
 			"Item not found: " + std::to_string(table), nullptr);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	if (atable->type != mvAppItemType::mvTable)
 	{
 		mvThrowPythonError(mvErrorCode::mvIncompatibleType, "set_table_row_color",
 			"Incompatible type. Expected types include: mvTable", atable);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	mvTable* tablecast = static_cast<mvTable*>(atable);
@@ -1541,7 +1455,7 @@ set_table_row_color(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvNone, "set_table_row_color",
 			"Row out of range", tablecast);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	mvColor finalColor = ToColor(color);
@@ -1558,9 +1472,9 @@ unset_table_row_color(PyObject* self, PyObject* args, PyObject* kwargs)
 	int row = 0;
 
 	if (!Parse((GetParsers())["unset_table_row_color"], args, kwargs, __FUNCTION__, &tableraw, &row))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID table = GetIDFromPyObject(tableraw);
 
@@ -1569,14 +1483,14 @@ unset_table_row_color(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, "unset_table_row_color",
 			"Item not found: " + std::to_string(table), nullptr);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	if (atable->type != mvAppItemType::mvTable)
 	{
 		mvThrowPythonError(mvErrorCode::mvIncompatibleType, "unset_table_row_color",
 			"Incompatible type. Expected types include: mvTable", atable);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	mvTable* tablecast = static_cast<mvTable*>(atable);
@@ -1585,7 +1499,7 @@ unset_table_row_color(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvNone, "set_table_row_color",
 			"Row out of range", tablecast);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	tablecast->_rowColorsSet[row] = false;
@@ -1600,9 +1514,9 @@ highlight_table_row(PyObject* self, PyObject* args, PyObject* kwargs)
 	PyObject* color;
 
 	if (!Parse((GetParsers())["highlight_table_row"], args, kwargs, __FUNCTION__, &tableraw, &row, &color))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID table = GetIDFromPyObject(tableraw);
 
@@ -1611,14 +1525,14 @@ highlight_table_row(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, "highlight_table_row",
 			"Item not found: " + std::to_string(table), nullptr);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	if (atable->type != mvAppItemType::mvTable)
 	{
 		mvThrowPythonError(mvErrorCode::mvIncompatibleType, "highlight_table_row",
 			"Incompatible type. Expected types include: mvTable", atable);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	mvTable* tablecast = static_cast<mvTable*>(atable);
@@ -1627,7 +1541,7 @@ highlight_table_row(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvNone, "highlight_table_row",
 			"Row out of range", tablecast);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	mvColor finalColor = ToColor(color);
@@ -1644,9 +1558,9 @@ unhighlight_table_row(PyObject* self, PyObject* args, PyObject* kwargs)
 	int row = 0;
 
 	if (!Parse((GetParsers())["unhighlight_table_row"], args, kwargs, __FUNCTION__, &tableraw, &row))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID table = GetIDFromPyObject(tableraw);
 
@@ -1655,14 +1569,14 @@ unhighlight_table_row(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, "unhighlight_table_row",
 			"Item not found: " + std::to_string(table), nullptr);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	if (atable->type != mvAppItemType::mvTable)
 	{
 		mvThrowPythonError(mvErrorCode::mvIncompatibleType, "unhighlight_table_row",
 			"Incompatible type. Expected types include: mvTable", atable);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	mvTable* tablecast = static_cast<mvTable*>(atable);
@@ -1671,7 +1585,7 @@ unhighlight_table_row(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvNone, "unselect_table_row",
 			"Row out of range", tablecast);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	tablecast->_rowSelectionColorsSet[row] = false;
@@ -1688,9 +1602,9 @@ highlight_table_cell(PyObject* self, PyObject* args, PyObject* kwargs)
 	PyObject* color;
 
 	if (!Parse((GetParsers())["highlight_table_cell"], args, kwargs, __FUNCTION__, &tableraw, &row, &column, &color))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID table = GetIDFromPyObject(tableraw);
 
@@ -1699,14 +1613,14 @@ highlight_table_cell(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, "highlight_table_cell",
 			"Item not found: " + std::to_string(table), nullptr);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	if (atable->type != mvAppItemType::mvTable)
 	{
 		mvThrowPythonError(mvErrorCode::mvIncompatibleType, "highlight_table_cell",
 			"Incompatible type. Expected types include: mvTable", atable);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	mvTable* tablecast = static_cast<mvTable*>(atable);
@@ -1715,7 +1629,7 @@ highlight_table_cell(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvNone, "highlight_table_cell",
 			"Row/Column out of range", tablecast);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	mvColor finalColor = ToColor(color);
@@ -1733,9 +1647,9 @@ unhighlight_table_cell(PyObject* self, PyObject* args, PyObject* kwargs)
 	int column = 0;
 
 	if (!Parse((GetParsers())["unhighlight_table_cell"], args, kwargs, __FUNCTION__, &tableraw, &row, &column))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID table = GetIDFromPyObject(tableraw);
 
@@ -1744,14 +1658,14 @@ unhighlight_table_cell(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, "unhighlight_table_cell",
 			"Item not found: " + std::to_string(table), nullptr);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	if (atable->type != mvAppItemType::mvTable)
 	{
 		mvThrowPythonError(mvErrorCode::mvIncompatibleType, "unhighlight_table_cell",
 			"Incompatible type. Expected types include: mvTable", atable);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	mvTable* tablecast = static_cast<mvTable*>(atable);
@@ -1760,7 +1674,7 @@ unhighlight_table_cell(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvNone, "unhighlight_table_cell",
 			"Row/Column out of range", tablecast);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	tablecast->_cellColorsSet[row][column] = false;
@@ -1776,9 +1690,9 @@ is_table_cell_highlighted(PyObject* self, PyObject* args, PyObject* kwargs)
 	int column = 0;
 
 	if (!Parse((GetParsers())["is_table_cell_highlighted"], args, kwargs, __FUNCTION__, &tableraw, &row, &column))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID table = GetIDFromPyObject(tableraw);
 
@@ -1787,14 +1701,14 @@ is_table_cell_highlighted(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, "is_table_cell_highlighted",
 			"Item not found: " + std::to_string(table), nullptr);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	if (atable->type != mvAppItemType::mvTable)
 	{
 		mvThrowPythonError(mvErrorCode::mvIncompatibleType, "is_table_cell_highlighted",
 			"Incompatible type. Expected types include: mvTable", atable);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	mvTable* tablecast = static_cast<mvTable*>(atable);
@@ -1803,7 +1717,7 @@ is_table_cell_highlighted(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvNone, "is_table_cell_highlighted",
 			"Row/Column out of range", tablecast);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	if (tablecast->_cellColorsSet[row][column])
@@ -1823,9 +1737,9 @@ is_table_row_highlighted(PyObject* self, PyObject* args, PyObject* kwargs)
 	int row = 0;
 
 	if (!Parse((GetParsers())["is_table_row_highlighted"], args, kwargs, __FUNCTION__, &tableraw, &row))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID table = GetIDFromPyObject(tableraw);
 
@@ -1834,14 +1748,14 @@ is_table_row_highlighted(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, "is_table_row_highlighted",
 			"Item not found: " + std::to_string(table), nullptr);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	if (atable->type != mvAppItemType::mvTable)
 	{
 		mvThrowPythonError(mvErrorCode::mvIncompatibleType, "is_table_row_highlighted",
 			"Incompatible type. Expected types include: mvTable", atable);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	mvTable* tablecast = static_cast<mvTable*>(atable);
@@ -1850,7 +1764,7 @@ is_table_row_highlighted(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvNone, "is_table_row_highlighted",
 			"Row out of range", tablecast);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	return ToPyBool(tablecast->_rowSelectionColorsSet[row]);
@@ -1863,9 +1777,9 @@ is_table_column_highlighted(PyObject* self, PyObject* args, PyObject* kwargs)
 	int column = 0;
 
 	if (!Parse((GetParsers())["is_table_column_highlighted"], args, kwargs, __FUNCTION__, &tableraw, &column))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID table = GetIDFromPyObject(tableraw);
 
@@ -1874,14 +1788,14 @@ is_table_column_highlighted(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, "is_table_column_highlighted",
 			"Item not found: " + std::to_string(table), nullptr);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	if (atable->type != mvAppItemType::mvTable)
 	{
 		mvThrowPythonError(mvErrorCode::mvIncompatibleType, "is_table_column_highlighted",
 			"Incompatible type. Expected types include: mvTable", atable);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	mvTable* tablecast = static_cast<mvTable*>(atable);
@@ -1890,7 +1804,7 @@ is_table_column_highlighted(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvNone, "is_table_column_highlighted",
 			"Column out of range", tablecast);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	return ToPyBool(tablecast->_columnColorsSet[column]);
@@ -1904,9 +1818,9 @@ bind_theme(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	if (!Parse((GetParsers())["bind_theme"], args, kwargs, __FUNCTION__,
 		&itemraw))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 
@@ -1922,14 +1836,14 @@ bind_theme(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, "bind_theme",
 			"Item not found: " + std::to_string(item), nullptr);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	if (aplot->type != mvAppItemType::mvTheme)
 	{
 		mvThrowPythonError(mvErrorCode::mvIncompatibleType, "bind_theme",
 			"Incompatible type. Expected types include: mvTheme", aplot);
-		return GetPyNone();
+		return nullptr;
 	}
 
 	mvTheme* graph = static_cast<mvTheme*>(aplot);
@@ -1947,9 +1861,9 @@ set_global_font_scale(PyObject* self, PyObject* args, PyObject* kwargs)
 	float scale;
 
 	if (!Parse((GetParsers())["set_global_font_scale"], args, kwargs, __FUNCTION__, &scale))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 	mvToolManager::GetFontManager().setGlobalFontScale(scale);
 
 	return GetPyNone();
@@ -1968,7 +1882,7 @@ show_tool(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	if (!Parse((GetParsers())["show_tool"], args, kwargs, __FUNCTION__,
 		&toolraw))
-		return GetPyNone();
+		return nullptr;
 
 	mvUUID tool = GetIDFromPyObject(toolraw);
 
@@ -1987,7 +1901,7 @@ set_decimal_point(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (!Parse((GetParsers())["set_decimal_point"], args, kwargs, __FUNCTION__, &point, &from_locale))
 		return GetPyNone();
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 	
 	GContext->IO.decimalPoint = *point;
 	ImGui::GetIO().PlatformLocaleDecimalPoint = GContext->IO.decimalPoint;
@@ -2004,21 +1918,15 @@ set_frame_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	if (!Parse((GetParsers())["set_frame_callback"], args, kwargs, __FUNCTION__,
 		&frame, &callback, &user_data))
-		return GetPyNone();
+		return nullptr;
+
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	if (frame > GContext->callbackRegistry->highestFrame)
 		GContext->callbackRegistry->highestFrame = frame;
 
-	// TODO: check previous entry and deprecate if existing
-	Py_XINCREF(callback);
-
-	if(user_data)
-		Py_XINCREF(user_data);
-	mvSubmitCallback([=]()
-		{
-			GContext->callbackRegistry->frameCallbacks[frame] = callback;
-			GContext->callbackRegistry->frameCallbacksUserData[frame] = user_data;
-		});
+	GContext->callbackRegistry->frameCallbacks.insert_or_assign(frame, mvPyObject(callback, true));
+	GContext->callbackRegistry->frameCallbacksUserData.insert_or_assign(frame, mvPyObject(user_data, true));
 
 	return GetPyNone();
 }
@@ -2031,16 +1939,11 @@ set_exit_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	if (!Parse((GetParsers())["set_exit_callback"], args, kwargs, __FUNCTION__, &callback,
 		&user_data))
-		return GetPyNone();
+		return nullptr;
 
-	Py_XINCREF(callback);
-	if(user_data)
-		Py_XINCREF(user_data);
-	mvSubmitCallback([=]()
-		{
-			GContext->callbackRegistry->onCloseCallback = SanitizeCallback(callback);
-			GContext->callbackRegistry->onCloseCallbackUserData = user_data;
-		});
+	*GContext->callbackRegistry->onCloseCallback = mvPyObject(callback == Py_None? nullptr : callback, true);
+	*GContext->callbackRegistry->onCloseCallbackUserData = mvPyObject(user_data, true);
+
 	return GetPyNone();
 }
 
@@ -2052,19 +1955,10 @@ set_viewport_resize_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	if (!Parse((GetParsers())["set_viewport_resize_callback"], args, kwargs, __FUNCTION__,
 		&callback, &user_data))
-		return GetPyNone();
+		return nullptr;
 
-	if (callback)
-		Py_XINCREF(callback);
-
-	if (user_data)
-		Py_XINCREF(user_data);
-
-	mvSubmitCallback([=]()
-		{
-			GContext->callbackRegistry->resizeCallback = SanitizeCallback(callback);
-			GContext->callbackRegistry->resizeCallbackUserData = user_data;
-		});
+	*GContext->callbackRegistry->resizeCallback = mvPyObject(callback == Py_None? nullptr : callback, true);
+	*GContext->callbackRegistry->resizeCallbackUserData = mvPyObject(user_data, true);
 
 	return GetPyNone();
 }
@@ -2073,35 +1967,36 @@ static PyObject*
 get_viewport_configuration(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
+
+
+	mvViewport* viewport = GContext->viewport;
+	if (!viewport)
+	{
+		mvThrowPythonError(mvErrorCode::mvNone, "No viewport created");
+		return nullptr;
+	}
 
 	PyObject* pdict = PyDict_New();
 
-	mvViewport* viewport = GContext->viewport;
-	if (viewport)
-	{
-		PyDict_SetItemString(pdict, "clear_color", mvPyObject(ToPyColor(viewport->clearColor)));
-		PyDict_SetItemString(pdict, "small_icon", mvPyObject(ToPyString(viewport->small_icon)));
-		PyDict_SetItemString(pdict, "large_icon", mvPyObject(ToPyString(viewport->large_icon)));
-		PyDict_SetItemString(pdict, "x_pos", mvPyObject(ToPyInt(viewport->xpos)));
-		PyDict_SetItemString(pdict, "y_pos", mvPyObject(ToPyInt(viewport->ypos)));
-		PyDict_SetItemString(pdict, "width", mvPyObject(ToPyInt(viewport->actualWidth)));
-		PyDict_SetItemString(pdict, "height", mvPyObject(ToPyInt(viewport->actualHeight)));
-		PyDict_SetItemString(pdict, "client_width", mvPyObject(ToPyInt(viewport->clientWidth)));
-		PyDict_SetItemString(pdict, "client_height", mvPyObject(ToPyInt(viewport->clientHeight)));
-		PyDict_SetItemString(pdict, "resizable", mvPyObject(ToPyBool(viewport->resizable)));
-		PyDict_SetItemString(pdict, "vsync", mvPyObject(ToPyBool(viewport->vsync)));
-		PyDict_SetItemString(pdict, "min_width", mvPyObject(ToPyInt(viewport->minwidth)));
-		PyDict_SetItemString(pdict, "max_width", mvPyObject(ToPyInt(viewport->maxwidth)));
-		PyDict_SetItemString(pdict, "min_height", mvPyObject(ToPyInt(viewport->minheight)));
-		PyDict_SetItemString(pdict, "max_height", mvPyObject(ToPyInt(viewport->maxheight)));
-		PyDict_SetItemString(pdict, "always_on_top", mvPyObject(ToPyBool(viewport->alwaysOnTop)));
-		PyDict_SetItemString(pdict, "decorated", mvPyObject(ToPyBool(viewport->decorated)));
-		PyDict_SetItemString(pdict, "title", mvPyObject(ToPyString(viewport->title)));
-		PyDict_SetItemString(pdict, "disable_close", mvPyObject(ToPyBool(viewport->disableClose)));
-	}
-	else
-		mvThrowPythonError(mvErrorCode::mvNone, "No viewport created");
+	PyDict_SetItemString(pdict, "clear_color", mvPyObject(ToPyColor(viewport->clearColor)));
+	PyDict_SetItemString(pdict, "small_icon", mvPyObject(ToPyString(viewport->small_icon)));
+	PyDict_SetItemString(pdict, "large_icon", mvPyObject(ToPyString(viewport->large_icon)));
+	PyDict_SetItemString(pdict, "x_pos", mvPyObject(ToPyInt(viewport->xpos)));
+	PyDict_SetItemString(pdict, "y_pos", mvPyObject(ToPyInt(viewport->ypos)));
+	PyDict_SetItemString(pdict, "width", mvPyObject(ToPyInt(viewport->actualWidth)));
+	PyDict_SetItemString(pdict, "height", mvPyObject(ToPyInt(viewport->actualHeight)));
+	PyDict_SetItemString(pdict, "client_width", mvPyObject(ToPyInt(viewport->clientWidth)));
+	PyDict_SetItemString(pdict, "client_height", mvPyObject(ToPyInt(viewport->clientHeight)));
+	PyDict_SetItemString(pdict, "resizable", mvPyObject(ToPyBool(viewport->resizable)));
+	PyDict_SetItemString(pdict, "vsync", mvPyObject(ToPyBool(viewport->vsync)));
+	PyDict_SetItemString(pdict, "min_width", mvPyObject(ToPyInt(viewport->minwidth)));
+	PyDict_SetItemString(pdict, "max_width", mvPyObject(ToPyInt(viewport->maxwidth)));
+	PyDict_SetItemString(pdict, "min_height", mvPyObject(ToPyInt(viewport->minheight)));
+	PyDict_SetItemString(pdict, "max_height", mvPyObject(ToPyInt(viewport->maxheight)));
+	PyDict_SetItemString(pdict, "always_on_top", mvPyObject(ToPyBool(viewport->alwaysOnTop)));
+	PyDict_SetItemString(pdict, "decorated", mvPyObject(ToPyBool(viewport->decorated)));
+	PyDict_SetItemString(pdict, "title", mvPyObject(ToPyString(viewport->title)));
 
 	return pdict;
 }
@@ -2110,7 +2005,7 @@ static PyObject*
 is_viewport_ok(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvViewport* viewport = GContext->viewport;
 	if (viewport)
@@ -2154,9 +2049,9 @@ create_viewport(PyObject* self, PyObject* args, PyObject* kwargs)
 		&title, &small_icon, &large_icon, &width, &height, &x_pos, &y_pos, &min_width, &max_width, &min_height, &max_height,
 		&resizable, &vsync, &always_on_top, &decorated, &color, &disable_close
 	))
-		return GetPyNone();
+		return nullptr;
 
-	mvViewport* viewport = mvCreateViewport(width, height);
+	mvViewport* viewport = mvCreateViewport();
 	if (PyObject* item = PyDict_GetItemString(kwargs, "clear_color")) viewport->clearColor = ToColor(item);
 	if (PyObject* item = PyDict_GetItemString(kwargs, "small_icon")) viewport->small_icon = ToString(item);
 	if (PyObject* item = PyDict_GetItemString(kwargs, "large_icon")) viewport->large_icon = ToString(item);
@@ -2188,7 +2083,7 @@ show_viewport(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	if (!Parse((GetParsers())["show_viewport"], args, kwargs, __FUNCTION__,
 		&minimized, &maximized))
-		return GetPyNone();
+		return nullptr;
 
 	mvViewport* viewport = GContext->viewport;
 	if (viewport)
@@ -2198,14 +2093,19 @@ show_viewport(PyObject* self, PyObject* args, PyObject* kwargs)
 		viewport->shown = true;
 	}
 	else
+	{
 		mvThrowPythonError(mvErrorCode::mvNone, "No viewport created");
+		return nullptr;
+	}
+
 	return GetPyNone();
 }
 
 static PyObject*
 configure_viewport(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
+
 	mvViewport* viewport = GContext->viewport;
 	if (viewport)
 	{
@@ -2230,7 +2130,10 @@ configure_viewport(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	}
 	else
+	{
 		mvThrowPythonError(mvErrorCode::mvNone, "No viewport created");
+		return nullptr;
+	}
 
 	return GetPyNone();
 }
@@ -2238,7 +2141,7 @@ configure_viewport(PyObject* self, PyObject* args, PyObject* kwargs)
 static PyObject*
 maximize_viewport(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 	mvSubmitTask([=]()
 		{
 			mvMaximizeViewport(*GContext->viewport);
@@ -2250,7 +2153,7 @@ maximize_viewport(PyObject* self, PyObject* args, PyObject* kwargs)
 static PyObject*
 minimize_viewport(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 	mvSubmitTask([=]()
 		{
 			mvMinimizeViewport(*GContext->viewport);
@@ -2262,7 +2165,7 @@ minimize_viewport(PyObject* self, PyObject* args, PyObject* kwargs)
 static PyObject*
 toggle_viewport_fullscreen(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 	mvSubmitTask([=]()
 		{
 			mvToggleFullScreen(*GContext->viewport);
@@ -2277,12 +2180,15 @@ save_init_file(PyObject* self, PyObject* args, PyObject* kwargs)
 	const char* file;
 
 	if (!Parse((GetParsers())["save_init_file"], args, kwargs, __FUNCTION__, &file))
-		return GetPyNone();
+		return nullptr;
 
 	if (GContext->started)
 		ImGui::SaveIniSettingsToDisk(file);
 	else
+	{
 		mvThrowPythonError(mvErrorCode::mvNone, "Dear PyGui must be started to use \"save_init_file\".");
+		return nullptr;
+	}
 
 	return GetPyNone();
 }
@@ -2290,19 +2196,26 @@ save_init_file(PyObject* self, PyObject* args, PyObject* kwargs)
 static PyObject*
 split_frame(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	i32 delay = 32;
+	if (!Parse((GetParsers())["split_frame"], args, kwargs, __FUNCTION__))
+		return nullptr;
 
-	if (!Parse((GetParsers())["split_frame"], args, kwargs, __FUNCTION__,
-		&delay))
-		return GetPyNone();
+	if (GContext->running)
+	{
+		Py_BEGIN_ALLOW_THREADS;
+		std::unique_lock lk(GContext->frameEndedMutex);
+		GContext->frameEnded = false;
+		GContext->frameEndedEvent.wait(lk, []{return GContext->frameEnded;});
+		lk.unlock();
 
-	// std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+		Py_END_ALLOW_THREADS;
+	}
 
-	Py_BEGIN_ALLOW_THREADS;
-	GContext->waitOneFrame = true;
-	while (GContext->waitOneFrame)
-		std::this_thread::sleep_for(std::chrono::milliseconds(delay));
-	Py_END_ALLOW_THREADS;
+	// Now let's see if it was successful (there's a chance that DPG got stopped while we were waiting)
+	if (!GContext->running)
+	{
+		mvThrowPythonError(mvErrorCode::mvNone, "split_frame is exiting: there is no active rendering loop.");
+		return nullptr;
+	}
 
 	return GetPyNone();
 }
@@ -2310,7 +2223,13 @@ split_frame(PyObject* self, PyObject* args, PyObject* kwargs)
 static PyObject*
 lock_mutex(PyObject* self, PyObject* args, PyObject* kwargs)
 {
+	// Since we may enter waiting state on mutex.lock(), we must release the
+	// GIL while attempting to lock the mutex; otherwise, we'd risk getting
+	// into a deadlock.
+	Py_BEGIN_ALLOW_THREADS;
 	GContext->mutex.lock();
+	Py_END_ALLOW_THREADS;
+
 	return GetPyNone();
 }
 
@@ -2324,7 +2243,7 @@ unlock_mutex(PyObject* self, PyObject* args, PyObject* kwargs)
 static PyObject*
 get_frame_count(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 	return ToPyInt(GContext->frame);
 }
 
@@ -2337,7 +2256,7 @@ load_image(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	if (!Parse((GetParsers())["load_image"], args, kwargs, __FUNCTION__,
 		&file, &gamma, &gamma_scale))
-		return GetPyNone();
+		return nullptr;
 
 	// Vout = (Vin / 255)^v; Where v = gamma
 
@@ -2408,7 +2327,7 @@ save_image(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	if (!Parse((GetParsers())["save_image"], args, kwargs, __FUNCTION__,
 		&file, &width, &height, &data, &components, &quality))
-		return GetPyNone();
+		return nullptr;
 
 	enum ImageType_
 	{
@@ -2432,19 +2351,19 @@ save_image(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (filepathLength < 5)
 	{
 		mvThrowPythonError(mvErrorCode::mvNone, "File path for 'save_image(...)' must be of the form 'name.png'.");
-		return GetPyNone();
+		return nullptr;
 	}
 
 	if (components > 4 || components < 1)
 	{
 		mvThrowPythonError(mvErrorCode::mvNone, "Component count for 'save_image(...)' must be between 1 and 4.");
-		return GetPyNone();
+		return nullptr;
 	}
 
 	if (quality < 1 || quality > 100)
 	{
 		mvThrowPythonError(mvErrorCode::mvNone, "Quality must be between 1 and 100.");
-		return GetPyNone();
+		return nullptr;
 	}
 
 	// TODO: support other formats
@@ -2471,7 +2390,7 @@ save_image(PyObject* self, PyObject* args, PyObject* kwargs)
 	else
 	{
 		mvThrowPythonError(mvErrorCode::mvNone, "File path for 'save_image(...)' must be of the form 'name.png'.");
-		return GetPyNone();
+		return nullptr;
 	}
 
 	switch (imageType)
@@ -2520,21 +2439,33 @@ output_frame_buffer(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	if (!Parse((GetParsers())["output_frame_buffer"], args, kwargs, __FUNCTION__,
 		&file, &callback))
-		return GetPyNone();
+		return nullptr;
 
 
 	size_t filepathLength = strlen(file);
 
 	if (filepathLength == 0 && callback) // not specified, return array instead
 	{
-		//Py_XINCREF(callback);
 		PyObject* newbuffer = nullptr;
 		PymvBuffer* newbufferview = PyObject_New(PymvBuffer, &PymvBufferType);
 		newbuffer = PyObject_Init((PyObject*)newbufferview, &PymvBufferType);
-		mvSubmitTask([newbuffer, callback, newbufferview]() {
+
+		// Making an owned ref while we're still holding GIL (can't do this within mvSubmitTask).
+		auto stored_callback = std::make_shared<mvPyObject>(callback, true);
+		// We need to schedule this into the rendering thread because OutputFrameBufferArray
+		// accesses the rendering API, which might well have thread-local things in the context.
+		mvSubmitTask([stored_callback, newbuffer, newbufferview]() {
 			OutputFrameBufferArray(newbufferview);
-			mvAddCallback(callback, 0, newbuffer, nullptr, false);
-			});
+			mvAddOwnerlessCallback(
+				stored_callback, std::make_shared<mvPyObject>(nullptr),
+				0, "",
+				// Note: the callback queue will DECREF the value returned by this
+				// lambda, effectively deleting `newbuffer` so that we don't need
+				// to perform any special cleanup.  We just pass the value as it is,
+				// keeping a refcount of 1 all the time until the callback is done.
+				[=]() { return newbuffer; }
+			);
+		});
 
 		return GetPyNone();
 	}
@@ -2546,7 +2477,7 @@ output_frame_buffer(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (filepathLength < 5)
 	{
 		mvThrowPythonError(mvErrorCode::mvNone, "File path for 'output_frame_buffer(...)' must be of the form 'name.png'.");
-		return GetPyNone();
+		return nullptr;
 	}
 
 	// TODO: support other formats
@@ -2561,7 +2492,7 @@ output_frame_buffer(PyObject* self, PyObject* args, PyObject* kwargs)
 	else
 	{
 		mvThrowPythonError(mvErrorCode::mvNone, "File path for 'output_frame_buffer(...)' must be of the form 'name.png'.");
-		return GetPyNone();
+		return nullptr;
 	}
 
 	return GetPyNone();
@@ -2571,26 +2502,28 @@ output_frame_buffer(PyObject* self, PyObject* args, PyObject* kwargs)
 static PyObject*
 is_dearpygui_running(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	return ToPyBool(GContext->started);
+	return ToPyBool(GContext->running);
 }
 
 static PyObject*
 setup_dearpygui(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
-
 	Py_BEGIN_ALLOW_THREADS;
+	std::lock_guard lk(GContext->mutex);
+
 
 	if (GContext->started)
 	{
 		mvThrowPythonError(mvErrorCode::mvNone, "Cannot call \"setup_dearpygui\" while a Dear PyGUI app is already running.");
-		return GetPyNone();
+		return nullptr;
 	}
 
-	while (!GContext->itemRegistry->containers.empty())
-		GContext->itemRegistry->containers.pop();
+	// Clear the containers stack. Unfortunately std::stack doesn't have a clear() call,
+	// but assigning a new empty stack does just the same.
+	mvItemRegistry::threadContext.containers = {};
 	GContext->started = true;
+	GContext->running = true;
 	GContext->future = std::async(std::launch::async, []() {return mvRunCallbacks(); });
 	Py_END_ALLOW_THREADS;
 	return GetPyNone();
@@ -2635,9 +2568,16 @@ create_context(PyObject* self, PyObject* args, PyObject* kwargs)
 		ImGui::CreateContext();
 		ImPlot::CreateContext();
 		ImNodes::CreateContext();
-	}
 
-	mvToolManager::GetFontManager()._dirty = true;
+		// Configure some defaults that are common across platforms
+		ImGuiIO &io = ImGui::GetIO();
+		io.ConfigErrorRecoveryEnableAssert = true;
+		// We disable the log by default so that if something goes awry and ImGui
+		// starts spitting an error every frame, the DebugLogBuf doesn't grow unlimited
+		// in production code.  Logging can always be enabled via show_imgui_demo -> Configuration.
+		io.ConfigErrorRecoveryEnableDebugLog = false;
+		io.ConfigErrorRecoveryEnableTooltip = false;
+	}
 
 	Py_END_ALLOW_THREADS;
 	return GetPyNone();
@@ -2646,10 +2586,6 @@ create_context(PyObject* self, PyObject* args, PyObject* kwargs)
 static PyObject*
 destroy_context(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	// std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
-
-	Py_BEGIN_ALLOW_THREADS;
-
 	if (GContext == nullptr)
 	{
 		assert(false);
@@ -2657,47 +2593,57 @@ destroy_context(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	else
 	{
-		// hacky fix, started was set to false
-		// to exit the event loop, but needs to be
-		// true in order to run DPG commands for the
-		// exit callback.
-		GContext->started = true;
-		mvSubmitCallback([=]() {
-			mvRunCallback(GContext->callbackRegistry->onCloseCallback, 0, nullptr, GContext->callbackRegistry->onCloseCallbackUserData);
-			GContext->started = false;  // return to false after
-			});
+		// Make sure everyone knows we're shutting down, even if stop_dearpygui
+		// was not called.  This also releases any waiting split_frame calls.
+		StopRendering();
 
-		if (GContext->viewport != nullptr)
-			mvCleanupViewport(*GContext->viewport);
+		Py_BEGIN_ALLOW_THREADS;
 
-		ImNodes::DestroyContext();
-		ImPlot::DestroyContext();
-		ImGui::DestroyContext();
+		// Queue the close callback, if any.  The environment is still healthy enough
+		// for it to run, except that no more frames will be rendered with the current GContext.
+		mvAddOwnerlessCallback(GContext->callbackRegistry->onCloseCallback, GContext->callbackRegistry->onCloseCallbackUserData);
 
-		mvToolManager::Reset();
-		ClearItemRegistry(*GContext->itemRegistry);
-
-
-
-		//#define X(el) el::s_class_theme_component = nullptr; el::s_class_theme_disabled_component = nullptr;
-		#define X(el) DearPyGui::GetClassThemeComponent(mvAppItemType::el) = nullptr; DearPyGui::GetDisabledClassThemeComponent(mvAppItemType::el) = nullptr;
-		MV_ITEM_TYPES
-		#undef X
-
-		mvSubmitCallback([=]() {
+		// Shutting down the callback loop - this will run right after the close callback
+		mvSubmitCallback([]() {
 			GContext->callbackRegistry->running = false;
-				});
+		}, true);
+		// Waiting for it to complete all tasks and shut down
 		if (GContext->future.valid())
 			GContext->future.get();
-		if (GContext->viewport)
-			delete GContext->viewport;
 
-		delete GContext->itemRegistry;
-		delete GContext->callbackRegistry;
-		delete GContext;
-		GContext = nullptr;
+		// The rest of cleanup must be done with GIL locked because it might lead
+		// to occasional DECREFs on Python objects (e.g. a callback or user_data).
+		Py_END_ALLOW_THREADS;
+
+		mvContext* context_to_delete = nullptr;
+		{
+			// Even though the handlers thread is down, there's still a chance that
+			// the user calls DPG from another Python thread.  We'd better lock the
+			// mutex while we're tinkering with all the global structures.
+			mvPySafeLockGuard lk(GContext->mutex);
+
+			mvToolManager::Reset();
+			ClearItemRegistry(*GContext->itemRegistry);
+
+			ImNodes::DestroyContext();
+			ImPlot::DestroyContext();
+			ImGui::DestroyContext();
+
+			#define X(el) DearPyGui::GetClassThemeComponent(mvAppItemType::el) = nullptr; DearPyGui::GetDisabledClassThemeComponent(mvAppItemType::el) = nullptr;
+			MV_ITEM_TYPES
+			X(All)
+			#undef X
+
+			if (GContext->viewport)
+				delete GContext->viewport;
+
+			delete GContext->itemRegistry;
+			delete GContext->callbackRegistry;
+			context_to_delete = GContext;
+			GContext = nullptr;
+		}
+		delete context_to_delete;
 	}
-	Py_END_ALLOW_THREADS;
 
 	return GetPyNone();
 }
@@ -2705,8 +2651,8 @@ destroy_context(PyObject* self, PyObject* args, PyObject* kwargs)
 static PyObject*
 stop_dearpygui(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
-	GContext->started = false;
+	StopRendering();
+	mvPySafeLockGuard lk(GContext->mutex);
 	auto viewport = GContext->viewport;
 	if (viewport)
 		viewport->running = false;
@@ -2716,14 +2662,14 @@ stop_dearpygui(PyObject* self, PyObject* args, PyObject* kwargs)
 static PyObject*
 get_total_time(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 	return ToPyFloat((f32)GContext->time);
 }
 
 static PyObject*
 get_delta_time(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 	return ToPyFloat(GContext->deltaTime);
 
 }
@@ -2731,7 +2677,7 @@ get_delta_time(PyObject* self, PyObject* args, PyObject* kwargs)
 static PyObject*
 get_frame_rate(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 	return ToPyFloat((f32)GContext->framerate);
 
 }
@@ -2739,7 +2685,7 @@ get_frame_rate(PyObject* self, PyObject* args, PyObject* kwargs)
 static PyObject*
 generate_uuid(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	return ToPyUUID(GenerateUUID());
+	return ToPyUUID(GenerateUUID(), "");
 }
 
 static PyObject*
@@ -2755,10 +2701,10 @@ configure_app(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		assert(false);
 		mvThrowPythonError(mvErrorCode::mvNone, "Dictionary keywords must be strings");
-		return GetPyNone();
+		return nullptr;
 	}
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	if (PyObject* item = PyDict_GetItemString(kwargs, "auto_device")) GContext->IO.info_auto_device = ToBool(item);
 	if (PyObject* item = PyDict_GetItemString(kwargs, "docking")) GContext->IO.docking = ToBool(item);
@@ -2791,13 +2737,15 @@ configure_app(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (PyObject* item = PyDict_GetItemString(kwargs, "anti_aliased_lines_use_tex")) style.AntiAliasedLinesUseTex = ToBool(item);
 	if (PyObject* item = PyDict_GetItemString(kwargs, "anti_aliased_fill")) style.AntiAliasedFill = ToBool(item);
 
+	if (PyObject* item = PyDict_GetItemString(kwargs, "win32_alt_enter_fullscreen")) GContext->IO.altEnterFullscreen = ToBool(item);
+
 	return GetPyNone();
 }
 
 static PyObject*
 get_app_configuration(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 	PyObject* pdict = PyDict_New();
 	PyDict_SetItemString(pdict, "auto_device", mvPyObject(ToPyBool(GContext->IO.info_auto_device)));
 	PyDict_SetItemString(pdict, "docking", mvPyObject(ToPyBool(GContext->IO.docking)));
@@ -2826,6 +2774,8 @@ get_app_configuration(PyObject* self, PyObject* args, PyObject* kwargs)
 	PyDict_SetItemString(pdict, "anti_aliased_lines_use_tex", mvPyObject(ToPyBool(style.AntiAliasedLinesUseTex)));
 	PyDict_SetItemString(pdict, "anti_aliased_fill", mvPyObject(ToPyBool(style.AntiAliasedFill)));
 
+	PyDict_SetItemString(pdict, "win32_alt_enter_fullscreen", mvPyObject(ToPyBool(GContext->IO.altEnterFullscreen)));
+
 	return pdict;
 }
 
@@ -2835,7 +2785,7 @@ get_mouse_pos(PyObject* self, PyObject* args, PyObject* kwargs)
 	b32 local = true;
 
 	if (!Parse((GetParsers())["get_mouse_pos"], args, kwargs, __FUNCTION__, &local))
-		return GetPyNone();
+		return nullptr;
 
 	auto pos = mvVec2();
 
@@ -2852,7 +2802,7 @@ get_plot_mouse_pos(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 
 	if (!Parse((GetParsers())["get_plot_mouse_pos"], args, kwargs, __FUNCTION__))
-		return GetPyNone();
+		return nullptr;
 
 	mvVec2 pos = { (f32)GContext->input.mousePlotPos.x, (f32)GContext->input.mousePlotPos.y };
 
@@ -2864,7 +2814,7 @@ get_drawing_mouse_pos(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 
 	if (!Parse((GetParsers())["get_drawing_mouse_pos"], args, kwargs, __FUNCTION__))
-		return GetPyNone();
+		return nullptr;
 
 	mvVec2 pos = { (f32)GContext->input.mouseDrawingPos.x, (f32)GContext->input.mouseDrawingPos.y };
 
@@ -2885,7 +2835,7 @@ is_key_pressed(PyObject* self, PyObject* args, PyObject* kwargs)
 	ImGuiKey key;
 
 	if (!Parse((GetParsers())["is_key_pressed"], args, kwargs, __FUNCTION__, &key))
-		return GetPyNone();
+		return nullptr;
 
 	return ToPyBool(ImGui::IsKeyPressed(key));
 }
@@ -2896,7 +2846,7 @@ is_key_released(PyObject* self, PyObject* args, PyObject* kwargs)
 	ImGuiKey key;
 
 	if (!Parse((GetParsers())["is_key_released"], args, kwargs, __FUNCTION__, &key))
-		return GetPyNone();
+		return nullptr;
 
 	return ToPyBool(ImGui::IsKeyReleased(key));
 }
@@ -2907,7 +2857,7 @@ is_key_down(PyObject* self, PyObject* args, PyObject* kwargs)
 	ImGuiKey key;
 
 	if (!Parse((GetParsers())["is_key_down"], args, kwargs, __FUNCTION__, &key))
-		return GetPyNone();
+		return nullptr;
 
 	return ToPyBool(ImGui::IsKeyDown(key));
 }
@@ -2919,7 +2869,7 @@ is_mouse_button_dragging(PyObject* self, PyObject* args, PyObject* kwargs)
 	f32 threshold;
 
 	if (!Parse((GetParsers())["is_mouse_button_dragging"], args, kwargs, __FUNCTION__, &button, &threshold))
-		return GetPyNone();
+		return nullptr;
 
 	// TODO: Can this be changed?
 	return ToPyBool((f32)ImGui::GetIO().MouseDownDuration[button] >= threshold);
@@ -2931,7 +2881,7 @@ is_mouse_button_down(PyObject* self, PyObject* args, PyObject* kwargs)
 	i32 button;
 
 	if (!Parse((GetParsers())["is_mouse_button_down"], args, kwargs, __FUNCTION__, &button))
-		return GetPyNone();
+		return nullptr;
 
 	return ToPyBool(ImGui::IsMouseDown(button));
 }
@@ -2942,7 +2892,7 @@ is_mouse_button_clicked(PyObject* self, PyObject* args, PyObject* kwargs)
 	i32 button;
 
 	if (!Parse((GetParsers())["is_mouse_button_clicked"], args, kwargs, __FUNCTION__, &button))
-		return GetPyNone();
+		return nullptr;
 
 	return ToPyBool(ImGui::IsMouseClicked(button));
 }
@@ -2953,7 +2903,7 @@ is_mouse_button_double_clicked(PyObject* self, PyObject* args, PyObject* kwargs)
 	i32 button;
 
 	if (!Parse((GetParsers())["is_mouse_button_double_clicked"], args, kwargs, __FUNCTION__, &button))
-		return GetPyNone();
+		return nullptr;
 
 	return ToPyBool(ImGui::IsMouseDoubleClicked(button));
 }
@@ -2964,7 +2914,7 @@ is_mouse_button_released(PyObject* self, PyObject* args, PyObject* kwargs)
 	i32 button;
 
 	if (!Parse((GetParsers())["is_mouse_button_released"], args, kwargs, __FUNCTION__, &button))
-		return GetPyNone();
+		return nullptr;
 
 	return ToPyBool(ImGui::IsMouseReleased(button));
 }
@@ -2973,71 +2923,68 @@ static PyObject*
 pop_container_stack(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
-	if (GContext->itemRegistry->containers.empty())
+	auto& containers = mvItemRegistry::threadContext.containers;
+	if (containers.empty())
 	{
 		mvThrowPythonError(mvErrorCode::mvContainerStackEmpty, "No container to pop.");
 		assert(false);
-		return GetPyNone();
+		return nullptr;
 	}
 
-	mvAppItem* item = GContext->itemRegistry->containers.top();
-	GContext->itemRegistry->containers.pop();
+	PyObject* top = ToPyUUIDOrNone(containers.top().get());
+	containers.pop();
 
-	if (item)
-		return ToPyUUID(item->uuid);
-	else
-		return GetPyNone();
+	return top;
 
 }
 
 static PyObject*
 empty_container_stack(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
-	while (!GContext->itemRegistry->containers.empty())
-		GContext->itemRegistry->containers.pop();
+	mvPySafeLockGuard lk(GContext->mutex);
+	// Clear the containers stack. Unfortunately std::stack doesn't have a clear() call,
+	// but assigning a new empty stack does just the same.
+	mvItemRegistry::threadContext.containers = {};
 	return GetPyNone();
 }
 
 static PyObject*
 top_container_stack(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvAppItem* item = nullptr;
-	if (!GContext->itemRegistry->containers.empty())
-		item = GContext->itemRegistry->containers.top();
+	auto& containers = mvItemRegistry::threadContext.containers;
+	if (!containers.empty())
+		item = containers.top().get();
 
-	if (item)
-		return ToPyUUID(item->uuid);
-	else
-		return GetPyNone();
+	return ToPyUUIDOrNone(item);
 }
 
 static PyObject*
 last_item(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
-	return ToPyUUID(GContext->itemRegistry->lastItemAdded);
+	return PyUUIDFromItem(mvItemRegistry::threadContext.lastItemAdded);
 }
 
 static PyObject*
 last_container(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
-	return ToPyUUID(GContext->itemRegistry->lastContainerAdded);
+	return PyUUIDFromItem(mvItemRegistry::threadContext.lastContainerAdded);
 }
 
 static PyObject*
 last_root(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
-	return ToPyUUID(GContext->itemRegistry->lastRootAdded);
+	return PyUUIDFromItem(mvItemRegistry::threadContext.lastRootAdded);
 }
 
 static PyObject*
@@ -3046,18 +2993,18 @@ push_container_stack(PyObject* self, PyObject* args, PyObject* kwargs)
 	PyObject* itemraw;
 
 	if (!Parse((GetParsers())["push_container_stack"], args, kwargs, __FUNCTION__, &itemraw))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 
-	mvAppItem* parent = GetItem((*GContext->itemRegistry), item);
+	auto parent = GetRefItem((*GContext->itemRegistry), item);
 	if (parent)
 	{
 		if (DearPyGui::GetEntityDesciptionFlags(parent->type) & MV_ITEM_DESC_CONTAINER)
 		{
-			GContext->itemRegistry->containers.push(parent);
+			mvItemRegistry::threadContext.containers.push(parent);
 			return ToPyBool(true);
 		}
 	}
@@ -3068,84 +3015,72 @@ static PyObject*
 set_primary_window(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 	PyObject* itemraw;
-	i32 value;
+	i32 value = 1;
 
 	if (!VerifyRequiredArguments(GetParsers()["set_primary_window"], args))
-		return GetPyNone();
+		return GetPyNoneOrError();
 
 	if (!Parse((GetParsers())["set_primary_window"], args, kwargs, __FUNCTION__, &itemraw, &value))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 
+	mvWindowAppItem* window = GetWindow(*GContext->itemRegistry, item);
+
+	if (!window)
 	{
-		mvWindowAppItem* window = GetWindow(*GContext->itemRegistry, item);
-
-		if (window)
-		{
-			if (window->configData.mainWindow == (bool)value)
-				return GetPyNone();
-			else
-			{
-				window->configData.mainWindow = value;
-				if (value)
-				{
-					window->configData._oldWindowflags = window->configData.windowflags;
-					window->configData.windowflags = ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoSavedSettings
-						| ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar;
-
-					if (window->configData._oldWindowflags & ImGuiWindowFlags_MenuBar)
-						window->configData.windowflags |= ImGuiWindowFlags_MenuBar;
-					window->configData._oldxpos = window->state.pos.x;
-					window->configData._oldypos = window->state.pos.y;
-					window->configData._oldWidth = window->config.width;
-					window->configData._oldHeight = window->config.height;
-				}
-				else
-				{
-					window->info.focusNextFrame = true;
-					if (window->configData.windowflags & ImGuiWindowFlags_MenuBar)
-						window->configData._oldWindowflags |= ImGuiWindowFlags_MenuBar;
-					window->configData.windowflags = window->configData._oldWindowflags;
-					if (window->configData.windowflags & ImGuiWindowFlags_MenuBar)
-						window->configData.windowflags |= ImGuiWindowFlags_MenuBar;
-					window->state.pos = { window->configData._oldxpos , window->configData._oldypos };
-					window->config.width = window->configData._oldWidth;
-					window->config.height = window->configData._oldHeight;
-					window->info.dirtyPos = true;
-					window->info.dirty_size = true;
-				}
-			}
-		}
-		else
-		{
-			mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_primary_window",
-				"Item not found: " + std::to_string(item), nullptr);
-			assert(false);
-		}
+		mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_primary_window",
+			"Item not found: " + std::to_string(item), nullptr);
+		assert(false);
+		return nullptr;
 	}
 
-	// reset other windows
-	for (auto& window : GContext->itemRegistry->windowRoots)
+	if (window->configData.mainWindow == (bool)value)
+		// Nothing to do!
+		return GetPyNone();
+
+	// Now, we either demote this (primary) window back to a regular window, or demote
+	// another window and set this one to be the new primary.  The `value` shows us
+	// the direction.
+	mvWindowAppItem* old_primary = nullptr;
+
+	if (value)
 	{
-		if (window->uuid != item)
+		// Find old primary, if any.  Also re-focus all windows except the current one
+		// so that they float atop of the primary window (otherwise they'd stay hidden
+		// behind it).  Unfortunately ImGui does not have better means for controlling z-order.
+		for (auto& root : GContext->itemRegistry->windowRoots)
 		{
-			mvWindowAppItem* windowActual = static_cast<mvWindowAppItem*>(window.get());
-			windowActual->configData.mainWindow = false;
-			window->info.focusNextFrame = true;
-			if (windowActual->configData.windowflags & ImGuiWindowFlags_MenuBar)
-				windowActual->configData._oldWindowflags |= ImGuiWindowFlags_MenuBar;
-			windowActual->configData.windowflags = windowActual->configData._oldWindowflags;
-			if (windowActual->configData.windowflags & ImGuiWindowFlags_MenuBar)
-				windowActual->configData.windowflags |= ImGuiWindowFlags_MenuBar;
-			window->state.pos = { windowActual->configData._oldxpos , windowActual->configData._oldypos };
-			window->config.width = windowActual->configData._oldWidth;
-			window->config.height = windowActual->configData._oldHeight;
-			window->info.dirtyPos = true;
-			window->info.dirty_size = true;
+			mvWindowAppItem* cur_window = static_cast<mvWindowAppItem*>(root.get());
+			if (cur_window->configData.mainWindow)
+				old_primary = cur_window;
+			
+			cur_window->info.focusNextFrame = (cur_window->uuid != item);
 		}
+
+		// Select the window passed in as a primary
+		window->configData.mainWindow = true;
+		window->configData._oldxpos = window->state.pos.x;
+		window->configData._oldypos = window->state.pos.y;
+		window->configData._oldWidth = window->config.width;
+		window->configData._oldHeight = window->config.height;
+	}
+	else
+		// Just demote this window, nothing special
+		old_primary = window;
+
+	// Now whatever old primary was there (it might be the window passed in -
+	// if `value` is False), we want to make it a regular window.
+	if (old_primary)
+	{
+		old_primary->configData.mainWindow = false;
+		old_primary->state.pos = { old_primary->configData._oldxpos , old_primary->configData._oldypos };
+		old_primary->config.width = old_primary->configData._oldWidth;
+		old_primary->config.height = old_primary->configData._oldHeight;
+		old_primary->info.dirtyPos = true;
+		old_primary->info.dirty_size = true;
 	}
 
 	return GetPyNone();
@@ -3154,17 +3089,17 @@ set_primary_window(PyObject* self, PyObject* args, PyObject* kwargs)
 static PyObject*
 get_active_window(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
-	return ToPyUUID(GContext->activeWindow);
+	return PyUUIDFromItem(GContext->activeWindow);
 }
 
 static PyObject*
 get_focused_item(PyObject* self, PyObject* args, PyObject* kwargs)
 {
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
-	return ToPyUUID(GContext->focusedItem);
+	return PyUUIDFromItem(GContext->focusedItem);
 }
 
 static PyObject*
@@ -3177,15 +3112,23 @@ move_item(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	if (!Parse((GetParsers())["move_item"], args, kwargs, __FUNCTION__,
 		&itemraw, &parentraw, &beforeraw))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 	mvUUID parent = GetIDFromPyObject(parentraw);
 	mvUUID before = GetIDFromPyObject(beforeraw);
 
-	MoveItem((*GContext->itemRegistry), item, parent, before);
+	if (before == 0 && parent == 0)
+	{
+		mvThrowPythonError(mvErrorCode::mvItemNotFound, "move_item",
+			"move_item requires either `parent` or `before` to be specified.", nullptr);
+		return nullptr;
+	}
+
+	if (!MoveItem((*GContext->itemRegistry), item, parent, before))
+		return nullptr;
 
 	return GetPyNone();
 }
@@ -3199,9 +3142,9 @@ delete_item(PyObject* self, PyObject* args, PyObject* kwargs)
 	i32 slot = -1;
 
 	if (!Parse((GetParsers())["delete_item"], args, kwargs, __FUNCTION__, &itemraw, &childrenOnly, &slot))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 
@@ -3219,9 +3162,9 @@ does_item_exist(PyObject* self, PyObject* args, PyObject* kwargs)
 	PyObject* itemraw;
 
 	if (!Parse((GetParsers())["does_item_exist"], args, kwargs, __FUNCTION__, &itemraw))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 
@@ -3237,13 +3180,14 @@ move_item_up(PyObject* self, PyObject* args, PyObject* kwargs)
 	PyObject* itemraw;
 
 	if (!Parse((GetParsers())["move_item_up"], args, kwargs, __FUNCTION__, &itemraw))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 
-	MoveItemUp((*GContext->itemRegistry), item);
+	if (!MoveItemUp((*GContext->itemRegistry), item))
+		return nullptr;
 
 	return GetPyNone();
 
@@ -3256,13 +3200,14 @@ move_item_down(PyObject* self, PyObject* args, PyObject* kwargs)
 	PyObject* itemraw;
 
 	if (!Parse((GetParsers())["move_item_down"], args, kwargs, __FUNCTION__, &itemraw))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 
-	MoveItemDown((*GContext->itemRegistry), item);
+	if (!MoveItemDown((*GContext->itemRegistry), item))
+		return nullptr;
 
 	return GetPyNone();
 }
@@ -3277,33 +3222,16 @@ reorder_items(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	if (!Parse((GetParsers())["reorder_items"], args, kwargs, __FUNCTION__,
 		&containerraw, &slot, &new_order))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	auto anew_order = ToUUIDVect(new_order);
 	mvUUID container = GetIDFromPyObject(containerraw);
 
-	mvAppItem* parent = GetItem((*GContext->itemRegistry), container);
+	if (!ReorderChildren(*GContext->itemRegistry, container, slot, anew_order))
+		return nullptr;
 
-	std::vector<std::shared_ptr<mvAppItem>>& children = parent->childslots[slot];
-
-	std::vector<std::shared_ptr<mvAppItem>> newchildren;
-	newchildren.reserve(children.size());
-
-	// todo: better sorting algorithm
-	for (const auto& item : anew_order)
-	{
-		for (auto& child : children)
-		{
-			if (child->uuid == item)
-			{
-				newchildren.emplace_back(child);
-				break;
-			}
-		}
-	}
-	children = newchildren;
 	return GetPyNone();
 }
 
@@ -3314,9 +3242,9 @@ unstage(PyObject* self, PyObject* args, PyObject* kwargs)
 	PyObject* itemraw = nullptr;
 
 	if (!Parse((GetParsers())["unstage"], args, kwargs, __FUNCTION__, &itemraw))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 
@@ -3337,16 +3265,13 @@ unstage(PyObject* self, PyObject* args, PyObject* kwargs)
 	}
 
 	if (item_found)
-	{
-		CleanUpItem(*GContext->itemRegistry, item);
 		return GetPyNone();
-	}
 
 	mvThrowPythonError(mvErrorCode::mvItemNotFound, "unstage",
 		"Stage not found: " + std::to_string(item), nullptr);
 	assert(false);
 
-	return GetPyNone();
+	return nullptr;
 }
 
 static PyObject*
@@ -3356,9 +3281,9 @@ show_item_debug(PyObject* self, PyObject* args, PyObject* kwargs)
 	PyObject* itemraw = nullptr;
 
 	if (!Parse((GetParsers())["show_item_debug"], args, kwargs, __FUNCTION__, &itemraw))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 
@@ -3372,6 +3297,7 @@ show_item_debug(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, "show_item_debug",
 			"Item not found: " + std::to_string(item), nullptr);
+		return nullptr;
 	}
 
 	return GetPyNone();
@@ -3421,7 +3347,7 @@ static PyObject*
 get_all_items(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	std::vector<mvUUID> childList;
 
@@ -3446,7 +3372,7 @@ static PyObject*
 show_imgui_demo(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	GContext->itemRegistry->showImGuiDebug = true;
 	return GetPyNone();
@@ -3456,7 +3382,7 @@ static PyObject*
 show_implot_demo(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	GContext->itemRegistry->showImPlotDebug = true;
 	return GetPyNone();
@@ -3466,7 +3392,7 @@ static PyObject*
 get_windows(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	std::vector<mvUUID> childList;
 	for (auto& root : GContext->itemRegistry->colormapRoots) childList.emplace_back(root->uuid);
@@ -3494,9 +3420,9 @@ add_alias(PyObject* self, PyObject* args, PyObject* kwargs)
 	PyObject* itemraw;
 
 	if (!Parse((GetParsers())["add_alias"], args, kwargs, __FUNCTION__, &alias, &itemraw))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 
@@ -3513,9 +3439,9 @@ remove_alias(PyObject* self, PyObject* args, PyObject* kwargs)
 	const char* alias;
 
 	if (!Parse((GetParsers())["remove_alias"], args, kwargs, __FUNCTION__, &alias))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	RemoveAlias((*GContext->itemRegistry), alias);
 
@@ -3530,9 +3456,9 @@ does_alias_exist(PyObject* self, PyObject* args, PyObject* kwargs)
 	const char* alias;
 
 	if (!Parse((GetParsers())["does_alias_exist"], args, kwargs, __FUNCTION__, &alias))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	bool result = GContext->itemRegistry->aliases.count(alias) != 0;
 
@@ -3546,20 +3472,20 @@ get_alias_id(PyObject* self, PyObject* args, PyObject* kwargs)
 	const char* alias;
 
 	if (!Parse((GetParsers())["get_alias_id"], args, kwargs, __FUNCTION__, &alias))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID result = GetIdFromAlias((*GContext->itemRegistry), alias);
 
-	return ToPyUUID(result);
+	return ToPyUUID(result, "");
 }
 
 static PyObject*
 get_aliases(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	std::vector<std::string> aliases;
 
@@ -3575,9 +3501,9 @@ focus_item(PyObject* self, PyObject* args, PyObject* kwargs)
 	PyObject* itemraw;
 
 	if (!Parse((GetParsers())["focus_item"], args, kwargs, __FUNCTION__, &itemraw))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 
@@ -3604,8 +3530,11 @@ focus_item(PyObject* self, PyObject* args, PyObject* kwargs)
 			parent->info.focusNextFrame = true;
 	}
 	else
+	{
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, "focus_item",
 			"Item not found: " + std::to_string(item), nullptr);
+		return nullptr;
+	}
 
 	return GetPyNone();
 }
@@ -3648,81 +3577,66 @@ get_item_info(PyObject* self, PyObject* args, PyObject* kwargs)
 	PyObject* itemraw;
 
 	if (!Parse((GetParsers())["get_item_info"], args, kwargs, __FUNCTION__, &itemraw))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 	mvAppItem* appitem = GetItem((*GContext->itemRegistry), item);
 
-	PyObject* pdict = PyDict_New();
 
-	if (appitem)
+	if (!appitem)
 	{
-
-		std::string parserCommand = GetEntityCommand(appitem->type);
-
-		auto children = GetItemChildren(*GContext->itemRegistry, appitem->uuid);
-		if (children.empty())
-			PyDict_SetItemString(pdict, "children", mvPyObject(GetPyNone()));
-		else
-		{
-			PyObject* pyChildren = PyDict_New();
-			i32 i = 0;
-			for (const auto& slot : children)
-			{
-				PyDict_SetItem(pyChildren, ToPyInt(i), mvPyObject(ToPyList(slot)));
-				i++;
-			}
-			PyDict_SetItemString(pdict, "children", mvPyObject(pyChildren));
-		}
-
-		PyDict_SetItemString(pdict, "type", mvPyObject(ToPyString(DearPyGui::GetEntityTypeString(appitem->type))));
-		PyDict_SetItemString(pdict, "target", mvPyObject(ToPyInt(DearPyGui::GetEntityTargetSlot(appitem->type))));
-
-		if (appitem->info.parentPtr)
-			PyDict_SetItemString(pdict, "parent", mvPyObject(ToPyUUID(appitem->info.parentPtr->uuid)));
-		else
-			PyDict_SetItemString(pdict, "parent", mvPyObject(GetPyNone()));
-
-		if (appitem->theme)
-			PyDict_SetItemString(pdict, "theme", mvPyObject(ToPyUUID(appitem->theme->uuid)));
-		else
-			PyDict_SetItemString(pdict, "theme", mvPyObject(GetPyNone()));
-
-		if (appitem->handlerRegistry)
-			PyDict_SetItemString(pdict, "handlers", mvPyObject(ToPyUUID(appitem->handlerRegistry->uuid)));
-		else
-			PyDict_SetItemString(pdict, "handlers", mvPyObject(GetPyNone()));
-
-		if (appitem->font)
-			PyDict_SetItemString(pdict, "font", mvPyObject(ToPyUUID(appitem->font->uuid)));
-		else
-			PyDict_SetItemString(pdict, "font", mvPyObject(GetPyNone()));
-
-		if (DearPyGui::GetEntityDesciptionFlags(appitem->type) & MV_ITEM_DESC_CONTAINER)
-			PyDict_SetItemString(pdict, "container", mvPyObject(ToPyBool(true)));
-		else
-			PyDict_SetItemString(pdict, "container", mvPyObject(ToPyBool(false)));
-
-		i32 applicableState = DearPyGui::GetApplicableState(appitem->type);
-		PyDict_SetItemString(pdict, "hover_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_HOVER)));
-		PyDict_SetItemString(pdict, "active_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_ACTIVE)));
-		PyDict_SetItemString(pdict, "focus_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_FOCUSED)));
-		PyDict_SetItemString(pdict, "clicked_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_CLICKED)));
-		PyDict_SetItemString(pdict, "visible_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_VISIBLE)));
-		PyDict_SetItemString(pdict, "edited_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_EDITED)));
-		PyDict_SetItemString(pdict, "activated_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_ACTIVATED)));
-		PyDict_SetItemString(pdict, "deactivated_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_DEACTIVATED)));
-		PyDict_SetItemString(pdict, "deactivatedae_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_DEACTIVATEDAE)));
-		PyDict_SetItemString(pdict, "toggled_open_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_TOGGLED_OPEN)));
-		PyDict_SetItemString(pdict, "resized_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_RECT_SIZE)));
-		
-	}
-
-	else
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, "get_item_info",
 			"Item not found: " + std::to_string(item), nullptr);
+		return nullptr;
+	}
+
+	PyObject* pdict = PyDict_New();
+
+	std::string parserCommand = GetEntityCommand(appitem->type);
+
+	auto children = GetItemChildren(*GContext->itemRegistry, appitem->uuid);
+	if (children.empty())
+		PyDict_SetItemString(pdict, "children", mvPyObject(GetPyNone()));
+	else
+	{
+		PyObject* pyChildren = PyDict_New();
+		i32 i = 0;
+		for (const auto& slot : children)
+		{
+			PyDict_SetItem(pyChildren, ToPyInt(i), mvPyObject(ToPyList(slot)));
+			i++;
+		}
+		PyDict_SetItemString(pdict, "children", mvPyObject(pyChildren));
+	}
+
+	PyDict_SetItemString(pdict, "type", mvPyObject(ToPyString(DearPyGui::GetEntityTypeString(appitem->type))));
+	PyDict_SetItemString(pdict, "target", mvPyObject(ToPyInt(DearPyGui::GetEntityTargetSlot(appitem->type))));
+
+	PyDict_SetItemString(pdict, "parent", mvPyObject(ToPyUUIDOrNone(appitem->info.parentPtr)));
+	PyDict_SetItemString(pdict, "theme", mvPyObject(ToPyUUIDOrNone(appitem->theme.get())));
+	PyDict_SetItemString(pdict, "font", mvPyObject(ToPyUUIDOrNone(appitem->font.get())));
+	PyDict_SetItemString(pdict, "handlers", mvPyObject(ToPyUUIDOrNone(appitem->handlerRegistry.get())));
+
+	if (DearPyGui::GetEntityDesciptionFlags(appitem->type) & MV_ITEM_DESC_CONTAINER)
+		PyDict_SetItemString(pdict, "container", mvPyObject(ToPyBool(true)));
+	else
+		PyDict_SetItemString(pdict, "container", mvPyObject(ToPyBool(false)));
+
+	i32 applicableState = DearPyGui::GetApplicableState(appitem->type);
+	PyDict_SetItemString(pdict, "hover_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_HOVER)));
+	PyDict_SetItemString(pdict, "active_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_ACTIVE)));
+	PyDict_SetItemString(pdict, "focus_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_FOCUSED)));
+	PyDict_SetItemString(pdict, "clicked_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_CLICKED)));
+	PyDict_SetItemString(pdict, "visible_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_VISIBLE)));
+	PyDict_SetItemString(pdict, "edited_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_EDITED)));
+	PyDict_SetItemString(pdict, "activated_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_ACTIVATED)));
+	PyDict_SetItemString(pdict, "deactivated_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_DEACTIVATED)));
+	PyDict_SetItemString(pdict, "deactivatedae_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_DEACTIVATEDAE)));
+	PyDict_SetItemString(pdict, "toggled_open_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_TOGGLED_OPEN)));
+	PyDict_SetItemString(pdict, "resized_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_RECT_SIZE)));
+	PyDict_SetItemString(pdict, "scroll_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_SCROLL)));
 
 	return pdict;
 }
@@ -3733,81 +3647,62 @@ get_item_configuration(PyObject* self, PyObject* args, PyObject* kwargs)
 	PyObject* itemraw;
 
 	if (!Parse((GetParsers())["get_item_configuration"], args, kwargs, __FUNCTION__, &itemraw))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 	mvAppItem* appitem = GetItem((*GContext->itemRegistry), item);
 
-	PyObject* pdict = PyDict_New();
-
-	if (appitem)
+	if (!appitem)
 	{
-		// config py objects
-		mvPyObject py_filter_key = ToPyString(appitem->config.filter);
-		mvPyObject py_payload_type = ToPyString(appitem->config.payloadType);
-		mvPyObject py_label = ToPyString(appitem->config.specifiedLabel);
-		mvPyObject py_use_internal_label = ToPyBool(appitem->config.useInternalLabel);
-		mvPyObject py_source = ToPyUUID(appitem->config.source);
-		mvPyObject py_show = ToPyBool(appitem->config.show);
-		mvPyObject py_enabled = ToPyBool(appitem->config.enabled);
-		mvPyObject py_tracked = ToPyBool(appitem->config.tracked);
-		mvPyObject py_width = ToPyInt(appitem->config.width);
-		mvPyObject py_track_offset = ToPyFloat(appitem->config.trackOffset);
-		mvPyObject py_height = ToPyInt(appitem->config.height);
-		mvPyObject py_indent = ToPyInt((i32)appitem->config.indent);
-
-		PyDict_SetItemString(pdict, "filter_key", py_filter_key);
-		PyDict_SetItemString(pdict, "payload_type", py_payload_type);
-		PyDict_SetItemString(pdict, "label", py_label);
-		PyDict_SetItemString(pdict, "use_internal_label", py_use_internal_label);
-		PyDict_SetItemString(pdict, "source", py_source);
-		PyDict_SetItemString(pdict, "show", py_show);
-		PyDict_SetItemString(pdict, "enabled", py_enabled);
-		PyDict_SetItemString(pdict, "tracked", py_tracked);
-		PyDict_SetItemString(pdict, "width", py_width);
-		PyDict_SetItemString(pdict, "track_offset", py_track_offset);
-		PyDict_SetItemString(pdict, "height", py_height);
-		PyDict_SetItemString(pdict, "indent", py_indent);
-
-		if (appitem->config.callback)
-		{
-			Py_XINCREF(appitem->config.callback);
-			PyDict_SetItemString(pdict, "callback", appitem->config.callback);
-		}
-		else
-			PyDict_SetItemString(pdict, "callback", GetPyNone());
-
-		if (appitem->config.dropCallback)
-		{
-			Py_XINCREF(appitem->config.dropCallback);
-			PyDict_SetItemString(pdict, "drop_callback", appitem->config.dropCallback);
-		}
-		else
-			PyDict_SetItemString(pdict, "drop_callback", GetPyNone());
-
-		if (appitem->config.dragCallback)
-		{
-			Py_XINCREF(appitem->config.dragCallback);
-			PyDict_SetItemString(pdict, "drag_callback", appitem->config.dragCallback);
-		}
-		else
-			PyDict_SetItemString(pdict, "drag_callback", GetPyNone());
-
-		if (appitem->config.user_data)
-		{
-			Py_XINCREF(appitem->config.user_data);
-			PyDict_SetItemString(pdict, "user_data", appitem->config.user_data);
-		}
-		else
-			PyDict_SetItemString(pdict, "user_data", GetPyNone());
-
-		appitem->getSpecificConfiguration(pdict);
-	}
-	else
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, "get_item_configuration",
 			"Item not found: " + std::to_string(item), nullptr);
+		return nullptr;
+	}
+
+	PyObject* pdict = PyDict_New();
+
+	// config py objects
+	mvPyObject py_filter_key = ToPyString(appitem->config.filter);
+	mvPyObject py_payload_type = ToPyString(appitem->config.payloadType);
+	mvPyObject py_label = ToPyString(appitem->config.specifiedLabel);
+	mvPyObject py_use_internal_label = ToPyBool(appitem->config.useInternalLabel);
+	mvPyObject py_source = PyUUIDFromItem(appitem->config.source);
+	mvPyObject py_show = ToPyBool(appitem->config.show);
+	mvPyObject py_enabled = ToPyBool(appitem->config.enabled);
+	mvPyObject py_tracked = ToPyBool(appitem->config.tracked);
+	mvPyObject py_width = ToPyInt(appitem->config.width);
+	mvPyObject py_track_offset = ToPyFloat(appitem->config.trackOffset);
+	mvPyObject py_height = ToPyInt(appitem->config.height);
+	mvPyObject py_indent = ToPyInt((i32)appitem->config.indent);
+
+	PyDict_SetItemString(pdict, "filter_key", py_filter_key);
+	PyDict_SetItemString(pdict, "payload_type", py_payload_type);
+	PyDict_SetItemString(pdict, "label", py_label);
+	PyDict_SetItemString(pdict, "use_internal_label", py_use_internal_label);
+	PyDict_SetItemString(pdict, "source", py_source);
+	PyDict_SetItemString(pdict, "show", py_show);
+	PyDict_SetItemString(pdict, "enabled", py_enabled);
+	PyDict_SetItemString(pdict, "tracked", py_tracked);
+	PyDict_SetItemString(pdict, "width", py_width);
+	PyDict_SetItemString(pdict, "track_offset", py_track_offset);
+	PyDict_SetItemString(pdict, "height", py_height);
+	PyDict_SetItemString(pdict, "indent", py_indent);
+
+	PyObject* callback = appitem->config.callback;
+	PyDict_SetItemString(pdict, "callback", callback? callback : Py_None);
+
+	PyObject* dropCallback = appitem->config.dropCallback;
+	PyDict_SetItemString(pdict, "drop_callback", dropCallback? dropCallback : Py_None);
+
+	PyObject* dragCallback = appitem->config.dragCallback;
+	PyDict_SetItemString(pdict, "drag_callback", dragCallback? dragCallback : Py_None);
+
+	PyObject* user_data = *(appitem->config.user_data);
+	PyDict_SetItemString(pdict, "user_data", user_data? user_data : Py_None);
+
+	appitem->getSpecificConfiguration(pdict);
 
 	return pdict;
 }
@@ -3821,9 +3716,9 @@ set_item_children(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	if (!Parse((GetParsers())["set_item_children"], args, kwargs, __FUNCTION__,
 		&itemraw, &sourceraw, &slot))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 	mvUUID source = GetIDFromPyObject(sourceraw);
@@ -3849,7 +3744,7 @@ set_item_children(PyObject* self, PyObject* args, PyObject* kwargs)
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_item_children",
 			"Stage item not found: " + std::to_string(item), nullptr);
 		assert(false);
-		return GetPyNone();
+		return nullptr;
 	}
 
 
@@ -3876,8 +3771,11 @@ set_item_children(PyObject* self, PyObject* args, PyObject* kwargs)
 		}
 	}
 	else
+	{
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_item_children",
 			"Item not found: " + std::to_string(item), nullptr);
+		return nullptr;
+	}
 
 	DeleteItem(*GContext->itemRegistry, source);
 
@@ -3892,9 +3790,9 @@ bind_item_font(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	if (!Parse((GetParsers())["bind_item_font"], args, kwargs, __FUNCTION__,
 		&itemraw, &fontraw))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 	mvUUID font = GetIDFromPyObject(fontraw);
@@ -3912,6 +3810,7 @@ bind_item_font(PyObject* self, PyObject* args, PyObject* kwargs)
 		if (appfont)
 		{
 			appitem->font = appfont;
+			return GetPyNone();
 		}
 		else
 		{
@@ -3923,7 +3822,7 @@ bind_item_font(PyObject* self, PyObject* args, PyObject* kwargs)
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, "bind_item_font",
 			"Item not found: " + std::to_string(item), nullptr);
 
-	return GetPyNone();
+	return nullptr;
 }
 
 static PyObject*
@@ -3934,9 +3833,9 @@ bind_item_theme(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	if (!Parse((GetParsers())["bind_item_theme"], args, kwargs, __FUNCTION__,
 		&itemraw, &themeraw))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 	mvUUID theme = GetIDFromPyObject(themeraw);
@@ -3954,13 +3853,14 @@ bind_item_theme(PyObject* self, PyObject* args, PyObject* kwargs)
 
 		if (apptheme)
 		{
-			if (apptheme->type != mvAppItemType::mvTheme)
+			if (apptheme->type == mvAppItemType::mvTheme)
 			{
+				appitem->theme = *(std::shared_ptr<mvTheme>*)(&apptheme);
+				return GetPyNone();
+			}
+			else
 				mvThrowPythonError(mvErrorCode::mvIncompatibleType, "bind_item_theme",
 					"Item not a theme: " + std::to_string(theme), nullptr);
-			}
-			appitem->theme = *(std::shared_ptr<mvTheme>*)(&apptheme);
-			return GetPyNone();
 		}
 		else
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "bind_item_theme",
@@ -3970,7 +3870,7 @@ bind_item_theme(PyObject* self, PyObject* args, PyObject* kwargs)
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, "bind_item_theme",
 			"Item not found: " + std::to_string(item), nullptr);
 
-	return GetPyNone();
+	return nullptr;
 }
 
 static PyObject*
@@ -3981,9 +3881,9 @@ bind_item_handler_registry(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	if (!Parse((GetParsers())["bind_item_handler_registry"], args, kwargs, __FUNCTION__,
 		&itemraw, &regraw))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 	mvUUID reg = GetIDFromPyObject(regraw);
@@ -3997,18 +3897,19 @@ bind_item_handler_registry(PyObject* self, PyObject* args, PyObject* kwargs)
 			return GetPyNone();
 		}
 
-		auto apptheme = GetRefItem(*GContext->itemRegistry, reg);
+		auto handler_registry = GetRefItem(*GContext->itemRegistry, reg);
 
-		if (apptheme)
+		if (handler_registry)
 		{
-			if (apptheme->type != mvAppItemType::mvItemHandlerRegistry)
+			if (handler_registry->type == mvAppItemType::mvItemHandlerRegistry)
 			{
+				appitem->handlerRegistry = *(std::shared_ptr<mvItemHandlerRegistry>*)(&handler_registry);
+				appitem->handlerRegistry->onBind(appitem);
+				return GetPyNoneOrError();
+			}
+			else
 				mvThrowPythonError(mvErrorCode::mvIncompatibleType, "bind_item_handler_registry",
 					"Item not handler registry: " + std::to_string(reg), nullptr);
-			}
-			appitem->handlerRegistry = *(std::shared_ptr<mvItemHandlerRegistry>*)(&apptheme);
-			appitem->handlerRegistry->onBind(appitem);
-			return GetPyNone();
 		}
 		else
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "bind_item_handler_registry",
@@ -4018,7 +3919,7 @@ bind_item_handler_registry(PyObject* self, PyObject* args, PyObject* kwargs)
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, "bind_item_handler_registry",
 			"Item not found: " + std::to_string(item), nullptr);
 
-	return GetPyNone();
+	return nullptr;
 }
 
 static PyObject*
@@ -4028,9 +3929,9 @@ reset_pos(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	if (!Parse((GetParsers())["reset_pos"], args, kwargs, __FUNCTION__,
 		&itemraw))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 	mvAppItem* appitem = GetItem((*GContext->itemRegistry), item);
@@ -4038,8 +3939,11 @@ reset_pos(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (appitem)
 		appitem->info.dirtyPos = false;
 	else
+	{
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, "reset_pos",
 			"Item not found: " + std::to_string(item), nullptr);
+		return nullptr;
+	}
 
 	return GetPyNone();
 }
@@ -4050,20 +3954,22 @@ get_item_state(PyObject* self, PyObject* args, PyObject* kwargs)
 	PyObject* itemraw;
 
 	if (!Parse((GetParsers())["get_item_state"], args, kwargs, __FUNCTION__, &itemraw))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 	mvAppItem* appitem = GetItem((*GContext->itemRegistry), item);
 
-	PyObject* pdict = PyDict_New();
-
-	if (appitem)
-		FillAppItemState(pdict, appitem->state, DearPyGui::GetApplicableState(appitem->type));
-	else
+	if (!appitem)
+	{
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, "get_item_state",
 			"Item not found: " + std::to_string(item), nullptr);
+		return nullptr;
+	}
+
+	PyObject* pdict = PyDict_New();
+	FillAppItemState(pdict, appitem->state, DearPyGui::GetApplicableState(appitem->type));
 
 	return pdict;
 }
@@ -4072,10 +3978,10 @@ static PyObject*
 get_item_types(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	PyObject* pdict = PyDict_New();
-	#define X(el) PyDict_SetItemString(pdict, #el, PyLong_FromLong((int)mvAppItemType::el));
+	#define X(el) PyDict_SetItemString(pdict, #el, mvPyObject(PyLong_FromLong((int)mvAppItemType::el)));
 	MV_ITEM_TYPES
 	#undef X
 
@@ -4086,7 +3992,7 @@ static PyObject*
 configure_item(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(PyTuple_GetItem(args, 0));
 	mvAppItem* appitem = GetItem((*GContext->itemRegistry), item);
@@ -4097,8 +4003,11 @@ configure_item(PyObject* self, PyObject* args, PyObject* kwargs)
 		appitem->handleKeywordArgs(kwargs, GetEntityCommand(appitem->type));
 	}
 	else
+	{
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, "configure_item",
 			"Item not found: " + std::to_string(item), nullptr);
+		return nullptr;
+	}
 
 	return GetPyNone();
 }
@@ -4109,9 +4018,9 @@ get_value(PyObject* self, PyObject* args, PyObject* kwargs)
 	PyObject* nameraw;
 
 	if (!Parse((GetParsers())["get_value"], args, kwargs, __FUNCTION__, &nameraw))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID name = GetIDFromPyObject(nameraw);
 	mvAppItem* item = GetItem(*GContext->itemRegistry, name);
@@ -4127,9 +4036,9 @@ get_values(PyObject* self, PyObject* args, PyObject* kwargs)
 	PyObject* items;
 
 	if (!Parse((GetParsers())["get_values"], args, kwargs, __FUNCTION__, &items))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	auto aitems = ToUUIDVect(items);
 	PyObject* pyvalues = PyList_New(aitems.size());
@@ -4141,6 +4050,9 @@ get_values(PyObject* self, PyObject* args, PyObject* kwargs)
 			PyList_SetItem(pyvalues, i, item->getPyValue());
 		else
 		{
+			// TODO: decide whether we want to raise an exception or return None's.
+			// These two variants are mutually exclusive.  If we raise an exception,
+			// we must return nullptr, not pyvalues.
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "get_values",
 				"Item not found: " + std::to_string(aitems[i]), nullptr);
 			PyList_SetItem(pyvalues, i, GetPyNone());
@@ -4157,24 +4069,22 @@ set_value(PyObject* self, PyObject* args, PyObject* kwargs)
 	PyObject* value;
 
 	if (!Parse((GetParsers())["set_value"], args, kwargs, __FUNCTION__, &nameraw, &value))
-		return GetPyNone();
+		return nullptr;
 
-	if (value)
-		Py_XINCREF(value);
-
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID name = GetIDFromPyObject(nameraw);
 
 	mvAppItem* item = GetItem(*GContext->itemRegistry, name);
-	if (item)
-		item->setPyValue(value);
-	else
+	if (!item)
 	{
 		mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_value",
 			"Item not found: " + std::to_string(name), nullptr);
+		return nullptr;
 	}
 
+	Py_XINCREF(value);
+	item->setPyValue(value);
 	Py_XDECREF(value);
 
 	return GetPyNone();
@@ -4188,9 +4098,9 @@ set_item_alias(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	if (!Parse((GetParsers())["set_item_alias"], args, kwargs, __FUNCTION__,
 		&itemraw, &alias))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 	mvAppItem* appitem = GetItem((*GContext->itemRegistry), item);
@@ -4206,9 +4116,9 @@ get_item_alias(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	if (!Parse((GetParsers())["get_item_alias"], args, kwargs, __FUNCTION__,
 		&itemraw))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	mvUUID item = GetIDFromPyObject(itemraw);
 	mvAppItem* appitem = GetItem((*GContext->itemRegistry), item);
@@ -4225,25 +4135,12 @@ capture_next_item(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	if (!Parse((GetParsers())["capture_next_item"], args, kwargs, __FUNCTION__,
 		&callable, &user_data))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
-	if (GContext->itemRegistry->captureCallback)
-		Py_XDECREF(GContext->itemRegistry->captureCallback);
-
-	if (GContext->itemRegistry->captureCallbackUserData)
-		Py_XDECREF(GContext->itemRegistry->captureCallbackUserData);
-
-	Py_XINCREF(callable);
-	if(user_data)
-		Py_XINCREF(user_data);
-	if (callable == Py_None)
-		GContext->itemRegistry->captureCallback = nullptr;
-	else
-		GContext->itemRegistry->captureCallback = callable;
-
-	GContext->itemRegistry->captureCallbackUserData = user_data;
+	mvItemRegistry::threadContext.captureCallback = mvPyObject(callable == Py_None? nullptr : callable, true);
+	mvItemRegistry::threadContext.captureCallbackUserData = mvPyObject(user_data, true);
 
 	return GetPyNone();
 }
@@ -4254,29 +4151,44 @@ get_callback_queue(PyObject* self, PyObject* args, PyObject* kwargs)
 	if (GContext->callbackRegistry->jobs.empty())
 		return GetPyNone();
 
+	mvPySafeLockGuard lk(GContext->mutex);
+
 	PyObject* pArgs = PyTuple_New(GContext->callbackRegistry->jobs.size());
 	for (int i = 0; i < GContext->callbackRegistry->jobs.size(); i++)
 	{
 		PyObject* job = PyTuple_New(4);
-		if (GContext->callbackRegistry->jobs[i].callback)
-			PyTuple_SetItem(job, 0, GContext->callbackRegistry->jobs[i].callback);
-		else
-			PyTuple_SetItem(job, 0, GetPyNone());
+		const mvCallbackJob& cur_entry = GContext->callbackRegistry->jobs[i];
 
-		if(GContext->callbackRegistry->jobs[i].sender == 0)
-			PyTuple_SetItem(job, 1, ToPyString(GContext->callbackRegistry->jobs[i].sender_str));
+		PyObject* callback;
+		if (cur_entry.ownerless_callback)
+		{
+			callback = *cur_entry.ownerless_callback;
+			Py_XINCREF(callback);
+		}
 		else
-			PyTuple_SetItem(job, 1, ToPyUUID(GContext->callbackRegistry->jobs[i].sender));
+		{
+			auto liveOwner = cur_entry.owner.lock();
+			// If the owner of this entry is gone, we'll just set the callback to None.
+			// This lets us create the output list right away, without the need to collect
+			// valid callbacks first.  Also, this mimicks the behavior of widgets without
+			// a `callback` set on them, which in the "manual" mode put null callbacks into
+			// the queue.  It's mostly a debug/diagnostic mode anyway - captures everything.
+			callback = liveOwner? cur_entry.callback : nullptr;
+			// Must only be done while we own liveOwner.
+			Py_XINCREF(callback);
+		}
+		PyTuple_SetItem(job, 0, callback? callback : GetPyNone());
 
-		if (GContext->callbackRegistry->jobs[i].app_data)
-			PyTuple_SetItem(job, 2, GContext->callbackRegistry->jobs[i].app_data); // steals data, so don't deref
-		else
-			PyTuple_SetItem(job, 2, GetPyNone());
+		PyTuple_SetItem(job, 1, ToPyUUID(cur_entry.sender, cur_entry.alias));
 
-		if (GContext->callbackRegistry->jobs[i].user_data)
-			PyTuple_SetItem(job, 3, GContext->callbackRegistry->jobs[i].user_data); // steals data, so don't deref
-		else
-			PyTuple_SetItem(job, 3, GetPyNone());
+		// app_data_func() returns a new PyObject reference (passing ownership to us),
+		// therefore we don't need to INCREF it.
+		PyObject* app_data = cur_entry.app_data_func();
+		PyTuple_SetItem(job, 2, app_data? app_data : GetPyNone());
+
+		PyObject* user_data = *cur_entry.user_data;
+		Py_XINCREF(user_data);
+		PyTuple_SetItem(job, 3, user_data? user_data : GetPyNone());
 
 		PyTuple_SetItem(pArgs, i, job);
 	}
@@ -4293,9 +4205,9 @@ set_clipboard_text(PyObject* self, PyObject* args, PyObject* kwargs)
 
 	if (!Parse((GetParsers())["set_clipboard_text"], args, kwargs, __FUNCTION__,
 		&text))
-		return GetPyNone();
+		return nullptr;
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	ImGui::SetClipboardText(text);
 
@@ -4306,7 +4218,7 @@ static PyObject*
 get_clipboard_text(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 	const char* text = ImGui::GetClipboardText();
 
@@ -4317,7 +4229,7 @@ static PyObject*
 get_platform(PyObject* self, PyObject* args, PyObject* kwargs)
 {
 
-	 std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
+	mvPySafeLockGuard lk(GContext->mutex);
 
 #ifdef _WIN32
 	return ToPyInt(0L);

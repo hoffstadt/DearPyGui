@@ -1,23 +1,25 @@
+#include "mvPyUtils.h"
+#pragma hdrstop
+
 #include "mvContext.h"
+
 #include "dearpygui.h"
 #include "mvViewport.h"
 #include "mvCallbackRegistry.h"
-#include <thread>
-#include <future>
-#include <chrono>
 #include "mvProfiler.h"
-#include <implot.h>
 #include "mvFontManager.h"
 #include "mvCallbackRegistry.h"
-#include "mvPyUtils.h"
-#include <frameobject.h>
 #include "mvToolManager.h"
-#include <imnodes.h>
-#include <thread>
-#include <stb_image.h>
 #include "mvCustomTypes.h"
-#include "mvAppItemCommons.h"
 #include "mvItemRegistry.h"
+
+#include <thread>
+#include <future>
+#include <thread>
+#include <implot.h>
+#include <frameobject.h>
+#include <imnodes.h>
+#include <stb_image.h>
 
 mvContext* GContext = nullptr;
 
@@ -115,11 +117,14 @@ SetDefaultTheme()
     colors[ImGuiCol_ResizeGrip] = mvImGuiCol_ResizeGrip;
     colors[ImGuiCol_ResizeGripHovered] = mvImGuiCol_ResizeGripHovered;
     colors[ImGuiCol_ResizeGripActive] = mvImGuiCol_ResizeGripHovered;
+    colors[ImGuiCol_InputTextCursor] = MV_BASE_COL_textColor;
     colors[ImGuiCol_Tab] = mvImGuiCol_Tab;
     colors[ImGuiCol_TabHovered] = mvImGuiCol_TabHovered;
-    colors[ImGuiCol_TabActive] = mvImGuiCol_TabActive;
-    colors[ImGuiCol_TabUnfocused] = mvImGuiCol_TabUnfocused;
-    colors[ImGuiCol_TabUnfocusedActive] = mvImGuiCol_TabUnfocusedActive;
+    colors[ImGuiCol_TabSelected] = mvImGuiCol_TabActive;
+    colors[ImGuiCol_TabSelectedOverline] = mvImGuiCol_HeaderActive;
+    colors[ImGuiCol_TabDimmed] = mvImGuiCol_TabUnfocused;
+    colors[ImGuiCol_TabDimmedSelected] = mvImGuiCol_TabUnfocusedActive;
+    colors[ImGuiCol_TabDimmedSelectedOverline] = mvImGuiCol_TabUnfocusedActiveOverline;
     colors[ImGuiCol_DockingPreview] = mvImGuiCol_DockingPreview;
     colors[ImGuiCol_DockingEmptyBg] = mvImGuiCol_DockingEmptyBg;
     colors[ImGuiCol_PlotLines] = mvImGuiCol_PlotLines;
@@ -131,9 +136,13 @@ SetDefaultTheme()
     colors[ImGuiCol_TableBorderLight] = mvImGuiCol_TableBorderLight;   // Prefer using Alpha=1.0 here
     colors[ImGuiCol_TableRowBg] = mvImGuiCol_TableRowBg;
     colors[ImGuiCol_TableRowBgAlt] = mvImGuiCol_TableRowBgAlt;
+    colors[ImGuiCol_TextLink] = mvImGuiCol_HeaderActive;
     colors[ImGuiCol_TextSelectedBg] = mvImGuiCol_TextSelectedBg;
+    colors[ImGuiCol_TreeLines] = mvImGuiCol_Border;
     colors[ImGuiCol_DragDropTarget] = mvImGuiCol_DragDropTarget;
-    colors[ImGuiCol_NavHighlight] = mvImGuiCol_NavHighlight;
+    colors[ImGuiCol_DragDropTargetBg] = mvImGuiCol_DragDropTargetBg;
+    colors[ImGuiCol_UnsavedMarker] = mvImGuiCol_Text;
+    colors[ImGuiCol_NavCursor] = mvImGuiCol_NavHighlight;
     colors[ImGuiCol_NavWindowingHighlight] = mvImGuiCol_NavWindowingHighlight;
     colors[ImGuiCol_NavWindowingDimBg] = mvImGuiCol_NavWindowingDimBg;
     colors[ImGuiCol_ModalWindowDimBg] = mvImGuiCol_ModalWindowDimBg;
@@ -160,6 +169,9 @@ SetDefaultTheme()
 void 
 Render()
 {
+    // We lock the mutex from the very start so that frame count is kept valid
+    // for API calls.
+    std::lock_guard lk(GContext->mutex);
 
     // update timing
     GContext->deltaTime = ImGui::GetIO().DeltaTime;
@@ -167,7 +179,10 @@ Render()
     GContext->frame = ImGui::GetFrameCount();
     GContext->framerate = (i32)ImGui::GetIO().Framerate;
 
-    ImGui::GetIO().FontGlobalScale = mvToolManager::GetFontManager().getGlobalFontScale();
+    mvRunTasks(true);   // this call runs early tasks only
+
+    ImGuiStyle& style = ImGui::GetStyle();
+    style.FontScaleMain = mvToolManager::GetFontManager().getGlobalFontScale();
 
     if (GContext->IO.dockingViewport)
         ImGui::DockSpaceOverViewport();
@@ -179,27 +194,46 @@ Render()
 
     mvToolManager::Draw();
 
+    if (GContext->resetTheme)
     {
-        std::lock_guard<std::recursive_mutex> lk(GContext->mutex);
-        if (GContext->resetTheme)
-        {
-            SetDefaultTheme();
-            GContext->resetTheme = false;
-        }
-
-        mvRunTasks();
-        RenderItemRegistry(*GContext->itemRegistry);
-        mvRunTasks();
+        SetDefaultTheme();
+        GContext->resetTheme = false;
     }
 
-    if (GContext->waitOneFrame == true)
-        GContext->waitOneFrame = false;
+    mvRunTasks();
+    RenderItemRegistry(*GContext->itemRegistry);
+    mvRunTasks();
+
+    // release split_frame if it's waiting for the frame end
+    {
+        std::lock_guard lk(GContext->frameEndedMutex);
+        GContext->frameEnded = true;
+    }
+    GContext->frameEndedEvent.notify_all();
 }
 
 std::map<std::string, mvPythonParser>& 
 GetParsers()
 { 
     return const_cast<std::map<std::string, mvPythonParser>&>(GetModuleParsers());
+}
+
+void StopRendering()
+{
+    // While it may seem reasonable to set it to false with frameEndedMutex locked
+    // (to set it simultaneously with frameEnded), we don't want to spur another
+    // race condition between split_frame() and is_dearpygui_running() in the
+    // rendering loop.  Let's trigger it as early as possible.
+    GContext->running = false;
+
+    // Unblock handlers (or other code) that might be waiting in `split_frame()`
+    {
+        std::lock_guard lk(GContext->frameEndedMutex);
+        // Simulate an end of frame even though there's no real frame this time.
+        // Otherwise split_frame will continue waiting.
+        GContext->frameEnded = true;
+    }
+    GContext->frameEndedEvent.notify_all();
 }
 
 void 
@@ -298,6 +332,8 @@ InsertConstants_mvContext(std::vector<std::pair<std::string, long>>& constants)
     constants.emplace_back("mvKey_NumPad7", ImGuiKey_Keypad7);
     constants.emplace_back("mvKey_NumPad8", ImGuiKey_Keypad8);
     constants.emplace_back("mvKey_NumPad9", ImGuiKey_Keypad9);
+    constants.emplace_back("mvKey_NumPadEnter", ImGuiKey_KeypadEnter);
+    constants.emplace_back("mvKey_NumPadEqual", ImGuiKey_KeypadEqual);
     constants.emplace_back("mvKey_Subtract", ImGuiKey_KeypadSubtract);
     constants.emplace_back("mvKey_Decimal", ImGuiKey_KeypadDecimal);
     constants.emplace_back("mvKey_Divide", ImGuiKey_KeypadDivide);

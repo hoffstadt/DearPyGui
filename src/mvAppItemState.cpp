@@ -1,15 +1,22 @@
+#include "mvPyUtils.h"
+#pragma hdrstop
+
 #include "mvAppItemState.h"
-#include <imgui.h>
+
 #include "mvAppItem.h"
 #include "mvContext.h"
-#include "mvPyUtils.h"
+#include <imgui.h>
+// For ImGuiWindow
+#include <imgui_internal.h>
 
 void 
 ResetAppItemState(mvAppItemState& state)
 {
     state.hovered = false;
+    state.prevHovered = false;
     state.active = false;
     state.focused = false;
+    state.prevFocused = false;
     state.leftclicked = false;
     state.rightclicked = false;
     state.middleclicked = false;
@@ -19,16 +26,20 @@ ResetAppItemState(mvAppItemState& state)
     state.activated = false;
     state.deactivated = false;
     state.deactivatedAfterEdit = false;
-    state.toggledOpen = false;
+    state.toggledOpenPure = state.toggledOpen = false;
     state.mvRectSizeResized = false;
+    state.scrolledX = state.scrolledY = false;
+    state.isScrollingX = state.isScrollingY = false;
 }
 
 void
 UpdateAppItemState(mvAppItemState& state)
 {
     state.lastFrameUpdate = GContext->frame;
+    state.prevHovered = state.hovered;
     state.hovered = ImGui::IsItemHovered();
     state.active = ImGui::IsItemActive();
+    state.prevFocused = state.focused;
     state.focused = ImGui::IsItemFocused();
     if (state.focused)
     {
@@ -46,7 +57,7 @@ UpdateAppItemState(mvAppItemState& state)
     state.activated = ImGui::IsItemActivated();
     state.deactivated = ImGui::IsItemDeactivated();
     state.deactivatedAfterEdit = ImGui::IsItemDeactivatedAfterEdit();
-    state.toggledOpen = ImGui::IsItemToggledOpen();
+    state.toggledOpenPure = state.toggledOpen = ImGui::IsItemToggledOpen();
     state.rectMin = { ImGui::GetItemRectMin().x, ImGui::GetItemRectMin().y };
     state.rectMax = { ImGui::GetItemRectMax().x, ImGui::GetItemRectMax().y };
     state.rectSize = { ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y };
@@ -55,6 +66,17 @@ UpdateAppItemState(mvAppItemState& state)
     if (state.mvPrevRectSize.x != state.rectSize.x || state.mvPrevRectSize.y != state.rectSize.y) { state.mvRectSizeResized = true; }
     else state.mvRectSizeResized = false;
     state.mvPrevRectSize = state.rectSize;
+}
+
+void
+UpdateAppItemScrollInfo(mvAppItemState& state)
+{
+    float scrollX = ImGui::GetScrollX();
+    float scrollY = ImGui::GetScrollY();
+    state.scrolledX = (scrollX != state.scrollPos.x);
+    state.scrolledY = (scrollY != state.scrollPos.y);
+    state.scrollPos = { scrollX, scrollY };
+    state.scrollMax = { ImGui::GetScrollMaxX(), ImGui::GetScrollMaxY() };
 }
 
 void 
@@ -92,6 +114,14 @@ FillAppItemState(PyObject* dict, mvAppItemState& state, i32 applicableState)
         PyDict_SetItemString(dict, "resized", mvPyObject(ToPyBool(valid ? state.mvRectSizeResized : false)));
     }
     if(applicableState & MV_STATE_CONT_AVAIL) PyDict_SetItemString(dict, "content_region_avail", mvPyObject(ToPyPairII((i32)state.contextRegionAvail.x, (i32)state.contextRegionAvail.y)));
+
+    if(applicableState & MV_STATE_SCROLL)
+    {
+        PyDict_SetItemString(dict, "scrolled", mvPyObject(ToPyTPair(valid && state.scrolledX, valid && state.scrolledY)));
+        PyDict_SetItemString(dict, "is_scrolling", mvPyObject(ToPyTPair(valid && state.isScrollingX, valid && state.isScrollingY)));
+        PyDict_SetItemString(dict, "scroll_pos", mvPyObject(ToPyPair(state.scrollPos.x, state.scrollPos.y)));
+        PyDict_SetItemString(dict, "scroll_max", mvPyObject(ToPyPair(state.scrollMax.x, state.scrollMax.y)));
+    }
 
 }
 

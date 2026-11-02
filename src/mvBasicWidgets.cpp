@@ -1,11 +1,16 @@
+#include "mvPyUtils.h"
+#pragma hdrstop
+
 #include "mvBasicWidgets.h"
+
 #include "mvFontItems.h"
 #include "mvThemes.h"
 #include "mvContainers.h"
-#include "mvPyUtils.h"
 #include "mvItemHandlers.h"
-#include <misc/cpp/imgui_stdlib.h>
 #include "mvTextureItems.h"
+
+#include <misc/cpp/imgui_stdlib.h>
+#include <imgui_internal.h>
 
 static bool KnobFloat(const char* label, float* p_value, float v_min, float v_max, float v_step = 50.f);
 
@@ -63,7 +68,7 @@ DearPyGui::fill_configuration_dict(const mvComboConfig& inConfig, PyObject* outD
 	checkbitset("no_preview", ImGuiComboFlags_NoPreview, inConfig.flags);
 	checkbitset("fit_width", ImGuiComboFlags_WidthFitPreview, inConfig.flags);
 
-	mvUUID mode = (long)mvComboHeightMode::mvComboHeight_Largest;
+	long mode = (long)mvComboHeightMode::mvComboHeight_Largest;
 	if (inConfig.flags & ImGuiComboFlags_HeightSmall) mode = (long)mvComboHeightMode::mvComboHeight_Small;
 	else if (inConfig.flags & ImGuiComboFlags_HeightRegular) mode = (long)mvComboHeightMode::mvComboHeight_Regular;
 	else if (inConfig.flags & ImGuiComboFlags_HeightLarge) mode = (long)mvComboHeightMode::mvComboHeight_Large;
@@ -97,7 +102,6 @@ DearPyGui::fill_configuration_dict(const mvDragFloatConfig& inConfig, PyObject* 
 		PyDict_SetItemString(outDict, keyword, py_result);
 	};
 
-	// window flags
 	checkbitset("clamped", ImGuiSliderFlags_AlwaysClamp, inConfig.flags);
 	checkbitset("no_input", ImGuiSliderFlags_NoInput, inConfig.flags);
 }
@@ -125,7 +129,6 @@ DearPyGui::fill_configuration_dict(const mvDragDoubleConfig& inConfig, PyObject*
 		PyDict_SetItemString(outDict, keyword, py_result);
 	};
 
-	// window flags
 	checkbitset("clamped", ImGuiSliderFlags_AlwaysClamp, inConfig.flags);
 	checkbitset("no_input", ImGuiSliderFlags_NoInput, inConfig.flags);
 }
@@ -153,7 +156,6 @@ DearPyGui::fill_configuration_dict(const mvDragIntConfig& inConfig, PyObject* ou
 		PyDict_SetItemString(outDict, keyword, py_result);
 	};
 
-	// window flags
 	checkbitset("clamped", ImGuiSliderFlags_AlwaysClamp, inConfig.flags);
 	checkbitset("no_input", ImGuiSliderFlags_NoInput, inConfig.flags);
 }
@@ -183,7 +185,6 @@ DearPyGui::fill_configuration_dict(const mvDragIntMultiConfig& inConfig, PyObjec
 		PyDict_SetItemString(outDict, keyword, py_result);
 	};
 
-	// window flags
 	checkbitset("clamped", ImGuiSliderFlags_AlwaysClamp, inConfig.flags);
 	checkbitset("no_input", ImGuiSliderFlags_NoInput, inConfig.flags);
 }
@@ -213,7 +214,6 @@ DearPyGui::fill_configuration_dict(const mvDragFloatMultiConfig& inConfig, PyObj
 		PyDict_SetItemString(outDict, keyword, py_result);
 	};
 
-	// window flags
 	checkbitset("clamped", ImGuiSliderFlags_AlwaysClamp, inConfig.flags);
 	checkbitset("no_input", ImGuiSliderFlags_NoInput, inConfig.flags);
 }
@@ -243,7 +243,6 @@ DearPyGui::fill_configuration_dict(const mvDragDoubleMultiConfig& inConfig, PyOb
 		PyDict_SetItemString(outDict, keyword, py_result);
 	};
 
-	// window flags
 	checkbitset("clamped", ImGuiSliderFlags_AlwaysClamp, inConfig.flags);
 	checkbitset("no_input", ImGuiSliderFlags_NoInput, inConfig.flags);
 }
@@ -265,7 +264,6 @@ DearPyGui::fill_configuration_dict(const mvSliderIntConfig& inConfig, PyObject* 
 		PyDict_SetItemString(outDict, keyword, mvPyObject(ToPyBool(flags & flag)));
 	};
 
-	// window flags
 	checkbitset("clamped", ImGuiSliderFlags_AlwaysClamp, inConfig.flags);
 	checkbitset("no_input", ImGuiSliderFlags_NoInput, inConfig.flags);
 }
@@ -287,7 +285,6 @@ DearPyGui::fill_configuration_dict(const mvSliderIntMultiConfig& inConfig, PyObj
 		PyDict_SetItemString(outDict, keyword, mvPyObject(ToPyBool(flags & flag)));
 	};
 
-	// window flags
 	checkbitset("clamped", ImGuiSliderFlags_AlwaysClamp, inConfig.flags);
 	checkbitset("no_input", ImGuiSliderFlags_NoInput, inConfig.flags);
 }
@@ -309,7 +306,6 @@ DearPyGui::fill_configuration_dict(const mvSliderFloatConfig& inConfig, PyObject
 		PyDict_SetItemString(outDict, keyword, mvPyObject(ToPyBool(flags & flag)));
 	};
 
-	// window flags
 	checkbitset("clamped", ImGuiSliderFlags_AlwaysClamp, inConfig.flags);
 	checkbitset("no_input", ImGuiSliderFlags_NoInput, inConfig.flags);
 }
@@ -331,7 +327,6 @@ DearPyGui::fill_configuration_dict(const mvSliderFloatMultiConfig& inConfig, PyO
 		PyDict_SetItemString(outDict, keyword, mvPyObject(ToPyBool(flags & flag)));
 	};
 
-	// window flags
 	checkbitset("clamped", ImGuiSliderFlags_AlwaysClamp, inConfig.flags);
 	checkbitset("no_input", ImGuiSliderFlags_NoInput, inConfig.flags);
 }
@@ -362,7 +357,6 @@ DearPyGui::fill_configuration_dict(const mvSliderDoubleConfig& inConfig, PyObjec
 		PyDict_SetItemString(outDict, keyword, mvPyObject(ToPyBool(flags & flag)));
 	};
 
-	// window flags
 	checkbitset("clamped", ImGuiSliderFlags_AlwaysClamp, inConfig.flags);
 	checkbitset("no_input", ImGuiSliderFlags_NoInput, inConfig.flags);
 }
@@ -384,7 +378,6 @@ DearPyGui::fill_configuration_dict(const mvSliderDoubleMultiConfig& inConfig, Py
 		PyDict_SetItemString(outDict, keyword, mvPyObject(ToPyBool(flags & flag)));
 	};
 
-	// window flags
 	checkbitset("clamped", ImGuiSliderFlags_AlwaysClamp, inConfig.flags);
 	checkbitset("no_input", ImGuiSliderFlags_NoInput, inConfig.flags);
 }
@@ -414,7 +407,6 @@ DearPyGui::fill_configuration_dict(const mvInputTextConfig& inConfig, PyObject* 
 		PyDict_SetItemString(outDict, keyword, mvPyObject(ToPyBool(flags & flag)));
 	};
 
-	// window flags
 	checkbitset("no_spaces", ImGuiInputTextFlags_CharsNoBlank, inConfig.flags);
 	checkbitset("uppercase", ImGuiInputTextFlags_CharsUppercase, inConfig.flags);
 	checkbitset("decimal", ImGuiInputTextFlags_CharsDecimal, inConfig.flags);
@@ -431,6 +423,7 @@ DearPyGui::fill_configuration_dict(const mvInputTextConfig& inConfig, PyObject* 
 	checkbitset("always_overwrite", ImGuiInputTextFlags_AlwaysOverwrite, inConfig.flags);  // Overwrite mode
 	checkbitset("no_undo_redo", ImGuiInputTextFlags_NoUndoRedo, inConfig.flags);  // Disable undo/redo. Note that input text owns the text data while active, if you want to provide your own undo/redo stack you need e.g. to call ClearActiveID().
 	checkbitset("escape_clears_all", ImGuiInputTextFlags_EscapeClearsAll, inConfig.flags);  // Escape key clears content if not empty, and deactivate otherwise (contrast to default behavior of Escape to revert)
+	checkbitset("elide_left", ImGuiInputTextFlags_ElideLeft, inConfig.flags);
 
 	// TODO: Implement all of these (they seem really useful)
 	// Search this:             ImGui::InputText("Completion", buf1, 64, ImGuiInputTextFlags_CallbackCompletion, Funcs::MyCallback);
@@ -449,14 +442,23 @@ DearPyGui::fill_configuration_dict(const mvInputIntConfig& inConfig, PyObject* o
 	if (outDict == nullptr)
 		return;
 
-	PyDict_SetItemString(outDict, "on_enter", mvPyObject(ToPyBool(inConfig.flags & ImGuiInputTextFlags_EnterReturnsTrue)));
-	PyDict_SetItemString(outDict, "readonly", mvPyObject(ToPyBool(inConfig.flags & ImGuiInputTextFlags_ReadOnly)));
 	PyDict_SetItemString(outDict, "step", mvPyObject(ToPyInt(inConfig.step)));
 	PyDict_SetItemString(outDict, "step_fast", mvPyObject(ToPyInt(inConfig.step_fast)));
 	PyDict_SetItemString(outDict, "min_value", mvPyObject(ToPyInt(inConfig.minv)));
 	PyDict_SetItemString(outDict, "max_value", mvPyObject(ToPyInt(inConfig.maxv)));
 	PyDict_SetItemString(outDict, "min_clamped", mvPyObject(ToPyBool(inConfig.min_clamped)));
 	PyDict_SetItemString(outDict, "max_clamped", mvPyObject(ToPyBool(inConfig.max_clamped)));
+
+	// helper to check and set bit
+	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)
+	{
+		PyDict_SetItemString(outDict, keyword, mvPyObject(ToPyBool(flags & flag)));
+	};
+
+	checkbitset("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, inConfig.flags);
+	checkbitset("readonly", ImGuiInputTextFlags_ReadOnly, inConfig.flags);
+	checkbitset("accept_empty_input", ImGuiInputTextFlags_ParseEmptyRefVal, inConfig.flags);
+	checkbitset("display_empty_value", ImGuiInputTextFlags_DisplayEmptyRefVal, inConfig.flags);
 }
 
 void
@@ -479,9 +481,10 @@ DearPyGui::fill_configuration_dict(const mvInputFloatConfig& inConfig, PyObject*
 		PyDict_SetItemString(outDict, keyword, mvPyObject(ToPyBool(flags & flag)));
 	};
 
-	// window flags
 	checkbitset("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, inConfig.flags);
 	checkbitset("readonly", ImGuiInputTextFlags_ReadOnly, inConfig.flags);
+	checkbitset("accept_empty_input", ImGuiInputTextFlags_ParseEmptyRefVal, inConfig.flags);
+	checkbitset("display_empty_value", ImGuiInputTextFlags_DisplayEmptyRefVal, inConfig.flags);
 }
 
 void
@@ -504,9 +507,10 @@ DearPyGui::fill_configuration_dict(const mvInputDoubleConfig& inConfig, PyObject
 		PyDict_SetItemString(outDict, keyword, mvPyObject(ToPyBool(flags & flag)));
 	};
 
-	// window flags
 	checkbitset("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, inConfig.flags);
 	checkbitset("readonly", ImGuiInputTextFlags_ReadOnly, inConfig.flags);
+	checkbitset("accept_empty_input", ImGuiInputTextFlags_ParseEmptyRefVal, inConfig.flags);
+	checkbitset("display_empty_value", ImGuiInputTextFlags_DisplayEmptyRefVal, inConfig.flags);
 }
 
 void
@@ -528,9 +532,10 @@ DearPyGui::fill_configuration_dict(const mvInputFloatMultiConfig& inConfig, PyOb
 		PyDict_SetItemString(outDict, keyword, mvPyObject(ToPyBool(flags & flag)));
 	};
 
-	// window flags
 	checkbitset("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, inConfig.flags);
 	checkbitset("readonly", ImGuiInputTextFlags_ReadOnly, inConfig.flags);
+	checkbitset("accept_empty_input", ImGuiInputTextFlags_ParseEmptyRefVal, inConfig.flags);
+	checkbitset("display_empty_value", ImGuiInputTextFlags_DisplayEmptyRefVal, inConfig.flags);
 }
 
 void
@@ -552,9 +557,10 @@ DearPyGui::fill_configuration_dict(const mvInputDoubleMultiConfig& inConfig, PyO
 		PyDict_SetItemString(outDict, keyword, mvPyObject(ToPyBool(flags & flag)));
 	};
 
-	// window flags
 	checkbitset("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, inConfig.flags);
 	checkbitset("readonly", ImGuiInputTextFlags_ReadOnly, inConfig.flags);
+	checkbitset("accept_empty_input", ImGuiInputTextFlags_ParseEmptyRefVal, inConfig.flags);
+	checkbitset("display_empty_value", ImGuiInputTextFlags_DisplayEmptyRefVal, inConfig.flags);
 }
 
 void
@@ -563,13 +569,22 @@ DearPyGui::fill_configuration_dict(const mvInputIntMultiConfig& inConfig, PyObje
 	if (outDict == nullptr)
 		return;
 
-	PyDict_SetItemString(outDict, "on_enter", mvPyObject(ToPyBool(inConfig.flags & ImGuiInputTextFlags_EnterReturnsTrue)));
-	PyDict_SetItemString(outDict, "readonly", mvPyObject(ToPyBool(inConfig.flags & ImGuiInputTextFlags_ReadOnly)));
 	PyDict_SetItemString(outDict, "min_value", mvPyObject(ToPyInt(inConfig.minv)));
 	PyDict_SetItemString(outDict, "max_value", mvPyObject(ToPyInt(inConfig.maxv)));
 	PyDict_SetItemString(outDict, "min_clamped", mvPyObject(ToPyBool(inConfig.min_clamped)));
 	PyDict_SetItemString(outDict, "max_clamped", mvPyObject(ToPyBool(inConfig.max_clamped)));
 	PyDict_SetItemString(outDict, "size", mvPyObject(ToPyInt(inConfig.size)));
+
+	// helper to check and set bit
+	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)
+	{
+		PyDict_SetItemString(outDict, keyword, mvPyObject(ToPyBool(flags & flag)));
+	};
+
+	checkbitset("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, inConfig.flags);
+	checkbitset("readonly", ImGuiInputTextFlags_ReadOnly, inConfig.flags);
+	checkbitset("accept_empty_input", ImGuiInputTextFlags_ParseEmptyRefVal, inConfig.flags);
+	checkbitset("display_empty_value", ImGuiInputTextFlags_DisplayEmptyRefVal, inConfig.flags);
 }
 
 void
@@ -592,14 +607,14 @@ DearPyGui::fill_configuration_dict(const mvSelectableConfig& inConfig, PyObject*
 
 
 	// helper to check and set bit
-	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags, bool flip)
+	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)
 	{
 		PyDict_SetItemString(outDict, keyword, mvPyObject(ToPyBool(flags & flag)));
 	};
 
-	// window flags
-	checkbitset("span_columns", ImGuiSelectableFlags_SpanAllColumns, inConfig.flags, false);
-	checkbitset("disable_popup_close", ImGuiSelectableFlags_DontClosePopups, inConfig.flags, false);
+	checkbitset("span_columns", ImGuiSelectableFlags_SpanAllColumns, inConfig.flags);
+	checkbitset("disable_popup_close", ImGuiSelectableFlags_NoAutoClosePopups, inConfig.flags);
+	checkbitset("select_on_nav", ImGuiSelectableFlags_SelectOnNav, inConfig.flags);
 }
 
 void
@@ -615,11 +630,11 @@ DearPyGui::fill_configuration_dict(const mvTabButtonConfig& inConfig, PyObject* 
 		PyDict_SetItemString(outDict, keyword, mvPyObject(ToPyBool(flags & flag)));
 	};
 
-	// window flags
 	checkbitset("no_reorder", ImGuiTabBarFlags_Reorderable, inConfig.flags);
 	checkbitset("leading", ImGuiTabItemFlags_Leading, inConfig.flags);
 	checkbitset("trailing", ImGuiTabItemFlags_Trailing, inConfig.flags);
 	checkbitset("no_tooltip", ImGuiTabItemFlags_NoTooltip, inConfig.flags);
+	checkbitset("unsaved_document", ImGuiTabItemFlags_UnsavedDocument, inConfig.flags);
 }
 
 void
@@ -651,7 +666,7 @@ DearPyGui::fill_configuration_dict(const mvImageConfig& inConfig, PyObject* outD
 	PyDict_SetItemString(outDict, "uv_max", mvPyObject(ToPyPair(inConfig.uv_max.x, inConfig.uv_max.y)));
 	PyDict_SetItemString(outDict, "tint_color", mvPyObject(ToPyColor(inConfig.tintColor)));
 	PyDict_SetItemString(outDict, "border_color", mvPyObject(ToPyColor(inConfig.borderColor)));
-	PyDict_SetItemString(outDict, "texture_tag", mvPyObject(ToPyUUID(inConfig.textureUUID)));
+	PyDict_SetItemString(outDict, "texture_tag", mvPyObject(ToPyUUID(inConfig.texture.get())));
 }
 
 void
@@ -664,7 +679,7 @@ DearPyGui::fill_configuration_dict(const mvImageButtonConfig& inConfig, PyObject
 	PyDict_SetItemString(outDict, "uv_max", mvPyObject(ToPyPair(inConfig.uv_max.x, inConfig.uv_max.y)));
 	PyDict_SetItemString(outDict, "tint_color", mvPyObject(ToPyColor(inConfig.tintColor)));
 	PyDict_SetItemString(outDict, "background_color", mvPyObject(ToPyColor(inConfig.backgroundColor)));
-	PyDict_SetItemString(outDict, "texture_tag", mvPyObject(ToPyUUID(inConfig.textureUUID)));
+	PyDict_SetItemString(outDict, "texture_tag", mvPyObject(ToPyUUID(inConfig.texture.get())));
 	PyDict_SetItemString(outDict, "frame_padding", mvPyObject(ToPyInt(inConfig.framePadding)));
 }
 
@@ -765,22 +780,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvDragFloatConfig& outConfig, mvA
 
 	// flags
 	flagop("clamped", ImGuiSliderFlags_AlwaysClamp, outConfig.flags);
-	flagop("clamped", ImGuiSliderFlags_AlwaysClamp, outConfig.stor_flags);
 	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.flags);
-	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.stor_flags);
-
-	if (info.enabledLastFrame)
-	{
-		info.enabledLastFrame = false;
-		outConfig.flags = outConfig.stor_flags;
-	}
-
-	if (info.disabledLastFrame)
-	{
-		info.disabledLastFrame = false;
-		outConfig.stor_flags = outConfig.flags;
-		outConfig.flags |= ImGuiSliderFlags_NoInput;
-	}
 }
 
 void
@@ -802,22 +802,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvDragDoubleConfig& outConfig, mv
 
 	// flags
 	flagop("clamped", ImGuiSliderFlags_AlwaysClamp, outConfig.flags);
-	flagop("clamped", ImGuiSliderFlags_AlwaysClamp, outConfig.stor_flags);
 	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.flags);
-	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.stor_flags);
-
-	if (info.enabledLastFrame)
-	{
-		info.enabledLastFrame = false;
-		outConfig.flags = outConfig.stor_flags;
-	}
-
-	if (info.disabledLastFrame)
-	{
-		info.disabledLastFrame = false;
-		outConfig.stor_flags = outConfig.flags;
-		outConfig.flags |= ImGuiSliderFlags_NoInput;
-	}
 }
 
 void
@@ -839,22 +824,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvDragIntConfig& outConfig, mvApp
 
 	// flags
 	flagop("clamped", ImGuiSliderFlags_AlwaysClamp, outConfig.flags);
-	flagop("clamped", ImGuiSliderFlags_AlwaysClamp, outConfig.stor_flags);
 	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.flags);
-	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.stor_flags);
-
-	if (info.enabledLastFrame)
-	{
-		info.enabledLastFrame = false;
-		outConfig.flags = outConfig.stor_flags;
-	}
-
-	if (info.disabledLastFrame)
-	{
-		info.disabledLastFrame = false;
-		outConfig.stor_flags = outConfig.flags;
-		outConfig.flags |= ImGuiSliderFlags_NoInput;
-	}
 }
 
 void
@@ -877,22 +847,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvDragIntMultiConfig& outConfig, 
 
 	// flags
 	flagop("clamped", ImGuiSliderFlags_AlwaysClamp, outConfig.flags);
-	flagop("clamped", ImGuiSliderFlags_AlwaysClamp, outConfig.stor_flags);
 	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.flags);
-	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.stor_flags);
-
-	if (info.enabledLastFrame)
-	{
-		info.enabledLastFrame = false;
-		outConfig.flags = outConfig.stor_flags;
-	}
-
-	if (info.disabledLastFrame)
-	{
-		info.disabledLastFrame = false;
-		outConfig.stor_flags = outConfig.flags;
-		outConfig.flags |= ImGuiSliderFlags_NoInput;
-	}
 }
 
 void
@@ -915,22 +870,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvDragFloatMultiConfig& outConfig
 
 	// flags
 	flagop("clamped", ImGuiSliderFlags_AlwaysClamp, outConfig.flags);
-	flagop("clamped", ImGuiSliderFlags_AlwaysClamp, outConfig.stor_flags);
 	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.flags);
-	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.stor_flags);
-
-	if (info.enabledLastFrame)
-	{
-		info.enabledLastFrame = false;
-		outConfig.flags = outConfig.stor_flags;
-	}
-
-	if (info.disabledLastFrame)
-	{
-		info.disabledLastFrame = false;
-		outConfig.stor_flags = outConfig.flags;
-		outConfig.flags |= ImGuiSliderFlags_NoInput;
-	}
 }
 
 void
@@ -953,22 +893,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvDragDoubleMultiConfig& outConfi
 
 	// flags
 	flagop("clamped", ImGuiSliderFlags_AlwaysClamp, outConfig.flags);
-	flagop("clamped", ImGuiSliderFlags_AlwaysClamp, outConfig.stor_flags);
 	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.flags);
-	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.stor_flags);
-
-	if (info.enabledLastFrame)
-	{
-		info.enabledLastFrame = false;
-		outConfig.flags = outConfig.stor_flags;
-	}
-
-	if (info.disabledLastFrame)
-	{
-		info.disabledLastFrame = false;
-		outConfig.stor_flags = outConfig.flags;
-		outConfig.flags |= ImGuiSliderFlags_NoInput;
-	}
 }
 
 void
@@ -990,22 +915,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvSliderIntConfig& outConfig, mvA
 
 	// flags
 	flagop("clamped", ImGuiSliderFlags_AlwaysClamp, outConfig.flags);
-	flagop("clamped", ImGuiSliderFlags_AlwaysClamp, outConfig.stor_flags);
 	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.flags);
-	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.stor_flags);
-
-	if (info.enabledLastFrame)
-	{
-		info.enabledLastFrame = false;
-		outConfig.flags = outConfig.stor_flags;
-	}
-
-	if (info.disabledLastFrame)
-	{
-		info.disabledLastFrame = false;
-		outConfig.stor_flags = outConfig.flags;
-		outConfig.flags |= ImGuiSliderFlags_NoInput;
-	}
 }
 
 void
@@ -1027,22 +937,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvSliderIntMultiConfig& outConfig
 
 	// flags
 	flagop("clamped", ImGuiSliderFlags_AlwaysClamp, outConfig.flags);
-	flagop("clamped", ImGuiSliderFlags_AlwaysClamp, outConfig.stor_flags);
 	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.flags);
-	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.stor_flags);
-
-	if (info.enabledLastFrame)
-	{
-		info.enabledLastFrame = false;
-		outConfig.flags = outConfig.stor_flags;
-	}
-
-	if (info.disabledLastFrame)
-	{
-		info.disabledLastFrame = false;
-		outConfig.stor_flags = outConfig.flags;
-		outConfig.flags |= ImGuiSliderFlags_NoInput;
-	}
 }
 
 void
@@ -1064,22 +959,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvSliderFloatConfig& outConfig, m
 
 	// flags
 	flagop("clamped", ImGuiSliderFlags_AlwaysClamp, outConfig.flags);
-	flagop("clamped", ImGuiSliderFlags_AlwaysClamp, outConfig.stor_flags);
 	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.flags);
-	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.stor_flags);
-
-	if (info.enabledLastFrame)
-	{
-		info.enabledLastFrame = false;
-		outConfig.flags = outConfig.stor_flags;
-	}
-
-	if (info.disabledLastFrame)
-	{
-		info.disabledLastFrame = false;
-		outConfig.stor_flags = outConfig.flags;
-		outConfig.flags |= ImGuiSliderFlags_NoInput;
-	}
 }
 
 void
@@ -1102,23 +982,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvSliderFloatMultiConfig& outConf
 
 	// flags
 	flagop("clamped", ImGuiSliderFlags_AlwaysClamp, outConfig.flags);
-	flagop("clamped", ImGuiSliderFlags_AlwaysClamp, outConfig.stor_flags);
 	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.flags);
-	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.stor_flags);
-
-	if (info.enabledLastFrame)
-	{
-		info.enabledLastFrame = false;
-		outConfig.flags = outConfig.stor_flags;
-	}
-
-	if (info.disabledLastFrame)
-	{
-		info.disabledLastFrame = false;
-		outConfig.stor_flags = outConfig.flags;
-		outConfig.flags |= ImGuiSliderFlags_NoInput;
-	}
-
 }
 
 void
@@ -1140,22 +1004,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvSliderDoubleConfig& outConfig, 
 
 	// flags
 	flagop("clamped", ImGuiSliderFlags_AlwaysClamp, outConfig.flags);
-	flagop("clamped", ImGuiSliderFlags_AlwaysClamp, outConfig.stor_flags);
 	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.flags);
-	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.stor_flags);
-
-	if (info.enabledLastFrame)
-	{
-		info.enabledLastFrame = false;
-		outConfig.flags = outConfig.stor_flags;
-	}
-
-	if (info.disabledLastFrame)
-	{
-		info.disabledLastFrame = false;
-		outConfig.stor_flags = outConfig.flags;
-		outConfig.flags |= ImGuiSliderFlags_NoInput;
-	}
 }
 
 void
@@ -1178,23 +1027,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvSliderDoubleMultiConfig& outCon
 
 	// flags
 	flagop("clamped", ImGuiSliderFlags_AlwaysClamp, outConfig.flags);
-	flagop("clamped", ImGuiSliderFlags_AlwaysClamp, outConfig.stor_flags);
 	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.flags);
-	flagop("no_input", ImGuiSliderFlags_NoInput, outConfig.stor_flags);
-
-	if (info.enabledLastFrame)
-	{
-		info.enabledLastFrame = false;
-		outConfig.flags = outConfig.stor_flags;
-	}
-
-	if (info.disabledLastFrame)
-	{
-		info.disabledLastFrame = false;
-		outConfig.stor_flags = outConfig.flags;
-		outConfig.flags |= ImGuiSliderFlags_NoInput;
-	}
-
 }
 
 void
@@ -1315,21 +1148,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvInputTextConfig& outConfig, mvA
 	flagop("always_overwrite", ImGuiInputTextFlags_AlwaysOverwrite, outConfig.flags);
 	flagop("no_undo_redo", ImGuiInputTextFlags_NoUndoRedo, outConfig.flags);
 	flagop("escape_clears_all", ImGuiInputTextFlags_EscapeClearsAll, outConfig.flags);
-
-
-	if (info.enabledLastFrame)
-	{
-		info.enabledLastFrame = false;
-		outConfig.flags = outConfig.stor_flags;
-	}
-
-	if (info.disabledLastFrame)
-	{
-		info.disabledLastFrame = false;
-		outConfig.stor_flags = outConfig.flags;
-		outConfig.flags |= ImGuiInputTextFlags_ReadOnly;
-		outConfig.flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
-	}
+	flagop("elide_left", ImGuiInputTextFlags_ElideLeft, outConfig.flags);
 }
 
 void
@@ -1338,10 +1157,6 @@ DearPyGui::set_configuration(PyObject* inDict, mvInputIntConfig& outConfig, mvAp
 	if (inDict == nullptr)
 		return;
 
-	if (PyObject* item = PyDict_GetItemString(inDict, "on_enter")) ToBool(item) ? outConfig.flags |= ImGuiInputTextFlags_EnterReturnsTrue : outConfig.flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
-	if (PyObject* item = PyDict_GetItemString(inDict, "on_enter")) ToBool(item) ? outConfig.stor_flags |= ImGuiInputTextFlags_EnterReturnsTrue : outConfig.stor_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
-	if (PyObject* item = PyDict_GetItemString(inDict, "readonly")) ToBool(item) ? outConfig.flags |= ImGuiInputTextFlags_ReadOnly : outConfig.flags &= ~ImGuiInputTextFlags_ReadOnly;
-	if (PyObject* item = PyDict_GetItemString(inDict, "readonly")) ToBool(item) ? outConfig.stor_flags |= ImGuiInputTextFlags_ReadOnly : outConfig.stor_flags &= ~ImGuiInputTextFlags_ReadOnly;
 	if (PyObject* item = PyDict_GetItemString(inDict, "step")) outConfig.step = ToInt(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "step_fast")) outConfig.step_fast = ToInt(item);
 
@@ -1360,19 +1175,16 @@ DearPyGui::set_configuration(PyObject* inDict, mvInputIntConfig& outConfig, mvAp
 	if (PyObject* item = PyDict_GetItemString(inDict, "min_clamped")) outConfig.min_clamped = ToBool(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "max_clamped")) outConfig.max_clamped = ToBool(item);
 
-	if (info.enabledLastFrame)
+	// helper for bit flipping
+	auto flagop = [inDict](const char* keyword, int flag, int& flags)
 	{
-		info.enabledLastFrame = false;
-		outConfig.flags = outConfig.stor_flags;
-	}
+		if (PyObject* item = PyDict_GetItemString(inDict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+	};
 
-	if (info.disabledLastFrame)
-	{
-		info.disabledLastFrame = false;
-		outConfig.stor_flags = outConfig.flags;
-		outConfig.flags |= ImGuiInputTextFlags_ReadOnly;
-		outConfig.flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
-	}
+	flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, outConfig.flags);
+	flagop("readonly", ImGuiInputTextFlags_ReadOnly, outConfig.flags);
+	flagop("accept_empty_input", ImGuiInputTextFlags_ParseEmptyRefVal, outConfig.flags);
+	flagop("display_empty_value", ImGuiInputTextFlags_DisplayEmptyRefVal, outConfig.flags);
 }
 
 void
@@ -1410,23 +1222,9 @@ DearPyGui::set_configuration(PyObject* inDict, mvInputFloatConfig& outConfig, mv
 
 	// flags
 	flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, outConfig.flags);
-	flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, outConfig.stor_flags);
 	flagop("readonly", ImGuiInputTextFlags_ReadOnly, outConfig.flags);
-	flagop("readonly", ImGuiInputTextFlags_ReadOnly, outConfig.stor_flags);
-
-	if (info.enabledLastFrame)
-	{
-		info.enabledLastFrame = false;
-		outConfig.flags = outConfig.stor_flags;
-	}
-
-	if (info.disabledLastFrame)
-	{
-		info.disabledLastFrame = false;
-		outConfig.stor_flags = outConfig.flags;
-		outConfig.flags |= ImGuiInputTextFlags_ReadOnly;
-		outConfig.flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
-	}
+	flagop("accept_empty_input", ImGuiInputTextFlags_ParseEmptyRefVal, outConfig.flags);
+	flagop("display_empty_value", ImGuiInputTextFlags_DisplayEmptyRefVal, outConfig.flags);
 }
 
 void
@@ -1464,23 +1262,9 @@ DearPyGui::set_configuration(PyObject* inDict, mvInputDoubleConfig& outConfig, m
 
 	// flags
 	flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, outConfig.flags);
-	flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, outConfig.stor_flags);
 	flagop("readonly", ImGuiInputTextFlags_ReadOnly, outConfig.flags);
-	flagop("readonly", ImGuiInputTextFlags_ReadOnly, outConfig.stor_flags);
-
-	if (info.enabledLastFrame)
-	{
-		info.enabledLastFrame = false;
-		outConfig.flags = outConfig.stor_flags;
-	}
-
-	if (info.disabledLastFrame)
-	{
-		info.disabledLastFrame = false;
-		outConfig.stor_flags = outConfig.flags;
-		outConfig.flags |= ImGuiInputTextFlags_ReadOnly;
-		outConfig.flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
-	}
+	flagop("accept_empty_input", ImGuiInputTextFlags_ParseEmptyRefVal, outConfig.flags);
+	flagop("display_empty_value", ImGuiInputTextFlags_DisplayEmptyRefVal, outConfig.flags);
 }
 
 void
@@ -1515,23 +1299,9 @@ DearPyGui::set_configuration(PyObject* inDict, mvInputFloatMultiConfig& outConfi
 
 	// flags
 	flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, outConfig.flags);
-	flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, outConfig.stor_flags);
 	flagop("readonly", ImGuiInputTextFlags_ReadOnly, outConfig.flags);
-	flagop("readonly", ImGuiInputTextFlags_ReadOnly, outConfig.stor_flags);
-
-	if (info.enabledLastFrame)
-	{
-		info.enabledLastFrame = false;
-		outConfig.flags = outConfig.stor_flags;
-	}
-
-	if (info.disabledLastFrame)
-	{
-		info.disabledLastFrame = false;
-		outConfig.stor_flags = outConfig.flags;
-		outConfig.flags |= ImGuiInputTextFlags_ReadOnly;
-		outConfig.flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
-	}
+	flagop("accept_empty_input", ImGuiInputTextFlags_ParseEmptyRefVal, outConfig.flags);
+	flagop("display_empty_value", ImGuiInputTextFlags_DisplayEmptyRefVal, outConfig.flags);
 }
 
 void
@@ -1566,23 +1336,9 @@ DearPyGui::set_configuration(PyObject* inDict, mvInputDoubleMultiConfig& outConf
 
 	// flags
 	flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, outConfig.flags);
-	flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, outConfig.stor_flags);
 	flagop("readonly", ImGuiInputTextFlags_ReadOnly, outConfig.flags);
-	flagop("readonly", ImGuiInputTextFlags_ReadOnly, outConfig.stor_flags);
-
-	if (info.enabledLastFrame)
-	{
-		info.enabledLastFrame = false;
-		outConfig.flags = outConfig.stor_flags;
-	}
-
-	if (info.disabledLastFrame)
-	{
-		info.disabledLastFrame = false;
-		outConfig.stor_flags = outConfig.flags;
-		outConfig.flags |= ImGuiInputTextFlags_ReadOnly;
-		outConfig.flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
-	}
+	flagop("accept_empty_input", ImGuiInputTextFlags_ParseEmptyRefVal, outConfig.flags);
+	flagop("display_empty_value", ImGuiInputTextFlags_DisplayEmptyRefVal, outConfig.flags);
 }
 
 void
@@ -1591,10 +1347,6 @@ DearPyGui::set_configuration(PyObject* inDict, mvInputIntMultiConfig& outConfig,
 	if (inDict == nullptr)
 		return;
 
-	if (PyObject* item = PyDict_GetItemString(inDict, "on_enter")) ToBool(item) ? outConfig.flags |= ImGuiInputTextFlags_EnterReturnsTrue : outConfig.flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
-	if (PyObject* item = PyDict_GetItemString(inDict, "on_enter")) ToBool(item) ? outConfig.stor_flags |= ImGuiInputTextFlags_EnterReturnsTrue : outConfig.stor_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
-	if (PyObject* item = PyDict_GetItemString(inDict, "readonly")) ToBool(item) ? outConfig.flags |= ImGuiInputTextFlags_ReadOnly : outConfig.flags &= ~ImGuiInputTextFlags_ReadOnly;
-	if (PyObject* item = PyDict_GetItemString(inDict, "readonly")) ToBool(item) ? outConfig.stor_flags |= ImGuiInputTextFlags_ReadOnly : outConfig.stor_flags &= ~ImGuiInputTextFlags_ReadOnly;
 	if (PyObject* item = PyDict_GetItemString(inDict, "size")) outConfig.size = ToInt(item);
 
 	if (PyObject* item = PyDict_GetItemString(inDict, "min_value"))
@@ -1612,19 +1364,16 @@ DearPyGui::set_configuration(PyObject* inDict, mvInputIntMultiConfig& outConfig,
 	if (PyObject* item = PyDict_GetItemString(inDict, "min_clamped")) outConfig.min_clamped = ToBool(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "max_clamped")) outConfig.max_clamped = ToBool(item);
 
-	if (info.enabledLastFrame)
+	// helper for bit flipping
+	auto flagop = [inDict](const char* keyword, int flag, int& flags)
 	{
-		info.enabledLastFrame = false;
-		outConfig.flags = outConfig.stor_flags;
-	}
+		if (PyObject* item = PyDict_GetItemString(inDict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+	};
 
-	if (info.disabledLastFrame)
-	{
-		info.disabledLastFrame = false;
-		outConfig.stor_flags = outConfig.flags;
-		outConfig.flags |= ImGuiInputTextFlags_ReadOnly;
-		outConfig.flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
-	}
+	flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, outConfig.flags);
+	flagop("readonly", ImGuiInputTextFlags_ReadOnly, outConfig.flags);
+	flagop("accept_empty_input", ImGuiInputTextFlags_ParseEmptyRefVal, outConfig.flags);
+	flagop("display_empty_value", ImGuiInputTextFlags_DisplayEmptyRefVal, outConfig.flags);
 }
 
 void
@@ -1647,14 +1396,14 @@ DearPyGui::set_configuration(PyObject* inDict, mvSelectableConfig& outConfig, mv
 
 
 	// helper for bit flipping
-	auto flagop = [inDict](const char* keyword, int flag, int& flags, bool flip)
+	auto flagop = [inDict](const char* keyword, int flag, int& flags)
 	{
 		if (PyObject* item = PyDict_GetItemString(inDict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
 	};
 
-	// window flags
-	flagop("span_columns", ImGuiSelectableFlags_SpanAllColumns, outConfig.flags, false);
-	flagop("disable_popup_close", ImGuiSelectableFlags_DontClosePopups, outConfig.flags, false);
+	flagop("span_columns", ImGuiSelectableFlags_SpanAllColumns, outConfig.flags);
+	flagop("disable_popup_close", ImGuiSelectableFlags_NoAutoClosePopups, outConfig.flags);
+	flagop("select_on_nav", ImGuiSelectableFlags_SelectOnNav, outConfig.flags);
 
 	if (info.enabledLastFrame)
 	{
@@ -1682,11 +1431,11 @@ DearPyGui::set_configuration(PyObject* inDict, mvTabButtonConfig& outConfig)
 		if (PyObject* item = PyDict_GetItemString(inDict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
 	};
 
-	// window flags
 	flagop("no_reorder", ImGuiTabItemFlags_NoReorder, outConfig.flags);
 	flagop("leading", ImGuiTabItemFlags_Leading, outConfig.flags);
 	flagop("trailing", ImGuiTabItemFlags_Trailing, outConfig.flags);
 	flagop("no_tooltip", ImGuiTabItemFlags_NoTooltip, outConfig.flags);
+	flagop("unsaved_document", ImGuiTabItemFlags_UnsavedDocument, outConfig.flags);
 
 	if (outConfig.flags & ImGuiTabItemFlags_Leading && outConfig.flags & ImGuiTabItemFlags_Trailing)
 		outConfig.flags &= ~ImGuiTabItemFlags_Leading;
@@ -1723,20 +1472,16 @@ DearPyGui::set_configuration(PyObject* inDict, mvImageConfig& outConfig)
 	if (PyObject* item = PyDict_GetItemString(inDict, "border_color")) outConfig.borderColor = ToColor(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "texture_tag"))
 	{
-		outConfig.textureUUID = GetIDFromPyObject(item);
-		outConfig.texture = GetRefItem(*GContext->itemRegistry, outConfig.textureUUID);
-		if (outConfig.textureUUID == MV_ATLAS_UUID)
+		mvUUID textureUUID = GetIDFromPyObject(item);
+		if (textureUUID == MV_ATLAS_UUID)
 		{
-			outConfig.texture = std::make_shared<mvStaticTexture>(outConfig.textureUUID);
-			outConfig._internalTexture = true;
-		}
-		else if (outConfig.texture)
-		{
-			outConfig._internalTexture = false;
+			outConfig.texture = std::make_shared<mvStaticTexture>(textureUUID);
 		}
 		else
 		{
-			mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(mvAppItemType::mvImage), "Texture not found.", nullptr);
+			outConfig.texture = GetRefItem(*GContext->itemRegistry, textureUUID);
+			if (!outConfig.texture)
+				mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(mvAppItemType::mvImage), "Texture not found.", nullptr);
 		}
 	}
 }
@@ -1754,20 +1499,16 @@ DearPyGui::set_configuration(PyObject* inDict, mvImageButtonConfig& outConfig)
 	if (PyObject* item = PyDict_GetItemString(inDict, "frame_padding")) outConfig.framePadding = ToInt(item);
 	if (PyObject* item = PyDict_GetItemString(inDict, "texture_tag"))
 	{
-		outConfig.textureUUID = GetIDFromPyObject(item);
-		outConfig.texture = GetRefItem(*GContext->itemRegistry, outConfig.textureUUID);
-		if (outConfig.textureUUID == MV_ATLAS_UUID)
+		mvUUID textureUUID = GetIDFromPyObject(item);
+		if (textureUUID == MV_ATLAS_UUID)
 		{
-			outConfig.texture = std::make_shared<mvStaticTexture>(outConfig.textureUUID);
-			outConfig._internalTexture = true;
-		}
-		else if (outConfig.texture)
-		{
-			outConfig._internalTexture = false;
+			outConfig.texture = std::make_shared<mvStaticTexture>(textureUUID);
 		}
 		else
 		{
-			mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(mvAppItemType::mvImageButton), "Texture not found.", nullptr);
+			outConfig.texture = GetRefItem(*GContext->itemRegistry, textureUUID);
+			if (!outConfig.texture)
+				mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(mvAppItemType::mvImageButton), "Texture not found.", nullptr);
 		}
 	}
 }
@@ -1811,17 +1552,17 @@ DearPyGui::set_required_configuration(PyObject* inDict, mvImageConfig& outConfig
 	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(mvAppItemType::mvImage)], inDict))
 		return;
 
-	outConfig.textureUUID = GetIDFromPyObject(PyTuple_GetItem(inDict, 0));
-	outConfig.texture = GetRefItem(*GContext->itemRegistry, outConfig.textureUUID);
-	if (outConfig.texture)
-		return;
-	else if (outConfig.textureUUID == MV_ATLAS_UUID)
+	mvUUID textureUUID = GetIDFromPyObject(PyTuple_GetItem(inDict, 0));
+	if (textureUUID == MV_ATLAS_UUID)
 	{
-		outConfig.texture = std::make_shared<mvStaticTexture>(outConfig.textureUUID);
-		outConfig._internalTexture = true;
+		outConfig.texture = std::make_shared<mvStaticTexture>(textureUUID);
 	}
 	else
-		mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(mvAppItemType::mvImage), "Texture not found.", nullptr);
+	{
+		outConfig.texture = GetRefItem(*GContext->itemRegistry, textureUUID);
+		if (!outConfig.texture)
+			mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(mvAppItemType::mvImage), "Texture not found.", nullptr);
+	}
 }
 
 void
@@ -1830,17 +1571,17 @@ DearPyGui::set_required_configuration(PyObject* inDict, mvImageButtonConfig& out
 	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(mvAppItemType::mvImageButton)], inDict))
 		return;
 
-	outConfig.textureUUID = GetIDFromPyObject(PyTuple_GetItem(inDict, 0));
-	outConfig.texture = GetRefItem(*GContext->itemRegistry, outConfig.textureUUID);
-	if (outConfig.texture)
-		return;
-	else if (outConfig.textureUUID == MV_ATLAS_UUID)
+	mvUUID textureUUID = GetIDFromPyObject(PyTuple_GetItem(inDict, 0));
+	if (textureUUID == MV_ATLAS_UUID)
 	{
-		outConfig.texture = std::make_shared<mvStaticTexture>(outConfig.textureUUID);
-		outConfig._internalTexture = true;
+		outConfig.texture = std::make_shared<mvStaticTexture>(textureUUID);
 	}
 	else
-		mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(mvAppItemType::mvImageButton), "Texture not found.", nullptr);
+	{
+		outConfig.texture = GetRefItem(*GContext->itemRegistry, textureUUID);
+		if (!outConfig.texture)
+			mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(mvAppItemType::mvImageButton), "Texture not found.", nullptr);
+	}
 }
 
 //-----------------------------------------------------------------------------
@@ -2615,10 +2356,7 @@ DearPyGui::draw_simple_plot(ImDrawList* drawlist, mvAppItem& item, const mvSimpl
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -2645,6 +2383,7 @@ DearPyGui::draw_simple_plot(ImDrawList* drawlist, mvAppItem& item, const mvSimpl
 	//   * only update if applicable
 	//-----------------------------------------------------------------------------
 	item.state.lastFrameUpdate = GContext->frame;
+    item.state.prevHovered = item.state.hovered;
 	item.state.hovered = ImGui::IsItemHovered();
 	item.state.leftclicked = ImGui::IsItemClicked();
 	item.state.rightclicked = ImGui::IsItemClicked(1);
@@ -2665,7 +2404,7 @@ DearPyGui::draw_simple_plot(ImDrawList* drawlist, mvAppItem& item, const mvSimpl
 
 	// set cursor position to cached position
 	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
+		DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
 	if (item.config.indent > 0.0f)
 		ImGui::Unindent(item.config.indent);
@@ -2724,10 +2463,7 @@ DearPyGui::draw_button(ImDrawList* drawlist, mvAppItem& item, const mvButtonConf
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -2752,10 +2488,7 @@ DearPyGui::draw_button(ImDrawList* drawlist, mvAppItem& item, const mvButtonConf
 
 		if (activated)
 		{
-			if (item.config.alias.empty())
-				mvAddCallback(item.getCallback(false), item.uuid, nullptr, item.config.user_data);
-			else
-				mvAddCallback(item.getCallback(false), item.config.alias, nullptr, item.config.user_data);
+			item.submitCallback();
 		}
 
 		if (config.cursor_on_hover != ImGuiMouseCursor_None && ImGui::IsItemHovered())
@@ -2773,7 +2506,7 @@ DearPyGui::draw_button(ImDrawList* drawlist, mvAppItem& item, const mvButtonConf
 
 	// set cursor position to cached position
 	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
+		DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
 	if (item.config.indent > 0.0f)
 		ImGui::Unindent(item.config.indent);
@@ -2833,10 +2566,7 @@ DearPyGui::draw_combo(ImDrawList* drawlist, mvAppItem& item, mvComboConfig& conf
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -2863,12 +2593,7 @@ DearPyGui::draw_combo(ImDrawList* drawlist, mvAppItem& item, mvComboConfig& conf
 				{
 					if (item.config.enabled) { *config.value = name; }
 
-					auto value = *config.value;
-
-					if (item.config.alias.empty())
-						mvSubmitCallback([&item, value]() {mvAddCallback(item.getCallback(false), item.uuid, ToPyString(value), item.config.user_data);});
-					else
-						mvSubmitCallback([&item, value]() { mvAddCallback(item.getCallback(false), item.config.alias, ToPyString(value), item.config.user_data);});
+					item.submitCallback(*config.value);
 				}
 
 				item.state.edited = ImGui::IsItemEdited();
@@ -2890,7 +2615,7 @@ DearPyGui::draw_combo(ImDrawList* drawlist, mvAppItem& item, mvComboConfig& conf
 
 	// set cursor position to cached position
 	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
+		DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
 	if (item.config.indent > 0.0f)
 		ImGui::Unindent(item.config.indent);
@@ -2947,10 +2672,7 @@ DearPyGui::draw_checkbox(ImDrawList* drawlist, mvAppItem& item, mvCheckboxConfig
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	apply_local_theming(&item);
 
@@ -2965,12 +2687,7 @@ DearPyGui::draw_checkbox(ImDrawList* drawlist, mvAppItem& item, mvCheckboxConfig
 
 		if (ImGui::Checkbox(item.info.internalLabel.c_str(), item.config.enabled ? config.value.get() : &config.disabled_value))
 		{
-			bool value = *config.value;
-
-			if (item.config.alias.empty())
-				mvSubmitCallback([&item, value]() { mvAddCallback(item.getCallback(false), item.uuid, ToPyBool(value), item.config.user_data);});
-			else
-				mvSubmitCallback([&item, value]() { mvAddCallback(item.getCallback(false), item.config.alias, ToPyBool(value), item.config.user_data);});
+			item.submitCallback(*config.value);
 		}
 	}
 
@@ -2985,7 +2702,7 @@ DearPyGui::draw_checkbox(ImDrawList* drawlist, mvAppItem& item, mvCheckboxConfig
 
 	// set cursor position to cached position
 	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
+		DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
 	if (item.config.indent > 0.0f)
 		ImGui::Unindent(item.config.indent);
@@ -3043,10 +2760,7 @@ DearPyGui::draw_drag_float(ImDrawList* drawlist, mvAppItem& item, mvDragFloatCon
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -3058,16 +2772,13 @@ DearPyGui::draw_drag_float(ImDrawList* drawlist, mvAppItem& item, mvDragFloatCon
 
 		if (!item.config.enabled) config.disabled_value = *config.value;
 
+		auto flags = config.flags | (item.config.enabled? 0 : ImGuiSliderFlags_NoInput);
+
 		if (ImGui::DragFloat(item.info.internalLabel.c_str(),
 			item.config.enabled ? config.value.get() : &config.disabled_value,
-			config.speed, config.minv, config.maxv, config.format.c_str(), config.flags))
+			config.speed, config.minv, config.maxv, config.format.c_str(), flags))
 		{
-			auto value = *config.value;
-
-			if (item.config.alias.empty())
-				mvSubmitCallback([&item, value]() {mvAddCallback(item.getCallback(false), item.uuid, ToPyFloat(value), item.config.user_data);});
-			else
-				mvSubmitCallback([&item, value]() { mvAddCallback(item.getCallback(false), item.config.alias, ToPyFloat(value), item.config.user_data);});
+			item.submitCallback(*config.value);
 		}
 	}
 
@@ -3082,7 +2793,7 @@ DearPyGui::draw_drag_float(ImDrawList* drawlist, mvAppItem& item, mvDragFloatCon
 
 	// set cursor position to cached position
 	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
+		DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
 	if (item.config.indent > 0.0f)
 		ImGui::Unindent(item.config.indent);
@@ -3141,10 +2852,7 @@ DearPyGui::draw_drag_double(ImDrawList* drawlist, mvAppItem& item, mvDragDoubleC
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -3156,16 +2864,13 @@ DearPyGui::draw_drag_double(ImDrawList* drawlist, mvAppItem& item, mvDragDoubleC
 
 		if (!item.config.enabled) config.disabled_value = *config.value;
 
+		auto flags = config.flags | (item.config.enabled? 0 : ImGuiSliderFlags_NoInput);
+
 		if (ImGui::DragScalar(item.info.internalLabel.c_str(), ImGuiDataType_Double,
 			item.config.enabled ? config.value.get() : &config.disabled_value,
-			config.speed, &config.minv, &config.maxv, config.format.c_str(), config.flags))
+			config.speed, &config.minv, &config.maxv, config.format.c_str(), flags))
 		{
-			auto value = *config.value;
-
-			if (item.config.alias.empty())
-				mvSubmitCallback([&item, value]() {mvAddCallback(item.getCallback(false), item.uuid, ToPyDouble(value), item.config.user_data); });
-			else
-				mvSubmitCallback([&item, value]() { mvAddCallback(item.getCallback(false), item.config.alias, ToPyDouble(value), item.config.user_data); });
+			item.submitCallback(*config.value);
 		}
 	}
 
@@ -3180,7 +2885,7 @@ DearPyGui::draw_drag_double(ImDrawList* drawlist, mvAppItem& item, mvDragDoubleC
 
 	// set cursor position to cached position
 	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
+		DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
 	if (item.config.indent > 0.0f)
 		ImGui::Unindent(item.config.indent);
@@ -3237,10 +2942,7 @@ DearPyGui::draw_drag_int(ImDrawList* drawlist, mvAppItem& item, mvDragIntConfig&
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -3254,19 +2956,13 @@ DearPyGui::draw_drag_int(ImDrawList* drawlist, mvAppItem& item, mvDragIntConfig&
 
 		if (!item.config.enabled) config.disabled_value = *config.value;
 
+		auto flags = config.flags | (item.config.enabled? 0 : ImGuiSliderFlags_NoInput);
+
 		if (ImGui::DragInt(item.info.internalLabel.c_str(),
 			item.config.enabled ? config.value.get() : &config.disabled_value, config.speed,
-			config.minv, config.maxv, config.format.c_str(), config.flags))
+			config.minv, config.maxv, config.format.c_str(), flags))
 		{
-			auto value = *config.value;
-			if (item.config.alias.empty())
-				mvSubmitCallback([&item, value]() {
-				mvAddCallback(item.getCallback(false), item.uuid, ToPyInt(value), item.config.user_data);
-					});
-			else
-				mvSubmitCallback([&item, value]() {
-				mvAddCallback(item.getCallback(false), item.config.alias, ToPyInt(value), item.config.user_data);
-					});
+			item.submitCallback(*config.value);
 		}
 	}
 
@@ -3281,7 +2977,7 @@ DearPyGui::draw_drag_int(ImDrawList* drawlist, mvAppItem& item, mvDragIntConfig&
 
 	// set cursor position to cached position
 	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
+		DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
 	if (item.config.indent > 0.0f)
 		ImGui::Unindent(item.config.indent);
@@ -3338,10 +3034,7 @@ DearPyGui::draw_drag_intx(ImDrawList* drawlist, mvAppItem& item, mvDragIntMultiC
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -3358,16 +3051,18 @@ DearPyGui::draw_drag_intx(ImDrawList* drawlist, mvAppItem& item, mvDragIntMultiC
 
 		if (!item.config.enabled) std::copy(config.value->data(), config.value->data() + 2, config.disabled_value);
 
+		auto flags = config.flags | (item.config.enabled? 0 : ImGuiSliderFlags_NoInput);
+
 		switch (config.size)
 		{
 		case 2:
-			activated = ImGui::DragInt2(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.speed, config.minv, config.maxv, config.format.c_str(), config.flags);
+			activated = ImGui::DragInt2(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.speed, config.minv, config.maxv, config.format.c_str(), flags);
 			break;
 		case 3:
-			activated = ImGui::DragInt3(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.speed, config.minv, config.maxv, config.format.c_str(), config.flags);
+			activated = ImGui::DragInt3(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.speed, config.minv, config.maxv, config.format.c_str(), flags);
 			break;
 		case 4:
-			activated = ImGui::DragInt4(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.speed, config.minv, config.maxv, config.format.c_str(), config.flags);
+			activated = ImGui::DragInt4(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.speed, config.minv, config.maxv, config.format.c_str(), flags);
 			break;
 		default:
 			break;
@@ -3375,15 +3070,7 @@ DearPyGui::draw_drag_intx(ImDrawList* drawlist, mvAppItem& item, mvDragIntMultiC
 
 		if (activated)
 		{
-			auto value = *config.value;
-			if (item.config.alias.empty())
-				mvSubmitCallback([&item, value]() {
-				mvAddCallback(item.getCallback(false), item.uuid, ToPyIntList(value.data(), (int)value.size()), item.config.user_data);
-					});
-			else
-				mvSubmitCallback([&item, value]() {
-				mvAddCallback(item.getCallback(false), item.config.alias, ToPyIntList(value.data(), (int)value.size()), item.config.user_data);
-					});
+			item.submitCallback(*config.value);
 		}
 	}
 
@@ -3398,7 +3085,7 @@ DearPyGui::draw_drag_intx(ImDrawList* drawlist, mvAppItem& item, mvDragIntMultiC
 
 	// set cursor position to cached position
 	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
+		DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
 	if (item.config.indent > 0.0f)
 		ImGui::Unindent(item.config.indent);
@@ -3455,10 +3142,7 @@ DearPyGui::draw_drag_floatx(ImDrawList* drawlist, mvAppItem& item, mvDragFloatMu
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -3473,16 +3157,18 @@ DearPyGui::draw_drag_floatx(ImDrawList* drawlist, mvAppItem& item, mvDragFloatMu
 
 		if (!item.config.enabled) std::copy(config.value->data(), config.value->data() + 2, config.disabled_value);
 
+		auto flags = config.flags | (item.config.enabled? 0 : ImGuiSliderFlags_NoInput);
+
 		switch (config.size)
 		{
 		case 2:
-			activated = ImGui::DragFloat2(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.speed, config.minv, config.maxv, config.format.c_str(), config.flags);
+			activated = ImGui::DragFloat2(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.speed, config.minv, config.maxv, config.format.c_str(), flags);
 			break;
 		case 3:
-			activated = ImGui::DragFloat3(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.speed, config.minv, config.maxv, config.format.c_str(), config.flags);
+			activated = ImGui::DragFloat3(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.speed, config.minv, config.maxv, config.format.c_str(), flags);
 			break;
 		case 4:
-			activated = ImGui::DragFloat4(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.speed, config.minv, config.maxv, config.format.c_str(), config.flags);
+			activated = ImGui::DragFloat4(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.speed, config.minv, config.maxv, config.format.c_str(), flags);
 			break;
 		default:
 			break;
@@ -3490,15 +3176,7 @@ DearPyGui::draw_drag_floatx(ImDrawList* drawlist, mvAppItem& item, mvDragFloatMu
 
 		if (activated)
 		{
-			auto value = *config.value;
-			if (item.config.alias.empty())
-				mvSubmitCallback([&item, value]() {
-				mvAddCallback(item.getCallback(false), item.uuid, ToPyFloatList(value.data(), (int)value.size()), item.config.user_data);
-					});
-			else
-				mvSubmitCallback([&item, value]() {
-				mvAddCallback(item.getCallback(false), item.config.alias, ToPyFloatList(value.data(), (int)value.size()), item.config.user_data);
-					});
+			item.submitCallback(*config.value);
 		}
 	}
 	//-----------------------------------------------------------------------------
@@ -3512,7 +3190,7 @@ DearPyGui::draw_drag_floatx(ImDrawList* drawlist, mvAppItem& item, mvDragFloatMu
 
 	// set cursor position to cached position
 	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
+		DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
 	if (item.config.indent > 0.0f)
 		ImGui::Unindent(item.config.indent);
@@ -3569,10 +3247,7 @@ DearPyGui::draw_drag_doublex(ImDrawList* drawlist, mvAppItem& item, mvDragDouble
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -3587,20 +3262,14 @@ DearPyGui::draw_drag_doublex(ImDrawList* drawlist, mvAppItem& item, mvDragDouble
 
 		if (!item.config.enabled) std::copy(config.value->data(), config.value->data() + 2, config.disabled_value);
 
+		auto flags = config.flags | (item.config.enabled? 0 : ImGuiSliderFlags_NoInput);
+
 		if(config.size > 1 && config.size < 5)
-			activated = ImGui::DragScalarN(item.info.internalLabel.c_str(), ImGuiDataType_Double, item.config.enabled ? config.value->data() : &config.disabled_value[0], config.size, config.speed, &config.minv, &config.maxv, config.format.c_str(), config.flags);
+			activated = ImGui::DragScalarN(item.info.internalLabel.c_str(), ImGuiDataType_Double, item.config.enabled ? config.value->data() : &config.disabled_value[0], config.size, config.speed, &config.minv, &config.maxv, config.format.c_str(), flags);
 
 		if (activated)
 		{
-			auto value = *config.value;
-			if (item.config.alias.empty())
-				mvSubmitCallback([&item, value]() {
-				mvAddCallback(item.getCallback(false), item.uuid, ToPyFloatList(value.data(), (int)value.size()), item.config.user_data);
-					});
-			else
-				mvSubmitCallback([&item, value]() {
-				mvAddCallback(item.getCallback(false), item.config.alias, ToPyFloatList(value.data(), (int)value.size()), item.config.user_data);
-					});
+			item.submitCallback(*config.value);
 		}
 	}
 	//-----------------------------------------------------------------------------
@@ -3614,7 +3283,7 @@ DearPyGui::draw_drag_doublex(ImDrawList* drawlist, mvAppItem& item, mvDragDouble
 
 	// set cursor position to cached position
 	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
+		DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
 	if (item.config.indent > 0.0f)
 		ImGui::Unindent(item.config.indent);
@@ -3671,10 +3340,7 @@ DearPyGui::draw_slider_float(ImDrawList* drawlist, mvAppItem& item, mvSliderFloa
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -3687,6 +3353,8 @@ DearPyGui::draw_slider_float(ImDrawList* drawlist, mvAppItem& item, mvSliderFloa
 
 		if (!item.config.enabled) config.disabled_value = *config.value;
 
+		auto flags = config.flags | (item.config.enabled? 0 : ImGuiSliderFlags_NoInput);
+
 		if (config.vertical)
 		{
 			if ((float)item.config.height < 1.0f)
@@ -3694,26 +3362,17 @@ DearPyGui::draw_slider_float(ImDrawList* drawlist, mvAppItem& item, mvSliderFloa
 			if ((float)item.config.width < 1.0f)
 				item.config.width = 20;
 
-			if (ImGui::VSliderFloat(item.info.internalLabel.c_str(), ImVec2((float)item.config.width, (float)item.config.height), item.config.enabled ? config.value.get() : &config.disabled_value, config.minv, config.maxv, config.format.c_str()))
+			if (ImGui::VSliderFloat(item.info.internalLabel.c_str(), ImVec2((float)item.config.width, (float)item.config.height), item.config.enabled ? config.value.get() : &config.disabled_value, config.minv, config.maxv, config.format.c_str(), flags))
 			{
-				auto value = *config.value;
-
-				if (item.config.alias.empty())
-					mvSubmitCallback([&item, value]() { mvAddCallback(item.getCallback(false), item.uuid, ToPyFloat(value), item.config.user_data);});
-				else
-					mvSubmitCallback([&item, value]() { mvAddCallback(item.getCallback(false), item.config.alias, ToPyFloat(value), item.config.user_data);});
+				item.submitCallback(*config.value);
 			}
 
 		}
 		else
 		{
-			if (ImGui::SliderFloat(item.info.internalLabel.c_str(), item.config.enabled ? config.value.get() : &config.disabled_value, config.minv, config.maxv, config.format.c_str(), config.flags))
+			if (ImGui::SliderFloat(item.info.internalLabel.c_str(), item.config.enabled ? config.value.get() : &config.disabled_value, config.minv, config.maxv, config.format.c_str(), flags))
 			{
-				auto value = *config.value;
-				if (item.config.alias.empty())
-					mvSubmitCallback([&item, value]() {mvAddCallback(item.getCallback(false), item.uuid, ToPyFloat(value), item.config.user_data);});
-				else
-					mvSubmitCallback([&item, value]() {mvAddCallback(item.getCallback(false), item.config.alias, ToPyFloat(value), item.config.user_data);});
+				item.submitCallback(*config.value);
 			}
 
 		}
@@ -3730,7 +3389,7 @@ DearPyGui::draw_slider_float(ImDrawList* drawlist, mvAppItem& item, mvSliderFloa
 
 	// set cursor position to cached position
 	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
+		DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
 	if (item.config.indent > 0.0f)
 		ImGui::Unindent(item.config.indent);
@@ -3787,10 +3446,7 @@ DearPyGui::draw_slider_double(ImDrawList* drawlist, mvAppItem& item, mvSliderDou
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -3803,6 +3459,8 @@ DearPyGui::draw_slider_double(ImDrawList* drawlist, mvAppItem& item, mvSliderDou
 
 		if (!item.config.enabled) config.disabled_value = *config.value;
 
+		auto flags = config.flags | (item.config.enabled? 0 : ImGuiSliderFlags_NoInput);
+
 		if (config.vertical)
 		{
 			if ((float)item.config.height < 1.0f)
@@ -3810,26 +3468,17 @@ DearPyGui::draw_slider_double(ImDrawList* drawlist, mvAppItem& item, mvSliderDou
 			if ((float)item.config.width < 1.0f)
 				item.config.width = 20;
 
-			if (ImGui::VSliderScalar(item.info.internalLabel.c_str(), ImVec2((float)item.config.width, (float)item.config.height), ImGuiDataType_Double, item.config.enabled ? config.value.get() : &config.disabled_value, &config.minv, &config.maxv, config.format.c_str()))
+			if (ImGui::VSliderScalar(item.info.internalLabel.c_str(), ImVec2((float)item.config.width, (float)item.config.height), ImGuiDataType_Double, item.config.enabled ? config.value.get() : &config.disabled_value, &config.minv, &config.maxv, config.format.c_str(), flags))
 			{
-				auto value = *config.value;
-
-				if (item.config.alias.empty())
-					mvSubmitCallback([&item, value]() { mvAddCallback(item.getCallback(false), item.uuid, ToPyDouble(value), item.config.user_data); });
-				else
-					mvSubmitCallback([&item, value]() { mvAddCallback(item.getCallback(false), item.config.alias, ToPyDouble(value), item.config.user_data); });
+				item.submitCallback(*config.value);
 			}
 
 		}
 		else
 		{
-			if (ImGui::SliderScalar(item.info.internalLabel.c_str(), ImGuiDataType_Double, item.config.enabled ? config.value.get() : &config.disabled_value, &config.minv, &config.maxv, config.format.c_str(), config.flags))
+			if (ImGui::SliderScalar(item.info.internalLabel.c_str(), ImGuiDataType_Double, item.config.enabled ? config.value.get() : &config.disabled_value, &config.minv, &config.maxv, config.format.c_str(), flags))
 			{
-				auto value = *config.value;
-				if (item.config.alias.empty())
-					mvSubmitCallback([&item, value]() {mvAddCallback(item.getCallback(false), item.uuid, ToPyDouble(value), item.config.user_data); });
-				else
-					mvSubmitCallback([&item, value]() {mvAddCallback(item.getCallback(false), item.config.alias, ToPyDouble(value), item.config.user_data); });
+				item.submitCallback(*config.value);
 			}
 
 		}
@@ -3846,7 +3495,7 @@ DearPyGui::draw_slider_double(ImDrawList* drawlist, mvAppItem& item, mvSliderDou
 
 	// set cursor position to cached position
 	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
+		DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
 	if (item.config.indent > 0.0f)
 		ImGui::Unindent(item.config.indent);
@@ -3903,10 +3552,7 @@ DearPyGui::draw_slider_floatx(ImDrawList* drawlist, mvAppItem& item, mvSliderFlo
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -3921,16 +3567,18 @@ DearPyGui::draw_slider_floatx(ImDrawList* drawlist, mvAppItem& item, mvSliderFlo
 
 		if (!item.config.enabled) std::copy(config.value->data(), config.value->data() + 4, config.disabled_value);
 
+		auto flags = config.flags | (item.config.enabled? 0 : ImGuiSliderFlags_NoInput);
+
 		switch (config.size)
 		{
 		case 2:
-			activated = ImGui::SliderFloat2(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.minv, config.maxv, config.format.c_str(), config.flags);
+			activated = ImGui::SliderFloat2(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.minv, config.maxv, config.format.c_str(), flags);
 			break;
 		case 3:
-			activated = ImGui::SliderFloat3(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.minv, config.maxv, config.format.c_str(), config.flags);
+			activated = ImGui::SliderFloat3(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.minv, config.maxv, config.format.c_str(), flags);
 			break;
 		case 4:
-			activated = ImGui::SliderFloat4(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.minv, config.maxv, config.format.c_str(), config.flags);
+			activated = ImGui::SliderFloat4(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.minv, config.maxv, config.format.c_str(), flags);
 			break;
 		default:
 			break;
@@ -3938,12 +3586,7 @@ DearPyGui::draw_slider_floatx(ImDrawList* drawlist, mvAppItem& item, mvSliderFlo
 
 		if (activated)
 		{
-			auto value = *config.value;
-
-			if (item.config.alias.empty())
-				mvSubmitCallback([&item, value]() {mvAddCallback(item.getCallback(false), item.uuid, ToPyFloatList(value.data(), (int)value.size()), item.config.user_data);});
-			else
-				mvSubmitCallback([&item, value]() {mvAddCallback(item.getCallback(false), item.config.alias, ToPyFloatList(value.data(), (int)value.size()), item.config.user_data);});
+			item.submitCallback(*config.value);
 		}
 	}
 
@@ -3958,7 +3601,7 @@ DearPyGui::draw_slider_floatx(ImDrawList* drawlist, mvAppItem& item, mvSliderFlo
 
 	// set cursor position to cached position
 	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
+		DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
 	if (item.config.indent > 0.0f)
 		ImGui::Unindent(item.config.indent);
@@ -4015,10 +3658,7 @@ DearPyGui::draw_slider_doublex(ImDrawList* drawlist, mvAppItem& item, mvSliderDo
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -4033,17 +3673,14 @@ DearPyGui::draw_slider_doublex(ImDrawList* drawlist, mvAppItem& item, mvSliderDo
 
 		if (!item.config.enabled) std::copy(config.value->data(), config.value->data() + 4, config.disabled_value);
 
+		auto flags = config.flags | (item.config.enabled? 0 : ImGuiSliderFlags_NoInput);
+
 		if (config.size > 1 && config.size < 5)
-			activated = ImGui::SliderScalarN(item.info.internalLabel.c_str(), ImGuiDataType_Double, item.config.enabled ? config.value->data() : &config.disabled_value[0], config.size, &config.minv, &config.maxv, config.format.c_str(), config.flags);
+			activated = ImGui::SliderScalarN(item.info.internalLabel.c_str(), ImGuiDataType_Double, item.config.enabled ? config.value->data() : &config.disabled_value[0], config.size, &config.minv, &config.maxv, config.format.c_str(), flags);
 
 		if (activated)
 		{
-			auto value = *config.value;
-
-			if (item.config.alias.empty())
-				mvSubmitCallback([&item, value]() {mvAddCallback(item.getCallback(false), item.uuid, ToPyFloatList(value.data(), (int)value.size()), item.config.user_data); });
-			else
-				mvSubmitCallback([&item, value]() {mvAddCallback(item.getCallback(false), item.config.alias, ToPyFloatList(value.data(), (int)value.size()), item.config.user_data); });
+			item.submitCallback(*config.value);
 		}
 	}
 
@@ -4058,7 +3695,7 @@ DearPyGui::draw_slider_doublex(ImDrawList* drawlist, mvAppItem& item, mvSliderDo
 
 	// set cursor position to cached position
 	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
+		DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
 	if (item.config.indent > 0.0f)
 		ImGui::Unindent(item.config.indent);
@@ -4115,10 +3752,7 @@ DearPyGui::draw_slider_int(ImDrawList* drawlist, mvAppItem& item, mvSliderIntCon
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -4131,6 +3765,8 @@ DearPyGui::draw_slider_int(ImDrawList* drawlist, mvAppItem& item, mvSliderIntCon
 
 		if (!item.config.enabled) config.disabled_value = *config.value;
 
+		auto flags = config.flags | (item.config.enabled? 0 : ImGuiSliderFlags_NoInput);
+
 		if (config.vertical)
 		{
 			if ((float)item.config.height < 1.0f)
@@ -4138,26 +3774,17 @@ DearPyGui::draw_slider_int(ImDrawList* drawlist, mvAppItem& item, mvSliderIntCon
 			if ((float)item.config.width < 1.0f)
 				item.config.width = 20;
 
-			if (ImGui::VSliderInt(item.info.internalLabel.c_str(), ImVec2((float)item.config.width, (float)item.config.height), item.config.enabled ? config.value.get() : &config.disabled_value, config.minv, config.maxv, config.format.c_str()))
+			if (ImGui::VSliderInt(item.info.internalLabel.c_str(), ImVec2((float)item.config.width, (float)item.config.height), item.config.enabled ? config.value.get() : &config.disabled_value, config.minv, config.maxv, config.format.c_str(), flags))
 			{
-				auto value = *config.value;
-
-				if (item.config.alias.empty())
-					mvSubmitCallback([&item, value]() { mvAddCallback(item.getCallback(false), item.uuid, ToPyInt(value), item.config.user_data);});
-				else
-					mvSubmitCallback([&item, value]() { mvAddCallback(item.getCallback(false), item.config.alias, ToPyInt(value), item.config.user_data);});
+				item.submitCallback(*config.value);
 			}
 
 		}
 		else
 		{
-			if (ImGui::SliderInt(item.info.internalLabel.c_str(), item.config.enabled ? config.value.get() : &config.disabled_value, config.minv, config.maxv, config.format.c_str(), config.flags))
+			if (ImGui::SliderInt(item.info.internalLabel.c_str(), item.config.enabled ? config.value.get() : &config.disabled_value, config.minv, config.maxv, config.format.c_str(), flags))
 			{
-				auto value = *config.value;
-				if (item.config.alias.empty())
-					mvSubmitCallback([&item, value]() {mvAddCallback(item.getCallback(false), item.uuid, ToPyInt(value), item.config.user_data);});
-				else
-					mvSubmitCallback([&item, value]() {mvAddCallback(item.getCallback(false), item.config.alias, ToPyInt(value), item.config.user_data);});
+				item.submitCallback(*config.value);
 			}
 
 		}
@@ -4174,7 +3801,7 @@ DearPyGui::draw_slider_int(ImDrawList* drawlist, mvAppItem& item, mvSliderIntCon
 
 	// set cursor position to cached position
 	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
+		DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
 	if (item.config.indent > 0.0f)
 		ImGui::Unindent(item.config.indent);
@@ -4231,10 +3858,7 @@ DearPyGui::draw_slider_intx(ImDrawList* drawlist, mvAppItem& item, mvSliderIntMu
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -4249,16 +3873,18 @@ DearPyGui::draw_slider_intx(ImDrawList* drawlist, mvAppItem& item, mvSliderIntMu
 
 		if (!item.config.enabled) std::copy(config.value->data(), config.value->data() + 4, config.disabled_value);
 
+		auto flags = config.flags | (item.config.enabled? 0 : ImGuiSliderFlags_NoInput);
+
 		switch (config.size)
 		{
 		case 2:
-			activated = ImGui::SliderInt2(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.minv, config.maxv, config.format.c_str(), config.flags);
+			activated = ImGui::SliderInt2(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.minv, config.maxv, config.format.c_str(), flags);
 			break;
 		case 3:
-			activated = ImGui::SliderInt3(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.minv, config.maxv, config.format.c_str(), config.flags);
+			activated = ImGui::SliderInt3(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.minv, config.maxv, config.format.c_str(), flags);
 			break;
 		case 4:
-			activated = ImGui::SliderInt4(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.minv, config.maxv, config.format.c_str(), config.flags);
+			activated = ImGui::SliderInt4(item.info.internalLabel.c_str(), item.config.enabled ? config.value->data() : &config.disabled_value[0], config.minv, config.maxv, config.format.c_str(), flags);
 			break;
 		default:
 			break;
@@ -4266,12 +3892,7 @@ DearPyGui::draw_slider_intx(ImDrawList* drawlist, mvAppItem& item, mvSliderIntMu
 
 		if (activated)
 		{
-			auto value = *config.value;
-
-			if (item.config.alias.empty())
-				mvSubmitCallback([&item, value]() {mvAddCallback(item.getCallback(false), item.uuid, ToPyIntList(value.data(), (int)value.size()), item.config.user_data); });
-			else
-				mvSubmitCallback([&item, value]() {mvAddCallback(item.getCallback(false), item.config.alias, ToPyIntList(value.data(), (int)value.size()), item.config.user_data); });
+			item.submitCallback(*config.value);
 		}
 	}
 
@@ -4286,7 +3907,7 @@ DearPyGui::draw_slider_intx(ImDrawList* drawlist, mvAppItem& item, mvSliderIntMu
 
 	// set cursor position to cached position
 	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
+		DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
 	if (item.config.indent > 0.0f)
 		ImGui::Unindent(item.config.indent);
@@ -4343,10 +3964,7 @@ DearPyGui::draw_listbox(ImDrawList *drawlist, mvAppItem &item, mvListboxConfig &
 
     // push font if a font object is attached
     if (item.font)
-    {
-        ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-        ImGui::PushFont(fontptr);
-    }
+        static_cast<mvFont*>(item.font.get())->pushFont();
 
     // themes
     apply_local_theming(&item);
@@ -4364,24 +3982,67 @@ DearPyGui::draw_listbox(ImDrawList *drawlist, mvAppItem &item, mvListboxConfig &
             config.disabledindex = config.index;
         }
 
+        item.handleImmediateScroll();
+
         // remap Header to FrameBgActive
         ImGuiStyle* style = &ImGui::GetStyle();
         ImGui::PushStyleColor(ImGuiCol_Header, style->Colors[ImGuiCol_FrameBgActive]);
 
-        if (ImGui::ListBox(item.info.internalLabel.c_str(), item.config.enabled ? &config.index : &config.disabledindex, config.charNames.data(), (int)config.names.size(), config.itemsHeight))
-        {
-            *config.value = config.names[config.index];
-            config.disabled_value = config.names[config.index];
-            auto value = *config.value;
+        // We cannot use `ImGui::ListBox()` directly because to apply scrolling,
+        // we need access to the child window and `ListBox()` does not expose it.
+        // That's why we have to reimplement it using BeginListBox/EndListBox
+        // (as ImGui recommends it anyway).  Ideally, the code below needs to be
+        // kept in sync, more or less, with `ImGui::ListBox()`.
+        int items_count = (int)config.names.size();
+        int* current_item = item.config.enabled ? &config.index : &config.disabledindex;
 
-            if(item.config.alias.empty())
-                mvSubmitCallback([&item, value]() {
-                    mvAddCallback(item.getCallback(false), item.uuid, ToPyString(value), item.config.user_data);
-                });
-            else
-                mvSubmitCallback([&item, value]() {
-                    mvAddCallback(item.getCallback(false), item.config.alias, ToPyString(value), item.config.user_data);
-                });
+        int height_in_items = config.itemsHeight;
+        if (height_in_items < 0)
+            height_in_items = ImMin(items_count, 7);
+        float height_in_items_f = (float)height_in_items + 0.25f;
+        ImVec2 size(0.0f, ImTrunc(ImGui::GetTextLineHeightWithSpacing() * height_in_items_f + ImGui::GetStyle().FramePadding.y * 2.0f));
+
+        if (ImGui::BeginListBox(item.info.internalLabel.c_str(), size))
+        {
+            bool value_changed = false;
+            ImGuiListClipper clipper;
+            clipper.Begin(items_count, ImGui::GetTextLineHeightWithSpacing()); // We know exactly our line height here so we pass it as a minor optimization, but generally you don't need to.
+            clipper.IncludeItemByIndex(*current_item);
+            while (clipper.Step())
+            {
+                for (int i = clipper.DisplayStart; i < clipper.DisplayEnd; i++)
+                {
+                    ImGui::PushID(i);
+                    const bool item_selected = (i == *current_item);
+                    if (ImGui::Selectable(config.charNames[i], item_selected))
+                    {
+                        *current_item = i;
+                        value_changed = true;
+                    }
+                    if (item_selected)
+                        ImGui::SetItemDefaultFocus();
+                    ImGui::PopID();
+                }
+            }
+
+            item.handleDelayedScroll();
+            item.config.scrollXFlags = item.config.scrollYFlags = mvSetScrollFlags_None;
+            UpdateAppItemScrollInfo(item.state);
+
+            ImGui::EndListBox();
+
+            if (value_changed)
+            {
+                ImGuiContext& g = *GImGui;
+                ImGui::MarkItemEdited(g.LastItemData.ID);
+
+                *config.value = config.names[config.index];
+                // TODO: we need to review how listbox behaves in the disabled state.  It does
+                // not look good that it uses `index` rather than `disabledindex` here. Neither
+                // does `config.value` in `submitCallback` below.
+                config.disabled_value = config.names[config.index];
+                item.submitCallback(*config.value);
+            }
         }
 
         ImGui::PopStyleColor();
@@ -4398,7 +4059,7 @@ DearPyGui::draw_listbox(ImDrawList *drawlist, mvAppItem &item, mvListboxConfig &
 
     // set cursor position to cached position
     if (item.info.dirtyPos)
-        ImGui::SetCursorPos(previousCursorPos);
+        DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
     if (item.config.indent > 0.0f)
         ImGui::Unindent(item.config.indent);
@@ -4455,10 +4116,7 @@ DearPyGui::draw_radio_button(ImDrawList* drawlist, mvAppItem& item, mvRadioButto
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -4487,12 +4145,7 @@ DearPyGui::draw_radio_button(ImDrawList* drawlist, mvAppItem& item, mvRadioButto
 			{
 				*config.value = config.itemnames[config.index];
 				config.disabled_value = config.itemnames[config.index];
-				auto value = *config.value;
-
-				if (item.config.alias.empty())
-					mvSubmitCallback([&item, value]() {mvAddCallback(item.getCallback(false), item.uuid, ToPyString(value), item.config.user_data);});
-				else
-					mvSubmitCallback([&item, value]() { mvAddCallback(item.getCallback(false), item.config.alias, ToPyString(value), item.config.user_data);});
+				item.submitCallback(*config.value);
 			}
 
 			item.state.edited = ImGui::IsItemEdited();
@@ -4505,26 +4158,7 @@ DearPyGui::draw_radio_button(ImDrawList* drawlist, mvAppItem& item, mvRadioButto
 	//-----------------------------------------------------------------------------
 	// update state
 	//-----------------------------------------------------------------------------
-	item.state.lastFrameUpdate = GContext->frame;
-	item.state.hovered = ImGui::IsItemHovered();
-	item.state.active = ImGui::IsItemActive();
-	item.state.focused = ImGui::IsItemFocused();
-	item.state.leftclicked = ImGui::IsItemClicked();
-	item.state.rightclicked = ImGui::IsItemClicked(1);
-	item.state.middleclicked = ImGui::IsItemClicked(2);
-    for (int i = 0; i < item.state.doubleclicked.size(); i++)
-    {
-        item.state.doubleclicked[i] = IsItemDoubleClicked(i);
-    }
-	item.state.visible = ImGui::IsItemVisible();
-	item.state.activated = ImGui::IsItemActivated();
-	item.state.deactivated = ImGui::IsItemDeactivated();
-	item.state.deactivatedAfterEdit = ImGui::IsItemDeactivatedAfterEdit();
-	item.state.toggledOpen = ImGui::IsItemToggledOpen();
-	item.state.rectMin = { ImGui::GetItemRectMin().x, ImGui::GetItemRectMin().y };
-	item.state.rectMax = { ImGui::GetItemRectMax().x, ImGui::GetItemRectMax().y };
-	item.state.rectSize = { ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y };
-	item.state.contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
+	UpdateAppItemState(item.state);
 
 	//-----------------------------------------------------------------------------
 	// post draw
@@ -4532,7 +4166,7 @@ DearPyGui::draw_radio_button(ImDrawList* drawlist, mvAppItem& item, mvRadioButto
 
 	// set cursor position to cached position
 	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
+		DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
 	if (item.config.indent > 0.0f)
 		ImGui::Unindent(item.config.indent);
@@ -4589,10 +4223,7 @@ DearPyGui::draw_input_text(ImDrawList* drawlist, mvAppItem& item, mvInputTextCon
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -4606,30 +4237,24 @@ DearPyGui::draw_input_text(ImDrawList* drawlist, mvAppItem& item, mvInputTextCon
 
 		bool activated = false;
 
+		auto flags = item.config.enabled? config.flags : (config.flags & ~ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_ReadOnly);
+
 		if (config.multiline)
 			config.hint.clear();
 
 		if (config.hint.empty())
 		{
 			if (config.multiline)
-				activated = ImGui::InputTextMultiline(item.info.internalLabel.c_str(), config.value.get(), ImVec2((float)item.config.width, (float)item.config.height), config.flags);
+				activated = ImGui::InputTextMultiline(item.info.internalLabel.c_str(), config.value.get(), ImVec2((float)item.config.width, (float)item.config.height), flags);
 			else
-				activated = ImGui::InputText(item.info.internalLabel.c_str(), config.value.get(), config.flags);
+				activated = ImGui::InputText(item.info.internalLabel.c_str(), config.value.get(), flags);
 		}
 		else
-			activated = ImGui::InputTextWithHint(item.info.internalLabel.c_str(), config.hint.c_str(), config.value.get(), config.flags);
+			activated = ImGui::InputTextWithHint(item.info.internalLabel.c_str(), config.hint.c_str(), config.value.get(), flags);
 
 		if (activated)
 		{
-			auto value = *config.value;
-			if (item.config.alias.empty())
-				mvSubmitCallback([&item, value]() {
-				mvAddCallback(item.getCallback(false), item.uuid, ToPyString(value), item.config.user_data);
-					});
-			else
-				mvSubmitCallback([&item, value]() {
-				mvAddCallback(item.getCallback(false), item.config.alias, ToPyString(value), item.config.user_data);
-					});
+			item.submitCallback(*config.value);
 		}
 
 	}
@@ -4645,7 +4270,7 @@ DearPyGui::draw_input_text(ImDrawList* drawlist, mvAppItem& item, mvInputTextCon
 
 	// set cursor position to cached position
 	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
+		DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
 	if (item.config.indent > 0.0f)
 		ImGui::Unindent(item.config.indent);
@@ -4702,10 +4327,7 @@ DearPyGui::draw_input_int(ImDrawList* drawlist, mvAppItem& item, mvInputIntConfi
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -4717,7 +4339,9 @@ DearPyGui::draw_input_int(ImDrawList* drawlist, mvAppItem& item, mvInputIntConfi
 
 		ScopedID id(item.uuid);
 
-		if (ImGui::InputInt(item.info.internalLabel.c_str(), config.value.get(), config.step, config.step_fast, config.flags))
+		auto flags = item.config.enabled? config.flags : (config.flags & ~ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_ReadOnly);
+
+		if (ImGui::InputInt(item.info.internalLabel.c_str(), config.value.get(), config.step, config.step_fast, flags))
 		{
 			// determines clamped cases
 			if (config.min_clamped && config.max_clamped)
@@ -4741,16 +4365,7 @@ DearPyGui::draw_input_int(ImDrawList* drawlist, mvAppItem& item, mvInputIntConfi
 			if (config.last_value != *config.value)
 			{
 				config.last_value = *config.value;
-				auto value = *config.value;
-
-				if (item.config.alias.empty())
-					mvSubmitCallback([&item, value]() {
-					mvAddCallback(item.getCallback(false), item.uuid, ToPyInt(value), item.config.user_data);
-						});
-				else
-					mvSubmitCallback([&item, value]() {
-					mvAddCallback(item.getCallback(false), item.config.alias, ToPyInt(value), item.config.user_data);
-						});
+				item.submitCallback(*config.value);
 			}
 		}
 
@@ -4767,7 +4382,7 @@ DearPyGui::draw_input_int(ImDrawList* drawlist, mvAppItem& item, mvInputIntConfi
 
 	// set cursor position to cached position
 	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
+		DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
 	if (item.config.indent > 0.0f)
 		ImGui::Unindent(item.config.indent);
@@ -4824,10 +4439,7 @@ DearPyGui::draw_input_floatx(ImDrawList* drawlist, mvAppItem& item, mvInputFloat
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -4841,16 +4453,18 @@ DearPyGui::draw_input_floatx(ImDrawList* drawlist, mvAppItem& item, mvInputFloat
 
 		bool res = false;
 
+		auto flags = item.config.enabled? config.flags : (config.flags & ~ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_ReadOnly);
+
 		switch (config.size)
 		{
 		case 2:
-			res = ImGui::InputFloat2(item.info.internalLabel.c_str(), config.value->data(), config.format.c_str(), config.flags);
+			res = ImGui::InputFloat2(item.info.internalLabel.c_str(), config.value->data(), config.format.c_str(), flags);
 			break;
 		case 3:
-			res = ImGui::InputFloat3(item.info.internalLabel.c_str(), config.value->data(), config.format.c_str(), config.flags);
+			res = ImGui::InputFloat3(item.info.internalLabel.c_str(), config.value->data(), config.format.c_str(), flags);
 			break;
 		case 4:
-			res = ImGui::InputFloat4(item.info.internalLabel.c_str(), config.value->data(), config.format.c_str(), config.flags);
+			res = ImGui::InputFloat4(item.info.internalLabel.c_str(), config.value->data(), config.format.c_str(), flags);
 			break;
 		default:
 			break;
@@ -4890,16 +4504,7 @@ DearPyGui::draw_input_floatx(ImDrawList* drawlist, mvAppItem& item, mvInputFloat
 			if (config.last_value != *config.value)
 			{
 				config.last_value = *config.value;
-				auto value = *config.value;
-
-				if (item.config.alias.empty())
-					mvSubmitCallback([&item, value]() {
-					mvAddCallback(item.getCallback(false), item.uuid, ToPyFloatList(value.data(), (int)value.size()), item.config.user_data);
-						});
-				else
-					mvSubmitCallback([&item, value]() {
-					mvAddCallback(item.getCallback(false), item.config.alias, ToPyFloatList(value.data(), (int)value.size()), item.config.user_data);
-						});
+				item.submitCallback(*config.value);
 			}
 		}
 
@@ -4916,7 +4521,7 @@ DearPyGui::draw_input_floatx(ImDrawList* drawlist, mvAppItem& item, mvInputFloat
 
 	// set cursor position to cached position
 	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
+		DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
 	if (item.config.indent > 0.0f)
 		ImGui::Unindent(item.config.indent);
@@ -4974,10 +4579,7 @@ DearPyGui::draw_input_float(ImDrawList* drawlist, mvAppItem& item, mvInputFloatC
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -4989,7 +4591,9 @@ DearPyGui::draw_input_float(ImDrawList* drawlist, mvAppItem& item, mvInputFloatC
 
 		ScopedID id(item.uuid);
 
-		if (ImGui::InputFloat(item.info.internalLabel.c_str(), config.value.get(), config.step, config.step_fast, config.format.c_str(), config.flags))
+		auto flags = item.config.enabled? config.flags : (config.flags & ~ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_ReadOnly);
+
+		if (ImGui::InputFloat(item.info.internalLabel.c_str(), config.value.get(), config.step, config.step_fast, config.format.c_str(), flags))
 		{
 			// determines clamped cases
 			if (config.min_clamped && config.max_clamped)
@@ -5013,16 +4617,7 @@ DearPyGui::draw_input_float(ImDrawList* drawlist, mvAppItem& item, mvInputFloatC
 			if (config.last_value != *config.value)
 			{
 				config.last_value = *config.value;
-				auto value = *config.value;
-
-				if (item.config.alias.empty())
-					mvSubmitCallback([&item, value]() {
-					mvAddCallback(item.getCallback(false), item.uuid, ToPyFloat(value), item.config.user_data);
-						});
-				else
-					mvSubmitCallback([&item, value]() {
-					mvAddCallback(item.getCallback(false), item.config.alias, ToPyFloat(value), item.config.user_data);
-						});
+				item.submitCallback(*config.value);
 			}
 		}
 	}
@@ -5038,7 +4633,7 @@ DearPyGui::draw_input_float(ImDrawList* drawlist, mvAppItem& item, mvInputFloatC
 
 	// set cursor position to cached position
 	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
+		DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
 	if (item.config.indent > 0.0f)
 		ImGui::Unindent(item.config.indent);
@@ -5095,10 +4690,7 @@ DearPyGui::draw_knob_float(ImDrawList* drawlist, mvAppItem& item, mvKnobFloatCon
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -5114,13 +4706,7 @@ DearPyGui::draw_knob_float(ImDrawList* drawlist, mvAppItem& item, mvKnobFloatCon
 
 		if (KnobFloat(item.config.specifiedLabel.c_str(), item.config.enabled ? config.value.get() : &config.disabled_value, config.minv, config.maxv, config.step))
 		{
-			auto value = *config.value;
-			mvSubmitCallback([&item, value]() {
-				if (item.config.alias.empty())
-					mvAddCallback(item.getCallback(false), item.uuid, ToPyFloat(value), item.config.user_data);
-				else
-					mvAddCallback(item.getCallback(false), item.config.alias, ToPyFloat(value), item.config.user_data);
-				});
+			item.submitCallback(*config.value);
 		}
 	}
 
@@ -5135,7 +4721,7 @@ DearPyGui::draw_knob_float(ImDrawList* drawlist, mvAppItem& item, mvKnobFloatCon
 
 	// set cursor position to cached position
 	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
+		DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
 	if (item.config.indent > 0.0f)
 		ImGui::Unindent(item.config.indent);
@@ -5192,10 +4778,7 @@ DearPyGui::draw_input_double(ImDrawList* drawlist, mvAppItem& item, mvInputDoubl
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -5207,7 +4790,9 @@ DearPyGui::draw_input_double(ImDrawList* drawlist, mvAppItem& item, mvInputDoubl
 
 		ScopedID id(item.uuid);
 
-		if (ImGui::InputScalar(item.info.internalLabel.c_str(), ImGuiDataType_Double, (void*)config.value.get(), (void*)(config.step > 0 ? &config.step : NULL), (void*)(config.step_fast > 0 ? &config.step_fast : NULL), config.format.c_str(), config.flags))
+		auto flags = item.config.enabled? config.flags : (config.flags & ~ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_ReadOnly);
+
+		if (ImGui::InputScalar(item.info.internalLabel.c_str(), ImGuiDataType_Double, (void*)config.value.get(), (void*)(config.step > 0 ? &config.step : NULL), (void*)(config.step_fast > 0 ? &config.step_fast : NULL), config.format.c_str(), flags))
 		{
 			// determines clamped cases
 			if (config.min_clamped && config.max_clamped)
@@ -5231,16 +4816,7 @@ DearPyGui::draw_input_double(ImDrawList* drawlist, mvAppItem& item, mvInputDoubl
 			if (config.last_value != *config.value)
 			{
 				config.last_value = *config.value;
-				auto value = *config.value;
-
-				if (item.config.alias.empty())
-					mvSubmitCallback([&item, value]() {
-					mvAddCallback(item.getCallback(false), item.uuid, ToPyDouble(value), item.config.user_data);
-						});
-				else
-					mvSubmitCallback([&item, value]() {
-					mvAddCallback(item.getCallback(false), item.config.alias, ToPyDouble(value), item.config.user_data);
-						});
+				item.submitCallback(*config.value);
 			}
 		}
 	}
@@ -5256,7 +4832,7 @@ DearPyGui::draw_input_double(ImDrawList* drawlist, mvAppItem& item, mvInputDoubl
 
 	// set cursor position to cached position
 	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
+		DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
 	if (item.config.indent > 0.0f)
 		ImGui::Unindent(item.config.indent);
@@ -5313,10 +4889,7 @@ DearPyGui::draw_input_doublex(ImDrawList* drawlist, mvAppItem& item, mvInputDoub
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -5330,8 +4903,10 @@ DearPyGui::draw_input_doublex(ImDrawList* drawlist, mvAppItem& item, mvInputDoub
 
 		bool res = false;
 
+		auto flags = item.config.enabled? config.flags : (config.flags & ~ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_ReadOnly);
+
 		if (config.size > 1 && config.size < 5)
-			res = ImGui::InputScalarN(item.info.internalLabel.c_str(), ImGuiDataType_Double, config.value->data(), config.size, NULL, NULL, config.format.c_str(), config.flags);
+			res = ImGui::InputScalarN(item.info.internalLabel.c_str(), ImGuiDataType_Double, config.value->data(), config.size, NULL, NULL, config.format.c_str(), flags);
 
 		if (res)
 		{
@@ -5367,16 +4942,7 @@ DearPyGui::draw_input_doublex(ImDrawList* drawlist, mvAppItem& item, mvInputDoub
 			if (config.last_value != *config.value)
 			{
 				config.last_value = *config.value;
-				auto value = *config.value;
-
-				if (item.config.alias.empty())
-					mvSubmitCallback([&item, value]() {
-					mvAddCallback(item.getCallback(false), item.uuid, ToPyFloatList(value.data(), (int)value.size()), item.config.user_data);
-						});
-				else
-					mvSubmitCallback([&item, value]() {
-					mvAddCallback(item.getCallback(false), item.config.alias, ToPyFloatList(value.data(), (int)value.size()), item.config.user_data);
-						});
+				item.submitCallback(*config.value);
 			}
 		}
 
@@ -5393,7 +4959,7 @@ DearPyGui::draw_input_doublex(ImDrawList* drawlist, mvAppItem& item, mvInputDoub
 
 	// set cursor position to cached position
 	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
+		DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
 	if (item.config.indent > 0.0f)
 		ImGui::Unindent(item.config.indent);
@@ -5451,10 +5017,7 @@ DearPyGui::draw_input_intx(ImDrawList* drawlist, mvAppItem& item, mvInputIntMult
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -5467,16 +5030,18 @@ DearPyGui::draw_input_intx(ImDrawList* drawlist, mvAppItem& item, mvInputIntMult
 
 		bool res = false;
 
+		auto flags = item.config.enabled? config.flags : (config.flags & ~ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_ReadOnly);
+
 		switch (config.size)
 		{
 		case 2:
-			res = ImGui::InputInt2(item.info.internalLabel.c_str(), config.value->data(), config.flags);
+			res = ImGui::InputInt2(item.info.internalLabel.c_str(), config.value->data(), flags);
 			break;
 		case 3:
-			res = ImGui::InputInt3(item.info.internalLabel.c_str(), config.value->data(), config.flags);
+			res = ImGui::InputInt3(item.info.internalLabel.c_str(), config.value->data(), flags);
 			break;
 		case 4:
-			res = ImGui::InputInt4(item.info.internalLabel.c_str(), config.value->data(), config.flags);
+			res = ImGui::InputInt4(item.info.internalLabel.c_str(), config.value->data(), flags);
 			break;
 		default:
 			break;
@@ -5517,16 +5082,7 @@ DearPyGui::draw_input_intx(ImDrawList* drawlist, mvAppItem& item, mvInputIntMult
 			{
 				config.last_value = *config.value;
 
-				auto value = *config.value;
-
-				if (item.config.alias.empty())
-					mvSubmitCallback([&item, value]() {
-					mvAddCallback(item.getCallback(false), item.uuid, ToPyIntList(value.data(), (int)value.size()), item.config.user_data);
-						});
-				else
-					mvSubmitCallback([&item, value]() {
-					mvAddCallback(item.getCallback(false), item.config.alias, ToPyIntList(value.data(), (int)value.size()), item.config.user_data);
-						});
+				item.submitCallback(*config.value);
 			}
 		}
 	}
@@ -5542,7 +5098,7 @@ DearPyGui::draw_input_intx(ImDrawList* drawlist, mvAppItem& item, mvInputIntMult
 
 	// set cursor position to cached position
 	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
+		DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
 	if (item.config.indent > 0.0f)
 		ImGui::Unindent(item.config.indent);
@@ -5590,10 +5146,7 @@ DearPyGui::draw_text(ImDrawList* drawlist, mvAppItem& item, mvTextConfig& config
 		ImGui::Indent(item.config.indent);
 
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -5733,10 +5286,7 @@ DearPyGui::draw_selectable(ImDrawList* drawlist, mvAppItem& item, mvSelectableCo
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -5749,12 +5299,7 @@ DearPyGui::draw_selectable(ImDrawList* drawlist, mvAppItem& item, mvSelectableCo
 
 		if (ImGui::Selectable(item.info.internalLabel.c_str(), config.value.get(), config.flags, ImVec2((float)item.config.width, (float)item.config.height)))
 		{
-			auto value = *config.value;
-
-			if (item.config.alias.empty())
-				mvSubmitCallback([&item, value]() { mvAddCallback(item.getCallback(false), item.uuid, ToPyBool(value), item.config.user_data);});
-			else
-				mvSubmitCallback([&item, value]() {mvAddCallback(item.getCallback(false), item.config.alias, ToPyBool(value), item.config.user_data);});
+			item.submitCallback(*config.value);
 		}
 	}
 
@@ -5769,7 +5314,7 @@ DearPyGui::draw_selectable(ImDrawList* drawlist, mvAppItem& item, mvSelectableCo
 
 	// set cursor position to cached position
 	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
+		DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
 	if (item.config.indent > 0.0f)
 		ImGui::Unindent(item.config.indent);
@@ -5826,10 +5371,7 @@ DearPyGui::draw_tab_button(ImDrawList* drawlist, mvAppItem& item, mvTabButtonCon
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -5842,10 +5384,7 @@ DearPyGui::draw_tab_button(ImDrawList* drawlist, mvAppItem& item, mvTabButtonCon
 
 		if (ImGui::TabItemButton(item.info.internalLabel.c_str(), config.flags))
 		{
-			if (item.config.alias.empty())
-				mvAddCallback(item.getCallback(false), item.uuid, nullptr, item.config.user_data);
-			else
-				mvAddCallback(item.getCallback(false), item.config.alias, nullptr, item.config.user_data);
+			item.submitCallback();
 		}
 	}
 
@@ -5860,7 +5399,7 @@ DearPyGui::draw_tab_button(ImDrawList* drawlist, mvAppItem& item, mvTabButtonCon
 
 	// set cursor position to cached position
 	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
+		DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
 	if (item.config.indent > 0.0f)
 		ImGui::Unindent(item.config.indent);
@@ -5917,10 +5456,7 @@ DearPyGui::draw_menu_item(ImDrawList* drawlist, mvAppItem& item, mvMenuItemConfi
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -5940,12 +5476,7 @@ DearPyGui::draw_menu_item(ImDrawList* drawlist, mvAppItem& item, mvMenuItemConfi
 		// create menu item and see if its selected
 		if (ImGui::MenuItem(item.info.internalLabel.c_str(), config.shortcut.c_str(), config.check ? config.value.get() : nullptr, item.config.enabled))
 		{
-			bool value = *config.value;
-
-			if (item.config.alias.empty())
-				mvAddCallback(item.config.callback, item.uuid, ToPyBool(value), item.config.user_data);
-			else
-				mvAddCallback(item.config.callback, item.config.alias, ToPyBool(value), item.config.user_data);
+			item.submitCallback(*config.value);
 		}
 
 		ImGui::PopStyleColor();
@@ -5963,7 +5494,7 @@ DearPyGui::draw_menu_item(ImDrawList* drawlist, mvAppItem& item, mvMenuItemConfi
 
 	// set cursor position to cached position
 	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
+		DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
 	if (item.config.indent > 0.0f)
 		ImGui::Unindent(item.config.indent);
@@ -6020,10 +5551,7 @@ DearPyGui::draw_progress_bar(ImDrawList* drawlist, mvAppItem& item, mvProgressBa
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -6050,7 +5578,7 @@ DearPyGui::draw_progress_bar(ImDrawList* drawlist, mvAppItem& item, mvProgressBa
 
 	// set cursor position to cached position
 	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
+		DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
 	if (item.config.indent > 0.0f)
 		ImGui::Unindent(item.config.indent);
@@ -6107,10 +5635,7 @@ DearPyGui::draw_image(ImDrawList* drawlist, mvAppItem& item, mvImageConfig& conf
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -6119,14 +5644,8 @@ DearPyGui::draw_image(ImDrawList* drawlist, mvAppItem& item, mvImageConfig& conf
 	// draw
 	//-----------------------------------------------------------------------------
 	{
-		if (config.texture)
+		if (config.texture && config.texture->state.ok)
 		{
-			if (config._internalTexture)
-				config.texture->draw(drawlist, 0.0f, 0.0f);
-
-			if (!config.texture->state.ok)
-				return;
-
 			// if width/height is not set by user, use texture dimensions
 			if (item.config.width == 0)
 				item.config.width = config.texture->config.width;
@@ -6134,19 +5653,25 @@ DearPyGui::draw_image(ImDrawList* drawlist, mvAppItem& item, mvImageConfig& conf
 			if (item.config.height == 0)
 				item.config.height = config.texture->config.height;
 
-			void* texture = nullptr;
-
-			if (config.texture->type == mvAppItemType::mvStaticTexture)
-				texture = static_cast<mvStaticTexture*>(config.texture.get())->_texture;
-			else if (config.texture->type == mvAppItemType::mvRawTexture)
-				texture = static_cast<mvRawTexture*>(config.texture.get())->_texture;
-			else
-				texture = static_cast<mvDynamicTexture*>(config.texture.get())->_texture;
-
-			ImGui::Image(texture, ImVec2((float)item.config.width, (float)item.config.height), ImVec2(config.uv_min.x, config.uv_min.y), ImVec2(config.uv_max.x, config.uv_max.y),
-				ImVec4((float)config.tintColor.r, (float)config.tintColor.g, (float)config.tintColor.b, (float)config.tintColor.a),
-				ImVec4((float)config.borderColor.r, (float)config.borderColor.g, (float)config.borderColor.b, (float)config.borderColor.a));
-
+			auto type = config.texture->type;
+			if (type == mvAppItemType::mvStaticTexture ||
+				type == mvAppItemType::mvDynamicTexture ||
+				type == mvAppItemType::mvRawTexture)
+			{
+				ImTextureRef texture = static_cast<mvTextureItem*>(config.texture.get())->getTexRef();
+				ImGuiContext& g = *GImGui;
+				ImGui::PushStyleVar(ImGuiStyleVar_ImageBorderSize, (config.borderColor.a > 0.0f) ? ImMax(1.0f, g.Style.ImageBorderSize) : 0.0f);
+				ImGui::PushStyleColor(ImGuiCol_Border, config.borderColor.toVec4());
+				ImGui::ImageWithBg(
+					texture,
+					ImVec2((float)item.config.width, (float)item.config.height),
+					ImVec2(config.uv_min.x, config.uv_min.y),
+					ImVec2(config.uv_max.x, config.uv_max.y),
+					ImVec4(0, 0, 0, 0),
+					config.tintColor.toVec4());
+				ImGui::PopStyleColor();
+				ImGui::PopStyleVar();
+			}
 		}
 	}
 
@@ -6162,7 +5687,7 @@ DearPyGui::draw_image(ImDrawList* drawlist, mvAppItem& item, mvImageConfig& conf
 
 	// set cursor position to cached position
 	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
+		DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
 	if (item.config.indent > 0.0f)
 		ImGui::Unindent(item.config.indent);
@@ -6219,10 +5744,7 @@ DearPyGui::draw_image_button(ImDrawList* drawlist, mvAppItem& item, mvImageButto
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -6232,15 +5754,8 @@ DearPyGui::draw_image_button(ImDrawList* drawlist, mvAppItem& item, mvImageButto
 	//-----------------------------------------------------------------------------
 	{
 
-		if (config.texture)
+		if (config.texture && config.texture->state.ok)
 		{
-
-			if (config._internalTexture)
-				config.texture->draw(drawlist, 0.0f, 0.0f);
-
-			if (!config.texture->state.ok)
-				return;
-
 			// if width/height is not set by user, use texture dimensions
 			if (item.config.width == 0)
 				item.config.width = config.texture->config.width;
@@ -6248,32 +5763,28 @@ DearPyGui::draw_image_button(ImDrawList* drawlist, mvAppItem& item, mvImageButto
 			if (item.config.height == 0)
 				item.config.height = config.texture->config.height;
 
-			void* texture = nullptr;
-
-			if (config.texture->type == mvAppItemType::mvStaticTexture)
-				texture = static_cast<mvStaticTexture*>(config.texture.get())->_texture;
-			else if (config.texture->type == mvAppItemType::mvRawTexture)
-				texture = static_cast<mvRawTexture*>(config.texture.get())->_texture;
-			else
-				texture = static_cast<mvDynamicTexture*>(config.texture.get())->_texture;
-			
-			if (config.framePadding >= 0)
-        		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2((float)config.framePadding, (float)config.framePadding));
-			
-			ImGui::PushID(item.uuid);
-			if (ImGui::ImageButton(item.info.internalLabel.c_str(), texture, ImVec2((float)item.config.width, (float)item.config.height),
-				ImVec2(config.uv_min.x, config.uv_min.y), ImVec2(config.uv_max.x, config.uv_max.y),
-				config.backgroundColor, config.tintColor))
+			auto type = config.texture->type;
+			if (type == mvAppItemType::mvStaticTexture ||
+				type == mvAppItemType::mvDynamicTexture ||
+				type == mvAppItemType::mvRawTexture)
 			{
-				if (item.config.alias.empty())
-					mvAddCallback(item.getCallback(false), item.uuid, nullptr, item.config.user_data);
-				else
-					mvAddCallback(item.getCallback(false), item.config.alias, nullptr, item.config.user_data);
-			}
-			ImGui::PopID();
+				ScopedID id(item.uuid);
 
-			if (config.framePadding >= 0)
-        		ImGui::PopStyleVar();
+				ImTextureRef texture = static_cast<mvTextureItem*>(config.texture.get())->getTexRef();
+
+				if (config.framePadding >= 0)
+					ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2((float)config.framePadding, (float)config.framePadding));
+
+				if (ImGui::ImageButton(item.info.internalLabel.c_str(), texture, ImVec2((float)item.config.width, (float)item.config.height),
+					ImVec2(config.uv_min.x, config.uv_min.y), ImVec2(config.uv_max.x, config.uv_max.y),
+					config.backgroundColor, config.tintColor))
+				{
+					item.submitCallback();
+				}
+
+				if (config.framePadding >= 0)
+					ImGui::PopStyleVar();
+			}
 		}
 	}
 
@@ -6288,7 +5799,7 @@ DearPyGui::draw_image_button(ImDrawList* drawlist, mvAppItem& item, mvImageButto
 
 	// set cursor position to cached position
 	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
+		DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
 	if (item.config.indent > 0.0f)
 		ImGui::Unindent(item.config.indent);
@@ -6355,6 +5866,8 @@ DearPyGui::draw_separator(ImDrawList* drawlist, mvAppItem& item)
 void
 DearPyGui::draw_spacer(ImDrawList* drawlist, mvAppItem& item)
 {
+	if (!item.config.show)
+		return;
 	if (item.config.width == 0 && item.config.height == 0)
 		ImGui::Spacing();
 	else
@@ -6438,12 +5951,10 @@ DearPyGui::draw_tooltip(ImDrawList* drawlist, mvAppItem& item)
 		if (GContext->time - tooltip->change_time >= tooltip->configData.activation_delay)
 		{
 			if (item.font)
-			{
-				ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-				ImGui::PushFont(fontptr);
-			}
+				static_cast<mvFont*>(item.font.get())->pushFont();
 			apply_local_theming(&item);
 
+			// TODO: we should probably be using ImGuiTooltipFlags_OverridePrevious
 			if(ImGui::BeginTooltip()) 
 			{
 				item.state.visible = true;
@@ -6472,7 +5983,11 @@ DearPyGui::draw_tooltip(ImDrawList* drawlist, mvAppItem& item)
 	{
 		tooltip->hovered_last_frame = false;
 		item.state.visible = false;
+		item.state.lastFrameUpdate = GContext->frame;
+		// TODO: should we reset rectSize and contextRegionAvail?
 	}
+	if (item.handlerRegistry)
+		item.handlerRegistry->checkEvents(&item.state);
 }
 
 void

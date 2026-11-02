@@ -1,6 +1,10 @@
-#include "mvThemes.h"
 #include "mvPyUtils.h"
+#pragma hdrstop
+
+#include "mvThemes.h"
+
 #include <implot.h>
+#include <imnodes.h>
 #include <imgui_internal.h>
 
 void
@@ -67,16 +71,16 @@ void mvTheme::push_theme_components()
 			}
 
 		}
-		if (comp->_specificType != _specificType)
+		else
 		{
 			if (_specificEnabled == comp->_specificEnabled)
 			{
-				comp->_oldComponent = *comp->_specificComponentPtr;
+				comp->_oldComponent = std::move(*comp->_specificComponentPtr);
 				*comp->_specificComponentPtr = *(std::shared_ptr<mvThemeComponent>*) & child;
 			}
 			else
 			{
-				comp->_oldComponent = *comp->_specificDisabledComponentPtr;
+				comp->_oldComponent = std::move(*comp->_specificDisabledComponentPtr);
 				*comp->_specificDisabledComponentPtr = *(std::shared_ptr<mvThemeComponent>*) & child;
 			}
 		}
@@ -86,9 +90,9 @@ void mvTheme::push_theme_components()
 void mvTheme::pop_theme_components()
 {
 
-	for (auto& child : childslots[1])
+	for (auto it = childslots[1].rbegin(); it != childslots[1].rend(); it++)
 	{
-		auto comp = static_cast<mvThemeComponent*>(child.get());
+		auto comp = static_cast<mvThemeComponent*>(it->get());
 		if (comp->_specificType == (int)mvAppItemType::All || comp->_specificType == _specificType)
 		{
 			if (_specificEnabled == comp->_specificEnabled)
@@ -96,17 +100,20 @@ void mvTheme::pop_theme_components()
 				comp->pop_theme_items();
 			}
 		}
-		if (comp->_specificType != _specificType)
+		else
 		{
+			// Below, we move from comp->_oldComponent to avoid mvThemeComponent 
+			// hanging around even after being deleted from the widget tree.
 			if (_specificEnabled == comp->_specificEnabled)
 			{
-				*comp->_specificComponentPtr = comp->_oldComponent;
+				*comp->_specificComponentPtr = std::move(comp->_oldComponent);
 			}
 			else
 			{
-				*comp->_specificDisabledComponentPtr = comp->_oldComponent;
+				*comp->_specificDisabledComponentPtr = std::move(comp->_oldComponent);
 			}
-
+			// Just in case anyone wants to reuse it
+			comp->_oldComponent = nullptr;
 		}
 	}
 }
@@ -128,7 +135,7 @@ void mvThemeColor::push_theme_color()
 	
 		ImGui::PushStyleColor(_targetColor, color);
 	}
-	else if (_libType == mvLibType::OT)
+	else if (_libType == mvLibType::MV_IMPLOT)
 		ImPlot::PushStyleColor(_targetColor, color);
 	else if (_libType == mvLibType::MV_IMNODES)
 		ImNodes::PushColorStyle(_targetColor, ImGui::ColorConvertFloat4ToU32(color));
@@ -138,7 +145,7 @@ void mvThemeColor::pop_theme_color()
 {
 	if (_libType == mvLibType::MV_IMGUI)
 		ImGui::PopStyleColor();
-	else if (_libType == mvLibType::OT)
+	else if (_libType == mvLibType::MV_IMPLOT)
 		ImPlot::PopStyleColor();
 	else if (_libType == mvLibType::MV_IMNODES)
 		ImNodes::PopColorStyle();
@@ -187,7 +194,7 @@ void mvThemeColor::handleSpecificKeywordArgs(PyObject* dict)
 		}
 	}
 
-	else if (_libType == mvLibType::OT)
+	else if (_libType == mvLibType::MV_IMPLOT)
 	{
 		if (_targetColor >= ImPlotCol_COUNT || _targetColor < 0)
 		{
@@ -303,8 +310,6 @@ void mvThemeComponent::pop_theme_items()
 
 void mvThemeComponent::handleSpecificPositionalArgs(PyObject* dict)
 {
-	static std::shared_ptr<mvThemeComponent> all_item_theme_component = nullptr;
-
 	if (!VerifyPositionalArguments(GetParsers()[GetEntityCommand(type)], dict))
 		return;
 
@@ -318,13 +323,6 @@ void mvThemeComponent::handleSpecificPositionalArgs(PyObject* dict)
 			_specificType = ToInt(item);
 			_specificComponentPtr = &DearPyGui::GetClassThemeComponent((mvAppItemType)_specificType);
 			_specificDisabledComponentPtr = &DearPyGui::GetDisabledClassThemeComponent((mvAppItemType)_specificType);
-
-			if (_specificType == (int)mvAppItemType::All)
-			{
-				_specificComponentPtr = &all_item_theme_component;
-				_specificDisabledComponentPtr = &all_item_theme_component;
-			}
-
 			break;
 		}
 		default:
@@ -364,7 +362,7 @@ struct mvGuiStyleVarInfo
 static const mvGuiStyleVarInfo GStyleVarInfo[] =
 {
 	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, Alpha) },               // ImGuiStyleVar_Alpha
-    { ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, DisabledAlpha) },       // ImGuiStyleVar_DisabledAlpha
+	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, DisabledAlpha) },       // ImGuiStyleVar_DisabledAlpha
 	{ ImGuiDataType_Float, 2, (ImU32)offsetof(ImGuiStyle, WindowPadding) },       // ImGuiStyleVar_WindowPadding
 	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, WindowRounding) },      // ImGuiStyleVar_WindowRounding
 	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, WindowBorderSize) },    // ImGuiStyleVar_WindowBorderSize
@@ -383,13 +381,20 @@ static const mvGuiStyleVarInfo GStyleVarInfo[] =
 	{ ImGuiDataType_Float, 2, (ImU32)offsetof(ImGuiStyle, CellPadding) },         // ImGuiStyleVar_CellPadding
 	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, ScrollbarSize) },       // ImGuiStyleVar_ScrollbarSize
 	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, ScrollbarRounding) },   // ImGuiStyleVar_ScrollbarRounding
+	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, ScrollbarPadding) },    // ImGuiStyleVar_ScrollbarPadding
 	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, GrabMinSize) },         // ImGuiStyleVar_GrabMinSize
 	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, GrabRounding) },        // ImGuiStyleVar_GrabRounding
+	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, ImageBorderSize) },     // ImGuiStyleVar_ImageBorderSize
 	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, TabRounding) },         // ImGuiStyleVar_TabRounding
-	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, TabBorderSize) },        // ImGuiStyleVar_TabBorderSize
-	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, TabBarBorderSize) },        // ImGuiStyleVar_TabBarBorderSize
-    { ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, TableAngledHeadersAngle)},    // ImGuiStyleVar_TableAngledHeadersAngle
-    { ImGuiDataType_Float, 2, (ImU32)offsetof(ImGuiStyle, TableAngledHeadersTextAlign)},// ImGuiStyleVar_TableAngledHeadersTextAlign
+	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, TabBorderSize) },       // ImGuiStyleVar_TabBorderSize
+	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, TabMinWidthBase) },     // ImGuiStyleVar_TabMinWidthBase
+	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, TabMinWidthShrink) },   // ImGuiStyleVar_TabMinWidthShrink
+	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, TabBarBorderSize) },    // ImGuiStyleVar_TabBarBorderSize
+	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, TabBarOverlineSize) },  // ImGuiStyleVar_TabBarOverlineSize
+	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, TableAngledHeadersAngle)},    // ImGuiStyleVar_TableAngledHeadersAngle
+	{ ImGuiDataType_Float, 2, (ImU32)offsetof(ImGuiStyle, TableAngledHeadersTextAlign)},// ImGuiStyleVar_TableAngledHeadersTextAlign
+	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, TreeLinesSize)},        // ImGuiStyleVar_TreeLinesSize
+	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, TreeLinesRounding)},    // ImGuiStyleVar_TreeLinesRounding
 	{ ImGuiDataType_Float, 2, (ImU32)offsetof(ImGuiStyle, ButtonTextAlign) },         // ImGuiStyleVar_ButtonTextAlign
 	{ ImGuiDataType_Float, 2, (ImU32)offsetof(ImGuiStyle, SelectableTextAlign) },     // ImGuiStyleVar_SelectableTextAlign
 	{ ImGuiDataType_Float, 1, (ImU32)offsetof(ImGuiStyle, SeparatorTextBorderSize) }, // ImGuiStyleVar_SeparatorTextBorderSize
@@ -543,7 +548,7 @@ void mvThemeStyle::push_theme_style()
 		else if (var_info->Type == ImGuiDataType_Float && var_info->Count == 1)
 			ImGui::PushStyleVar(_targetStyle, (*_value)[0]);
 	}
-	else if (_libType == mvLibType::OT)
+	else if (_libType == mvLibType::MV_IMPLOT)
 	{
 		const mvGuiStyleVarInfo* var_info = GetPlotStyleVarInfo(_targetStyle);
 		if (var_info->Type == ImGuiDataType_Float && var_info->Count == 1)
@@ -567,7 +572,7 @@ void mvThemeStyle::pop_theme_style()
 {
 	if (_libType == mvLibType::MV_IMGUI)
 		ImGui::PopStyleVar();
-	else if (_libType == mvLibType::OT)
+	else if (_libType == mvLibType::MV_IMPLOT)
 		ImPlot::PopStyleVar();
 	else if (_libType == mvLibType::MV_IMNODES)
 		ImNodes::PopStyleVar();
@@ -619,7 +624,7 @@ void mvThemeStyle::handleSpecificKeywordArgs(PyObject* dict)
 		}
 	}
 
-	else if (_libType == mvLibType::OT)
+	else if (_libType == mvLibType::MV_IMPLOT)
 	{
 		if (_targetStyle >= ImPlotStyleVar_COUNT || _targetStyle < 0)
 		{

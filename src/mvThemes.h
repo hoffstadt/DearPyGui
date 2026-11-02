@@ -1,8 +1,7 @@
 #pragma once
 
-#include <array>
-#include <imnodes.h>
 #include "mvItemRegistry.h"
+#include <imgui.h>
 
 void apply_local_theming(mvAppItem* item);
 void cleanup_local_theming(mvAppItem* item);
@@ -110,7 +109,7 @@ public:
 private:
 
     std::shared_ptr<std::array<float, 4>> _value = std::make_shared<std::array<float, 4>>(std::array<float, 4>{0.0f, -1.0f, 0.0f, 0.0f});
-    ImGuiCol _targetStyle = 0;
+    ImGuiStyleVar _targetStyle = 0;
     mvLibType _libType = mvLibType::MV_IMGUI;
 
 

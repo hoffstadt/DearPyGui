@@ -1,14 +1,18 @@
+#include "mvPyUtils.h"
+#pragma hdrstop
+
 #include "mvPlotting.h"
-#include <utility>
+
 #include "mvCore.h"
 #include "mvContext.h"
 #include "mvItemRegistry.h"
-#include "mvPyUtils.h"
 #include "mvFontItems.h"
 #include "mvThemes.h"
 #include "mvContainers.h"
 #include "mvTextureItems.h"
 #include "mvItemHandlers.h"
+
+#include <utility>
 
 static void
 draw_polygon(const mvAreaSeriesConfig& config)
@@ -92,7 +96,7 @@ draw_polygon(const mvAreaSeriesConfig& config)
 					continue;
 
 				if (((y >= y1) && (y < y2)) || ((y == maxy) && (y > y1) && (y <= y2)))
-					polyints[ints++] = (y - y1) * (x2 - x1) / (y2 - y1) + x1;
+					polyints[ints++] = (int)((y - y1) * (x2 - x1) / (y2 - y1) + x1);
 
 			}
 
@@ -372,10 +376,7 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -446,16 +447,15 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 					{
 						id_axis = static_cast<ImAxis_>(next_y_axis);
 						flags |= ImPlotAxisFlags_Opposite;
+						axis->configData.axis = next_y_axis;
 					}
 					++next_y_axis;
 				}
 
 				ImPlot::SetupAxis(id_axis, axis->config.specifiedLabel.c_str(), flags);
-				if (axis->configData.setLimits || axis->configData._dirty)
-				{
+				if (axis->configData.setLimits)
 					ImPlot::SetupAxisLimits(id_axis, axis->configData.limits.x, axis->configData.limits.y, ImGuiCond_Always);
-					axis->configData._dirty = false;  // TODO: Check if this is it really useful
-				}
+
 				if (!axis->configData.formatter.empty())
 					ImPlot::SetupAxisFormat(id_axis, axis->configData.formatter.c_str());
 
@@ -581,33 +581,22 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 
 		if (item.config.callback != nullptr && query_dirty)
 		{
-			if (item.config.alias.empty()) {
-				mvSubmitCallback([=, &item]() {
-					PyObject* result = PyTuple_New(config.rects.size());
-					for (int i = 0; i < config.rects.size(); ++i) {
-						auto rectMin = config.rects[i].Min();
-						auto rectMax = config.rects[i].Max();
-						PyTuple_SetItem(result, i, Py_BuildValue("(dddd)", rectMin.x, rectMin.y, rectMax.x, rectMax.y));
-					}
-					mvAddCallback(item.config.callback, item.uuid, result, item.config.user_data);
-				});
-			} else {
-				mvSubmitCallback([=, &item]() {
-					PyObject* result = PyTuple_New(config.rects.size());
-					for (int i = 0; i < config.rects.size(); ++i) {
-						auto rectMin = config.rects[i].Min();
-						auto rectMax = config.rects[i].Max();
-						PyTuple_SetItem(result, i, Py_BuildValue("(dddd)", rectMin.x, rectMin.y, rectMax.x, rectMax.y));
-					}
-					mvAddCallback(item.config.callback, item.config.alias, result, item.config.user_data);
-				});
-			}
+			item.submitCallbackEx([rects=config.rects]() {
+				PyObject* area = PyTuple_New(rects.size());
+				for (int i = 0; i < rects.size(); i++)
+				{
+					auto rectMin = rects[i].Min();
+					auto rectMax = rects[i].Max();
+					PyTuple_SetItem(area, i, Py_BuildValue("(dddd)", rectMin.x, rectMin.y, rectMax.x, rectMax.y));
+				}
+				return area;
+			});
 		}
 
 		if (ImPlot::IsPlotHovered())
 		{
-			GContext->input.mousePlotPos.x = ImPlot::GetPlotMousePos().x;
-			GContext->input.mousePlotPos.y = ImPlot::GetPlotMousePos().y;
+			GContext->input.mousePlotPos.x = (float)ImPlot::GetPlotMousePos().x;
+			GContext->input.mousePlotPos.y = (float)ImPlot::GetPlotMousePos().y;
 		}
 
 		// todo: resolve clipping
@@ -616,15 +605,7 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 			ScopedID id(item.uuid);
 			if (ImPlot::BeginDragDropTargetPlot())
 			{
-				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(item.config.payloadType.c_str()))
-				{
-					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
-					if (item.config.alias.empty())
-						mvAddCallback(item.config.dropCallback, item.uuid, payloadActual->configData.dragData, nullptr);
-					else
-						mvAddCallback(item.config.dropCallback, item.config.alias, payloadActual->configData.dragData, nullptr);
-				}
-
+				check_drop_event(&item);
 				ImPlot::EndDragDropTarget();
 			}
 		}
@@ -664,7 +645,7 @@ DearPyGui::draw_plot(ImDrawList* drawlist, mvAppItem& item, mvPlotConfig& config
 
 	// set cursor position to cached position
 	if (item.info.dirtyPos)
-		ImGui::SetCursorPos(previousCursorPos);
+		DearPyGui::RestoreImGuiCursor(previousCursorPos);
 
 	ImPlot::GetInputMap() = config._originalMap;
 
@@ -731,12 +712,7 @@ DearPyGui::draw_plot_axis(ImDrawList* drawlist, mvAppItem& item, mvPlotAxisConfi
 		ScopedID id(item.uuid);
 		if (ImPlot::BeginDragDropTargetAxis(config.axis))
 		{
-			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(item.config.payloadType.c_str()))
-			{
-				auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
-				mvAddCallback(item.config.dropCallback, item.uuid, payloadActual->configData.dragData, nullptr);
-			}
-
+			check_drop_event(&item);
 			ImPlot::EndDragDropTarget();
 		}
 	}
@@ -787,12 +763,7 @@ DearPyGui::draw_plot_legend(ImDrawList* drawlist, mvAppItem& item, mvPlotLegendC
 	{
 		if (ImPlot::BeginDragDropTargetLegend())
 		{
-			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(item.config.payloadType.c_str()))
-			{
-				auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
-				mvAddCallback(item.config.dropCallback, item.uuid, payloadActual->configData.dragData, nullptr);
-			}
-
+			check_drop_event(&item);
 			ImPlot::EndDragDropTarget();
 		}
 	}
@@ -811,9 +782,9 @@ DearPyGui::draw_drag_line(ImDrawList* drawlist, mvAppItem& item, mvDragLineConfi
 
 	if (config.vertical)
 	{
-		if (ImPlot::DragLineX(item.uuid, config.value.get(), config.color, config.thickness, config.flags, nullptr, &hovered, &held))
+		if (ImPlot::DragLineX((int)item.uuid, config.value.get(), config.color, config.thickness, config.flags, nullptr, &hovered, &held))
 		{
-			mvAddCallback(item.config.callback, item.uuid, nullptr, item.config.user_data);
+			item.submitCallback();
 		}
 		if (config.show_label && !item.config.specifiedLabel.empty() && (hovered || held)) {
             char buff[IMPLOT_LABEL_MAX_SIZE];
@@ -827,9 +798,9 @@ DearPyGui::draw_drag_line(ImDrawList* drawlist, mvAppItem& item, mvDragLineConfi
 	}
 	else
 	{
-		if (ImPlot::DragLineY(item.uuid, config.value.get(), config.color, config.thickness, config.flags, nullptr, &hovered, &held))
+		if (ImPlot::DragLineY((int)item.uuid, config.value.get(), config.color, config.thickness, config.flags, nullptr, &hovered, &held))
 		{
-			mvAddCallback(item.config.callback, item.uuid, nullptr, item.config.user_data);
+			item.submitCallback();
 		}
 		if (config.show_label && !item.config.specifiedLabel.empty() && (hovered || held)) {
             char buff[IMPLOT_LABEL_MAX_SIZE];
@@ -888,13 +859,13 @@ DearPyGui::draw_drag_rect(ImDrawList* drawlist, mvAppItem& item, mvDragRectConfi
 	ymax = (*config.value.get())[3];
 
 	// item.config.specifiedLabel.c_str(),
-	if (ImPlot::DragRect(item.uuid, &xmin, &ymin, &xmax, &ymax, config.color, config.flags))
+	if (ImPlot::DragRect((int)item.uuid, &xmin, &ymin, &xmax, &ymax, config.color, config.flags))
 	{
 		(*config.value.get())[0] = xmin;
 		(*config.value.get())[1] = ymin;
 		(*config.value.get())[2] = xmax;
 		(*config.value.get())[3] = ymax;
-		mvAddCallback(item.config.callback, item.uuid, nullptr, item.config.user_data);
+		item.submitCallback();
 	}
 }
 
@@ -913,11 +884,11 @@ DearPyGui::draw_drag_point(ImDrawList* drawlist, mvAppItem& item, mvDragPointCon
 
 	bool hovered = false;
 	bool held = false;
-	if (ImPlot::DragPoint(item.uuid, &dummyx, &dummyy, config.color, config.radius, config.flags, nullptr, &hovered, &held))
+	if (ImPlot::DragPoint((int)item.uuid, &dummyx, &dummyy, config.color, config.radius, config.flags, nullptr, &hovered, &held))
 	{
 		(*config.value.get())[0] = dummyx;
 		(*config.value.get())[1] = dummyy;
-		mvAddCallback(item.config.callback, item.uuid, nullptr, item.config.user_data);
+		item.submitCallback();
 	}
 	if (config.show_label && !item.config.specifiedLabel.empty() && (hovered || held)) {
 		ImPlotContext& gp = *GImPlot;
@@ -944,10 +915,7 @@ DearPyGui::draw_bar_series(ImDrawList* drawlist, mvAppItem& item, const mvBarSer
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -1013,10 +981,7 @@ DearPyGui::draw_bar_group_series(ImDrawList* drawlist, mvAppItem& item, const mv
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -1086,10 +1051,7 @@ DearPyGui::draw_line_series(ImDrawList* drawlist, mvAppItem& item, const mvLineS
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -1154,10 +1116,7 @@ DearPyGui::draw_scatter_series(ImDrawList* drawlist, mvAppItem& item, const mvSc
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -1222,10 +1181,7 @@ DearPyGui::draw_stair_series(ImDrawList* drawlist, mvAppItem& item, const mvStai
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -1290,10 +1246,7 @@ DearPyGui::draw_stem_series(ImDrawList* drawlist, mvAppItem& item, const mvStemS
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -1358,10 +1311,7 @@ DearPyGui::draw_shade_series(ImDrawList* drawlist, mvAppItem& item, const mvShad
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -1429,10 +1379,7 @@ DearPyGui::draw_inf_lines_series(ImDrawList* drawlist, mvAppItem& item, const mv
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -1495,10 +1442,7 @@ DearPyGui::draw_2dhistogram_series(ImDrawList* drawlist, mvAppItem& item, const 
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -1564,10 +1508,7 @@ DearPyGui::draw_error_series(ImDrawList* drawlist, mvAppItem& item, const mvErro
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -1636,10 +1577,7 @@ DearPyGui::draw_heat_series(ImDrawList* drawlist, mvAppItem& item, const mvHeatS
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -1704,10 +1642,7 @@ DearPyGui::draw_histogram_series(ImDrawList* drawlist, mvAppItem& item, const mv
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -1778,10 +1713,7 @@ DearPyGui::draw_digital_series(ImDrawList* drawlist, mvAppItem& item, const mvDi
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -1848,10 +1780,7 @@ DearPyGui::draw_pie_series(ImDrawList* drawlist, mvAppItem& item, const mvPieSer
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -1925,10 +1854,7 @@ DearPyGui::draw_label_series(ImDrawList* drawlist, mvAppItem& item, const mvLabe
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -1987,10 +1913,7 @@ DearPyGui::draw_image_series(ImDrawList* drawlist, mvAppItem& item, mvImageSerie
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -2000,40 +1923,35 @@ DearPyGui::draw_image_series(ImDrawList* drawlist, mvAppItem& item, mvImageSerie
 	//-----------------------------------------------------------------------------
 	{
 
-		if (config._texture)
+		if (config._texture && config._texture->state.ok)
 		{
-			if (config._internalTexture)
-				config._texture->draw(drawlist, 0.0f, 0.0f);
-
-			if (!config._texture->state.ok)
-				return;
-
-			void* texture = nullptr;
-
-			if (config._texture->type == mvAppItemType::mvStaticTexture)
-				texture = static_cast<mvStaticTexture*>(config._texture.get())->_texture;
-			else if (config._texture->type == mvAppItemType::mvRawTexture)
-				texture = static_cast<mvRawTexture*>(config._texture.get())->_texture;
-			else
-				texture = static_cast<mvDynamicTexture*>(config._texture.get())->_texture;
-
-			ImPlot::PlotImage(item.info.internalLabel.c_str(), texture, config.bounds_min, config.bounds_max, config.uv_min, config.uv_max, config.tintColor, config.flags);
-
-			// Begin a popup for a legend entry.
-			if (ImPlot::BeginLegendPopup(item.info.internalLabel.c_str(), 1))
+			auto type = config._texture->type;
+			if (type == mvAppItemType::mvStaticTexture ||
+				type == mvAppItemType::mvDynamicTexture ||
+				type == mvAppItemType::mvRawTexture)
 			{
-				for (auto& childset : item.childslots)
+				// TODO: use this line once ImPlot gets updated to newer version that supports ImTextureRef
+				// ImTextureRef texture = static_cast<mvTextureItem*>(config._texture.get())->getTexRef();
+				ImTextureID texture = static_cast<mvTextureItem*>(config._texture.get())->_texture;
+
+				ImPlot::PlotImage(item.info.internalLabel.c_str(), texture, config.bounds_min, config.bounds_max, config.uv_min, config.uv_max, config.tintColor, config.flags);
+
+				// Begin a popup for a legend entry.
+				if (ImPlot::BeginLegendPopup(item.info.internalLabel.c_str(), 1))
 				{
-					for (auto& item : childset)
+					for (auto& childset : item.childslots)
 					{
-						// skip item if it's not shown
-						if (!item->config.show)
-							continue;
-						item->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
-						UpdateAppItemState(item->state);
+						for (auto& item : childset)
+						{
+							// skip item if it's not shown
+							if (!item->config.show)
+								continue;
+							item->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
+							UpdateAppItemState(item->state);
+						}
 					}
+					ImPlot::EndLegendPopup();
 				}
-				ImPlot::EndLegendPopup();
 			}
 		}
 	}
@@ -2067,10 +1985,7 @@ DearPyGui::draw_area_series(ImDrawList* drawlist, mvAppItem& item, const mvAreaS
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -2140,10 +2055,7 @@ DearPyGui::draw_candle_series(ImDrawList* drawlist, mvAppItem& item, const mvCan
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -2217,10 +2129,7 @@ DearPyGui::draw_custom_series(ImDrawList* drawlist, mvAppItem& item, mvCustomSer
 
 	// push font if a font object is attached
 	if (item.font)
-	{
-		ImFont* fontptr = static_cast<mvFont*>(item.font.get())->getFontPtr();
-		ImGui::PushFont(fontptr);
-	}
+		static_cast<mvFont*>(item.font.get())->pushFont();
 
 	// themes
 	apply_local_theming(&item);
@@ -2229,18 +2138,8 @@ DearPyGui::draw_custom_series(ImDrawList* drawlist, mvAppItem& item, mvCustomSer
 	// draw
 	//-----------------------------------------------------------------------------
 	{
-		// TODO: (Maybe) Update this to reflect nex axes
-		static std::vector<double>* xptr;
-		static std::vector<double>* yptr;
-		static std::vector<double>* y1ptr;
-		static std::vector<double>* y2ptr;
-		static std::vector<double>* y3ptr;
-
-		xptr = &(*config.value.get())[0];
-		yptr = &(*config.value.get())[1];
-		y1ptr = &(*config.value.get())[2];
-		y2ptr = &(*config.value.get())[3];
-		y3ptr = &(*config.value.get())[4];
+		std::vector<double>* xptr = &(*config.value)[0];
+		std::vector<double>* yptr = &(*config.value)[1];
 
 		ImDrawList* draw_list = ImPlot::GetPlotDrawList();
 
@@ -2270,69 +2169,64 @@ DearPyGui::draw_custom_series(ImDrawList* drawlist, mvAppItem& item, mvCustomSer
 			}
 
 			// render data
-			if (config.channelCount == 2)
+			int channelCount = std::min(config.channelCount, (int)config.value->size());
+		    std::vector<std::vector<double>> transformedValues(channelCount);
+			if (channelCount >= 2)
 			{
-				for (int i = 0; i < xptr->size(); ++i)
+				// auto& value = *config.value;
+				auto size = std::min(xptr->size(), yptr->size());
+
+				for (int c = 0; c < channelCount; ++c)
+					transformedValues[c].reserve(size);
+
+				auto& transformed0 = transformedValues[0];
+				auto& transformed1 = transformedValues[1];
+				double* px = &(*xptr)[0];
+				double* py = &(*yptr)[0];
+				for (int i = 0; i < size; ++i, ++px, ++py)
 				{
-					ImVec2 y_pos = ImPlot::PlotToPixels((*xptr)[i], (*yptr)[i]);
-					config._transformedValues[0][i] = y_pos.x;
-					config._transformedValues[1][i] = y_pos.y;
+					ImVec2 point = ImPlot::PlotToPixels(*px, *py);
+					transformed0.push_back(point.x);
+					transformed1.push_back(point.y);
+				}
+				for (int c = 2; c < channelCount; ++c)
+				{
+					auto yExtra = &(*config.value)[c];
+					// Make sure we don't overrun source data if we're given sublists
+					// of different length (even though we don't support such data).
+					size = std::min(xptr->size(), yExtra->size());
+					auto& transformed = transformedValues[c];
+					double* px = &(*xptr)[0];
+					double* py = &(*yExtra)[0];
+					for (int i = 0; i < size; ++i, ++px, ++py)
+					{
+						ImVec2 point = ImPlot::PlotToPixels(*px, *py);
+						transformed.push_back(point.y);
+					}
 				}
 			}
-			else if (config.channelCount == 3)
-			{
-				for (int i = 0; i < xptr->size(); ++i)
-				{
-					ImVec2 y_pos = ImPlot::PlotToPixels((*xptr)[i], (*yptr)[i]);
-					ImVec2 y1_pos = ImPlot::PlotToPixels((*xptr)[i], (*y1ptr)[i]);
-					config._transformedValues[0][i] = y_pos.x;
-					config._transformedValues[1][i] = y_pos.y;
-					config._transformedValues[2][i] = y1_pos.y;
-				}
-			}
-			else if (config.channelCount == 4)
-			{
-				for (int i = 0; i < xptr->size(); ++i)
-				{
-					ImVec2 y_pos = ImPlot::PlotToPixels((*xptr)[i], (*yptr)[i]);
-					ImVec2 y1_pos = ImPlot::PlotToPixels((*xptr)[i], (*y1ptr)[i]);
-					ImVec2 y2_pos = ImPlot::PlotToPixels((*xptr)[i], (*y2ptr)[i]);
-					config._transformedValues[0][i] = y_pos.x;
-					config._transformedValues[1][i] = y_pos.y;
-					config._transformedValues[2][i] = y1_pos.y;
-					config._transformedValues[3][i] = y2_pos.y;
-				}
-			}
-			else if (config.channelCount == 5)
-			{
-				for (int i = 0; i < xptr->size(); ++i)
-				{
-					ImVec2 y_pos = ImPlot::PlotToPixels((*xptr)[i], (*yptr)[i]);
-					ImVec2 y1_pos = ImPlot::PlotToPixels((*xptr)[i], (*y1ptr)[i]);
-					ImVec2 y2_pos = ImPlot::PlotToPixels((*xptr)[i], (*y2ptr)[i]);
-					ImVec2 y3_pos = ImPlot::PlotToPixels((*xptr)[i], (*y3ptr)[i]);
-					config._transformedValues[0][i] = y_pos.x;
-					config._transformedValues[1][i] = y_pos.y;
-					config._transformedValues[2][i] = y1_pos.y;
-					config._transformedValues[3][i] = y2_pos.y;
-					config._transformedValues[4][i] = y3_pos.y;
-				}
-			}
+
 			ImPlotPoint mouse = ImPlot::GetPlotMousePos();
 			ImVec2 mouse2 = ImPlot::PlotToPixels(mouse.x, mouse.y);
-			static int extras = 4;
-			mvSubmitCallback([&, mouse, mouse2]() {
+
+			item.submitCallbackEx([=, channelCount=config.channelCount, transformedValues=std::move(transformedValues)] () {
+				const int extras = 4;
 				PyObject* helperData = PyDict_New();
-				PyDict_SetItemString(helperData, "MouseX_PlotSpace", ToPyFloat(mouse.x));
-				PyDict_SetItemString(helperData, "MouseY_PlotSpace", ToPyFloat(mouse.y));
-				PyDict_SetItemString(helperData, "MouseX_PixelSpace", ToPyFloat(mouse2.x));
-				PyDict_SetItemString(helperData, "MouseY_PixelSpace", ToPyFloat(mouse2.y));
-				PyObject* appData = PyTuple_New(config.channelCount + extras);
+				PyDict_SetItemString(helperData, "MouseX_PlotSpace", mvPyObject(ToPyDouble(mouse.x)));
+				PyDict_SetItemString(helperData, "MouseY_PlotSpace", mvPyObject(ToPyDouble(mouse.y)));
+				PyDict_SetItemString(helperData, "MouseX_PixelSpace", mvPyObject(ToPyFloat(mouse2.x)));
+				PyDict_SetItemString(helperData, "MouseY_PixelSpace", mvPyObject(ToPyFloat(mouse2.y)));
+				PyObject* appData = PyTuple_New(channelCount + extras);
 				PyTuple_SetItem(appData, 0, helperData);
-				for (int i = 1; i < config.channelCount + 1; i++)
-					PyTuple_SetItem(appData, i, ToPyList(config._transformedValues[i-1]));
-				mvAddCallback(item.config.callback, item.uuid, appData, item.config.user_data);
-				});
+				for (int i = 0; i < transformedValues.size(); i++)
+					PyTuple_SetItem(appData, i + 1, ToPyList(transformedValues[i]));
+				// We keep these at the end for compatibility with earlier versions
+				// so that we don't break app_data unpacking in Python.
+				for (int i = transformedValues.size() + 1; i < channelCount + extras; i++)
+					PyTuple_SetItem(appData, i, GetPyNone());
+
+				return appData;
+			});
 
 			// drawings
 			ImPlotPlot* currentPlot = ImPlot::GetCurrentContext()->CurrentPlot;
@@ -2432,14 +2326,13 @@ DearPyGui::set_positional_configuration(PyObject* inDict, mvBarSeriesConfig& out
 
 static bool ValidateBarGroupConfig(mvBarGroupSeriesConfig& outConfig) 
 {
-	if (outConfig.group_size == 0)
+	if (outConfig.group_size <= 0)
 	{
-		mvThrowPythonError(mvErrorCode::mvNone, "draw_bar_group_series", "`group_size` can't be 0", nullptr);
+		mvThrowPythonError(mvErrorCode::mvNone, "draw_bar_group_series", "`group_size` must be positive", nullptr);
 		return false;
 	}
 	const std::vector<double>* values = &(*outConfig.value.get())[0];
 	const size_t values_size = values->size();
-	const int item_count = values_size / outConfig.group_size;
 
 	if (values_size % outConfig.group_size != 0)
 	{
@@ -2606,24 +2499,23 @@ DearPyGui::set_required_configuration(PyObject* inDict, mvImageSeriesConfig& out
 	if (!VerifyRequiredArguments(GetParsers()[GetEntityCommand(mvAppItemType::mvImageSeries)], inDict))
 		return;
 
-	outConfig.textureUUID = GetIDFromPyObject(PyTuple_GetItem(inDict, 0));
+	mvUUID textureUUID = GetIDFromPyObject(PyTuple_GetItem(inDict, 0));
 	auto resultmin = ToPoint(PyTuple_GetItem(inDict, 1));
 	auto resultmax = ToPoint(PyTuple_GetItem(inDict, 2));
 	outConfig.bounds_min.x = resultmin.x;
 	outConfig.bounds_min.y = resultmin.y;
 	outConfig.bounds_max.x = resultmax.x;
 	outConfig.bounds_max.y = resultmax.y;
-	outConfig._texture = GetRefItem(*GContext->itemRegistry, outConfig.textureUUID);
-	if (outConfig._texture)
+	if (textureUUID == MV_ATLAS_UUID)
 	{
-	}
-	else if (outConfig.textureUUID == MV_ATLAS_UUID)
-	{
-		outConfig._texture = std::make_shared<mvStaticTexture>(outConfig.textureUUID);
-		outConfig._internalTexture = true;
+		outConfig._texture = std::make_shared<mvStaticTexture>(textureUUID);
 	}
 	else
-		mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(mvAppItemType::mvImageSeries), "Texture not found.", nullptr);
+	{
+		outConfig._texture = GetRefItem(*GContext->itemRegistry, textureUUID);
+		if (!outConfig._texture)
+			mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(mvAppItemType::mvImageSeries), "Texture not found.", nullptr);
+	}
 }
 
 void
@@ -2668,13 +2560,6 @@ DearPyGui::set_required_configuration(PyObject* inDict, mvCustomSeriesConfig& ou
 	(*outConfig.value)[0] = ToDoubleVect(PyTuple_GetItem(inDict, 0));
 	(*outConfig.value)[1] = ToDoubleVect(PyTuple_GetItem(inDict, 1));
 	outConfig.channelCount = ToInt(PyTuple_GetItem(inDict, 2));
-
-	for (int i = 0; i < outConfig.channelCount; i++)
-	{
-		outConfig._transformedValues.push_back({});
-		outConfig._transformedValues.back().resize((*outConfig.value)[i].size());
-		memcpy(outConfig._transformedValues.back().data(), (*outConfig.value)[i].data(), sizeof(double) * (*outConfig.value)[i].size());
-	}
 }
 
 void
@@ -3231,20 +3116,16 @@ DearPyGui::set_configuration(PyObject* inDict, mvImageSeriesConfig& outConfig)
 
 	if (PyObject* item = PyDict_GetItemString(inDict, "texture_tag"))
 	{
-		outConfig.textureUUID = GetIDFromPyObject(item);
-		outConfig._texture = GetRefItem(*GContext->itemRegistry, outConfig.textureUUID);
-		if (outConfig.textureUUID == MV_ATLAS_UUID)
+		mvUUID textureUUID = GetIDFromPyObject(item);
+		if (textureUUID == MV_ATLAS_UUID)
 		{
-			outConfig._texture = std::make_shared<mvStaticTexture>(outConfig.textureUUID);
-			outConfig._internalTexture = true;
-		}
-		else if (outConfig._texture)
-		{
-			outConfig._internalTexture = false;
+			outConfig._texture = std::make_shared<mvStaticTexture>(textureUUID);
 		}
 		else
 		{
-			mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(mvAppItemType::mvImageSeries), "Texture not found.", nullptr);
+			outConfig._texture = GetRefItem(*GContext->itemRegistry, textureUUID);
+			if (!outConfig._texture)
+				mvThrowPythonError(mvErrorCode::mvTextureNotFound, GetEntityCommand(mvAppItemType::mvImageSeries), "Texture not found.", nullptr);
 		}
 	}
 }
@@ -3274,7 +3155,7 @@ DearPyGui::set_configuration(PyObject* inDict, mvCandleSeriesConfig& outConfig)
 	if (PyObject* item = PyDict_GetItemString(inDict, "closes")) { (*outConfig.value)[2] = ToDoubleVect(item); }
 	if (PyObject* item = PyDict_GetItemString(inDict, "lows")) { (*outConfig.value)[3] = ToDoubleVect(item); }
 	if (PyObject* item = PyDict_GetItemString(inDict, "highs")) { (*outConfig.value)[4] = ToDoubleVect(item); }
-	if (PyObject* item = PyDict_GetItemString(inDict, "time_unit")) { outConfig.timeunit = ToUUID(item); }
+	if (PyObject* item = PyDict_GetItemString(inDict, "time_unit")) { outConfig.timeunit = ToInt(item); }
 }
 
 void
@@ -3456,16 +3337,16 @@ DearPyGui::fill_configuration_dict(const mvDragLineConfig& inConfig, PyObject* o
 	if (outDict == nullptr)
 		return;
 
-	PyDict_SetItemString(outDict, "color", ToPyColor(inConfig.color));
-	PyDict_SetItemString(outDict, "thickness", ToPyFloat(inConfig.thickness));
-	PyDict_SetItemString(outDict, "show_label", ToPyBool(inConfig.thickness));
-	PyDict_SetItemString(outDict, "vertical", ToPyBool(inConfig.vertical));
+	PyDict_SetItemString(outDict, "color", mvPyObject(ToPyColor(inConfig.color)));
+	PyDict_SetItemString(outDict, "thickness", mvPyObject(ToPyFloat(inConfig.thickness)));
+	PyDict_SetItemString(outDict, "show_label", mvPyObject(ToPyBool(inConfig.thickness)));
+	PyDict_SetItemString(outDict, "vertical", mvPyObject(ToPyBool(inConfig.vertical)));
 
 
 	// helper to check and set bit
 	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)
 	{
-		PyDict_SetItemString(outDict, keyword, ToPyBool(flags & flag));
+		PyDict_SetItemString(outDict, keyword, mvPyObject(ToPyBool(flags & flag)));
 	};
 
 	// drag line flags
@@ -3486,7 +3367,7 @@ DearPyGui::fill_configuration_dict(const mvDragRectConfig& inConfig, PyObject* o
 	// helper to check and set bit
 	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)
 	{
-		PyDict_SetItemString(outDict, keyword, ToPyBool(flags & flag));
+		PyDict_SetItemString(outDict, keyword, mvPyObject(ToPyBool(flags & flag)));
 	};
 
 	// drag rect flags
@@ -3511,7 +3392,7 @@ DearPyGui::fill_configuration_dict(const mvDragPointConfig& inConfig, PyObject* 
 	// helper to check and set bit
 	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)
 	{
-		PyDict_SetItemString(outDict, keyword, ToPyBool(flags & flag));
+		PyDict_SetItemString(outDict, keyword, mvPyObject(ToPyBool(flags & flag)));
 	};
 
 	// drag rect flags
@@ -3579,7 +3460,7 @@ DearPyGui::fill_configuration_dict(const mvBarSeriesConfig& inConfig, PyObject* 
 	if (outDict == nullptr)
 		return;
 
-	PyDict_SetItemString(outDict, "weight", ToPyFloat(inConfig.weight));
+	PyDict_SetItemString(outDict, "weight", mvPyObject(ToPyFloat(inConfig.weight)));
 
 	// helper to check and set bit
 	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)
@@ -3614,10 +3495,10 @@ DearPyGui::fill_configuration_dict(const mvBarGroupSeriesConfig& inConfig, PyObj
 	if (outDict == nullptr)
 		return;
 
-	PyDict_SetItemString(outDict, "label_ids", ToPyList(inConfig.label_ids));
-	PyDict_SetItemString(outDict, "group_width", ToPyFloat(inConfig.group_width));
-	PyDict_SetItemString(outDict, "group_size", ToPyInt(inConfig.group_size));
-	PyDict_SetItemString(outDict, "shift", ToPyInt(inConfig.shift));
+	PyDict_SetItemString(outDict, "label_ids", mvPyObject(ToPyList(inConfig.label_ids)));
+	PyDict_SetItemString(outDict, "group_width", mvPyObject(ToPyFloat(inConfig.group_width)));
+	PyDict_SetItemString(outDict, "group_size", mvPyObject(ToPyInt(inConfig.group_size)));
+	PyDict_SetItemString(outDict, "shift", mvPyObject(ToPyInt(inConfig.shift)));
 
 	// helper to check and set bit
 	auto checkbitset = [outDict](const char* keyword, int flag, const int& flags)
@@ -3840,7 +3721,7 @@ DearPyGui::fill_configuration_dict(const mvImageSeriesConfig& inConfig, PyObject
 {
 	if (outDict == nullptr)
 		return;
-	PyDict_SetItemString(outDict, "texture_tag", mvPyObject(ToPyUUID(inConfig.textureUUID)));
+	PyDict_SetItemString(outDict, "texture_tag", mvPyObject(ToPyUUID(inConfig._texture.get())));
 	PyDict_SetItemString(outDict, "uv_min", mvPyObject(ToPyPair(inConfig.uv_min.x, inConfig.uv_min.y)));
 	PyDict_SetItemString(outDict, "uv_max", mvPyObject(ToPyPair(inConfig.uv_max.x, inConfig.uv_max.y)));
 	PyDict_SetItemString(outDict, "tint_color", mvPyObject(ToPyColor(inConfig.tintColor)));

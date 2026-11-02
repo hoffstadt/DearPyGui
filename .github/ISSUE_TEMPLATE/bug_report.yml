@@ -1,0 +1,121 @@
+name: Bug Report
+description: File a report for unexpected or broken behavior.
+labels: ["state: pending", "type: bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Before opening a bug report, please:**
+        - Search [existing issues](https://github.com/hoffstadt/DearPyGui/issues?q=is%3Aissue) (including closed ones) — your bug may already be known.
+        - Check the [FAQ](https://github.com/hoffstadt/DearPyGui/discussions/categories/frequently-asked-questions-faq), [Wiki](https://github.com/hoffstadt/DearPyGui/wiki), and [online documentation](https://dearpygui.readthedocs.io/en/latest/index.html).
+        - **!!! FOR FIRST-TIME USERS' ISSUES,  please use the [Discord server](https://discord.gg/tyE7Gu4) !!!**
+        - Remove all third-party libraries.
+        - Confirm that the problem still exists with the **latest released version** of DearPyGui.
+        - Be mindful that messages are being sent to the e-mail box of "Watching" users. Try to proof-read your messages before sending them. Edits are not seen by those users.
+
+  - type: input
+    id: dpg_version
+    attributes:
+      label: "Dear PyGui version:"
+      description: >
+        Run `python -c "import dearpygui; print(dearpygui.__version__)"` or `pip show dearpygui` to obtain it.
+      placeholder: "e.g. 2.2.1"
+    validations:
+      required: true
+
+  - type: input
+    id: python_version
+    attributes:
+      label: "Python version:"
+      description: >
+        Run `python --version` to obtain it.
+        Note: DearPyGui requires Python 3.8+.
+      placeholder: "e.g. 3.11.4"
+    validations:
+      required: true
+
+  - type: input
+    id: operating_system
+    attributes:
+      label: "Operating system:"
+      placeholder: "e.g. Windows 11 22H2 or Ubuntu 22.04 LTS"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: "My issue/question:"
+      description: "A clear and concise description of what the issue/question is. Please provide as much context as possible!"
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: "Steps to reproduce:"
+      value: |
+        1. Go to '...'
+        2. Click on '....'
+        3. Scroll down to '....'
+        4. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: "Expected behavior:"
+      description: "What did you expect to happen?"
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: "Screenshots:"
+      description: |
+        If applicable, attach screenshots or a screen recording (GIF/video) to help illustrate the problem. You can drag and drop files directly into this field. Please remove "N/A" text if you insert any screenshots.
+      # This is to prevent GitHub from inserting "No response" section - N/A reads better.
+      # As soon as GitHub starts entirely omitting empty inputs from issue description,
+      # we can remove the "value" and just let the Screenshots section disappear if the user
+      # doesn't provide any.
+      value: "N/A"
+    validations:
+      required: false
+
+  - type: textarea
+    id: mcve
+    attributes:
+      label: "Standalone, minimal, complete and verifiable example:"
+      description: |
+        **Please provide the shortest self-contained Python script that recreates the issue.**
+        Strip your code down to only what is necessary to trigger the bug.<br><br>
+        **Anyone** should be able to **copy and paste** this code and recreate your issue.<br>
+        Issues without a reproducible example may be closed.
+      render: python
+      placeholder: |
+        import dearpygui.dearpygui as dpg
+
+        dpg.create_context()
+        dpg.create_viewport(title="Bug Demo")
+        dpg.setup_dearpygui()
+
+        with dpg.window(label="Bug Demo"):
+            # minimal code that triggers the bug
+            pass
+
+        dpg.show_viewport()
+        dpg.start_dearpygui()
+        dpg.destroy_context()
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: |
+        **Last-chance checklist:**
+        - I have read DearPyGui documentation,
+        - I have checked FAQ and wiki articles for solution,
+        - I have searched for similar issues and found none,
+        - I have proof-read the description and it fully describes the problem.

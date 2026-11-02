@@ -1,4 +1,4 @@
-﻿cmake_minimum_required (VERSION 3.13)
+cmake_minimum_required (VERSION 3.16)
 
 add_library(coreemb STATIC)
 
@@ -20,7 +20,12 @@ target_compile_definitions(coreemb
 
 # Add sources
 target_sources(coreemb PRIVATE ${MARVEL_SOURCES})
-add_definitions(-DIMGUI_DEFINE_MATH_OPERATORS)
+
+if(WIN32)
+	target_precompile_headers(coreemb
+		PRIVATE mvPyUtils.h
+	)
+endif()
 
 ###############################################################################
 # Windows Specifics

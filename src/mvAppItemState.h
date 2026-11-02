@@ -31,8 +31,9 @@ enum mvStateItems
     MV_STATE_RECT_MAX       = 1 << 12,
     MV_STATE_RECT_SIZE      = 1 << 13,
     MV_STATE_CONT_AVAIL     = 1 << 14,
+    MV_STATE_SCROLL         = 1 << 15,
     MV_STATE_ALL = MV_STATE_HOVER |MV_STATE_ACTIVE |MV_STATE_FOCUSED |MV_STATE_CLICKED |MV_STATE_VISIBLE |MV_STATE_EDITED |MV_STATE_ACTIVATED |MV_STATE_DEACTIVATED |MV_STATE_DEACTIVATEDAE |
-    MV_STATE_TOGGLED_OPEN | MV_STATE_RECT_MIN |MV_STATE_RECT_MAX |MV_STATE_RECT_SIZE |MV_STATE_CONT_AVAIL
+    MV_STATE_TOGGLED_OPEN | MV_STATE_RECT_MIN |MV_STATE_RECT_MAX |MV_STATE_RECT_SIZE |MV_STATE_CONT_AVAIL |MV_STATE_SCROLL
 };
 
 //-----------------------------------------------------------------------------
@@ -42,6 +43,10 @@ enum mvStateItems
 void FillAppItemState  (PyObject* dict, mvAppItemState& state, i32 applicableState); // fills python dict with applicable state values
 void ResetAppItemState (mvAppItemState& state);                                      // reset values to false
 void UpdateAppItemState(mvAppItemState& state);                                      // standard imgui update
+// Retrieves scroll info; only applicable to containers. Does NOT update state.lastFrameUpdate
+// and therefore MUST be called in the same branch where that variable is updated
+// by the caller (or where UpdateAppItemState() gets called).
+void UpdateAppItemScrollInfo(mvAppItemState& state);
 
 // return actual value if frame is active
 b8 IsItemHovered             (mvAppItemState& state, i32 frameDelay = 0);
@@ -66,8 +71,10 @@ inline b8 IsItemDoubleClicked(ImGuiMouseButton mouse_button)
 struct mvAppItemState
 {
     b8         hovered              = false;
+    b8         prevHovered          = false;
     b8         active               = false;
     b8         focused              = false;
+    b8         prevFocused          = false;
     b8         leftclicked          = false;
     b8         rightclicked         = false;
     b8         middleclicked        = false;
@@ -78,13 +85,25 @@ struct mvAppItemState
     b8         deactivated          = false;
     b8         deactivatedAfterEdit = false;
     b8         toggledOpen          = false;
+    // This one is not reset by mvCollapsingHeader and mvTreeNode; also, not all items
+    // initialize it (but mvCollapsingHeader and mvTreeNode do, and they in fact are
+    // the only ones that must do it).  Used as an extra flag by the two-way toggled open handler.
+    b8         toggledOpenPure      = false;
     b8         mvRectSizeResized    = false;
+    b8         scrolledX            = false;
+    b8         scrolledY            = false;
+    // isScrolling flags are not implemented yet - we need support on ImGui side.
+    // They are here just as a reserved placeholder for future implementation.
+    b8         isScrollingX         = false;
+    b8         isScrollingY         = false;
     mvVec2     rectMin              = { 0.0f, 0.0f };
     mvVec2     rectMax              = { 0.0f, 0.0f };
     mvVec2     rectSize             = { 0.0f, 0.0f };
     mvVec2     mvPrevRectSize       = { 0.0f, 0.0f };
     mvVec2     pos                  = { 0.0f, 0.0f };
     mvVec2     contextRegionAvail   = { 0.0f, 0.0f };
+    mvVec2     scrollPos            = { 0.0f, 0.0f };
+    mvVec2     scrollMax            = { 0.0f, 0.0f };
     b8         ok                   = true;
     i32        lastFrameUpdate      = 0; // last frame update occured
     mvAppItem* parent               = nullptr; // hacky, but quick fix for widget handlers

@@ -221,15 +221,15 @@ with a callback close_popup("popup1").
 
 The docking feature enables the user to dock windows to each other and the viewport.
 
-The docking feature is not documented yet (as of January 2021).
+The docking feature is not documented yet (as of September 2025).
 
-enable_docking() will enable experimental docking.
+Setting the `docking` argument to `True` in `configure_app()` will enable experimental docking.
 
 By default, the user needs to hold the shift key to enable docking.
 
-The keyword shift_only = False enables docking without holding the shift key.
+Setting `docking_shift_only = False` enables docking without holding the shift key.
 
-The keyword dock_space = True enables docking windows to the viewport.
+Setting `docking_space = True` enables docking windows to the viewport.
 
 The docking feature is experimental because you cannot programmatically
 set up the docking positions.

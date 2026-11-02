@@ -1,8 +1,16 @@
 #pragma once
 
 #include "mvItemRegistry.h"
-#include <array>
 
+// check_drop_event() implements the typical contents of Dear ImGui's drop target
+// (ImGui::BeginDragDropTarget()) tied to DearPyGui's drop callback.  You usually
+// don't need to call it directly, but it can be used need to implement custom
+// drag'n'drop mechanics.
+// To implement drag'n'drop in an arbitrary ImGui item, use `apply_drag_drop()` -
+// it both implements the entire drop target and renders the drag payload.
+void check_drop_event(mvAppItem* item);
+// During drag'n'drop, renders drag payload and checks whether it's time to call
+// the drop callback.
 void apply_drag_drop(mvAppItem* item);
 void apply_drag_drop_nodraw(mvAppItem* item);
 
@@ -88,16 +96,10 @@ enum class TabOrdering {
 
 struct mvChildWindowConfig
 {
-    ImGuiChildFlags  childFlags = ImGuiChildFlags_Border;
+    ImGuiChildFlags  childFlags = ImGuiChildFlags_Borders|ImGuiChildFlags_NavFlattened;
     bool             autosize_x = false;
     bool             autosize_y = false;
-    ImGuiWindowFlags windowflags = ImGuiWindowFlags_NoSavedSettings|ImGuiWindowFlags_NavFlattened;
-    float            scrollX = 0.0f;
-    float            scrollY = 0.0f;
-    float            scrollMaxX = 0.0f;
-    float            scrollMaxY = 0.0f;
-    bool             _scrollXSet = false;
-    bool             _scrollYSet = false;
+    ImGuiWindowFlags windowflags = ImGuiWindowFlags_NoSavedSettings;
 };
 
 struct mvTreeNodeConfig
@@ -119,8 +121,8 @@ struct mvGroupConfig
 struct mvDragPayloadConfig
 {
     std::string payloadType = "$$DPG_PAYLOAD";
-    PyObject*   dragData = nullptr;
-    PyObject*   dropData = nullptr;
+    std::shared_ptr<mvPyObject> dragData = std::make_shared<mvPyObject>(nullptr);
+    std::shared_ptr<mvPyObject> dropData = std::make_shared<mvPyObject>(nullptr);
 };
 
 struct mvCollapsingHeaderConfig
@@ -144,35 +146,17 @@ struct mvWindowAppItemConfig
 {
     ImGuiWindowFlags windowflags = ImGuiWindowFlags_None;
     bool             mainWindow = false;
-    bool             closing = true;
     bool             resized = false;
     bool             modal = false;
     bool             popup = false;
-    bool             autosize = false;
-    bool             no_resize = false;
-    bool             no_title_bar = false;
-    bool             no_move = false;
-    bool             no_scrollbar = false;
-    bool             no_collapse = false;
-    bool             horizontal_scrollbar = false;
-    bool             no_focus_on_appearing = false;
-    bool             no_bring_to_front_on_focus = false;
-    bool             menubar = false;
     bool             no_close = false;
-    bool             no_background = false;
     bool             collapsed = false;
     bool             no_open_over_existing_popup = true;
-    PyObject*        on_close = nullptr;
+    bool             copy_contents_shortcut = false;
+    mvPyObject       on_close = nullptr;
     mvVec2           min_size = { 100.0f, 100.0f };
     mvVec2           max_size = { 30000.0f, 30000.0f };
-    float            scrollX = 0.0f;
-    float            scrollY = 0.0f;
-    float            scrollMaxX = 0.0f;
-    float            scrollMaxY = 0.0f;
     bool             _collapsedDirty = true;
-    bool             _scrollXSet = false;
-    bool             _scrollYSet = false;
-    ImGuiWindowFlags _oldWindowflags = ImGuiWindowFlags_None;
     float            _oldxpos = 200;
     float            _oldypos = 200;
     int              _oldWidth = 200;
@@ -262,7 +246,7 @@ public:
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
     void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, uuid, configData); }
-    PyObject* getPyValue() override{ return ToPyUUID(*configData.value); }
+    PyObject* getPyValue() override{ return PyUUIDFromItem(*configData.value); }
     void setPyValue(PyObject* value) override{ *configData.value = ToUUID(value); }
     mvUUID getSpecificValue() { return configData.uiValue; }
     void setValue(mvUUID value) { configData.uiValue = value; }
@@ -285,9 +269,8 @@ class mvWindowAppItem : public mvAppItem
 {
 public:
     mvWindowAppItemConfig configData{};
-    explicit mvWindowAppItem(mvUUID uuid, bool mainWindow = false) : mvAppItem(uuid) { configData.mainWindow = mainWindow; config.width = config.height = 500; info.dirty_size = true; if (mainWindow) configData.windowflags = ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar;}
+    explicit mvWindowAppItem(mvUUID uuid) : mvAppItem(uuid) { config.width = config.height = 500; info.dirty_size = true; }
     void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_window(drawlist, *this, configData); }
     void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, *this, configData); }
     void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
-    ~mvWindowAppItem() { PyObject* callback = configData.on_close; mvSubmitCallback([callback]() { if (callback) Py_XDECREF(callback);});}
 };

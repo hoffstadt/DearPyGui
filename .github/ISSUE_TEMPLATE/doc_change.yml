@@ -1,0 +1,24 @@
+name: Documentation Improvement
+description: Suggest a doc change.
+labels: ["state: pending", "type: docs"]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: "A clear and concise description of what the improvement is. Please provide as much context as possible."
+    validations:
+      required: true
+
+  - type: textarea
+    id: assets
+    attributes:
+      label: Necessary assets
+      description: "Any assets to use in the documentation.  You can drag and drop files directly into this field."
+      value: |
+        - [ ] Pictures
+        - [ ] Code Sample
+        - [ ] GIFs
+
+    validations:
+      required: false

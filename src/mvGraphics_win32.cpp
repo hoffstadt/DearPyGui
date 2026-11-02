@@ -1,4 +1,5 @@
 #include "mvGraphics.h"
+
 #include "mvWindowsSpecifics.h"
 
 static std::vector <IDXGIAdapter*>
@@ -102,6 +103,17 @@ setup_graphics(mvViewport& viewport)
 			createDeviceFlags, featureLevelArray, 2, D3D11_SDK_VERSION, &sd, &graphicsData->swapChain,
 			&graphicsData->device, &featureLevel, &graphicsData->deviceContext) != S_OK)
 			return graphics;
+	}
+
+	if (!GContext->IO.altEnterFullscreen)
+	{
+		// Disable DXGI's default Alt+Enter fullscreen behavior.
+		IDXGIFactory* pSwapChainFactory = nullptr;
+		if (SUCCEEDED(graphicsData->swapChain->GetParent(IID_PPV_ARGS(&pSwapChainFactory))))
+		{
+			pSwapChainFactory->MakeWindowAssociation(viewportData->handle, DXGI_MWA_NO_ALT_ENTER);
+			pSwapChainFactory->Release();
+		}
 	}
 
 	// create render target
