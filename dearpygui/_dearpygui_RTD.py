@@ -4101,6 +4101,7 @@ def add_dynamic_texture(width, height, default_value, **kwargs):
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		filter (int, optional): Texture sampling mode (mvTextureFilter_Linear or mvTextureFilter_Nearest).
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -5853,6 +5854,7 @@ def add_raw_texture(width, height, default_value, **kwargs):
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		format (int, optional): Data format.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		filter (int, optional): Texture sampling mode (mvTextureFilter_Linear or mvTextureFilter_Nearest).
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -6308,6 +6310,7 @@ def add_static_texture(width, height, default_value, **kwargs):
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		filter (int, optional): Texture sampling mode (mvTextureFilter_Linear or mvTextureFilter_Nearest).
 		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
@@ -9218,6 +9221,8 @@ mvTreeLines_Full=internal_dpg.mvTreeLines_Full
 mvTreeLines_ToNodes=internal_dpg.mvTreeLines_ToNodes
 mvFormat_Float_rgba=internal_dpg.mvFormat_Float_rgba
 mvFormat_Float_rgb=internal_dpg.mvFormat_Float_rgb
+mvTextureFilter_Linear=internal_dpg.mvTextureFilter_Linear
+mvTextureFilter_Nearest=internal_dpg.mvTextureFilter_Nearest
 mvThemeCat_Core=internal_dpg.mvThemeCat_Core
 mvThemeCat_Plots=internal_dpg.mvThemeCat_Plots
 mvThemeCat_Nodes=internal_dpg.mvThemeCat_Nodes
