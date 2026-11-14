@@ -135,8 +135,8 @@ PlotCandlestick(const char* label_id, const double* xs, const double* opens,
 {
 
 	ImDrawList* draw_list = ImPlot::GetPlotDrawList();
-	// calc real value width
-	float half_width = count > 1 ? ((float)xs[1] - (float)xs[0]) * width_percent : width_percent;
+	// Keep plot coordinates in double precision, including the interval subtraction.
+	double half_width = count > 1 ? (xs[1] - xs[0]) * width_percent : width_percent;
 
 	// custom tool
 	if (ImPlot::IsPlotHovered() && tooltip) {
