@@ -286,6 +286,7 @@ GetEntityCommand(mvAppItemType type)
 
     case mvAppItemType::mvButton:                      return "add_button";
     case mvAppItemType::mvCheckbox:                    return "add_checkbox";
+    case mvAppItemType::mvMixedStateCheckbox:          return "add_mixed_state_checkbox";
     case mvAppItemType::mvInputText:                   return "add_input_text";
     case mvAppItemType::mvRadioButton:                 return "add_radio_button";
     case mvAppItemType::mvTabBar:                      return "add_tab_bar";

@@ -6,6 +6,7 @@
 struct mvSimplePlotConfig;
 struct mvButtonConfig;
 struct mvCheckboxConfig;
+struct mvMixedStateCheckboxConfig;
 struct mvComboConfig;
 struct mvDragFloatConfig;
 struct mvDragIntConfig;
@@ -75,6 +76,7 @@ namespace DearPyGui
     void fill_configuration_dict(const mvImageButtonConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvKnobFloatConfig& inConfig, PyObject* outDict);
     void fill_configuration_dict(const mvTooltipConfig& inConfig, PyObject* outDict);
+    void fill_configuration_dict(const mvMixedStateCheckboxConfig& inConfig, PyObject* outDict);
 
     // specific part of `configure_item(...)`
     void set_configuration(PyObject* inDict, mvSimplePlotConfig& outConfig);
@@ -110,6 +112,7 @@ namespace DearPyGui
     void set_configuration(PyObject* inDict, mvImageButtonConfig& outConfig);
     void set_configuration(PyObject* inDict, mvTooltipConfig& outConfig);
     void set_configuration(PyObject* inDict, mvKnobFloatConfig& outConfig);
+    void set_configuration(PyObject* inDict, mvMixedStateCheckboxConfig& outConfig);
 
     // positional args TODO: combine with above
     void set_required_configuration(PyObject* inDict, mvImageConfig& outConfig);
@@ -126,6 +129,7 @@ namespace DearPyGui
     void set_data_source(mvAppItem& item, mvUUID dataSource, mvSimplePlotConfig& outConfig);
     void set_data_source(mvAppItem& item, mvUUID dataSource, mvComboConfig& outConfig);
     void set_data_source(mvAppItem& item, mvUUID dataSource, mvCheckboxConfig& outConfig);
+    void set_data_source(mvAppItem& item, mvUUID dataSource, mvMixedStateCheckboxConfig& outConfig);
     void set_data_source(mvAppItem& item, mvUUID dataSource, mvDragFloatConfig& outConfig);
     void set_data_source(mvAppItem& item, mvUUID dataSource, mvDragFloatMultiConfig& outConfig);
     void set_data_source(mvAppItem& item, mvUUID dataSource, mvDragIntConfig& outConfig);
@@ -158,6 +162,7 @@ namespace DearPyGui
     void draw_button       (ImDrawList* drawlist, mvAppItem& item, const mvButtonConfig& config);
     void draw_combo        (ImDrawList* drawlist, mvAppItem& item, mvComboConfig& config);
     void draw_checkbox     (ImDrawList* drawlist, mvAppItem& item, mvCheckboxConfig& config);
+    void draw_mixed_state_checkbox(ImDrawList* drawlist, mvAppItem& item, mvMixedStateCheckboxConfig& config);
     void draw_drag_float   (ImDrawList* drawlist, mvAppItem& item, mvDragFloatConfig& config);
     void draw_drag_floatx  (ImDrawList* drawlist, mvAppItem& item, mvDragFloatMultiConfig& config);
     void draw_drag_double  (ImDrawList* drawlist, mvAppItem& item, mvDragDoubleConfig& config);
@@ -237,6 +242,13 @@ struct mvCheckboxConfig
 {
     std::shared_ptr<bool> value = std::make_shared<bool>(false);
     bool        disabled_value = false;
+};
+
+struct mvMixedStateCheckboxConfig
+{
+    std::shared_ptr<int> value = std::make_shared<int>(0);  // -1=mixed, 0=false, 1=true
+    int         disabled_value = 0;
+    int         mixed_click_value = 1;  // value to transition to when clicked in mixed state (0 or 1)
 };
 
 struct mvDragFloatConfig
@@ -620,6 +632,20 @@ public:
     void setPyValue(PyObject* value) override { *configData.value = ToBool(value); }
     void* getValue() override { return &configData.value; }
     PyObject* getPyValue() override{ return ToPyBool(*configData.value); }
+};
+
+class mvMixedStateCheckbox : public mvAppItem
+{
+public:
+    mvMixedStateCheckboxConfig configData{};
+    explicit mvMixedStateCheckbox(mvUUID uuid) : mvAppItem(uuid) {}
+    void draw(ImDrawList* drawlist, float x, float y) override { DearPyGui::draw_mixed_state_checkbox(drawlist, *this, configData); }
+    void handleSpecificKeywordArgs(PyObject* dict) override { DearPyGui::set_configuration(dict, configData); }
+    void getSpecificConfiguration(PyObject* dict) override { DearPyGui::fill_configuration_dict(configData, dict); }
+    void setDataSource(mvUUID dataSource) override { DearPyGui::set_data_source(*this, dataSource, configData); }
+    void setPyValue(PyObject* value) override { *configData.value = ToInt(value); }
+    void* getValue() override { return &configData.value; }
+    PyObject* getPyValue() override { return ToPyInt(*configData.value); }
 };
 
 class mvDragFloat : public mvAppItem
